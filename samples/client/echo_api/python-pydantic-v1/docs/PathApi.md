@@ -30,7 +30,6 @@ configuration = openapi_client.Configuration(
     host = "http://localhost:3000"
 )
 
-
 # Enter a context with an instance of the API client
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -48,7 +47,6 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling PathApi->tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path: %s\n" % e)
 ```
-
 
 
 ### Parameters

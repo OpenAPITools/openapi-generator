@@ -13,7 +13,6 @@
  * Do not edit the class manually.
  */
 
-
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Request;

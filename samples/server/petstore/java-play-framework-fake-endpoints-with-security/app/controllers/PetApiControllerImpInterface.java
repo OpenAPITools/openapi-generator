@@ -34,7 +34,6 @@ public abstract class PetApiControllerImpInterface {
 
         addPet(request, body);
         return ok();
-
     }
 
     public abstract void addPet(Http.Request request, Pet body) throws Exception;
@@ -51,7 +50,6 @@ public abstract class PetApiControllerImpInterface {
         JsonNode result = mapper.valueToTree(obj);
 
         return ok(result);
-
     }
 
     public abstract List<Pet> findPetsByStatus(Http.Request request, @NotNull List<String> status) throws Exception;
@@ -59,7 +57,6 @@ public abstract class PetApiControllerImpInterface {
     public Result updatePetHttp(Http.Request request, Pet body) throws Exception {
         updatePet(request, body);
         return ok();
-
     }
 
     public abstract void updatePet(Http.Request request, Pet body) throws Exception;

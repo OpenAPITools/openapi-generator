@@ -9,7 +9,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
-
 class OuterComposite {
   /// Returns a new [OuterComposite] instance.
   OuterComposite({
@@ -17,7 +16,6 @@ class OuterComposite {
     this.myString,
     this.myBoolean,
   });
-
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
@@ -149,4 +147,3 @@ class OuterComposite {
   static const requiredKeys = <String>{
   };
 }
-

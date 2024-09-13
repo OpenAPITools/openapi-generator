@@ -84,7 +84,6 @@ public class DefaultValue {
       }
     }
   }
-
   public static final String SERIALIZED_NAME_ARRAY_STRING_ENUM_DEFAULT = "array_string_enum_default";
   @SerializedName(SERIALIZED_NAME_ARRAY_STRING_ENUM_DEFAULT)
   private List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault = new ArrayList<>(Arrays.asList(ArrayStringEnumDefaultEnum.SUCCESS, ArrayStringEnumDefaultEnum.FAILURE));
@@ -346,7 +345,6 @@ public class DefaultValue {
   public void setStringNullable(String stringNullable) {
     this.stringNullable = stringNullable;
   }
-
 
   @Override
   public boolean equals(Object o) {

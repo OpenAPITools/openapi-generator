@@ -16,8 +16,7 @@ import javax.validation.Valid;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal>  {
   @JsonProperty("name")
-  
-  private String name;
+                                        private String name;
 
   public AdditionalPropertiesNumber name(String name) {
     this.name = name;
@@ -77,4 +76,3 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal>  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

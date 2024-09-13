@@ -29,8 +29,7 @@ abstract class Tag implements Built<Tag, TagBuilder> {
   static void _defaults(TagBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<Tag> get serializer => _$TagSerializer();
-}
+  static Serializer<Tag> get serializer => _$TagSerializer();}
 
 class _$TagSerializer implements PrimitiveSerializer<Tag> {
   @override

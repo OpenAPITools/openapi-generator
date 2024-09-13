@@ -222,73 +222,72 @@ public class ObjectWithDeprecatedFields {
   }
 
   public static class Builder {
-
-    private ObjectWithDeprecatedFields instance;
-
-    public Builder() {
-      this(new ObjectWithDeprecatedFields());
-    }
-
-    protected Builder(ObjectWithDeprecatedFields instance) {
-      this.instance = instance;
-    }
-
-    public ObjectWithDeprecatedFields.Builder uuid(String uuid) {
-      this.instance.uuid = uuid;
-      return this;
-    }
-    public ObjectWithDeprecatedFields.Builder id(BigDecimal id) {
-      this.instance.id = id;
-      return this;
-    }
-    public ObjectWithDeprecatedFields.Builder deprecatedRef(DeprecatedObject deprecatedRef) {
-      this.instance.deprecatedRef = deprecatedRef;
-      return this;
-    }
-    public ObjectWithDeprecatedFields.Builder bars(List<String> bars) {
-      this.instance.bars = bars;
-      return this;
-    }
-
-
-    /**
-    * returns a built ObjectWithDeprecatedFields instance.
-    *
-    * The builder is not reusable.
-    */
-    public ObjectWithDeprecatedFields build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+  
+      private ObjectWithDeprecatedFields instance;
+  
+      public Builder() {
+        this(new ObjectWithDeprecatedFields());
+      }
+  
+      protected Builder(ObjectWithDeprecatedFields instance) {
+        this.instance = instance;
+      }
+  
+      public ObjectWithDeprecatedFields.Builder uuid(String uuid) {
+          this.instance.uuid = uuid;
+        return this;
+      }
+        public ObjectWithDeprecatedFields.Builder id(BigDecimal id) {
+          this.instance.id = id;
+        return this;
+      }
+        public ObjectWithDeprecatedFields.Builder deprecatedRef(DeprecatedObject deprecatedRef) {
+          this.instance.deprecatedRef = deprecatedRef;
+        return this;
+      }
+        public ObjectWithDeprecatedFields.Builder bars(List<String> bars) {
+          this.instance.bars = bars;
+        return this;
+      }
+    
+  
+      /**
+      * returns a built ObjectWithDeprecatedFields instance.
+      *
+      * The builder is not reusable.
+      */
+      public ObjectWithDeprecatedFields build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field.
+    */
+    public static ObjectWithDeprecatedFields.Builder builder() {
+      return new ObjectWithDeprecatedFields.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static ObjectWithDeprecatedFields.Builder builder() {
-    return new ObjectWithDeprecatedFields.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public ObjectWithDeprecatedFields.Builder toBuilder() {
-    return new ObjectWithDeprecatedFields.Builder()
-      .uuid(getUuid())
-      .id(getId())
-      .deprecatedRef(getDeprecatedRef())
-      .bars(getBars());
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public ObjectWithDeprecatedFields.Builder toBuilder() {
+      return new ObjectWithDeprecatedFields.Builder()
+        .uuid(getUuid())
+        .id(getId())
+        .deprecatedRef(getDeprecatedRef())
+        .bars(getBars());
+    }
 
 }
 

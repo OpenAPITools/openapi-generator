@@ -29,8 +29,7 @@ abstract class BarRef implements EntityRef, Built<BarRef, BarRefBuilder> {
   static void _defaults(BarRefBuilder b) => b..atType=b.discriminatorValue;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<BarRef> get serializer => _$BarRefSerializer();
-}
+  static Serializer<BarRef> get serializer => _$BarRefSerializer();}
 
 class _$BarRefSerializer implements PrimitiveSerializer<BarRef> {
   @override

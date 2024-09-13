@@ -52,7 +52,6 @@ public class EnumTest   {
         }
     }
 
-
     private EnumStringEnum enumString;
 
     /**
@@ -91,7 +90,6 @@ public class EnumTest   {
         }
     }
 
-
     private EnumStringRequiredEnum enumStringRequired;
 
     /**
@@ -129,7 +127,6 @@ public class EnumTest   {
         }
     }
 
-
     private EnumIntegerEnum enumInteger;
 
     /**
@@ -166,7 +163,6 @@ public class EnumTest   {
             throw new IllegalArgumentException("Unexpected value '" + text + "'");
         }
     }
-
 
     private EnumNumberEnum enumNumber;
     private OuterEnum outerEnum;

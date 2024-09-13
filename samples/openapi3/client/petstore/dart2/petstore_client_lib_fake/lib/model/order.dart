@@ -9,7 +9,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
-
 class Order {
   /// Returns a new [Order] instance.
   Order({
@@ -20,7 +19,6 @@ class Order {
     this.status,
     this.complete = false,
   });
-
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
@@ -261,5 +259,3 @@ class OrderStatusEnumTypeTransformer {
   /// Singleton [OrderStatusEnumTypeTransformer] instance.
   static OrderStatusEnumTypeTransformer? _instance;
 }
-
-

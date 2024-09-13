@@ -26,11 +26,8 @@ import javax.annotation.Generated;
 /**
  * ChildWithNullableDto
  */
-
-
 @JsonTypeName("ChildWithNullable")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class ChildWithNullableDto extends ParentWithNullableDto {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class ChildWithNullableDto extends ParentWithNullableDto {
 
   private String otherProperty;
 
@@ -43,8 +40,7 @@ public class ChildWithNullableDto extends ParentWithNullableDto {
    * Get otherProperty
    * @return otherProperty
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("otherProperty")
   public String getOtherProperty() {
     return otherProperty;
@@ -53,7 +49,6 @@ public class ChildWithNullableDto extends ParentWithNullableDto {
   public void setOtherProperty(String otherProperty) {
     this.otherProperty = otherProperty;
   }
-
 
   public ChildWithNullableDto type(TypeEnum type) {
     super.type(type);

@@ -65,8 +65,7 @@ import javax.validation.Valid;
     )
 })
 @Path("/fake")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class FakeApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class FakeApi {
 
     @POST
     @Path("/create_xml_item")

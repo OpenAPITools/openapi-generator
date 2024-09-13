@@ -100,7 +100,6 @@ public class BananaReq {
   }
 
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

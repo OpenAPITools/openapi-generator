@@ -16,8 +16,7 @@ internal struct Pet: Codable, JSONEncodable, Hashable {
         case available = "available"
         case pending = "pending"
         case sold = "sold"
-    }
-    internal var id: Int64?
+    }    internal var id: Int64?
     internal var category: Category?
     internal var name: String
     internal var photoUrls: [String]

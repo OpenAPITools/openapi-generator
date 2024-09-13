@@ -951,7 +951,6 @@ public class XmlItem {
     this.prefixNsWrappedArray = prefixNsWrappedArray;
   }
 
-
   /**
    * Return true if this XmlItem object is equal to o.
    */

@@ -17,4 +17,3 @@ instance = Petstore::AdditionalPropertiesClass.new(
   map_of_map_property: null
 )
 ```
-

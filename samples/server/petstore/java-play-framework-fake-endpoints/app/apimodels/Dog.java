@@ -14,8 +14,7 @@ import javax.validation.Valid;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Dog extends Animal  {
   @JsonProperty("breed")
-  
-  private String breed;
+                                        private String breed;
 
   public Dog breed(String breed) {
     this.breed = breed;
@@ -75,4 +74,3 @@ public class Dog extends Animal  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

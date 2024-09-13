@@ -29,8 +29,7 @@ abstract class Extensible  {
   String get atType;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<Extensible> get serializer => _$ExtensibleSerializer();
-}
+  static Serializer<Extensible> get serializer => _$ExtensibleSerializer();}
 
 class _$ExtensibleSerializer implements PrimitiveSerializer<Extensible> {
   @override

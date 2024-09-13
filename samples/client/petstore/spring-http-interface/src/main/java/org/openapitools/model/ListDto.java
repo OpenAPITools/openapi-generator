@@ -16,10 +16,8 @@ import jakarta.annotation.Generated;
 /**
  * ListDto
  */
-
 @JsonTypeName("List")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class ListDto {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class ListDto {
 
   private String _123list;
 
@@ -41,7 +39,6 @@ public class ListDto {
   public void set123list(String _123list) {
     this._123list = _123list;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

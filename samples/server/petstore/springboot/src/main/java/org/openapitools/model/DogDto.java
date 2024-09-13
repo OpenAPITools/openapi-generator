@@ -23,11 +23,8 @@ import javax.annotation.Generated;
 /**
  * DogDto
  */
-
-
 @JsonTypeName("Dog")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class DogDto extends AnimalDto {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class DogDto extends AnimalDto {
 
   private String breed;
 
@@ -51,8 +48,7 @@ public class DogDto extends AnimalDto {
    * Get breed
    * @return breed
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("breed")
   public String getBreed() {
     return breed;
@@ -61,7 +57,6 @@ public class DogDto extends AnimalDto {
   public void setBreed(String breed) {
     this.breed = breed;
   }
-
 
   public DogDto className(String className) {
     super.className(className);

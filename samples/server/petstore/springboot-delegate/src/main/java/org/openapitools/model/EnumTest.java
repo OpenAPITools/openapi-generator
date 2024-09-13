@@ -21,10 +21,8 @@ import javax.annotation.Generated;
 /**
  * EnumTest
  */
-
 @JsonTypeName("Enum_Test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class EnumTest {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class EnumTest {
 
   /**
    * Gets or Sets enumString
@@ -62,7 +60,6 @@ public class EnumTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   private EnumStringEnum enumString;
 
   /**
@@ -101,7 +98,6 @@ public class EnumTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   private EnumStringRequiredEnum enumStringRequired;
 
   /**
@@ -138,7 +134,6 @@ public class EnumTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   private EnumIntegerEnum enumInteger;
 
   /**
@@ -175,7 +170,6 @@ public class EnumTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   private EnumNumberEnum enumNumber;
 
   private OuterEnum outerEnum;
@@ -211,8 +205,7 @@ public class EnumTest {
    * Get enumString
    * @return enumString
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("enum_string")
   public EnumStringEnum getEnumString() {
     return enumString;
@@ -231,8 +224,7 @@ public class EnumTest {
    * Get enumStringRequired
    * @return enumStringRequired
    */
-  @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @NotNull   @ApiModelProperty(required = true, value = "")
   @JsonProperty("enum_string_required")
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
@@ -251,8 +243,7 @@ public class EnumTest {
    * Get enumInteger
    * @return enumInteger
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("enum_integer")
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
@@ -271,8 +262,7 @@ public class EnumTest {
    * Get enumNumber
    * @return enumNumber
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("enum_number")
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
@@ -291,8 +281,7 @@ public class EnumTest {
    * Get outerEnum
    * @return outerEnum
    */
-  @Valid 
-  @ApiModelProperty(value = "")
+  @Valid   @ApiModelProperty(value = "")
   @JsonProperty("outerEnum")
   public OuterEnum getOuterEnum() {
     return outerEnum;
@@ -301,7 +290,6 @@ public class EnumTest {
   public void setOuterEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

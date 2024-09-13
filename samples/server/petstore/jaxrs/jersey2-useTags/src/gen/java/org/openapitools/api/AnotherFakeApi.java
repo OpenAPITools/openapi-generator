@@ -30,8 +30,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the AnotherFake API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class AnotherFakeApi  {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class AnotherFakeApi  {
    private final AnotherFakeApiService delegate;
 
    public AnotherFakeApi(@Context ServletConfig servletContext) {

@@ -108,7 +108,6 @@ public class EnumTest {
       EnumStringEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_ENUM_STRING = "enum_string";
   @SerializedName(SERIALIZED_NAME_ENUM_STRING)
   private EnumStringEnum enumString;
@@ -166,7 +165,6 @@ public class EnumTest {
       EnumStringRequiredEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_ENUM_STRING_REQUIRED = "enum_string_required";
   @SerializedName(SERIALIZED_NAME_ENUM_STRING_REQUIRED)
   private EnumStringRequiredEnum enumStringRequired;
@@ -222,7 +220,6 @@ public class EnumTest {
       EnumIntegerEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_ENUM_INTEGER = "enum_integer";
   @SerializedName(SERIALIZED_NAME_ENUM_INTEGER)
   private EnumIntegerEnum enumInteger;
@@ -278,7 +275,6 @@ public class EnumTest {
       EnumIntegerOnlyEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_ENUM_INTEGER_ONLY = "enum_integer_only";
   @SerializedName(SERIALIZED_NAME_ENUM_INTEGER_ONLY)
   private EnumIntegerOnlyEnum enumIntegerOnly;
@@ -334,7 +330,6 @@ public class EnumTest {
       EnumNumberEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_ENUM_NUMBER = "enum_number";
   @SerializedName(SERIALIZED_NAME_ENUM_NUMBER)
   private EnumNumberEnum enumNumber;
@@ -572,7 +567,6 @@ public class EnumTest {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

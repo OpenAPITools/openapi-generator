@@ -12,7 +12,6 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * Error code returned when an error occurs
  * @export
@@ -66,4 +65,3 @@ export function ErrorCodeToJSON(value?: ErrorCode | null): any {
 export function ErrorCodeToJSONTyped(value: any, ignoreDiscriminator: boolean): ErrorCode {
     return value as ErrorCode;
 }
-

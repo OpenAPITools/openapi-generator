@@ -24,8 +24,7 @@ import com.typesafe.config.Config;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class FakeClassnameTags123ApiController extends Controller {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class FakeClassnameTags123ApiController extends Controller {
     private final FakeClassnameTags123ApiControllerImpInterface imp;
     private final ObjectMapper mapper;
     private final Config configuration;

@@ -21,7 +21,6 @@ class OuterObjectWithEnumProperty {
 
     required  this.value,
   });
-
   @JsonKey(
     
     name: r'value',

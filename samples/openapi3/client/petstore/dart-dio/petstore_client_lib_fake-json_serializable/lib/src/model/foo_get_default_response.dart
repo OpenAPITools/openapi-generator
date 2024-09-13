@@ -21,7 +21,6 @@ class FooGetDefaultResponse {
 
      this.string,
   });
-
   @JsonKey(
     
     name: r'string',

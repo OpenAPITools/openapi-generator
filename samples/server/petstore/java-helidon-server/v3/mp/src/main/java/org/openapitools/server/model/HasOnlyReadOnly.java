@@ -21,7 +21,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
 public class HasOnlyReadOnly  {
   
   private String bar;
@@ -86,4 +85,3 @@ public class HasOnlyReadOnly  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

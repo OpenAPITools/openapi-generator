@@ -34,7 +34,6 @@ class User {
 
      this.userStatus,
   });
-
   @JsonKey(
     
     name: r'id',

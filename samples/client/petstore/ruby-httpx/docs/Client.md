@@ -15,4 +15,3 @@ instance = Petstore::Client.new(
   client: null
 )
 ```
-

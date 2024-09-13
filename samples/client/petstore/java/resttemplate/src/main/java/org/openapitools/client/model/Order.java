@@ -85,7 +85,6 @@ public class Order {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_STATUS = "status";
   private StatusEnum status;
 
@@ -305,83 +304,82 @@ public class Order {
   }
 
   public static class Builder {
-
-    private Order instance;
-
-    public Builder() {
-      this(new Order());
-    }
-
-    protected Builder(Order instance) {
-      this.instance = instance;
-    }
-
-    public Order.Builder id(Long id) {
-      this.instance.id = id;
-      return this;
-    }
-    public Order.Builder petId(Long petId) {
-      this.instance.petId = petId;
-      return this;
-    }
-    public Order.Builder quantity(Integer quantity) {
-      this.instance.quantity = quantity;
-      return this;
-    }
-    public Order.Builder shipDate(OffsetDateTime shipDate) {
-      this.instance.shipDate = shipDate;
-      return this;
-    }
-    public Order.Builder status(StatusEnum status) {
-      this.instance.status = status;
-      return this;
-    }
-    public Order.Builder complete(Boolean complete) {
-      this.instance.complete = complete;
-      return this;
-    }
-
-
-    /**
-    * returns a built Order instance.
-    *
-    * The builder is not reusable.
-    */
-    public Order build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+  
+      private Order instance;
+  
+      public Builder() {
+        this(new Order());
+      }
+  
+      protected Builder(Order instance) {
+        this.instance = instance;
+      }
+  
+      public Order.Builder id(Long id) {
+          this.instance.id = id;
+        return this;
+      }
+        public Order.Builder petId(Long petId) {
+          this.instance.petId = petId;
+        return this;
+      }
+        public Order.Builder quantity(Integer quantity) {
+          this.instance.quantity = quantity;
+        return this;
+      }
+        public Order.Builder shipDate(OffsetDateTime shipDate) {
+          this.instance.shipDate = shipDate;
+        return this;
+      }
+        public Order.Builder status(StatusEnum status) {
+          this.instance.status = status;
+        return this;
+      }
+        public Order.Builder complete(Boolean complete) {
+          this.instance.complete = complete;
+        return this;
+      }
+    
+  
+      /**
+      * returns a built Order instance.
+      *
+      * The builder is not reusable.
+      */
+      public Order build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field.
+    */
+    public static Order.Builder builder() {
+      return new Order.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static Order.Builder builder() {
-    return new Order.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public Order.Builder toBuilder() {
-    return new Order.Builder()
-      .id(getId())
-      .petId(getPetId())
-      .quantity(getQuantity())
-      .shipDate(getShipDate())
-      .status(getStatus())
-      .complete(getComplete());
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public Order.Builder toBuilder() {
+      return new Order.Builder()
+        .id(getId())
+        .petId(getPetId())
+        .quantity(getQuantity())
+        .shipDate(getShipDate())
+        .status(getStatus())
+        .complete(getComplete());
+    }
 
 }
 

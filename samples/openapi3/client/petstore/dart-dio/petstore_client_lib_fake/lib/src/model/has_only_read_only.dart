@@ -29,8 +29,7 @@ abstract class HasOnlyReadOnly implements Built<HasOnlyReadOnly, HasOnlyReadOnly
   static void _defaults(HasOnlyReadOnlyBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<HasOnlyReadOnly> get serializer => _$HasOnlyReadOnlySerializer();
-}
+  static Serializer<HasOnlyReadOnly> get serializer => _$HasOnlyReadOnlySerializer();}
 
 class _$HasOnlyReadOnlySerializer implements PrimitiveSerializer<HasOnlyReadOnly> {
   @override

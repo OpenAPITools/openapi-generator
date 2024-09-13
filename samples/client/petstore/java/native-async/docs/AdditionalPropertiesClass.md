@@ -17,4 +17,3 @@
 |**mapWithUndeclaredPropertiesString** | **Map&lt;String, String&gt;** |  |  [optional] |
 
 
-

@@ -137,7 +137,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
   }
 
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

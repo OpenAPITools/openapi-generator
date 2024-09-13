@@ -25,4 +25,3 @@ instance = Petstore::Order.new(
   complete: null
 )
 ```
-

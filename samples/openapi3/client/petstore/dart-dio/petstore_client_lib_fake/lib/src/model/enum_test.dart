@@ -66,8 +66,7 @@ abstract class EnumTest implements Built<EnumTest, EnumTestBuilder> {
   static void _defaults(EnumTestBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<EnumTest> get serializer => _$EnumTestSerializer();
-}
+  static Serializer<EnumTest> get serializer => _$EnumTestSerializer();}
 
 class _$EnumTestSerializer implements PrimitiveSerializer<EnumTest> {
   @override
@@ -262,7 +261,6 @@ class EnumTestEnumStringEnum extends EnumClass {
   static BuiltSet<EnumTestEnumStringEnum> get values => _$enumTestEnumStringEnumValues;
   static EnumTestEnumStringEnum valueOf(String name) => _$enumTestEnumStringEnumValueOf(name);
 }
-
 class EnumTestEnumStringRequiredEnum extends EnumClass {
 
   @BuiltValueEnumConst(wireName: r'UPPER')
@@ -281,7 +279,6 @@ class EnumTestEnumStringRequiredEnum extends EnumClass {
   static BuiltSet<EnumTestEnumStringRequiredEnum> get values => _$enumTestEnumStringRequiredEnumValues;
   static EnumTestEnumStringRequiredEnum valueOf(String name) => _$enumTestEnumStringRequiredEnumValueOf(name);
 }
-
 class EnumTestEnumIntegerEnum extends EnumClass {
 
   @BuiltValueEnumConst(wireNumber: 1)
@@ -298,7 +295,6 @@ class EnumTestEnumIntegerEnum extends EnumClass {
   static BuiltSet<EnumTestEnumIntegerEnum> get values => _$enumTestEnumIntegerEnumValues;
   static EnumTestEnumIntegerEnum valueOf(String name) => _$enumTestEnumIntegerEnumValueOf(name);
 }
-
 class EnumTestEnumNumberEnum extends EnumClass {
 
   @BuiltValueEnumConst(wireName: r'1.1')
@@ -315,4 +311,3 @@ class EnumTestEnumNumberEnum extends EnumClass {
   static BuiltSet<EnumTestEnumNumberEnum> get values => _$enumTestEnumNumberEnumValues;
   static EnumTestEnumNumberEnum valueOf(String name) => _$enumTestEnumNumberEnumValueOf(name);
 }
-

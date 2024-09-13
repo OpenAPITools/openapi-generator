@@ -106,7 +106,6 @@ public class Animal {
     this.color = color;
   }
 
-
   /**
    * Return true if this Animal object is equal to o.
    */

@@ -31,7 +31,6 @@ import java.io.Serializable
  * @param holidayTypes Holiday types
  */
 
-
 data class PropertyOfDay (
 
     /* Name of property of day */

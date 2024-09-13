@@ -49,8 +49,7 @@ abstract class Order implements Built<Order, OrderBuilder> {
       ..complete = false;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<Order> get serializer => _$OrderSerializer();
-}
+  static Serializer<Order> get serializer => _$OrderSerializer();}
 
 class _$OrderSerializer implements PrimitiveSerializer<Order> {
   @override
@@ -222,4 +221,3 @@ class OrderStatusEnum extends EnumClass {
   static BuiltSet<OrderStatusEnum> get values => _$orderStatusEnumValues;
   static OrderStatusEnum valueOf(String name) => _$orderStatusEnumValueOf(name);
 }
-

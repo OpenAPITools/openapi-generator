@@ -24,7 +24,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
 public class ArrayTest  {
   
   private List<String> arrayOfString = null;
@@ -135,4 +134,3 @@ public class ArrayTest  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

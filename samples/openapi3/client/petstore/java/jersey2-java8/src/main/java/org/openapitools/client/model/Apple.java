@@ -94,7 +94,6 @@ public class Apple {
     this.origin = origin;
   }
 
-
   /**
    * Return true if this apple object is equal to o.
    */

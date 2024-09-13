@@ -158,7 +158,6 @@ public class AdditionalPropertiesClass {
 
   @JsonProperty(JSON_PROPERTY_ANYTYPE1)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<Object> getAnytype1_JsonNullable() {
     return anytype1;
   }
@@ -307,7 +306,6 @@ public class AdditionalPropertiesClass {
   public void setMapWithUndeclaredPropertiesString(Map<String, String> mapWithUndeclaredPropertiesString) {
     this.mapWithUndeclaredPropertiesString = mapWithUndeclaredPropertiesString;
   }
-
 
   /**
    * Return true if this AdditionalPropertiesClass object is equal to o.

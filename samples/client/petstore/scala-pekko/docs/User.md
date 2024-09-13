@@ -18,4 +18,3 @@ Name | Type | Description | Notes
 **userStatus** | **Int** | User Status |  [optional]
 
 
-

@@ -27,7 +27,6 @@ class Cat {
 
      this.declawed,
   });
-
   @JsonKey(
     
     name: r'className',

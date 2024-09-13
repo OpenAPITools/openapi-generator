@@ -10,4 +10,3 @@
 |**$specialPropertyName** | **Long** |  |  [optional] |
 
 
-

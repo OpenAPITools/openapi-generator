@@ -69,7 +69,6 @@ public class Capitalization {
    */
   @javax.annotation.Nullable
 
-
   public String getSmallCamel() {
     return smallCamel;
   }
@@ -90,7 +89,6 @@ public class Capitalization {
    * @return capitalCamel
    */
   @javax.annotation.Nullable
-
 
   public String getCapitalCamel() {
     return capitalCamel;
@@ -113,7 +111,6 @@ public class Capitalization {
    */
   @javax.annotation.Nullable
 
-
   public String getSmallSnake() {
     return smallSnake;
   }
@@ -134,7 +131,6 @@ public class Capitalization {
    * @return capitalSnake
    */
   @javax.annotation.Nullable
-
 
   public String getCapitalSnake() {
     return capitalSnake;
@@ -157,7 +153,6 @@ public class Capitalization {
    */
   @javax.annotation.Nullable
 
-
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
   }
@@ -178,7 +173,6 @@ public class Capitalization {
    * @return ATT_NAME
    */
   @javax.annotation.Nullable
-
 
   public String getATTNAME() {
     return ATT_NAME;

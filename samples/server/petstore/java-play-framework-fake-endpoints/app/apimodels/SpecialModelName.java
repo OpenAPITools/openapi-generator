@@ -14,8 +14,7 @@ import javax.validation.Valid;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class SpecialModelName   {
   @JsonProperty("$special[property.name]")
-  
-  private Long $specialPropertyName;
+                                        private Long $specialPropertyName;
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
@@ -74,4 +73,3 @@ public class SpecialModelName   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

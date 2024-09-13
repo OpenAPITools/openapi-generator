@@ -22,7 +22,6 @@ class Animal {
 
      this.color = 'red',
   });
-
   @JsonKey(
     
     name: r'className',

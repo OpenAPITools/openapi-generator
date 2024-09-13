@@ -53,7 +53,6 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
    */
   @javax.annotation.Nullable
 
-
   public String getName() {
     return name;
   }

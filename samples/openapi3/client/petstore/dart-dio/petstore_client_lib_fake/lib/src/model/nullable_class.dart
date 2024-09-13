@@ -72,8 +72,7 @@ abstract class NullableClass implements Built<NullableClass, NullableClassBuilde
   static void _defaults(NullableClassBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<NullableClass> get serializer => _$NullableClassSerializer();
-}
+  static Serializer<NullableClass> get serializer => _$NullableClassSerializer();}
 
 class _$NullableClassSerializer implements PrimitiveSerializer<NullableClass> {
   @override

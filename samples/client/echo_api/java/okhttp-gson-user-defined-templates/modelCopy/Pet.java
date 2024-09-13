@@ -29,7 +29,6 @@ public class Pet {
   public Pet() {
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

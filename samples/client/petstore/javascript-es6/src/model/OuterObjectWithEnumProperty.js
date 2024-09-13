@@ -89,4 +89,3 @@ OuterObjectWithEnumProperty.prototype['value'] = undefined;
 
 
 export default OuterObjectWithEnumProperty;
-

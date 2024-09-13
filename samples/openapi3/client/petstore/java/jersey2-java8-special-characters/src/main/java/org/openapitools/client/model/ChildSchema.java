@@ -115,7 +115,6 @@ public class ChildSchema extends Parent {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this ChildSchema object is equal to o.
    */

@@ -21,7 +21,6 @@ import java.math.BigDecimal;
 
 
 
-
 public class NumberOnly  {
   
   private BigDecimal justNumber;
@@ -71,4 +70,3 @@ public class NumberOnly  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

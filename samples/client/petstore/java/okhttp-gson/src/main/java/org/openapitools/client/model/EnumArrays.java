@@ -103,7 +103,6 @@ public class EnumArrays {
       JustSymbolEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_JUST_SYMBOL = "just_symbol";
   @SerializedName(SERIALIZED_NAME_JUST_SYMBOL)
   private JustSymbolEnum justSymbol;
@@ -159,7 +158,6 @@ public class EnumArrays {
       ArrayEnumEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_ARRAY_ENUM = "array_enum";
   @SerializedName(SERIALIZED_NAME_ARRAY_ENUM)
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
@@ -256,7 +254,6 @@ public class EnumArrays {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

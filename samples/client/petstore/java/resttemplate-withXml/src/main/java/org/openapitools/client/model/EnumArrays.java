@@ -80,7 +80,6 @@ public class EnumArrays {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_JUST_SYMBOL = "just_symbol";
   @XmlElement(name = "just_symbol")
   private JustSymbolEnum justSymbol;
@@ -123,7 +122,6 @@ public class EnumArrays {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
   @XmlElement(name = "array_enum")
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();

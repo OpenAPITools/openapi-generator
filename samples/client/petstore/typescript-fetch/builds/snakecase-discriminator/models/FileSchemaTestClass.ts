@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * 
@@ -32,7 +31,6 @@ export interface FileSchemaTestClass {
      */
     files?: Array<any>;
 }
-
 /**
  * Check if a given object implements the FileSchemaTestClass interface.
  */
@@ -70,4 +68,3 @@ export function FileSchemaTestClassFromJSONTyped(json: any, ignoreDiscriminator:
         'files': value['files'],
     };
 }
-

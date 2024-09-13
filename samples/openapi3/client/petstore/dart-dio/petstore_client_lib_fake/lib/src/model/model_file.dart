@@ -26,8 +26,7 @@ abstract class ModelFile implements Built<ModelFile, ModelFileBuilder> {
   static void _defaults(ModelFileBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ModelFile> get serializer => _$ModelFileSerializer();
-}
+  static Serializer<ModelFile> get serializer => _$ModelFileSerializer();}
 
 class _$ModelFileSerializer implements PrimitiveSerializer<ModelFile> {
   @override

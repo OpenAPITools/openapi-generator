@@ -18,11 +18,9 @@ import javax.annotation.Generated;
 /**
  * Model for testing reserved words
  */
-
 @ApiModel(description = "Model for testing reserved words")
 @JsonTypeName("Return")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class ModelReturn {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class ModelReturn {
 
   private Integer _return;
 
@@ -35,8 +33,7 @@ public class ModelReturn {
    * Get _return
    * @return _return
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("return")
   public Integer getReturn() {
     return _return;
@@ -45,7 +42,6 @@ public class ModelReturn {
   public void setReturn(Integer _return) {
     this._return = _return;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

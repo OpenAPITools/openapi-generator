@@ -16,8 +16,7 @@ internal struct Order: Codable, JSONEncodable, Hashable {
         case placed = "placed"
         case approved = "approved"
         case delivered = "delivered"
-    }
-    internal var id: Int64?
+    }    internal var id: Int64?
     internal var petId: Int64?
     internal var quantity: Int?
     internal var shipDate: Date?

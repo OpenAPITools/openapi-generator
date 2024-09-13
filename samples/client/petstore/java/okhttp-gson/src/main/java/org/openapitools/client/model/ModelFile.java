@@ -120,7 +120,6 @@ public class ModelFile {
     return this.additionalProperties.get(key);
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

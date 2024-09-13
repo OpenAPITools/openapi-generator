@@ -23,14 +23,11 @@ import javax.annotation.Generated;
 /**
  * Describes the result of uploading an image resource
  */
-
 @Schema(name = "ApiResponse", description = "Describes the result of uploading an image resource")
 @JsonTypeName("ApiResponse")
 @JacksonXmlRootElement(localName = "ModelApiResponse")
 @XmlRootElement(name = "ModelApiResponse")
-@XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class ModelApiResponse {
+@XmlAccessorType(XmlAccessType.FIELD)@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class ModelApiResponse {
 
   private Integer code;
 
@@ -47,8 +44,7 @@ public class ModelApiResponse {
    * Get code
    * @return code
    */
-  
-  @Schema(name = "code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("code")
   @JacksonXmlProperty(localName = "code")
   public Integer getCode() {
@@ -68,8 +64,7 @@ public class ModelApiResponse {
    * Get type
    * @return type
    */
-  
-  @Schema(name = "type", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "type", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("type")
   @JacksonXmlProperty(localName = "type")
   public String getType() {
@@ -89,8 +84,7 @@ public class ModelApiResponse {
    * Get message
    * @return message
    */
-  
-  @Schema(name = "message", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "message", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("message")
   @JacksonXmlProperty(localName = "message")
   public String getMessage() {
@@ -100,7 +94,6 @@ public class ModelApiResponse {
   public void setMessage(String message) {
     this.message = message;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

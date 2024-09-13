@@ -25,7 +25,6 @@ class MixedPropertiesAndAdditionalPropertiesClass {
 
      this.map,
   });
-
   @JsonKey(
     
     name: r'uuid',

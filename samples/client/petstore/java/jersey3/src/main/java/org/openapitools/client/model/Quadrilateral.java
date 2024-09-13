@@ -208,7 +208,6 @@ public class Quadrilateral extends AbstractOpenApiSchema {
     }
     return this.additionalProperties.get(key);
   }
-
     /**
      * Return true if this Quadrilateral object is equal to o.
      */

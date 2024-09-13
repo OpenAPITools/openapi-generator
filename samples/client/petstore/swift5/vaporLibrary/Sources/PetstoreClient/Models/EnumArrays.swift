@@ -16,12 +16,10 @@ public final class EnumArrays: Content, Hashable {
     public enum JustSymbol: String, Content, Hashable, CaseIterable {
         case greaterThanOrEqualTo = ">="
         case dollar = "$"
-    }
-    public enum ArrayEnum: String, Content, Hashable, CaseIterable {
+    }    public enum ArrayEnum: String, Content, Hashable, CaseIterable {
         case fish = "fish"
         case crab = "crab"
-    }
-    public var justSymbol: JustSymbol?
+    }    public var justSymbol: JustSymbol?
     public var arrayEnum: [ArrayEnum]?
 
     public init(justSymbol: JustSymbol? = nil, arrayEnum: [ArrayEnum]? = nil) {

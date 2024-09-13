@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { ResponseMeta } from './ResponseMeta';
 import {
@@ -40,7 +39,6 @@ export interface PetRegionsResponse {
      */
     data?: Array<Array<number | null>>;
 }
-
 /**
  * Check if a given object implements the PetRegionsResponse interface.
  */
@@ -79,4 +77,3 @@ export function PetRegionsResponseFromJSONTyped(json: any, ignoreDiscriminator: 
         'data': value['data'],
     };
 }
-

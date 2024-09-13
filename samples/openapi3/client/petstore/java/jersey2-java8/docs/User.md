@@ -21,4 +21,3 @@
 |**anyTypePropNullable** | **Object** | test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values. |  [optional] |
 
 
-

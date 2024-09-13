@@ -109,7 +109,6 @@ public class Drawing {
 
   @JsonProperty(JSON_PROPERTY_SHAPE_OR_NULL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<ShapeOrNull> getShapeOrNull_JsonNullable() {
     return shapeOrNull;
   }
@@ -142,7 +141,6 @@ public class Drawing {
 
   @JsonProperty(JSON_PROPERTY_NULLABLE_SHAPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<NullableShape> getNullableShape_JsonNullable() {
     return nullableShape;
   }
@@ -226,7 +224,6 @@ public class Drawing {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this Drawing object is equal to o.
    */

@@ -31,8 +31,7 @@ abstract class ParentWithNullable  {
   };
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ParentWithNullable> get serializer => _$ParentWithNullableSerializer();
-}
+  static Serializer<ParentWithNullable> get serializer => _$ParentWithNullableSerializer();}
 
 extension ParentWithNullableDiscriminatorExt on ParentWithNullable {
     String? get discriminatorValue {
@@ -50,7 +49,6 @@ extension ParentWithNullableBuilderDiscriminatorExt on ParentWithNullableBuilder
         return null;
     }
 }
-
 class _$ParentWithNullableSerializer implements PrimitiveSerializer<ParentWithNullable> {
   @override
   final Iterable<Type> types = const [ParentWithNullable];
@@ -209,4 +207,3 @@ class ParentWithNullableTypeEnum extends EnumClass {
   static BuiltSet<ParentWithNullableTypeEnum> get values => _$parentWithNullableTypeEnumValues;
   static ParentWithNullableTypeEnum valueOf(String name) => _$parentWithNullableTypeEnumValueOf(name);
 }
-

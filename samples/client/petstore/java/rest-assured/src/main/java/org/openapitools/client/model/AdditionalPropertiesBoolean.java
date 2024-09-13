@@ -52,7 +52,6 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
    */
   @javax.annotation.Nullable
 
-
   public String getName() {
     return name;
   }

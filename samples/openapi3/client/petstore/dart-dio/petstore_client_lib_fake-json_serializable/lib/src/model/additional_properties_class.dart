@@ -22,7 +22,6 @@ class AdditionalPropertiesClass {
 
      this.mapOfMapProperty,
   });
-
   @JsonKey(
     
     name: r'map_property',

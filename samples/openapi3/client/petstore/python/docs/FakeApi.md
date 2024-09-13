@@ -62,7 +62,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -75,7 +74,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->fake_any_type_request_body: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -126,7 +124,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -139,7 +136,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->fake_enum_ref_query_parameter: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -190,7 +186,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -204,7 +199,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->fake_health_get: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -319,7 +313,6 @@ configuration = petstore_api.Configuration(
         signature_max_validity = datetime.timedelta(minutes=5)
     )
 )
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -334,7 +327,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->fake_http_signature_test: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -388,7 +380,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -402,7 +393,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->fake_outer_boolean_serialize: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -455,7 +445,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -469,7 +458,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->fake_outer_composite_serialize: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -521,7 +509,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -535,7 +522,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->fake_outer_number_serialize: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -587,7 +573,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -601,7 +586,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->fake_outer_string_serialize: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -655,7 +639,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -670,7 +653,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->fake_property_enum_integer_serialize: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -722,7 +704,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -736,7 +717,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->fake_ref_enum_string: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -783,7 +763,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -797,7 +776,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->fake_return_boolean: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -844,7 +822,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -858,7 +835,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->fake_return_byte_like_json: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -905,7 +881,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -919,7 +894,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->fake_return_enum: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -966,7 +940,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -980,7 +953,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->fake_return_enum_like_json: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -1027,7 +999,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -1041,7 +1012,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->fake_return_float: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -1088,7 +1058,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -1102,7 +1071,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->fake_return_int: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -1150,7 +1118,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -1164,7 +1131,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->fake_return_list_of_objects: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -1211,7 +1177,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -1225,7 +1190,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->fake_return_str_like_json: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -1272,7 +1236,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -1286,7 +1249,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->fake_return_string: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -1333,7 +1295,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -1346,7 +1307,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->fake_uuid_example: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -1398,7 +1358,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -1411,7 +1370,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->test_additional_properties_reference: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -1463,7 +1421,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -1475,7 +1432,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->test_body_with_binary: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -1528,7 +1484,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -1540,7 +1495,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->test_body_with_file_schema: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -1591,7 +1545,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -1604,7 +1557,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->test_body_with_query_params: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -1658,7 +1610,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -1673,7 +1624,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->test_client_model: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -1723,7 +1673,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -1736,7 +1685,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->test_date_time_query_parameter: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -1789,7 +1737,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -1801,7 +1748,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->test_empty_and_non_empty_responses: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -1862,7 +1808,6 @@ configuration = petstore_api.Configuration(
     username = os.environ["USERNAME"],
     password = os.environ["PASSWORD"]
 )
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -1889,7 +1834,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->test_endpoint_parameters: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -1954,7 +1898,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -1966,7 +1909,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->test_error_responses_with_model: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -2027,7 +1969,6 @@ configuration = petstore_api.Configuration(
 configuration = petstore_api.Configuration(
     access_token = os.environ["BEARER_TOKEN"]
 )
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -2045,7 +1986,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->test_group_parameters: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -2102,7 +2042,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -2115,7 +2054,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->test_inline_additional_properties: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -2168,7 +2106,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -2181,7 +2118,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->test_inline_freeform_additional_properties: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -2233,7 +2169,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -2247,7 +2182,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->test_json_form_data: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -2299,7 +2233,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -2311,7 +2244,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->test_object_for_multipart_requests: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -2363,7 +2295,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -2381,7 +2312,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->test_query_parameter_collection_format: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -2439,7 +2369,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -2452,7 +2381,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->test_string_map_reference: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -2506,7 +2434,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -2523,7 +2450,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->upload_file_with_additional_properties: %s\n" % e)
 ```
-
 
 
 ### Parameters

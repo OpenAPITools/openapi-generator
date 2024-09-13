@@ -105,4 +105,3 @@ Animal.prototype['color'] = 'red';
 
 
 export default Animal;
-

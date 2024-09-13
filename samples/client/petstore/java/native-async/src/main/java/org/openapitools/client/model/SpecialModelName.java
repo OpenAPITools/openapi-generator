@@ -94,7 +94,6 @@ public class SpecialModelName {
     this.specialModelName = specialModelName;
   }
 
-
   /**
    * Return true if this _special_model.name_ object is equal to o.
    */

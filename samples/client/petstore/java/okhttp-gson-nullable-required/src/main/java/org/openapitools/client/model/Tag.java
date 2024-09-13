@@ -143,7 +143,6 @@ public class Tag {
     return this.additionalProperties.get(key);
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

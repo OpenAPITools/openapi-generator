@@ -82,7 +82,6 @@ public class MapTest {
       }
     }
   }
-
   public static final String SERIALIZED_NAME_MAP_OF_ENUM_STRING = "map_of_enum_string";
   @SerializedName(SERIALIZED_NAME_MAP_OF_ENUM_STRING)
   private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
@@ -119,7 +118,6 @@ public class MapTest {
   @javax.annotation.Nullable
   @Valid
 
-
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
@@ -148,7 +146,6 @@ public class MapTest {
    * @return mapOfEnumString
    */
   @javax.annotation.Nullable
-
 
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
@@ -179,7 +176,6 @@ public class MapTest {
    */
   @javax.annotation.Nullable
 
-
   public Map<String, Boolean> getDirectMap() {
     return directMap;
   }
@@ -208,7 +204,6 @@ public class MapTest {
    * @return indirectMap
    */
   @javax.annotation.Nullable
-
 
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;

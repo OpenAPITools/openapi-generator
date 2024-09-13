@@ -27,7 +27,6 @@ import java.io.Serializable
  * @param message 
  */
 
-
 data class ModelApiResponse (
 
     @get:JsonProperty("code")

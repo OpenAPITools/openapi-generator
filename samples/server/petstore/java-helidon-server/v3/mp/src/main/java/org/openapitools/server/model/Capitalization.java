@@ -20,7 +20,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
 public class Capitalization  {
   
   private String smallCamel;
@@ -188,4 +187,3 @@ public class Capitalization  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

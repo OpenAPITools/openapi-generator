@@ -55,7 +55,6 @@ public class Banana {
    */
   @jakarta.annotation.Nullable
   @Valid
-
   @JsonProperty(JSON_PROPERTY_LENGTH_CM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -69,7 +68,6 @@ public class Banana {
   public void setLengthCm(BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
   }
-
 
   /**
    * Return true if this banana object is equal to o.

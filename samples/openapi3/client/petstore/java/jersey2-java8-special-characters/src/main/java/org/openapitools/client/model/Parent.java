@@ -77,7 +77,6 @@ public class Parent {
     this.objectType = objectType;
   }
 
-
   /**
    * Return true if this Parent object is equal to o.
    */

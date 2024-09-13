@@ -17,9 +17,7 @@ import javax.annotation.Generated;
 /**
  * Tag
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class Tag {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class Tag {
 
   private Long id;
 
@@ -34,8 +32,7 @@ public class Tag {
    * Get id
    * @return id
    */
-  
-  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public Long getId() {
     return id;
@@ -54,8 +51,7 @@ public class Tag {
    * Get name
    * @return name
    */
-  
-  @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
   public String getName() {
     return name;
@@ -64,7 +60,6 @@ public class Tag {
   public void setName(String name) {
     this.name = name;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

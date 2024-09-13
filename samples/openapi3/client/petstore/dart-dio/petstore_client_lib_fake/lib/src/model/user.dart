@@ -54,8 +54,7 @@ abstract class User implements Built<User, UserBuilder> {
   static void _defaults(UserBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<User> get serializer => _$UserSerializer();
-}
+  static Serializer<User> get serializer => _$UserSerializer();}
 
 class _$UserSerializer implements PrimitiveSerializer<User> {
   @override

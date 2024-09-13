@@ -31,7 +31,6 @@ import kotlinx.serialization.Contextual
  * @param complete 
  */
 @Serializable
-
 data class Order (
 
     @SerialName(value = "id")

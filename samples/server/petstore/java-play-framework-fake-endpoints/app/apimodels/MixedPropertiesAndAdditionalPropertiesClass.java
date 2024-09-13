@@ -18,18 +18,15 @@ import javax.validation.Valid;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class MixedPropertiesAndAdditionalPropertiesClass   {
   @JsonProperty("uuid")
-  @Valid
-
+                                        @Valid
   private UUID uuid;
 
   @JsonProperty("dateTime")
-  @Valid
-
+                                        @Valid
   private OffsetDateTime dateTime;
 
   @JsonProperty("map")
-  @Valid
-
+                                        @Valid
   private Map<String, Animal> map = null;
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
@@ -135,4 +132,3 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

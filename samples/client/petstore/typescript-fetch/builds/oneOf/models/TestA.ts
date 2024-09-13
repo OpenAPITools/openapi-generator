@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * 
@@ -26,7 +25,6 @@ export interface TestA {
      */
     foo: string;
 }
-
 /**
  * Check if a given object implements the TestA interface.
  */
@@ -63,4 +61,3 @@ export function TestAFromJSONTyped(json: any, ignoreDiscriminator: boolean): Tes
         'foo': value['foo'],
     };
 }
-

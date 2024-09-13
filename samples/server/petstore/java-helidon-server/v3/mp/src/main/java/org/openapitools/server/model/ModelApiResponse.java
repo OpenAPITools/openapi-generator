@@ -21,7 +21,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
 public class ModelApiResponse  {
   
   private Integer code;
@@ -117,4 +116,3 @@ public class ModelApiResponse  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

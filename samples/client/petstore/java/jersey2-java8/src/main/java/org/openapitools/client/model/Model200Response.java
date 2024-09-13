@@ -94,7 +94,6 @@ public class Model200Response {
     this.propertyClass = propertyClass;
   }
 
-
   /**
    * Return true if this 200_response object is equal to o.
    */

@@ -109,58 +109,57 @@ public class DeprecatedObject {
   }
 
   public static class Builder {
-
-    private DeprecatedObject instance;
-
-    public Builder() {
-      this(new DeprecatedObject());
-    }
-
-    protected Builder(DeprecatedObject instance) {
-      this.instance = instance;
-    }
-
-    public DeprecatedObject.Builder name(String name) {
-      this.instance.name = name;
-      return this;
-    }
-
-
-    /**
-    * returns a built DeprecatedObject instance.
-    *
-    * The builder is not reusable.
-    */
-    public DeprecatedObject build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+  
+      private DeprecatedObject instance;
+  
+      public Builder() {
+        this(new DeprecatedObject());
+      }
+  
+      protected Builder(DeprecatedObject instance) {
+        this.instance = instance;
+      }
+  
+      public DeprecatedObject.Builder name(String name) {
+          this.instance.name = name;
+        return this;
+      }
+    
+  
+      /**
+      * returns a built DeprecatedObject instance.
+      *
+      * The builder is not reusable.
+      */
+      public DeprecatedObject build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field.
+    */
+    public static DeprecatedObject.Builder builder() {
+      return new DeprecatedObject.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static DeprecatedObject.Builder builder() {
-    return new DeprecatedObject.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public DeprecatedObject.Builder toBuilder() {
-    return new DeprecatedObject.Builder()
-      .name(getName());
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public DeprecatedObject.Builder toBuilder() {
+      return new DeprecatedObject.Builder()
+        .name(getName());
+    }
 
 }
 

@@ -33,7 +33,6 @@ import kotlinx.serialization.Contextual
  * @param status pet status in the store
  */
 @Serializable
-
 data class Pet (
 
     @SerialName(value = "name")

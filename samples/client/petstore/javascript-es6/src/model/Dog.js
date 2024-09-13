@@ -106,4 +106,3 @@ Animal.prototype['color'] = 'red';
 
 
 export default Dog;
-

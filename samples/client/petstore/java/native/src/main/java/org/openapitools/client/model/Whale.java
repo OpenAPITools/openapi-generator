@@ -122,7 +122,6 @@ public class Whale {
     this.className = className;
   }
 
-
   /**
    * Return true if this whale object is equal to o.
    */
@@ -218,67 +217,66 @@ public class Whale {
   }
 
     public static class Builder {
-
-    private Whale instance;
-
-    public Builder() {
-      this(new Whale());
-    }
-
-    protected Builder(Whale instance) {
-      this.instance = instance;
-    }
-
-    public Whale.Builder hasBaleen(Boolean hasBaleen) {
-      this.instance.hasBaleen = hasBaleen;
-      return this;
-    }
-    public Whale.Builder hasTeeth(Boolean hasTeeth) {
-      this.instance.hasTeeth = hasTeeth;
-      return this;
-    }
-    public Whale.Builder className(String className) {
-      this.instance.className = className;
-      return this;
-    }
-
-
-    /**
-    * returns a built Whale instance.
-    *
-    * The builder is not reusable.
-    */
-    public Whale build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    
+        private Whale instance;
+    
+        public Builder() {
+          this(new Whale());
+        }
+    
+        protected Builder(Whale instance) {
+          this.instance = instance;
+        }
+    
+        public Whale.Builder hasBaleen(Boolean hasBaleen) {
+              this.instance.hasBaleen = hasBaleen;
+          return this;
+        }
+            public Whale.Builder hasTeeth(Boolean hasTeeth) {
+              this.instance.hasTeeth = hasTeeth;
+          return this;
+        }
+            public Whale.Builder className(String className) {
+              this.instance.className = className;
+          return this;
+        }
+        
+    
+        /**
+        * returns a built Whale instance.
+        *
+        * The builder is not reusable.
+        */
+        public Whale build() {
+          try {
+            return this.instance;
+          } finally {
+            // ensure that this.instance is not reused
+            this.instance = null;
+          }
+        }
+    
+        @Override
+        public String toString() {
+          return getClass() + "=(" + instance + ")";
+        }
       }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static Whale.Builder builder() {
-    return new Whale.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public Whale.Builder toBuilder() {
-    return new Whale.Builder()
-      .hasBaleen(getHasBaleen())
-      .hasTeeth(getHasTeeth())
-      .className(getClassName());
-  }
-
+    
+      /**
+      * Create a builder with no initialized field.
+      */
+      public static Whale.Builder builder() {
+        return new Whale.Builder();
+      }
+    
+      /**
+      * Create a builder with a shallow copy of this instance.
+      */
+      public Whale.Builder toBuilder() {
+        return new Whale.Builder()
+          .hasBaleen(getHasBaleen())
+          .hasTeeth(getHasTeeth())
+          .className(getClassName());
+      }
 }
 

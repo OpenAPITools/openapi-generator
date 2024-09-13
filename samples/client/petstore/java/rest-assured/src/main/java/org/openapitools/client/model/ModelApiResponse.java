@@ -57,7 +57,6 @@ public class ModelApiResponse {
    */
   @javax.annotation.Nullable
 
-
   public Integer getCode() {
     return code;
   }
@@ -79,7 +78,6 @@ public class ModelApiResponse {
    */
   @javax.annotation.Nullable
 
-
   public String getType() {
     return type;
   }
@@ -100,7 +98,6 @@ public class ModelApiResponse {
    * @return message
    */
   @javax.annotation.Nullable
-
 
   public String getMessage() {
     return message;

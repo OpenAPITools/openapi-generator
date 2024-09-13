@@ -49,7 +49,6 @@ public class ModelFile {
    */
   @javax.annotation.Nullable
 
-
   public String getSourceURI() {
     return sourceURI;
   }

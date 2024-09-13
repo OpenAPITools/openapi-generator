@@ -24,7 +24,6 @@ import java.util.List;
 
 
 
-
 public class ArrayOfArrayOfNumberOnly  {
   
   private List<List<BigDecimal>> arrayArrayNumber = null;
@@ -79,4 +78,3 @@ public class ArrayOfArrayOfNumberOnly  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

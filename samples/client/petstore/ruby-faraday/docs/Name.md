@@ -21,4 +21,3 @@ instance = Petstore::Name.new(
   _123_number: null
 )
 ```
-

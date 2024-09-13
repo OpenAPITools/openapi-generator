@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * A User who is purchasing from the pet store
@@ -80,7 +79,6 @@ export interface User {
      */
     subUser2: User;
 }
-
 /**
  * Check if a given object implements the User interface.
  */
@@ -136,4 +134,3 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
         'subUser2': UserToJSON(value['subUser2']),
     };
 }
-

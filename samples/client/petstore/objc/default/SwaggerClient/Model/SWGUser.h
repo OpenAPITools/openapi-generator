@@ -16,7 +16,6 @@
 
 
 
-
 @protocol SWGUser
 @end
 

@@ -86,7 +86,6 @@ namespace Org.OpenAPITools.Models
             [EnumMember(Value = "sold")]
             SoldEnum = 3
         }
-
         /// <summary>
         /// pet status in the store
         /// </summary>

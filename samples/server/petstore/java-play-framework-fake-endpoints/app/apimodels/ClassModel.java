@@ -13,8 +13,7 @@ import javax.validation.Valid;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ClassModel   {
   @JsonProperty("_class")
-  
-  private String propertyClass;
+                                        private String propertyClass;
 
   public ClassModel propertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
@@ -73,4 +72,3 @@ public class ClassModel   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

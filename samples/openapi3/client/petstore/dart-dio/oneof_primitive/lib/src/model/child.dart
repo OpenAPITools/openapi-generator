@@ -25,8 +25,7 @@ abstract class Child implements Built<Child, ChildBuilder> {
   static void _defaults(ChildBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<Child> get serializer => _$ChildSerializer();
-}
+  static Serializer<Child> get serializer => _$ChildSerializer();}
 
 class _$ChildSerializer implements PrimitiveSerializer<Child> {
   @override

@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * Simplified identifier of an item
@@ -32,7 +31,6 @@ export interface ItemId {
      */
     type: string;
 }
-
 /**
  * Check if a given object implements the ItemId interface.
  */
@@ -72,4 +70,3 @@ export function ItemIdFromJSONTyped(json: any, ignoreDiscriminator: boolean): It
         'type': value['type'],
     };
 }
-

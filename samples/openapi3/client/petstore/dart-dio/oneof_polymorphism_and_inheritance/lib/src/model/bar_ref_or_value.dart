@@ -45,8 +45,7 @@ abstract class BarRefOrValue implements Built<BarRefOrValue, BarRefOrValueBuilde
   static void _defaults(BarRefOrValueBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<BarRefOrValue> get serializer => _$BarRefOrValueSerializer();
-}
+  static Serializer<BarRefOrValue> get serializer => _$BarRefOrValueSerializer();}
 
 extension BarRefOrValueDiscriminatorExt on BarRefOrValue {
     String? get discriminatorValue {
@@ -70,7 +69,6 @@ extension BarRefOrValueBuilderDiscriminatorExt on BarRefOrValueBuilder {
         return null;
     }
 }
-
 class _$BarRefOrValueSerializer implements PrimitiveSerializer<BarRefOrValue> {
   @override
   final Iterable<Type> types = const [BarRefOrValue, _$BarRefOrValue];

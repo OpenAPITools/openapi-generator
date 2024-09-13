@@ -12,7 +12,6 @@
     Do not edit the class manually.
 """  # noqa: E501
 
-
 class OpenApiException(Exception):
     """The base exception class for all OpenAPIExceptions"""
 

@@ -108,58 +108,57 @@ public class ModelReturn {
   }
 
   public static class Builder {
-
-    private ModelReturn instance;
-
-    public Builder() {
-      this(new ModelReturn());
-    }
-
-    protected Builder(ModelReturn instance) {
-      this.instance = instance;
-    }
-
-    public ModelReturn.Builder _return(Integer _return) {
-      this.instance._return = _return;
-      return this;
-    }
-
-
-    /**
-    * returns a built ModelReturn instance.
-    *
-    * The builder is not reusable.
-    */
-    public ModelReturn build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+  
+      private ModelReturn instance;
+  
+      public Builder() {
+        this(new ModelReturn());
+      }
+  
+      protected Builder(ModelReturn instance) {
+        this.instance = instance;
+      }
+  
+      public ModelReturn.Builder _return(Integer _return) {
+          this.instance._return = _return;
+        return this;
+      }
+    
+  
+      /**
+      * returns a built ModelReturn instance.
+      *
+      * The builder is not reusable.
+      */
+      public ModelReturn build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field.
+    */
+    public static ModelReturn.Builder builder() {
+      return new ModelReturn.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static ModelReturn.Builder builder() {
-    return new ModelReturn.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public ModelReturn.Builder toBuilder() {
-    return new ModelReturn.Builder()
-      ._return(getReturn());
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public ModelReturn.Builder toBuilder() {
+      return new ModelReturn.Builder()
+        ._return(getReturn());
+    }
 
 }
 

@@ -32,7 +32,6 @@ import com.google.gson.annotations.SerializedName
  * @param stringNullable 
  */
 
-
 data class ApiDefaultValue (
 
     @SerializedName("array_string_enum_ref_default")

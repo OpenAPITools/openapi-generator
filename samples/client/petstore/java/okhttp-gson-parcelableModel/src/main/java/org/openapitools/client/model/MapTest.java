@@ -109,7 +109,6 @@ public class MapTest implements Parcelable {
       InnerEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_MAP_OF_ENUM_STRING = "map_of_enum_string";
   @SerializedName(SERIALIZED_NAME_MAP_OF_ENUM_STRING)
   private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
@@ -231,7 +230,6 @@ public class MapTest implements Parcelable {
   public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
-
 
 
   @Override

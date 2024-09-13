@@ -17,10 +17,8 @@ import javax.annotation.Generated;
 /**
  * Describes the result of uploading an image resource
  */
-
 @JsonTypeName("ApiResponse")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class ModelApiResponse {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class ModelApiResponse {
 
   private Integer code;
 
@@ -37,8 +35,7 @@ public class ModelApiResponse {
    * Get code
    * @return code
    */
-  
-  @JsonProperty("code")
+    @JsonProperty("code")
   public Integer getCode() {
     return code;
   }
@@ -56,8 +53,7 @@ public class ModelApiResponse {
    * Get type
    * @return type
    */
-  
-  @JsonProperty("type")
+    @JsonProperty("type")
   public String getType() {
     return type;
   }
@@ -75,8 +71,7 @@ public class ModelApiResponse {
    * Get message
    * @return message
    */
-  
-  @JsonProperty("message")
+    @JsonProperty("message")
   public String getMessage() {
     return message;
   }
@@ -84,7 +79,6 @@ public class ModelApiResponse {
   public void setMessage(String message) {
     this.message = message;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

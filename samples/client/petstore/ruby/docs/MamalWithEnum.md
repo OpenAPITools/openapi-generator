@@ -44,4 +44,3 @@ Petstore::MamalWithEnum.build(data_that_doesnt_match)
 
 - `Cow`
 - `nil` (if no type matches)
-

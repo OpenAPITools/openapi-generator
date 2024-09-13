@@ -19,9 +19,7 @@ import javax.annotation.Generated;
 /**
  * NumberOnly
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class NumberOnly {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class NumberOnly {
 
   private Optional<BigDecimal> justNumber = Optional.empty();
 
@@ -34,8 +32,7 @@ public class NumberOnly {
    * Get justNumber
    * @return justNumber
    */
-  @Valid 
-  @ApiModelProperty(value = "")
+  @Valid   @ApiModelProperty(value = "")
   @JsonProperty("JustNumber")
   public Optional<BigDecimal> getJustNumber() {
     return justNumber;
@@ -44,7 +41,6 @@ public class NumberOnly {
   public void setJustNumber(Optional<BigDecimal> justNumber) {
     this.justNumber = justNumber;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -82,62 +78,61 @@ public class NumberOnly {
     return o.toString().replace("\n", "\n    ");
   }
   
-  public static class Builder {
-
-    private NumberOnly instance;
-
-    public Builder() {
-      this(new NumberOnly());
-    }
-
-    protected Builder(NumberOnly instance) {
-      this.instance = instance;
-    }
-
-    protected Builder copyOf(NumberOnly value) { 
-      this.instance.setJustNumber(value.justNumber);
-      return this;
-    }
-
-    public NumberOnly.Builder justNumber(BigDecimal justNumber) {
-      this.instance.justNumber(justNumber);
-      return this;
-    }
-    
-    /**
-    * returns a built NumberOnly instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public NumberOnly build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    public static class Builder {
+  
+      private NumberOnly instance;
+  
+      public Builder() {
+        this(new NumberOnly());
+      }
+  
+      protected Builder(NumberOnly instance) {
+        this.instance = instance;
+      }
+  
+      protected Builder copyOf(NumberOnly value) { 
+        this.instance.setJustNumber(value.justNumber);
+        return this;
+      }
+  
+        public NumberOnly.Builder justNumber(BigDecimal justNumber) {
+        this.instance.justNumber(justNumber);
+        return this;
+      }
+      
+          /**
+      * returns a built NumberOnly instance.
+      *
+      * The builder is not reusable (NullPointerException)
+      */
+      public NumberOnly build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field (except for the default values).
+    */
+    public static NumberOnly.Builder builder() {
+      return new NumberOnly.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field (except for the default values).
-  */
-  public static NumberOnly.Builder builder() {
-    return new NumberOnly.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public NumberOnly.Builder toBuilder() {
-    NumberOnly.Builder builder = new NumberOnly.Builder();
-    return builder.copyOf(this);
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public NumberOnly.Builder toBuilder() {
+      NumberOnly.Builder builder = new NumberOnly.Builder();
+      return builder.copyOf(this);
+    }
 }
 

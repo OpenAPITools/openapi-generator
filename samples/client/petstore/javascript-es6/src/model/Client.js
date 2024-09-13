@@ -84,4 +84,3 @@ Client.prototype['client'] = undefined;
 
 
 export default Client;
-

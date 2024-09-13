@@ -49,9 +49,7 @@ object Tags : BaseTable<Tag>("Tag") {
     */
     fun AssignmentsBuilder.assignFrom(entity: Tag) {
         this.apply {
-            set(Tags.id, entity.id)
-            set(Tags.name, entity.name)
-        }
+            set(Tags.id, entity.id)            set(Tags.name, entity.name)        }
     }
 
 }

@@ -17,10 +17,8 @@ import javax.annotation.Generated;
 /**
  * Must be named &#x60;File&#x60; for test.
  */
-
 @Schema(name = "File", description = "Must be named `File` for test.")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class File {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class File {
 
   private String sourceURI;
 
@@ -33,8 +31,7 @@ public class File {
    * Test capitalization
    * @return sourceURI
    */
-  
-  @Schema(name = "sourceURI", description = "Test capitalization", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "sourceURI", description = "Test capitalization", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("sourceURI")
   public String getSourceURI() {
     return sourceURI;
@@ -43,7 +40,6 @@ public class File {
   public void setSourceURI(String sourceURI) {
     this.sourceURI = sourceURI;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

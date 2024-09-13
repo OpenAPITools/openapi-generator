@@ -13,12 +13,10 @@ import javax.validation.Valid;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ReadOnlyFirst   {
   @JsonProperty("bar")
-  
-  private String bar;
+                                        private String bar;
 
   @JsonProperty("baz")
-  
-  private String baz;
+                                        private String baz;
 
   public ReadOnlyFirst bar(String bar) {
     this.bar = bar;
@@ -96,4 +94,3 @@ public class ReadOnlyFirst   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

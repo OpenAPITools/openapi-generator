@@ -23,4 +23,3 @@ enum OuterEnumIntegerDefaultValue {
     # enum value: "2"
     NUMBER_2
 }
-

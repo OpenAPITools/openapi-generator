@@ -19,82 +19,68 @@ import javax.validation.Valid;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class FormatTest   {
   @JsonProperty("integer")
-  @Min(10)
-@Max(100)
-
-  private Integer integer;
+                                @Min(10)
+    @Max(100)
+        private Integer integer;
 
   @JsonProperty("int32")
-  @Min(20)
-@Max(200)
-
-  private Integer int32;
+                                @Min(20)
+    @Max(200)
+        private Integer int32;
 
   @JsonProperty("int64")
-  
-  private Long int64;
+                                        private Long int64;
 
   @JsonProperty("number")
   @NotNull
-@DecimalMin("32.1")
-@DecimalMax("543.2")
-@Valid
-
+                                @DecimalMin("32.1")
+    @DecimalMax("543.2")
+      @Valid
   private BigDecimal number;
 
   @JsonProperty("float")
-  @DecimalMin("54.3")
-@DecimalMax("987.6")
-
-  private Float _float;
+                                  @DecimalMin("54.3")
+    @DecimalMax("987.6")
+      private Float _float;
 
   @JsonProperty("double")
-  @DecimalMin("67.8")
-@DecimalMax("123.4")
-
-  private Double _double;
+                                  @DecimalMin("67.8")
+    @DecimalMax("123.4")
+      private Double _double;
 
   @JsonProperty("string")
-  @Pattern(regexp="/[a-z]/i")
-
-  private String string;
+      @Pattern(regexp="/[a-z]/i")
+                                    private String string;
 
   @JsonProperty("byte")
   @NotNull
-@Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")
-
-  private byte[] _byte;
+    @Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")
+                                    private byte[] _byte;
 
   @JsonProperty("binary")
-  @Valid
-
+                                        @Valid
   private InputStream binary;
 
   @JsonProperty("date")
   @NotNull
-@Valid
-
+                                      @Valid
   private LocalDate date;
 
   @JsonProperty("dateTime")
-  @Valid
-
+                                        @Valid
   private OffsetDateTime dateTime;
 
   @JsonProperty("uuid")
-  @Valid
-
+                                        @Valid
   private UUID uuid;
 
   @JsonProperty("password")
   @NotNull
-@Size(min=10,max=64)
-
-  private String password;
+        @Size(min=10,max=64)
+                                    private String password;
 
   @JsonProperty("BigDecimal")
-  @Valid
-
+                                        @Valid
   private BigDecimal bigDecimal;
 
   public FormatTest integer(Integer integer) {
@@ -411,4 +397,3 @@ public class FormatTest   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

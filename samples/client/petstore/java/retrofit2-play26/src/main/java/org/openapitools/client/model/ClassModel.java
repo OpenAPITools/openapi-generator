@@ -50,7 +50,6 @@ public class ClassModel {
    * @return propertyClass
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

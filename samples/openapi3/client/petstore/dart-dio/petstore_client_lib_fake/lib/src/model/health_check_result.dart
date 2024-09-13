@@ -25,8 +25,7 @@ abstract class HealthCheckResult implements Built<HealthCheckResult, HealthCheck
   static void _defaults(HealthCheckResultBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<HealthCheckResult> get serializer => _$HealthCheckResultSerializer();
-}
+  static Serializer<HealthCheckResult> get serializer => _$HealthCheckResultSerializer();}
 
 class _$HealthCheckResultSerializer implements PrimitiveSerializer<HealthCheckResult> {
   @override

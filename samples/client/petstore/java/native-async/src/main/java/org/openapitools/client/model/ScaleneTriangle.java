@@ -94,7 +94,6 @@ public class ScaleneTriangle {
     this.triangleType = triangleType;
   }
 
-
   /**
    * Return true if this ScaleneTriangle object is equal to o.
    */

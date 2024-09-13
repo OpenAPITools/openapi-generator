@@ -84,4 +84,3 @@ ArrayOfArrayOfNumberOnly.prototype['ArrayArrayNumber'] = undefined;
 
 
 export default ArrayOfArrayOfNumberOnly;
-

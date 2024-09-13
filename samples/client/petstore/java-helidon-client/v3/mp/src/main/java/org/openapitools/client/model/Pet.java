@@ -28,7 +28,6 @@ import org.openapitools.client.model.Tag;
 
 
 
-
 public class Pet  {
   
   private Long id;
@@ -228,4 +227,3 @@ public enum StatusEnum {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

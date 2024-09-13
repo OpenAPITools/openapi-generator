@@ -10,7 +10,6 @@
 
 part of openapi.api;
 
-
 class PetApi {
   PetApi([ApiClient? apiClient]) : apiClient = apiClient ?? defaultApiClient;
 

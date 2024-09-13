@@ -52,10 +52,7 @@ object ApiResponses : BaseTable<ApiResponse>("ApiResponse") {
     */
     fun AssignmentsBuilder.assignFrom(entity: ApiResponse) {
         this.apply {
-            set(ApiResponses.code, entity.code)
-            set(ApiResponses.type, entity.type)
-            set(ApiResponses.message, entity.message)
-        }
+            set(ApiResponses.code, entity.code)            set(ApiResponses.type, entity.type)            set(ApiResponses.message, entity.message)        }
     }
 
 }

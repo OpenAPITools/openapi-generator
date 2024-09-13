@@ -38,7 +38,6 @@ fun Route.PetApi() {
         
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()!!
         
-        
         call.respond(HttpStatusCode.NotImplemented)
         
     }
@@ -49,7 +48,6 @@ fun Route.PetApi() {
         
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()!!
         
-        
         call.respond(HttpStatusCode.NotImplemented)
         
     }
@@ -59,7 +57,6 @@ fun Route.PetApi() {
     get<Paths.findPetsByStatus> {
         
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()!!
-        
         
         val exampleContentType = "application/json"
             val exampleContentString = """[ {
@@ -110,7 +107,6 @@ fun Route.PetApi() {
         
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()!!
         
-        
         val exampleContentType = "application/json"
             val exampleContentString = """[ {
               "photoUrls" : [ "photoUrls", "photoUrls" ],
@@ -160,7 +156,6 @@ fun Route.PetApi() {
         
         val principal = call.authentication.principal<ApiPrincipal>()!!
         
-        
         val exampleContentType = "application/json"
             val exampleContentString = """{
               "photoUrls" : [ "photoUrls", "photoUrls" ],
@@ -194,7 +189,6 @@ fun Route.PetApi() {
         
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()!!
         
-        
         call.respond(HttpStatusCode.NotImplemented)
         
     }
@@ -205,7 +199,6 @@ fun Route.PetApi() {
         
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()!!
         
-        
         call.respond(HttpStatusCode.NotImplemented)
         
     }
@@ -215,7 +208,6 @@ fun Route.PetApi() {
     post<Paths.uploadFile> {
         
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()!!
-        
         
         val exampleContentType = "application/json"
             val exampleContentString = """{

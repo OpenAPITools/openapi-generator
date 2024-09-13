@@ -59,7 +59,6 @@ public class OuterComposite {
   @javax.annotation.Nullable
   @Valid
 
-
   public BigDecimal getMyNumber() {
     return myNumber;
   }
@@ -81,7 +80,6 @@ public class OuterComposite {
    */
   @javax.annotation.Nullable
 
-
   public String getMyString() {
     return myString;
   }
@@ -102,7 +100,6 @@ public class OuterComposite {
    * @return myBoolean
    */
   @javax.annotation.Nullable
-
 
   public Boolean isMyBoolean() {
     return myBoolean;

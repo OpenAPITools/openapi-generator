@@ -41,7 +41,6 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 @Serializable
-
 data class User (
 
     @SerialName(value = "id")

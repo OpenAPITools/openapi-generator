@@ -16,8 +16,7 @@ public struct Pet: Codable, JSONEncodable, Hashable {
         case available = "available"
         case pending = "pending"
         case sold = "sold"
-    }
-    public private(set) var id: Int64?
+    }    public private(set) var id: Int64?
     public private(set) var category: Category?
     public private(set) var name: String
     public private(set) var photoUrls: [String]

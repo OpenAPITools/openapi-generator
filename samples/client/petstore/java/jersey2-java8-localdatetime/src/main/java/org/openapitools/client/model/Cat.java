@@ -77,7 +77,6 @@ public class Cat extends Animal {
     this.declawed = declawed;
   }
 
-
   /**
    * Return true if this Cat object is equal to o.
    */

@@ -134,7 +134,6 @@ public class ScaleneTriangle {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this ScaleneTriangle object is equal to o.
    */

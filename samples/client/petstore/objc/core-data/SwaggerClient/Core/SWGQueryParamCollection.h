@@ -12,7 +12,6 @@
 * Do not edit the class manually.
 */
 
-
 @interface SWGQueryParamCollection : NSObject
 
 @property(nonatomic, readonly) NSArray* values;

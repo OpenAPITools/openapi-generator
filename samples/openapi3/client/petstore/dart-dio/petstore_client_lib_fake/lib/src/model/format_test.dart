@@ -89,8 +89,7 @@ abstract class FormatTest implements Built<FormatTest, FormatTestBuilder> {
   static void _defaults(FormatTestBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<FormatTest> get serializer => _$FormatTestSerializer();
-}
+  static Serializer<FormatTest> get serializer => _$FormatTestSerializer();}
 
 class _$FormatTestSerializer implements PrimitiveSerializer<FormatTest> {
   @override

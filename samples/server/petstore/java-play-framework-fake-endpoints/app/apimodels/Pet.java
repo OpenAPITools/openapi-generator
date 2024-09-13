@@ -21,27 +21,22 @@ import javax.validation.Valid;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Pet   {
   @JsonProperty("id")
-  
-  private Long id;
+                                        private Long id;
 
   @JsonProperty("category")
-  @Valid
-
+                                        @Valid
   private Category category;
 
   @JsonProperty("name")
   @NotNull
-
-  private String name;
+                                      private String name;
 
   @JsonProperty("photoUrls")
   @NotNull
-
-  private Set<String> photoUrls = new LinkedHashSet<>();
+                                      private Set<String> photoUrls = new LinkedHashSet<>();
 
   @JsonProperty("tags")
-  @Valid
-
+                                        @Valid
   private List<@Valid Tag> tags = null;
 
   /**
@@ -76,10 +71,8 @@ public class Pet   {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   @JsonProperty("status")
-  
-  private StatusEnum status;
+                                        private StatusEnum status;
 
   public Pet id(Long id) {
     this.id = id;
@@ -250,4 +243,3 @@ public class Pet   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

@@ -161,4 +161,3 @@ class Color {
 Color.OneOf = ["String", "[Number]"];
 
 export default Color;
-

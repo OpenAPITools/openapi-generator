@@ -172,7 +172,6 @@ public abstract class DefaultService implements HttpService {
         }
     }
 
-
     @Override
     public void afterStop() {
     System.out.println("Service DefaultService is down. Goodbye!");

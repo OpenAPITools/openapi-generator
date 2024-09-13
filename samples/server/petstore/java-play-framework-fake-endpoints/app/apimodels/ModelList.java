@@ -14,8 +14,7 @@ import javax.validation.Valid;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ModelList   {
   @JsonProperty("123-list")
-  
-  private String _123list;
+                                        private String _123list;
 
   public ModelList _123list(String _123list) {
     this._123list = _123list;
@@ -74,4 +73,3 @@ public class ModelList   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

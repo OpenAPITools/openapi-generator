@@ -15,8 +15,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class StoreApiServiceImpl extends StoreApiService {
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class StoreApiServiceImpl extends StoreApiService {
     @Override
     public Response deleteOrder(String orderId, SecurityContext securityContext) throws NotFoundException {
         // do some magic!

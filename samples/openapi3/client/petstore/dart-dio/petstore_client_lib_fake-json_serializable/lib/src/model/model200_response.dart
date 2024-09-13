@@ -22,7 +22,6 @@ class Model200Response {
 
      this.class_,
   });
-
   @JsonKey(
     
     name: r'name',

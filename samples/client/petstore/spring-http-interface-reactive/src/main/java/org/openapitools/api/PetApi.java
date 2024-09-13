@@ -24,8 +24,7 @@ import java.util.Optional;
 import jakarta.annotation.Generated;
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public interface PetApi {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public interface PetApi {
 
     /**
      * POST /pet : Add a new pet to the store

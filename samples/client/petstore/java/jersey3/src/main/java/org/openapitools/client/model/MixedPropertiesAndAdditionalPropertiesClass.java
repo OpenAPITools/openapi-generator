@@ -66,7 +66,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    */
   @jakarta.annotation.Nullable
   @Valid
-
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -93,7 +92,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    */
   @jakarta.annotation.Nullable
   @Valid
-
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -128,7 +126,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    */
   @jakarta.annotation.Nullable
   @Valid
-
   @JsonProperty(JSON_PROPERTY_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -142,7 +139,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   public void setMap(Map<String, Animal> map) {
     this.map = map;
   }
-
 
   /**
    * Return true if this MixedPropertiesAndAdditionalPropertiesClass object is equal to o.

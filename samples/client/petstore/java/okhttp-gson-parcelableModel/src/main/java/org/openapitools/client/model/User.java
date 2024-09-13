@@ -239,7 +239,6 @@ public class User implements Parcelable {
   }
 
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

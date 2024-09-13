@@ -16,10 +16,8 @@ import jakarta.annotation.Generated;
 /**
  * ModelApiResponse
  */
-
 @JsonTypeName("ApiResponse")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class ModelApiResponse {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class ModelApiResponse {
 
   private Integer code;
 
@@ -83,7 +81,6 @@ public class ModelApiResponse {
   public void setMessage(String message) {
     this.message = message;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

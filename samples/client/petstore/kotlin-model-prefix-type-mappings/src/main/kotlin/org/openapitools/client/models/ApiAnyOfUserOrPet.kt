@@ -36,7 +36,6 @@ import java.io.IOException
  *
  */
 
-
 data class ApiAnyOfUserOrPet(var actualInstance: Any? = null) {
 
     class CustomTypeAdapterFactory : TypeAdapterFactory {

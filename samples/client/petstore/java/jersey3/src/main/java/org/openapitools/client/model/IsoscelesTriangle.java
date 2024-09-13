@@ -57,7 +57,6 @@ public class IsoscelesTriangle {
    */
   @jakarta.annotation.Nonnull
   @NotNull
-
   @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -84,7 +83,6 @@ public class IsoscelesTriangle {
    */
   @jakarta.annotation.Nonnull
   @NotNull
-
   @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -98,7 +96,6 @@ public class IsoscelesTriangle {
   public void setTriangleType(String triangleType) {
     this.triangleType = triangleType;
   }
-
 
   /**
    * Return true if this IsoscelesTriangle object is equal to o.

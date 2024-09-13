@@ -13,28 +13,26 @@ import java.util.UUID
 class RequestFactory(private val headerFactories : List<() -> Map<String, String>> = listOf(), private val postProcessors :List <(Request<*>) -> Unit> = listOf(), private val gsonAdapters: Map<Type, Any> = mapOf()): IRequestFactory {
 
    companion object Authentication {
-    // Where a header factory requires parameters a client will need to bind these
-    // TODO Generate appropriate header factories based on settings
-    // TODO: Oauth not implemented yet - comment out below as OAuth does not exist
-     // Api Key auth supports query header and cookie.
-     // Query is supported in the path generation only with a hardcoded value.
-     // TODO: Not sure about cookie auth form
-     // If implementing api key in query parameter use the ^isKeyInHeader property
-
-     val apiKeyAuthHeaderFactoryBuilder = {
-          paramName: String, apiKeyPrefix: String?, apiKey: String? -> {
-              mapOf(paramName to
-                 if (apiKeyPrefix != null) {
-                    "$apiKeyPrefix $apiKey"
-                 } else {
-                     apiKey!!
-                 }
-             )
-         }
-     }
-
-   }
-
+       // Where a header factory requires parameters a client will need to bind these
+       // TODO Generate appropriate header factories based on settings
+                // TODO: Oauth not implemented yet - comment out below as OAuth does not exist
+              // Api Key auth supports query header and cookie.
+        // Query is supported in the path generation only with a hardcoded value.
+        // TODO: Not sure about cookie auth form
+        // If implementing api key in query parameter use the ^isKeyInHeader property
+   
+        val apiKeyAuthHeaderFactoryBuilder = {
+             paramName: String, apiKeyPrefix: String?, apiKey: String? -> {
+                 mapOf(paramName to
+                    if (apiKeyPrefix != null) {
+                       "$apiKeyPrefix $apiKey"
+                    } else {
+                        apiKey!!
+                    }
+                )
+            }
+        }
+                  }
 
     /**
     * {@inheritDoc}

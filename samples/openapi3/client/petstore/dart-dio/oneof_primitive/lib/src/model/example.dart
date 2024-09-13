@@ -28,8 +28,7 @@ abstract class Example implements Built<Example, ExampleBuilder> {
   static void _defaults(ExampleBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<Example> get serializer => _$ExampleSerializer();
-}
+  static Serializer<Example> get serializer => _$ExampleSerializer();}
 
 class _$ExampleSerializer implements PrimitiveSerializer<Example> {
   @override

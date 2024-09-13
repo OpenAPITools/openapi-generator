@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { OuterEnumInteger } from './OuterEnumInteger';
 import {
@@ -34,7 +33,6 @@ export interface OuterObjectWithEnumProperty {
      */
     value: OuterEnumInteger;
 }
-
 
 
 /**
@@ -73,4 +71,3 @@ export function OuterObjectWithEnumPropertyFromJSONTyped(json: any, ignoreDiscri
         'value': OuterEnumIntegerToJSON(value['value']),
     };
 }
-

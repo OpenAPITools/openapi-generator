@@ -25,8 +25,7 @@ abstract class ClassModel implements Built<ClassModel, ClassModelBuilder> {
   static void _defaults(ClassModelBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ClassModel> get serializer => _$ClassModelSerializer();
-}
+  static Serializer<ClassModel> get serializer => _$ClassModelSerializer();}
 
 class _$ClassModelSerializer implements PrimitiveSerializer<ClassModel> {
   @override

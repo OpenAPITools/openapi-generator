@@ -28,13 +28,10 @@ import javax.annotation.Generated;
 /**
  * A pet for sale in the pet store
  */
-
 @Schema(name = "Pet", description = "A pet for sale in the pet store")
 @JacksonXmlRootElement(localName = "Pet")
 @XmlRootElement(name = "Pet")
-@XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class Pet {
+@XmlAccessorType(XmlAccessType.FIELD)@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class Pet {
 
   private Long id;
 
@@ -84,7 +81,6 @@ public class Pet {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   @Deprecated
   private StatusEnum status;
 
@@ -109,8 +105,7 @@ public class Pet {
    * Get id
    * @return id
    */
-  
-  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
   public Long getId() {
@@ -130,8 +125,7 @@ public class Pet {
    * Get category
    * @return category
    */
-  @Valid 
-  @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Valid   @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("category")
   @JacksonXmlProperty(localName = "Category")
   public Category getCategory() {
@@ -151,8 +145,7 @@ public class Pet {
    * Get name
    * @return name
    */
-  @NotNull 
-  @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
+  @NotNull   @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
   @JacksonXmlProperty(localName = "name")
   public String getName() {
@@ -180,8 +173,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
    */
-  @NotNull 
-  @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
+  @NotNull   @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("photoUrls")
   @JacksonXmlProperty(localName = "photoUrl")
   @JacksonXmlElementWrapper(localName = "photoUrl", useWrapping = true)
@@ -210,8 +202,7 @@ public class Pet {
    * Get tags
    * @return tags
    */
-  @Valid 
-  @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Valid   @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("tags")
   @JacksonXmlProperty(localName = "Tag")
   @JacksonXmlElementWrapper(localName = "tag", useWrapping = true)
@@ -233,8 +224,7 @@ public class Pet {
    * @return status
    * @deprecated
    */
-  
-  @Schema(name = "status", description = "pet status in the store", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "status", description = "pet status in the store", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
   @JacksonXmlProperty(localName = "status")
   @Deprecated
@@ -249,7 +239,6 @@ public class Pet {
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -22,9 +22,7 @@ import javax.annotation.Generated;
 /**
  * EnumArrays
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class EnumArrays {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class EnumArrays {
 
   /**
    * Gets or Sets justSymbol
@@ -60,7 +58,6 @@ public class EnumArrays {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   private Optional<JustSymbolEnum> justSymbol = Optional.empty();
 
   /**
@@ -97,7 +94,6 @@ public class EnumArrays {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   @Valid
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
@@ -110,8 +106,7 @@ public class EnumArrays {
    * Get justSymbol
    * @return justSymbol
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("just_symbol")
   public Optional<JustSymbolEnum> getJustSymbol() {
     return justSymbol;
@@ -138,8 +133,7 @@ public class EnumArrays {
    * Get arrayEnum
    * @return arrayEnum
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("array_enum")
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
@@ -148,7 +142,6 @@ public class EnumArrays {
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -188,68 +181,67 @@ public class EnumArrays {
     return o.toString().replace("\n", "\n    ");
   }
   
-  public static class Builder {
-
-    private EnumArrays instance;
-
-    public Builder() {
-      this(new EnumArrays());
-    }
-
-    protected Builder(EnumArrays instance) {
-      this.instance = instance;
-    }
-
-    protected Builder copyOf(EnumArrays value) { 
-      this.instance.setJustSymbol(value.justSymbol);
-      this.instance.setArrayEnum(value.arrayEnum);
-      return this;
-    }
-
-    public EnumArrays.Builder justSymbol(JustSymbolEnum justSymbol) {
-      this.instance.justSymbol(justSymbol);
-      return this;
-    }
-    
-    public EnumArrays.Builder arrayEnum(List<ArrayEnumEnum> arrayEnum) {
-      this.instance.arrayEnum(arrayEnum);
-      return this;
-    }
-    
-    /**
-    * returns a built EnumArrays instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public EnumArrays build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    public static class Builder {
+  
+      private EnumArrays instance;
+  
+      public Builder() {
+        this(new EnumArrays());
+      }
+  
+      protected Builder(EnumArrays instance) {
+        this.instance = instance;
+      }
+  
+      protected Builder copyOf(EnumArrays value) { 
+        this.instance.setJustSymbol(value.justSymbol);
+        this.instance.setArrayEnum(value.arrayEnum);
+        return this;
+      }
+  
+        public EnumArrays.Builder justSymbol(JustSymbolEnum justSymbol) {
+        this.instance.justSymbol(justSymbol);
+        return this;
+      }
+      
+        public EnumArrays.Builder arrayEnum(List<ArrayEnumEnum> arrayEnum) {
+        this.instance.arrayEnum(arrayEnum);
+        return this;
+      }
+      
+          /**
+      * returns a built EnumArrays instance.
+      *
+      * The builder is not reusable (NullPointerException)
+      */
+      public EnumArrays build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field (except for the default values).
+    */
+    public static EnumArrays.Builder builder() {
+      return new EnumArrays.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field (except for the default values).
-  */
-  public static EnumArrays.Builder builder() {
-    return new EnumArrays.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public EnumArrays.Builder toBuilder() {
-    EnumArrays.Builder builder = new EnumArrays.Builder();
-    return builder.copyOf(this);
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public EnumArrays.Builder toBuilder() {
+      EnumArrays.Builder builder = new EnumArrays.Builder();
+      return builder.copyOf(this);
+    }
 }
 

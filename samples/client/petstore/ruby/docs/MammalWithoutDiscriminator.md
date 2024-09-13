@@ -46,4 +46,3 @@ Petstore::MammalWithoutDiscriminator.build(data_that_doesnt_match)
 - `Whale`
 - `Zebra`
 - `nil` (if no type matches)
-

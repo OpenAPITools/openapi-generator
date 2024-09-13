@@ -112,7 +112,6 @@ impl<C> CallbackApi<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("callback_callback_with_header_post({:?}) - X-Span-ID: {:?}", information, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn callback_callback_post(
         &self,
         callback_request_query_url: String,
@@ -121,5 +120,4 @@ impl<C> CallbackApi<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("callback_callback_post() - X-Span-ID: {:?}", context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
 }

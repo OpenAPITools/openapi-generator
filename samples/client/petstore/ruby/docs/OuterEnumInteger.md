@@ -12,4 +12,3 @@ require 'petstore'
 
 instance = Petstore::OuterEnumInteger.new()
 ```
-

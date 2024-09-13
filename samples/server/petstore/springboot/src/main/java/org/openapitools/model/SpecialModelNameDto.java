@@ -19,10 +19,8 @@ import javax.annotation.Generated;
 /**
  * SpecialModelNameDto
  */
-
 @JsonTypeName("_special_model.name_")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class SpecialModelNameDto {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class SpecialModelNameDto {
 
   private Long $SpecialPropertyName;
 
@@ -35,8 +33,7 @@ public class SpecialModelNameDto {
    * Get $SpecialPropertyName
    * @return $SpecialPropertyName
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("$special[property.name]")
   public Long get$SpecialPropertyName() {
     return $SpecialPropertyName;
@@ -45,7 +42,6 @@ public class SpecialModelNameDto {
   public void set$SpecialPropertyName(Long $SpecialPropertyName) {
     this.$SpecialPropertyName = $SpecialPropertyName;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

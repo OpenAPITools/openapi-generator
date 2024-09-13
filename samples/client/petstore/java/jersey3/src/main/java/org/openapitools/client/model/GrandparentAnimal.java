@@ -66,7 +66,6 @@ public class GrandparentAnimal {
    */
   @jakarta.annotation.Nonnull
   @NotNull
-
   @JsonProperty(JSON_PROPERTY_PET_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -80,7 +79,6 @@ public class GrandparentAnimal {
   public void setPetType(String petType) {
     this.petType = petType;
   }
-
 
   /**
    * Return true if this GrandparentAnimal object is equal to o.

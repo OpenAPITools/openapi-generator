@@ -23,7 +23,6 @@ class FileSchemaTestClass {
 
      this.files,
   });
-
   @JsonKey(
     
     name: r'file',

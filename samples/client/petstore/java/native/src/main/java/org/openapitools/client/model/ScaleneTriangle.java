@@ -94,7 +94,6 @@ public class ScaleneTriangle {
     this.triangleType = triangleType;
   }
 
-
   /**
    * Return true if this ScaleneTriangle object is equal to o.
    */
@@ -183,62 +182,61 @@ public class ScaleneTriangle {
   }
 
     public static class Builder {
-
-    private ScaleneTriangle instance;
-
-    public Builder() {
-      this(new ScaleneTriangle());
-    }
-
-    protected Builder(ScaleneTriangle instance) {
-      this.instance = instance;
-    }
-
-    public ScaleneTriangle.Builder shapeType(String shapeType) {
-      this.instance.shapeType = shapeType;
-      return this;
-    }
-    public ScaleneTriangle.Builder triangleType(String triangleType) {
-      this.instance.triangleType = triangleType;
-      return this;
-    }
-
-
-    /**
-    * returns a built ScaleneTriangle instance.
-    *
-    * The builder is not reusable.
-    */
-    public ScaleneTriangle build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    
+        private ScaleneTriangle instance;
+    
+        public Builder() {
+          this(new ScaleneTriangle());
+        }
+    
+        protected Builder(ScaleneTriangle instance) {
+          this.instance = instance;
+        }
+    
+        public ScaleneTriangle.Builder shapeType(String shapeType) {
+              this.instance.shapeType = shapeType;
+          return this;
+        }
+            public ScaleneTriangle.Builder triangleType(String triangleType) {
+              this.instance.triangleType = triangleType;
+          return this;
+        }
+        
+    
+        /**
+        * returns a built ScaleneTriangle instance.
+        *
+        * The builder is not reusable.
+        */
+        public ScaleneTriangle build() {
+          try {
+            return this.instance;
+          } finally {
+            // ensure that this.instance is not reused
+            this.instance = null;
+          }
+        }
+    
+        @Override
+        public String toString() {
+          return getClass() + "=(" + instance + ")";
+        }
       }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static ScaleneTriangle.Builder builder() {
-    return new ScaleneTriangle.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public ScaleneTriangle.Builder toBuilder() {
-    return new ScaleneTriangle.Builder()
-      .shapeType(getShapeType())
-      .triangleType(getTriangleType());
-  }
-
+    
+      /**
+      * Create a builder with no initialized field.
+      */
+      public static ScaleneTriangle.Builder builder() {
+        return new ScaleneTriangle.Builder();
+      }
+    
+      /**
+      * Create a builder with a shallow copy of this instance.
+      */
+      public ScaleneTriangle.Builder toBuilder() {
+        return new ScaleneTriangle.Builder()
+          .shapeType(getShapeType())
+          .triangleType(getTriangleType());
+      }
 }
 

@@ -194,4 +194,3 @@ UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower"));
     return o.toString().replace("\n", "\n    ");
   }
 }
-

@@ -9,7 +9,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
-
 class MixedPropertiesAndAdditionalPropertiesClass {
   /// Returns a new [MixedPropertiesAndAdditionalPropertiesClass] instance.
   MixedPropertiesAndAdditionalPropertiesClass({
@@ -17,7 +16,6 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     this.dateTime,
     this.map = const {},
   });
-
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
@@ -139,4 +137,3 @@ class MixedPropertiesAndAdditionalPropertiesClass {
   static const requiredKeys = <String>{
   };
 }
-

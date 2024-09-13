@@ -114,7 +114,6 @@ EnumArrays['JustSymbolEnum'] = {
     "DOLLAR": "$"
 };
 
-
 /**
  * Allowed values for the <code>arrayEnum</code> property.
  * @enum {String}
@@ -136,6 +135,4 @@ EnumArrays['ArrayEnumEnum'] = {
 };
 
 
-
 export default EnumArrays;
-

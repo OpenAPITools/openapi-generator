@@ -25,8 +25,7 @@ abstract class SpecialModelName implements Built<SpecialModelName, SpecialModelN
   static void _defaults(SpecialModelNameBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<SpecialModelName> get serializer => _$SpecialModelNameSerializer();
-}
+  static Serializer<SpecialModelName> get serializer => _$SpecialModelNameSerializer();}
 
 class _$SpecialModelNameSerializer implements PrimitiveSerializer<SpecialModelName> {
   @override

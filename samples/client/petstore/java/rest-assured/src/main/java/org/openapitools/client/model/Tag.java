@@ -53,7 +53,6 @@ public class Tag {
    */
   @javax.annotation.Nullable
 
-
   public Long getId() {
     return id;
   }
@@ -74,7 +73,6 @@ public class Tag {
    * @return name
    */
   @javax.annotation.Nullable
-
 
   public String getName() {
     return name;

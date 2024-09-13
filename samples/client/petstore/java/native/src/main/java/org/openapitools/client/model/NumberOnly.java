@@ -67,7 +67,6 @@ public class NumberOnly {
     this.justNumber = justNumber;
   }
 
-
   /**
    * Return true if this NumberOnly object is equal to o.
    */
@@ -149,57 +148,56 @@ public class NumberOnly {
   }
 
     public static class Builder {
-
-    private NumberOnly instance;
-
-    public Builder() {
-      this(new NumberOnly());
-    }
-
-    protected Builder(NumberOnly instance) {
-      this.instance = instance;
-    }
-
-    public NumberOnly.Builder justNumber(BigDecimal justNumber) {
-      this.instance.justNumber = justNumber;
-      return this;
-    }
-
-
-    /**
-    * returns a built NumberOnly instance.
-    *
-    * The builder is not reusable.
-    */
-    public NumberOnly build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    
+        private NumberOnly instance;
+    
+        public Builder() {
+          this(new NumberOnly());
+        }
+    
+        protected Builder(NumberOnly instance) {
+          this.instance = instance;
+        }
+    
+        public NumberOnly.Builder justNumber(BigDecimal justNumber) {
+              this.instance.justNumber = justNumber;
+          return this;
+        }
+        
+    
+        /**
+        * returns a built NumberOnly instance.
+        *
+        * The builder is not reusable.
+        */
+        public NumberOnly build() {
+          try {
+            return this.instance;
+          } finally {
+            // ensure that this.instance is not reused
+            this.instance = null;
+          }
+        }
+    
+        @Override
+        public String toString() {
+          return getClass() + "=(" + instance + ")";
+        }
       }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static NumberOnly.Builder builder() {
-    return new NumberOnly.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public NumberOnly.Builder toBuilder() {
-    return new NumberOnly.Builder()
-      .justNumber(getJustNumber());
-  }
-
+    
+      /**
+      * Create a builder with no initialized field.
+      */
+      public static NumberOnly.Builder builder() {
+        return new NumberOnly.Builder();
+      }
+    
+      /**
+      * Create a builder with a shallow copy of this instance.
+      */
+      public NumberOnly.Builder toBuilder() {
+        return new NumberOnly.Builder()
+          .justNumber(getJustNumber());
+      }
 }
 

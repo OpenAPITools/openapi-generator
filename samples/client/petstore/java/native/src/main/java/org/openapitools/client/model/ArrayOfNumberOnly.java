@@ -77,7 +77,6 @@ public class ArrayOfNumberOnly {
     this.arrayNumber = arrayNumber;
   }
 
-
   /**
    * Return true if this ArrayOfNumberOnly object is equal to o.
    */
@@ -165,57 +164,56 @@ public class ArrayOfNumberOnly {
   }
 
     public static class Builder {
-
-    private ArrayOfNumberOnly instance;
-
-    public Builder() {
-      this(new ArrayOfNumberOnly());
-    }
-
-    protected Builder(ArrayOfNumberOnly instance) {
-      this.instance = instance;
-    }
-
-    public ArrayOfNumberOnly.Builder arrayNumber(List<BigDecimal> arrayNumber) {
-      this.instance.arrayNumber = arrayNumber;
-      return this;
-    }
-
-
-    /**
-    * returns a built ArrayOfNumberOnly instance.
-    *
-    * The builder is not reusable.
-    */
-    public ArrayOfNumberOnly build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    
+        private ArrayOfNumberOnly instance;
+    
+        public Builder() {
+          this(new ArrayOfNumberOnly());
+        }
+    
+        protected Builder(ArrayOfNumberOnly instance) {
+          this.instance = instance;
+        }
+    
+        public ArrayOfNumberOnly.Builder arrayNumber(List<BigDecimal> arrayNumber) {
+              this.instance.arrayNumber = arrayNumber;
+          return this;
+        }
+        
+    
+        /**
+        * returns a built ArrayOfNumberOnly instance.
+        *
+        * The builder is not reusable.
+        */
+        public ArrayOfNumberOnly build() {
+          try {
+            return this.instance;
+          } finally {
+            // ensure that this.instance is not reused
+            this.instance = null;
+          }
+        }
+    
+        @Override
+        public String toString() {
+          return getClass() + "=(" + instance + ")";
+        }
       }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static ArrayOfNumberOnly.Builder builder() {
-    return new ArrayOfNumberOnly.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public ArrayOfNumberOnly.Builder toBuilder() {
-    return new ArrayOfNumberOnly.Builder()
-      .arrayNumber(getArrayNumber());
-  }
-
+    
+      /**
+      * Create a builder with no initialized field.
+      */
+      public static ArrayOfNumberOnly.Builder builder() {
+        return new ArrayOfNumberOnly.Builder();
+      }
+    
+      /**
+      * Create a builder with a shallow copy of this instance.
+      */
+      public ArrayOfNumberOnly.Builder toBuilder() {
+        return new ArrayOfNumberOnly.Builder()
+          .arrayNumber(getArrayNumber());
+      }
 }
 

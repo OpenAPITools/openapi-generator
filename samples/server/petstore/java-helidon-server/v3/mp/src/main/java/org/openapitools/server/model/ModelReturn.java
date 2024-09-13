@@ -24,7 +24,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
   * Model for testing reserved words
  **/
-
 public class ModelReturn  {
   
   private Integer _return;
@@ -74,4 +73,3 @@ public class ModelReturn  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

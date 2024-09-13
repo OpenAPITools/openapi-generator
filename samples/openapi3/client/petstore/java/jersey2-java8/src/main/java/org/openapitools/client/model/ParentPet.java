@@ -89,7 +89,6 @@ public class ParentPet extends GrandparentAnimal {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this ParentPet object is equal to o.
    */

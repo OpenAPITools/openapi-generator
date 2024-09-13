@@ -17,4 +17,3 @@ instance = OpenapiClient::Tag.new(
   name: null
 )
 ```
-

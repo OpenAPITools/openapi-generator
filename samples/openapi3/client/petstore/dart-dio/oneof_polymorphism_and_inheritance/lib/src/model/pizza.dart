@@ -31,8 +31,7 @@ abstract class Pizza implements Entity {
   };
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<Pizza> get serializer => _$PizzaSerializer();
-}
+  static Serializer<Pizza> get serializer => _$PizzaSerializer();}
 
 extension PizzaDiscriminatorExt on Pizza {
     String? get discriminatorValue {
@@ -50,7 +49,6 @@ extension PizzaBuilderDiscriminatorExt on PizzaBuilder {
         return null;
     }
 }
-
 class _$PizzaSerializer implements PrimitiveSerializer<Pizza> {
   @override
   final Iterable<Type> types = const [Pizza];

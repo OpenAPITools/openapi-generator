@@ -26,7 +26,6 @@ class Name {
 
      this.n123number,
   });
-
   @JsonKey(
     
     name: r'name',

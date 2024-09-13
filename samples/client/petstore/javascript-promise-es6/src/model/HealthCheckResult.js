@@ -85,4 +85,3 @@ HealthCheckResult.prototype['NullableMessage'] = undefined;
 
 
 export default HealthCheckResult;
-

@@ -40,8 +40,7 @@ abstract class EntityRef implements Addressable, Extensible {
   };
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<EntityRef> get serializer => _$EntityRefSerializer();
-}
+  static Serializer<EntityRef> get serializer => _$EntityRefSerializer();}
 
 extension EntityRefDiscriminatorExt on EntityRef {
     String? get discriminatorValue {
@@ -65,7 +64,6 @@ extension EntityRefBuilderDiscriminatorExt on EntityRefBuilder {
         return null;
     }
 }
-
 class _$EntityRefSerializer implements PrimitiveSerializer<EntityRef> {
   @override
   final Iterable<Type> types = const [EntityRef];

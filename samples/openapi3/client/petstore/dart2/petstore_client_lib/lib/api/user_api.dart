@@ -10,7 +10,6 @@
 
 part of openapi.api;
 
-
 class UserApi {
   UserApi([ApiClient? apiClient]) : apiClient = apiClient ?? defaultApiClient;
 

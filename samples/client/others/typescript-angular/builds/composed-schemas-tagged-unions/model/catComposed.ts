@@ -14,4 +14,3 @@ export interface CatComposedModel {
     hunts?: boolean;
 }
 
-

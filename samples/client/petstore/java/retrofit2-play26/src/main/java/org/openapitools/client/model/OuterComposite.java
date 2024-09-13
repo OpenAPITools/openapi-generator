@@ -60,7 +60,6 @@ public class OuterComposite {
    */
   @jakarta.annotation.Nullable
   @Valid
-
   @JsonProperty(JSON_PROPERTY_MY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -86,7 +85,6 @@ public class OuterComposite {
    * @return myString
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_MY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -112,7 +110,6 @@ public class OuterComposite {
    * @return myBoolean
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

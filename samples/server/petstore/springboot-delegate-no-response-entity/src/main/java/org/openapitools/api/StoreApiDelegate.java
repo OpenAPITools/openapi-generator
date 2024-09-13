@@ -18,8 +18,7 @@ import javax.annotation.Generated;
  * A delegate to be called by the {@link StoreApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public interface StoreApiDelegate {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public interface StoreApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
@@ -35,9 +34,8 @@ public interface StoreApiDelegate {
      * @see StoreApi#deleteOrder
      */
     default void deleteOrder(String orderId) {
-        throw new IllegalArgumentException("Not implemented");
-
-    }
+                                throw new IllegalArgumentException("Not implemented");
+                            }
 
     /**
      * GET /store/inventory : Returns pet inventories by status
@@ -47,9 +45,8 @@ public interface StoreApiDelegate {
      * @see StoreApi#getInventory
      */
     default Map<String, Integer> getInventory() {
-        throw new IllegalArgumentException("Not implemented");
-
-    }
+                                throw new IllegalArgumentException("Not implemented");
+                            }
 
     /**
      * GET /store/order/{orderId} : Find purchase order by ID
@@ -62,23 +59,22 @@ public interface StoreApiDelegate {
      * @see StoreApi#getOrderById
      */
     default Order getOrderById(Long orderId) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                    String exampleString = "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> </Order>";
-                    ApiUtil.setExampleResponse(request, "application/xml", exampleString);
-                    break;
-                }
-            }
-        });
-        throw new IllegalArgumentException("Not implemented");
-
-    }
+                        getRequest().ifPresent(request -> {
+                    for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                        if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                            String exampleString = "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
+                            ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                            break;
+                        }
+                                        if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+                            String exampleString = "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> </Order>";
+                            ApiUtil.setExampleResponse(request, "application/xml", exampleString);
+                            break;
+                        }
+                    }
+                });
+                        throw new IllegalArgumentException("Not implemented");
+                                                    }
 
     /**
      * POST /store/order : Place an order for a pet
@@ -90,22 +86,21 @@ public interface StoreApiDelegate {
      * @see StoreApi#placeOrder
      */
     default Order placeOrder(Order order) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                    String exampleString = "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> </Order>";
-                    ApiUtil.setExampleResponse(request, "application/xml", exampleString);
-                    break;
-                }
-            }
-        });
-        throw new IllegalArgumentException("Not implemented");
-
-    }
+                        getRequest().ifPresent(request -> {
+                    for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                        if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                            String exampleString = "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
+                            ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                            break;
+                        }
+                                        if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+                            String exampleString = "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> </Order>";
+                            ApiUtil.setExampleResponse(request, "application/xml", exampleString);
+                            break;
+                        }
+                    }
+                });
+                        throw new IllegalArgumentException("Not implemented");
+                                                    }
 
 }

@@ -21,7 +21,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
 public class OuterComposite  {
   
   private BigDecimal myNumber;
@@ -117,4 +116,3 @@ public class OuterComposite  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

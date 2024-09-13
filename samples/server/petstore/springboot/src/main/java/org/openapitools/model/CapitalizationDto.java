@@ -19,10 +19,8 @@ import javax.annotation.Generated;
 /**
  * CapitalizationDto
  */
-
 @JsonTypeName("Capitalization")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class CapitalizationDto {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class CapitalizationDto {
 
   private String smallCamel;
 
@@ -45,8 +43,7 @@ public class CapitalizationDto {
    * Get smallCamel
    * @return smallCamel
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("smallCamel")
   public String getSmallCamel() {
     return smallCamel;
@@ -65,8 +62,7 @@ public class CapitalizationDto {
    * Get capitalCamel
    * @return capitalCamel
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("CapitalCamel")
   public String getCapitalCamel() {
     return capitalCamel;
@@ -85,8 +81,7 @@ public class CapitalizationDto {
    * Get smallSnake
    * @return smallSnake
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("small_Snake")
   public String getSmallSnake() {
     return smallSnake;
@@ -105,8 +100,7 @@ public class CapitalizationDto {
    * Get capitalSnake
    * @return capitalSnake
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("Capital_Snake")
   public String getCapitalSnake() {
     return capitalSnake;
@@ -125,8 +119,7 @@ public class CapitalizationDto {
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("SCA_ETH_Flow_Points")
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
@@ -145,8 +138,7 @@ public class CapitalizationDto {
    * Name of the pet 
    * @return ATT_NAME
    */
-  
-  @ApiModelProperty(value = "Name of the pet ")
+    @ApiModelProperty(value = "Name of the pet ")
   @JsonProperty("ATT_NAME")
   public String getATTNAME() {
     return ATT_NAME;
@@ -155,7 +147,6 @@ public class CapitalizationDto {
   public void setATTNAME(String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

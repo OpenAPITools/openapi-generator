@@ -55,7 +55,6 @@ public class FooGetDefaultResponse {
    */
   @jakarta.annotation.Nullable
   @Valid
-
   @JsonProperty(JSON_PROPERTY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -69,7 +68,6 @@ public class FooGetDefaultResponse {
   public void setString(Foo string) {
     this.string = string;
   }
-
 
   /**
    * Return true if this _foo_get_default_response object is equal to o.

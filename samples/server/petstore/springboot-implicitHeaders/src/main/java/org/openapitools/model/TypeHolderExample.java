@@ -22,9 +22,7 @@ import javax.annotation.Generated;
 /**
  * TypeHolderExample
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class TypeHolderExample {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class TypeHolderExample {
 
   private String stringItem;
 
@@ -64,8 +62,7 @@ public class TypeHolderExample {
    * Get stringItem
    * @return stringItem
    */
-  @NotNull 
-  @ApiModelProperty(example = "what", required = true, value = "")
+  @NotNull   @ApiModelProperty(example = "what", required = true, value = "")
   @JsonProperty("string_item")
   public String getStringItem() {
     return stringItem;
@@ -84,8 +81,7 @@ public class TypeHolderExample {
    * Get numberItem
    * @return numberItem
    */
-  @NotNull @Valid 
-  @ApiModelProperty(example = "1.234", required = true, value = "")
+  @NotNull @Valid   @ApiModelProperty(example = "1.234", required = true, value = "")
   @JsonProperty("number_item")
   public BigDecimal getNumberItem() {
     return numberItem;
@@ -104,8 +100,7 @@ public class TypeHolderExample {
    * Get floatItem
    * @return floatItem
    */
-  @NotNull 
-  @ApiModelProperty(example = "1.234", required = true, value = "")
+  @NotNull   @ApiModelProperty(example = "1.234", required = true, value = "")
   @JsonProperty("float_item")
   public Float getFloatItem() {
     return floatItem;
@@ -124,8 +119,7 @@ public class TypeHolderExample {
    * Get integerItem
    * @return integerItem
    */
-  @NotNull 
-  @ApiModelProperty(example = "-2", required = true, value = "")
+  @NotNull   @ApiModelProperty(example = "-2", required = true, value = "")
   @JsonProperty("integer_item")
   public Integer getIntegerItem() {
     return integerItem;
@@ -144,8 +138,7 @@ public class TypeHolderExample {
    * Get boolItem
    * @return boolItem
    */
-  @NotNull 
-  @ApiModelProperty(example = "true", required = true, value = "")
+  @NotNull   @ApiModelProperty(example = "true", required = true, value = "")
   @JsonProperty("bool_item")
   public Boolean getBoolItem() {
     return boolItem;
@@ -172,8 +165,7 @@ public class TypeHolderExample {
    * Get arrayItem
    * @return arrayItem
    */
-  @NotNull 
-  @ApiModelProperty(example = "[0,1,2,3]", required = true, value = "")
+  @NotNull   @ApiModelProperty(example = "[0,1,2,3]", required = true, value = "")
   @JsonProperty("array_item")
   public List<Integer> getArrayItem() {
     return arrayItem;
@@ -182,7 +174,6 @@ public class TypeHolderExample {
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

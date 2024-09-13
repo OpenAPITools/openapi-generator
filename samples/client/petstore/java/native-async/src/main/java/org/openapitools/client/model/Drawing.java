@@ -136,7 +136,6 @@ public class Drawing extends HashMap<String, Fruit> {
 
   @JsonProperty(JSON_PROPERTY_NULLABLE_SHAPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<NullableShape> getNullableShape_JsonNullable() {
     return nullableShape;
   }
@@ -225,7 +224,6 @@ public class Drawing extends HashMap<String, Fruit> {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this Drawing object is equal to o.
    */

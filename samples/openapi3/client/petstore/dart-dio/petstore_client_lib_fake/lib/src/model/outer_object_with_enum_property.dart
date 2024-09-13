@@ -27,8 +27,7 @@ abstract class OuterObjectWithEnumProperty implements Built<OuterObjectWithEnumP
   static void _defaults(OuterObjectWithEnumPropertyBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<OuterObjectWithEnumProperty> get serializer => _$OuterObjectWithEnumPropertySerializer();
-}
+  static Serializer<OuterObjectWithEnumProperty> get serializer => _$OuterObjectWithEnumPropertySerializer();}
 
 class _$OuterObjectWithEnumPropertySerializer implements PrimitiveSerializer<OuterObjectWithEnumProperty> {
   @override

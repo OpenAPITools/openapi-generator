@@ -96,4 +96,3 @@ ReadOnlyFirst.prototype['baz'] = undefined;
 
 
 export default ReadOnlyFirst;
-

@@ -124,7 +124,6 @@ public class ModelApiResponse implements Parcelable {
   }
 
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -50,7 +50,6 @@ public class Client {
    * @return client
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_CLIENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

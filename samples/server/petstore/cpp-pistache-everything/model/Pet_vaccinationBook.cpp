@@ -48,27 +48,26 @@ bool Pet_vaccinationBook::validate(std::stringstream& msg, const std::string& pa
     /* Vaccines */ {
         const std::set<org::openapitools::server::model::Vaccine>& value = m_Vaccines;
         const std::string currentValuePath = _pathPrefix + ".vaccines";
+                                        
                 
-        
-        if (!org::openapitools::server::helpers::hasOnlyUniqueItems(value))
-        {
-            success = false;
-            msg << currentValuePath << ": may not contain the same item more than once;";
-        }
-        { // Recursive validation of array elements
-            const std::string oldValuePath = currentValuePath;
-            int i = 0;
-            for (const org::openapitools::server::model::Vaccine& value : value)
-            { 
-                const std::string currentValuePath = oldValuePath + "[" + std::to_string(i) + "]";
-                        
+                                                                                                                if (!org::openapitools::server::helpers::hasOnlyUniqueItems(value))
+                {
+                    success = false;
+                    msg << currentValuePath << ": may not contain the same item more than once;";
+                }
+                { // Recursive validation of array elements
+                    const std::string oldValuePath = currentValuePath;
+                    int i = 0;
+                    for (const org::openapitools::server::model::Vaccine& value : value)
+                    {         
+                        const std::string currentValuePath = oldValuePath + "[" + std::to_string(i) + "]";
+                                
         success = value.validate(msg, currentValuePath + ".vaccines") && success;
- 
-                i++;
+         
+                        i++;
+                    }
+                }
             }
-        }
-
-    }
     
     return success;
 }

@@ -21,8 +21,7 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class FakeClassnameTags123Api {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class FakeClassnameTags123Api {
     private ApiClient apiClient;
 
     public FakeClassnameTags123Api() {

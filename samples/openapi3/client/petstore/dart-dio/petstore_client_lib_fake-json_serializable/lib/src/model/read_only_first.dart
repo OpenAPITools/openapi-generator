@@ -22,7 +22,6 @@ class ReadOnlyFirst {
 
      this.baz,
   });
-
   @JsonKey(
     
     name: r'bar',

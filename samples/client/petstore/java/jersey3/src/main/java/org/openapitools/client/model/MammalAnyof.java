@@ -194,7 +194,6 @@ public class MammalAnyof extends AbstractOpenApiSchema {
     }
     return this.additionalProperties.get(key);
   }
-
     /**
      * Return true if this mammal_anyof object is equal to o.
      */

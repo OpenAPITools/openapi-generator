@@ -28,7 +28,6 @@ import com.squareup.moshi.JsonClass
  * @param typeWithUnderscore 
  */
 
-
 data class PropertyNameMapping (
 
     @Json(name = "http_debug_operation")

@@ -12,4 +12,3 @@ A category for a pet
 |**name** | **String** |  |  [optional] |
 
 
-

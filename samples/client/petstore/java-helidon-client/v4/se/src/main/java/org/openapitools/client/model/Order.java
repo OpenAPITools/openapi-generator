@@ -21,7 +21,6 @@ import java.time.OffsetDateTime;
 
 
 
-
 public class Order  {
   
   private Long id;
@@ -210,4 +209,3 @@ public enum StatusEnum {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
 import {getApiEntitiesState} from "../ApiEntitiesSelectors"
 import {List, Record, RecordOf, Map} from 'immutable';
@@ -52,5 +51,4 @@ class PartRecordUtils extends ApiRecordUtils<Part, PartRecord> {
 }
 
 export const partRecordUtils = new PartRecordUtils();
-
 

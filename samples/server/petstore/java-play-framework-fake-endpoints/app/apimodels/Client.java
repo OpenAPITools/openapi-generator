@@ -13,8 +13,7 @@ import javax.validation.Valid;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Client   {
   @JsonProperty("client")
-  
-  private String client;
+                                        private String client;
 
   public Client client(String client) {
     this.client = client;
@@ -73,4 +72,3 @@ public class Client   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

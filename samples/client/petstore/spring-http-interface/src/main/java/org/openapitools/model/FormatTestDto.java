@@ -22,10 +22,8 @@ import jakarta.annotation.Generated;
 /**
  * FormatTestDto
  */
-
 @JsonTypeName("format_test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class FormatTestDto {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class FormatTestDto {
 
   private Integer integer;
 
@@ -336,7 +334,6 @@ public class FormatTestDto {
   public void setBigDecimal(BigDecimal bigDecimal) {
     this.bigDecimal = bigDecimal;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

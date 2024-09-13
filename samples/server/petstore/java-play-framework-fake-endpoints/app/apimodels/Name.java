@@ -14,20 +14,16 @@ import javax.validation.Valid;
 public class Name   {
   @JsonProperty("name")
   @NotNull
-
-  private Integer name;
+                                      private Integer name;
 
   @JsonProperty("snake_case")
-  
-  private Integer snakeCase;
+                                        private Integer snakeCase;
 
   @JsonProperty("property")
-  
-  private String property;
+                                        private String property;
 
   @JsonProperty("123Number")
-  
-  private Integer _123number;
+                                        private Integer _123number;
 
   public Name name(Integer name) {
     this.name = name;
@@ -143,4 +139,3 @@ public class Name   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

@@ -45,10 +45,8 @@ public class EnumArrays   {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   @JsonProperty("just_symbol")
-  
-  private JustSymbolEnum justSymbol;
+                                        private JustSymbolEnum justSymbol;
 
   /**
    * Gets or Sets arrayEnum
@@ -80,10 +78,8 @@ public class EnumArrays   {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   @JsonProperty("array_enum")
-  
-  private List<ArrayEnumEnum> arrayEnum = null;
+                                        private List<ArrayEnumEnum> arrayEnum = null;
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
@@ -169,4 +165,3 @@ public class EnumArrays   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

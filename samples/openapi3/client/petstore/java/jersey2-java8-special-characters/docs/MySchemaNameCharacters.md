@@ -11,4 +11,3 @@ A schema name that has letters, numbers, punctuation and non-ASCII characters. T
 |**prop2** | **String** |  |  [optional] |
 
 
-

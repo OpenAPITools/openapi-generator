@@ -11,4 +11,3 @@
 |**someMap** | **Map&lt;String, BigDecimal&gt;** |  |  [optional] |
 
 
-

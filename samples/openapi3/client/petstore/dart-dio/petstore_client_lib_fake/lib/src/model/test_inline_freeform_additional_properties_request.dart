@@ -27,8 +27,7 @@ abstract class TestInlineFreeformAdditionalPropertiesRequest implements Built<Te
   static void _defaults(TestInlineFreeformAdditionalPropertiesRequestBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<TestInlineFreeformAdditionalPropertiesRequest> get serializer => _$TestInlineFreeformAdditionalPropertiesRequestSerializer();
-}
+  static Serializer<TestInlineFreeformAdditionalPropertiesRequest> get serializer => _$TestInlineFreeformAdditionalPropertiesRequestSerializer();}
 
 class _$TestInlineFreeformAdditionalPropertiesRequestSerializer implements PrimitiveSerializer<TestInlineFreeformAdditionalPropertiesRequest> {
   @override

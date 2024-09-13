@@ -76,7 +76,6 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
     this.values = values;
   }
 
-
   /**
    * Return true if this test_query_style_form_explode_true_array_string_query_object_parameter object is equal to o.
    */

@@ -53,7 +53,6 @@ public class Category {
    */
   @javax.annotation.Nullable
 
-
   public Long getId() {
     return id;
   }
@@ -75,7 +74,6 @@ public class Category {
    */
   @javax.annotation.Nonnull
   @NotNull
-
 
   public String getName() {
     return name;

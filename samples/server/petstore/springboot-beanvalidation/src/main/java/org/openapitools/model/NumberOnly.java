@@ -19,9 +19,7 @@ import javax.annotation.Generated;
 /**
  * NumberOnly
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class NumberOnly {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class NumberOnly {
 
   private BigDecimal justNumber;
 
@@ -34,8 +32,7 @@ public class NumberOnly {
    * Get justNumber
    * @return justNumber
    */
-  @Valid 
-  @ApiModelProperty(value = "")
+  @Valid   @ApiModelProperty(value = "")
   @JsonProperty("JustNumber")
   public BigDecimal getJustNumber() {
     return justNumber;
@@ -44,7 +41,6 @@ public class NumberOnly {
   public void setJustNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

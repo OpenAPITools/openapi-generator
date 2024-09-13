@@ -17,12 +17,10 @@ import javax.validation.Valid;
 public class Animal   {
   @JsonProperty("className")
   @NotNull
-
-  private String className;
+                                      private String className;
 
   @JsonProperty("color")
-  
-  private String color = "red";
+                                        private String color = "red";
 
   public Animal className(String className) {
     this.className = className;
@@ -100,4 +98,3 @@ public class Animal   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

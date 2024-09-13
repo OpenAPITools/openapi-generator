@@ -17,4 +17,3 @@ instance = Petstore::Animal.new(
   color: null
 )
 ```
-

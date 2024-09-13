@@ -11,4 +11,3 @@
 |**files** | [**List&lt;ModelFile&gt;**](ModelFile.md) |  |  [optional] |
 
 
-

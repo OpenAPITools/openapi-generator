@@ -19,9 +19,7 @@ import jakarta.annotation.Generated;
 /**
  * ArrayTest
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class ArrayTest {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class ArrayTest {
 
   
   private List<String> arrayOfString = new ArrayList<>();
@@ -112,7 +110,6 @@ public class ArrayTest {
   public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

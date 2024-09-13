@@ -9,14 +9,12 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
-
 class EnumArrays {
   /// Returns a new [EnumArrays] instance.
   EnumArrays({
     this.justSymbol,
     this.arrayEnum = const [],
   });
-
   EnumArraysJustSymbolEnum? justSymbol;
 
   List<EnumArraysArrayEnumEnum> arrayEnum;
@@ -191,7 +189,6 @@ class EnumArraysJustSymbolEnumTypeTransformer {
 }
 
 
-
 class EnumArraysArrayEnumEnum {
   /// Instantiate a new enum with the provided [value].
   const EnumArraysArrayEnumEnum._(this.value);
@@ -263,5 +260,3 @@ class EnumArraysArrayEnumEnumTypeTransformer {
   /// Singleton [EnumArraysArrayEnumEnumTypeTransformer] instance.
   static EnumArraysArrayEnumEnumTypeTransformer? _instance;
 }
-
-

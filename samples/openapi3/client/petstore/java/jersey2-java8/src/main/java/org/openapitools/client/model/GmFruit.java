@@ -127,7 +127,6 @@ public class GmFruit extends AbstractOpenApiSchema {
     public GmFruit() {
         super("anyOf", Boolean.FALSE);
     }
-
     public GmFruit(Apple o) {
         super("anyOf", Boolean.FALSE);
         setActualInstance(o);

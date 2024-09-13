@@ -29,8 +29,7 @@ abstract class ChildWithNullable implements ParentWithNullable, Built<ChildWithN
   static void _defaults(ChildWithNullableBuilder b) => b..type=b.discriminatorValue;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ChildWithNullable> get serializer => _$ChildWithNullableSerializer();
-}
+  static Serializer<ChildWithNullable> get serializer => _$ChildWithNullableSerializer();}
 
 class _$ChildWithNullableSerializer implements PrimitiveSerializer<ChildWithNullable> {
   @override
@@ -153,4 +152,3 @@ class ChildWithNullableTypeEnum extends EnumClass {
   static BuiltSet<ChildWithNullableTypeEnum> get values => _$childWithNullableTypeEnumValues;
   static ChildWithNullableTypeEnum valueOf(String name) => _$childWithNullableTypeEnumValueOf(name);
 }
-

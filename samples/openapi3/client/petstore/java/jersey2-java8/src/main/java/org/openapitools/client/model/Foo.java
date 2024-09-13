@@ -64,7 +64,6 @@ public class Foo {
     this.bar = bar;
   }
 
-
   /**
    * Return true if this Foo object is equal to o.
    */

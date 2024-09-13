@@ -26,8 +26,7 @@ abstract class FooGetDefaultResponse implements Built<FooGetDefaultResponse, Foo
   static void _defaults(FooGetDefaultResponseBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<FooGetDefaultResponse> get serializer => _$FooGetDefaultResponseSerializer();
-}
+  static Serializer<FooGetDefaultResponse> get serializer => _$FooGetDefaultResponseSerializer();}
 
 class _$FooGetDefaultResponseSerializer implements PrimitiveSerializer<FooGetDefaultResponse> {
   @override

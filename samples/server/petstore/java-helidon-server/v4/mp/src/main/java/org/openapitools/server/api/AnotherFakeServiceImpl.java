@@ -24,8 +24,7 @@ import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
 @Path("/another-fake/dummy")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class AnotherFakeServiceImpl implements AnotherFakeService {
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class AnotherFakeServiceImpl implements AnotherFakeService {
 
     @PATCH
     @Consumes({ "application/json" })
@@ -33,5 +32,4 @@ public class AnotherFakeServiceImpl implements AnotherFakeService {
     public Client call123testSpecialTags(@Valid @NotNull Client client) {
         Client result = null; // Replace with correct business logic.
         return result;
-    }
-}
+    }}

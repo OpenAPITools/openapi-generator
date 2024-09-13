@@ -206,7 +206,6 @@ public class Capitalization {
     this.ATT_NAME = ATT_NAME;
   }
 
-
   /**
    * Return true if this Capitalization object is equal to o.
    */

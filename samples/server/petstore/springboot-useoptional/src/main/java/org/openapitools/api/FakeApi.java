@@ -34,8 +34,7 @@ import java.util.Map;
 import java.util.Optional;
 import javax.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-@Validated
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")@Validated
 @Api(value = "fake", description = "the fake API")
 public interface FakeApi {
 
@@ -68,9 +67,8 @@ public interface FakeApi {
     default ResponseEntity<Void> createXmlItem(
         @ApiParam(value = "XmlItem Body", required = true) @Valid @RequestBody XmlItem xmlItem
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
 
     /**
@@ -100,9 +98,8 @@ public interface FakeApi {
     default ResponseEntity<Boolean> fakeOuterBooleanSerialize(
         @ApiParam(value = "Input boolean as post body") @Valid @RequestBody(required = false) Optional<Boolean> body
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
 
     /**
@@ -132,18 +129,17 @@ public interface FakeApi {
     default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(
         @ApiParam(value = "Input composite as post body") @Valid @RequestBody(required = false) Optional<OuterComposite> outerComposite
     ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                    String exampleString = "{ \"my_string\" : \"my_string\", \"my_number\" : 0.8008281904610115, \"my_boolean\" : true }";
-                    ApiUtil.setExampleResponse(request, "*/*", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        getRequest().ifPresent(request -> {
+                    for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                        if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
+                            String exampleString = "{ \"my_string\" : \"my_string\", \"my_number\" : 0.8008281904610115, \"my_boolean\" : true }";
+                            ApiUtil.setExampleResponse(request, "*/*", exampleString);
+                            break;
+                        }
+                    }
+                });
+                return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                                            }
 
 
     /**
@@ -173,9 +169,8 @@ public interface FakeApi {
     default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
         @ApiParam(value = "Input number as post body") @Valid @RequestBody(required = false) Optional<BigDecimal> body
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
 
     /**
@@ -205,9 +200,8 @@ public interface FakeApi {
     default ResponseEntity<String> fakeOuterStringSerialize(
         @ApiParam(value = "Input string as post body") @Valid @RequestBody(required = false) Optional<String> body
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
 
     /**
@@ -235,18 +229,17 @@ public interface FakeApi {
     default ResponseEntity<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(
         @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
     ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"UPPER_CASE_PROPERTY_SNAKE\" : \"UPPER_CASE_PROPERTY_SNAKE\", \"lower-case-property-dashes\" : \"lower-case-property-dashes\", \"property name with spaces\" : \"property name with spaces\", \"normalPropertyName\" : \"normalPropertyName\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        getRequest().ifPresent(request -> {
+                    for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                        if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                            String exampleString = "{ \"UPPER_CASE_PROPERTY_SNAKE\" : \"UPPER_CASE_PROPERTY_SNAKE\", \"lower-case-property-dashes\" : \"lower-case-property-dashes\", \"property name with spaces\" : \"property name with spaces\", \"normalPropertyName\" : \"normalPropertyName\" }";
+                            ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                            break;
+                        }
+                    }
+                });
+                return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                                            }
 
 
     /**
@@ -274,9 +267,8 @@ public interface FakeApi {
     default ResponseEntity<Void> testBodyWithFileSchema(
         @ApiParam(value = "", required = true) @Valid @RequestBody FileSchemaTestClass fileSchemaTestClass
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
 
     /**
@@ -305,9 +297,8 @@ public interface FakeApi {
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,
         @ApiParam(value = "", required = true) @Valid @RequestBody User user
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
 
     /**
@@ -337,18 +328,17 @@ public interface FakeApi {
     default ResponseEntity<Client> testClientModel(
         @ApiParam(value = "client model", required = true) @Valid @RequestBody Client client
     ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"client\" : \"client\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        getRequest().ifPresent(request -> {
+                    for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                        if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                            String exampleString = "{ \"client\" : \"client\" }";
+                            ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                            break;
+                        }
+                    }
+                });
+                return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                                            }
 
 
     /**
@@ -407,9 +397,8 @@ public interface FakeApi {
         @ApiParam(value = "None") @Valid @RequestParam(value = "password", required = false) String password,
         @ApiParam(value = "None") @Valid @RequestParam(value = "callback", required = false) String paramCallback
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
 
     /**
@@ -453,9 +442,8 @@ public interface FakeApi {
         @ApiParam(value = "Form parameter enum test (string array)", allowableValues = ">, $", defaultValue = "$") @Valid @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
         @ApiParam(value = "Form parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_form_string", required = false) String enumFormString
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
 
     /**
@@ -492,9 +480,8 @@ public interface FakeApi {
         @ApiParam(value = "Boolean in group parameters") @RequestHeader(value = "boolean_group", required = false) Optional<Boolean> booleanGroup,
         @ApiParam(value = "Integer in group parameters") @Valid @RequestParam(value = "int64_group", required = false) Optional<Long> int64Group
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
 
     /**
@@ -522,9 +509,8 @@ public interface FakeApi {
     default ResponseEntity<Void> testInlineAdditionalProperties(
         @ApiParam(value = "request body", required = true) @Valid @RequestBody Map<String, String> requestBody
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
 
     /**
@@ -554,9 +540,8 @@ public interface FakeApi {
         @ApiParam(value = "field1", required = true) @Valid @RequestParam(value = "param", required = true) String param,
         @ApiParam(value = "field2", required = true) @Valid @RequestParam(value = "param2", required = true) String param2
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
 
     /**
@@ -584,9 +569,8 @@ public interface FakeApi {
     default ResponseEntity<Void> testNullable(
         @ApiParam(value = "request body", required = true) @Valid @RequestBody ChildWithNullable childWithNullable
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
 
     /**
@@ -619,9 +603,8 @@ public interface FakeApi {
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "url", required = true) List<String> url,
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "context", required = true) List<String> context
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
 
     /**
@@ -649,18 +632,17 @@ public interface FakeApi {
     default ResponseEntity<Integer> testWithResultExample(
         
     ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "42";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        getRequest().ifPresent(request -> {
+                    for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                        if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                            String exampleString = "42";
+                            ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                            break;
+                        }
+                    }
+                });
+                return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                                            }
 
 
     /**
@@ -700,17 +682,16 @@ public interface FakeApi {
         @ApiParam(value = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
         @ApiParam(value = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
     ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        getRequest().ifPresent(request -> {
+                    for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                        if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                            String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                            ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                            break;
+                        }
+                    }
+                });
+                return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                                            }
 
 }

@@ -66,7 +66,6 @@ public class ParentWithNullable   {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_TYPE = "type";
   @JsonProperty(JSON_PROPERTY_TYPE)
   private TypeEnum type;

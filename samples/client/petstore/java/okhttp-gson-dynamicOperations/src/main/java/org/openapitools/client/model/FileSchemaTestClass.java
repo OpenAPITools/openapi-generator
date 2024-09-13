@@ -110,7 +110,6 @@ public class FileSchemaTestClass {
   }
 
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

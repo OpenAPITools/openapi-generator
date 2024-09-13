@@ -64,7 +64,6 @@ public class BasquePig {
     this.className = className;
   }
 
-
   /**
    * Return true if this BasquePig object is equal to o.
    */

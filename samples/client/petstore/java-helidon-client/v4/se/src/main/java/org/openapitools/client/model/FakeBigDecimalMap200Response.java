@@ -23,7 +23,6 @@ import java.util.Map;
 
 
 
-
 public class FakeBigDecimalMap200Response  {
   
   private BigDecimal someId;
@@ -101,4 +100,3 @@ public class FakeBigDecimalMap200Response  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

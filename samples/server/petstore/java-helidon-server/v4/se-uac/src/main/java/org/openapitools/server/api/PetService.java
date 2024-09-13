@@ -543,7 +543,6 @@ public abstract class PetService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the deletePet operation.
      * <p>
@@ -706,7 +705,6 @@ public abstract class PetService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the findPetsByStatus operation.
      * <p>
@@ -878,7 +876,6 @@ public abstract class PetService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the findPetsByTags operation.
      * <p>
@@ -1045,7 +1042,6 @@ public abstract class PetService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the getPetById operation.
      * <p>
@@ -1266,7 +1262,6 @@ public abstract class PetService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the updatePet operation.
      * <p>
@@ -1520,7 +1515,6 @@ public abstract class PetService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the updatePetWithForm operation.
      * <p>
@@ -1697,7 +1691,6 @@ public abstract class PetService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the uploadFile operation.
      * <p>
@@ -1836,7 +1829,6 @@ public abstract class PetService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the uploadFileWithRequiredFile operation.
      * <p>
@@ -1975,7 +1967,6 @@ public abstract class PetService implements HttpService {
             }
         }
     }
-
 
     @Override
     public void afterStop() {

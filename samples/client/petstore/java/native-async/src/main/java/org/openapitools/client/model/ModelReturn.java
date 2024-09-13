@@ -66,7 +66,6 @@ public class ModelReturn {
     this._return = _return;
   }
 
-
   /**
    * Return true if this Return object is equal to o.
    */

@@ -22,7 +22,6 @@ class FakeBigDecimalMap200Response {
 
      this.someMap,
   });
-
   @JsonKey(
     
     name: r'someId',

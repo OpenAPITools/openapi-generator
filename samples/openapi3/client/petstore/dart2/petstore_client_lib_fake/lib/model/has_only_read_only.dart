@@ -9,14 +9,12 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
-
 class HasOnlyReadOnly {
   /// Returns a new [HasOnlyReadOnly] instance.
   HasOnlyReadOnly({
     this.bar,
     this.foo,
   });
-
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
@@ -132,4 +130,3 @@ class HasOnlyReadOnly {
   static const requiredKeys = <String>{
   };
 }
-

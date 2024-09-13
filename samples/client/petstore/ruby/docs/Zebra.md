@@ -17,4 +17,3 @@ instance = Petstore::Zebra.new(
   classname: null
 )
 ```
-

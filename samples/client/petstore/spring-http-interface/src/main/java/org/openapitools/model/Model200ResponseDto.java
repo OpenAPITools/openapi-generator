@@ -16,10 +16,8 @@ import jakarta.annotation.Generated;
 /**
  * Model for testing model name starting with number
  */
-
 @JsonTypeName("200_response")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class Model200ResponseDto {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class Model200ResponseDto {
 
   private Integer name;
 
@@ -62,7 +60,6 @@ public class Model200ResponseDto {
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

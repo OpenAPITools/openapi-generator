@@ -25,223 +25,186 @@ pub enum Op10GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op11GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op12GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op13GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op14GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op15GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op16GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op17GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op18GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op19GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op1GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op20GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op21GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op22GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op23GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op24GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op25GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op26GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op27GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op28GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op29GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op2GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op30GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op31GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op32GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op33GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op34GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op35GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op36GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op37GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op3GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op4GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op5GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op6GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op7GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op8GetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op9GetResponse {
     /// OK
     OK
 }
-
 /// API
 #[async_trait]
 #[allow(clippy::too_many_arguments, clippy::ptr_arg)]

@@ -49,7 +49,6 @@ public class ModelList {
    */
   @javax.annotation.Nullable
 
-
   public String get123list() {
     return _123list;
   }

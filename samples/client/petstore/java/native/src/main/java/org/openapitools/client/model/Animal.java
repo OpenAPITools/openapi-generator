@@ -108,7 +108,6 @@ public class Animal {
     this.color = color;
   }
 
-
   /**
    * Return true if this Animal object is equal to o.
    */
@@ -205,62 +204,61 @@ static {
 }
 
     public static class Builder {
-
-    private Animal instance;
-
-    public Builder() {
-      this(new Animal());
-    }
-
-    protected Builder(Animal instance) {
-      this.instance = instance;
-    }
-
-    public Animal.Builder className(String className) {
-      this.instance.className = className;
-      return this;
-    }
-    public Animal.Builder color(String color) {
-      this.instance.color = color;
-      return this;
-    }
-
-
-    /**
-    * returns a built Animal instance.
-    *
-    * The builder is not reusable.
-    */
-    public Animal build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    
+        private Animal instance;
+    
+        public Builder() {
+          this(new Animal());
+        }
+    
+        protected Builder(Animal instance) {
+          this.instance = instance;
+        }
+    
+        public Animal.Builder className(String className) {
+              this.instance.className = className;
+          return this;
+        }
+            public Animal.Builder color(String color) {
+              this.instance.color = color;
+          return this;
+        }
+        
+    
+        /**
+        * returns a built Animal instance.
+        *
+        * The builder is not reusable.
+        */
+        public Animal build() {
+          try {
+            return this.instance;
+          } finally {
+            // ensure that this.instance is not reused
+            this.instance = null;
+          }
+        }
+    
+        @Override
+        public String toString() {
+          return getClass() + "=(" + instance + ")";
+        }
       }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static Animal.Builder builder() {
-    return new Animal.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public Animal.Builder toBuilder() {
-    return new Animal.Builder()
-      .className(getClassName())
-      .color(getColor());
-  }
-
+    
+      /**
+      * Create a builder with no initialized field.
+      */
+      public static Animal.Builder builder() {
+        return new Animal.Builder();
+      }
+    
+      /**
+      * Create a builder with a shallow copy of this instance.
+      */
+      public Animal.Builder toBuilder() {
+        return new Animal.Builder()
+          .className(getClassName())
+          .color(getColor());
+      }
 }
 

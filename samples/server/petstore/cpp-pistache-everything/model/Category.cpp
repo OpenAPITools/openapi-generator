@@ -52,10 +52,9 @@ bool Category::validate(std::stringstream& msg, const std::string& pathPrefix) c
     {
         const std::string& value = m_Name;
         const std::string currentValuePath = _pathPrefix + ".name";
+                                        
                 
-        
-
-    }
+                                                                                                                                    }
     
     return success;
 }

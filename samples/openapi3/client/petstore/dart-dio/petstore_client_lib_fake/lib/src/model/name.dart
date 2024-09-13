@@ -37,8 +37,7 @@ abstract class Name implements Built<Name, NameBuilder> {
   static void _defaults(NameBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<Name> get serializer => _$NameSerializer();
-}
+  static Serializer<Name> get serializer => _$NameSerializer();}
 
 class _$NameSerializer implements PrimitiveSerializer<Name> {
   @override

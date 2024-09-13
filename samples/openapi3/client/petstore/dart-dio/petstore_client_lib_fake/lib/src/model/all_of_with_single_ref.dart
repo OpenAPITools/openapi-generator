@@ -31,8 +31,7 @@ abstract class AllOfWithSingleRef implements Built<AllOfWithSingleRef, AllOfWith
   static void _defaults(AllOfWithSingleRefBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<AllOfWithSingleRef> get serializer => _$AllOfWithSingleRefSerializer();
-}
+  static Serializer<AllOfWithSingleRef> get serializer => _$AllOfWithSingleRefSerializer();}
 
 class _$AllOfWithSingleRefSerializer implements PrimitiveSerializer<AllOfWithSingleRef> {
   @override

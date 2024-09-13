@@ -127,7 +127,6 @@ public class PetWithRequiredNullableCases2 {
       StatusEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_STATUS = "status";
   @Deprecated
   @SerializedName(SERIALIZED_NAME_STATUS)
@@ -313,7 +312,6 @@ public class PetWithRequiredNullableCases2 {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

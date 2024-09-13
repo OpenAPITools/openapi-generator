@@ -9,13 +9,11 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
-
 class ModelFile {
   /// Returns a new [ModelFile] instance.
   ModelFile({
     this.sourceURI,
   });
-
   /// Test capitalization
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -116,4 +114,3 @@ class ModelFile {
   static const requiredKeys = <String>{
   };
 }
-

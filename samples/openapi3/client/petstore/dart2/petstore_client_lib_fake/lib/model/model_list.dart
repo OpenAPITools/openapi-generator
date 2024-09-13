@@ -9,13 +9,11 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
-
 class ModelList {
   /// Returns a new [ModelList] instance.
   ModelList({
     this.n123list,
   });
-
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
@@ -115,4 +113,3 @@ class ModelList {
   static const requiredKeys = <String>{
   };
 }
-

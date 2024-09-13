@@ -64,7 +64,6 @@ public class DanishPig {
     this.className = className;
   }
 
-
   /**
    * Return true if this DanishPig object is equal to o.
    */

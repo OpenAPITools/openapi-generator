@@ -10,4 +10,3 @@
 |**triangleType** | **String** |  |  |
 
 
-

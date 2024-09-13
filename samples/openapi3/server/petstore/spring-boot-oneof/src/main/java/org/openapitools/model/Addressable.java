@@ -17,10 +17,8 @@ import javax.annotation.Generated;
 /**
  * Base schema for addressable entities
  */
-
 @Schema(name = "Addressable", description = "Base schema for addressable entities")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class Addressable {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class Addressable {
 
   private String href;
 
@@ -35,8 +33,7 @@ public class Addressable {
    * Hyperlink reference
    * @return href
    */
-  
-  @Schema(name = "href", description = "Hyperlink reference", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "href", description = "Hyperlink reference", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("href")
   public String getHref() {
     return href;
@@ -55,8 +52,7 @@ public class Addressable {
    * unique identifier
    * @return id
    */
-  
-  @Schema(name = "id", description = "unique identifier", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "id", description = "unique identifier", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public String getId() {
     return id;
@@ -65,7 +61,6 @@ public class Addressable {
   public void setId(String id) {
     this.id = id;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -105,68 +100,67 @@ public class Addressable {
     return o.toString().replace("\n", "\n    ");
   }
   
-  public static class Builder {
-
-    private Addressable instance;
-
-    public Builder() {
-      this(new Addressable());
-    }
-
-    protected Builder(Addressable instance) {
-      this.instance = instance;
-    }
-
-    protected Builder copyOf(Addressable value) { 
-      this.instance.setHref(value.href);
-      this.instance.setId(value.id);
-      return this;
-    }
-
-    public Addressable.Builder href(String href) {
-      this.instance.href(href);
-      return this;
-    }
-    
-    public Addressable.Builder id(String id) {
-      this.instance.id(id);
-      return this;
-    }
-    
-    /**
-    * returns a built Addressable instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public Addressable build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    public static class Builder {
+  
+      private Addressable instance;
+  
+      public Builder() {
+        this(new Addressable());
+      }
+  
+      protected Builder(Addressable instance) {
+        this.instance = instance;
+      }
+  
+      protected Builder copyOf(Addressable value) { 
+        this.instance.setHref(value.href);
+        this.instance.setId(value.id);
+        return this;
+      }
+  
+        public Addressable.Builder href(String href) {
+        this.instance.href(href);
+        return this;
+      }
+      
+        public Addressable.Builder id(String id) {
+        this.instance.id(id);
+        return this;
+      }
+      
+          /**
+      * returns a built Addressable instance.
+      *
+      * The builder is not reusable (NullPointerException)
+      */
+      public Addressable build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field (except for the default values).
+    */
+    public static Addressable.Builder builder() {
+      return new Addressable.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field (except for the default values).
-  */
-  public static Addressable.Builder builder() {
-    return new Addressable.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public Addressable.Builder toBuilder() {
-    Addressable.Builder builder = new Addressable.Builder();
-    return builder.copyOf(this);
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public Addressable.Builder toBuilder() {
+      Addressable.Builder builder = new Addressable.Builder();
+      return builder.copyOf(this);
+    }
 }
 

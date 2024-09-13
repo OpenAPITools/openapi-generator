@@ -10,7 +10,6 @@
 
 part of openapi.api;
 
-
 class OuterEnumInteger {
   /// Instantiate a new enum with the provided [value].
   const OuterEnumInteger._(this.value);
@@ -85,4 +84,3 @@ class OuterEnumIntegerTypeTransformer {
   /// Singleton [OuterEnumIntegerTypeTransformer] instance.
   static OuterEnumIntegerTypeTransformer? _instance;
 }
-

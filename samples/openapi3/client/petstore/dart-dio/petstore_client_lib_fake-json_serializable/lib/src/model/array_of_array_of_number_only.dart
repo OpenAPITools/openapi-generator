@@ -20,7 +20,6 @@ class ArrayOfArrayOfNumberOnly {
 
      this.arrayArrayNumber,
   });
-
   @JsonKey(
     
     name: r'ArrayArrayNumber',

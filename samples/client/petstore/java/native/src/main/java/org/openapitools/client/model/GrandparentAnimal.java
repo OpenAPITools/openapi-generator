@@ -80,7 +80,6 @@ public class GrandparentAnimal {
     this.petType = petType;
   }
 
-
   /**
    * Return true if this GrandparentAnimal object is equal to o.
    */
@@ -170,57 +169,56 @@ static {
 }
 
     public static class Builder {
-
-    private GrandparentAnimal instance;
-
-    public Builder() {
-      this(new GrandparentAnimal());
-    }
-
-    protected Builder(GrandparentAnimal instance) {
-      this.instance = instance;
-    }
-
-    public GrandparentAnimal.Builder petType(String petType) {
-      this.instance.petType = petType;
-      return this;
-    }
-
-
-    /**
-    * returns a built GrandparentAnimal instance.
-    *
-    * The builder is not reusable.
-    */
-    public GrandparentAnimal build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    
+        private GrandparentAnimal instance;
+    
+        public Builder() {
+          this(new GrandparentAnimal());
+        }
+    
+        protected Builder(GrandparentAnimal instance) {
+          this.instance = instance;
+        }
+    
+        public GrandparentAnimal.Builder petType(String petType) {
+              this.instance.petType = petType;
+          return this;
+        }
+        
+    
+        /**
+        * returns a built GrandparentAnimal instance.
+        *
+        * The builder is not reusable.
+        */
+        public GrandparentAnimal build() {
+          try {
+            return this.instance;
+          } finally {
+            // ensure that this.instance is not reused
+            this.instance = null;
+          }
+        }
+    
+        @Override
+        public String toString() {
+          return getClass() + "=(" + instance + ")";
+        }
       }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static GrandparentAnimal.Builder builder() {
-    return new GrandparentAnimal.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public GrandparentAnimal.Builder toBuilder() {
-    return new GrandparentAnimal.Builder()
-      .petType(getPetType());
-  }
-
+    
+      /**
+      * Create a builder with no initialized field.
+      */
+      public static GrandparentAnimal.Builder builder() {
+        return new GrandparentAnimal.Builder();
+      }
+    
+      /**
+      * Create a builder with a shallow copy of this instance.
+      */
+      public GrandparentAnimal.Builder toBuilder() {
+        return new GrandparentAnimal.Builder()
+          .petType(getPetType());
+      }
 }
 

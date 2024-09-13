@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { Animal } from './Animal';
 import {
@@ -34,7 +33,6 @@ export interface Dog extends Animal {
      */
     breed?: string;
 }
-
 /**
  * Check if a given object implements the Dog interface.
  */
@@ -70,4 +68,3 @@ export function DogFromJSONTyped(json: any, ignoreDiscriminator: boolean): Dog {
         'breed': value['breed'],
     };
 }
-

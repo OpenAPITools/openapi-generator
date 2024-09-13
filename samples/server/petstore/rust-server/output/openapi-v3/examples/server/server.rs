@@ -147,7 +147,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("any_of_get({:?}) - X-Span-ID: {:?}", any_of, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn callback_with_header_post(
         &self,
         url: String,
@@ -156,7 +155,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("callback_with_header_post(\"{}\") - X-Span-ID: {:?}", url, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn complex_query_param_get(
         &self,
         list_of_strings: Option<&Vec<models::StringObject>>,
@@ -165,7 +163,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("complex_query_param_get({:?}) - X-Span-ID: {:?}", list_of_strings, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn get_with_boolean_parameter(
         &self,
         iambool: bool,
@@ -174,7 +171,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("get_with_boolean_parameter({}) - X-Span-ID: {:?}", iambool, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn json_complex_query_param_get(
         &self,
         list_of_strings: Option<&Vec<models::StringObject>>,
@@ -183,7 +179,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("json_complex_query_param_get({:?}) - X-Span-ID: {:?}", list_of_strings, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn mandatory_request_header_get(
         &self,
         x_header: String,
@@ -192,7 +187,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("mandatory_request_header_get(\"{}\") - X-Span-ID: {:?}", x_header, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn merge_patch_json_get(
         &self,
         context: &C) -> Result<MergePatchJsonGetResponse, ApiError>
@@ -200,7 +194,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("merge_patch_json_get() - X-Span-ID: {:?}", context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     /// Get some stuff.
     async fn multiget_get(
         &self,
@@ -209,7 +202,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("multiget_get() - X-Span-ID: {:?}", context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn multiple_auth_scheme_get(
         &self,
         context: &C) -> Result<MultipleAuthSchemeGetResponse, ApiError>
@@ -217,7 +209,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("multiple_auth_scheme_get() - X-Span-ID: {:?}", context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn one_of_get(
         &self,
         context: &C) -> Result<OneOfGetResponse, ApiError>
@@ -225,7 +216,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("one_of_get() - X-Span-ID: {:?}", context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn override_server_get(
         &self,
         context: &C) -> Result<OverrideServerGetResponse, ApiError>
@@ -233,7 +223,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("override_server_get() - X-Span-ID: {:?}", context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     /// Get some stuff with parameters.
     async fn paramget_get(
         &self,
@@ -245,7 +234,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("paramget_get({:?}, {:?}, {:?}) - X-Span-ID: {:?}", uuid, some_object, some_list, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn readonly_auth_scheme_get(
         &self,
         context: &C) -> Result<ReadonlyAuthSchemeGetResponse, ApiError>
@@ -253,7 +241,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("readonly_auth_scheme_get() - X-Span-ID: {:?}", context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn register_callback_post(
         &self,
         url: String,
@@ -262,7 +249,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("register_callback_post(\"{}\") - X-Span-ID: {:?}", url, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn required_octet_stream_put(
         &self,
         body: swagger::ByteArray,
@@ -271,7 +257,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("required_octet_stream_put({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn responses_with_headers_get(
         &self,
         context: &C) -> Result<ResponsesWithHeadersGetResponse, ApiError>
@@ -279,7 +264,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("responses_with_headers_get() - X-Span-ID: {:?}", context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn rfc7807_get(
         &self,
         context: &C) -> Result<Rfc7807GetResponse, ApiError>
@@ -287,7 +271,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("rfc7807_get() - X-Span-ID: {:?}", context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn two_first_letter_headers(
         &self,
         x_header_one: Option<bool>,
@@ -297,7 +280,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("two_first_letter_headers({:?}, {:?}) - X-Span-ID: {:?}", x_header_one, x_header_two, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn untyped_property_get(
         &self,
         object_untyped_props: Option<models::ObjectUntypedProps>,
@@ -306,7 +288,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("untyped_property_get({:?}) - X-Span-ID: {:?}", object_untyped_props, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn uuid_get(
         &self,
         context: &C) -> Result<UuidGetResponse, ApiError>
@@ -314,7 +295,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("uuid_get() - X-Span-ID: {:?}", context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn xml_extra_post(
         &self,
         duplicate_xml_object: Option<models::DuplicateXmlObject>,
@@ -323,7 +303,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("xml_extra_post({:?}) - X-Span-ID: {:?}", duplicate_xml_object, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn xml_other_post(
         &self,
         another_xml_object: Option<models::AnotherXmlObject>,
@@ -332,7 +311,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("xml_other_post({:?}) - X-Span-ID: {:?}", another_xml_object, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn xml_other_put(
         &self,
         another_xml_array: Option<models::AnotherXmlArray>,
@@ -341,7 +319,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("xml_other_put({:?}) - X-Span-ID: {:?}", another_xml_array, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     /// Post an array.  It's important we test apostrophes, so include one here.
     async fn xml_post(
         &self,
@@ -351,7 +328,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("xml_post({:?}) - X-Span-ID: {:?}", xml_array, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn xml_put(
         &self,
         xml_object: Option<models::XmlObject>,
@@ -360,7 +336,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("xml_put({:?}) - X-Span-ID: {:?}", xml_object, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn enum_in_path_path_param_get(
         &self,
         path_param: models::StringEnum,
@@ -369,7 +344,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("enum_in_path_path_param_get({:?}) - X-Span-ID: {:?}", path_param, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get(
         &self,
         path_param_a: String,
@@ -379,7 +353,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get(\"{}\", \"{}\") - X-Span-ID: {:?}", path_param_a, path_param_b, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn create_repo(
         &self,
         object_param: models::ObjectParam,
@@ -388,7 +361,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("create_repo({:?}) - X-Span-ID: {:?}", object_param, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn get_repo_info(
         &self,
         repo_id: String,
@@ -397,5 +369,4 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("get_repo_info(\"{}\") - X-Span-ID: {:?}", repo_id, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
 }

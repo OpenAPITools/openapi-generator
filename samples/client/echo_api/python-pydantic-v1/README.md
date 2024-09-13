@@ -73,7 +73,6 @@ configuration = openapi_client.Configuration(
     password = os.environ["PASSWORD"]
 )
 
-
 # Enter a context with an instance of the API client
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -159,5 +158,4 @@ Authentication schemes defined for the API:
 ## Author
 
 team@openapitools.org
-
 

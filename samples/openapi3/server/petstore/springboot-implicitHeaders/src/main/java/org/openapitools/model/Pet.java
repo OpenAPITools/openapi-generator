@@ -26,9 +26,7 @@ import javax.annotation.Generated;
 /**
  * Pet
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class Pet {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class Pet {
 
   private Long id;
 
@@ -78,7 +76,6 @@ public class Pet {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   @Deprecated
   private StatusEnum status;
 
@@ -103,8 +100,7 @@ public class Pet {
    * Get id
    * @return id
    */
-  
-  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public Long getId() {
     return id;
@@ -123,8 +119,7 @@ public class Pet {
    * Get category
    * @return category
    */
-  @Valid 
-  @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Valid   @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("category")
   public Category getCategory() {
     return category;
@@ -143,8 +138,7 @@ public class Pet {
    * Get name
    * @return name
    */
-  @NotNull 
-  @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
+  @NotNull   @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
   public String getName() {
     return name;
@@ -171,8 +165,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
    */
-  @NotNull 
-  @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
+  @NotNull   @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("photoUrls")
   public Set<String> getPhotoUrls() {
     return photoUrls;
@@ -200,8 +193,7 @@ public class Pet {
    * Get tags
    * @return tags
    */
-  @Valid 
-  @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Valid   @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("tags")
   public List<@Valid Tag> getTags() {
     return tags;
@@ -221,8 +213,7 @@ public class Pet {
    * @return status
    * @deprecated
    */
-  
-  @Schema(name = "status", description = "pet status in the store", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "status", description = "pet status in the store", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
   @Deprecated
   public StatusEnum getStatus() {
@@ -236,7 +227,6 @@ public class Pet {
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

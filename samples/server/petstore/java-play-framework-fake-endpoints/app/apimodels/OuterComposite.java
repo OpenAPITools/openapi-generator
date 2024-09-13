@@ -14,17 +14,14 @@ import javax.validation.Valid;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class OuterComposite   {
   @JsonProperty("my_number")
-  @Valid
-
+                                        @Valid
   private BigDecimal myNumber;
 
   @JsonProperty("my_string")
-  
-  private String myString;
+                                        private String myString;
 
   @JsonProperty("my_boolean")
-  
-  private Boolean myBoolean;
+                                        private Boolean myBoolean;
 
   public OuterComposite myNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
@@ -121,4 +118,3 @@ public class OuterComposite   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

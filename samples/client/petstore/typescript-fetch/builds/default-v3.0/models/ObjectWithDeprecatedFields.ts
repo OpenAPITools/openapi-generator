@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { DeprecatedObject } from './DeprecatedObject';
 import {
@@ -55,7 +54,6 @@ export interface ObjectWithDeprecatedFields {
      */
     bars?: Array<string>;
 }
-
 /**
  * Check if a given object implements the ObjectWithDeprecatedFields interface.
  */
@@ -97,4 +95,3 @@ export function ObjectWithDeprecatedFieldsFromJSONTyped(json: any, ignoreDiscrim
         'bars': value['bars'],
     };
 }
-

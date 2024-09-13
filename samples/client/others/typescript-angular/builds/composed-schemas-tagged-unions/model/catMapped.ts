@@ -14,4 +14,3 @@ export interface CatMappedModel {
     hunts?: boolean;
 }
 
-

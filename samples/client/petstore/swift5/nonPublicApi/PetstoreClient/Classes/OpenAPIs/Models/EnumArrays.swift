@@ -15,12 +15,10 @@ internal struct EnumArrays: Codable, JSONEncodable, Hashable {
     internal enum JustSymbol: String, Codable, CaseIterable {
         case greaterThanOrEqualTo = ">="
         case dollar = "$"
-    }
-    internal enum ArrayEnum: String, Codable, CaseIterable {
+    }    internal enum ArrayEnum: String, Codable, CaseIterable {
         case fish = "fish"
         case crab = "crab"
-    }
-    internal var justSymbol: JustSymbol?
+    }    internal var justSymbol: JustSymbol?
     internal var arrayEnum: [ArrayEnum]?
 
     internal init(justSymbol: JustSymbol? = nil, arrayEnum: [ArrayEnum]? = nil) {

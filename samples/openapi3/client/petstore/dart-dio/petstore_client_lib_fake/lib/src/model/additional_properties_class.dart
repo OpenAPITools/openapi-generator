@@ -30,8 +30,7 @@ abstract class AdditionalPropertiesClass implements Built<AdditionalPropertiesCl
   static void _defaults(AdditionalPropertiesClassBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<AdditionalPropertiesClass> get serializer => _$AdditionalPropertiesClassSerializer();
-}
+  static Serializer<AdditionalPropertiesClass> get serializer => _$AdditionalPropertiesClassSerializer();}
 
 class _$AdditionalPropertiesClassSerializer implements PrimitiveSerializer<AdditionalPropertiesClass> {
   @override

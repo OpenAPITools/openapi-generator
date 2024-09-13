@@ -59,7 +59,6 @@ public class Pet   {
         }
     }
 
-
     private StatusEnum status;
 
     /**

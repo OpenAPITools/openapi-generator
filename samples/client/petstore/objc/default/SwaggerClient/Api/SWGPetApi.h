@@ -15,7 +15,6 @@
 */
 
 
-
 @interface SWGPetApi: NSObject <SWGApi>
 
 extern NSString* kSWGPetApiErrorDomain;

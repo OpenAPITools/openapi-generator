@@ -93,4 +93,3 @@ Model200Response.prototype['class'] = undefined;
 
 
 export default Model200Response;
-

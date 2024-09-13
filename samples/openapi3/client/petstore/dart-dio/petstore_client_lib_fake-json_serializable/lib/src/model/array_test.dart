@@ -25,7 +25,6 @@ class ArrayTest {
 
      this.arrayArrayOfModel,
   });
-
   @JsonKey(
     
     name: r'array_of_string',

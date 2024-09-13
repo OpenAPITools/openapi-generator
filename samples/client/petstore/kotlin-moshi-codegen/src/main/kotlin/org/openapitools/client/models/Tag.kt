@@ -26,7 +26,6 @@ import com.squareup.moshi.JsonClass
  * @param name 
  */
 @JsonClass(generateAdapter = true)
-
 data class Tag (
 
     @Json(name = "id")

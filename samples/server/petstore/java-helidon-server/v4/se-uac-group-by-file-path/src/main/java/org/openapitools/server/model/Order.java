@@ -51,7 +51,6 @@ public class Order   {
         }
     }
 
-
     private StatusEnum status;
     private Boolean complete = false;
 

@@ -94,7 +94,6 @@ public class Category {
     this.name = name;
   }
 
-
   /**
    * Return true if this Category object is equal to o.
    */
@@ -183,62 +182,61 @@ public class Category {
   }
 
     public static class Builder {
-
-    private Category instance;
-
-    public Builder() {
-      this(new Category());
-    }
-
-    protected Builder(Category instance) {
-      this.instance = instance;
-    }
-
-    public Category.Builder id(Long id) {
-      this.instance.id = id;
-      return this;
-    }
-    public Category.Builder name(String name) {
-      this.instance.name = name;
-      return this;
-    }
-
-
-    /**
-    * returns a built Category instance.
-    *
-    * The builder is not reusable.
-    */
-    public Category build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    
+        private Category instance;
+    
+        public Builder() {
+          this(new Category());
+        }
+    
+        protected Builder(Category instance) {
+          this.instance = instance;
+        }
+    
+        public Category.Builder id(Long id) {
+              this.instance.id = id;
+          return this;
+        }
+            public Category.Builder name(String name) {
+              this.instance.name = name;
+          return this;
+        }
+        
+    
+        /**
+        * returns a built Category instance.
+        *
+        * The builder is not reusable.
+        */
+        public Category build() {
+          try {
+            return this.instance;
+          } finally {
+            // ensure that this.instance is not reused
+            this.instance = null;
+          }
+        }
+    
+        @Override
+        public String toString() {
+          return getClass() + "=(" + instance + ")";
+        }
       }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static Category.Builder builder() {
-    return new Category.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public Category.Builder toBuilder() {
-    return new Category.Builder()
-      .id(getId())
-      .name(getName());
-  }
-
+    
+      /**
+      * Create a builder with no initialized field.
+      */
+      public static Category.Builder builder() {
+        return new Category.Builder();
+      }
+    
+      /**
+      * Create a builder with a shallow copy of this instance.
+      */
+      public Category.Builder toBuilder() {
+        return new Category.Builder()
+          .id(getId())
+          .name(getName());
+      }
 }
 

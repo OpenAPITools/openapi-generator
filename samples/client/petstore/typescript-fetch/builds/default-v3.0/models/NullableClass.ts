@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * 
@@ -93,7 +92,6 @@ export interface NullableClass {
      */
     objectItemsNullable?: { [key: string]: object | null; };
 }
-
 /**
  * Check if a given object implements the NullableClass interface.
  */
@@ -153,4 +151,3 @@ export function NullableClassFromJSONTyped(json: any, ignoreDiscriminator: boole
         'object_items_nullable': value['objectItemsNullable'],
     };
 }
-

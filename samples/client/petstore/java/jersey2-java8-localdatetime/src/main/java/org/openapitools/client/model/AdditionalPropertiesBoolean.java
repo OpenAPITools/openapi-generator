@@ -105,7 +105,6 @@ public class AdditionalPropertiesBoolean {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this AdditionalPropertiesBoolean object is equal to o.
    */

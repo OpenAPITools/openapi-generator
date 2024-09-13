@@ -227,7 +227,6 @@ public class Mammal extends AbstractOpenApiSchema {
     }
     return this.additionalProperties.get(key);
   }
-
     /**
      * Return true if this mammal object is equal to o.
      */

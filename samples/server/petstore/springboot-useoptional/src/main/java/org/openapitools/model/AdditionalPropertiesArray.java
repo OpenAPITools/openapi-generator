@@ -23,9 +23,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 /**
  * AdditionalPropertiesArray
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class AdditionalPropertiesArray {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class AdditionalPropertiesArray {
 
   private Optional<String> name = Optional.empty();
 
@@ -38,8 +36,7 @@ public class AdditionalPropertiesArray {
    * Get name
    * @return name
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("name")
   public Optional<String> getName() {
     return name;
@@ -85,7 +82,6 @@ public class AdditionalPropertiesArray {
         }
         return this.additionalProperties.get(key);
     }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -126,67 +122,66 @@ public class AdditionalPropertiesArray {
     return o.toString().replace("\n", "\n    ");
   }
   
-  public static class Builder {
-
-    private AdditionalPropertiesArray instance;
-
-    public Builder() {
-      this(new AdditionalPropertiesArray());
-    }
-
-    protected Builder(AdditionalPropertiesArray instance) {
-      this.instance = instance;
-    }
-
-    protected Builder copyOf(AdditionalPropertiesArray value) { 
-      this.instance.setName(value.name);
-      return this;
-    }
-
-    public AdditionalPropertiesArray.Builder name(String name) {
-      this.instance.name(name);
-      return this;
-    }
-    
-    public AdditionalPropertiesArray.Builder additionalProperties(Map<String, List> additionalProperties) {
-      this.instance.additionalProperties = additionalProperties;
-      return this;
-    }
-
-    /**
-    * returns a built AdditionalPropertiesArray instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public AdditionalPropertiesArray build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    public static class Builder {
+  
+      private AdditionalPropertiesArray instance;
+  
+      public Builder() {
+        this(new AdditionalPropertiesArray());
+      }
+  
+      protected Builder(AdditionalPropertiesArray instance) {
+        this.instance = instance;
+      }
+  
+      protected Builder copyOf(AdditionalPropertiesArray value) { 
+        this.instance.setName(value.name);
+        return this;
+      }
+  
+        public AdditionalPropertiesArray.Builder name(String name) {
+        this.instance.name(name);
+        return this;
+      }
+      
+          public AdditionalPropertiesArray.Builder additionalProperties(Map<String, List> additionalProperties) {
+        this.instance.additionalProperties = additionalProperties;
+        return this;
+      }
+  
+      /**
+      * returns a built AdditionalPropertiesArray instance.
+      *
+      * The builder is not reusable (NullPointerException)
+      */
+      public AdditionalPropertiesArray build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field (except for the default values).
+    */
+    public static AdditionalPropertiesArray.Builder builder() {
+      return new AdditionalPropertiesArray.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field (except for the default values).
-  */
-  public static AdditionalPropertiesArray.Builder builder() {
-    return new AdditionalPropertiesArray.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public AdditionalPropertiesArray.Builder toBuilder() {
-    AdditionalPropertiesArray.Builder builder = new AdditionalPropertiesArray.Builder();
-    return builder.copyOf(this);
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public AdditionalPropertiesArray.Builder toBuilder() {
+      AdditionalPropertiesArray.Builder builder = new AdditionalPropertiesArray.Builder();
+      return builder.copyOf(this);
+    }
 }
 

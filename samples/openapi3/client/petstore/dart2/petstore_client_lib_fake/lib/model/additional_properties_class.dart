@@ -9,14 +9,12 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
-
 class AdditionalPropertiesClass {
   /// Returns a new [AdditionalPropertiesClass] instance.
   AdditionalPropertiesClass({
     this.mapProperty = const {},
     this.mapOfMapProperty = const {},
   });
-
   Map<String, String> mapProperty;
 
   Map<String, Map<String, String>> mapOfMapProperty;
@@ -112,4 +110,3 @@ class AdditionalPropertiesClass {
   static const requiredKeys = <String>{
   };
 }
-

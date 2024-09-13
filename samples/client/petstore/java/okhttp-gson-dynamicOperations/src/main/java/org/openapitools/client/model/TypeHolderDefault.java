@@ -179,7 +179,6 @@ public class TypeHolderDefault {
   }
 
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

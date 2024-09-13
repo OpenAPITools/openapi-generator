@@ -15,4 +15,3 @@ instance = OpenapiClient::TestQueryStyleFormExplodeTrueArrayStringQueryObjectPar
   values: null
 )
 ```
-

@@ -66,4 +66,3 @@ public enum OuterEnumIntegerDefaultValue {
     throw new IllegalArgumentException("Unexpected value '" + value + "'");
   }
 }
-

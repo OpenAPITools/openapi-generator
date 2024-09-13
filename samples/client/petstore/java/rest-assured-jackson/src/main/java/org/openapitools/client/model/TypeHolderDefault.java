@@ -72,7 +72,6 @@ public class TypeHolderDefault {
    */
   @javax.annotation.Nonnull
   @NotNull
-
   @JsonProperty(JSON_PROPERTY_STRING_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -100,7 +99,6 @@ public class TypeHolderDefault {
   @javax.annotation.Nonnull
   @NotNull
   @Valid
-
   @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -127,7 +125,6 @@ public class TypeHolderDefault {
    */
   @javax.annotation.Nonnull
   @NotNull
-
   @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -154,7 +151,6 @@ public class TypeHolderDefault {
    */
   @javax.annotation.Nonnull
   @NotNull
-
   @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -189,7 +185,6 @@ public class TypeHolderDefault {
    */
   @javax.annotation.Nonnull
   @NotNull
-
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 

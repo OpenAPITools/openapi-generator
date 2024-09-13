@@ -15,4 +15,3 @@ instance = OpenapiClient::TestFormObjectMultipartRequestMarker.new(
   name: null
 )
 ```
-

@@ -12,11 +12,9 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 /**
  * The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
  */
-
 /**
  * OpenAPI Petstore
  * @version 1.0.0

@@ -26,8 +26,7 @@ abstract class Foo implements Built<Foo, FooBuilder> {
       ..bar = 'bar';
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<Foo> get serializer => _$FooSerializer();
-}
+  static Serializer<Foo> get serializer => _$FooSerializer();}
 
 class _$FooSerializer implements PrimitiveSerializer<Foo> {
   @override

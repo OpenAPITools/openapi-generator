@@ -32,8 +32,7 @@ import java.util.Map;
 import java.util.Optional;
 import javax.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-@Validated
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")@Validated
 @Tag(name = "nullable", description = "the nullable API")
 public interface NullableApi {
 
@@ -66,8 +65,7 @@ public interface NullableApi {
     default ResponseEntity<Void> nullableTest(
         @Parameter(name = "ObjectWithUniqueItems", description = "") @Valid @RequestBody(required = false) ObjectWithUniqueItems objectWithUniqueItems
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
 }

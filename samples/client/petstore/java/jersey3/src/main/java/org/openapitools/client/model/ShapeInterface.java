@@ -53,7 +53,6 @@ public class ShapeInterface {
    */
   @jakarta.annotation.Nonnull
   @NotNull
-
   @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -67,7 +66,6 @@ public class ShapeInterface {
   public void setShapeType(String shapeType) {
     this.shapeType = shapeType;
   }
-
 
   /**
    * Return true if this ShapeInterface object is equal to o.

@@ -38,7 +38,6 @@ import com.google.gson.annotations.SerializedName
  * @param complete 
  */
 
-
 data class ApiOrder (
 
     @SerializedName("id")

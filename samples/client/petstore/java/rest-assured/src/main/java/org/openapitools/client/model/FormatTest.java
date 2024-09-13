@@ -108,7 +108,6 @@ public class FormatTest {
    */
   @javax.annotation.Nullable
  @Min(10) @Max(100)
-
   public Integer getInteger() {
     return integer;
   }
@@ -132,7 +131,6 @@ public class FormatTest {
    */
   @javax.annotation.Nullable
  @Min(20) @Max(200)
-
   public Integer getInt32() {
     return int32;
   }
@@ -153,7 +151,6 @@ public class FormatTest {
    * @return int64
    */
   @javax.annotation.Nullable
-
 
   public Long getInt64() {
     return int64;
@@ -180,7 +177,6 @@ public class FormatTest {
   @NotNull
   @Valid
  @DecimalMin("32.1") @DecimalMax("543.2")
-
   public BigDecimal getNumber() {
     return number;
   }
@@ -204,7 +200,6 @@ public class FormatTest {
    */
   @javax.annotation.Nullable
  @DecimalMin("54.3") @DecimalMax("987.6")
-
   public Float getFloat() {
     return _float;
   }
@@ -228,7 +223,6 @@ public class FormatTest {
    */
   @javax.annotation.Nullable
  @DecimalMin("67.8") @DecimalMax("123.4")
-
   public Double getDouble() {
     return _double;
   }
@@ -250,7 +244,6 @@ public class FormatTest {
    */
   @javax.annotation.Nullable
  @Pattern(regexp="/[a-z]/i")
-
   public String getString() {
     return string;
   }
@@ -273,7 +266,6 @@ public class FormatTest {
   @javax.annotation.Nonnull
   @NotNull
 
-
   public byte[] getByte() {
     return _byte;
   }
@@ -295,7 +287,6 @@ public class FormatTest {
    */
   @javax.annotation.Nullable
   @Valid
-
 
   public File getBinary() {
     return binary;
@@ -320,7 +311,6 @@ public class FormatTest {
   @NotNull
   @Valid
 
-
   public LocalDate getDate() {
     return date;
   }
@@ -342,7 +332,6 @@ public class FormatTest {
    */
   @javax.annotation.Nullable
   @Valid
-
 
   public OffsetDateTime getDateTime() {
     return dateTime;
@@ -366,7 +355,6 @@ public class FormatTest {
   @javax.annotation.Nullable
   @Valid
 
-
   public UUID getUuid() {
     return uuid;
   }
@@ -389,7 +377,6 @@ public class FormatTest {
   @javax.annotation.Nonnull
   @NotNull
  @Size(min=10,max=64)
-
   public String getPassword() {
     return password;
   }
@@ -411,7 +398,6 @@ public class FormatTest {
    */
   @javax.annotation.Nullable
   @Valid
-
 
   public BigDecimal getBigDecimal() {
     return bigDecimal;

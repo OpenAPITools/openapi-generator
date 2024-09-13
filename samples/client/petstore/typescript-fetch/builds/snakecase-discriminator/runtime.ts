@@ -12,7 +12,6 @@
  * Do not edit the class manually.
  */
 
-
 export const BASE_PATH = "http://petstore.swagger.io:80/v2".replace(/\/+$/, "");
 
 export interface ConfigurationParameters {

@@ -9,13 +9,11 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
-
 class ArrayOfArrayOfNumberOnly {
   /// Returns a new [ArrayOfArrayOfNumberOnly] instance.
   ArrayOfArrayOfNumberOnly({
     this.arrayArrayNumber = const [],
   });
-
   List<List<num>> arrayArrayNumber;
 
   @override
@@ -109,4 +107,3 @@ class ArrayOfArrayOfNumberOnly {
   static const requiredKeys = <String>{
   };
 }
-

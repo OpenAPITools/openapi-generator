@@ -165,7 +165,6 @@ public class XmlItem {
    */
   @javax.annotation.Nullable
 
-
   public String getAttributeString() {
     return attributeString;
   }
@@ -188,7 +187,6 @@ public class XmlItem {
   @javax.annotation.Nullable
   @Valid
 
-
   public BigDecimal getAttributeNumber() {
     return attributeNumber;
   }
@@ -210,7 +208,6 @@ public class XmlItem {
    */
   @javax.annotation.Nullable
 
-
   public Integer getAttributeInteger() {
     return attributeInteger;
   }
@@ -231,7 +228,6 @@ public class XmlItem {
    * @return attributeBoolean
    */
   @javax.annotation.Nullable
-
 
   public Boolean isAttributeBoolean() {
     return attributeBoolean;
@@ -262,7 +258,6 @@ public class XmlItem {
    */
   @javax.annotation.Nullable
 
-
   public List<Integer> getWrappedArray() {
     return wrappedArray;
   }
@@ -283,7 +278,6 @@ public class XmlItem {
    * @return nameString
    */
   @javax.annotation.Nullable
-
 
   public String getNameString() {
     return nameString;
@@ -307,7 +301,6 @@ public class XmlItem {
   @javax.annotation.Nullable
   @Valid
 
-
   public BigDecimal getNameNumber() {
     return nameNumber;
   }
@@ -329,7 +322,6 @@ public class XmlItem {
    */
   @javax.annotation.Nullable
 
-
   public Integer getNameInteger() {
     return nameInteger;
   }
@@ -350,7 +342,6 @@ public class XmlItem {
    * @return nameBoolean
    */
   @javax.annotation.Nullable
-
 
   public Boolean isNameBoolean() {
     return nameBoolean;
@@ -381,7 +372,6 @@ public class XmlItem {
    */
   @javax.annotation.Nullable
 
-
   public List<Integer> getNameArray() {
     return nameArray;
   }
@@ -411,7 +401,6 @@ public class XmlItem {
    */
   @javax.annotation.Nullable
 
-
   public List<Integer> getNameWrappedArray() {
     return nameWrappedArray;
   }
@@ -432,7 +421,6 @@ public class XmlItem {
    * @return prefixString
    */
   @javax.annotation.Nullable
-
 
   public String getPrefixString() {
     return prefixString;
@@ -456,7 +444,6 @@ public class XmlItem {
   @javax.annotation.Nullable
   @Valid
 
-
   public BigDecimal getPrefixNumber() {
     return prefixNumber;
   }
@@ -478,7 +465,6 @@ public class XmlItem {
    */
   @javax.annotation.Nullable
 
-
   public Integer getPrefixInteger() {
     return prefixInteger;
   }
@@ -499,7 +485,6 @@ public class XmlItem {
    * @return prefixBoolean
    */
   @javax.annotation.Nullable
-
 
   public Boolean isPrefixBoolean() {
     return prefixBoolean;
@@ -530,7 +515,6 @@ public class XmlItem {
    */
   @javax.annotation.Nullable
 
-
   public List<Integer> getPrefixArray() {
     return prefixArray;
   }
@@ -560,7 +544,6 @@ public class XmlItem {
    */
   @javax.annotation.Nullable
 
-
   public List<Integer> getPrefixWrappedArray() {
     return prefixWrappedArray;
   }
@@ -581,7 +564,6 @@ public class XmlItem {
    * @return namespaceString
    */
   @javax.annotation.Nullable
-
 
   public String getNamespaceString() {
     return namespaceString;
@@ -605,7 +587,6 @@ public class XmlItem {
   @javax.annotation.Nullable
   @Valid
 
-
   public BigDecimal getNamespaceNumber() {
     return namespaceNumber;
   }
@@ -627,7 +608,6 @@ public class XmlItem {
    */
   @javax.annotation.Nullable
 
-
   public Integer getNamespaceInteger() {
     return namespaceInteger;
   }
@@ -648,7 +628,6 @@ public class XmlItem {
    * @return namespaceBoolean
    */
   @javax.annotation.Nullable
-
 
   public Boolean isNamespaceBoolean() {
     return namespaceBoolean;
@@ -679,7 +658,6 @@ public class XmlItem {
    */
   @javax.annotation.Nullable
 
-
   public List<Integer> getNamespaceArray() {
     return namespaceArray;
   }
@@ -709,7 +687,6 @@ public class XmlItem {
    */
   @javax.annotation.Nullable
 
-
   public List<Integer> getNamespaceWrappedArray() {
     return namespaceWrappedArray;
   }
@@ -730,7 +707,6 @@ public class XmlItem {
    * @return prefixNsString
    */
   @javax.annotation.Nullable
-
 
   public String getPrefixNsString() {
     return prefixNsString;
@@ -754,7 +730,6 @@ public class XmlItem {
   @javax.annotation.Nullable
   @Valid
 
-
   public BigDecimal getPrefixNsNumber() {
     return prefixNsNumber;
   }
@@ -776,7 +751,6 @@ public class XmlItem {
    */
   @javax.annotation.Nullable
 
-
   public Integer getPrefixNsInteger() {
     return prefixNsInteger;
   }
@@ -797,7 +771,6 @@ public class XmlItem {
    * @return prefixNsBoolean
    */
   @javax.annotation.Nullable
-
 
   public Boolean isPrefixNsBoolean() {
     return prefixNsBoolean;
@@ -828,7 +801,6 @@ public class XmlItem {
    */
   @javax.annotation.Nullable
 
-
   public List<Integer> getPrefixNsArray() {
     return prefixNsArray;
   }
@@ -857,7 +829,6 @@ public class XmlItem {
    * @return prefixNsWrappedArray
    */
   @javax.annotation.Nullable
-
 
   public List<Integer> getPrefixNsWrappedArray() {
     return prefixNsWrappedArray;

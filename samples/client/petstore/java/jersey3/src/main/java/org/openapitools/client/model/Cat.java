@@ -67,7 +67,6 @@ public class Cat extends Animal {
    * @return declawed
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_DECLAWED)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -119,7 +118,6 @@ public class Cat extends Animal {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this Cat object is equal to o.
    */

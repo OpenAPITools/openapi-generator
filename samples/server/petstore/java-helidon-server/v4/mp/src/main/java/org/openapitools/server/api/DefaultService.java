@@ -23,10 +23,8 @@ import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
 @Path("/foo")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public interface DefaultService {
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public interface DefaultService {
 
     @GET
     @Produces({ "application/json" })
-    FooGetDefaultResponse fooGet();
-}
+    FooGetDefaultResponse fooGet();}

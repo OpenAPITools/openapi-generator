@@ -9,7 +9,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
-
 class NullableClass {
   /// Returns a new [NullableClass] instance.
   NullableClass({
@@ -26,7 +25,6 @@ class NullableClass {
     this.objectAndItemsNullableProp = const {},
     this.objectItemsNullable = const {},
   });
-
   int? integerProp;
 
   num? numberProp;
@@ -224,4 +222,3 @@ class NullableClass {
   static const requiredKeys = <String>{
   };
 }
-

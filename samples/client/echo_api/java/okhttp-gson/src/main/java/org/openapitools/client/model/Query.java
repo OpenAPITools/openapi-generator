@@ -109,7 +109,6 @@ public class Query {
       OutcomesEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_OUTCOMES = "outcomes";
   @SerializedName(SERIALIZED_NAME_OUTCOMES)
   private List<OutcomesEnum> outcomes = new ArrayList<>(Arrays.asList(OutcomesEnum.SUCCESS, OutcomesEnum.FAILURE));
@@ -161,7 +160,6 @@ public class Query {
   public void setOutcomes(List<OutcomesEnum> outcomes) {
     this.outcomes = outcomes;
   }
-
 
 
   @Override

@@ -12,7 +12,6 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * 
  * @export
@@ -51,4 +50,3 @@ export function OuterEnumDefaultValueToJSON(value?: OuterEnumDefaultValue | null
 export function OuterEnumDefaultValueToJSONTyped(value: any, ignoreDiscriminator: boolean): OuterEnumDefaultValue {
     return value as OuterEnumDefaultValue;
 }
-

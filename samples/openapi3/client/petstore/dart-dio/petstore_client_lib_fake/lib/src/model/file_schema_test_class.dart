@@ -31,8 +31,7 @@ abstract class FileSchemaTestClass implements Built<FileSchemaTestClass, FileSch
   static void _defaults(FileSchemaTestClassBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<FileSchemaTestClass> get serializer => _$FileSchemaTestClassSerializer();
-}
+  static Serializer<FileSchemaTestClass> get serializer => _$FileSchemaTestClassSerializer();}
 
 class _$FileSchemaTestClassSerializer implements PrimitiveSerializer<FileSchemaTestClass> {
   @override

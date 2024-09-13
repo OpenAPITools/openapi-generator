@@ -46,10 +46,8 @@ public class EnumTest   {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   @JsonProperty("enum_string")
-  
-  private EnumStringEnum enumString;
+                                        private EnumStringEnum enumString;
 
   /**
    * Gets or Sets enumStringRequired
@@ -83,11 +81,9 @@ public class EnumTest   {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   @JsonProperty("enum_string_required")
   @NotNull
-
-  private EnumStringRequiredEnum enumStringRequired;
+                                      private EnumStringRequiredEnum enumStringRequired;
 
   /**
    * Gets or Sets enumInteger
@@ -119,10 +115,8 @@ public class EnumTest   {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   @JsonProperty("enum_integer")
-  
-  private EnumIntegerEnum enumInteger;
+                                        private EnumIntegerEnum enumInteger;
 
   /**
    * Gets or Sets enumNumber
@@ -154,14 +148,11 @@ public class EnumTest   {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   @JsonProperty("enum_number")
-  
-  private EnumNumberEnum enumNumber;
+                                        private EnumNumberEnum enumNumber;
 
   @JsonProperty("outerEnum")
-  @Valid
-
+                                        @Valid
   private OuterEnum outerEnum;
 
   public EnumTest enumString(EnumStringEnum enumString) {
@@ -297,4 +288,3 @@ public class EnumTest   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

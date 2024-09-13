@@ -17,7 +17,6 @@
 * Do not edit the class manually.
 */
 
-
 @interface SWGCategoryManagedObjectBuilder : NSObject
 
 

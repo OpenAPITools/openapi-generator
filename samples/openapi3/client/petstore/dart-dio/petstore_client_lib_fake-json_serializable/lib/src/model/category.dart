@@ -22,7 +22,6 @@ class Category {
 
      this.name = 'default-name',
   });
-
   @JsonKey(
     
     name: r'id',

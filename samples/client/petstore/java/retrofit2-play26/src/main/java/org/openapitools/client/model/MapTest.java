@@ -75,7 +75,6 @@ public class MapTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_MAP_OF_ENUM_STRING = "map_of_enum_string";
   private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
@@ -108,7 +107,6 @@ public class MapTest {
    */
   @jakarta.annotation.Nullable
   @Valid
-
   @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -142,7 +140,6 @@ public class MapTest {
    * @return mapOfEnumString
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -176,7 +173,6 @@ public class MapTest {
    * @return directMap
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -210,7 +206,6 @@ public class MapTest {
    * @return indirectMap
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

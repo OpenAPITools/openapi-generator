@@ -11,8 +11,7 @@ import java.io.InputStream
 
 
 @Path("/")
-@javax.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"), comments = "Generator version: 7.9.0-SNAPSHOT")
-class StoreApi {
+@javax.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"), comments = "Generator version: 7.9.0-SNAPSHOT")class StoreApi {
 
     @DELETE
     suspend fun deleteOrder(@PathParam("orderId") orderId: kotlin.String): Response {

@@ -21,7 +21,6 @@ import org.openapitools.client.model.SingleRefType;
 
 
 
-
 public class AllOfWithSingleRef  {
   
   private String username;
@@ -94,4 +93,3 @@ public class AllOfWithSingleRef  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

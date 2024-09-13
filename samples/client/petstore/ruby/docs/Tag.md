@@ -17,4 +17,3 @@ instance = Petstore::Tag.new(
   name: null
 )
 ```
-

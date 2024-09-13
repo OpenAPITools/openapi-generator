@@ -22,7 +22,6 @@ class Tag {
 
      this.name,
   });
-
   @JsonKey(
     
     name: r'id',

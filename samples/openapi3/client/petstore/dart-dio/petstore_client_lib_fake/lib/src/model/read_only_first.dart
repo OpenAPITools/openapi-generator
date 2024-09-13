@@ -29,8 +29,7 @@ abstract class ReadOnlyFirst implements Built<ReadOnlyFirst, ReadOnlyFirstBuilde
   static void _defaults(ReadOnlyFirstBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ReadOnlyFirst> get serializer => _$ReadOnlyFirstSerializer();
-}
+  static Serializer<ReadOnlyFirst> get serializer => _$ReadOnlyFirstSerializer();}
 
 class _$ReadOnlyFirstSerializer implements PrimitiveSerializer<ReadOnlyFirst> {
   @override

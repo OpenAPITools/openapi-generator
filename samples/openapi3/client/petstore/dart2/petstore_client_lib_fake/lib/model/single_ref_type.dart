@@ -10,7 +10,6 @@
 
 part of openapi.api;
 
-
 class SingleRefType {
   /// Instantiate a new enum with the provided [value].
   const SingleRefType._(this.value);
@@ -82,4 +81,3 @@ class SingleRefTypeTypeTransformer {
   /// Singleton [SingleRefTypeTypeTransformer] instance.
   static SingleRefTypeTypeTransformer? _instance;
 }
-

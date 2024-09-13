@@ -17,13 +17,11 @@ import javax.validation.Valid;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class FileSchemaTestClass   {
   @JsonProperty("file")
-  @Valid
-
+                                        @Valid
   private ModelFile _file;
 
   @JsonProperty("files")
-  @Valid
-
+                                        @Valid
   private List<@Valid ModelFile> files = null;
 
   public FileSchemaTestClass _file(ModelFile _file) {
@@ -110,4 +108,3 @@ public class FileSchemaTestClass   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

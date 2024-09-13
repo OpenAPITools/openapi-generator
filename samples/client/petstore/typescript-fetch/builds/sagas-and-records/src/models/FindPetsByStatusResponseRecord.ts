@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import {ApiRecordUtils, knownRecordFactories, appFromJS, NormalizedRecordEntities} from "../runtimeSagasAndRecords";
 import {getApiEntitiesState} from "../ApiEntitiesSelectors"
 import {List, Record, RecordOf, Map} from 'immutable';
@@ -79,5 +78,4 @@ class FindPetsByStatusResponseRecordUtils extends ApiRecordUtils<FindPetsByStatu
 }
 
 export const findPetsByStatusResponseRecordUtils = new FindPetsByStatusResponseRecordUtils();
-
 

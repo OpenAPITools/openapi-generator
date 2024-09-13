@@ -9,7 +9,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
-
 class ApiClient {
   ApiClient({this.basePath = 'http://petstore.swagger.io:80/v2', this.authentication,});
 

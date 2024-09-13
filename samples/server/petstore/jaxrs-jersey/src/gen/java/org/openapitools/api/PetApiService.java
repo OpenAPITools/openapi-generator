@@ -18,8 +18,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public abstract class PetApiService {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public abstract class PetApiService {
     public abstract Response addPet(Pet pet,SecurityContext securityContext) throws NotFoundException;
     public abstract Response deletePet(Long petId,String apiKey,SecurityContext securityContext) throws NotFoundException;
     public abstract Response findPetsByStatus( @NotNull List<String> status,SecurityContext securityContext) throws NotFoundException;

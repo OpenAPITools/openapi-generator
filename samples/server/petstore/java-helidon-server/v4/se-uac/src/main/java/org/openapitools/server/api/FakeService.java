@@ -1121,7 +1121,6 @@ public abstract class FakeService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the fakeHealthGet operation.
      * <p>
@@ -1220,7 +1219,6 @@ public abstract class FakeService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the fakeHttpSignatureTest operation.
      * <p>
@@ -1340,7 +1338,6 @@ public abstract class FakeService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the fakeOuterBooleanSerialize operation.
      * <p>
@@ -1452,7 +1449,6 @@ public abstract class FakeService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the fakeOuterCompositeSerialize operation.
      * <p>
@@ -1564,7 +1560,6 @@ public abstract class FakeService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the fakeOuterNumberSerialize operation.
      * <p>
@@ -1676,7 +1671,6 @@ public abstract class FakeService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the fakeOuterStringSerialize operation.
      * <p>
@@ -1788,7 +1782,6 @@ public abstract class FakeService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the fakePropertyEnumIntegerSerialize operation.
      * <p>
@@ -1900,7 +1893,6 @@ public abstract class FakeService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the testAdditionalPropertiesReference operation.
      * <p>
@@ -1995,7 +1987,6 @@ public abstract class FakeService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the testBodyWithBinary operation.
      * <p>
@@ -2090,7 +2081,6 @@ public abstract class FakeService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the testBodyWithFileSchema operation.
      * <p>
@@ -2185,7 +2175,6 @@ public abstract class FakeService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the testBodyWithQueryParams operation.
      * <p>
@@ -2294,7 +2283,6 @@ public abstract class FakeService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the testClientModel operation.
      * <p>
@@ -2406,7 +2394,6 @@ public abstract class FakeService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the testEndpointParameters operation.
      * <p>
@@ -2737,7 +2724,6 @@ public abstract class FakeService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the testEnumParameters operation.
      * <p>
@@ -3037,7 +3023,6 @@ public abstract class FakeService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the testGroupParameters operation.
      * <p>
@@ -3204,7 +3189,6 @@ public abstract class FakeService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the testInlineAdditionalProperties operation.
      * <p>
@@ -3299,7 +3283,6 @@ public abstract class FakeService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the testInlineFreeformAdditionalProperties operation.
      * <p>
@@ -3394,7 +3377,6 @@ public abstract class FakeService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the testJsonFormData operation.
      * <p>
@@ -3504,7 +3486,6 @@ public abstract class FakeService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the testNullable operation.
      * <p>
@@ -3599,7 +3580,6 @@ public abstract class FakeService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the testQueryParameterCollectionFormat operation.
      * <p>
@@ -3786,7 +3766,6 @@ public abstract class FakeService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the testStringMapReference operation.
      * <p>
@@ -3881,7 +3860,6 @@ public abstract class FakeService implements HttpService {
             }
         }
     }
-
 
     @Override
     public void afterStop() {

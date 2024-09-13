@@ -13,7 +13,6 @@
  */
 
 
-
 /**
  * Describes the result of uploading an image resource
  * @export

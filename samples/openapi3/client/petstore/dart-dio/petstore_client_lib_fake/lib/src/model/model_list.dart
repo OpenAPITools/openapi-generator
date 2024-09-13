@@ -25,8 +25,7 @@ abstract class ModelList implements Built<ModelList, ModelListBuilder> {
   static void _defaults(ModelListBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ModelList> get serializer => _$ModelListSerializer();
-}
+  static Serializer<ModelList> get serializer => _$ModelListSerializer();}
 
 class _$ModelListSerializer implements PrimitiveSerializer<ModelList> {
   @override

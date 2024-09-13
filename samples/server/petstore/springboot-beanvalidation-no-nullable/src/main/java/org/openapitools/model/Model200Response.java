@@ -18,11 +18,9 @@ import javax.annotation.Generated;
 /**
  * Model for testing model name starting with number
  */
-
 @ApiModel(description = "Model for testing model name starting with number")
 @JsonTypeName("200_response")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class Model200Response {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class Model200Response {
 
   private Integer name;
 
@@ -37,8 +35,7 @@ public class Model200Response {
    * Get name
    * @return name
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("name")
   public Integer getName() {
     return name;
@@ -57,8 +54,7 @@ public class Model200Response {
    * Get propertyClass
    * @return propertyClass
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("class")
   public String getPropertyClass() {
     return propertyClass;
@@ -67,7 +63,6 @@ public class Model200Response {
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

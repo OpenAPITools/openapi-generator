@@ -53,7 +53,6 @@ public class BasquePig {
    */
   @jakarta.annotation.Nonnull
   @NotNull
-
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -67,7 +66,6 @@ public class BasquePig {
   public void setClassName(String className) {
     this.className = className;
   }
-
 
   /**
    * Return true if this BasquePig object is equal to o.

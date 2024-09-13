@@ -71,7 +71,6 @@ public class ObjectWithDeprecatedFields {
    * @return uuid
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -101,7 +100,6 @@ public class ObjectWithDeprecatedFields {
   @Deprecated
   @jakarta.annotation.Nullable
   @Valid
-
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -132,7 +130,6 @@ public class ObjectWithDeprecatedFields {
   @Deprecated
   @jakarta.annotation.Nullable
   @Valid
-
   @JsonProperty(JSON_PROPERTY_DEPRECATED_REF)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -170,7 +167,6 @@ public class ObjectWithDeprecatedFields {
    */
   @Deprecated
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_BARS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -185,7 +181,6 @@ public class ObjectWithDeprecatedFields {
   public void setBars(List<String> bars) {
     this.bars = bars;
   }
-
 
   /**
    * Return true if this ObjectWithDeprecatedFields object is equal to o.

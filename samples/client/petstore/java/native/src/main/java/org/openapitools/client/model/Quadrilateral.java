@@ -168,7 +168,6 @@ public class Quadrilateral extends AbstractOpenApiSchema {
     public Quadrilateral() {
         super("oneOf", Boolean.FALSE);
     }
-
     public Quadrilateral(ComplexQuadrilateral o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);

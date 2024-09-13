@@ -20,10 +20,8 @@ import javax.annotation.Generated;
 /**
  * OuterCompositeDto
  */
-
 @JsonTypeName("OuterComposite")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class OuterCompositeDto {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class OuterCompositeDto {
 
   private BigDecimal myNumber;
 
@@ -40,8 +38,7 @@ public class OuterCompositeDto {
    * Get myNumber
    * @return myNumber
    */
-  @Valid 
-  @ApiModelProperty(value = "")
+  @Valid   @ApiModelProperty(value = "")
   @JsonProperty("my_number")
   public BigDecimal getMyNumber() {
     return myNumber;
@@ -60,8 +57,7 @@ public class OuterCompositeDto {
    * Get myString
    * @return myString
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("my_string")
   public String getMyString() {
     return myString;
@@ -80,8 +76,7 @@ public class OuterCompositeDto {
    * Get myBoolean
    * @return myBoolean
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("my_boolean")
   public Boolean getMyBoolean() {
     return myBoolean;
@@ -90,7 +85,6 @@ public class OuterCompositeDto {
   public void setMyBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

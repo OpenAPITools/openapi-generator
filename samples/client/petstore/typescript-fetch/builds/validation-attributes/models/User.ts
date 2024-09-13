@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * A User who is purchasing from the pet store
@@ -68,7 +67,6 @@ export interface User {
      */
     userStatus?: number;
 }
-
 /**
  * Check if a given object implements the User interface.
  */
@@ -146,4 +144,3 @@ export const UserPropertyValidationAttributesMap: {
         multipleOf: 10,
     },
 }
-

@@ -22,8 +22,7 @@ import javax.annotation.Generated;
  * A delegate to be called by the {@link AnotherFakeApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public interface AnotherFakeApiDelegate {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public interface AnotherFakeApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
@@ -39,17 +38,16 @@ public interface AnotherFakeApiDelegate {
      */
     default Mono<Client> call123testSpecialTags(Mono<Client> client,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = "{ \"client\" : \"client\" }";
-                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
-                break;
-            }
-        }
-        return result.then(client).then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
+                    if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                        String exampleString = "{ \"client\" : \"client\" }";
+                        result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
+                        break;
+                    }
+                }
+                                return result.then(client).then(Mono.empty());
+                    }
 
 }

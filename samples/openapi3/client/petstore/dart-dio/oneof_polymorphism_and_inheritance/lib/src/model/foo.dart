@@ -35,8 +35,7 @@ abstract class Foo implements Entity, Built<Foo, FooBuilder> {
   static void _defaults(FooBuilder b) => b..atType=b.discriminatorValue;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<Foo> get serializer => _$FooSerializer();
-}
+  static Serializer<Foo> get serializer => _$FooSerializer();}
 
 class _$FooSerializer implements PrimitiveSerializer<Foo> {
   @override

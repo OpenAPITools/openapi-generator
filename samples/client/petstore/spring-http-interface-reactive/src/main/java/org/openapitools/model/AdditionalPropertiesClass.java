@@ -22,9 +22,7 @@ import jakarta.annotation.Generated;
 /**
  * AdditionalPropertiesClass
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class AdditionalPropertiesClass {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class AdditionalPropertiesClass {
 
   
   private Map<String, String> mapString = new HashMap<>();
@@ -328,7 +326,6 @@ public class AdditionalPropertiesClass {
   public void setAnytype3(Object anytype3) {
     this.anytype3 = anytype3;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

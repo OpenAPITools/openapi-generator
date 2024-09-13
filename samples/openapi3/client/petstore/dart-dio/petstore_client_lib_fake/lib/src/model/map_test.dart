@@ -39,8 +39,7 @@ abstract class MapTest implements Built<MapTest, MapTestBuilder> {
   static void _defaults(MapTestBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<MapTest> get serializer => _$MapTestSerializer();
-}
+  static Serializer<MapTest> get serializer => _$MapTestSerializer();}
 
 class _$MapTestSerializer implements PrimitiveSerializer<MapTest> {
   @override
@@ -178,4 +177,3 @@ class MapTestMapOfEnumStringEnum extends EnumClass {
   static BuiltSet<MapTestMapOfEnumStringEnum> get values => _$mapTestMapOfEnumStringEnumValues;
   static MapTestMapOfEnumStringEnum valueOf(String name) => _$mapTestMapOfEnumStringEnumValueOf(name);
 }
-

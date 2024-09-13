@@ -11,7 +11,6 @@
 
     Do not edit the class manually.
 """  # noqa: E501
-
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
@@ -102,8 +101,7 @@ class FormApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
-        }
-        response_data = self.api_client.call_api(
+        }        response_data = self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -177,8 +175,7 @@ class FormApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
-        }
-        response_data = self.api_client.call_api(
+        }        response_data = self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -252,8 +249,7 @@ class FormApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
-        }
-        response_data = self.api_client.call_api(
+        }        response_data = self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -397,8 +393,7 @@ class FormApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
-        }
-        response_data = self.api_client.call_api(
+        }        response_data = self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -464,8 +459,7 @@ class FormApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
-        }
-        response_data = self.api_client.call_api(
+        }        response_data = self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -531,8 +525,7 @@ class FormApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
-        }
-        response_data = self.api_client.call_api(
+        }        response_data = self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -690,8 +683,7 @@ class FormApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
-        }
-        response_data = self.api_client.call_api(
+        }        response_data = self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -777,8 +769,7 @@ class FormApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
-        }
-        response_data = self.api_client.call_api(
+        }        response_data = self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -864,8 +855,7 @@ class FormApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
-        }
-        response_data = self.api_client.call_api(
+        }        response_data = self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )

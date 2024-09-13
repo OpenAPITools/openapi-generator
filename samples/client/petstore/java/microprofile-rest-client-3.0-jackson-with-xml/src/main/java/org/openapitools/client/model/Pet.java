@@ -35,8 +35,7 @@ import jakarta.xml.bind.annotation.adapters.*;
 
 @XmlRootElement(name = "Pet")
 @XmlAccessorType(XmlAccessType.FIELD)
-@JacksonXmlRootElement(localName = "Pet")
-@JsonPropertyOrder({
+@JacksonXmlRootElement(localName = "Pet")@JsonPropertyOrder({
   Pet.JSON_PROPERTY_ID,
   Pet.JSON_PROPERTY_CATEGORY,
   Pet.JSON_PROPERTY_NAME,
@@ -47,7 +46,6 @@ import jakarta.xml.bind.annotation.adapters.*;
 /**
   * A pet for sale in the pet store
   */
-
 public class Pet  {
   
   public static final String JSON_PROPERTY_ID = "id";
@@ -323,4 +321,3 @@ public class Pet  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

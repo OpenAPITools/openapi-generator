@@ -52,7 +52,6 @@ namespace Org.OpenAPITools.Model
             NotUnknown
         }
 
-
         /// <summary>
         /// Gets or Sets ZeroBasedEnum
         /// </summary>
@@ -143,7 +142,6 @@ namespace Org.OpenAPITools.Model
         IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
-        }
-    }
+        }    }
 
 }

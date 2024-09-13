@@ -123,7 +123,6 @@ public class OuterComposite {
     this.myBoolean = myBoolean;
   }
 
-
   /**
    * Return true if this OuterComposite object is equal to o.
    */

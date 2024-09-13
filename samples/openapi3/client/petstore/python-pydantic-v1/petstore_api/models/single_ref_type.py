@@ -11,7 +11,6 @@
     Do not edit the class manually.
 """  # noqa: E501
 
-
 import json
 import pprint
 import re  # noqa: F401
@@ -36,5 +35,4 @@ class SingleRefType(str, Enum):
     def from_json(cls, json_str: str) -> SingleRefType:
         """Create an instance of SingleRefType from a JSON string"""
         return SingleRefType(json.loads(json_str))
-
 

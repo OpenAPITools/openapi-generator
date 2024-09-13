@@ -14,7 +14,6 @@
 * Do not edit the class manually.
 */
 
-
 static NSString * const kSWGAPIVersion = @"1.0.0";
 
 @protocol SWGConfiguration <NSObject>

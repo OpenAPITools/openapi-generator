@@ -158,7 +158,6 @@ public class AdditionalPropertiesClass {
 
   @JsonProperty(JSON_PROPERTY_ANYTYPE1)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<Object> getAnytype1_JsonNullable() {
     return anytype1;
   }
@@ -307,7 +306,6 @@ public class AdditionalPropertiesClass {
   public void setMapWithUndeclaredPropertiesString(Map<String, String> mapWithUndeclaredPropertiesString) {
     this.mapWithUndeclaredPropertiesString = mapWithUndeclaredPropertiesString;
   }
-
 
   /**
    * Return true if this AdditionalPropertiesClass object is equal to o.
@@ -466,96 +464,95 @@ public class AdditionalPropertiesClass {
   }
 
     public static class Builder {
-
-    private AdditionalPropertiesClass instance;
-
-    public Builder() {
-      this(new AdditionalPropertiesClass());
-    }
-
-    protected Builder(AdditionalPropertiesClass instance) {
-      this.instance = instance;
-    }
-
-    public AdditionalPropertiesClass.Builder mapProperty(Map<String, String> mapProperty) {
-      this.instance.mapProperty = mapProperty;
-      return this;
-    }
-    public AdditionalPropertiesClass.Builder mapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
-      this.instance.mapOfMapProperty = mapOfMapProperty;
-      return this;
-    }
-    public AdditionalPropertiesClass.Builder anytype1(Object anytype1) {
-      this.instance.anytype1 = JsonNullable.<Object>of(anytype1);
-      return this;
-    }
-    public AdditionalPropertiesClass.Builder anytype1(JsonNullable<Object> anytype1) {
-      this.instance.anytype1 = anytype1;
-      return this;
-    }
-    public AdditionalPropertiesClass.Builder mapWithUndeclaredPropertiesAnytype1(Object mapWithUndeclaredPropertiesAnytype1) {
-      this.instance.mapWithUndeclaredPropertiesAnytype1 = mapWithUndeclaredPropertiesAnytype1;
-      return this;
-    }
-    public AdditionalPropertiesClass.Builder mapWithUndeclaredPropertiesAnytype2(Object mapWithUndeclaredPropertiesAnytype2) {
-      this.instance.mapWithUndeclaredPropertiesAnytype2 = mapWithUndeclaredPropertiesAnytype2;
-      return this;
-    }
-    public AdditionalPropertiesClass.Builder mapWithUndeclaredPropertiesAnytype3(Map<String, Object> mapWithUndeclaredPropertiesAnytype3) {
-      this.instance.mapWithUndeclaredPropertiesAnytype3 = mapWithUndeclaredPropertiesAnytype3;
-      return this;
-    }
-    public AdditionalPropertiesClass.Builder emptyMap(Object emptyMap) {
-      this.instance.emptyMap = emptyMap;
-      return this;
-    }
-    public AdditionalPropertiesClass.Builder mapWithUndeclaredPropertiesString(Map<String, String> mapWithUndeclaredPropertiesString) {
-      this.instance.mapWithUndeclaredPropertiesString = mapWithUndeclaredPropertiesString;
-      return this;
-    }
-
-
-    /**
-    * returns a built AdditionalPropertiesClass instance.
-    *
-    * The builder is not reusable.
-    */
-    public AdditionalPropertiesClass build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    
+        private AdditionalPropertiesClass instance;
+    
+        public Builder() {
+          this(new AdditionalPropertiesClass());
+        }
+    
+        protected Builder(AdditionalPropertiesClass instance) {
+          this.instance = instance;
+        }
+    
+        public AdditionalPropertiesClass.Builder mapProperty(Map<String, String> mapProperty) {
+              this.instance.mapProperty = mapProperty;
+          return this;
+        }
+            public AdditionalPropertiesClass.Builder mapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
+              this.instance.mapOfMapProperty = mapOfMapProperty;
+          return this;
+        }
+            public AdditionalPropertiesClass.Builder anytype1(Object anytype1) {
+          this.instance.anytype1 = JsonNullable.<Object>of(anytype1);
+              return this;
+        }
+        public AdditionalPropertiesClass.Builder anytype1(JsonNullable<Object> anytype1) {
+          this.instance.anytype1 = anytype1;
+          return this;
+        }
+            public AdditionalPropertiesClass.Builder mapWithUndeclaredPropertiesAnytype1(Object mapWithUndeclaredPropertiesAnytype1) {
+              this.instance.mapWithUndeclaredPropertiesAnytype1 = mapWithUndeclaredPropertiesAnytype1;
+          return this;
+        }
+            public AdditionalPropertiesClass.Builder mapWithUndeclaredPropertiesAnytype2(Object mapWithUndeclaredPropertiesAnytype2) {
+              this.instance.mapWithUndeclaredPropertiesAnytype2 = mapWithUndeclaredPropertiesAnytype2;
+          return this;
+        }
+            public AdditionalPropertiesClass.Builder mapWithUndeclaredPropertiesAnytype3(Map<String, Object> mapWithUndeclaredPropertiesAnytype3) {
+              this.instance.mapWithUndeclaredPropertiesAnytype3 = mapWithUndeclaredPropertiesAnytype3;
+          return this;
+        }
+            public AdditionalPropertiesClass.Builder emptyMap(Object emptyMap) {
+              this.instance.emptyMap = emptyMap;
+          return this;
+        }
+            public AdditionalPropertiesClass.Builder mapWithUndeclaredPropertiesString(Map<String, String> mapWithUndeclaredPropertiesString) {
+              this.instance.mapWithUndeclaredPropertiesString = mapWithUndeclaredPropertiesString;
+          return this;
+        }
+        
+    
+        /**
+        * returns a built AdditionalPropertiesClass instance.
+        *
+        * The builder is not reusable.
+        */
+        public AdditionalPropertiesClass build() {
+          try {
+            return this.instance;
+          } finally {
+            // ensure that this.instance is not reused
+            this.instance = null;
+          }
+        }
+    
+        @Override
+        public String toString() {
+          return getClass() + "=(" + instance + ")";
+        }
       }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static AdditionalPropertiesClass.Builder builder() {
-    return new AdditionalPropertiesClass.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public AdditionalPropertiesClass.Builder toBuilder() {
-    return new AdditionalPropertiesClass.Builder()
-      .mapProperty(getMapProperty())
-      .mapOfMapProperty(getMapOfMapProperty())
-      .anytype1(getAnytype1())
-      .mapWithUndeclaredPropertiesAnytype1(getMapWithUndeclaredPropertiesAnytype1())
-      .mapWithUndeclaredPropertiesAnytype2(getMapWithUndeclaredPropertiesAnytype2())
-      .mapWithUndeclaredPropertiesAnytype3(getMapWithUndeclaredPropertiesAnytype3())
-      .emptyMap(getEmptyMap())
-      .mapWithUndeclaredPropertiesString(getMapWithUndeclaredPropertiesString());
-  }
-
+    
+      /**
+      * Create a builder with no initialized field.
+      */
+      public static AdditionalPropertiesClass.Builder builder() {
+        return new AdditionalPropertiesClass.Builder();
+      }
+    
+      /**
+      * Create a builder with a shallow copy of this instance.
+      */
+      public AdditionalPropertiesClass.Builder toBuilder() {
+        return new AdditionalPropertiesClass.Builder()
+          .mapProperty(getMapProperty())
+          .mapOfMapProperty(getMapOfMapProperty())
+          .anytype1(getAnytype1())
+          .mapWithUndeclaredPropertiesAnytype1(getMapWithUndeclaredPropertiesAnytype1())
+          .mapWithUndeclaredPropertiesAnytype2(getMapWithUndeclaredPropertiesAnytype2())
+          .mapWithUndeclaredPropertiesAnytype3(getMapWithUndeclaredPropertiesAnytype3())
+          .emptyMap(getEmptyMap())
+          .mapWithUndeclaredPropertiesString(getMapWithUndeclaredPropertiesString());
+      }
 }
 

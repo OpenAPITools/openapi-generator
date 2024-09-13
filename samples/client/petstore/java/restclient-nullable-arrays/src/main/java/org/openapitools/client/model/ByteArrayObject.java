@@ -77,7 +77,6 @@ public class ByteArrayObject {
 
   @JsonProperty(JSON_PROPERTY_NULLABLE_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<byte[]> getNullableArray_JsonNullable() {
     return nullableArray;
   }
@@ -135,7 +134,6 @@ public class ByteArrayObject {
 
   @JsonProperty(JSON_PROPERTY_NULLABLE_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<String> getNullableString_JsonNullable() {
     return nullableString;
   }

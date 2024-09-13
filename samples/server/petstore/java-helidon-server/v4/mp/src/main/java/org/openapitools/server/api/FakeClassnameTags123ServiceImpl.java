@@ -24,8 +24,7 @@ import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
 @Path("/fake_classname_test")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class FakeClassnameTags123ServiceImpl implements FakeClassnameTags123Service {
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class FakeClassnameTags123ServiceImpl implements FakeClassnameTags123Service {
 
     @PATCH
     @Consumes({ "application/json" })
@@ -33,5 +32,4 @@ public class FakeClassnameTags123ServiceImpl implements FakeClassnameTags123Serv
     public Client testClassname(@Valid @NotNull Client client) {
         Client result = null; // Replace with correct business logic.
         return result;
-    }
-}
+    }}

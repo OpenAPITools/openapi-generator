@@ -9,14 +9,12 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
-
 class Tag {
   /// Returns a new [Tag] instance.
   Tag({
     this.id,
     this.name,
   });
-
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
@@ -132,4 +130,3 @@ class Tag {
   static const requiredKeys = <String>{
   };
 }
-

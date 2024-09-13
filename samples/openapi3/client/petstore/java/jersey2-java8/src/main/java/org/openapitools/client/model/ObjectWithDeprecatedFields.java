@@ -178,7 +178,6 @@ public class ObjectWithDeprecatedFields {
     this.bars = bars;
   }
 
-
   /**
    * Return true if this ObjectWithDeprecatedFields object is equal to o.
    */

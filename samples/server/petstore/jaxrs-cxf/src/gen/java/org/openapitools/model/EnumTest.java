@@ -306,4 +306,3 @@ NUMBER_1_DOT_1(Double.valueOf(1.1)), NUMBER_MINUS_1_DOT_2(Double.valueOf(-1.2));
     return o.toString().replace("\n", "\n    ");
   }
 }
-

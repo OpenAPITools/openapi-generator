@@ -30,8 +30,6 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = Bar.class, name = "Bar"),
   @JsonSubTypes.Type(value = BarRef.class, name = "BarRef")
 })
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public interface BarRefOrValue {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public interface BarRefOrValue {
     public String getAtType();
 }

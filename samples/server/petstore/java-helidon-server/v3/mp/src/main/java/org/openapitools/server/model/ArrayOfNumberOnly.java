@@ -24,7 +24,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
 public class ArrayOfNumberOnly  {
   
   private List<BigDecimal> arrayNumber = null;
@@ -79,4 +78,3 @@ public class ArrayOfNumberOnly  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

@@ -67,7 +67,6 @@ public class BigCat extends Cat implements Serializable {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_KIND = "kind";
   @JsonProperty(JSON_PROPERTY_KIND)
   private KindEnum kind;

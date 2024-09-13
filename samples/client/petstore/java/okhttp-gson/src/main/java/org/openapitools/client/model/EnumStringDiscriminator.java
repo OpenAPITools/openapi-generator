@@ -101,7 +101,6 @@ public class EnumStringDiscriminator {
       EnumStrTypeEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_ENUM_STR_TYPE = "enum_str_type";
   @SerializedName(SERIALIZED_NAME_ENUM_STR_TYPE)
   protected EnumStrTypeEnum enumStrType;
@@ -171,7 +170,6 @@ public class EnumStringDiscriminator {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

@@ -158,7 +158,6 @@ public class ChildCat extends ParentPet {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this ChildCat object is equal to o.
    */

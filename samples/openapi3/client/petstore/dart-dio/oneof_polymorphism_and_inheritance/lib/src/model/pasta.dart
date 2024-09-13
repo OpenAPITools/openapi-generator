@@ -31,8 +31,7 @@ abstract class Pasta implements Entity, Built<Pasta, PastaBuilder> {
   static void _defaults(PastaBuilder b) => b..atType=b.discriminatorValue;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<Pasta> get serializer => _$PastaSerializer();
-}
+  static Serializer<Pasta> get serializer => _$PastaSerializer();}
 
 class _$PastaSerializer implements PrimitiveSerializer<Pasta> {
   @override

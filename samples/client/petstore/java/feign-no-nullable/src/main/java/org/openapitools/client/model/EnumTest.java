@@ -74,7 +74,6 @@ public class EnumTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_ENUM_STRING = "enum_string";
   private EnumStringEnum enumString;
 
@@ -114,7 +113,6 @@ public class EnumTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_ENUM_STRING_REQUIRED = "enum_string_required";
   private EnumStringRequiredEnum enumStringRequired;
 
@@ -152,7 +150,6 @@ public class EnumTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_ENUM_INTEGER = "enum_integer";
   private EnumIntegerEnum enumInteger;
 
@@ -190,7 +187,6 @@ public class EnumTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_ENUM_NUMBER = "enum_number";
   private EnumNumberEnum enumNumber;
 
@@ -328,7 +324,6 @@ public class EnumTest {
   public void setOuterEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
   }
-
 
   @Override
   public boolean equals(Object o) {

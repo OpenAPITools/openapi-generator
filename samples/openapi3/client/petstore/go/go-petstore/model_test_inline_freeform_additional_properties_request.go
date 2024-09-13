@@ -152,4 +152,3 @@ func (v *NullableTestInlineFreeformAdditionalPropertiesRequest) UnmarshalJSON(sr
 	return json.Unmarshal(src, &v.value)
 }
 
-

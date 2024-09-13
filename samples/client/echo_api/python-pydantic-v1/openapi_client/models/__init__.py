@@ -13,7 +13,6 @@
     Do not edit the class manually.
 """  # noqa: E501
 
-
 # import models into model package
 from openapi_client.models.bird import Bird
 from openapi_client.models.category import Category

@@ -15,4 +15,3 @@ instance = Petstore::OuterObjectWithEnumProperty.new(
   value: null
 )
 ```
-

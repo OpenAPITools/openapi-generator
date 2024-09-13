@@ -95,7 +95,6 @@ public class BananaReq {
     this.sweet = sweet;
   }
 
-
   /**
    * Return true if this bananaReq object is equal to o.
    */

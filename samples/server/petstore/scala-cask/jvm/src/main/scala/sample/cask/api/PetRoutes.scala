@@ -14,7 +14,6 @@
  * https://openapi-generator.tech
  */
 
-
 // this is generated from apiRoutes.mustache
 package sample.cask.api
 

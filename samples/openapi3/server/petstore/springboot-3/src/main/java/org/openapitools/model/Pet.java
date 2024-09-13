@@ -27,13 +27,10 @@ import jakarta.annotation.Generated;
 /**
  * A pet for sale in the pet store
  */
-
 @Schema(name = "Pet", description = "A pet for sale in the pet store")
 @JacksonXmlRootElement(localName = "Pet")
 @XmlRootElement(name = "Pet")
-@XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class Pet {
+@XmlAccessorType(XmlAccessType.FIELD)@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class Pet {
 
   private Long id;
 
@@ -83,7 +80,6 @@ public class Pet {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   @Deprecated
   private StatusEnum status;
 
@@ -120,8 +116,7 @@ public class Pet {
    * Get id
    * @return id
    */
-  
-  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
   @XmlElement(name = "id")
@@ -142,8 +137,7 @@ public class Pet {
    * Get category
    * @return category
    */
-  @Valid 
-  @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Valid   @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("category")
   @JacksonXmlProperty(localName = "Category")
   @XmlElement(name = "Category")
@@ -164,8 +158,7 @@ public class Pet {
    * Get name
    * @return name
    */
-  @NotNull 
-  @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
+  @NotNull   @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
   @JacksonXmlProperty(localName = "name")
   @XmlElement(name = "name")
@@ -194,8 +187,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
    */
-  @NotNull 
-  @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
+  @NotNull   @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("photoUrls")
   @JacksonXmlProperty(localName = "photoUrl")
   @JacksonXmlElementWrapper(localName = "photoUrl", useWrapping = true)
@@ -226,8 +218,7 @@ public class Pet {
    * Get tags
    * @return tags
    */
-  @Valid 
-  @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Valid   @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("tags")
   @JacksonXmlProperty(localName = "Tag")
   @JacksonXmlElementWrapper(localName = "tag", useWrapping = true)
@@ -251,8 +242,7 @@ public class Pet {
    * @return status
    * @deprecated
    */
-  
-  @Schema(name = "status", description = "pet status in the store", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "status", description = "pet status in the store", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
   @JacksonXmlProperty(localName = "status")
   @XmlElement(name = "status")
@@ -268,7 +258,6 @@ public class Pet {
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -316,93 +305,92 @@ public class Pet {
     return o.toString().replace("\n", "\n    ");
   }
   
-  public static class Builder {
-
-    private Pet instance;
-
-    public Builder() {
-      this(new Pet());
-    }
-
-    protected Builder(Pet instance) {
-      this.instance = instance;
-    }
-
-    protected Builder copyOf(Pet value) { 
-      this.instance.setId(value.id);
-      this.instance.setCategory(value.category);
-      this.instance.setName(value.name);
-      this.instance.setPhotoUrls(value.photoUrls);
-      this.instance.setTags(value.tags);
-      this.instance.setStatus(value.status);
-      return this;
-    }
-
-    public Pet.Builder id(Long id) {
-      this.instance.id(id);
-      return this;
-    }
-    
-    public Pet.Builder category(Category category) {
-      this.instance.category(category);
-      return this;
-    }
-    
-    public Pet.Builder name(String name) {
-      this.instance.name(name);
-      return this;
-    }
-    
-    public Pet.Builder photoUrls(List<String> photoUrls) {
-      this.instance.photoUrls(photoUrls);
-      return this;
-    }
-    
-    public Pet.Builder tags(List<@Valid Tag> tags) {
-      this.instance.tags(tags);
-      return this;
-    }
-    
-    @Deprecated
-    public Pet.Builder status(StatusEnum status) {
-      this.instance.status(status);
-      return this;
-    }
-    
-    /**
-    * returns a built Pet instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public Pet build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    public static class Builder {
+  
+      private Pet instance;
+  
+      public Builder() {
+        this(new Pet());
+      }
+  
+      protected Builder(Pet instance) {
+        this.instance = instance;
+      }
+  
+      protected Builder copyOf(Pet value) { 
+        this.instance.setId(value.id);
+        this.instance.setCategory(value.category);
+        this.instance.setName(value.name);
+        this.instance.setPhotoUrls(value.photoUrls);
+        this.instance.setTags(value.tags);
+        this.instance.setStatus(value.status);
+        return this;
+      }
+  
+        public Pet.Builder id(Long id) {
+        this.instance.id(id);
+        return this;
+      }
+      
+        public Pet.Builder category(Category category) {
+        this.instance.category(category);
+        return this;
+      }
+      
+        public Pet.Builder name(String name) {
+        this.instance.name(name);
+        return this;
+      }
+      
+        public Pet.Builder photoUrls(List<String> photoUrls) {
+        this.instance.photoUrls(photoUrls);
+        return this;
+      }
+      
+        public Pet.Builder tags(List<@Valid Tag> tags) {
+        this.instance.tags(tags);
+        return this;
+      }
+      
+        @Deprecated
+      public Pet.Builder status(StatusEnum status) {
+        this.instance.status(status);
+        return this;
+      }
+      
+          /**
+      * returns a built Pet instance.
+      *
+      * The builder is not reusable (NullPointerException)
+      */
+      public Pet build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field (except for the default values).
+    */
+    public static Pet.Builder builder() {
+      return new Pet.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field (except for the default values).
-  */
-  public static Pet.Builder builder() {
-    return new Pet.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public Pet.Builder toBuilder() {
-    Pet.Builder builder = new Pet.Builder();
-    return builder.copyOf(this);
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public Pet.Builder toBuilder() {
+      Pet.Builder builder = new Pet.Builder();
+      return builder.copyOf(this);
+    }
 }
 

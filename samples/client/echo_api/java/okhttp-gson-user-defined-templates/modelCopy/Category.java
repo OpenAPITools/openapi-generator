@@ -29,7 +29,6 @@ public class Category {
   public Category() {
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

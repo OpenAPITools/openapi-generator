@@ -25,8 +25,7 @@ abstract class ModelReturn implements Built<ModelReturn, ModelReturnBuilder> {
   static void _defaults(ModelReturnBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ModelReturn> get serializer => _$ModelReturnSerializer();
-}
+  static Serializer<ModelReturn> get serializer => _$ModelReturnSerializer();}
 
 class _$ModelReturnSerializer implements PrimitiveSerializer<ModelReturn> {
   @override

@@ -52,7 +52,6 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
    */
   @javax.annotation.Nullable
 
-
   public String getName() {
     return name;
   }

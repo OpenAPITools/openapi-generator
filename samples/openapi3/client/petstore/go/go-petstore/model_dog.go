@@ -238,4 +238,3 @@ func (v *NullableDog) UnmarshalJSON(src []byte) error {
 	return json.Unmarshal(src, &v.value)
 }
 
-

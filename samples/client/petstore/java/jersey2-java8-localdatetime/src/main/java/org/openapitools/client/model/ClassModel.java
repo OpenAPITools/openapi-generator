@@ -64,7 +64,6 @@ public class ClassModel {
     this.propertyClass = propertyClass;
   }
 
-
   /**
    * Return true if this ClassModel object is equal to o.
    */

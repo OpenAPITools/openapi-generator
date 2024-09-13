@@ -65,7 +65,6 @@ public class ModelList {
     this._123list = _123list;
   }
 
-
   /**
    * Return true if this List object is equal to o.
    */

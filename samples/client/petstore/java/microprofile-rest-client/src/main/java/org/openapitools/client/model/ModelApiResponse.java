@@ -26,7 +26,6 @@ import javax.json.bind.annotation.JsonbProperty;
 /**
   * Describes the result of uploading an image resource
   */
-
 public class ModelApiResponse  {
   
   @JsonbProperty("code")
@@ -125,4 +124,3 @@ public class ModelApiResponse  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

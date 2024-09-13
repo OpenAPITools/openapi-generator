@@ -51,7 +51,6 @@ public class Dog extends Animal {
    */
   @javax.annotation.Nullable
 
-
   public String getBreed() {
     return breed;
   }

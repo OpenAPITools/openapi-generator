@@ -23,10 +23,8 @@ import javax.annotation.Generated;
 /**
  * XmlItemDto
  */
-
 @JsonTypeName("XmlItem")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class XmlItemDto {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class XmlItemDto {
 
   private String attributeString;
 
@@ -104,8 +102,7 @@ public class XmlItemDto {
    * Get attributeString
    * @return attributeString
    */
-  
-  @ApiModelProperty(example = "string", value = "")
+    @ApiModelProperty(example = "string", value = "")
   @JsonProperty("attribute_string")
   public String getAttributeString() {
     return attributeString;
@@ -124,8 +121,7 @@ public class XmlItemDto {
    * Get attributeNumber
    * @return attributeNumber
    */
-  @Valid 
-  @ApiModelProperty(example = "1.234", value = "")
+  @Valid   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("attribute_number")
   public BigDecimal getAttributeNumber() {
     return attributeNumber;
@@ -144,8 +140,7 @@ public class XmlItemDto {
    * Get attributeInteger
    * @return attributeInteger
    */
-  
-  @ApiModelProperty(example = "-2", value = "")
+    @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("attribute_integer")
   public Integer getAttributeInteger() {
     return attributeInteger;
@@ -164,8 +159,7 @@ public class XmlItemDto {
    * Get attributeBoolean
    * @return attributeBoolean
    */
-  
-  @ApiModelProperty(example = "true", value = "")
+    @ApiModelProperty(example = "true", value = "")
   @JsonProperty("attribute_boolean")
   public Boolean getAttributeBoolean() {
     return attributeBoolean;
@@ -192,8 +186,7 @@ public class XmlItemDto {
    * Get wrappedArray
    * @return wrappedArray
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("wrapped_array")
   public List<Integer> getWrappedArray() {
     return wrappedArray;
@@ -212,8 +205,7 @@ public class XmlItemDto {
    * Get nameString
    * @return nameString
    */
-  
-  @ApiModelProperty(example = "string", value = "")
+    @ApiModelProperty(example = "string", value = "")
   @JsonProperty("name_string")
   public String getNameString() {
     return nameString;
@@ -232,8 +224,7 @@ public class XmlItemDto {
    * Get nameNumber
    * @return nameNumber
    */
-  @Valid 
-  @ApiModelProperty(example = "1.234", value = "")
+  @Valid   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("name_number")
   public BigDecimal getNameNumber() {
     return nameNumber;
@@ -252,8 +243,7 @@ public class XmlItemDto {
    * Get nameInteger
    * @return nameInteger
    */
-  
-  @ApiModelProperty(example = "-2", value = "")
+    @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("name_integer")
   public Integer getNameInteger() {
     return nameInteger;
@@ -272,8 +262,7 @@ public class XmlItemDto {
    * Get nameBoolean
    * @return nameBoolean
    */
-  
-  @ApiModelProperty(example = "true", value = "")
+    @ApiModelProperty(example = "true", value = "")
   @JsonProperty("name_boolean")
   public Boolean getNameBoolean() {
     return nameBoolean;
@@ -300,8 +289,7 @@ public class XmlItemDto {
    * Get nameArray
    * @return nameArray
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("name_array")
   public List<Integer> getNameArray() {
     return nameArray;
@@ -328,8 +316,7 @@ public class XmlItemDto {
    * Get nameWrappedArray
    * @return nameWrappedArray
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("name_wrapped_array")
   public List<Integer> getNameWrappedArray() {
     return nameWrappedArray;
@@ -348,8 +335,7 @@ public class XmlItemDto {
    * Get prefixString
    * @return prefixString
    */
-  
-  @ApiModelProperty(example = "string", value = "")
+    @ApiModelProperty(example = "string", value = "")
   @JsonProperty("prefix_string")
   public String getPrefixString() {
     return prefixString;
@@ -368,8 +354,7 @@ public class XmlItemDto {
    * Get prefixNumber
    * @return prefixNumber
    */
-  @Valid 
-  @ApiModelProperty(example = "1.234", value = "")
+  @Valid   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("prefix_number")
   public BigDecimal getPrefixNumber() {
     return prefixNumber;
@@ -388,8 +373,7 @@ public class XmlItemDto {
    * Get prefixInteger
    * @return prefixInteger
    */
-  
-  @ApiModelProperty(example = "-2", value = "")
+    @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("prefix_integer")
   public Integer getPrefixInteger() {
     return prefixInteger;
@@ -408,8 +392,7 @@ public class XmlItemDto {
    * Get prefixBoolean
    * @return prefixBoolean
    */
-  
-  @ApiModelProperty(example = "true", value = "")
+    @ApiModelProperty(example = "true", value = "")
   @JsonProperty("prefix_boolean")
   public Boolean getPrefixBoolean() {
     return prefixBoolean;
@@ -436,8 +419,7 @@ public class XmlItemDto {
    * Get prefixArray
    * @return prefixArray
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("prefix_array")
   public List<Integer> getPrefixArray() {
     return prefixArray;
@@ -464,8 +446,7 @@ public class XmlItemDto {
    * Get prefixWrappedArray
    * @return prefixWrappedArray
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("prefix_wrapped_array")
   public List<Integer> getPrefixWrappedArray() {
     return prefixWrappedArray;
@@ -484,8 +465,7 @@ public class XmlItemDto {
    * Get namespaceString
    * @return namespaceString
    */
-  
-  @ApiModelProperty(example = "string", value = "")
+    @ApiModelProperty(example = "string", value = "")
   @JsonProperty("namespace_string")
   public String getNamespaceString() {
     return namespaceString;
@@ -504,8 +484,7 @@ public class XmlItemDto {
    * Get namespaceNumber
    * @return namespaceNumber
    */
-  @Valid 
-  @ApiModelProperty(example = "1.234", value = "")
+  @Valid   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("namespace_number")
   public BigDecimal getNamespaceNumber() {
     return namespaceNumber;
@@ -524,8 +503,7 @@ public class XmlItemDto {
    * Get namespaceInteger
    * @return namespaceInteger
    */
-  
-  @ApiModelProperty(example = "-2", value = "")
+    @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("namespace_integer")
   public Integer getNamespaceInteger() {
     return namespaceInteger;
@@ -544,8 +522,7 @@ public class XmlItemDto {
    * Get namespaceBoolean
    * @return namespaceBoolean
    */
-  
-  @ApiModelProperty(example = "true", value = "")
+    @ApiModelProperty(example = "true", value = "")
   @JsonProperty("namespace_boolean")
   public Boolean getNamespaceBoolean() {
     return namespaceBoolean;
@@ -572,8 +549,7 @@ public class XmlItemDto {
    * Get namespaceArray
    * @return namespaceArray
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("namespace_array")
   public List<Integer> getNamespaceArray() {
     return namespaceArray;
@@ -600,8 +576,7 @@ public class XmlItemDto {
    * Get namespaceWrappedArray
    * @return namespaceWrappedArray
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("namespace_wrapped_array")
   public List<Integer> getNamespaceWrappedArray() {
     return namespaceWrappedArray;
@@ -620,8 +595,7 @@ public class XmlItemDto {
    * Get prefixNsString
    * @return prefixNsString
    */
-  
-  @ApiModelProperty(example = "string", value = "")
+    @ApiModelProperty(example = "string", value = "")
   @JsonProperty("prefix_ns_string")
   public String getPrefixNsString() {
     return prefixNsString;
@@ -640,8 +614,7 @@ public class XmlItemDto {
    * Get prefixNsNumber
    * @return prefixNsNumber
    */
-  @Valid 
-  @ApiModelProperty(example = "1.234", value = "")
+  @Valid   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("prefix_ns_number")
   public BigDecimal getPrefixNsNumber() {
     return prefixNsNumber;
@@ -660,8 +633,7 @@ public class XmlItemDto {
    * Get prefixNsInteger
    * @return prefixNsInteger
    */
-  
-  @ApiModelProperty(example = "-2", value = "")
+    @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("prefix_ns_integer")
   public Integer getPrefixNsInteger() {
     return prefixNsInteger;
@@ -680,8 +652,7 @@ public class XmlItemDto {
    * Get prefixNsBoolean
    * @return prefixNsBoolean
    */
-  
-  @ApiModelProperty(example = "true", value = "")
+    @ApiModelProperty(example = "true", value = "")
   @JsonProperty("prefix_ns_boolean")
   public Boolean getPrefixNsBoolean() {
     return prefixNsBoolean;
@@ -708,8 +679,7 @@ public class XmlItemDto {
    * Get prefixNsArray
    * @return prefixNsArray
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("prefix_ns_array")
   public List<Integer> getPrefixNsArray() {
     return prefixNsArray;
@@ -736,8 +706,7 @@ public class XmlItemDto {
    * Get prefixNsWrappedArray
    * @return prefixNsWrappedArray
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("prefix_ns_wrapped_array")
   public List<Integer> getPrefixNsWrappedArray() {
     return prefixNsWrappedArray;
@@ -746,7 +715,6 @@ public class XmlItemDto {
   public void setPrefixNsWrappedArray(List<Integer> prefixNsWrappedArray) {
     this.prefixNsWrappedArray = prefixNsWrappedArray;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

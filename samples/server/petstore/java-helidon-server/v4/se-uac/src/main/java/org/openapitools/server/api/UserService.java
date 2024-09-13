@@ -411,7 +411,6 @@ public abstract class UserService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the createUsersWithArrayInput operation.
      * <p>
@@ -525,7 +524,6 @@ public abstract class UserService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the createUsersWithListInput operation.
      * <p>
@@ -639,7 +637,6 @@ public abstract class UserService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the deleteUser operation.
      * <p>
@@ -789,7 +786,6 @@ public abstract class UserService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the getUserByName operation.
      * <p>
@@ -1009,7 +1005,6 @@ public abstract class UserService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the loginUser operation.
      * <p>
@@ -1219,7 +1214,6 @@ public abstract class UserService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the logoutUser operation.
      * <p>
@@ -1320,7 +1314,6 @@ public abstract class UserService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the updateUser operation.
      * <p>
@@ -1483,7 +1476,6 @@ public abstract class UserService implements HttpService {
             }
         }
     }
-
 
     @Override
     public void afterStop() {

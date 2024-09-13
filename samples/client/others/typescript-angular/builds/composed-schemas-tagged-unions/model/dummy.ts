@@ -13,4 +13,3 @@ export interface DummyModel {
     'property.name'?: string;
 }
 
-

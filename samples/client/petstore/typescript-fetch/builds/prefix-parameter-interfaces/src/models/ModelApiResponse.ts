@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * Describes the result of uploading an image resource
@@ -38,7 +37,6 @@ export interface ModelApiResponse {
      */
     message?: string;
 }
-
 /**
  * Check if a given object implements the ModelApiResponse interface.
  */
@@ -78,4 +76,3 @@ export function ModelApiResponseFromJSONTyped(json: any, ignoreDiscriminator: bo
         'message': value['message'],
     };
 }
-

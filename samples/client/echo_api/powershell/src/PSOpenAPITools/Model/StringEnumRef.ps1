@@ -24,4 +24,3 @@ enum StringEnumRef {
     # enum value: "unclassified"
     unclassified
 }
-

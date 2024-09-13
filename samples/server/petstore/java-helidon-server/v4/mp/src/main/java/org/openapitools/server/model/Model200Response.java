@@ -24,7 +24,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
   * Model for testing model name starting with number
  **/
-
 public class Model200Response  {
   
   private Integer name;
@@ -97,4 +96,3 @@ public class Model200Response  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

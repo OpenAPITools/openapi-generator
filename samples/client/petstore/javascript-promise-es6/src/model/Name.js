@@ -117,4 +117,3 @@ Name.prototype['123Number'] = undefined;
 
 
 export default Name;
-

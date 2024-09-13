@@ -17,10 +17,8 @@ import jakarta.annotation.Generated;
 /**
  * OuterCompositeDto
  */
-
 @JsonTypeName("OuterComposite")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class OuterCompositeDto {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class OuterCompositeDto {
 
   private BigDecimal myNumber;
 
@@ -84,7 +82,6 @@ public class OuterCompositeDto {
   public void setMyBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

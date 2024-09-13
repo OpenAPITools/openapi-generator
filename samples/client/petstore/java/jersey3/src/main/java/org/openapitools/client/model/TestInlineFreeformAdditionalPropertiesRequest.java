@@ -57,7 +57,6 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
    * @return someProperty
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_SOME_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -109,7 +108,6 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this testInlineFreeformAdditionalProperties_request object is equal to o.
    */

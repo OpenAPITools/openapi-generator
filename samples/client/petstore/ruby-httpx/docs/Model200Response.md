@@ -17,4 +17,3 @@ instance = Petstore::Model200Response.new(
   _class: null
 )
 ```
-

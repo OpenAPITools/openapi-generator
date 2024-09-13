@@ -108,7 +108,6 @@ public class BigCat extends Cat implements Parcelable {
       KindEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_KIND = "kind";
   @SerializedName(SERIALIZED_NAME_KIND)
   private KindEnum kind;
@@ -135,7 +134,6 @@ public class BigCat extends Cat implements Parcelable {
   public void setKind(KindEnum kind) {
     this.kind = kind;
   }
-
 
 
   @Override

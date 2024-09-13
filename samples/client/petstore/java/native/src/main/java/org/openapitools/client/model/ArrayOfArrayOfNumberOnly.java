@@ -77,7 +77,6 @@ public class ArrayOfArrayOfNumberOnly {
     this.arrayArrayNumber = arrayArrayNumber;
   }
 
-
   /**
    * Return true if this ArrayOfArrayOfNumberOnly object is equal to o.
    */
@@ -165,57 +164,56 @@ public class ArrayOfArrayOfNumberOnly {
   }
 
     public static class Builder {
-
-    private ArrayOfArrayOfNumberOnly instance;
-
-    public Builder() {
-      this(new ArrayOfArrayOfNumberOnly());
-    }
-
-    protected Builder(ArrayOfArrayOfNumberOnly instance) {
-      this.instance = instance;
-    }
-
-    public ArrayOfArrayOfNumberOnly.Builder arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
-      this.instance.arrayArrayNumber = arrayArrayNumber;
-      return this;
-    }
-
-
-    /**
-    * returns a built ArrayOfArrayOfNumberOnly instance.
-    *
-    * The builder is not reusable.
-    */
-    public ArrayOfArrayOfNumberOnly build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    
+        private ArrayOfArrayOfNumberOnly instance;
+    
+        public Builder() {
+          this(new ArrayOfArrayOfNumberOnly());
+        }
+    
+        protected Builder(ArrayOfArrayOfNumberOnly instance) {
+          this.instance = instance;
+        }
+    
+        public ArrayOfArrayOfNumberOnly.Builder arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+              this.instance.arrayArrayNumber = arrayArrayNumber;
+          return this;
+        }
+        
+    
+        /**
+        * returns a built ArrayOfArrayOfNumberOnly instance.
+        *
+        * The builder is not reusable.
+        */
+        public ArrayOfArrayOfNumberOnly build() {
+          try {
+            return this.instance;
+          } finally {
+            // ensure that this.instance is not reused
+            this.instance = null;
+          }
+        }
+    
+        @Override
+        public String toString() {
+          return getClass() + "=(" + instance + ")";
+        }
       }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static ArrayOfArrayOfNumberOnly.Builder builder() {
-    return new ArrayOfArrayOfNumberOnly.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public ArrayOfArrayOfNumberOnly.Builder toBuilder() {
-    return new ArrayOfArrayOfNumberOnly.Builder()
-      .arrayArrayNumber(getArrayArrayNumber());
-  }
-
+    
+      /**
+      * Create a builder with no initialized field.
+      */
+      public static ArrayOfArrayOfNumberOnly.Builder builder() {
+        return new ArrayOfArrayOfNumberOnly.Builder();
+      }
+    
+      /**
+      * Create a builder with a shallow copy of this instance.
+      */
+      public ArrayOfArrayOfNumberOnly.Builder toBuilder() {
+        return new ArrayOfArrayOfNumberOnly.Builder()
+          .arrayArrayNumber(getArrayArrayNumber());
+      }
 }
 

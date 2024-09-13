@@ -300,7 +300,6 @@ public abstract class StoreService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the getInventory operation.
      * <p>
@@ -399,7 +398,6 @@ public abstract class StoreService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the getOrderById operation.
      * <p>
@@ -620,7 +618,6 @@ public abstract class StoreService implements HttpService {
             }
         }
     }
-
     /**
      * Returns a new instance of the class which handles parameters to and responses from the placeOrder operation.
      * <p>
@@ -785,7 +782,6 @@ public abstract class StoreService implements HttpService {
             }
         }
     }
-
 
     @Override
     public void afterStop() {

@@ -22,10 +22,7 @@ import javax.annotation.Generated;
 /**
  * Dog
  */
-
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class Dog extends Animal {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class Dog extends Animal {
 
   private String breed;
 
@@ -49,8 +46,7 @@ public class Dog extends Animal {
    * Get breed
    * @return breed
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("breed")
   public String getBreed() {
     return breed;
@@ -59,7 +55,6 @@ public class Dog extends Animal {
   public void setBreed(String breed) {
     this.breed = breed;
   }
-
 
   public Dog className(String className) {
     super.className(className);

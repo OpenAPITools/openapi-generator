@@ -21,4 +21,3 @@ instance = Petstore::ObjectWithDeprecatedFields.new(
   bars: null
 )
 ```
-

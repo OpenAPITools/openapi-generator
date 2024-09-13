@@ -49,7 +49,6 @@ public class Client {
    */
   @javax.annotation.Nullable
 
-
   public String getClient() {
     return client;
   }

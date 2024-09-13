@@ -12,8 +12,7 @@ import java.io.InputStream
 
 
 @Path("/")
-@javax.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"), comments = "Generator version: 7.9.0-SNAPSHOT")
-interface PetApi {
+@javax.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"), comments = "Generator version: 7.9.0-SNAPSHOT")interface PetApi {
 
     @POST
     @Path("/pet")

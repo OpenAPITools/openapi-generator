@@ -49,7 +49,6 @@ public class ClassModel {
    */
   @javax.annotation.Nullable
 
-
   public String getPropertyClass() {
     return propertyClass;
   }

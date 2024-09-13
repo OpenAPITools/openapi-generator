@@ -17,7 +17,6 @@ import javax.validation.Valid;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public interface TestApiService {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public interface TestApiService {
       public Response testUpload(java.io.InputStream body, SecurityContext securityContext);
 }

@@ -10,7 +10,6 @@
 
 part of openapi.api;
 
-
 class FakeClassnameTags123Api {
   FakeClassnameTags123Api([ApiClient? apiClient]) : apiClient = apiClient ?? defaultApiClient;
 

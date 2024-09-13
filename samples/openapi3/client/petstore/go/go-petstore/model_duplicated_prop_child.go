@@ -198,4 +198,3 @@ func (v *NullableDuplicatedPropChild) UnmarshalJSON(src []byte) error {
 	return json.Unmarshal(src, &v.value)
 }
 
-

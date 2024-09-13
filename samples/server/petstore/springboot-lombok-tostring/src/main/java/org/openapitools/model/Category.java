@@ -22,10 +22,8 @@ import jakarta.annotation.Generated;
 @lombok.Setter
 @lombok.ToString
 @lombok.EqualsAndHashCode
-
 @Schema(name = "Category", description = "A category for a pet")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class Category {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class Category {
 
   private Long id;
 
@@ -41,7 +39,6 @@ public class Category {
     this.name = name;
     return this;
   }
-
 
 
 }

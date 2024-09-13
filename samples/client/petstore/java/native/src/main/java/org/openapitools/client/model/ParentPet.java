@@ -52,7 +52,6 @@ import org.openapitools.client.ApiClient;
 public class ParentPet extends GrandparentAnimal {
   public ParentPet() { 
   }
-
   @Override
   public ParentPet petType(String petType) {
     this.setPetType(petType);
@@ -146,60 +145,59 @@ static {
 }
 
     public static class Builder extends GrandparentAnimal.Builder {
-
-    private ParentPet instance;
-
-    public Builder() {
-      this(new ParentPet());
-    }
-
-    protected Builder(ParentPet instance) {
-      super(instance);
-      this.instance = instance;
-    }
-
-
-    public ParentPet.Builder petType(String petType) { // inherited: true
-      super.petType(petType);
-      return this;
-   }
-
-
-    /**
-    * returns a built ParentPet instance.
-    *
-    * The builder is not reusable.
-    */
-    public ParentPet build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        super.build();
-        this.instance = null;
+    
+        private ParentPet instance;
+    
+        public Builder() {
+          this(new ParentPet());
+        }
+    
+        protected Builder(ParentPet instance) {
+          super(instance);
+          this.instance = instance;
+        }
+    
+    
+        public ParentPet.Builder petType(String petType) { // inherited: true
+          super.petType(petType);
+          return this;
+       }
+    
+    
+        /**
+        * returns a built ParentPet instance.
+        *
+        * The builder is not reusable.
+        */
+        public ParentPet build() {
+          try {
+            return this.instance;
+          } finally {
+            // ensure that this.instance is not reused
+            super.build();
+            this.instance = null;
+          }
+        }
+    
+        @Override
+        public String toString() {
+          return getClass() + "=(" + instance + ")";
+        }
       }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static ParentPet.Builder builder() {
-    return new ParentPet.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public ParentPet.Builder toBuilder() {
-    return new ParentPet.Builder()
-      .petType(getPetType());
-  }
-
+    
+      /**
+      * Create a builder with no initialized field.
+      */
+      public static ParentPet.Builder builder() {
+        return new ParentPet.Builder();
+      }
+    
+      /**
+      * Create a builder with a shallow copy of this instance.
+      */
+      public ParentPet.Builder toBuilder() {
+        return new ParentPet.Builder()
+          .petType(getPetType());
+      }
 }
 

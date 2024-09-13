@@ -16,10 +16,8 @@ import jakarta.annotation.Generated;
 /**
  * UserDto
  */
-
 @JsonTypeName("User")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class UserDto {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class UserDto {
 
   private Long id;
 
@@ -188,7 +186,6 @@ public class UserDto {
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

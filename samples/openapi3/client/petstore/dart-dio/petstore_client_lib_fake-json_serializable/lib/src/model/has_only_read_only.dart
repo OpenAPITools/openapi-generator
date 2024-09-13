@@ -22,7 +22,6 @@ class HasOnlyReadOnly {
 
      this.foo,
   });
-
   @JsonKey(
     
     name: r'bar',

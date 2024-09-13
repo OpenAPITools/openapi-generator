@@ -48,7 +48,6 @@ public class EnumArrays   {
         }
     }
 
-
     private JustSymbolEnum justSymbol;
 
     /**
@@ -85,7 +84,6 @@ public class EnumArrays   {
             throw new IllegalArgumentException("Unexpected value '" + text + "'");
         }
     }
-
 
     private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 

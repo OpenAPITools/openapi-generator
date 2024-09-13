@@ -15,4 +15,3 @@ instance = Petstore::DeprecatedObject.new(
   name: null
 )
 ```
-

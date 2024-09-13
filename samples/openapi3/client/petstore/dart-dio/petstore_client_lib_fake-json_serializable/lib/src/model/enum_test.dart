@@ -38,7 +38,6 @@ class EnumTest {
 
      this.outerEnumIntegerDefaultValue,
   });
-
   @JsonKey(
     
     name: r'enum_string',
@@ -183,7 +182,6 @@ enum EnumTestEnumStringEnum {
 }
 
 
-
 enum EnumTestEnumStringRequiredEnum {
   @JsonValue(r'UPPER')
   UPPER,
@@ -196,7 +194,6 @@ enum EnumTestEnumStringRequiredEnum {
 }
 
 
-
 enum EnumTestEnumIntegerEnum {
   @JsonValue(1)
   number1,
@@ -207,7 +204,6 @@ enum EnumTestEnumIntegerEnum {
 }
 
 
-
 enum EnumTestEnumNumberEnum {
   @JsonValue('1.1')
   number1Period1,
@@ -216,5 +212,4 @@ enum EnumTestEnumNumberEnum {
   @JsonValue('11184809')
   unknownDefaultOpenApi,
 }
-
 

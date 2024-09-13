@@ -26,8 +26,7 @@ import java.util.Map;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-@Client("${petstore-micronaut-base-path}")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")@Client("${petstore-micronaut-base-path}")
 public interface FakeClassnameTags123Api {
     /**
      * To test class name in snake case

@@ -67,15 +67,7 @@ object Users : BaseTable<User>("User") {
     */
     fun AssignmentsBuilder.assignFrom(entity: User) {
         this.apply {
-            set(Users.id, entity.id)
-            set(Users.username, entity.username)
-            set(Users.firstName, entity.firstName)
-            set(Users.lastName, entity.lastName)
-            set(Users.email, entity.email)
-            set(Users.password, entity.password)
-            set(Users.phone, entity.phone)
-            set(Users.userStatus, entity.userStatus)
-        }
+            set(Users.id, entity.id)            set(Users.username, entity.username)            set(Users.firstName, entity.firstName)            set(Users.lastName, entity.lastName)            set(Users.email, entity.email)            set(Users.password, entity.password)            set(Users.phone, entity.phone)            set(Users.userStatus, entity.userStatus)        }
     }
 
 }

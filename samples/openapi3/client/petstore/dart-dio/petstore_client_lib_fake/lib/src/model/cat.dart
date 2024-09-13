@@ -29,8 +29,7 @@ abstract class Cat implements Animal, Built<Cat, CatBuilder> {
       ..color = 'red';
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<Cat> get serializer => _$CatSerializer();
-}
+  static Serializer<Cat> get serializer => _$CatSerializer();}
 
 class _$CatSerializer implements PrimitiveSerializer<Cat> {
   @override

@@ -79,7 +79,6 @@ public class EnumTest {
       }
     }
   }
-
   public static final String SERIALIZED_NAME_ENUM_STRING = "enum_string";
   @SerializedName(SERIALIZED_NAME_ENUM_STRING)
   private EnumStringEnum enumString;
@@ -132,7 +131,6 @@ public class EnumTest {
       }
     }
   }
-
   public static final String SERIALIZED_NAME_ENUM_STRING_REQUIRED = "enum_string_required";
   @SerializedName(SERIALIZED_NAME_ENUM_STRING_REQUIRED)
   private EnumStringRequiredEnum enumStringRequired;
@@ -183,7 +181,6 @@ public class EnumTest {
       }
     }
   }
-
   public static final String SERIALIZED_NAME_ENUM_INTEGER = "enum_integer";
   @SerializedName(SERIALIZED_NAME_ENUM_INTEGER)
   private EnumIntegerEnum enumInteger;
@@ -234,7 +231,6 @@ public class EnumTest {
       }
     }
   }
-
   public static final String SERIALIZED_NAME_ENUM_NUMBER = "enum_number";
   @SerializedName(SERIALIZED_NAME_ENUM_NUMBER)
   private EnumNumberEnum enumNumber;
@@ -258,7 +254,6 @@ public class EnumTest {
    */
   @javax.annotation.Nullable
 
-
   public EnumStringEnum getEnumString() {
     return enumString;
   }
@@ -281,7 +276,6 @@ public class EnumTest {
   @javax.annotation.Nonnull
   @NotNull
 
-
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
@@ -302,7 +296,6 @@ public class EnumTest {
    * @return enumInteger
    */
   @javax.annotation.Nullable
-
 
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
@@ -325,7 +318,6 @@ public class EnumTest {
    */
   @javax.annotation.Nullable
 
-
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
@@ -347,7 +339,6 @@ public class EnumTest {
    */
   @javax.annotation.Nullable
   @Valid
-
 
   public OuterEnum getOuterEnum() {
     return outerEnum;

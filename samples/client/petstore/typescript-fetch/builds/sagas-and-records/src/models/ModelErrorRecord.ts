@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
 import {getApiEntitiesState} from "../ApiEntitiesSelectors"
 import {List, Record, RecordOf, Map} from 'immutable';
@@ -61,5 +60,4 @@ class ModelErrorRecordUtils extends ApiRecordUtils<ModelError, ModelErrorRecord>
 }
 
 export const modelErrorRecordUtils = new ModelErrorRecordUtils();
-
 

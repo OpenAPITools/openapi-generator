@@ -23,10 +23,8 @@ import javax.annotation.Generated;
 /**
  * TypeHolderDefaultDto
  */
-
 @JsonTypeName("TypeHolderDefault")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class TypeHolderDefaultDto {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class TypeHolderDefaultDto {
 
   private String stringItem = "what";
 
@@ -63,8 +61,7 @@ public class TypeHolderDefaultDto {
    * Get stringItem
    * @return stringItem
    */
-  @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @NotNull   @ApiModelProperty(required = true, value = "")
   @JsonProperty("string_item")
   public String getStringItem() {
     return stringItem;
@@ -83,8 +80,7 @@ public class TypeHolderDefaultDto {
    * Get numberItem
    * @return numberItem
    */
-  @NotNull @Valid 
-  @ApiModelProperty(required = true, value = "")
+  @NotNull @Valid   @ApiModelProperty(required = true, value = "")
   @JsonProperty("number_item")
   public BigDecimal getNumberItem() {
     return numberItem;
@@ -103,8 +99,7 @@ public class TypeHolderDefaultDto {
    * Get integerItem
    * @return integerItem
    */
-  @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @NotNull   @ApiModelProperty(required = true, value = "")
   @JsonProperty("integer_item")
   public Integer getIntegerItem() {
     return integerItem;
@@ -123,8 +118,7 @@ public class TypeHolderDefaultDto {
    * Get boolItem
    * @return boolItem
    */
-  @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @NotNull   @ApiModelProperty(required = true, value = "")
   @JsonProperty("bool_item")
   public Boolean getBoolItem() {
     return boolItem;
@@ -151,8 +145,7 @@ public class TypeHolderDefaultDto {
    * Get arrayItem
    * @return arrayItem
    */
-  @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @NotNull   @ApiModelProperty(required = true, value = "")
   @JsonProperty("array_item")
   public List<Integer> getArrayItem() {
     return arrayItem;
@@ -161,7 +154,6 @@ public class TypeHolderDefaultDto {
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

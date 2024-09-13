@@ -9,7 +9,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
-
 class Cat {
   /// Returns a new [Cat] instance.
   Cat({
@@ -17,7 +16,6 @@ class Cat {
     this.color = 'red',
     this.declawed,
   });
-
   String className;
 
   String color;
@@ -130,4 +128,3 @@ class Cat {
     'className',
   };
 }
-

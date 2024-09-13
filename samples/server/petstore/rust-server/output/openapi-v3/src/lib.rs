@@ -35,44 +35,37 @@ pub enum AnyOfGetResponse {
     AnyOfSuccess
     (models::AnyOfGet202Response)
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum CallbackWithHeaderPostResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum ComplexQueryParamGetResponse {
     /// Success
     Success
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum GetWithBooleanParameterResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum JsonComplexQueryParamGetResponse {
     /// Success
     Success
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum MandatoryRequestHeaderGetResponse {
     /// Success
     Success
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum MergePatchJsonGetResponse {
     /// merge-patch+json-encoded response
     Merge
     (models::AnotherXmlObject)
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum MultigetGetResponse {
@@ -104,51 +97,43 @@ pub enum MultigetGetResponse {
     DuplicateResponseLongText_3
     (models::AnotherXmlObject)
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum MultipleAuthSchemeGetResponse {
     /// Check that limiting to multiple required auth schemes works
     CheckThatLimitingToMultipleRequiredAuthSchemesWorks
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum OneOfGetResponse {
     /// Success
     Success
     (models::OneOfGet200Response)
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum OverrideServerGetResponse {
     /// Success.
     Success
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum ParamgetGetResponse {
     /// JSON rsp
     JSONRsp
     (models::AnotherXmlObject)
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum ReadonlyAuthSchemeGetResponse {
     /// Check that limiting to a single required auth scheme works
     CheckThatLimitingToASingleRequiredAuthSchemeWorks
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum RegisterCallbackPostResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum RequiredOctetStreamPutResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum ResponsesWithHeadersGetResponse {
@@ -184,7 +169,6 @@ pub enum ResponsesWithHeadersGetResponse {
         >
     }
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum Rfc7807GetResponse {
@@ -200,26 +184,22 @@ pub enum Rfc7807GetResponse {
     NotAcceptable
     (models::ObjectWithArrayOfObjects)
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum TwoFirstLetterHeadersResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum UntypedPropertyGetResponse {
     /// Check that untyped properties works
     CheckThatUntypedPropertiesWorks
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum UuidGetResponse {
     /// Duplicate Response long text. One.
     DuplicateResponseLongText
     (uuid::Uuid)
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum XmlExtraPostResponse {
@@ -229,7 +209,6 @@ pub enum XmlExtraPostResponse {
     /// Bad Request
     BadRequest
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum XmlOtherPostResponse {
@@ -240,7 +219,6 @@ pub enum XmlOtherPostResponse {
     /// Bad Request
     BadRequest
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum XmlOtherPutResponse {
@@ -250,7 +228,6 @@ pub enum XmlOtherPutResponse {
     /// Bad Request
     BadRequest
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum XmlPostResponse {
@@ -260,7 +237,6 @@ pub enum XmlPostResponse {
     /// Bad Request
     BadRequest
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum XmlPutResponse {
@@ -270,32 +246,27 @@ pub enum XmlPutResponse {
     /// Bad Request
     BadRequest
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum EnumInPathPathParamGetResponse {
     /// Success
     Success
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse {
     /// Success
     Success
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum CreateRepoResponse {
     /// Success
     Success
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum GetRepoInfoResponse {
     /// OK
     OK
     (String)
 }
-
 /// API
 #[async_trait]
 #[allow(clippy::too_many_arguments, clippy::ptr_arg)]
@@ -893,13 +864,11 @@ pub enum CallbackCallbackWithHeaderPostResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum CallbackCallbackPostResponse {
     /// OK
     OK
 }
-
 
 /// Callback API
 #[async_trait]

@@ -18,9 +18,7 @@ import javax.annotation.Generated;
 /**
  * Client
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class Client {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class Client {
 
   private String client;
 
@@ -44,8 +42,7 @@ public class Client {
    * Get client
    * @return client
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("client")
   public String getClient() {
     return client;
@@ -54,7 +51,6 @@ public class Client {
   public void setClient(String client) {
     this.client = client;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

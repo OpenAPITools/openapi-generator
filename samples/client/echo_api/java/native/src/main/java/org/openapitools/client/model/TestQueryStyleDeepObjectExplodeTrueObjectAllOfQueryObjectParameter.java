@@ -150,7 +150,6 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
     this.name = name;
   }
 
-
   /**
    * Return true if this test_query_style_deepObject_explode_true_object_allOf_query_object_parameter object is equal to o.
    */

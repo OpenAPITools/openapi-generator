@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { Part } from './Part';
 import {
@@ -40,7 +39,6 @@ export interface MatchingParts {
      */
     related: Array<Part>;
 }
-
 /**
  * Check if a given object implements the MatchingParts interface.
  */
@@ -80,4 +78,3 @@ export function MatchingPartsFromJSONTyped(json: any, ignoreDiscriminator: boole
         'related': ((value['related'] as Array<any>).map(PartToJSON)),
     };
 }
-

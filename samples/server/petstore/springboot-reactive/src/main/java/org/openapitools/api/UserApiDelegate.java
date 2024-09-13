@@ -24,8 +24,7 @@ import javax.annotation.Generated;
  * A delegate to be called by the {@link UserApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public interface UserApiDelegate {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public interface UserApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
@@ -41,11 +40,10 @@ public interface UserApiDelegate {
      */
     default Mono<ResponseEntity<Void>> createUser(Mono<User> user,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(user).then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                return result.then(user).then(Mono.empty());
+                    }
 
     /**
      * POST /user/createWithArray : Creates list of users with given input array
@@ -57,11 +55,10 @@ public interface UserApiDelegate {
      */
     default Mono<ResponseEntity<Void>> createUsersWithArrayInput(Flux<User> user,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.thenMany(user).then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                return result.thenMany(user).then(Mono.empty());
+                    }
 
     /**
      * POST /user/createWithList : Creates list of users with given input array
@@ -73,11 +70,10 @@ public interface UserApiDelegate {
      */
     default Mono<ResponseEntity<Void>> createUsersWithListInput(Flux<User> user,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.thenMany(user).then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                return result.thenMany(user).then(Mono.empty());
+                    }
 
     /**
      * DELETE /user/{username} : Delete user
@@ -90,11 +86,10 @@ public interface UserApiDelegate {
      */
     default Mono<ResponseEntity<Void>> deleteUser(String username,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                return result.then(Mono.empty());
+                    }
 
     /**
      * GET /user/{username} : Get user by user name
@@ -108,23 +103,22 @@ public interface UserApiDelegate {
      */
     default Mono<ResponseEntity<User>> getUserByName(String username,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = "{ \"firstName\" : \"firstName\", \"lastName\" : \"lastName\", \"password\" : \"password\", \"userStatus\" : 6, \"phone\" : \"phone\", \"id\" : 0, \"email\" : \"email\", \"username\" : \"username\" }";
-                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
-                break;
-            }
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                String exampleString = "<User> <id>123456789</id> <username>aeiou</username> <firstName>aeiou</firstName> <lastName>aeiou</lastName> <email>aeiou</email> <password>aeiou</password> <phone>aeiou</phone> <userStatus>123</userStatus> </User>";
-                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/xml"), exampleString);
-                break;
-            }
-        }
-        return result.then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
+                    if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                        String exampleString = "{ \"firstName\" : \"firstName\", \"lastName\" : \"lastName\", \"password\" : \"password\", \"userStatus\" : 6, \"phone\" : \"phone\", \"id\" : 0, \"email\" : \"email\", \"username\" : \"username\" }";
+                        result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
+                        break;
+                    }
+                                    if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+                        String exampleString = "<User> <id>123456789</id> <username>aeiou</username> <firstName>aeiou</firstName> <lastName>aeiou</lastName> <email>aeiou</email> <password>aeiou</password> <phone>aeiou</phone> <userStatus>123</userStatus> </User>";
+                        result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/xml"), exampleString);
+                        break;
+                    }
+                }
+                                return result.then(Mono.empty());
+                    }
 
     /**
      * GET /user/login : Logs user into the system
@@ -139,11 +133,10 @@ public interface UserApiDelegate {
     default Mono<ResponseEntity<String>> loginUser(String username,
         String password,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                return result.then(Mono.empty());
+                    }
 
     /**
      * GET /user/logout : Logs out current logged in user session
@@ -153,11 +146,10 @@ public interface UserApiDelegate {
      * @see UserApi#logoutUser
      */
     default Mono<ResponseEntity<Void>> logoutUser(ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                return result.then(Mono.empty());
+                    }
 
     /**
      * PUT /user/{username} : Updated user
@@ -172,10 +164,9 @@ public interface UserApiDelegate {
     default Mono<ResponseEntity<Void>> updateUser(String username,
         Mono<User> user,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(user).then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                return result.then(user).then(Mono.empty());
+                    }
 
 }

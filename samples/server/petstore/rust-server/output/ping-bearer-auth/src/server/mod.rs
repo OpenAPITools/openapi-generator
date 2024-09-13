@@ -38,7 +38,6 @@ mod paths {
     pub(crate) static ID_PING: usize = 0;
 }
 
-
 pub struct MakeService<T, C> where
     T: Api<C> + Clone + Send + 'static,
     C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static
@@ -77,7 +76,6 @@ impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
         future::ok(service)
     }
 }
-
 fn method_not_allowed() -> Result<Response<Body>, crate::ServiceError> {
     Ok(
         Response::builder().status(StatusCode::METHOD_NOT_ALLOWED)
@@ -144,7 +142,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             let path = paths::GLOBAL_REGEX_SET.matches(uri.path());
 
             match method {
-
             // PingGet - GET /ping
             hyper::Method::GET if path.matched(paths::ID_PING) => {
                 {
@@ -171,7 +168,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 PingGetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(201).expect("Unable to turn 201 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -184,7 +180,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             _ if path.matched(paths::ID_PING) => method_not_allowed(),
                 _ => Ok(Response::builder().status(StatusCode::NOT_FOUND)
                         .body(Body::empty())
@@ -197,7 +192,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
         ))
     }
 }
-
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
 impl<T> RequestParser<T> for ApiRequestParser {

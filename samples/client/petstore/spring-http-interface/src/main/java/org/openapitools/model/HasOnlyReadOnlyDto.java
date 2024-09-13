@@ -16,10 +16,8 @@ import jakarta.annotation.Generated;
 /**
  * HasOnlyReadOnlyDto
  */
-
 @JsonTypeName("hasOnlyReadOnly")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class HasOnlyReadOnlyDto {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class HasOnlyReadOnlyDto {
 
   private String bar;
 
@@ -62,7 +60,6 @@ public class HasOnlyReadOnlyDto {
   public void setFoo(String foo) {
     this.foo = foo;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

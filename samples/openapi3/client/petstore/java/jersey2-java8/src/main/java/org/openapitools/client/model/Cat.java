@@ -116,7 +116,6 @@ public class Cat extends Animal {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this Cat object is equal to o.
    */

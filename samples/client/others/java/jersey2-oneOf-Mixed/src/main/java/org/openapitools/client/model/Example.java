@@ -140,7 +140,6 @@ public class Example extends AbstractOpenApiSchema {
     public Example() {
         super("oneOf", Boolean.FALSE);
     }
-
     public Example(UUID o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);

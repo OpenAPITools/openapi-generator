@@ -11,4 +11,3 @@ Model for testing model with \"_class\" property
 |**propertyClass** | **String** |  |  [optional] |
 
 
-

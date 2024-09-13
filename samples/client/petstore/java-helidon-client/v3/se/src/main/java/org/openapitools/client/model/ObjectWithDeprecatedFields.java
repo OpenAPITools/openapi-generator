@@ -25,7 +25,6 @@ import org.openapitools.client.model.DeprecatedObject;
 
 
 
-
 public class ObjectWithDeprecatedFields  {
   
   private String uuid;
@@ -155,4 +154,3 @@ public class ObjectWithDeprecatedFields  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

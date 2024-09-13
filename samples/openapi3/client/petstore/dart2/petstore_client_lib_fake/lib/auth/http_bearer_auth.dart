@@ -9,7 +9,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
-
 typedef HttpBearerAuthProvider = String Function();
 
 class HttpBearerAuth implements Authentication {

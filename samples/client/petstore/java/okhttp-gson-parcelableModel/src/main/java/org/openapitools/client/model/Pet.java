@@ -131,7 +131,6 @@ public class Pet implements Parcelable {
       StatusEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_STATUS = "status";
   @SerializedName(SERIALIZED_NAME_STATUS)
   private StatusEnum status;
@@ -267,7 +266,6 @@ public class Pet implements Parcelable {
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
-
 
 
   @Override

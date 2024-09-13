@@ -42,8 +42,7 @@ abstract class Fruit implements Built<Fruit, FruitBuilder> {
   static void _defaults(FruitBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<Fruit> get serializer => _$FruitSerializer();
-}
+  static Serializer<Fruit> get serializer => _$FruitSerializer();}
 
 extension FruitDiscriminatorExt on Fruit {
     String? get discriminatorValue {
@@ -67,7 +66,6 @@ extension FruitBuilderDiscriminatorExt on FruitBuilder {
         return null;
     }
 }
-
 class _$FruitSerializer implements PrimitiveSerializer<Fruit> {
   @override
   final Iterable<Type> types = const [Fruit, _$Fruit];

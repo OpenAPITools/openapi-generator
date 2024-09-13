@@ -66,7 +66,6 @@ public class BasquePig {
     this.className = className;
   }
 
-
   /**
    * Return true if this BasquePig object is equal to o.
    */
@@ -148,57 +147,56 @@ public class BasquePig {
   }
 
     public static class Builder {
-
-    private BasquePig instance;
-
-    public Builder() {
-      this(new BasquePig());
-    }
-
-    protected Builder(BasquePig instance) {
-      this.instance = instance;
-    }
-
-    public BasquePig.Builder className(String className) {
-      this.instance.className = className;
-      return this;
-    }
-
-
-    /**
-    * returns a built BasquePig instance.
-    *
-    * The builder is not reusable.
-    */
-    public BasquePig build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    
+        private BasquePig instance;
+    
+        public Builder() {
+          this(new BasquePig());
+        }
+    
+        protected Builder(BasquePig instance) {
+          this.instance = instance;
+        }
+    
+        public BasquePig.Builder className(String className) {
+              this.instance.className = className;
+          return this;
+        }
+        
+    
+        /**
+        * returns a built BasquePig instance.
+        *
+        * The builder is not reusable.
+        */
+        public BasquePig build() {
+          try {
+            return this.instance;
+          } finally {
+            // ensure that this.instance is not reused
+            this.instance = null;
+          }
+        }
+    
+        @Override
+        public String toString() {
+          return getClass() + "=(" + instance + ")";
+        }
       }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static BasquePig.Builder builder() {
-    return new BasquePig.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public BasquePig.Builder toBuilder() {
-    return new BasquePig.Builder()
-      .className(getClassName());
-  }
-
+    
+      /**
+      * Create a builder with no initialized field.
+      */
+      public static BasquePig.Builder builder() {
+        return new BasquePig.Builder();
+      }
+    
+      /**
+      * Create a builder with a shallow copy of this instance.
+      */
+      public BasquePig.Builder toBuilder() {
+        return new BasquePig.Builder()
+          .className(getClassName());
+      }
 }
 

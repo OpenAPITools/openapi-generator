@@ -75,7 +75,6 @@ public class EnumTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_ENUM_STRING = "enum_string";
   private EnumStringEnum enumString;
 
@@ -115,7 +114,6 @@ public class EnumTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_ENUM_STRING_REQUIRED = "enum_string_required";
   private EnumStringRequiredEnum enumStringRequired;
 
@@ -153,7 +151,6 @@ public class EnumTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_ENUM_INTEGER = "enum_integer";
   private EnumIntegerEnum enumInteger;
 
@@ -191,7 +188,6 @@ public class EnumTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_ENUM_NUMBER = "enum_number";
   private EnumNumberEnum enumNumber;
 
@@ -212,7 +208,6 @@ public class EnumTest {
    * @return enumString
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_ENUM_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -239,7 +234,6 @@ public class EnumTest {
    */
   @jakarta.annotation.Nonnull
   @NotNull
-
   @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -265,7 +259,6 @@ public class EnumTest {
    * @return enumInteger
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -291,7 +284,6 @@ public class EnumTest {
    * @return enumNumber
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -318,7 +310,6 @@ public class EnumTest {
    */
   @jakarta.annotation.Nullable
   @Valid
-
   @JsonProperty(JSON_PROPERTY_OUTER_ENUM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

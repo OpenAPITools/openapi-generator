@@ -15,9 +15,7 @@ import jakarta.annotation.Generated;
 /**
  * ReadOnlyFirst
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class ReadOnlyFirst {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class ReadOnlyFirst {
 
   private String bar;
 
@@ -60,7 +58,6 @@ public class ReadOnlyFirst {
   public void setBaz(String baz) {
     this.baz = baz;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

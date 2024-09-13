@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { SingleRefType } from './SingleRefType';
 import {
@@ -40,7 +39,6 @@ export interface AllOfWithSingleRef {
      */
     singleRefType?: SingleRefType;
 }
-
 
 
 /**
@@ -80,4 +78,3 @@ export function AllOfWithSingleRefFromJSONTyped(json: any, ignoreDiscriminator: 
         'SingleRefType': SingleRefTypeToJSON(value['singleRefType']),
     };
 }
-

@@ -18,10 +18,8 @@ import javax.annotation.Generated;
 /**
  * ModelList
  */
-
 @JsonTypeName("List")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class ModelList {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class ModelList {
 
   private String _123list;
 
@@ -34,8 +32,7 @@ public class ModelList {
    * Get _123list
    * @return _123list
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("123-list")
   public String get123list() {
     return _123list;
@@ -44,7 +41,6 @@ public class ModelList {
   public void set123list(String _123list) {
     this._123list = _123list;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

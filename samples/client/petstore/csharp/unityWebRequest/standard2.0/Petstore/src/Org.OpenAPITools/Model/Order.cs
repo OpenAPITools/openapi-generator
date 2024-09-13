@@ -56,7 +56,6 @@ namespace Org.OpenAPITools.Model
             Delivered = 3
         }
 
-
         /// <summary>
         /// Order Status
         /// </summary>

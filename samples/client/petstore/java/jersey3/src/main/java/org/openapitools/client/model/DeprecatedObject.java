@@ -54,7 +54,6 @@ public class DeprecatedObject {
    * @return name
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -68,7 +67,6 @@ public class DeprecatedObject {
   public void setName(String name) {
     this.name = name;
   }
-
 
   /**
    * Return true if this DeprecatedObject object is equal to o.

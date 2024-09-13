@@ -20,7 +20,6 @@ class TestInlineFreeformAdditionalPropertiesRequest {
 
      this.someProperty,
   });
-
   @JsonKey(
     
     name: r'someProperty',

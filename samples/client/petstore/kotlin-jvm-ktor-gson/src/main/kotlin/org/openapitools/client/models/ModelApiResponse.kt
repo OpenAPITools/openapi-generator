@@ -26,7 +26,6 @@ import com.google.gson.annotations.SerializedName
  * @param message 
  */
 
-
 data class ModelApiResponse (
 
     @SerializedName("code")

@@ -105,7 +105,6 @@ public class FakeBigDecimalMap200Response {
     this.someMap = someMap;
   }
 
-
   /**
    * Return true if this fakeBigDecimalMap_200_response object is equal to o.
    */

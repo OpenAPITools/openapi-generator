@@ -19,9 +19,7 @@ import jakarta.annotation.Generated;
 /**
  * XmlItem
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class XmlItem {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class XmlItem {
 
   private String attributeString;
 
@@ -712,7 +710,6 @@ public class XmlItem {
   public void setPrefixNsWrappedArray(List<Integer> prefixNsWrappedArray) {
     this.prefixNsWrappedArray = prefixNsWrappedArray;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

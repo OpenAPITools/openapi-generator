@@ -21,9 +21,7 @@ import javax.annotation.Generated;
 /**
  * Order
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class Order {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class Order {
 
   private Optional<Long> id = Optional.empty();
 
@@ -70,7 +68,6 @@ public class Order {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   private Optional<StatusEnum> status = Optional.empty();
 
   private Optional<Boolean> complete = Optional.of(false);
@@ -84,8 +81,7 @@ public class Order {
    * Get id
    * @return id
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Optional<Long> getId() {
     return id;
@@ -104,8 +100,7 @@ public class Order {
    * Get petId
    * @return petId
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("petId")
   public Optional<Long> getPetId() {
     return petId;
@@ -124,8 +119,7 @@ public class Order {
    * Get quantity
    * @return quantity
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("quantity")
   public Optional<Integer> getQuantity() {
     return quantity;
@@ -144,8 +138,7 @@ public class Order {
    * Get shipDate
    * @return shipDate
    */
-  @Valid 
-  @ApiModelProperty(value = "")
+  @Valid   @ApiModelProperty(value = "")
   @JsonProperty("shipDate")
   public Optional<OffsetDateTime> getShipDate() {
     return shipDate;
@@ -164,8 +157,7 @@ public class Order {
    * Order Status
    * @return status
    */
-  
-  @ApiModelProperty(value = "Order Status")
+    @ApiModelProperty(value = "Order Status")
   @JsonProperty("status")
   public Optional<StatusEnum> getStatus() {
     return status;
@@ -184,8 +176,7 @@ public class Order {
    * Get complete
    * @return complete
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("complete")
   public Optional<Boolean> getComplete() {
     return complete;
@@ -194,7 +185,6 @@ public class Order {
   public void setComplete(Optional<Boolean> complete) {
     this.complete = complete;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -242,92 +232,91 @@ public class Order {
     return o.toString().replace("\n", "\n    ");
   }
   
-  public static class Builder {
-
-    private Order instance;
-
-    public Builder() {
-      this(new Order());
-    }
-
-    protected Builder(Order instance) {
-      this.instance = instance;
-    }
-
-    protected Builder copyOf(Order value) { 
-      this.instance.setId(value.id);
-      this.instance.setPetId(value.petId);
-      this.instance.setQuantity(value.quantity);
-      this.instance.setShipDate(value.shipDate);
-      this.instance.setStatus(value.status);
-      this.instance.setComplete(value.complete);
-      return this;
-    }
-
-    public Order.Builder id(Long id) {
-      this.instance.id(id);
-      return this;
-    }
-    
-    public Order.Builder petId(Long petId) {
-      this.instance.petId(petId);
-      return this;
-    }
-    
-    public Order.Builder quantity(Integer quantity) {
-      this.instance.quantity(quantity);
-      return this;
-    }
-    
-    public Order.Builder shipDate(OffsetDateTime shipDate) {
-      this.instance.shipDate(shipDate);
-      return this;
-    }
-    
-    public Order.Builder status(StatusEnum status) {
-      this.instance.status(status);
-      return this;
-    }
-    
-    public Order.Builder complete(Boolean complete) {
-      this.instance.complete(complete);
-      return this;
-    }
-    
-    /**
-    * returns a built Order instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public Order build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    public static class Builder {
+  
+      private Order instance;
+  
+      public Builder() {
+        this(new Order());
+      }
+  
+      protected Builder(Order instance) {
+        this.instance = instance;
+      }
+  
+      protected Builder copyOf(Order value) { 
+        this.instance.setId(value.id);
+        this.instance.setPetId(value.petId);
+        this.instance.setQuantity(value.quantity);
+        this.instance.setShipDate(value.shipDate);
+        this.instance.setStatus(value.status);
+        this.instance.setComplete(value.complete);
+        return this;
+      }
+  
+        public Order.Builder id(Long id) {
+        this.instance.id(id);
+        return this;
+      }
+      
+        public Order.Builder petId(Long petId) {
+        this.instance.petId(petId);
+        return this;
+      }
+      
+        public Order.Builder quantity(Integer quantity) {
+        this.instance.quantity(quantity);
+        return this;
+      }
+      
+        public Order.Builder shipDate(OffsetDateTime shipDate) {
+        this.instance.shipDate(shipDate);
+        return this;
+      }
+      
+        public Order.Builder status(StatusEnum status) {
+        this.instance.status(status);
+        return this;
+      }
+      
+        public Order.Builder complete(Boolean complete) {
+        this.instance.complete(complete);
+        return this;
+      }
+      
+          /**
+      * returns a built Order instance.
+      *
+      * The builder is not reusable (NullPointerException)
+      */
+      public Order build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field (except for the default values).
+    */
+    public static Order.Builder builder() {
+      return new Order.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field (except for the default values).
-  */
-  public static Order.Builder builder() {
-    return new Order.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public Order.Builder toBuilder() {
-    Order.Builder builder = new Order.Builder();
-    return builder.copyOf(this);
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public Order.Builder toBuilder() {
+      Order.Builder builder = new Order.Builder();
+      return builder.copyOf(this);
+    }
 }
 

@@ -57,8 +57,7 @@ public class Apple {
    * @return cultivar
    */
   @jakarta.annotation.Nullable
- @Pattern(regexp="^[a-zA-Z\\s]*$")
-  @JsonProperty(JSON_PROPERTY_CULTIVAR)
+ @Pattern(regexp="^[a-zA-Z\\s]*$")  @JsonProperty(JSON_PROPERTY_CULTIVAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getCultivar() {
@@ -83,8 +82,7 @@ public class Apple {
    * @return origin
    */
   @jakarta.annotation.Nullable
- @Pattern(regexp="/^[A-Z\\s]*$/i")
-  @JsonProperty(JSON_PROPERTY_ORIGIN)
+ @Pattern(regexp="/^[A-Z\\s]*$/i")  @JsonProperty(JSON_PROPERTY_ORIGIN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getOrigin() {
@@ -97,7 +95,6 @@ public class Apple {
   public void setOrigin(String origin) {
     this.origin = origin;
   }
-
 
   /**
    * Return true if this apple object is equal to o.

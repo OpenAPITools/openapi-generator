@@ -225,7 +225,6 @@ sub _deserialize {
     }
 }
 
-
 __PACKAGE__->class_documentation({description => 'A representation of a child',
                                   class => 'Child',
                                   required => [], # TODO

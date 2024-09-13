@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * A tag for a pet
@@ -32,7 +31,6 @@ export interface Tag {
      */
     name?: string;
 }
-
 /**
  * Check if a given object implements the Tag interface.
  */
@@ -87,4 +85,3 @@ export const TagPropertyValidationAttributesMap: {
     }
 } = {
 }
-

@@ -53,7 +53,6 @@ public class QuadrilateralInterface {
    */
   @jakarta.annotation.Nonnull
   @NotNull
-
   @JsonProperty(JSON_PROPERTY_QUADRILATERAL_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -67,7 +66,6 @@ public class QuadrilateralInterface {
   public void setQuadrilateralType(String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;
   }
-
 
   /**
    * Return true if this QuadrilateralInterface object is equal to o.

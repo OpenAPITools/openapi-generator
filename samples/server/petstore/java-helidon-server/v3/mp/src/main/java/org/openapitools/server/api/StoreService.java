@@ -24,26 +24,21 @@ import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
 @Path("/store")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public interface StoreService {
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public interface StoreService {
 
     @DELETE
     @Path("/order/{order_id}")
     void deleteOrder(@PathParam("order_id") String orderId);
-
     @GET
     @Path("/inventory")
     @Produces({ "application/json" })
     Map<String, Integer> getInventory();
-
     @GET
     @Path("/order/{order_id}")
     @Produces({ "application/xml", "application/json" })
     Order getOrderById(@PathParam("order_id") @Min(1L) @Max(5L) Long orderId);
-
     @POST
     @Path("/order")
     @Consumes({ "application/json" })
     @Produces({ "application/xml", "application/json" })
-    Order placeOrder(@Valid @NotNull Order order);
-}
+    Order placeOrder(@Valid @NotNull Order order);}

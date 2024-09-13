@@ -63,7 +63,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @javax.annotation.Nullable
   @Valid
 
-
   public UUID getUuid() {
     return uuid;
   }
@@ -85,7 +84,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    */
   @javax.annotation.Nullable
   @Valid
-
 
   public OffsetDateTime getDateTime() {
     return dateTime;
@@ -116,7 +114,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    */
   @javax.annotation.Nullable
   @Valid
-
 
   public Map<String, Animal> getMap() {
     return map;

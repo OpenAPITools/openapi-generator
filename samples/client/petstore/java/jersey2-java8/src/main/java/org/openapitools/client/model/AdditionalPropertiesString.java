@@ -105,7 +105,6 @@ public class AdditionalPropertiesString {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this AdditionalPropertiesString object is equal to o.
    */

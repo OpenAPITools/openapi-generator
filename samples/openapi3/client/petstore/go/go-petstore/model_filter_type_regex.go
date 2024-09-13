@@ -220,4 +220,3 @@ func (v *NullableFilterTypeRegex) UnmarshalJSON(src []byte) error {
 	return json.Unmarshal(src, &v.value)
 }
 
-

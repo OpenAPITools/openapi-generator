@@ -58,7 +58,6 @@ public class AppleReq {
    */
   @jakarta.annotation.Nonnull
   @NotNull
-
   @JsonProperty(JSON_PROPERTY_CULTIVAR)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -84,7 +83,6 @@ public class AppleReq {
    * @return mealy
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_MEALY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -98,7 +96,6 @@ public class AppleReq {
   public void setMealy(Boolean mealy) {
     this.mealy = mealy;
   }
-
 
   /**
    * Return true if this appleReq object is equal to o.

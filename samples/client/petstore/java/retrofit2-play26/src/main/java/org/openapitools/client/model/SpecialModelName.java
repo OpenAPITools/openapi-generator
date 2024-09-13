@@ -51,7 +51,6 @@ public class SpecialModelName {
    * @return $specialPropertyName
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

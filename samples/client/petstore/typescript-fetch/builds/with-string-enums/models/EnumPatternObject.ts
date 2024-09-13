@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { NumberEnum } from './NumberEnum';
 import {
@@ -61,7 +60,6 @@ export interface EnumPatternObject {
 }
 
 
-
 /**
  * Check if a given object implements the EnumPatternObject interface.
  */
@@ -103,4 +101,3 @@ export function EnumPatternObjectFromJSONTyped(json: any, ignoreDiscriminator: b
         'nullable-number-enum': NumberEnumToJSON(value['nullableNumberEnum']),
     };
 }
-

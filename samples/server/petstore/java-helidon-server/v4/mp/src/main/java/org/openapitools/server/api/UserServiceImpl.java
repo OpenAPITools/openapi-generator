@@ -27,31 +27,26 @@ import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
 @Path("/user")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class UserServiceImpl implements UserService {
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class UserServiceImpl implements UserService {
 
     @POST
     @Consumes({ "application/json" })
     public void createUser(@Valid @NotNull User user) {
     }
-
     @POST
     @Path("/createWithArray")
     @Consumes({ "application/json" })
     public void createUsersWithArrayInput(@Valid @NotNull List<@Valid User> user) {
     }
-
     @POST
     @Path("/createWithList")
     @Consumes({ "application/json" })
     public void createUsersWithListInput(@Valid @NotNull List<@Valid User> user) {
     }
-
     @DELETE
     @Path("/{username}")
     public void deleteUser(@PathParam("username") String username) {
     }
-
     @GET
     @Path("/{username}")
     @Produces({ "application/xml", "application/json" })
@@ -59,7 +54,6 @@ public class UserServiceImpl implements UserService {
         User result = null; // Replace with correct business logic.
         return result;
     }
-
     @GET
     @Path("/login")
     @Produces({ "application/xml", "application/json" })
@@ -67,15 +61,12 @@ public class UserServiceImpl implements UserService {
         String result = ""; // Replace with correct business logic.
         return result;
     }
-
     @GET
     @Path("/logout")
     public void logoutUser() {
     }
-
     @PUT
     @Path("/{username}")
     @Consumes({ "application/json" })
     public void updateUser(@PathParam("username") String username,@Valid @NotNull User user) {
-    }
-}
+    }}

@@ -15,8 +15,7 @@ public struct MapTest: Codable, JSONEncodable, Hashable {
     public enum MapOfEnumString: String, Codable, CaseIterable {
         case upper = "UPPER"
         case lower = "lower"
-    }
-    public private(set) var mapMapOfString: [String: [String: String]]?
+    }    public private(set) var mapMapOfString: [String: [String: String]]?
     public private(set) var mapOfEnumString: [String: String]?
     public private(set) var directMap: [String: Bool]?
     public private(set) var indirectMap: StringBooleanMap?

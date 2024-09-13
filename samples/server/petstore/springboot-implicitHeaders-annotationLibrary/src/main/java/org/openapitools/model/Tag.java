@@ -16,9 +16,7 @@ import javax.annotation.Generated;
 /**
  * A tag for a pet
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class Tag {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class Tag {
 
   private Long id;
 
@@ -33,8 +31,7 @@ public class Tag {
    * Get id
    * @return id
    */
-  
-  @JsonProperty("id")
+    @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -52,8 +49,7 @@ public class Tag {
    * Get name
    * @return name
    */
-  
-  @JsonProperty("name")
+    @JsonProperty("name")
   public String getName() {
     return name;
   }
@@ -61,7 +57,6 @@ public class Tag {
   public void setName(String name) {
     this.name = name;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

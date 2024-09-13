@@ -84,7 +84,6 @@ public class HasOnlyReadOnly {
 
 
 
-
   /**
    * Return true if this hasOnlyReadOnly object is equal to o.
    */

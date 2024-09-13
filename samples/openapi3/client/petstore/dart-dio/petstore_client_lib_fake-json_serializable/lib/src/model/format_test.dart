@@ -51,7 +51,6 @@ class FormatTest {
 
      this.patternWithDigitsAndDelimiter,
   });
-
           // minimum: 10
           // maximum: 100
   @JsonKey(

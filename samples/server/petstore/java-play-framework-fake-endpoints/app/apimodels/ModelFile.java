@@ -14,8 +14,7 @@ import javax.validation.Valid;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ModelFile   {
   @JsonProperty("sourceURI")
-  
-  private String sourceURI;
+                                        private String sourceURI;
 
   public ModelFile sourceURI(String sourceURI) {
     this.sourceURI = sourceURI;
@@ -74,4 +73,3 @@ public class ModelFile   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

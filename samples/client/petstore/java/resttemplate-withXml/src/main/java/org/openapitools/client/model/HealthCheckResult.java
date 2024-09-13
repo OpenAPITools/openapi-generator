@@ -69,7 +69,6 @@ public class HealthCheckResult {
   @JsonProperty(JSON_PROPERTY_NULLABLE_MESSAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "NullableMessage")
-
   public JsonNullable<String> getNullableMessage_JsonNullable() {
     return nullableMessage;
   }

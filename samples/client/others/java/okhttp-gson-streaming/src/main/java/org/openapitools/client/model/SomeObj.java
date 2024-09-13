@@ -102,7 +102,6 @@ public class SomeObj implements Serializable {
       TypeEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_$_TYPE = "$_type";
   @SerializedName(SERIALIZED_NAME_$_TYPE)
   private TypeEnum $type = TypeEnum.SOME_OBJ_IDENTIFIER;
@@ -219,7 +218,6 @@ public class SomeObj implements Serializable {
   public void setType(String type) {
     this.type = type;
   }
-
 
 
   @Override

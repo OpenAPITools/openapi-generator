@@ -108,58 +108,57 @@ public class OuterObjectWithEnumProperty {
   }
 
   public static class Builder {
-
-    private OuterObjectWithEnumProperty instance;
-
-    public Builder() {
-      this(new OuterObjectWithEnumProperty());
-    }
-
-    protected Builder(OuterObjectWithEnumProperty instance) {
-      this.instance = instance;
-    }
-
-    public OuterObjectWithEnumProperty.Builder value(OuterEnumInteger value) {
-      this.instance.value = value;
-      return this;
-    }
-
-
-    /**
-    * returns a built OuterObjectWithEnumProperty instance.
-    *
-    * The builder is not reusable.
-    */
-    public OuterObjectWithEnumProperty build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+  
+      private OuterObjectWithEnumProperty instance;
+  
+      public Builder() {
+        this(new OuterObjectWithEnumProperty());
+      }
+  
+      protected Builder(OuterObjectWithEnumProperty instance) {
+        this.instance = instance;
+      }
+  
+      public OuterObjectWithEnumProperty.Builder value(OuterEnumInteger value) {
+          this.instance.value = value;
+        return this;
+      }
+    
+  
+      /**
+      * returns a built OuterObjectWithEnumProperty instance.
+      *
+      * The builder is not reusable.
+      */
+      public OuterObjectWithEnumProperty build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field.
+    */
+    public static OuterObjectWithEnumProperty.Builder builder() {
+      return new OuterObjectWithEnumProperty.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static OuterObjectWithEnumProperty.Builder builder() {
-    return new OuterObjectWithEnumProperty.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public OuterObjectWithEnumProperty.Builder toBuilder() {
-    return new OuterObjectWithEnumProperty.Builder()
-      .value(getValue());
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public OuterObjectWithEnumProperty.Builder toBuilder() {
+      return new OuterObjectWithEnumProperty.Builder()
+        .value(getValue());
+    }
 
 }
 

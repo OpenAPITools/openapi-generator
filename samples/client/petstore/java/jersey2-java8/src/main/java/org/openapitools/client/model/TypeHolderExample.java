@@ -220,7 +220,6 @@ public class TypeHolderExample {
     this.arrayItem = arrayItem;
   }
 
-
   /**
    * Return true if this TypeHolderExample object is equal to o.
    */

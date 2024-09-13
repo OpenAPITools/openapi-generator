@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * 
@@ -52,7 +51,6 @@ export const EnumArraysArrayEnumEnum = {
 } as const;
 export type EnumArraysArrayEnumEnum = typeof EnumArraysArrayEnumEnum[keyof typeof EnumArraysArrayEnumEnum];
 
-
 /**
  * Check if a given object implements the EnumArrays interface.
  */
@@ -90,4 +88,3 @@ export function EnumArraysFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'array_enum': value['arrayEnum'],
     };
 }
-

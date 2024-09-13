@@ -175,7 +175,6 @@ public abstract class FakeClassnameTags123Service implements HttpService {
         }
     }
 
-
     @Override
     public void afterStop() {
     System.out.println("Service FakeClassnameTags123Service is down. Goodbye!");

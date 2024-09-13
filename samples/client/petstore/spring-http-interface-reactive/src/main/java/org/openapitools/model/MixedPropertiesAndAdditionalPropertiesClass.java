@@ -21,9 +21,7 @@ import jakarta.annotation.Generated;
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class MixedPropertiesAndAdditionalPropertiesClass {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class MixedPropertiesAndAdditionalPropertiesClass {
 
   private UUID uuid;
 
@@ -97,7 +95,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   public void setMap(Map<String, Animal> map) {
     this.map = map;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

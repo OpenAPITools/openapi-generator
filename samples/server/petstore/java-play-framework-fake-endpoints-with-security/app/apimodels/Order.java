@@ -14,20 +14,16 @@ import javax.validation.Valid;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Order   {
   @JsonProperty("id")
-  
-  private Long id;
+                                        private Long id;
 
   @JsonProperty("petId")
-  
-  private Long petId;
+                                        private Long petId;
 
   @JsonProperty("quantity")
-  
-  private Integer quantity;
+                                        private Integer quantity;
 
   @JsonProperty("shipDate")
-  @Valid
-
+                                        @Valid
   private OffsetDateTime shipDate;
 
   /**
@@ -62,14 +58,11 @@ public class Order   {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   @JsonProperty("status")
-  
-  private StatusEnum status;
+                                        private StatusEnum status;
 
   @JsonProperty("complete")
-  
-  private Boolean complete = false;
+                                        private Boolean complete = false;
 
   public Order id(Long id) {
     this.id = id;
@@ -223,4 +216,3 @@ public class Order   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

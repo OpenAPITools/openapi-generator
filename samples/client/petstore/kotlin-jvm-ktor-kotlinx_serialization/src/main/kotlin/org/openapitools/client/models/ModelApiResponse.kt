@@ -28,7 +28,6 @@ import kotlinx.serialization.Contextual
  * @param message 
  */
 @Serializable
-
 data class ModelApiResponse (
 
     @SerialName(value = "code")

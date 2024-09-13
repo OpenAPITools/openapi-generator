@@ -78,7 +78,6 @@ public class Cat extends Animal {
     this.declawed = declawed;
   }
 
-
   @Override
   public Cat className(String className) {
     this.setClassName(className);

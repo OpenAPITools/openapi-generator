@@ -157,63 +157,62 @@ public class AdditionalPropertiesClass {
   }
 
   public static class Builder {
-
-    private AdditionalPropertiesClass instance;
-
-    public Builder() {
-      this(new AdditionalPropertiesClass());
-    }
-
-    protected Builder(AdditionalPropertiesClass instance) {
-      this.instance = instance;
-    }
-
-    public AdditionalPropertiesClass.Builder mapProperty(Map<String, String> mapProperty) {
-      this.instance.mapProperty = mapProperty;
-      return this;
-    }
-    public AdditionalPropertiesClass.Builder mapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
-      this.instance.mapOfMapProperty = mapOfMapProperty;
-      return this;
-    }
-
-
-    /**
-    * returns a built AdditionalPropertiesClass instance.
-    *
-    * The builder is not reusable.
-    */
-    public AdditionalPropertiesClass build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+  
+      private AdditionalPropertiesClass instance;
+  
+      public Builder() {
+        this(new AdditionalPropertiesClass());
+      }
+  
+      protected Builder(AdditionalPropertiesClass instance) {
+        this.instance = instance;
+      }
+  
+      public AdditionalPropertiesClass.Builder mapProperty(Map<String, String> mapProperty) {
+          this.instance.mapProperty = mapProperty;
+        return this;
+      }
+        public AdditionalPropertiesClass.Builder mapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
+          this.instance.mapOfMapProperty = mapOfMapProperty;
+        return this;
+      }
+    
+  
+      /**
+      * returns a built AdditionalPropertiesClass instance.
+      *
+      * The builder is not reusable.
+      */
+      public AdditionalPropertiesClass build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field.
+    */
+    public static AdditionalPropertiesClass.Builder builder() {
+      return new AdditionalPropertiesClass.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static AdditionalPropertiesClass.Builder builder() {
-    return new AdditionalPropertiesClass.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public AdditionalPropertiesClass.Builder toBuilder() {
-    return new AdditionalPropertiesClass.Builder()
-      .mapProperty(getMapProperty())
-      .mapOfMapProperty(getMapOfMapProperty());
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public AdditionalPropertiesClass.Builder toBuilder() {
+      return new AdditionalPropertiesClass.Builder()
+        .mapProperty(getMapProperty())
+        .mapOfMapProperty(getMapOfMapProperty());
+    }
 
 }
 

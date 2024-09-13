@@ -156,7 +156,6 @@ mod paths {
     }
 }
 
-
 pub struct MakeService<T, C> where
     T: Api<C> + Clone + Send + 'static,
     C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static
@@ -208,7 +207,6 @@ impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
         future::ok(service)
     }
 }
-
 fn method_not_allowed() -> Result<Response<Body>, crate::ServiceError> {
     Ok(
         Response::builder().status(StatusCode::METHOD_NOT_ALLOWED)
@@ -289,7 +287,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             let path = paths::GLOBAL_REGEX_SET.matches(uri.path());
 
             match method {
-
             // TestSpecialTags - PATCH /another-fake/dummy
             hyper::Method::PATCH if path.matched(paths::ID_ANOTHER_FAKE_DUMMY) => {
                 // Handle body parameters (note that non-required body parameters will ignore garbage
@@ -321,8 +318,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
-
-
                                 let result = api_impl.test_special_tags(
                                             param_body,
                                         &context
@@ -352,7 +347,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                             },
                                             Err(_) => {
@@ -371,7 +365,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // Call123example - GET /fake/operation-with-numeric-id
             hyper::Method::GET if path.matched(paths::ID_FAKE_OPERATION_WITH_NUMERIC_ID) => {
                                 let result = api_impl.call123example(
@@ -388,7 +381,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Call123exampleResponse::Success
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -401,7 +393,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // FakeOuterBooleanSerialize - POST /fake/outer/boolean
             hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_BOOLEAN) => {
                 // Handle body parameters (note that non-required body parameters will ignore garbage
@@ -423,8 +414,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 } else {
                                     None
                                 };
-
-
                                 let result = api_impl.fake_outer_boolean_serialize(
                                             param_body,
                                         &context
@@ -454,7 +443,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                             },
                                             Err(_) => {
@@ -473,7 +461,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // FakeOuterCompositeSerialize - POST /fake/outer/composite
             hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_COMPOSITE) => {
                 // Handle body parameters (note that non-required body parameters will ignore garbage
@@ -495,8 +482,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 } else {
                                     None
                                 };
-
-
                                 let result = api_impl.fake_outer_composite_serialize(
                                             param_body,
                                         &context
@@ -526,7 +511,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                             },
                                             Err(_) => {
@@ -545,7 +529,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // FakeOuterNumberSerialize - POST /fake/outer/number
             hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_NUMBER) => {
                 // Handle body parameters (note that non-required body parameters will ignore garbage
@@ -567,8 +550,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 } else {
                                     None
                                 };
-
-
                                 let result = api_impl.fake_outer_number_serialize(
                                             param_body,
                                         &context
@@ -598,7 +579,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                             },
                                             Err(_) => {
@@ -617,7 +597,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // FakeOuterStringSerialize - POST /fake/outer/string
             hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_STRING) => {
                 // Handle body parameters (note that non-required body parameters will ignore garbage
@@ -639,8 +618,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 } else {
                                     None
                                 };
-
-
                                 let result = api_impl.fake_outer_string_serialize(
                                             param_body,
                                         &context
@@ -670,7 +647,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                             },
                                             Err(_) => {
@@ -689,7 +665,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // FakeResponseWithNumericalDescription - GET /fake/response-with-numerical-description
             hyper::Method::GET if path.matched(paths::ID_FAKE_RESPONSE_WITH_NUMERICAL_DESCRIPTION) => {
                                 let result = api_impl.fake_response_with_numerical_description(
@@ -706,7 +681,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 FakeResponseWithNumericalDescriptionResponse::Status200
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -719,7 +693,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // TestBodyWithQueryParams - PUT /fake/body-with-query-params
             hyper::Method::PUT if path.matched(paths::ID_FAKE_BODY_WITH_QUERY_PARAMS) => {
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
@@ -778,8 +751,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
-
-
                                 let result = api_impl.test_body_with_query_params(
                                             param_query,
                                             param_body,
@@ -802,7 +773,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 TestBodyWithQueryParamsResponse::Success
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -821,7 +791,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // TestClientModel - PATCH /fake
             hyper::Method::PATCH if path.matched(paths::ID_FAKE) => {
                 // Handle body parameters (note that non-required body parameters will ignore garbage
@@ -853,8 +822,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
-
-
                                 let result = api_impl.test_client_model(
                                             param_body,
                                         &context
@@ -884,7 +851,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                             },
                                             Err(_) => {
@@ -903,7 +869,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // TestEndpointParameters - POST /fake
             hyper::Method::POST if path.matched(paths::ID_FAKE) => {
                 {
@@ -951,8 +916,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                     Some("password_example".to_string());
                                 let param_callback =
                                     Some("callback_example".to_string());
-
-
                                 let result = api_impl.test_endpoint_parameters(
                                             param_number,
                                             param_double,
@@ -981,12 +944,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 TestEndpointParametersResponse::InvalidUsernameSupplied
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                                 TestEndpointParametersResponse::UserNotFound
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1005,7 +966,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // TestEnumParameters - GET /fake
             hyper::Method::GET if path.matched(paths::ID_FAKE) => {
                 // Header parameters
@@ -1117,8 +1077,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 // Form parameters
                                 let param_enum_form_string =
                                     None;
-
-
                                 let result = api_impl.test_enum_parameters(
                                             param_enum_header_string_array.as_ref(),
                                             param_enum_header_string,
@@ -1140,12 +1098,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 TestEnumParametersResponse::InvalidRequest
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                                 TestEnumParametersResponse::NotFound
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1164,7 +1120,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // TestInlineAdditionalProperties - POST /fake/inline-additionalProperties
             hyper::Method::POST if path.matched(paths::ID_FAKE_INLINE_ADDITIONALPROPERTIES) => {
                 // Handle body parameters (note that non-required body parameters will ignore garbage
@@ -1196,8 +1151,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         .body(Body::from("Missing required body parameter param"))
                                                         .expect("Unable to create Bad Request response for missing body parameter param")),
                                 };
-
-
                                 let result = api_impl.test_inline_additional_properties(
                                             param_param,
                                         &context
@@ -1219,7 +1172,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 TestInlineAdditionalPropertiesResponse::SuccessfulOperation
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1238,7 +1190,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // TestJsonFormData - GET /fake/jsonFormData
             hyper::Method::GET if path.matched(paths::ID_FAKE_JSONFORMDATA) => {
                 // Handle body parameters (note that non-required body parameters will ignore garbage
@@ -1252,8 +1203,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                     "param_example".to_string();
                                 let param_param2 =
                                     "param2_example".to_string();
-
-
                                 let result = api_impl.test_json_form_data(
                                             param_param,
                                             param_param2,
@@ -1270,7 +1219,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 TestJsonFormDataResponse::SuccessfulOperation
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1289,7 +1237,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // HyphenParam - GET /fake/hyphenParam/{hyphen-param}
             hyper::Method::GET if path.matched(paths::ID_FAKE_HYPHENPARAM_HYPHEN_PARAM) => {
                 // Path parameters
@@ -1330,7 +1277,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 HyphenParamResponse::Success
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1343,7 +1289,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // TestClassname - PATCH /fake_classname_test
             hyper::Method::PATCH if path.matched(paths::ID_FAKE_CLASSNAME_TEST) => {
                 {
@@ -1385,8 +1330,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
-
-
                                 let result = api_impl.test_classname(
                                             param_body,
                                         &context
@@ -1416,7 +1359,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1435,7 +1377,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // AddPet - POST /pet
             hyper::Method::POST if path.matched(paths::ID_PET) => {
                 {
@@ -1497,8 +1438,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
-
-
                                 let result = api_impl.add_pet(
                                             param_body,
                                         &context
@@ -1520,7 +1459,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 AddPetResponse::InvalidInput
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(405).expect("Unable to turn 405 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1539,7 +1477,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // FindPetsByStatus - GET /pet/findByStatus
             hyper::Method::GET if path.matched(paths::ID_PET_FINDBYSTATUS) => {
                 {
@@ -1601,12 +1538,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // XML Body
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                                 FindPetsByStatusResponse::InvalidStatusValue
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1619,7 +1554,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // FindPetsByTags - GET /pet/findByTags
             hyper::Method::GET if path.matched(paths::ID_PET_FINDBYTAGS) => {
                 {
@@ -1681,12 +1615,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // XML Body
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                                 FindPetsByTagsResponse::InvalidTagValue
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1699,7 +1631,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // UpdatePet - PUT /pet
             hyper::Method::PUT if path.matched(paths::ID_PET) => {
                 {
@@ -1761,8 +1692,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
-
-
                                 let result = api_impl.update_pet(
                                             param_body,
                                         &context
@@ -1784,17 +1713,14 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 UpdatePetResponse::InvalidIDSupplied
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                                 UpdatePetResponse::PetNotFound
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
-
                                                 },
                                                 UpdatePetResponse::ValidationException
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(405).expect("Unable to turn 405 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1813,7 +1739,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // DeletePet - DELETE /pet/{petId}
             hyper::Method::DELETE if path.matched(paths::ID_PET_PETID) => {
                 {
@@ -1905,7 +1830,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 DeletePetResponse::InvalidPetValue
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1918,7 +1842,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // GetPetById - GET /pet/{petId}
             hyper::Method::GET if path.matched(paths::ID_PET_PETID) => {
                 {
@@ -1977,17 +1900,14 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // XML Body
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                                 GetPetByIdResponse::InvalidIDSupplied
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                                 GetPetByIdResponse::PetNotFound
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -2000,7 +1920,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // UpdatePetWithForm - POST /pet/{petId}
             hyper::Method::POST if path.matched(paths::ID_PET_PETID) => {
                 {
@@ -2067,8 +1986,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                     Some("name_example".to_string());
                                 let param_status =
                                     Some("status_example".to_string());
-
-
                                 let result = api_impl.update_pet_with_form(
                                             param_pet_id,
                                             param_name,
@@ -2086,7 +2003,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 UpdatePetWithFormResponse::InvalidInput
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(405).expect("Unable to turn 405 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -2105,7 +2021,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // UploadFile - POST /pet/{petId}/uploadImage
             hyper::Method::POST if path.matched(paths::ID_PET_PETID_UPLOADIMAGE) => {
                 {
@@ -2265,8 +2180,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                             None
                                     }
                                 };
-
-
                                 let result = api_impl.upload_file(
                                             param_pet_id,
                                             param_additional_metadata,
@@ -2292,7 +2205,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                             },
                                             Err(_) => {
@@ -2311,7 +2223,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // GetInventory - GET /store/inventory
             hyper::Method::GET if path.matched(paths::ID_STORE_INVENTORY) => {
                 {
@@ -2346,7 +2257,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                             },
                                             Err(_) => {
@@ -2359,7 +2269,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // PlaceOrder - POST /store/order
             hyper::Method::POST if path.matched(paths::ID_STORE_ORDER) => {
                 // Handle body parameters (note that non-required body parameters will ignore garbage
@@ -2391,8 +2300,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
-
-
                                 let result = api_impl.place_order(
                                             param_body,
                                         &context
@@ -2422,12 +2329,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // XML Body
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                                 PlaceOrderResponse::InvalidOrder
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -2446,7 +2351,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // DeleteOrder - DELETE /store/order/{order_id}
             hyper::Method::DELETE if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => {
                 // Path parameters
@@ -2487,12 +2391,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 DeleteOrderResponse::InvalidIDSupplied
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                                 DeleteOrderResponse::OrderNotFound
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -2505,7 +2407,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // GetOrderById - GET /store/order/{order_id}
             hyper::Method::GET if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => {
                 // Path parameters
@@ -2554,17 +2455,14 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // XML Body
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                                 GetOrderByIdResponse::InvalidIDSupplied
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                                 GetOrderByIdResponse::OrderNotFound
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -2577,7 +2475,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // CreateUser - POST /user
             hyper::Method::POST if path.matched(paths::ID_USER) => {
                 // Handle body parameters (note that non-required body parameters will ignore garbage
@@ -2609,8 +2506,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
-
-
                                 let result = api_impl.create_user(
                                             param_body,
                                         &context
@@ -2632,7 +2527,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 CreateUserResponse::SuccessfulOperation
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(0).expect("Unable to turn 0 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -2651,7 +2545,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // CreateUsersWithArrayInput - POST /user/createWithArray
             hyper::Method::POST if path.matched(paths::ID_USER_CREATEWITHARRAY) => {
                 // Handle body parameters (note that non-required body parameters will ignore garbage
@@ -2683,8 +2576,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
-
-
                                 let result = api_impl.create_users_with_array_input(
                                             param_body.as_ref(),
                                         &context
@@ -2706,7 +2597,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 CreateUsersWithArrayInputResponse::SuccessfulOperation
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(0).expect("Unable to turn 0 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -2725,7 +2615,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // CreateUsersWithListInput - POST /user/createWithList
             hyper::Method::POST if path.matched(paths::ID_USER_CREATEWITHLIST) => {
                 // Handle body parameters (note that non-required body parameters will ignore garbage
@@ -2757,8 +2646,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
-
-
                                 let result = api_impl.create_users_with_list_input(
                                             param_body.as_ref(),
                                         &context
@@ -2780,7 +2667,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 CreateUsersWithListInputResponse::SuccessfulOperation
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(0).expect("Unable to turn 0 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -2799,7 +2685,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // LoginUser - GET /user/login
             hyper::Method::GET if path.matched(paths::ID_USER_LOGIN) => {
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
@@ -2915,12 +2800,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // XML Body
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                                 LoginUserResponse::InvalidUsername
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -2933,7 +2816,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // LogoutUser - GET /user/logout
             hyper::Method::GET if path.matched(paths::ID_USER_LOGOUT) => {
                                 let result = api_impl.logout_user(
@@ -2950,7 +2832,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 LogoutUserResponse::SuccessfulOperation
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(0).expect("Unable to turn 0 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -2963,7 +2844,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // DeleteUser - DELETE /user/{username}
             hyper::Method::DELETE if path.matched(paths::ID_USER_USERNAME) => {
                 // Path parameters
@@ -3004,12 +2884,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 DeleteUserResponse::InvalidUsernameSupplied
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                                 DeleteUserResponse::UserNotFound
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -3022,7 +2900,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // GetUserByName - GET /user/{username}
             hyper::Method::GET if path.matched(paths::ID_USER_USERNAME) => {
                 // Path parameters
@@ -3071,17 +2948,14 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // XML Body
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                                 GetUserByNameResponse::InvalidUsernameSupplied
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                                 GetUserByNameResponse::UserNotFound
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -3094,7 +2968,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // UpdateUser - PUT /user/{username}
             hyper::Method::PUT if path.matched(paths::ID_USER_USERNAME) => {
                 // Path parameters
@@ -3149,8 +3022,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
-
-
                                 let result = api_impl.update_user(
                                             param_username,
                                             param_body,
@@ -3173,12 +3044,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 UpdateUserResponse::InvalidUserSupplied
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                                 UpdateUserResponse::UserNotFound
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -3197,7 +3066,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             _ if path.matched(paths::ID_ANOTHER_FAKE_DUMMY) => method_not_allowed(),
             _ if path.matched(paths::ID_FAKE) => method_not_allowed(),
             _ if path.matched(paths::ID_FAKE_BODY_WITH_QUERY_PARAMS) => method_not_allowed(),
@@ -3237,7 +3105,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
         ))
     }
 }
-
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
 impl<T> RequestParser<T> for ApiRequestParser {

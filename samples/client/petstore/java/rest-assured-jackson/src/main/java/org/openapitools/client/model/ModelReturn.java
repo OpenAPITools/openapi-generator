@@ -52,7 +52,6 @@ public class ModelReturn {
    * @return _return
    */
   @javax.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_RETURN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

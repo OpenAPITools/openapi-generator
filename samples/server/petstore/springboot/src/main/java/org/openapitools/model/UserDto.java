@@ -19,10 +19,8 @@ import javax.annotation.Generated;
 /**
  * UserDto
  */
-
 @JsonTypeName("User")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class UserDto {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class UserDto {
 
   private Long id;
 
@@ -49,8 +47,7 @@ public class UserDto {
    * Get id
    * @return id
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
@@ -69,8 +66,7 @@ public class UserDto {
    * Get username
    * @return username
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("username")
   public String getUsername() {
     return username;
@@ -89,8 +85,7 @@ public class UserDto {
    * Get firstName
    * @return firstName
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("firstName")
   public String getFirstName() {
     return firstName;
@@ -109,8 +104,7 @@ public class UserDto {
    * Get lastName
    * @return lastName
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("lastName")
   public String getLastName() {
     return lastName;
@@ -129,8 +123,7 @@ public class UserDto {
    * Get email
    * @return email
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("email")
   public String getEmail() {
     return email;
@@ -149,8 +142,7 @@ public class UserDto {
    * Get password
    * @return password
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("password")
   public String getPassword() {
     return password;
@@ -169,8 +161,7 @@ public class UserDto {
    * Get phone
    * @return phone
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("phone")
   public String getPhone() {
     return phone;
@@ -189,8 +180,7 @@ public class UserDto {
    * User Status
    * @return userStatus
    */
-  
-  @ApiModelProperty(value = "User Status")
+    @ApiModelProperty(value = "User Status")
   @JsonProperty("userStatus")
   public Integer getUserStatus() {
     return userStatus;
@@ -199,7 +189,6 @@ public class UserDto {
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -10,7 +10,6 @@
 
 part of openapi.api;
 
-
 class EnumClass {
   /// Instantiate a new enum with the provided [value].
   const EnumClass._(this.value);
@@ -85,4 +84,3 @@ class EnumClassTypeTransformer {
   /// Singleton [EnumClassTypeTransformer] instance.
   static EnumClassTypeTransformer? _instance;
 }
-

@@ -12,4 +12,3 @@
 |**map** | [**Map&lt;String, Animal&gt;**](Animal.md) |  |  [optional] |
 
 
-

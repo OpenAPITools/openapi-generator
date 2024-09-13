@@ -18,34 +18,28 @@ import javax.validation.Valid;
 public class TypeHolderExample   {
   @JsonProperty("string_item")
   @NotNull
-
-  private String stringItem;
+                                      private String stringItem;
 
   @JsonProperty("number_item")
   @NotNull
-@Valid
-
+                                      @Valid
   private BigDecimal numberItem;
 
   @JsonProperty("float_item")
   @NotNull
-
-  private Float floatItem;
+                                      private Float floatItem;
 
   @JsonProperty("integer_item")
   @NotNull
-
-  private Integer integerItem;
+                                      private Integer integerItem;
 
   @JsonProperty("bool_item")
   @NotNull
-
-  private Boolean boolItem;
+                                      private Boolean boolItem;
 
   @JsonProperty("array_item")
   @NotNull
-
-  private List<Integer> arrayItem = new ArrayList<>();
+                                      private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderExample stringItem(String stringItem) {
     this.stringItem = stringItem;
@@ -207,4 +201,3 @@ public class TypeHolderExample   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

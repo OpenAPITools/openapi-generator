@@ -97,7 +97,6 @@ public class Pet {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_STATUS = "status";
   private StatusEnum status;
 
@@ -264,7 +263,6 @@ public class Pet {
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
-
 
   /**
    * Return true if this Pet object is equal to o.

@@ -10,7 +10,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { exists, mapValues } from '../runtime';
 /**
  * Describes the result of uploading an image resource
@@ -56,5 +55,4 @@ export function ModelApiResponseToJSON(value?: ModelApiResponse): any {
         'message': value.message,
     };
 }
-
 

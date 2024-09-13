@@ -38,8 +38,7 @@ abstract class Entity implements Addressable, Extensible {
   };
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<Entity> get serializer => _$EntitySerializer();
-}
+  static Serializer<Entity> get serializer => _$EntitySerializer();}
 
 extension EntityDiscriminatorExt on Entity {
     String? get discriminatorValue {
@@ -87,7 +86,6 @@ extension EntityBuilderDiscriminatorExt on EntityBuilder {
         return null;
     }
 }
-
 class _$EntitySerializer implements PrimitiveSerializer<Entity> {
   @override
   final Iterable<Type> types = const [Entity];

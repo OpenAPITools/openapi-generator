@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * 
@@ -55,7 +54,6 @@ export const MapTestMapOfEnumStringEnum = {
 } as const;
 export type MapTestMapOfEnumStringEnum = typeof MapTestMapOfEnumStringEnum[keyof typeof MapTestMapOfEnumStringEnum];
 
-
 /**
  * Check if a given object implements the MapTest interface.
  */
@@ -97,4 +95,3 @@ export function MapTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): M
         'indirect_map': value['indirectMap'],
     };
 }
-

@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * 
@@ -26,7 +25,6 @@ export interface BranchDto {
      */
     name?: string;
 }
-
 /**
  * Check if a given object implements the BranchDto interface.
  */
@@ -62,4 +60,3 @@ export function BranchDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'name': value['name'],
     };
 }
-

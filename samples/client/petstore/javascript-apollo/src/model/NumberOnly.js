@@ -80,4 +80,3 @@ NumberOnly.prototype['JustNumber'] = undefined;
 
 
 export default NumberOnly;
-

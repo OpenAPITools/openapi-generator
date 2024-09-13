@@ -75,7 +75,6 @@ public class Name {
    */
   @jakarta.annotation.Nonnull
   @NotNull
-
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -96,7 +95,6 @@ public class Name {
    * @return snakeCase
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_SNAKE_CASE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -117,7 +115,6 @@ public class Name {
    * @return property
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -138,14 +135,12 @@ public class Name {
    * @return _123number
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_123NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer get123number() {
     return _123number;
   }
-
 
 
 

@@ -15,4 +15,3 @@ instance = Petstore::FooGetDefaultResponse.new(
   string: null
 )
 ```
-

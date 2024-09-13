@@ -28,7 +28,6 @@ public abstract class StoreApiControllerImpInterface {
     public Result deleteOrderHttp(Http.Request request, String orderId) throws Exception {
         deleteOrder(request, orderId);
         return ok();
-
     }
 
     public abstract void deleteOrder(Http.Request request, String orderId) throws Exception;
@@ -38,7 +37,6 @@ public abstract class StoreApiControllerImpInterface {
         JsonNode result = mapper.valueToTree(obj);
 
         return ok(result);
-
     }
 
     public abstract Map<String, Integer> getInventory(Http.Request request) throws Exception;
@@ -48,7 +46,6 @@ public abstract class StoreApiControllerImpInterface {
         JsonNode result = mapper.valueToTree(obj);
 
         return ok(result);
-
     }
 
     public abstract Order getOrderById(Http.Request request, Long orderId) throws Exception;
@@ -58,7 +55,6 @@ public abstract class StoreApiControllerImpInterface {
         JsonNode result = mapper.valueToTree(obj);
 
         return ok(result);
-
     }
 
     public abstract Order placeOrder(Http.Request request, Order body) throws Exception;

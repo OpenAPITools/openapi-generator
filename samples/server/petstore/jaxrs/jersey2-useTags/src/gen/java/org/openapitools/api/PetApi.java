@@ -32,8 +32,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the Pet API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class PetApi  {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class PetApi  {
    private final PetApiService delegate;
 
    public PetApi(@Context ServletConfig servletContext) {

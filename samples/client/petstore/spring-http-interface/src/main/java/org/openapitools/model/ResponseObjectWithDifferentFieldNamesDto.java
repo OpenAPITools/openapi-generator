@@ -16,10 +16,8 @@ import jakarta.annotation.Generated;
 /**
  * ResponseObjectWithDifferentFieldNamesDto
  */
-
 @JsonTypeName("ResponseObjectWithDifferentFieldNames")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class ResponseObjectWithDifferentFieldNamesDto {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class ResponseObjectWithDifferentFieldNamesDto {
 
   private String normalPropertyName;
 
@@ -104,7 +102,6 @@ public class ResponseObjectWithDifferentFieldNamesDto {
   public void setPropertyNameWithSpaces(String propertyNameWithSpaces) {
     this.propertyNameWithSpaces = propertyNameWithSpaces;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

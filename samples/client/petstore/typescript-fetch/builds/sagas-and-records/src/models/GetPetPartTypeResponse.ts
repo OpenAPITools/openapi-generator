@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { ResponseMeta } from './ResponseMeta';
 import {
@@ -47,7 +46,6 @@ export interface GetPetPartTypeResponse {
      */
     data?: PetPartType;
 }
-
 
 
 /**
@@ -88,4 +86,3 @@ export function GetPetPartTypeResponseFromJSONTyped(json: any, ignoreDiscriminat
         'data': PetPartTypeToJSON(value['data']),
     };
 }
-

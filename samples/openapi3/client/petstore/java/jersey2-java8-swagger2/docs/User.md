@@ -18,4 +18,3 @@ A User who is purchasing from the pet store
 |**userStatus** | **Integer** | User Status |  [optional] |
 
 
-

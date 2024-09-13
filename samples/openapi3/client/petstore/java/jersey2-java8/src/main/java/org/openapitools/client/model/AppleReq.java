@@ -94,7 +94,6 @@ public class AppleReq {
     this.mealy = mealy;
   }
 
-
   /**
    * Return true if this appleReq object is equal to o.
    */

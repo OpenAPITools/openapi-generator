@@ -26,8 +26,7 @@ abstract class ArrayOfNumberOnly implements Built<ArrayOfNumberOnly, ArrayOfNumb
   static void _defaults(ArrayOfNumberOnlyBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ArrayOfNumberOnly> get serializer => _$ArrayOfNumberOnlySerializer();
-}
+  static Serializer<ArrayOfNumberOnly> get serializer => _$ArrayOfNumberOnlySerializer();}
 
 class _$ArrayOfNumberOnlySerializer implements PrimitiveSerializer<ArrayOfNumberOnly> {
   @override

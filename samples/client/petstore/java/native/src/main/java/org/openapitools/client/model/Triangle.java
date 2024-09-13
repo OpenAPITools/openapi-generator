@@ -195,7 +195,6 @@ public class Triangle extends AbstractOpenApiSchema {
     public Triangle() {
         super("oneOf", Boolean.FALSE);
     }
-
     public Triangle(EquilateralTriangle o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);

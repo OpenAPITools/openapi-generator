@@ -78,7 +78,6 @@ namespace Org.OpenAPITools.Models
             [EnumMember(Value = "delivered")]
             DeliveredEnum = 3
         }
-
         /// <summary>
         /// Order Status
         /// </summary>

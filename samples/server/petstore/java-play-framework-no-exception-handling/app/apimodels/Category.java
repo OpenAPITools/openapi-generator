@@ -13,12 +13,10 @@ import javax.validation.Valid;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Category   {
   @JsonProperty("id")
-  
-  private Long id;
+                                        private Long id;
 
   @JsonProperty("name")
-  
-  private String name;
+                                        private String name;
 
   public Category id(Long id) {
     this.id = id;
@@ -96,4 +94,3 @@ public class Category   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

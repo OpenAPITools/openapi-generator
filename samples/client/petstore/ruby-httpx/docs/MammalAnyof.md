@@ -21,4 +21,3 @@ instance = Petstore::MammalAnyof.new(
   type: null
 )
 ```
-

@@ -17,17 +17,14 @@ import javax.validation.Valid;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ArrayTest   {
   @JsonProperty("array_of_string")
-  
-  private List<String> arrayOfString = null;
+                                        private List<String> arrayOfString = null;
 
   @JsonProperty("array_array_of_integer")
-  @Valid
-
+                                        @Valid
   private List<List<Long>> arrayArrayOfInteger = null;
 
   @JsonProperty("array_array_of_model")
-  @Valid
-
+                                        @Valid
   private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = null;
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
@@ -149,4 +146,3 @@ public class ArrayTest   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

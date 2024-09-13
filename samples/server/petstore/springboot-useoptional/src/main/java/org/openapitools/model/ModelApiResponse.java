@@ -19,10 +19,8 @@ import javax.annotation.Generated;
 /**
  * ModelApiResponse
  */
-
 @JsonTypeName("ApiResponse")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class ModelApiResponse {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class ModelApiResponse {
 
   private Optional<Integer> code = Optional.empty();
 
@@ -39,8 +37,7 @@ public class ModelApiResponse {
    * Get code
    * @return code
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("code")
   public Optional<Integer> getCode() {
     return code;
@@ -59,8 +56,7 @@ public class ModelApiResponse {
    * Get type
    * @return type
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("type")
   public Optional<String> getType() {
     return type;
@@ -79,8 +75,7 @@ public class ModelApiResponse {
    * Get message
    * @return message
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("message")
   public Optional<String> getMessage() {
     return message;
@@ -89,7 +84,6 @@ public class ModelApiResponse {
   public void setMessage(Optional<String> message) {
     this.message = message;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -131,74 +125,73 @@ public class ModelApiResponse {
     return o.toString().replace("\n", "\n    ");
   }
   
-  public static class Builder {
-
-    private ModelApiResponse instance;
-
-    public Builder() {
-      this(new ModelApiResponse());
-    }
-
-    protected Builder(ModelApiResponse instance) {
-      this.instance = instance;
-    }
-
-    protected Builder copyOf(ModelApiResponse value) { 
-      this.instance.setCode(value.code);
-      this.instance.setType(value.type);
-      this.instance.setMessage(value.message);
-      return this;
-    }
-
-    public ModelApiResponse.Builder code(Integer code) {
-      this.instance.code(code);
-      return this;
-    }
-    
-    public ModelApiResponse.Builder type(String type) {
-      this.instance.type(type);
-      return this;
-    }
-    
-    public ModelApiResponse.Builder message(String message) {
-      this.instance.message(message);
-      return this;
-    }
-    
-    /**
-    * returns a built ModelApiResponse instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public ModelApiResponse build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    public static class Builder {
+  
+      private ModelApiResponse instance;
+  
+      public Builder() {
+        this(new ModelApiResponse());
+      }
+  
+      protected Builder(ModelApiResponse instance) {
+        this.instance = instance;
+      }
+  
+      protected Builder copyOf(ModelApiResponse value) { 
+        this.instance.setCode(value.code);
+        this.instance.setType(value.type);
+        this.instance.setMessage(value.message);
+        return this;
+      }
+  
+        public ModelApiResponse.Builder code(Integer code) {
+        this.instance.code(code);
+        return this;
+      }
+      
+        public ModelApiResponse.Builder type(String type) {
+        this.instance.type(type);
+        return this;
+      }
+      
+        public ModelApiResponse.Builder message(String message) {
+        this.instance.message(message);
+        return this;
+      }
+      
+          /**
+      * returns a built ModelApiResponse instance.
+      *
+      * The builder is not reusable (NullPointerException)
+      */
+      public ModelApiResponse build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field (except for the default values).
+    */
+    public static ModelApiResponse.Builder builder() {
+      return new ModelApiResponse.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field (except for the default values).
-  */
-  public static ModelApiResponse.Builder builder() {
-    return new ModelApiResponse.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public ModelApiResponse.Builder toBuilder() {
-    ModelApiResponse.Builder builder = new ModelApiResponse.Builder();
-    return builder.copyOf(this);
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public ModelApiResponse.Builder toBuilder() {
+      ModelApiResponse.Builder builder = new ModelApiResponse.Builder();
+      return builder.copyOf(this);
+    }
 }
 

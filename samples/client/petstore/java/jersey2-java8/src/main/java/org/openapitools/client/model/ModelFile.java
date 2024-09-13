@@ -65,7 +65,6 @@ public class ModelFile {
     this.sourceURI = sourceURI;
   }
 
-
   /**
    * Return true if this File object is equal to o.
    */

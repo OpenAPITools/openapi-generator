@@ -70,7 +70,6 @@ public class TypeHolderDefault {
   @javax.annotation.Nonnull
   @NotNull
 
-
   public String getStringItem() {
     return stringItem;
   }
@@ -94,7 +93,6 @@ public class TypeHolderDefault {
   @NotNull
   @Valid
 
-
   public BigDecimal getNumberItem() {
     return numberItem;
   }
@@ -117,7 +115,6 @@ public class TypeHolderDefault {
   @javax.annotation.Nonnull
   @NotNull
 
-
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -139,7 +136,6 @@ public class TypeHolderDefault {
    */
   @javax.annotation.Nonnull
   @NotNull
-
 
   public Boolean isBoolItem() {
     return boolItem;
@@ -170,7 +166,6 @@ public class TypeHolderDefault {
    */
   @javax.annotation.Nonnull
   @NotNull
-
 
   public List<Integer> getArrayItem() {
     return arrayItem;

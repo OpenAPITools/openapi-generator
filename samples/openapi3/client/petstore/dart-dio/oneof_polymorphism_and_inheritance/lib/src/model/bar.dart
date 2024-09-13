@@ -40,8 +40,7 @@ abstract class Bar implements Entity, Built<Bar, BarBuilder> {
   static void _defaults(BarBuilder b) => b..atType=b.discriminatorValue;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<Bar> get serializer => _$BarSerializer();
-}
+  static Serializer<Bar> get serializer => _$BarSerializer();}
 
 class _$BarSerializer implements PrimitiveSerializer<Bar> {
   @override

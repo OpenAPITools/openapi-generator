@@ -88,7 +88,6 @@ public class Order {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_STATUS = "status";
   private StatusEnum status;
 
@@ -109,7 +108,6 @@ public class Order {
    * @return id
    */
   @javax.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -135,7 +133,6 @@ public class Order {
    * @return petId
    */
   @javax.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_PET_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -161,7 +158,6 @@ public class Order {
    * @return quantity
    */
   @javax.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_QUANTITY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -188,7 +184,6 @@ public class Order {
    */
   @javax.annotation.Nullable
   @Valid
-
   @JsonProperty(JSON_PROPERTY_SHIP_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -214,7 +209,6 @@ public class Order {
    * @return status
    */
   @javax.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -240,7 +234,6 @@ public class Order {
    * @return complete
    */
   @javax.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_COMPLETE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

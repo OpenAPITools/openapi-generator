@@ -41,7 +41,6 @@ public abstract class StoreApiControllerImpInterface {
         return ok();
     });
     return result;
-
     }
 
     public abstract void deleteOrder(Http.Request request, String orderId) throws Exception;
@@ -55,7 +54,6 @@ return stage.thenApply(obj -> {
 
             return ok(result);
     });
-
     }
 
     public abstract CompletionStage<Map<String, Integer>> getInventory(Http.Request request) throws Exception;
@@ -74,7 +72,6 @@ return stage.thenApply(obj -> {
 
             return ok(result);
     });
-
     }
 
     public abstract CompletionStage<Order> getOrderById(Http.Request request,  @Min(1) @Max(5)Long orderId) throws Exception;
@@ -93,7 +90,6 @@ return stage.thenApply(obj -> {
 
             return ok(result);
     });
-
     }
 
     public abstract CompletionStage<Order> placeOrder(Http.Request request, Order body) throws Exception;

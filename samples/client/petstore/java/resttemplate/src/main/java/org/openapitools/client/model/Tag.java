@@ -139,63 +139,62 @@ public class Tag {
   }
 
   public static class Builder {
-
-    private Tag instance;
-
-    public Builder() {
-      this(new Tag());
-    }
-
-    protected Builder(Tag instance) {
-      this.instance = instance;
-    }
-
-    public Tag.Builder id(Long id) {
-      this.instance.id = id;
-      return this;
-    }
-    public Tag.Builder name(String name) {
-      this.instance.name = name;
-      return this;
-    }
-
-
-    /**
-    * returns a built Tag instance.
-    *
-    * The builder is not reusable.
-    */
-    public Tag build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+  
+      private Tag instance;
+  
+      public Builder() {
+        this(new Tag());
+      }
+  
+      protected Builder(Tag instance) {
+        this.instance = instance;
+      }
+  
+      public Tag.Builder id(Long id) {
+          this.instance.id = id;
+        return this;
+      }
+        public Tag.Builder name(String name) {
+          this.instance.name = name;
+        return this;
+      }
+    
+  
+      /**
+      * returns a built Tag instance.
+      *
+      * The builder is not reusable.
+      */
+      public Tag build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field.
+    */
+    public static Tag.Builder builder() {
+      return new Tag.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static Tag.Builder builder() {
-    return new Tag.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public Tag.Builder toBuilder() {
-    return new Tag.Builder()
-      .id(getId())
-      .name(getName());
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public Tag.Builder toBuilder() {
+      return new Tag.Builder()
+        .id(getId())
+        .name(getName());
+    }
 
 }
 

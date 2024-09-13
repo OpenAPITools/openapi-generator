@@ -29,7 +29,6 @@ import org.openapitools.client.infrastructure.ITransformForStorage
  * @param n1 
  */
 
-
 data class Apa (
 
     @SerializedName("i0")

@@ -12,7 +12,6 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * Type of pet part
  * @export
@@ -51,4 +50,3 @@ export function PetPartTypeToJSON(value?: PetPartType | null): any {
 export function PetPartTypeToJSONTyped(value: any, ignoreDiscriminator: boolean): PetPartType {
     return value as PetPartType;
 }
-

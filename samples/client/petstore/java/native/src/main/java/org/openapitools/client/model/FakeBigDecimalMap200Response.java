@@ -105,7 +105,6 @@ public class FakeBigDecimalMap200Response {
     this.someMap = someMap;
   }
 
-
   /**
    * Return true if this fakeBigDecimalMap_200_response object is equal to o.
    */
@@ -198,62 +197,61 @@ public class FakeBigDecimalMap200Response {
   }
 
     public static class Builder {
-
-    private FakeBigDecimalMap200Response instance;
-
-    public Builder() {
-      this(new FakeBigDecimalMap200Response());
-    }
-
-    protected Builder(FakeBigDecimalMap200Response instance) {
-      this.instance = instance;
-    }
-
-    public FakeBigDecimalMap200Response.Builder someId(BigDecimal someId) {
-      this.instance.someId = someId;
-      return this;
-    }
-    public FakeBigDecimalMap200Response.Builder someMap(Map<String, BigDecimal> someMap) {
-      this.instance.someMap = someMap;
-      return this;
-    }
-
-
-    /**
-    * returns a built FakeBigDecimalMap200Response instance.
-    *
-    * The builder is not reusable.
-    */
-    public FakeBigDecimalMap200Response build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    
+        private FakeBigDecimalMap200Response instance;
+    
+        public Builder() {
+          this(new FakeBigDecimalMap200Response());
+        }
+    
+        protected Builder(FakeBigDecimalMap200Response instance) {
+          this.instance = instance;
+        }
+    
+        public FakeBigDecimalMap200Response.Builder someId(BigDecimal someId) {
+              this.instance.someId = someId;
+          return this;
+        }
+            public FakeBigDecimalMap200Response.Builder someMap(Map<String, BigDecimal> someMap) {
+              this.instance.someMap = someMap;
+          return this;
+        }
+        
+    
+        /**
+        * returns a built FakeBigDecimalMap200Response instance.
+        *
+        * The builder is not reusable.
+        */
+        public FakeBigDecimalMap200Response build() {
+          try {
+            return this.instance;
+          } finally {
+            // ensure that this.instance is not reused
+            this.instance = null;
+          }
+        }
+    
+        @Override
+        public String toString() {
+          return getClass() + "=(" + instance + ")";
+        }
       }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static FakeBigDecimalMap200Response.Builder builder() {
-    return new FakeBigDecimalMap200Response.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public FakeBigDecimalMap200Response.Builder toBuilder() {
-    return new FakeBigDecimalMap200Response.Builder()
-      .someId(getSomeId())
-      .someMap(getSomeMap());
-  }
-
+    
+      /**
+      * Create a builder with no initialized field.
+      */
+      public static FakeBigDecimalMap200Response.Builder builder() {
+        return new FakeBigDecimalMap200Response.Builder();
+      }
+    
+      /**
+      * Create a builder with a shallow copy of this instance.
+      */
+      public FakeBigDecimalMap200Response.Builder toBuilder() {
+        return new FakeBigDecimalMap200Response.Builder()
+          .someId(getSomeId())
+          .someMap(getSomeMap());
+      }
 }
 

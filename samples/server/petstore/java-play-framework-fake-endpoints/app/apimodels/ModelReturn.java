@@ -14,8 +14,7 @@ import javax.validation.Valid;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ModelReturn   {
   @JsonProperty("return")
-  
-  private Integer _return;
+                                        private Integer _return;
 
   public ModelReturn _return(Integer _return) {
     this._return = _return;
@@ -74,4 +73,3 @@ public class ModelReturn   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

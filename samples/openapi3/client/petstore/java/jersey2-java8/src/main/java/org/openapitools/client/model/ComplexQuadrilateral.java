@@ -134,7 +134,6 @@ public class ComplexQuadrilateral {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this ComplexQuadrilateral object is equal to o.
    */

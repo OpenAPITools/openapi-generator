@@ -123,7 +123,6 @@ public class AdditionalPropertiesObject implements Parcelable {
     return this.additionalProperties.get(key);
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

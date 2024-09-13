@@ -54,7 +54,6 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
    * @return name
    */
   @javax.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

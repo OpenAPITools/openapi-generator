@@ -29,9 +29,8 @@ final case class UserApiRoutes[
 
     val routeapi_key = AuthedRoutes.of[api_key, F] {
       case (req @ POST -> Root / "user") as auth =>
-          delegate.createUser.handle_api_key(auth, req, req.asJsonDecode[User] , responses)
-
-    }
+                          delegate.createUser.handle_api_key(auth, req, req.asJsonDecode[User] , responses)
+            }
 
     val responses: createUserResponses[F] = new createUserResponses[F] {
       def resp200(): F[Response[F]] = Ok()
@@ -43,9 +42,8 @@ final case class UserApiRoutes[
 
     val routeapi_key = AuthedRoutes.of[api_key, F] {
       case (req @ POST -> Root / "user" / "createWithArray") as auth =>
-          delegate.createUsersWithArrayInput.handle_api_key(auth, req, req.asJsonDecode[List[User]] , responses)
-
-    }
+                          delegate.createUsersWithArrayInput.handle_api_key(auth, req, req.asJsonDecode[List[User]] , responses)
+            }
 
     val responses: createUsersWithArrayInputResponses[F] = new createUsersWithArrayInputResponses[F] {
       def resp200(): F[Response[F]] = Ok()
@@ -57,9 +55,8 @@ final case class UserApiRoutes[
 
     val routeapi_key = AuthedRoutes.of[api_key, F] {
       case (req @ POST -> Root / "user" / "createWithList") as auth =>
-          delegate.createUsersWithListInput.handle_api_key(auth, req, req.asJsonDecode[List[User]] , responses)
-
-    }
+                          delegate.createUsersWithListInput.handle_api_key(auth, req, req.asJsonDecode[List[User]] , responses)
+            }
 
     val responses: createUsersWithListInputResponses[F] = new createUsersWithListInputResponses[F] {
       def resp200(): F[Response[F]] = Ok()
@@ -71,9 +68,8 @@ final case class UserApiRoutes[
 
     val routeapi_key = AuthedRoutes.of[api_key, F] {
       case (req @ DELETE -> Root / "user" / username) as auth =>
-        delegate.deleteUser.handle_api_key(auth, req, username, responses)
-
-    }
+                        delegate.deleteUser.handle_api_key(auth, req, username, responses)
+            }
 
     val responses: deleteUserResponses[F] = new deleteUserResponses[F] {
       def resp400(): F[Response[F]] = BadRequest()
@@ -87,8 +83,7 @@ final case class UserApiRoutes[
     val route = HttpRoutes.of[F] {
       case req @ GET -> Root / "user" / username =>
         delegate.getUserByName.handle(req, username, responses)
-
-    }
+                    }
 
 
     val responses: getUserByNameResponses[F] = new getUserByNameResponses[F] {
@@ -107,8 +102,7 @@ final case class UserApiRoutes[
     val route = HttpRoutes.of[F] {
       case req @ GET -> Root / "user" / "login" :? usernameQueryParam(username) +& passwordQueryParam(password) =>
         delegate.loginUser.handle(req, username, password, responses)
-
-    }
+                    }
 
 
     val responses: loginUserResponses[F] = new loginUserResponses[F] {
@@ -123,9 +117,8 @@ final case class UserApiRoutes[
 
     val routeapi_key = AuthedRoutes.of[api_key, F] {
       case (req @ GET -> Root / "user" / "logout") as auth =>
-        delegate.logoutUser.handle_api_key(auth, req, responses)
-
-    }
+                        delegate.logoutUser.handle_api_key(auth, req, responses)
+            }
 
     val responses: logoutUserResponses[F] = new logoutUserResponses[F] {
       def resp200(): F[Response[F]] = Ok()
@@ -137,9 +130,8 @@ final case class UserApiRoutes[
 
     val routeapi_key = AuthedRoutes.of[api_key, F] {
       case (req @ PUT -> Root / "user" / username) as auth =>
-          delegate.updateUser.handle_api_key(auth, req, req.asJsonDecode[User] , username, responses)
-
-    }
+                          delegate.updateUser.handle_api_key(auth, req, req.asJsonDecode[User] , username, responses)
+            }
 
     val responses: updateUserResponses[F] = new updateUserResponses[F] {
       def resp400(): F[Response[F]] = BadRequest()

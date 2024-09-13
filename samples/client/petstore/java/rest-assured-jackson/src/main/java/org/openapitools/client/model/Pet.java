@@ -98,7 +98,6 @@ public class Pet {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_STATUS = "status";
   private StatusEnum status;
 
@@ -116,7 +115,6 @@ public class Pet {
    * @return id
    */
   @javax.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -143,7 +141,6 @@ public class Pet {
    */
   @javax.annotation.Nullable
   @Valid
-
   @JsonProperty(JSON_PROPERTY_CATEGORY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -170,7 +167,6 @@ public class Pet {
    */
   @javax.annotation.Nonnull
   @NotNull
-
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -205,7 +201,6 @@ public class Pet {
    */
   @javax.annotation.Nonnull
   @NotNull
-
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -241,7 +236,6 @@ public class Pet {
    */
   @javax.annotation.Nullable
   @Valid
-
   @JsonProperty(JSON_PROPERTY_TAGS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -267,7 +261,6 @@ public class Pet {
    * @return status
    */
   @javax.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

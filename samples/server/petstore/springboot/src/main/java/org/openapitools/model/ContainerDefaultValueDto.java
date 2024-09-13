@@ -24,10 +24,8 @@ import javax.annotation.Generated;
 /**
  * ContainerDefaultValueDto
  */
-
 @JsonTypeName("ContainerDefaultValue")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class ContainerDefaultValueDto {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class ContainerDefaultValueDto {
 
   @Valid
   private JsonNullable<List<String>> nullableArray = JsonNullable.<List<String>>undefined();
@@ -70,8 +68,7 @@ public class ContainerDefaultValueDto {
    * Get nullableArray
    * @return nullableArray
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("nullable_array")
   public JsonNullable<List<String>> getNullableArray() {
     return nullableArray;
@@ -98,8 +95,7 @@ public class ContainerDefaultValueDto {
    * Get nullableRequiredArray
    * @return nullableRequiredArray
    */
-  @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @NotNull   @ApiModelProperty(required = true, value = "")
   @JsonProperty("nullable_required_array")
   public JsonNullable<List<String>> getNullableRequiredArray() {
     return nullableRequiredArray;
@@ -126,8 +122,7 @@ public class ContainerDefaultValueDto {
    * Get requiredArray
    * @return requiredArray
    */
-  @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @NotNull   @ApiModelProperty(required = true, value = "")
   @JsonProperty("required_array")
   public List<String> getRequiredArray() {
     return requiredArray;
@@ -154,8 +149,7 @@ public class ContainerDefaultValueDto {
    * Get nullableArrayWithDefault
    * @return nullableArrayWithDefault
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("nullable_array_with_default")
   public JsonNullable<List<String>> getNullableArrayWithDefault() {
     return nullableArrayWithDefault;
@@ -164,7 +158,6 @@ public class ContainerDefaultValueDto {
   public void setNullableArrayWithDefault(JsonNullable<List<String>> nullableArrayWithDefault) {
     this.nullableArrayWithDefault = nullableArrayWithDefault;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

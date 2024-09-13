@@ -46,8 +46,7 @@ abstract class Capitalization implements Built<Capitalization, CapitalizationBui
   static void _defaults(CapitalizationBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<Capitalization> get serializer => _$CapitalizationSerializer();
-}
+  static Serializer<Capitalization> get serializer => _$CapitalizationSerializer();}
 
 class _$CapitalizationSerializer implements PrimitiveSerializer<Capitalization> {
   @override

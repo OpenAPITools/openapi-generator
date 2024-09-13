@@ -77,7 +77,6 @@ public class GrandparentAnimal {
     this.petType = petType;
   }
 
-
   /**
    * Return true if this GrandparentAnimal object is equal to o.
    */

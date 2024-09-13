@@ -20,7 +20,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-
 public class ModelList  {
   
   private String _123list;
@@ -70,4 +69,3 @@ public class ModelList  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

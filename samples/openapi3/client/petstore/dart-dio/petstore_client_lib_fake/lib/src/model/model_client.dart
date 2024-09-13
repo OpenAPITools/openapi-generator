@@ -25,8 +25,7 @@ abstract class ModelClient implements Built<ModelClient, ModelClientBuilder> {
   static void _defaults(ModelClientBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ModelClient> get serializer => _$ModelClientSerializer();
-}
+  static Serializer<ModelClient> get serializer => _$ModelClientSerializer();}
 
 class _$ModelClientSerializer implements PrimitiveSerializer<ModelClient> {
   @override

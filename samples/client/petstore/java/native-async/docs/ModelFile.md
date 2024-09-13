@@ -11,4 +11,3 @@ Must be named `File` for test.
 |**sourceURI** | **String** | Test capitalization |  [optional] |
 
 
-

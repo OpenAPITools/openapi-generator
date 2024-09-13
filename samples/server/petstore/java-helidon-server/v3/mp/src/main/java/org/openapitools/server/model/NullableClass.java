@@ -29,7 +29,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
 public class NullableClass extends HashMap<String, Object> {
   
   private Integer integerProp;
@@ -362,4 +361,3 @@ public class NullableClass extends HashMap<String, Object> {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

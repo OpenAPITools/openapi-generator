@@ -18,10 +18,8 @@ import javax.annotation.Generated;
 /**
  * SpecialModelName
  */
-
 @JsonTypeName("_special_model.name_")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class SpecialModelName {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class SpecialModelName {
 
   private Long $specialPropertyName;
 
@@ -34,8 +32,7 @@ public class SpecialModelName {
    * Get $specialPropertyName
    * @return $specialPropertyName
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("$special[property.name]")
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;
@@ -44,7 +41,6 @@ public class SpecialModelName {
   public void set$SpecialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

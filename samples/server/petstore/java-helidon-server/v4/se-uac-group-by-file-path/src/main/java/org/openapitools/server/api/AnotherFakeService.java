@@ -175,7 +175,6 @@ public abstract class AnotherFakeService implements HttpService {
         }
     }
 
-
     @Override
     public void afterStop() {
     System.out.println("Service AnotherFakeService is down. Goodbye!");

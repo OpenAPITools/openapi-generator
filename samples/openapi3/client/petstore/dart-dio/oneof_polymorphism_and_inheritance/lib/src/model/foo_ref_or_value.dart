@@ -44,8 +44,7 @@ abstract class FooRefOrValue implements Built<FooRefOrValue, FooRefOrValueBuilde
   static void _defaults(FooRefOrValueBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<FooRefOrValue> get serializer => _$FooRefOrValueSerializer();
-}
+  static Serializer<FooRefOrValue> get serializer => _$FooRefOrValueSerializer();}
 
 extension FooRefOrValueDiscriminatorExt on FooRefOrValue {
     String? get discriminatorValue {
@@ -69,7 +68,6 @@ extension FooRefOrValueBuilderDiscriminatorExt on FooRefOrValueBuilder {
         return null;
     }
 }
-
 class _$FooRefOrValueSerializer implements PrimitiveSerializer<FooRefOrValue> {
   @override
   final Iterable<Type> types = const [FooRefOrValue, _$FooRefOrValue];

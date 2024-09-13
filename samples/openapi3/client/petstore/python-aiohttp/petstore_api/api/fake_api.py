@@ -10,7 +10,6 @@
 
     Do not edit the class manually.
 """  # noqa: E501
-
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
@@ -107,8 +106,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -173,8 +171,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -239,8 +236,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -370,8 +366,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -436,8 +431,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -502,8 +496,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -618,8 +611,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "HealthCheckResult",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -680,8 +672,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "HealthCheckResult",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -742,8 +733,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "HealthCheckResult",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -872,8 +862,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -946,8 +935,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -1020,8 +1008,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -1162,8 +1149,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "bool",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -1229,8 +1215,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "bool",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -1296,8 +1281,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "bool",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -1435,8 +1419,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "OuterComposite",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -1502,8 +1485,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "OuterComposite",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -1569,8 +1551,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "OuterComposite",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -1708,8 +1689,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "float",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -1775,8 +1755,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "float",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -1842,8 +1821,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "float",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -1981,8 +1959,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -2048,8 +2025,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -2115,8 +2091,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -2258,8 +2233,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "OuterObjectWithEnumProperty",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -2329,8 +2303,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "OuterObjectWithEnumProperty",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -2400,8 +2373,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "OuterObjectWithEnumProperty",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -2540,8 +2512,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "EnumClass",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -2602,8 +2573,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "EnumClass",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -2664,8 +2634,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "EnumClass",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -2782,8 +2751,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "bool",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -2844,8 +2812,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "bool",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -2906,8 +2873,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "bool",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -3024,8 +2990,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "bytearray",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -3086,8 +3051,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "bytearray",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -3148,8 +3112,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "bytearray",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -3266,8 +3229,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -3328,8 +3290,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -3390,8 +3351,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -3508,8 +3468,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -3570,8 +3529,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -3632,8 +3590,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -3750,8 +3707,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "float",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -3812,8 +3768,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "float",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -3874,8 +3829,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "float",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -3992,8 +3946,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "int",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -4054,8 +4007,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "int",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -4116,8 +4068,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "int",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -4234,8 +4185,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[List[Tag]]",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -4296,8 +4246,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[List[Tag]]",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -4358,8 +4307,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[List[Tag]]",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -4476,8 +4424,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -4538,8 +4485,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -4600,8 +4546,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -4718,8 +4663,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -4780,8 +4724,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -4842,8 +4785,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -4964,8 +4906,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -5030,8 +4971,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -5096,8 +5036,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -5217,8 +5156,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -5284,8 +5222,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -5351,8 +5288,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -5483,8 +5419,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -5550,8 +5485,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -5617,8 +5551,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -5757,8 +5690,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -5824,8 +5756,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -5891,8 +5822,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -6026,8 +5956,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -6096,8 +6025,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -6166,8 +6094,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -6303,8 +6230,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "Client",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -6370,8 +6296,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "Client",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -6437,8 +6362,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "Client",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -6579,8 +6503,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -6649,8 +6572,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -6719,8 +6641,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -6851,8 +6772,7 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '206': "str",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -6915,8 +6835,7 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '206': "str",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -6979,8 +6898,7 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '206': "str",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -7159,8 +7077,7 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '400': None,
             '404': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -7283,8 +7200,7 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '400': None,
             '404': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -7407,8 +7323,7 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '400': None,
             '404': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -7579,8 +7494,7 @@ class FakeApi:
             '204': None,
             '400': "TestErrorResponsesWithModel400Response",
             '404': "TestErrorResponsesWithModel404Response",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -7643,8 +7557,7 @@ class FakeApi:
             '204': None,
             '400': "TestErrorResponsesWithModel400Response",
             '404': "TestErrorResponsesWithModel404Response",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -7707,8 +7620,7 @@ class FakeApi:
             '204': None,
             '400': "TestErrorResponsesWithModel400Response",
             '404': "TestErrorResponsesWithModel404Response",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -7850,8 +7762,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '400': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -7937,8 +7848,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '400': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -8024,8 +7934,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '400': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -8167,8 +8076,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -8234,8 +8142,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -8301,8 +8208,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -8433,8 +8339,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -8500,8 +8405,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -8567,8 +8471,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -8703,8 +8606,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -8774,8 +8676,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -8845,8 +8746,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -8979,8 +8879,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -9045,8 +8944,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -9111,8 +9009,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -9267,8 +9164,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -9358,8 +9254,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -9449,8 +9344,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -9605,8 +9499,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -9672,8 +9565,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -9739,8 +9631,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -9879,8 +9770,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ModelApiResponse",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -9954,8 +9844,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ModelApiResponse",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -10029,8 +9918,7 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ModelApiResponse",
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )

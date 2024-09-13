@@ -24,8 +24,7 @@ abstract class Addressable  {
   String? get id;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<Addressable> get serializer => _$AddressableSerializer();
-}
+  static Serializer<Addressable> get serializer => _$AddressableSerializer();}
 
 class _$AddressableSerializer implements PrimitiveSerializer<Addressable> {
   @override

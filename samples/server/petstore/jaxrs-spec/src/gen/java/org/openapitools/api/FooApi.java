@@ -18,8 +18,7 @@ import javax.validation.Valid;
 */
 @Path("/foo")
 @Api(description = "the foo API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class FooApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class FooApi {
 
     @GET
     @Produces({ "application/json" })

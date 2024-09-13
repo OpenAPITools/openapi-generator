@@ -62,13 +62,7 @@ object Orders : BaseTable<Order>("Order") {
     */
     fun AssignmentsBuilder.assignFrom(entity: Order) {
         this.apply {
-            set(Orders.id, entity.id)
-            set(Orders.petId, entity.petId)
-            set(Orders.quantity, entity.quantity)
-            set(Orders.shipDate, entity.shipDate)
-            set(Orders.status, entity.status)
-            set(Orders.complete, entity.complete)
-        }
+            set(Orders.id, entity.id)            set(Orders.petId, entity.petId)            set(Orders.quantity, entity.quantity)            set(Orders.shipDate, entity.shipDate)            set(Orders.status, entity.status)            set(Orders.complete, entity.complete)        }
     }
 
 }

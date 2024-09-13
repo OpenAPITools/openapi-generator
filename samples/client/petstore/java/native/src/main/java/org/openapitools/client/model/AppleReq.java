@@ -94,7 +94,6 @@ public class AppleReq {
     this.mealy = mealy;
   }
 
-
   /**
    * Return true if this appleReq object is equal to o.
    */
@@ -183,62 +182,61 @@ public class AppleReq {
   }
 
     public static class Builder {
-
-    private AppleReq instance;
-
-    public Builder() {
-      this(new AppleReq());
-    }
-
-    protected Builder(AppleReq instance) {
-      this.instance = instance;
-    }
-
-    public AppleReq.Builder cultivar(String cultivar) {
-      this.instance.cultivar = cultivar;
-      return this;
-    }
-    public AppleReq.Builder mealy(Boolean mealy) {
-      this.instance.mealy = mealy;
-      return this;
-    }
-
-
-    /**
-    * returns a built AppleReq instance.
-    *
-    * The builder is not reusable.
-    */
-    public AppleReq build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    
+        private AppleReq instance;
+    
+        public Builder() {
+          this(new AppleReq());
+        }
+    
+        protected Builder(AppleReq instance) {
+          this.instance = instance;
+        }
+    
+        public AppleReq.Builder cultivar(String cultivar) {
+              this.instance.cultivar = cultivar;
+          return this;
+        }
+            public AppleReq.Builder mealy(Boolean mealy) {
+              this.instance.mealy = mealy;
+          return this;
+        }
+        
+    
+        /**
+        * returns a built AppleReq instance.
+        *
+        * The builder is not reusable.
+        */
+        public AppleReq build() {
+          try {
+            return this.instance;
+          } finally {
+            // ensure that this.instance is not reused
+            this.instance = null;
+          }
+        }
+    
+        @Override
+        public String toString() {
+          return getClass() + "=(" + instance + ")";
+        }
       }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static AppleReq.Builder builder() {
-    return new AppleReq.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public AppleReq.Builder toBuilder() {
-    return new AppleReq.Builder()
-      .cultivar(getCultivar())
-      .mealy(getMealy());
-  }
-
+    
+      /**
+      * Create a builder with no initialized field.
+      */
+      public static AppleReq.Builder builder() {
+        return new AppleReq.Builder();
+      }
+    
+      /**
+      * Create a builder with a shallow copy of this instance.
+      */
+      public AppleReq.Builder toBuilder() {
+        return new AppleReq.Builder()
+          .cultivar(getCultivar())
+          .mealy(getMealy());
+      }
 }
 

@@ -24,7 +24,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
 public class FakeBigDecimalMap200Response  {
   
   private BigDecimal someId;
@@ -102,4 +101,3 @@ public class FakeBigDecimalMap200Response  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

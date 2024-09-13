@@ -10,7 +10,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 /**
  * An order for a pets from the pet store
  * @export

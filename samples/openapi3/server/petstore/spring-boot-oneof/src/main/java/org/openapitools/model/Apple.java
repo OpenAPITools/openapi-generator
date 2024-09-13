@@ -21,9 +21,7 @@ import javax.annotation.Generated;
 /**
  * Apple
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class Apple implements Fruit {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class Apple implements Fruit {
 
   private Integer seeds;
 
@@ -50,8 +48,7 @@ public class Apple implements Fruit {
    * Get seeds
    * @return seeds
    */
-  @NotNull 
-  @Schema(name = "seeds", requiredMode = Schema.RequiredMode.REQUIRED)
+  @NotNull   @Schema(name = "seeds", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("seeds")
   public Integer getSeeds() {
     return seeds;
@@ -70,8 +67,7 @@ public class Apple implements Fruit {
    * Get fruitType
    * @return fruitType
    */
-  @NotNull @Valid 
-  @Schema(name = "fruitType", requiredMode = Schema.RequiredMode.REQUIRED)
+  @NotNull @Valid   @Schema(name = "fruitType", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("fruitType")
   public FruitType getFruitType() {
     return fruitType;
@@ -80,7 +76,6 @@ public class Apple implements Fruit {
   public void setFruitType(FruitType fruitType) {
     this.fruitType = fruitType;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -120,68 +115,67 @@ public class Apple implements Fruit {
     return o.toString().replace("\n", "\n    ");
   }
   
-  public static class Builder {
-
-    private Apple instance;
-
-    public Builder() {
-      this(new Apple());
-    }
-
-    protected Builder(Apple instance) {
-      this.instance = instance;
-    }
-
-    protected Builder copyOf(Apple value) { 
-      this.instance.setSeeds(value.seeds);
-      this.instance.setFruitType(value.fruitType);
-      return this;
-    }
-
-    public Apple.Builder seeds(Integer seeds) {
-      this.instance.seeds(seeds);
-      return this;
-    }
-    
-    public Apple.Builder fruitType(FruitType fruitType) {
-      this.instance.fruitType(fruitType);
-      return this;
-    }
-    
-    /**
-    * returns a built Apple instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public Apple build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    public static class Builder {
+  
+      private Apple instance;
+  
+      public Builder() {
+        this(new Apple());
+      }
+  
+      protected Builder(Apple instance) {
+        this.instance = instance;
+      }
+  
+      protected Builder copyOf(Apple value) { 
+        this.instance.setSeeds(value.seeds);
+        this.instance.setFruitType(value.fruitType);
+        return this;
+      }
+  
+        public Apple.Builder seeds(Integer seeds) {
+        this.instance.seeds(seeds);
+        return this;
+      }
+      
+        public Apple.Builder fruitType(FruitType fruitType) {
+        this.instance.fruitType(fruitType);
+        return this;
+      }
+      
+          /**
+      * returns a built Apple instance.
+      *
+      * The builder is not reusable (NullPointerException)
+      */
+      public Apple build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field (except for the default values).
+    */
+    public static Apple.Builder builder() {
+      return new Apple.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field (except for the default values).
-  */
-  public static Apple.Builder builder() {
-    return new Apple.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public Apple.Builder toBuilder() {
-    Apple.Builder builder = new Apple.Builder();
-    return builder.copyOf(this);
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public Apple.Builder toBuilder() {
+      Apple.Builder builder = new Apple.Builder();
+      return builder.copyOf(this);
+    }
 }
 

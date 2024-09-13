@@ -17,4 +17,3 @@ instance = Petstore::EnumArrays.new(
   array_enum: null
 )
 ```
-

@@ -76,7 +76,6 @@ public class Zebra {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_TYPE = "type";
   private TypeEnum type;
 
@@ -172,7 +171,6 @@ public class Zebra {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this zebra object is equal to o.
    */

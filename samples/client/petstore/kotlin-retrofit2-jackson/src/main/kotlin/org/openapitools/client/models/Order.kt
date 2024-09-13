@@ -30,7 +30,6 @@ import java.io.Serializable
  * @param complete 
  */
 
-
 data class Order (
 
     @get:JsonProperty("id")

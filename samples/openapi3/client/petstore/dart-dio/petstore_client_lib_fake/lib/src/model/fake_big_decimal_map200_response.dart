@@ -30,8 +30,7 @@ abstract class FakeBigDecimalMap200Response implements Built<FakeBigDecimalMap20
   static void _defaults(FakeBigDecimalMap200ResponseBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<FakeBigDecimalMap200Response> get serializer => _$FakeBigDecimalMap200ResponseSerializer();
-}
+  static Serializer<FakeBigDecimalMap200Response> get serializer => _$FakeBigDecimalMap200ResponseSerializer();}
 
 class _$FakeBigDecimalMap200ResponseSerializer implements PrimitiveSerializer<FakeBigDecimalMap200Response> {
   @override

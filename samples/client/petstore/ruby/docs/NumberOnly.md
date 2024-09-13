@@ -15,4 +15,3 @@ instance = Petstore::NumberOnly.new(
   just_number: null
 )
 ```
-

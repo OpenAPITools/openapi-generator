@@ -152,4 +152,3 @@ func (v *NullableOneOfPrimitiveTypeChild) UnmarshalJSON(src []byte) error {
 	return json.Unmarshal(src, &v.value)
 }
 
-

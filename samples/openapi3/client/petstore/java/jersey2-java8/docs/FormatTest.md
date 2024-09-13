@@ -25,4 +25,3 @@
 |**patternWithDigitsAndDelimiter** | **String** | A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01. |  [optional] |
 
 
-

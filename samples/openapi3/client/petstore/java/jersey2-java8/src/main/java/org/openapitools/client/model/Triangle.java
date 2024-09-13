@@ -227,7 +227,6 @@ public class Triangle extends AbstractOpenApiSchema {
     }
     return this.additionalProperties.get(key);
   }
-
     /**
      * Return true if this Triangle object is equal to o.
      */

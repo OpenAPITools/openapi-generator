@@ -206,7 +206,6 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
     }
     return this.additionalProperties.get(key);
   }
-
     /**
      * Return true if this ShapeOrNull object is equal to o.
      */

@@ -17,24 +17,20 @@ public struct EnumTest: Codable, JSONEncodable, Hashable {
         case lower = "lower"
         case empty = ""
         case unknownDefaultOpenApi = "unknown_default_open_api"
-    }
-    public enum EnumStringRequired: String, Codable, CaseIterable, CaseIterableDefaultsLast {
+    }    public enum EnumStringRequired: String, Codable, CaseIterable, CaseIterableDefaultsLast {
         case upper = "UPPER"
         case lower = "lower"
         case empty = ""
         case unknownDefaultOpenApi = "unknown_default_open_api"
-    }
-    public enum EnumInteger: Int, Codable, CaseIterable, CaseIterableDefaultsLast {
+    }    public enum EnumInteger: Int, Codable, CaseIterable, CaseIterableDefaultsLast {
         case _1 = 1
         case number1 = -1
         case unknownDefaultOpenApi = 11184809
-    }
-    public enum EnumNumber: Double, Codable, CaseIterable, CaseIterableDefaultsLast {
+    }    public enum EnumNumber: Double, Codable, CaseIterable, CaseIterableDefaultsLast {
         case _11 = 1.1
         case number12 = -1.2
         case unknownDefaultOpenApi = 11184809
-    }
-    public var enumString: EnumString?
+    }    public var enumString: EnumString?
     public var enumStringRequired: EnumStringRequired
     public var enumInteger: EnumInteger?
     public var enumNumber: EnumNumber?

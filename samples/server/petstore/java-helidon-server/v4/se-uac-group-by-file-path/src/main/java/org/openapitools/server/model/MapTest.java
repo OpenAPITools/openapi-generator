@@ -48,7 +48,6 @@ public class MapTest   {
         }
     }
 
-
     private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
     private Map<String, Boolean> directMap = new HashMap<>();
     private Map<String, Boolean> indirectMap = new HashMap<>();

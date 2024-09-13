@@ -98,7 +98,6 @@ public class ReadOnlyFirst {
   }
 
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

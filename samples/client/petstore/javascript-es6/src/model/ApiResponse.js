@@ -104,4 +104,3 @@ ApiResponse.prototype['message'] = undefined;
 
 
 export default ApiResponse;
-

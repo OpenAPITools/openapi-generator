@@ -9,7 +9,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
-
 class FormatTest {
   /// Returns a new [FormatTest] instance.
   FormatTest({
@@ -30,7 +29,6 @@ class FormatTest {
     this.patternWithDigits,
     this.patternWithDigitsAndDelimiter,
   });
-
   /// Minimum value: 10
   /// Maximum value: 100
   ///
@@ -346,4 +344,3 @@ class FormatTest {
     'password',
   };
 }
-

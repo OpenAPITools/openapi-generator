@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * 
@@ -26,7 +25,6 @@ export interface SpecialModelName {
      */
     $specialPropertyName?: number;
 }
-
 /**
  * Check if a given object implements the SpecialModelName interface.
  */
@@ -62,4 +60,3 @@ export function SpecialModelNameFromJSONTyped(json: any, ignoreDiscriminator: bo
         '$special[property.name]': value['$specialPropertyName'],
     };
 }
-

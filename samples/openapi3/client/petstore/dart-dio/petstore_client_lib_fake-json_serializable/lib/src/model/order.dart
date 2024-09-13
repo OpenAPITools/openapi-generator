@@ -30,7 +30,6 @@ class Order {
 
      this.complete = false,
   });
-
   @JsonKey(
     
     name: r'id',
@@ -146,5 +145,4 @@ enum OrderStatusEnum {
   @JsonValue(r'unknown_default_open_api')
   unknownDefaultOpenApi,
 }
-
 

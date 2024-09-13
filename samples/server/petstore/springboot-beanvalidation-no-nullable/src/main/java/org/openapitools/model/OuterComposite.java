@@ -18,9 +18,7 @@ import javax.annotation.Generated;
 /**
  * OuterComposite
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class OuterComposite {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class OuterComposite {
 
   private BigDecimal myNumber;
 
@@ -37,8 +35,7 @@ public class OuterComposite {
    * Get myNumber
    * @return myNumber
    */
-  @Valid 
-  @ApiModelProperty(value = "")
+  @Valid   @ApiModelProperty(value = "")
   @JsonProperty("my_number")
   public BigDecimal getMyNumber() {
     return myNumber;
@@ -57,8 +54,7 @@ public class OuterComposite {
    * Get myString
    * @return myString
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("my_string")
   public String getMyString() {
     return myString;
@@ -77,8 +73,7 @@ public class OuterComposite {
    * Get myBoolean
    * @return myBoolean
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("my_boolean")
   public Boolean getMyBoolean() {
     return myBoolean;
@@ -87,7 +82,6 @@ public class OuterComposite {
   public void setMyBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

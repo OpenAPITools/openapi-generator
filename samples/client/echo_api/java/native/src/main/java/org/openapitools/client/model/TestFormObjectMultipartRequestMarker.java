@@ -66,7 +66,6 @@ public class TestFormObjectMultipartRequestMarker {
     this.name = name;
   }
 
-
   /**
    * Return true if this test_form_object_multipart_request_marker object is equal to o.
    */

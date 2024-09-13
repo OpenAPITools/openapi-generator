@@ -53,7 +53,6 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
    */
   @javax.annotation.Nullable
 
-
   public String getName() {
     return name;
   }

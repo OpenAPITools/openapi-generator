@@ -81,7 +81,6 @@ public class BigCat extends Cat {
       }
     }
   }
-
   public static final String SERIALIZED_NAME_KIND = "kind";
   @SerializedName(SERIALIZED_NAME_KIND)
   private KindEnum kind;
@@ -101,7 +100,6 @@ public class BigCat extends Cat {
    * @return kind
    */
   @javax.annotation.Nullable
-
 
   public KindEnum getKind() {
     return kind;

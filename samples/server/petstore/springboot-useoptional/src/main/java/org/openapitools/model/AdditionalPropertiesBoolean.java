@@ -22,9 +22,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 /**
  * AdditionalPropertiesBoolean
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class AdditionalPropertiesBoolean {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class AdditionalPropertiesBoolean {
 
   private Optional<String> name = Optional.empty();
 
@@ -37,8 +35,7 @@ public class AdditionalPropertiesBoolean {
    * Get name
    * @return name
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("name")
   public Optional<String> getName() {
     return name;
@@ -84,7 +81,6 @@ public class AdditionalPropertiesBoolean {
         }
         return this.additionalProperties.get(key);
     }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -125,67 +121,66 @@ public class AdditionalPropertiesBoolean {
     return o.toString().replace("\n", "\n    ");
   }
   
-  public static class Builder {
-
-    private AdditionalPropertiesBoolean instance;
-
-    public Builder() {
-      this(new AdditionalPropertiesBoolean());
-    }
-
-    protected Builder(AdditionalPropertiesBoolean instance) {
-      this.instance = instance;
-    }
-
-    protected Builder copyOf(AdditionalPropertiesBoolean value) { 
-      this.instance.setName(value.name);
-      return this;
-    }
-
-    public AdditionalPropertiesBoolean.Builder name(String name) {
-      this.instance.name(name);
-      return this;
-    }
-    
-    public AdditionalPropertiesBoolean.Builder additionalProperties(Map<String, Boolean> additionalProperties) {
-      this.instance.additionalProperties = additionalProperties;
-      return this;
-    }
-
-    /**
-    * returns a built AdditionalPropertiesBoolean instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public AdditionalPropertiesBoolean build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    public static class Builder {
+  
+      private AdditionalPropertiesBoolean instance;
+  
+      public Builder() {
+        this(new AdditionalPropertiesBoolean());
+      }
+  
+      protected Builder(AdditionalPropertiesBoolean instance) {
+        this.instance = instance;
+      }
+  
+      protected Builder copyOf(AdditionalPropertiesBoolean value) { 
+        this.instance.setName(value.name);
+        return this;
+      }
+  
+        public AdditionalPropertiesBoolean.Builder name(String name) {
+        this.instance.name(name);
+        return this;
+      }
+      
+          public AdditionalPropertiesBoolean.Builder additionalProperties(Map<String, Boolean> additionalProperties) {
+        this.instance.additionalProperties = additionalProperties;
+        return this;
+      }
+  
+      /**
+      * returns a built AdditionalPropertiesBoolean instance.
+      *
+      * The builder is not reusable (NullPointerException)
+      */
+      public AdditionalPropertiesBoolean build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field (except for the default values).
+    */
+    public static AdditionalPropertiesBoolean.Builder builder() {
+      return new AdditionalPropertiesBoolean.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field (except for the default values).
-  */
-  public static AdditionalPropertiesBoolean.Builder builder() {
-    return new AdditionalPropertiesBoolean.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public AdditionalPropertiesBoolean.Builder toBuilder() {
-    AdditionalPropertiesBoolean.Builder builder = new AdditionalPropertiesBoolean.Builder();
-    return builder.copyOf(this);
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public AdditionalPropertiesBoolean.Builder toBuilder() {
+      AdditionalPropertiesBoolean.Builder builder = new AdditionalPropertiesBoolean.Builder();
+      return builder.copyOf(this);
+    }
 }
 

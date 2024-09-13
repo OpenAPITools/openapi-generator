@@ -25,19 +25,16 @@ pub enum MultipartRelatedRequestPostResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum MultipartRequestPostResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum MultipleIdenticalMimeTypesPostResponse {
     /// OK
     OK
 }
-
 /// API
 #[async_trait]
 #[allow(clippy::too_many_arguments, clippy::ptr_arg)]

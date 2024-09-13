@@ -114,7 +114,6 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
     }
     return this.additionalProperties.get(key);
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

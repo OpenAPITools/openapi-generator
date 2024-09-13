@@ -103,7 +103,6 @@ public class AdditionalPropertiesClass {
    * @return mapString
    */
   @javax.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_MAP_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -138,7 +137,6 @@ public class AdditionalPropertiesClass {
    */
   @javax.annotation.Nullable
   @Valid
-
   @JsonProperty(JSON_PROPERTY_MAP_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -172,7 +170,6 @@ public class AdditionalPropertiesClass {
    * @return mapInteger
    */
   @javax.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_MAP_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -206,7 +203,6 @@ public class AdditionalPropertiesClass {
    * @return mapBoolean
    */
   @javax.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_MAP_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -241,7 +237,6 @@ public class AdditionalPropertiesClass {
    */
   @javax.annotation.Nullable
   @Valid
-
   @JsonProperty(JSON_PROPERTY_MAP_ARRAY_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -276,7 +271,6 @@ public class AdditionalPropertiesClass {
    */
   @javax.annotation.Nullable
   @Valid
-
   @JsonProperty(JSON_PROPERTY_MAP_ARRAY_ANYTYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -311,7 +305,6 @@ public class AdditionalPropertiesClass {
    */
   @javax.annotation.Nullable
   @Valid
-
   @JsonProperty(JSON_PROPERTY_MAP_MAP_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -346,7 +339,6 @@ public class AdditionalPropertiesClass {
    */
   @javax.annotation.Nullable
   @Valid
-
   @JsonProperty(JSON_PROPERTY_MAP_MAP_ANYTYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -372,7 +364,6 @@ public class AdditionalPropertiesClass {
    * @return anytype1
    */
   @javax.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_ANYTYPE1)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -398,7 +389,6 @@ public class AdditionalPropertiesClass {
    * @return anytype2
    */
   @javax.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_ANYTYPE2)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -424,7 +414,6 @@ public class AdditionalPropertiesClass {
    * @return anytype3
    */
   @javax.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_ANYTYPE3)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

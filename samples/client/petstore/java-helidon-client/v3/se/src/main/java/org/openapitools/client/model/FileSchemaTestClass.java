@@ -24,7 +24,6 @@ import org.openapitools.client.model.ModelFile;
 
 
 
-
 public class FileSchemaTestClass  {
   
   private ModelFile _file;
@@ -102,4 +101,3 @@ public class FileSchemaTestClass  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

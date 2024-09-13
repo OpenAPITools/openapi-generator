@@ -85,7 +85,6 @@ public class MapTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_MAP_OF_ENUM_STRING = "map_of_enum_string";
   @XmlElement(name = "map_of_enum_string")
   private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();

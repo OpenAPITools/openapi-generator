@@ -27,7 +27,6 @@ class Dog {
 
      this.breed,
   });
-
   @JsonKey(
     
     name: r'className',

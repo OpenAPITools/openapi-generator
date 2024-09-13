@@ -61,7 +61,6 @@ public class EquilateralTriangle {
    */
   @jakarta.annotation.Nonnull
   @NotNull
-
   @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -88,7 +87,6 @@ public class EquilateralTriangle {
    */
   @jakarta.annotation.Nonnull
   @NotNull
-
   @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -140,7 +138,6 @@ public class EquilateralTriangle {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this EquilateralTriangle object is equal to o.
    */

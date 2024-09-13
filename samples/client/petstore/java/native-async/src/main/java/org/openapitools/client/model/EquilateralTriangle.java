@@ -94,7 +94,6 @@ public class EquilateralTriangle {
     this.triangleType = triangleType;
   }
 
-
   /**
    * Return true if this EquilateralTriangle object is equal to o.
    */

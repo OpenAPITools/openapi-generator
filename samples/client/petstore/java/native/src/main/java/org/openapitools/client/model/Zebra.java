@@ -80,7 +80,6 @@ public class Zebra extends HashMap<String, Object> {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_TYPE = "type";
   private TypeEnum type;
 
@@ -180,7 +179,6 @@ public class Zebra extends HashMap<String, Object> {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this zebra object is equal to o.
    */
@@ -273,62 +271,61 @@ public class Zebra extends HashMap<String, Object> {
   }
 
     public static class Builder {
-
-    private Zebra instance;
-
-    public Builder() {
-      this(new Zebra());
-    }
-
-    protected Builder(Zebra instance) {
-      this.instance = instance;
-    }
-
-    public Zebra.Builder type(TypeEnum type) {
-      this.instance.type = type;
-      return this;
-    }
-    public Zebra.Builder className(String className) {
-      this.instance.className = className;
-      return this;
-    }
-
-
-    /**
-    * returns a built Zebra instance.
-    *
-    * The builder is not reusable.
-    */
-    public Zebra build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    
+        private Zebra instance;
+    
+        public Builder() {
+          this(new Zebra());
+        }
+    
+        protected Builder(Zebra instance) {
+          this.instance = instance;
+        }
+    
+        public Zebra.Builder type(TypeEnum type) {
+              this.instance.type = type;
+          return this;
+        }
+            public Zebra.Builder className(String className) {
+              this.instance.className = className;
+          return this;
+        }
+        
+    
+        /**
+        * returns a built Zebra instance.
+        *
+        * The builder is not reusable.
+        */
+        public Zebra build() {
+          try {
+            return this.instance;
+          } finally {
+            // ensure that this.instance is not reused
+            this.instance = null;
+          }
+        }
+    
+        @Override
+        public String toString() {
+          return getClass() + "=(" + instance + ")";
+        }
       }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static Zebra.Builder builder() {
-    return new Zebra.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public Zebra.Builder toBuilder() {
-    return new Zebra.Builder()
-      .type(getType())
-      .className(getClassName());
-  }
-
+    
+      /**
+      * Create a builder with no initialized field.
+      */
+      public static Zebra.Builder builder() {
+        return new Zebra.Builder();
+      }
+    
+      /**
+      * Create a builder with a shallow copy of this instance.
+      */
+      public Zebra.Builder toBuilder() {
+        return new Zebra.Builder()
+          .type(getType())
+          .className(getClassName());
+      }
 }
 

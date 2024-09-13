@@ -17,4 +17,3 @@ instance = Petstore::HasOnlyReadOnly.new(
   foo: null
 )
 ```
-

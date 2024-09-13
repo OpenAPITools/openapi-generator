@@ -128,7 +128,6 @@ public class ModelApiResponse {
     this.message = message;
   }
 
-
   /**
    * Return true if this ApiResponse object is equal to o.
    */

@@ -24,7 +24,6 @@ import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonParser;
 import javax.json.bind.annotation.JsonbProperty;
 
-
 public class Cat  {
   
   @JsonbProperty("id")
@@ -123,4 +122,3 @@ public class Cat  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

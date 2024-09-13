@@ -33,8 +33,7 @@ abstract class Fruit implements Built<Fruit, FruitBuilder> {
   static void _defaults(FruitBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<Fruit> get serializer => _$FruitSerializer();
-}
+  static Serializer<Fruit> get serializer => _$FruitSerializer();}
 
 class _$FruitSerializer implements PrimitiveSerializer<Fruit> {
   @override

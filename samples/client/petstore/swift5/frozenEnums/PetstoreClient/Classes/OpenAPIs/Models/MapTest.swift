@@ -16,8 +16,7 @@ public struct MapTest: Codable, JSONEncodable, Hashable {
         case upper = "UPPER"
         case lower = "lower"
         case unknownDefaultOpenApi = "unknown_default_open_api"
-    }
-    public var mapMapOfString: [String: [String: String]]?
+    }    public var mapMapOfString: [String: [String: String]]?
     public var mapOfEnumString: [String: String]?
     public var directMap: [String: Bool]?
     public var indirectMap: StringBooleanMap?

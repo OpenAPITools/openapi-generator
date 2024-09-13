@@ -20,7 +20,6 @@ class HealthCheckResult {
 
      this.nullableMessage,
   });
-
   @JsonKey(
     
     name: r'NullableMessage',

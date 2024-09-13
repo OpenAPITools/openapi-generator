@@ -20,12 +20,10 @@ public final class EnumArrays: Codable, JSONEncodable, Hashable {
     public enum JustSymbol: String, Codable, CaseIterable {
         case greaterThanOrEqualTo = ">="
         case dollar = "$"
-    }
-    public enum ArrayEnum: String, Codable, CaseIterable {
+    }    public enum ArrayEnum: String, Codable, CaseIterable {
         case fish = "fish"
         case crab = "crab"
-    }
-    public var justSymbol: JustSymbol?
+    }    public var justSymbol: JustSymbol?
     public var arrayEnum: [ArrayEnum]?
 
     public init(justSymbol: JustSymbol? = nil, arrayEnum: [ArrayEnum]? = nil) {

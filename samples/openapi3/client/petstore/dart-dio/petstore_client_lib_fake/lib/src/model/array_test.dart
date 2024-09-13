@@ -35,8 +35,7 @@ abstract class ArrayTest implements Built<ArrayTest, ArrayTestBuilder> {
   static void _defaults(ArrayTestBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ArrayTest> get serializer => _$ArrayTestSerializer();
-}
+  static Serializer<ArrayTest> get serializer => _$ArrayTestSerializer();}
 
 class _$ArrayTestSerializer implements PrimitiveSerializer<ArrayTest> {
   @override

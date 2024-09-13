@@ -19,10 +19,8 @@ import javax.annotation.Generated;
 /**
  * ResponseObjectWithDifferentFieldNamesDto
  */
-
 @JsonTypeName("ResponseObjectWithDifferentFieldNames")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class ResponseObjectWithDifferentFieldNamesDto {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class ResponseObjectWithDifferentFieldNamesDto {
 
   private String normalPropertyName;
 
@@ -41,8 +39,7 @@ public class ResponseObjectWithDifferentFieldNamesDto {
    * Get normalPropertyName
    * @return normalPropertyName
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("normalPropertyName")
   public String getNormalPropertyName() {
     return normalPropertyName;
@@ -61,8 +58,7 @@ public class ResponseObjectWithDifferentFieldNamesDto {
    * Get UPPER_CASE_PROPERTY_SNAKE
    * @return UPPER_CASE_PROPERTY_SNAKE
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("UPPER_CASE_PROPERTY_SNAKE")
   public String getUPPERCASEPROPERTYSNAKE() {
     return UPPER_CASE_PROPERTY_SNAKE;
@@ -81,8 +77,7 @@ public class ResponseObjectWithDifferentFieldNamesDto {
    * Get lowerCasePropertyDashes
    * @return lowerCasePropertyDashes
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("lower-case-property-dashes")
   public String getLowerCasePropertyDashes() {
     return lowerCasePropertyDashes;
@@ -101,8 +96,7 @@ public class ResponseObjectWithDifferentFieldNamesDto {
    * Get propertyNameWithSpaces
    * @return propertyNameWithSpaces
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("property name with spaces")
   public String getPropertyNameWithSpaces() {
     return propertyNameWithSpaces;
@@ -111,7 +105,6 @@ public class ResponseObjectWithDifferentFieldNamesDto {
   public void setPropertyNameWithSpaces(String propertyNameWithSpaces) {
     this.propertyNameWithSpaces = propertyNameWithSpaces;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

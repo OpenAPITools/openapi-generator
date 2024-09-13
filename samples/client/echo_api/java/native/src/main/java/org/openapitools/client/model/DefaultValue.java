@@ -90,7 +90,6 @@ public class DefaultValue {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_ARRAY_STRING_ENUM_DEFAULT = "array_string_enum_default";
   private List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault = new ArrayList<>(Arrays.asList(ArrayStringEnumDefaultEnum.SUCCESS, ArrayStringEnumDefaultEnum.FAILURE));
 
@@ -304,7 +303,6 @@ public class DefaultValue {
 
   @JsonProperty(JSON_PROPERTY_ARRAY_STRING_NULLABLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<List<String>> getArrayStringNullable_JsonNullable() {
     return arrayStringNullable;
   }
@@ -348,7 +346,6 @@ public class DefaultValue {
 
   @JsonProperty(JSON_PROPERTY_ARRAY_STRING_EXTENSION_NULLABLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<List<String>> getArrayStringExtensionNullable_JsonNullable() {
     return arrayStringExtensionNullable;
   }
@@ -380,7 +377,6 @@ public class DefaultValue {
 
   @JsonProperty(JSON_PROPERTY_STRING_NULLABLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<String> getStringNullable_JsonNullable() {
     return stringNullable;
   }
@@ -393,7 +389,6 @@ public class DefaultValue {
   public void setStringNullable(String stringNullable) {
     this.stringNullable = JsonNullable.<String>of(stringNullable);
   }
-
 
   /**
    * Return true if this DefaultValue object is equal to o.

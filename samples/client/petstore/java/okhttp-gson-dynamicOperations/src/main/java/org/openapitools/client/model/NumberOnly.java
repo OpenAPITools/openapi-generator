@@ -77,7 +77,6 @@ public class NumberOnly {
   }
 
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

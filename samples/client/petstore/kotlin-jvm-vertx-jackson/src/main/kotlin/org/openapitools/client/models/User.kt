@@ -31,7 +31,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @param userStatus User Status
  */
 
-
 data class User (
 
     @get:JsonProperty("id")

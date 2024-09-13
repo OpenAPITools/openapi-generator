@@ -17,10 +17,8 @@ import javax.annotation.Generated;
 /**
  * Model for testing model name same as property name
  */
-
 @Schema(name = "Name", description = "Model for testing model name same as property name")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class Name {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class Name {
 
   private Integer name;
 
@@ -50,8 +48,7 @@ public class Name {
    * Get name
    * @return name
    */
-  @NotNull 
-  @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
+  @NotNull   @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
   public Integer getName() {
     return name;
@@ -70,8 +67,7 @@ public class Name {
    * Get snakeCase
    * @return snakeCase
    */
-  
-  @Schema(name = "snake_case", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "snake_case", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("snake_case")
   public Integer getSnakeCase() {
     return snakeCase;
@@ -90,8 +86,7 @@ public class Name {
    * Get property
    * @return property
    */
-  
-  @Schema(name = "property", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "property", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("property")
   public String getProperty() {
     return property;
@@ -110,8 +105,7 @@ public class Name {
    * Get _123number
    * @return _123number
    */
-  
-  @Schema(name = "123Number", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "123Number", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("123Number")
   public Integer get123number() {
     return _123number;
@@ -120,7 +114,6 @@ public class Name {
   public void set123number(Integer _123number) {
     this._123number = _123number;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

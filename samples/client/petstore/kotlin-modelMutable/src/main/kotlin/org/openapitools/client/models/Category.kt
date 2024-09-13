@@ -26,7 +26,6 @@ import com.squareup.moshi.JsonClass
  * @param name 
  */
 
-
 data class Category (
 
     @Json(name = "id")

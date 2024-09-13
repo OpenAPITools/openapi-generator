@@ -53,7 +53,6 @@ public class ModelList {
    * @return _123list
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_123LIST)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -67,7 +66,6 @@ public class ModelList {
   public void set123list(String _123list) {
     this._123list = _123list;
   }
-
 
   /**
    * Return true if this List object is equal to o.

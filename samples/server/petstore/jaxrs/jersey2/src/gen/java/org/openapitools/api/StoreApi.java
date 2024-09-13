@@ -30,8 +30,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the store API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class StoreApi  {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class StoreApi  {
    private final StoreApiService delegate;
 
    public StoreApi(@Context ServletConfig servletContext) {

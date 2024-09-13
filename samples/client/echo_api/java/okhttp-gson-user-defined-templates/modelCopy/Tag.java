@@ -29,7 +29,6 @@ public class Tag {
   public Tag() {
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

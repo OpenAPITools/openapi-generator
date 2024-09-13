@@ -51,7 +51,6 @@ public class NumberOnly {
   @javax.annotation.Nullable
   @Valid
 
-
   public BigDecimal getJustNumber() {
     return justNumber;
   }

@@ -77,7 +77,6 @@ public class Dog extends Animal {
     this.breed = breed;
   }
 
-
   @Override
   public Dog className(String className) {
     this.setClassName(className);

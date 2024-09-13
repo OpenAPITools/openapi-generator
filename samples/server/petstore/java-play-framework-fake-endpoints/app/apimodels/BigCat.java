@@ -47,10 +47,8 @@ public class BigCat extends Cat  {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   @JsonProperty("kind")
-  
-  private KindEnum kind;
+                                        private KindEnum kind;
 
   public BigCat kind(KindEnum kind) {
     this.kind = kind;
@@ -110,4 +108,3 @@ public class BigCat extends Cat  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

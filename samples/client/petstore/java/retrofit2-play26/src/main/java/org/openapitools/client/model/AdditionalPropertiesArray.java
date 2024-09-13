@@ -54,7 +54,6 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
    * @return name
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

@@ -30,8 +30,7 @@ import jakarta.xml.bind.annotation.adapters.*;
 
 @XmlRootElement(name = "User")
 @XmlAccessorType(XmlAccessType.FIELD)
-@JacksonXmlRootElement(localName = "User")
-@JsonPropertyOrder({
+@JacksonXmlRootElement(localName = "User")@JsonPropertyOrder({
   User.JSON_PROPERTY_ID,
   User.JSON_PROPERTY_USERNAME,
   User.JSON_PROPERTY_FIRST_NAME,
@@ -44,7 +43,6 @@ import jakarta.xml.bind.annotation.adapters.*;
 /**
   * A User who is purchasing from the pet store
   */
-
 public class User  {
   
   public static final String JSON_PROPERTY_ID = "id";
@@ -322,4 +320,3 @@ public class User  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

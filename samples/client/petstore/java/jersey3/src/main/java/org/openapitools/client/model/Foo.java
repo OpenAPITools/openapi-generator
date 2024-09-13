@@ -52,7 +52,6 @@ public class Foo {
    * @return bar
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_BAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -66,7 +65,6 @@ public class Foo {
   public void setBar(String bar) {
     this.bar = bar;
   }
-
 
   /**
    * Return true if this Foo object is equal to o.

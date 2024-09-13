@@ -30,15 +30,13 @@ import jakarta.xml.bind.annotation.adapters.*;
 
 @XmlRootElement(name = "Tag")
 @XmlAccessorType(XmlAccessType.FIELD)
-@JacksonXmlRootElement(localName = "Tag")
-@JsonPropertyOrder({
+@JacksonXmlRootElement(localName = "Tag")@JsonPropertyOrder({
   Tag.JSON_PROPERTY_ID,
   Tag.JSON_PROPERTY_NAME
 })
 /**
   * A tag for a pet
   */
-
 public class Tag  {
   
   public static final String JSON_PROPERTY_ID = "id";
@@ -127,4 +125,3 @@ public class Tag  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

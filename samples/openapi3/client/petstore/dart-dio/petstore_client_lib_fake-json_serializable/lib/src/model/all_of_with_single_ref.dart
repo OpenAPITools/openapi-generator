@@ -23,7 +23,6 @@ class AllOfWithSingleRef {
 
      this.singleRefType,
   });
-
   @JsonKey(
     
     name: r'username',

@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * 
@@ -32,7 +31,6 @@ export interface Tag {
      */
     name?: string;
 }
-
 /**
  * Check if a given object implements the Tag interface.
  */
@@ -70,4 +68,3 @@ export function TagFromJSONTyped(json: any, ignoreDiscriminator: boolean): Tag {
         'name': value['name'],
     };
 }
-

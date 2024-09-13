@@ -13,6 +13,5 @@
 * Do not edit the class manually.
 */
 
-
 @interface SWGJSONRequestSerializer : AFJSONRequestSerializer
 @end

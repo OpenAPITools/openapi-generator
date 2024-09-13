@@ -57,7 +57,6 @@ namespace Org.OpenAPITools.Model
             Grevys = 3
         }
 
-
         /// <summary>
         /// Gets or Sets Type
         /// </summary>
@@ -216,7 +215,6 @@ namespace Org.OpenAPITools.Model
         IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
-        }
-    }
+        }    }
 
 }

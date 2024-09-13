@@ -74,7 +74,6 @@ public class Dog extends Animal {
     this.breed = breed;
   }
 
-
   /**
    * Return true if this Dog object is equal to o.
    */

@@ -71,4 +71,3 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

@@ -119,7 +119,6 @@ public class ChildCat extends ParentPet {
     this.petType = petType;
   }
 
-
   /**
    * Return true if this ChildCat object is equal to o.
    */
@@ -216,64 +215,63 @@ static {
 }
 
     public static class Builder extends ParentPet.Builder {
-
-    private ChildCat instance;
-
-    public Builder() {
-      this(new ChildCat());
-    }
-
-    protected Builder(ChildCat instance) {
-      super(instance);
-      this.instance = instance;
-    }
-
-    public ChildCat.Builder name(String name) {
-      this.instance.name = name;
-      return this;
-    }
-    public ChildCat.Builder petType(String petType) {
-      this.instance.petType = petType;
-      return this;
-    }
-
-
-    /**
-    * returns a built ChildCat instance.
-    *
-    * The builder is not reusable.
-    */
-    public ChildCat build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        super.build();
-        this.instance = null;
+    
+        private ChildCat instance;
+    
+        public Builder() {
+          this(new ChildCat());
+        }
+    
+        protected Builder(ChildCat instance) {
+          super(instance);
+          this.instance = instance;
+        }
+    
+        public ChildCat.Builder name(String name) {
+              this.instance.name = name;
+          return this;
+        }
+            public ChildCat.Builder petType(String petType) {
+              this.instance.petType = petType;
+          return this;
+        }
+        
+    
+        /**
+        * returns a built ChildCat instance.
+        *
+        * The builder is not reusable.
+        */
+        public ChildCat build() {
+          try {
+            return this.instance;
+          } finally {
+            // ensure that this.instance is not reused
+            super.build();
+            this.instance = null;
+          }
+        }
+    
+        @Override
+        public String toString() {
+          return getClass() + "=(" + instance + ")";
+        }
       }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static ChildCat.Builder builder() {
-    return new ChildCat.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public ChildCat.Builder toBuilder() {
-    return new ChildCat.Builder()
-      .petType(getPetType())
-      .name(getName());
-  }
-
+    
+      /**
+      * Create a builder with no initialized field.
+      */
+      public static ChildCat.Builder builder() {
+        return new ChildCat.Builder();
+      }
+    
+      /**
+      * Create a builder with a shallow copy of this instance.
+      */
+      public ChildCat.Builder toBuilder() {
+        return new ChildCat.Builder()
+          .petType(getPetType())
+          .name(getName());
+      }
 }
 

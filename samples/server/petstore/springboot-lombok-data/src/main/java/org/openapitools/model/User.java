@@ -21,10 +21,8 @@ import javax.annotation.Generated;
 @lombok.Builder
 @lombok.NoArgsConstructor
 @lombok.AllArgsConstructor
-
 @Schema(name = "User", description = "A User who is purchasing from the pet store")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class User {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class User {
 
   private Long id;
 
@@ -41,6 +39,5 @@ public class User {
   private String phone;
 
   private Integer userStatus;
-
 }
 

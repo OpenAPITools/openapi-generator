@@ -26,8 +26,7 @@ abstract class DeprecatedObject implements Built<DeprecatedObject, DeprecatedObj
   static void _defaults(DeprecatedObjectBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<DeprecatedObject> get serializer => _$DeprecatedObjectSerializer();
-}
+  static Serializer<DeprecatedObject> get serializer => _$DeprecatedObjectSerializer();}
 
 class _$DeprecatedObjectSerializer implements PrimitiveSerializer<DeprecatedObject> {
   @override

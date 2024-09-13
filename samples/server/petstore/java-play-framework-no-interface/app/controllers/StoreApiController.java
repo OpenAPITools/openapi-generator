@@ -26,8 +26,7 @@ import com.typesafe.config.Config;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class StoreApiController extends Controller {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class StoreApiController extends Controller {
     private final StoreApiControllerImp imp;
     private final ObjectMapper mapper;
     private final Config configuration;
@@ -43,33 +42,30 @@ public class StoreApiController extends Controller {
 
     @ApiAction
     public Result deleteOrder(Http.Request request, String orderId) throws Exception {
-                imp.deleteOrder(request, orderId);
-        return ok();
-
-    }
+                                                imp.deleteOrder(request, orderId);
+                                                return ok();
+                                            }
 
     @ApiAction
     public Result getInventory(Http.Request request) throws Exception {
-                Map<String, Integer> obj = imp.getInventory(request);
-        JsonNode result = mapper.valueToTree(obj);
-
-        return ok(result);
-
-    }
+                                                Map<String, Integer> obj = imp.getInventory(request);
+                                                                                JsonNode result = mapper.valueToTree(obj);
+        
+                return ok(result);
+                                                                            }
 
     @ApiAction
     public Result getOrderById(Http.Request request,  @Min(1) @Max(5)Long orderId) throws Exception {
-                Order obj = imp.getOrderById(request, orderId);
-
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            OpenAPIUtils.validate(obj);
-        }
-
-        JsonNode result = mapper.valueToTree(obj);
-
-        return ok(result);
-
-    }
+                                Order obj = imp.getOrderById(request, orderId);
+                                
+                if (configuration.getBoolean("useOutputBeanValidation")) {
+                                    OpenAPIUtils.validate(obj);
+                }
+        
+                                                                        JsonNode result = mapper.valueToTree(obj);
+        
+                return ok(result);
+                                                                            }
 
     @ApiAction
     public Result placeOrder(Http.Request request) throws Exception {
@@ -83,16 +79,15 @@ public class StoreApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-                Order obj = imp.placeOrder(request, body);
-
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            OpenAPIUtils.validate(obj);
-        }
-
-        JsonNode result = mapper.valueToTree(obj);
-
-        return ok(result);
-
-    }
+                                Order obj = imp.placeOrder(request, body);
+                                
+                if (configuration.getBoolean("useOutputBeanValidation")) {
+                                    OpenAPIUtils.validate(obj);
+                }
+        
+                                                                        JsonNode result = mapper.valueToTree(obj);
+        
+                return ok(result);
+                                                                            }
 
 }

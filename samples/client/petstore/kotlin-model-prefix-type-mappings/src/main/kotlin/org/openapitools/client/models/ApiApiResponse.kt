@@ -35,7 +35,6 @@ import com.google.gson.annotations.SerializedName
  * @param message 
  */
 
-
 data class ApiApiResponse (
 
     @SerializedName("code")

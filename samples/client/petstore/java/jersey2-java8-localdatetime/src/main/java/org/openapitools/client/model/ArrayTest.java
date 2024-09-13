@@ -149,7 +149,6 @@ public class ArrayTest {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 
-
   /**
    * Return true if this ArrayTest object is equal to o.
    */

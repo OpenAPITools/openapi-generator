@@ -138,7 +138,6 @@ mod paths {
     pub(crate) static ID_XML_OTHER: usize = 26;
 }
 
-
 pub struct MakeService<T, C> where
     T: Api<C> + Clone + Send + 'static,
     C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static
@@ -177,7 +176,6 @@ impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
         future::ok(service)
     }
 }
-
 fn method_not_allowed() -> Result<Response<Body>, crate::ServiceError> {
     Ok(
         Response::builder().status(StatusCode::METHOD_NOT_ALLOWED)
@@ -244,7 +242,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             let path = paths::GLOBAL_REGEX_SET.matches(uri.path());
 
             match method {
-
             // AnyOfGet - GET /any-of
             hyper::Method::GET if path.matched(paths::ID_ANY_OF) => {
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
@@ -281,7 +278,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                                 AnyOfGetResponse::AlternateSuccess
                                                     (body)
@@ -294,7 +290,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                                 AnyOfGetResponse::AnyOfSuccess
                                                     (body)
@@ -307,7 +302,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                             },
                                             Err(_) => {
@@ -320,7 +314,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // CallbackWithHeaderPost - POST /callback-with-header
             hyper::Method::POST if path.matched(paths::ID_CALLBACK_WITH_HEADER) => {
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
@@ -365,7 +358,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 CallbackWithHeaderPostResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(204).expect("Unable to turn 204 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -378,7 +370,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // ComplexQueryParamGet - GET /complex-query-param
             hyper::Method::GET if path.matched(paths::ID_COMPLEX_QUERY_PARAM) => {
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
@@ -407,7 +398,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 ComplexQueryParamGetResponse::Success
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -420,7 +410,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // GetWithBooleanParameter - GET /get-with-bool
             hyper::Method::GET if path.matched(paths::ID_GET_WITH_BOOL) => {
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
@@ -465,7 +454,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 GetWithBooleanParameterResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -478,7 +466,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // JsonComplexQueryParamGet - GET /json-complex-query-param
             hyper::Method::GET if path.matched(paths::ID_JSON_COMPLEX_QUERY_PARAM) => {
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
@@ -516,7 +503,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 JsonComplexQueryParamGetResponse::Success
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -529,7 +515,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // MandatoryRequestHeaderGet - GET /mandatory-request-header
             hyper::Method::GET if path.matched(paths::ID_MANDATORY_REQUEST_HEADER) => {
                 // Header parameters
@@ -570,7 +555,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 MandatoryRequestHeaderGetResponse::Success
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -583,7 +567,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // MergePatchJsonGet - GET /merge-patch-json
             hyper::Method::GET if path.matched(paths::ID_MERGE_PATCH_JSON) => {
                                 let result = api_impl.merge_patch_json_get(
@@ -608,7 +591,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                             },
                                             Err(_) => {
@@ -621,7 +603,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // MultigetGet - GET /multiget
             hyper::Method::GET if path.matched(paths::ID_MULTIGET) => {
                                 let result = api_impl.multiget_get(
@@ -646,7 +627,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                                 MultigetGetResponse::XMLRsp
                                                     (body)
@@ -659,7 +639,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // XML Body
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                                 MultigetGetResponse::OctetRsp
                                                     (body)
@@ -672,7 +651,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // Binary Body
                                                     let body = body.0;
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                                 MultigetGetResponse::StringRsp
                                                     (body)
@@ -685,7 +663,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // Plain text Body
                                                     let body = body;
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                                 MultigetGetResponse::DuplicateResponseLongText
                                                     (body)
@@ -698,7 +675,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                                 MultigetGetResponse::DuplicateResponseLongText_2
                                                     (body)
@@ -711,7 +687,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                                 MultigetGetResponse::DuplicateResponseLongText_3
                                                     (body)
@@ -724,7 +699,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                             },
                                             Err(_) => {
@@ -737,7 +711,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // MultipleAuthSchemeGet - GET /multiple_auth_scheme
             hyper::Method::GET if path.matched(paths::ID_MULTIPLE_AUTH_SCHEME) => {
                 {
@@ -784,7 +757,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 MultipleAuthSchemeGetResponse::CheckThatLimitingToMultipleRequiredAuthSchemesWorks
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -797,7 +769,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // OneOfGet - GET /one-of
             hyper::Method::GET if path.matched(paths::ID_ONE_OF) => {
                                 let result = api_impl.one_of_get(
@@ -822,7 +793,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                             },
                                             Err(_) => {
@@ -835,7 +805,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // OverrideServerGet - GET /override-server
             hyper::Method::GET if path.matched(paths::ID_OVERRIDE_SERVER) => {
                                 let result = api_impl.override_server_get(
@@ -852,7 +821,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 OverrideServerGetResponse::Success
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(204).expect("Unable to turn 204 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -865,7 +833,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // ParamgetGet - GET /paramget
             hyper::Method::GET if path.matched(paths::ID_PARAMGET) => {
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
@@ -947,7 +914,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                             },
                                             Err(_) => {
@@ -960,7 +926,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // ReadonlyAuthSchemeGet - GET /readonly_auth_scheme
             hyper::Method::GET if path.matched(paths::ID_READONLY_AUTH_SCHEME) => {
                 {
@@ -1006,7 +971,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 ReadonlyAuthSchemeGetResponse::CheckThatLimitingToASingleRequiredAuthSchemeWorks
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1019,7 +983,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // RegisterCallbackPost - POST /register-callback
             hyper::Method::POST if path.matched(paths::ID_REGISTER_CALLBACK) => {
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
@@ -1064,7 +1027,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 RegisterCallbackPostResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(204).expect("Unable to turn 204 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1077,7 +1039,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // RequiredOctetStreamPut - PUT /required_octet_stream
             hyper::Method::PUT if path.matched(paths::ID_REQUIRED_OCTET_STREAM) => {
                 // Handle body parameters (note that non-required body parameters will ignore garbage
@@ -1098,8 +1059,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
-
-
                                 let result = api_impl.required_octet_stream_put(
                                             param_body,
                                         &context
@@ -1115,7 +1074,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 RequiredOctetStreamPutResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1134,7 +1092,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // ResponsesWithHeadersGet - GET /responses_with_headers
             hyper::Method::GET if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => {
                                 let result = api_impl.responses_with_headers_get(
@@ -1213,7 +1170,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                                 ResponsesWithHeadersGetResponse::PreconditionFailed
                                                     {
@@ -1256,7 +1212,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         failure_info
                                                     );
                                                     }
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1269,7 +1224,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Rfc7807Get - GET /rfc7807
             hyper::Method::GET if path.matched(paths::ID_RFC7807) => {
                                 let result = api_impl.rfc7807_get(
@@ -1294,7 +1248,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                                 Rfc7807GetResponse::NotFound
                                                     (body)
@@ -1307,7 +1260,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                                 Rfc7807GetResponse::NotAcceptable
                                                     (body)
@@ -1320,7 +1272,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // XML Body
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1333,7 +1284,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // TwoFirstLetterHeaders - POST /operation-two-first-letter-headers
             hyper::Method::POST if path.matched(paths::ID_OPERATION_TWO_FIRST_LETTER_HEADERS) => {
                 // Header parameters
@@ -1390,7 +1340,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 TwoFirstLetterHeadersResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1403,7 +1352,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // UntypedPropertyGet - GET /untyped_property
             hyper::Method::GET if path.matched(paths::ID_UNTYPED_PROPERTY) => {
                 // Handle body parameters (note that non-required body parameters will ignore garbage
@@ -1425,8 +1373,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 } else {
                                     None
                                 };
-
-
                                 let result = api_impl.untyped_property_get(
                                             param_object_untyped_props,
                                         &context
@@ -1448,7 +1394,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 UntypedPropertyGetResponse::CheckThatUntypedPropertiesWorks
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1467,7 +1412,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // UuidGet - GET /uuid
             hyper::Method::GET if path.matched(paths::ID_UUID) => {
                                 let result = api_impl.uuid_get(
@@ -1492,7 +1436,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1505,7 +1448,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // XmlExtraPost - POST /xml_extra
             hyper::Method::POST if path.matched(paths::ID_XML_EXTRA) => {
                 // Handle body parameters (note that non-required body parameters will ignore garbage
@@ -1527,8 +1469,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 } else {
                                     None
                                 };
-
-
                                 let result = api_impl.xml_extra_post(
                                             param_duplicate_xml_object,
                                         &context
@@ -1550,12 +1490,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 XmlExtraPostResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(201).expect("Unable to turn 201 into a StatusCode");
-
                                                 },
                                                 XmlExtraPostResponse::BadRequest
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1574,7 +1512,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // XmlOtherPost - POST /xml_other
             hyper::Method::POST if path.matched(paths::ID_XML_OTHER) => {
                 // Handle body parameters (note that non-required body parameters will ignore garbage
@@ -1596,8 +1533,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 } else {
                                     None
                                 };
-
-
                                 let result = api_impl.xml_other_post(
                                             param_another_xml_object,
                                         &context
@@ -1631,12 +1566,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     namespaces.insert("".to_string(), models::AnotherXmlObject::NAMESPACE.to_string());
                                                     let body = serde_xml_rs::to_string_with_namespaces(&body, namespaces).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                                 XmlOtherPostResponse::BadRequest
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1655,7 +1588,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // XmlOtherPut - PUT /xml_other
             hyper::Method::PUT if path.matched(paths::ID_XML_OTHER) => {
                 // Handle body parameters (note that non-required body parameters will ignore garbage
@@ -1677,8 +1609,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 } else {
                                     None
                                 };
-
-
                                 let result = api_impl.xml_other_put(
                                             param_another_xml_array,
                                         &context
@@ -1700,12 +1630,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 XmlOtherPutResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(201).expect("Unable to turn 201 into a StatusCode");
-
                                                 },
                                                 XmlOtherPutResponse::BadRequest
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1724,7 +1652,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // XmlPost - POST /xml
             hyper::Method::POST if path.matched(paths::ID_XML) => {
                 // Handle body parameters (note that non-required body parameters will ignore garbage
@@ -1746,8 +1673,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 } else {
                                     None
                                 };
-
-
                                 let result = api_impl.xml_post(
                                             param_xml_array,
                                         &context
@@ -1769,12 +1694,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 XmlPostResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(201).expect("Unable to turn 201 into a StatusCode");
-
                                                 },
                                                 XmlPostResponse::BadRequest
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1793,7 +1716,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // XmlPut - PUT /xml
             hyper::Method::PUT if path.matched(paths::ID_XML) => {
                 // Handle body parameters (note that non-required body parameters will ignore garbage
@@ -1815,8 +1737,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 } else {
                                     None
                                 };
-
-
                                 let result = api_impl.xml_put(
                                             param_xml_object,
                                         &context
@@ -1838,12 +1758,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 XmlPutResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(201).expect("Unable to turn 201 into a StatusCode");
-
                                                 },
                                                 XmlPutResponse::BadRequest
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1862,7 +1780,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // EnumInPathPathParamGet - GET /enum_in_path/{path_param}
             hyper::Method::GET if path.matched(paths::ID_ENUM_IN_PATH_PATH_PARAM) => {
                 // Path parameters
@@ -1903,7 +1820,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 EnumInPathPathParamGetResponse::Success
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1916,7 +1832,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGet - GET /multiple-path-params-with-very-long-path-to-test-formatting/{path_param_a}/{path_param_b}
             hyper::Method::GET if path.matched(paths::ID_MULTIPLE_PATH_PARAMS_WITH_VERY_LONG_PATH_TO_TEST_FORMATTING_PATH_PARAM_A_PATH_PARAM_B) => {
                 // Path parameters
@@ -1972,7 +1887,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse::Success
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1985,7 +1899,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // CreateRepo - POST /repos
             hyper::Method::POST if path.matched(paths::ID_REPOS) => {
                 // Handle body parameters (note that non-required body parameters will ignore garbage
@@ -2017,8 +1930,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         .body(Body::from("Missing required body parameter ObjectParam"))
                                                         .expect("Unable to create Bad Request response for missing body parameter ObjectParam")),
                                 };
-
-
                                 let result = api_impl.create_repo(
                                             param_object_param,
                                         &context
@@ -2040,7 +1951,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 CreateRepoResponse::Success
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -2059,7 +1969,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // GetRepoInfo - GET /repos/{repoId}
             hyper::Method::GET if path.matched(paths::ID_REPOS_REPOID) => {
                 // Path parameters
@@ -2108,7 +2017,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
                                                 },
                                             },
                                             Err(_) => {
@@ -2121,7 +2029,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             _ if path.matched(paths::ID_ANY_OF) => method_not_allowed(),
             _ if path.matched(paths::ID_CALLBACK_WITH_HEADER) => method_not_allowed(),
             _ if path.matched(paths::ID_COMPLEX_QUERY_PARAM) => method_not_allowed(),
@@ -2160,7 +2067,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
         ))
     }
 }
-
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
 impl<T> RequestParser<T> for ApiRequestParser {

@@ -53,7 +53,6 @@ public class ModelFile {
    * @return sourceURI
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -67,7 +66,6 @@ public class ModelFile {
   public void setSourceURI(String sourceURI) {
     this.sourceURI = sourceURI;
   }
-
 
   /**
    * Return true if this File object is equal to o.

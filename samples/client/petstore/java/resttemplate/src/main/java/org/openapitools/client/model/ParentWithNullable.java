@@ -80,7 +80,6 @@ public class ParentWithNullable {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_TYPE = "type";
   protected TypeEnum type;
 
@@ -142,7 +141,6 @@ public class ParentWithNullable {
 
   @JsonProperty(JSON_PROPERTY_NULLABLE_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<String> getNullableProperty_JsonNullable() {
     return nullableProperty;
   }
@@ -207,67 +205,66 @@ public class ParentWithNullable {
   }
 
   public static class Builder {
-
-    private ParentWithNullable instance;
-
-    public Builder() {
-      this(new ParentWithNullable());
-    }
-
-    protected Builder(ParentWithNullable instance) {
-      this.instance = instance;
-    }
-
-    public ParentWithNullable.Builder type(TypeEnum type) {
-      this.instance.type = type;
-      return this;
-    }
-    public ParentWithNullable.Builder nullableProperty(String nullableProperty) {
-      this.instance.nullableProperty = JsonNullable.<String>of(nullableProperty);
-      return this;
-    }
-    public ParentWithNullable.Builder nullableProperty(JsonNullable<String> nullableProperty) {
-      this.instance.nullableProperty = nullableProperty;
-      return this;
-    }
-
-
-    /**
-    * returns a built ParentWithNullable instance.
-    *
-    * The builder is not reusable.
-    */
-    public ParentWithNullable build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+  
+      private ParentWithNullable instance;
+  
+      public Builder() {
+        this(new ParentWithNullable());
+      }
+  
+      protected Builder(ParentWithNullable instance) {
+        this.instance = instance;
+      }
+  
+      public ParentWithNullable.Builder type(TypeEnum type) {
+          this.instance.type = type;
+        return this;
+      }
+        public ParentWithNullable.Builder nullableProperty(String nullableProperty) {
+        this.instance.nullableProperty = JsonNullable.<String>of(nullableProperty);
+          return this;
+      }
+      public ParentWithNullable.Builder nullableProperty(JsonNullable<String> nullableProperty) {
+        this.instance.nullableProperty = nullableProperty;
+        return this;
+      }
+    
+  
+      /**
+      * returns a built ParentWithNullable instance.
+      *
+      * The builder is not reusable.
+      */
+      public ParentWithNullable build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field.
+    */
+    public static ParentWithNullable.Builder builder() {
+      return new ParentWithNullable.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static ParentWithNullable.Builder builder() {
-    return new ParentWithNullable.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public ParentWithNullable.Builder toBuilder() {
-    return new ParentWithNullable.Builder()
-      .type(getType())
-      .nullableProperty(getNullableProperty());
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public ParentWithNullable.Builder toBuilder() {
+      return new ParentWithNullable.Builder()
+        .type(getType())
+        .nullableProperty(getNullableProperty());
+    }
 
 }
 

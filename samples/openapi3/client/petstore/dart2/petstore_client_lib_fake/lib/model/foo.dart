@@ -9,13 +9,11 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
-
 class Foo {
   /// Returns a new [Foo] instance.
   Foo({
     this.bar = 'bar',
   });
-
   String bar;
 
   @override
@@ -105,4 +103,3 @@ class Foo {
   static const requiredKeys = <String>{
   };
 }
-

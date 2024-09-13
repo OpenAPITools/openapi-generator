@@ -74,7 +74,6 @@ public class EnumArrays {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_JUST_SYMBOL = "just_symbol";
   private JustSymbolEnum justSymbol;
 
@@ -112,7 +111,6 @@ public class EnumArrays {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
@@ -173,7 +171,6 @@ public class EnumArrays {
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
-
 
   /**
    * Return true if this EnumArrays object is equal to o.
@@ -267,62 +264,61 @@ public class EnumArrays {
   }
 
     public static class Builder {
-
-    private EnumArrays instance;
-
-    public Builder() {
-      this(new EnumArrays());
-    }
-
-    protected Builder(EnumArrays instance) {
-      this.instance = instance;
-    }
-
-    public EnumArrays.Builder justSymbol(JustSymbolEnum justSymbol) {
-      this.instance.justSymbol = justSymbol;
-      return this;
-    }
-    public EnumArrays.Builder arrayEnum(List<ArrayEnumEnum> arrayEnum) {
-      this.instance.arrayEnum = arrayEnum;
-      return this;
-    }
-
-
-    /**
-    * returns a built EnumArrays instance.
-    *
-    * The builder is not reusable.
-    */
-    public EnumArrays build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    
+        private EnumArrays instance;
+    
+        public Builder() {
+          this(new EnumArrays());
+        }
+    
+        protected Builder(EnumArrays instance) {
+          this.instance = instance;
+        }
+    
+        public EnumArrays.Builder justSymbol(JustSymbolEnum justSymbol) {
+              this.instance.justSymbol = justSymbol;
+          return this;
+        }
+            public EnumArrays.Builder arrayEnum(List<ArrayEnumEnum> arrayEnum) {
+              this.instance.arrayEnum = arrayEnum;
+          return this;
+        }
+        
+    
+        /**
+        * returns a built EnumArrays instance.
+        *
+        * The builder is not reusable.
+        */
+        public EnumArrays build() {
+          try {
+            return this.instance;
+          } finally {
+            // ensure that this.instance is not reused
+            this.instance = null;
+          }
+        }
+    
+        @Override
+        public String toString() {
+          return getClass() + "=(" + instance + ")";
+        }
       }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static EnumArrays.Builder builder() {
-    return new EnumArrays.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public EnumArrays.Builder toBuilder() {
-    return new EnumArrays.Builder()
-      .justSymbol(getJustSymbol())
-      .arrayEnum(getArrayEnum());
-  }
-
+    
+      /**
+      * Create a builder with no initialized field.
+      */
+      public static EnumArrays.Builder builder() {
+        return new EnumArrays.Builder();
+      }
+    
+      /**
+      * Create a builder with a shallow copy of this instance.
+      */
+      public EnumArrays.Builder toBuilder() {
+        return new EnumArrays.Builder()
+          .justSymbol(getJustSymbol())
+          .arrayEnum(getArrayEnum());
+      }
 }
 

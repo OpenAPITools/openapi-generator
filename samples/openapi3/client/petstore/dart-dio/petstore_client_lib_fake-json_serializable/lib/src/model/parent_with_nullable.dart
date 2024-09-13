@@ -22,7 +22,6 @@ class ParentWithNullable {
 
      this.nullableProperty,
   });
-
   @JsonKey(
     
     name: r'type',
@@ -77,5 +76,4 @@ enum ParentWithNullableTypeEnum {
   @JsonValue(r'unknown_default_open_api')
   unknownDefaultOpenApi,
 }
-
 

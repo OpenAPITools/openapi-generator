@@ -12,7 +12,6 @@
  * Do not edit the class manually.
  */
 
-
 import type { Configuration } from './configuration';
 import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
@@ -271,7 +270,6 @@ export const StringEnumRef = {
 
 export type StringEnumRef = typeof StringEnumRef[keyof typeof StringEnumRef];
 
-
 /**
  * 
  * @export
@@ -517,7 +515,6 @@ export class AuthApi extends BaseAPI {
         return AuthApiFp(this.configuration).testAuthHttpBearer(options).then((request) => request(this.axios, this.basePath));
     }
 }
-
 
 
 /**
@@ -1255,7 +1252,6 @@ export class BodyApi extends BaseAPI {
 }
 
 
-
 /**
  * FormApi - axios parameter creator
  * @export
@@ -1574,7 +1570,6 @@ export class FormApi extends BaseAPI {
 }
 
 
-
 /**
  * HeaderApi - axios parameter creator
  * @export
@@ -1730,7 +1725,6 @@ export const TestHeaderIntegerBooleanStringEnumsEnumNonrefStringHeaderEnum = {
 } as const;
 export type TestHeaderIntegerBooleanStringEnumsEnumNonrefStringHeaderEnum = typeof TestHeaderIntegerBooleanStringEnumsEnumNonrefStringHeaderEnum[keyof typeof TestHeaderIntegerBooleanStringEnumsEnumNonrefStringHeaderEnum];
 
-
 /**
  * PathApi - axios parameter creator
  * @export
@@ -1867,7 +1861,6 @@ export const TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnum
     Unclassified: 'unclassified'
 } as const;
 export type TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum = typeof TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum[keyof typeof TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum];
-
 
 /**
  * QueryApi - axios parameter creator
@@ -2669,5 +2662,4 @@ export const TestEnumRefStringEnumNonrefStringQueryEnum = {
     Unclassified: 'unclassified'
 } as const;
 export type TestEnumRefStringEnumNonrefStringQueryEnum = typeof TestEnumRefStringEnumNonrefStringQueryEnum[keyof typeof TestEnumRefStringEnumNonrefStringQueryEnum];
-
 

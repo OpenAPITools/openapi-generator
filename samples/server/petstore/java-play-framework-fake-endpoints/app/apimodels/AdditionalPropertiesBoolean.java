@@ -15,8 +15,7 @@ import javax.validation.Valid;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class AdditionalPropertiesBoolean extends HashMap<String, Boolean>  {
   @JsonProperty("name")
-  
-  private String name;
+                                        private String name;
 
   public AdditionalPropertiesBoolean name(String name) {
     this.name = name;
@@ -76,4 +75,3 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean>  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

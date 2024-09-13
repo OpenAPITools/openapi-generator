@@ -136,7 +136,6 @@ public class Drawing extends HashMap<String, Fruit> {
 
   @JsonProperty(JSON_PROPERTY_NULLABLE_SHAPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<NullableShape> getNullableShape_JsonNullable() {
     return nullableShape;
   }
@@ -225,7 +224,6 @@ public class Drawing extends HashMap<String, Fruit> {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this Drawing object is equal to o.
    */
@@ -348,76 +346,75 @@ public class Drawing extends HashMap<String, Fruit> {
   }
 
     public static class Builder {
-
-    private Drawing instance;
-
-    public Builder() {
-      this(new Drawing());
-    }
-
-    protected Builder(Drawing instance) {
-      this.instance = instance;
-    }
-
-    public Drawing.Builder mainShape(Shape mainShape) {
-      this.instance.mainShape = mainShape;
-      return this;
-    }
-    public Drawing.Builder shapeOrNull(ShapeOrNull shapeOrNull) {
-      this.instance.shapeOrNull = shapeOrNull;
-      return this;
-    }
-    public Drawing.Builder nullableShape(NullableShape nullableShape) {
-      this.instance.nullableShape = JsonNullable.<NullableShape>of(nullableShape);
-      return this;
-    }
-    public Drawing.Builder nullableShape(JsonNullable<NullableShape> nullableShape) {
-      this.instance.nullableShape = nullableShape;
-      return this;
-    }
-    public Drawing.Builder shapes(List<Shape> shapes) {
-      this.instance.shapes = shapes;
-      return this;
-    }
-
-
-    /**
-    * returns a built Drawing instance.
-    *
-    * The builder is not reusable.
-    */
-    public Drawing build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    
+        private Drawing instance;
+    
+        public Builder() {
+          this(new Drawing());
+        }
+    
+        protected Builder(Drawing instance) {
+          this.instance = instance;
+        }
+    
+        public Drawing.Builder mainShape(Shape mainShape) {
+              this.instance.mainShape = mainShape;
+          return this;
+        }
+            public Drawing.Builder shapeOrNull(ShapeOrNull shapeOrNull) {
+              this.instance.shapeOrNull = shapeOrNull;
+          return this;
+        }
+            public Drawing.Builder nullableShape(NullableShape nullableShape) {
+          this.instance.nullableShape = JsonNullable.<NullableShape>of(nullableShape);
+              return this;
+        }
+        public Drawing.Builder nullableShape(JsonNullable<NullableShape> nullableShape) {
+          this.instance.nullableShape = nullableShape;
+          return this;
+        }
+            public Drawing.Builder shapes(List<Shape> shapes) {
+              this.instance.shapes = shapes;
+          return this;
+        }
+        
+    
+        /**
+        * returns a built Drawing instance.
+        *
+        * The builder is not reusable.
+        */
+        public Drawing build() {
+          try {
+            return this.instance;
+          } finally {
+            // ensure that this.instance is not reused
+            this.instance = null;
+          }
+        }
+    
+        @Override
+        public String toString() {
+          return getClass() + "=(" + instance + ")";
+        }
       }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static Drawing.Builder builder() {
-    return new Drawing.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public Drawing.Builder toBuilder() {
-    return new Drawing.Builder()
-      .mainShape(getMainShape())
-      .shapeOrNull(getShapeOrNull())
-      .nullableShape(getNullableShape())
-      .shapes(getShapes());
-  }
-
+    
+      /**
+      * Create a builder with no initialized field.
+      */
+      public static Drawing.Builder builder() {
+        return new Drawing.Builder();
+      }
+    
+      /**
+      * Create a builder with a shallow copy of this instance.
+      */
+      public Drawing.Builder toBuilder() {
+        return new Drawing.Builder()
+          .mainShape(getMainShape())
+          .shapeOrNull(getShapeOrNull())
+          .nullableShape(getNullableShape())
+          .shapes(getShapes());
+      }
 }
 

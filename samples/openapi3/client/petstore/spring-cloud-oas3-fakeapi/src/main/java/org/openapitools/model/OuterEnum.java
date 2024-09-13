@@ -19,9 +19,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * Gets or Sets OuterEnum
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public enum OuterEnum {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public enum OuterEnum {
   
   PLACED("placed"),
   
@@ -55,4 +53,3 @@ public enum OuterEnum {
     throw new IllegalArgumentException("Unexpected value '" + value + "'");
   }
 }
-

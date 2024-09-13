@@ -24,7 +24,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
   * Must be named `File` for test.
  **/
-
 public class ModelFile  {
   
  /**
@@ -77,4 +76,3 @@ public class ModelFile  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

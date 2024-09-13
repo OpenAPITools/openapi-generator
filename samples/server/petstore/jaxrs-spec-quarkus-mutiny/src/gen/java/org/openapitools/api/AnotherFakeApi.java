@@ -60,8 +60,7 @@ import javax.validation.Valid;
     ), 
 })
 @Path("/another-fake/dummy")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class AnotherFakeApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class AnotherFakeApi {
 
     @PATCH
     @Consumes({ "application/json" })

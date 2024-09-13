@@ -19,4 +19,3 @@ instance = OpenapiClient::NumberPropertiesOnly.new(
   double: null
 )
 ```
-

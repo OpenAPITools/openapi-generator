@@ -55,7 +55,6 @@ public class Order   {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   @JsonProperty("status")
   private StatusEnum status;
 
@@ -214,4 +213,3 @@ public class Order   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

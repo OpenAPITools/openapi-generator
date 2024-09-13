@@ -66,7 +66,6 @@ public class ModelList {
     this._123list = _123list;
   }
 
-
   /**
    * Return true if this List object is equal to o.
    */
@@ -148,57 +147,56 @@ public class ModelList {
   }
 
     public static class Builder {
-
-    private ModelList instance;
-
-    public Builder() {
-      this(new ModelList());
-    }
-
-    protected Builder(ModelList instance) {
-      this.instance = instance;
-    }
-
-    public ModelList.Builder _123list(String _123list) {
-      this.instance._123list = _123list;
-      return this;
-    }
-
-
-    /**
-    * returns a built ModelList instance.
-    *
-    * The builder is not reusable.
-    */
-    public ModelList build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    
+        private ModelList instance;
+    
+        public Builder() {
+          this(new ModelList());
+        }
+    
+        protected Builder(ModelList instance) {
+          this.instance = instance;
+        }
+    
+        public ModelList.Builder _123list(String _123list) {
+              this.instance._123list = _123list;
+          return this;
+        }
+        
+    
+        /**
+        * returns a built ModelList instance.
+        *
+        * The builder is not reusable.
+        */
+        public ModelList build() {
+          try {
+            return this.instance;
+          } finally {
+            // ensure that this.instance is not reused
+            this.instance = null;
+          }
+        }
+    
+        @Override
+        public String toString() {
+          return getClass() + "=(" + instance + ")";
+        }
       }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static ModelList.Builder builder() {
-    return new ModelList.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public ModelList.Builder toBuilder() {
-    return new ModelList.Builder()
-      ._123list(get123list());
-  }
-
+    
+      /**
+      * Create a builder with no initialized field.
+      */
+      public static ModelList.Builder builder() {
+        return new ModelList.Builder();
+      }
+    
+      /**
+      * Create a builder with a shallow copy of this instance.
+      */
+      public ModelList.Builder toBuilder() {
+        return new ModelList.Builder()
+          ._123list(get123list());
+      }
 }
 

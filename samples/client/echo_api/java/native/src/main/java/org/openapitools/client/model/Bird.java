@@ -94,7 +94,6 @@ public class Bird {
     this.color = color;
   }
 
-
   /**
    * Return true if this Bird object is equal to o.
    */

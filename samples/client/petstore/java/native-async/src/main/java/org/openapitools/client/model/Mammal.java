@@ -195,7 +195,6 @@ public class Mammal extends AbstractOpenApiSchema {
     public Mammal() {
         super("oneOf", Boolean.FALSE);
     }
-
     public Mammal(Pig o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);

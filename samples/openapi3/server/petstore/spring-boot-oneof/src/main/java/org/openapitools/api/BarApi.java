@@ -33,8 +33,7 @@ import java.util.Map;
 import java.util.Optional;
 import javax.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-@Validated
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")@Validated
 @Tag(name = "Bar", description = "the Bar API")
 public interface BarApi {
 
@@ -68,17 +67,16 @@ public interface BarApi {
     default ResponseEntity<Bar> createBar(
         @Parameter(name = "BarCreate", description = "", required = true) @Valid @RequestBody BarCreate barCreate
     ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"foo\" : { \"fooPropA\" : \"fooPropA\", \"fooPropB\" : \"fooPropB\" }, \"id\" : \"id\", \"fooPropB\" : \"fooPropB\", \"barPropA\" : \"barPropA\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        getRequest().ifPresent(request -> {
+                    for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                        if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                            String exampleString = "{ \"foo\" : { \"fooPropA\" : \"fooPropA\", \"fooPropB\" : \"fooPropB\" }, \"id\" : \"id\", \"fooPropB\" : \"fooPropB\", \"barPropA\" : \"barPropA\" }";
+                            ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                            break;
+                        }
+                    }
+                });
+                return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                                            }
 
 }

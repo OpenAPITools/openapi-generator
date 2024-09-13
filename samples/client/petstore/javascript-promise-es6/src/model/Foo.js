@@ -85,4 +85,3 @@ Foo.prototype['bar'] = 'bar';
 
 
 export default Foo;
-

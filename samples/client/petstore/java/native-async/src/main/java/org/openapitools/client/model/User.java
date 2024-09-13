@@ -324,7 +324,6 @@ public class User {
 
   @JsonProperty(JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<Object> getObjectWithNoDeclaredPropsNullable_JsonNullable() {
     return objectWithNoDeclaredPropsNullable;
   }
@@ -356,7 +355,6 @@ public class User {
 
   @JsonProperty(JSON_PROPERTY_ANY_TYPE_PROP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<Object> getAnyTypeProp_JsonNullable() {
     return anyTypeProp;
   }
@@ -388,7 +386,6 @@ public class User {
 
   @JsonProperty(JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<Object> getAnyTypePropNullable_JsonNullable() {
     return anyTypePropNullable;
   }
@@ -401,7 +398,6 @@ public class User {
   public void setAnyTypePropNullable(Object anyTypePropNullable) {
     this.anyTypePropNullable = JsonNullable.<Object>of(anyTypePropNullable);
   }
-
 
   /**
    * Return true if this User object is equal to o.

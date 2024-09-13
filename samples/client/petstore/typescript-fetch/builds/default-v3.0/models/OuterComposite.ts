@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * 
@@ -38,7 +37,6 @@ export interface OuterComposite {
      */
     myBoolean?: boolean;
 }
-
 /**
  * Check if a given object implements the OuterComposite interface.
  */
@@ -78,4 +76,3 @@ export function OuterCompositeFromJSONTyped(json: any, ignoreDiscriminator: bool
         'my_boolean': value['myBoolean'],
     };
 }
-

@@ -33,8 +33,7 @@ abstract class OuterComposite implements Built<OuterComposite, OuterCompositeBui
   static void _defaults(OuterCompositeBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<OuterComposite> get serializer => _$OuterCompositeSerializer();
-}
+  static Serializer<OuterComposite> get serializer => _$OuterCompositeSerializer();}
 
 class _$OuterCompositeSerializer implements PrimitiveSerializer<OuterComposite> {
   @override

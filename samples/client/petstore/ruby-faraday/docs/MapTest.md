@@ -21,4 +21,3 @@ instance = Petstore::MapTest.new(
   indirect_map: null
 )
 ```
-

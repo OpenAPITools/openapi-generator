@@ -20,8 +20,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 @RequestScoped
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class StoreApiServiceImpl implements StoreApiService {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class StoreApiServiceImpl implements StoreApiService {
       @Override
       public Response deleteOrder(String orderId, SecurityContext securityContext) {
       // do some magic!

@@ -10,7 +10,6 @@
 
     Do not edit the class manually.
 """  # noqa: E501
-
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
@@ -93,8 +92,7 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -159,8 +157,7 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -225,8 +222,7 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -361,8 +357,7 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -427,8 +422,7 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -493,8 +487,7 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -625,8 +618,7 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -691,8 +683,7 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -757,8 +748,7 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -891,8 +881,7 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '400': None,
             '404': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -959,8 +948,7 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '400': None,
             '404': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -1027,8 +1015,7 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '400': None,
             '404': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -1148,8 +1135,7 @@ class UserApi:
             '200': "User",
             '400': None,
             '404': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -1217,8 +1203,7 @@ class UserApi:
             '200': "User",
             '400': None,
             '404': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -1286,8 +1271,7 @@ class UserApi:
             '200': "User",
             '400': None,
             '404': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -1418,8 +1402,7 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
             '400': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -1490,8 +1473,7 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
             '400': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -1562,8 +1544,7 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
             '400': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -1691,8 +1672,7 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -1753,8 +1733,7 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -1815,8 +1794,7 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -1936,8 +1914,7 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '400': None,
             '404': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -2008,8 +1985,7 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '400': None,
             '404': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
@@ -2080,8 +2056,7 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '400': None,
             '404': None,
-        }
-        response_data = await self.api_client.call_api(
+        }        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )

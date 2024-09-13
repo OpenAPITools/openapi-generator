@@ -20,7 +20,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
 public class Category  {
   
   private Long id;
@@ -94,4 +93,3 @@ public class Category  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

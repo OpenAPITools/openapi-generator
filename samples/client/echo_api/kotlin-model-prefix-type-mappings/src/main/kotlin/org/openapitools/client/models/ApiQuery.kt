@@ -25,7 +25,6 @@ import com.google.gson.annotations.SerializedName
  * @param outcomes 
  */
 
-
 data class ApiQuery (
 
     /* Query */

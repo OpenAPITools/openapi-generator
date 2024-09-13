@@ -16,10 +16,8 @@ import jakarta.annotation.Generated;
 /**
  * Model for testing model name same as property name
  */
-
 @JsonTypeName("Name")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class NameDto {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class NameDto {
 
   private Integer name;
 
@@ -108,7 +106,6 @@ public class NameDto {
   public void set123number(Integer _123number) {
     this._123number = _123number;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

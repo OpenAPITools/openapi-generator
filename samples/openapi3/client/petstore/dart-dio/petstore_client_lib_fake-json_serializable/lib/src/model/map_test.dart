@@ -26,7 +26,6 @@ class MapTest {
 
      this.indirectMap,
   });
-
   @JsonKey(
     
     name: r'map_map_of_string',
@@ -111,5 +110,4 @@ enum MapTestMapOfEnumStringEnum {
   @JsonValue(r'unknown_default_open_api')
   unknownDefaultOpenApi,
 }
-
 

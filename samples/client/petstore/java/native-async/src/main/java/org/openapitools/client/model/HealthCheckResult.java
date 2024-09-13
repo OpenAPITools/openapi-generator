@@ -64,7 +64,6 @@ public class HealthCheckResult {
 
   @JsonProperty(JSON_PROPERTY_NULLABLE_MESSAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<String> getNullableMessage_JsonNullable() {
     return nullableMessage;
   }
@@ -77,7 +76,6 @@ public class HealthCheckResult {
   public void setNullableMessage(String nullableMessage) {
     this.nullableMessage = JsonNullable.<String>of(nullableMessage);
   }
-
 
   /**
    * Return true if this HealthCheckResult object is equal to o.

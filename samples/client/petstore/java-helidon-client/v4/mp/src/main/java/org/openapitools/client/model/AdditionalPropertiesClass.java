@@ -22,7 +22,6 @@ import java.util.Map;
 
 
 
-
 public class AdditionalPropertiesClass  {
   
   private Map<String, String> mapProperty = null;
@@ -105,4 +104,3 @@ public class AdditionalPropertiesClass  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

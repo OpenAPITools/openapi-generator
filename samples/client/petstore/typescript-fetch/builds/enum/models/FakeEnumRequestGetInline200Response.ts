@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * 
@@ -86,7 +85,6 @@ export const FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum = {
 } as const;
 export type FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum = typeof FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum[keyof typeof FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum];
 
-
 /**
  * Check if a given object implements the FakeEnumRequestGetInline200Response interface.
  */
@@ -128,4 +126,3 @@ export function FakeEnumRequestGetInline200ResponseFromJSONTyped(json: any, igno
         'nullable-number-enum': value['nullableNumberEnum'],
     };
 }
-

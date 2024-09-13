@@ -206,7 +206,6 @@ public class NullableShape extends AbstractOpenApiSchema {
     }
     return this.additionalProperties.get(key);
   }
-
     /**
      * Return true if this NullableShape object is equal to o.
      */

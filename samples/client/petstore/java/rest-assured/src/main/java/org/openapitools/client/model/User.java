@@ -77,7 +77,6 @@ public class User {
    */
   @javax.annotation.Nullable
 
-
   public Long getId() {
     return id;
   }
@@ -98,7 +97,6 @@ public class User {
    * @return username
    */
   @javax.annotation.Nullable
-
 
   public String getUsername() {
     return username;
@@ -121,7 +119,6 @@ public class User {
    */
   @javax.annotation.Nullable
 
-
   public String getFirstName() {
     return firstName;
   }
@@ -142,7 +139,6 @@ public class User {
    * @return lastName
    */
   @javax.annotation.Nullable
-
 
   public String getLastName() {
     return lastName;
@@ -165,7 +161,6 @@ public class User {
    */
   @javax.annotation.Nullable
 
-
   public String getEmail() {
     return email;
   }
@@ -186,7 +181,6 @@ public class User {
    * @return password
    */
   @javax.annotation.Nullable
-
 
   public String getPassword() {
     return password;
@@ -209,7 +203,6 @@ public class User {
    */
   @javax.annotation.Nullable
 
-
   public String getPhone() {
     return phone;
   }
@@ -230,7 +223,6 @@ public class User {
    * @return userStatus
    */
   @javax.annotation.Nullable
-
 
   public Integer getUserStatus() {
     return userStatus;

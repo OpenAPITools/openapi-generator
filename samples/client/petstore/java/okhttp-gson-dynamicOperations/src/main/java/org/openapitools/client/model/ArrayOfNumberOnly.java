@@ -87,7 +87,6 @@ public class ArrayOfNumberOnly {
   }
 
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -9,7 +9,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
-
 class Name {
   /// Returns a new [Name] instance.
   Name({
@@ -18,7 +17,6 @@ class Name {
     this.property,
     this.n123number,
   });
-
   int name;
 
   ///
@@ -157,4 +155,3 @@ class Name {
     'name',
   };
 }
-

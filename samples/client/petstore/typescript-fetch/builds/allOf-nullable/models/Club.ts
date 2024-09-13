@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { Owner } from './Owner';
 import {
@@ -34,7 +33,6 @@ export interface Club {
      */
     owner?: Owner | null;
 }
-
 /**
  * Check if a given object implements the Club interface.
  */
@@ -70,4 +68,3 @@ export function ClubFromJSONTyped(json: any, ignoreDiscriminator: boolean): Club
         'owner': OwnerToJSON(value['owner']),
     };
 }
-

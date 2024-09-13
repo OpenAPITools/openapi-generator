@@ -70,7 +70,6 @@ public class Animal {
    */
   @jakarta.annotation.Nonnull
   @NotNull
-
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -96,7 +95,6 @@ public class Animal {
    * @return color
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_COLOR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -110,7 +108,6 @@ public class Animal {
   public void setColor(String color) {
     this.color = color;
   }
-
 
   /**
    * Return true if this Animal object is equal to o.

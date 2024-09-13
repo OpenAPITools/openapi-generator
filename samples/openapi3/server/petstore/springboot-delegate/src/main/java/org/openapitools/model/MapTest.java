@@ -20,9 +20,7 @@ import javax.annotation.Generated;
 /**
  * MapTest
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class MapTest {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class MapTest {
 
   @Valid
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
@@ -61,7 +59,6 @@ public class MapTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   @Valid
   private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
@@ -88,8 +85,7 @@ public class MapTest {
    * Get mapMapOfString
    * @return mapMapOfString
    */
-  @Valid 
-  @Schema(name = "map_map_of_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Valid   @Schema(name = "map_map_of_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_map_of_string")
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
@@ -116,8 +112,7 @@ public class MapTest {
    * Get mapOfEnumString
    * @return mapOfEnumString
    */
-  
-  @Schema(name = "map_of_enum_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "map_of_enum_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_of_enum_string")
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
@@ -144,8 +139,7 @@ public class MapTest {
    * Get directMap
    * @return directMap
    */
-  
-  @Schema(name = "direct_map", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "direct_map", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("direct_map")
   public Map<String, Boolean> getDirectMap() {
     return directMap;
@@ -172,8 +166,7 @@ public class MapTest {
    * Get indirectMap
    * @return indirectMap
    */
-  
-  @Schema(name = "indirect_map", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "indirect_map", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("indirect_map")
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
@@ -182,7 +175,6 @@ public class MapTest {
   public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

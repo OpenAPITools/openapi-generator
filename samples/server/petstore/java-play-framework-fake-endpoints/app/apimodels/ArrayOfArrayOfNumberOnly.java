@@ -17,8 +17,7 @@ import javax.validation.Valid;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ArrayOfArrayOfNumberOnly   {
   @JsonProperty("ArrayArrayNumber")
-  @Valid
-
+                                        @Valid
   private List<List<BigDecimal>> arrayArrayNumber = null;
 
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
@@ -86,4 +85,3 @@ public class ArrayOfArrayOfNumberOnly   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

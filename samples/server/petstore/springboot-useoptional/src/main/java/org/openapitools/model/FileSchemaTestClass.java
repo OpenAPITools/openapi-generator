@@ -22,9 +22,7 @@ import javax.annotation.Generated;
 /**
  * FileSchemaTestClass
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class FileSchemaTestClass {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class FileSchemaTestClass {
 
   private Optional<File> file = Optional.empty();
 
@@ -40,8 +38,7 @@ public class FileSchemaTestClass {
    * Get file
    * @return file
    */
-  @Valid 
-  @ApiModelProperty(value = "")
+  @Valid   @ApiModelProperty(value = "")
   @JsonProperty("file")
   public Optional<File> getFile() {
     return file;
@@ -68,8 +65,7 @@ public class FileSchemaTestClass {
    * Get files
    * @return files
    */
-  @Valid 
-  @ApiModelProperty(value = "")
+  @Valid   @ApiModelProperty(value = "")
   @JsonProperty("files")
   public List<@Valid File> getFiles() {
     return files;
@@ -78,7 +74,6 @@ public class FileSchemaTestClass {
   public void setFiles(List<@Valid File> files) {
     this.files = files;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -118,68 +113,67 @@ public class FileSchemaTestClass {
     return o.toString().replace("\n", "\n    ");
   }
   
-  public static class Builder {
-
-    private FileSchemaTestClass instance;
-
-    public Builder() {
-      this(new FileSchemaTestClass());
-    }
-
-    protected Builder(FileSchemaTestClass instance) {
-      this.instance = instance;
-    }
-
-    protected Builder copyOf(FileSchemaTestClass value) { 
-      this.instance.setFile(value.file);
-      this.instance.setFiles(value.files);
-      return this;
-    }
-
-    public FileSchemaTestClass.Builder file(File file) {
-      this.instance.file(file);
-      return this;
-    }
-    
-    public FileSchemaTestClass.Builder files(List<@Valid File> files) {
-      this.instance.files(files);
-      return this;
-    }
-    
-    /**
-    * returns a built FileSchemaTestClass instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public FileSchemaTestClass build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    public static class Builder {
+  
+      private FileSchemaTestClass instance;
+  
+      public Builder() {
+        this(new FileSchemaTestClass());
+      }
+  
+      protected Builder(FileSchemaTestClass instance) {
+        this.instance = instance;
+      }
+  
+      protected Builder copyOf(FileSchemaTestClass value) { 
+        this.instance.setFile(value.file);
+        this.instance.setFiles(value.files);
+        return this;
+      }
+  
+        public FileSchemaTestClass.Builder file(File file) {
+        this.instance.file(file);
+        return this;
+      }
+      
+        public FileSchemaTestClass.Builder files(List<@Valid File> files) {
+        this.instance.files(files);
+        return this;
+      }
+      
+          /**
+      * returns a built FileSchemaTestClass instance.
+      *
+      * The builder is not reusable (NullPointerException)
+      */
+      public FileSchemaTestClass build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field (except for the default values).
+    */
+    public static FileSchemaTestClass.Builder builder() {
+      return new FileSchemaTestClass.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field (except for the default values).
-  */
-  public static FileSchemaTestClass.Builder builder() {
-    return new FileSchemaTestClass.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public FileSchemaTestClass.Builder toBuilder() {
-    FileSchemaTestClass.Builder builder = new FileSchemaTestClass.Builder();
-    return builder.copyOf(this);
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public FileSchemaTestClass.Builder toBuilder() {
+      FileSchemaTestClass.Builder builder = new FileSchemaTestClass.Builder();
+      return builder.copyOf(this);
+    }
 }
 

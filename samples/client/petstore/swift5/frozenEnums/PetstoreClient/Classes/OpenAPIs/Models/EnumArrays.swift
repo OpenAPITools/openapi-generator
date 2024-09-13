@@ -16,13 +16,11 @@ public struct EnumArrays: Codable, JSONEncodable, Hashable {
         case greaterThanOrEqualTo = ">="
         case dollar = "$"
         case unknownDefaultOpenApi = "unknown_default_open_api"
-    }
-    public enum ArrayEnum: String, Codable, CaseIterable, CaseIterableDefaultsLast {
+    }    public enum ArrayEnum: String, Codable, CaseIterable, CaseIterableDefaultsLast {
         case fish = "fish"
         case crab = "crab"
         case unknownDefaultOpenApi = "unknown_default_open_api"
-    }
-    public var justSymbol: JustSymbol?
+    }    public var justSymbol: JustSymbol?
     public var arrayEnum: [ArrayEnum]?
 
     public init(justSymbol: JustSymbol? = nil, arrayEnum: [ArrayEnum]? = nil) {

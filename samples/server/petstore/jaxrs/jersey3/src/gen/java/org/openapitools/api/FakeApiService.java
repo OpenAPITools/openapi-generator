@@ -30,8 +30,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public abstract class FakeApiService {
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public abstract class FakeApiService {
     public abstract Response fakeBigDecimalMap(SecurityContext securityContext) throws NotFoundException;
     public abstract Response fakeHealthGet(SecurityContext securityContext) throws NotFoundException;
     public abstract Response fakeHttpSignatureTest(Pet pet,String query1,String header1,SecurityContext securityContext) throws NotFoundException;

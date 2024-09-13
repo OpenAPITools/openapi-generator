@@ -119,7 +119,6 @@ public class ChildCat extends ParentPet {
     this.petType = petType;
   }
 
-
   /**
    * Return true if this ChildCat object is equal to o.
    */

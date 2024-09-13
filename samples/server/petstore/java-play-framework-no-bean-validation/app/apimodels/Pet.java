@@ -62,7 +62,6 @@ public class Pet   {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   @JsonProperty("status")
   private StatusEnum status;
 
@@ -234,4 +233,3 @@ public class Pet   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

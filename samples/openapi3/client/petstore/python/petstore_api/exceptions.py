@@ -10,7 +10,6 @@
 
     Do not edit the class manually.
 """  # noqa: E501
-
 from typing import Any, Optional
 from typing_extensions import Self
 

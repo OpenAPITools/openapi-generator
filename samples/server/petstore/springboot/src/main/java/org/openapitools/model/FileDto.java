@@ -19,11 +19,9 @@ import javax.annotation.Generated;
 /**
  * Must be named &#x60;File&#x60; for test.
  */
-
 @ApiModel(description = "Must be named `File` for test.")
 @JsonTypeName("File")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class FileDto {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class FileDto {
 
   private String sourceURI;
 
@@ -36,8 +34,7 @@ public class FileDto {
    * Test capitalization
    * @return sourceURI
    */
-  
-  @ApiModelProperty(value = "Test capitalization")
+    @ApiModelProperty(value = "Test capitalization")
   @JsonProperty("sourceURI")
   public String getSourceURI() {
     return sourceURI;
@@ -46,7 +43,6 @@ public class FileDto {
   public void setSourceURI(String sourceURI) {
     this.sourceURI = sourceURI;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

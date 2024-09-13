@@ -328,4 +328,3 @@ func (v *NullablePet) UnmarshalJSON(src []byte) error {
 	return json.Unmarshal(src, &v.value)
 }
 
-

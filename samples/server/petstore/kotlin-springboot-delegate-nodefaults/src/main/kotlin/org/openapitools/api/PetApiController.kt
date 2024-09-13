@@ -4,8 +4,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
 import java.util.Optional
 
-@jakarta.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.9.0-SNAPSHOT")
-@Controller
+@jakarta.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.9.0-SNAPSHOT")@Controller
 class PetApiController(
         private val delegate: PetApiDelegate
 ) : PetApi {

@@ -61,7 +61,6 @@ public class Whale {
    * @return hasBaleen
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_HAS_BALEEN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -87,7 +86,6 @@ public class Whale {
    * @return hasTeeth
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_HAS_TEETH)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -114,7 +112,6 @@ public class Whale {
    */
   @jakarta.annotation.Nonnull
   @NotNull
-
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -128,7 +125,6 @@ public class Whale {
   public void setClassName(String className) {
     this.className = className;
   }
-
 
   /**
    * Return true if this whale object is equal to o.

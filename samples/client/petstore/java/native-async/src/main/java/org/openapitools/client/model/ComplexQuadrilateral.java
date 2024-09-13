@@ -94,7 +94,6 @@ public class ComplexQuadrilateral {
     this.quadrilateralType = quadrilateralType;
   }
 
-
   /**
    * Return true if this ComplexQuadrilateral object is equal to o.
    */

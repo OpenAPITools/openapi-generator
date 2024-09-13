@@ -9,14 +9,12 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
-
 class ParentWithNullable {
   /// Returns a new [ParentWithNullable] instance.
   ParentWithNullable({
     this.type,
     this.nullableProperty,
   });
-
   ParentWithNullableTypeEnum? type;
 
   String? nullableProperty;
@@ -190,5 +188,3 @@ class ParentWithNullableTypeEnumTypeTransformer {
   /// Singleton [ParentWithNullableTypeEnumTypeTransformer] instance.
   static ParentWithNullableTypeEnumTypeTransformer? _instance;
 }
-
-

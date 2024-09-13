@@ -99,7 +99,6 @@ public class IsoscelesTriangle {
   }
 
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -21,8 +21,7 @@ import jakarta.validation.Valid;
 */
 @Path("/pet")
 @Api(description = "the pet API")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class PetApi {
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class PetApi {
 
     @POST
     @Consumes({ "application/json", "application/xml" })

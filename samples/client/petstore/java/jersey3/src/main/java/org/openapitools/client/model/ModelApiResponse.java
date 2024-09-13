@@ -61,7 +61,6 @@ public class ModelApiResponse {
    * @return code
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_CODE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -87,7 +86,6 @@ public class ModelApiResponse {
    * @return type
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -113,7 +111,6 @@ public class ModelApiResponse {
    * @return message
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_MESSAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -127,7 +124,6 @@ public class ModelApiResponse {
   public void setMessage(String message) {
     this.message = message;
   }
-
 
   /**
    * Return true if this ApiResponse object is equal to o.

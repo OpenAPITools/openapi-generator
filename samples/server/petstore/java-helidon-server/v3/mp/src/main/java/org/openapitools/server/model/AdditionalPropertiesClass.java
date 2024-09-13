@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
 public class AdditionalPropertiesClass  {
   
   private Map<String, String> mapProperty = null;
@@ -105,4 +104,3 @@ public class AdditionalPropertiesClass  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

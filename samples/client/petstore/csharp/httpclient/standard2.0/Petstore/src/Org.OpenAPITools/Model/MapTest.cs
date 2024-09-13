@@ -51,7 +51,6 @@ namespace Org.OpenAPITools.Model
             [EnumMember(Value = "lower")]
             Lower = 2
         }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MapTest" /> class.
         /// </summary>
@@ -185,7 +184,6 @@ namespace Org.OpenAPITools.Model
         IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
-        }
-    }
+        }    }
 
 }

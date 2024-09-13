@@ -52,7 +52,6 @@ public class ClassModel {
    * @return propertyClass
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -66,7 +65,6 @@ public class ClassModel {
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }
-
 
   /**
    * Return true if this ClassModel object is equal to o.

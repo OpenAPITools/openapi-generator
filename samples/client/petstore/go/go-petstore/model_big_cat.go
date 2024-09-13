@@ -176,4 +176,3 @@ func (v *NullableBigCat) UnmarshalJSON(src []byte) error {
 	return json.Unmarshal(src, &v.value)
 }
 
-

@@ -66,8 +66,7 @@ public class BigCat extends Cat {
             }
             throw new IllegalArgumentException("Unexpected value '" + value + "'");
         }
-    }
-    public static final String JSON_PROPERTY_KIND = "kind";
+    }    public static final String JSON_PROPERTY_KIND = "kind";
     private KindEnum kind;
 
     public BigCat() {
@@ -139,4 +138,3 @@ public class BigCat extends Cat {
         return visitor.visitBigCat(this);
     }
 }
-

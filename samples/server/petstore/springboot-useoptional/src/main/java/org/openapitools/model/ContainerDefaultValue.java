@@ -23,9 +23,7 @@ import javax.annotation.Generated;
 /**
  * ContainerDefaultValue
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class ContainerDefaultValue {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class ContainerDefaultValue {
 
   @Valid
   private JsonNullable<List<String>> nullableArray = JsonNullable.<List<String>>undefined();
@@ -68,8 +66,7 @@ public class ContainerDefaultValue {
    * Get nullableArray
    * @return nullableArray
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("nullable_array")
   public JsonNullable<List<String>> getNullableArray() {
     return nullableArray;
@@ -96,8 +93,7 @@ public class ContainerDefaultValue {
    * Get nullableRequiredArray
    * @return nullableRequiredArray
    */
-  @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @NotNull   @ApiModelProperty(required = true, value = "")
   @JsonProperty("nullable_required_array")
   public JsonNullable<List<String>> getNullableRequiredArray() {
     return nullableRequiredArray;
@@ -124,8 +120,7 @@ public class ContainerDefaultValue {
    * Get requiredArray
    * @return requiredArray
    */
-  @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @NotNull   @ApiModelProperty(required = true, value = "")
   @JsonProperty("required_array")
   public List<String> getRequiredArray() {
     return requiredArray;
@@ -152,8 +147,7 @@ public class ContainerDefaultValue {
    * Get nullableArrayWithDefault
    * @return nullableArrayWithDefault
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("nullable_array_with_default")
   public JsonNullable<List<String>> getNullableArrayWithDefault() {
     return nullableArrayWithDefault;
@@ -162,7 +156,6 @@ public class ContainerDefaultValue {
   public void setNullableArrayWithDefault(JsonNullable<List<String>> nullableArrayWithDefault) {
     this.nullableArrayWithDefault = nullableArrayWithDefault;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -217,95 +210,94 @@ public class ContainerDefaultValue {
     return o.toString().replace("\n", "\n    ");
   }
   
-  public static class Builder {
-
-    private ContainerDefaultValue instance;
-
-    public Builder() {
-      this(new ContainerDefaultValue());
-    }
-
-    protected Builder(ContainerDefaultValue instance) {
-      this.instance = instance;
-    }
-
-    protected Builder copyOf(ContainerDefaultValue value) { 
-      this.instance.setNullableArray(value.nullableArray);
-      this.instance.setNullableRequiredArray(value.nullableRequiredArray);
-      this.instance.setRequiredArray(value.requiredArray);
-      this.instance.setNullableArrayWithDefault(value.nullableArrayWithDefault);
-      return this;
-    }
-
-    public ContainerDefaultValue.Builder nullableArray(List<String> nullableArray) {
-      this.instance.nullableArray(nullableArray);
-      return this;
-    }
-    
-    public ContainerDefaultValue.Builder nullableArray(JsonNullable<List<String>> nullableArray) {
-      this.instance.nullableArray = nullableArray;
-      return this;
-    }
-    
-    public ContainerDefaultValue.Builder nullableRequiredArray(List<String> nullableRequiredArray) {
-      this.instance.nullableRequiredArray(nullableRequiredArray);
-      return this;
-    }
-    
-    public ContainerDefaultValue.Builder nullableRequiredArray(JsonNullable<List<String>> nullableRequiredArray) {
-      this.instance.nullableRequiredArray = nullableRequiredArray;
-      return this;
-    }
-    
-    public ContainerDefaultValue.Builder requiredArray(List<String> requiredArray) {
-      this.instance.requiredArray(requiredArray);
-      return this;
-    }
-    
-    public ContainerDefaultValue.Builder nullableArrayWithDefault(List<String> nullableArrayWithDefault) {
-      this.instance.nullableArrayWithDefault(nullableArrayWithDefault);
-      return this;
-    }
-    
-    public ContainerDefaultValue.Builder nullableArrayWithDefault(JsonNullable<List<String>> nullableArrayWithDefault) {
-      this.instance.nullableArrayWithDefault = nullableArrayWithDefault;
-      return this;
-    }
-    
-    /**
-    * returns a built ContainerDefaultValue instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public ContainerDefaultValue build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    public static class Builder {
+  
+      private ContainerDefaultValue instance;
+  
+      public Builder() {
+        this(new ContainerDefaultValue());
+      }
+  
+      protected Builder(ContainerDefaultValue instance) {
+        this.instance = instance;
+      }
+  
+      protected Builder copyOf(ContainerDefaultValue value) { 
+        this.instance.setNullableArray(value.nullableArray);
+        this.instance.setNullableRequiredArray(value.nullableRequiredArray);
+        this.instance.setRequiredArray(value.requiredArray);
+        this.instance.setNullableArrayWithDefault(value.nullableArrayWithDefault);
+        return this;
+      }
+  
+        public ContainerDefaultValue.Builder nullableArray(List<String> nullableArray) {
+        this.instance.nullableArray(nullableArray);
+        return this;
+      }
+      
+      public ContainerDefaultValue.Builder nullableArray(JsonNullable<List<String>> nullableArray) {
+        this.instance.nullableArray = nullableArray;
+        return this;
+      }
+      
+        public ContainerDefaultValue.Builder nullableRequiredArray(List<String> nullableRequiredArray) {
+        this.instance.nullableRequiredArray(nullableRequiredArray);
+        return this;
+      }
+      
+      public ContainerDefaultValue.Builder nullableRequiredArray(JsonNullable<List<String>> nullableRequiredArray) {
+        this.instance.nullableRequiredArray = nullableRequiredArray;
+        return this;
+      }
+      
+        public ContainerDefaultValue.Builder requiredArray(List<String> requiredArray) {
+        this.instance.requiredArray(requiredArray);
+        return this;
+      }
+      
+        public ContainerDefaultValue.Builder nullableArrayWithDefault(List<String> nullableArrayWithDefault) {
+        this.instance.nullableArrayWithDefault(nullableArrayWithDefault);
+        return this;
+      }
+      
+      public ContainerDefaultValue.Builder nullableArrayWithDefault(JsonNullable<List<String>> nullableArrayWithDefault) {
+        this.instance.nullableArrayWithDefault = nullableArrayWithDefault;
+        return this;
+      }
+      
+          /**
+      * returns a built ContainerDefaultValue instance.
+      *
+      * The builder is not reusable (NullPointerException)
+      */
+      public ContainerDefaultValue build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field (except for the default values).
+    */
+    public static ContainerDefaultValue.Builder builder() {
+      return new ContainerDefaultValue.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field (except for the default values).
-  */
-  public static ContainerDefaultValue.Builder builder() {
-    return new ContainerDefaultValue.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public ContainerDefaultValue.Builder toBuilder() {
-    ContainerDefaultValue.Builder builder = new ContainerDefaultValue.Builder();
-    return builder.copyOf(this);
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public ContainerDefaultValue.Builder toBuilder() {
+      ContainerDefaultValue.Builder builder = new ContainerDefaultValue.Builder();
+      return builder.copyOf(this);
+    }
 }
 

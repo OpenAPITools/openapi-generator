@@ -99,7 +99,6 @@ public class Model200Response {
   }
 
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

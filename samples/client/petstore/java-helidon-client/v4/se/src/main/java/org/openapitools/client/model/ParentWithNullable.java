@@ -26,7 +26,6 @@ import java.util.NoSuchElementException;
 
 
 
-
 public class ParentWithNullable  {
   
 public enum TypeEnum {
@@ -120,4 +119,3 @@ public enum TypeEnum {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

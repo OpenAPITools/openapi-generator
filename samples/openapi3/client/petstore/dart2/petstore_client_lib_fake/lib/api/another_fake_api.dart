@@ -10,7 +10,6 @@
 
 part of openapi.api;
 
-
 class AnotherFakeApi {
   AnotherFakeApi([ApiClient? apiClient]) : apiClient = apiClient ?? defaultApiClient;
 

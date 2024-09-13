@@ -26,4 +26,3 @@ A pet for sale in the pet store
 | SOLD | &quot;sold&quot; |
 
 
-

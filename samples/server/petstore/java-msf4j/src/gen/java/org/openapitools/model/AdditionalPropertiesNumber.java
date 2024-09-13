@@ -75,4 +75,3 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal>  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

@@ -30,8 +30,7 @@ import jakarta.xml.bind.annotation.adapters.*;
 
 @XmlRootElement(name = "ModelApiResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
-@JacksonXmlRootElement(localName = "ModelApiResponse")
-@JsonPropertyOrder({
+@JacksonXmlRootElement(localName = "ModelApiResponse")@JsonPropertyOrder({
   ModelApiResponse.JSON_PROPERTY_CODE,
   ModelApiResponse.JSON_PROPERTY_TYPE,
   ModelApiResponse.JSON_PROPERTY_MESSAGE
@@ -40,7 +39,6 @@ import jakarta.xml.bind.annotation.adapters.*;
 /**
   * Describes the result of uploading an image resource
   */
-
 public class ModelApiResponse  {
   
   public static final String JSON_PROPERTY_CODE = "code";
@@ -160,4 +158,3 @@ public class ModelApiResponse  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

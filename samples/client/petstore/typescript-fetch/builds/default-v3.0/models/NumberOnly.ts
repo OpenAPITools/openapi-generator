@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * 
@@ -26,7 +25,6 @@ export interface NumberOnly {
      */
     justNumber?: number;
 }
-
 /**
  * Check if a given object implements the NumberOnly interface.
  */
@@ -62,4 +60,3 @@ export function NumberOnlyFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'JustNumber': value['justNumber'],
     };
 }
-

@@ -20,10 +20,7 @@ import jakarta.annotation.Generated;
 /**
  * BigCat
  */
-
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class BigCat extends Cat {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class BigCat extends Cat {
 
   /**
    * Gets or Sets kind
@@ -63,7 +60,6 @@ public class BigCat extends Cat {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   private KindEnum kind;
 
   public BigCat() {
@@ -95,7 +91,6 @@ public class BigCat extends Cat {
   public void setKind(KindEnum kind) {
     this.kind = kind;
   }
-
 
   public BigCat declawed(Boolean declawed) {
     super.declawed(declawed);

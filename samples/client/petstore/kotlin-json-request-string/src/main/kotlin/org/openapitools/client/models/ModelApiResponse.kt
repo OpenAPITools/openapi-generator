@@ -36,7 +36,6 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 @Serializable
-
 data class ModelApiResponse (
 
     @SerialName(value = "code")

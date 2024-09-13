@@ -52,7 +52,6 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer> {
    */
   @javax.annotation.Nullable
 
-
   public String getName() {
     return name;
   }

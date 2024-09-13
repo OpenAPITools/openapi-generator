@@ -15,8 +15,7 @@ import javax.validation.Valid;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class MapTest   {
   @JsonProperty("map_map_of_string")
-  @Valid
-
+                                        @Valid
   private Map<String, Map<String, String>> mapMapOfString = null;
 
   /**
@@ -49,18 +48,14 @@ public class MapTest   {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   @JsonProperty("map_of_enum_string")
-  
-  private Map<String, InnerEnum> mapOfEnumString = null;
+                                        private Map<String, InnerEnum> mapOfEnumString = null;
 
   @JsonProperty("direct_map")
-  
-  private Map<String, Boolean> directMap = null;
+                                        private Map<String, Boolean> directMap = null;
 
   @JsonProperty("indirect_map")
-  
-  private Map<String, Boolean> indirectMap = null;
+                                        private Map<String, Boolean> indirectMap = null;
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
@@ -208,4 +203,3 @@ public class MapTest   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

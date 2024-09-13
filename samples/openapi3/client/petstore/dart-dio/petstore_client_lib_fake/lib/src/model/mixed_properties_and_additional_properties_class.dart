@@ -35,8 +35,7 @@ abstract class MixedPropertiesAndAdditionalPropertiesClass implements Built<Mixe
   static void _defaults(MixedPropertiesAndAdditionalPropertiesClassBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<MixedPropertiesAndAdditionalPropertiesClass> get serializer => _$MixedPropertiesAndAdditionalPropertiesClassSerializer();
-}
+  static Serializer<MixedPropertiesAndAdditionalPropertiesClass> get serializer => _$MixedPropertiesAndAdditionalPropertiesClassSerializer();}
 
 class _$MixedPropertiesAndAdditionalPropertiesClassSerializer implements PrimitiveSerializer<MixedPropertiesAndAdditionalPropertiesClass> {
   @override

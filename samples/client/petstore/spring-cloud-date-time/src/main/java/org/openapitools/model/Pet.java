@@ -22,9 +22,7 @@ import javax.annotation.Generated;
 /**
  * Pet
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class Pet {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class Pet {
 
   private String atType = "Pet";
 
@@ -60,8 +58,7 @@ public class Pet {
    * Get atType
    * @return atType
    */
-  @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @NotNull   @ApiModelProperty(required = true, value = "")
   @JsonProperty("@type")
   public String getAtType() {
     return atType;
@@ -80,8 +77,7 @@ public class Pet {
    * Get age
    * @return age
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("age")
   public Integer getAge() {
     return age;
@@ -100,8 +96,7 @@ public class Pet {
    * Get happy
    * @return happy
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("happy")
   public Boolean getHappy() {
     return happy;
@@ -120,8 +115,7 @@ public class Pet {
    * Get price
    * @return price
    */
-  @Valid 
-  @ApiModelProperty(value = "")
+  @Valid   @ApiModelProperty(value = "")
   @JsonProperty("price")
   public BigDecimal getPrice() {
     return price;
@@ -140,8 +134,7 @@ public class Pet {
    * Get lastFeed
    * @return lastFeed
    */
-  @Valid 
-  @ApiModelProperty(value = "")
+  @Valid   @ApiModelProperty(value = "")
   @JsonProperty("lastFeed")
   public OffsetDateTime getLastFeed() {
     return lastFeed;
@@ -160,8 +153,7 @@ public class Pet {
    * Get dateOfBirth
    * @return dateOfBirth
    */
-  @Valid 
-  @ApiModelProperty(value = "")
+  @Valid   @ApiModelProperty(value = "")
   @JsonProperty("dateOfBirth")
   public LocalDate getDateOfBirth() {
     return dateOfBirth;
@@ -170,7 +162,6 @@ public class Pet {
   public void setDateOfBirth(LocalDate dateOfBirth) {
     this.dateOfBirth = dateOfBirth;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

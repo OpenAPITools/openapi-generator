@@ -29,8 +29,7 @@ abstract class Model200Response implements Built<Model200Response, Model200Respo
   static void _defaults(Model200ResponseBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<Model200Response> get serializer => _$Model200ResponseSerializer();
-}
+  static Serializer<Model200Response> get serializer => _$Model200ResponseSerializer();}
 
 class _$Model200ResponseSerializer implements PrimitiveSerializer<Model200Response> {
   @override

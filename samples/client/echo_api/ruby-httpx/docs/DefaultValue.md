@@ -29,4 +29,3 @@ instance = OpenapiClient::DefaultValue.new(
   string_nullable: null
 )
 ```
-

@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { BehaviorType } from './BehaviorType';
 import {
@@ -47,7 +46,6 @@ export interface GetBehaviorTypeResponse {
      */
     data?: BehaviorType;
 }
-
 
 
 /**
@@ -88,4 +86,3 @@ export function GetBehaviorTypeResponseFromJSONTyped(json: any, ignoreDiscrimina
         'data': BehaviorTypeToJSON(value['data']),
     };
 }
-

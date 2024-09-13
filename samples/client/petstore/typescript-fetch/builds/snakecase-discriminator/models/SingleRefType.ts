@@ -12,7 +12,6 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * 
  * @export
@@ -50,4 +49,3 @@ export function SingleRefTypeToJSON(value?: SingleRefType | null): any {
 export function SingleRefTypeToJSONTyped(value: any, ignoreDiscriminator: boolean): SingleRefType {
     return value as SingleRefType;
 }
-

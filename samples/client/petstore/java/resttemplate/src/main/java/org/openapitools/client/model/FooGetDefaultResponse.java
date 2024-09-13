@@ -109,58 +109,57 @@ public class FooGetDefaultResponse {
   }
 
   public static class Builder {
-
-    private FooGetDefaultResponse instance;
-
-    public Builder() {
-      this(new FooGetDefaultResponse());
-    }
-
-    protected Builder(FooGetDefaultResponse instance) {
-      this.instance = instance;
-    }
-
-    public FooGetDefaultResponse.Builder string(Foo string) {
-      this.instance.string = string;
-      return this;
-    }
-
-
-    /**
-    * returns a built FooGetDefaultResponse instance.
-    *
-    * The builder is not reusable.
-    */
-    public FooGetDefaultResponse build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+  
+      private FooGetDefaultResponse instance;
+  
+      public Builder() {
+        this(new FooGetDefaultResponse());
+      }
+  
+      protected Builder(FooGetDefaultResponse instance) {
+        this.instance = instance;
+      }
+  
+      public FooGetDefaultResponse.Builder string(Foo string) {
+          this.instance.string = string;
+        return this;
+      }
+    
+  
+      /**
+      * returns a built FooGetDefaultResponse instance.
+      *
+      * The builder is not reusable.
+      */
+      public FooGetDefaultResponse build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field.
+    */
+    public static FooGetDefaultResponse.Builder builder() {
+      return new FooGetDefaultResponse.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static FooGetDefaultResponse.Builder builder() {
-    return new FooGetDefaultResponse.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public FooGetDefaultResponse.Builder toBuilder() {
-    return new FooGetDefaultResponse.Builder()
-      .string(getString());
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public FooGetDefaultResponse.Builder toBuilder() {
+      return new FooGetDefaultResponse.Builder()
+        .string(getString());
+    }
 
 }
 

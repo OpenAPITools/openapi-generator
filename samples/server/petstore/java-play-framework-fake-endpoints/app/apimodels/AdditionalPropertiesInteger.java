@@ -15,8 +15,7 @@ import javax.validation.Valid;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class AdditionalPropertiesInteger extends HashMap<String, Integer>  {
   @JsonProperty("name")
-  
-  private String name;
+                                        private String name;
 
   public AdditionalPropertiesInteger name(String name) {
     this.name = name;
@@ -76,4 +75,3 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer>  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

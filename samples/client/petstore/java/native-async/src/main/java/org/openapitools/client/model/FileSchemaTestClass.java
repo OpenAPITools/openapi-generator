@@ -105,7 +105,6 @@ public class FileSchemaTestClass {
     this.files = files;
   }
 
-
   /**
    * Return true if this FileSchemaTestClass object is equal to o.
    */

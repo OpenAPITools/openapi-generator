@@ -72,7 +72,6 @@ public class ChildCat extends ParentPet {
    * @return name
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -106,7 +105,6 @@ public class ChildCat extends ParentPet {
    * @return petType
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_PET_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -162,7 +160,6 @@ public class ChildCat extends ParentPet {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this ChildCat object is equal to o.
    */

@@ -19,9 +19,7 @@ import jakarta.annotation.Generated;
 /**
  * ArrayOfNumberOnly
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class ArrayOfNumberOnly {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class ArrayOfNumberOnly {
 
   
   private List<BigDecimal> arrayNumber = new ArrayList<>();
@@ -52,7 +50,6 @@ public class ArrayOfNumberOnly {
   public void setArrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -124,4 +124,3 @@ func (v *NullableTestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter) U
 	return json.Unmarshal(src, &v.value)
 }
 
-

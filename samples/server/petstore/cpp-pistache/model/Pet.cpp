@@ -55,43 +55,41 @@ bool Pet::validate(std::stringstream& msg, const std::string& pathPrefix) const
     /* PhotoUrls */ {
         const std::vector<std::string>& value = m_PhotoUrls;
         const std::string currentValuePath = _pathPrefix + ".photoUrls";
+                                        
                 
+                                                                                                                { // Recursive validation of array elements
+                    const std::string oldValuePath = currentValuePath;
+                    int i = 0;
+                    for (const std::string& value : value)
+                    {         
+                        const std::string currentValuePath = oldValuePath + "[" + std::to_string(i) + "]";
+                                
         
-        { // Recursive validation of array elements
-            const std::string oldValuePath = currentValuePath;
-            int i = 0;
-            for (const std::string& value : value)
-            { 
-                const std::string currentValuePath = oldValuePath + "[" + std::to_string(i) + "]";
-                        
-        
- 
-                i++;
+         
+                        i++;
+                    }
+                }
             }
-        }
-
-    }
          
     if (tagsIsSet())
     {
         const std::vector<org::openapitools::server::model::Tag>& value = m_Tags;
         const std::string currentValuePath = _pathPrefix + ".tags";
+                                        
                 
-        
-        { // Recursive validation of array elements
-            const std::string oldValuePath = currentValuePath;
-            int i = 0;
-            for (const org::openapitools::server::model::Tag& value : value)
-            { 
-                const std::string currentValuePath = oldValuePath + "[" + std::to_string(i) + "]";
-                        
+                                                                                                                { // Recursive validation of array elements
+                    const std::string oldValuePath = currentValuePath;
+                    int i = 0;
+                    for (const org::openapitools::server::model::Tag& value : value)
+                    {         
+                        const std::string currentValuePath = oldValuePath + "[" + std::to_string(i) + "]";
+                                
         success = value.validate(msg, currentValuePath + ".tags") && success;
- 
-                i++;
+         
+                        i++;
+                    }
+                }
             }
-        }
-
-    }
         
     return success;
 }

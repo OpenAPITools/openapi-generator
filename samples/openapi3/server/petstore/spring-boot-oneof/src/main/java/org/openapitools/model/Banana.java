@@ -21,9 +21,7 @@ import javax.annotation.Generated;
 /**
  * Banana
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class Banana implements Fruit {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class Banana implements Fruit {
 
   private Integer length;
 
@@ -50,8 +48,7 @@ public class Banana implements Fruit {
    * Get length
    * @return length
    */
-  @NotNull 
-  @Schema(name = "length", requiredMode = Schema.RequiredMode.REQUIRED)
+  @NotNull   @Schema(name = "length", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("length")
   public Integer getLength() {
     return length;
@@ -70,8 +67,7 @@ public class Banana implements Fruit {
    * Get fruitType
    * @return fruitType
    */
-  @NotNull @Valid 
-  @Schema(name = "fruitType", requiredMode = Schema.RequiredMode.REQUIRED)
+  @NotNull @Valid   @Schema(name = "fruitType", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("fruitType")
   public FruitType getFruitType() {
     return fruitType;
@@ -80,7 +76,6 @@ public class Banana implements Fruit {
   public void setFruitType(FruitType fruitType) {
     this.fruitType = fruitType;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -120,68 +115,67 @@ public class Banana implements Fruit {
     return o.toString().replace("\n", "\n    ");
   }
   
-  public static class Builder {
-
-    private Banana instance;
-
-    public Builder() {
-      this(new Banana());
-    }
-
-    protected Builder(Banana instance) {
-      this.instance = instance;
-    }
-
-    protected Builder copyOf(Banana value) { 
-      this.instance.setLength(value.length);
-      this.instance.setFruitType(value.fruitType);
-      return this;
-    }
-
-    public Banana.Builder length(Integer length) {
-      this.instance.length(length);
-      return this;
-    }
-    
-    public Banana.Builder fruitType(FruitType fruitType) {
-      this.instance.fruitType(fruitType);
-      return this;
-    }
-    
-    /**
-    * returns a built Banana instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public Banana build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    public static class Builder {
+  
+      private Banana instance;
+  
+      public Builder() {
+        this(new Banana());
+      }
+  
+      protected Builder(Banana instance) {
+        this.instance = instance;
+      }
+  
+      protected Builder copyOf(Banana value) { 
+        this.instance.setLength(value.length);
+        this.instance.setFruitType(value.fruitType);
+        return this;
+      }
+  
+        public Banana.Builder length(Integer length) {
+        this.instance.length(length);
+        return this;
+      }
+      
+        public Banana.Builder fruitType(FruitType fruitType) {
+        this.instance.fruitType(fruitType);
+        return this;
+      }
+      
+          /**
+      * returns a built Banana instance.
+      *
+      * The builder is not reusable (NullPointerException)
+      */
+      public Banana build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field (except for the default values).
+    */
+    public static Banana.Builder builder() {
+      return new Banana.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field (except for the default values).
-  */
-  public static Banana.Builder builder() {
-    return new Banana.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public Banana.Builder toBuilder() {
-    Banana.Builder builder = new Banana.Builder();
-    return builder.copyOf(this);
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public Banana.Builder toBuilder() {
+      Banana.Builder builder = new Banana.Builder();
+      return builder.copyOf(this);
+    }
 }
 

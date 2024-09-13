@@ -16,8 +16,7 @@ public struct Order: Codable, JSONEncodable, Hashable {
         case placed = "placed"
         case approved = "approved"
         case delivered = "delivered"
-    }
-    public private(set) var id: Int64?
+    }    public private(set) var id: Int64?
     public private(set) var petId: Int64?
     public private(set) var quantity: Int?
     public private(set) var shipDate: Date?

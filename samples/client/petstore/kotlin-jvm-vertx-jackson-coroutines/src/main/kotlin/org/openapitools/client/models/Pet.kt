@@ -31,7 +31,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @param status pet status in the store
  */
 
-
 data class Pet (
 
     @get:JsonProperty("name")

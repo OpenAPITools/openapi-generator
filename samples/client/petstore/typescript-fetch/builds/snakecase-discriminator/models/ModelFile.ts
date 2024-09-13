@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * Must be named `File` for test.
@@ -26,7 +25,6 @@ export interface ModelFile {
      */
     sourceURI?: string;
 }
-
 /**
  * Check if a given object implements the ModelFile interface.
  */
@@ -62,4 +60,3 @@ export function ModelFileFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'sourceURI': value['sourceURI'],
     };
 }
-

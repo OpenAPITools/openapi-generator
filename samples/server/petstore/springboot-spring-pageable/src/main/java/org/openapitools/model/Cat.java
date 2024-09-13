@@ -22,10 +22,7 @@ import javax.annotation.Generated;
 /**
  * Cat
  */
-
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class Cat extends Animal {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class Cat extends Animal {
 
   private Boolean declawed;
 
@@ -49,8 +46,7 @@ public class Cat extends Animal {
    * Get declawed
    * @return declawed
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("declawed")
   public Boolean getDeclawed() {
     return declawed;
@@ -59,7 +55,6 @@ public class Cat extends Animal {
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }
-
 
   public Cat className(String className) {
     super.className(className);

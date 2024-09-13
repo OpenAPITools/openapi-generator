@@ -15,7 +15,6 @@
 
 
 
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SWGCategoryManagedObject : NSManagedObject

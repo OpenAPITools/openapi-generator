@@ -34,8 +34,7 @@ import javax.annotation.Generated;
  * A delegate to be called by the {@link FakeApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public interface FakeApiDelegate {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public interface FakeApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
@@ -51,11 +50,10 @@ public interface FakeApiDelegate {
      */
     default Mono<Void> createXmlItem(Mono<XmlItem> xmlItem,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(xmlItem).then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                return result.then(xmlItem).then(Mono.empty());
+                    }
 
     /**
      * POST /fake/outer/boolean
@@ -67,11 +65,10 @@ public interface FakeApiDelegate {
      */
     default Mono<Boolean> fakeOuterBooleanSerialize(Mono<Boolean> body,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(body).then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                return result.then(body).then(Mono.empty());
+                    }
 
     /**
      * POST /fake/outer/composite
@@ -83,18 +80,17 @@ public interface FakeApiDelegate {
      */
     default Mono<OuterComposite> fakeOuterCompositeSerialize(Mono<OuterComposite> outerComposite,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                String exampleString = "{ \"my_string\" : \"my_string\", \"my_number\" : 0.8008281904610115, \"my_boolean\" : true }";
-                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
-                break;
-            }
-        }
-        return result.then(outerComposite).then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
+                    if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
+                        String exampleString = "{ \"my_string\" : \"my_string\", \"my_number\" : 0.8008281904610115, \"my_boolean\" : true }";
+                        result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
+                        break;
+                    }
+                }
+                                return result.then(outerComposite).then(Mono.empty());
+                    }
 
     /**
      * POST /fake/outer/number
@@ -106,11 +102,10 @@ public interface FakeApiDelegate {
      */
     default Mono<BigDecimal> fakeOuterNumberSerialize(Mono<BigDecimal> body,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(body).then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                return result.then(body).then(Mono.empty());
+                    }
 
     /**
      * POST /fake/outer/string
@@ -122,11 +117,10 @@ public interface FakeApiDelegate {
      */
     default Mono<String> fakeOuterStringSerialize(Mono<String> body,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(body).then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                return result.then(body).then(Mono.empty());
+                    }
 
     /**
      * GET /fake/{petId}/response-object-different-names
@@ -137,18 +131,17 @@ public interface FakeApiDelegate {
      */
     default Mono<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(Long petId,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = "{ \"UPPER_CASE_PROPERTY_SNAKE\" : \"UPPER_CASE_PROPERTY_SNAKE\", \"lower-case-property-dashes\" : \"lower-case-property-dashes\", \"property name with spaces\" : \"property name with spaces\", \"normalPropertyName\" : \"normalPropertyName\" }";
-                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
-                break;
-            }
-        }
-        return result.then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
+                    if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                        String exampleString = "{ \"UPPER_CASE_PROPERTY_SNAKE\" : \"UPPER_CASE_PROPERTY_SNAKE\", \"lower-case-property-dashes\" : \"lower-case-property-dashes\", \"property name with spaces\" : \"property name with spaces\", \"normalPropertyName\" : \"normalPropertyName\" }";
+                        result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
+                        break;
+                    }
+                }
+                                return result.then(Mono.empty());
+                    }
 
     /**
      * PUT /fake/body-with-file-schema
@@ -160,11 +153,10 @@ public interface FakeApiDelegate {
      */
     default Mono<Void> testBodyWithFileSchema(Mono<FileSchemaTestClass> fileSchemaTestClass,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(fileSchemaTestClass).then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                return result.then(fileSchemaTestClass).then(Mono.empty());
+                    }
 
     /**
      * PUT /fake/body-with-query-params
@@ -177,11 +169,10 @@ public interface FakeApiDelegate {
     default Mono<Void> testBodyWithQueryParams(String query,
         Mono<User> user,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(user).then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                return result.then(user).then(Mono.empty());
+                    }
 
     /**
      * PATCH /fake : To test \&quot;client\&quot; model
@@ -193,18 +184,17 @@ public interface FakeApiDelegate {
      */
     default Mono<Client> testClientModel(Mono<Client> client,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = "{ \"client\" : \"client\" }";
-                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
-                break;
-            }
-        }
-        return result.then(client).then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
+                    if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                        String exampleString = "{ \"client\" : \"client\" }";
+                        result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
+                        break;
+                    }
+                }
+                                return result.then(client).then(Mono.empty());
+                    }
 
     /**
      * POST /fake : Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -243,11 +233,10 @@ public interface FakeApiDelegate {
         String password,
         String paramCallback,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                return result.then(Mono.empty());
+                    }
 
     /**
      * GET /fake : To test enum parameters
@@ -274,11 +263,10 @@ public interface FakeApiDelegate {
         List<String> enumFormStringArray,
         String enumFormString,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                return result.then(Mono.empty());
+                    }
 
     /**
      * DELETE /fake : Fake endpoint to test group parameters (optional)
@@ -300,11 +288,10 @@ public interface FakeApiDelegate {
         Boolean booleanGroup,
         Long int64Group,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                return result.then(Mono.empty());
+                    }
 
     /**
      * POST /fake/inline-additionalProperties : test inline additionalProperties
@@ -316,11 +303,10 @@ public interface FakeApiDelegate {
      */
     default Mono<Void> testInlineAdditionalProperties(Mono<Map<String, String>> requestBody,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(requestBody).then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                return result.then(requestBody).then(Mono.empty());
+                    }
 
     /**
      * GET /fake/jsonFormData : test json serialization of form data
@@ -334,11 +320,10 @@ public interface FakeApiDelegate {
     default Mono<Void> testJsonFormData(String param,
         String param2,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                return result.then(Mono.empty());
+                    }
 
     /**
      * POST /fake/nullable : test nullable parent property
@@ -350,11 +335,10 @@ public interface FakeApiDelegate {
      */
     default Mono<Void> testNullable(Mono<ChildWithNullable> childWithNullable,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(childWithNullable).then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                return result.then(childWithNullable).then(Mono.empty());
+                    }
 
     /**
      * PUT /fake/test-query-parameters
@@ -372,11 +356,10 @@ public interface FakeApiDelegate {
         List<String> url,
         List<String> context,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                return result.then(Mono.empty());
+                    }
 
     /**
      * GET /fake/response-with-example
@@ -386,18 +369,17 @@ public interface FakeApiDelegate {
      * @see FakeApi#testWithResultExample
      */
     default Mono<Integer> testWithResultExample(ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = "42";
-                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
-                break;
-            }
-        }
-        return result.then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
+                    if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                        String exampleString = "42";
+                        result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
+                        break;
+                    }
+                }
+                                return result.then(Mono.empty());
+                    }
 
     /**
      * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required)
@@ -413,17 +395,16 @@ public interface FakeApiDelegate {
         Flux<Part> requiredFile,
         String additionalMetadata,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
-                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
-                break;
-            }
-        }
-        return result.then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
+                    if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                        String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                        result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
+                        break;
+                    }
+                }
+                                return result.then(Mono.empty());
+                    }
 
 }

@@ -30,7 +30,6 @@ class Capitalization {
 
      this.ATT_NAME,
   });
-
   @JsonKey(
     
     name: r'smallCamel',

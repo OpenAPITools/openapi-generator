@@ -23,7 +23,6 @@ import java.util.List;
 
 
 
-
 public class EnumArrays  {
   
 public enum JustSymbolEnum {
@@ -143,4 +142,3 @@ public enum ArrayEnumEnum {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

@@ -27,7 +27,6 @@ import java.io.Serializable
  * @param name 
  */
 
-
 data class Category (
 
     @Json(name = "id")

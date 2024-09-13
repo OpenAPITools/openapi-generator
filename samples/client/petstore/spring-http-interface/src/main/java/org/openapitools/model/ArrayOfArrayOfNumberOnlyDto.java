@@ -20,10 +20,8 @@ import jakarta.annotation.Generated;
 /**
  * ArrayOfArrayOfNumberOnlyDto
  */
-
 @JsonTypeName("ArrayOfArrayOfNumberOnly")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class ArrayOfArrayOfNumberOnlyDto {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class ArrayOfArrayOfNumberOnlyDto {
 
   
   private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
@@ -54,7 +52,6 @@ public class ArrayOfArrayOfNumberOnlyDto {
   public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

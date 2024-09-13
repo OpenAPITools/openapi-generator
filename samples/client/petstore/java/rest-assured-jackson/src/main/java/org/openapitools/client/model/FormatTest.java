@@ -111,8 +111,7 @@ public class FormatTest {
    * @return integer
    */
   @javax.annotation.Nullable
- @Min(10) @Max(100)
-  @JsonProperty(JSON_PROPERTY_INTEGER)
+ @Min(10) @Max(100)  @JsonProperty(JSON_PROPERTY_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getInteger() {
@@ -139,8 +138,7 @@ public class FormatTest {
    * @return int32
    */
   @javax.annotation.Nullable
- @Min(20) @Max(200)
-  @JsonProperty(JSON_PROPERTY_INT32)
+ @Min(20) @Max(200)  @JsonProperty(JSON_PROPERTY_INT32)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getInt32() {
@@ -165,7 +163,6 @@ public class FormatTest {
    * @return int64
    */
   @javax.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_INT64)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -195,8 +192,7 @@ public class FormatTest {
   @javax.annotation.Nonnull
   @NotNull
   @Valid
- @DecimalMin("32.1") @DecimalMax("543.2")
-  @JsonProperty(JSON_PROPERTY_NUMBER)
+ @DecimalMin("32.1") @DecimalMax("543.2")  @JsonProperty(JSON_PROPERTY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public BigDecimal getNumber() {
@@ -223,8 +219,7 @@ public class FormatTest {
    * @return _float
    */
   @javax.annotation.Nullable
- @DecimalMin("54.3") @DecimalMax("987.6")
-  @JsonProperty(JSON_PROPERTY_FLOAT)
+ @DecimalMin("54.3") @DecimalMax("987.6")  @JsonProperty(JSON_PROPERTY_FLOAT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Float getFloat() {
@@ -251,8 +246,7 @@ public class FormatTest {
    * @return _double
    */
   @javax.annotation.Nullable
- @DecimalMin("67.8") @DecimalMax("123.4")
-  @JsonProperty(JSON_PROPERTY_DOUBLE)
+ @DecimalMin("67.8") @DecimalMax("123.4")  @JsonProperty(JSON_PROPERTY_DOUBLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Double getDouble() {
@@ -277,8 +271,7 @@ public class FormatTest {
    * @return string
    */
   @javax.annotation.Nullable
- @Pattern(regexp="/[a-z]/i")
-  @JsonProperty(JSON_PROPERTY_STRING)
+ @Pattern(regexp="/[a-z]/i")  @JsonProperty(JSON_PROPERTY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getString() {
@@ -304,7 +297,6 @@ public class FormatTest {
    */
   @javax.annotation.Nonnull
   @NotNull
-
   @JsonProperty(JSON_PROPERTY_BYTE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -331,7 +323,6 @@ public class FormatTest {
    */
   @javax.annotation.Nullable
   @Valid
-
   @JsonProperty(JSON_PROPERTY_BINARY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -359,7 +350,6 @@ public class FormatTest {
   @javax.annotation.Nonnull
   @NotNull
   @Valid
-
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -386,7 +376,6 @@ public class FormatTest {
    */
   @javax.annotation.Nullable
   @Valid
-
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -413,7 +402,6 @@ public class FormatTest {
    */
   @javax.annotation.Nullable
   @Valid
-
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -440,8 +428,7 @@ public class FormatTest {
    */
   @javax.annotation.Nonnull
   @NotNull
- @Size(min=10,max=64)
-  @JsonProperty(JSON_PROPERTY_PASSWORD)
+ @Size(min=10,max=64)  @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getPassword() {
@@ -467,7 +454,6 @@ public class FormatTest {
    */
   @javax.annotation.Nullable
   @Valid
-
   @JsonProperty(JSON_PROPERTY_BIG_DECIMAL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

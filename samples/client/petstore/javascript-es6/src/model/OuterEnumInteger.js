@@ -50,4 +50,3 @@ export default class OuterEnumInteger {
         return object;
     }
 }
-

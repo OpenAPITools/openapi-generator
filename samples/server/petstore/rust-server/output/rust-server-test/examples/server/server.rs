@@ -126,7 +126,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("all_of_get() - X-Span-ID: {:?}", context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     /// A dummy endpoint to make the spec valid.
     async fn dummy_get(
         &self,
@@ -135,7 +134,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("dummy_get() - X-Span-ID: {:?}", context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn dummy_put(
         &self,
         nested_response: models::DummyPutRequest,
@@ -144,7 +142,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("dummy_put({:?}) - X-Span-ID: {:?}", nested_response, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     /// Get a file
     async fn file_response_get(
         &self,
@@ -153,7 +150,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("file_response_get() - X-Span-ID: {:?}", context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn get_structured_yaml(
         &self,
         context: &C) -> Result<GetStructuredYamlResponse, ApiError>
@@ -161,7 +157,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("get_structured_yaml() - X-Span-ID: {:?}", context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     /// Test HTML handling
     async fn html_post(
         &self,
@@ -171,7 +166,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("html_post(\"{}\") - X-Span-ID: {:?}", body, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     async fn post_yaml(
         &self,
         value: String,
@@ -180,7 +174,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("post_yaml(\"{}\") - X-Span-ID: {:?}", value, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     /// Get an arbitrary JSON blob.
     async fn raw_json_get(
         &self,
@@ -189,7 +182,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("raw_json_get() - X-Span-ID: {:?}", context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
     /// Send an arbitrary JSON blob
     async fn solo_object_post(
         &self,
@@ -199,5 +191,4 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("solo_object_post({:?}) - X-Span-ID: {:?}", value, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
 }

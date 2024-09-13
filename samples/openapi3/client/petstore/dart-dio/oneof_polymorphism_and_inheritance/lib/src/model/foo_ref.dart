@@ -33,8 +33,7 @@ abstract class FooRef implements EntityRef, Built<FooRef, FooRefBuilder> {
   static void _defaults(FooRefBuilder b) => b..atType=b.discriminatorValue;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<FooRef> get serializer => _$FooRefSerializer();
-}
+  static Serializer<FooRef> get serializer => _$FooRefSerializer();}
 
 class _$FooRefSerializer implements PrimitiveSerializer<FooRef> {
   @override

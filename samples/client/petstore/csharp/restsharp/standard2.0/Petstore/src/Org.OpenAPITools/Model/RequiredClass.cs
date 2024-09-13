@@ -48,7 +48,6 @@ namespace Org.OpenAPITools.Model
             NUMBER_MINUS_1 = -1
         }
 
-
         /// <summary>
         /// Gets or Sets RequiredNullableEnumInteger
         /// </summary>
@@ -69,7 +68,6 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             NUMBER_MINUS_1 = -1
         }
-
 
         /// <summary>
         /// Gets or Sets RequiredNotnullableEnumInteger
@@ -92,7 +90,6 @@ namespace Org.OpenAPITools.Model
             NUMBER_MINUS_1 = -1
         }
 
-
         /// <summary>
         /// Gets or Sets NotrequiredNullableEnumInteger
         /// </summary>
@@ -113,7 +110,6 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             NUMBER_MINUS_1 = -1
         }
-
 
         /// <summary>
         /// Gets or Sets NotrequiredNotnullableEnumInteger
@@ -137,7 +133,6 @@ namespace Org.OpenAPITools.Model
             NUMBER_MINUS_2 = -2
         }
 
-
         /// <summary>
         /// Gets or Sets RequiredNullableEnumIntegerOnly
         /// </summary>
@@ -158,7 +153,6 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             NUMBER_MINUS_2 = -2
         }
-
 
         /// <summary>
         /// Gets or Sets RequiredNotnullableEnumIntegerOnly
@@ -182,7 +176,6 @@ namespace Org.OpenAPITools.Model
             NUMBER_MINUS_2 = -2
         }
 
-
         /// <summary>
         /// Gets or Sets NotrequiredNullableEnumIntegerOnly
         /// </summary>
@@ -203,7 +196,6 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             NUMBER_MINUS_2 = -2
         }
-
 
         /// <summary>
         /// Gets or Sets NotrequiredNotnullableEnumIntegerOnly
@@ -265,7 +257,6 @@ namespace Org.OpenAPITools.Model
             Duplicatevalue2 = 8
         }
 
-
         /// <summary>
         /// Gets or Sets RequiredNotnullableEnumString
         /// </summary>
@@ -325,7 +316,6 @@ namespace Org.OpenAPITools.Model
             [EnumMember(Value = "Duplicate\r\nvalue")]
             Duplicatevalue2 = 8
         }
-
 
         /// <summary>
         /// Gets or Sets RequiredNullableEnumString
@@ -387,7 +377,6 @@ namespace Org.OpenAPITools.Model
             Duplicatevalue2 = 8
         }
 
-
         /// <summary>
         /// Gets or Sets NotrequiredNullableEnumString
         /// </summary>
@@ -447,7 +436,6 @@ namespace Org.OpenAPITools.Model
             [EnumMember(Value = "Duplicate\r\nvalue")]
             Duplicatevalue2 = 8
         }
-
 
         /// <summary>
         /// Gets or Sets NotrequiredNotnullableEnumString
@@ -1036,7 +1024,6 @@ namespace Org.OpenAPITools.Model
         IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
-        }
-    }
+        }    }
 
 }

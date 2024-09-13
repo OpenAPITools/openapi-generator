@@ -92,7 +92,6 @@ public class ReadOnlyFirst {
     this.baz = baz;
   }
 
-
   /**
    * Return true if this ReadOnlyFirst object is equal to o.
    */

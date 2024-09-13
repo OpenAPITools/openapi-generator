@@ -22,9 +22,7 @@ import javax.annotation.Generated;
 /**
  * ArrayOfNumberOnly
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class ArrayOfNumberOnly {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class ArrayOfNumberOnly {
 
   @Valid
   private List<BigDecimal> arrayNumber = new ArrayList<>();
@@ -46,8 +44,7 @@ public class ArrayOfNumberOnly {
    * Get arrayNumber
    * @return arrayNumber
    */
-  @Valid 
-  @ApiModelProperty(value = "")
+  @Valid   @ApiModelProperty(value = "")
   @JsonProperty("ArrayNumber")
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
@@ -56,7 +53,6 @@ public class ArrayOfNumberOnly {
   public void setArrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -94,62 +90,61 @@ public class ArrayOfNumberOnly {
     return o.toString().replace("\n", "\n    ");
   }
   
-  public static class Builder {
-
-    private ArrayOfNumberOnly instance;
-
-    public Builder() {
-      this(new ArrayOfNumberOnly());
-    }
-
-    protected Builder(ArrayOfNumberOnly instance) {
-      this.instance = instance;
-    }
-
-    protected Builder copyOf(ArrayOfNumberOnly value) { 
-      this.instance.setArrayNumber(value.arrayNumber);
-      return this;
-    }
-
-    public ArrayOfNumberOnly.Builder arrayNumber(List<BigDecimal> arrayNumber) {
-      this.instance.arrayNumber(arrayNumber);
-      return this;
-    }
-    
-    /**
-    * returns a built ArrayOfNumberOnly instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public ArrayOfNumberOnly build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    public static class Builder {
+  
+      private ArrayOfNumberOnly instance;
+  
+      public Builder() {
+        this(new ArrayOfNumberOnly());
+      }
+  
+      protected Builder(ArrayOfNumberOnly instance) {
+        this.instance = instance;
+      }
+  
+      protected Builder copyOf(ArrayOfNumberOnly value) { 
+        this.instance.setArrayNumber(value.arrayNumber);
+        return this;
+      }
+  
+        public ArrayOfNumberOnly.Builder arrayNumber(List<BigDecimal> arrayNumber) {
+        this.instance.arrayNumber(arrayNumber);
+        return this;
+      }
+      
+          /**
+      * returns a built ArrayOfNumberOnly instance.
+      *
+      * The builder is not reusable (NullPointerException)
+      */
+      public ArrayOfNumberOnly build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field (except for the default values).
+    */
+    public static ArrayOfNumberOnly.Builder builder() {
+      return new ArrayOfNumberOnly.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field (except for the default values).
-  */
-  public static ArrayOfNumberOnly.Builder builder() {
-    return new ArrayOfNumberOnly.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public ArrayOfNumberOnly.Builder toBuilder() {
-    ArrayOfNumberOnly.Builder builder = new ArrayOfNumberOnly.Builder();
-    return builder.copyOf(this);
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public ArrayOfNumberOnly.Builder toBuilder() {
+      ArrayOfNumberOnly.Builder builder = new ArrayOfNumberOnly.Builder();
+      return builder.copyOf(this);
+    }
 }
 

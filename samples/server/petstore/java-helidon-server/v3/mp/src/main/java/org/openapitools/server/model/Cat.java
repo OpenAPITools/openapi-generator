@@ -24,7 +24,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
 public class Cat extends Animal {
   
   private Boolean declawed;
@@ -74,4 +73,3 @@ public class Cat extends Animal {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

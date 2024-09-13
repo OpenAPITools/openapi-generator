@@ -10,7 +10,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { exists, mapValues } from '../runtime';
 import {
     Category,
@@ -99,5 +98,4 @@ export enum PetStatusEnum {
     Pending = 'pending',
     Sold = 'sold'
 }
-
 

@@ -73,4 +73,3 @@ public class Cat extends Animal  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

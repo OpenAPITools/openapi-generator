@@ -25,14 +25,12 @@ import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
 @Path("/store")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class StoreServiceImpl implements StoreService {
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class StoreServiceImpl implements StoreService {
 
     @DELETE
     @Path("/order/{order_id}")
     public void deleteOrder(@PathParam("order_id") String orderId) {
     }
-
     @GET
     @Path("/inventory")
     @Produces({ "application/json" })
@@ -40,7 +38,6 @@ public class StoreServiceImpl implements StoreService {
         Map<String, Integer> result = java.util.Collections.emptyMap(); // Replace with correct business logic.
         return result;
     }
-
     @GET
     @Path("/order/{order_id}")
     @Produces({ "application/xml", "application/json" })
@@ -48,7 +45,6 @@ public class StoreServiceImpl implements StoreService {
         Order result = null; // Replace with correct business logic.
         return result;
     }
-
     @POST
     @Path("/order")
     @Consumes({ "application/json" })
@@ -56,5 +52,4 @@ public class StoreServiceImpl implements StoreService {
     public Order placeOrder(@Valid @NotNull Order order) {
         Order result = null; // Replace with correct business logic.
         return result;
-    }
-}
+    }}

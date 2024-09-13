@@ -17,8 +17,7 @@ public struct Order: Codable, JSONEncodable, Hashable {
         case approved = "approved"
         case delivered = "delivered"
         case unknownDefaultOpenApi = "unknown_default_open_api"
-    }
-    public var id: Int64?
+    }    public var id: Int64?
     public var petId: Int64?
     public var quantity: Int?
     public var shipDate: Date?

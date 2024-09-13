@@ -21,7 +21,6 @@ import java.math.BigDecimal;
 
 
 
-
 public class OuterComposite  {
   
   private BigDecimal myNumber;
@@ -117,4 +116,3 @@ public class OuterComposite  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

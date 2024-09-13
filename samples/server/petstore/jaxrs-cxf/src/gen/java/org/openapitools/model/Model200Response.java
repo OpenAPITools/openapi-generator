@@ -97,4 +97,3 @@ public class Model200Response  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

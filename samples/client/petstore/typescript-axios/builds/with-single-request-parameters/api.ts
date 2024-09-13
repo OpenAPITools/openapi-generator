@@ -12,7 +12,6 @@
  * Do not edit the class manually.
  */
 
-
 import type { Configuration } from './configuration';
 import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
@@ -1075,7 +1074,6 @@ export const FindPetsByStatusStatusEnum = {
 } as const;
 export type FindPetsByStatusStatusEnum = typeof FindPetsByStatusStatusEnum[keyof typeof FindPetsByStatusStatusEnum];
 
-
 /**
  * StoreApi - axios parameter creator
  * @export
@@ -1426,7 +1424,6 @@ export class StoreApi extends BaseAPI {
         return StoreApiFp(this.configuration).placeOrder(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
-
 
 
 /**
@@ -2146,6 +2143,5 @@ export class UserApi extends BaseAPI {
         return UserApiFp(this.configuration).updateUser(requestParameters.username, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
-
 
 

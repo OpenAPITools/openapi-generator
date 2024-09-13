@@ -175,7 +175,6 @@ public abstract class FakeClassnameTestService implements HttpService {
         }
     }
 
-
     @Override
     public void afterStop() {
     System.out.println("Service FakeClassnameTestService is down. Goodbye!");

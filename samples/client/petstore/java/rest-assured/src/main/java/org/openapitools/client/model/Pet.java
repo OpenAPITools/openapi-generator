@@ -105,7 +105,6 @@ public class Pet {
       }
     }
   }
-
   public static final String SERIALIZED_NAME_STATUS = "status";
   @SerializedName(SERIALIZED_NAME_STATUS)
   private StatusEnum status;
@@ -124,7 +123,6 @@ public class Pet {
    * @return id
    */
   @javax.annotation.Nullable
-
 
   public Long getId() {
     return id;
@@ -148,7 +146,6 @@ public class Pet {
   @javax.annotation.Nullable
   @Valid
 
-
   public Category getCategory() {
     return category;
   }
@@ -170,7 +167,6 @@ public class Pet {
    */
   @javax.annotation.Nonnull
   @NotNull
-
 
   public String getName() {
     return name;
@@ -202,7 +198,6 @@ public class Pet {
   @javax.annotation.Nonnull
   @NotNull
 
-
   public Set<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -233,7 +228,6 @@ public class Pet {
   @javax.annotation.Nullable
   @Valid
 
-
   public List<@Valid Tag> getTags() {
     return tags;
   }
@@ -254,7 +248,6 @@ public class Pet {
    * @return status
    */
   @javax.annotation.Nullable
-
 
   public StatusEnum getStatus() {
     return status;

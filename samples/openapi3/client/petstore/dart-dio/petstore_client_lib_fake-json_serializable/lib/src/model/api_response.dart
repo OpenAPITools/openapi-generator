@@ -24,7 +24,6 @@ class ApiResponse {
 
      this.message,
   });
-
   @JsonKey(
     
     name: r'code',

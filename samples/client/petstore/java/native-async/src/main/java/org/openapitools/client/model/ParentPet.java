@@ -52,7 +52,6 @@ import org.openapitools.client.ApiClient;
 public class ParentPet extends GrandparentAnimal {
   public ParentPet() { 
   }
-
   @Override
   public ParentPet petType(String petType) {
     this.setPetType(petType);

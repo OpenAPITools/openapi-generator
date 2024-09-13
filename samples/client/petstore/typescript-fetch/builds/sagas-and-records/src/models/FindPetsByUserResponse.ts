@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { User } from './User';
 import {
@@ -47,7 +46,6 @@ export interface FindPetsByUserResponse {
      */
     data?: Array<User>;
 }
-
 /**
  * Check if a given object implements the FindPetsByUserResponse interface.
  */
@@ -86,4 +84,3 @@ export function FindPetsByUserResponseFromJSONTyped(json: any, ignoreDiscriminat
         'data': value['data'] == null ? undefined : ((value['data'] as Array<any>).map(UserToJSON)),
     };
 }
-

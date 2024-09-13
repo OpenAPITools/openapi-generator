@@ -22,10 +22,7 @@ import javax.annotation.Generated;
 /**
  * PizzaSpeziale
  */
-
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class PizzaSpeziale extends Pizza {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class PizzaSpeziale extends Pizza {
 
   private String toppings;
 
@@ -49,8 +46,7 @@ public class PizzaSpeziale extends Pizza {
    * Get toppings
    * @return toppings
    */
-  
-  @Schema(name = "toppings", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "toppings", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("toppings")
   public String getToppings() {
     return toppings;
@@ -59,7 +55,6 @@ public class PizzaSpeziale extends Pizza {
   public void setToppings(String toppings) {
     this.toppings = toppings;
   }
-
 
   public PizzaSpeziale pizzaSize(BigDecimal pizzaSize) {
     super.pizzaSize(pizzaSize);
@@ -129,101 +124,100 @@ public class PizzaSpeziale extends Pizza {
     return o.toString().replace("\n", "\n    ");
   }
   
-  public static class Builder extends Pizza.Builder {
-
-    private PizzaSpeziale instance;
-
-    public Builder() {
-      this(new PizzaSpeziale());
-    }
-
-    protected Builder(PizzaSpeziale instance) {
-      super(instance); // the parent builder shares the same instance
-      this.instance = instance;
-    }
-
-    protected Builder copyOf(PizzaSpeziale value) { 
-      super.copyOf(instance);
-      this.instance.setToppings(value.toppings);
-      return this;
-    }
-
-    public PizzaSpeziale.Builder toppings(String toppings) {
-      this.instance.toppings(toppings);
-      return this;
-    }
-    
-    @Override
-    public PizzaSpeziale.Builder pizzaSize(BigDecimal pizzaSize) {
-      this.instance.pizzaSize(pizzaSize);
-      return this;
-    }
-    
-    @Override
-    public PizzaSpeziale.Builder href(String href) {
-      this.instance.href(href);
-      return this;
-    }
-    
-    @Override
-    public PizzaSpeziale.Builder id(String id) {
-      this.instance.id(id);
-      return this;
-    }
-    
-    @Override
-    public PizzaSpeziale.Builder atSchemaLocation(String atSchemaLocation) {
-      this.instance.atSchemaLocation(atSchemaLocation);
-      return this;
-    }
-    
-    @Override
-    public PizzaSpeziale.Builder atBaseType(String atBaseType) {
-      this.instance.atBaseType(atBaseType);
-      return this;
-    }
-    
-    @Override
-    public PizzaSpeziale.Builder atType(String atType) {
-      this.instance.atType(atType);
-      return this;
-    }
-    
-    /**
-    * returns a built PizzaSpeziale instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public PizzaSpeziale build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        super.build();
-        this.instance = null;
+    public static class Builder extends Pizza.Builder {
+  
+      private PizzaSpeziale instance;
+  
+      public Builder() {
+        this(new PizzaSpeziale());
+      }
+  
+      protected Builder(PizzaSpeziale instance) {
+        super(instance); // the parent builder shares the same instance
+        this.instance = instance;
+      }
+  
+      protected Builder copyOf(PizzaSpeziale value) { 
+        super.copyOf(instance);
+        this.instance.setToppings(value.toppings);
+        return this;
+      }
+  
+        public PizzaSpeziale.Builder toppings(String toppings) {
+        this.instance.toppings(toppings);
+        return this;
+      }
+      
+        @Override
+      public PizzaSpeziale.Builder pizzaSize(BigDecimal pizzaSize) {
+        this.instance.pizzaSize(pizzaSize);
+        return this;
+      }
+      
+      @Override
+      public PizzaSpeziale.Builder href(String href) {
+        this.instance.href(href);
+        return this;
+      }
+      
+      @Override
+      public PizzaSpeziale.Builder id(String id) {
+        this.instance.id(id);
+        return this;
+      }
+      
+      @Override
+      public PizzaSpeziale.Builder atSchemaLocation(String atSchemaLocation) {
+        this.instance.atSchemaLocation(atSchemaLocation);
+        return this;
+      }
+      
+      @Override
+      public PizzaSpeziale.Builder atBaseType(String atBaseType) {
+        this.instance.atBaseType(atBaseType);
+        return this;
+      }
+      
+      @Override
+      public PizzaSpeziale.Builder atType(String atType) {
+        this.instance.atType(atType);
+        return this;
+      }
+      
+        /**
+      * returns a built PizzaSpeziale instance.
+      *
+      * The builder is not reusable (NullPointerException)
+      */
+      public PizzaSpeziale build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          super.build();
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field (except for the default values).
+    */
+    public static PizzaSpeziale.Builder builder() {
+      return new PizzaSpeziale.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field (except for the default values).
-  */
-  public static PizzaSpeziale.Builder builder() {
-    return new PizzaSpeziale.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public PizzaSpeziale.Builder toBuilder() {
-    PizzaSpeziale.Builder builder = new PizzaSpeziale.Builder();
-    return builder.copyOf(this);
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public PizzaSpeziale.Builder toBuilder() {
+      PizzaSpeziale.Builder builder = new PizzaSpeziale.Builder();
+      return builder.copyOf(this);
+    }
 }
 

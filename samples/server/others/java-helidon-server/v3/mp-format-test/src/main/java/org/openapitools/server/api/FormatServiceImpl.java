@@ -23,10 +23,8 @@ import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
 @Path("/format")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class FormatServiceImpl implements FormatService {
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class FormatServiceImpl implements FormatService {
 
     @GET
     public void simple() {
-    }
-}
+    }}

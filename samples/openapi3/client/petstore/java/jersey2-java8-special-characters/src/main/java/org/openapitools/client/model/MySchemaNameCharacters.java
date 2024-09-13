@@ -116,7 +116,6 @@ public class MySchemaNameCharacters extends Parent {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this MySchemaName._-Characters object is equal to o.
    */

@@ -20,7 +20,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-
 public class SpecialModelName  {
   
   private Long $specialPropertyName;
@@ -70,4 +69,3 @@ public class SpecialModelName  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

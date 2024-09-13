@@ -181,7 +181,6 @@ public class TypeHolderDefault implements Parcelable {
   }
 
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

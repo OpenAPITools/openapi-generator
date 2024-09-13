@@ -193,7 +193,6 @@ public class Capitalization implements Parcelable {
   }
 
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -25,8 +25,7 @@ abstract class Apple implements Built<Apple, AppleBuilder> {
   static void _defaults(AppleBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<Apple> get serializer => _$AppleSerializer();
-}
+  static Serializer<Apple> get serializer => _$AppleSerializer();}
 
 class _$AppleSerializer implements PrimitiveSerializer<Apple> {
   @override

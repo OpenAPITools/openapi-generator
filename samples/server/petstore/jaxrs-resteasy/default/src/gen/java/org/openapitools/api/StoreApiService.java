@@ -17,8 +17,7 @@ import javax.validation.Valid;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public interface StoreApiService {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public interface StoreApiService {
       Response deleteOrder(String orderId,SecurityContext securityContext)
       throws NotFoundException;
       Response getInventory(SecurityContext securityContext)

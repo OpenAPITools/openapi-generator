@@ -91,7 +91,6 @@ public class Order {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_STATUS = "status";
   private StatusEnum status;
 
@@ -243,7 +242,6 @@ public class Order {
   public void setComplete(Boolean complete) {
     this.complete = complete;
   }
-
 
   /**
    * Return true if this Order object is equal to o.

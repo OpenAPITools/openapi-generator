@@ -11,4 +11,3 @@ A schema that does not have any special character.
 |**prop1** | **String** |  |  [optional] |
 
 
-

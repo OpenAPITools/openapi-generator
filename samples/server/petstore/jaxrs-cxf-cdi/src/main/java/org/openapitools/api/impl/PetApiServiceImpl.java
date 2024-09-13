@@ -20,8 +20,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 @RequestScoped
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class PetApiServiceImpl implements PetApiService {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class PetApiServiceImpl implements PetApiService {
       @Override
       public Response addPet(Pet pet, SecurityContext securityContext) {
       // do some magic!

@@ -51,7 +51,6 @@ public class Cat extends Animal {
    */
   @javax.annotation.Nullable
 
-
   public Boolean isDeclawed() {
     return declawed;
   }

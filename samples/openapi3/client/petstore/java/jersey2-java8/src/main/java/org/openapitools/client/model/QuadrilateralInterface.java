@@ -64,7 +64,6 @@ public class QuadrilateralInterface {
     this.quadrilateralType = quadrilateralType;
   }
 
-
   /**
    * Return true if this QuadrilateralInterface object is equal to o.
    */

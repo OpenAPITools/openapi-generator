@@ -102,4 +102,3 @@ DanishPig.prototype['size'] = undefined;
 
 
 export default DanishPig;
-

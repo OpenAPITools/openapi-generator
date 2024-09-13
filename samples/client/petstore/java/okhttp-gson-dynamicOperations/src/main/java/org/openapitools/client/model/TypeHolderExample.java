@@ -202,7 +202,6 @@ public class TypeHolderExample {
   }
 
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

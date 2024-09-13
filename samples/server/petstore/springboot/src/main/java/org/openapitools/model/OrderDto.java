@@ -22,10 +22,8 @@ import javax.annotation.Generated;
 /**
  * OrderDto
  */
-
 @JsonTypeName("Order")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class OrderDto {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class OrderDto {
 
   private Long id;
 
@@ -72,7 +70,6 @@ public class OrderDto {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   private StatusEnum status;
 
   private Boolean complete = false;
@@ -86,8 +83,7 @@ public class OrderDto {
    * Get id
    * @return id
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
@@ -106,8 +102,7 @@ public class OrderDto {
    * Get petId
    * @return petId
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("petId")
   public Long getPetId() {
     return petId;
@@ -126,8 +121,7 @@ public class OrderDto {
    * Get quantity
    * @return quantity
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("quantity")
   public Integer getQuantity() {
     return quantity;
@@ -146,8 +140,7 @@ public class OrderDto {
    * Get shipDate
    * @return shipDate
    */
-  @Valid 
-  @ApiModelProperty(value = "")
+  @Valid   @ApiModelProperty(value = "")
   @JsonProperty("shipDate")
   public OffsetDateTime getShipDate() {
     return shipDate;
@@ -166,8 +159,7 @@ public class OrderDto {
    * Order Status
    * @return status
    */
-  
-  @ApiModelProperty(value = "Order Status")
+    @ApiModelProperty(value = "Order Status")
   @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
@@ -186,8 +178,7 @@ public class OrderDto {
    * Get complete
    * @return complete
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("complete")
   public Boolean getComplete() {
     return complete;
@@ -196,7 +187,6 @@ public class OrderDto {
   public void setComplete(Boolean complete) {
     this.complete = complete;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

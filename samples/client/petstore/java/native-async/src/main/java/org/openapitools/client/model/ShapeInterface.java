@@ -66,7 +66,6 @@ public class ShapeInterface {
     this.shapeType = shapeType;
   }
 
-
   /**
    * Return true if this ShapeInterface object is equal to o.
    */

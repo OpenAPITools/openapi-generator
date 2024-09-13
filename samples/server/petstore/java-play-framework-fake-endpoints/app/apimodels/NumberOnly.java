@@ -14,8 +14,7 @@ import javax.validation.Valid;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class NumberOnly   {
   @JsonProperty("JustNumber")
-  @Valid
-
+                                        @Valid
   private BigDecimal justNumber;
 
   public NumberOnly justNumber(BigDecimal justNumber) {
@@ -75,4 +74,3 @@ public class NumberOnly   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

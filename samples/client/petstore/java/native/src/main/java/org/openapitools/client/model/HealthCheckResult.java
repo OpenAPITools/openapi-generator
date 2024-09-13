@@ -64,7 +64,6 @@ public class HealthCheckResult {
 
   @JsonProperty(JSON_PROPERTY_NULLABLE_MESSAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<String> getNullableMessage_JsonNullable() {
     return nullableMessage;
   }
@@ -77,7 +76,6 @@ public class HealthCheckResult {
   public void setNullableMessage(String nullableMessage) {
     this.nullableMessage = JsonNullable.<String>of(nullableMessage);
   }
-
 
   /**
    * Return true if this HealthCheckResult object is equal to o.
@@ -171,61 +169,60 @@ public class HealthCheckResult {
   }
 
     public static class Builder {
-
-    private HealthCheckResult instance;
-
-    public Builder() {
-      this(new HealthCheckResult());
-    }
-
-    protected Builder(HealthCheckResult instance) {
-      this.instance = instance;
-    }
-
-    public HealthCheckResult.Builder nullableMessage(String nullableMessage) {
-      this.instance.nullableMessage = JsonNullable.<String>of(nullableMessage);
-      return this;
-    }
-    public HealthCheckResult.Builder nullableMessage(JsonNullable<String> nullableMessage) {
-      this.instance.nullableMessage = nullableMessage;
-      return this;
-    }
-
-
-    /**
-    * returns a built HealthCheckResult instance.
-    *
-    * The builder is not reusable.
-    */
-    public HealthCheckResult build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    
+        private HealthCheckResult instance;
+    
+        public Builder() {
+          this(new HealthCheckResult());
+        }
+    
+        protected Builder(HealthCheckResult instance) {
+          this.instance = instance;
+        }
+    
+        public HealthCheckResult.Builder nullableMessage(String nullableMessage) {
+          this.instance.nullableMessage = JsonNullable.<String>of(nullableMessage);
+              return this;
+        }
+        public HealthCheckResult.Builder nullableMessage(JsonNullable<String> nullableMessage) {
+          this.instance.nullableMessage = nullableMessage;
+          return this;
+        }
+        
+    
+        /**
+        * returns a built HealthCheckResult instance.
+        *
+        * The builder is not reusable.
+        */
+        public HealthCheckResult build() {
+          try {
+            return this.instance;
+          } finally {
+            // ensure that this.instance is not reused
+            this.instance = null;
+          }
+        }
+    
+        @Override
+        public String toString() {
+          return getClass() + "=(" + instance + ")";
+        }
       }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static HealthCheckResult.Builder builder() {
-    return new HealthCheckResult.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public HealthCheckResult.Builder toBuilder() {
-    return new HealthCheckResult.Builder()
-      .nullableMessage(getNullableMessage());
-  }
-
+    
+      /**
+      * Create a builder with no initialized field.
+      */
+      public static HealthCheckResult.Builder builder() {
+        return new HealthCheckResult.Builder();
+      }
+    
+      /**
+      * Create a builder with a shallow copy of this instance.
+      */
+      public HealthCheckResult.Builder toBuilder() {
+        return new HealthCheckResult.Builder()
+          .nullableMessage(getNullableMessage());
+      }
 }
 

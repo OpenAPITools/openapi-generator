@@ -28,7 +28,6 @@ import com.squareup.moshi.JsonClass
  * @param n1 
  */
 
-
 data class Apa (
 
     @Json(name = "i0")

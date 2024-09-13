@@ -422,7 +422,6 @@ public class AdditionalPropertiesClass {
     this.anytype3 = anytype3;
   }
 
-
   /**
    * Return true if this AdditionalPropertiesClass object is equal to o.
    */

@@ -95,7 +95,6 @@ public class Order {
       }
     }
   }
-
   public static final String SERIALIZED_NAME_STATUS = "status";
   @SerializedName(SERIALIZED_NAME_STATUS)
   private StatusEnum status;
@@ -119,7 +118,6 @@ public class Order {
    */
   @javax.annotation.Nullable
 
-
   public Long getId() {
     return id;
   }
@@ -141,7 +139,6 @@ public class Order {
    */
   @javax.annotation.Nullable
 
-
   public Long getPetId() {
     return petId;
   }
@@ -162,7 +159,6 @@ public class Order {
    * @return quantity
    */
   @javax.annotation.Nullable
-
 
   public Integer getQuantity() {
     return quantity;
@@ -186,7 +182,6 @@ public class Order {
   @javax.annotation.Nullable
   @Valid
 
-
   public OffsetDateTime getShipDate() {
     return shipDate;
   }
@@ -208,7 +203,6 @@ public class Order {
    */
   @javax.annotation.Nullable
 
-
   public StatusEnum getStatus() {
     return status;
   }
@@ -229,7 +223,6 @@ public class Order {
    * @return complete
    */
   @javax.annotation.Nullable
-
 
   public Boolean isComplete() {
     return complete;

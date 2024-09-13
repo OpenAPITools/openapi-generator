@@ -166,7 +166,6 @@ public class FruitReq extends AbstractOpenApiSchema {
     public FruitReq() {
         super("oneOf", Boolean.FALSE);
     }
-
     public FruitReq(AppleReq o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);

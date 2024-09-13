@@ -20,7 +20,6 @@ class ModelList {
 
      this.n123list,
   });
-
   @JsonKey(
     
     name: r'123-list',

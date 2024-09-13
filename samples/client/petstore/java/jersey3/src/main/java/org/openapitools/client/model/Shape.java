@@ -208,7 +208,6 @@ public class Shape extends AbstractOpenApiSchema {
     }
     return this.additionalProperties.get(key);
   }
-
     /**
      * Return true if this Shape object is equal to o.
      */

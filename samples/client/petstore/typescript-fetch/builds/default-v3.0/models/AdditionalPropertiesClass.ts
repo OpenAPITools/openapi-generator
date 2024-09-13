@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * 
@@ -32,7 +31,6 @@ export interface AdditionalPropertiesClass {
      */
     mapOfMapProperty?: { [key: string]: { [key: string]: string; }; };
 }
-
 /**
  * Check if a given object implements the AdditionalPropertiesClass interface.
  */
@@ -70,4 +68,3 @@ export function AdditionalPropertiesClassFromJSONTyped(json: any, ignoreDiscrimi
         'map_of_map_property': value['mapOfMapProperty'],
     };
 }
-

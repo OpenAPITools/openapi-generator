@@ -114,7 +114,6 @@ public class Pet {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_STATUS = "status";
   @XmlElement(name = "status")
   private StatusEnum status;

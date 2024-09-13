@@ -28,8 +28,7 @@ import javax.annotation.Generated;
  * A delegate to be called by the {@link FakeApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public interface FakeApiDelegate {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public interface FakeApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
@@ -44,9 +43,8 @@ public interface FakeApiDelegate {
      * @see FakeApi#createXmlItem
      */
     default ResponseEntity<Void> createXmlItem(XmlItem xmlItem) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
     /**
      * POST /fake/outer/boolean
@@ -57,9 +55,8 @@ public interface FakeApiDelegate {
      * @see FakeApi#fakeOuterBooleanSerialize
      */
     default ResponseEntity<Boolean> fakeOuterBooleanSerialize(Boolean body) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
     /**
      * POST /fake/outer/composite
@@ -70,18 +67,17 @@ public interface FakeApiDelegate {
      * @see FakeApi#fakeOuterCompositeSerialize
      */
     default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(OuterComposite body) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                    String exampleString = "{ \"my_string\" : \"my_string\", \"my_number\" : 0.8008281904610115, \"my_boolean\" : true }";
-                    ApiUtil.setExampleResponse(request, "*/*", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        getRequest().ifPresent(request -> {
+                    for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                        if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
+                            String exampleString = "{ \"my_string\" : \"my_string\", \"my_number\" : 0.8008281904610115, \"my_boolean\" : true }";
+                            ApiUtil.setExampleResponse(request, "*/*", exampleString);
+                            break;
+                        }
+                    }
+                });
+                return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                                            }
 
     /**
      * POST /fake/outer/number
@@ -92,9 +88,8 @@ public interface FakeApiDelegate {
      * @see FakeApi#fakeOuterNumberSerialize
      */
     default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(BigDecimal body) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
     /**
      * POST /fake/outer/string
@@ -105,9 +100,8 @@ public interface FakeApiDelegate {
      * @see FakeApi#fakeOuterStringSerialize
      */
     default ResponseEntity<String> fakeOuterStringSerialize(String body) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
     /**
      * PUT /fake/body-with-file-schema
@@ -118,9 +112,8 @@ public interface FakeApiDelegate {
      * @see FakeApi#testBodyWithFileSchema
      */
     default ResponseEntity<Void> testBodyWithFileSchema(FileSchemaTestClass body) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
     /**
      * PUT /fake/body-with-query-params
@@ -132,9 +125,8 @@ public interface FakeApiDelegate {
      */
     default ResponseEntity<Void> testBodyWithQueryParams(String query,
         User body) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
     /**
      * PATCH /fake : To test \&quot;client\&quot; model
@@ -145,18 +137,17 @@ public interface FakeApiDelegate {
      * @see FakeApi#testClientModel
      */
     default ResponseEntity<Client> testClientModel(Client body) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"client\" : \"client\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        getRequest().ifPresent(request -> {
+                    for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                        if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                            String exampleString = "{ \"client\" : \"client\" }";
+                            ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                            break;
+                        }
+                    }
+                });
+                return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                                            }
 
     /**
      * POST /fake : Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -194,9 +185,8 @@ public interface FakeApiDelegate {
         OffsetDateTime dateTime,
         String password,
         String paramCallback) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
     /**
      * GET /fake : To test enum parameters
@@ -222,9 +212,8 @@ public interface FakeApiDelegate {
         Double enumQueryDouble,
         List<String> enumFormStringArray,
         String enumFormString) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
     /**
      * DELETE /fake : Fake endpoint to test group parameters (optional)
@@ -245,9 +234,8 @@ public interface FakeApiDelegate {
         Integer stringGroup,
         Boolean booleanGroup,
         Long int64Group) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
     /**
      * POST /fake/inline-additionalProperties : test inline additionalProperties
@@ -257,9 +245,8 @@ public interface FakeApiDelegate {
      * @see FakeApi#testInlineAdditionalProperties
      */
     default ResponseEntity<Void> testInlineAdditionalProperties(Map<String, String> param) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
     /**
      * GET /fake/jsonFormData : test json serialization of form data
@@ -271,9 +258,8 @@ public interface FakeApiDelegate {
      */
     default ResponseEntity<Void> testJsonFormData(String param,
         String param2) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
     /**
      * PUT /fake/test-query-parameters
@@ -292,9 +278,8 @@ public interface FakeApiDelegate {
         List<String> http,
         List<String> url,
         List<String> context) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
     /**
      * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required)
@@ -308,17 +293,16 @@ public interface FakeApiDelegate {
     default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(Long petId,
         MultipartFile requiredFile,
         String additionalMetadata) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                        getRequest().ifPresent(request -> {
+                    for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                        if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                            String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                            ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                            break;
+                        }
+                    }
+                });
+                return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                                            }
 
 }

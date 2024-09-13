@@ -23,7 +23,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
   * Model for testing model name same as property name
  **/
-
 public class Name  {
   
   private Integer name;
@@ -120,4 +119,3 @@ public class Name  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

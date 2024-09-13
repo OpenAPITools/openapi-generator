@@ -77,7 +77,6 @@ public class ArrayOfArrayOfNumberOnly {
     this.arrayArrayNumber = arrayArrayNumber;
   }
 
-
   /**
    * Return true if this ArrayOfArrayOfNumberOnly object is equal to o.
    */

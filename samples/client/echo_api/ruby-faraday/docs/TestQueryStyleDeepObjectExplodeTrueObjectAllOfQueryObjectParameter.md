@@ -21,4 +21,3 @@ instance = OpenapiClient::TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObj
   name: Dogs
 )
 ```
-

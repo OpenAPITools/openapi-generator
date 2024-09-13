@@ -81,7 +81,6 @@ public class Dog extends Animal implements Parcelable {
   }
 
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

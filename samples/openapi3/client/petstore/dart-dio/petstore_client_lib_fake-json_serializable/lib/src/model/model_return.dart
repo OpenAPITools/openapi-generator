@@ -20,7 +20,6 @@ class ModelReturn {
 
      this.return_,
   });
-
   @JsonKey(
     
     name: r'return',

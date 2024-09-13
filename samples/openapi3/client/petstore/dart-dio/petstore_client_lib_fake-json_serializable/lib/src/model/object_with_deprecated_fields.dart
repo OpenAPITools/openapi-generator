@@ -27,7 +27,6 @@ class ObjectWithDeprecatedFields {
 
      this.bars,
   });
-
   @JsonKey(
     
     name: r'uuid',

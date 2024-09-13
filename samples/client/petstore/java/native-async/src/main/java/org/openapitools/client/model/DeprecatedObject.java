@@ -68,7 +68,6 @@ public class DeprecatedObject {
     this.name = name;
   }
 
-
   /**
    * Return true if this DeprecatedObject object is equal to o.
    */

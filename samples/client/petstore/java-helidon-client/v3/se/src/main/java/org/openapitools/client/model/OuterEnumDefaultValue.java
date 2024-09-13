@@ -49,4 +49,3 @@ public enum OuterEnumDefaultValue {
     throw new IllegalArgumentException("Unexpected value '" + text + "'");
   }
 }
-

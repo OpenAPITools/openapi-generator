@@ -25,8 +25,7 @@ abstract class Banana implements Built<Banana, BananaBuilder> {
   static void _defaults(BananaBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<Banana> get serializer => _$BananaSerializer();
-}
+  static Serializer<Banana> get serializer => _$BananaSerializer();}
 
 class _$BananaSerializer implements PrimitiveSerializer<Banana> {
   @override

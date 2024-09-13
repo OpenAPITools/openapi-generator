@@ -22,7 +22,6 @@ class EnumArrays {
 
      this.arrayEnum,
   });
-
   @JsonKey(
     
     name: r'just_symbol',
@@ -81,7 +80,6 @@ enum EnumArraysJustSymbolEnum {
 }
 
 
-
 enum EnumArraysArrayEnumEnum {
   @JsonValue(r'fish')
   fish,
@@ -90,5 +88,4 @@ enum EnumArraysArrayEnumEnum {
   @JsonValue(r'unknown_default_open_api')
   unknownDefaultOpenApi,
 }
-
 

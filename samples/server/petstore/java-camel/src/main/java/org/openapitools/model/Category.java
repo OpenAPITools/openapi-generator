@@ -22,13 +22,10 @@ import javax.annotation.Generated;
 /**
  * A category for a pet
  */
-
 @Schema(name = "Category", description = "A category for a pet")
 @JacksonXmlRootElement(localName = "Category")
 @XmlRootElement(name = "Category")
-@XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class Category {
+@XmlAccessorType(XmlAccessType.FIELD)@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class Category {
 
   private Long id;
 
@@ -43,8 +40,7 @@ public class Category {
    * Get id
    * @return id
    */
-  
-  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
   public Long getId() {
@@ -64,8 +60,7 @@ public class Category {
    * Get name
    * @return name
    */
-  @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
-  @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")   @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
   @JacksonXmlProperty(localName = "name")
   public String getName() {
@@ -75,7 +70,6 @@ public class Category {
   public void setName(String name) {
     this.name = name;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -145,7 +145,6 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
   }
 
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

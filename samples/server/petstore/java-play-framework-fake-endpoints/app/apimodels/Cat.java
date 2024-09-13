@@ -14,8 +14,7 @@ import javax.validation.Valid;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Cat extends Animal  {
   @JsonProperty("declawed")
-  
-  private Boolean declawed;
+                                        private Boolean declawed;
 
   public Cat declawed(Boolean declawed) {
     this.declawed = declawed;
@@ -75,4 +74,3 @@ public class Cat extends Animal  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

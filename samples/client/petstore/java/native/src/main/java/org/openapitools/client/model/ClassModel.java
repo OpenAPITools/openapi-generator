@@ -66,7 +66,6 @@ public class ClassModel {
     this.propertyClass = propertyClass;
   }
 
-
   /**
    * Return true if this ClassModel object is equal to o.
    */
@@ -148,57 +147,56 @@ public class ClassModel {
   }
 
     public static class Builder {
-
-    private ClassModel instance;
-
-    public Builder() {
-      this(new ClassModel());
-    }
-
-    protected Builder(ClassModel instance) {
-      this.instance = instance;
-    }
-
-    public ClassModel.Builder propertyClass(String propertyClass) {
-      this.instance.propertyClass = propertyClass;
-      return this;
-    }
-
-
-    /**
-    * returns a built ClassModel instance.
-    *
-    * The builder is not reusable.
-    */
-    public ClassModel build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    
+        private ClassModel instance;
+    
+        public Builder() {
+          this(new ClassModel());
+        }
+    
+        protected Builder(ClassModel instance) {
+          this.instance = instance;
+        }
+    
+        public ClassModel.Builder propertyClass(String propertyClass) {
+              this.instance.propertyClass = propertyClass;
+          return this;
+        }
+        
+    
+        /**
+        * returns a built ClassModel instance.
+        *
+        * The builder is not reusable.
+        */
+        public ClassModel build() {
+          try {
+            return this.instance;
+          } finally {
+            // ensure that this.instance is not reused
+            this.instance = null;
+          }
+        }
+    
+        @Override
+        public String toString() {
+          return getClass() + "=(" + instance + ")";
+        }
       }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static ClassModel.Builder builder() {
-    return new ClassModel.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public ClassModel.Builder toBuilder() {
-    return new ClassModel.Builder()
-      .propertyClass(getPropertyClass());
-  }
-
+    
+      /**
+      * Create a builder with no initialized field.
+      */
+      public static ClassModel.Builder builder() {
+        return new ClassModel.Builder();
+      }
+    
+      /**
+      * Create a builder with a shallow copy of this instance.
+      */
+      public ClassModel.Builder toBuilder() {
+        return new ClassModel.Builder()
+          .propertyClass(getPropertyClass());
+      }
 }
 

@@ -78,7 +78,6 @@ public class Cat extends Animal {
     this.declawed = declawed;
   }
 
-
   @Override
   public Cat className(String className) {
     this.setClassName(className);
@@ -190,71 +189,70 @@ static {
 }
 
     public static class Builder extends Animal.Builder {
-
-    private Cat instance;
-
-    public Builder() {
-      this(new Cat());
-    }
-
-    protected Builder(Cat instance) {
-      super(instance);
-      this.instance = instance;
-    }
-
-    public Cat.Builder declawed(Boolean declawed) {
-      this.instance.declawed = declawed;
-      return this;
-    }
-
-    public Cat.Builder className(String className) { // inherited: true
-      super.className(className);
-      return this;
-   }
-
-    public Cat.Builder color(String color) { // inherited: true
-      super.color(color);
-      return this;
-   }
-
-
-    /**
-    * returns a built Cat instance.
-    *
-    * The builder is not reusable.
-    */
-    public Cat build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        super.build();
-        this.instance = null;
+    
+        private Cat instance;
+    
+        public Builder() {
+          this(new Cat());
+        }
+    
+        protected Builder(Cat instance) {
+          super(instance);
+          this.instance = instance;
+        }
+    
+        public Cat.Builder declawed(Boolean declawed) {
+              this.instance.declawed = declawed;
+          return this;
+        }
+        
+        public Cat.Builder className(String className) { // inherited: true
+          super.className(className);
+          return this;
+       }
+    
+        public Cat.Builder color(String color) { // inherited: true
+          super.color(color);
+          return this;
+       }
+    
+    
+        /**
+        * returns a built Cat instance.
+        *
+        * The builder is not reusable.
+        */
+        public Cat build() {
+          try {
+            return this.instance;
+          } finally {
+            // ensure that this.instance is not reused
+            super.build();
+            this.instance = null;
+          }
+        }
+    
+        @Override
+        public String toString() {
+          return getClass() + "=(" + instance + ")";
+        }
       }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static Cat.Builder builder() {
-    return new Cat.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public Cat.Builder toBuilder() {
-    return new Cat.Builder()
-      .className(getClassName())
-      .color(getColor())
-      .declawed(getDeclawed());
-  }
-
+    
+      /**
+      * Create a builder with no initialized field.
+      */
+      public static Cat.Builder builder() {
+        return new Cat.Builder();
+      }
+    
+      /**
+      * Create a builder with a shallow copy of this instance.
+      */
+      public Cat.Builder toBuilder() {
+        return new Cat.Builder()
+          .className(getClassName())
+          .color(getColor())
+          .declawed(getDeclawed());
+      }
 }
 

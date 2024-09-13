@@ -60,7 +60,6 @@ public class FileSchemaTestClass {
    */
   @jakarta.annotation.Nullable
   @Valid
-
   @JsonProperty(JSON_PROPERTY_FILE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -95,7 +94,6 @@ public class FileSchemaTestClass {
    */
   @jakarta.annotation.Nullable
   @Valid
-
   @JsonProperty(JSON_PROPERTY_FILES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -109,7 +107,6 @@ public class FileSchemaTestClass {
   public void setFiles(List<@Valid ModelFile> files) {
     this.files = files;
   }
-
 
   /**
    * Return true if this FileSchemaTestClass object is equal to o.

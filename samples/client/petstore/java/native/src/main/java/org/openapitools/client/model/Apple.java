@@ -94,7 +94,6 @@ public class Apple {
     this.origin = origin;
   }
 
-
   /**
    * Return true if this apple object is equal to o.
    */
@@ -183,62 +182,61 @@ public class Apple {
   }
 
     public static class Builder {
-
-    private Apple instance;
-
-    public Builder() {
-      this(new Apple());
-    }
-
-    protected Builder(Apple instance) {
-      this.instance = instance;
-    }
-
-    public Apple.Builder cultivar(String cultivar) {
-      this.instance.cultivar = cultivar;
-      return this;
-    }
-    public Apple.Builder origin(String origin) {
-      this.instance.origin = origin;
-      return this;
-    }
-
-
-    /**
-    * returns a built Apple instance.
-    *
-    * The builder is not reusable.
-    */
-    public Apple build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    
+        private Apple instance;
+    
+        public Builder() {
+          this(new Apple());
+        }
+    
+        protected Builder(Apple instance) {
+          this.instance = instance;
+        }
+    
+        public Apple.Builder cultivar(String cultivar) {
+              this.instance.cultivar = cultivar;
+          return this;
+        }
+            public Apple.Builder origin(String origin) {
+              this.instance.origin = origin;
+          return this;
+        }
+        
+    
+        /**
+        * returns a built Apple instance.
+        *
+        * The builder is not reusable.
+        */
+        public Apple build() {
+          try {
+            return this.instance;
+          } finally {
+            // ensure that this.instance is not reused
+            this.instance = null;
+          }
+        }
+    
+        @Override
+        public String toString() {
+          return getClass() + "=(" + instance + ")";
+        }
       }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static Apple.Builder builder() {
-    return new Apple.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public Apple.Builder toBuilder() {
-    return new Apple.Builder()
-      .cultivar(getCultivar())
-      .origin(getOrigin());
-  }
-
+    
+      /**
+      * Create a builder with no initialized field.
+      */
+      public static Apple.Builder builder() {
+        return new Apple.Builder();
+      }
+    
+      /**
+      * Create a builder with a shallow copy of this instance.
+      */
+      public Apple.Builder toBuilder() {
+        return new Apple.Builder()
+          .cultivar(getCultivar())
+          .origin(getOrigin());
+      }
 }
 

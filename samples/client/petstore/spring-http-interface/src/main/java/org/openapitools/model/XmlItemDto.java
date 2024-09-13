@@ -20,10 +20,8 @@ import jakarta.annotation.Generated;
 /**
  * XmlItemDto
  */
-
 @JsonTypeName("XmlItem")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class XmlItemDto {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class XmlItemDto {
 
   private String attributeString;
 
@@ -714,7 +712,6 @@ public class XmlItemDto {
   public void setPrefixNsWrappedArray(List<Integer> prefixNsWrappedArray) {
     this.prefixNsWrappedArray = prefixNsWrappedArray;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

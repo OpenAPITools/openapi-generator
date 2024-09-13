@@ -16,9 +16,7 @@ import jakarta.annotation.Generated;
 /**
  * A tag for a pet
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class Tag {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class Tag {
 
   private Optional<Long> id = Optional.empty();
 
@@ -33,8 +31,7 @@ public class Tag {
    * Get id
    * @return id
    */
-  
-  @JsonProperty("id")
+    @JsonProperty("id")
   public Optional<Long> getId() {
     return id;
   }
@@ -52,8 +49,7 @@ public class Tag {
    * Get name
    * @return name
    */
-  
-  @JsonProperty("name")
+    @JsonProperty("name")
   public Optional<String> getName() {
     return name;
   }
@@ -61,7 +57,6 @@ public class Tag {
   public void setName(Optional<String> name) {
     this.name = name;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -29,7 +29,6 @@ import javax.validation.Valid;
 
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-
 public class StoreApi  {
 
   @Context SecurityContext securityContext;

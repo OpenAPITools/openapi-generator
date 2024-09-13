@@ -90,7 +90,6 @@ public class ParentWithNullable {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_TYPE = "type";
   @XmlElement(name = "type")
   protected TypeEnum type;
@@ -149,7 +148,6 @@ public class ParentWithNullable {
   @JsonProperty(JSON_PROPERTY_NULLABLE_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "nullableProperty")
-
   public JsonNullable<String> getNullableProperty_JsonNullable() {
     return nullableProperty;
   }

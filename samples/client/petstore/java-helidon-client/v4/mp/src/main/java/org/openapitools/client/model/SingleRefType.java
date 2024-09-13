@@ -47,4 +47,3 @@ public enum SingleRefType {
     throw new IllegalArgumentException("Unexpected value '" + text + "'");
   }
 }
-

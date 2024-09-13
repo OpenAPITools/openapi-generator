@@ -18,9 +18,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * Gets or Sets EnumClass
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public enum EnumClassDto {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public enum EnumClassDto {
   
   _ABC("_abc"),
   
@@ -54,4 +52,3 @@ public enum EnumClassDto {
     throw new IllegalArgumentException("Unexpected value '" + value + "'");
   }
 }
-

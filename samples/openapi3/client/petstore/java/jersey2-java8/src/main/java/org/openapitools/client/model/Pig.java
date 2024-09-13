@@ -206,7 +206,6 @@ public class Pig extends AbstractOpenApiSchema {
     }
     return this.additionalProperties.get(key);
   }
-
     /**
      * Return true if this Pig object is equal to o.
      */

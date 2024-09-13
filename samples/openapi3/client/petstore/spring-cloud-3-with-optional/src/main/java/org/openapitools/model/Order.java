@@ -19,9 +19,7 @@ import jakarta.annotation.Generated;
 /**
  * An order for a pets from the pet store
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class Order {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class Order {
 
   private Optional<Long> id = Optional.empty();
 
@@ -68,7 +66,6 @@ public class Order {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   private Optional<StatusEnum> status = Optional.empty();
 
   private Optional<Boolean> complete = Optional.of(false);
@@ -82,8 +79,7 @@ public class Order {
    * Get id
    * @return id
    */
-  
-  @JsonProperty("id")
+    @JsonProperty("id")
   public Optional<Long> getId() {
     return id;
   }
@@ -101,8 +97,7 @@ public class Order {
    * Get petId
    * @return petId
    */
-  
-  @JsonProperty("petId")
+    @JsonProperty("petId")
   public Optional<Long> getPetId() {
     return petId;
   }
@@ -120,8 +115,7 @@ public class Order {
    * Get quantity
    * @return quantity
    */
-  
-  @JsonProperty("quantity")
+    @JsonProperty("quantity")
   public Optional<Integer> getQuantity() {
     return quantity;
   }
@@ -139,8 +133,7 @@ public class Order {
    * Get shipDate
    * @return shipDate
    */
-  @Valid 
-  @JsonProperty("shipDate")
+  @Valid   @JsonProperty("shipDate")
   public Optional<OffsetDateTime> getShipDate() {
     return shipDate;
   }
@@ -158,8 +151,7 @@ public class Order {
    * Order Status
    * @return status
    */
-  
-  @JsonProperty("status")
+    @JsonProperty("status")
   public Optional<StatusEnum> getStatus() {
     return status;
   }
@@ -177,8 +169,7 @@ public class Order {
    * Get complete
    * @return complete
    */
-  
-  @JsonProperty("complete")
+    @JsonProperty("complete")
   public Optional<Boolean> getComplete() {
     return complete;
   }
@@ -186,7 +177,6 @@ public class Order {
   public void setComplete(Optional<Boolean> complete) {
     this.complete = complete;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

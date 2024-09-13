@@ -50,4 +50,3 @@ export default class OuterEnumDefaultValue {
         return object;
     }
 }
-

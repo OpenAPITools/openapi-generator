@@ -30,8 +30,7 @@ abstract class Category implements Built<Category, CategoryBuilder> {
       ..name = 'default-name';
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<Category> get serializer => _$CategorySerializer();
-}
+  static Serializer<Category> get serializer => _$CategorySerializer();}
 
 class _$CategorySerializer implements PrimitiveSerializer<Category> {
   @override

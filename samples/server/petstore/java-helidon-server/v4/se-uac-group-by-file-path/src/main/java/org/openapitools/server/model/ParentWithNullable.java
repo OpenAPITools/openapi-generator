@@ -48,7 +48,6 @@ public class ParentWithNullable   {
         }
     }
 
-
     private TypeEnum type;
     private String nullableProperty;
 

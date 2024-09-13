@@ -29,20 +29,17 @@ import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
 @Path("")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class PetServiceImpl implements PetService {
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class PetServiceImpl implements PetService {
 
     @POST
     @Path("/pet")
     @Consumes({ "application/json", "application/xml" })
     public void addPet(@Valid @NotNull Pet pet) {
     }
-
     @DELETE
     @Path("/pet/{petId}")
     public void deletePet(@PathParam("petId") Long petId,@HeaderParam("api_key")  String apiKey) {
     }
-
     @GET
     @Path("/pet/findByStatus")
     @Produces({ "application/xml", "application/json" })
@@ -50,7 +47,6 @@ public class PetServiceImpl implements PetService {
         List<Pet> result = java.util.Collections.emptyList(); // Replace with correct business logic.
         return result;
     }
-
     @GET
     @Path("/pet/findByTags")
     @Produces({ "application/xml", "application/json" })
@@ -58,7 +54,6 @@ public class PetServiceImpl implements PetService {
         Set<Pet> result = java.util.Collections.emptySet(); // Replace with correct business logic.
         return result;
     }
-
     @GET
     @Path("/pet/{petId}")
     @Produces({ "application/xml", "application/json" })
@@ -66,19 +61,16 @@ public class PetServiceImpl implements PetService {
         Pet result = null; // Replace with correct business logic.
         return result;
     }
-
     @PUT
     @Path("/pet")
     @Consumes({ "application/json", "application/xml" })
     public void updatePet(@Valid @NotNull Pet pet) {
     }
-
     @POST
     @Path("/pet/{petId}")
     @Consumes({ "application/x-www-form-urlencoded" })
     public void updatePetWithForm(@PathParam("petId") Long petId,@FormParam(value = "name")  String name,@FormParam(value = "status")  String status) {
     }
-
     @POST
     @Path("/pet/{petId}/uploadImage")
     @Consumes({ "multipart/form-data" })
@@ -87,7 +79,6 @@ public class PetServiceImpl implements PetService {
         ModelApiResponse result = null; // Replace with correct business logic.
         return result;
     }
-
     @POST
     @Path("/fake/{petId}/uploadImageWithRequiredFile")
     @Consumes({ "multipart/form-data" })
@@ -95,5 +86,4 @@ public class PetServiceImpl implements PetService {
     public ModelApiResponse uploadFileWithRequiredFile(@PathParam("petId") Long petId, @FormParam(value = "requiredFile") InputStream requiredFileInputStream,@FormParam(value = "additionalMetadata")  String additionalMetadata) {
         ModelApiResponse result = null; // Replace with correct business logic.
         return result;
-    }
-}
+    }}

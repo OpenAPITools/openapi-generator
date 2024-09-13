@@ -42,7 +42,6 @@ class NullableClass {
 
      this.objectItemsNullable,
   });
-
   @JsonKey(
     
     name: r'integer_prop',

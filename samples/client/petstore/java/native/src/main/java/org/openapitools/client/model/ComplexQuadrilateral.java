@@ -94,7 +94,6 @@ public class ComplexQuadrilateral {
     this.quadrilateralType = quadrilateralType;
   }
 
-
   /**
    * Return true if this ComplexQuadrilateral object is equal to o.
    */
@@ -183,62 +182,61 @@ public class ComplexQuadrilateral {
   }
 
     public static class Builder {
-
-    private ComplexQuadrilateral instance;
-
-    public Builder() {
-      this(new ComplexQuadrilateral());
-    }
-
-    protected Builder(ComplexQuadrilateral instance) {
-      this.instance = instance;
-    }
-
-    public ComplexQuadrilateral.Builder shapeType(String shapeType) {
-      this.instance.shapeType = shapeType;
-      return this;
-    }
-    public ComplexQuadrilateral.Builder quadrilateralType(String quadrilateralType) {
-      this.instance.quadrilateralType = quadrilateralType;
-      return this;
-    }
-
-
-    /**
-    * returns a built ComplexQuadrilateral instance.
-    *
-    * The builder is not reusable.
-    */
-    public ComplexQuadrilateral build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    
+        private ComplexQuadrilateral instance;
+    
+        public Builder() {
+          this(new ComplexQuadrilateral());
+        }
+    
+        protected Builder(ComplexQuadrilateral instance) {
+          this.instance = instance;
+        }
+    
+        public ComplexQuadrilateral.Builder shapeType(String shapeType) {
+              this.instance.shapeType = shapeType;
+          return this;
+        }
+            public ComplexQuadrilateral.Builder quadrilateralType(String quadrilateralType) {
+              this.instance.quadrilateralType = quadrilateralType;
+          return this;
+        }
+        
+    
+        /**
+        * returns a built ComplexQuadrilateral instance.
+        *
+        * The builder is not reusable.
+        */
+        public ComplexQuadrilateral build() {
+          try {
+            return this.instance;
+          } finally {
+            // ensure that this.instance is not reused
+            this.instance = null;
+          }
+        }
+    
+        @Override
+        public String toString() {
+          return getClass() + "=(" + instance + ")";
+        }
       }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static ComplexQuadrilateral.Builder builder() {
-    return new ComplexQuadrilateral.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public ComplexQuadrilateral.Builder toBuilder() {
-    return new ComplexQuadrilateral.Builder()
-      .shapeType(getShapeType())
-      .quadrilateralType(getQuadrilateralType());
-  }
-
+    
+      /**
+      * Create a builder with no initialized field.
+      */
+      public static ComplexQuadrilateral.Builder builder() {
+        return new ComplexQuadrilateral.Builder();
+      }
+    
+      /**
+      * Create a builder with a shallow copy of this instance.
+      */
+      public ComplexQuadrilateral.Builder toBuilder() {
+        return new ComplexQuadrilateral.Builder()
+          .shapeType(getShapeType())
+          .quadrilateralType(getQuadrilateralType());
+      }
 }
 

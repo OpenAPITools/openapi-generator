@@ -239,7 +239,6 @@ sub _deserialize {
     }
 }
 
-
 __PACKAGE__->class_documentation({description => 'A representation of an adult',
                                   class => 'Adult',
                                   required => [], # TODO

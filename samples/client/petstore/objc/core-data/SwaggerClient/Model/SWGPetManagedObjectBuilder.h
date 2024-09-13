@@ -19,7 +19,6 @@
 * Do not edit the class manually.
 */
 
-
 @interface SWGPetManagedObjectBuilder : NSObject
 
 @property (nonatomic, strong) SWGCategoryManagedObjectBuilder * categoryBuilder;

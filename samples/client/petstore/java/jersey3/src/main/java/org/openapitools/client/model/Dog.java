@@ -66,7 +66,6 @@ public class Dog extends Animal {
    * @return breed
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_BREED)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -118,7 +117,6 @@ public class Dog extends Animal {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this Dog object is equal to o.
    */

@@ -9,7 +9,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
-
 class User {
   /// Returns a new [User] instance.
   User({
@@ -22,7 +21,6 @@ class User {
     this.phone,
     this.userStatus,
   });
-
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
@@ -235,4 +233,3 @@ class User {
   static const requiredKeys = <String>{
   };
 }
-

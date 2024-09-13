@@ -32,7 +32,6 @@ class Pet {
 
      this.status,
   });
-
   @JsonKey(
     
     name: r'id',
@@ -148,5 +147,4 @@ enum PetStatusEnum {
   @JsonValue(r'unknown_default_open_api')
   unknownDefaultOpenApi,
 }
-
 

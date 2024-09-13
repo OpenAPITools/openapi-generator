@@ -59,7 +59,6 @@ public class HasOnlyReadOnly {
    */
   @javax.annotation.Nullable
 
-
   public String getBar() {
     return bar;
   }
@@ -71,7 +70,6 @@ public class HasOnlyReadOnly {
    * @return foo
    */
   @javax.annotation.Nullable
-
 
   public String getFoo() {
     return foo;

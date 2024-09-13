@@ -63,8 +63,7 @@ import javax.validation.Valid;
     ), 
 })
 @Path("/pet")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class PetApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class PetApi {
 
     @POST
     @Consumes({ "application/json", "application/xml" })

@@ -66,7 +66,6 @@ public class QuadrilateralInterface {
     this.quadrilateralType = quadrilateralType;
   }
 
-
   /**
    * Return true if this QuadrilateralInterface object is equal to o.
    */
@@ -148,57 +147,56 @@ public class QuadrilateralInterface {
   }
 
     public static class Builder {
-
-    private QuadrilateralInterface instance;
-
-    public Builder() {
-      this(new QuadrilateralInterface());
-    }
-
-    protected Builder(QuadrilateralInterface instance) {
-      this.instance = instance;
-    }
-
-    public QuadrilateralInterface.Builder quadrilateralType(String quadrilateralType) {
-      this.instance.quadrilateralType = quadrilateralType;
-      return this;
-    }
-
-
-    /**
-    * returns a built QuadrilateralInterface instance.
-    *
-    * The builder is not reusable.
-    */
-    public QuadrilateralInterface build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    
+        private QuadrilateralInterface instance;
+    
+        public Builder() {
+          this(new QuadrilateralInterface());
+        }
+    
+        protected Builder(QuadrilateralInterface instance) {
+          this.instance = instance;
+        }
+    
+        public QuadrilateralInterface.Builder quadrilateralType(String quadrilateralType) {
+              this.instance.quadrilateralType = quadrilateralType;
+          return this;
+        }
+        
+    
+        /**
+        * returns a built QuadrilateralInterface instance.
+        *
+        * The builder is not reusable.
+        */
+        public QuadrilateralInterface build() {
+          try {
+            return this.instance;
+          } finally {
+            // ensure that this.instance is not reused
+            this.instance = null;
+          }
+        }
+    
+        @Override
+        public String toString() {
+          return getClass() + "=(" + instance + ")";
+        }
       }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static QuadrilateralInterface.Builder builder() {
-    return new QuadrilateralInterface.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public QuadrilateralInterface.Builder toBuilder() {
-    return new QuadrilateralInterface.Builder()
-      .quadrilateralType(getQuadrilateralType());
-  }
-
+    
+      /**
+      * Create a builder with no initialized field.
+      */
+      public static QuadrilateralInterface.Builder builder() {
+        return new QuadrilateralInterface.Builder();
+      }
+    
+      /**
+      * Create a builder with a shallow copy of this instance.
+      */
+      public QuadrilateralInterface.Builder toBuilder() {
+        return new QuadrilateralInterface.Builder()
+          .quadrilateralType(getQuadrilateralType());
+      }
 }
 

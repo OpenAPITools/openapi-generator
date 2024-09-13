@@ -97,7 +97,6 @@ public class Pet {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_STATUS = "status";
   private StatusEnum status;
 
@@ -263,7 +262,6 @@ public class Pet {
     this.status = status;
   }
 
-
   /**
    * Return true if this Pet object is equal to o.
    */
@@ -389,82 +387,81 @@ public class Pet {
   }
 
     public static class Builder {
-
-    private Pet instance;
-
-    public Builder() {
-      this(new Pet());
-    }
-
-    protected Builder(Pet instance) {
-      this.instance = instance;
-    }
-
-    public Pet.Builder id(Long id) {
-      this.instance.id = id;
-      return this;
-    }
-    public Pet.Builder category(Category category) {
-      this.instance.category = category;
-      return this;
-    }
-    public Pet.Builder name(String name) {
-      this.instance.name = name;
-      return this;
-    }
-    public Pet.Builder photoUrls(List<String> photoUrls) {
-      this.instance.photoUrls = photoUrls;
-      return this;
-    }
-    public Pet.Builder tags(List<Tag> tags) {
-      this.instance.tags = tags;
-      return this;
-    }
-    public Pet.Builder status(StatusEnum status) {
-      this.instance.status = status;
-      return this;
-    }
-
-
-    /**
-    * returns a built Pet instance.
-    *
-    * The builder is not reusable.
-    */
-    public Pet build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    
+        private Pet instance;
+    
+        public Builder() {
+          this(new Pet());
+        }
+    
+        protected Builder(Pet instance) {
+          this.instance = instance;
+        }
+    
+        public Pet.Builder id(Long id) {
+              this.instance.id = id;
+          return this;
+        }
+            public Pet.Builder category(Category category) {
+              this.instance.category = category;
+          return this;
+        }
+            public Pet.Builder name(String name) {
+              this.instance.name = name;
+          return this;
+        }
+            public Pet.Builder photoUrls(List<String> photoUrls) {
+              this.instance.photoUrls = photoUrls;
+          return this;
+        }
+            public Pet.Builder tags(List<Tag> tags) {
+              this.instance.tags = tags;
+          return this;
+        }
+            public Pet.Builder status(StatusEnum status) {
+              this.instance.status = status;
+          return this;
+        }
+        
+    
+        /**
+        * returns a built Pet instance.
+        *
+        * The builder is not reusable.
+        */
+        public Pet build() {
+          try {
+            return this.instance;
+          } finally {
+            // ensure that this.instance is not reused
+            this.instance = null;
+          }
+        }
+    
+        @Override
+        public String toString() {
+          return getClass() + "=(" + instance + ")";
+        }
       }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static Pet.Builder builder() {
-    return new Pet.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public Pet.Builder toBuilder() {
-    return new Pet.Builder()
-      .id(getId())
-      .category(getCategory())
-      .name(getName())
-      .photoUrls(getPhotoUrls())
-      .tags(getTags())
-      .status(getStatus());
-  }
-
+    
+      /**
+      * Create a builder with no initialized field.
+      */
+      public static Pet.Builder builder() {
+        return new Pet.Builder();
+      }
+    
+      /**
+      * Create a builder with a shallow copy of this instance.
+      */
+      public Pet.Builder toBuilder() {
+        return new Pet.Builder()
+          .id(getId())
+          .category(getCategory())
+          .name(getName())
+          .photoUrls(getPhotoUrls())
+          .tags(getTags())
+          .status(getStatus());
+      }
 }
 

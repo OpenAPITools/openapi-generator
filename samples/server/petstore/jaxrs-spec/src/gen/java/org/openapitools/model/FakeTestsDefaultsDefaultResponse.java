@@ -24,100 +24,98 @@ public class FakeTestsDefaultsDefaultResponse  implements Serializable {
   private StringEnum stringEnum = StringEnum.FOO;
   private IntegerEnum integerEnum = IntegerEnum.NUMBER_1;
   public enum StringEnumInlineEnum {
-
-    FOO(String.valueOf("foo")), BAR(String.valueOf("bar")), BAZ(String.valueOf("baz"));
-
-
-    private String value;
-
-    StringEnumInlineEnum (String v) {
-        value = v;
-    }
-
-    public String value() {
-        return value;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-        return String.valueOf(value);
-    }
-
-    /**
-     * Convert a String into String, as specified in the
-     * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
-     */
-    public static StringEnumInlineEnum fromString(String s) {
-        for (StringEnumInlineEnum b : StringEnumInlineEnum.values()) {
-            // using Objects.toString() to be safe if value type non-object type
-            // because types like 'int' etc. will be auto-boxed
-            if (java.util.Objects.toString(b.value).equals(s)) {
-                return b;
-            }
-        }
-        throw new IllegalArgumentException("Unexpected string value '" + s + "'");
-    }
-
-    @JsonCreator
-    public static StringEnumInlineEnum fromValue(String value) {
-        for (StringEnumInlineEnum b : StringEnumInlineEnum.values()) {
-            if (b.value.equals(value)) {
-                return b;
-            }
-        }
-        throw new IllegalArgumentException("Unexpected value '" + value + "'");
-    }
-}
-
+  
+      FOO(String.valueOf("foo")), BAR(String.valueOf("bar")), BAZ(String.valueOf("baz"));
+  
+  
+      private String value;
+  
+      StringEnumInlineEnum (String v) {
+          value = v;
+      }
+  
+      public String value() {
+          return value;
+      }
+  
+      @Override
+      @JsonValue
+      public String toString() {
+          return String.valueOf(value);
+      }
+  
+      /**
+       * Convert a String into String, as specified in the
+       * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
+       */
+      public static StringEnumInlineEnum fromString(String s) {
+          for (StringEnumInlineEnum b : StringEnumInlineEnum.values()) {
+              // using Objects.toString() to be safe if value type non-object type
+              // because types like 'int' etc. will be auto-boxed
+              if (java.util.Objects.toString(b.value).equals(s)) {
+                  return b;
+              }
+          }
+          throw new IllegalArgumentException("Unexpected string value '" + s + "'");
+      }
+  
+      @JsonCreator
+      public static StringEnumInlineEnum fromValue(String value) {
+          for (StringEnumInlineEnum b : StringEnumInlineEnum.values()) {
+              if (b.value.equals(value)) {
+                  return b;
+              }
+          }
+          throw new IllegalArgumentException("Unexpected value '" + value + "'");
+      }
+  }
   private StringEnumInlineEnum stringEnumInline = StringEnumInlineEnum.FOO;
   public enum IntegerEnumInlineEnum {
-
-    NUMBER_1(Integer.valueOf(1)), NUMBER_2(Integer.valueOf(2)), NUMBER_3(Integer.valueOf(3));
-
-
-    private Integer value;
-
-    IntegerEnumInlineEnum (Integer v) {
-        value = v;
-    }
-
-    public Integer value() {
-        return value;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-        return String.valueOf(value);
-    }
-
-    /**
-     * Convert a String into Integer, as specified in the
-     * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
-     */
-    public static IntegerEnumInlineEnum fromString(String s) {
-        for (IntegerEnumInlineEnum b : IntegerEnumInlineEnum.values()) {
-            // using Objects.toString() to be safe if value type non-object type
-            // because types like 'int' etc. will be auto-boxed
-            if (java.util.Objects.toString(b.value).equals(s)) {
-                return b;
-            }
-        }
-        throw new IllegalArgumentException("Unexpected string value '" + s + "'");
-    }
-
-    @JsonCreator
-    public static IntegerEnumInlineEnum fromValue(Integer value) {
-        for (IntegerEnumInlineEnum b : IntegerEnumInlineEnum.values()) {
-            if (b.value.equals(value)) {
-                return b;
-            }
-        }
-        throw new IllegalArgumentException("Unexpected value '" + value + "'");
-    }
-}
-
+  
+      NUMBER_1(Integer.valueOf(1)), NUMBER_2(Integer.valueOf(2)), NUMBER_3(Integer.valueOf(3));
+  
+  
+      private Integer value;
+  
+      IntegerEnumInlineEnum (Integer v) {
+          value = v;
+      }
+  
+      public Integer value() {
+          return value;
+      }
+  
+      @Override
+      @JsonValue
+      public String toString() {
+          return String.valueOf(value);
+      }
+  
+      /**
+       * Convert a String into Integer, as specified in the
+       * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
+       */
+      public static IntegerEnumInlineEnum fromString(String s) {
+          for (IntegerEnumInlineEnum b : IntegerEnumInlineEnum.values()) {
+              // using Objects.toString() to be safe if value type non-object type
+              // because types like 'int' etc. will be auto-boxed
+              if (java.util.Objects.toString(b.value).equals(s)) {
+                  return b;
+              }
+          }
+          throw new IllegalArgumentException("Unexpected string value '" + s + "'");
+      }
+  
+      @JsonCreator
+      public static IntegerEnumInlineEnum fromValue(Integer value) {
+          for (IntegerEnumInlineEnum b : IntegerEnumInlineEnum.values()) {
+              if (b.value.equals(value)) {
+                  return b;
+              }
+          }
+          throw new IllegalArgumentException("Unexpected value '" + value + "'");
+      }
+  }
   private IntegerEnumInlineEnum integerEnumInline = IntegerEnumInlineEnum.NUMBER_1;
 
   protected FakeTestsDefaultsDefaultResponse(FakeTestsDefaultsDefaultResponseBuilder<?, ?> b) {

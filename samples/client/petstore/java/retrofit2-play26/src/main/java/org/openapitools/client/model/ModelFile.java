@@ -51,7 +51,6 @@ public class ModelFile {
    * @return sourceURI
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

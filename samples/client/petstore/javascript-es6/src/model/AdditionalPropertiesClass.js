@@ -88,4 +88,3 @@ AdditionalPropertiesClass.prototype['map_of_map_property'] = undefined;
 
 
 export default AdditionalPropertiesClass;
-

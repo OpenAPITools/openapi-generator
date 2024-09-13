@@ -103,7 +103,6 @@ public class Zebra {
       TypeEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_TYPE = "type";
   @SerializedName(SERIALIZED_NAME_TYPE)
   private TypeEnum type;
@@ -196,7 +195,6 @@ public class Zebra {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

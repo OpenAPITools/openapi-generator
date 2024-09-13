@@ -30,7 +30,6 @@ import com.squareup.moshi.JsonClass
  * @param complete 
  */
 
-
 internal data class Order (
 
     @Json(name = "id")

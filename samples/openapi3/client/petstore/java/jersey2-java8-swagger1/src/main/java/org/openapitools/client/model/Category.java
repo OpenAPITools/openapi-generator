@@ -98,7 +98,6 @@ public class Category {
     this.name = name;
   }
 
-
   /**
    * Return true if this Category object is equal to o.
    */

@@ -130,7 +130,6 @@ public class SimpleModelWithArrayProperty {
     return this.additionalProperties.get(key);
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -9,7 +9,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
-
 class ChildWithNullable {
   /// Returns a new [ChildWithNullable] instance.
   ChildWithNullable({
@@ -17,7 +16,6 @@ class ChildWithNullable {
     this.nullableProperty,
     this.otherProperty,
   });
-
   ChildWithNullableTypeEnum? type;
 
   String? nullableProperty;
@@ -207,5 +205,3 @@ class ChildWithNullableTypeEnumTypeTransformer {
   /// Singleton [ChildWithNullableTypeEnumTypeTransformer] instance.
   static ChildWithNullableTypeEnumTypeTransformer? _instance;
 }
-
-

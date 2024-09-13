@@ -47,7 +47,6 @@ namespace Org.OpenAPITools.Model
             ChildCat = 1
         }
 
-
         /// <summary>
         /// Gets or Sets PetType
         /// </summary>
@@ -174,7 +173,6 @@ namespace Org.OpenAPITools.Model
                 yield return x;
             }
             yield break;
-        }
-    }
+        }    }
 
 }

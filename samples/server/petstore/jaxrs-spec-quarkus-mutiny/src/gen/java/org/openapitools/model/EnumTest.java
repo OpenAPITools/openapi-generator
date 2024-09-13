@@ -23,196 +23,192 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class EnumTest  implements Serializable {
   public enum EnumStringEnum {
-
-    UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower")), EMPTY(String.valueOf(""));
-
-
-    private String value;
-
-    EnumStringEnum (String v) {
-        value = v;
-    }
-
-    public String value() {
-        return value;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-        return String.valueOf(value);
-    }
-
-    /**
-     * Convert a String into String, as specified in the
-     * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
-     */
-    public static EnumStringEnum fromString(String s) {
-        for (EnumStringEnum b : EnumStringEnum.values()) {
-            // using Objects.toString() to be safe if value type non-object type
-            // because types like 'int' etc. will be auto-boxed
-            if (java.util.Objects.toString(b.value).equals(s)) {
-                return b;
-            }
-        }
-        throw new IllegalArgumentException("Unexpected string value '" + s + "'");
-    }
-
-    @JsonCreator
-    public static EnumStringEnum fromValue(String value) {
-        for (EnumStringEnum b : EnumStringEnum.values()) {
-            if (b.value.equals(value)) {
-                return b;
-            }
-        }
-        throw new IllegalArgumentException("Unexpected value '" + value + "'");
-    }
-}
-
+  
+      UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower")), EMPTY(String.valueOf(""));
+  
+  
+      private String value;
+  
+      EnumStringEnum (String v) {
+          value = v;
+      }
+  
+      public String value() {
+          return value;
+      }
+  
+      @Override
+      @JsonValue
+      public String toString() {
+          return String.valueOf(value);
+      }
+  
+      /**
+       * Convert a String into String, as specified in the
+       * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
+       */
+      public static EnumStringEnum fromString(String s) {
+          for (EnumStringEnum b : EnumStringEnum.values()) {
+              // using Objects.toString() to be safe if value type non-object type
+              // because types like 'int' etc. will be auto-boxed
+              if (java.util.Objects.toString(b.value).equals(s)) {
+                  return b;
+              }
+          }
+          throw new IllegalArgumentException("Unexpected string value '" + s + "'");
+      }
+  
+      @JsonCreator
+      public static EnumStringEnum fromValue(String value) {
+          for (EnumStringEnum b : EnumStringEnum.values()) {
+              if (b.value.equals(value)) {
+                  return b;
+              }
+          }
+          throw new IllegalArgumentException("Unexpected value '" + value + "'");
+      }
+  }
   private EnumStringEnum enumString;
   public enum EnumStringRequiredEnum {
-
-    UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower")), EMPTY(String.valueOf(""));
-
-
-    private String value;
-
-    EnumStringRequiredEnum (String v) {
-        value = v;
-    }
-
-    public String value() {
-        return value;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-        return String.valueOf(value);
-    }
-
-    /**
-     * Convert a String into String, as specified in the
-     * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
-     */
-    public static EnumStringRequiredEnum fromString(String s) {
-        for (EnumStringRequiredEnum b : EnumStringRequiredEnum.values()) {
-            // using Objects.toString() to be safe if value type non-object type
-            // because types like 'int' etc. will be auto-boxed
-            if (java.util.Objects.toString(b.value).equals(s)) {
-                return b;
-            }
-        }
-        throw new IllegalArgumentException("Unexpected string value '" + s + "'");
-    }
-
-    @JsonCreator
-    public static EnumStringRequiredEnum fromValue(String value) {
-        for (EnumStringRequiredEnum b : EnumStringRequiredEnum.values()) {
-            if (b.value.equals(value)) {
-                return b;
-            }
-        }
-        throw new IllegalArgumentException("Unexpected value '" + value + "'");
-    }
-}
-
+  
+      UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower")), EMPTY(String.valueOf(""));
+  
+  
+      private String value;
+  
+      EnumStringRequiredEnum (String v) {
+          value = v;
+      }
+  
+      public String value() {
+          return value;
+      }
+  
+      @Override
+      @JsonValue
+      public String toString() {
+          return String.valueOf(value);
+      }
+  
+      /**
+       * Convert a String into String, as specified in the
+       * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
+       */
+      public static EnumStringRequiredEnum fromString(String s) {
+          for (EnumStringRequiredEnum b : EnumStringRequiredEnum.values()) {
+              // using Objects.toString() to be safe if value type non-object type
+              // because types like 'int' etc. will be auto-boxed
+              if (java.util.Objects.toString(b.value).equals(s)) {
+                  return b;
+              }
+          }
+          throw new IllegalArgumentException("Unexpected string value '" + s + "'");
+      }
+  
+      @JsonCreator
+      public static EnumStringRequiredEnum fromValue(String value) {
+          for (EnumStringRequiredEnum b : EnumStringRequiredEnum.values()) {
+              if (b.value.equals(value)) {
+                  return b;
+              }
+          }
+          throw new IllegalArgumentException("Unexpected value '" + value + "'");
+      }
+  }
   private EnumStringRequiredEnum enumStringRequired;
   public enum EnumIntegerEnum {
-
-    NUMBER_1(Integer.valueOf(1)), NUMBER_MINUS_1(Integer.valueOf(-1));
-
-
-    private Integer value;
-
-    EnumIntegerEnum (Integer v) {
-        value = v;
-    }
-
-    public Integer value() {
-        return value;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-        return String.valueOf(value);
-    }
-
-    /**
-     * Convert a String into Integer, as specified in the
-     * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
-     */
-    public static EnumIntegerEnum fromString(String s) {
-        for (EnumIntegerEnum b : EnumIntegerEnum.values()) {
-            // using Objects.toString() to be safe if value type non-object type
-            // because types like 'int' etc. will be auto-boxed
-            if (java.util.Objects.toString(b.value).equals(s)) {
-                return b;
-            }
-        }
-        throw new IllegalArgumentException("Unexpected string value '" + s + "'");
-    }
-
-    @JsonCreator
-    public static EnumIntegerEnum fromValue(Integer value) {
-        for (EnumIntegerEnum b : EnumIntegerEnum.values()) {
-            if (b.value.equals(value)) {
-                return b;
-            }
-        }
-        throw new IllegalArgumentException("Unexpected value '" + value + "'");
-    }
-}
-
+  
+      NUMBER_1(Integer.valueOf(1)), NUMBER_MINUS_1(Integer.valueOf(-1));
+  
+  
+      private Integer value;
+  
+      EnumIntegerEnum (Integer v) {
+          value = v;
+      }
+  
+      public Integer value() {
+          return value;
+      }
+  
+      @Override
+      @JsonValue
+      public String toString() {
+          return String.valueOf(value);
+      }
+  
+      /**
+       * Convert a String into Integer, as specified in the
+       * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
+       */
+      public static EnumIntegerEnum fromString(String s) {
+          for (EnumIntegerEnum b : EnumIntegerEnum.values()) {
+              // using Objects.toString() to be safe if value type non-object type
+              // because types like 'int' etc. will be auto-boxed
+              if (java.util.Objects.toString(b.value).equals(s)) {
+                  return b;
+              }
+          }
+          throw new IllegalArgumentException("Unexpected string value '" + s + "'");
+      }
+  
+      @JsonCreator
+      public static EnumIntegerEnum fromValue(Integer value) {
+          for (EnumIntegerEnum b : EnumIntegerEnum.values()) {
+              if (b.value.equals(value)) {
+                  return b;
+              }
+          }
+          throw new IllegalArgumentException("Unexpected value '" + value + "'");
+      }
+  }
   private EnumIntegerEnum enumInteger;
   public enum EnumNumberEnum {
-
-    NUMBER_1_DOT_1(Double.valueOf(1.1)), NUMBER_MINUS_1_DOT_2(Double.valueOf(-1.2));
-
-
-    private Double value;
-
-    EnumNumberEnum (Double v) {
-        value = v;
-    }
-
-    public Double value() {
-        return value;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-        return String.valueOf(value);
-    }
-
-    /**
-     * Convert a String into Double, as specified in the
-     * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
-     */
-    public static EnumNumberEnum fromString(String s) {
-        for (EnumNumberEnum b : EnumNumberEnum.values()) {
-            // using Objects.toString() to be safe if value type non-object type
-            // because types like 'int' etc. will be auto-boxed
-            if (java.util.Objects.toString(b.value).equals(s)) {
-                return b;
-            }
-        }
-        throw new IllegalArgumentException("Unexpected string value '" + s + "'");
-    }
-
-    @JsonCreator
-    public static EnumNumberEnum fromValue(Double value) {
-        for (EnumNumberEnum b : EnumNumberEnum.values()) {
-            if (b.value.equals(value)) {
-                return b;
-            }
-        }
-        throw new IllegalArgumentException("Unexpected value '" + value + "'");
-    }
-}
-
+  
+      NUMBER_1_DOT_1(Double.valueOf(1.1)), NUMBER_MINUS_1_DOT_2(Double.valueOf(-1.2));
+  
+  
+      private Double value;
+  
+      EnumNumberEnum (Double v) {
+          value = v;
+      }
+  
+      public Double value() {
+          return value;
+      }
+  
+      @Override
+      @JsonValue
+      public String toString() {
+          return String.valueOf(value);
+      }
+  
+      /**
+       * Convert a String into Double, as specified in the
+       * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
+       */
+      public static EnumNumberEnum fromString(String s) {
+          for (EnumNumberEnum b : EnumNumberEnum.values()) {
+              // using Objects.toString() to be safe if value type non-object type
+              // because types like 'int' etc. will be auto-boxed
+              if (java.util.Objects.toString(b.value).equals(s)) {
+                  return b;
+              }
+          }
+          throw new IllegalArgumentException("Unexpected string value '" + s + "'");
+      }
+  
+      @JsonCreator
+      public static EnumNumberEnum fromValue(Double value) {
+          for (EnumNumberEnum b : EnumNumberEnum.values()) {
+              if (b.value.equals(value)) {
+                  return b;
+              }
+          }
+          throw new IllegalArgumentException("Unexpected value '" + value + "'");
+      }
+  }
   private EnumNumberEnum enumNumber;
   private OuterEnum outerEnum;
   private OuterEnumInteger outerEnumInteger;

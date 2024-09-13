@@ -82,7 +82,6 @@ public class BigCat extends Cat {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_KIND = "kind";
   private KindEnum kind;
 
@@ -112,7 +111,6 @@ public class BigCat extends Cat {
   public void setKind(KindEnum kind) {
     this.kind = kind;
   }
-
 
   /**
    * Return true if this BigCat object is equal to o.

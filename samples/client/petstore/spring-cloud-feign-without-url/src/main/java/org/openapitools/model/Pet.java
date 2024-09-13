@@ -24,10 +24,8 @@ import javax.annotation.Generated;
 /**
  * A pet for sale in the pet store
  */
-
 @ApiModel(description = "A pet for sale in the pet store")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class Pet {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class Pet {
 
   private Long id;
 
@@ -77,7 +75,6 @@ public class Pet {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   @Deprecated
   private StatusEnum status;
 
@@ -102,8 +99,7 @@ public class Pet {
    * Get id
    * @return id
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
@@ -122,8 +118,7 @@ public class Pet {
    * Get category
    * @return category
    */
-  @Valid 
-  @ApiModelProperty(value = "")
+  @Valid   @ApiModelProperty(value = "")
   @JsonProperty("category")
   public Category getCategory() {
     return category;
@@ -142,8 +137,7 @@ public class Pet {
    * Get name
    * @return name
    */
-  @NotNull 
-  @ApiModelProperty(example = "doggie", required = true, value = "")
+  @NotNull   @ApiModelProperty(example = "doggie", required = true, value = "")
   @JsonProperty("name")
   public String getName() {
     return name;
@@ -170,8 +164,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
    */
-  @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @NotNull   @ApiModelProperty(required = true, value = "")
   @JsonProperty("photoUrls")
   public List<String> getPhotoUrls() {
     return photoUrls;
@@ -198,8 +191,7 @@ public class Pet {
    * Get tags
    * @return tags
    */
-  @Valid 
-  @ApiModelProperty(value = "")
+  @Valid   @ApiModelProperty(value = "")
   @JsonProperty("tags")
   public List<@Valid Tag> getTags() {
     return tags;
@@ -219,8 +211,7 @@ public class Pet {
    * @return status
    * @deprecated
    */
-  
-  @ApiModelProperty(value = "pet status in the store")
+    @ApiModelProperty(value = "pet status in the store")
   @JsonProperty("status")
   @Deprecated
   public StatusEnum getStatus() {
@@ -234,7 +225,6 @@ public class Pet {
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

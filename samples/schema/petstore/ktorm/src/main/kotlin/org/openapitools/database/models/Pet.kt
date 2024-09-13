@@ -61,11 +61,7 @@ object Pets : BaseTable<Pet>("Pet") {
     */
     fun AssignmentsBuilder.assignFrom(entity: Pet) {
         this.apply {
-            set(Pets.name, entity.name)
-            set(Pets.id, entity.id)
-            set(Pets.category, entity.category)
-            set(Pets.status, entity.status)
-        }
+            set(Pets.name, entity.name)            set(Pets.id, entity.id)            set(Pets.category, entity.category)            set(Pets.status, entity.status)        }
     }
 
 }

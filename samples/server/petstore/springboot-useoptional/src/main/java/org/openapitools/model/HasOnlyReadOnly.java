@@ -19,10 +19,8 @@ import javax.annotation.Generated;
 /**
  * HasOnlyReadOnly
  */
-
 @JsonTypeName("hasOnlyReadOnly")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class HasOnlyReadOnly {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class HasOnlyReadOnly {
 
   private Optional<String> bar = Optional.empty();
 
@@ -37,8 +35,7 @@ public class HasOnlyReadOnly {
    * Get bar
    * @return bar
    */
-  
-  @ApiModelProperty(readOnly = true, value = "")
+    @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("bar")
   public Optional<String> getBar() {
     return bar;
@@ -57,8 +54,7 @@ public class HasOnlyReadOnly {
    * Get foo
    * @return foo
    */
-  
-  @ApiModelProperty(readOnly = true, value = "")
+    @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("foo")
   public Optional<String> getFoo() {
     return foo;
@@ -67,7 +63,6 @@ public class HasOnlyReadOnly {
   public void setFoo(Optional<String> foo) {
     this.foo = foo;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -107,68 +102,67 @@ public class HasOnlyReadOnly {
     return o.toString().replace("\n", "\n    ");
   }
   
-  public static class Builder {
-
-    private HasOnlyReadOnly instance;
-
-    public Builder() {
-      this(new HasOnlyReadOnly());
-    }
-
-    protected Builder(HasOnlyReadOnly instance) {
-      this.instance = instance;
-    }
-
-    protected Builder copyOf(HasOnlyReadOnly value) { 
-      this.instance.setBar(value.bar);
-      this.instance.setFoo(value.foo);
-      return this;
-    }
-
-    public HasOnlyReadOnly.Builder bar(String bar) {
-      this.instance.bar(bar);
-      return this;
-    }
-    
-    public HasOnlyReadOnly.Builder foo(String foo) {
-      this.instance.foo(foo);
-      return this;
-    }
-    
-    /**
-    * returns a built HasOnlyReadOnly instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public HasOnlyReadOnly build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    public static class Builder {
+  
+      private HasOnlyReadOnly instance;
+  
+      public Builder() {
+        this(new HasOnlyReadOnly());
+      }
+  
+      protected Builder(HasOnlyReadOnly instance) {
+        this.instance = instance;
+      }
+  
+      protected Builder copyOf(HasOnlyReadOnly value) { 
+        this.instance.setBar(value.bar);
+        this.instance.setFoo(value.foo);
+        return this;
+      }
+  
+        public HasOnlyReadOnly.Builder bar(String bar) {
+        this.instance.bar(bar);
+        return this;
+      }
+      
+        public HasOnlyReadOnly.Builder foo(String foo) {
+        this.instance.foo(foo);
+        return this;
+      }
+      
+          /**
+      * returns a built HasOnlyReadOnly instance.
+      *
+      * The builder is not reusable (NullPointerException)
+      */
+      public HasOnlyReadOnly build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field (except for the default values).
+    */
+    public static HasOnlyReadOnly.Builder builder() {
+      return new HasOnlyReadOnly.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field (except for the default values).
-  */
-  public static HasOnlyReadOnly.Builder builder() {
-    return new HasOnlyReadOnly.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public HasOnlyReadOnly.Builder toBuilder() {
-    HasOnlyReadOnly.Builder builder = new HasOnlyReadOnly.Builder();
-    return builder.copyOf(this);
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public HasOnlyReadOnly.Builder toBuilder() {
+      HasOnlyReadOnly.Builder builder = new HasOnlyReadOnly.Builder();
+      return builder.copyOf(this);
+    }
 }
 

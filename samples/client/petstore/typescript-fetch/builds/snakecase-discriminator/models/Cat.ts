@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { Animal } from './Animal';
 import {
@@ -34,7 +33,6 @@ export interface Cat extends Animal {
      */
     declawed?: boolean;
 }
-
 /**
  * Check if a given object implements the Cat interface.
  */
@@ -70,4 +68,3 @@ export function CatFromJSONTyped(json: any, ignoreDiscriminator: boolean): Cat {
         'declawed': value['declawed'],
     };
 }
-

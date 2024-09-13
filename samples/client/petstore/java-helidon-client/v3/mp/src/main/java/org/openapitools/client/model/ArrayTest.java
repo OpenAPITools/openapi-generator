@@ -24,7 +24,6 @@ import org.openapitools.client.model.ReadOnlyFirst;
 
 
 
-
 public class ArrayTest  {
   
   private List<String> arrayOfString = null;
@@ -135,4 +134,3 @@ public class ArrayTest  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

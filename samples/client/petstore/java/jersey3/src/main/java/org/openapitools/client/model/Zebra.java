@@ -78,7 +78,6 @@ public class Zebra {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_TYPE = "type";
   private TypeEnum type;
 
@@ -98,7 +97,6 @@ public class Zebra {
    * @return type
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -125,7 +123,6 @@ public class Zebra {
    */
   @jakarta.annotation.Nonnull
   @NotNull
-
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -177,7 +174,6 @@ public class Zebra {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this zebra object is equal to o.
    */

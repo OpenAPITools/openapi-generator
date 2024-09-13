@@ -37,4 +37,3 @@ instance = Petstore::NullableClass.new(
   object_items_nullable: null
 )
 ```
-

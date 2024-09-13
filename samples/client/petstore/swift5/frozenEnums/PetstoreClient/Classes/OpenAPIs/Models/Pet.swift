@@ -17,8 +17,7 @@ public struct Pet: Codable, JSONEncodable, Hashable {
         case pending = "pending"
         case sold = "sold"
         case unknownDefaultOpenApi = "unknown_default_open_api"
-    }
-    public var id: Int64?
+    }    public var id: Int64?
     public var category: Category?
     public var name: String
     public var photoUrls: [String]

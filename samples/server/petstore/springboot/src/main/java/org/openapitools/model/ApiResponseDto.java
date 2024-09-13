@@ -19,10 +19,8 @@ import javax.annotation.Generated;
 /**
  * ApiResponseDto
  */
-
 @JsonTypeName("ApiResponse")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class ApiResponseDto {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class ApiResponseDto {
 
   private Integer code;
 
@@ -39,8 +37,7 @@ public class ApiResponseDto {
    * Get code
    * @return code
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("code")
   public Integer getCode() {
     return code;
@@ -59,8 +56,7 @@ public class ApiResponseDto {
    * Get type
    * @return type
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("type")
   public String getType() {
     return type;
@@ -79,8 +75,7 @@ public class ApiResponseDto {
    * Get message
    * @return message
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("message")
   public String getMessage() {
     return message;
@@ -89,7 +84,6 @@ public class ApiResponseDto {
   public void setMessage(String message) {
     this.message = message;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -12,7 +12,6 @@
 * Do not edit the class manually.
 */
 
-
 #ifndef SWGDebugLogResponse
 #define SWGDebugLogResponse(response, responseObject,request, error) [[SWGLogger sharedLogger] logResponse:response responseObject:responseObject request:request error:error];
 #endif

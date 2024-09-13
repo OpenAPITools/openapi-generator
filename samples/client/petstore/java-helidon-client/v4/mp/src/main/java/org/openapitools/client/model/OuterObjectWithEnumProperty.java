@@ -21,7 +21,6 @@ import org.openapitools.client.model.OuterEnumInteger;
 
 
 
-
 public class OuterObjectWithEnumProperty  {
   
   private OuterEnumInteger value;
@@ -71,4 +70,3 @@ public class OuterObjectWithEnumProperty  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

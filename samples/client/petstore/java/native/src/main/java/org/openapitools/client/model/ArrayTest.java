@@ -149,7 +149,6 @@ public class ArrayTest {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 
-
   /**
    * Return true if this ArrayTest object is equal to o.
    */
@@ -259,67 +258,66 @@ public class ArrayTest {
   }
 
     public static class Builder {
-
-    private ArrayTest instance;
-
-    public Builder() {
-      this(new ArrayTest());
-    }
-
-    protected Builder(ArrayTest instance) {
-      this.instance = instance;
-    }
-
-    public ArrayTest.Builder arrayOfString(List<String> arrayOfString) {
-      this.instance.arrayOfString = arrayOfString;
-      return this;
-    }
-    public ArrayTest.Builder arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
-      this.instance.arrayArrayOfInteger = arrayArrayOfInteger;
-      return this;
-    }
-    public ArrayTest.Builder arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
-      this.instance.arrayArrayOfModel = arrayArrayOfModel;
-      return this;
-    }
-
-
-    /**
-    * returns a built ArrayTest instance.
-    *
-    * The builder is not reusable.
-    */
-    public ArrayTest build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    
+        private ArrayTest instance;
+    
+        public Builder() {
+          this(new ArrayTest());
+        }
+    
+        protected Builder(ArrayTest instance) {
+          this.instance = instance;
+        }
+    
+        public ArrayTest.Builder arrayOfString(List<String> arrayOfString) {
+              this.instance.arrayOfString = arrayOfString;
+          return this;
+        }
+            public ArrayTest.Builder arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
+              this.instance.arrayArrayOfInteger = arrayArrayOfInteger;
+          return this;
+        }
+            public ArrayTest.Builder arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+              this.instance.arrayArrayOfModel = arrayArrayOfModel;
+          return this;
+        }
+        
+    
+        /**
+        * returns a built ArrayTest instance.
+        *
+        * The builder is not reusable.
+        */
+        public ArrayTest build() {
+          try {
+            return this.instance;
+          } finally {
+            // ensure that this.instance is not reused
+            this.instance = null;
+          }
+        }
+    
+        @Override
+        public String toString() {
+          return getClass() + "=(" + instance + ")";
+        }
       }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static ArrayTest.Builder builder() {
-    return new ArrayTest.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public ArrayTest.Builder toBuilder() {
-    return new ArrayTest.Builder()
-      .arrayOfString(getArrayOfString())
-      .arrayArrayOfInteger(getArrayArrayOfInteger())
-      .arrayArrayOfModel(getArrayArrayOfModel());
-  }
-
+    
+      /**
+      * Create a builder with no initialized field.
+      */
+      public static ArrayTest.Builder builder() {
+        return new ArrayTest.Builder();
+      }
+    
+      /**
+      * Create a builder with a shallow copy of this instance.
+      */
+      public ArrayTest.Builder toBuilder() {
+        return new ArrayTest.Builder()
+          .arrayOfString(getArrayOfString())
+          .arrayArrayOfInteger(getArrayArrayOfInteger())
+          .arrayArrayOfModel(getArrayArrayOfModel());
+      }
 }
 

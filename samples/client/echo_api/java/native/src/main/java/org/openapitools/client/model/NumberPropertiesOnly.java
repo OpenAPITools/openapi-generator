@@ -125,7 +125,6 @@ public class NumberPropertiesOnly {
     this._double = _double;
   }
 
-
   /**
    * Return true if this NumberPropertiesOnly object is equal to o.
    */

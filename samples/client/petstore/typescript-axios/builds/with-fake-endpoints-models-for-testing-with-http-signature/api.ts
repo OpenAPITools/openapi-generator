@@ -12,7 +12,6 @@
  * Do not edit the class manually.
  */
 
-
 import type { Configuration } from './configuration';
 import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
@@ -363,7 +362,6 @@ export const EnumClass = {
 } as const;
 
 export type EnumClass = typeof EnumClass[keyof typeof EnumClass];
-
 
 /**
  * 
@@ -990,7 +988,6 @@ export const OuterEnum = {
 
 export type OuterEnum = typeof OuterEnum[keyof typeof OuterEnum];
 
-
 /**
  * 
  * @export
@@ -1004,7 +1001,6 @@ export const OuterEnumDefaultValue = {
 } as const;
 
 export type OuterEnumDefaultValue = typeof OuterEnumDefaultValue[keyof typeof OuterEnumDefaultValue];
-
 
 /**
  * 
@@ -1020,7 +1016,6 @@ export const OuterEnumInteger = {
 
 export type OuterEnumInteger = typeof OuterEnumInteger[keyof typeof OuterEnumInteger];
 
-
 /**
  * 
  * @export
@@ -1034,7 +1029,6 @@ export const OuterEnumIntegerDefaultValue = {
 } as const;
 
 export type OuterEnumIntegerDefaultValue = typeof OuterEnumIntegerDefaultValue[keyof typeof OuterEnumIntegerDefaultValue];
-
 
 /**
  * 
@@ -1459,7 +1453,6 @@ export class AnotherFakeApi extends BaseAPI {
 }
 
 
-
 /**
  * DefaultApi - axios parameter creator
  * @export
@@ -1554,7 +1547,6 @@ export class DefaultApi extends BaseAPI {
         return DefaultApiFp(this.configuration).fooGet(options).then((request) => request(this.axios, this.basePath));
     }
 }
-
 
 
 /**
@@ -3201,7 +3193,6 @@ export const TestEnumParametersEnumFormStringEnum = {
 } as const;
 export type TestEnumParametersEnumFormStringEnum = typeof TestEnumParametersEnumFormStringEnum[keyof typeof TestEnumParametersEnumFormStringEnum];
 
-
 /**
  * FakeClassnameTags123Api - axios parameter creator
  * @export
@@ -3312,7 +3303,6 @@ export class FakeClassnameTags123Api extends BaseAPI {
         return FakeClassnameTags123ApiFp(this.configuration).testClassname(client, options).then((request) => request(this.axios, this.basePath));
     }
 }
-
 
 
 /**
@@ -4110,7 +4100,6 @@ export const FindPetsByStatusStatusEnum = {
 } as const;
 export type FindPetsByStatusStatusEnum = typeof FindPetsByStatusStatusEnum[keyof typeof FindPetsByStatusStatusEnum];
 
-
 /**
  * StoreApi - axios parameter creator
  * @export
@@ -4421,7 +4410,6 @@ export class StoreApi extends BaseAPI {
         return StoreApiFp(this.configuration).placeOrder(order, options).then((request) => request(this.axios, this.basePath));
     }
 }
-
 
 
 /**
@@ -5033,6 +5021,5 @@ export class UserApi extends BaseAPI {
         return UserApiFp(this.configuration).updateUser(username, user, options).then((request) => request(this.axios, this.basePath));
     }
 }
-
 
 

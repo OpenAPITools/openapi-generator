@@ -24,7 +24,6 @@ import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonParser;
 import javax.json.bind.annotation.JsonbProperty;
 
-
 public class Dog  {
   
   @JsonbProperty("id")
@@ -123,4 +122,3 @@ public class Dog  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

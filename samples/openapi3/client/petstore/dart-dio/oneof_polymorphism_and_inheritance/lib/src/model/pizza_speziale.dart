@@ -32,8 +32,7 @@ abstract class PizzaSpeziale implements Pizza, Built<PizzaSpeziale, PizzaSpezial
   static void _defaults(PizzaSpezialeBuilder b) => b..atType=b.discriminatorValue;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<PizzaSpeziale> get serializer => _$PizzaSpezialeSerializer();
-}
+  static Serializer<PizzaSpeziale> get serializer => _$PizzaSpezialeSerializer();}
 
 class _$PizzaSpezialeSerializer implements PrimitiveSerializer<PizzaSpeziale> {
   @override

@@ -52,7 +52,6 @@ public class OASPet {
         PENDING,
         SOLD
     }
-
     /**
      * pet status in the store
      * @return status

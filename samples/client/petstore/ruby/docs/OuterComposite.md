@@ -19,4 +19,3 @@ instance = Petstore::OuterComposite.new(
   my_boolean: null
 )
 ```
-

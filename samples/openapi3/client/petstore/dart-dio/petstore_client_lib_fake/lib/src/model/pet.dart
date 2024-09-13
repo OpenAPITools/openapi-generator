@@ -50,8 +50,7 @@ abstract class Pet implements Built<Pet, PetBuilder> {
   static void _defaults(PetBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<Pet> get serializer => _$PetSerializer();
-}
+  static Serializer<Pet> get serializer => _$PetSerializer();}
 
 class _$PetSerializer implements PrimitiveSerializer<Pet> {
   @override
@@ -219,4 +218,3 @@ class PetStatusEnum extends EnumClass {
   static BuiltSet<PetStatusEnum> get values => _$petStatusEnumValues;
   static PetStatusEnum valueOf(String name) => _$petStatusEnumValueOf(name);
 }
-

@@ -140,4 +140,3 @@ Pig.prototype['size'] = undefined;
 Pig.OneOf = ["BasquePig", "DanishPig"];
 
 export default Pig;
-

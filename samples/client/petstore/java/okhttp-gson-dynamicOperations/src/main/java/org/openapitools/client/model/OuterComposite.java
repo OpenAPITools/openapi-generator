@@ -123,7 +123,6 @@ public class OuterComposite {
   }
 
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

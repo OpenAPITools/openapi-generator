@@ -19,10 +19,8 @@ import jakarta.annotation.Generated;
 /**
  * MapTestDto
  */
-
 @JsonTypeName("MapTest")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class MapTestDto {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class MapTestDto {
 
   
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
@@ -61,7 +59,6 @@ public class MapTestDto {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   
   private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
@@ -178,7 +175,6 @@ public class MapTestDto {
   public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

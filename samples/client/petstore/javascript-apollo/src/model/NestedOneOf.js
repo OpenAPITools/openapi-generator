@@ -93,4 +93,3 @@ NestedOneOf.prototype['nested_pig'] = undefined;
 
 
 export default NestedOneOf;
-

@@ -19,8 +19,7 @@ import javax.validation.Valid;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public interface PetApiService {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public interface PetApiService {
       public Response addPet(Pet pet, SecurityContext securityContext);
       public Response deletePet(Long petId, SecurityContext securityContext);
       public Response findPetsByStatus(List<String> status, SecurityContext securityContext);

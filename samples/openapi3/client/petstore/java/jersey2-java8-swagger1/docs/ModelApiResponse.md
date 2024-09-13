@@ -13,4 +13,3 @@ Describes the result of uploading an image resource
 |**message** | **String** |  |  [optional] |
 
 
-

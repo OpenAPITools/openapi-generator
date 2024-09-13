@@ -19,10 +19,8 @@ import jakarta.annotation.Generated;
 /**
  * OrderDto
  */
-
 @JsonTypeName("Order")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class OrderDto {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class OrderDto {
 
   private Long id;
 
@@ -69,7 +67,6 @@ public class OrderDto {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   private StatusEnum status;
 
   private Boolean complete = false;
@@ -187,7 +184,6 @@ public class OrderDto {
   public void setComplete(Boolean complete) {
     this.complete = complete;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

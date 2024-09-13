@@ -79,7 +79,6 @@ public class Query {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_OUTCOMES = "outcomes";
   private List<OutcomesEnum> outcomes = new ArrayList<>(Arrays.asList(OutcomesEnum.SUCCESS, OutcomesEnum.FAILURE));
 
@@ -140,7 +139,6 @@ public class Query {
   public void setOutcomes(List<OutcomesEnum> outcomes) {
     this.outcomes = outcomes;
   }
-
 
   /**
    * Return true if this Query object is equal to o.

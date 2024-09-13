@@ -134,7 +134,6 @@ public class NullableClass extends HashMap<String, Object> {
   @JsonProperty(JSON_PROPERTY_INTEGER_PROP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "integer_prop")
-
   public JsonNullable<Integer> getIntegerProp_JsonNullable() {
     return integerProp;
   }
@@ -168,7 +167,6 @@ public class NullableClass extends HashMap<String, Object> {
   @JsonProperty(JSON_PROPERTY_NUMBER_PROP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "number_prop")
-
   public JsonNullable<BigDecimal> getNumberProp_JsonNullable() {
     return numberProp;
   }
@@ -202,7 +200,6 @@ public class NullableClass extends HashMap<String, Object> {
   @JsonProperty(JSON_PROPERTY_BOOLEAN_PROP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "boolean_prop")
-
   public JsonNullable<Boolean> getBooleanProp_JsonNullable() {
     return booleanProp;
   }
@@ -236,7 +233,6 @@ public class NullableClass extends HashMap<String, Object> {
   @JsonProperty(JSON_PROPERTY_STRING_PROP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "string_prop")
-
   public JsonNullable<String> getStringProp_JsonNullable() {
     return stringProp;
   }
@@ -270,7 +266,6 @@ public class NullableClass extends HashMap<String, Object> {
   @JsonProperty(JSON_PROPERTY_DATE_PROP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "date_prop")
-
   public JsonNullable<LocalDate> getDateProp_JsonNullable() {
     return dateProp;
   }
@@ -304,7 +299,6 @@ public class NullableClass extends HashMap<String, Object> {
   @JsonProperty(JSON_PROPERTY_DATETIME_PROP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "datetime_prop")
-
   public JsonNullable<OffsetDateTime> getDatetimeProp_JsonNullable() {
     return datetimeProp;
   }
@@ -351,7 +345,6 @@ public class NullableClass extends HashMap<String, Object> {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "array_nullable_prop")
   @JacksonXmlElementWrapper(useWrapping = false)
-
   public JsonNullable<List<Object>> getArrayNullableProp_JsonNullable() {
     return arrayNullableProp;
   }
@@ -398,7 +391,6 @@ public class NullableClass extends HashMap<String, Object> {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "array_and_items_nullable_prop")
   @JacksonXmlElementWrapper(useWrapping = false)
-
   public JsonNullable<List<Object>> getArrayAndItemsNullableProp_JsonNullable() {
     return arrayAndItemsNullableProp;
   }
@@ -482,7 +474,6 @@ public class NullableClass extends HashMap<String, Object> {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "object_nullable_prop")
   @JacksonXmlElementWrapper(useWrapping = false)
-
   public JsonNullable<Map<String, Object>> getObjectNullableProp_JsonNullable() {
     return objectNullableProp;
   }
@@ -529,7 +520,6 @@ public class NullableClass extends HashMap<String, Object> {
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "object_and_items_nullable_prop")
   @JacksonXmlElementWrapper(useWrapping = false)
-
   public JsonNullable<Map<String, Object>> getObjectAndItemsNullableProp_JsonNullable() {
     return objectAndItemsNullableProp;
   }

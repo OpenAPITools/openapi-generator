@@ -24,8 +24,7 @@ import javax.annotation.Generated;
  * A delegate to be called by the {@link StoreApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public interface StoreApiDelegate {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public interface StoreApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
@@ -42,11 +41,10 @@ public interface StoreApiDelegate {
      */
     default Mono<ResponseEntity<Void>> deleteOrder(String orderId,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                return result.then(Mono.empty());
+                    }
 
     /**
      * GET /store/inventory : Returns pet inventories by status
@@ -56,11 +54,10 @@ public interface StoreApiDelegate {
      * @see StoreApi#getInventory
      */
     default Mono<ResponseEntity<Map<String, Integer>>> getInventory(ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                return result.then(Mono.empty());
+                    }
 
     /**
      * GET /store/order/{order_id} : Find purchase order by ID
@@ -74,23 +71,22 @@ public interface StoreApiDelegate {
      */
     default Mono<ResponseEntity<Order>> getOrderById(Long orderId,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
-                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
-                break;
-            }
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                String exampleString = "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> </Order>";
-                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/xml"), exampleString);
-                break;
-            }
-        }
-        return result.then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
+                    if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                        String exampleString = "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
+                        result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
+                        break;
+                    }
+                                    if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+                        String exampleString = "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> </Order>";
+                        result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/xml"), exampleString);
+                        break;
+                    }
+                }
+                                return result.then(Mono.empty());
+                    }
 
     /**
      * POST /store/order : Place an order for a pet
@@ -103,22 +99,21 @@ public interface StoreApiDelegate {
      */
     default Mono<ResponseEntity<Order>> placeOrder(Mono<Order> order,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
-                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
-                break;
-            }
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                String exampleString = "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> </Order>";
-                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/xml"), exampleString);
-                break;
-            }
-        }
-        return result.then(order).then(Mono.empty());
-
-    }
+                                Mono<Void> result = Mono.empty();
+                        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+                for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
+                    if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                        String exampleString = "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
+                        result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
+                        break;
+                    }
+                                    if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+                        String exampleString = "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> </Order>";
+                        result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/xml"), exampleString);
+                        break;
+                    }
+                }
+                                return result.then(order).then(Mono.empty());
+                    }
 
 }

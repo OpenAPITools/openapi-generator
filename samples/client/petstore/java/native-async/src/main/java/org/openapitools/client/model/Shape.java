@@ -168,7 +168,6 @@ public class Shape extends AbstractOpenApiSchema {
     public Shape() {
         super("oneOf", Boolean.FALSE);
     }
-
     public Shape(Quadrilateral o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);

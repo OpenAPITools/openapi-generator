@@ -21,10 +21,8 @@ import javax.annotation.Generated;
 /**
  * EnumTest
  */
-
 @JsonTypeName("Enum_Test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class EnumTest {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class EnumTest {
 
   /**
    * Gets or Sets enumString
@@ -62,7 +60,6 @@ public class EnumTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   private Optional<EnumStringEnum> enumString = Optional.empty();
 
   /**
@@ -101,7 +98,6 @@ public class EnumTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   private EnumStringRequiredEnum enumStringRequired;
 
   /**
@@ -138,7 +134,6 @@ public class EnumTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   private Optional<EnumIntegerEnum> enumInteger = Optional.empty();
 
   /**
@@ -175,7 +170,6 @@ public class EnumTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   private Optional<EnumNumberEnum> enumNumber = Optional.empty();
 
   private Optional<OuterEnum> outerEnum = Optional.empty();
@@ -200,8 +194,7 @@ public class EnumTest {
    * Get enumString
    * @return enumString
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("enum_string")
   public Optional<EnumStringEnum> getEnumString() {
     return enumString;
@@ -220,8 +213,7 @@ public class EnumTest {
    * Get enumStringRequired
    * @return enumStringRequired
    */
-  @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @NotNull   @ApiModelProperty(required = true, value = "")
   @JsonProperty("enum_string_required")
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
@@ -240,8 +232,7 @@ public class EnumTest {
    * Get enumInteger
    * @return enumInteger
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("enum_integer")
   public Optional<EnumIntegerEnum> getEnumInteger() {
     return enumInteger;
@@ -260,8 +251,7 @@ public class EnumTest {
    * Get enumNumber
    * @return enumNumber
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("enum_number")
   public Optional<EnumNumberEnum> getEnumNumber() {
     return enumNumber;
@@ -280,8 +270,7 @@ public class EnumTest {
    * Get outerEnum
    * @return outerEnum
    */
-  @Valid 
-  @ApiModelProperty(value = "")
+  @Valid   @ApiModelProperty(value = "")
   @JsonProperty("outerEnum")
   public Optional<OuterEnum> getOuterEnum() {
     return outerEnum;
@@ -290,7 +279,6 @@ public class EnumTest {
   public void setOuterEnum(Optional<OuterEnum> outerEnum) {
     this.outerEnum = outerEnum;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -336,86 +324,85 @@ public class EnumTest {
     return o.toString().replace("\n", "\n    ");
   }
   
-  public static class Builder {
-
-    private EnumTest instance;
-
-    public Builder() {
-      this(new EnumTest());
-    }
-
-    protected Builder(EnumTest instance) {
-      this.instance = instance;
-    }
-
-    protected Builder copyOf(EnumTest value) { 
-      this.instance.setEnumString(value.enumString);
-      this.instance.setEnumStringRequired(value.enumStringRequired);
-      this.instance.setEnumInteger(value.enumInteger);
-      this.instance.setEnumNumber(value.enumNumber);
-      this.instance.setOuterEnum(value.outerEnum);
-      return this;
-    }
-
-    public EnumTest.Builder enumString(EnumStringEnum enumString) {
-      this.instance.enumString(enumString);
-      return this;
-    }
-    
-    public EnumTest.Builder enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
-      this.instance.enumStringRequired(enumStringRequired);
-      return this;
-    }
-    
-    public EnumTest.Builder enumInteger(EnumIntegerEnum enumInteger) {
-      this.instance.enumInteger(enumInteger);
-      return this;
-    }
-    
-    public EnumTest.Builder enumNumber(EnumNumberEnum enumNumber) {
-      this.instance.enumNumber(enumNumber);
-      return this;
-    }
-    
-    public EnumTest.Builder outerEnum(OuterEnum outerEnum) {
-      this.instance.outerEnum(outerEnum);
-      return this;
-    }
-    
-    /**
-    * returns a built EnumTest instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public EnumTest build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    public static class Builder {
+  
+      private EnumTest instance;
+  
+      public Builder() {
+        this(new EnumTest());
+      }
+  
+      protected Builder(EnumTest instance) {
+        this.instance = instance;
+      }
+  
+      protected Builder copyOf(EnumTest value) { 
+        this.instance.setEnumString(value.enumString);
+        this.instance.setEnumStringRequired(value.enumStringRequired);
+        this.instance.setEnumInteger(value.enumInteger);
+        this.instance.setEnumNumber(value.enumNumber);
+        this.instance.setOuterEnum(value.outerEnum);
+        return this;
+      }
+  
+        public EnumTest.Builder enumString(EnumStringEnum enumString) {
+        this.instance.enumString(enumString);
+        return this;
+      }
+      
+        public EnumTest.Builder enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
+        this.instance.enumStringRequired(enumStringRequired);
+        return this;
+      }
+      
+        public EnumTest.Builder enumInteger(EnumIntegerEnum enumInteger) {
+        this.instance.enumInteger(enumInteger);
+        return this;
+      }
+      
+        public EnumTest.Builder enumNumber(EnumNumberEnum enumNumber) {
+        this.instance.enumNumber(enumNumber);
+        return this;
+      }
+      
+        public EnumTest.Builder outerEnum(OuterEnum outerEnum) {
+        this.instance.outerEnum(outerEnum);
+        return this;
+      }
+      
+          /**
+      * returns a built EnumTest instance.
+      *
+      * The builder is not reusable (NullPointerException)
+      */
+      public EnumTest build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field (except for the default values).
+    */
+    public static EnumTest.Builder builder() {
+      return new EnumTest.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field (except for the default values).
-  */
-  public static EnumTest.Builder builder() {
-    return new EnumTest.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public EnumTest.Builder toBuilder() {
-    EnumTest.Builder builder = new EnumTest.Builder();
-    return builder.copyOf(this);
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public EnumTest.Builder toBuilder() {
+      EnumTest.Builder builder = new EnumTest.Builder();
+      return builder.copyOf(this);
+    }
 }
 

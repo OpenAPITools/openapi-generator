@@ -62,7 +62,6 @@ public class Dog extends Animal {
    * @return breed
    */
   @javax.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_BREED)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

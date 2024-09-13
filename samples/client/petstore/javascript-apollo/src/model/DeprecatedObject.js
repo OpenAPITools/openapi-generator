@@ -84,4 +84,3 @@ DeprecatedObject.prototype['name'] = undefined;
 
 
 export default DeprecatedObject;
-

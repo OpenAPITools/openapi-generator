@@ -15,4 +15,3 @@ instance = Petstore::HealthCheckResult.new(
   nullable_message: null
 )
 ```
-

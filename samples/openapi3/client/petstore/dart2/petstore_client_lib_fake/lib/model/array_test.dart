@@ -9,7 +9,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
-
 class ArrayTest {
   /// Returns a new [ArrayTest] instance.
   ArrayTest({
@@ -17,7 +16,6 @@ class ArrayTest {
     this.arrayArrayOfInteger = const [],
     this.arrayArrayOfModel = const [],
   });
-
   List<String> arrayOfString;
 
   List<List<int>> arrayArrayOfInteger;
@@ -129,4 +127,3 @@ class ArrayTest {
   static const requiredKeys = <String>{
   };
 }
-

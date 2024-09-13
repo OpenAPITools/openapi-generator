@@ -34,7 +34,6 @@ import com.google.gson.annotations.SerializedName
  * @param name 
  */
 
-
 data class ApiCategory (
 
     @SerializedName("id")

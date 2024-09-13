@@ -27,7 +27,6 @@ class ChildWithNullable {
 
      this.otherProperty,
   });
-
   @JsonKey(
     
     name: r'type',
@@ -96,5 +95,4 @@ enum ChildWithNullableTypeEnum {
   @JsonValue(r'unknown_default_open_api')
   unknownDefaultOpenApi,
 }
-
 

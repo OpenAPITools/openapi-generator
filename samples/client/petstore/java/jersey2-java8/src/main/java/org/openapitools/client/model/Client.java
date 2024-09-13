@@ -64,7 +64,6 @@ public class Client {
     this.client = client;
   }
 
-
   /**
    * Return true if this Client object is equal to o.
    */

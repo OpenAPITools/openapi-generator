@@ -76,7 +76,6 @@ public class Name {
    */
   @javax.annotation.Nonnull
   @NotNull
-
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -96,7 +95,6 @@ public class Name {
    * @return snakeCase
    */
   @javax.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_SNAKE_CASE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -117,7 +115,6 @@ public class Name {
    * @return property
    */
   @javax.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -137,7 +134,6 @@ public class Name {
    * @return _123number
    */
   @javax.annotation.Nullable
-
   @JsonProperty(JSON_PROPERTY_123NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

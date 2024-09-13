@@ -126,7 +126,6 @@ public class DataQuery extends Query {
     this.date = date;
   }
 
-
   @Override
   public DataQuery id(Long id) {
     this.setId(id);

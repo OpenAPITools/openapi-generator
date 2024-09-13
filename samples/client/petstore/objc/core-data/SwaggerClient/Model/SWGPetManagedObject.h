@@ -13,7 +13,6 @@
 * Do not edit the class manually.
 */
 
-
 #import "SWGCategoryManagedObject.h"
 #import "SWGTagManagedObject.h"
 

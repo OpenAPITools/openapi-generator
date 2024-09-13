@@ -25,13 +25,10 @@ import javax.annotation.Generated;
 /**
  * An order for a pets from the pet store
  */
-
 @Schema(name = "Order", description = "An order for a pets from the pet store")
 @JacksonXmlRootElement(localName = "Order")
 @XmlRootElement(name = "Order")
-@XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class Order {
+@XmlAccessorType(XmlAccessType.FIELD)@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class Order {
 
   private Long id;
 
@@ -78,7 +75,6 @@ public class Order {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   private StatusEnum status;
 
   private Boolean complete = false;
@@ -92,8 +88,7 @@ public class Order {
    * Get id
    * @return id
    */
-  
-  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
   public Long getId() {
@@ -113,8 +108,7 @@ public class Order {
    * Get petId
    * @return petId
    */
-  
-  @Schema(name = "petId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "petId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("petId")
   @JacksonXmlProperty(localName = "petId")
   public Long getPetId() {
@@ -134,8 +128,7 @@ public class Order {
    * Get quantity
    * @return quantity
    */
-  
-  @Schema(name = "quantity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "quantity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("quantity")
   @JacksonXmlProperty(localName = "quantity")
   public Integer getQuantity() {
@@ -155,8 +148,7 @@ public class Order {
    * Get shipDate
    * @return shipDate
    */
-  @Valid 
-  @Schema(name = "shipDate", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Valid   @Schema(name = "shipDate", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("shipDate")
   @JacksonXmlProperty(localName = "shipDate")
   public Date getShipDate() {
@@ -176,8 +168,7 @@ public class Order {
    * Order Status
    * @return status
    */
-  
-  @Schema(name = "status", description = "Order Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "status", description = "Order Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
   @JacksonXmlProperty(localName = "status")
   public StatusEnum getStatus() {
@@ -197,8 +188,7 @@ public class Order {
    * Get complete
    * @return complete
    */
-  
-  @Schema(name = "complete", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "complete", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("complete")
   @JacksonXmlProperty(localName = "complete")
   public Boolean getComplete() {
@@ -208,7 +198,6 @@ public class Order {
   public void setComplete(Boolean complete) {
     this.complete = complete;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

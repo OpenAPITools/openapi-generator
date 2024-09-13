@@ -105,7 +105,6 @@ public class EnumArrays implements Parcelable {
       JustSymbolEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_JUST_SYMBOL = "just_symbol";
   @SerializedName(SERIALIZED_NAME_JUST_SYMBOL)
   private JustSymbolEnum justSymbol;
@@ -161,7 +160,6 @@ public class EnumArrays implements Parcelable {
       ArrayEnumEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_ARRAY_ENUM = "array_enum";
   @SerializedName(SERIALIZED_NAME_ARRAY_ENUM)
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
@@ -213,7 +211,6 @@ public class EnumArrays implements Parcelable {
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
-
 
 
   @Override

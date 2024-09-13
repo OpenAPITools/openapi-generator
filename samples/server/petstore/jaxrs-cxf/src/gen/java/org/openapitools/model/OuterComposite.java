@@ -116,4 +116,3 @@ public class OuterComposite  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

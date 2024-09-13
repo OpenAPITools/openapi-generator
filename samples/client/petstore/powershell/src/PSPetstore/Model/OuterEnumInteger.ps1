@@ -23,4 +23,3 @@ enum OuterEnumInteger {
     # enum value: "2"
     NUMBER_2
 }
-

@@ -33,8 +33,7 @@ abstract class ApiResponse implements Built<ApiResponse, ApiResponseBuilder> {
   static void _defaults(ApiResponseBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ApiResponse> get serializer => _$ApiResponseSerializer();
-}
+  static Serializer<ApiResponse> get serializer => _$ApiResponseSerializer();}
 
 class _$ApiResponseSerializer implements PrimitiveSerializer<ApiResponse> {
   @override

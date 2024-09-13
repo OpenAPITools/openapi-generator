@@ -42,7 +42,6 @@ fun Route.StoreApi() {
         
         val principal = call.authentication.principal<ApiPrincipal>()!!
         
-        
         call.respond(HttpStatusCode.NotImplemented)
         
     }
@@ -64,7 +63,6 @@ fun Route.StoreApi() {
             "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
             else -> call.respondText(exampleContentString)
         }
-        
     }
 
     post<Paths.placeOrder> {
@@ -83,7 +81,6 @@ fun Route.StoreApi() {
             "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
             else -> call.respondText(exampleContentString)
         }
-        
     }
 
 }

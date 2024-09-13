@@ -18,9 +18,7 @@ import javax.annotation.Generated;
 /**
  * User
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class User {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")public class User {
 
   private Optional<Long> id = Optional.empty();
 
@@ -47,8 +45,7 @@ public class User {
    * Get id
    * @return id
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Optional<Long> getId() {
     return id;
@@ -67,8 +64,7 @@ public class User {
    * Get username
    * @return username
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("username")
   public Optional<String> getUsername() {
     return username;
@@ -87,8 +83,7 @@ public class User {
    * Get firstName
    * @return firstName
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("firstName")
   public Optional<String> getFirstName() {
     return firstName;
@@ -107,8 +102,7 @@ public class User {
    * Get lastName
    * @return lastName
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("lastName")
   public Optional<String> getLastName() {
     return lastName;
@@ -127,8 +121,7 @@ public class User {
    * Get email
    * @return email
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("email")
   public Optional<String> getEmail() {
     return email;
@@ -147,8 +140,7 @@ public class User {
    * Get password
    * @return password
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("password")
   public Optional<String> getPassword() {
     return password;
@@ -167,8 +159,7 @@ public class User {
    * Get phone
    * @return phone
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("phone")
   public Optional<String> getPhone() {
     return phone;
@@ -187,8 +178,7 @@ public class User {
    * User Status
    * @return userStatus
    */
-  
-  @ApiModelProperty(value = "User Status")
+    @ApiModelProperty(value = "User Status")
   @JsonProperty("userStatus")
   public Optional<Integer> getUserStatus() {
     return userStatus;
@@ -197,7 +187,6 @@ public class User {
   public void setUserStatus(Optional<Integer> userStatus) {
     this.userStatus = userStatus;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -249,104 +238,103 @@ public class User {
     return o.toString().replace("\n", "\n    ");
   }
   
-  public static class Builder {
-
-    private User instance;
-
-    public Builder() {
-      this(new User());
-    }
-
-    protected Builder(User instance) {
-      this.instance = instance;
-    }
-
-    protected Builder copyOf(User value) { 
-      this.instance.setId(value.id);
-      this.instance.setUsername(value.username);
-      this.instance.setFirstName(value.firstName);
-      this.instance.setLastName(value.lastName);
-      this.instance.setEmail(value.email);
-      this.instance.setPassword(value.password);
-      this.instance.setPhone(value.phone);
-      this.instance.setUserStatus(value.userStatus);
-      return this;
-    }
-
-    public User.Builder id(Long id) {
-      this.instance.id(id);
-      return this;
-    }
-    
-    public User.Builder username(String username) {
-      this.instance.username(username);
-      return this;
-    }
-    
-    public User.Builder firstName(String firstName) {
-      this.instance.firstName(firstName);
-      return this;
-    }
-    
-    public User.Builder lastName(String lastName) {
-      this.instance.lastName(lastName);
-      return this;
-    }
-    
-    public User.Builder email(String email) {
-      this.instance.email(email);
-      return this;
-    }
-    
-    public User.Builder password(String password) {
-      this.instance.password(password);
-      return this;
-    }
-    
-    public User.Builder phone(String phone) {
-      this.instance.phone(phone);
-      return this;
-    }
-    
-    public User.Builder userStatus(Integer userStatus) {
-      this.instance.userStatus(userStatus);
-      return this;
-    }
-    
-    /**
-    * returns a built User instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public User build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    public static class Builder {
+  
+      private User instance;
+  
+      public Builder() {
+        this(new User());
+      }
+  
+      protected Builder(User instance) {
+        this.instance = instance;
+      }
+  
+      protected Builder copyOf(User value) { 
+        this.instance.setId(value.id);
+        this.instance.setUsername(value.username);
+        this.instance.setFirstName(value.firstName);
+        this.instance.setLastName(value.lastName);
+        this.instance.setEmail(value.email);
+        this.instance.setPassword(value.password);
+        this.instance.setPhone(value.phone);
+        this.instance.setUserStatus(value.userStatus);
+        return this;
+      }
+  
+        public User.Builder id(Long id) {
+        this.instance.id(id);
+        return this;
+      }
+      
+        public User.Builder username(String username) {
+        this.instance.username(username);
+        return this;
+      }
+      
+        public User.Builder firstName(String firstName) {
+        this.instance.firstName(firstName);
+        return this;
+      }
+      
+        public User.Builder lastName(String lastName) {
+        this.instance.lastName(lastName);
+        return this;
+      }
+      
+        public User.Builder email(String email) {
+        this.instance.email(email);
+        return this;
+      }
+      
+        public User.Builder password(String password) {
+        this.instance.password(password);
+        return this;
+      }
+      
+        public User.Builder phone(String phone) {
+        this.instance.phone(phone);
+        return this;
+      }
+      
+        public User.Builder userStatus(Integer userStatus) {
+        this.instance.userStatus(userStatus);
+        return this;
+      }
+      
+          /**
+      * returns a built User instance.
+      *
+      * The builder is not reusable (NullPointerException)
+      */
+      public User build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field (except for the default values).
+    */
+    public static User.Builder builder() {
+      return new User.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field (except for the default values).
-  */
-  public static User.Builder builder() {
-    return new User.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public User.Builder toBuilder() {
-    User.Builder builder = new User.Builder();
-    return builder.copyOf(this);
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public User.Builder toBuilder() {
+      User.Builder builder = new User.Builder();
+      return builder.copyOf(this);
+    }
 }
 
