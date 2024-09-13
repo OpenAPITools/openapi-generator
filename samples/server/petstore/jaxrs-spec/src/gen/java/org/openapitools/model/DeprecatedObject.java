@@ -90,7 +90,7 @@ public class DeprecatedObject  implements Serializable {
     return new DeprecatedObjectBuilderImpl();
   }
 
-  private static class DeprecatedObjectBuilderImpl extends DeprecatedObjectBuilder<DeprecatedObject, DeprecatedObjectBuilderImpl> {
+  private static final class DeprecatedObjectBuilderImpl extends DeprecatedObjectBuilder<DeprecatedObject, DeprecatedObjectBuilderImpl> {
 
     @Override
     protected DeprecatedObjectBuilderImpl self() {

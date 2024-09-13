@@ -93,7 +93,7 @@ public class ModelReturn  implements Serializable {
     return new ModelReturnBuilderImpl();
   }
 
-  private static class ModelReturnBuilderImpl extends ModelReturnBuilder<ModelReturn, ModelReturnBuilderImpl> {
+  private static final class ModelReturnBuilderImpl extends ModelReturnBuilder<ModelReturn, ModelReturnBuilderImpl> {
 
     @Override
     protected ModelReturnBuilderImpl self() {

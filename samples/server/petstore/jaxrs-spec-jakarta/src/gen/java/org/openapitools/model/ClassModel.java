@@ -92,7 +92,7 @@ public class ClassModel  implements Serializable {
     return new ClassModelBuilderImpl();
   }
 
-  private static class ClassModelBuilderImpl extends ClassModelBuilder<ClassModel, ClassModelBuilderImpl> {
+  private static final class ClassModelBuilderImpl extends ClassModelBuilder<ClassModel, ClassModelBuilderImpl> {
 
     @Override
     protected ClassModelBuilderImpl self() {

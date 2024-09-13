@@ -188,7 +188,7 @@ public class ArrayTest  implements Serializable {
     return new ArrayTestBuilderImpl();
   }
 
-  private static class ArrayTestBuilderImpl extends ArrayTestBuilder<ArrayTest, ArrayTestBuilderImpl> {
+  private static final class ArrayTestBuilderImpl extends ArrayTestBuilder<ArrayTest, ArrayTestBuilderImpl> {
 
     @Override
     protected ArrayTestBuilderImpl self() {

@@ -133,7 +133,7 @@ public class FileSchemaTestClass  implements Serializable {
     return new FileSchemaTestClassBuilderImpl();
   }
 
-  private static class FileSchemaTestClassBuilderImpl extends FileSchemaTestClassBuilder<FileSchemaTestClass, FileSchemaTestClassBuilderImpl> {
+  private static final class FileSchemaTestClassBuilderImpl extends FileSchemaTestClassBuilder<FileSchemaTestClass, FileSchemaTestClassBuilderImpl> {
 
     @Override
     protected FileSchemaTestClassBuilderImpl self() {
