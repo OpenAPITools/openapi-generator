@@ -1,5 +1,6 @@
 package {{apiPackage}}
 
+import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -11,7 +12,7 @@ sealed class ApiException(msg: String, val code: Int) : Exception(msg)
 
 class NotFoundException(msg: String, code: Int = HttpStatus.NOT_FOUND.value()) : ApiException(msg, code)
 
-
+@Configuration("{{apiPackage}}.DefaultExceptionHandler")
 @ControllerAdvice
 class DefaultExceptionHandler {
 

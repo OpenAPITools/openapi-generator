@@ -1,0 +1,26 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "",
+  "name": "Sample",
+  "fields": [
+    {
+      "name": "type",
+      "type": ["null", {
+        "type": "enum",
+        "name": "Sample_type",
+        "symbols": [
+          "a",
+          "b",
+          "uh_oh",
+          "_0h_oh",
+          "coll_ision",
+          "coll_ision2"
+        ]
+      }],
+      "doc": "",
+      "default": null
+    }
+  ]
+
+}

@@ -72,6 +72,7 @@ If you find OpenAPI Generator useful for work, please consider asking your compa
 [<img src="https://openapi-generator.tech/img/companies/itm.png" width="128" height="128">](https://opensource.muenchen.de?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
 [<img src="https://openapi-generator.tech/img/companies/kong.png" width="128" height="128">](https://konghq.com/products/kong-konnect?utm_medium=referral&utm_source=github&utm_campaign=platform&utm_content=openapi-generator)
 [<img src="https://openapi-generator.tech/img/companies/route4me.png" width="128" height="128">](https://route4me.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img src="https://openapi-generator.tech/img/companies/dm.png" width="128" height="128">](https://www.dotcom-monitor.com/sponsoring-open-source-projects/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
 
 #### Thank you GoDaddy for sponsoring the domain names, Linode for sponsoring the VPS, Checkly for sponsoring the API monitoring and Gradle for sponsoring Develocity
 
@@ -446,41 +447,7 @@ npm install @openapitools/openapi-generator-cli -D
 ```
 <!-- /RELEASE_VERSION -->
 
-#### Use locally built JAR
-In order to use a locally built jar of the generator CLI, you can copy the jar from your local build (i.e. if you were to `build` this repository it would be in `~/openapi-generator/modules/openapi-generator-cli/target/openapi-generator-cli.jar`) into `./node_modules/@openapitools/openapi-generator-cli/versions/` and change the `version` in the `openapitools.json` file to the base name of the jar file.
-E.g.:
-```sh
-cd openapi-generator
-./mvnw clean package
-cp ./modules/openapi-generator-cli/target/openapi-generator-cli.jar /your/project/node_modules/@openapitools/openapi-generator-cli/versions/my-local-snapshot.jar
-```
-and then:
-```json
-{
-  "$schema": "./node_modules/@openapitools/openapi-generator-cli/config.schema.json",
-  "spaces": 2,
-  "generator-cli": {
-    "version": "my-local-snapshot",
-  }
-}
-```
-
-#### Use nightly `SNAPSHOT` build
-Change your `openapitools.json` to:
-
-```json
-{
-  "$schema": "node_modules/@openapitools/openapi-generator-cli/config.schema.json",
-  "spaces": 2,
-  "generator-cli": {
-    "version": "7.9.0-20240829.123431-22",
-    "repository": {
-      "downloadUrl": "https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/7.9.0-SNAPSHOT/openapi-generator-cli-${versionName}.jar"
-    }
-  }
-}
-```
-(example is with a snapshot of `7.9.0`, please change the `version` and `downloadUrl` accordingly)
+You can use [locally built JARs](https://github.com/OpenAPITools/openapi-generator-cli?tab=readme-ov-file#use-locally-built-jar) or [`SNAPSHOT` versions](https://github.com/OpenAPITools/openapi-generator-cli?tab=readme-ov-file#use-nightly-snapshot-build) as well.
 
 ## [2 - Getting Started](#table-of-contents)
 
@@ -1107,7 +1074,7 @@ Here is a list of template creators:
    * C++ (Qt5 QHttpEngine): @etherealjoy
    * C++ Pistache: @sebymiano
    * C++ Restbed: @stkrwork
-   * Erlang Server: @galaxie
+   * Erlang Server: @galaxie @nelsonvides
    * F# (Giraffe) Server: @nmfisher
    * Go Server: @guohuang
    * Go Server (refactored in 7.0.0): @lwj5
@@ -1218,7 +1185,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Eiffel                | @jvelilla (2017/09)                                                                                                                                                                                                                                   |
 | Elixir                | @mrmstn (2018/12)                                                                                                                                                                                                                                     |
 | Elm                   | @eriktim (2018/09)                                                                                                                                                                                                                                    |
-| Erlang                | @tsloughter (2017/11) @jfacorro (2018/10) @robertoaloi (2018/10)                                                                                                                                                                                      |
+| Erlang                | @tsloughter (2017/11) @jfacorro (2018/10) @robertoaloi (2018/10) @nelsonvides (2024/09)                                                                                                                                                               |
 | F#                    | @nmfisher (2019/05)                                                                                                                                                                                                                                   |
 | Go                    | @antihax (2017/11) @grokify (2018/07) @kemokemo (2018/09) @jirikuncar (2021/01) @ph4r5h4d (2021/04) @lwj5 (2023/04)                                                                                                                                                   |
 | GraphQL               | @renepardon (2018/12)                                                                                                                                                                                                                                 |

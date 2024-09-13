@@ -22,3 +22,7 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
 export function {{classname}}ToJSON(value?: {{classname}} | null): any {
     return value as any;
 }
+
+export function {{classname}}ToJSONTyped(value: any, ignoreDiscriminator: boolean): {{classname}} {
+    return value as {{classname}};
+}
