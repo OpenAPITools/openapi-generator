@@ -1784,6 +1784,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (property.dataType != null && property.dataType.equals(property.name) && property.dataType.toUpperCase(Locale.ROOT).equals(property.name)) {
             property.name = property.name.toLowerCase(Locale.ROOT);
         }
+
+        if (useBeanValidation) {
+            property.rawDatatypeWithEnum = removeBeanValidationAnnotations(property.datatypeWithEnum);
+        } else {
+            property.rawDatatypeWithEnum = property.datatypeWithEnum;
+        }
     }
 
     @Override
@@ -1792,14 +1798,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return;
         }
 
-        // the response data types should not contains a bean validation annotation.
-        if (property.dataType.contains("@")) {
-            property.dataType = property.dataType.replaceAll("(?:(?i)@[a-z0-9]*+([(].*[)]|\\s*))*+", "");
+        // the response data types should not contain bean validation annotations.
+        property.dataType = removeBeanValidationAnnotations(property.dataType);
+        response.dataType = removeBeanValidationAnnotations(response.dataType);
+    }
+
+    private String removeBeanValidationAnnotations(String dataType) {
+        if (dataType != null && dataType.contains("@")) {
+            return dataType.replaceAll("(?:(?i)@[a-z0-9]*+([(].*[)]|\\s*))*+", "");
         }
-        // the response data types should not contains a bean validation annotation.
-        if (response.dataType.contains("@")) {
-            response.dataType = response.dataType.replaceAll("(?:(?i)@[a-z0-9]*+([(].*[)]|\\s*))*+", "");
-        }
+        return dataType;
     }
 
     @Override

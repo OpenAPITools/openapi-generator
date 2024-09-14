@@ -4129,6 +4129,8 @@ public class DefaultCodegen implements CodegenConfig {
         property.defaultValue = toDefaultValue(property, p);
         property.defaultValueWithParam = toDefaultValueWithParam(name, p);
 
+        property.rawDatatypeWithEnum = property.datatypeWithEnum;
+
         LOGGER.debug("debugging from property return: {}", property);
         schemaCodegenPropertyCache.put(ns, property);
         return property;

@@ -54,6 +54,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     @Getter @Setter
     public String datatypeWithEnum;
     @Getter @Setter
+    public String rawDatatypeWithEnum;
+    @Getter @Setter
     public String dataFormat;
     /**
      * The name of this property in the OpenAPI schema.
@@ -972,6 +974,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", description='").append(description).append('\'');
         sb.append(", dataType='").append(dataType).append('\'');
         sb.append(", datatypeWithEnum='").append(datatypeWithEnum).append('\'');
+        sb.append(", rawDatatypeWithEnum='").append(rawDatatypeWithEnum).append('\'');
         sb.append(", dataFormat='").append(dataFormat).append('\'');
         sb.append(", name='").append(name).append('\'');
         sb.append(", min='").append(min).append('\'');
@@ -1161,6 +1164,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(description, that.description) &&
                 Objects.equals(dataType, that.dataType) &&
                 Objects.equals(datatypeWithEnum, that.datatypeWithEnum) &&
+                Objects.equals(rawDatatypeWithEnum, that.rawDatatypeWithEnum) &&
                 Objects.equals(dataFormat, that.dataFormat) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(min, that.min) &&
@@ -1204,7 +1208,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public int hashCode() {
 
         return Objects.hash(openApiType, baseName, complexType, getter, setter, description,
-                dataType, datatypeWithEnum, dataFormat, name, min, max, defaultValue,
+                dataType, datatypeWithEnum, rawDatatypeWithEnum, dataFormat, name, min, max, defaultValue,
                 defaultValueWithParam, baseType, containerType, containerTypeMapped, title, unescapedDescription,
                 maxLength, minLength, pattern, example, jsonSchema, minimum, maximum,
                 exclusiveMinimum, exclusiveMaximum, required, deprecated,
