@@ -37,25 +37,25 @@ jobs:
         run: go test -mod=mod -v
 
   verify:
-    name: Verify generated Go files with Python tests
+    name: Verify generated Go files with Go tests
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         sample:
           - samples/server/petstore/go-api-server/
-        python-version:
-          - "3.11"
+        go-version:
+          - "1.18"
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Set up Go
+        uses: actions/setup-go@v3
         with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install
+          go-version: ${{ matrix.go-version }}
+      - name: Install Dependencies
         working-directory: ${{ matrix.sample }}
         run: |
-          pip install -r python/requirements.txt
-          pip install -r python/test-requirements.txt
-      - name: Test
+          go mod tidy
+      - name: Run tests
         working-directory: ${{ matrix.sample }}
-        run: python -m pytest
+        run: go test ./samples_tests -v
