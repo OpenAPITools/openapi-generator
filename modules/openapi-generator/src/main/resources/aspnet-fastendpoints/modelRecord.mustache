@@ -1,0 +1,14 @@
+/// <summary>
+/// {{description}}
+/// </summary>
+public record {{classname}}(
+{{#vars}}
+    {{#isEnum}}{{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#nullableReferenceTypes}}{{^isContainer}}{{^required}}{{^isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableReferenceTypes}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isEnum}}{{^-last}},{{/-last}}
+{{/vars}}
+) {{#parent}}: {{{.}}}{{/parent}}
+{
+{{#vars}}
+    {{#isEnum}}{{^complexType}}{{>enumClass}}{{/complexType}}
+{{/isEnum}}
+{{/vars}}
+}

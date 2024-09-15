@@ -5,3 +5,4 @@ templateDir: modules/openapi-generator/src/main/resources/aspnet-fastendpoints
 additionalProperties:
   hideGenerationTimestamp: "true"
   useProblemDetails: "true"
+  useRecords: "false"

@@ -14,10 +14,12 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
 
     public static final String PROJECT_NAME = "projectName";
     public static final String USE_PROBLEM_DETAILS = "useProblemDetails";
+    public static final String USE_RECORDS = "useRecords";
 
     private final Logger LOGGER = LoggerFactory.getLogger(AspnetFastendpointsServerCodegen.class);
 
     private boolean useProblemDetails = false;
+    private boolean useRecords = false;
 
 
     public CodegenType getTag() {
@@ -61,6 +63,7 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
         supportingFiles.add(new SupportingFile("program.mustache", packageFolder, "Program.cs"));
 
         addSwitch(USE_PROBLEM_DETAILS, "Enable RFC compatible error responses.", useProblemDetails);
+        addSwitch(USE_RECORDS, "Use record instead of class for the requests and response.", useRecords);
     }
 
     @Override
@@ -72,6 +75,7 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
         setPackageDescription(openAPI.getInfo().getDescription());
 
         setUseProblemDetails();
+        setUseRecordForRequest();
 
         super.processOpts();
     }
@@ -89,6 +93,14 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
             useProblemDetails = convertPropertyToBooleanAndWriteBack(USE_PROBLEM_DETAILS);
         } else {
             additionalProperties.put(USE_PROBLEM_DETAILS, useProblemDetails);
+        }
+    }
+
+    private void setUseRecordForRequest() {
+        if (additionalProperties.containsKey(USE_RECORDS)) {
+            useRecords = convertPropertyToBooleanAndWriteBack(USE_RECORDS);
+        } else {
+            additionalProperties.put(USE_RECORDS, useRecords);
         }
     }
 }
