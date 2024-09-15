@@ -27,7 +27,8 @@ class ParentWithNullable {
     
     name: r'type',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+  unknownEnumValue: ParentWithNullableTypeEnum.unknownDefaultOpenApi,
   )
 
 
@@ -39,7 +40,7 @@ class ParentWithNullable {
     
     name: r'nullableProperty',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 

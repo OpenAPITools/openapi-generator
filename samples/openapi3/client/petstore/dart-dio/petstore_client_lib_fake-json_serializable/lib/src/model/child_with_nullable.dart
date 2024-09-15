@@ -32,7 +32,8 @@ class ChildWithNullable {
     
     name: r'type',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+  unknownEnumValue: ChildWithNullableTypeEnum.unknownDefaultOpenApi,
   )
 
 
@@ -44,7 +45,7 @@ class ChildWithNullable {
     
     name: r'nullableProperty',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -56,7 +57,7 @@ class ChildWithNullable {
     
     name: r'otherProperty',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
