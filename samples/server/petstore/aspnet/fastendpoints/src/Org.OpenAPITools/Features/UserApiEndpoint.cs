@@ -18,7 +18,8 @@ public class CreateUserEndpoint : Endpoint<CreateUserRequest>
         
         Description(x =>
         {
-            x.WithTags("user");
+            x.WithTags("user")
+             .ProducesProblemDetails(0);
         });
 
         Summary(s => {
@@ -52,7 +53,8 @@ public class CreateUsersWithArrayInputEndpoint : Endpoint<CreateUsersWithArrayIn
         
         Description(x =>
         {
-            x.WithTags("user");
+            x.WithTags("user")
+             .ProducesProblemDetails(0);
         });
 
         Summary(s => {
@@ -86,7 +88,8 @@ public class CreateUsersWithListInputEndpoint : Endpoint<CreateUsersWithListInpu
         
         Description(x =>
         {
-            x.WithTags("user");
+            x.WithTags("user")
+             .ProducesProblemDetails(0);
         });
 
         Summary(s => {
@@ -120,7 +123,9 @@ public class DeleteUserEndpoint : Endpoint<DeleteUserRequest>
         
         Description(x =>
         {
-            x.WithTags("user");
+            x.WithTags("user")
+             .ProducesProblemDetails(400)
+             .ProducesProblemDetails(404);
         });
 
         Summary(s => {
@@ -155,7 +160,9 @@ public class GetUserByNameEndpoint : Endpoint<GetUserByNameRequest, User>
         
         Description(x =>
         {
-            x.WithTags("user");
+            x.WithTags("user")
+             .ProducesProblemDetails(400)
+             .ProducesProblemDetails(404);
         });
 
         Summary(s => {
@@ -191,7 +198,8 @@ public class LoginUserEndpoint : Endpoint<LoginUserRequest, string>
         
         Description(x =>
         {
-            x.WithTags("user");
+            x.WithTags("user")
+             .ProducesProblemDetails(400);
         });
 
         Summary(s => {
@@ -227,7 +235,8 @@ public class LogoutUserEndpoint : EndpointWithoutRequest
         
         Description(x =>
         {
-            x.WithTags("user");
+            x.WithTags("user")
+             .ProducesProblemDetails(0);
         });
 
         Summary(s => {
@@ -260,7 +269,9 @@ public class UpdateUserEndpoint : Endpoint<UpdateUserRequest>
         
         Description(x =>
         {
-            x.WithTags("user");
+            x.WithTags("user")
+             .ProducesProblemDetails(400)
+             .ProducesProblemDetails(404);
         });
 
         Summary(s => {
