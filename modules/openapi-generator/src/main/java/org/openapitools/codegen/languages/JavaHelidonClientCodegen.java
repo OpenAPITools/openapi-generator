@@ -424,6 +424,7 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
                     if (Boolean.TRUE.equals(var.getVendorExtensions().get("x-enum-as-string"))) {
                         // treat enum string as just string
                         var.datatypeWithEnum = var.dataType;
+                        var.rawDatatypeWithEnum = var.datatypeWithEnum;
 
                         if (StringUtils.isNotEmpty(var.defaultValue)) { // has default value
                             String defaultValue = var.defaultValue.substring(var.defaultValue.lastIndexOf('.') + 1);
