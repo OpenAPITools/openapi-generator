@@ -72,23 +72,37 @@ class EnumArrays {
 
 
 enum EnumArraysJustSymbolEnum {
-  @JsonValue(r'>=')
-  greaterThanEqual,
-  @JsonValue(r'$')
-  dollar,
-  @JsonValue(r'unknown_default_open_api')
-  unknownDefaultOpenApi,
+@JsonValue(r'>=')
+greaterThanEqual(r'>='),
+@JsonValue(r'$')
+dollar(r'$'),
+@JsonValue(r'unknown_default_open_api')
+unknownDefaultOpenApi(r'unknown_default_open_api');
+
+const EnumArraysJustSymbolEnum(this.value);
+
+final String value;
+
+@override
+String toString() => value;
 }
 
 
 
 enum EnumArraysArrayEnumEnum {
-  @JsonValue(r'fish')
-  fish,
-  @JsonValue(r'crab')
-  crab,
-  @JsonValue(r'unknown_default_open_api')
-  unknownDefaultOpenApi,
+@JsonValue(r'fish')
+fish(r'fish'),
+@JsonValue(r'crab')
+crab(r'crab'),
+@JsonValue(r'unknown_default_open_api')
+unknownDefaultOpenApi(r'unknown_default_open_api');
+
+const EnumArraysArrayEnumEnum(this.value);
+
+final String value;
+
+@override
+String toString() => value;
 }
 
 

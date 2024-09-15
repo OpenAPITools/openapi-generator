@@ -172,49 +172,77 @@ class EnumTest {
 
 
 enum EnumTestEnumStringEnum {
-  @JsonValue(r'UPPER')
-  UPPER,
-  @JsonValue(r'lower')
-  lower,
-  @JsonValue(r'')
-  empty,
-  @JsonValue(r'unknown_default_open_api')
-  unknownDefaultOpenApi,
+@JsonValue(r'UPPER')
+UPPER(r'UPPER'),
+@JsonValue(r'lower')
+lower(r'lower'),
+@JsonValue(r'')
+empty(r''),
+@JsonValue(r'unknown_default_open_api')
+unknownDefaultOpenApi(r'unknown_default_open_api');
+
+const EnumTestEnumStringEnum(this.value);
+
+final String value;
+
+@override
+String toString() => value;
 }
 
 
 
 enum EnumTestEnumStringRequiredEnum {
-  @JsonValue(r'UPPER')
-  UPPER,
-  @JsonValue(r'lower')
-  lower,
-  @JsonValue(r'')
-  empty,
-  @JsonValue(r'unknown_default_open_api')
-  unknownDefaultOpenApi,
+@JsonValue(r'UPPER')
+UPPER(r'UPPER'),
+@JsonValue(r'lower')
+lower(r'lower'),
+@JsonValue(r'')
+empty(r''),
+@JsonValue(r'unknown_default_open_api')
+unknownDefaultOpenApi(r'unknown_default_open_api');
+
+const EnumTestEnumStringRequiredEnum(this.value);
+
+final String value;
+
+@override
+String toString() => value;
 }
 
 
 
 enum EnumTestEnumIntegerEnum {
-  @JsonValue(1)
-  number1,
-  @JsonValue(-1)
-  numberNegative1,
-  @JsonValue(11184809)
-  unknownDefaultOpenApi,
+@JsonValue(1)
+number1('1'),
+@JsonValue(-1)
+numberNegative1('-1'),
+@JsonValue(11184809)
+unknownDefaultOpenApi('11184809');
+
+const EnumTestEnumIntegerEnum(this.value);
+
+final String value;
+
+@override
+String toString() => value;
 }
 
 
 
 enum EnumTestEnumNumberEnum {
-  @JsonValue('1.1')
-  number1Period1,
-  @JsonValue('-1.2')
-  numberNegative1Period2,
-  @JsonValue('11184809')
-  unknownDefaultOpenApi,
+@JsonValue('1.1')
+number1Period1(''1.1''),
+@JsonValue('-1.2')
+numberNegative1Period2(''-1.2''),
+@JsonValue('11184809')
+unknownDefaultOpenApi(''11184809'');
+
+const EnumTestEnumNumberEnum(this.value);
+
+final String value;
+
+@override
+String toString() => value;
 }
 
 
