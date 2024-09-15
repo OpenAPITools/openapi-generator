@@ -18,7 +18,8 @@ public class AddPetEndpoint : Endpoint<AddPetRequest, Pet>
         
         Description(x =>
         {
-            x.WithTags("pet");
+            x.WithTags("pet")
+             .ProducesProblemDetails(405);
         });
 
         Summary(s => {
@@ -53,7 +54,8 @@ public class DeletePetEndpoint : Endpoint<DeletePetRequest>
         
         Description(x =>
         {
-            x.WithTags("pet");
+            x.WithTags("pet")
+             .ProducesProblemDetails(400);
         });
 
         Summary(s => {
@@ -88,7 +90,8 @@ public class FindPetsByStatusEndpoint : Endpoint<FindPetsByStatusRequest, List<P
         
         Description(x =>
         {
-            x.WithTags("pet");
+            x.WithTags("pet")
+             .ProducesProblemDetails(400);
         });
 
         Summary(s => {
@@ -123,7 +126,8 @@ public class FindPetsByTagsEndpoint : Endpoint<FindPetsByTagsRequest, List<Pet>>
         
         Description(x =>
         {
-            x.WithTags("pet");
+            x.WithTags("pet")
+             .ProducesProblemDetails(400);
         });
 
         Summary(s => {
@@ -158,7 +162,9 @@ public class GetPetByIdEndpoint : Endpoint<GetPetByIdRequest, Pet>
         
         Description(x =>
         {
-            x.WithTags("pet");
+            x.WithTags("pet")
+             .ProducesProblemDetails(400)
+             .ProducesProblemDetails(404);
         });
 
         Summary(s => {
@@ -194,7 +200,10 @@ public class UpdatePetEndpoint : Endpoint<UpdatePetRequest, Pet>
         
         Description(x =>
         {
-            x.WithTags("pet");
+            x.WithTags("pet")
+             .ProducesProblemDetails(400)
+             .ProducesProblemDetails(404)
+             .ProducesProblemDetails(405);
         });
 
         Summary(s => {
@@ -231,7 +240,8 @@ public class UpdatePetWithFormEndpoint : Endpoint<UpdatePetWithFormRequest>
         
         Description(x =>
         {
-            x.WithTags("pet");
+            x.WithTags("pet")
+             .ProducesProblemDetails(405);
         });
 
         Summary(s => {

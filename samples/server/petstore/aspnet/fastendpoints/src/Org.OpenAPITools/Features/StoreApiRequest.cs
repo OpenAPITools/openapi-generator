@@ -1,8 +1,8 @@
 using FastEndpoints;
 using Org.OpenAPITools.Models;
-using Order = Org.OpenAPITools.Models.Order;
 
 namespace Org.OpenAPITools.Features;
+
 
 public class DeleteOrderRequest
 {

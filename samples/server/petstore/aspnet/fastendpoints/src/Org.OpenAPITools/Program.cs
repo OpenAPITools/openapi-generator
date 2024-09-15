@@ -19,7 +19,10 @@ builder.Services
 
 var app = builder.Build();
 
-app.UseFastEndpoints()
+app.UseFastEndpoints(x =>
+    {
+        x.Errors.UseProblemDetails();
+    })
     .UseSwaggerGen();
 
 app.UseHttpsRedirection();
