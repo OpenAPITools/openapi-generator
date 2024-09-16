@@ -1272,7 +1272,6 @@ impl<S, C> Api<C> for Client<S, C> where
 
         #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
-            // Currently only authentication with Basic and Bearer are supported
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 AuthData::Basic(basic_header) => {
@@ -1759,7 +1758,6 @@ impl<S, C> Api<C> for Client<S, C> where
 
         #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
-            // Currently only authentication with Basic and Bearer are supported
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 _ => {}
@@ -1859,7 +1857,6 @@ impl<S, C> Api<C> for Client<S, C> where
 
         #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
-            // Currently only authentication with Basic and Bearer are supported
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 AuthData::Bearer(bearer_header) => {
@@ -1949,7 +1946,6 @@ impl<S, C> Api<C> for Client<S, C> where
 
         #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
-            // Currently only authentication with Basic and Bearer are supported
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 AuthData::Bearer(bearer_header) => {
@@ -2057,7 +2053,6 @@ impl<S, C> Api<C> for Client<S, C> where
 
         #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
-            // Currently only authentication with Basic and Bearer are supported
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 AuthData::Bearer(bearer_header) => {
@@ -2174,7 +2169,6 @@ impl<S, C> Api<C> for Client<S, C> where
 
         #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
-            // Currently only authentication with Basic and Bearer are supported
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 AuthData::Bearer(bearer_header) => {
@@ -2274,7 +2268,6 @@ impl<S, C> Api<C> for Client<S, C> where
 
         #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
-            // Currently only authentication with Basic and Bearer are supported
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 AuthData::Bearer(bearer_header) => {
@@ -2381,7 +2374,6 @@ impl<S, C> Api<C> for Client<S, C> where
 
         #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
-            // Currently only authentication with Basic and Bearer are supported
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 _ => {}
@@ -2500,7 +2492,6 @@ impl<S, C> Api<C> for Client<S, C> where
 
         #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
-            // Currently only authentication with Basic and Bearer are supported
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 AuthData::Bearer(bearer_header) => {
@@ -2648,7 +2639,6 @@ impl<S, C> Api<C> for Client<S, C> where
 
         #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
-            // Currently only authentication with Basic and Bearer are supported
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 AuthData::Bearer(bearer_header) => {
@@ -2746,7 +2736,6 @@ impl<S, C> Api<C> for Client<S, C> where
 
         #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
-            // Currently only authentication with Basic and Bearer are supported
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 _ => {}
