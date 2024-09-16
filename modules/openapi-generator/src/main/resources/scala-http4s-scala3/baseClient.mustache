@@ -13,7 +13,7 @@ import {{modelPackage}}.*
 
 abstract class BaseClient[F[*]: Concurrent](
     val baseUrl: Uri,
-    defaultAuth: Option[Authorization] = None,
+    defaultAuth: Option[_Authorization] = None,
     defaultHeaders: Seq[(String, String)] = Nil,
     httpClient: Http4sClient[F]
 ) {
@@ -32,10 +32,10 @@ abstract class BaseClient[F[*]: Concurrent](
       method: String,
       path: String,
       body: Option[T] = None,
-      formBody : Option[UrlForm] = None,
+      formParameters: Option[Seq[(String, Any)]] = None,
       queryParameters: Seq[(String, Any)] = Nil,
       requestHeaders: Seq[(String, String)] = Nil,
-      auth: Option[Authorization] = None
+      auth: Option[_Authorization] = None
   )(handler: Response[F] => F[U])(implicit encoder: Encoder[T]): F[U] = {
 
     val m = Method.fromString(method) match {
@@ -57,14 +57,19 @@ abstract class BaseClient[F[*]: Concurrent](
     val request = Request[F](method = m, uri = uri, headers = headers)
 
     val reqAndMaybeAuth = auth.orElse(defaultAuth).fold(request) {
-      case Authorization.Basic(username, passwordOpt) =>
+      case _Authorization.Basic(username, passwordOpt) =>
         val userpass = s"$username:${passwordOpt.getOrElse("")}"
-        val token    = Base64.getEncoder.encodeToString(userpass.getBytes(StandardCharsets.ISO_8859_1))
+        val token    = Base64.getEncoder.encodeToString(
+          userpass.getBytes(StandardCharsets.ISO_8859_1)
+        )
         request.putHeaders(Header.Raw(CIString("Authorization"), s"Basic $token"))
-      case Authorization.Bearer(token) =>
+      case _Authorization.Bearer(token)  =>
         request.putHeaders(Header.Raw(CIString("Authorization"), s"Bearer $token"))
-      case Authorization.ApiKey(apiKey) =>
+      case _Authorization.ApiKey(apiKey) =>
         request.putHeaders(Header.Raw(CIString("api_key"), apiKey))
+    }
+    val formBody = formParameters.map { x =>
+      UrlForm(x.groupBy(_._1).map{case (k, v) => (k, v.mkString(","))}.toSeq*)
     }
 
     import JsonSupports.*

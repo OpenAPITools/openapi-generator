@@ -83,7 +83,8 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
                         SchemaSupportFeature.not
                 )
                 .excludeParameterFeatures(
-                        ParameterFeature.Cookie
+                        ParameterFeature.Cookie,
+                        ParameterFeature.FormMultipart
                 )
         );
 
@@ -176,7 +177,7 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
         typeMapping.put("list", "List");
         typeMapping.put("map", "Map");
         typeMapping.put("object", "Json");
-        typeMapping.put("binary", "Array[Byte]");
+        typeMapping.put("binary", "File");
         typeMapping.put("Date", "LocalDate");
         typeMapping.put("DateTime", "Instant");
         typeMapping.put("OffsetDateTime", "OffsetDateTime");
@@ -261,7 +262,7 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
         supportingFiles.add(new SupportingFile("baseClient.mustache", apisFileFolderRelative(), "BaseClient.scala"));
         supportingFiles.add(new SupportingFile("jsonSupports.mustache", apisFileFolderRelative(), "JsonSupports.scala"));
         supportingFiles.add(new SupportingFile("failedRequest.mustache", modelFileFolderRelative(), "_FailedRequest.scala"));
-        supportingFiles.add(new SupportingFile("authModel.mustache", modelFileFolderRelative(), "Authorization.scala"));
+        supportingFiles.add(new SupportingFile("authModel.mustache", modelFileFolderRelative(), "_Authorization.scala"));
         supportingFiles.add(new SupportingFile("modelsPackage.mustache", modelFileFolderRelative(), "package.scala"));
 
         if (additionalProperties.containsKey(EXCLUDE_SBT)) {

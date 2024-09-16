@@ -23,7 +23,7 @@ trait {{classname}}Endpoints[F[*]] {
 {{#operations}}
 class {{classname}}EndpointsImpl[F[*]: Concurrent](
   override val baseUrl: Uri,
-  defaultAuth: Option[Authorization] = None,
+  defaultAuth: Option[_Authorization] = None,
   defaultHeaders: Seq[(String, String)] = Nil,
   httpClient: Http4sClient[F]
 ) extends BaseClient[F](baseUrl, defaultAuth, defaultHeaders, httpClient) with {{classname}}Endpoints[F] {
@@ -34,14 +34,20 @@ class {{classname}}EndpointsImpl[F[*]: Concurrent](
 
 {{#operation}}
   override def {{operationId}}({{>methodParameters}}): F[{{>operationReturnType}}] = {
-    val requestHeaders = {{>headerParamCreation}}
-    {{>queryParams}}
+    val requestHeaders = {{>headerParamCreation}}{{#hasFormParams}}
+    val formParameters = Some(({{#formParams}}
+      {{>paramsCreation}}{{/formParams}}
+    ).toSeq.flatten){{/hasFormParams}}{{#hasQueryParams}}
+    val queryParameters = ({{#queryParams}}
+      {{>paramsCreation}}{{/queryParams}}
+    ).toSeq.flatten{{/hasQueryParams}}
 
     _executeRequest[{{>bodyParamType}}, {{>operationReturnType}}](
       method = "{{httpMethod.toUpperCase}}",
       path = s"{{{path}}}",
       body = {{#bodyParam}}{{#required}}Some({{paramName}}){{/required}}{{^required}}{{paramName}}{{/required}}{{/bodyParam}}{{^bodyParam}}None{{/bodyParam}},
-      queryParameters = queryParameters,
+      formParameters = {{^hasFormParams}}None,{{/hasFormParams}}{{#hasFormParams}}formParameters,{{/hasFormParams}}
+      queryParameters = {{^hasQueryParams}}Nil,{{/hasQueryParams}}{{#hasQueryParams}}queryParameters,{{/hasQueryParams}}
       requestHeaders = requestHeaders,
       auth = {{#authMethods}}Some(auth){{/authMethods}}{{^authMethods}}None{{/authMethods}}) {
         {{>responseState}}

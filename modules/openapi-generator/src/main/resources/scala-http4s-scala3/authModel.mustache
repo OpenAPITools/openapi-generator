@@ -1,10 +1,10 @@
 {{>licenseInfo}}
 package {{modelPackage}}
 
-sealed trait Authorization extends _root_.scala.Product with _root_.scala.Serializable
+sealed trait _Authorization extends _root_.scala.Product with _root_.scala.Serializable
 
-object Authorization {
-  final case class Basic(username: String, password: Option[String] = None) extends Authorization
-  final case class ApiKey(value: String) extends Authorization
-  final case class Bearer(token: String) extends Authorization
+object _Authorization {
+  final case class Basic(username: String, password: Option[String] = None) extends _Authorization
+  final case class ApiKey(value: String) extends _Authorization
+  final case class Bearer(token: String) extends _Authorization
 }
