@@ -1,0 +1,6 @@
+generatorName: swift6
+outputDir: samples/client/petstore/swift6
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/swift6
+additionalProperties:
+  hideGenerationTimestamp: "true"
