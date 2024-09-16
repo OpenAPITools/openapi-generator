@@ -85,6 +85,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public static final String DATE_LIBRARY = "dateLibrary";
     public static final String REQUEST_DATE_CONVERTER = "requestDateConverter";
     public static final String COLLECTION_TYPE = "collectionType";
+    public static final String FAIL_ON_UNKNOWN_PROPERTIES = "failOnUnknownProperties";
 
     public static final String MOSHI_CODE_GEN = "moshiCodeGen";
 
@@ -108,6 +109,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     @Setter protected String roomModelPackage = "";
     @Setter protected boolean omitGradleWrapper = false;
     @Setter protected boolean generateOneOfAnyOfWrappers = true;
+    @Getter @Setter protected boolean failOnUnknownProperties = false;
 
     protected String authFolder;
 
@@ -259,6 +261,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(CliOption.newBoolean(IDEA, "Add IntellJ Idea plugin and mark Kotlin main and test folders as source folders."));
 
         cliOptions.add(CliOption.newBoolean(MOSHI_CODE_GEN, "Whether to enable codegen with the Moshi library. Refer to the [official Moshi doc](https://github.com/square/moshi#codegen) for more info."));
+        cliOptions.add(CliOption.newBoolean(FAIL_ON_UNKNOWN_PROPERTIES, "Fail Jackson de-serialization on unknown properties", false));
 
         cliOptions.add(CliOption.newBoolean(NULLABLE_RETURN_TYPE, "Nullable return type"));
 
@@ -436,6 +439,13 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         if (additionalProperties.containsKey(GENERATE_ONEOF_ANYOF_WRAPPERS)) {
             setGenerateOneOfAnyOfWrappers(Boolean.parseBoolean(additionalProperties.get(GENERATE_ONEOF_ANYOF_WRAPPERS).toString()));
+        }
+
+        if (additionalProperties.containsKey(FAIL_ON_UNKNOWN_PROPERTIES)) {
+            setFailOnUnknownProperties(Boolean.parseBoolean(additionalProperties.get(FAIL_ON_UNKNOWN_PROPERTIES).toString()));
+        } else {
+            additionalProperties.put(FAIL_ON_UNKNOWN_PROPERTIES, false);
+            setFailOnUnknownProperties(false);
         }
 
         commonSupportingFiles();
