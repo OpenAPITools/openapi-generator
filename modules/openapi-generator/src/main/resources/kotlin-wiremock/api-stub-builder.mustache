@@ -21,39 +21,68 @@ import {{modelPackage}}.*
 class {{operationIdCamelCase}}StubBuilder internal constructor(private val objectMapper: ObjectMapper, private val stub: MappingBuilder) {
     {{#responses}}
     {{^wildcard}}
+    {{^vendorExtensions.x-is-range-code}}
 
     /**
      * Let the stub for {{operationId}} respond with HTTP status code {{code}}.
      *
-     {{#returnType}}
+     {{#dataType}}
      * @param body response body for the [MappingBuilder].
-     {{/returnType}}
-     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
+     {{/dataType}}
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith{{code}}(
-        {{#returnType}}
+        {{#dataType}}
         body: {{{.}}},
-        {{/returnType}}
+        {{/dataType}}
         configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
     ): MappingBuilder =
         stub.willReturn(aResponse()
             .withStatus({{code}})
-            {{#returnType}}
+            {{#dataType}}
             .withHeader("Content-Type", "application/json")
             .withBody(objectMapper.writeValueAsString(body))
-            {{/returnType}}
+            {{/dataType}}
             .configurer()
         )
+    {{/vendorExtensions.x-is-range-code}}
     {{/wildcard}}
+    {{#vendorExtensions.x-is-range-code}}
+
+        /**
+        * Let the stub for {{operationId}} respond with HTTP status code [code].
+        *
+        * @param code the response code.
+        {{#dataType}}
+        * @param body response body for the [MappingBuilder].
+        {{/dataType}}
+        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+        * @return a [MappingBuilder] to be registered with a WireMock instance.
+        */
+        fun respondWith{{code}}(
+            code: Int,
+            {{#dataType}}
+            body: {{{.}}},
+            {{/dataType}}
+            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+        ): MappingBuilder =
+        stub.willReturn(aResponse()
+            .withStatus(code)
+            {{#dataType}}
+            .withHeader("Content-Type", "application/json")
+            .withBody(objectMapper.writeValueAsString(body))
+            {{/dataType}}
+            .configurer()
+        )
+    {{/vendorExtensions.x-is-range-code}}
     {{/responses}}
 
     /**
      * Let the stub for {{operationId}} respond with HTTP status code [code].
      *
-     {{#returnType}}
+     * @param code the response code.
      * @param body response body for the [MappingBuilder].
-     {{/returnType}}
      * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return a [MappingBuilder] to be registered with a WireMock instance.
      */

@@ -5,10 +5,12 @@ on:
     paths:
       - samples/client/petstore/java-helidon-client/v4/**
       - samples/server/petstore/java-helidon-server/v4/**
+      - samples/server/others/java-helidon-server/v4/**
   pull_request:
     paths:
       - samples/client/petstore/java-helidon-client/v4/**
       - samples/server/petstore/java-helidon-server/v4/**
+      - samples/server/others/java-helidon-server/v4/**
 jobs:
   build:
     name: Build Java Helidon 
@@ -18,7 +20,11 @@ jobs:
       matrix:
         sample:
           - samples/client/petstore/java-helidon-client/v4/mp
+          - samples/client/petstore/java-helidon-client/v4/se
           - samples/server/petstore/java-helidon-server/v4/mp
+          - samples/server/petstore/java-helidon-server/v4/se
+          - samples/server/petstore/java-helidon-server/v4/se-uac
+          - samples/server/others/java-helidon-server/v4/mp-format-test
         version: [21]
     steps:
       - uses: actions/checkout@v4

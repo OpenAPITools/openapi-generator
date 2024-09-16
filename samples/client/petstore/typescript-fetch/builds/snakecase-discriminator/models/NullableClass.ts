@@ -64,16 +64,16 @@ export interface NullableClass {
     arrayNullableProp?: Array<object> | null;
     /**
      * 
-     * @type {Array<object>}
+     * @type {Array<object | null>}
      * @memberof NullableClass
      */
-    arrayAndItemsNullableProp?: Array<object> | null;
+    arrayAndItemsNullableProp?: Array<object | null> | null;
     /**
      * 
-     * @type {Array<object>}
+     * @type {Array<object | null>}
      * @memberof NullableClass
      */
-    arrayItemsNullable?: Array<object>;
+    arrayItemsNullable?: Array<object | null>;
     /**
      * 
      * @type {{ [key: string]: object; }}
@@ -127,10 +127,15 @@ export function NullableClassFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function NullableClassToJSON(value?: NullableClass | null): any {
+  export function NullableClassToJSON(json: any): NullableClass {
+      return NullableClassToJSONTyped(json, false);
+  }
+
+  export function NullableClassToJSONTyped(value?: NullableClass | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
             ...value,

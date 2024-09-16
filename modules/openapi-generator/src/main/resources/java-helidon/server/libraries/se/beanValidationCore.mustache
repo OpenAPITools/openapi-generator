@@ -1,4 +1,4 @@
-{{#pattern}}{{#isString}}
+{{#x-helidon-v3}}{{#pattern}}{{#isString}}
                 ValidatorUtils.validatePattern({{paramName}}, "{{{pattern}}}");{{/isString}}{{/pattern}}{{#minLength}}{{#maxLength}}
                 ValidatorUtils.validateSize({{paramName}}, {{minLength}}, {{maxLength}});{{/maxLength}}{{/minLength}}{{#minLength}}{{^maxLength}}
                 ValidatorUtils.validateSize({{paramName}}, {{minLength}}, null);{{/maxLength}}{{/minLength}}{{^minLength}}{{#maxLength}}
@@ -12,5 +12,29 @@
                 ValidatorUtils.validateMax({{paramName}}, {{.}});{{/maximum}}{{/isInteger}}{{#isLong}}{{#minimum}}
                 ValidatorUtils.validateMin({{paramName}}.intValue(), {{.}});{{/minimum}}{{#maximum}}
                 ValidatorUtils.validateMax({{paramName}}.intValue(), {{.}});{{/maximum}}{{/isLong}}{{^isInteger}}{{^isLong}}{{#minimum}}
-                ValidatorUtils.validateMin({{paramName}}, "{{minimum}}", {{#exclusiveMinimum}}false{{/exclusiveMinimum}}{{^exclusiveMinimum}}true{{/exclusiveMinimum}});{{/minimum}}{{#maximum}}
-                ValidatorUtils.validateMax({{paramName}}, "{{maximum}}", {{#exclusiveMaximum}}false{{/exclusiveMaximum}}{{^exclusiveMaximum}}true{{/exclusiveMaximum}});{{/maximum}}{{/isLong}}{{/isInteger}}
+                ValidatorUtils.validateMin({{^isNumber}}new java.math.BigDecimal({{/isNumber}}{{paramName}}{{^isNumber}}){{/isNumber}}, "{{minimum}}", {{#exclusiveMinimum}}false{{/exclusiveMinimum}}{{^exclusiveMinimum}}true{{/exclusiveMinimum}});{{/minimum}}{{#maximum}}
+                ValidatorUtils.validateMax({{^isNumber}}new java.math.BigDecimal({{/isNumber}}{{paramName}}{{^isNumber}}){{/isNumber}}, "{{maximum}}", {{#exclusiveMaximum}}false{{/exclusiveMaximum}}{{^exclusiveMaximum}}true{{/exclusiveMaximum}});{{/maximum}}{{/isLong}}{{/isInteger}}{{!
+}}{{/x-helidon-v3}}{{!
+}}{{^x-helidon-v3}}{{!
+}}{{#pattern}}{{#isString}}{{!
+}}        validator.validatePattern("{{paramName}}", {{paramName}}, "{{{pattern}}}");{{/isString}}{{/pattern}}{{#minLength}}{{#maxLength}}
+        validator.validateSize("{{paramName}}", {{paramName}}, {{minLength}}, {{maxLength}});{{/maxLength}}{{/minLength}}{{#minLength}}{{^maxLength}}
+        validator.validateSize("{{paramName}}", {{paramName}}, {{minLength}}, null);{{/maxLength}}{{/minLength}}{{^minLength}}{{#maxLength}}
+        validator.validateSize("{{paramName}}", {{paramName}}, null, {{.}});{{/maxLength}}{{/minLength}}{{#minItems}}{{#maxItems}}
+        validator.validateSize("{{paramName}}", {{paramName}}, {{minItems}}, {{maxItems}});{{/maxItems}}{{/minItems}}{{#minItems}}{{^maxItems}}
+        validator.validateSize("{{paramName}}", {{paramName}}, {{minItems}}, null);{{/maxItems}}{{/minItems}}{{^minItems}}{{#maxItems}}
+        validator.validateSize("{{paramName}}", {{paramName}}, null, {{.}});{{/maxItems}}{{/minItems}}{{#useBeanValidation}}{{#isEmail}}
+        //RFC 5322 for Email Validation
+        validator.validatePattern("{{paramName}}", {{paramName}}, "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$");{{/isEmail}}{{/useBeanValidation}}{{#isInteger}}{{#minimum}}
+        validator.validateMin("{{paramName}}", {{paramName}}, {{.}}, {{#exclusiveMinimum}}false{{/exclusiveMinimum}}{{^exclusiveMinimum}}true{{/exclusiveMinimum}});{{/minimum}}{{#maximum}}
+        validator.validateMax("{{paramName}}", {{paramName}}, {{.}}, {{#exclusiveMaximum}}false{{/exclusiveMaximum}}{{^exclusiveMaximum}}true{{/exclusiveMaximum}});{{/maximum}}{{/isInteger}}{{#isLong}}{{#minimum}}
+        validator.validateMin("{{paramName}}", {{paramName}}.intValue(), {{.}}, {{#exclusiveMinimum}}false{{/exclusiveMinimum}}{{^exclusiveMinimum}}true{{/exclusiveMinimum}});{{/minimum}}{{#maximum}}
+        validator.validateMax("{{paramName}}", {{paramName}}.intValue(), {{.}}, {{#exclusiveMaximum}}false{{/exclusiveMaximum}}{{^exclusiveMaximum}}true{{/exclusiveMaximum}});{{/maximum}}{{/isLong}}{{#isDouble}}{{#minimum}}
+        validator.validateMin("{{paramName}}", {{paramName}}, {{.}}d, {{#exclusiveMinimum}}false{{/exclusiveMinimum}}{{^exclusiveMinimum}}true{{/exclusiveMinimum}});{{/minimum}}{{#maximum}}
+        validator.validateMax("{{paramName}}", {{paramName}}, {{.}}d, {{#exclusiveMaximum}}false{{/exclusiveMaximum}}{{^exclusiveMaximum}}true{{/exclusiveMaximum}});{{/maximum}}{{/isDouble}}{{#isFloat}}{{#minimum}}
+        validator.validateMin("{{paramName}}", {{paramName}}, {{.}}f, {{#exclusiveMinimum}}false{{/exclusiveMinimum}}{{^exclusiveMinimum}}true{{/exclusiveMinimum}});{{/minimum}}{{#maximum}}
+        validator.validateMax("{{paramName}}", {{paramName}}, {{.}}f, {{#exclusiveMaximum}}false{{/exclusiveMaximum}}{{^exclusiveMaximum}}true{{/exclusiveMaximum}});{{/maximum}}{{/isFloat}}{{^isInteger}}{{^isLong}}{{^isDouble}}{{^isFloat}}{{#minimum}}
+        validator.validateMin("{{paramName}}", {{paramName}}, "{{minimum}}", {{#exclusiveMinimum}}false{{/exclusiveMinimum}}{{^exclusiveMinimum}}true{{/exclusiveMinimum}});{{/minimum}}{{#maximum}}
+        validator.validateMax("{{paramName}}", {{paramName}}, "{{maximum}}", {{#exclusiveMaximum}}false{{/exclusiveMaximum}}{{^exclusiveMaximum}}true{{/exclusiveMaximum}});{{/maximum}}{{/isFloat}}{{/isDouble}}{{/isLong}}{{/isInteger}}{{!
+}}{{!
+}}{{/x-helidon-v3}}

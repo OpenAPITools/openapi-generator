@@ -72,6 +72,7 @@ from petstore_api.models.model200_response import Model200Response
 from petstore_api.models.model_api_response import ModelApiResponse
 from petstore_api.models.model_field import ModelField
 from petstore_api.models.model_return import ModelReturn
+from petstore_api.models.multi_arrays import MultiArrays
 from petstore_api.models.name import Name
 from petstore_api.models.nullable_class import NullableClass
 from petstore_api.models.nullable_property import NullableProperty
@@ -115,5 +116,6 @@ from petstore_api.models.test_object_for_multipart_requests_request_marker impor
 from petstore_api.models.tiger import Tiger
 from petstore_api.models.unnamed_dict_with_additional_model_list_properties import UnnamedDictWithAdditionalModelListProperties
 from petstore_api.models.unnamed_dict_with_additional_string_list_properties import UnnamedDictWithAdditionalStringListProperties
+from petstore_api.models.upload_file_with_additional_properties_request_object import UploadFileWithAdditionalPropertiesRequestObject
 from petstore_api.models.user import User
 from petstore_api.models.with_nested_one_of import WithNestedOneOf

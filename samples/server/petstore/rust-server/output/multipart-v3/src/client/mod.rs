@@ -23,7 +23,7 @@ use mime::Mime;
 use std::io::Cursor;
 use multipart::client::lazy::Multipart;
 use hyper_0_10::header::{Headers, ContentType};
-use mime_multipart::{Node, Part, generate_boundary, write_multipart};
+use mime_multipart::{Node, Part, write_multipart};
 
 use crate::models;
 use crate::header;
@@ -423,17 +423,8 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        // Construct the Body for a multipart/related request. The mime 0.2.6 library
-        // does not parse quoted-string parameters correctly. The boundary doesn't
-        // need to be a quoted string if it does not contain a '/', hence ensure
-        // no such boundary is used.
-        let mut boundary = generate_boundary();
-        for b in boundary.iter_mut() {
-            if b == &(b'/') {
-                *b = b'=';
-            }
-        }
-
+        // Consumes multipart/related body
+        let boundary = swagger::multipart::related::generate_boundary();
         let mut body_parts = vec![];
 
         if let Some(object_field) = param_object_field {
@@ -478,12 +469,13 @@ impl<S, C> Api<C> for Client<S, C> where
         }
 
         // Write the body into a vec.
-        let mut body: Vec<u8> = vec![];
+        // RFC 13341 Section 7.2.1 suggests that the body should begin with a
+        // CRLF prior to the first boundary. The mime_multipart library doesn't
+        // do this, so we do it instead.
+        let mut body: Vec<u8> = vec![b'\r', b'\n'];
         write_multipart(&mut body, &boundary, &body_parts)
             .expect("Failed to write multipart body");
 
-        // Add the message body to the request object.
-        *request.body_mut() = Body::from(body);
 
         let header = "multipart/related";
         request.headers_mut().insert(CONTENT_TYPE,
@@ -493,6 +485,9 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
+
+        // Add the message body to the request object.
+        *request.body_mut() = Body::from(body);
 
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
@@ -566,6 +561,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
+        // Consumes multipart/form body
         let (body_string, multipart_header) = {
             let mut multipart = Multipart::new();
 
@@ -646,6 +642,7 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", multipart_header, e)))
         });
 
+
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -716,17 +713,8 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        // Construct the Body for a multipart/related request. The mime 0.2.6 library
-        // does not parse quoted-string parameters correctly. The boundary doesn't
-        // need to be a quoted string if it does not contain a '/', hence ensure
-        // no such boundary is used.
-        let mut boundary = generate_boundary();
-        for b in boundary.iter_mut() {
-            if b == &(b'/') {
-                *b = b'=';
-            }
-        }
-
+        // Consumes multipart/related body
+        let boundary = swagger::multipart::related::generate_boundary();
         let mut body_parts = vec![];
 
         if let Some(binary1) = param_binary1 {
@@ -756,12 +744,13 @@ impl<S, C> Api<C> for Client<S, C> where
         }
 
         // Write the body into a vec.
-        let mut body: Vec<u8> = vec![];
+        // RFC 13341 Section 7.2.1 suggests that the body should begin with a
+        // CRLF prior to the first boundary. The mime_multipart library doesn't
+        // do this, so we do it instead.
+        let mut body: Vec<u8> = vec![b'\r', b'\n'];
         write_multipart(&mut body, &boundary, &body_parts)
             .expect("Failed to write multipart body");
 
-        // Add the message body to the request object.
-        *request.body_mut() = Body::from(body);
 
         let header = "multipart/related";
         request.headers_mut().insert(CONTENT_TYPE,
@@ -771,6 +760,9 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
+
+        // Add the message body to the request object.
+        *request.body_mut() = Body::from(body);
 
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {

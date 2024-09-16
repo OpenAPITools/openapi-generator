@@ -12,8 +12,8 @@ import {{javaxPackage}}.ws.rs.core.GenericType;
 {{/imports}}
 
 {{#useBeanValidation}}
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
 
 {{/useBeanValidation}}
 import java.util.ArrayList;
@@ -134,7 +134,7 @@ public class {{classname}} {
     {{#hasPathParams}}
     // Path parameters
     String localVarPath = "{{{path}}}"{{#pathParams}}
-            .replaceAll({{=% %=}}"\\{%baseName%}"%={{ }}=%, apiClient.escapeString({{{paramName}}}{{#isUuid}}.toString(){{/isUuid}}{{^isString}}.toString(){{/isString}})){{/pathParams}};
+            .replaceAll({{=% %=}}"\\{%baseName%}"%={{ }}=%, apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
     {{/hasPathParams}}
     {{#queryParams}}

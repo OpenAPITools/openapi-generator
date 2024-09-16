@@ -155,11 +155,11 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
+        /// <param name="username">The user name for login</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ILoginUserApiResponse"/>&gt;</returns>
-        Task<ILoginUserApiResponse> LoginUserAsync(string username, string password, System.Threading.CancellationToken cancellationToken = default);
+        Task<ILoginUserApiResponse> LoginUserAsync(string password, string username, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Logs user into the system
@@ -167,11 +167,11 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// 
         /// </remarks>
-        /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
+        /// <param name="username">The user name for login</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ILoginUserApiResponse"/>&gt;</returns>
-        Task<ILoginUserApiResponse> LoginUserOrDefaultAsync(string username, string password, System.Threading.CancellationToken cancellationToken = default);
+        Task<ILoginUserApiResponse> LoginUserOrDefaultAsync(string password, string username, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Logs out current logged in user session
@@ -769,7 +769,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
 
             /// <summary>
             /// Returns true if the response is the default response type
@@ -958,7 +958,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
 
             /// <summary>
             /// Returns true if the response is the default response type
@@ -1147,7 +1147,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
 
             /// <summary>
             /// Returns true if the response is the default response type
@@ -1323,7 +1323,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
 
             /// <summary>
             /// Returns true if the response is 400 BadRequest
@@ -1515,7 +1515,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -1622,33 +1622,33 @@ namespace Org.OpenAPITools.Api
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
 
-        partial void FormatLoginUser(ref string username, ref string password);
+        partial void FormatLoginUser(ref string password, ref string username);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
-        /// <param name="username"></param>
         /// <param name="password"></param>
+        /// <param name="username"></param>
         /// <returns></returns>
-        private void ValidateLoginUser(string username, string password)
+        private void ValidateLoginUser(string password, string username)
         {
-            if (username == null)
-                throw new ArgumentNullException(nameof(username));
-
             if (password == null)
                 throw new ArgumentNullException(nameof(password));
+
+            if (username == null)
+                throw new ArgumentNullException(nameof(username));
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        /// <param name="username"></param>
         /// <param name="password"></param>
-        private void AfterLoginUserDefaultImplementation(ILoginUserApiResponse apiResponseLocalVar, string username, string password)
+        /// <param name="username"></param>
+        private void AfterLoginUserDefaultImplementation(ILoginUserApiResponse apiResponseLocalVar, string password, string username)
         {
             bool suppressDefaultLog = false;
-            AfterLoginUser(ref suppressDefaultLog, apiResponseLocalVar, username, password);
+            AfterLoginUser(ref suppressDefaultLog, apiResponseLocalVar, password, username);
             if (!suppressDefaultLog)
                 Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
@@ -1658,9 +1658,9 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        /// <param name="username"></param>
         /// <param name="password"></param>
-        partial void AfterLoginUser(ref bool suppressDefaultLog, ILoginUserApiResponse apiResponseLocalVar, string username, string password);
+        /// <param name="username"></param>
+        partial void AfterLoginUser(ref bool suppressDefaultLog, ILoginUserApiResponse apiResponseLocalVar, string password, string username);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1668,12 +1668,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        /// <param name="username"></param>
         /// <param name="password"></param>
-        private void OnErrorLoginUserDefaultImplementation(Exception exception, string pathFormat, string path, string username, string password)
+        /// <param name="username"></param>
+        private void OnErrorLoginUserDefaultImplementation(Exception exception, string pathFormat, string path, string password, string username)
         {
             bool suppressDefaultLog = false;
-            OnErrorLoginUser(ref suppressDefaultLog, exception, pathFormat, path, username, password);
+            OnErrorLoginUser(ref suppressDefaultLog, exception, pathFormat, path, password, username);
             if (!suppressDefaultLog)
                 Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
@@ -1685,22 +1685,22 @@ namespace Org.OpenAPITools.Api
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        /// <param name="username"></param>
         /// <param name="password"></param>
-        partial void OnErrorLoginUser(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, string username, string password);
+        /// <param name="username"></param>
+        partial void OnErrorLoginUser(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, string password, string username);
 
         /// <summary>
         /// Logs user into the system 
         /// </summary>
-        /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
+        /// <param name="username">The user name for login</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ILoginUserApiResponse"/>&gt;</returns>
-        public async Task<ILoginUserApiResponse> LoginUserOrDefaultAsync(string username, string password, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ILoginUserApiResponse> LoginUserOrDefaultAsync(string password, string username, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
-                return await LoginUserAsync(username, password, cancellationToken).ConfigureAwait(false);
+                return await LoginUserAsync(password, username, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -1712,19 +1712,19 @@ namespace Org.OpenAPITools.Api
         /// Logs user into the system 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
+        /// <param name="username">The user name for login</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ILoginUserApiResponse"/>&gt;</returns>
-        public async Task<ILoginUserApiResponse> LoginUserAsync(string username, string password, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ILoginUserApiResponse> LoginUserAsync(string password, string username, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                ValidateLoginUser(username, password);
+                ValidateLoginUser(password, username);
 
-                FormatLoginUser(ref username, ref password);
+                FormatLoginUser(ref password, ref username);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -1735,8 +1735,8 @@ namespace Org.OpenAPITools.Api
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryStringLocalVar["username"] = ClientUtils.ParameterToString(username);
                     parseQueryStringLocalVar["password"] = ClientUtils.ParameterToString(password);
+                    parseQueryStringLocalVar["username"] = ClientUtils.ParameterToString(username);
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
@@ -1763,7 +1763,7 @@ namespace Org.OpenAPITools.Api
 
                         LoginUserApiResponse apiResponseLocalVar = new LoginUserApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/login", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterLoginUserDefaultImplementation(apiResponseLocalVar, username, password);
+                        AfterLoginUserDefaultImplementation(apiResponseLocalVar, password, username);
 
                         Events.ExecuteOnLoginUser(apiResponseLocalVar);
 
@@ -1773,7 +1773,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorLoginUserDefaultImplementation(e, "/user/login", uriBuilderLocalVar.Path, username, password);
+                OnErrorLoginUserDefaultImplementation(e, "/user/login", uriBuilderLocalVar.Path, password, username);
                 Events.ExecuteOnErrorLoginUser(e);
                 throw;
             }
@@ -1805,7 +1805,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -1995,7 +1995,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
 
             /// <summary>
             /// Returns true if the response is the default response type
@@ -2195,7 +2195,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
 
             /// <summary>
             /// Returns true if the response is 400 BadRequest

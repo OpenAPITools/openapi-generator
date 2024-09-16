@@ -132,9 +132,6 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         super.postProcessModelProperty(model, property);
         model.imports.remove("ApiModelProperty");
         model.imports.remove("ApiModel");
-        model.imports.remove("JsonSerialize");
-        model.imports.remove("ToStringSerializer");
-
 
         if (jackson) {
             //Add jackson imports when model has inner enum

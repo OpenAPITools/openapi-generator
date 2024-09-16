@@ -125,8 +125,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         ALPHABETICAL,
         LEGACY
     }
-    private SortingMethod operationParameterSorting = SortingMethod.LEGACY;
-    private SortingMethod modelPropertySorting = SortingMethod.LEGACY;
+    private SortingMethod operationParameterSorting = SortingMethod.DEFAULT;
+    private SortingMethod modelPropertySorting = SortingMethod.DEFAULT;
 
     protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
     protected String releaseNote = "Minor update";
@@ -229,11 +229,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 null);
 
         addOption(CSharpClientCodegen.OPERATION_PARAMETER_SORTING_KEY,
-                "One of legacy, alphabetical, default (only `generichost` library supports this option).",
+                "One of legacy, alphabetical, default.",
                 this.operationParameterSorting.toString().toLowerCase(Locale.ROOT));
 
         addOption(CSharpClientCodegen.MODEL_PROPERTY_SORTING_KEY,
-                "One of legacy, alphabetical, default (only `generichost` library supports this option).",
+                "One of legacy, alphabetical, default.",
                 this.modelPropertySorting.toString().toLowerCase(Locale.ROOT));
 
         CliOption framework = new CliOption(
@@ -468,10 +468,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             }
         }
 
-        // avoid breaking changes
-        if (GENERICHOST.equals(getLibrary()) && codegenModel != null) {
-
-            if (this.modelPropertySorting == SortingMethod.LEGACY) {
+        if (codegenModel != null) {
+            if (this.modelPropertySorting == SortingMethod.ALPHABETICAL) {
                 Collections.sort(codegenModel.vars, propertyComparatorByName);
                 Collections.sort(codegenModel.allVars, propertyComparatorByName);
                 Collections.sort(codegenModel.requiredVars, propertyComparatorByName);
@@ -479,17 +477,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 Collections.sort(codegenModel.readOnlyVars, propertyComparatorByName);
                 Collections.sort(codegenModel.readWriteVars, propertyComparatorByName);
                 Collections.sort(codegenModel.parentVars, propertyComparatorByName);
-
-                Collections.sort(codegenModel.vars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
-                Collections.sort(codegenModel.allVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
-                Collections.sort(codegenModel.requiredVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
-                Collections.sort(codegenModel.optionalVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
-                Collections.sort(codegenModel.readOnlyVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
-                Collections.sort(codegenModel.readWriteVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
-                Collections.sort(codegenModel.parentVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
             }
-            else {
-                if (this.modelPropertySorting == SortingMethod.ALPHABETICAL) {
+
+            if (GENERICHOST.equals(getLibrary())) {
+
+                if (this.modelPropertySorting == SortingMethod.LEGACY) {
                     Collections.sort(codegenModel.vars, propertyComparatorByName);
                     Collections.sort(codegenModel.allVars, propertyComparatorByName);
                     Collections.sort(codegenModel.requiredVars, propertyComparatorByName);
@@ -497,16 +489,27 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                     Collections.sort(codegenModel.readOnlyVars, propertyComparatorByName);
                     Collections.sort(codegenModel.readWriteVars, propertyComparatorByName);
                     Collections.sort(codegenModel.parentVars, propertyComparatorByName);
-                }
 
-                Collections.sort(codegenModel.vars, propertyComparatorByNotNullableRequiredNoDefault);
-                Collections.sort(codegenModel.allVars, propertyComparatorByNotNullableRequiredNoDefault);
-                Collections.sort(codegenModel.requiredVars, propertyComparatorByNotNullableRequiredNoDefault);
-                Collections.sort(codegenModel.optionalVars, propertyComparatorByNotNullableRequiredNoDefault);
-                Collections.sort(codegenModel.readOnlyVars, propertyComparatorByNotNullableRequiredNoDefault);
-                Collections.sort(codegenModel.readWriteVars, propertyComparatorByNotNullableRequiredNoDefault);
-                Collections.sort(codegenModel.parentVars, propertyComparatorByNotNullableRequiredNoDefault);
+                    Collections.sort(codegenModel.vars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
+                    Collections.sort(codegenModel.allVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
+                    Collections.sort(codegenModel.requiredVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
+                    Collections.sort(codegenModel.optionalVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
+                    Collections.sort(codegenModel.readOnlyVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
+                    Collections.sort(codegenModel.readWriteVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
+                    Collections.sort(codegenModel.parentVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
+                }
+                else {
+                    Collections.sort(codegenModel.vars, propertyComparatorByNotNullableRequiredNoDefault);
+                    Collections.sort(codegenModel.allVars, propertyComparatorByNotNullableRequiredNoDefault);
+                    Collections.sort(codegenModel.requiredVars, propertyComparatorByNotNullableRequiredNoDefault);
+                    Collections.sort(codegenModel.optionalVars, propertyComparatorByNotNullableRequiredNoDefault);
+                    Collections.sort(codegenModel.readOnlyVars, propertyComparatorByNotNullableRequiredNoDefault);
+                    Collections.sort(codegenModel.readWriteVars, propertyComparatorByNotNullableRequiredNoDefault);
+                    Collections.sort(codegenModel.parentVars, propertyComparatorByNotNullableRequiredNoDefault);
+                }
             }
+        } else {
+            SortModelPropertiesByRequiredFlag(codegenModel);
         }
 
         return codegenModel;
@@ -745,8 +748,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         if (GENERICHOST.equals(getLibrary())) {
             setLibrary(GENERICHOST);
             additionalProperties.put("useGenericHost", true);
-            // all c# libraries should be doing this, but we only do it here to avoid breaking changes
-            this.setSortModelPropertiesByRequiredFlag(true);
         } else if (RESTSHARP.equals(getLibrary())) {
             additionalProperties.put("useRestSharp", true);
             needsCustomHttpMethod = true;
@@ -926,61 +927,61 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                                           List<Server> servers) {
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
 
-        if (!GENERICHOST.equals(getLibrary())) {
-            return op;
+        if (this.operationParameterSorting == SortingMethod.ALPHABETICAL) {
+            Collections.sort(op.allParams, parameterComparatorByName);
+            Collections.sort(op.bodyParams, parameterComparatorByName);
+            Collections.sort(op.pathParams, parameterComparatorByName);
+            Collections.sort(op.queryParams, parameterComparatorByName);
+            Collections.sort(op.headerParams, parameterComparatorByName);
+            Collections.sort(op.implicitHeadersParams, parameterComparatorByName);
+            Collections.sort(op.formParams, parameterComparatorByName);
+            Collections.sort(op.cookieParams, parameterComparatorByName);
+            Collections.sort(op.requiredParams, parameterComparatorByName);
+            Collections.sort(op.optionalParams, parameterComparatorByName);
+            Collections.sort(op.notNullableParams, parameterComparatorByName);
         }
 
-        if (this.operationParameterSorting == SortingMethod.LEGACY) {
-            Collections.sort(op.allParams, parameterComparatorByDataType);
-            Collections.sort(op.bodyParams, parameterComparatorByDataType);
-            Collections.sort(op.pathParams, parameterComparatorByDataType);
-            Collections.sort(op.queryParams, parameterComparatorByDataType);
-            Collections.sort(op.headerParams, parameterComparatorByDataType);
-            Collections.sort(op.implicitHeadersParams, parameterComparatorByDataType);
-            Collections.sort(op.formParams, parameterComparatorByDataType);
-            Collections.sort(op.cookieParams, parameterComparatorByDataType);
-            Collections.sort(op.requiredParams, parameterComparatorByDataType);
-            Collections.sort(op.optionalParams, parameterComparatorByDataType);
-            Collections.sort(op.notNullableParams, parameterComparatorByDataType);
+        if (GENERICHOST.equals(getLibrary())) {
+            if (this.operationParameterSorting == SortingMethod.LEGACY) {
+                Collections.sort(op.allParams, parameterComparatorByDataType);
+                Collections.sort(op.bodyParams, parameterComparatorByDataType);
+                Collections.sort(op.pathParams, parameterComparatorByDataType);
+                Collections.sort(op.queryParams, parameterComparatorByDataType);
+                Collections.sort(op.headerParams, parameterComparatorByDataType);
+                Collections.sort(op.implicitHeadersParams, parameterComparatorByDataType);
+                Collections.sort(op.formParams, parameterComparatorByDataType);
+                Collections.sort(op.cookieParams, parameterComparatorByDataType);
+                Collections.sort(op.requiredParams, parameterComparatorByDataType);
+                Collections.sort(op.optionalParams, parameterComparatorByDataType);
+                Collections.sort(op.notNullableParams, parameterComparatorByDataType);
 
-            Comparator<CodegenParameter> comparator = parameterComparatorByRequired.thenComparing(parameterComparatorByDefaultValue);
-            Collections.sort(op.allParams, comparator);
-            Collections.sort(op.bodyParams, comparator);
-            Collections.sort(op.pathParams, comparator);
-            Collections.sort(op.queryParams, comparator);
-            Collections.sort(op.headerParams, comparator);
-            Collections.sort(op.implicitHeadersParams, comparator);
-            Collections.sort(op.formParams, comparator);
-            Collections.sort(op.cookieParams, comparator);
-            Collections.sort(op.requiredParams, comparator);
-            Collections.sort(op.optionalParams, comparator);
-            Collections.sort(op.notNullableParams, comparator);
-        } else {
-            if (this.operationParameterSorting == SortingMethod.ALPHABETICAL) {
-                Collections.sort(op.allParams, parameterComparatorByName);
-                Collections.sort(op.bodyParams, parameterComparatorByName);
-                Collections.sort(op.pathParams, parameterComparatorByName);
-                Collections.sort(op.queryParams, parameterComparatorByName);
-                Collections.sort(op.headerParams, parameterComparatorByName);
-                Collections.sort(op.implicitHeadersParams, parameterComparatorByName);
-                Collections.sort(op.formParams, parameterComparatorByName);
-                Collections.sort(op.cookieParams, parameterComparatorByName);
-                Collections.sort(op.requiredParams, parameterComparatorByName);
-                Collections.sort(op.optionalParams, parameterComparatorByName);
-                Collections.sort(op.notNullableParams, parameterComparatorByName);
+                Comparator<CodegenParameter> comparator = parameterComparatorByRequired.thenComparing(parameterComparatorByDefaultValue);
+                Collections.sort(op.allParams, comparator);
+                Collections.sort(op.bodyParams, comparator);
+                Collections.sort(op.pathParams, comparator);
+                Collections.sort(op.queryParams, comparator);
+                Collections.sort(op.headerParams, comparator);
+                Collections.sort(op.implicitHeadersParams, comparator);
+                Collections.sort(op.formParams, comparator);
+                Collections.sort(op.cookieParams, comparator);
+                Collections.sort(op.requiredParams, comparator);
+                Collections.sort(op.optionalParams, comparator);
+                Collections.sort(op.notNullableParams, comparator);
+            } else {
+                Collections.sort(op.allParams, parameterComparatorByNotNullableRequiredNoDefault);
+                Collections.sort(op.bodyParams, parameterComparatorByNotNullableRequiredNoDefault);
+                Collections.sort(op.pathParams, parameterComparatorByNotNullableRequiredNoDefault);
+                Collections.sort(op.queryParams, parameterComparatorByNotNullableRequiredNoDefault);
+                Collections.sort(op.headerParams, parameterComparatorByNotNullableRequiredNoDefault);
+                Collections.sort(op.implicitHeadersParams, parameterComparatorByNotNullableRequiredNoDefault);
+                Collections.sort(op.formParams, parameterComparatorByNotNullableRequiredNoDefault);
+                Collections.sort(op.cookieParams, parameterComparatorByNotNullableRequiredNoDefault);
+                Collections.sort(op.requiredParams, parameterComparatorByNotNullableRequiredNoDefault);
+                Collections.sort(op.optionalParams, parameterComparatorByNotNullableRequiredNoDefault);
+                Collections.sort(op.notNullableParams, parameterComparatorByNotNullableRequiredNoDefault);
             }
-
-            Collections.sort(op.allParams, parameterComparatorByNotNullableRequiredNoDefault);
-            Collections.sort(op.bodyParams, parameterComparatorByNotNullableRequiredNoDefault);
-            Collections.sort(op.pathParams, parameterComparatorByNotNullableRequiredNoDefault);
-            Collections.sort(op.queryParams, parameterComparatorByNotNullableRequiredNoDefault);
-            Collections.sort(op.headerParams, parameterComparatorByNotNullableRequiredNoDefault);
-            Collections.sort(op.implicitHeadersParams, parameterComparatorByNotNullableRequiredNoDefault);
-            Collections.sort(op.formParams, parameterComparatorByNotNullableRequiredNoDefault);
-            Collections.sort(op.cookieParams, parameterComparatorByNotNullableRequiredNoDefault);
-            Collections.sort(op.requiredParams, parameterComparatorByNotNullableRequiredNoDefault);
-            Collections.sort(op.optionalParams, parameterComparatorByNotNullableRequiredNoDefault);
-            Collections.sort(op.notNullableParams, parameterComparatorByNotNullableRequiredNoDefault);
+        } else {
+            SortParametersByRequiredFlag(op.allParams);
         }
 
         return op;

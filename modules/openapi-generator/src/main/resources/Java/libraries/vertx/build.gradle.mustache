@@ -33,7 +33,7 @@ ext {
     jackson_version = "2.17.1"
     jackson_databind_version = "2.17.1"
     vertx_version = "3.5.2"
-    junit_version = "4.13.2"
+    junit_version = "5.10.3"
     {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.6"
     {{/openApiNullable}}
@@ -56,6 +56,6 @@ dependencies {
     implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     {{/openApiNullable}}
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
-    testImplementation "junit:junit:$junit_version"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
     testImplementation "io.vertx:vertx-unit:$vertx_version"
 }

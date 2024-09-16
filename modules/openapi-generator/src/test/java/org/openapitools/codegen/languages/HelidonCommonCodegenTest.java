@@ -38,4 +38,20 @@ public class HelidonCommonCodegenTest {
         assertThat(test.chooseVersion("1.2.2", List.of("3.2.1", "3.2.0", "2.0.4", "1.2.3", "1.2.2", "1.1.0")))
             .isEqualTo("1.2.2");
     }
+
+    @Test
+    void testVersionNotInDefaultListWithNoNetwork() {
+        // Simulate a network failure so the full list of valid versions is inaccessible and the user selects a version
+        // that is not in the cached values or the hard-coded list.
+        assertThat(test.chooseVersion("4.0.8", List.of("1.2.3", "2.5.6", "3.2.7", "4.0.9")))
+            .isEqualTo("4.0.8");
+    }
+
+
+
+    @Test void checkUseOfUnpublishedRelease() {
+        assertThat(test.chooseVersionBestMatchOrSelf("4.0.11-SNAPSHOT",
+                                                     List.of("4.0.10", "3.2.1", "3.2.0", "2.0.4", "1.2.3", "1.2.2", "1.1.0")))
+                .isEqualTo("4.0.11-SNAPSHOT");
+    }
 }

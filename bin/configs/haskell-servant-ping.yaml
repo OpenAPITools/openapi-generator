@@ -1,0 +1,4 @@
+generatorName: haskell
+outputDir: samples/server/others/haskell-servant-ping
+inputSpec: modules/openapi-generator/src/test/resources/3_0/ping.yaml
+templateDir: modules/openapi-generator/src/main/resources/haskell-servant

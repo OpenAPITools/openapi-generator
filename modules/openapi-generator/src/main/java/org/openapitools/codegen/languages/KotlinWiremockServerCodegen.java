@@ -1,9 +1,7 @@
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.GlobalFeature;
@@ -16,12 +14,15 @@ import org.openapitools.codegen.model.ModelsMap;
 import java.io.File;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class KotlinWiremockServerCodegen extends AbstractKotlinCodegen {
 
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
+
+    protected static final String VENDOR_EXTENSION_IS_RANGE_RESPONSE_CODE = "x-is-range-code";
 
     @Override
     public CodegenType getTag() {
@@ -124,6 +125,15 @@ public class KotlinWiremockServerCodegen extends AbstractKotlinCodegen {
         }
 
         return objects;
+    }
+
+    @Override
+    public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
+        var r = super.fromResponse(responseCode, response);
+
+        var isRange = List.of("1xx", "2xx", "3xx", "4xx", "5xx").contains(responseCode.toLowerCase(Locale.ROOT));
+        r.vendorExtensions.put(VENDOR_EXTENSION_IS_RANGE_RESPONSE_CODE, isRange);
+        return r;
     }
 
     @Override

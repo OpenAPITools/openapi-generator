@@ -1,0 +1,5 @@
+{{#isContainer}}GenericTypes.TYPE__{{containerTypeMapped}}_{{baseType}}{{/isContainer}}{{!
+}}{{^isContainer}}{{!
+    }}{{#isFormParam}}{{^isMultipart}}Parameters.class{{/isMultipart}}{{#isMultipart}}{{{dataType}}}.class{{/isMultipart}}{{/isFormParam}}{{!
+    }}{{^isFormParam}}{{{dataType}}}.class{{/isFormParam}}{{!
+}}{{/isContainer}}

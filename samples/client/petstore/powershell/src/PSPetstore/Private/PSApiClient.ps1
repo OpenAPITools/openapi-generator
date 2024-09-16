@@ -237,9 +237,9 @@ function DeserializeResponse {
         [AllowEmptyString()]
         [string]$ReturnType,
         [Parameter(Mandatory)]
-        [AllowEmptyString()]
-        [string]$Response,
+        [Object]$Response,
         [Parameter(Mandatory)]
+        [AllowNull()]
         [AllowEmptyCollection()]
         [string[]]$ContentTypes
     )

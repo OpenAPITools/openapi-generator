@@ -33,7 +33,7 @@ import javax.annotation.Generated;
 @JacksonXmlRootElement(localName = "Pet")
 @XmlRootElement(name = "Pet")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class Pet {
 
   private Long id;
@@ -113,7 +113,6 @@ public class Pet {
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
-  @XmlElement(name = "id")
   public Long getId() {
     return id;
   }
@@ -135,7 +134,6 @@ public class Pet {
   @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("category")
   @JacksonXmlProperty(localName = "Category")
-  @XmlElement(name = "Category")
   public Category getCategory() {
     return category;
   }
@@ -157,7 +155,6 @@ public class Pet {
   @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
   @JacksonXmlProperty(localName = "name")
-  @XmlElement(name = "name")
   public String getName() {
     return name;
   }
@@ -188,8 +185,6 @@ public class Pet {
   @JsonProperty("photoUrls")
   @JacksonXmlProperty(localName = "photoUrl")
   @JacksonXmlElementWrapper(localName = "photoUrl", useWrapping = true)
-  @XmlElement(name = "photoUrl")
-  @XmlElementWrapper(name = "photoUrl")
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -220,8 +215,6 @@ public class Pet {
   @JsonProperty("tags")
   @JacksonXmlProperty(localName = "Tag")
   @JacksonXmlElementWrapper(localName = "tag", useWrapping = true)
-  @XmlElement(name = "Tag")
-  @XmlElementWrapper(name = "tag")
   public List<@Valid Tag> getTags() {
     return tags;
   }
@@ -244,7 +237,6 @@ public class Pet {
   @Schema(name = "status", description = "pet status in the store", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
   @JacksonXmlProperty(localName = "status")
-  @XmlElement(name = "status")
   @Deprecated
   public StatusEnum getStatus() {
     return status;

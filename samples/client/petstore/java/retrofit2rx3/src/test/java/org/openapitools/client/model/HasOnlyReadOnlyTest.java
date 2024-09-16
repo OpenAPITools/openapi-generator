@@ -18,25 +18,22 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for HasOnlyReadOnly
  */
-public class HasOnlyReadOnlyTest {
+class HasOnlyReadOnlyTest {
     private final HasOnlyReadOnly model = new HasOnlyReadOnly();
 
     /**
      * Model tests for HasOnlyReadOnly
      */
     @Test
-    public void testHasOnlyReadOnly() {
+    void testHasOnlyReadOnly() {
         // TODO: test HasOnlyReadOnly
     }
 
@@ -44,7 +41,7 @@ public class HasOnlyReadOnlyTest {
      * Test the property 'bar'
      */
     @Test
-    public void barTest() {
+    void barTest() {
         // TODO: test bar
     }
 
@@ -52,7 +49,7 @@ public class HasOnlyReadOnlyTest {
      * Test the property 'foo'
      */
     @Test
-    public void fooTest() {
+    void fooTest() {
         // TODO: test foo
     }
 

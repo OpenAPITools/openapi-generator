@@ -27,7 +27,7 @@ import javax.annotation.Generated;
 @JacksonXmlRootElement(localName = "Tag")
 @XmlRootElement(name = "Tag")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class Tag {
 
   private Long id;
@@ -47,7 +47,6 @@ public class Tag {
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
-  @XmlElement(name = "id")
   public Long getId() {
     return id;
   }
@@ -69,7 +68,6 @@ public class Tag {
   @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
   @JacksonXmlProperty(localName = "name")
-  @XmlElement(name = "name")
   public String getName() {
     return name;
   }

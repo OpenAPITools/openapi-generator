@@ -32,7 +32,7 @@ import javax.annotation.Generated;
   EnumArrays.JSON_PROPERTY_ARRAY_ENUM
 })
 @JsonTypeName("EnumArrays")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 @Introspected
 public class EnumArrays {
     /**

@@ -28,7 +28,7 @@ export type BehaviorType = typeof BehaviorType[keyof typeof BehaviorType];
 export function instanceOfBehaviorType(value: any): boolean {
     for (const key in BehaviorType) {
         if (Object.prototype.hasOwnProperty.call(BehaviorType, key)) {
-            if ((BehaviorType as Record<string, BehaviorType>)[key] === value) {
+            if (BehaviorType[key as keyof typeof BehaviorType] === value) {
                 return true;
             }
         }
@@ -46,5 +46,9 @@ export function BehaviorTypeFromJSONTyped(json: any, ignoreDiscriminator: boolea
 
 export function BehaviorTypeToJSON(value?: BehaviorType | null): any {
     return value as any;
+}
+
+export function BehaviorTypeToJSONTyped(value: any, ignoreDiscriminator: boolean): BehaviorType {
+    return value as BehaviorType;
 }
 

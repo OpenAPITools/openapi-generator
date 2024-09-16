@@ -1552,6 +1552,41 @@ paths:
               schema:
                 type: string
                 format: byte
+  /fake/upload_file_with_additional_properties:
+    post:
+      tags:
+        - fake
+      summary: uploads a file and additional properties using multipart/form-data
+      description: ''
+      operationId: uploadFileWithAdditionalProperties
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  description: file to upload
+                  type: string
+                  format: binary
+                object:
+                  description: Additional object
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                count:
+                  description: Integer count
+                  type: integer
+              required:
+                - file
   /import_test/return_datetime:
     get:
       tags:
@@ -2253,6 +2288,18 @@ components:
             enum:
               - fish
               - crab
+    MultiArrays:
+      type: object
+      properties:
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        files:
+          type: array
+          description: Another array of objects in addition to tags (mypy check to not to reuse the same iterator)
+          items:
+            $ref: '#/components/schemas/File'
     FreeFormObject:
       type: object
       description: A schema consisting only of additional properties

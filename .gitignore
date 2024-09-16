@@ -1,4 +1,5 @@
 .mvn/.gradle-enterprise/
+.mvn/.develocity/
 .scannerwork/
 .vscode
 *.iml

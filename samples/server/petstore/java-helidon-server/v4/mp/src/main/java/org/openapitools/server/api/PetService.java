@@ -15,6 +15,7 @@ package org.openapitools.server.api;
 import java.io.File;
 import java.util.List;
 import org.openapitools.server.model.ModelApiResponse;
+import java.util.Optional;
 import org.openapitools.server.model.Pet;
 import java.util.Set;
 
@@ -27,7 +28,7 @@ import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
 @Path("")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public interface PetService {
 
     @POST

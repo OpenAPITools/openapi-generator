@@ -34,4 +34,4 @@ jobs:
           toolchain: stable
       - name: Build
         working-directory: ${{ matrix.sample }}
-        run: cargo build
+        run: cargo build --all-targets --all-features

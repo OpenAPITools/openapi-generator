@@ -11,7 +11,7 @@ class BaseUserApi:
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         BaseUserApi.subclasses = BaseUserApi.subclasses + (cls,)
-    def create_user(
+    async def create_user(
         self,
         user: User,
     ) -> None:
@@ -19,7 +19,7 @@ class BaseUserApi:
         ...
 
 
-    def create_users_with_array_input(
+    async def create_users_with_array_input(
         self,
         user: List[User],
     ) -> None:
@@ -27,7 +27,7 @@ class BaseUserApi:
         ...
 
 
-    def create_users_with_list_input(
+    async def create_users_with_list_input(
         self,
         user: List[User],
     ) -> None:
@@ -35,7 +35,7 @@ class BaseUserApi:
         ...
 
 
-    def delete_user(
+    async def delete_user(
         self,
         username: str,
     ) -> None:
@@ -43,7 +43,7 @@ class BaseUserApi:
         ...
 
 
-    def get_user_by_name(
+    async def get_user_by_name(
         self,
         username: str,
     ) -> User:
@@ -51,7 +51,7 @@ class BaseUserApi:
         ...
 
 
-    def login_user(
+    async def login_user(
         self,
         username: str,
         password: str,
@@ -60,14 +60,14 @@ class BaseUserApi:
         ...
 
 
-    def logout_user(
+    async def logout_user(
         self,
     ) -> None:
         """"""
         ...
 
 
-    def update_user(
+    async def update_user(
         self,
         username: str,
         user: User,

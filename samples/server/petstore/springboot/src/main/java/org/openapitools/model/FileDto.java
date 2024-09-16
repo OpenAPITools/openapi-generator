@@ -22,7 +22,7 @@ import javax.annotation.Generated;
 
 @ApiModel(description = "Must be named `File` for test.")
 @JsonTypeName("File")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class FileDto {
 
   private String sourceURI;

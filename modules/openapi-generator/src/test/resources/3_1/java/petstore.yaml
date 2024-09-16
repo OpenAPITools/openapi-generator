@@ -609,6 +609,28 @@ paths:
           $ref: '#/components/responses/ref'
     parameters:
       - $ref: '#/components/parameters/ref_to_uuid'
+  /ref/ref_to_path_level_parameter_oneof:
+    get:
+      description: to test $ref to path level parameters
+      operationId: ref_to_ref_parameter_oneof
+      tags:
+        - fake
+      responses:
+        '200':
+          description: Successful Response
+    parameters:
+      - $ref: '#/components/parameters/ref_to_oneof'
+  /ref/ref_to_operation_level_parameter_oneof:
+    get:
+      description: to test $ref to operation level parameters
+      operationId: ref_to_ref_parameter_anyof
+      tags:
+        - fake
+      responses:
+        '200':
+          description: Successful Response
+      parameters:
+        - $ref: '#/components/parameters/ref_to_anyof'
   "/fake/api/changeowner":
     post:
       summary: op1
@@ -665,6 +687,47 @@ paths:
       responses:
         '200':
           description: Successful Response
+  "/fake/inline/schema/anyof/path1":
+    get:
+      tags:
+        - fake
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - type: 'null'
+                  - "$ref": "#/components/schemas/myObject"
+  "/fake/inline/schema/anyof/path2":
+    get:
+      tags:
+        - fake
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - "$ref": "#/components/schemas/myObject"
+                  - type: 'null'
+  "/fake/inline/schema/anyof/path3":
+    get:
+      tags:
+        - fake
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - type: array
+                    items:
+                      "$ref": "#/components/schemas/myObject"
+                  - type: 'null'
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
@@ -679,6 +742,26 @@ components:
         type: string
         format: uuid
         example: 61864654-6e6b-4152-a62f-795fdd606bc2
+    ref_to_oneof:
+      description: to test ref to parameter (oneof)
+      name: ref_to_oneof
+      in: header
+      required: true
+      schema:
+        oneOf:
+          - type: string
+          - type: integer
+    ref_to_anyof:
+      description: to test ref to parameter (anyof)
+      name: ref_to_anyof
+      in: header
+      required: true
+      schema:
+        oneOf:
+          - type: string
+          - type: array
+            items:
+              type: string
   requestBodies:
     UserArray:
       content:
@@ -981,3 +1064,5 @@ components:
     AllOfSimpleModel:
       allOf:
         - $ref: '#/components/schemas/SimpleModelWithArrayProperty'
+    myObject:
+      type: object

@@ -284,6 +284,8 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **200** | successful operation |  -  |
 | **400** | Invalid status value |  -  |
+| **2XX** | Anything within 200-299 |  -  |
+| **4XX** | Anything within 400-499 |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

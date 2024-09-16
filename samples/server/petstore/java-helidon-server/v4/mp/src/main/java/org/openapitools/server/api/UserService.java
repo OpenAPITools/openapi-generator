@@ -14,6 +14,7 @@ package org.openapitools.server.api;
 
 import java.util.List;
 import java.time.OffsetDateTime;
+import java.util.Optional;
 import org.openapitools.server.model.User;
 
 import jakarta.ws.rs.*;
@@ -25,7 +26,7 @@ import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
 @Path("/user")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public interface UserService {
 
     @POST

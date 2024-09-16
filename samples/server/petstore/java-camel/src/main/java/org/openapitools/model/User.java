@@ -27,7 +27,7 @@ import javax.annotation.Generated;
 @JacksonXmlRootElement(localName = "User")
 @XmlRootElement(name = "User")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class User {
 
   private Long id;
@@ -59,7 +59,6 @@ public class User {
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
-  @XmlElement(name = "id")
   public Long getId() {
     return id;
   }
@@ -81,7 +80,6 @@ public class User {
   @Schema(name = "username", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("username")
   @JacksonXmlProperty(localName = "username")
-  @XmlElement(name = "username")
   public String getUsername() {
     return username;
   }
@@ -103,7 +101,6 @@ public class User {
   @Schema(name = "firstName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("firstName")
   @JacksonXmlProperty(localName = "firstName")
-  @XmlElement(name = "firstName")
   public String getFirstName() {
     return firstName;
   }
@@ -125,7 +122,6 @@ public class User {
   @Schema(name = "lastName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("lastName")
   @JacksonXmlProperty(localName = "lastName")
-  @XmlElement(name = "lastName")
   public String getLastName() {
     return lastName;
   }
@@ -147,7 +143,6 @@ public class User {
   @Schema(name = "email", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("email")
   @JacksonXmlProperty(localName = "email")
-  @XmlElement(name = "email")
   public String getEmail() {
     return email;
   }
@@ -169,7 +164,6 @@ public class User {
   @Schema(name = "password", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("password")
   @JacksonXmlProperty(localName = "password")
-  @XmlElement(name = "password")
   public String getPassword() {
     return password;
   }
@@ -191,7 +185,6 @@ public class User {
   @Schema(name = "phone", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("phone")
   @JacksonXmlProperty(localName = "phone")
-  @XmlElement(name = "phone")
   public String getPhone() {
     return phone;
   }
@@ -213,7 +206,6 @@ public class User {
   @Schema(name = "userStatus", description = "User Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("userStatus")
   @JacksonXmlProperty(localName = "userStatus")
-  @XmlElement(name = "userStatus")
   public Integer getUserStatus() {
     return userStatus;
   }

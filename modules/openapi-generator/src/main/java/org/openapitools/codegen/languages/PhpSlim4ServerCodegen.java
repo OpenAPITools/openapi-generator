@@ -54,10 +54,7 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
     protected String appDirName = "App";
     protected String appPackage = "";
     /**
-     * -- GETTER --
      *  Returns PSR-7 implementation package.
-     *
-     * @return PSR-7 implementation package
      */
     @Getter protected String psr7Implementation = "slim-psr7";
     protected String interfacesDirName = "Interfaces";

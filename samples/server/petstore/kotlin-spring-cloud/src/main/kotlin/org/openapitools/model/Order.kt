@@ -1,6 +1,7 @@
 package org.openapitools.model
 
 import java.util.Objects
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonValue
 import java.io.Serializable
@@ -36,17 +37,25 @@ data class Order(
     @get:JsonProperty("status") val status: Order.Status? = null,
 
     @get:JsonProperty("complete") val complete: kotlin.Boolean? = false
-) : Serializable{
+    ) : Serializable{
 
     /**
     * Order Status
     * Values: placed,approved,delivered
     */
-    enum class Status(val value: kotlin.String) {
+    enum class Status(@get:JsonValue val value: kotlin.String) {
 
-        @JsonProperty("placed") placed("placed"),
-        @JsonProperty("approved") approved("approved"),
-        @JsonProperty("delivered") delivered("delivered")
+        placed("placed"),
+        approved("approved"),
+        delivered("delivered");
+
+        companion object {
+            @JvmStatic
+            @JsonCreator
+            fun forValue(value: kotlin.String): Status {
+                return values().first{it -> it.value == value}
+            }
+        }
     }
 
     companion object {
