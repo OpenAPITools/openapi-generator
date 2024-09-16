@@ -24,6 +24,7 @@ import org.threeten.bp.OffsetDateTime
 {{/threetenbp}}
 {{#kotlinx-datetime}}
 import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalTime
 {{/kotlinx-datetime}}
 import java.util.UUID
 {{/gson}}
@@ -66,6 +67,7 @@ import java.util.concurrent.atomic.AtomicLong
         .add(OffsetDateTimeAdapter())
         {{#kotlinx-datetime}}
         .add(InstantAdapter())
+        .add(LocalTimeAdapter())
         {{/kotlinx-datetime}}
         .add(LocalDateTimeAdapter())
         .add(LocalDateAdapter())
@@ -92,6 +94,7 @@ import java.util.concurrent.atomic.AtomicLong
         .registerTypeAdapter(OffsetDateTime::class.java, OffsetDateTimeAdapter())
         {{#kotlinx-datetime}}
         .registerTypeAdapter(Instant::class.java, InstantAdapter())
+        .registerTypeAdapter(LocalTime::class.java, LocalTimeAdapter())
         {{/kotlinx-datetime}}
         .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
         .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
@@ -122,9 +125,11 @@ import java.util.concurrent.atomic.AtomicLong
     val kotlinxSerializationAdapters = SerializersModule {
         contextual(BigDecimal::class, BigDecimalAdapter)
         contextual(BigInteger::class, BigIntegerAdapter)
+        {{^kotlinx-datetime}}
         contextual(LocalDate::class, LocalDateAdapter)
         contextual(LocalDateTime::class, LocalDateTimeAdapter)
         contextual(OffsetDateTime::class, OffsetDateTimeAdapter)
+        {{/kotlinx-datetime}}
         contextual(UUID::class, UUIDAdapter)
         contextual(AtomicInteger::class, AtomicIntegerAdapter)
         contextual(AtomicLong::class, AtomicLongAdapter)
