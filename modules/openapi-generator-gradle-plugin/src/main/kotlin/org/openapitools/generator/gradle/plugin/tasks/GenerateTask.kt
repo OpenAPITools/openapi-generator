@@ -82,7 +82,7 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
 
     /**
      * This is the configuration for reference paths where schemas for openapi generation are stored
-     * The schema target directory into which code will be generated
+     * The directory which contains the additional schema files
      */
     @Optional
     @InputDirectory
