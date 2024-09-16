@@ -178,18 +178,6 @@ class FakeClassnameTags123Api
 
             $statusCode = $response->getStatusCode();
 
-            if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(
-                    sprintf(
-                        '[%d] Error connecting to the API (%s)',
-                        $statusCode,
-                        (string) $request->getUri()
-                    ),
-                    $statusCode,
-                    $response->getHeaders(),
-                    (string) $response->getBody()
-                );
-            }
 
             switch($statusCode) {
                 case 200:
@@ -219,6 +207,19 @@ class FakeClassnameTags123Api
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
+            }
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
             }
 
             $returnType = '\OpenAPI\Client\Model\Client';
