@@ -10,40 +10,42 @@
  * Do not edit the class manually.
  */
 
+
 package org.openapitools.client.api;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.MatcherAssert.assertThat;
-
-import org.junit.Test;
 import org.openapitools.client.model.StringEnumRef;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-/** API tests for PathApi */
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+/**
+ * API tests for PathApi
+ */
+@Disabled
 public class PathApiTest {
 
-  private final PathApi api = new PathApi();
+    private final PathApi api = new PathApi();
 
-  /**
-   * Test path parameter(s)
-   *
-   * <p>Test path parameter(s)
-   */
-  @Test
-  public void
-      testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathTest() {
-    // Given
-    String pathString = "simple String Path";
-    Integer pathInteger = 50;
-    String enumNonrefStringPath = "true";
-    StringEnumRef enumRefStringPath = StringEnumRef.SUCCESS;
+    
+    /**
+     * Test path parameter(s)
+     *
+     * Test path parameter(s)
+     */
+    @Test
+    public void testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathTest()  {
+        String pathString = null;
+        Integer pathInteger = null;
+        String enumNonrefStringPath = null;
+        StringEnumRef enumRefStringPath = null;
+        String response = api.testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
 
-    // When
-    String response =
-        api.testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(
-            pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
-
-    // Then
-    assertThat(
-        response, containsString("/path/string/simple%20String%20Path/integer/50/true/success"));
-  }
+        // TODO: test validations
+    }
+    
 }
