@@ -39,7 +39,6 @@ enum SingleRefType: string
     case ADMIN = 'admin';
 
     case USER = 'user';
-
 }
 
 
