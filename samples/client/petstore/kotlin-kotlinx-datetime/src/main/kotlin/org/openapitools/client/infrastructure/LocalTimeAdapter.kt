@@ -2,17 +2,17 @@ package org.openapitools.client.infrastructure
 
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
-import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalTime
 
-class LocalDateAdapter {
+class LocalTimeAdapter {
     @ToJson
-    fun toJson(value: LocalDate): String {
+    fun toJson(value: LocalTime): String {
         return value.toString()
     }
 
     @FromJson
-    fun fromJson(value: String): LocalDate {
-        return LocalDate.parse(value)
+    fun fromJson(value: String): LocalTime {
+        return LocalTime.parse(value)
     }
 
 }

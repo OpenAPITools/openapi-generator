@@ -593,12 +593,15 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         typeMapping.put("date-time", "Instant");
         typeMapping.put("date", "LocalDate");
+        typeMapping.put("time", "LocalTime");
 
         typeMapping.put("DateTime", "Instant");
         typeMapping.put("Date", "LocalDate");
+        typeMapping.put("Time", "LocalTime");
 
         importMapping.put("Instant", "kotlinx.datetime.Instant");
         importMapping.put("LocalDate", "kotlinx.datetime.LocalDate");
+        importMapping.put("LocalTime", "kotlinx.datetime.LocalTime");
     }
 
     private void processJVMRetrofit2Library(String infrastructureFolder) {
@@ -664,7 +667,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/OffsetDateTimeAdapter.kt.mustache", infrastructureFolder, "OffsetDateTimeAdapter.kt"));
-                addKotlinxDateTimeInstantAdapter(infrastructureFolder);
+                addKotlinxDateTimeAdapters(infrastructureFolder);
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/BigDecimalAdapter.kt.mustache", infrastructureFolder, "BigDecimalAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/BigIntegerAdapter.kt.mustache", infrastructureFolder, "BigIntegerAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/URIAdapter.kt.mustache", infrastructureFolder, "URIAdapter.kt"));
@@ -675,7 +678,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/OffsetDateTimeAdapter.kt.mustache", infrastructureFolder, "OffsetDateTimeAdapter.kt"));
-                addKotlinxDateTimeInstantAdapter(infrastructureFolder);
+                addKotlinxDateTimeAdapters(infrastructureFolder);
                 break;
 
             case jackson:
@@ -699,9 +702,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
     }
 
-    private void addKotlinxDateTimeInstantAdapter(final String infrastructureFolder) {
+    private void addKotlinxDateTimeAdapters(final String infrastructureFolder) {
         if (DateLibrary.KOTLINX_DATETIME.value.equals(dateLibrary)) {
             supportingFiles.add(new SupportingFile("jvm-common/infrastructure/InstantAdapter.kt.mustache", infrastructureFolder, "InstantAdapter.kt"));
+            supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalTimeAdapter.kt.mustache", infrastructureFolder, "LocalTimeAdapter.kt"));
         }
     }
 
