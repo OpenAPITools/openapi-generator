@@ -42,10 +42,12 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
     protected String groupId = "org.openapitools";
     protected String artifactId = "http4s-client-scala3";
     protected String artifactVersion = "1.0.0";
-    protected boolean registerNonStandardStatusCodes = true; //TODO??
+    protected boolean registerNonStandardStatusCodes = true;
     protected boolean removeOAuthSecurities = true; //TODO??
     protected boolean excludeSbt = false;
-    public static final String EXCLUDE_SBT = "excludeSbt";
+    protected boolean modelsOnly = false;
+    protected static final String EXCLUDE_SBT = "excludeSbt";
+    protected static final String MODELS_ONLY = "modelsOnly";
     protected String sourceFolder = "src" + File.separator + "main" + File.separator + "scala";
     protected String projectName = artifactId;
 
@@ -259,8 +261,6 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
 
         additionalProperties.put("fnEnumEntry", new EnumEntryLambda());
 
-        supportingFiles.add(new SupportingFile("baseClient.mustache", apisFileFolderRelative(), "BaseClient.scala"));
-        supportingFiles.add(new SupportingFile("jsonSupports.mustache", apisFileFolderRelative(), "JsonSupports.scala"));
         supportingFiles.add(new SupportingFile("failedRequest.mustache", modelFileFolderRelative(), "_FailedRequest.scala"));
         supportingFiles.add(new SupportingFile("authModel.mustache", modelFileFolderRelative(), "_Authorization.scala"));
         supportingFiles.add(new SupportingFile("modelsPackage.mustache", modelFileFolderRelative(), "package.scala"));
@@ -271,6 +271,15 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
         if (!excludeSbt) {
             supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
             supportingFiles.add(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
+        }
+        if (additionalProperties.containsKey(MODELS_ONLY)) {
+            this.modelsOnly = convertPropertyToBoolean(MODELS_ONLY);
+        }
+        if (!modelsOnly) {
+            supportingFiles.add(new SupportingFile("baseClient.mustache", apisFileFolderRelative(), "BaseClient.scala"));
+            supportingFiles.add(new SupportingFile("jsonSupports.mustache", apisFileFolderRelative(), "JsonSupports.scala"));
+        } else {
+            apiTemplateFiles.remove("api.mustache");
         }
     }
 

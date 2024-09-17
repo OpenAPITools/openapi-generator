@@ -23,10 +23,9 @@ trait {{classname}}Endpoints[F[*]] {
 {{#operations}}
 class {{classname}}EndpointsImpl[F[*]: Concurrent](
   override val baseUrl: Uri,
-  defaultAuth: Option[_Authorization] = None,
   defaultHeaders: Seq[(String, String)] = Nil,
   httpClient: Http4sClient[F]
-) extends BaseClient[F](baseUrl, defaultAuth, defaultHeaders, httpClient) with {{classname}}Endpoints[F] {
+) extends BaseClient[F](baseUrl, defaultHeaders, httpClient) with {{classname}}Endpoints[F] {
   
   import JsonSupports.*
   import io.circe.syntax.EncoderOps

@@ -13,7 +13,6 @@ import {{modelPackage}}.*
 
 abstract class BaseClient[F[*]: Concurrent](
     val baseUrl: Uri,
-    defaultAuth: Option[_Authorization] = None,
     defaultHeaders: Seq[(String, String)] = Nil,
     httpClient: Http4sClient[F]
 ) {
@@ -52,11 +51,11 @@ abstract class BaseClient[F[*]: Concurrent](
     )
 
     val queryMap = queryParameters.groupBy(_._1).map { case (k, v) => k -> v.map(_._2.toString) }
-    val uri      = (baseUrl / path).setQueryParams(queryMap)
+    val uri      = Uri.unsafeFromString(s"$baseUrl$path").setQueryParams(queryMap)
 
     val request = Request[F](method = m, uri = uri, headers = headers)
 
-    val reqAndMaybeAuth = auth.orElse(defaultAuth).fold(request) {
+    val reqAndMaybeAuth = auth.fold(request) {
       case _Authorization.Basic(username, passwordOpt) =>
         val userpass = s"$username:${passwordOpt.getOrElse("")}"
         val token    = Base64.getEncoder.encodeToString(
