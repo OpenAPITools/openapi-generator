@@ -231,21 +231,21 @@ content_types_provided(Req, State) ->
 -spec delete_resource(cowboy_req:req(), state()) ->
     {boolean(), cowboy_req:req(), state()}.
 delete_resource(Req, State) ->
-    case handle_type_accepted(Req, State) of
-        true ->
-            {true, Req, State};
-        _ ->
-            {false, Req, State}
-    end.
+    {Res, Req1, State} = handle_type_accepted(Req, State),
+    {true =:= Res, Req1, State}.
 
 -spec handle_type_accepted(cowboy_req:req(), state()) ->
-    boolean() | {created, iodata()} | {see_other, iodata()}.
+    { openapi_logic_handler:accept_callback_return(), cowboy_req:req(), state()}.
 handle_type_accepted(Req, #state{operation_id = OperationID,
-                                 accept_callback = Handler} = State) ->
-    Handler(pet, OperationID, Req, State#state.context).
+                                 accept_callback = Handler,
+                                 context = Context} = State) ->
+    {Res, Req1, Context1} = Handler(pet, OperationID, Req, Context),
+    {Res, Req1, State#state{context = Context1}}.
 
 -spec handle_type_provided(cowboy_req:req(), state()) ->
-    {cowboy_req:resp_body(), cowboy_req:req(), openapi_logic_handler:context()}.
+    {cowboy_req:resp_body(), cowboy_req:req(), state()}.
 handle_type_provided(Req, #state{operation_id = OperationID,
-                                 provide_callback = Handler} = State) ->
-    Handler(pet, OperationID, Req, State#state.context).
+                                 provide_callback = Handler,
+                                 context = Context} = State) ->
+    {Res, Req1, Context1} = Handler(pet, OperationID, Req, Context),
+    {Res, Req1, State#state{context = Context1}}.

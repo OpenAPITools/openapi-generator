@@ -2067,3 +2067,18 @@ components:
       type: array
       items:
         type: string
+    EnumWithNameAndDescription:
+      type: integer
+      enum:
+        - 1
+        - 2
+        - 3
+        - 4
+      x-enum-varnames:
+        - ONE
+        - "2"
+        - " 3"
+      x-enum-descriptions:
+        - The word one
+        - The digit two
+        - The digit three prefixed by a space

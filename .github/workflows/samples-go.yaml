@@ -35,3 +35,27 @@ jobs:
       - name: Run test
         working-directory: ${{ matrix.sample }}
         run: go test -mod=mod -v
+
+  verify:
+    name: Verify generated Go files with Go tests
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          - samples/server/petstore/go-api-server/
+        go-version:
+          - "1.18"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go-version }}
+      - name: Install Dependencies
+        working-directory: ${{ matrix.sample }}
+        run: |
+          go mod tidy
+      - name: Run tests
+        working-directory: ${{ matrix.sample }}
+        run: go test ./samples_tests -v

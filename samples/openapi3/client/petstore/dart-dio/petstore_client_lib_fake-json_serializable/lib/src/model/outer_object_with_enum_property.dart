@@ -26,7 +26,8 @@ class OuterObjectWithEnumProperty {
     
     name: r'value',
     required: true,
-    includeIfNull: false
+    includeIfNull: false,
+  unknownEnumValue: OuterEnumInteger.unknownDefaultOpenApi,
   )
 
 
