@@ -31,7 +31,7 @@
   "dependencies": {
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
-    "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/platform-express": "^10.4.2",
     "@nestjs/axios": "^2.0.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^2.6.3",
