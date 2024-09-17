@@ -10,10 +10,11 @@
  * Do not edit the class manually.
  */
 
+import { List } from '../models/List';
 import { HttpFile } from '../http/http';
 
 export class ListPaged {
-    'data'?: Array<Array>;
+    'data'?: Array<List>;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -23,7 +24,7 @@ export class ListPaged {
         {
             "name": "data",
             "baseName": "data",
-            "type": "Array<Array>",
+            "type": "Array<List>",
             "format": ""
         }    ];
 
