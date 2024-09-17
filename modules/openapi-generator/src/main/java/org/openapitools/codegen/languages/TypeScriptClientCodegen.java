@@ -111,7 +111,6 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
                 // Typescript reserved words
                 "constructor"));
 
-        typeMapping.put("List", "Array");
         typeMapping.put("object", "any");
         typeMapping.put("DateTime", "Date");
 
