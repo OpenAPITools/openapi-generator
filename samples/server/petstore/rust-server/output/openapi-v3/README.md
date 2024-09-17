@@ -182,6 +182,7 @@ Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [AdditionalPropertiesReferencedAnyOfObject](docs/AdditionalPropertiesReferencedAnyOfObject.md)
  - [AdditionalPropertiesWithList](docs/AdditionalPropertiesWithList.md)
  - [AnotherXmlArray](docs/AnotherXmlArray.md)
  - [AnotherXmlInner](docs/AnotherXmlInner.md)

@@ -4,6 +4,7 @@ Cargo.toml
 README.md
 api/openapi.yaml
 bin/cli.rs
+docs/AdditionalPropertiesReferencedAnyOfObject.md
 docs/AdditionalPropertiesWithList.md
 docs/AnotherXmlArray.md
 docs/AnotherXmlInner.md
