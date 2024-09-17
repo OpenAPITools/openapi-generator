@@ -92,10 +92,10 @@ public class PathApi extends BaseApi {
     
     // create path and map variables
     String localVarPath = "/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}"
-      .replaceAll("\\{" + "path_string" + "\\}", apiClient.escapeString(pathString.toString()))
-      .replaceAll("\\{" + "path_integer" + "\\}", apiClient.escapeString(pathInteger.toString()))
-      .replaceAll("\\{" + "enum_nonref_string_path" + "\\}", apiClient.escapeString(enumNonrefStringPath.toString()))
-      .replaceAll("\\{" + "enum_ref_string_path" + "\\}", apiClient.escapeString(enumRefStringPath.toString()));
+      .replaceAll("\\{" + "path_string" + "\\}", apiClient.escapeString(apiClient.parameterToString(pathString)))
+      .replaceAll("\\{" + "path_integer" + "\\}", apiClient.escapeString(apiClient.parameterToString(pathInteger)))
+      .replaceAll("\\{" + "enum_nonref_string_path" + "\\}", apiClient.escapeString(apiClient.parameterToString(enumNonrefStringPath)))
+      .replaceAll("\\{" + "enum_ref_string_path" + "\\}", apiClient.escapeString(apiClient.parameterToString(enumRefStringPath)));
 
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
