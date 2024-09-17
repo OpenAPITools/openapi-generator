@@ -25,7 +25,7 @@ class Foo {
     defaultValue: 'bar',
     name: r'bar',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 

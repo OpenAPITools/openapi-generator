@@ -41,7 +41,6 @@ enum OuterEnumInteger: int
     case NUMBER_1 = 1;
 
     case NUMBER_2 = 2;
-
 }
 
 
