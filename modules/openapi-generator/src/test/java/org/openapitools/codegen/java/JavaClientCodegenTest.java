@@ -2301,7 +2301,6 @@ public class JavaClientCodegenTest {
         assertNotNull(fooEntityFile);
         assertThat(fooEntityFile).content()
             .doesNotContain("this.type = this.getClass().getSimpleName();");
-        System.out.println(Files.readString(fooEntityFile.toPath()));
     }
 
     @Test
