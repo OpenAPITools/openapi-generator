@@ -36,13 +36,14 @@ import jakarta.validation.Valid;
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class AdditionalPropertiesInteger extends HashMap<String, Integer> {
   public static final String JSON_PROPERTY_NAME = "name";
+  @jakarta.annotation.Nullable
   private String name;
 
   public AdditionalPropertiesInteger() {
 
   }
 
-  public AdditionalPropertiesInteger name(String name) {
+  public AdditionalPropertiesInteger name(@jakarta.annotation.Nullable String name) {
     
     this.name = name;
     return this;
@@ -64,7 +65,7 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer> {
 
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setName(String name) {
+  public void setName(@jakarta.annotation.Nullable String name) {
     this.name = name;
   }
 

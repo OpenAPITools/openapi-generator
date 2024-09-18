@@ -54,7 +54,7 @@ public class ParentPet extends GrandparentAnimal {
   }
 
   @Override
-  public ParentPet petType(String petType) {
+  public ParentPet petType(@javax.annotation.Nonnull String petType) {
     this.setPetType(petType);
     return this;
   }

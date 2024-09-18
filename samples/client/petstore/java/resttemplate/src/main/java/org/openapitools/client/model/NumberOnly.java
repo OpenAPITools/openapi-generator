@@ -33,6 +33,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class NumberOnly {
   public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";
+  @javax.annotation.Nullable
   private BigDecimal justNumber;
 
   public NumberOnly() {
@@ -45,7 +46,7 @@ public class NumberOnly {
     this.justNumber = justNumber;
   }
 
-  public NumberOnly justNumber(BigDecimal justNumber) {
+  public NumberOnly justNumber(@javax.annotation.Nullable BigDecimal justNumber) {
     
     this.justNumber = justNumber;
     return this;
@@ -66,7 +67,7 @@ public class NumberOnly {
 
   @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setJustNumber(BigDecimal justNumber) {
+  public void setJustNumber(@javax.annotation.Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
 

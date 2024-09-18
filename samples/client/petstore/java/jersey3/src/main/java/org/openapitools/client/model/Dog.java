@@ -51,12 +51,13 @@ import org.openapitools.client.JSON;
 
 public class Dog extends Animal {
   public static final String JSON_PROPERTY_BREED = "breed";
+  @jakarta.annotation.Nullable
   private String breed;
 
   public Dog() { 
   }
 
-  public Dog breed(String breed) {
+  public Dog breed(@jakarta.annotation.Nullable String breed) {
     this.breed = breed;
     return this;
   }
@@ -77,7 +78,7 @@ public class Dog extends Animal {
 
   @JsonProperty(JSON_PROPERTY_BREED)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setBreed(String breed) {
+  public void setBreed(@jakarta.annotation.Nullable String breed) {
     this.breed = breed;
   }
 

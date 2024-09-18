@@ -53,12 +53,13 @@ import org.openapitools.client.JSON;
 public class HealthCheckResult {
   public static final String SERIALIZED_NAME_NULLABLE_MESSAGE = "NullableMessage";
   @SerializedName(SERIALIZED_NAME_NULLABLE_MESSAGE)
+  @javax.annotation.Nullable
   private String nullableMessage;
 
   public HealthCheckResult() {
   }
 
-  public HealthCheckResult nullableMessage(String nullableMessage) {
+  public HealthCheckResult nullableMessage(@javax.annotation.Nullable String nullableMessage) {
     this.nullableMessage = nullableMessage;
     return this;
   }
@@ -72,7 +73,7 @@ public class HealthCheckResult {
     return nullableMessage;
   }
 
-  public void setNullableMessage(String nullableMessage) {
+  public void setNullableMessage(@javax.annotation.Nullable String nullableMessage) {
     this.nullableMessage = nullableMessage;
   }
 

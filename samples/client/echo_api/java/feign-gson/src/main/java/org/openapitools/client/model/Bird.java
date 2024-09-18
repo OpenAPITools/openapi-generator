@@ -29,16 +29,18 @@ import java.io.IOException;
 public class Bird {
   public static final String SERIALIZED_NAME_SIZE = "size";
   @SerializedName(SERIALIZED_NAME_SIZE)
+  @javax.annotation.Nullable
   private String size;
 
   public static final String SERIALIZED_NAME_COLOR = "color";
   @SerializedName(SERIALIZED_NAME_COLOR)
+  @javax.annotation.Nullable
   private String color;
 
   public Bird() {
   }
 
-  public Bird size(String size) {
+  public Bird size(@javax.annotation.Nullable String size) {
     
     this.size = size;
     return this;
@@ -55,12 +57,12 @@ public class Bird {
   }
 
 
-  public void setSize(String size) {
+  public void setSize(@javax.annotation.Nullable String size) {
     this.size = size;
   }
 
 
-  public Bird color(String color) {
+  public Bird color(@javax.annotation.Nullable String color) {
     
     this.color = color;
     return this;
@@ -77,7 +79,7 @@ public class Bird {
   }
 
 
-  public void setColor(String color) {
+  public void setColor(@javax.annotation.Nullable String color) {
     this.color = color;
   }
 

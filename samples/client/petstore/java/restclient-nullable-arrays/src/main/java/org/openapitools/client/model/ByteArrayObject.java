@@ -41,24 +41,29 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ByteArrayObject {
   public static final String JSON_PROPERTY_NULLABLE_ARRAY = "nullableArray";
+  @jakarta.annotation.Nullable
   private JsonNullable<byte[]> nullableArray = JsonNullable.<byte[]>undefined();
 
   public static final String JSON_PROPERTY_NORMAL_ARRAY = "normalArray";
+  @jakarta.annotation.Nullable
   private byte[] normalArray;
 
   public static final String JSON_PROPERTY_NULLABLE_STRING = "nullableString";
+  @jakarta.annotation.Nullable
   private JsonNullable<String> nullableString = JsonNullable.<String>undefined();
 
   public static final String JSON_PROPERTY_STRING_FIELD = "stringField";
+  @jakarta.annotation.Nullable
   private String stringField;
 
   public static final String JSON_PROPERTY_INT_FIELD = "intField";
+  @jakarta.annotation.Nullable
   private BigDecimal intField;
 
   public ByteArrayObject() {
   }
 
-  public ByteArrayObject nullableArray(byte[] nullableArray) {
+  public ByteArrayObject nullableArray(@jakarta.annotation.Nullable byte[] nullableArray) {
     this.nullableArray = JsonNullable.<byte[]>of(nullableArray);
     
     return this;
@@ -87,11 +92,11 @@ public class ByteArrayObject {
     this.nullableArray = nullableArray;
   }
 
-  public void setNullableArray(byte[] nullableArray) {
+  public void setNullableArray(@jakarta.annotation.Nullable byte[] nullableArray) {
     this.nullableArray = JsonNullable.<byte[]>of(nullableArray);
   }
 
-  public ByteArrayObject normalArray(byte[] normalArray) {
+  public ByteArrayObject normalArray(@jakarta.annotation.Nullable byte[] normalArray) {
     
     this.normalArray = normalArray;
     return this;
@@ -112,11 +117,11 @@ public class ByteArrayObject {
 
   @JsonProperty(JSON_PROPERTY_NORMAL_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setNormalArray(byte[] normalArray) {
+  public void setNormalArray(@jakarta.annotation.Nullable byte[] normalArray) {
     this.normalArray = normalArray;
   }
 
-  public ByteArrayObject nullableString(String nullableString) {
+  public ByteArrayObject nullableString(@jakarta.annotation.Nullable String nullableString) {
     this.nullableString = JsonNullable.<String>of(nullableString);
     
     return this;
@@ -145,11 +150,11 @@ public class ByteArrayObject {
     this.nullableString = nullableString;
   }
 
-  public void setNullableString(String nullableString) {
+  public void setNullableString(@jakarta.annotation.Nullable String nullableString) {
     this.nullableString = JsonNullable.<String>of(nullableString);
   }
 
-  public ByteArrayObject stringField(String stringField) {
+  public ByteArrayObject stringField(@jakarta.annotation.Nullable String stringField) {
     
     this.stringField = stringField;
     return this;
@@ -170,11 +175,11 @@ public class ByteArrayObject {
 
   @JsonProperty(JSON_PROPERTY_STRING_FIELD)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setStringField(String stringField) {
+  public void setStringField(@jakarta.annotation.Nullable String stringField) {
     this.stringField = stringField;
   }
 
-  public ByteArrayObject intField(BigDecimal intField) {
+  public ByteArrayObject intField(@jakarta.annotation.Nullable BigDecimal intField) {
     
     this.intField = intField;
     return this;
@@ -195,7 +200,7 @@ public class ByteArrayObject {
 
   @JsonProperty(JSON_PROPERTY_INT_FIELD)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setIntField(BigDecimal intField) {
+  public void setIntField(@jakarta.annotation.Nullable BigDecimal intField) {
     this.intField = intField;
   }
 
