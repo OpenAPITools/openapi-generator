@@ -332,7 +332,7 @@ pub struct {{{classname}}} {
         )]
 {{/hasValidation}}
 {{#required}}
-    pub {{{name}}}: {{#isNullable}}swagger::Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}},
+    pub {{{name}}}: {{{dataType}}},
 {{/required}}
 {{^required}}
 {{#isNullable}}
@@ -340,7 +340,7 @@ pub struct {{{classname}}} {
     #[serde(default = "swagger::nullable_format::default_optional_nullable")]
 {{/isNullable}}
     #[serde(skip_serializing_if="Option::is_none")]
-    pub {{{name}}}: Option<{{#isNullable}}swagger::Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}>,
+    pub {{{name}}}: Option<{{{dataType}}}>,
 {{/required}}
 
 {{/vars}}
@@ -373,7 +373,7 @@ fn validate_byte_{{#lambda.lowercase}}{{{classname}}}_{{{name}}}{{/lambda.lowerc
 
 impl {{{classname}}} {
     #[allow(clippy::new_without_default)]
-    pub fn new({{#vars}}{{^defaultValue}}{{{name}}}: {{#isNullable}}swagger::Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}, {{/defaultValue}}{{/vars}}) -> {{{classname}}} {
+    pub fn new({{#vars}}{{^defaultValue}}{{{name}}}: {{{dataType}}}, {{/defaultValue}}{{/vars}}) -> {{{classname}}} {
         {{{classname}}} {
 {{#vars}}            {{#defaultValue}}{{{name}}}: {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{{name}}}{{/defaultValue}},
 {{/vars}}
@@ -389,18 +389,21 @@ impl std::string::ToString for {{{classname}}} {
         let params: Vec<Option<String>> = vec![
 {{#vars}}
 {{#isByteArray}}
-            // Skipping {{baseName}} in query parameter serialization
+            // Skipping byte array {{baseName}} in query parameter serialization
 {{/isByteArray}}
+{{^isByteArray}}
 {{#isBinary}}
-            // Skipping {{baseName}} in query parameter serialization
+            // Skipping binary data {{baseName}} in query parameter serialization
 {{/isBinary}}
+{{^isBinary}}
 {{#isMap}}
-            // Skipping {{baseName}} in query parameter serialization
+            // Skipping map {{baseName}} in query parameter serialization
 {{/isMap}}
+{{^isMap}}
 {{^isPrimitiveType}}
-            // Skipping {{baseName}} in query parameter serialization
+            // Skipping non-primitive type {{baseName}} in query parameter serialization
 {{/isPrimitiveType}}
-{{^isByteArray}}{{^isBinary}}{{^isMap}}{{#isPrimitiveType}}
+{{#isPrimitiveType}}
 {{#required}}
             Some("{{{baseName}}}".to_string()),
 {{^isArray}}
@@ -443,7 +446,10 @@ impl std::string::ToString for {{{classname}}} {
                 ].join(",")
             }),
 {{/required}}
-{{/isPrimitiveType}}{{/isMap}}{{/isBinary}}{{/isByteArray}}
+{{/isPrimitiveType}}
+{{/isMap}}
+{{/isBinary}}
+{{/isByteArray}}
 {{/vars}}
         ];
 
