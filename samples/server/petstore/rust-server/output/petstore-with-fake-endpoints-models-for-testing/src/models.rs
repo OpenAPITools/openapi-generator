@@ -2935,7 +2935,7 @@ impl EnumArrays {
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumArraysArrayArrayEnumInnerInner {
     #[serde(rename = "Cat")]
@@ -3063,7 +3063,7 @@ impl EnumArraysArrayArrayEnumInnerInner {
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumArraysArrayEnumInner {
     #[serde(rename = "fish")]
@@ -3191,7 +3191,7 @@ impl EnumArraysArrayEnumInner {
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumArraysJustSymbol {
     #[serde(rename = ">=")]
@@ -3319,7 +3319,7 @@ impl EnumArraysJustSymbol {
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumClass {
     #[serde(rename = "_abc")]
@@ -3666,7 +3666,7 @@ impl EnumTest {
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumTestEnumInteger {
     #[serde(rename = "1")]
@@ -3794,7 +3794,7 @@ impl EnumTestEnumInteger {
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumTestEnumString {
     #[serde(rename = "UPPER")]
@@ -3926,7 +3926,7 @@ impl EnumTestEnumString {
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum FindPetsByStatusStatusParameterInner {
     #[serde(rename = "available")]
@@ -5003,7 +5003,7 @@ impl MapTest {
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum MapTestMapMapOfEnumValueValue {
     #[serde(rename = "UPPER")]
@@ -6494,7 +6494,7 @@ impl Order {
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum OrderStatus {
     #[serde(rename = "placed")]
@@ -6983,7 +6983,7 @@ impl OuterComposite {
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum OuterEnum {
     #[serde(rename = "placed")]
@@ -7630,7 +7630,7 @@ impl Pet {
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum PetStatus {
     #[serde(rename = "available")]
@@ -8333,7 +8333,7 @@ impl Tag {
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum TestEnumParametersEnumHeaderStringArrayParameterInner {
     #[serde(rename = ">")]
@@ -8461,7 +8461,7 @@ impl TestEnumParametersEnumHeaderStringArrayParameterInner {
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum TestEnumParametersEnumHeaderStringParameter {
     #[serde(rename = "_abc")]
@@ -8593,7 +8593,7 @@ impl TestEnumParametersEnumHeaderStringParameter {
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum TestEnumParametersEnumQueryDoubleParameter {
     #[serde(rename = "1.1")]
@@ -8721,7 +8721,7 @@ impl TestEnumParametersEnumQueryDoubleParameter {
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum TestEnumParametersEnumQueryIntegerParameter {
     #[serde(rename = "1")]
@@ -8850,7 +8850,7 @@ impl TestEnumParametersEnumQueryIntegerParameter {
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum TestEnumParametersRequestEnumFormString {
     #[serde(rename = "_abc")]
