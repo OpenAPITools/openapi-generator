@@ -12,6 +12,10 @@ import { HttpFile } from '../http/http{{importFileExtension}}';
 */
 {{/description}}
 {{^isEnum}}
+{{#oneOf}}
+{{#-first}}{{>model/modelOneOf}}{{/-first}}
+{{/oneOf}}
+{{^oneOf}}
 export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{#vars}}
 {{#description}}
@@ -28,6 +32,18 @@ export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
     {{^discriminator}}
     static readonly discriminator: string | undefined = undefined;
     {{/discriminator}}
+    {{#hasDiscriminatorWithNonEmptyMapping}}
+
+    static readonly mapping: {[index: string]: string} | undefined = {
+    {{#discriminator.mappedModels}}
+        "{{mappingName}}": "{{modelName}}",
+    {{/discriminator.mappedModels}}
+    };
+    {{/hasDiscriminatorWithNonEmptyMapping}}
+    {{^hasDiscriminatorWithNonEmptyMapping}}
+
+    static readonly mapping: {[index: string]: string} | undefined = undefined;
+    {{/hasDiscriminatorWithNonEmptyMapping}}
 
     {{^isArray}}
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
@@ -66,7 +82,6 @@ export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
         {{/discriminatorName}}
     }
 }
-
 {{#hasEnums}}
 
 {{#vars}}
@@ -82,6 +97,7 @@ export enum {{classname}}{{enumName}} {
 {{/vars}}
 
 {{/hasEnums}}
+{{/oneOf}}
 {{/isEnum}}
 {{#isEnum}}
 export enum {{classname}} {

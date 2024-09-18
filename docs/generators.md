@@ -89,6 +89,7 @@ The following generators are available:
 * [cpp-restbed-server-deprecated](generators/cpp-restbed-server-deprecated.md)  
 * [csharp-functions](generators/csharp-functions.md)  
 * [erlang-server](generators/erlang-server.md)  
+* [erlang-server-deprecated (deprecated)](generators/erlang-server-deprecated.md)  
 * [fsharp-functions (beta)](generators/fsharp-functions.md)  
 * [fsharp-giraffe-server (beta)](generators/fsharp-giraffe-server.md)  
 * [go-echo-server (beta)](generators/go-echo-server.md)  

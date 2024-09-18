@@ -11,6 +11,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
+
+{{/useBeanValidation}}
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -47,6 +52,79 @@ public class {{classname}} {
     }
 
     {{#operation}}
+{{#useSingleRequestParameter}}
+{{#hasParams}}
+{{#hasSingleParam}}
+// It has a single param!
+/*
+{{#allParams}}
+* {{paramName}}
+{{/allParams}}
+*/
+{{/hasSingleParam}}
+{{^hasSingleParam}}
+// It has NO single param!
+/*
+{{#allParams}}
+* {{paramName}}
+{{/allParams}}
+*/
+{{/hasSingleParam}}
+{{^hasSingleParam}}
+
+    public record {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){}
+
+    /**
+    * {{summary}}
+    * {{notes}}
+{{#responses}}     * <p><b>{{code}}</b>{{#message}} - {{.}}{{/message}}
+{{/responses}}     * @param requestParameters The {{operationId}} request parameters as object
+{{#returnType}}     * @return {{.}}
+{{/returnType}}     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+{{#externalDocs}}
+    * {{description}}
+    * @see <a href="{{url}}">{{summary}} Documentation</a>
+{{/externalDocs}}
+    */
+    public {{#returnType}}{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request requestParameters) throws RestClientResponseException {
+      {{#returnType}}return {{/returnType}}this.{{operationId}}({{#allParams}}requestParameters.{{paramName}}(){{^-last}}, {{/-last}}{{/allParams}});
+    }
+
+  /**
+  * {{summary}}
+  * {{notes}}
+{{#responses}}     * <p><b>{{code}}</b>{{#message}} - {{.}}{{/message}}
+{{/responses}}     * @param requestParameters The {{operationId}} request parameters as object
+{{#returnType}}     * @return ResponseEntity&lt;{{.}}&gt;
+{{/returnType}}     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+{{#externalDocs}}
+    * {{description}}
+    * @see <a href="{{url}}">{{summary}} Documentation</a>
+{{/externalDocs}}
+    */
+    public {{#returnType}}ResponseEntity<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>{{/returnType}}{{^returnType}}ResponseEntity<Void>{{/returnType}} {{operationId}}WithHttpInfo({{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request requestParameters) throws RestClientResponseException {
+      return this.{{operationId}}WithHttpInfo({{#allParams}}requestParameters.{{paramName}}(){{^-last}}, {{/-last}}{{/allParams}});
+    }
+
+  /**
+  * {{summary}}
+  * {{notes}}
+{{#responses}}     * <p><b>{{code}}</b>{{#message}} - {{.}}{{/message}}
+{{/responses}}     * @param requestParameters The {{operationId}} request parameters as object
+  * @return ResponseSpec
+  * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+{{#externalDocs}}
+    * {{description}}
+    * @see <a href="{{url}}">{{summary}} Documentation</a>
+{{/externalDocs}}
+    */
+    public ResponseSpec {{operationId}}WithResponseSpec({{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request requestParameters) throws RestClientResponseException {
+      return this.{{operationId}}WithResponseSpec({{#allParams}}requestParameters.{{paramName}}(){{^-last}}, {{/-last}}{{/allParams}});
+    }
+
+{{/hasSingleParam}}
+{{/hasParams}}
+{{/useSingleRequestParameter}}
     /**
      * {{summary}}
      * {{notes}}
