@@ -440,7 +440,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
                 for (final CodegenProperty property : codegenModel.readWriteVars) {
                     if (property.defaultValue == null && parentCodegenModel.discriminator != null && property.name.equals(parentCodegenModel.discriminator.getPropertyName())) {
-                        property.defaultValue = "\"" + name + "\"";
+                        if (parentCodegenModel.discriminator.getIsEnum()) {
+                            property.defaultValue = toEnumDefaultValue(property, name);
+                        } else {
+                            property.defaultValue = "\"" + name + "\"";
+                        }
                     }
                 }
 

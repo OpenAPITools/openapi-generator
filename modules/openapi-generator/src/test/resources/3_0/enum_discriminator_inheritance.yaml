@@ -1,0 +1,38 @@
+openapi: 3.0.3
+info:
+  title: Test entity with enum discriminator
+  version: v1
+paths:
+  "/event":
+    get:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Entity"
+components:
+  schemas:
+    Entity:
+      required:
+        - type
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - FOO
+            - BAR
+      description: Entity
+      discriminator:
+        propertyName: type
+        mapping:
+          FOO: "#/components/schemas/FooEntity"
+    FooEntity:
+      required:
+        - type
+      type: object
+      description: Foo entity
+      allOf:
+        - "$ref": "#/components/schemas/Entity"

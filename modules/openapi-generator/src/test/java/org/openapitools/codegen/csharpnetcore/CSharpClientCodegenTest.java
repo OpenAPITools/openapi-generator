@@ -140,4 +140,31 @@ public class CSharpClientCodegenTest {
         assertFileContains(modelFile.toPath(),
                 " Dictionary<string, ResponseResultsValue> results = default(Dictionary<string, ResponseResultsValue>");
     }
+
+    @Test
+    public void testEnumDiscriminatorDefaultValueIsNotString() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
+            "src/test/resources/3_0/enum_discriminator_inheritance.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        cSharpClientCodegen.setAutosetConstants(true);
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+      Map<String, File> files = defaultGenerator.generate().stream()
+            .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        File modelFile = files.get(Paths
+            .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "FooEntity.cs")
+            .toString()
+        );
+        assertNotNull(modelFile);
+        assertFileContains(modelFile.toPath(),
+            "public FooEntity(TypeEnum type = TypeEnum.FooEntity) : base(type)");
+    }
 }

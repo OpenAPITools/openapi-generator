@@ -2287,6 +2287,23 @@ public class JavaClientCodegenTest {
         assertNull(files.get("pom.xml"));
     }
 
+    @Test public void testEnumDiscriminatorDefaultValueIsNotString() throws IOException {
+        final Path output = newTempFolder();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
+            "src/test/resources/3_0/enum_discriminator_inheritance.yaml");
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOutputDir(output.toString());
+
+        Map<String, File> files = new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen))
+            .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File fooEntityFile = files.get("FooEntity.java");
+        assertNotNull(fooEntityFile);
+        assertThat(fooEntityFile).content()
+            .doesNotContain("this.type = this.getClass().getSimpleName();");
+        System.out.println(Files.readString(fooEntityFile.toPath()));
+    }
+
     @Test
     public void testRestTemplateHandleURIEnum() {
         String[] expectedInnerEnumLines = new String[] {

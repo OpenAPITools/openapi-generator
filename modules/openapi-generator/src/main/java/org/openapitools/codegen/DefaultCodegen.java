@@ -3270,11 +3270,11 @@ public class DefaultCodegen implements CodegenConfig {
      * @param sc             The Schema that may contain the discriminator
      * @param visitedSchemas An array list of visited schemas
      */
-    private Discriminator recursiveGetDiscriminator(Schema sc, ArrayList<Schema> visitedSchemas) {
+    private DiscriminatorAndReferenceSchema recursiveGetDiscriminator(Schema sc, ArrayList<Schema> visitedSchemas) {
         Schema refSchema = ModelUtils.getReferencedSchema(openAPI, sc);
-        Discriminator foundDisc = refSchema.getDiscriminator();
-        if (foundDisc != null) {
-            return foundDisc;
+        Discriminator foundRefDisc = refSchema.getDiscriminator();
+        if (foundRefDisc != null) {
+            return new DiscriminatorAndReferenceSchema(foundRefDisc, refSchema);
         }
 
         if (this.getLegacyDiscriminatorBehavior()) {
@@ -3288,17 +3288,15 @@ public class DefaultCodegen implements CodegenConfig {
         }
         visitedSchemas.add(refSchema);
 
-        Discriminator disc = new Discriminator();
         if (ModelUtils.isComposedSchema(refSchema)) {
             Schema composedSchema = refSchema;
             if (composedSchema.getAllOf() != null) {
                 // If our discriminator is in one of the allOf schemas break when we find it
                 for (Object allOf : composedSchema.getAllOf()) {
-                    foundDisc = recursiveGetDiscriminator((Schema) allOf, visitedSchemas);
+                    DiscriminatorAndReferenceSchema foundDisc =
+                        recursiveGetDiscriminator((Schema) allOf, visitedSchemas);
                     if (foundDisc != null) {
-                        disc.setPropertyName(foundDisc.getPropertyName());
-                        disc.setMapping(foundDisc.getMapping());
-                        return disc;
+                       return foundDisc;
                     }
                 }
             }
@@ -3307,6 +3305,7 @@ public class DefaultCodegen implements CodegenConfig {
                 Integer hasDiscriminatorCnt = 0;
                 Integer hasNullTypeCnt = 0;
                 Set<String> discriminatorsPropNames = new HashSet<>();
+                DiscriminatorAndReferenceSchema foundDisc = null;
                 for (Object oneOf : composedSchema.getOneOf()) {
                     if (ModelUtils.isNullType((Schema) oneOf)) {
                         // The null type does not have a discriminator. Skip.
@@ -3315,7 +3314,7 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                     foundDisc = recursiveGetDiscriminator((Schema) oneOf, visitedSchemas);
                     if (foundDisc != null) {
-                        discriminatorsPropNames.add(foundDisc.getPropertyName());
+                        discriminatorsPropNames.add(foundDisc.discriminator.getPropertyName());
                         hasDiscriminatorCnt++;
                     }
                 }
@@ -3324,9 +3323,7 @@ public class DefaultCodegen implements CodegenConfig {
                             "oneOf schemas must have the same property name, but found " + String.join(", ", discriminatorsPropNames));
                 }
                 if (foundDisc != null && (hasDiscriminatorCnt + hasNullTypeCnt) == composedSchema.getOneOf().size() && discriminatorsPropNames.size() == 1) {
-                    disc.setPropertyName(foundDisc.getPropertyName());
-                    disc.setMapping(foundDisc.getMapping());
-                    return disc;
+                    return foundDisc;
                 }
                 // If the scenario when oneOf has two children and one of them is the 'null' type,
                 // there is no need for a discriminator.
@@ -3336,6 +3333,7 @@ public class DefaultCodegen implements CodegenConfig {
                 Integer hasDiscriminatorCnt = 0;
                 Integer hasNullTypeCnt = 0;
                 Set<String> discriminatorsPropNames = new HashSet<>();
+                DiscriminatorAndReferenceSchema foundDisc = null;
                 for (Object anyOf : composedSchema.getAnyOf()) {
                     if (ModelUtils.isNullType((Schema) anyOf)) {
                         // The null type does not have a discriminator. Skip.
@@ -3344,7 +3342,7 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                     foundDisc = recursiveGetDiscriminator((Schema) anyOf, visitedSchemas);
                     if (foundDisc != null) {
-                        discriminatorsPropNames.add(foundDisc.getPropertyName());
+                        discriminatorsPropNames.add(foundDisc.discriminator.getPropertyName());
                         hasDiscriminatorCnt++;
                     }
                 }
@@ -3353,15 +3351,23 @@ public class DefaultCodegen implements CodegenConfig {
                             "anyOf schemas must have the same property name, but found " + String.join(", ", discriminatorsPropNames));
                 }
                 if (foundDisc != null && (hasDiscriminatorCnt + hasNullTypeCnt) == composedSchema.getAnyOf().size() && discriminatorsPropNames.size() == 1) {
-                    disc.setPropertyName(foundDisc.getPropertyName());
-                    disc.setMapping(foundDisc.getMapping());
-                    return disc;
+                    return foundDisc;
                 }
                 // If the scenario when anyOf has two children and one of them is the 'null' type,
                 // there is no need for a discriminator.
             }
         }
         return null;
+    }
+
+    private static class DiscriminatorAndReferenceSchema{
+        private final Discriminator discriminator;
+        private final Schema referenceSchema;
+
+      private DiscriminatorAndReferenceSchema(Discriminator discriminator, Schema referenceSchema) {
+        this.discriminator = discriminator;
+        this.referenceSchema = referenceSchema;
+      }
     }
 
     /**
@@ -3497,10 +3503,12 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected CodegenDiscriminator createDiscriminator(String schemaName, Schema schema) {
-        Discriminator sourceDiscriminator = recursiveGetDiscriminator(schema, new ArrayList<Schema>());
-        if (sourceDiscriminator == null) {
+        DiscriminatorAndReferenceSchema discriminatorAndReferenceSchema =
+            recursiveGetDiscriminator(schema, new ArrayList<Schema>());
+        if (discriminatorAndReferenceSchema == null) {
             return null;
         }
+        Discriminator sourceDiscriminator = discriminatorAndReferenceSchema.discriminator;
         CodegenDiscriminator discriminator = new CodegenDiscriminator();
         String discriminatorPropertyName = sourceDiscriminator.getPropertyName();
         discriminator.setPropertyName(toVarName(discriminatorPropertyName));
@@ -3524,11 +3532,14 @@ public class DefaultCodegen implements CodegenConfig {
         discriminator.setPropertyType(propertyType);
 
         // check to see if the discriminator property is an enum string
-        if (schema.getProperties() != null &&
-                schema.getProperties().get(discriminatorPropertyName) instanceof StringSchema) {
-            StringSchema s = (StringSchema) schema.getProperties().get(discriminatorPropertyName);
-            if (s.getEnum() != null && !s.getEnum().isEmpty()) { // it's an enum string
-                discriminator.setIsEnum(true);
+        // If it is not in the schema it should be in the reference schema of sourceDiscriminator.
+        for (Schema s : List.of(schema, discriminatorAndReferenceSchema.referenceSchema)) {
+            if (s.getProperties() != null &&
+                    s.getProperties().get(discriminatorPropertyName) instanceof StringSchema) {
+                s = (StringSchema) s.getProperties().get(discriminatorPropertyName);
+                if (s.getEnum() != null && !s.getEnum().isEmpty()) { // it's an enum string
+                    discriminator.setIsEnum(true);
+                }
             }
         }
 
