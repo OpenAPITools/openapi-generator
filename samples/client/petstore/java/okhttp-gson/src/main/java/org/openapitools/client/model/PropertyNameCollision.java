@@ -52,20 +52,23 @@ import org.openapitools.client.JSON;
 public class PropertyNameCollision {
   public static final String SERIALIZED_NAME_UNDERSCORE_TYPE = "_type";
   @SerializedName(SERIALIZED_NAME_UNDERSCORE_TYPE)
+  @javax.annotation.Nullable
   private String underscoreType;
 
   public static final String SERIALIZED_NAME_TYPE = "type";
   @SerializedName(SERIALIZED_NAME_TYPE)
+  @javax.annotation.Nullable
   private String type;
 
   public static final String SERIALIZED_NAME_TYPE_WITH_UNDERSCORE = "type_";
   @SerializedName(SERIALIZED_NAME_TYPE_WITH_UNDERSCORE)
+  @javax.annotation.Nullable
   private String typeWithUnderscore;
 
   public PropertyNameCollision() {
   }
 
-  public PropertyNameCollision underscoreType(String underscoreType) {
+  public PropertyNameCollision underscoreType(@javax.annotation.Nullable String underscoreType) {
     this.underscoreType = underscoreType;
     return this;
   }
@@ -79,12 +82,12 @@ public class PropertyNameCollision {
     return underscoreType;
   }
 
-  public void setUnderscoreType(String underscoreType) {
+  public void setUnderscoreType(@javax.annotation.Nullable String underscoreType) {
     this.underscoreType = underscoreType;
   }
 
 
-  public PropertyNameCollision type(String type) {
+  public PropertyNameCollision type(@javax.annotation.Nullable String type) {
     this.type = type;
     return this;
   }
@@ -98,12 +101,12 @@ public class PropertyNameCollision {
     return type;
   }
 
-  public void setType(String type) {
+  public void setType(@javax.annotation.Nullable String type) {
     this.type = type;
   }
 
 
-  public PropertyNameCollision typeWithUnderscore(String typeWithUnderscore) {
+  public PropertyNameCollision typeWithUnderscore(@javax.annotation.Nullable String typeWithUnderscore) {
     this.typeWithUnderscore = typeWithUnderscore;
     return this;
   }
@@ -117,7 +120,7 @@ public class PropertyNameCollision {
     return typeWithUnderscore;
   }
 
-  public void setTypeWithUnderscore(String typeWithUnderscore) {
+  public void setTypeWithUnderscore(@javax.annotation.Nullable String typeWithUnderscore) {
     this.typeWithUnderscore = typeWithUnderscore;
   }
 

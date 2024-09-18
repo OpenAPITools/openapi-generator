@@ -57,34 +57,42 @@ import org.openapitools.client.JSON;
 public class NewPet {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
+  @javax.annotation.Nullable
   private Long id;
 
   public static final String SERIALIZED_NAME_CATEGORY_INLINE_ALLOF = "category_inline_allof";
   @SerializedName(SERIALIZED_NAME_CATEGORY_INLINE_ALLOF)
+  @javax.annotation.Nullable
   private NewPetCategoryInlineAllof categoryInlineAllof;
 
   public static final String SERIALIZED_NAME_CATEGORY_ALL_OF_REF = "category_allOf_ref";
   @SerializedName(SERIALIZED_NAME_CATEGORY_ALL_OF_REF)
+  @javax.annotation.Nullable
   private Category categoryAllOfRef;
 
   public static final String SERIALIZED_NAME_CATEGORY_ALL_OF_REF_DESCRIPTION = "category_allOf_ref_description";
   @SerializedName(SERIALIZED_NAME_CATEGORY_ALL_OF_REF_DESCRIPTION)
+  @javax.annotation.Nullable
   private Category categoryAllOfRefDescription;
 
   public static final String SERIALIZED_NAME_CATEGORY_ALL_OF_REF_DESCRIPTION_READONLY = "category_allOf_ref_description_readonly";
   @SerializedName(SERIALIZED_NAME_CATEGORY_ALL_OF_REF_DESCRIPTION_READONLY)
+  @javax.annotation.Nullable
   private Category categoryAllOfRefDescriptionReadonly;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nonnull
   private String name;
 
   public static final String SERIALIZED_NAME_PHOTO_URLS = "photoUrls";
   @SerializedName(SERIALIZED_NAME_PHOTO_URLS)
+  @javax.annotation.Nonnull
   private List<String> photoUrls = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
+  @javax.annotation.Nullable
   private List<Tag> tags = new ArrayList<>();
 
   /**
@@ -143,6 +151,7 @@ public class NewPet {
 
   public static final String SERIALIZED_NAME_STATUS = "status";
   @SerializedName(SERIALIZED_NAME_STATUS)
+  @javax.annotation.Nullable
   private StatusEnum status;
 
   public NewPet() {
@@ -155,7 +164,7 @@ public class NewPet {
     this.categoryAllOfRefDescriptionReadonly = categoryAllOfRefDescriptionReadonly;
   }
 
-  public NewPet id(Long id) {
+  public NewPet id(@javax.annotation.Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -169,12 +178,12 @@ public class NewPet {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
 
-  public NewPet categoryInlineAllof(NewPetCategoryInlineAllof categoryInlineAllof) {
+  public NewPet categoryInlineAllof(@javax.annotation.Nullable NewPetCategoryInlineAllof categoryInlineAllof) {
     this.categoryInlineAllof = categoryInlineAllof;
     return this;
   }
@@ -188,12 +197,12 @@ public class NewPet {
     return categoryInlineAllof;
   }
 
-  public void setCategoryInlineAllof(NewPetCategoryInlineAllof categoryInlineAllof) {
+  public void setCategoryInlineAllof(@javax.annotation.Nullable NewPetCategoryInlineAllof categoryInlineAllof) {
     this.categoryInlineAllof = categoryInlineAllof;
   }
 
 
-  public NewPet categoryAllOfRef(Category categoryAllOfRef) {
+  public NewPet categoryAllOfRef(@javax.annotation.Nullable Category categoryAllOfRef) {
     this.categoryAllOfRef = categoryAllOfRef;
     return this;
   }
@@ -207,12 +216,12 @@ public class NewPet {
     return categoryAllOfRef;
   }
 
-  public void setCategoryAllOfRef(Category categoryAllOfRef) {
+  public void setCategoryAllOfRef(@javax.annotation.Nullable Category categoryAllOfRef) {
     this.categoryAllOfRef = categoryAllOfRef;
   }
 
 
-  public NewPet categoryAllOfRefDescription(Category categoryAllOfRefDescription) {
+  public NewPet categoryAllOfRefDescription(@javax.annotation.Nullable Category categoryAllOfRefDescription) {
     this.categoryAllOfRefDescription = categoryAllOfRefDescription;
     return this;
   }
@@ -226,7 +235,7 @@ public class NewPet {
     return categoryAllOfRefDescription;
   }
 
-  public void setCategoryAllOfRefDescription(Category categoryAllOfRefDescription) {
+  public void setCategoryAllOfRefDescription(@javax.annotation.Nullable Category categoryAllOfRefDescription) {
     this.categoryAllOfRefDescription = categoryAllOfRefDescription;
   }
 
@@ -242,7 +251,7 @@ public class NewPet {
 
 
 
-  public NewPet name(String name) {
+  public NewPet name(@javax.annotation.Nonnull String name) {
     this.name = name;
     return this;
   }
@@ -256,12 +265,12 @@ public class NewPet {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nonnull String name) {
     this.name = name;
   }
 
 
-  public NewPet photoUrls(List<String> photoUrls) {
+  public NewPet photoUrls(@javax.annotation.Nonnull List<String> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
@@ -283,12 +292,12 @@ public class NewPet {
     return photoUrls;
   }
 
-  public void setPhotoUrls(List<String> photoUrls) {
+  public void setPhotoUrls(@javax.annotation.Nonnull List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
 
-  public NewPet tags(List<Tag> tags) {
+  public NewPet tags(@javax.annotation.Nullable List<Tag> tags) {
     this.tags = tags;
     return this;
   }
@@ -310,12 +319,12 @@ public class NewPet {
     return tags;
   }
 
-  public void setTags(List<Tag> tags) {
+  public void setTags(@javax.annotation.Nullable List<Tag> tags) {
     this.tags = tags;
   }
 
 
-  public NewPet status(StatusEnum status) {
+  public NewPet status(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
     return this;
   }
@@ -329,7 +338,7 @@ public class NewPet {
     return status;
   }
 
-  public void setStatus(StatusEnum status) {
+  public void setStatus(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
   }
 

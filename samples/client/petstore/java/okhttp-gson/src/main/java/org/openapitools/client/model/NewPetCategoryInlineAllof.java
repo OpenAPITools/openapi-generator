@@ -53,20 +53,23 @@ import org.openapitools.client.JSON;
 public class NewPetCategoryInlineAllof {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
+  @javax.annotation.Nullable
   private Long id;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nonnull
   private String name = "default-name";
 
   public static final String SERIALIZED_NAME_CATEGORY_TAG = "category_tag";
   @SerializedName(SERIALIZED_NAME_CATEGORY_TAG)
+  @javax.annotation.Nullable
   private NewPetCategoryInlineAllofAllOfCategoryTag categoryTag;
 
   public NewPetCategoryInlineAllof() {
   }
 
-  public NewPetCategoryInlineAllof id(Long id) {
+  public NewPetCategoryInlineAllof id(@javax.annotation.Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -80,12 +83,12 @@ public class NewPetCategoryInlineAllof {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
 
-  public NewPetCategoryInlineAllof name(String name) {
+  public NewPetCategoryInlineAllof name(@javax.annotation.Nonnull String name) {
     this.name = name;
     return this;
   }
@@ -99,12 +102,12 @@ public class NewPetCategoryInlineAllof {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nonnull String name) {
     this.name = name;
   }
 
 
-  public NewPetCategoryInlineAllof categoryTag(NewPetCategoryInlineAllofAllOfCategoryTag categoryTag) {
+  public NewPetCategoryInlineAllof categoryTag(@javax.annotation.Nullable NewPetCategoryInlineAllofAllOfCategoryTag categoryTag) {
     this.categoryTag = categoryTag;
     return this;
   }
@@ -118,7 +121,7 @@ public class NewPetCategoryInlineAllof {
     return categoryTag;
   }
 
-  public void setCategoryTag(NewPetCategoryInlineAllofAllOfCategoryTag categoryTag) {
+  public void setCategoryTag(@javax.annotation.Nullable NewPetCategoryInlineAllofAllOfCategoryTag categoryTag) {
     this.categoryTag = categoryTag;
   }
 

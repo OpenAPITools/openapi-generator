@@ -48,12 +48,13 @@ import org.openapitools.client.JSON;
 
 public class Parent {
   public static final String JSON_PROPERTY_OBJECT_TYPE = "objectType";
+  @javax.annotation.Nullable
   private String objectType;
 
   public Parent() { 
   }
 
-  public Parent objectType(String objectType) {
+  public Parent objectType(@javax.annotation.Nullable String objectType) {
     this.objectType = objectType;
     return this;
   }
@@ -73,7 +74,7 @@ public class Parent {
 
   @JsonProperty(JSON_PROPERTY_OBJECT_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setObjectType(String objectType) {
+  public void setObjectType(@javax.annotation.Nullable String objectType) {
     this.objectType = objectType;
   }
 

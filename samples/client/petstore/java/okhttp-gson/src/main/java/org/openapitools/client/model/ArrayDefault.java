@@ -54,16 +54,18 @@ import org.openapitools.client.JSON;
 public class ArrayDefault {
   public static final String SERIALIZED_NAME_WITH_DEFAULT_EMPTY_BRACKET = "WithDefaultEmptyBracket";
   @SerializedName(SERIALIZED_NAME_WITH_DEFAULT_EMPTY_BRACKET)
+  @javax.annotation.Nullable
   private List<String> withDefaultEmptyBracket = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_WITHOUT_DEFAULT = "WithoutDefault";
   @SerializedName(SERIALIZED_NAME_WITHOUT_DEFAULT)
+  @javax.annotation.Nullable
   private List<String> withoutDefault = new ArrayList<>();
 
   public ArrayDefault() {
   }
 
-  public ArrayDefault withDefaultEmptyBracket(List<String> withDefaultEmptyBracket) {
+  public ArrayDefault withDefaultEmptyBracket(@javax.annotation.Nullable List<String> withDefaultEmptyBracket) {
     this.withDefaultEmptyBracket = withDefaultEmptyBracket;
     return this;
   }
@@ -85,12 +87,12 @@ public class ArrayDefault {
     return withDefaultEmptyBracket;
   }
 
-  public void setWithDefaultEmptyBracket(List<String> withDefaultEmptyBracket) {
+  public void setWithDefaultEmptyBracket(@javax.annotation.Nullable List<String> withDefaultEmptyBracket) {
     this.withDefaultEmptyBracket = withDefaultEmptyBracket;
   }
 
 
-  public ArrayDefault withoutDefault(List<String> withoutDefault) {
+  public ArrayDefault withoutDefault(@javax.annotation.Nullable List<String> withoutDefault) {
     this.withoutDefault = withoutDefault;
     return this;
   }
@@ -112,7 +114,7 @@ public class ArrayDefault {
     return withoutDefault;
   }
 
-  public void setWithoutDefault(List<String> withoutDefault) {
+  public void setWithoutDefault(@javax.annotation.Nullable List<String> withoutDefault) {
     this.withoutDefault = withoutDefault;
   }
 

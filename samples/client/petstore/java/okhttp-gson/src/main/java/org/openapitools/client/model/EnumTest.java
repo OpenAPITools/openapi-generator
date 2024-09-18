@@ -111,6 +111,7 @@ public class EnumTest {
 
   public static final String SERIALIZED_NAME_ENUM_STRING = "enum_string";
   @SerializedName(SERIALIZED_NAME_ENUM_STRING)
+  @javax.annotation.Nullable
   private EnumStringEnum enumString;
 
   /**
@@ -169,6 +170,7 @@ public class EnumTest {
 
   public static final String SERIALIZED_NAME_ENUM_STRING_REQUIRED = "enum_string_required";
   @SerializedName(SERIALIZED_NAME_ENUM_STRING_REQUIRED)
+  @javax.annotation.Nonnull
   private EnumStringRequiredEnum enumStringRequired;
 
   /**
@@ -225,6 +227,7 @@ public class EnumTest {
 
   public static final String SERIALIZED_NAME_ENUM_INTEGER = "enum_integer";
   @SerializedName(SERIALIZED_NAME_ENUM_INTEGER)
+  @javax.annotation.Nullable
   private EnumIntegerEnum enumInteger;
 
   /**
@@ -281,6 +284,7 @@ public class EnumTest {
 
   public static final String SERIALIZED_NAME_ENUM_INTEGER_ONLY = "enum_integer_only";
   @SerializedName(SERIALIZED_NAME_ENUM_INTEGER_ONLY)
+  @javax.annotation.Nullable
   private EnumIntegerOnlyEnum enumIntegerOnly;
 
   /**
@@ -337,28 +341,33 @@ public class EnumTest {
 
   public static final String SERIALIZED_NAME_ENUM_NUMBER = "enum_number";
   @SerializedName(SERIALIZED_NAME_ENUM_NUMBER)
+  @javax.annotation.Nullable
   private EnumNumberEnum enumNumber;
 
   public static final String SERIALIZED_NAME_OUTER_ENUM = "outerEnum";
   @SerializedName(SERIALIZED_NAME_OUTER_ENUM)
+  @javax.annotation.Nullable
   private OuterEnum outerEnum;
 
   public static final String SERIALIZED_NAME_OUTER_ENUM_INTEGER = "outerEnumInteger";
   @SerializedName(SERIALIZED_NAME_OUTER_ENUM_INTEGER)
+  @javax.annotation.Nullable
   private OuterEnumInteger outerEnumInteger;
 
   public static final String SERIALIZED_NAME_OUTER_ENUM_DEFAULT_VALUE = "outerEnumDefaultValue";
   @SerializedName(SERIALIZED_NAME_OUTER_ENUM_DEFAULT_VALUE)
+  @javax.annotation.Nullable
   private OuterEnumDefaultValue outerEnumDefaultValue = OuterEnumDefaultValue.PLACED;
 
   public static final String SERIALIZED_NAME_OUTER_ENUM_INTEGER_DEFAULT_VALUE = "outerEnumIntegerDefaultValue";
   @SerializedName(SERIALIZED_NAME_OUTER_ENUM_INTEGER_DEFAULT_VALUE)
+  @javax.annotation.Nullable
   private OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue.NUMBER_0;
 
   public EnumTest() {
   }
 
-  public EnumTest enumString(EnumStringEnum enumString) {
+  public EnumTest enumString(@javax.annotation.Nullable EnumStringEnum enumString) {
     this.enumString = enumString;
     return this;
   }
@@ -372,12 +381,12 @@ public class EnumTest {
     return enumString;
   }
 
-  public void setEnumString(EnumStringEnum enumString) {
+  public void setEnumString(@javax.annotation.Nullable EnumStringEnum enumString) {
     this.enumString = enumString;
   }
 
 
-  public EnumTest enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
+  public EnumTest enumStringRequired(@javax.annotation.Nonnull EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
     return this;
   }
@@ -391,12 +400,12 @@ public class EnumTest {
     return enumStringRequired;
   }
 
-  public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
+  public void setEnumStringRequired(@javax.annotation.Nonnull EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
   }
 
 
-  public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
+  public EnumTest enumInteger(@javax.annotation.Nullable EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
     return this;
   }
@@ -410,12 +419,12 @@ public class EnumTest {
     return enumInteger;
   }
 
-  public void setEnumInteger(EnumIntegerEnum enumInteger) {
+  public void setEnumInteger(@javax.annotation.Nullable EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
   }
 
 
-  public EnumTest enumIntegerOnly(EnumIntegerOnlyEnum enumIntegerOnly) {
+  public EnumTest enumIntegerOnly(@javax.annotation.Nullable EnumIntegerOnlyEnum enumIntegerOnly) {
     this.enumIntegerOnly = enumIntegerOnly;
     return this;
   }
@@ -429,12 +438,12 @@ public class EnumTest {
     return enumIntegerOnly;
   }
 
-  public void setEnumIntegerOnly(EnumIntegerOnlyEnum enumIntegerOnly) {
+  public void setEnumIntegerOnly(@javax.annotation.Nullable EnumIntegerOnlyEnum enumIntegerOnly) {
     this.enumIntegerOnly = enumIntegerOnly;
   }
 
 
-  public EnumTest enumNumber(EnumNumberEnum enumNumber) {
+  public EnumTest enumNumber(@javax.annotation.Nullable EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
     return this;
   }
@@ -448,12 +457,12 @@ public class EnumTest {
     return enumNumber;
   }
 
-  public void setEnumNumber(EnumNumberEnum enumNumber) {
+  public void setEnumNumber(@javax.annotation.Nullable EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
   }
 
 
-  public EnumTest outerEnum(OuterEnum outerEnum) {
+  public EnumTest outerEnum(@javax.annotation.Nullable OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
     return this;
   }
@@ -467,12 +476,12 @@ public class EnumTest {
     return outerEnum;
   }
 
-  public void setOuterEnum(OuterEnum outerEnum) {
+  public void setOuterEnum(@javax.annotation.Nullable OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
   }
 
 
-  public EnumTest outerEnumInteger(OuterEnumInteger outerEnumInteger) {
+  public EnumTest outerEnumInteger(@javax.annotation.Nullable OuterEnumInteger outerEnumInteger) {
     this.outerEnumInteger = outerEnumInteger;
     return this;
   }
@@ -486,12 +495,12 @@ public class EnumTest {
     return outerEnumInteger;
   }
 
-  public void setOuterEnumInteger(OuterEnumInteger outerEnumInteger) {
+  public void setOuterEnumInteger(@javax.annotation.Nullable OuterEnumInteger outerEnumInteger) {
     this.outerEnumInteger = outerEnumInteger;
   }
 
 
-  public EnumTest outerEnumDefaultValue(OuterEnumDefaultValue outerEnumDefaultValue) {
+  public EnumTest outerEnumDefaultValue(@javax.annotation.Nullable OuterEnumDefaultValue outerEnumDefaultValue) {
     this.outerEnumDefaultValue = outerEnumDefaultValue;
     return this;
   }
@@ -505,12 +514,12 @@ public class EnumTest {
     return outerEnumDefaultValue;
   }
 
-  public void setOuterEnumDefaultValue(OuterEnumDefaultValue outerEnumDefaultValue) {
+  public void setOuterEnumDefaultValue(@javax.annotation.Nullable OuterEnumDefaultValue outerEnumDefaultValue) {
     this.outerEnumDefaultValue = outerEnumDefaultValue;
   }
 
 
-  public EnumTest outerEnumIntegerDefaultValue(OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
+  public EnumTest outerEnumIntegerDefaultValue(@javax.annotation.Nullable OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
     this.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
     return this;
   }
@@ -524,7 +533,7 @@ public class EnumTest {
     return outerEnumIntegerDefaultValue;
   }
 
-  public void setOuterEnumIntegerDefaultValue(OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
+  public void setOuterEnumIntegerDefaultValue(@javax.annotation.Nullable OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
     this.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
   }
 

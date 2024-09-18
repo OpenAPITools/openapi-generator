@@ -55,6 +55,7 @@ import org.openapitools.client.JSON;
 public class Dog extends Animal implements Parcelable {
   public static final String SERIALIZED_NAME_BREED = "breed";
   @SerializedName(SERIALIZED_NAME_BREED)
+  @javax.annotation.Nullable
   private String breed;
 
   public Dog() {
@@ -62,7 +63,7 @@ public class Dog extends Animal implements Parcelable {
     this.className = this.getClass().getSimpleName();
   }
 
-  public Dog breed(String breed) {
+  public Dog breed(@javax.annotation.Nullable String breed) {
     this.breed = breed;
     return this;
   }
@@ -76,7 +77,7 @@ public class Dog extends Animal implements Parcelable {
     return breed;
   }
 
-  public void setBreed(String breed) {
+  public void setBreed(@javax.annotation.Nullable String breed) {
     this.breed = breed;
   }
 

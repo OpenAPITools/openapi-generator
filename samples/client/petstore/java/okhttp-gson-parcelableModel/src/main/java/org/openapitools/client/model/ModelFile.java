@@ -54,12 +54,13 @@ import org.openapitools.client.JSON;
 public class ModelFile implements Parcelable {
   public static final String SERIALIZED_NAME_SOURCE_U_R_I = "sourceURI";
   @SerializedName(SERIALIZED_NAME_SOURCE_U_R_I)
+  @javax.annotation.Nullable
   private String sourceURI;
 
   public ModelFile() {
   }
 
-  public ModelFile sourceURI(String sourceURI) {
+  public ModelFile sourceURI(@javax.annotation.Nullable String sourceURI) {
     this.sourceURI = sourceURI;
     return this;
   }
@@ -73,7 +74,7 @@ public class ModelFile implements Parcelable {
     return sourceURI;
   }
 
-  public void setSourceURI(String sourceURI) {
+  public void setSourceURI(@javax.annotation.Nullable String sourceURI) {
     this.sourceURI = sourceURI;
   }
 

@@ -83,15 +83,17 @@ public class ParentWithNullable {
   }
 
   public static final String JSON_PROPERTY_TYPE = "type";
+  @jakarta.annotation.Nullable
   protected TypeEnum type;
 
   public static final String JSON_PROPERTY_NULLABLE_PROPERTY = "nullableProperty";
+  @jakarta.annotation.Nullable
   protected JsonNullable<String> nullableProperty = JsonNullable.<String>undefined();
 
   public ParentWithNullable() {
   }
 
-  public ParentWithNullable type(TypeEnum type) {
+  public ParentWithNullable type(@jakarta.annotation.Nullable TypeEnum type) {
     
     this.type = type;
     return this;
@@ -113,11 +115,11 @@ public class ParentWithNullable {
 
   @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setType(TypeEnum type) {
+  public void setType(@jakarta.annotation.Nullable TypeEnum type) {
     this.type = type;
   }
 
-  public ParentWithNullable nullableProperty(String nullableProperty) {
+  public ParentWithNullable nullableProperty(@jakarta.annotation.Nullable String nullableProperty) {
     this.nullableProperty = JsonNullable.<String>of(nullableProperty);
     
     return this;
@@ -147,7 +149,7 @@ public class ParentWithNullable {
     this.nullableProperty = nullableProperty;
   }
 
-  public void setNullableProperty(String nullableProperty) {
+  public void setNullableProperty(@jakarta.annotation.Nullable String nullableProperty) {
     this.nullableProperty = JsonNullable.<String>of(nullableProperty);
   }
 

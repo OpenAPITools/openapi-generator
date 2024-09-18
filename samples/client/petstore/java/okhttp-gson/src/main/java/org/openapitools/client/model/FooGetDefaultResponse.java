@@ -53,12 +53,13 @@ import org.openapitools.client.JSON;
 public class FooGetDefaultResponse {
   public static final String SERIALIZED_NAME_STRING = "string";
   @SerializedName(SERIALIZED_NAME_STRING)
+  @javax.annotation.Nullable
   private Foo string;
 
   public FooGetDefaultResponse() {
   }
 
-  public FooGetDefaultResponse string(Foo string) {
+  public FooGetDefaultResponse string(@javax.annotation.Nullable Foo string) {
     this.string = string;
     return this;
   }
@@ -72,7 +73,7 @@ public class FooGetDefaultResponse {
     return string;
   }
 
-  public void setString(Foo string) {
+  public void setString(@javax.annotation.Nullable Foo string) {
     this.string = string;
   }
 

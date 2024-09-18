@@ -56,22 +56,27 @@ import org.openapitools.client.JSON;
 public class PetComposition {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
+  @javax.annotation.Nullable
   private Long id;
 
   public static final String SERIALIZED_NAME_CATEGORY = "category";
   @SerializedName(SERIALIZED_NAME_CATEGORY)
+  @javax.annotation.Nullable
   private Category category;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nonnull
   private String name;
 
   public static final String SERIALIZED_NAME_PHOTO_URLS = "photoUrls";
   @SerializedName(SERIALIZED_NAME_PHOTO_URLS)
+  @javax.annotation.Nonnull
   private List<String> photoUrls = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
+  @javax.annotation.Nullable
   private List<Tag> tags = new ArrayList<>();
 
   /**
@@ -130,12 +135,13 @@ public class PetComposition {
 
   public static final String SERIALIZED_NAME_STATUS = "status";
   @SerializedName(SERIALIZED_NAME_STATUS)
+  @javax.annotation.Nullable
   private StatusEnum status;
 
   public PetComposition() {
   }
 
-  public PetComposition id(Long id) {
+  public PetComposition id(@javax.annotation.Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -149,12 +155,12 @@ public class PetComposition {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
 
-  public PetComposition category(Category category) {
+  public PetComposition category(@javax.annotation.Nullable Category category) {
     this.category = category;
     return this;
   }
@@ -168,12 +174,12 @@ public class PetComposition {
     return category;
   }
 
-  public void setCategory(Category category) {
+  public void setCategory(@javax.annotation.Nullable Category category) {
     this.category = category;
   }
 
 
-  public PetComposition name(String name) {
+  public PetComposition name(@javax.annotation.Nonnull String name) {
     this.name = name;
     return this;
   }
@@ -187,12 +193,12 @@ public class PetComposition {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nonnull String name) {
     this.name = name;
   }
 
 
-  public PetComposition photoUrls(List<String> photoUrls) {
+  public PetComposition photoUrls(@javax.annotation.Nonnull List<String> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
@@ -214,12 +220,12 @@ public class PetComposition {
     return photoUrls;
   }
 
-  public void setPhotoUrls(List<String> photoUrls) {
+  public void setPhotoUrls(@javax.annotation.Nonnull List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
 
-  public PetComposition tags(List<Tag> tags) {
+  public PetComposition tags(@javax.annotation.Nullable List<Tag> tags) {
     this.tags = tags;
     return this;
   }
@@ -241,12 +247,12 @@ public class PetComposition {
     return tags;
   }
 
-  public void setTags(List<Tag> tags) {
+  public void setTags(@javax.annotation.Nullable List<Tag> tags) {
     this.tags = tags;
   }
 
 
-  public PetComposition status(StatusEnum status) {
+  public PetComposition status(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
     return this;
   }
@@ -260,7 +266,7 @@ public class PetComposition {
     return status;
   }
 
-  public void setStatus(StatusEnum status) {
+  public void setStatus(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
   }
 

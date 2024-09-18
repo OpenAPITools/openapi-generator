@@ -32,13 +32,14 @@ import java.util.Map;
 public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nullable
   private String name;
 
   public AdditionalPropertiesNumber() {
 
   }
 
-  public AdditionalPropertiesNumber name(String name) {
+  public AdditionalPropertiesNumber name(@javax.annotation.Nullable String name) {
     
     this.name = name;
     return this;
@@ -55,7 +56,7 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   }
 
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
 

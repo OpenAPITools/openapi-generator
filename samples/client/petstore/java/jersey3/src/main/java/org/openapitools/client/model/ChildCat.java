@@ -54,15 +54,17 @@ import org.openapitools.client.JSON;
 
 public class ChildCat extends ParentPet {
   public static final String JSON_PROPERTY_NAME = "name";
+  @jakarta.annotation.Nullable
   private String name;
 
   public static final String JSON_PROPERTY_PET_TYPE = "pet_type";
+  @jakarta.annotation.Nullable
   private String petType = "ChildCat";
 
   public ChildCat() { 
   }
 
-  public ChildCat name(String name) {
+  public ChildCat name(@jakarta.annotation.Nullable String name) {
     this.name = name;
     return this;
   }
@@ -83,7 +85,7 @@ public class ChildCat extends ParentPet {
 
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setName(String name) {
+  public void setName(@jakarta.annotation.Nullable String name) {
     this.name = name;
   }
 
@@ -92,7 +94,7 @@ public class ChildCat extends ParentPet {
     "ChildCat"
   ));
 
-  public ChildCat petType(String petType) {
+  public ChildCat petType(@jakarta.annotation.Nullable String petType) {
     if (!PET_TYPE_VALUES.contains(petType)) {
       throw new IllegalArgumentException(petType + " is invalid. Possible values for petType: " + String.join(", ", PET_TYPE_VALUES));
     }
@@ -117,7 +119,7 @@ public class ChildCat extends ParentPet {
 
   @JsonProperty(JSON_PROPERTY_PET_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPetType(String petType) {
+  public void setPetType(@jakarta.annotation.Nullable String petType) {
     if (!PET_TYPE_VALUES.contains(petType)) {
       throw new IllegalArgumentException(petType + " is invalid. Possible values for petType: " + String.join(", ", PET_TYPE_VALUES));
     }

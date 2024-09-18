@@ -29,16 +29,18 @@ import java.io.IOException;
 public class Tag {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
+  @javax.annotation.Nullable
   private Long id;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nullable
   private String name;
 
   public Tag() {
   }
 
-  public Tag id(Long id) {
+  public Tag id(@javax.annotation.Nullable Long id) {
     
     this.id = id;
     return this;
@@ -55,12 +57,12 @@ public class Tag {
   }
 
 
-  public void setId(Long id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
 
-  public Tag name(String name) {
+  public Tag name(@javax.annotation.Nullable String name) {
     
     this.name = name;
     return this;
@@ -77,7 +79,7 @@ public class Tag {
   }
 
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
 

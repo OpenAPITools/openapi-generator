@@ -34,13 +34,14 @@ import org.hibernate.validator.constraints.*;
 public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nullable
   private String name;
 
   public AdditionalPropertiesBoolean() {
 
   }
 
-  public AdditionalPropertiesBoolean name(String name) {
+  public AdditionalPropertiesBoolean name(@javax.annotation.Nullable String name) {
     
     this.name = name;
     return this;
@@ -58,7 +59,7 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
   }
 
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
 

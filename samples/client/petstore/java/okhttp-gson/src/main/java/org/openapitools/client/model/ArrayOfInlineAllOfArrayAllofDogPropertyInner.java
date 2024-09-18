@@ -52,16 +52,18 @@ import org.openapitools.client.JSON;
 public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
   public static final String SERIALIZED_NAME_BREED = "breed";
   @SerializedName(SERIALIZED_NAME_BREED)
+  @javax.annotation.Nullable
   private String breed;
 
   public static final String SERIALIZED_NAME_COLOR = "color";
   @SerializedName(SERIALIZED_NAME_COLOR)
+  @javax.annotation.Nullable
   private String color;
 
   public ArrayOfInlineAllOfArrayAllofDogPropertyInner() {
   }
 
-  public ArrayOfInlineAllOfArrayAllofDogPropertyInner breed(String breed) {
+  public ArrayOfInlineAllOfArrayAllofDogPropertyInner breed(@javax.annotation.Nullable String breed) {
     this.breed = breed;
     return this;
   }
@@ -75,12 +77,12 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
     return breed;
   }
 
-  public void setBreed(String breed) {
+  public void setBreed(@javax.annotation.Nullable String breed) {
     this.breed = breed;
   }
 
 
-  public ArrayOfInlineAllOfArrayAllofDogPropertyInner color(String color) {
+  public ArrayOfInlineAllOfArrayAllofDogPropertyInner color(@javax.annotation.Nullable String color) {
     this.color = color;
     return this;
   }
@@ -94,7 +96,7 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
     return color;
   }
 
-  public void setColor(String color) {
+  public void setColor(@javax.annotation.Nullable String color) {
     this.color = color;
   }
 

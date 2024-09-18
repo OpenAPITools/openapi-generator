@@ -55,20 +55,23 @@ import org.openapitools.client.JSON;
 public class ArrayOfInlineAllOf {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
+  @javax.annotation.Nullable
   private Long id;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nonnull
   private String name;
 
   public static final String SERIALIZED_NAME_ARRAY_ALLOF_DOG_PROPERTY = "array_allof_dog_property";
   @SerializedName(SERIALIZED_NAME_ARRAY_ALLOF_DOG_PROPERTY)
+  @javax.annotation.Nullable
   private List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> arrayAllofDogProperty = new ArrayList<>();
 
   public ArrayOfInlineAllOf() {
   }
 
-  public ArrayOfInlineAllOf id(Long id) {
+  public ArrayOfInlineAllOf id(@javax.annotation.Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -82,12 +85,12 @@ public class ArrayOfInlineAllOf {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
 
-  public ArrayOfInlineAllOf name(String name) {
+  public ArrayOfInlineAllOf name(@javax.annotation.Nonnull String name) {
     this.name = name;
     return this;
   }
@@ -101,12 +104,12 @@ public class ArrayOfInlineAllOf {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nonnull String name) {
     this.name = name;
   }
 
 
-  public ArrayOfInlineAllOf arrayAllofDogProperty(List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> arrayAllofDogProperty) {
+  public ArrayOfInlineAllOf arrayAllofDogProperty(@javax.annotation.Nullable List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> arrayAllofDogProperty) {
     this.arrayAllofDogProperty = arrayAllofDogProperty;
     return this;
   }
@@ -128,7 +131,7 @@ public class ArrayOfInlineAllOf {
     return arrayAllofDogProperty;
   }
 
-  public void setArrayAllofDogProperty(List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> arrayAllofDogProperty) {
+  public void setArrayAllofDogProperty(@javax.annotation.Nullable List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> arrayAllofDogProperty) {
     this.arrayAllofDogProperty = arrayAllofDogProperty;
   }
 

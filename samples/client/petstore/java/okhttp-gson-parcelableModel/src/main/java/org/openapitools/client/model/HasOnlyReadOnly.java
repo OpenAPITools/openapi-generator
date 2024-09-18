@@ -54,10 +54,12 @@ import org.openapitools.client.JSON;
 public class HasOnlyReadOnly implements Parcelable {
   public static final String SERIALIZED_NAME_BAR = "bar";
   @SerializedName(SERIALIZED_NAME_BAR)
+  @javax.annotation.Nullable
   private String bar;
 
   public static final String SERIALIZED_NAME_FOO = "foo";
   @SerializedName(SERIALIZED_NAME_FOO)
+  @javax.annotation.Nullable
   private String foo;
 
   public HasOnlyReadOnly() {

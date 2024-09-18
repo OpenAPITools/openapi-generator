@@ -50,15 +50,17 @@ import org.hibernate.validator.constraints.*;
 
 public class Animal {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
+  @javax.annotation.Nonnull
   protected String className;
 
   public static final String JSON_PROPERTY_COLOR = "color";
+  @javax.annotation.Nullable
   protected String color = "red";
 
   public Animal() {
   }
 
-  public Animal className(String className) {
+  public Animal className(@javax.annotation.Nonnull String className) {
     
     this.className = className;
     return this;
@@ -81,11 +83,11 @@ public class Animal {
 
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setClassName(String className) {
+  public void setClassName(@javax.annotation.Nonnull String className) {
     this.className = className;
   }
 
-  public Animal color(String color) {
+  public Animal color(@javax.annotation.Nullable String color) {
     
     this.color = color;
     return this;
@@ -107,7 +109,7 @@ public class Animal {
 
   @JsonProperty(JSON_PROPERTY_COLOR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setColor(String color) {
+  public void setColor(@javax.annotation.Nullable String color) {
     this.color = color;
   }
 

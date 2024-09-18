@@ -37,64 +37,78 @@ import org.hibernate.validator.constraints.*;
 public class FormatTest {
   public static final String SERIALIZED_NAME_INTEGER = "integer";
   @SerializedName(SERIALIZED_NAME_INTEGER)
+  @javax.annotation.Nullable
   private Integer integer;
 
   public static final String SERIALIZED_NAME_INT32 = "int32";
   @SerializedName(SERIALIZED_NAME_INT32)
+  @javax.annotation.Nullable
   private Integer int32;
 
   public static final String SERIALIZED_NAME_INT64 = "int64";
   @SerializedName(SERIALIZED_NAME_INT64)
+  @javax.annotation.Nullable
   private Long int64;
 
   public static final String SERIALIZED_NAME_NUMBER = "number";
   @SerializedName(SERIALIZED_NAME_NUMBER)
+  @javax.annotation.Nonnull
   private BigDecimal number;
 
   public static final String SERIALIZED_NAME_FLOAT = "float";
   @SerializedName(SERIALIZED_NAME_FLOAT)
+  @javax.annotation.Nullable
   private Float _float;
 
   public static final String SERIALIZED_NAME_DOUBLE = "double";
   @SerializedName(SERIALIZED_NAME_DOUBLE)
+  @javax.annotation.Nullable
   private Double _double;
 
   public static final String SERIALIZED_NAME_STRING = "string";
   @SerializedName(SERIALIZED_NAME_STRING)
+  @javax.annotation.Nullable
   private String string;
 
   public static final String SERIALIZED_NAME_BYTE = "byte";
   @SerializedName(SERIALIZED_NAME_BYTE)
+  @javax.annotation.Nonnull
   private byte[] _byte;
 
   public static final String SERIALIZED_NAME_BINARY = "binary";
   @SerializedName(SERIALIZED_NAME_BINARY)
+  @javax.annotation.Nullable
   private File binary;
 
   public static final String SERIALIZED_NAME_DATE = "date";
   @SerializedName(SERIALIZED_NAME_DATE)
+  @javax.annotation.Nonnull
   private LocalDate date;
 
   public static final String SERIALIZED_NAME_DATE_TIME = "dateTime";
   @SerializedName(SERIALIZED_NAME_DATE_TIME)
+  @javax.annotation.Nullable
   private OffsetDateTime dateTime;
 
   public static final String SERIALIZED_NAME_UUID = "uuid";
   @SerializedName(SERIALIZED_NAME_UUID)
+  @javax.annotation.Nullable
   private UUID uuid;
 
   public static final String SERIALIZED_NAME_PASSWORD = "password";
   @SerializedName(SERIALIZED_NAME_PASSWORD)
+  @javax.annotation.Nonnull
   private String password;
 
   public static final String SERIALIZED_NAME_BIG_DECIMAL = "BigDecimal";
   @SerializedName(SERIALIZED_NAME_BIG_DECIMAL)
+  @javax.annotation.Nullable
   private BigDecimal bigDecimal;
 
   public FormatTest() {
   }
 
-  public FormatTest integer(Integer integer) {
+  public FormatTest integer(@javax.annotation.Nullable Integer integer) {
     
     this.integer = integer;
     return this;
@@ -114,11 +128,11 @@ public class FormatTest {
   }
 
 
-  public void setInteger(Integer integer) {
+  public void setInteger(@javax.annotation.Nullable Integer integer) {
     this.integer = integer;
   }
 
-  public FormatTest int32(Integer int32) {
+  public FormatTest int32(@javax.annotation.Nullable Integer int32) {
     
     this.int32 = int32;
     return this;
@@ -138,11 +152,11 @@ public class FormatTest {
   }
 
 
-  public void setInt32(Integer int32) {
+  public void setInt32(@javax.annotation.Nullable Integer int32) {
     this.int32 = int32;
   }
 
-  public FormatTest int64(Long int64) {
+  public FormatTest int64(@javax.annotation.Nullable Long int64) {
     
     this.int64 = int64;
     return this;
@@ -160,11 +174,11 @@ public class FormatTest {
   }
 
 
-  public void setInt64(Long int64) {
+  public void setInt64(@javax.annotation.Nullable Long int64) {
     this.int64 = int64;
   }
 
-  public FormatTest number(BigDecimal number) {
+  public FormatTest number(@javax.annotation.Nonnull BigDecimal number) {
     
     this.number = number;
     return this;
@@ -186,11 +200,11 @@ public class FormatTest {
   }
 
 
-  public void setNumber(BigDecimal number) {
+  public void setNumber(@javax.annotation.Nonnull BigDecimal number) {
     this.number = number;
   }
 
-  public FormatTest _float(Float _float) {
+  public FormatTest _float(@javax.annotation.Nullable Float _float) {
     
     this._float = _float;
     return this;
@@ -210,11 +224,11 @@ public class FormatTest {
   }
 
 
-  public void setFloat(Float _float) {
+  public void setFloat(@javax.annotation.Nullable Float _float) {
     this._float = _float;
   }
 
-  public FormatTest _double(Double _double) {
+  public FormatTest _double(@javax.annotation.Nullable Double _double) {
     
     this._double = _double;
     return this;
@@ -234,11 +248,11 @@ public class FormatTest {
   }
 
 
-  public void setDouble(Double _double) {
+  public void setDouble(@javax.annotation.Nullable Double _double) {
     this._double = _double;
   }
 
-  public FormatTest string(String string) {
+  public FormatTest string(@javax.annotation.Nullable String string) {
     
     this.string = string;
     return this;
@@ -256,11 +270,11 @@ public class FormatTest {
   }
 
 
-  public void setString(String string) {
+  public void setString(@javax.annotation.Nullable String string) {
     this.string = string;
   }
 
-  public FormatTest _byte(byte[] _byte) {
+  public FormatTest _byte(@javax.annotation.Nonnull byte[] _byte) {
     
     this._byte = _byte;
     return this;
@@ -279,11 +293,11 @@ public class FormatTest {
   }
 
 
-  public void setByte(byte[] _byte) {
+  public void setByte(@javax.annotation.Nonnull byte[] _byte) {
     this._byte = _byte;
   }
 
-  public FormatTest binary(File binary) {
+  public FormatTest binary(@javax.annotation.Nullable File binary) {
     
     this.binary = binary;
     return this;
@@ -302,11 +316,11 @@ public class FormatTest {
   }
 
 
-  public void setBinary(File binary) {
+  public void setBinary(@javax.annotation.Nullable File binary) {
     this.binary = binary;
   }
 
-  public FormatTest date(LocalDate date) {
+  public FormatTest date(@javax.annotation.Nonnull LocalDate date) {
     
     this.date = date;
     return this;
@@ -326,11 +340,11 @@ public class FormatTest {
   }
 
 
-  public void setDate(LocalDate date) {
+  public void setDate(@javax.annotation.Nonnull LocalDate date) {
     this.date = date;
   }
 
-  public FormatTest dateTime(OffsetDateTime dateTime) {
+  public FormatTest dateTime(@javax.annotation.Nullable OffsetDateTime dateTime) {
     
     this.dateTime = dateTime;
     return this;
@@ -349,11 +363,11 @@ public class FormatTest {
   }
 
 
-  public void setDateTime(OffsetDateTime dateTime) {
+  public void setDateTime(@javax.annotation.Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 
-  public FormatTest uuid(UUID uuid) {
+  public FormatTest uuid(@javax.annotation.Nullable UUID uuid) {
     
     this.uuid = uuid;
     return this;
@@ -372,11 +386,11 @@ public class FormatTest {
   }
 
 
-  public void setUuid(UUID uuid) {
+  public void setUuid(@javax.annotation.Nullable UUID uuid) {
     this.uuid = uuid;
   }
 
-  public FormatTest password(String password) {
+  public FormatTest password(@javax.annotation.Nonnull String password) {
     
     this.password = password;
     return this;
@@ -395,11 +409,11 @@ public class FormatTest {
   }
 
 
-  public void setPassword(String password) {
+  public void setPassword(@javax.annotation.Nonnull String password) {
     this.password = password;
   }
 
-  public FormatTest bigDecimal(BigDecimal bigDecimal) {
+  public FormatTest bigDecimal(@javax.annotation.Nullable BigDecimal bigDecimal) {
     
     this.bigDecimal = bigDecimal;
     return this;
@@ -418,7 +432,7 @@ public class FormatTest {
   }
 
 
-  public void setBigDecimal(BigDecimal bigDecimal) {
+  public void setBigDecimal(@javax.annotation.Nullable BigDecimal bigDecimal) {
     this.bigDecimal = bigDecimal;
   }
 
