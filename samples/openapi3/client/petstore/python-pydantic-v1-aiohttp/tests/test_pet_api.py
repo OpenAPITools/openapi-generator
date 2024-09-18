@@ -12,24 +12,20 @@ $ pytest -vv
 import os
 import unittest
 import asyncio
-import pytest
 
 import petstore_api
 from petstore_api import Configuration
 from petstore_api.rest import ApiException
 
-from .util import id_gen, async_test
+from .util import id_gen
 
 import json
-
-import urllib3
 
 HOST = 'http://localhost:80/v2'
 
 
-class TestPetApiTests(unittest.TestCase):
-
-    def setUp(self):
+class TestPetApiTests(unittest.IsolatedAsyncioTestCase):
+    async def asyncSetUp(self):
         config = Configuration()
         config.host = HOST
 
@@ -37,6 +33,9 @@ class TestPetApiTests(unittest.TestCase):
         self.pet_api = petstore_api.PetApi(self.api_client)
         self.setUpModels()
         self.setUpFiles()
+
+    async def asyncTearDown(self):
+        await self.api_client.close()
 
     def setUpModels(self):
         self.category = petstore_api.Category(id=id_gen(), name="dog")
@@ -56,17 +55,16 @@ class TestPetApiTests(unittest.TestCase):
         self.test_file_dir = os.path.realpath(self.test_file_dir)
         self.foo = os.path.join(self.test_file_dir, "foo.png")
 
-    def test_separate_default_client_instances(self):
+    async def test_separate_default_client_instances(self):
         pet_api = petstore_api.PetApi()
         pet_api2 = petstore_api.PetApi()
         self.assertEqual(id(pet_api.api_client), id(pet_api2.api_client))
 
-    def test_separate_default_config_instances(self):
+    async def test_separate_default_config_instances(self):
         pet_api = petstore_api.PetApi()
         pet_api2 = petstore_api.PetApi()
         self.assertEqual(id(pet_api.api_client.configuration), id(pet_api2.api_client.configuration))
 
-    @async_test
     async def test_async_with_result(self):
         await self.pet_api.add_pet(self.pet)
 
@@ -83,7 +81,6 @@ class TestPetApiTests(unittest.TestCase):
             self.assertEqual(response.id, self.pet.id)
         self.assertEqual(len(responses), 2)
 
-    @async_test
     async def test_exception(self):
         await self.pet_api.add_pet(self.pet)
 
@@ -95,7 +92,6 @@ class TestPetApiTests(unittest.TestCase):
         self.assertIsInstance(exception, ApiException)
         self.assertEqual(exception.status, 404)
 
-    @async_test
     async def test_add_pet_and_get_pet_by_id(self):
         await self.pet_api.add_pet(self.pet)
 
@@ -105,7 +101,6 @@ class TestPetApiTests(unittest.TestCase):
         self.assertIsNotNone(fetched.category)
         self.assertEqual(self.pet.category.name, fetched.category.name)
 
-    @async_test
     async def test_add_pet_and_get_pet_by_id_with_http_info(self):
         await self.pet_api.add_pet(self.pet)
 
@@ -115,7 +110,6 @@ class TestPetApiTests(unittest.TestCase):
         self.assertIsNotNone(fetched.data.category)
         self.assertEqual(self.pet.category.name, fetched.data.category.name)
 
-    @async_test
     async def test_update_pet(self):
         self.pet.name = "hello kity with updated"
         await self.pet_api.update_pet(self.pet)
@@ -127,7 +121,6 @@ class TestPetApiTests(unittest.TestCase):
         self.assertIsNotNone(fetched.category)
         self.assertEqual(fetched.category.name, self.pet.category.name)
 
-    @async_test
     async def test_find_pets_by_status(self):
         await self.pet_api.add_pet(self.pet)
         pets = await self.pet_api.find_pets_by_status(status=[self.pet.status])
@@ -136,7 +129,6 @@ class TestPetApiTests(unittest.TestCase):
             list(map(lambda x: getattr(x, 'id'), pets))
         )
 
-    @async_test
     async def test_find_pets_by_tags(self):
         await self.pet_api.add_pet(self.pet)
         pets = await self.pet_api.find_pets_by_tags(tags=[self.tag.name])
@@ -145,7 +137,6 @@ class TestPetApiTests(unittest.TestCase):
             list(map(lambda x: getattr(x, 'id'), pets))
         )
 
-    @async_test
     async def test_update_pet_with_form(self):
         await self.pet_api.add_pet(self.pet)
 
@@ -158,7 +149,6 @@ class TestPetApiTests(unittest.TestCase):
         self.assertEqual(name, fetched.name)
         self.assertEqual(status, fetched.status)
 
-    @async_test
     async def test_upload_file(self):
         # upload file with form parameter
         try:
@@ -177,7 +167,6 @@ class TestPetApiTests(unittest.TestCase):
         except ApiException as e:
             self.fail("upload_file() raised {0} unexpectedly".format(type(e)))
 
-    @async_test
     async def test_delete_pet(self):
         await self.pet_api.add_pet(self.pet)
         await self.pet_api.delete_pet(pet_id=self.pet.id, api_key="special-key")
@@ -188,7 +177,6 @@ class TestPetApiTests(unittest.TestCase):
         except ApiException as e:
             self.assertEqual(404, e.status)
 
-    @async_test
     async def test_proxy(self):
         config = Configuration()
         # set not-existent proxy and catch an error to verify that
