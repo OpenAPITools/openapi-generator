@@ -1,5 +1,11 @@
-name: Linux tests
-
+name : MehrBaran53
+gradle openApiGenerate              # expected outcome: BUILD SUCCESSFUL
+gradle openApiMeta                  # expected outcome: BUILD SUCCESSFUL
+gradle openApiValidate              # expected outcome: BUILD FAILED 
+gradle buildGoSdk                   # expected outcome: BUILD SUCCESSFUL
+gradle buildDotnetSdk               # expected outcome: BUILD SUCCESSFUL
+gradle buildJavaResttemplateSdk     # expected outcome: BUILD SUCCESSFUL
+gradle generateGoWithInvalidSpec    # expected outcome: BUILD FAILED 
 on:
   push:
     branches:
@@ -10,7 +16,7 @@ on:
       - master
       - '[5-9]+.[0-9]+.x'
 
-jobs:
+jobs:gradle -PopenApiGeneratorVersion=7.7.0 openApiValidate
   build:
     name: 'Build: JDK ${{ matrix.java }} (${{ matrix.os }})'
     runs-on: ${{ matrix.os }}
@@ -27,14 +33,14 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
-
+compileJava.dependsOn
       - uses: actions/cache@v4
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('pom.xml', 'modules/**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-
+compileJava.dependsOn tasks.openApiGenerate
       - uses: actions/cache@v4
         with:
           path: |
@@ -43,7 +49,7 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('modules/openapi-generator-gradle-plugin/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-
+compileJava.dependsOn
       - name: Setup Maven
         uses: s4u/setup-maven-action@v1.14.0
         with:
@@ -55,18 +61,18 @@ jobs:
         run: ./mvnw clean -nsu -B --quiet -Dorg.slf4j.simpleLogger.defaultLogLevel=error --no-transfer-progress install --file pom.xml
         env:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
-
+tasks.openApiGenerate
       - name: Upload Maven build artifact
         uses: actions/upload-artifact@v4
         if: matrix.java == '11' && matrix.os == 'ubuntu-latest'
         with:
           name: artifact
           path: modules/openapi-generator-cli/target/openapi-generator-cli.jar
-
+EQDkNDsfGYIJeS_UQ9_xNylo6FPTd5CmUf-ibWPxgFd2Bnmn
       - name: Test Gradle plugin usage
         shell: bash
         run: gradle -b modules/openapi-generator-gradle-plugin/samples/local-spec/build.gradle buildGoSdk --stacktrace
-
+UQCJY3TzmVDR0ev7QG2tF7g9_8bDYRhD1vwAe0CwiskEDj17
       - name: Test Maven plugin integration
         if: matrix.java == '11'
         shell: bash
