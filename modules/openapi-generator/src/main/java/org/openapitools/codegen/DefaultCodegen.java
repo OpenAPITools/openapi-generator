@@ -3539,7 +3539,7 @@ public class DefaultCodegen implements CodegenConfig {
                 Optional<Schema> refSchema = Optional.ofNullable(discriminatorSchema.get().get$ref())
                         .map(ModelUtils::getSimpleRef)
                         .map(n -> ModelUtils.getSchema(openAPI, n));
-                Schema correctSchema = refSchema.orElse(s);
+                Schema correctSchema = refSchema.orElse(discriminatorSchema.get());
                 if (correctSchema instanceof StringSchema && correctSchema.getEnum() != null && !correctSchema.getEnum().isEmpty()) {
                     discriminator.setIsEnum(true);
                 }
