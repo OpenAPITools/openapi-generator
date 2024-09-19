@@ -115,15 +115,21 @@ public final class RequestTask {
     private var task: URLSessionDataTaskProtocol?
 
     internal func set(task: URLSessionDataTaskProtocol) {
-        lock.lock()
-        defer { lock.unlock() }
-        self.task = task
+        lock.withLock {
+            self.task = task
+        }
+    }
+
+    internal func get() -> URLSessionDataTaskProtocol? {
+        lock.withLock {
+            task
+        }
     }
 
     public func cancel() {
-        lock.lock()
-        defer { lock.unlock() }
-        task?.cancel()
-        task = nil
+        lock.withLock {
+            task?.cancel()
+            task = nil
+        }
     }
 }

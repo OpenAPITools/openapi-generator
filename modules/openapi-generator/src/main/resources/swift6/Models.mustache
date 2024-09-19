@@ -117,32 +117,44 @@ extension NullEncodable: Codable where Wrapped: Codable {
     private var request: Request?
 
     internal func set(request: Request) {
-        lock.lock()
-        defer { lock.unlock() }
-        self.request = request
+        lock.withLock {
+            self.request = request
+        }
+    }
+
+    internal func get() -> Request? {
+        lock.withLock {
+            request
+        }
     }
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func cancel() {
-        lock.lock()
-        defer { lock.unlock() }
-        request?.cancel()
-        request = nil
+        lock.withLock {
+            request?.cancel()
+            request = nil
+        }
     }
 {{/useAlamofire}}
 {{^useAlamofire}}
     private var task: URLSessionDataTaskProtocol?
 
     internal func set(task: URLSessionDataTaskProtocol) {
-        lock.lock()
-        defer { lock.unlock() }
-        self.task = task
+        lock.withLock {
+            self.task = task
+        }
+    }
+
+    internal func get() -> URLSessionDataTaskProtocol? {
+        lock.withLock {
+            task
+        }
     }
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func cancel() {
-        lock.lock()
-        defer { lock.unlock() }
-        task?.cancel()
-        task = nil
+        lock.withLock {
+            task?.cancel()
+            task = nil
+        }
     }
 {{/useAlamofire}}
 }

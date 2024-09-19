@@ -16,7 +16,7 @@ open class PetstoreClientAPI {
     public static var apiResponseQueue: DispatchQueue = .main
 }
 
-open class RequestBuilder<T> {
+open class RequestBuilder<T>: @unchecked Sendable {
     var credential: URLCredential?
     var headers: [String: String]
     public let parameters: [String: Any]?
@@ -45,32 +45,41 @@ open class RequestBuilder<T> {
     }
 
     @discardableResult
-    open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+    open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         return requestTask
     }
 
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     @discardableResult
-    open func execute() async throws -> Response<T> {
-        return try await withTaskCancellationHandler {
-            try Task.checkCancellation()
-            return try await withCheckedThrowingContinuation { continuation in
-                guard !Task.isCancelled else {
-                  continuation.resume(throwing: CancellationError())
-                  return
-                }
+    open func execute() async throws(ErrorResponse) -> Response<T> {
+        do {
+            let requestTask = self.requestTask
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                      continuation.resume(throwing: CancellationError())
+                      return
+                    }
 
-                self.execute { result in
-                    switch result {
-                    case let .success(response):
-                        continuation.resume(returning: response)
-                    case let .failure(error):
-                        continuation.resume(throwing: error)
+                    self.execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
                     }
                 }
+            } onCancel: {
+                requestTask.cancel()
             }
-        } onCancel: {
-            self.requestTask.cancel()
+        } catch {
+            if let errorResponse = error as? ErrorResponse {
+                throw errorResponse
+            } else {
+                throw ErrorResponse.error(-3, nil, nil, error)
+            }
         }
     }
     

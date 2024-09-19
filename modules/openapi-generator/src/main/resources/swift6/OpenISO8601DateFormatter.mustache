@@ -8,7 +8,7 @@
 import Foundation
 
 // https://stackoverflow.com/a/50281094/976628
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} class OpenISO8601DateFormatter: DateFormatter {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} class OpenISO8601DateFormatter: DateFormatter, @unchecked Sendable {
     static let withoutSeconds: DateFormatter = {
         let formatter = DateFormatter()
         formatter.calendar = Calendar(identifier: .iso8601)

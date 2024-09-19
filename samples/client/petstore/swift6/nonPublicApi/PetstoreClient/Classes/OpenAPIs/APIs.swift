@@ -16,7 +16,7 @@ internal class PetstoreClientAPI {
     internal static var apiResponseQueue: DispatchQueue = .main
 }
 
-internal class RequestBuilder<T> {
+internal class RequestBuilder<T>: @unchecked Sendable {
     var credential: URLCredential?
     var headers: [String: String]
     internal let parameters: [String: Any]?
@@ -45,7 +45,7 @@ internal class RequestBuilder<T> {
     }
 
     @discardableResult
-    internal func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+    internal func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         return requestTask
     }
 

@@ -16,7 +16,7 @@ open class PetstoreClientAPI {
     public static var apiResponseQueue: DispatchQueue = .main
 }
 
-open class RequestBuilder<T> {
+open class RequestBuilder<T>: @unchecked Sendable {
     var credential: URLCredential?
     var headers: [String: String]
     public let parameters: [String: Any]?
@@ -45,7 +45,7 @@ open class RequestBuilder<T> {
     }
 
     @discardableResult
-    open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+    open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         return requestTask
     }
 

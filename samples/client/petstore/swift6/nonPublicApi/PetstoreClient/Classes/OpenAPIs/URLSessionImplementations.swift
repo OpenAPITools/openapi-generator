@@ -28,12 +28,12 @@ internal protocol URLSessionDataTaskProtocol {
 internal protocol URLSessionProtocol {
     // Task which performs the network fetch. Expected to be from URLSession.dataTask(with:completionHandler:) such that a network request
     // is sent off when `.resume()` is called.
-    func dataTaskFromProtocol(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskProtocol
+    func dataTaskFromProtocol(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, URLResponse?, (any Error)?) -> Void) -> URLSessionDataTaskProtocol
 }
 
 extension URLSession: URLSessionProtocol {
   // Passthrough to URLSession.dataTask(with:completionHandler) since URLSessionDataTask conforms to URLSessionDataTaskProtocol and fetches the network data.
-  internal func dataTaskFromProtocol(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, URLResponse?, (any Error)?) -> Void) -> any URLSessionDataTaskProtocol {
+  internal func dataTaskFromProtocol(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, URLResponse?, (any Error)?) -> Void) -> URLSessionDataTaskProtocol {
     return dataTask(with: request, completionHandler: completionHandler)
   }
 }
@@ -64,7 +64,7 @@ private var challengeHandlerStore = SynchronizedDictionary<Int, PetstoreClientAP
 // Store current URLCredential for every URLSessionTask
 private var credentialStore = SynchronizedDictionary<Int, URLCredential>()
 
-internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
+internal class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
 
     /**
      May be assigned if you want to control the authentication challenges.
@@ -118,7 +118,7 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
     }
 
     @discardableResult
-    override internal func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+    override internal func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         let urlSession = createURLSession()
 
         guard let xMethod = HTTPMethod(rawValue: method) else {
@@ -150,30 +150,21 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         do {
             let request = try createURLRequest(urlSession: urlSession, method: xMethod, encoding: encoding, headers: headers)
 
-            var taskIdentifier: Int?
-             let cleanupRequest = {
-                 if let taskIdentifier = taskIdentifier {
-                     challengeHandlerStore[taskIdentifier] = nil
-                     credentialStore[taskIdentifier] = nil
-                 }
-             }
-
             let dataTask = urlSession.dataTaskFromProtocol(with: request) { data, response, error in
                 apiResponseQueue.async {
                     self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
-                    cleanupRequest()
+                    self.cleanupRequest()
                 }
             }
 
             onProgressReady?(dataTask.progress)
 
-            taskIdentifier = dataTask.taskIdentifier
             challengeHandlerStore[dataTask.taskIdentifier] = taskDidReceiveChallenge
             credentialStore[dataTask.taskIdentifier] = credential
 
-            dataTask.resume()
-
             requestTask.set(task: dataTask)
+
+            dataTask.resume()
         } catch {
             apiResponseQueue.async {
                 completion(.failure(ErrorResponse.error(415, nil, nil, error)))
@@ -181,6 +172,13 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         }
 
         return requestTask
+    }
+
+    private func cleanupRequest() {
+        if let task = requestTask.get() {
+            challengeHandlerStore[task.taskIdentifier] = nil
+            credentialStore[task.taskIdentifier] = nil
+        }
     }
 
     fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
@@ -275,7 +273,7 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
 }
 
-internal class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBuilder<T> {
+internal class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBuilder<T>, @unchecked Sendable {
     override fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
 
         if let error = error {
