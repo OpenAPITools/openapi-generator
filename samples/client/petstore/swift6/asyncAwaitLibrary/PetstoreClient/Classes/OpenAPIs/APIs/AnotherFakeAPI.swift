@@ -19,7 +19,7 @@ open class AnotherFakeAPI {
      - returns: Client
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func call123testSpecialTags(body: Client) async throws -> Client {
+    open class func call123testSpecialTags(body: Client) async throws(ErrorResponse) -> Client {
         return try await call123testSpecialTagsWithRequestBuilder(body: body).execute().body
     }
 

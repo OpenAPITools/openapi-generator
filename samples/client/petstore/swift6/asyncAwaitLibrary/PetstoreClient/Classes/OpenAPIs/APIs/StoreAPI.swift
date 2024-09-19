@@ -19,7 +19,7 @@ open class StoreAPI {
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteOrder(orderId: String) async throws {
+    open class func deleteOrder(orderId: String) async throws(ErrorResponse) {
         return try await deleteOrderWithRequestBuilder(orderId: orderId).execute().body
     }
 
@@ -57,7 +57,7 @@ open class StoreAPI {
      - returns: [String: Int]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getInventory() async throws -> [String: Int] {
+    open class func getInventory() async throws(ErrorResponse) -> [String: Int] {
         return try await getInventoryWithRequestBuilder().execute().body
     }
 
@@ -95,7 +95,7 @@ open class StoreAPI {
      - returns: Order
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getOrderById(orderId: Int64) async throws -> Order {
+    open class func getOrderById(orderId: Int64) async throws(ErrorResponse) -> Order {
         return try await getOrderByIdWithRequestBuilder(orderId: orderId).execute().body
     }
 
@@ -134,7 +134,7 @@ open class StoreAPI {
      - returns: Order
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func placeOrder(body: Order) async throws -> Order {
+    open class func placeOrder(body: Order) async throws(ErrorResponse) -> Order {
         return try await placeOrderWithRequestBuilder(body: body).execute().body
     }
 

@@ -19,7 +19,7 @@ open class PetAPI {
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func addPet(body: Pet) async throws {
+    open class func addPet(body: Pet) async throws(ErrorResponse) {
         return try await addPetWithRequestBuilder(body: body).execute().body
     }
 
@@ -61,7 +61,7 @@ open class PetAPI {
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deletePet(petId: Int64, apiKey: String? = nil) async throws {
+    open class func deletePet(petId: Int64, apiKey: String? = nil) async throws(ErrorResponse) {
         return try await deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute().body
     }
 
@@ -112,7 +112,7 @@ open class PetAPI {
      - returns: [Pet]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func findPetsByStatus(status: [Status_findPetsByStatus]) async throws -> [Pet] {
+    open class func findPetsByStatus(status: [Status_findPetsByStatus]) async throws(ErrorResponse) -> [Pet] {
         return try await findPetsByStatusWithRequestBuilder(status: status).execute().body
     }
 
@@ -155,7 +155,7 @@ open class PetAPI {
      */
     @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func findPetsByTags(tags: [String]) async throws -> [Pet] {
+    open class func findPetsByTags(tags: [String]) async throws(ErrorResponse) -> [Pet] {
         return try await findPetsByTagsWithRequestBuilder(tags: tags).execute().body
     }
 
@@ -198,7 +198,7 @@ open class PetAPI {
      - returns: Pet
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getPetById(petId: Int64) async throws -> Pet {
+    open class func getPetById(petId: Int64) async throws(ErrorResponse) -> Pet {
         return try await getPetByIdWithRequestBuilder(petId: petId).execute().body
     }
 
@@ -240,7 +240,7 @@ open class PetAPI {
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func updatePet(body: Pet) async throws {
+    open class func updatePet(body: Pet) async throws(ErrorResponse) {
         return try await updatePetWithRequestBuilder(body: body).execute().body
     }
 
@@ -280,7 +280,7 @@ open class PetAPI {
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil) async throws {
+    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil) async throws(ErrorResponse) {
         return try await updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute().body
     }
 
@@ -331,7 +331,7 @@ open class PetAPI {
      - returns: ApiResponse
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil) async throws -> ApiResponse {
+    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil) async throws(ErrorResponse) -> ApiResponse {
         return try await uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute().body
     }
 
@@ -382,7 +382,7 @@ open class PetAPI {
      - returns: ApiResponse
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil) async throws -> ApiResponse {
+    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil) async throws(ErrorResponse) -> ApiResponse {
         return try await uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute().body
     }
 

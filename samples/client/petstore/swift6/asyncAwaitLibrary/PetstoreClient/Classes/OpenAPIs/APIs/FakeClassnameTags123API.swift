@@ -19,7 +19,7 @@ open class FakeClassnameTags123API {
      - returns: Client
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func testClassname(body: Client) async throws -> Client {
+    open class func testClassname(body: Client) async throws(ErrorResponse) -> Client {
         return try await testClassnameWithRequestBuilder(body: body).execute().body
     }
 
