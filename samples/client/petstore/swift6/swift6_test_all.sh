@@ -15,8 +15,10 @@ DIRECTORY=`dirname $0`
 # spm build
 (cd $DIRECTORY/alamofireLibrary/ && ./run_spmbuild.sh)
 (cd $DIRECTORY/anycodableLibrary/ && ./run_spmbuild.sh)
+(cd $DIRECTORY/apiNonStaticMethod/ && ./run_spmbuild.sh)
 (cd $DIRECTORY/asyncAwaitLibrary/ && ./run_spmbuild.sh)
 (cd $DIRECTORY/combineLibrary/ && ./run_spmbuild.sh)
+(cd $DIRECTORY/combineDeferredLibrary/ && ./run_spmbuild.sh)
 (cd $DIRECTORY/default/ && ./run_spmbuild.sh)
 (cd $DIRECTORY/deprecated/ && ./run_spmbuild.sh)
 (cd $DIRECTORY/frozenEnums/ && ./run_spmbuild.sh)

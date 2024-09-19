@@ -75,6 +75,8 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String MAP_FILE_BINARY_TO_DATA = "mapFileBinaryToData";
     public static final String USE_CUSTOM_DATE_WITHOUT_TIME = "useCustomDateWithoutTime";
     public static final String VALIDATABLE = "validatable";
+    public static final String API_STATIC_METHOD = "apiStaticMethod";
+    public static final String COMBINE_DEFERRED = "combineDeferred";
     protected static final String LIBRARY_ALAMOFIRE = "alamofire";
     protected static final String LIBRARY_URLSESSION = "urlsession";
     protected static final String LIBRARY_VAPOR = "vapor";
@@ -118,6 +120,10 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean useCustomDateWithoutTime = false;
     @Setter
     protected boolean validatable = true;
+    @Setter
+    protected boolean apiStaticMethod = true;
+    @Setter
+    protected boolean combineDeferred = true;
     @Setter
     protected String[] responseAs = new String[0];
     protected String sourceFolder = swiftPackagePath;
@@ -344,6 +350,14 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                 "Make validation rules and validator for model properies (default: true)")
                 .defaultValue(Boolean.TRUE.toString()));
 
+        cliOptions.add(new CliOption(API_STATIC_METHOD,
+                "Make api calls using a static method (default: true)")
+                .defaultValue(Boolean.TRUE.toString()));
+
+        cliOptions.add(new CliOption(COMBINE_DEFERRED,
+                "Make combine usages deferred (default: true)")
+                .defaultValue(Boolean.TRUE.toString()));
+
         supportedLibraries.put(LIBRARY_URLSESSION, "[DEFAULT] HTTP client: URLSession");
         supportedLibraries.put(LIBRARY_ALAMOFIRE, "HTTP client: Alamofire");
         supportedLibraries.put(LIBRARY_VAPOR, "HTTP client: Vapor");
@@ -568,6 +582,16 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
             setValidatable(convertPropertyToBooleanAndWriteBack(VALIDATABLE));
         }
         additionalProperties.put(VALIDATABLE, validatable);
+
+        if (additionalProperties.containsKey(API_STATIC_METHOD)) {
+            setApiStaticMethod(convertPropertyToBooleanAndWriteBack(API_STATIC_METHOD));
+        }
+        additionalProperties.put(API_STATIC_METHOD, apiStaticMethod);
+
+        if (additionalProperties.containsKey(COMBINE_DEFERRED)) {
+            setCombineDeferred(convertPropertyToBooleanAndWriteBack(COMBINE_DEFERRED));
+        }
+        additionalProperties.put(COMBINE_DEFERRED, combineDeferred);
 
         setLenientTypeCast(convertPropertyToBooleanAndWriteBack(LENIENT_TYPE_CAST));
 

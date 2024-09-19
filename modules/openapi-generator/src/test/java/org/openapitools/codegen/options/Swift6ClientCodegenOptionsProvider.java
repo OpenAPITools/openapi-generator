@@ -56,6 +56,8 @@ public class Swift6ClientCodegenOptionsProvider implements OptionsProvider {
     public static final String USE_SPM_FILE_STRUCTURE_VALUE = "false";
     public static final String SWIFT_PACKAGE_PATH_VALUE = "";
     public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
+    public static final String API_STATIC_METHOD_VALUE = "true";
+    public static final String COMBINE_DEFERRED_VALUE = "true";
 
     @Override
     public String getLanguage() {
@@ -103,6 +105,10 @@ public class Swift6ClientCodegenOptionsProvider implements OptionsProvider {
                 .put(Swift6ClientCodegen.USE_CUSTOM_DATE_WITHOUT_TIME, "false")
                 .put(Swift6ClientCodegen.VALIDATABLE, "true")
                 .put(Swift6ClientCodegen.USE_CLASSES, "false")
+                .put(Swift6ClientCodegen.API_STATIC_METHOD, 
+                        API_STATIC_METHOD_VALUE)
+                .put(Swift6ClientCodegen.COMBINE_DEFERRED, 
+                        COMBINE_DEFERRED_VALUE)
                 .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
                 .build();
     }
