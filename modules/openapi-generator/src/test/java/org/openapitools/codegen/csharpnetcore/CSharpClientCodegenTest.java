@@ -160,11 +160,10 @@ public class CSharpClientCodegenTest {
             .collect(Collectors.toMap(File::getPath, Function.identity()));
 
         File modelFile = files.get(Paths
-            .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "FooEntity.cs")
+            .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "Cat.cs")
             .toString()
         );
         assertNotNull(modelFile);
-        assertFileContains(modelFile.toPath(),
-            "public FooEntity(TypeEnum type = TypeEnum.FooEntity) : base(type)");
+        assertFileContains(modelFile.toPath(), "AnimalType petType = AnimalType.Cat");
     }
 }

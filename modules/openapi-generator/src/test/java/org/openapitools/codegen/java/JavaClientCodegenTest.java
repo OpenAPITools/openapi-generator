@@ -2297,10 +2297,10 @@ public class JavaClientCodegenTest {
         Map<String, File> files = new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen))
             .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
 
-        File fooEntityFile = files.get("FooEntity.java");
+        File fooEntityFile = files.get("Cat.java");
         assertNotNull(fooEntityFile);
         assertThat(fooEntityFile).content()
-            .doesNotContain("this.type = this.getClass().getSimpleName();");
+            .doesNotContain("this.petType = this.getClass().getSimpleName();");
     }
 
     @Test

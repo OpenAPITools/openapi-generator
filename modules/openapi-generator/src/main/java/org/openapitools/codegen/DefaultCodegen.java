@@ -3534,10 +3534,13 @@ public class DefaultCodegen implements CodegenConfig {
         // check to see if the discriminator property is an enum string
         // If it is not in the schema it should be in the reference schema of sourceDiscriminator.
         for (Schema s : List.of(schema, discriminatorAndReferenceSchema.referenceSchema)) {
-            if (s.getProperties() != null &&
-                    s.getProperties().get(discriminatorPropertyName) instanceof StringSchema) {
-                s = (StringSchema) s.getProperties().get(discriminatorPropertyName);
-                if (s.getEnum() != null && !s.getEnum().isEmpty()) { // it's an enum string
+            Optional<Schema> discriminatorSchema = Optional.ofNullable(s.getProperties()).map(p -> (Schema) p.get(discriminatorPropertyName));
+            if (discriminatorSchema.isPresent()) {
+                Optional<Schema> refSchema = Optional.ofNullable(discriminatorSchema.get().get$ref())
+                        .map(ModelUtils::getSimpleRef)
+                        .map(n -> ModelUtils.getSchema(openAPI, n));
+                Schema correctSchema = refSchema.orElse(s);
+                if (correctSchema instanceof StringSchema && correctSchema.getEnum() != null && !correctSchema.getEnum().isEmpty()) {
                     discriminator.setIsEnum(true);
                 }
             }
