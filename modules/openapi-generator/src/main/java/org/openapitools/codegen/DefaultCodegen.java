@@ -445,6 +445,11 @@ public class DefaultCodegen implements CodegenConfig {
         additionalProperties.put("lambda", lambdas);
     }
 
+    /**
+     * Create a codegen model map for the given model for the given request/response variant codegen model
+     *
+     * @param cm Codegen model for the new request/response variant
+     */
     @SuppressWarnings({"static-method"})
     public ModelsMap createModelForVariant(CodegenModel cm) {
         // We need to force this not to be an alias, as we need to provide some way
@@ -459,6 +464,12 @@ public class DefaultCodegen implements CodegenConfig {
         return modelsMap;
     }
 
+    /**
+     * Handle generation of request/response variant models for the given paths.
+     *
+     * @param items Paths to generate for
+     * @param objs Models map to update
+     */
     public void generateVariantModelsForPathItems(Map<String, PathItem> items, Map<String, ModelsMap> objs) {
        if (items != null) {
             for (Map.Entry<String, PathItem> e : items.entrySet()) {
@@ -469,6 +480,14 @@ public class DefaultCodegen implements CodegenConfig {
        }
     }
 
+    /**
+     * Handle generation of request/response variant models for the given operation
+     *
+     * @param method Method to handle
+     * @param op Operation to handle
+     * @param key Operation key to handle
+     * @param objs Models map to update
+     */
     public void generateVariantModelsForOperation(PathItem.HttpMethod method, Operation op, String key, Map<String, ModelsMap> objs) {
         if (supportsMultipleRequestTypes || supportsMultipleResponseTypes) {
             String opId = getOrGenerateOperationId(op, key, method.toString());
@@ -4901,6 +4920,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Convert OAS Response object to Codegen Response object
      *
+     * @param opId         Operation ID
      * @param responseCode HTTP response code
      * @param response     OAS Response object
      * @return Codegen Response object

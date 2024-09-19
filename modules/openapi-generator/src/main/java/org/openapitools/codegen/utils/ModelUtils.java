@@ -1293,6 +1293,25 @@ public class ModelUtils {
         return entry.getValue();
     }
 
+    /**
+     * Return the schemas from a specified OAS 'content' section.
+     * <p>
+     * For example, given the following OAS, this method returns the XYZ and WXY schemas,
+     * indexed by "application/json" and "application/xml" respectively.
+     * <p>
+     * responses:
+     *   '200':
+     *     content:
+     *       application/json:
+     *         schema:
+     *           $ref: '#/components/schemas/XYZ'
+     *       application/xml:
+     *         schema:
+     *           $ref: '#/components/schemas/WXY'
+     *
+     * @param content a 'content' section in the OAS specification.
+     * @return the schemas, indexed by content type.
+     */
     private static Map<String, Schema> getSchemasFromContent(Content content) {
         if (content == null || content.isEmpty()) {
             return null;
