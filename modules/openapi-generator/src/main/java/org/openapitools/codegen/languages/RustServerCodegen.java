@@ -254,6 +254,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         supportingFiles.add(new SupportingFile("example-ca.pem", "examples", "ca.pem"));
         supportingFiles.add(new SupportingFile("example-server-chain.pem", "examples", "server-chain.pem"));
         supportingFiles.add(new SupportingFile("example-server-key.pem", "examples", "server-key.pem"));
+        supportingFiles.add(new SupportingFile("bin-cli.mustache", "bin", "cli.rs"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
                 .doNotOverwrite());
     }
@@ -589,6 +590,13 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         String vendorExtensionHttpMethod = op.httpMethod.toUpperCase(Locale.ROOT);
         op.vendorExtensions.put("x-http-method", vendorExtensionHttpMethod);
 
+        boolean isDelete = op.httpMethod.toUpperCase(Locale.ROOT).equals("DELETE");
+        op.vendorExtensions.put("x-is-delete", isDelete);
+
+        if (isDelete) {
+          additionalProperties.put("apiHasDeleteMethods", true);
+        }
+
         if (!op.vendorExtensions.containsKey("x-must-use-response")) {
             // If there's more than one response, than by default the user must explicitly handle them
             op.vendorExtensions.put("x-must-use-response", op.responses.size() > 1);
@@ -800,6 +808,27 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
         if (op.bodyParams.size() > 0 || op.formParams.size() > 0){
             op.vendorExtensions.put("x-has-request-body", true);
+        }
+
+        // The CLI generates a structopt structure for each operation. This can only have a single
+        // use of a short option, which comes from the parameter name, so we need to police
+        // against duplicates
+        HashMap<Character, CodegenParameter> availableOptions = new HashMap();
+
+        for (CodegenParameter p : op.allParams) {
+            if (p.isBoolean && p.isPrimitiveType) {
+                char shortOption = p.paramName.charAt(0);
+                if (shortOption == 'a' || shortOption == 'o' || shortOption == 'f') {
+                    // These are used by serverAddress, output, and force
+                    p.vendorExtensions.put("x-provide-cli-short-opt", false);
+                } else if (availableOptions.containsKey(shortOption)) {
+                    availableOptions.get(shortOption).vendorExtensions.put("x-provide-cli-short-opt", false);
+                    p.vendorExtensions.put("x-provide-cli-short-opt", false);
+                } else {
+                    availableOptions.put(shortOption, p);
+                    p.vendorExtensions.put("x-provide-cli-short-opt", true);
+                }
+            }
         }
 
         if (op.bodyParam != null && op.bodyParam.schemaVariants != null) {
@@ -1066,39 +1095,48 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     public String getTypeDeclaration(Schema p) {
         LOGGER.trace("Getting type declaration for schema");
 
+        String type;
+
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             String innerType = getTypeDeclaration(inner);
-            return typeMapping.get("array") + "<" + innerType + ">";
+            type = typeMapping.get("array") + "<" + innerType + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
             String innerType = getTypeDeclaration(inner);
             StringBuilder typeDeclaration = new StringBuilder(typeMapping.get("map")).append("<").append(typeMapping.get("string")).append(", ");
             typeDeclaration.append(innerType).append(">");
-            return typeDeclaration.toString();
+            type = typeDeclaration.toString();
         } else if (!StringUtils.isEmpty(p.get$ref())) {
-            String dataType;
             try {
-                dataType = modelFromSchema(p);
+                type = modelFromSchema(p);
 
-                if (dataType != null) {
-                    dataType = "models::" + dataType;
-                    LOGGER.debug("Returning " + dataType + " from ref");
+                if (type != null) {
+                    type = "models::" + type;
+                    LOGGER.debug("Returning " + type + " from ref");
                 }
             } catch (Exception e) {
-                dataType = null;
+                type = null;
                 LOGGER.error("Error obtaining the datatype from schema (model): " + p + ". Error was: " + e.getMessage(), e);
             }
-
-            LOGGER.debug("Returning " + dataType);
-
-            return dataType;
         } else if (p instanceof FileSchema) {
-            return typeMapping.get("File").toString();
+            type = typeMapping.get("File").toString();
+        } else {
+            type = super.getTypeDeclaration(p);
         }
 
-        return super.getTypeDeclaration(p);
+        // We are using extrinsic nullability, rather than intrinsic, so we need to dig into the inner
+        // layer of the referenced schema.
+        Schema rp = ModelUtils.getReferencedSchema(openAPI, p);
+
+        if (rp.getNullable() == Boolean.TRUE) {
+            type = "swagger::Nullable<" + type + ">";
+        }
+
+        LOGGER.debug("Returning " + type + " for type declaration");
+
+        return type;
     }
 
     @Override
@@ -1408,6 +1446,19 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         return "swagger::AnyOf" + types.size() + "<" + String.join(",", types) + ">";
     }
 
+    /**
+     * Strip a swagger::Nullable wrapper on a datatype
+     *
+     * @deprecated Avoid using this - use a different mechanism instead.
+     */
+    private static String stripNullable(String type) {
+        if (type.startsWith("swagger::Nullable<") && type.endsWith(">")) {
+            return type.substring("swagger::Nullable<".length(), type.length() - 1);
+        } else {
+            return type;
+        }
+    }
+
     @Override
     public String toAllOfName(List<String> names, Schema composedSchema) {
         // Handle all of objects as freeform
@@ -1417,7 +1468,9 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
-        if (!languageSpecificPrimitives.contains(property.dataType)) {
+
+        // TODO: We should avoid reverse engineering primitive type status from the data type
+        if (!languageSpecificPrimitives.contains(stripNullable(property.dataType))) {
             // If we use a more qualified model name, then only camelize the actual type, not the qualifier.
             if (property.dataType.contains(":")) {
                 int position = property.dataType.lastIndexOf(":");
@@ -1425,7 +1478,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             } else {
                 property.dataType = camelize(property.dataType);
             }
-            property.isPrimitiveType = property.isContainer && languageSpecificPrimitives.contains(typeMapping.get(property.complexType));
+            property.isPrimitiveType = property.isContainer && languageSpecificPrimitives.contains(typeMapping.get(stripNullable(property.complexType)));
         } else {
             property.isPrimitiveType = true;
         }

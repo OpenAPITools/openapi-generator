@@ -83,7 +83,7 @@ Please follow the [installation](#installation) instruction and execute the foll
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.FakeApi;
 
 public class Example {
@@ -120,6 +120,8 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**op2**](docs/FakeApi.md#op2) | **POST** /fake/api/changename | op2
 *FakeApi* | [**op3**](docs/FakeApi.md#op3) | **POST** /fake/api/query/enum | op3
 *FakeApi* | [**refToRefParameter**](docs/FakeApi.md#refToRefParameter) | **GET** /ref/ref_to_parameter | 
+*FakeApi* | [**refToRefParameterAnyof**](docs/FakeApi.md#refToRefParameterAnyof) | **GET** /ref/ref_to_operation_level_parameter_oneof | 
+*FakeApi* | [**refToRefParameterOneof**](docs/FakeApi.md#refToRefParameterOneof) | **GET** /ref/ref_to_path_level_parameter_oneof | 
 *FakeApi* | [**responseNoRef**](docs/FakeApi.md#responseNoRef) | **GET** /no_ref | 
 *FakeApi* | [**responseRefToNoRef**](docs/FakeApi.md#responseRefToNoRef) | **GET** /ref/no_ref | 
 *FakeApi* | [**responseRefToRef**](docs/FakeApi.md#responseRefToRef) | **GET** /ref/ref | 
@@ -162,6 +164,8 @@ Class | Method | HTTP request | Description
  - [OneOfStringOrInt](docs/OneOfStringOrInt.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
+ - [RefRefToPathLevelParameterOneofRefToOneofParameter](docs/RefRefToPathLevelParameterOneofRefToOneofParameter.md)
+ - [RefToRefParameterAnyofRefToAnyofParameter](docs/RefToRefParameterAnyofRefToAnyofParameter.md)
  - [SimpleModelWithArrayProperty](docs/SimpleModelWithArrayProperty.md)
  - [StringOrInt](docs/StringOrInt.md)
  - [Tag](docs/Tag.md)

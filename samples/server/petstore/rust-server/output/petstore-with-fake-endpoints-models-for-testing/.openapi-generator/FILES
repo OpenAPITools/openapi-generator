@@ -3,6 +3,7 @@
 Cargo.toml
 README.md
 api/openapi.yaml
+bin/cli.rs
 docs/AddPetApplicationSlashJsonRequest.md
 docs/AddPetApplicationSlashXmlRequest.md
 docs/AdditionalPropertiesClass.md

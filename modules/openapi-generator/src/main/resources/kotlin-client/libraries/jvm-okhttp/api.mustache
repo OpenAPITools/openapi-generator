@@ -2,7 +2,7 @@
 package {{apiPackage}}
 
 import java.io.IOException
-import okhttp3.OkHttpClient
+import okhttp3.Call
 import okhttp3.HttpUrl
 
 {{#imports}}import {{import}}
@@ -48,7 +48,7 @@ import {{packageName}}.infrastructure.Success
 import {{packageName}}.infrastructure.toMultiValue
 
 {{#operations}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}}(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath, client) {
+{{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}}(basePath: kotlin.String = defaultBasePath, client: Call.Factory = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {

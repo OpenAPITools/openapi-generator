@@ -63,6 +63,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import static org.openapitools.codegen.utils.CamelizeOption.*;
+import static org.openapitools.codegen.utils.ModelUtils.getSchemaItems;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -568,15 +569,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         this.sanitizeConfig();
 
         // optional jackson mappings for BigDecimal support
-        importMapping.put("ToStringSerializer", "com.fasterxml.jackson.databind.ser.std.ToStringSerializer");
-        importMapping.put("JsonSerialize", "com.fasterxml.jackson.databind.annotation.JsonSerialize");
-        importMapping.put("JsonDeserialize", "com.fasterxml.jackson.databind.annotation.JsonDeserialize");
+        if (serializeBigDecimalAsString) {
+            importMapping.put("JsonFormat", "com.fasterxml.jackson.annotation.JsonFormat");
+        }
 
         // imports for pojos
         importMapping.put("ApiModelProperty", "io.swagger.annotations.ApiModelProperty");
         importMapping.put("ApiModel", "io.swagger.annotations.ApiModel");
         importMapping.put("Schema", "io.swagger.v3.oas.annotations.media.Schema");
         importMapping.put("BigDecimal", "java.math.BigDecimal");
+        importMapping.put("JsonDeserialize", "com.fasterxml.jackson.databind.annotation.JsonDeserialize");
         importMapping.put("JsonProperty", "com.fasterxml.jackson.annotation.JsonProperty");
         importMapping.put("JsonSubTypes", "com.fasterxml.jackson.annotation.JsonSubTypes");
         importMapping.put("JsonTypeInfo", "com.fasterxml.jackson.annotation.JsonTypeInfo");
@@ -704,7 +706,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                             propertyHash.put(property.name, property);
                             final CodegenProperty parentVar = property.clone();
                             parentVar.isInherited = true;
-                            LOGGER.info("adding parent variable {} to {}", property.name, codegenModel.name);
+                            LOGGER.debug("adding parent variable {} to {}", property.name, codegenModel.name);
                             codegenModel.parentVars.add(parentVar);
                             Set<String> imports = parentVar.getImports(true, this.importBaseType, generatorMetadata.getFeatureSet()).stream().filter(Objects::nonNull).collect(Collectors.toSet());
                             for (String imp : imports) {
@@ -1007,8 +1009,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         Schema<?> schema = unaliasSchema(p);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
-            Schema<?> items = ModelUtils.getSchemaItems(schema);
-            return getSchemaType(target) + "<" + getBeanValidation(items) + getTypeDeclaration(items) + ">";
+            Schema<?> items = getSchemaItems(schema);
+            String typeDeclaration = getTypeDeclarationForArray(items);
+            return getSchemaType(target) + "<" + typeDeclaration + ">";
         } else if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
             // additionalproperties: true
@@ -1021,6 +1024,29 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return getSchemaType(target) + "<String, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(target);
+    }
+
+    private String getTypeDeclarationForArray(Schema<?> items) {
+        String typeDeclaration = getTypeDeclaration(items);
+
+        String beanValidation = getBeanValidation(items);
+        if (StringUtils.isEmpty(beanValidation)) {
+            return typeDeclaration;
+        }
+        int idxLt = typeDeclaration.indexOf('<');
+
+        int idx = idxLt < 0 ?
+                typeDeclaration.lastIndexOf('.'):
+                // last dot before the generic like in List<com.mycompany.Container<java.lang.Object>
+                typeDeclaration.substring(0, idxLt).lastIndexOf('.');
+        if (idx > 0) {
+            // fix full qualified name, we need List<java.lang.@Valid String>
+            // or List<com.mycompany.@Valid Container<java.lang.Object>
+            return typeDeclaration.substring(0, idx + 1) + beanValidation
+                    + typeDeclaration.substring(idx + 1);
+        } else {
+            return beanValidation + typeDeclaration;
+        }
     }
 
     /**
@@ -1705,11 +1731,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (serializeBigDecimalAsString && jackson) {
             if ("decimal".equals(property.baseType) || "bigdecimal".equalsIgnoreCase(property.baseType)) {
                 // we serialize BigDecimal as `string` to avoid precision loss
-                property.vendorExtensions.put("x-extra-annotation", "@JsonSerialize(using = ToStringSerializer.class)");
+                property.vendorExtensions.put("x-extra-annotation", "@JsonFormat(shape = JsonFormat.Shape.STRING)");
 
                 // this requires some more imports to be added for this model...
-                model.imports.add("ToStringSerializer");
-                model.imports.add("JsonSerialize");
+                model.imports.add("JsonFormat");
             }
         }
 
@@ -1727,7 +1752,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             model.imports.add("Arrays");
         } else if ("set".equals(property.containerType)) {
             model.imports.add("LinkedHashSet");
-            if ((!openApiNullable || !property.isNullable) &&  jackson) { // cannot be wrapped to nullable
+            if ((!openApiNullable || !property.isNullable) && jackson) { // cannot be wrapped to nullable
                 model.imports.add("JsonDeserialize");
                 property.vendorExtensions.put("x-setter-extra-annotation", "@JsonDeserialize(as = LinkedHashSet.class)");
             }

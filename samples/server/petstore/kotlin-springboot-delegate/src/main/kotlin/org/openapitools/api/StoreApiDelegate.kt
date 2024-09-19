@@ -22,8 +22,7 @@ interface StoreApiDelegate {
     /**
      * @see StoreApi#deleteOrder
      */
-    fun deleteOrder(orderId: kotlin.String,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<Unit> {
+    fun deleteOrder(orderId: kotlin.String): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
@@ -32,7 +31,7 @@ interface StoreApiDelegate {
     /**
      * @see StoreApi#getInventory
      */
-    fun getInventory(serverHttpRequest: ServerHttpRequest): ResponseEntity<Map<String, kotlin.Int>> {
+    fun getInventory(): ResponseEntity<Map<String, kotlin.Int>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
@@ -41,8 +40,7 @@ interface StoreApiDelegate {
     /**
      * @see StoreApi#getOrderById
      */
-    fun getOrderById(orderId: kotlin.Long,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<Order> {
+    fun getOrderById(orderId: kotlin.Long): ResponseEntity<Order> {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -63,8 +61,7 @@ interface StoreApiDelegate {
     /**
      * @see StoreApi#placeOrder
      */
-    fun placeOrder(order: Order,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<Order> {
+    fun placeOrder(order: Order): ResponseEntity<Order> {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

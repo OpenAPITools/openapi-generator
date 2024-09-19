@@ -39,6 +39,7 @@ use crate::{Api,
      AnyOfGetResponse,
      CallbackWithHeaderPostResponse,
      ComplexQueryParamGetResponse,
+     GetWithBooleanParameterResponse,
      JsonComplexQueryParamGetResponse,
      MandatoryRequestHeaderGetResponse,
      MergePatchJsonGetResponse,
@@ -52,6 +53,7 @@ use crate::{Api,
      RequiredOctetStreamPutResponse,
      ResponsesWithHeadersGetResponse,
      Rfc7807GetResponse,
+     TwoFirstLetterHeadersResponse,
      UntypedPropertyGetResponse,
      UuidGetResponse,
      XmlExtraPostResponse,
@@ -60,6 +62,7 @@ use crate::{Api,
      XmlPostResponse,
      XmlPutResponse,
      EnumInPathPathParamGetResponse,
+     MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse,
      CreateRepoResponse,
      GetRepoInfoResponse
      };
@@ -684,6 +687,81 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    async fn get_with_boolean_parameter(
+        &self,
+        param_iambool: bool,
+        context: &C) -> Result<GetWithBooleanParameterResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        let mut uri = format!(
+            "{}/get-with-bool",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+                query_string.append_pair("iambool",
+                    &param_iambool.to_string());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {}", err))),
+        };
+
+        let mut request = match Request::builder()
+            .method("GET")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
+        };
+
+        // No schema variants
+
+
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
+        });
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                let (header, body) = response.into_parts();
+                Ok(
+                    GetWithBooleanParameterResponse::OK
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                    code,
+                    headers,
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {:?}>", e),
+                        },
+                        Err(e) => format!("<Failed to read body: {}>", e),
+                    }
+                )))
+            }
+        }
+    }
+
     async fn json_complex_query_param_get(
         &self,
         param_list_of_strings: Option<&Vec<models::StringObject>>,
@@ -1167,7 +1245,6 @@ impl<S, C> Api<C> for Client<S, C> where
 
         #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
-            // Currently only authentication with Basic and Bearer are supported
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 AuthData::Bearer(bearer_header) => {
@@ -1513,7 +1590,6 @@ impl<S, C> Api<C> for Client<S, C> where
 
         #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
-            // Currently only authentication with Basic and Bearer are supported
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 AuthData::Bearer(bearer_header) => {
@@ -1989,6 +2065,115 @@ impl<S, C> Api<C> for Client<S, C> where
 
                 Ok(Rfc7807GetResponse::NotAcceptable
                     (body)
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                    code,
+                    headers,
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {:?}>", e),
+                        },
+                        Err(e) => format!("<Failed to read body: {}>", e),
+                    }
+                )))
+            }
+        }
+    }
+
+    async fn two_first_letter_headers(
+        &self,
+        param_x_header_one: Option<bool>,
+        param_x_header_two: Option<bool>,
+        context: &C) -> Result<TwoFirstLetterHeadersResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        let mut uri = format!(
+            "{}/operation-two-first-letter-headers",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {}", err))),
+        };
+
+        let mut request = match Request::builder()
+            .method("POST")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
+        };
+
+        // No schema variants
+
+
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
+        });
+
+        // Header parameters
+        #[allow(clippy::single_match)]
+        match param_x_header_one {
+            Some(param_x_header_one) => {
+        request.headers_mut().append(
+            HeaderName::from_static("x-header-one"),
+            #[allow(clippy::redundant_clone)]
+            match header::IntoHeaderValue(param_x_header_one.clone()).try_into() {
+                Ok(header) => header,
+                Err(e) => {
+                    return Err(ApiError(format!(
+                        "Invalid header x_header_one - {}", e)));
+                },
+            });
+            },
+            None => {}
+        }
+
+        #[allow(clippy::single_match)]
+        match param_x_header_two {
+            Some(param_x_header_two) => {
+        request.headers_mut().append(
+            HeaderName::from_static("x-header-two"),
+            #[allow(clippy::redundant_clone)]
+            match header::IntoHeaderValue(param_x_header_two.clone()).try_into() {
+                Ok(header) => header,
+                Err(e) => {
+                    return Err(ApiError(format!(
+                        "Invalid header x_header_two - {}", e)));
+                },
+            });
+            },
+            None => {}
+        }
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                let (header, body) = response.into_parts();
+                Ok(
+                    TwoFirstLetterHeadersResponse::OK
                 )
             }
             code => {
@@ -2719,6 +2904,82 @@ impl<S, C> Api<C> for Client<S, C> where
                 let (header, body) = response.into_parts();
                 Ok(
                     EnumInPathPathParamGetResponse::Success
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                    code,
+                    headers,
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {:?}>", e),
+                        },
+                        Err(e) => format!("<Failed to read body: {}>", e),
+                    }
+                )))
+            }
+        }
+    }
+
+    async fn multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get(
+        &self,
+        param_path_param_a: String,
+        param_path_param_b: String,
+        context: &C) -> Result<MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        let mut uri = format!(
+            "{}/multiple-path-params-with-very-long-path-to-test-formatting/{path_param_a}/{path_param_b}",
+            self.base_path
+            ,path_param_a=utf8_percent_encode(&param_path_param_a.to_string(), ID_ENCODE_SET)
+            ,path_param_b=utf8_percent_encode(&param_path_param_b.to_string(), ID_ENCODE_SET)
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {}", err))),
+        };
+
+        let mut request = match Request::builder()
+            .method("GET")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
+        };
+
+        // No schema variants
+
+
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
+        });
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                let (header, body) = response.into_parts();
+                Ok(
+                    MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse::Success
                 )
             }
             code => {

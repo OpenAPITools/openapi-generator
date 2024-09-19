@@ -61,6 +61,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public static final String CAMEL_CASE = "camelCase";
     public static final String PASCAL_CASE = "PascalCase";
     public static final String USE_SQUARE_BRACKETS_IN_ARRAY_NAMES = "useSquareBracketsInArrayNames";
+    public static final String VALIDATION_ATTRIBUTES = "validationAttributes";
 
     @Getter @Setter
     protected String npmRepository = null;
@@ -93,7 +94,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Getter @Setter
     protected String inferEntityFromUniqueIdWithName = null;
     @Setter protected boolean packageAsSourceOnlyLibrary = false;
-
+    @Getter @Setter
+    protected Boolean generateValidationAttributes = false;
 
     public TypeScriptFetchClientCodegen() {
         super();
@@ -124,6 +126,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(IMPORT_FILE_EXTENSION_SWITCH, IMPORT_FILE_EXTENSION_SWITCH_DESC).defaultValue(""));
         this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'PascalCase', 'camelCase', 'kebab-case'.").defaultValue(this.fileNaming));
         this.cliOptions.add(new CliOption(USE_SQUARE_BRACKETS_IN_ARRAY_NAMES, "Setting this property to true will add brackets to array attribute names, e.g. my_values[].", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(VALIDATION_ATTRIBUTES, "Setting this property to true will generate the validation attributes of model properties.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -309,6 +312,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 }
             }
         }
+
+        setGenerateValidationAttributes(convertPropertyToBooleanAndWriteBack(VALIDATION_ATTRIBUTES));
     }
 
     @Override

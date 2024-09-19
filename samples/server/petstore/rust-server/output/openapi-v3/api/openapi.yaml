@@ -19,7 +19,8 @@ paths:
           description: OK
         "400":
           description: Bad Request
-      summary: Post an array
+      summary: "Post an array.  It's important we test apostrophes, so include one\
+        \ here."
     put:
       requestBody:
         content:
@@ -465,6 +466,65 @@ paths:
       responses:
         "200":
           description: Success
+  /multiple-path-params-with-very-long-path-to-test-formatting/{path_param_a}/{path_param_b}:
+    get:
+      parameters:
+      - explode: false
+        in: path
+        name: path_param_a
+        required: true
+        schema:
+          $ref: '#/components/schemas/StringObject'
+        style: simple
+      - explode: false
+        in: path
+        name: path_param_b
+        required: true
+        schema:
+          $ref: '#/components/schemas/StringObject'
+        style: simple
+      responses:
+        "200":
+          description: Success
+  /get-with-bool:
+    get:
+      description: Get with a boolean parameter
+      operationId: GetWithBooleanParameter
+      parameters:
+      - description: Let's check apostrophes get encoded properly!
+        explode: true
+        in: query
+        name: iambool
+        required: true
+        schema:
+          type: boolean
+        style: form
+      responses:
+        "200":
+          description: OK
+  /operation-two-first-letter-headers:
+    post:
+      description: Check we don't barf if two boolean parameters have the same first
+        letter
+      operationId: TwoFirstLetterHeaders
+      parameters:
+      - explode: false
+        in: header
+        name: x-header-one
+        required: false
+        schema:
+          type: boolean
+        style: simple
+      - explode: false
+        in: header
+        name: x-header-two
+        required: false
+        schema:
+          type: boolean
+        style: simple
+      responses:
+        "200":
+          description: OK
 components:
   schemas:
     AnyOfProperty:
@@ -627,6 +687,16 @@ components:
       type: boolean
     OptionalObjectHeader:
       type: integer
+    AdditionalPropertiesWithNullable:
+      properties:
+        nullableString:
+          nullable: true
+          type: string
+        nullableMap:
+          additionalProperties:
+            $ref: '#/components/schemas/NullableObject'
+          type: object
+      type: object
     AdditionalPropertiesWithList:
       additionalProperties:
         items:
@@ -634,6 +704,9 @@ components:
         type: array
       maxProperties: 1
       type: object
+    NullableObject:
+      nullable: true
+      type: string
     NullableTest:
       properties:
         nullable:
@@ -720,6 +793,15 @@ components:
           scopes:
             test.read: Allowed to read state.
             test.write: Allowed to change state.
+          tokenUrl: http://example.org
+      type: oauth2
+    additionalAuthScheme:
+      flows:
+        authorizationCode:
+          authorizationUrl: http://example.org
+          scopes:
+            additional.test.read: Allowed to read state.
+            additional.test.write: Allowed to change state.
           tokenUrl: http://example.org
       type: oauth2
 

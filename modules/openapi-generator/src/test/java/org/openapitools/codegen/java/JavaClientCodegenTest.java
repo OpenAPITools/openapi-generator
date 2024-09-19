@@ -245,6 +245,21 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testFailOnUnknownPropertiesAdditionalProperty() {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+
+        codegen.processOpts();
+
+        ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
+        configAssert.assertValue(JavaClientCodegen.FAIL_ON_UNKNOWN_PROPERTIES, codegen::isFailOnUnknownProperties, Boolean.FALSE);
+
+        codegen.additionalProperties().put(JavaClientCodegen.FAIL_ON_UNKNOWN_PROPERTIES, true);
+        codegen.processOpts();
+
+        configAssert.assertValue(JavaClientCodegen.FAIL_ON_UNKNOWN_PROPERTIES, codegen::isFailOnUnknownProperties, Boolean.TRUE);
+    }
+
+    @Test
     public void testAdditionalPropertiesPutForConfigValues() throws Exception {
         final JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true");
@@ -2626,7 +2641,7 @@ public class JavaClientCodegenTest {
     /**
      * Regression test for <a href="https://github.com/OpenAPITools/openapi-generator/issues/6496">#6496</a>
      */
-    @Test void doesNotGenerateJacksonToStringSerializerAnnotation_whenLibraryIsGson_andSerializeBigDecimalAsStringIsTrue() {
+    @Test void doesNotGenerateJacksonJsonFormatAnnotation_whenLibraryIsGson_andSerializeBigDecimalAsStringIsTrue() {
         final CodegenConfigurator configurator = new CodegenConfigurator()
             .setGeneratorName("java")
             .setLibrary(JavaClientCodegen.OKHTTP_GSON)
@@ -2643,10 +2658,8 @@ public class JavaClientCodegenTest {
         assertThat(files).hasSize(1).first(FILE).content()
             .doesNotContain(
                 "@JsonDeserialize(as = LinkedHashSet.class)",
-                "@JsonSerialize(using = ToStringSerializer.class)",
-                "com.fasterxml.jackson.databind.ser.std.ToStringSerializer",
-                "com.fasterxml.jackson.databind.annotation.JsonDeserialize",
-                "com.fasterxml.jackson.databind.annotation.JsonSerialize"
+                "@JsonFormat(shape = JsonFormat.Shape.STRING)",
+                "com.fasterxml.jackson.databind.annotation.JsonDeserialize"
             );
     }
     
@@ -2654,7 +2667,7 @@ public class JavaClientCodegenTest {
      * Test that fix for <a href="https://github.com/OpenAPITools/openapi-generator/issues/6496">#6496</a> has
      * no unwanted side effects on the existing feature (Jackson + bigDecimalAsString)
      */
-    @Test void generatesJacksonToStringSerializerAnnotation_whenLibraryIsJackson_andSerializeBigDecimalAsStringIsTrue() {
+    @Test void generatesJacksonJsonFormatAnnotation_whenLibraryIsJackson_andSerializeBigDecimalAsStringIsTrue() {
         final CodegenConfigurator configurator = new CodegenConfigurator()
             .setGeneratorName("java")
             .setLibrary(JavaClientCodegen.NATIVE)
@@ -2672,10 +2685,8 @@ public class JavaClientCodegenTest {
         assertThat(files).hasSize(1).first(FILE).content()
             .contains(
                 "@JsonDeserialize(as = LinkedHashSet.class)",
-                "@JsonSerialize(using = ToStringSerializer.class)",
-                "com.fasterxml.jackson.databind.ser.std.ToStringSerializer",
-                "com.fasterxml.jackson.databind.annotation.JsonDeserialize",
-                "com.fasterxml.jackson.databind.annotation.JsonSerialize"
+                "@JsonFormat(shape = JsonFormat.Shape.STRING)",
+                "com.fasterxml.jackson.databind.annotation.JsonDeserialize"
             );
     }
         
@@ -2974,6 +2985,32 @@ public class JavaClientCodegenTest {
                 output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
                 "import com.fasterxml.jackson.dataformat.xml.XmlMapper;",
                 "import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;"
+        );
+    }
+
+    @Test public void testRestClientWithUseSingleRequestParameter_issue_19406() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(Map.of(
+                        CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
+                        CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, true
+                ))
+                .setInputSpec("src/test/resources/3_1/java/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        TestUtils.assertFileContains(
+                output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"),
+                "public record DeletePetRequest(Long petId, String apiKey){}",
+                "public void deletePet(DeletePetRequest requestParameters) throws RestClientResponseException {",
+                "public ResponseEntity<Void> deletePetWithHttpInfo(DeletePetRequest requestParameters) throws RestClientResponseException {",
+                "public ResponseSpec deletePetWithResponseSpec(DeletePetRequest requestParameters) throws RestClientResponseException {",
+                "public void deletePet(Long petId, String apiKey) throws RestClientResponseException {",
+                "public ResponseEntity<Void> deletePetWithHttpInfo(Long petId, String apiKey) throws RestClientResponseException {",
+                "public ResponseSpec deletePetWithResponseSpec(Long petId, String apiKey) throws RestClientResponseException {"
         );
     }
 

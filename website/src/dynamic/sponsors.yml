@@ -133,3 +133,8 @@
   image: "img/companies/route4me.png"
   infoLink: "https://route4me.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship"
   bronze: true
+-
+  caption: "Dotcom-Monitor"
+  image: "img/companies/dm.png"
+  infoLink: "https://www.dotcom-monitor.com/sponsoring-open-source-projects/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship"
+  bronze: true

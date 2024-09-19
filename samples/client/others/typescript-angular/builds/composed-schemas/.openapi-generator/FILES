@@ -14,6 +14,7 @@ model/dogBreed.ts
 model/dogComposed.ts
 model/dogInherited.ts
 model/dogMapped.ts
+model/dummy.ts
 model/models.ts
 model/petWithMappedDiscriminator.ts
 model/petWithSimpleDiscriminator.ts

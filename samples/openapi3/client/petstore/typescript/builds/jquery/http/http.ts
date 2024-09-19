@@ -105,6 +105,10 @@ export class RequestContext {
         this.url.searchParams.set(name, value);
     }
 
+    public appendQueryParam(name: string, value: string) {
+        this.url.searchParams.append(name, value);
+    }
+
     /**
      * Sets a cookie with the name and value. NO check  for duplicate cookies is performed
      *

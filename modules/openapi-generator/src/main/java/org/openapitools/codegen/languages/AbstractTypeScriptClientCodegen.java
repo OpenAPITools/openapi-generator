@@ -856,6 +856,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     private String getNameUsingModelPropertyNaming(String name) {
         switch (getModelPropertyNaming()) {
             case original:
+                additionalProperties.put("modelPropertyNamingOriginal", true);
                 return name;
             case camelCase:
                 return camelize(name, LOWERCASE_FIRST_LETTER);
