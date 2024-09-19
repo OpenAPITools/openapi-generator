@@ -771,7 +771,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             // This is an additional step we add when pre-processing the API spec, if
             // there is no user configuration set for the `title` of the project,
             // we try build and normalise a title from the API spec itself.
-            String title = openAPI.getInfo().getTitle();
+            String title = getInfoTitle();
 
             // Drop any API suffix
             if (title != null) {

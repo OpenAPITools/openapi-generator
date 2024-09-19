@@ -471,7 +471,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         if (!additionalProperties.containsKey(TITLE)) {
             // From the title, compute a reasonable name for the package and the
             // API
-            String title = openAPI.getInfo().getTitle();
+            String title = getInfoTitle();
 
             // Drop any API suffix
             if (title != null) {
