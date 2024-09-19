@@ -8480,17 +8480,4 @@ public class DefaultCodegen implements CodegenConfig {
         }
         operation.hasParams = !operation.allParams.isEmpty();
     }
-
-    /**
-     * Returns the title in the info section of the spec or default to openapi if not defined.
-     *
-     * @return title
-     */
-    protected String getInfoTitle() {
-        if (openAPI.getInfo() != null) {
-            return openAPI.getInfo().getTitle();
-        } else {
-            return "openapi"; // default to openapi if title not set
-        }
-    }
 }

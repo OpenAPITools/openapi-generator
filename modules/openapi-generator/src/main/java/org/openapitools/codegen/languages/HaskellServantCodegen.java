@@ -275,7 +275,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         // From the title, compute a reasonable name for the package and the API
-        String title = getInfoTitle();
+        String title = openAPI.getInfo().getTitle();
 
         // Drop any API suffix
         if (title == null) {

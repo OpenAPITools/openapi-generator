@@ -689,7 +689,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (!additionalProperties.containsKey(TITLE)) {
             // From the title, compute a reasonable name for the package and the API
-            String title = getInfoTitle();
+            String title = openAPI.getInfo().getTitle();
 
             // Drop any API suffix
             if (title != null) {

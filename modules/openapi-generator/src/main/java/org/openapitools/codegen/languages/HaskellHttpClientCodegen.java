@@ -550,7 +550,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        String baseTitle = getInfoTitle();
+        String baseTitle = openAPI.getInfo().getTitle();
 
         if (StringUtils.isBlank(baseTitle)) {
             baseTitle = "OpenAPI";
