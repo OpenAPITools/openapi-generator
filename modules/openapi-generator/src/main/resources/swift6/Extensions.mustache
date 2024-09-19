@@ -11,7 +11,7 @@ import FoundationNetworking
 #if canImport(AnyCodable)
 import AnyCodable
 #endif{{#usePromiseKit}}
-import PromiseKit{{/usePromiseKit}}{{#useVapor}}
+@preconcurrency import PromiseKit{{/usePromiseKit}}{{#useVapor}}
 import Vapor{{/useVapor}}{{^useVapor}}
 
 extension Bool: JSONEncodable {
@@ -109,7 +109,7 @@ extension JSONEncodable where Self: Encodable {
     }
 }{{/useVapor}}{{#generateModelAdditionalProperties}}
 
-extension String: CodingKey {
+extension String: @retroactive CodingKey {
 
     public var stringValue: String {
         return self
@@ -233,7 +233,7 @@ extension KeyedDecodingContainerProtocol {
 
 extension HTTPURLResponse {
     var isStatusCodeSuccessful: Bool {
-        return Configuration.successfulStatusCodeRange.contains(statusCode)
+        return {{projectName}}API.shared.successfulStatusCodeRange.contains(statusCode)
     }
 }{{/useVapor}}{{#usePromiseKit}}
 

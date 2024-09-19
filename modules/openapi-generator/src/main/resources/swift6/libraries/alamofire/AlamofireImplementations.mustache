@@ -17,10 +17,15 @@ class AlamofireRequestBuilderFactory: RequestBuilderFactory {
     }
 }
 
-// Store manager to retain its reference
-private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
+fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
+    private init() {}
+    static let shared = AlamofireRequestBuilderConfiguration()
+    
+    // Store manager to retain its reference
+    var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
+}
 
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class AlamofireRequestBuilder<T>: RequestBuilder<T> {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class AlamofireRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
     required {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool) {
         super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication)
     }
@@ -79,11 +84,11 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
     }
 
     @discardableResult
-    override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+    override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ apiResponseQueue: DispatchQueue = {{projectName}}API.shared.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         let managerId = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let manager = createAlamofireSession()
-        managerStore[managerId] = manager
+        AlamofireRequestBuilderConfiguration.shared.managerStore[managerId] = manager
 
         let xMethod = Alamofire.HTTPMethod(rawValue: method)
 
@@ -162,15 +167,15 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
         }
 
         let cleanupRequest = {
-            managerStore[managerId] = nil
+            AlamofireRequestBuilderConfiguration.shared.managerStore[managerId] = nil
         }
 
-        let validatedRequest = request.validate(statusCode: Configuration.successfulStatusCodeRange)
+        let validatedRequest = request.validate(statusCode: {{projectName}}API.shared.successfulStatusCodeRange)
 
         switch T.self {
         case is Void.Type:
             validatedRequest.response(queue: apiResponseQueue,
-                          responseSerializer: Configuration.dataResponseSerializer,
+                          responseSerializer: {{projectName}}API.shared.dataResponseSerializer,
                           completionHandler: { voidResponse in
                 cleanupRequest()
 
@@ -248,7 +253,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
 
 }
 
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuilder<T> {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuilder<T>, @unchecked Sendable {
 
     override fileprivate func processRequest(request: DataRequest, _ managerId: String, _ apiResponseQueue: DispatchQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
         if let credential = self.credential {
@@ -256,15 +261,15 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
         }
 
         let cleanupRequest = {
-            managerStore[managerId] = nil
+            AlamofireRequestBuilderConfiguration.shared.managerStore[managerId] = nil
         }
 
-        let validatedRequest = request.validate(statusCode: Configuration.successfulStatusCodeRange)
+        let validatedRequest = request.validate(statusCode: {{projectName}}API.shared.successfulStatusCodeRange)
 
         switch T.self {
         case is String.Type:
             validatedRequest.response(queue: apiResponseQueue,
-                          responseSerializer: Configuration.stringResponseSerializer,
+                          responseSerializer: {{projectName}}API.shared.stringResponseSerializer,
                           completionHandler: { stringResponse in
                 cleanupRequest()
 
@@ -278,7 +283,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
             })
         case is URL.Type:
             validatedRequest.response(queue: apiResponseQueue,
-                          responseSerializer: Configuration.dataResponseSerializer,
+                          responseSerializer: {{projectName}}API.shared.dataResponseSerializer,
                           completionHandler: { dataResponse in
                 cleanupRequest()
 
@@ -326,7 +331,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
             })
         case is Void.Type:
             validatedRequest.response(queue: apiResponseQueue,
-                          responseSerializer: Configuration.dataResponseSerializer,
+                          responseSerializer: {{projectName}}API.shared.dataResponseSerializer,
                           completionHandler: { voidResponse in
                 cleanupRequest()
 
@@ -340,7 +345,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
             })
         case is Data.Type:
             validatedRequest.response(queue: apiResponseQueue,
-                          responseSerializer: Configuration.dataResponseSerializer,
+                          responseSerializer: {{projectName}}API.shared.dataResponseSerializer,
                           completionHandler: { dataResponse in
                 cleanupRequest()
 
@@ -354,7 +359,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
             })
         default:
             validatedRequest.response(queue: apiResponseQueue,
-                          responseSerializer: Configuration.dataResponseSerializer,
+                          responseSerializer: {{projectName}}API.shared.dataResponseSerializer,
                           completionHandler: { dataResponse in
                 cleanupRequest()
 
@@ -368,22 +373,22 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
                     return
                 }
 
-                guard let data = dataResponse.data, !data.isEmpty else {
-                    if T.self is ExpressibleByNilLiteral.Type {
-                        completion(.success(Response(response: httpResponse, body: Optional<T>.none as! T, bodyData: dataResponse.data)))
+                guard let unwrappedData = dataResponse.data, !unwrappedData.isEmpty else {
+                    if let expressibleByNilLiteralType = T.self as? ExpressibleByNilLiteral.Type {
+                        completion(.success(Response(response: httpResponse, body: expressibleByNilLiteralType.init(nilLiteral: ()) as! T, bodyData: dataResponse.data)))
                     } else {
                         completion(.failure(ErrorResponse.error(httpResponse.statusCode, nil, httpResponse, DecodableRequestBuilderError.emptyDataResponse)))
                     }
                     return
                 }
 
-                let decodeResult = CodableHelper.decode(T.self, from: data)
+                let decodeResult = CodableHelper.decode(T.self, from: unwrappedData)
 
                 switch decodeResult {
                 case let .success(decodableObj):
-                    completion(.success(Response(response: httpResponse, body: decodableObj, bodyData: data)))
+                    completion(.success(Response(response: httpResponse, body: decodableObj, bodyData: unwrappedData)))
                 case let .failure(error):
-                    completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, httpResponse, error)))
+                    completion(.failure(ErrorResponse.error(httpResponse.statusCode, unwrappedData, httpResponse, error)))
                 }
 
             })

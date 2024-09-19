@@ -634,9 +634,6 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("Package.swift.mustache",
                 "",
                 "Package.swift"));
-        supportingFiles.add(new SupportingFile("Configuration.mustache",
-                sourceFolder,
-                "Configuration.swift"));
         supportingFiles.add(new SupportingFile("Extensions.mustache",
                 sourceFolder,
                 "Extensions.swift"));

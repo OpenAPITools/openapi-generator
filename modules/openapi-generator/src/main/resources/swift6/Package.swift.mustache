@@ -9,9 +9,9 @@ let package = Package(
         .macOS(.v10_15),
         {{/useVapor}}
         {{^useVapor}}
-        .iOS(.v11),
+        .iOS(.v12),
         .macOS(.v10_13),
-        .tvOS(.v11),
+        .tvOS(.v12),
         .watchOS(.v4),
         {{/useVapor}}
     ],
@@ -24,15 +24,15 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/Flight-School/AnyCodable", .upToNextMajor(from: "0.6.1")),
+        .package(url: "https://github.com/Flight-School/AnyCodable", .upToNextMajor(from: "0.6.7")),
         {{#useAlamofire}}
-        .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.7.0")),
+        .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.9.1")),
         {{/useAlamofire}}
         {{#usePromiseKit}}
-        .package(url: "https://github.com/mxcl/PromiseKit", .upToNextMajor(from: "6.15.3")),
+        .package(url: "https://github.com/mxcl/PromiseKit", .upToNextMajor(from: "8.1.2")),
         {{/usePromiseKit}}
         {{#useRxSwift}}
-        .package(url: "https://github.com/ReactiveX/RxSwift", .upToNextMajor(from: "6.2.0")),
+        .package(url: "https://github.com/ReactiveX/RxSwift", .upToNextMajor(from: "6.7.1")),
         {{/useRxSwift}}
         {{#useVapor}}
         .package(url: "https://github.com/vapor/vapor", from: "4.0.0")
