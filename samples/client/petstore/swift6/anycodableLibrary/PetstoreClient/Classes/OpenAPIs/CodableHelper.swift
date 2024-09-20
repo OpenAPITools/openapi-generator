@@ -15,38 +15,38 @@ open class CodableHelper: @unchecked Sendable {
     private var defaultDateFormatter: DateFormatter = OpenISO8601DateFormatter()
 
     private var customJSONDecoder: JSONDecoder?
-    private var defaultJSONDecoder: JSONDecoder = {
+    private lazy var defaultJSONDecoder: JSONDecoder = {
         let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .formatted(CodableHelper.dateFormatter)
+        decoder.dateDecodingStrategy = .formatted(dateFormatter)
         return decoder
     }()
 
     private var customJSONEncoder: JSONEncoder?
-    private var defaultJSONEncoder: JSONEncoder = {
+    private lazy var defaultJSONEncoder: JSONEncoder = {
         let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .formatted(CodableHelper.dateFormatter)
+        encoder.dateEncodingStrategy = .formatted(dateFormatter)
         encoder.outputFormatting = .prettyPrinted
         return encoder
     }()
 
-    public static var dateFormatter: DateFormatter {
-        get { return Self.shared.customDateFormatter ?? Self.shared.defaultDateFormatter }
-        set { Self.shared.customDateFormatter = newValue }
+    public var dateFormatter: DateFormatter {
+        get { return customDateFormatter ?? defaultDateFormatter }
+        set { customDateFormatter = newValue }
     }
-    public static var jsonDecoder: JSONDecoder {
-        get { return Self.shared.customJSONDecoder ?? Self.shared.defaultJSONDecoder }
-        set { Self.shared.customJSONDecoder = newValue }
+    public var jsonDecoder: JSONDecoder {
+        get { return customJSONDecoder ?? defaultJSONDecoder }
+        set { customJSONDecoder = newValue }
     }
-    public static var jsonEncoder: JSONEncoder {
-        get { return Self.shared.customJSONEncoder ?? Self.shared.defaultJSONEncoder }
-        set { Self.shared.customJSONEncoder = newValue }
+    public var jsonEncoder: JSONEncoder {
+        get { return customJSONEncoder ?? defaultJSONEncoder }
+        set { customJSONEncoder = newValue }
     }
 
-    open class func decode<T>(_ type: T.Type, from data: Data) -> Swift.Result<T, Error> where T: Decodable {
+    open func decode<T>(_ type: T.Type, from data: Data) -> Swift.Result<T, Error> where T: Decodable {
         return Swift.Result { try jsonDecoder.decode(type, from: data) }
     }
 
-    open class func encode<T>(_ value: T) -> Swift.Result<Data, Error> where T: Encodable {
+    open func encode<T>(_ value: T) -> Swift.Result<Data, Error> where T: Encodable {
         return Swift.Result { try jsonEncoder.encode(value) }
     }
 }

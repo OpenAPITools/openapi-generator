@@ -362,7 +362,7 @@ open class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBui
                 return
             }
 
-            let decodeResult = CodableHelper.decode(T.self, from: unwrappedData)
+            let decodeResult = CodableHelper.shared.decode(T.self, from: unwrappedData)
 
             switch decodeResult {
             case let .success(decodableObj):
