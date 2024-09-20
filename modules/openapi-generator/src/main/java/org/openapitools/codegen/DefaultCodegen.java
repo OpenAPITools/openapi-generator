@@ -224,6 +224,8 @@ public class DefaultCodegen implements CodegenConfig {
     @Getter @Setter
     protected int removeOperationIdPrefixCount = 1;
     protected boolean skipOperationExample;
+    // sort operations by default
+    protected boolean skipSortingOperations = false;
 
     protected final static Pattern XML_MIME_PATTERN = Pattern.compile("(?i)application\\/(.*)[+]?xml(;.*)?");
     protected final static Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)application\\/json(;.*)?");
@@ -6152,6 +6154,16 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public void setSkipOperationExample(boolean skipOperationExample) {
         this.skipOperationExample = skipOperationExample;
+    }
+
+    @Override
+    public boolean isSkipSortingOperations() {
+        return this.skipSortingOperations;
+    }
+
+    @Override
+    public void setSkipSortingOperations(boolean skipSortingOperations) {
+        this.skipSortingOperations = skipSortingOperations;
     }
 
     @Override

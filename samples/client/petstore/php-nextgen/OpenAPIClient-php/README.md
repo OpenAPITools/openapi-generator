@@ -138,6 +138,7 @@ Class | Method | HTTP request | Description
 - [EnumArrays](docs/Model/EnumArrays.md)
 - [EnumClass](docs/Model/EnumClass.md)
 - [EnumTest](docs/Model/EnumTest.md)
+- [EnumWithNameAndDescription](docs/Model/EnumWithNameAndDescription.md)
 - [FakeBigDecimalMap200Response](docs/Model/FakeBigDecimalMap200Response.md)
 - [File](docs/Model/File.md)
 - [FileSchemaTestClass](docs/Model/FileSchemaTestClass.md)

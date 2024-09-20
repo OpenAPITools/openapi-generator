@@ -40,14 +40,9 @@ impl MultipartRelatedRequest {
 impl std::string::ToString for MultipartRelatedRequest {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-            // Skipping object_field in query parameter serialization
-
-            // Skipping optional_binary_field in query parameter serialization
-            // Skipping optional_binary_field in query parameter serialization
-
-            // Skipping required_binary_field in query parameter serialization
-            // Skipping required_binary_field in query parameter serialization
-
+            // Skipping non-primitive type object_field in query parameter serialization
+            // Skipping binary data optional_binary_field in query parameter serialization
+            // Skipping binary data required_binary_field in query parameter serialization
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -219,18 +214,14 @@ impl MultipartRequestObjectField {
 impl std::string::ToString for MultipartRequestObjectField {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             Some("field_a".to_string()),
             Some(self.field_a.to_string()),
-
-
             self.field_b.as_ref().map(|field_b| {
                 [
                     "field_b".to_string(),
                     field_b.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -400,12 +391,8 @@ impl MultipleIdenticalMimeTypesPostRequest {
 impl std::string::ToString for MultipleIdenticalMimeTypesPostRequest {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-            // Skipping binary1 in query parameter serialization
-            // Skipping binary1 in query parameter serialization
-
-            // Skipping binary2 in query parameter serialization
-            // Skipping binary2 in query parameter serialization
-
+            // Skipping binary data binary1 in query parameter serialization
+            // Skipping binary data binary2 in query parameter serialization
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")

@@ -374,22 +374,4 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
     public String toEnumDefaultValue(String value, String datatype) {
         return datatype + "::" + value;
     }
-
-    @Override
-    public String toEnumVarName(String value, String datatype) {
-        if (value.length() == 0) {
-            return super.toEnumVarName(value, datatype);
-        }
-
-        // number
-        if ("int".equals(datatype) || "float".equals(datatype)) {
-            String varName = "NUMBER_" + value;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
-            return varName;
-        }
-
-        return super.toEnumVarName(value, datatype);
-    }
 }

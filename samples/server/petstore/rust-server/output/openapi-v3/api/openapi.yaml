@@ -687,6 +687,16 @@ components:
       type: boolean
     OptionalObjectHeader:
       type: integer
+    AdditionalPropertiesWithNullable:
+      properties:
+        nullableString:
+          nullable: true
+          type: string
+        nullableMap:
+          additionalProperties:
+            $ref: '#/components/schemas/NullableObject'
+          type: object
+      type: object
     AdditionalPropertiesWithList:
       additionalProperties:
         items:
@@ -694,6 +704,9 @@ components:
         type: array
       maxProperties: 1
       type: object
+    NullableObject:
+      nullable: true
+      type: string
     NullableTest:
       properties:
         nullable:

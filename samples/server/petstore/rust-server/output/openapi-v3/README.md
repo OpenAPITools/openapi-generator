@@ -183,6 +183,7 @@ Method | HTTP request | Description
 ## Documentation For Models
 
  - [AdditionalPropertiesWithList](docs/AdditionalPropertiesWithList.md)
+ - [AdditionalPropertiesWithNullable](docs/AdditionalPropertiesWithNullable.md)
  - [AnotherXmlArray](docs/AnotherXmlArray.md)
  - [AnotherXmlInner](docs/AnotherXmlInner.md)
  - [AnotherXmlObject](docs/AnotherXmlObject.md)
@@ -200,6 +201,7 @@ Method | HTTP request | Description
  - [MultigetGet201Response](docs/MultigetGet201Response.md)
  - [MyId](docs/MyId.md)
  - [MyIdList](docs/MyIdList.md)
+ - [NullableObject](docs/NullableObject.md)
  - [NullableTest](docs/NullableTest.md)
  - [ObjectHeader](docs/ObjectHeader.md)
  - [ObjectParam](docs/ObjectParam.md)

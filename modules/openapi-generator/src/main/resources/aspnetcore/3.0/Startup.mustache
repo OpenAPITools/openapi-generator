@@ -119,7 +119,7 @@ namespace {{packageName}}
                         Version = "{{{version}}}{{^version}}v1{{/version}}",
                     });
                     c.CustomSchemaIds(type => type.FriendlyId(true));
-                    c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{Assembly.GetEntryAssembly().GetName().Name}.xml");
+                    c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{Assembly.GetExecutingAssembly().GetName().Name}.xml");
                     {{#basePathWithoutHost}}
                     // Sets the basePath property in the OpenAPI document generated
                     c.DocumentFilter<BasePathFilter>("{{{.}}}");
