@@ -159,20 +159,26 @@ public class CSharpClientCodegenTest {
         Map<String, File> files = defaultGenerator.generate().stream()
                 .collect(Collectors.toMap(File::getPath, Function.identity()));
 
-        Map<String, String> expectedMapping = Map.of(
-                "Catty", "Cat",
-                "Lizzy", "Lizard",
-                "Dog", "Dog"
+        Map<String, String> expectedContents = Map.of(
+                "Cat", "PetTypeEnum petType = PetTypeEnum.Catty",
+                "Dog", "PetTypeEnum petType = PetTypeEnum.Dog",
+                "Gecko", "PetTypeEnum petType = PetTypeEnum.Gecko",
+                "Chameleon", "PetTypeEnum petType = PetTypeEnum.Camo",
+                "MiniVan", "CarType carType = CarType.MiniVan",
+                "CargoVan", "CarType carType = CarType.CargoVan",
+                "SUV", "CarType carType = CarType.SUV",
+                "Truck", "CarType carType = CarType.Truck"
+
         );
-        for (Map.Entry<String, String> e : expectedMapping.entrySet()) {
-            String modelName = e.getValue();
-            String enumValue = e.getKey();
+        for (Map.Entry<String, String> e : expectedContents.entrySet()) {
+            String modelName = e.getKey();
+            String expectedContent = e.getValue();
             File file = files.get(Paths
                     .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", modelName + ".cs")
                     .toString()
             );
             assertNotNull(file, "Could not find file for model: " + modelName);
-            assertFileContains(file.toPath(), "AnimalType petType = AnimalType." + enumValue);
+            assertFileContains(file.toPath(), expectedContent);
         }
     }
 }
