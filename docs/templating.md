@@ -257,7 +257,7 @@ cd ~/.openapi-generator/example
 gradle assemble
 # or, regenerate the wrapper
 gradle wrapper --gradle-version 4.8 --distribution-type all
-./gradlew assemblef
+./gradlew assemble
 ```
 
 You should see a log message showing our added dependency being downloaded:

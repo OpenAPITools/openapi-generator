@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
+import lombok.Getter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -35,16 +36,18 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
-    private final Logger LOGGER = LoggerFactory.getLogger(ScalaHttp4sScala3ClientCodegen.class);
+public class ScalaHttp4sClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
+    private final Logger LOGGER = LoggerFactory.getLogger(ScalaHttp4sClientCodegen.class);
 
-    protected String mainPackage = "org.openapitools.client";
+    private String mainPackage = "org.openapitools.client";
     protected String groupId = "org.openapitools";
-    protected String artifactId = "http4s-client-scala3";
+    protected String artifactId = "scala-http4s-client";
     protected String artifactVersion = "1.0.0";
     protected boolean registerNonStandardStatusCodes = true;
-    protected boolean removeOAuthSecurities = true; //TODO??
+    protected boolean removeOAuthSecurities = true;
+    @Getter
     protected boolean excludeSbt = false;
+    @Getter
     protected boolean modelsOnly = false;
     protected static final String EXCLUDE_SBT = "excludeSbt";
     protected static final String MODELS_ONLY = "modelsOnly";
@@ -57,14 +60,14 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
     }
 
     public String getName() {
-        return "scala-http4s-scala3";
+        return "scala-http4s";
     }
 
     public String getHelp() {
-        return "Generates a scala-http4s-scala3 client.";
+        return "Generates a scala-http4s client.";
     }
 
-    public ScalaHttp4sScala3ClientCodegen() {
+    public ScalaHttp4sClientCodegen() {
         super();
 
         modifyFeatureSet(features -> features
@@ -96,7 +99,7 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
         supportsMixins = true;
         addOneOfInterfaceImports = true;
 
-        embeddedTemplateDir = templateDir = "scala-http4s-scala3";
+        embeddedTemplateDir = templateDir = "scala-http4s";
 
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
@@ -271,6 +274,9 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
         if (!excludeSbt) {
             supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
             supportingFiles.add(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
+        } else {
+            supportingFiles.remove(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
+            supportingFiles.remove(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
         }
         if (additionalProperties.containsKey(MODELS_ONLY)) {
             this.modelsOnly = convertPropertyToBoolean(MODELS_ONLY);
@@ -279,6 +285,8 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
             supportingFiles.add(new SupportingFile("baseClient.mustache", apisFileFolderRelative(), "BaseClient.scala"));
             supportingFiles.add(new SupportingFile("jsonSupports.mustache", apisFileFolderRelative(), "JsonSupports.scala"));
         } else {
+            supportingFiles.remove(new SupportingFile("baseClient.mustache", apisFileFolderRelative(), "BaseClient.scala"));
+            supportingFiles.remove(new SupportingFile("jsonSupports.mustache", apisFileFolderRelative(), "JsonSupports.scala"));
             apiTemplateFiles.remove("api.mustache");
         }
     }
