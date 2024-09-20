@@ -37,18 +37,14 @@ impl ANullableContainer {
 impl std::string::ToString for ANullableContainer {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.nullable_thing.as_ref().map(|nullable_thing| {
                 [
                     "NullableThing".to_string(),
                     nullable_thing.as_ref().map_or("null".to_string(), |x| x.to_string()),
                 ].join(",")
             }),
-
-
             Some("RequiredNullableThing".to_string()),
             Some(self.required_nullable_thing.as_ref().map_or("null".to_string(), |x| x.to_string())),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -66,8 +62,8 @@ impl std::str::FromStr for ANullableContainer {
         #[derive(Default)]
         #[allow(dead_code)]
         struct IntermediateRep {
-            pub nullable_thing: Vec<String>,
-            pub required_nullable_thing: Vec<String>,
+            pub nullable_thing: Vec<swagger::Nullable<String>>,
+            pub required_nullable_thing: Vec<swagger::Nullable<String>>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -352,22 +348,18 @@ impl AllOfObject {
 impl std::string::ToString for AllOfObject {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.sample_property.as_ref().map(|sample_property| {
                 [
                     "sampleProperty".to_string(),
                     sample_property.to_string(),
                 ].join(",")
             }),
-
-
             self.sample_base_property.as_ref().map(|sample_base_property| {
                 [
                     "sampleBaseProperty".to_string(),
                     sample_base_property.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -533,14 +525,12 @@ impl BaseAllOf {
 impl std::string::ToString for BaseAllOf {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.sample_base_property.as_ref().map(|sample_base_property| {
                 [
                     "sampleBaseProperty".to_string(),
                     sample_base_property.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -706,18 +696,14 @@ impl DummyPutRequest {
 impl std::string::ToString for DummyPutRequest {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             Some("id".to_string()),
             Some(self.id.to_string()),
-
-
             self.password.as_ref().map(|password| {
                 [
                     "password".to_string(),
                     password.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -885,14 +871,12 @@ impl GetYamlResponse {
 impl std::string::ToString for GetYamlResponse {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.value.as_ref().map(|value| {
                 [
                     "value".to_string(),
                     value.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -1055,8 +1039,7 @@ impl ObjectOfObjects {
 impl std::string::ToString for ObjectOfObjects {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-            // Skipping inner in query parameter serialization
-
+            // Skipping non-primitive type inner in query parameter serialization
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -1222,18 +1205,14 @@ impl ObjectOfObjectsInner {
 impl std::string::ToString for ObjectOfObjectsInner {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             Some("required_thing".to_string()),
             Some(self.required_thing.to_string()),
-
-
             self.optional_thing.as_ref().map(|optional_thing| {
                 [
                     "optional_thing".to_string(),
                     optional_thing.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
