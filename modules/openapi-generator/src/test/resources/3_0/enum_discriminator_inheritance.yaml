@@ -68,6 +68,7 @@ components:
     # Car inheritance tree: Car -> Truck -> SUV
     #                       Car -> Van -> MiniVan
     #                       Car -> Van -> CargoVan
+    #                       Car -> Sedan
     Car:
       type: object
       required:
@@ -101,6 +102,8 @@ components:
       type: object
       allOf:
         - $ref: '#/components/schemas/Car'
+      required:
+        - carType
       properties:
         carType:
           $ref: '#/components/schemas/CarType'

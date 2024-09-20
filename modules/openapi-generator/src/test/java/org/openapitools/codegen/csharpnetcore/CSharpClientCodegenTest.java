@@ -167,7 +167,8 @@ public class CSharpClientCodegenTest {
                 "MiniVan", "CarType carType = CarType.MiniVan",
                 "CargoVan", "CarType carType = CarType.CargoVan",
                 "SUV", "CarType carType = CarType.SUV",
-                "Truck", "CarType carType = CarType.Truck"
+                "Truck", "CarType carType = CarType.Truck",
+                "Sedan", "CarType carType = CarType.Sedan"
 
         );
         for (Map.Entry<String, String> e : expectedContents.entrySet()) {

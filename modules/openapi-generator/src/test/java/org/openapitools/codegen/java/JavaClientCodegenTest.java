@@ -2305,7 +2305,8 @@ public class JavaClientCodegenTest {
                 "MiniVan",
                 "CargoVan",
                 "SUV",
-                "Truck");
+                "Truck",
+                "Sedan");
         for (String entity : entities) {
             File entityFile = files.get(entity + ".java");
             assertNotNull(entityFile);
