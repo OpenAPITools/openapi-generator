@@ -10,7 +10,8 @@ import PetstoreClient
 import XCTest
 @testable import SwaggerClient
 
-class StoreAPITests: XCTestCase {
+@MainActor
+class StoreAPITests: XCTestCase, @unchecked Sendable {
 
     let isoDateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
 

@@ -5,8 +5,10 @@ DIRECTORY=`dirname $0`
 
 # example project with unit tests
 (cd $DIRECTORY/alamofireLibrary/SwaggerClientTests/ && ./run_xcodebuild.sh)
+(cd $DIRECTORY/apiNonStaticMethod/SwaggerClientTests/ && ./run_xcodebuild.sh)
 (cd $DIRECTORY/asyncAwaitLibrary/SwaggerClientTests/ && ./run_xcodebuild.sh)
 (cd $DIRECTORY/combineLibrary/SwaggerClientTests/ && ./run_xcodebuild.sh)
+(cd $DIRECTORY/combineDeferredLibrary/SwaggerClientTests/ && ./run_xcodebuild.sh)
 (cd $DIRECTORY/default/SwaggerClientTests/ && ./run_xcodebuild.sh)
 (cd $DIRECTORY/promisekitLibrary/SwaggerClientTests/ && ./run_xcodebuild.sh)
 (cd $DIRECTORY/rxswiftLibrary/SwaggerClientTests/ && ./run_xcodebuild.sh)

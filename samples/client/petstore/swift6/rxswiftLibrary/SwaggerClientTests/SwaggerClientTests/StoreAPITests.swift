@@ -11,6 +11,7 @@ import RxSwift
 import XCTest
 @testable import SwaggerClient
 
+@MainActor
 class StoreAPITests: XCTestCase {
 
     let isoDateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"

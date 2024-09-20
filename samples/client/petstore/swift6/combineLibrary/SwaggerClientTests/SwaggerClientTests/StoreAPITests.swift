@@ -11,6 +11,7 @@ import Combine
 import XCTest
 @testable import SwaggerClient
 
+@MainActor
 @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 class StoreAPITests: XCTestCase {
 

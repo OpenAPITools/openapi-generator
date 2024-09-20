@@ -89,6 +89,7 @@ import Alamofire{{/useAlamofire}}
                     self.execute { result in
                         switch result {
                         case let .success(response):
+                            nonisolated(unsafe) let response = response
                             continuation.resume(returning: response)
                         case let .failure(error):
                             continuation.resume(throwing: error)

@@ -7,19 +7,22 @@
 
 import Foundation
 
-open class CodableHelper {
-    private static var customDateFormatter: DateFormatter?
-    private static var defaultDateFormatter: DateFormatter = OpenISO8601DateFormatter()
+open class CodableHelper: @unchecked Sendable {
+    private init() {}
+    public static let shared = CodableHelper()
 
-    private static var customJSONDecoder: JSONDecoder?
-    private static var defaultJSONDecoder: JSONDecoder = {
+    private var customDateFormatter: DateFormatter?
+    private var defaultDateFormatter: DateFormatter = OpenISO8601DateFormatter()
+
+    private var customJSONDecoder: JSONDecoder?
+    private var defaultJSONDecoder: JSONDecoder = {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .formatted(CodableHelper.dateFormatter)
         return decoder
     }()
 
-    private static var customJSONEncoder: JSONEncoder?
-    private static var defaultJSONEncoder: JSONEncoder = {
+    private var customJSONEncoder: JSONEncoder?
+    private var defaultJSONEncoder: JSONEncoder = {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .formatted(CodableHelper.dateFormatter)
         encoder.outputFormatting = .prettyPrinted
@@ -27,16 +30,16 @@ open class CodableHelper {
     }()
 
     public static var dateFormatter: DateFormatter {
-        get { return customDateFormatter ?? defaultDateFormatter }
-        set { customDateFormatter = newValue }
+        get { return Self.shared.customDateFormatter ?? Self.shared.defaultDateFormatter }
+        set { Self.shared.customDateFormatter = newValue }
     }
     public static var jsonDecoder: JSONDecoder {
-        get { return customJSONDecoder ?? defaultJSONDecoder }
-        set { customJSONDecoder = newValue }
+        get { return Self.shared.customJSONDecoder ?? Self.shared.defaultJSONDecoder }
+        set { Self.shared.customJSONDecoder = newValue }
     }
     public static var jsonEncoder: JSONEncoder {
-        get { return customJSONEncoder ?? defaultJSONEncoder }
-        set { customJSONEncoder = newValue }
+        get { return Self.shared.customJSONEncoder ?? Self.shared.defaultJSONEncoder }
+        set { Self.shared.customJSONEncoder = newValue }
     }
 
     open class func decode<T>(_ type: T.Type, from data: Data) -> Swift.Result<T, Error> where T: Decodable {

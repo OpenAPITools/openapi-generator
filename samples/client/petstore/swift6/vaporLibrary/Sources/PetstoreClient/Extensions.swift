@@ -13,7 +13,7 @@ import AnyCodable
 #endif
 import Vapor
 
-extension String: CodingKey {
+extension String: @retroactive CodingKey {
 
     public var stringValue: String {
         return self

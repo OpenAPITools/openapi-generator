@@ -20,7 +20,7 @@ class BearerRequestBuilderFactory: RequestBuilderFactory {
     }
 }
 
-class BearerRequestBuilder<T>: AlamofireRequestBuilder<T> {
+class BearerRequestBuilder<T>: AlamofireRequestBuilder<T>, @unchecked Sendable {
     override func createAlamofireSession(interceptor: RequestInterceptor? = nil) -> Session {
         if self.requiresAuthentication {
 
@@ -34,7 +34,7 @@ class BearerRequestBuilder<T>: AlamofireRequestBuilder<T> {
     }
 }
 
-class BearerDecodableRequestBuilder<T: Decodable>: AlamofireDecodableRequestBuilder<T> {
+class BearerDecodableRequestBuilder<T: Decodable>: AlamofireDecodableRequestBuilder<T>, @unchecked Sendable {
     override func createAlamofireSession(interceptor: RequestInterceptor? = nil) -> Session {
         if self.requiresAuthentication {
 
@@ -48,11 +48,11 @@ class BearerDecodableRequestBuilder<T: Decodable>: AlamofireDecodableRequestBuil
     }
 }
 
-class BearerTokenHandler: RequestInterceptor {
-    private static var bearerToken: String? = nil
+class BearerTokenHandler: RequestInterceptor, @unchecked Sendable {
+    private var bearerToken: String? = nil
     
     func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
-        if let bearerToken = Self.bearerToken {
+        if let bearerToken = bearerToken {
             var urlRequest = urlRequest
             urlRequest.setValue("Bearer \(bearerToken)", forHTTPHeaderField: "Authorization")
             
@@ -65,7 +65,7 @@ class BearerTokenHandler: RequestInterceptor {
     
     func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
         if let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401 {
-            Self.startRefreshingToken { isTokenRefreshed in
+            startRefreshingToken { isTokenRefreshed in
                 completion(.retry)
             }
         } else {
@@ -73,12 +73,12 @@ class BearerTokenHandler: RequestInterceptor {
         }
     }
     
-    private static func startRefreshingToken(completionHandler: @escaping (Bool) -> Void) {
+    private func startRefreshingToken(completionHandler: @escaping (Bool) -> Void) {
         // Get a bearer token
         let dummyBearerToken = "..."
         
         bearerToken = dummyBearerToken
-        PetstoreClientAPI.customHeaders["Authorization"] = "Bearer \(dummyBearerToken)"
+        PetstoreClientAPI.shared.customHeaders["Authorization"] = "Bearer \(dummyBearerToken)"
         
         completionHandler(true)
     }

@@ -27,6 +27,7 @@ open class FakeClassnameTags123API {
         let requestBuilder = testClassnameWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
         return Future<Client, Error> { promise in
+            nonisolated(unsafe) let promise = promise
             requestBuilder.execute { result in
                 switch result {
                 case let .success(response):
@@ -55,7 +56,7 @@ open class FakeClassnameTags123API {
      */
     open class func testClassnameWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
         let localVariablePath = "/fake_classname_test"
-        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -66,7 +67,7 @@ open class FakeClassnameTags123API {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }

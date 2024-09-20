@@ -10,7 +10,13 @@ import FoundationNetworking
 #endif
 import Vapor
 
-open class PetstoreClientAPI {
-    public static var basePath = "http://petstore.swagger.io:80/v2"
-    public static var customHeaders: HTTPHeaders = [:]
+open class PetstoreClientAPI: @unchecked Sendable {
+    private init() {}
+    public static let shared = PetstoreClientAPI()
+
+    public var basePath = "http://petstore.swagger.io:80/v2"
+    public var customHeaders: HTTPHeaders = [:]
+    public var apiClient: Vapor.Client? = nil
+    public var apiWrapper: (inout Vapor.ClientRequest) throws -> () = { _ in }
+    public var contentConfiguration = ContentConfiguration.default()
 }

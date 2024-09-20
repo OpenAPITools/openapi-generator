@@ -13,7 +13,6 @@ Sources/PetstoreClient/APIs/PetAPI.swift
 Sources/PetstoreClient/APIs/StoreAPI.swift
 Sources/PetstoreClient/APIs/UserAPI.swift
 Sources/PetstoreClient/CodableHelper.swift
-Sources/PetstoreClient/Configuration.swift
 Sources/PetstoreClient/Extensions.swift
 Sources/PetstoreClient/JSONDataEncoding.swift
 Sources/PetstoreClient/JSONEncodingHelper.swift

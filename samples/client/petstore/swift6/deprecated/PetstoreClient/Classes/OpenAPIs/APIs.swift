@@ -8,12 +8,20 @@ import Foundation
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
-open class PetstoreClientAPI {
-    public static var basePath = "http://petstore.swagger.io/v2"
-    public static var customHeaders: [String: String] = [:]
-    public static var credential: URLCredential?
-    public static var requestBuilderFactory: RequestBuilderFactory = URLSessionRequestBuilderFactory()
-    public static var apiResponseQueue: DispatchQueue = .main
+
+open class PetstoreClientAPI: @unchecked Sendable {
+    private init() {}
+    public static let shared = PetstoreClientAPI()
+
+    public var basePath = "http://petstore.swagger.io/v2"
+    public var customHeaders: [String: String] = [:]
+    public var credential: URLCredential?
+    public var requestBuilderFactory: RequestBuilderFactory = URLSessionRequestBuilderFactory()
+    public var apiResponseQueue: DispatchQueue = .main
+    /// Configures the range of HTTP status codes that will result in a successful response
+    ///
+    /// If a HTTP status code is outside of this range the response will be interpreted as failed.
+    public var successfulStatusCodeRange: Range = 200..<300
 }
 
 open class RequestBuilder<T>: @unchecked Sendable {
@@ -35,7 +43,7 @@ open class RequestBuilder<T>: @unchecked Sendable {
         self.headers = headers
         self.requiresAuthentication = requiresAuthentication
 
-        addHeaders(PetstoreClientAPI.customHeaders)
+        addHeaders(PetstoreClientAPI.shared.customHeaders)
     }
 
     open func addHeaders(_ aHeaders: [String: String]) {
@@ -45,7 +53,7 @@ open class RequestBuilder<T>: @unchecked Sendable {
     }
 
     @discardableResult
-    open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+    open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue, _ completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         return requestTask
     }
 
@@ -57,7 +65,7 @@ open class RequestBuilder<T>: @unchecked Sendable {
     }
 
     open func addCredential() -> Self {
-        credential = PetstoreClientAPI.credential
+        credential = PetstoreClientAPI.shared.credential
         return self
     }
 }

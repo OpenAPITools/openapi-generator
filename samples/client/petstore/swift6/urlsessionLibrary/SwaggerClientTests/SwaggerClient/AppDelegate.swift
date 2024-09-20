@@ -9,7 +9,7 @@
 import UIKit
 import PetstoreClient
 
-@UIApplicationMain
+@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         // Customize requestBuilderFactory
-        PetstoreClientAPI.requestBuilderFactory = BearerRequestBuilderFactory()
+        PetstoreClientAPI.shared.requestBuilderFactory = BearerRequestBuilderFactory()
         
         return true
     }

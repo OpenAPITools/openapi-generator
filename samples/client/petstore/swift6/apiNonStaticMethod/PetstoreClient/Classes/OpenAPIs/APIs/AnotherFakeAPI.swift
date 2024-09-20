@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import PromiseKit
-import RxSwift
+@preconcurrency import PromiseKit
+@preconcurrency import RxSwift
 #if canImport(Combine)
 import Combine
 #endif
@@ -16,6 +16,7 @@ import AnyCodable
 #endif
 
 open class AnotherFakeAPI {
+    public init() {}
 
     /**
      To test special tags
@@ -43,9 +44,9 @@ open class AnotherFakeAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Client>
      */
-    open func call123testSpecialTags(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Client> {
+    open func call123testSpecialTags(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue) -> Observable<Client> {
         return Observable.create { observer -> Disposable in
-            let requestTask = call123testSpecialTagsWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+            let requestTask = self.call123testSpecialTagsWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body)
@@ -73,6 +74,7 @@ open class AnotherFakeAPI {
         let requestBuilder = call123testSpecialTagsWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Client, Error> { promise in
+            nonisolated(unsafe) let promise = promise
             requestBuilder.execute { result in
                 switch result {
                 case let .success(response):
@@ -110,7 +112,7 @@ open class AnotherFakeAPI {
      - parameter completion: completion handler to receive the result
      */
     @discardableResult
-    open func call123testSpecialTags(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Client, ErrorResponse>) -> Void)) -> RequestTask {
+    open func call123testSpecialTags(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue, completion: @Sendable @escaping (_ result: Swift.Result<Client, ErrorResponse>) -> Void) -> RequestTask {
         return call123testSpecialTagsWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -130,7 +132,7 @@ open class AnotherFakeAPI {
      */
     open func call123testSpecialTagsWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
         let localVariablePath = "/another-fake/dummy"
-        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -141,7 +143,7 @@ open class AnotherFakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }

@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import PromiseKit
-import RxSwift
+@preconcurrency import PromiseKit
+@preconcurrency import RxSwift
 #if canImport(Combine)
 import Combine
 #endif
@@ -16,6 +16,7 @@ import AnyCodable
 #endif
 
 open class FakeClassnameTags123API {
+    public init() {}
 
     /**
      To test class name in snake case
@@ -43,9 +44,9 @@ open class FakeClassnameTags123API {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Client>
      */
-    open func testClassname(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Client> {
+    open func testClassname(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue) -> Observable<Client> {
         return Observable.create { observer -> Disposable in
-            let requestTask = testClassnameWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+            let requestTask = self.testClassnameWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body)
@@ -73,6 +74,7 @@ open class FakeClassnameTags123API {
         let requestBuilder = testClassnameWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Client, Error> { promise in
+            nonisolated(unsafe) let promise = promise
             requestBuilder.execute { result in
                 switch result {
                 case let .success(response):
@@ -110,7 +112,7 @@ open class FakeClassnameTags123API {
      - parameter completion: completion handler to receive the result
      */
     @discardableResult
-    open func testClassname(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Client, ErrorResponse>) -> Void)) -> RequestTask {
+    open func testClassname(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue, completion: @Sendable @escaping (_ result: Swift.Result<Client, ErrorResponse>) -> Void) -> RequestTask {
         return testClassnameWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -133,7 +135,7 @@ open class FakeClassnameTags123API {
      */
     open func testClassnameWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
         let localVariablePath = "/fake_classname_test"
-        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -144,7 +146,7 @@ open class FakeClassnameTags123API {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }

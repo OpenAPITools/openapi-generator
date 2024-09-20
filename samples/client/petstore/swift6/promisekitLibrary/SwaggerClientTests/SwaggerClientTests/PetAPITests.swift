@@ -7,10 +7,11 @@
 //
 
 import PetstoreClient
-import PromiseKit
+@preconcurrency import PromiseKit
 import XCTest
 @testable import SwaggerClient
 
+@MainActor
 class PetAPITests: XCTestCase {
 
     let testTimeout = 10.0

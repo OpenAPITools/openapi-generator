@@ -9,7 +9,6 @@ Sources/PetstoreClient/APIs/FakeClassnameTags123API.swift
 Sources/PetstoreClient/APIs/PetAPI.swift
 Sources/PetstoreClient/APIs/StoreAPI.swift
 Sources/PetstoreClient/APIs/UserAPI.swift
-Sources/PetstoreClient/Configuration.swift
 Sources/PetstoreClient/Extensions.swift
 Sources/PetstoreClient/Models/AdditionalPropertiesAnyType.swift
 Sources/PetstoreClient/Models/AdditionalPropertiesArray.swift

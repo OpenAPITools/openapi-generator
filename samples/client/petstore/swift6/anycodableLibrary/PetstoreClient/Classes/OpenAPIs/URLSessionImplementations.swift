@@ -52,17 +52,25 @@ class URLSessionRequestBuilderFactory: RequestBuilderFactory {
 
 public typealias PetstoreClientAPIChallengeHandler = ((URLSession, URLSessionTask, URLAuthenticationChallenge) -> (URLSession.AuthChallengeDisposition, URLCredential?))
 
-// Store the URLSession's delegate to retain its reference
-private let sessionDelegate = SessionDelegate()
+fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
+    private init() {
+        defaultURLSession = URLSession(configuration: .default, delegate: sessionDelegate, delegateQueue: nil)
+    }
 
-// Store the URLSession to retain its reference
-private let defaultURLSession = URLSession(configuration: .default, delegate: sessionDelegate, delegateQueue: nil)
+    static let shared = URLSessionRequestBuilderConfiguration()
+    
+    // Store the URLSession's delegate to retain its reference
+    let sessionDelegate = SessionDelegate()
 
-// Store current taskDidReceiveChallenge for every URLSessionTask
-private var challengeHandlerStore = SynchronizedDictionary<Int, PetstoreClientAPIChallengeHandler>()
+    // Store the URLSession to retain its reference
+    let defaultURLSession: URLSession
 
-// Store current URLCredential for every URLSessionTask
-private var credentialStore = SynchronizedDictionary<Int, URLCredential>()
+    // Store current taskDidReceiveChallenge for every URLSessionTask
+    var challengeHandlerStore = SynchronizedDictionary<Int, PetstoreClientAPIChallengeHandler>()
+
+    // Store current URLCredential for every URLSessionTask
+    var credentialStore = SynchronizedDictionary<Int, URLCredential>()
+}
 
 open class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
 
@@ -80,7 +88,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
      configuration.
      */
     open func createURLSession() -> URLSessionProtocol {
-        return defaultURLSession
+        return URLSessionRequestBuilderConfiguration.shared.defaultURLSession
     }
 
     /**
@@ -118,7 +126,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
     }
 
     @discardableResult
-    override open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+    override open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue, _ completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         let urlSession = createURLSession()
 
         guard let xMethod = HTTPMethod(rawValue: method) else {
@@ -159,8 +167,8 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
 
             onProgressReady?(dataTask.progress)
 
-            challengeHandlerStore[dataTask.taskIdentifier] = taskDidReceiveChallenge
-            credentialStore[dataTask.taskIdentifier] = credential
+            URLSessionRequestBuilderConfiguration.shared.challengeHandlerStore[dataTask.taskIdentifier] = taskDidReceiveChallenge
+            URLSessionRequestBuilderConfiguration.shared.credentialStore[dataTask.taskIdentifier] = credential
 
             requestTask.set(task: dataTask)
 
@@ -176,8 +184,8 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
 
     private func cleanupRequest() {
         if let task = requestTask.get() {
-            challengeHandlerStore[task.taskIdentifier] = nil
-            credentialStore[task.taskIdentifier] = nil
+            URLSessionRequestBuilderConfiguration.shared.challengeHandlerStore[task.taskIdentifier] = nil
+            URLSessionRequestBuilderConfiguration.shared.credentialStore[task.taskIdentifier] = nil
         }
     }
 
@@ -211,7 +219,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
 
     open func buildHeaders() -> [String: String] {
         var httpHeaders: [String: String] = [:]
-        for (key, value) in PetstoreClientAPI.customHeaders {
+        for (key, value) in PetstoreClientAPI.shared.customHeaders {
             httpHeaders[key] = value
         }
         for (key, value) in headers {
@@ -366,20 +374,20 @@ open class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBui
     }
 }
 
-private class SessionDelegate: NSObject, URLSessionTaskDelegate {
+fileprivate final class SessionDelegate: NSObject, URLSessionTaskDelegate {
     func urlSession(_ session: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
 
         var disposition: URLSession.AuthChallengeDisposition = .performDefaultHandling
 
         var credential: URLCredential?
 
-        if let taskDidReceiveChallenge = challengeHandlerStore[task.taskIdentifier] {
+        if let taskDidReceiveChallenge = URLSessionRequestBuilderConfiguration.shared.challengeHandlerStore[task.taskIdentifier] {
             (disposition, credential) = taskDidReceiveChallenge(session, task, challenge)
         } else {
             if challenge.previousFailureCount > 0 {
                 disposition = .rejectProtectionSpace
             } else {
-                credential = credentialStore[task.taskIdentifier] ?? session.configuration.urlCredentialStorage?.defaultCredential(for: challenge.protectionSpace)
+                credential = URLSessionRequestBuilderConfiguration.shared.credentialStore[task.taskIdentifier] ?? session.configuration.urlCredentialStorage?.defaultCredential(for: challenge.protectionSpace)
 
                 if credential != nil {
                     disposition = .useCredential

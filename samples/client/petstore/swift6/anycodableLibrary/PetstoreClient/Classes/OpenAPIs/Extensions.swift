@@ -107,7 +107,7 @@ extension JSONEncodable where Self: Encodable {
     }
 }
 
-extension String: CodingKey {
+extension String: @retroactive CodingKey {
 
     public var stringValue: String {
         return self
@@ -231,6 +231,6 @@ extension KeyedDecodingContainerProtocol {
 
 extension HTTPURLResponse {
     var isStatusCodeSuccessful: Bool {
-        return Configuration.successfulStatusCodeRange.contains(statusCode)
+        return PetstoreClientAPI.shared.successfulStatusCodeRange.contains(statusCode)
     }
 }

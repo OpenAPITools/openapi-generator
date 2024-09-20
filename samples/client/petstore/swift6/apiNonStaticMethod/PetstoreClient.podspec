@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
   s.name = 'PetstoreClient'
-  s.ios.deployment_target = '11.0'
+  s.ios.deployment_target = '12.0'
   s.osx.deployment_target = '10.13'
-  s.tvos.deployment_target = '11.0'
+  s.tvos.deployment_target = '12.0'
   s.watchos.deployment_target = '4.0'
   s.version = '1.0.0'
   s.source = { :git => 'git@github.com:OpenAPITools/openapi-generator.git', :tag => 'v1.0.0' }
@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.summary = 'PetstoreClient'
   s.source_files = 'PetstoreClient/Classes/**/*.swift'
   s.dependency 'AnyCodable-FlightSchool', '~> 0.6'
-  s.dependency 'Alamofire', '~> 5.7'
-  s.dependency 'PromiseKit/CorePromise', '~> 6.15'
-  s.dependency 'RxSwift', '~> 6.2'
+  s.dependency 'Alamofire', '~> 5.9'
+  s.dependency 'PromiseKit/CorePromise', '~> 8.1'
+  s.dependency 'RxSwift', '~> 6.7'
 end

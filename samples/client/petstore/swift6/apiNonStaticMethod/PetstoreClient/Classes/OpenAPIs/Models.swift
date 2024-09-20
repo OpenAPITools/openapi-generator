@@ -111,6 +111,22 @@ open class Response<T> {
     }
 }
 
+/// Type-erased ResponseSerializer
+///
+/// This is needed in order to use `ResponseSerializer` as a Type in `Configuration`. Obsolete with `any` keyword in Swift >= 5.7
+public struct AnyResponseSerializer<T>: ResponseSerializer {
+    
+    let _serialize: (URLRequest?, HTTPURLResponse?, Data?, Error?) throws -> T
+    
+    public init<V: ResponseSerializer>(_ delegatee: V) where V.SerializedObject == T {
+        _serialize = delegatee.serialize
+    }
+    
+    public func serialize(request: URLRequest?, response: HTTPURLResponse?, data: Data?, error: Error?) throws -> T {
+        try _serialize(request, response, data, error)
+    }
+}
+
 public final class RequestTask: @unchecked Sendable {
     private var lock = NSRecursiveLock()
     private var request: Request?

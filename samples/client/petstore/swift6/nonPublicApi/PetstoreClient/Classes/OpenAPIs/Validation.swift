@@ -6,13 +6,13 @@
 
 import Foundation
 
-internal struct StringRule {
+internal struct StringRule: @unchecked Sendable {
     internal var minLength: Int?
     internal var maxLength: Int?
     internal var pattern: String?
 }
 
-internal struct NumericRule<T: Comparable & Numeric> {
+internal struct NumericRule<T: Comparable & Numeric>: @unchecked Sendable {
     internal var minimum: T?
     internal var exclusiveMinimum = false
     internal var maximum: T?
@@ -20,7 +20,7 @@ internal struct NumericRule<T: Comparable & Numeric> {
     internal var multipleOf: T?
 }
 
-internal struct ArrayRule {
+internal struct ArrayRule: @unchecked Sendable {
     internal var minItems: Int?
     internal var maxItems: Int?
     internal var uniqueItems: Bool

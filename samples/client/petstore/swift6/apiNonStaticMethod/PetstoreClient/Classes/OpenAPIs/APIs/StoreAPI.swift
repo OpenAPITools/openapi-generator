@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import PromiseKit
-import RxSwift
+@preconcurrency import PromiseKit
+@preconcurrency import RxSwift
 #if canImport(Combine)
 import Combine
 #endif
@@ -16,6 +16,7 @@ import AnyCodable
 #endif
 
 open class StoreAPI {
+    public init() {}
 
     /**
      Delete purchase order by ID
@@ -43,9 +44,9 @@ open class StoreAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Void>
      */
-    open func deleteOrder(orderId: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
+    open func deleteOrder(orderId: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            let requestTask = deleteOrderWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
+            let requestTask = self.deleteOrderWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -73,6 +74,7 @@ open class StoreAPI {
         let requestBuilder = deleteOrderWithRequestBuilder(orderId: orderId)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
+            nonisolated(unsafe) let promise = promise
             requestBuilder.execute { result in
                 switch result {
                 case .success:
@@ -110,7 +112,7 @@ open class StoreAPI {
      - parameter completion: completion handler to receive the result
      */
     @discardableResult
-    open func deleteOrder(orderId: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+    open func deleteOrder(orderId: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
         return deleteOrderWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
             switch result {
             case .success:
@@ -133,7 +135,7 @@ open class StoreAPI {
         let orderIdPreEscape = "\(APIHelper.mapValueToPathItem(orderId))"
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -144,7 +146,7 @@ open class StoreAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
@@ -173,9 +175,9 @@ open class StoreAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<[String: Int]>
      */
-    open func getInventory(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<[String: Int]> {
+    open func getInventory(apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue) -> Observable<[String: Int]> {
         return Observable.create { observer -> Disposable in
-            let requestTask = getInventoryWithRequestBuilder().execute(apiResponseQueue) { result in
+            let requestTask = self.getInventoryWithRequestBuilder().execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body)
@@ -202,6 +204,7 @@ open class StoreAPI {
         let requestBuilder = getInventoryWithRequestBuilder()
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<[String: Int], Error> { promise in
+            nonisolated(unsafe) let promise = promise
             requestBuilder.execute { result in
                 switch result {
                 case let .success(response):
@@ -237,7 +240,7 @@ open class StoreAPI {
      - parameter completion: completion handler to receive the result
      */
     @discardableResult
-    open func getInventory(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[String: Int], ErrorResponse>) -> Void)) -> RequestTask {
+    open func getInventory(apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue, completion: @Sendable @escaping (_ result: Swift.Result<[String: Int], ErrorResponse>) -> Void) -> RequestTask {
         return getInventoryWithRequestBuilder().execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -259,7 +262,7 @@ open class StoreAPI {
      */
     open func getInventoryWithRequestBuilder() -> RequestBuilder<[String: Int]> {
         let localVariablePath = "/store/inventory"
-        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -270,7 +273,7 @@ open class StoreAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<[String: Int]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<[String: Int]>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -301,9 +304,9 @@ open class StoreAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Order>
      */
-    open func getOrderById(orderId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Order> {
+    open func getOrderById(orderId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue) -> Observable<Order> {
         return Observable.create { observer -> Disposable in
-            let requestTask = getOrderByIdWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
+            let requestTask = self.getOrderByIdWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body)
@@ -331,6 +334,7 @@ open class StoreAPI {
         let requestBuilder = getOrderByIdWithRequestBuilder(orderId: orderId)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Order, Error> { promise in
+            nonisolated(unsafe) let promise = promise
             requestBuilder.execute { result in
                 switch result {
                 case let .success(response):
@@ -368,7 +372,7 @@ open class StoreAPI {
      - parameter completion: completion handler to receive the result
      */
     @discardableResult
-    open func getOrderById(orderId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Order, ErrorResponse>) -> Void)) -> RequestTask {
+    open func getOrderById(orderId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue, completion: @Sendable @escaping (_ result: Swift.Result<Order, ErrorResponse>) -> Void) -> RequestTask {
         return getOrderByIdWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -391,7 +395,7 @@ open class StoreAPI {
         let orderIdPreEscape = "\(APIHelper.mapValueToPathItem(orderId))"
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -402,7 +406,7 @@ open class StoreAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
@@ -433,9 +437,9 @@ open class StoreAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Order>
      */
-    open func placeOrder(body: Order, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Order> {
+    open func placeOrder(body: Order, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue) -> Observable<Order> {
         return Observable.create { observer -> Disposable in
-            let requestTask = placeOrderWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+            let requestTask = self.placeOrderWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body)
@@ -463,6 +467,7 @@ open class StoreAPI {
         let requestBuilder = placeOrderWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Order, Error> { promise in
+            nonisolated(unsafe) let promise = promise
             requestBuilder.execute { result in
                 switch result {
                 case let .success(response):
@@ -500,7 +505,7 @@ open class StoreAPI {
      - parameter completion: completion handler to receive the result
      */
     @discardableResult
-    open func placeOrder(body: Order, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Order, ErrorResponse>) -> Void)) -> RequestTask {
+    open func placeOrder(body: Order, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue, completion: @Sendable @escaping (_ result: Swift.Result<Order, ErrorResponse>) -> Void) -> RequestTask {
         return placeOrderWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -519,7 +524,7 @@ open class StoreAPI {
      */
     open func placeOrderWithRequestBuilder(body: Order) -> RequestBuilder<Order> {
         let localVariablePath = "/store/order"
-        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -530,7 +535,7 @@ open class StoreAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }

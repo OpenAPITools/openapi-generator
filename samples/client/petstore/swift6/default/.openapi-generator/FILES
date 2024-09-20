@@ -12,7 +12,6 @@ PetstoreClient/Classes/OpenAPIs/APIs/PetAPI.swift
 PetstoreClient/Classes/OpenAPIs/APIs/StoreAPI.swift
 PetstoreClient/Classes/OpenAPIs/APIs/UserAPI.swift
 PetstoreClient/Classes/OpenAPIs/CodableHelper.swift
-PetstoreClient/Classes/OpenAPIs/Configuration.swift
 PetstoreClient/Classes/OpenAPIs/Extensions.swift
 PetstoreClient/Classes/OpenAPIs/JSONDataEncoding.swift
 PetstoreClient/Classes/OpenAPIs/JSONEncodingHelper.swift

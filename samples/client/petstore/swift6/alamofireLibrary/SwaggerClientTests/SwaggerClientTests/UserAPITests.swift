@@ -10,6 +10,7 @@ import PetstoreClient
 import XCTest
 @testable import SwaggerClient
 
+@MainActor
 class UserAPITests: XCTestCase {
 
     let testTimeout = 10.0

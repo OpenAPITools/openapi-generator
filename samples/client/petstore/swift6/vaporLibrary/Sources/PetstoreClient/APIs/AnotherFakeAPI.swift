@@ -23,10 +23,10 @@ open class AnotherFakeAPI {
      */
     open class func call123testSpecialTagsRaw(uuidTest: UUID, body: Client, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         let localVariablePath = "/another-fake/dummy"
-        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
 
-        guard let localVariableApiClient = Configuration.apiClient else {
-            fatalError("Configuration.apiClient is not set.")
+        guard let localVariableApiClient = PetstoreClientAPI.shared.apiClient else {
+            fatalError("PetstoreClientAPI.shared.apiClient is not set.")
         }
 
         return localVariableApiClient.send(.PATCH, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
@@ -35,7 +35,7 @@ open class AnotherFakeAPI {
             localVariableRequest.headers.add(name: "uuid_test", value: uuidTest.description)
             
             
-            try localVariableRequest.content.encode(body, using: Configuration.contentConfiguration.requireEncoder(for: Client.defaultContentType))
+            try localVariableRequest.content.encode(body, using: PetstoreClientAPI.shared.contentConfiguration.requireEncoder(for: Client.defaultContentType))
             
             try beforeSend(&localVariableRequest)
         }
@@ -58,7 +58,7 @@ open class AnotherFakeAPI {
         return call123testSpecialTagsRaw(uuidTest: uuidTest, body: body, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> Call123testSpecialTags in
             switch response.status.code {
             case 200:
-                return .http200(value: try response.content.decode(Client.self, using: Configuration.contentConfiguration.requireDecoder(for: Client.defaultContentType)), raw: response)
+                return .http200(value: try response.content.decode(Client.self, using: PetstoreClientAPI.shared.contentConfiguration.requireDecoder(for: Client.defaultContentType)), raw: response)
             default:
                 return .http0(raw: response)
             }

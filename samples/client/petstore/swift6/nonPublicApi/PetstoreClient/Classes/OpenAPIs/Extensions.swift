@@ -94,20 +94,20 @@ extension Data: JSONEncodable {
 
 extension Date: JSONEncodable {
     func encodeToJSON() -> Any {
-        return CodableHelper.dateFormatter.string(from: self)
+        return CodableHelper.shared.dateFormatter.string(from: self)
     }
 }
 
 extension JSONEncodable where Self: Encodable {
     func encodeToJSON() -> Any {
-        guard let data = try? CodableHelper.jsonEncoder.encode(self) else {
+        guard let data = try? CodableHelper.shared.jsonEncoder.encode(self) else {
             fatalError("Could not encode to json: \(self)")
         }
         return data.encodeToJSON()
     }
 }
 
-extension String: CodingKey {
+extension String: @retroactive CodingKey {
 
     public var stringValue: String {
         return self
@@ -231,6 +231,6 @@ extension KeyedDecodingContainerProtocol {
 
 extension HTTPURLResponse {
     var isStatusCodeSuccessful: Bool {
-        return Configuration.successfulStatusCodeRange.contains(statusCode)
+        return PetstoreClientAPI.shared.successfulStatusCodeRange.contains(statusCode)
     }
 }
