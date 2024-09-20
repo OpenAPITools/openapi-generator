@@ -266,7 +266,7 @@ bool ModelBase::fromString( const utility::string_t& val, std::shared_ptr<T>& ou
     bool ok = false;
     if(outVal == nullptr)
     {
-        outVal = std::shared_ptr<T>(new T());
+        outVal = std::make_shared<T>();
     }
     if( outVal != nullptr )
     {
@@ -346,7 +346,7 @@ bool ModelBase::fromJson( const web::json::value& val, std::shared_ptr<T> &outVa
     bool ok = false;
     if(outVal == nullptr)
     {
-        outVal = std::shared_ptr<T>(new T());
+        outVal = std::make_shared<T>();
     }
     if( outVal != nullptr )
     {
@@ -417,13 +417,13 @@ bool ModelBase::fromJson( const web::json::value& jval, std::map<utility::string
 template <typename T>
 std::shared_ptr<HttpContent> ModelBase::toHttpContent(const utility::string_t& name, const std::shared_ptr<T>& value , const utility::string_t& contentType )
 {
-    std::shared_ptr<HttpContent> content( new HttpContent );
+    std::shared_ptr<HttpContent> content = std::make_shared<HttpContent>();
     if (value != nullptr )
     {
         content->setName( name );
         content->setContentDisposition( utility::conversions::to_string_t("form-data") );
         content->setContentType( contentType );
-        content->setData( std::shared_ptr<std::istream>( new std::stringstream( utility::conversions::to_utf8string( value->toJson().serialize() ) ) ) );
+        content->setData( std::make_shared<std::stringstream>( utility::conversions::to_utf8string(value->toJson().serialize()) ) );
     }
     return content;
 }
@@ -432,33 +432,33 @@ template <typename T>
 std::shared_ptr<HttpContent> ModelBase::toHttpContent( const utility::string_t& name, const std::vector<T>& value, const utility::string_t& contentType )
 {
     web::json::value json_array = ModelBase::toJson(value);
-    std::shared_ptr<HttpContent> content( new HttpContent );
+    std::shared_ptr<HttpContent> content = std::make_shared<HttpContent>();
     content->setName( name );
     content->setContentDisposition( utility::conversions::to_string_t("form-data") );
     content->setContentType( contentType );
-    content->setData( std::shared_ptr<std::istream>( new std::stringstream( utility::conversions::to_utf8string(json_array.serialize()) ) ) );
+    content->setData( std::make_shared<std::stringstream>( utility::conversions::to_utf8string(json_array.serialize()) ) );
     return content;
 }
 template <typename T>
 std::shared_ptr<HttpContent> ModelBase::toHttpContent( const utility::string_t& name, const std::set<T>& value, const utility::string_t& contentType )
 {
     web::json::value json_array = ModelBase::toJson(value);
-    std::shared_ptr<HttpContent> content(new HttpContent);
+    std::shared_ptr<HttpContent> content = std::make_shared<HttpContent>();
     content->setName(name);
     content->setContentDisposition(utility::conversions::to_string_t("form-data"));
     content->setContentType(contentType);
-    content->setData(std::shared_ptr<std::istream>(new std::stringstream(utility::conversions::to_utf8string(json_array.serialize()))));
+    content->setData( std::make_shared<std::stringstream>( utility::conversions::to_utf8string(json_array.serialize()) ) );
     return content;
 }
 template <typename T>
 std::shared_ptr<HttpContent> ModelBase::toHttpContent( const utility::string_t& name, const std::map<utility::string_t, T>& value, const utility::string_t& contentType )
 {
     web::json::value jobj = ModelBase::toJson(value);
-    std::shared_ptr<HttpContent> content( new HttpContent );
+    std::shared_ptr<HttpContent> content = std::make_shared<HttpContent>();
     content->setName( name );
     content->setContentDisposition( utility::conversions::to_string_t("form-data") );
     content->setContentType( contentType );
-    content->setData( std::shared_ptr<std::istream>( new std::stringstream( utility::conversions::to_utf8string(jobj.serialize()) ) ) );
+    content->setData( std::make_shared<std::stringstream>( utility::conversions::to_utf8string(jobj.serialize()) ) );
     return content;
 }
 template <typename T>
@@ -468,7 +468,7 @@ bool ModelBase::fromHttpContent( std::shared_ptr<HttpContent> val,  std::shared_
     if(val == nullptr) return false;
     if( outVal == nullptr )
     {
-        outVal = std::shared_ptr<T>(new T());
+        outVal = std::make_shared<T>();
     }
     ModelBase::fromHttpContent(val, str);
     return fromString(str, outVal);
