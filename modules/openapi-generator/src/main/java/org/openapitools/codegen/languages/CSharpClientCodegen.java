@@ -439,9 +439,19 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 }
 
                 for (final CodegenProperty property : codegenModel.readWriteVars) {
-                    if (property.defaultValue == null && parentCodegenModel.discriminator != null && property.name.equals(parentCodegenModel.discriminator.getPropertyName())) {
-                        if (parentCodegenModel.discriminator.getIsEnum()) {
-                            property.defaultValue = toEnumDefaultValue(property, name);
+                    CodegenDiscriminator discriminator = parentCodegenModel.discriminator;
+                    if (property.defaultValue == null && discriminator != null && property.name.equals(discriminator.getPropertyName())) {
+                        if (discriminator.getIsEnum()) {
+                            String enumValue = name;
+                            Map<String, String> mapping = Optional.ofNullable(discriminator.getMapping()).orElseGet(Collections::emptyMap);
+                            for (Map.Entry<String, String> e : mapping.entrySet()) {
+                                String schemaName = e.getValue().indexOf('/') < 0 ? e.getValue() : ModelUtils.getSimpleRef(e.getValue());
+                                if (name.equals(schemaName)) {
+                                    enumValue = e.getKey();
+                                    break;
+                                }
+                            }
+                            property.defaultValue = toEnumDefaultValue(property, enumValue);
                         } else {
                             property.defaultValue = "\"" + name + "\"";
                         }

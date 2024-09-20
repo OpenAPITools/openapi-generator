@@ -21,13 +21,17 @@ components:
           $ref: '#/components/schemas/AnimalType'
       discriminator:
         propertyName: petType
+        # Mapping with implicit (Dog), explicit ref (Catty -> Cat), and explicit schema name (Lizzy -> Lizard)
+        mapping:
+          Catty: '#/components/schemas/Cat'
+          Lizzy: 'Lizard'
       required:
         - petType
     AnimalType:
       type: string
       enum:
         - Dog
-        - Cat
+        - Catty
     Cat:
       type: object
       allOf:
@@ -41,4 +45,11 @@ components:
         - $ref: '#/components/schemas/Animal'
       properties:
         bark:
+          type: string
+    Lizard:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+      properties:
+        lovesRocks:
           type: string

@@ -146,7 +146,7 @@ public class CSharpClientCodegenTest {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec(
-            "src/test/resources/3_0/enum_discriminator_inheritance.yaml");
+                "src/test/resources/3_0/enum_discriminator_inheritance.yaml");
         final DefaultGenerator defaultGenerator = new DefaultGenerator();
         final ClientOptInput clientOptInput = new ClientOptInput();
         clientOptInput.openAPI(openAPI);
@@ -156,14 +156,23 @@ public class CSharpClientCodegenTest {
         clientOptInput.config(cSharpClientCodegen);
         defaultGenerator.opts(clientOptInput);
 
-      Map<String, File> files = defaultGenerator.generate().stream()
-            .collect(Collectors.toMap(File::getPath, Function.identity()));
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
 
-        File modelFile = files.get(Paths
-            .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "Cat.cs")
-            .toString()
+        Map<String, String> expectedMapping = Map.of(
+                "Catty", "Cat",
+                "Lizzy", "Lizard",
+                "Dog", "Dog"
         );
-        assertNotNull(modelFile);
-        assertFileContains(modelFile.toPath(), "AnimalType petType = AnimalType.Cat");
+        for (Map.Entry<String, String> e : expectedMapping.entrySet()) {
+            String modelName = e.getValue();
+            String enumValue = e.getKey();
+            File file = files.get(Paths
+                    .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", modelName + ".cs")
+                    .toString()
+            );
+            assertNotNull(file, "Could not find file for model: " + modelName);
+            assertFileContains(file.toPath(), "AnimalType petType = AnimalType." + enumValue);
+        }
     }
 }
