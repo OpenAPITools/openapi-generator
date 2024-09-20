@@ -6,34 +6,34 @@ public class {{operationId}}Request
     /// <summary>
     /// {{description}}
     /// </summary>
-    public {{&dataType}} {{nameInPascalCase}} { get; set; }
+    public {{&dataType}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}} {{nameInPascalCase}} { get; set; }
     {{/pathParams}}
     {{#queryParams}}
     /// <summary>
     /// {{description}}
     /// </summary>
     [QueryParam]
-    public {{&dataType}} {{nameInPascalCase}} { get; set; }
+    public {{&dataType}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}} {{nameInPascalCase}} { get; set; }
     {{/queryParams}}
     {{#bodyParams}}
     /// <summary>
     /// {{description}}
     /// </summary>
     [FromBody]
-    public {{&dataType}} {{paramName}} { get; set; }
+    public {{&dataType}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}} {{paramName}} { get; set; }
     {{/bodyParams}}
     {{#formParams}}
     /// <summary>
     /// {{description}}
     /// </summary>
-    public {{&dataType}} {{nameInPascalCase}} { get; set; }
+    public {{&dataType}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}} {{nameInPascalCase}} { get; set; }
     {{/formParams}}
     {{#headerParams}}
     /// <summary>
     /// {{description}}
     /// </summary>
     [FromHeader]
-    public {{&dataType}} {{nameInPascalCase}} { get; set; }
+    public {{&dataType}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}} {{nameInPascalCase}} { get; set; }
     {{/headerParams}}
 }
     {{/operation}}
