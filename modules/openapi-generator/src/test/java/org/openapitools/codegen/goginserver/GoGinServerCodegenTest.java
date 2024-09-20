@@ -90,7 +90,7 @@ public class GoGinServerCodegenTest {
                 .setGeneratorName("go-gin-server")
                 .setGitUserId("my-user")
                 .setGitRepoId("my-repo")
-                .setPackageName("my-package")
+                .setPackageName("mypackage")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
     }
 

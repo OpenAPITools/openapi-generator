@@ -42,7 +42,6 @@ enum StringEnumRef: string
     case FAILURE = 'failure';
 
     case UNCLASSIFIED = 'unclassified';
-
 }
 
 
