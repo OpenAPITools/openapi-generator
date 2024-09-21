@@ -17,6 +17,7 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
     public static final String USE_RECORDS = "useRecords";
     public static final String USE_AUTHENTICATION = "useAuthentication";
     public static final String USE_VALIDATORS = "useValidators";
+    public static final String USE_RESPONSE_CACHING = "useResponseCaching";
 
     private final Logger LOGGER = LoggerFactory.getLogger(AspnetFastendpointsServerCodegen.class);
 
@@ -24,6 +25,7 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
     private boolean useRecords = false;
     private boolean useAuthentication = false;
     private boolean useValidators = false;
+    private boolean UseResponseCaching = false;
 
 
     public CodegenType getTag() {
@@ -73,6 +75,7 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
         addSwitch(USE_RECORDS, "Use record instead of class for the requests and response.", useRecords);
         addSwitch(USE_AUTHENTICATION, "Enable authentication.", useAuthentication);
         addSwitch(USE_VALIDATORS, "Enable request validators.", useValidators);
+        addSwitch(USE_RESPONSE_CACHING, "Enable response caching.", UseResponseCaching);
     }
 
     @Override
@@ -87,6 +90,7 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
         setUseRecordForRequest();
         setUseAuthentication();
         setUseValidators();
+        setUseResponseCaching();
 
         super.processOpts();
     }
@@ -128,6 +132,14 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
             useValidators = convertPropertyToBooleanAndWriteBack(USE_VALIDATORS);
         } else {
             additionalProperties.put(USE_VALIDATORS, useValidators);
+        }
+    }
+
+    private void setUseResponseCaching() {
+        if (additionalProperties.containsKey(USE_RESPONSE_CACHING)) {
+            UseResponseCaching = convertPropertyToBooleanAndWriteBack(USE_RESPONSE_CACHING);
+        } else {
+            additionalProperties.put(USE_RESPONSE_CACHING, UseResponseCaching);
         }
     }
 }

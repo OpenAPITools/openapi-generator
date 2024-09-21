@@ -18,13 +18,16 @@ builder.Services
             s.Version = "{{{version}}}{{^version}}v1{{/version}}";
         };
         o.AutoTagPathSegmentIndex = 0;
-    });
+    })
+    {{#useResponseCaching}}.AddResponseCaching(){{/useResponseCaching}}
+;
 
 var app = builder.Build();
 
 app
     {{#useAuthentication}}.UseAuthentication()
-    .UseAuthorization(){{/useAuthentication}}
+    .UseAuthorization(){{/useAuthentication}}{{#useResponseCaching}}
+    .UseResponseCaching(){{/useResponseCaching}}
     .UseFastEndpoints(x =>
     {
         {{#useProblemDetails}}x.Errors.UseProblemDetails();{{/useProblemDetails}}
