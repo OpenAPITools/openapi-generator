@@ -15,11 +15,13 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
     public static final String PROJECT_NAME = "projectName";
     public static final String USE_PROBLEM_DETAILS = "useProblemDetails";
     public static final String USE_RECORDS = "useRecords";
+    public static final String USE_AUTHENTICATION = "useAuthentication";
 
     private final Logger LOGGER = LoggerFactory.getLogger(AspnetFastendpointsServerCodegen.class);
 
     private boolean useProblemDetails = false;
     private boolean useRecords = false;
+    private boolean useAuthentication = false;
 
 
     public CodegenType getTag() {
@@ -51,6 +53,9 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
         apiTemplateFiles.put("request.mustache", "Request.cs");
 
 
+        supportingFiles.add(new SupportingFile("loginRequest.mustache", packageFolder + File.separator + apiPackage, "LoginRequest.cs"));
+        supportingFiles.add(new SupportingFile("userLoginEndpoint.mustache", packageFolder + File.separator + apiPackage, "UserLoginEndpoint.cs"));
+
         supportingFiles.add(new SupportingFile("readme.mustache", sourceFolder, "README.md"));
         supportingFiles.add(new SupportingFile("gitignore", sourceFolder, ".gitignore"));
         supportingFiles.add(new SupportingFile("solution.mustache", sourceFolder, packageName + ".sln"));
@@ -64,6 +69,7 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
 
         addSwitch(USE_PROBLEM_DETAILS, "Enable RFC compatible error responses.", useProblemDetails);
         addSwitch(USE_RECORDS, "Use record instead of class for the requests and response.", useRecords);
+        addSwitch(USE_AUTHENTICATION, "Enable authentication.", useAuthentication);
     }
 
     @Override
@@ -76,6 +82,7 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
 
         setUseProblemDetails();
         setUseRecordForRequest();
+        setUseAuthentication();
 
         super.processOpts();
     }
@@ -101,6 +108,14 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
             useRecords = convertPropertyToBooleanAndWriteBack(USE_RECORDS);
         } else {
             additionalProperties.put(USE_RECORDS, useRecords);
+        }
+    }
+
+    private void setUseAuthentication() {
+        if (additionalProperties.containsKey(USE_AUTHENTICATION)) {
+            useAuthentication = convertPropertyToBooleanAndWriteBack(USE_AUTHENTICATION);
+        } else {
+            additionalProperties.put(USE_AUTHENTICATION, useAuthentication);
         }
     }
 }

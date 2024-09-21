@@ -6,3 +6,4 @@ additionalProperties:
   hideGenerationTimestamp: "true"
   useProblemDetails: "true"
   useRecords: "false"
+  useAuthentication: "false"

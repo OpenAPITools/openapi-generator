@@ -1,9 +1,12 @@
-using FastEndpoints;
+using FastEndpoints;{{#useAuthentication}}
+using FastEndpoints.Security;{{/useAuthentication}}
 using FastEndpoints.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
+    {{#useAuthentication}}.AddAuthenticationJwtBearer(s => s.SigningKey = "The secret used to sign tokens") //TODO set the signing key
+    .AddAuthorization(){{/useAuthentication}}
     .AddFastEndpoints()
     .SwaggerDocument(o =>
     {
@@ -19,7 +22,10 @@ builder.Services
 
 var app = builder.Build();
 
-app.UseFastEndpoints(x =>
+app
+    {{#useAuthentication}}.UseAuthentication()
+    .UseAuthorization(){{/useAuthentication}}
+    .UseFastEndpoints(x =>
     {
         {{#useProblemDetails}}x.Errors.UseProblemDetails();{{/useProblemDetails}}
     })
