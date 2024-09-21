@@ -4,7 +4,8 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/aspnet-fastendpoints
 additionalProperties:
   hideGenerationTimestamp: "true"
-  useProblemDetails: "true"
+  useProblemDetails: "false"
   useRecords: "false"
   useAuthentication: "false"
   useValidators: "false"
+  useResponseCaching: "false"

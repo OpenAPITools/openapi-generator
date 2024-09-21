@@ -16,6 +16,7 @@ public class {{operationId}}Endpoint : {{>endpointType}}{{>endpointRequestType}}
     public override void Configure()
     {
         {{httpMethod}}("{{{basePathWithoutHost}}}{{{path}}}");
+        {{#useResponseCaching}}ResponseCache(60);{{/useResponseCaching}}
         {{^useAuthentication}}AllowAnonymous();{{/useAuthentication}}{{#useAuthentication}}//TODO : authentication is enabled, you need to configure the authorizations : https://fast-endpoints.com/docs/security#endpoint-authorization{{/useAuthentication}}
         {{#allParams}}{{#isFile}}AllowFileUploads();{{/isFile}}{{/allParams}}
         Description(x =>
