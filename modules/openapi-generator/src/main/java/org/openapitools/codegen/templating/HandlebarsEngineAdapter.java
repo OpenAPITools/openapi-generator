@@ -74,7 +74,7 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
         };
 
         // $ref: https://github.com/jknack/handlebars.java/issues/917
-        var MY_FIELD_VALUE_RESOLVER = new FieldValueResolver() {
+        var accessAwareFieldValueResolverInstance = new FieldValueResolver() {
             @Override
             protected Set<FieldWrapper> members(
                     Class<?> clazz) {
@@ -101,7 +101,7 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
                 .resolver(
                         MapValueResolver.INSTANCE,
                         JavaBeanValueResolver.INSTANCE,
-                        MY_FIELD_VALUE_RESOLVER.INSTANCE,
+                        accessAwareFieldValueResolverInstance,
                         MethodValueResolver.INSTANCE)
                 .build();
 
