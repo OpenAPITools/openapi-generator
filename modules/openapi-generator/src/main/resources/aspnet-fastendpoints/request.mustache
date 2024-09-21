@@ -1,7 +1,24 @@
 using FastEndpoints;
+{{#useValidators}}using FluentValidation;{{/useValidators}}
 using {{packageName}}.Models;
 
 namespace {{packageName}}.{{apiPackage}};
 
 {{#useRecords}}{{>requestRecord}}{{/useRecords}}
 {{^useRecords}}{{>requestClass}}{{/useRecords}}
+
+{{#useValidators}}
+{{#operations}}{{#operation}}
+public class {{operationId}}RequestValidator : Validator<{{operationId}}Request>
+{
+    public {{operationId}}RequestValidator()
+    {
+    {{#allParams}}
+        RuleFor(x => x.{{#isBodyParam}}{{paramName}}{{/isBodyParam}}{{^isBodyParam}}{{nameInPascalCase}}{{/isBodyParam}}).NotEmpty();
+    {{/allParams}}
+        //TODO Add any additional validation rules here
+    }
+}
+
+{{/operation}}{{/operations}}
+{{/useValidators}}

@@ -16,12 +16,14 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
     public static final String USE_PROBLEM_DETAILS = "useProblemDetails";
     public static final String USE_RECORDS = "useRecords";
     public static final String USE_AUTHENTICATION = "useAuthentication";
+    public static final String USE_VALIDATORS = "useValidators";
 
     private final Logger LOGGER = LoggerFactory.getLogger(AspnetFastendpointsServerCodegen.class);
 
     private boolean useProblemDetails = false;
     private boolean useRecords = false;
     private boolean useAuthentication = false;
+    private boolean useValidators = false;
 
 
     public CodegenType getTag() {
@@ -70,6 +72,7 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
         addSwitch(USE_PROBLEM_DETAILS, "Enable RFC compatible error responses.", useProblemDetails);
         addSwitch(USE_RECORDS, "Use record instead of class for the requests and response.", useRecords);
         addSwitch(USE_AUTHENTICATION, "Enable authentication.", useAuthentication);
+        addSwitch(USE_VALIDATORS, "Enable request validators.", useValidators);
     }
 
     @Override
@@ -83,6 +86,7 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
         setUseProblemDetails();
         setUseRecordForRequest();
         setUseAuthentication();
+        setUseValidators();
 
         super.processOpts();
     }
@@ -116,6 +120,14 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
             useAuthentication = convertPropertyToBooleanAndWriteBack(USE_AUTHENTICATION);
         } else {
             additionalProperties.put(USE_AUTHENTICATION, useAuthentication);
+        }
+    }
+
+    private void setUseValidators() {
+        if (additionalProperties.containsKey(USE_VALIDATORS)) {
+            useValidators = convertPropertyToBooleanAndWriteBack(USE_VALIDATORS);
+        } else {
+            additionalProperties.put(USE_VALIDATORS, useValidators);
         }
     }
 }
