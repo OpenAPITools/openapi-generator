@@ -7,3 +7,4 @@ additionalProperties:
   useProblemDetails: "true"
   useRecords: "false"
   useAuthentication: "false"
+  useValidators: "false"
