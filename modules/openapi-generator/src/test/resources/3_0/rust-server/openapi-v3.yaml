@@ -495,6 +495,24 @@ paths:
       responses:
         200:
           description: OK
+  /form-test:
+    post:
+      summary: Test a Form Post
+      operationId: FormTest
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                requiredArray:
+                  type: array
+                  items:
+                    type: string
+        required: true
+      responses:
+        '200':
+          description: OK
 
 components:
   securitySchemes:

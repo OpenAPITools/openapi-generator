@@ -1238,22 +1238,70 @@ impl<S, C> Api<C> for Client<S, C> where
         };
 
         // Consumes form body
-        let params = &[
-            ("integer", param_integer.map(|param| format!("{:?}", param))),
-            ("int32", param_int32.map(|param| format!("{:?}", param))),
-            ("int64", param_int64.map(|param| format!("{:?}", param))),
-            ("number", Some(format!("{:?}", param_number))),
-            ("float", param_float.map(|param| format!("{:?}", param))),
-            ("double", Some(format!("{:?}", param_double))),
-            ("string", param_string),
-            ("pattern_without_delimiter", Some(param_pattern_without_delimiter)),
-            ("byte", Some(format!("{:?}", param_byte))),
-            ("binary", param_binary.map(|param| format!("{:?}", param))),
-            ("date", param_date.map(|param| format!("{:?}", param))),
-            ("dateTime", param_date_time.map(|param| format!("{:?}", param))),
-            ("password", param_password),
-            ("callback", param_callback),
-        ];
+        let mut params = vec![];
+        if let Some(param_integer) = param_integer {
+        params.push(("integer",
+            format!("{:?}", param_integer)
+        ));
+        }
+        if let Some(param_int32) = param_int32 {
+        params.push(("int32",
+            format!("{:?}", param_int32)
+        ));
+        }
+        if let Some(param_int64) = param_int64 {
+        params.push(("int64",
+            format!("{:?}", param_int64)
+        ));
+        }
+        params.push(("number",
+            format!("{}", param_number)
+        ));
+        if let Some(param_float) = param_float {
+        params.push(("float",
+            format!("{:?}", param_float)
+        ));
+        }
+        params.push(("double",
+            format!("{}", param_double)
+        ));
+        if let Some(param_string) = param_string {
+        params.push(("string",
+            param_string
+        ));
+        }
+        params.push(("pattern_without_delimiter",
+            param_pattern_without_delimiter
+        ));
+        params.push(("byte",
+            format!("{:?}", param_byte)
+        ));
+        if let Some(param_binary) = param_binary {
+        params.push(("binary",
+            format!("{:?}", param_binary)
+        ));
+        }
+        if let Some(param_date) = param_date {
+        params.push(("date",
+            format!("{:?}", param_date)
+        ));
+        }
+        if let Some(param_date_time) = param_date_time {
+        params.push(("dateTime",
+            format!("{:?}", param_date_time)
+        ));
+        }
+        if let Some(param_password) = param_password {
+        params.push(("password",
+            param_password
+        ));
+        }
+        if let Some(param_callback) = param_callback {
+        params.push(("callback",
+            param_callback
+        ));
+        }
+
         let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
         *request.body_mut() = Body::from(body.into_bytes());
@@ -1379,9 +1427,13 @@ impl<S, C> Api<C> for Client<S, C> where
         };
 
         // Consumes form body
-        let params = &[
-            ("enum_form_string", param_enum_form_string.map(|param| format!("{:?}", param))),
-        ];
+        let mut params = vec![];
+        if let Some(param_enum_form_string) = param_enum_form_string {
+        params.push(("enum_form_string",
+            format!("{:?}", param_enum_form_string)
+        ));
+        }
+
         let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
         *request.body_mut() = Body::from(body.into_bytes());
@@ -1583,10 +1635,14 @@ impl<S, C> Api<C> for Client<S, C> where
         };
 
         // Consumes form body
-        let params = &[
-            ("param", Some(param_param)),
-            ("param2", Some(param_param2)),
-        ];
+        let mut params = vec![];
+        params.push(("param",
+            param_param
+        ));
+        params.push(("param2",
+            param_param2
+        ));
+
         let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
         *request.body_mut() = Body::from(body.into_bytes());
@@ -2470,10 +2526,18 @@ impl<S, C> Api<C> for Client<S, C> where
         };
 
         // Consumes form body
-        let params = &[
-            ("name", param_name),
-            ("status", param_status),
-        ];
+        let mut params = vec![];
+        if let Some(param_name) = param_name {
+        params.push(("name",
+            param_name
+        ));
+        }
+        if let Some(param_status) = param_status {
+        params.push(("status",
+            param_status
+        ));
+        }
+
         let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
         *request.body_mut() = Body::from(body.into_bytes());
