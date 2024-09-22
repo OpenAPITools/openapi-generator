@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 /**
- * Replaces forward slash with backslash in the text.
+ * Replaces all regex captures with the provided string.
  *
  * Register:
  * <pre>
