@@ -1,9 +1,9 @@
 const PetApi = require('../apis/PetApi');
 const StoreApi = require('../apis/StoreApi');
 const UserApi = require('../apis/UserApi');
-const { searchMiddleware, hasSearchRequisites, isSearchAction } = require('../utils/utils');
+const { triggerMiddleware, isTrigger, searchMiddleware, hasSearchRequisites, isSearchAction } = require('../utils/utils');
 
-const actions = {
+const operations = {
     [PetApi.addPet.key]: PetApi.addPet,
     [PetApi.deletePet.key]: PetApi.deletePet,
     [PetApi.findPetsByStatus.key]: PetApi.findPetsByStatus,
@@ -27,6 +27,7 @@ const actions = {
 }
 
 module.exports = {
-    searchActions: () => Object.entries(actions).reduce((actions, [key, value]) => isSearchAction(key) && hasSearchRequisites(value) ? {...actions, [key]: searchMiddleware(value)} : actions, {}),
-    createActions: () => Object.entries(actions).reduce((actions, [key, value]) => !isSearchAction(key) ? {...actions, [key]: value} : actions, {}),
+    searchActions: () => Object.entries(operations).reduce((operations, [key, value]) => isSearchAction(key) && hasSearchRequisites(value) ? {...operations, [key]: searchMiddleware(value)} : operations, {}),
+    createActions: () => Object.entries(operations).reduce((operations, [key, value]) => !isSearchAction(key) ? {...operations, [key]: value} : operations, {}),
+    triggers: () => Object.entries(operations).reduce((operations, [key, value]) => isTrigger(key) ? {...operations, [key]: triggerMiddleware(value)} : operations, {}),
 }
