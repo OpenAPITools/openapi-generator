@@ -198,10 +198,10 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefault"></param>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="modelClient"></param>
-        partial void AfterTestClassname(ref bool suppressDefault, ITestClassnameApiResponse apiResponseLocalVar, ModelClient modelClient);
+        partial void AfterTestClassname(ref bool suppressDefaultLog, ITestClassnameApiResponse apiResponseLocalVar, ModelClient modelClient);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response

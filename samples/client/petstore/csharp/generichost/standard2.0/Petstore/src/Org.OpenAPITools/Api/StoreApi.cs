@@ -385,10 +385,10 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefault"></param>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="orderId"></param>
-        partial void AfterDeleteOrder(ref bool suppressDefault, IDeleteOrderApiResponse apiResponseLocalVar, string orderId);
+        partial void AfterDeleteOrder(ref bool suppressDefaultLog, IDeleteOrderApiResponse apiResponseLocalVar, string orderId);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -553,9 +553,9 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefault"></param>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterGetInventory(ref bool suppressDefault, IGetInventoryApiResponse apiResponseLocalVar);
+        partial void AfterGetInventory(ref bool suppressDefaultLog, IGetInventoryApiResponse apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -758,10 +758,10 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefault"></param>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="orderId"></param>
-        partial void AfterGetOrderById(ref bool suppressDefault, IGetOrderByIdApiResponse apiResponseLocalVar, long orderId);
+        partial void AfterGetOrderById(ref bool suppressDefaultLog, IGetOrderByIdApiResponse apiResponseLocalVar, long orderId);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -986,10 +986,10 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefault"></param>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="order"></param>
-        partial void AfterPlaceOrder(ref bool suppressDefault, IPlaceOrderApiResponse apiResponseLocalVar, Order order);
+        partial void AfterPlaceOrder(ref bool suppressDefaultLog, IPlaceOrderApiResponse apiResponseLocalVar, Order order);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response

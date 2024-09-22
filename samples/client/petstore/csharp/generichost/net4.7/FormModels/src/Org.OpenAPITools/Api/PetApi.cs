@@ -703,10 +703,10 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefault"></param>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="pet"></param>
-        partial void AfterAddPet(ref bool suppressDefault, IAddPetApiResponse apiResponseLocalVar, Pet pet);
+        partial void AfterAddPet(ref bool suppressDefaultLog, IAddPetApiResponse apiResponseLocalVar, Pet pet);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -915,11 +915,11 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefault"></param>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="petId"></param>
         /// <param name="apiKey"></param>
-        partial void AfterDeletePet(ref bool suppressDefault, IDeletePetApiResponse apiResponseLocalVar, long petId, Option<string> apiKey);
+        partial void AfterDeletePet(ref bool suppressDefaultLog, IDeletePetApiResponse apiResponseLocalVar, long petId, Option<string> apiKey);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1110,10 +1110,10 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefault"></param>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="status"></param>
-        partial void AfterFindPetsByStatus(ref bool suppressDefault, IFindPetsByStatusApiResponse apiResponseLocalVar, List<FindPetsByStatusStatusParameterInner> status);
+        partial void AfterFindPetsByStatus(ref bool suppressDefaultLog, IFindPetsByStatusApiResponse apiResponseLocalVar, List<FindPetsByStatusStatusParameterInner> status);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1386,10 +1386,10 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefault"></param>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="tags"></param>
-        partial void AfterFindPetsByTags(ref bool suppressDefault, IFindPetsByTagsApiResponse apiResponseLocalVar, List<string> tags);
+        partial void AfterFindPetsByTags(ref bool suppressDefaultLog, IFindPetsByTagsApiResponse apiResponseLocalVar, List<string> tags);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1625,10 +1625,10 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefault"></param>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="petId"></param>
-        partial void AfterGetPetById(ref bool suppressDefault, IGetPetByIdApiResponse apiResponseLocalVar, long petId);
+        partial void AfterGetPetById(ref bool suppressDefaultLog, IGetPetByIdApiResponse apiResponseLocalVar, long petId);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1870,10 +1870,10 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefault"></param>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="pet"></param>
-        partial void AfterUpdatePet(ref bool suppressDefault, IUpdatePetApiResponse apiResponseLocalVar, Pet pet);
+        partial void AfterUpdatePet(ref bool suppressDefaultLog, IUpdatePetApiResponse apiResponseLocalVar, Pet pet);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2099,12 +2099,12 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefault"></param>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="petId"></param>
         /// <param name="name"></param>
         /// <param name="status"></param>
-        partial void AfterUpdatePetWithForm(ref bool suppressDefault, IUpdatePetWithFormApiResponse apiResponseLocalVar, long petId, Option<string> name, Option<string> status);
+        partial void AfterUpdatePetWithForm(ref bool suppressDefaultLog, IUpdatePetWithFormApiResponse apiResponseLocalVar, long petId, Option<string> name, Option<string> status);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2324,12 +2324,12 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefault"></param>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="petId"></param>
         /// <param name="additionalMetadata"></param>
         /// <param name="file"></param>
-        partial void AfterUploadFile(ref bool suppressDefault, IUploadFileApiResponse apiResponseLocalVar, long petId, Option<string> additionalMetadata, Option<System.IO.Stream> file);
+        partial void AfterUploadFile(ref bool suppressDefaultLog, IUploadFileApiResponse apiResponseLocalVar, long petId, Option<string> additionalMetadata, Option<System.IO.Stream> file);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2589,12 +2589,12 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefault"></param>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="petId"></param>
         /// <param name="requiredFile"></param>
         /// <param name="additionalMetadata"></param>
-        partial void AfterUploadFileWithRequiredFile(ref bool suppressDefault, IUploadFileWithRequiredFileApiResponse apiResponseLocalVar, long petId, System.IO.Stream requiredFile, Option<string> additionalMetadata);
+        partial void AfterUploadFileWithRequiredFile(ref bool suppressDefaultLog, IUploadFileWithRequiredFileApiResponse apiResponseLocalVar, long petId, System.IO.Stream requiredFile, Option<string> additionalMetadata);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response

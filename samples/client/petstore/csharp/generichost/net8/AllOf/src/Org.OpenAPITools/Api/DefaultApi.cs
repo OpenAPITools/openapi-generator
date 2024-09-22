@@ -166,10 +166,10 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefault"></param>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="personId"></param>
-        partial void AfterList(ref bool suppressDefault, IListApiResponse apiResponseLocalVar, string personId);
+        partial void AfterList(ref bool suppressDefaultLog, IListApiResponse apiResponseLocalVar, string personId);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
