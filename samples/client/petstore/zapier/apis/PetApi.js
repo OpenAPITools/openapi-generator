@@ -61,11 +61,6 @@ module.exports = {
                     type: 'number',
                     required: true,
                 },
-                {
-                    key: 'api_key',
-                    label: '',
-                    type: 'string',
-                },
             ],
             outputFields: [
             ],
