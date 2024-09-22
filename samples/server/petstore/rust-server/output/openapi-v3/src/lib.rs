@@ -49,6 +49,12 @@ pub enum ComplexQueryParamGetResponse {
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub enum FormTestResponse {
+    /// OK
+    OK
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum GetWithBooleanParameterResponse {
     /// OK
     OK
@@ -319,6 +325,12 @@ pub trait Api<C: Send + Sync> {
         list_of_strings: Option<&Vec<models::StringObject>>,
         context: &C) -> Result<ComplexQueryParamGetResponse, ApiError>;
 
+    /// Test a Form Post
+    async fn form_test(
+        &self,
+        required_array: Option<&Vec<String>>,
+        context: &C) -> Result<FormTestResponse, ApiError>;
+
     async fn get_with_boolean_parameter(
         &self,
         iambool: bool,
@@ -472,6 +484,12 @@ pub trait ApiNoContext<C: Send + Sync> {
         &self,
         list_of_strings: Option<&Vec<models::StringObject>>,
         ) -> Result<ComplexQueryParamGetResponse, ApiError>;
+
+    /// Test a Form Post
+    async fn form_test(
+        &self,
+        required_array: Option<&Vec<String>>,
+        ) -> Result<FormTestResponse, ApiError>;
 
     async fn get_with_boolean_parameter(
         &self,
@@ -651,6 +669,16 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     {
         let context = self.context().clone();
         self.api().complex_query_param_get(list_of_strings, &context).await
+    }
+
+    /// Test a Form Post
+    async fn form_test(
+        &self,
+        required_array: Option<&Vec<String>>,
+        ) -> Result<FormTestResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().form_test(required_array, &context).await
     }
 
     async fn get_with_boolean_parameter(

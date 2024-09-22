@@ -39,6 +39,7 @@ use crate::{Api,
      AnyOfGetResponse,
      CallbackWithHeaderPostResponse,
      ComplexQueryParamGetResponse,
+     FormTestResponse,
      GetWithBooleanParameterResponse,
      JsonComplexQueryParamGetResponse,
      MandatoryRequestHeaderGetResponse,
@@ -665,6 +666,100 @@ impl<S, C> Api<C> for Client<S, C> where
                 let (header, body) = response.into_parts();
                 Ok(
                     ComplexQueryParamGetResponse::Success
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                    code,
+                    headers,
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {:?}>", e),
+                        },
+                        Err(e) => format!("<Failed to read body: {}>", e),
+                    }
+                )))
+            }
+        }
+    }
+
+    async fn form_test(
+        &self,
+        param_required_array: Option<&Vec<String>>,
+        context: &C) -> Result<FormTestResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        let mut uri = format!(
+            "{}/form-test",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {}", err))),
+        };
+
+        let mut request = match Request::builder()
+            .method("POST")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
+        };
+
+        // No schema variants
+
+        // Consumes form body
+        let mut params = vec![];
+        if let Some(param_required_array) = param_required_array {
+        // style=form,explode=true
+        for param_required_array in param_required_array {
+        params.push(("requiredArray",
+            format!("{:?}", param_required_array)
+        ));
+        }
+        }
+
+        let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
+
+        *request.body_mut() = Body::from(body.into_bytes());
+
+        let header = "application/x-www-form-urlencoded";
+        request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
+        });
+
+
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
+        });
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                let (header, body) = response.into_parts();
+                Ok(
+                    FormTestResponse::OK
                 )
             }
             code => {

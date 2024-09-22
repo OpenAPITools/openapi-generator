@@ -1564,6 +1564,10 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         if (Boolean.TRUE.equals(param.isFreeFormObject)) {
             param.vendorExtensions.put("x-format-string", "{:?}");
             example = null;
+        } else if (param.isArray && param.isString) {
+            // This occurs if the parameter is a form property and is Vec<String>
+            param.vendorExtensions.put("x-format-string", "{:?}");
+            example = (param.example != null) ? "&vec![\"" + param.example + "\".to_string()]" : "&Vec::new()";
         } else if (param.isString) {
             param.vendorExtensions.put("x-format-string", "\\\"{}\\\"");
             example = "\"" + ((param.example != null) ? param.example : "") + "\".to_string()";
