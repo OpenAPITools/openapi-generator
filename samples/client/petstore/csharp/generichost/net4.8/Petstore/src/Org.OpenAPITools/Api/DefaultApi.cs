@@ -397,9 +397,9 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterFooGet(ref bool suppressDefaultLogLocalVar, IFooGetApiResponse apiResponseLocalVar);
+        partial void AfterFooGet(ref bool suppressDefault, IFooGetApiResponse apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -604,10 +604,10 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="country"></param>
-        partial void AfterGetCountry(ref bool suppressDefaultLogLocalVar, IGetCountryApiResponse apiResponseLocalVar, string country);
+        partial void AfterGetCountry(ref bool suppressDefault, IGetCountryApiResponse apiResponseLocalVar, string country);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -785,9 +785,9 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterHello(ref bool suppressDefaultLogLocalVar, IHelloApiResponse apiResponseLocalVar);
+        partial void AfterHello(ref bool suppressDefault, IHelloApiResponse apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -978,9 +978,9 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterRolesReportGet(ref bool suppressDefaultLogLocalVar, IRolesReportGetApiResponse apiResponseLocalVar);
+        partial void AfterRolesReportGet(ref bool suppressDefault, IRolesReportGetApiResponse apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1171,9 +1171,9 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterTest(ref bool suppressDefaultLogLocalVar, ITestApiResponse apiResponseLocalVar);
+        partial void AfterTest(ref bool suppressDefault, ITestApiResponse apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response

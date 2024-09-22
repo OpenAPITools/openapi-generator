@@ -148,9 +148,9 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterNowGet(ref bool suppressDefaultLogLocalVar, INowGetApiResponse apiResponseLocalVar);
+        partial void AfterNowGet(ref bool suppressDefault, INowGetApiResponse apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response

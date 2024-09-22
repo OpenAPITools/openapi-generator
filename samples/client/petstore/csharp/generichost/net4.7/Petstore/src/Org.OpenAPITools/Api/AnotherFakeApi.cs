@@ -199,10 +199,10 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="modelClient"></param>
-        partial void AfterCall123TestSpecialTags(ref bool suppressDefaultLogLocalVar, ICall123TestSpecialTagsApiResponse apiResponseLocalVar, ModelClient modelClient);
+        partial void AfterCall123TestSpecialTags(ref bool suppressDefault, ICall123TestSpecialTagsApiResponse apiResponseLocalVar, ModelClient modelClient);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response

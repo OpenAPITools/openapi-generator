@@ -636,10 +636,10 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="user"></param>
-        partial void AfterCreateUser(ref bool suppressDefaultLogLocalVar, ICreateUserApiResponse apiResponseLocalVar, User user);
+        partial void AfterCreateUser(ref bool suppressDefault, ICreateUserApiResponse apiResponseLocalVar, User user);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -825,10 +825,10 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="user"></param>
-        partial void AfterCreateUsersWithArrayInput(ref bool suppressDefaultLogLocalVar, ICreateUsersWithArrayInputApiResponse apiResponseLocalVar, List<User> user);
+        partial void AfterCreateUsersWithArrayInput(ref bool suppressDefault, ICreateUsersWithArrayInputApiResponse apiResponseLocalVar, List<User> user);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1014,10 +1014,10 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="user"></param>
-        partial void AfterCreateUsersWithListInput(ref bool suppressDefaultLogLocalVar, ICreateUsersWithListInputApiResponse apiResponseLocalVar, List<User> user);
+        partial void AfterCreateUsersWithListInput(ref bool suppressDefault, ICreateUsersWithListInputApiResponse apiResponseLocalVar, List<User> user);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1203,10 +1203,10 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="username"></param>
-        partial void AfterDeleteUser(ref bool suppressDefaultLogLocalVar, IDeleteUserApiResponse apiResponseLocalVar, string username);
+        partial void AfterDeleteUser(ref bool suppressDefault, IDeleteUserApiResponse apiResponseLocalVar, string username);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1386,10 +1386,10 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="username"></param>
-        partial void AfterGetUserByName(ref bool suppressDefaultLogLocalVar, IGetUserByNameApiResponse apiResponseLocalVar, string username);
+        partial void AfterGetUserByName(ref bool suppressDefault, IGetUserByNameApiResponse apiResponseLocalVar, string username);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1666,11 +1666,11 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="password"></param>
         /// <param name="username"></param>
-        partial void AfterLoginUser(ref bool suppressDefaultLogLocalVar, ILoginUserApiResponse apiResponseLocalVar, string password, string username);
+        partial void AfterLoginUser(ref bool suppressDefault, ILoginUserApiResponse apiResponseLocalVar, string password, string username);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1915,9 +1915,9 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterLogoutUser(ref bool suppressDefaultLogLocalVar, ILogoutUserApiResponse apiResponseLocalVar);
+        partial void AfterLogoutUser(ref bool suppressDefault, ILogoutUserApiResponse apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2087,11 +2087,11 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="user"></param>
         /// <param name="username"></param>
-        partial void AfterUpdateUser(ref bool suppressDefaultLogLocalVar, IUpdateUserApiResponse apiResponseLocalVar, User user, string username);
+        partial void AfterUpdateUser(ref bool suppressDefault, IUpdateUserApiResponse apiResponseLocalVar, User user, string username);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response

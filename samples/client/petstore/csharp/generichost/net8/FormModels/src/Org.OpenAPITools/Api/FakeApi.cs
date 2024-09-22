@@ -1306,9 +1306,9 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterFakeHealthGet(ref bool suppressDefaultLogLocalVar, IFakeHealthGetApiResponse apiResponseLocalVar);
+        partial void AfterFakeHealthGet(ref bool suppressDefault, IFakeHealthGetApiResponse apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1503,10 +1503,10 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="body"></param>
-        partial void AfterFakeOuterBooleanSerialize(ref bool suppressDefaultLogLocalVar, IFakeOuterBooleanSerializeApiResponse apiResponseLocalVar, Option<bool> body);
+        partial void AfterFakeOuterBooleanSerialize(ref bool suppressDefault, IFakeOuterBooleanSerializeApiResponse apiResponseLocalVar, Option<bool> body);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1732,10 +1732,10 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="outerComposite"></param>
-        partial void AfterFakeOuterCompositeSerialize(ref bool suppressDefaultLogLocalVar, IFakeOuterCompositeSerializeApiResponse apiResponseLocalVar, Option<OuterComposite> outerComposite);
+        partial void AfterFakeOuterCompositeSerialize(ref bool suppressDefault, IFakeOuterCompositeSerializeApiResponse apiResponseLocalVar, Option<OuterComposite> outerComposite);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1952,10 +1952,10 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="body"></param>
-        partial void AfterFakeOuterNumberSerialize(ref bool suppressDefaultLogLocalVar, IFakeOuterNumberSerializeApiResponse apiResponseLocalVar, Option<decimal> body);
+        partial void AfterFakeOuterNumberSerialize(ref bool suppressDefault, IFakeOuterNumberSerializeApiResponse apiResponseLocalVar, Option<decimal> body);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2182,11 +2182,11 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="requiredStringUuid"></param>
         /// <param name="body"></param>
-        partial void AfterFakeOuterStringSerialize(ref bool suppressDefaultLogLocalVar, IFakeOuterStringSerializeApiResponse apiResponseLocalVar, Guid requiredStringUuid, Option<string> body);
+        partial void AfterFakeOuterStringSerialize(ref bool suppressDefault, IFakeOuterStringSerializeApiResponse apiResponseLocalVar, Guid requiredStringUuid, Option<string> body);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2410,9 +2410,9 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterGetArrayOfEnums(ref bool suppressDefaultLogLocalVar, IGetArrayOfEnumsApiResponse apiResponseLocalVar);
+        partial void AfterGetArrayOfEnums(ref bool suppressDefault, IGetArrayOfEnumsApiResponse apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2604,9 +2604,9 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterGetMixedAnyOf(ref bool suppressDefaultLogLocalVar, IGetMixedAnyOfApiResponse apiResponseLocalVar);
+        partial void AfterGetMixedAnyOf(ref bool suppressDefault, IGetMixedAnyOfApiResponse apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2798,9 +2798,9 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterGetMixedOneOf(ref bool suppressDefaultLogLocalVar, IGetMixedOneOfApiResponse apiResponseLocalVar);
+        partial void AfterGetMixedOneOf(ref bool suppressDefault, IGetMixedOneOfApiResponse apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -3006,10 +3006,10 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="requestBody"></param>
-        partial void AfterTestAdditionalPropertiesReference(ref bool suppressDefaultLogLocalVar, ITestAdditionalPropertiesReferenceApiResponse apiResponseLocalVar, Dictionary<string, Object> requestBody);
+        partial void AfterTestAdditionalPropertiesReference(ref bool suppressDefault, ITestAdditionalPropertiesReferenceApiResponse apiResponseLocalVar, Dictionary<string, Object> requestBody);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -3195,10 +3195,10 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="fileSchemaTestClass"></param>
-        partial void AfterTestBodyWithFileSchema(ref bool suppressDefaultLogLocalVar, ITestBodyWithFileSchemaApiResponse apiResponseLocalVar, FileSchemaTestClass fileSchemaTestClass);
+        partial void AfterTestBodyWithFileSchema(ref bool suppressDefault, ITestBodyWithFileSchemaApiResponse apiResponseLocalVar, FileSchemaTestClass fileSchemaTestClass);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -3389,11 +3389,11 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="query"></param>
         /// <param name="user"></param>
-        partial void AfterTestBodyWithQueryParams(ref bool suppressDefaultLogLocalVar, ITestBodyWithQueryParamsApiResponse apiResponseLocalVar, string query, User user);
+        partial void AfterTestBodyWithQueryParams(ref bool suppressDefault, ITestBodyWithQueryParamsApiResponse apiResponseLocalVar, string query, User user);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -3589,10 +3589,10 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="modelClient"></param>
-        partial void AfterTestClientModel(ref bool suppressDefaultLogLocalVar, ITestClientModelApiResponse apiResponseLocalVar, ModelClient modelClient);
+        partial void AfterTestClientModel(ref bool suppressDefault, ITestClientModelApiResponse apiResponseLocalVar, ModelClient modelClient);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -3852,7 +3852,7 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="number"></param>
         /// <param name="patternWithoutDelimiter"></param>
@@ -3868,7 +3868,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password"></param>
         /// <param name="varFloat"></param>
         /// <param name="varString"></param>
-        partial void AfterTestEndpointParameters(ref bool suppressDefaultLogLocalVar, ITestEndpointParametersApiResponse apiResponseLocalVar, decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary, Option<string> callback, Option<DateOnly> date, Option<DateTime> dateTime, Option<int> int32, Option<long> int64, Option<int> integer, Option<string> password, Option<float> varFloat, Option<string> varString);
+        partial void AfterTestEndpointParameters(ref bool suppressDefault, ITestEndpointParametersApiResponse apiResponseLocalVar, decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary, Option<string> callback, Option<DateOnly> date, Option<DateTime> dateTime, Option<int> int32, Option<long> int64, Option<int> integer, Option<string> password, Option<float> varFloat, Option<string> varString);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -4180,7 +4180,7 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="enumFormString"></param>
         /// <param name="enumFormStringArray"></param>
@@ -4190,7 +4190,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryInteger"></param>
         /// <param name="enumQueryString"></param>
         /// <param name="enumQueryStringArray"></param>
-        partial void AfterTestEnumParameters(ref bool suppressDefaultLogLocalVar, ITestEnumParametersApiResponse apiResponseLocalVar, Option<TestEnumParametersRequestEnumFormString> enumFormString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray, Option<TestEnumParametersEnumHeaderStringParameter> enumHeaderString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray, Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble, Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger, Option<TestEnumParametersEnumHeaderStringParameter> enumQueryString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray);
+        partial void AfterTestEnumParameters(ref bool suppressDefault, ITestEnumParametersApiResponse apiResponseLocalVar, Option<TestEnumParametersRequestEnumFormString> enumFormString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray, Option<TestEnumParametersEnumHeaderStringParameter> enumHeaderString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray, Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble, Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger, Option<TestEnumParametersEnumHeaderStringParameter> enumQueryString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -4434,7 +4434,7 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="requiredBooleanGroup"></param>
         /// <param name="requiredInt64Group"></param>
@@ -4442,7 +4442,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup"></param>
         /// <param name="int64Group"></param>
         /// <param name="stringGroup"></param>
-        partial void AfterTestGroupParameters(ref bool suppressDefaultLogLocalVar, ITestGroupParametersApiResponse apiResponseLocalVar, bool requiredBooleanGroup, long requiredInt64Group, int requiredStringGroup, Option<bool> booleanGroup, Option<long> int64Group, Option<int> stringGroup);
+        partial void AfterTestGroupParameters(ref bool suppressDefault, ITestGroupParametersApiResponse apiResponseLocalVar, bool requiredBooleanGroup, long requiredInt64Group, int requiredStringGroup, Option<bool> booleanGroup, Option<long> int64Group, Option<int> stringGroup);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -4662,10 +4662,10 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="requestBody"></param>
-        partial void AfterTestInlineAdditionalProperties(ref bool suppressDefaultLogLocalVar, ITestInlineAdditionalPropertiesApiResponse apiResponseLocalVar, Dictionary<string, string> requestBody);
+        partial void AfterTestInlineAdditionalProperties(ref bool suppressDefault, ITestInlineAdditionalPropertiesApiResponse apiResponseLocalVar, Dictionary<string, string> requestBody);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -4851,10 +4851,10 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="testInlineFreeformAdditionalPropertiesRequest"></param>
-        partial void AfterTestInlineFreeformAdditionalProperties(ref bool suppressDefaultLogLocalVar, ITestInlineFreeformAdditionalPropertiesApiResponse apiResponseLocalVar, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest);
+        partial void AfterTestInlineFreeformAdditionalProperties(ref bool suppressDefault, ITestInlineFreeformAdditionalPropertiesApiResponse apiResponseLocalVar, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -5045,11 +5045,11 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="param"></param>
         /// <param name="param2"></param>
-        partial void AfterTestJsonFormData(ref bool suppressDefaultLogLocalVar, ITestJsonFormDataApiResponse apiResponseLocalVar, string param, string param2);
+        partial void AfterTestJsonFormData(ref bool suppressDefault, ITestJsonFormDataApiResponse apiResponseLocalVar, string param, string param2);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -5279,7 +5279,7 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="context"></param>
         /// <param name="http"></param>
@@ -5290,7 +5290,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="notRequiredNotNullable"></param>
         /// <param name="notRequiredNullable"></param>
         /// <param name="requiredNullable"></param>
-        partial void AfterTestQueryParameterCollectionFormat(ref bool suppressDefaultLogLocalVar, ITestQueryParameterCollectionFormatApiResponse apiResponseLocalVar, List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, List<string> url, Option<string> notRequiredNotNullable, Option<string> notRequiredNullable, string requiredNullable);
+        partial void AfterTestQueryParameterCollectionFormat(ref bool suppressDefault, ITestQueryParameterCollectionFormatApiResponse apiResponseLocalVar, List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, List<string> url, Option<string> notRequiredNotNullable, Option<string> notRequiredNullable, string requiredNullable);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -5513,10 +5513,10 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="suppressDefault"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="requestBody"></param>
-        partial void AfterTestStringMapReference(ref bool suppressDefaultLogLocalVar, ITestStringMapReferenceApiResponse apiResponseLocalVar, Dictionary<string, string> requestBody);
+        partial void AfterTestStringMapReference(ref bool suppressDefault, ITestStringMapReferenceApiResponse apiResponseLocalVar, Dictionary<string, string> requestBody);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
