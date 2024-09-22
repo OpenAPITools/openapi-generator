@@ -1306,32 +1306,32 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterFakeHealthGet(ref bool suppressDefaultLog, IFakeHealthGetApiResponse apiResponseLocalVar);
+        partial void AfterFakeHealthGet(ref bool suppressDefaultLogLocalVar, IFakeHealthGetApiResponse apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
-        private void OnErrorFakeHealthGetDefaultImplementation(Exception exception, string pathFormat, string path)
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        private void OnErrorFakeHealthGetDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar)
         {
-            bool suppressDefaultLog = false;
-            OnErrorFakeHealthGet(ref suppressDefaultLog, exception, pathFormat, path);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorFakeHealthGet(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
-        partial void OnErrorFakeHealthGet(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path);
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        partial void OnErrorFakeHealthGet(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar);
 
         /// <summary>
         /// Health check endpoint 
@@ -1503,35 +1503,35 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="body"></param>
-        partial void AfterFakeOuterBooleanSerialize(ref bool suppressDefaultLog, IFakeOuterBooleanSerializeApiResponse apiResponseLocalVar, Option<bool> body);
+        partial void AfterFakeOuterBooleanSerialize(ref bool suppressDefaultLogLocalVar, IFakeOuterBooleanSerializeApiResponse apiResponseLocalVar, Option<bool> body);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="body"></param>
-        private void OnErrorFakeOuterBooleanSerializeDefaultImplementation(Exception exception, string pathFormat, string path, Option<bool> body)
+        private void OnErrorFakeOuterBooleanSerializeDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<bool> body)
         {
-            bool suppressDefaultLog = false;
-            OnErrorFakeOuterBooleanSerialize(ref suppressDefaultLog, exception, pathFormat, path, body);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorFakeOuterBooleanSerialize(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, body);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="body"></param>
-        partial void OnErrorFakeOuterBooleanSerialize(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Option<bool> body);
+        partial void OnErrorFakeOuterBooleanSerialize(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<bool> body);
 
         /// <summary>
         ///  Test serialization of outer boolean types
@@ -1732,35 +1732,35 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="outerComposite"></param>
-        partial void AfterFakeOuterCompositeSerialize(ref bool suppressDefaultLog, IFakeOuterCompositeSerializeApiResponse apiResponseLocalVar, Option<OuterComposite> outerComposite);
+        partial void AfterFakeOuterCompositeSerialize(ref bool suppressDefaultLogLocalVar, IFakeOuterCompositeSerializeApiResponse apiResponseLocalVar, Option<OuterComposite> outerComposite);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="outerComposite"></param>
-        private void OnErrorFakeOuterCompositeSerializeDefaultImplementation(Exception exception, string pathFormat, string path, Option<OuterComposite> outerComposite)
+        private void OnErrorFakeOuterCompositeSerializeDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<OuterComposite> outerComposite)
         {
-            bool suppressDefaultLog = false;
-            OnErrorFakeOuterCompositeSerialize(ref suppressDefaultLog, exception, pathFormat, path, outerComposite);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorFakeOuterCompositeSerialize(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, outerComposite);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="outerComposite"></param>
-        partial void OnErrorFakeOuterCompositeSerialize(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Option<OuterComposite> outerComposite);
+        partial void OnErrorFakeOuterCompositeSerialize(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<OuterComposite> outerComposite);
 
         /// <summary>
         ///  Test serialization of object with outer number type
@@ -1952,35 +1952,35 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="body"></param>
-        partial void AfterFakeOuterNumberSerialize(ref bool suppressDefaultLog, IFakeOuterNumberSerializeApiResponse apiResponseLocalVar, Option<decimal> body);
+        partial void AfterFakeOuterNumberSerialize(ref bool suppressDefaultLogLocalVar, IFakeOuterNumberSerializeApiResponse apiResponseLocalVar, Option<decimal> body);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="body"></param>
-        private void OnErrorFakeOuterNumberSerializeDefaultImplementation(Exception exception, string pathFormat, string path, Option<decimal> body)
+        private void OnErrorFakeOuterNumberSerializeDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<decimal> body)
         {
-            bool suppressDefaultLog = false;
-            OnErrorFakeOuterNumberSerialize(ref suppressDefaultLog, exception, pathFormat, path, body);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorFakeOuterNumberSerialize(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, body);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="body"></param>
-        partial void OnErrorFakeOuterNumberSerialize(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Option<decimal> body);
+        partial void OnErrorFakeOuterNumberSerialize(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<decimal> body);
 
         /// <summary>
         ///  Test serialization of outer number types
@@ -2182,38 +2182,38 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="requiredStringUuid"></param>
         /// <param name="body"></param>
-        partial void AfterFakeOuterStringSerialize(ref bool suppressDefaultLog, IFakeOuterStringSerializeApiResponse apiResponseLocalVar, Guid requiredStringUuid, Option<string> body);
+        partial void AfterFakeOuterStringSerialize(ref bool suppressDefaultLogLocalVar, IFakeOuterStringSerializeApiResponse apiResponseLocalVar, Guid requiredStringUuid, Option<string> body);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="requiredStringUuid"></param>
         /// <param name="body"></param>
-        private void OnErrorFakeOuterStringSerializeDefaultImplementation(Exception exception, string pathFormat, string path, Guid requiredStringUuid, Option<string> body)
+        private void OnErrorFakeOuterStringSerializeDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Guid requiredStringUuid, Option<string> body)
         {
-            bool suppressDefaultLog = false;
-            OnErrorFakeOuterStringSerialize(ref suppressDefaultLog, exception, pathFormat, path, requiredStringUuid, body);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorFakeOuterStringSerialize(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, requiredStringUuid, body);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="requiredStringUuid"></param>
         /// <param name="body"></param>
-        partial void OnErrorFakeOuterStringSerialize(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Guid requiredStringUuid, Option<string> body);
+        partial void OnErrorFakeOuterStringSerialize(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Guid requiredStringUuid, Option<string> body);
 
         /// <summary>
         ///  Test serialization of outer string types
@@ -2410,32 +2410,32 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterGetArrayOfEnums(ref bool suppressDefaultLog, IGetArrayOfEnumsApiResponse apiResponseLocalVar);
+        partial void AfterGetArrayOfEnums(ref bool suppressDefaultLogLocalVar, IGetArrayOfEnumsApiResponse apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
-        private void OnErrorGetArrayOfEnumsDefaultImplementation(Exception exception, string pathFormat, string path)
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        private void OnErrorGetArrayOfEnumsDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar)
         {
-            bool suppressDefaultLog = false;
-            OnErrorGetArrayOfEnums(ref suppressDefaultLog, exception, pathFormat, path);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorGetArrayOfEnums(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
-        partial void OnErrorGetArrayOfEnums(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path);
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        partial void OnErrorGetArrayOfEnums(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar);
 
         /// <summary>
         /// Array of Enums 
@@ -2604,32 +2604,32 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterGetMixedAnyOf(ref bool suppressDefaultLog, IGetMixedAnyOfApiResponse apiResponseLocalVar);
+        partial void AfterGetMixedAnyOf(ref bool suppressDefaultLogLocalVar, IGetMixedAnyOfApiResponse apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
-        private void OnErrorGetMixedAnyOfDefaultImplementation(Exception exception, string pathFormat, string path)
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        private void OnErrorGetMixedAnyOfDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar)
         {
-            bool suppressDefaultLog = false;
-            OnErrorGetMixedAnyOf(ref suppressDefaultLog, exception, pathFormat, path);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorGetMixedAnyOf(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
-        partial void OnErrorGetMixedAnyOf(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path);
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        partial void OnErrorGetMixedAnyOf(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar);
 
         /// <summary>
         /// Test mixed type anyOf deserialization 
@@ -2798,32 +2798,32 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterGetMixedOneOf(ref bool suppressDefaultLog, IGetMixedOneOfApiResponse apiResponseLocalVar);
+        partial void AfterGetMixedOneOf(ref bool suppressDefaultLogLocalVar, IGetMixedOneOfApiResponse apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
-        private void OnErrorGetMixedOneOfDefaultImplementation(Exception exception, string pathFormat, string path)
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        private void OnErrorGetMixedOneOfDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar)
         {
-            bool suppressDefaultLog = false;
-            OnErrorGetMixedOneOf(ref suppressDefaultLog, exception, pathFormat, path);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorGetMixedOneOf(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
-        partial void OnErrorGetMixedOneOf(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path);
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        partial void OnErrorGetMixedOneOf(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar);
 
         /// <summary>
         /// Test mixed type oneOf deserialization 
@@ -3006,35 +3006,35 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="requestBody"></param>
-        partial void AfterTestAdditionalPropertiesReference(ref bool suppressDefaultLog, ITestAdditionalPropertiesReferenceApiResponse apiResponseLocalVar, Dictionary<string, Object> requestBody);
+        partial void AfterTestAdditionalPropertiesReference(ref bool suppressDefaultLogLocalVar, ITestAdditionalPropertiesReferenceApiResponse apiResponseLocalVar, Dictionary<string, Object> requestBody);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="requestBody"></param>
-        private void OnErrorTestAdditionalPropertiesReferenceDefaultImplementation(Exception exception, string pathFormat, string path, Dictionary<string, Object> requestBody)
+        private void OnErrorTestAdditionalPropertiesReferenceDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Dictionary<string, Object> requestBody)
         {
-            bool suppressDefaultLog = false;
-            OnErrorTestAdditionalPropertiesReference(ref suppressDefaultLog, exception, pathFormat, path, requestBody);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorTestAdditionalPropertiesReference(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, requestBody);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="requestBody"></param>
-        partial void OnErrorTestAdditionalPropertiesReference(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Dictionary<string, Object> requestBody);
+        partial void OnErrorTestAdditionalPropertiesReference(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Dictionary<string, Object> requestBody);
 
         /// <summary>
         /// test referenced additionalProperties 
@@ -3195,35 +3195,35 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="fileSchemaTestClass"></param>
-        partial void AfterTestBodyWithFileSchema(ref bool suppressDefaultLog, ITestBodyWithFileSchemaApiResponse apiResponseLocalVar, FileSchemaTestClass fileSchemaTestClass);
+        partial void AfterTestBodyWithFileSchema(ref bool suppressDefaultLogLocalVar, ITestBodyWithFileSchemaApiResponse apiResponseLocalVar, FileSchemaTestClass fileSchemaTestClass);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="fileSchemaTestClass"></param>
-        private void OnErrorTestBodyWithFileSchemaDefaultImplementation(Exception exception, string pathFormat, string path, FileSchemaTestClass fileSchemaTestClass)
+        private void OnErrorTestBodyWithFileSchemaDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, FileSchemaTestClass fileSchemaTestClass)
         {
-            bool suppressDefaultLog = false;
-            OnErrorTestBodyWithFileSchema(ref suppressDefaultLog, exception, pathFormat, path, fileSchemaTestClass);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorTestBodyWithFileSchema(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, fileSchemaTestClass);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="fileSchemaTestClass"></param>
-        partial void OnErrorTestBodyWithFileSchema(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, FileSchemaTestClass fileSchemaTestClass);
+        partial void OnErrorTestBodyWithFileSchema(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, FileSchemaTestClass fileSchemaTestClass);
 
         /// <summary>
         ///  For this test, the body for this request much reference a schema named &#x60;File&#x60;.
@@ -3389,38 +3389,38 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="query"></param>
         /// <param name="user"></param>
-        partial void AfterTestBodyWithQueryParams(ref bool suppressDefaultLog, ITestBodyWithQueryParamsApiResponse apiResponseLocalVar, string query, User user);
+        partial void AfterTestBodyWithQueryParams(ref bool suppressDefaultLogLocalVar, ITestBodyWithQueryParamsApiResponse apiResponseLocalVar, string query, User user);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="query"></param>
         /// <param name="user"></param>
-        private void OnErrorTestBodyWithQueryParamsDefaultImplementation(Exception exception, string pathFormat, string path, string query, User user)
+        private void OnErrorTestBodyWithQueryParamsDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string query, User user)
         {
-            bool suppressDefaultLog = false;
-            OnErrorTestBodyWithQueryParams(ref suppressDefaultLog, exception, pathFormat, path, query, user);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorTestBodyWithQueryParams(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, query, user);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="query"></param>
         /// <param name="user"></param>
-        partial void OnErrorTestBodyWithQueryParams(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, string query, User user);
+        partial void OnErrorTestBodyWithQueryParams(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string query, User user);
 
         /// <summary>
         ///  
@@ -3589,35 +3589,35 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="modelClient"></param>
-        partial void AfterTestClientModel(ref bool suppressDefaultLog, ITestClientModelApiResponse apiResponseLocalVar, ModelClient modelClient);
+        partial void AfterTestClientModel(ref bool suppressDefaultLogLocalVar, ITestClientModelApiResponse apiResponseLocalVar, ModelClient modelClient);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="modelClient"></param>
-        private void OnErrorTestClientModelDefaultImplementation(Exception exception, string pathFormat, string path, ModelClient modelClient)
+        private void OnErrorTestClientModelDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, ModelClient modelClient)
         {
-            bool suppressDefaultLog = false;
-            OnErrorTestClientModel(ref suppressDefaultLog, exception, pathFormat, path, modelClient);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorTestClientModel(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, modelClient);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="modelClient"></param>
-        partial void OnErrorTestClientModel(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, ModelClient modelClient);
+        partial void OnErrorTestClientModel(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, ModelClient modelClient);
 
         /// <summary>
         /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
@@ -3852,7 +3852,7 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="number"></param>
         /// <param name="patternWithoutDelimiter"></param>
@@ -3868,14 +3868,14 @@ namespace Org.OpenAPITools.Api
         /// <param name="password"></param>
         /// <param name="varFloat"></param>
         /// <param name="varString"></param>
-        partial void AfterTestEndpointParameters(ref bool suppressDefaultLog, ITestEndpointParametersApiResponse apiResponseLocalVar, decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary, Option<string> callback, Option<DateOnly> date, Option<DateTime> dateTime, Option<int> int32, Option<long> int64, Option<int> integer, Option<string> password, Option<float> varFloat, Option<string> varString);
+        partial void AfterTestEndpointParameters(ref bool suppressDefaultLogLocalVar, ITestEndpointParametersApiResponse apiResponseLocalVar, decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary, Option<string> callback, Option<DateOnly> date, Option<DateTime> dateTime, Option<int> int32, Option<long> int64, Option<int> integer, Option<string> password, Option<float> varFloat, Option<string> varString);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="number"></param>
         /// <param name="patternWithoutDelimiter"></param>
         /// <param name="varByte"></param>
@@ -3890,21 +3890,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="password"></param>
         /// <param name="varFloat"></param>
         /// <param name="varString"></param>
-        private void OnErrorTestEndpointParametersDefaultImplementation(Exception exception, string pathFormat, string path, decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary, Option<string> callback, Option<DateOnly> date, Option<DateTime> dateTime, Option<int> int32, Option<long> int64, Option<int> integer, Option<string> password, Option<float> varFloat, Option<string> varString)
+        private void OnErrorTestEndpointParametersDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary, Option<string> callback, Option<DateOnly> date, Option<DateTime> dateTime, Option<int> int32, Option<long> int64, Option<int> integer, Option<string> password, Option<float> varFloat, Option<string> varString)
         {
-            bool suppressDefaultLog = false;
-            OnErrorTestEndpointParameters(ref suppressDefaultLog, exception, pathFormat, path, number, patternWithoutDelimiter, varByte, varDouble, binary, callback, date, dateTime, int32, int64, integer, password, varFloat, varString);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorTestEndpointParameters(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, number, patternWithoutDelimiter, varByte, varDouble, binary, callback, date, dateTime, int32, int64, integer, password, varFloat, varString);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="number"></param>
         /// <param name="patternWithoutDelimiter"></param>
         /// <param name="varByte"></param>
@@ -3919,7 +3919,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password"></param>
         /// <param name="varFloat"></param>
         /// <param name="varString"></param>
-        partial void OnErrorTestEndpointParameters(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary, Option<string> callback, Option<DateOnly> date, Option<DateTime> dateTime, Option<int> int32, Option<long> int64, Option<int> integer, Option<string> password, Option<float> varFloat, Option<string> varString);
+        partial void OnErrorTestEndpointParameters(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary, Option<string> callback, Option<DateOnly> date, Option<DateTime> dateTime, Option<int> int32, Option<long> int64, Option<int> integer, Option<string> password, Option<float> varFloat, Option<string> varString);
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트  Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -4192,7 +4192,7 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="enumFormString"></param>
         /// <param name="enumFormStringArray"></param>
@@ -4202,14 +4202,14 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryInteger"></param>
         /// <param name="enumQueryString"></param>
         /// <param name="enumQueryStringArray"></param>
-        partial void AfterTestEnumParameters(ref bool suppressDefaultLog, ITestEnumParametersApiResponse apiResponseLocalVar, Option<string> enumFormString, Option<List<string>> enumFormStringArray, Option<string> enumHeaderString, Option<List<string>> enumHeaderStringArray, Option<double> enumQueryDouble, Option<int> enumQueryInteger, Option<string> enumQueryString, Option<List<string>> enumQueryStringArray);
+        partial void AfterTestEnumParameters(ref bool suppressDefaultLogLocalVar, ITestEnumParametersApiResponse apiResponseLocalVar, Option<string> enumFormString, Option<List<string>> enumFormStringArray, Option<string> enumHeaderString, Option<List<string>> enumHeaderStringArray, Option<double> enumQueryDouble, Option<int> enumQueryInteger, Option<string> enumQueryString, Option<List<string>> enumQueryStringArray);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="enumFormString"></param>
         /// <param name="enumFormStringArray"></param>
         /// <param name="enumHeaderString"></param>
@@ -4218,21 +4218,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryInteger"></param>
         /// <param name="enumQueryString"></param>
         /// <param name="enumQueryStringArray"></param>
-        private void OnErrorTestEnumParametersDefaultImplementation(Exception exception, string pathFormat, string path, Option<string> enumFormString, Option<List<string>> enumFormStringArray, Option<string> enumHeaderString, Option<List<string>> enumHeaderStringArray, Option<double> enumQueryDouble, Option<int> enumQueryInteger, Option<string> enumQueryString, Option<List<string>> enumQueryStringArray)
+        private void OnErrorTestEnumParametersDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<string> enumFormString, Option<List<string>> enumFormStringArray, Option<string> enumHeaderString, Option<List<string>> enumHeaderStringArray, Option<double> enumQueryDouble, Option<int> enumQueryInteger, Option<string> enumQueryString, Option<List<string>> enumQueryStringArray)
         {
-            bool suppressDefaultLog = false;
-            OnErrorTestEnumParameters(ref suppressDefaultLog, exception, pathFormat, path, enumFormString, enumFormStringArray, enumHeaderString, enumHeaderStringArray, enumQueryDouble, enumQueryInteger, enumQueryString, enumQueryStringArray);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorTestEnumParameters(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, enumFormString, enumFormStringArray, enumHeaderString, enumHeaderStringArray, enumQueryDouble, enumQueryInteger, enumQueryString, enumQueryStringArray);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="enumFormString"></param>
         /// <param name="enumFormStringArray"></param>
         /// <param name="enumHeaderString"></param>
@@ -4241,7 +4241,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryInteger"></param>
         /// <param name="enumQueryString"></param>
         /// <param name="enumQueryStringArray"></param>
-        partial void OnErrorTestEnumParameters(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Option<string> enumFormString, Option<List<string>> enumFormStringArray, Option<string> enumHeaderString, Option<List<string>> enumHeaderStringArray, Option<double> enumQueryDouble, Option<int> enumQueryInteger, Option<string> enumQueryString, Option<List<string>> enumQueryStringArray);
+        partial void OnErrorTestEnumParameters(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<string> enumFormString, Option<List<string>> enumFormStringArray, Option<string> enumHeaderString, Option<List<string>> enumHeaderStringArray, Option<double> enumQueryDouble, Option<int> enumQueryInteger, Option<string> enumQueryString, Option<List<string>> enumQueryStringArray);
 
         /// <summary>
         /// To test enum parameters To test enum parameters
@@ -4446,7 +4446,7 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="requiredBooleanGroup"></param>
         /// <param name="requiredInt64Group"></param>
@@ -4454,42 +4454,42 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup"></param>
         /// <param name="int64Group"></param>
         /// <param name="stringGroup"></param>
-        partial void AfterTestGroupParameters(ref bool suppressDefaultLog, ITestGroupParametersApiResponse apiResponseLocalVar, bool requiredBooleanGroup, long requiredInt64Group, int requiredStringGroup, Option<bool> booleanGroup, Option<long> int64Group, Option<int> stringGroup);
+        partial void AfterTestGroupParameters(ref bool suppressDefaultLogLocalVar, ITestGroupParametersApiResponse apiResponseLocalVar, bool requiredBooleanGroup, long requiredInt64Group, int requiredStringGroup, Option<bool> booleanGroup, Option<long> int64Group, Option<int> stringGroup);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="requiredBooleanGroup"></param>
         /// <param name="requiredInt64Group"></param>
         /// <param name="requiredStringGroup"></param>
         /// <param name="booleanGroup"></param>
         /// <param name="int64Group"></param>
         /// <param name="stringGroup"></param>
-        private void OnErrorTestGroupParametersDefaultImplementation(Exception exception, string pathFormat, string path, bool requiredBooleanGroup, long requiredInt64Group, int requiredStringGroup, Option<bool> booleanGroup, Option<long> int64Group, Option<int> stringGroup)
+        private void OnErrorTestGroupParametersDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, bool requiredBooleanGroup, long requiredInt64Group, int requiredStringGroup, Option<bool> booleanGroup, Option<long> int64Group, Option<int> stringGroup)
         {
-            bool suppressDefaultLog = false;
-            OnErrorTestGroupParameters(ref suppressDefaultLog, exception, pathFormat, path, requiredBooleanGroup, requiredInt64Group, requiredStringGroup, booleanGroup, int64Group, stringGroup);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorTestGroupParameters(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, requiredBooleanGroup, requiredInt64Group, requiredStringGroup, booleanGroup, int64Group, stringGroup);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="requiredBooleanGroup"></param>
         /// <param name="requiredInt64Group"></param>
         /// <param name="requiredStringGroup"></param>
         /// <param name="booleanGroup"></param>
         /// <param name="int64Group"></param>
         /// <param name="stringGroup"></param>
-        partial void OnErrorTestGroupParameters(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, bool requiredBooleanGroup, long requiredInt64Group, int requiredStringGroup, Option<bool> booleanGroup, Option<long> int64Group, Option<int> stringGroup);
+        partial void OnErrorTestGroupParameters(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, bool requiredBooleanGroup, long requiredInt64Group, int requiredStringGroup, Option<bool> booleanGroup, Option<long> int64Group, Option<int> stringGroup);
 
         /// <summary>
         /// Fake endpoint to test group parameters (optional) Fake endpoint to test group parameters (optional)
@@ -4674,35 +4674,35 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="requestBody"></param>
-        partial void AfterTestInlineAdditionalProperties(ref bool suppressDefaultLog, ITestInlineAdditionalPropertiesApiResponse apiResponseLocalVar, Dictionary<string, string> requestBody);
+        partial void AfterTestInlineAdditionalProperties(ref bool suppressDefaultLogLocalVar, ITestInlineAdditionalPropertiesApiResponse apiResponseLocalVar, Dictionary<string, string> requestBody);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="requestBody"></param>
-        private void OnErrorTestInlineAdditionalPropertiesDefaultImplementation(Exception exception, string pathFormat, string path, Dictionary<string, string> requestBody)
+        private void OnErrorTestInlineAdditionalPropertiesDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Dictionary<string, string> requestBody)
         {
-            bool suppressDefaultLog = false;
-            OnErrorTestInlineAdditionalProperties(ref suppressDefaultLog, exception, pathFormat, path, requestBody);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorTestInlineAdditionalProperties(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, requestBody);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="requestBody"></param>
-        partial void OnErrorTestInlineAdditionalProperties(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Dictionary<string, string> requestBody);
+        partial void OnErrorTestInlineAdditionalProperties(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Dictionary<string, string> requestBody);
 
         /// <summary>
         /// test inline additionalProperties 
@@ -4863,35 +4863,35 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="testInlineFreeformAdditionalPropertiesRequest"></param>
-        partial void AfterTestInlineFreeformAdditionalProperties(ref bool suppressDefaultLog, ITestInlineFreeformAdditionalPropertiesApiResponse apiResponseLocalVar, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest);
+        partial void AfterTestInlineFreeformAdditionalProperties(ref bool suppressDefaultLogLocalVar, ITestInlineFreeformAdditionalPropertiesApiResponse apiResponseLocalVar, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="testInlineFreeformAdditionalPropertiesRequest"></param>
-        private void OnErrorTestInlineFreeformAdditionalPropertiesDefaultImplementation(Exception exception, string pathFormat, string path, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest)
+        private void OnErrorTestInlineFreeformAdditionalPropertiesDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest)
         {
-            bool suppressDefaultLog = false;
-            OnErrorTestInlineFreeformAdditionalProperties(ref suppressDefaultLog, exception, pathFormat, path, testInlineFreeformAdditionalPropertiesRequest);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorTestInlineFreeformAdditionalProperties(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, testInlineFreeformAdditionalPropertiesRequest);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="testInlineFreeformAdditionalPropertiesRequest"></param>
-        partial void OnErrorTestInlineFreeformAdditionalProperties(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest);
+        partial void OnErrorTestInlineFreeformAdditionalProperties(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest);
 
         /// <summary>
         /// test inline free-form additionalProperties 
@@ -5057,38 +5057,38 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="param"></param>
         /// <param name="param2"></param>
-        partial void AfterTestJsonFormData(ref bool suppressDefaultLog, ITestJsonFormDataApiResponse apiResponseLocalVar, string param, string param2);
+        partial void AfterTestJsonFormData(ref bool suppressDefaultLogLocalVar, ITestJsonFormDataApiResponse apiResponseLocalVar, string param, string param2);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="param"></param>
         /// <param name="param2"></param>
-        private void OnErrorTestJsonFormDataDefaultImplementation(Exception exception, string pathFormat, string path, string param, string param2)
+        private void OnErrorTestJsonFormDataDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string param, string param2)
         {
-            bool suppressDefaultLog = false;
-            OnErrorTestJsonFormData(ref suppressDefaultLog, exception, pathFormat, path, param, param2);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorTestJsonFormData(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, param, param2);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="param"></param>
         /// <param name="param2"></param>
-        partial void OnErrorTestJsonFormData(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, string param, string param2);
+        partial void OnErrorTestJsonFormData(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string param, string param2);
 
         /// <summary>
         /// test json serialization of form data 
@@ -5291,7 +5291,7 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="context"></param>
         /// <param name="http"></param>
@@ -5302,14 +5302,14 @@ namespace Org.OpenAPITools.Api
         /// <param name="notRequiredNotNullable"></param>
         /// <param name="notRequiredNullable"></param>
         /// <param name="requiredNullable"></param>
-        partial void AfterTestQueryParameterCollectionFormat(ref bool suppressDefaultLog, ITestQueryParameterCollectionFormatApiResponse apiResponseLocalVar, List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, List<string> url, Option<string> notRequiredNotNullable, Option<string> notRequiredNullable, string requiredNullable);
+        partial void AfterTestQueryParameterCollectionFormat(ref bool suppressDefaultLogLocalVar, ITestQueryParameterCollectionFormatApiResponse apiResponseLocalVar, List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, List<string> url, Option<string> notRequiredNotNullable, Option<string> notRequiredNullable, string requiredNullable);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="context"></param>
         /// <param name="http"></param>
         /// <param name="ioutil"></param>
@@ -5319,21 +5319,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="notRequiredNotNullable"></param>
         /// <param name="notRequiredNullable"></param>
         /// <param name="requiredNullable"></param>
-        private void OnErrorTestQueryParameterCollectionFormatDefaultImplementation(Exception exception, string pathFormat, string path, List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, List<string> url, Option<string> notRequiredNotNullable, Option<string> notRequiredNullable, string requiredNullable)
+        private void OnErrorTestQueryParameterCollectionFormatDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, List<string> url, Option<string> notRequiredNotNullable, Option<string> notRequiredNullable, string requiredNullable)
         {
-            bool suppressDefaultLog = false;
-            OnErrorTestQueryParameterCollectionFormat(ref suppressDefaultLog, exception, pathFormat, path, context, http, ioutil, pipe, requiredNotNullable, url, notRequiredNotNullable, notRequiredNullable, requiredNullable);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorTestQueryParameterCollectionFormat(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, context, http, ioutil, pipe, requiredNotNullable, url, notRequiredNotNullable, notRequiredNullable, requiredNullable);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="context"></param>
         /// <param name="http"></param>
         /// <param name="ioutil"></param>
@@ -5343,7 +5343,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="notRequiredNotNullable"></param>
         /// <param name="notRequiredNullable"></param>
         /// <param name="requiredNullable"></param>
-        partial void OnErrorTestQueryParameterCollectionFormat(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, List<string> url, Option<string> notRequiredNotNullable, Option<string> notRequiredNullable, string requiredNullable);
+        partial void OnErrorTestQueryParameterCollectionFormat(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, List<string> url, Option<string> notRequiredNotNullable, Option<string> notRequiredNullable, string requiredNullable);
 
         /// <summary>
         ///  To test the collection format in query parameters
@@ -5525,35 +5525,35 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="requestBody"></param>
-        partial void AfterTestStringMapReference(ref bool suppressDefaultLog, ITestStringMapReferenceApiResponse apiResponseLocalVar, Dictionary<string, string> requestBody);
+        partial void AfterTestStringMapReference(ref bool suppressDefaultLogLocalVar, ITestStringMapReferenceApiResponse apiResponseLocalVar, Dictionary<string, string> requestBody);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="requestBody"></param>
-        private void OnErrorTestStringMapReferenceDefaultImplementation(Exception exception, string pathFormat, string path, Dictionary<string, string> requestBody)
+        private void OnErrorTestStringMapReferenceDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Dictionary<string, string> requestBody)
         {
-            bool suppressDefaultLog = false;
-            OnErrorTestStringMapReference(ref suppressDefaultLog, exception, pathFormat, path, requestBody);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorTestStringMapReference(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, requestBody);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="requestBody"></param>
-        partial void OnErrorTestStringMapReference(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Dictionary<string, string> requestBody);
+        partial void OnErrorTestStringMapReference(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Dictionary<string, string> requestBody);
 
         /// <summary>
         /// test referenced string map 

@@ -397,32 +397,32 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterFooGet(ref bool suppressDefaultLog, IFooGetApiResponse apiResponseLocalVar);
+        partial void AfterFooGet(ref bool suppressDefaultLogLocalVar, IFooGetApiResponse apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
-        private void OnErrorFooGetDefaultImplementation(Exception exception, string pathFormat, string path)
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        private void OnErrorFooGetDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar)
         {
-            bool suppressDefaultLog = false;
-            OnErrorFooGet(ref suppressDefaultLog, exception, pathFormat, path);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorFooGet(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
-        partial void OnErrorFooGet(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path);
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        partial void OnErrorFooGet(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar);
 
         /// <summary>
         ///  
@@ -605,35 +605,35 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="country"></param>
-        partial void AfterGetCountry(ref bool suppressDefaultLog, IGetCountryApiResponse apiResponseLocalVar, string country);
+        partial void AfterGetCountry(ref bool suppressDefaultLogLocalVar, IGetCountryApiResponse apiResponseLocalVar, string country);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="country"></param>
-        private void OnErrorGetCountryDefaultImplementation(Exception exception, string pathFormat, string path, string country)
+        private void OnErrorGetCountryDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string country)
         {
-            bool suppressDefaultLog = false;
-            OnErrorGetCountry(ref suppressDefaultLog, exception, pathFormat, path, country);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorGetCountry(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, country);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="country"></param>
-        partial void OnErrorGetCountry(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, string country);
+        partial void OnErrorGetCountry(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string country);
 
         /// <summary>
         ///  
@@ -786,32 +786,32 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterHello(ref bool suppressDefaultLog, IHelloApiResponse apiResponseLocalVar);
+        partial void AfterHello(ref bool suppressDefaultLogLocalVar, IHelloApiResponse apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
-        private void OnErrorHelloDefaultImplementation(Exception exception, string pathFormat, string path)
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        private void OnErrorHelloDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar)
         {
-            bool suppressDefaultLog = false;
-            OnErrorHello(ref suppressDefaultLog, exception, pathFormat, path);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorHello(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
-        partial void OnErrorHello(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path);
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        partial void OnErrorHello(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar);
 
         /// <summary>
         /// Hello Hello
@@ -980,32 +980,32 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterRolesReportGet(ref bool suppressDefaultLog, IRolesReportGetApiResponse apiResponseLocalVar);
+        partial void AfterRolesReportGet(ref bool suppressDefaultLogLocalVar, IRolesReportGetApiResponse apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
-        private void OnErrorRolesReportGetDefaultImplementation(Exception exception, string pathFormat, string path)
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        private void OnErrorRolesReportGetDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar)
         {
-            bool suppressDefaultLog = false;
-            OnErrorRolesReportGet(ref suppressDefaultLog, exception, pathFormat, path);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorRolesReportGet(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
-        partial void OnErrorRolesReportGet(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path);
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        partial void OnErrorRolesReportGet(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar);
 
         /// <summary>
         ///  
@@ -1174,32 +1174,32 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterTest(ref bool suppressDefaultLog, ITestApiResponse apiResponseLocalVar);
+        partial void AfterTest(ref bool suppressDefaultLogLocalVar, ITestApiResponse apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
-        private void OnErrorTestDefaultImplementation(Exception exception, string pathFormat, string path)
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        private void OnErrorTestDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar)
         {
-            bool suppressDefaultLog = false;
-            OnErrorTest(ref suppressDefaultLog, exception, pathFormat, path);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorTest(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
-        partial void OnErrorTest(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path);
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        partial void OnErrorTest(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar);
 
         /// <summary>
         /// Retrieve an existing Notificationtest&#39;s Elements 

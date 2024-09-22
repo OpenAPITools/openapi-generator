@@ -388,35 +388,35 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="orderId"></param>
-        partial void AfterDeleteOrder(ref bool suppressDefaultLog, IDeleteOrderApiResponse apiResponseLocalVar, string orderId);
+        partial void AfterDeleteOrder(ref bool suppressDefaultLogLocalVar, IDeleteOrderApiResponse apiResponseLocalVar, string orderId);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="orderId"></param>
-        private void OnErrorDeleteOrderDefaultImplementation(Exception exception, string pathFormat, string path, string orderId)
+        private void OnErrorDeleteOrderDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string orderId)
         {
-            bool suppressDefaultLog = false;
-            OnErrorDeleteOrder(ref suppressDefaultLog, exception, pathFormat, path, orderId);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorDeleteOrder(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, orderId);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="orderId"></param>
-        partial void OnErrorDeleteOrder(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, string orderId);
+        partial void OnErrorDeleteOrder(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string orderId);
 
         /// <summary>
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
@@ -557,32 +557,32 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterGetInventory(ref bool suppressDefaultLog, IGetInventoryApiResponse apiResponseLocalVar);
+        partial void AfterGetInventory(ref bool suppressDefaultLogLocalVar, IGetInventoryApiResponse apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
-        private void OnErrorGetInventoryDefaultImplementation(Exception exception, string pathFormat, string path)
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        private void OnErrorGetInventoryDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar)
         {
-            bool suppressDefaultLog = false;
-            OnErrorGetInventory(ref suppressDefaultLog, exception, pathFormat, path);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorGetInventory(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
-        partial void OnErrorGetInventory(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path);
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        partial void OnErrorGetInventory(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar);
 
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
@@ -763,35 +763,35 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="orderId"></param>
-        partial void AfterGetOrderById(ref bool suppressDefaultLog, IGetOrderByIdApiResponse apiResponseLocalVar, long orderId);
+        partial void AfterGetOrderById(ref bool suppressDefaultLogLocalVar, IGetOrderByIdApiResponse apiResponseLocalVar, long orderId);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="orderId"></param>
-        private void OnErrorGetOrderByIdDefaultImplementation(Exception exception, string pathFormat, string path, long orderId)
+        private void OnErrorGetOrderByIdDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, long orderId)
         {
-            bool suppressDefaultLog = false;
-            OnErrorGetOrderById(ref suppressDefaultLog, exception, pathFormat, path, orderId);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorGetOrderById(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, orderId);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="orderId"></param>
-        partial void OnErrorGetOrderById(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, long orderId);
+        partial void OnErrorGetOrderById(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, long orderId);
 
         /// <summary>
         /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
@@ -992,35 +992,35 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="order"></param>
-        partial void AfterPlaceOrder(ref bool suppressDefaultLog, IPlaceOrderApiResponse apiResponseLocalVar, Order order);
+        partial void AfterPlaceOrder(ref bool suppressDefaultLogLocalVar, IPlaceOrderApiResponse apiResponseLocalVar, Order order);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="order"></param>
-        private void OnErrorPlaceOrderDefaultImplementation(Exception exception, string pathFormat, string path, Order order)
+        private void OnErrorPlaceOrderDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Order order)
         {
-            bool suppressDefaultLog = false;
-            OnErrorPlaceOrder(ref suppressDefaultLog, exception, pathFormat, path, order);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorPlaceOrder(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, order);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="order"></param>
-        partial void OnErrorPlaceOrder(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Order order);
+        partial void OnErrorPlaceOrder(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Order order);
 
         /// <summary>
         /// Place an order for a pet 
