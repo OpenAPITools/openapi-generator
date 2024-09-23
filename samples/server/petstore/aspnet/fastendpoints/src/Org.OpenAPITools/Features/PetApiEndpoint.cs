@@ -14,12 +14,13 @@ public class AddPetEndpoint : Endpoint<AddPetRequest, Pet>
     public override void Configure()
     {
         Post("/v2/pet");
+        
         AllowAnonymous();
         
         Description(x =>
         {
             x.WithTags("pet")
-             .ProducesProblemDetails(405);
+             .ProducesProblemFE(405);
         });
 
         Summary(s => {
@@ -50,12 +51,13 @@ public class DeletePetEndpoint : Endpoint<DeletePetRequest>
     public override void Configure()
     {
         Delete("/v2/pet/{petId}");
+        
         AllowAnonymous();
         
         Description(x =>
         {
             x.WithTags("pet")
-             .ProducesProblemDetails(400);
+             .ProducesProblemFE(400);
         });
 
         Summary(s => {
@@ -86,12 +88,13 @@ public class FindPetsByStatusEndpoint : Endpoint<FindPetsByStatusRequest, List<P
     public override void Configure()
     {
         Get("/v2/pet/findByStatus");
+        
         AllowAnonymous();
         
         Description(x =>
         {
             x.WithTags("pet")
-             .ProducesProblemDetails(400);
+             .ProducesProblemFE(400);
         });
 
         Summary(s => {
@@ -122,12 +125,13 @@ public class FindPetsByTagsEndpoint : Endpoint<FindPetsByTagsRequest, List<Pet>>
     public override void Configure()
     {
         Get("/v2/pet/findByTags");
+        
         AllowAnonymous();
         
         Description(x =>
         {
             x.WithTags("pet")
-             .ProducesProblemDetails(400);
+             .ProducesProblemFE(400);
         });
 
         Summary(s => {
@@ -158,13 +162,14 @@ public class GetPetByIdEndpoint : Endpoint<GetPetByIdRequest, Pet>
     public override void Configure()
     {
         Get("/v2/pet/{petId}");
+        
         AllowAnonymous();
         
         Description(x =>
         {
             x.WithTags("pet")
-             .ProducesProblemDetails(400)
-             .ProducesProblemDetails(404);
+             .ProducesProblemFE(400)
+             .ProducesProblemFE(404);
         });
 
         Summary(s => {
@@ -196,14 +201,15 @@ public class UpdatePetEndpoint : Endpoint<UpdatePetRequest, Pet>
     public override void Configure()
     {
         Put("/v2/pet");
+        
         AllowAnonymous();
         
         Description(x =>
         {
             x.WithTags("pet")
-             .ProducesProblemDetails(400)
-             .ProducesProblemDetails(404)
-             .ProducesProblemDetails(405);
+             .ProducesProblemFE(400)
+             .ProducesProblemFE(404)
+             .ProducesProblemFE(405);
         });
 
         Summary(s => {
@@ -236,12 +242,13 @@ public class UpdatePetWithFormEndpoint : Endpoint<UpdatePetWithFormRequest>
     public override void Configure()
     {
         Post("/v2/pet/{petId}");
+        
         AllowAnonymous();
         
         Description(x =>
         {
             x.WithTags("pet")
-             .ProducesProblemDetails(405);
+             .ProducesProblemFE(405);
         });
 
         Summary(s => {
@@ -273,6 +280,7 @@ public class UploadFileEndpoint : Endpoint<UploadFileRequest, ApiResponse>
     public override void Configure()
     {
         Post("/v2/pet/{petId}/uploadImage");
+        
         AllowAnonymous();
         AllowFileUploads();
         Description(x =>

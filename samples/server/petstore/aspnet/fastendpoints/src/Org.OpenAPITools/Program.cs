@@ -4,6 +4,7 @@ using FastEndpoints.Swagger;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
+    
     .AddFastEndpoints()
     .SwaggerDocument(o =>
     {
@@ -15,13 +16,17 @@ builder.Services
             s.Version = "1.0.0";
         };
         o.AutoTagPathSegmentIndex = 0;
-    });
+    })
+    
+;
 
 var app = builder.Build();
 
-app.UseFastEndpoints(x =>
+app
+    
+    .UseFastEndpoints(x =>
     {
-        x.Errors.UseProblemDetails();
+        
     })
     .UseSwaggerGen();
 

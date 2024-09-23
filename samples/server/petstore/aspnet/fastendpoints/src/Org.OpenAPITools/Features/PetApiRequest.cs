@@ -1,4 +1,5 @@
 using FastEndpoints;
+
 using Org.OpenAPITools.Models;
 
 namespace Org.OpenAPITools.Features;
@@ -22,7 +23,7 @@ public class DeletePetRequest
     /// 
     /// </summary>
     [FromHeader]
-    public string ApiKey { get; set; }
+    public string? ApiKey { get; set; }
 }
 public class FindPetsByStatusRequest
 {
@@ -64,11 +65,11 @@ public class UpdatePetWithFormRequest
     /// <summary>
     /// Updated name of the pet
     /// </summary>
-    public string Name { get; set; }
+    public string? Name { get; set; }
     /// <summary>
     /// Updated status of the pet
     /// </summary>
-    public string Status { get; set; }
+    public string? Status { get; set; }
 }
 public class UploadFileRequest
 {
@@ -79,9 +80,11 @@ public class UploadFileRequest
     /// <summary>
     /// Additional data to pass to server
     /// </summary>
-    public string AdditionalMetadata { get; set; }
+    public string? AdditionalMetadata { get; set; }
     /// <summary>
     /// file to upload
     /// </summary>
-    public System.IO.Stream File { get; set; }
+    public System.IO.Stream? File { get; set; }
 }
+
+

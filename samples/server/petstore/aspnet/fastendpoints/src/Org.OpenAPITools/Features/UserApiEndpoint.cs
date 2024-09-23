@@ -14,12 +14,13 @@ public class CreateUserEndpoint : Endpoint<CreateUserRequest>
     public override void Configure()
     {
         Post("/v2/user");
+        
         AllowAnonymous();
         
         Description(x =>
         {
             x.WithTags("user")
-             .ProducesProblemDetails(0);
+             .ProducesProblemFE(0);
         });
 
         Summary(s => {
@@ -49,12 +50,13 @@ public class CreateUsersWithArrayInputEndpoint : Endpoint<CreateUsersWithArrayIn
     public override void Configure()
     {
         Post("/v2/user/createWithArray");
+        
         AllowAnonymous();
         
         Description(x =>
         {
             x.WithTags("user")
-             .ProducesProblemDetails(0);
+             .ProducesProblemFE(0);
         });
 
         Summary(s => {
@@ -84,12 +86,13 @@ public class CreateUsersWithListInputEndpoint : Endpoint<CreateUsersWithListInpu
     public override void Configure()
     {
         Post("/v2/user/createWithList");
+        
         AllowAnonymous();
         
         Description(x =>
         {
             x.WithTags("user")
-             .ProducesProblemDetails(0);
+             .ProducesProblemFE(0);
         });
 
         Summary(s => {
@@ -119,13 +122,14 @@ public class DeleteUserEndpoint : Endpoint<DeleteUserRequest>
     public override void Configure()
     {
         Delete("/v2/user/{username}");
+        
         AllowAnonymous();
         
         Description(x =>
         {
             x.WithTags("user")
-             .ProducesProblemDetails(400)
-             .ProducesProblemDetails(404);
+             .ProducesProblemFE(400)
+             .ProducesProblemFE(404);
         });
 
         Summary(s => {
@@ -156,13 +160,14 @@ public class GetUserByNameEndpoint : Endpoint<GetUserByNameRequest, User>
     public override void Configure()
     {
         Get("/v2/user/{username}");
+        
         AllowAnonymous();
         
         Description(x =>
         {
             x.WithTags("user")
-             .ProducesProblemDetails(400)
-             .ProducesProblemDetails(404);
+             .ProducesProblemFE(400)
+             .ProducesProblemFE(404);
         });
 
         Summary(s => {
@@ -194,12 +199,13 @@ public class LoginUserEndpoint : Endpoint<LoginUserRequest, string>
     public override void Configure()
     {
         Get("/v2/user/login");
+        
         AllowAnonymous();
         
         Description(x =>
         {
             x.WithTags("user")
-             .ProducesProblemDetails(400);
+             .ProducesProblemFE(400);
         });
 
         Summary(s => {
@@ -231,12 +237,13 @@ public class LogoutUserEndpoint : EndpointWithoutRequest
     public override void Configure()
     {
         Get("/v2/user/logout");
+        
         AllowAnonymous();
         
         Description(x =>
         {
             x.WithTags("user")
-             .ProducesProblemDetails(0);
+             .ProducesProblemFE(0);
         });
 
         Summary(s => {
@@ -265,13 +272,14 @@ public class UpdateUserEndpoint : Endpoint<UpdateUserRequest>
     public override void Configure()
     {
         Put("/v2/user/{username}");
+        
         AllowAnonymous();
         
         Description(x =>
         {
             x.WithTags("user")
-             .ProducesProblemDetails(400)
-             .ProducesProblemDetails(404);
+             .ProducesProblemFE(400)
+             .ProducesProblemFE(404);
         });
 
         Summary(s => {

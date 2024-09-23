@@ -1,4 +1,5 @@
 using FastEndpoints;
+
 using Org.OpenAPITools.Models;
 
 namespace Org.OpenAPITools.Features;
@@ -29,3 +30,5 @@ public class PlaceOrderRequest
     [FromBody]
     public Order order { get; set; }
 }
+
+
