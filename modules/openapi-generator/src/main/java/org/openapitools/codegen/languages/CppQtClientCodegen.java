@@ -44,7 +44,7 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
     protected String sourceFolder = "client";
     @Setter protected boolean optionalProjectFileFlag = true;
     @Setter protected boolean addDownloadProgress = false;
-    @Setter protected boolean makeOperationsVirtual = false;
+    @Setter protected boolean makeOperationsVirtual = true;
 
     public CppQtClientCodegen() {
         super();
