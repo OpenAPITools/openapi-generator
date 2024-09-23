@@ -14,7 +14,9 @@ builder.Services
         {
             s.DocumentName = "{{{appName}}}{{^appName}}{{packageName}}{{/appName}}";
             s.Title = "{{{appName}}}{{^appName}}{{packageName}}{{/appName}}";
-            s.Description = "{{{packageDescription}}}";
+            s.Description = """
+{{{packageDescription}}}
+""";
             s.Version = "{{{version}}}{{^version}}v1{{/version}}";
         };
         o.AutoTagPathSegmentIndex = 0;
