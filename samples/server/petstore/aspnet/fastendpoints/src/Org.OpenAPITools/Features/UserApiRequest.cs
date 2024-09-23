@@ -1,4 +1,5 @@
 using FastEndpoints;
+
 using Org.OpenAPITools.Models;
 
 namespace Org.OpenAPITools.Features;
@@ -70,3 +71,5 @@ public class UpdateUserRequest
     [FromBody]
     public User user { get; set; }
 }
+
+

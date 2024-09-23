@@ -14,13 +14,14 @@ public class DeleteOrderEndpoint : Endpoint<DeleteOrderRequest>
     public override void Configure()
     {
         Delete("/v2/store/order/{orderId}");
+        
         AllowAnonymous();
         
         Description(x =>
         {
             x.WithTags("store")
-             .ProducesProblemDetails(400)
-             .ProducesProblemDetails(404);
+             .ProducesProblemFE(400)
+             .ProducesProblemFE(404);
         });
 
         Summary(s => {
@@ -51,6 +52,7 @@ public class GetInventoryEndpoint : EndpointWithoutRequest<Dictionary<string, in
     public override void Configure()
     {
         Get("/v2/store/inventory");
+        
         AllowAnonymous();
         
         Description(x =>
@@ -84,13 +86,14 @@ public class GetOrderByIdEndpoint : Endpoint<GetOrderByIdRequest, Order>
     public override void Configure()
     {
         Get("/v2/store/order/{orderId}");
+        
         AllowAnonymous();
         
         Description(x =>
         {
             x.WithTags("store")
-             .ProducesProblemDetails(400)
-             .ProducesProblemDetails(404);
+             .ProducesProblemFE(400)
+             .ProducesProblemFE(404);
         });
 
         Summary(s => {
@@ -122,12 +125,13 @@ public class PlaceOrderEndpoint : Endpoint<PlaceOrderRequest, Order>
     public override void Configure()
     {
         Post("/v2/store/order");
+        
         AllowAnonymous();
         
         Description(x =>
         {
             x.WithTags("store")
-             .ProducesProblemDetails(400);
+             .ProducesProblemFE(400);
         });
 
         Summary(s => {
