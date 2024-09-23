@@ -21,11 +21,21 @@ package cask.groupId.server
 import _root_.sample.cask.model.*
 import _root_.sample.cask.api.*
 
+/** an example of how you can add your own additional routes to your app */
+object MoreRoutes extends cask.Routes {
+  @cask.get("/echo")
+  def more(request: cask.Request) = s"request was ${request.bodyAsString}"
+
+  initialize()
+}
+
 /**
  * This is an example of how you might extends BaseApp for a runnable application.
  *
  * See the README.md for how to create your own app
  */
 object ExampleApp extends BaseApp() {
+  // override to include our additional route
+  override def allRoutes = super.allRoutes ++ Option(MoreRoutes)
   start()
 }

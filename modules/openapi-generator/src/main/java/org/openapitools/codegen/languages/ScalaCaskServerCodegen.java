@@ -39,6 +39,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
 
+    private static final String AdditionalPropertiesType = "Additional Properties Type";
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaCaskServerCodegen.class);
 
     @Override
@@ -115,6 +116,8 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
         typeMapping.put("integer", "Int");
         typeMapping.put("long", "Long");
+        typeMapping.put("AnyType", AdditionalPropertiesType);
+
         //TODO binary should be mapped to byte array
         // mapped to String as a workaround
         typeMapping.put("binary", "String");
@@ -241,6 +244,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
         importMapping.put("LocalTime", "java.time.LocalTime");
         importMapping.put("Value", "ujson.Value");
+        importMapping.put(AdditionalPropertiesType, "ujson.Value // additional props");
     }
 
     static boolean consumesMimetype(CodegenOperation op, String mimetype) {
@@ -614,7 +618,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
             if (p.getIsEnumOrRef()) {
                 p.defaultValue = "null";
             } else {
-                p.defaultValue = defaultValueNonOption(p);
+                p.defaultValue = defaultValueNonOption(p, "null");
             }
         } else if (p.defaultValue.contains("Seq.empty")) {
             p.defaultValue = "Nil";
@@ -777,7 +781,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         if (p.getIsMap()) {
             return "Map.empty";
         }
-        if (p.getIsNumber()) {
+        if (p.getIsNumber() || p.getIsFloat() || p.getIsDecimal() || p.getIsDouble() || p.getIsInteger()  || p.getIsLong() || p.getIsUnboundedInteger()) {
             return "0";
         }
         if (p.getIsEnum()) {
@@ -792,37 +796,12 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         if (p.getIsString()) {
             return "\"\"";
         }
-        return fallbackDefaultValue;
-    }
+        if (fallbackDefaultValue != null && !fallbackDefaultValue.trim().isEmpty()) {
+            return fallbackDefaultValue;
+        }
 
-    private static String defaultValueNonOption(CodegenProperty p) {
-        if (p.getIsArray()) {
-            return "Nil";
-        }
-        if (p.getIsMap()) {
-            return "Map.empty";
-        }
-        if (p.isNumber || p.isNumeric) {
-            return "0";
-        }
-        if (p.isBoolean) {
-            return "false";
-        }
-        if (p.isUuid) {
-            return "java.util.UUID.randomUUID()";
-        }
-        if (p.isModel) {
-            return "null";
-        }
-        if (p.isDate || p.isDateTime) {
-            return "null";
-        }
-        if (p.isString) {
-            return "\"\"";
-        }
-        return p.defaultValue;
+        return "null";
     }
-
 
     @Override
     public CodegenProperty fromProperty(String name, Schema schema) {
@@ -847,9 +826,9 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
     @Override
     public String toModelImport(String name) {
-        final String result = super.toModelImport(name);
+        String result = super.toModelImport(name);
         if (importMapping.containsKey(name)) {
-            return importMapping.get(name);
+            result = importMapping.get(name);
         }
         return result;
     }

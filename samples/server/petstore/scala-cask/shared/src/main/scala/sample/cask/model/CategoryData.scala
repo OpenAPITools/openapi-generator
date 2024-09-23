@@ -25,55 +25,36 @@ import upickle.default.*
   */
 case class CategoryData(
   id: Long = 0 ,
+  name: String = "" 
+  
 
-    name: String = "" 
+) derives RW {
 
-  ) {
+  def asJsonString: String = asJson.toString()
 
-  def asJson: String = write(this)
+  def asJson : ujson.Value = {
+    val jason = writeJs(this)
+    jason
+  }
 
   def validationErrors(path : Seq[Field], failFast : Boolean) : Seq[ValidationError] = {
     val errors = scala.collection.mutable.ListBuffer[ValidationError]()
-        // ==================
-        // id
-
-
-
-
-
-
+        // ================== id validation ==================
+        
+        
+        
         
 
-
-
-
-
-
-
-        
-
-        // ==================
-        // name
+        // ================== name validation ==================
         // validate against pattern '^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$'
         if (errors.isEmpty || !failFast) {
            val regex = """^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$"""
            if name == null || !regex.r.matches(name) then
               errors += ValidationError(path :+ Category.Fields.name, s"value '$name' doesn't match pattern $regex")
         }
-
-
-
-
-
-
         
-
-
-
-
-
-
-
+        
+        
         
 
     errors.toSeq
@@ -97,19 +78,28 @@ case class CategoryData(
         name
         )
         
+    
     )
   }
 }
 
 object CategoryData {
 
-  given readWriter : RW[CategoryData] = macroRW
+  def fromJson(jason : ujson.Value) : CategoryData = try {
+        val data = read[CategoryData](jason)
+        data
+    } catch {
+      case NonFatal(e) => sys.error(s"Error creating CategoryData from json '$jason': $e")
+  }
 
-  def fromJsonString(jason : String) : CategoryData = try {
-        read[CategoryData](jason)
-     } catch {
+  def fromJsonString(jason : String) : CategoryData = {
+        val parsed = try {
+           read[ujson.Value](jason)
+        } catch {
           case NonFatal(e) => sys.error(s"Error parsing json '$jason': $e")
-     }
+        }
+        fromJson(parsed)
+  }
 
   def manyFromJsonString(jason : String) : Seq[CategoryData] = try {
         read[List[CategoryData]](jason)
