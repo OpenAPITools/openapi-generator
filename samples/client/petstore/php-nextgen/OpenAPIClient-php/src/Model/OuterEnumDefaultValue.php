@@ -41,7 +41,6 @@ enum OuterEnumDefaultValue: string
     case APPROVED = 'approved';
 
     case SHIPPED = 'delivered';
-
 }
 
 

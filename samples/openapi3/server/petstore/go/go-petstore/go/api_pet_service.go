@@ -28,6 +28,26 @@ func NewPetAPIService() *PetAPIService {
 	return &PetAPIService{}
 }
 
+// UpdatePet - Update an existing pet
+func (s *PetAPIService) UpdatePet(ctx context.Context, pet Pet) (ImplResponse, error) {
+	// TODO - update UpdatePet with the required logic for this service method.
+	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
+
+	// TODO: Uncomment the next line to return response Response(200, Pet{}) or use other options such as http.Ok ...
+	// return Response(200, Pet{}), nil
+
+	// TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
+	// return Response(400, nil),nil
+
+	// TODO: Uncomment the next line to return response Response(404, {}) or use other options such as http.Ok ...
+	// return Response(404, nil),nil
+
+	// TODO: Uncomment the next line to return response Response(405, {}) or use other options such as http.Ok ...
+	// return Response(405, nil),nil
+
+	return Response(http.StatusNotImplemented, nil), errors.New("UpdatePet method not implemented")
+}
+
 // AddPet - Add a new pet to the store
 func (s *PetAPIService) AddPet(ctx context.Context, pet Pet) (ImplResponse, error) {
 	// TODO - update AddPet with the required logic for this service method.
@@ -40,17 +60,6 @@ func (s *PetAPIService) AddPet(ctx context.Context, pet Pet) (ImplResponse, erro
 	// return Response(405, nil),nil
 
 	return Response(http.StatusNotImplemented, nil), errors.New("AddPet method not implemented")
-}
-
-// DeletePet - Deletes a pet
-func (s *PetAPIService) DeletePet(ctx context.Context, petId int64, apiKey string) (ImplResponse, error) {
-	// TODO - update DeletePet with the required logic for this service method.
-	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
-
-	// TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
-	// return Response(400, nil),nil
-
-	return Response(http.StatusNotImplemented, nil), errors.New("DeletePet method not implemented")
 }
 
 // FindPetsByStatus - Finds Pets by status
@@ -99,26 +108,6 @@ func (s *PetAPIService) GetPetById(ctx context.Context, petId int64) (ImplRespon
 	return Response(http.StatusNotImplemented, nil), errors.New("GetPetById method not implemented")
 }
 
-// UpdatePet - Update an existing pet
-func (s *PetAPIService) UpdatePet(ctx context.Context, pet Pet) (ImplResponse, error) {
-	// TODO - update UpdatePet with the required logic for this service method.
-	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
-
-	// TODO: Uncomment the next line to return response Response(200, Pet{}) or use other options such as http.Ok ...
-	// return Response(200, Pet{}), nil
-
-	// TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
-	// return Response(400, nil),nil
-
-	// TODO: Uncomment the next line to return response Response(404, {}) or use other options such as http.Ok ...
-	// return Response(404, nil),nil
-
-	// TODO: Uncomment the next line to return response Response(405, {}) or use other options such as http.Ok ...
-	// return Response(405, nil),nil
-
-	return Response(http.StatusNotImplemented, nil), errors.New("UpdatePet method not implemented")
-}
-
 // UpdatePetWithForm - Updates a pet in the store with form data
 func (s *PetAPIService) UpdatePetWithForm(ctx context.Context, petId int64, name string, status string) (ImplResponse, error) {
 	// TODO - update UpdatePetWithForm with the required logic for this service method.
@@ -128,6 +117,17 @@ func (s *PetAPIService) UpdatePetWithForm(ctx context.Context, petId int64, name
 	// return Response(405, nil),nil
 
 	return Response(http.StatusNotImplemented, nil), errors.New("UpdatePetWithForm method not implemented")
+}
+
+// DeletePet - Deletes a pet
+func (s *PetAPIService) DeletePet(ctx context.Context, petId int64, apiKey string) (ImplResponse, error) {
+	// TODO - update DeletePet with the required logic for this service method.
+	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
+
+	// TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
+	// return Response(400, nil),nil
+
+	return Response(http.StatusNotImplemented, nil), errors.New("DeletePet method not implemented")
 }
 
 // UploadFile - uploads an image
