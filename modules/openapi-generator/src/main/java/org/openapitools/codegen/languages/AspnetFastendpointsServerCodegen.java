@@ -72,6 +72,12 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
         setUseValidators();
         setUseResponseCaching();
 
+        super.processOpts();
+
+        addSupportingFiles();
+    }
+
+    private void addSupportingFiles() {
         apiPackage = "Features";
         modelPackage = "Models";
         String packageFolder = sourceFolder + File.separator + packageName;
@@ -91,8 +97,6 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
         supportingFiles.add(new SupportingFile("appsettings.Development.json", packageFolder, "appsettings.Development.json"));
 
         supportingFiles.add(new SupportingFile("program.mustache", packageFolder, "Program.cs"));
-
-        super.processOpts();
     }
 
     @Override
