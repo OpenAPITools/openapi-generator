@@ -46,16 +46,37 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
         outputFolder = "generated-code" + File.separator + "aspnet-fastendpoints";
 
         embeddedTemplateDir = templateDir = "aspnet-fastendpoints";
-        apiPackage = "Features";
-        modelPackage = "Models";
-
-        String packageFolder = sourceFolder + File.separator + packageName;
 
         modelTemplateFiles.put("model.mustache", ".cs");
-
         apiTemplateFiles.put("endpoint.mustache", "Endpoint.cs");
         apiTemplateFiles.put("request.mustache", "Request.cs");
 
+        addSwitch(USE_PROBLEM_DETAILS, "Enable RFC compatible error responses (https://fast-endpoints.com/docs/configuration-settings#rfc7807-rfc9457-compatible-problem-details).", useProblemDetails);
+        addSwitch(USE_RECORDS, "Use record instead of class for the requests and response.", useRecords);
+        addSwitch(USE_AUTHENTICATION, "Enable authentication (https://fast-endpoints.com/docs/security).", useAuthentication);
+        addSwitch(USE_VALIDATORS, "Enable request validators (https://fast-endpoints.com/docs/validation).", useValidators);
+        addSwitch(USE_RESPONSE_CACHING, "Enable response caching (https://fast-endpoints.com/docs/response-caching).", UseResponseCaching);
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+
+        additionalProperties.put("projectGuid", "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}");
+        additionalProperties.put("projectConfigurationGuid", "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}");
+        additionalProperties.put("solutionGuid", "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}");
+
+        setPackageDescription(openAPI.getInfo().getDescription());
+
+        setUseProblemDetails();
+        setUseRecordForRequest();
+        setUseAuthentication();
+        setUseValidators();
+        setUseResponseCaching();
+
+        apiPackage = "Features";
+        modelPackage = "Models";
+        String packageFolder = sourceFolder + File.separator + packageName;
 
         supportingFiles.add(new SupportingFile("loginRequest.mustache", packageFolder + File.separator + apiPackage, "LoginRequest.cs"));
         supportingFiles.add(new SupportingFile("userLoginEndpoint.mustache", packageFolder + File.separator + apiPackage, "UserLoginEndpoint.cs"));
@@ -70,29 +91,6 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
         supportingFiles.add(new SupportingFile("appsettings.Development.json", packageFolder, "appsettings.Development.json"));
 
         supportingFiles.add(new SupportingFile("program.mustache", packageFolder, "Program.cs"));
-
-        addSwitch(USE_PROBLEM_DETAILS, "Enable RFC compatible error responses (https://fast-endpoints.com/docs/configuration-settings#rfc7807-rfc9457-compatible-problem-details).", useProblemDetails);
-        addSwitch(USE_RECORDS, "Use record instead of class for the requests and response.", useRecords);
-        addSwitch(USE_AUTHENTICATION, "Enable authentication (https://fast-endpoints.com/docs/security).", useAuthentication);
-        addSwitch(USE_VALIDATORS, "Enable request validators (https://fast-endpoints.com/docs/validation).", useValidators);
-        addSwitch(USE_RESPONSE_CACHING, "Enable response caching (https://fast-endpoints.com/docs/response-caching).", UseResponseCaching);
-    }
-
-    @Override
-    public void processOpts() {
-        additionalProperties.put("projectGuid", "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}");
-        additionalProperties.put("projectConfigurationGuid", "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}");
-        additionalProperties.put("solutionGuid", "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}");
-
-        setPackageDescription(openAPI.getInfo().getDescription());
-
-        setUseProblemDetails();
-        setUseRecordForRequest();
-        setUseAuthentication();
-        setUseValidators();
-        setUseResponseCaching();
-
-        super.processOpts();
     }
 
     @Override
