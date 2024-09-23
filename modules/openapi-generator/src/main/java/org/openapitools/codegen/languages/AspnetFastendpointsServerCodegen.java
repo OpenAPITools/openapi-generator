@@ -78,8 +78,10 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
         modelPackage = "Models";
         String packageFolder = sourceFolder + File.separator + packageName;
 
-        supportingFiles.add(new SupportingFile("loginRequest.mustache", packageFolder + File.separator + apiPackage, "LoginRequest.cs"));
-        supportingFiles.add(new SupportingFile("userLoginEndpoint.mustache", packageFolder + File.separator + apiPackage, "UserLoginEndpoint.cs"));
+        if(useAuthentication) {
+            supportingFiles.add(new SupportingFile("loginRequest.mustache", packageFolder + File.separator + apiPackage, "LoginRequest.cs"));
+            supportingFiles.add(new SupportingFile("userLoginEndpoint.mustache", packageFolder + File.separator + apiPackage, "UserLoginEndpoint.cs"));
+        }
 
         supportingFiles.add(new SupportingFile("readme.mustache", sourceFolder, "README.md"));
         supportingFiles.add(new SupportingFile("gitignore", sourceFolder, ".gitignore"));
