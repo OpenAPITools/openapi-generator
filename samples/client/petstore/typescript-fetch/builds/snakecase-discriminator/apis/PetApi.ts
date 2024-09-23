@@ -141,7 +141,7 @@ export class PetApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(petId))),
+            path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId']))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -269,7 +269,7 @@ export class PetApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(petId))),
+            path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -373,7 +373,7 @@ export class PetApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(petId))),
+            path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -437,7 +437,7 @@ export class PetApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/pet/{petId}/uploadImage`.replace(`{${"petId"}}`, encodeURIComponent(String(petId))),
+            path: `/pet/{petId}/uploadImage`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -509,7 +509,7 @@ export class PetApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/fake/{petId}/uploadImageWithRequiredFile`.replace(`{${"petId"}}`, encodeURIComponent(String(petId))),
+            path: `/fake/{petId}/uploadImageWithRequiredFile`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,

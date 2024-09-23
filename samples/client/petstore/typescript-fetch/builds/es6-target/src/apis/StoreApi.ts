@@ -56,7 +56,7 @@ export class StoreApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(orderId))),
+            path: `/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters['orderId']))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -122,7 +122,7 @@ export class StoreApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(orderId))),
+            path: `/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters['orderId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

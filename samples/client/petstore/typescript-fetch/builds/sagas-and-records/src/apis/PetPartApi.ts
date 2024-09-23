@@ -59,7 +59,7 @@ export class PetPartApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/fake_petParts/{fake_petPart-id}/part-type`.replace(`{${"fake_petPart-id"}}`, encodeURIComponent(String(fakePetPartId))),
+            path: `/fake_petParts/{fake_petPart-id}/part-type`.replace(`{${"fake_petPart-id"}}`, encodeURIComponent(String(requestParameters['fakePetPartId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -133,7 +133,7 @@ export class PetPartApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/fake_petParts/{fake_petPart-id}/matching-parts`.replace(`{${"fake_petPart-id"}}`, encodeURIComponent(String(fakePetPartId))),
+            path: `/fake_petParts/{fake_petPart-id}/matching-parts`.replace(`{${"fake_petPart-id"}}`, encodeURIComponent(String(requestParameters['fakePetPartId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
