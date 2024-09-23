@@ -166,7 +166,6 @@ class ApiClient {
             } else {
                 value = fullMatch;
             }
-
             return encodeURIComponent(value);
         });
 

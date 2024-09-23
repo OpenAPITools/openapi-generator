@@ -314,7 +314,7 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username']))),
+            path: `/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(username))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -347,7 +347,7 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username']))),
+            path: `/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(username))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -467,7 +467,7 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username']))),
+            path: `/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(username))),
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,

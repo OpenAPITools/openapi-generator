@@ -271,7 +271,7 @@ export class PetApi extends runtime.BaseAPI implements PetApiInterface {
         }
 
         const response = await this.request({
-            path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId']))),
+            path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(petId))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -398,7 +398,7 @@ export class PetApi extends runtime.BaseAPI implements PetApiInterface {
         }
 
         const response = await this.request({
-            path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId']))),
+            path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(petId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -499,7 +499,7 @@ export class PetApi extends runtime.BaseAPI implements PetApiInterface {
         }
 
         const response = await this.request({
-            path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId']))),
+            path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(petId))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -561,7 +561,7 @@ export class PetApi extends runtime.BaseAPI implements PetApiInterface {
         }
 
         const response = await this.request({
-            path: `/pet/{petId}/uploadImage`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId']))),
+            path: `/pet/{petId}/uploadImage`.replace(`{${"petId"}}`, encodeURIComponent(String(petId))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,

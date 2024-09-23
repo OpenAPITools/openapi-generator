@@ -54,7 +54,7 @@ export class BehaviorApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/fake_behavior/{behavior-id}/permissions`.replace(`{${"behavior-id"}}`, encodeURIComponent(String(requestParameters['behaviorId']))),
+            path: `/fake_behavior/{behavior-id}/permissions`.replace(`{${"behavior-id"}}`, encodeURIComponent(String(behaviorId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -87,7 +87,7 @@ export class BehaviorApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/fake_behavior/{behavior-id}/type`.replace(`{${"behavior-id"}}`, encodeURIComponent(String(requestParameters['behaviorId']))),
+            path: `/fake_behavior/{behavior-id}/type`.replace(`{${"behavior-id"}}`, encodeURIComponent(String(behaviorId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

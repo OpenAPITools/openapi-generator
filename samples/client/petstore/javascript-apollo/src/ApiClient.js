@@ -69,7 +69,7 @@ export default class ApiClient extends RESTDataSource {
                 value = fullMatch;
             }
 
-            return encodeURIComponent(value);
+            return {{^vendorExtensions.x-do-not-encode-path-param}}encodeURIComponent({{/vendorExtensions.x-do-not-encode-path-param}}value{{^vendorExtensions.x-do-not-encode-path-param}});{{/vendorExtensions.x-do-not-encode-path-param}}
         });
     }
 
