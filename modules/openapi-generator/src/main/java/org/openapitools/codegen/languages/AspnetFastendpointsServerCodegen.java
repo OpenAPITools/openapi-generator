@@ -71,11 +71,11 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
 
         supportingFiles.add(new SupportingFile("program.mustache", packageFolder, "Program.cs"));
 
-        addSwitch(USE_PROBLEM_DETAILS, "Enable RFC compatible error responses.", useProblemDetails);
+        addSwitch(USE_PROBLEM_DETAILS, "Enable RFC compatible error responses (https://fast-endpoints.com/docs/configuration-settings#rfc7807-rfc9457-compatible-problem-details).", useProblemDetails);
         addSwitch(USE_RECORDS, "Use record instead of class for the requests and response.", useRecords);
-        addSwitch(USE_AUTHENTICATION, "Enable authentication.", useAuthentication);
-        addSwitch(USE_VALIDATORS, "Enable request validators.", useValidators);
-        addSwitch(USE_RESPONSE_CACHING, "Enable response caching.", UseResponseCaching);
+        addSwitch(USE_AUTHENTICATION, "Enable authentication (https://fast-endpoints.com/docs/security).", useAuthentication);
+        addSwitch(USE_VALIDATORS, "Enable request validators (https://fast-endpoints.com/docs/validation).", useValidators);
+        addSwitch(USE_RESPONSE_CACHING, "Enable response caching (https://fast-endpoints.com/docs/response-caching).", UseResponseCaching);
     }
 
     @Override
