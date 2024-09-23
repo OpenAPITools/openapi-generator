@@ -50,7 +50,7 @@ public class ScalaHttp4sClientCodegenTest {
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName(codegen.getName())
-                .setInputSpec("src/test/resources/3_0/scala/petstore.yaml")
+                .setInputSpec("src/test/resources/3_0/scala-http4s/petstore.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
