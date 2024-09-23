@@ -60,8 +60,6 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
 
     @Override
     public void processOpts() {
-        super.processOpts();
-
         additionalProperties.put("projectGuid", "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}");
         additionalProperties.put("projectConfigurationGuid", "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}");
         additionalProperties.put("solutionGuid", "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}");
@@ -93,6 +91,8 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
         supportingFiles.add(new SupportingFile("appsettings.Development.json", packageFolder, "appsettings.Development.json"));
 
         supportingFiles.add(new SupportingFile("program.mustache", packageFolder, "Program.cs"));
+
+        super.processOpts();
     }
 
     @Override
