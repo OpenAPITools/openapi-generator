@@ -43,7 +43,7 @@ public class ScalaHttp4sClientCodegenOptionsProvider implements OptionsProvider 
                 .put("dateLibrary", DATE_LIBRARY)
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .put("excludeSbt", "false")
-                .put("modelsOnly", "false")
+                .put("excludeApi", "false")
                 .build();
     }
 

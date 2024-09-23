@@ -48,9 +48,9 @@ public class ScalaHttp4sClientCodegen extends AbstractScalaCodegen implements Co
     @Getter
     protected boolean excludeSbt = false;
     @Getter
-    protected boolean modelsOnly = false;
+    protected boolean excludeApi = false;
     protected static final String EXCLUDE_SBT = "excludeSbt";
-    protected static final String MODELS_ONLY = "modelsOnly";
+    protected static final String EXCLUDE_API = "excludeApi";
     protected String sourceFolder = "src" + File.separator + "main" + File.separator + "scala";
     protected String projectName = artifactId;
 
@@ -278,12 +278,13 @@ public class ScalaHttp4sClientCodegen extends AbstractScalaCodegen implements Co
             supportingFiles.remove(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
             supportingFiles.remove(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
         }
-        if (additionalProperties.containsKey(MODELS_ONLY)) {
-            this.modelsOnly = convertPropertyToBoolean(MODELS_ONLY);
+        if (additionalProperties.containsKey(EXCLUDE_API)) {
+            this.excludeApi = convertPropertyToBoolean(EXCLUDE_API);
         }
-        if (!modelsOnly) {
+        if (!excludeApi) {
             supportingFiles.add(new SupportingFile("baseClient.mustache", apisFileFolderRelative(), "BaseClient.scala"));
             supportingFiles.add(new SupportingFile("jsonSupports.mustache", apisFileFolderRelative(), "JsonSupports.scala"));
+            apiTemplateFiles.put("api.mustache", ".scala");
         } else {
             supportingFiles.remove(new SupportingFile("baseClient.mustache", apisFileFolderRelative(), "BaseClient.scala"));
             supportingFiles.remove(new SupportingFile("jsonSupports.mustache", apisFileFolderRelative(), "JsonSupports.scala"));

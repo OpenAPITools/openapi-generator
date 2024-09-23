@@ -117,13 +117,13 @@ public class ScalaHttp4sClientCodegenTest {
     }
 
     @Test
-    public void allowModelsOnly() {
+    public void allowExcludeApiFiles() {
         ScalaHttp4sClientCodegen codegen = new ScalaHttp4sClientCodegen();
-        assertFalse(codegen.isModelsOnly());
-        codegen.additionalProperties().put("modelsOnly", "true");
-        assertEquals(codegen.additionalProperties().get("modelsOnly"), "true");
+        assertFalse(codegen.isExcludeApi());
+        codegen.additionalProperties().put("excludeApi", "true");
+        assertEquals(codegen.additionalProperties().get("excludeApi"), "true");
         codegen.processOpts();
-        assertTrue(codegen.isModelsOnly());
+        assertTrue(codegen.isExcludeApi());
     }
 
     @Test
