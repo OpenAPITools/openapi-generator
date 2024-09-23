@@ -219,7 +219,6 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     local_var_req_builder = local_var_req_builder.header(reqwest::header::AUTHORIZATION, token);
     {{/supportTokenSource}}
     {{^supportTokenSource}}
-    {{^supportTokenSource}}
     {{#isApiKey}}
     {{#isKeyInHeader}}
     if let Some(ref local_var_apikey) = local_var_configuration.api_key {
