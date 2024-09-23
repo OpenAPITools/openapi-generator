@@ -60,20 +60,20 @@ public:
     /**
     * @param[in]  order_id QString [required]
     */
-    void deleteOrder(const QString &order_id);
+    virtual void deleteOrder(const QString &order_id);
 
 
-    void getInventory();
+    virtual void getInventory();
 
     /**
     * @param[in]  order_id qint64 [required]
     */
-    void getOrderById(const qint64 &order_id);
+    virtual void getOrderById(const qint64 &order_id);
 
     /**
     * @param[in]  pfx_order PFXOrder [required]
     */
-    void placeOrder(const PFXOrder &pfx_order);
+    virtual void placeOrder(const PFXOrder &pfx_order);
 
 
 private:
