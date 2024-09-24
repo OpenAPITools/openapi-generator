@@ -155,7 +155,7 @@ public class Order {
    * Get shipDate
    * @return shipDate
    */
-  @Valid 
+  
   @Schema(name = "shipDate", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("shipDate")
   @JacksonXmlProperty(localName = "shipDate")
