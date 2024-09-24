@@ -3950,6 +3950,7 @@ public class DefaultCodegen implements CodegenConfig {
                 // raw null values in enums are unions for nullable
                 // atttributes, not actual enum values, so we remove them here
                 if (i == null) {
+                    property.isNullable = true;
                     continue;
                 }
                 property._enum.add(String.valueOf(i));
