@@ -17,6 +17,9 @@ import {{javaxPackage}}.validation.Valid;
 
 {{/useBeanValidation}}
 import org.springframework.beans.factory.annotation.Autowired;
+{{#generateClientAsBean}}
+import org.springframework.stereotype.Component;
+{{/generateClientAsBean}}
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.core.ParameterizedTypeReference;
@@ -30,6 +33,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 {{>generatedAnnotation}}
+{{#generateClientAsBean}}
+@Component("{{package}}.{{classname}}")
+{{/generateClientAsBean}}
 {{#operations}}
 public class {{classname}} {
     private ApiClient apiClient;

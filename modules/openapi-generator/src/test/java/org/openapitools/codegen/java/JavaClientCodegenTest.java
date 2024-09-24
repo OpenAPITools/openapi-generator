@@ -2080,6 +2080,74 @@ public class JavaClientCodegenTest {
         TestUtils.assertFileContains(output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"), "@Component");
     }
 
+    @Test public void testRestClientWithGeneratedClientAsBeanDisabled() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .addAdditionalProperty(JavaClientCodegen.GENERATE_CLIENT_AS_BEAN, false)
+                .setLibrary(RESTCLIENT)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        TestUtils.assertFileNotContains(output.resolve("src/main/java/xyz/abcdef/ApiClient.java"), "@Component");
+        TestUtils.assertFileNotContains(output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"), "@Component");
+    }
+
+    @Test public void testRestClientWithGeneratedClientAsBeanEnabled() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .addAdditionalProperty(JavaClientCodegen.GENERATE_CLIENT_AS_BEAN, true)
+                .setLibrary(RESTCLIENT)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        TestUtils.assertFileContains(output.resolve("src/main/java/xyz/abcdef/ApiClient.java"), "@Component");
+        TestUtils.assertFileContains(output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"), "@Component");
+    }
+
+    @Test public void testWebClientWithGeneratedClientAsBeanDisabled() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .addAdditionalProperty(JavaClientCodegen.GENERATE_CLIENT_AS_BEAN, false)
+                .setLibrary(WEBCLIENT )
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        TestUtils.assertFileNotContains(output.resolve("src/main/java/xyz/abcdef/ApiClient.java"), "@Component");
+        TestUtils.assertFileNotContains(output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"), "@Component");
+    }
+
+    @Test public void testWebClientWithGeneratedClientAsBeanEnabled() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .addAdditionalProperty(JavaClientCodegen.GENERATE_CLIENT_AS_BEAN, true)
+                .setLibrary(WEBCLIENT )
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        TestUtils.assertFileContains(output.resolve("src/main/java/xyz/abcdef/ApiClient.java"), "@Component");
+        TestUtils.assertFileContains(output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"), "@Component");
+    }
+
     @Test public void testRestTemplateWithUseBeanValidationEnabled() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
