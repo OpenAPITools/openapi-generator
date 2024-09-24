@@ -25,8 +25,8 @@ public class File {
 
   private Optional<String> sourceURI = Optional.empty();
 
-  public File sourceURI(String sourceURI) {
-    this.sourceURI = Optional.of(sourceURI);
+  public File sourceURI(Optional<String> sourceURI) {
+    this.sourceURI = sourceURI;
     return this;
   }
 
@@ -34,7 +34,6 @@ public class File {
    * Test capitalization
    * @return sourceURI
    */
-  
   @ApiModelProperty(value = "Test capitalization")
   @JsonProperty("sourceURI")
   public Optional<String> getSourceURI() {
@@ -140,4 +139,3 @@ public class File {
   }
 
 }
-

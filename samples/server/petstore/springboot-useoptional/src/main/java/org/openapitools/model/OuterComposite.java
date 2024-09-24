@@ -29,8 +29,8 @@ public class OuterComposite {
 
   private Optional<Boolean> myBoolean = Optional.empty();
 
-  public OuterComposite myNumber(BigDecimal myNumber) {
-    this.myNumber = Optional.of(myNumber);
+  public OuterComposite myNumber(Optional<BigDecimal> myNumber) {
+    this.myNumber = myNumber;
     return this;
   }
 
@@ -38,7 +38,6 @@ public class OuterComposite {
    * Get myNumber
    * @return myNumber
    */
-  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("my_number")
   public Optional<BigDecimal> getMyNumber() {
@@ -49,8 +48,8 @@ public class OuterComposite {
     this.myNumber = myNumber;
   }
 
-  public OuterComposite myString(String myString) {
-    this.myString = Optional.of(myString);
+  public OuterComposite myString(Optional<String> myString) {
+    this.myString = myString;
     return this;
   }
 
@@ -58,7 +57,6 @@ public class OuterComposite {
    * Get myString
    * @return myString
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("my_string")
   public Optional<String> getMyString() {
@@ -69,8 +67,8 @@ public class OuterComposite {
     this.myString = myString;
   }
 
-  public OuterComposite myBoolean(Boolean myBoolean) {
-    this.myBoolean = Optional.of(myBoolean);
+  public OuterComposite myBoolean(Optional<Boolean> myBoolean) {
+    this.myBoolean = myBoolean;
     return this;
   }
 
@@ -78,7 +76,6 @@ public class OuterComposite {
    * Get myBoolean
    * @return myBoolean
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("my_boolean")
   public Optional<Boolean> getMyBoolean() {
@@ -200,4 +197,3 @@ public class OuterComposite {
   }
 
 }
-

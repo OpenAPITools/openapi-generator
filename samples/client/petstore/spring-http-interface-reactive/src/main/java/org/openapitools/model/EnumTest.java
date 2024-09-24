@@ -328,4 +328,3 @@ public class EnumTest {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

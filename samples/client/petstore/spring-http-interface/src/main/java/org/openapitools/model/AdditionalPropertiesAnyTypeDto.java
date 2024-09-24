@@ -123,4 +123,3 @@ public class AdditionalPropertiesAnyTypeDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

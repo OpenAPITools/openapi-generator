@@ -26,16 +26,15 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class TypeHolderDefault {
 
-  private String stringItem = "what";
+  private @NotNull String stringItem = "what";
 
-  private BigDecimal numberItem = new BigDecimal("1.234");
+  private @NotNull BigDecimal numberItem = new BigDecimal("1.234");
 
-  private Integer integerItem = -2;
+  private @NotNull Integer integerItem = -2;
 
-  private Boolean boolItem = true;
+  private @NotNull Boolean boolItem = true;
 
-  @Valid
-  private List<Integer> arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
+  private @NotNull List<Optional<Integer>> arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
 
   public TypeHolderDefault() {
     super();
@@ -44,7 +43,7 @@ public class TypeHolderDefault {
   /**
    * Constructor with only required parameters
    */
-  public TypeHolderDefault(String stringItem, BigDecimal numberItem, Integer integerItem, Boolean boolItem, List<Integer> arrayItem) {
+  public TypeHolderDefault(String stringItem, BigDecimal numberItem, Integer integerItem, Boolean boolItem, List<Optional<Integer>> arrayItem) {
     this.stringItem = stringItem;
     this.numberItem = numberItem;
     this.integerItem = integerItem;
@@ -61,10 +60,9 @@ public class TypeHolderDefault {
    * Get stringItem
    * @return stringItem
    */
-  @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("string_item")
-  public String getStringItem() {
+  public @NotNull String getStringItem() {
     return stringItem;
   }
 
@@ -81,10 +79,9 @@ public class TypeHolderDefault {
    * Get numberItem
    * @return numberItem
    */
-  @NotNull @Valid 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("number_item")
-  public BigDecimal getNumberItem() {
+  public @NotNull BigDecimal getNumberItem() {
     return numberItem;
   }
 
@@ -101,10 +98,9 @@ public class TypeHolderDefault {
    * Get integerItem
    * @return integerItem
    */
-  @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("integer_item")
-  public Integer getIntegerItem() {
+  public @NotNull Integer getIntegerItem() {
     return integerItem;
   }
 
@@ -121,10 +117,9 @@ public class TypeHolderDefault {
    * Get boolItem
    * @return boolItem
    */
-  @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("bool_item")
-  public Boolean getBoolItem() {
+  public @NotNull Boolean getBoolItem() {
     return boolItem;
   }
 
@@ -132,12 +127,12 @@ public class TypeHolderDefault {
     this.boolItem = boolItem;
   }
 
-  public TypeHolderDefault arrayItem(List<Integer> arrayItem) {
+  public TypeHolderDefault arrayItem(List<Optional<Integer>> arrayItem) {
     this.arrayItem = arrayItem;
     return this;
   }
 
-  public TypeHolderDefault addArrayItemItem(Integer arrayItemItem) {
+  public TypeHolderDefault addArrayItemItem(Optional<Integer> arrayItemItem) {
     if (this.arrayItem == null) {
       this.arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
     }
@@ -149,14 +144,13 @@ public class TypeHolderDefault {
    * Get arrayItem
    * @return arrayItem
    */
-  @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("array_item")
-  public List<Integer> getArrayItem() {
+  public @NotNull List<Optional<Integer>> getArrayItem() {
     return arrayItem;
   }
 
-  public void setArrayItem(List<Integer> arrayItem) {
+  public void setArrayItem(List<Optional<Integer>> arrayItem) {
     this.arrayItem = arrayItem;
   }
 
@@ -287,4 +281,3 @@ public class TypeHolderDefault {
   }
 
 }
-

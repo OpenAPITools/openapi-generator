@@ -49,7 +49,6 @@ public class PizzaSpeziale extends Pizza {
    * Get toppings
    * @return toppings
    */
-  
   @Schema(name = "toppings", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("toppings")
   public String getToppings() {
@@ -226,4 +225,3 @@ public class PizzaSpeziale extends Pizza {
   }
 
 }
-

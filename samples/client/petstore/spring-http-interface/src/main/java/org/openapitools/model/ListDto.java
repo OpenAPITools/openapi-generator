@@ -79,4 +79,3 @@ public class ListDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

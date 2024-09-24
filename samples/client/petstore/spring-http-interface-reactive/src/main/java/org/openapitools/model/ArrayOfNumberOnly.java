@@ -23,7 +23,6 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class ArrayOfNumberOnly {
 
-  
   private List<BigDecimal> arrayNumber = new ArrayList<>();
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
@@ -90,4 +89,3 @@ public class ArrayOfNumberOnly {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

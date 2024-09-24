@@ -27,8 +27,8 @@ public class ModelReturn {
 
   private Optional<Integer> _return = Optional.empty();
 
-  public ModelReturn _return(Integer _return) {
-    this._return = Optional.of(_return);
+  public ModelReturn _return(Optional<Integer> _return) {
+    this._return = _return;
     return this;
   }
 
@@ -36,7 +36,6 @@ public class ModelReturn {
    * Get _return
    * @return _return
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("return")
   public Optional<Integer> getReturn() {
@@ -142,4 +141,3 @@ public class ModelReturn {
   }
 
 }
-

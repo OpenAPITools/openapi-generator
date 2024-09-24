@@ -26,11 +26,10 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class NullableMapPropertyDto {
 
-  
-  private JsonNullable<Map<String, String>> languageValues = JsonNullable.<Map<String, String>>undefined();
+  private JsonNullable<Map<String, String>> languageValues = JsonNullable.undefined();
 
-  public NullableMapPropertyDto languageValues(Map<String, String> languageValues) {
-    this.languageValues = JsonNullable.of(languageValues);
+  public NullableMapPropertyDto languageValues(JsonNullable<Map<String, String>> languageValues) {
+    this.languageValues = languageValues;
     return this;
   }
 
@@ -104,4 +103,3 @@ public class NullableMapPropertyDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

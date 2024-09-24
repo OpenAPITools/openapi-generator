@@ -205,4 +205,3 @@ public class BarRef extends EntityRef implements BarRefOrValue {
   }
 
 }
-

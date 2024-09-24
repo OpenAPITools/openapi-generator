@@ -34,8 +34,8 @@ public class Capitalization {
 
   private Optional<String> ATT_NAME = Optional.empty();
 
-  public Capitalization smallCamel(String smallCamel) {
-    this.smallCamel = Optional.of(smallCamel);
+  public Capitalization smallCamel(Optional<String> smallCamel) {
+    this.smallCamel = smallCamel;
     return this;
   }
 
@@ -43,7 +43,6 @@ public class Capitalization {
    * Get smallCamel
    * @return smallCamel
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("smallCamel")
   public Optional<String> getSmallCamel() {
@@ -54,8 +53,8 @@ public class Capitalization {
     this.smallCamel = smallCamel;
   }
 
-  public Capitalization capitalCamel(String capitalCamel) {
-    this.capitalCamel = Optional.of(capitalCamel);
+  public Capitalization capitalCamel(Optional<String> capitalCamel) {
+    this.capitalCamel = capitalCamel;
     return this;
   }
 
@@ -63,7 +62,6 @@ public class Capitalization {
    * Get capitalCamel
    * @return capitalCamel
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("CapitalCamel")
   public Optional<String> getCapitalCamel() {
@@ -74,8 +72,8 @@ public class Capitalization {
     this.capitalCamel = capitalCamel;
   }
 
-  public Capitalization smallSnake(String smallSnake) {
-    this.smallSnake = Optional.of(smallSnake);
+  public Capitalization smallSnake(Optional<String> smallSnake) {
+    this.smallSnake = smallSnake;
     return this;
   }
 
@@ -83,7 +81,6 @@ public class Capitalization {
    * Get smallSnake
    * @return smallSnake
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("small_Snake")
   public Optional<String> getSmallSnake() {
@@ -94,8 +91,8 @@ public class Capitalization {
     this.smallSnake = smallSnake;
   }
 
-  public Capitalization capitalSnake(String capitalSnake) {
-    this.capitalSnake = Optional.of(capitalSnake);
+  public Capitalization capitalSnake(Optional<String> capitalSnake) {
+    this.capitalSnake = capitalSnake;
     return this;
   }
 
@@ -103,7 +100,6 @@ public class Capitalization {
    * Get capitalSnake
    * @return capitalSnake
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("Capital_Snake")
   public Optional<String> getCapitalSnake() {
@@ -114,8 +110,8 @@ public class Capitalization {
     this.capitalSnake = capitalSnake;
   }
 
-  public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
-    this.scAETHFlowPoints = Optional.of(scAETHFlowPoints);
+  public Capitalization scAETHFlowPoints(Optional<String> scAETHFlowPoints) {
+    this.scAETHFlowPoints = scAETHFlowPoints;
     return this;
   }
 
@@ -123,7 +119,6 @@ public class Capitalization {
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("SCA_ETH_Flow_Points")
   public Optional<String> getScAETHFlowPoints() {
@@ -134,8 +129,8 @@ public class Capitalization {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
 
-  public Capitalization ATT_NAME(String ATT_NAME) {
-    this.ATT_NAME = Optional.of(ATT_NAME);
+  public Capitalization ATT_NAME(Optional<String> ATT_NAME) {
+    this.ATT_NAME = ATT_NAME;
     return this;
   }
 
@@ -143,7 +138,6 @@ public class Capitalization {
    * Name of the pet 
    * @return ATT_NAME
    */
-  
   @ApiModelProperty(value = "Name of the pet ")
   @JsonProperty("ATT_NAME")
   public Optional<String> getATTNAME() {
@@ -289,4 +283,3 @@ public class Capitalization {
   }
 
 }
-

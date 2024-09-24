@@ -24,8 +24,8 @@ public class Client {
 
   private Optional<String> client = Optional.empty();
 
-  public Client client(String client) {
-    this.client = Optional.of(client);
+  public Client client(Optional<String> client) {
+    this.client = client;
     return this;
   }
 
@@ -33,7 +33,6 @@ public class Client {
    * Get client
    * @return client
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("client")
   public Optional<String> getClient() {
@@ -139,4 +138,3 @@ public class Client {
   }
 
 }
-

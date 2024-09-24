@@ -48,7 +48,6 @@ public class FooRef extends EntityRef implements FooRefOrValue {
    * Get foorefPropA
    * @return foorefPropA
    */
-  
   @Schema(name = "foorefPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("foorefPropA")
   public String getFoorefPropA() {
@@ -236,4 +235,3 @@ public class FooRef extends EntityRef implements FooRefOrValue {
   }
 
 }
-

@@ -35,14 +35,12 @@ public class PetDto {
 
   private Long id;
 
-  private CategoryDto category;
+  private @Valid CategoryDto category;
 
-  private String name;
+  private @NotNull String name;
 
-  @Valid
-  private Set<String> photoUrls = new LinkedHashSet<>();
+  private @NotNull Set<String> photoUrls = new LinkedHashSet<>();
 
-  @Valid
   private List<@Valid TagDto> tags = new ArrayList<>();
 
   /**
@@ -106,7 +104,6 @@ public class PetDto {
    * Get id
    * @return id
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
@@ -126,10 +123,9 @@ public class PetDto {
    * Get category
    * @return category
    */
-  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("category")
-  public CategoryDto getCategory() {
+  public @Valid CategoryDto getCategory() {
     return category;
   }
 
@@ -146,10 +142,9 @@ public class PetDto {
    * Get name
    * @return name
    */
-  @NotNull 
   @ApiModelProperty(example = "doggie", required = true, value = "")
   @JsonProperty("name")
-  public String getName() {
+  public @NotNull String getName() {
     return name;
   }
 
@@ -174,10 +169,9 @@ public class PetDto {
    * Get photoUrls
    * @return photoUrls
    */
-  @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("photoUrls")
-  public Set<String> getPhotoUrls() {
+  public @NotNull Set<String> getPhotoUrls() {
     return photoUrls;
   }
 
@@ -186,7 +180,7 @@ public class PetDto {
     this.photoUrls = photoUrls;
   }
 
-  public PetDto tags(List<@Valid TagDto> tags) {
+  public PetDto tags(List<TagDto> tags) {
     this.tags = tags;
     return this;
   }
@@ -203,14 +197,13 @@ public class PetDto {
    * Get tags
    * @return tags
    */
-  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
   public List<@Valid TagDto> getTags() {
     return tags;
   }
 
-  public void setTags(List<@Valid TagDto> tags) {
+  public void setTags(List<TagDto> tags) {
     this.tags = tags;
   }
 
@@ -224,7 +217,6 @@ public class PetDto {
    * @return status
    * @deprecated
    */
-  
   @ApiModelProperty(value = "pet status in the store")
   @JsonProperty("status")
   @Deprecated
@@ -287,4 +279,3 @@ public class PetDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

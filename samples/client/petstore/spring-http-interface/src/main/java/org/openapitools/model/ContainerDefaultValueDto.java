@@ -26,24 +26,20 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class ContainerDefaultValueDto {
 
-  
-  private JsonNullable<List<String>> nullableArray = JsonNullable.<List<String>>undefined();
+  private JsonNullable<List<String>> nullableArray = JsonNullable.undefined();
 
-  
-  private JsonNullable<List<String>> nullableRequiredArray = JsonNullable.<List<String>>undefined();
+  private JsonNullable<List<String>> nullableRequiredArray = JsonNullable.undefined();
 
-  
   private List<String> requiredArray = new ArrayList<>();
 
-  
-  private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.<List<String>>undefined();
+  private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.of(new ArrayList<>(Arrays.asList("foo", "bar")));
 
   public ContainerDefaultValueDto() {
     super();
   }
 
-  public ContainerDefaultValueDto nullableArray(List<String> nullableArray) {
-    this.nullableArray = JsonNullable.of(nullableArray);
+  public ContainerDefaultValueDto nullableArray(JsonNullable<List<String>> nullableArray) {
+    this.nullableArray = nullableArray;
     return this;
   }
 
@@ -69,8 +65,8 @@ public class ContainerDefaultValueDto {
     this.nullableArray = nullableArray;
   }
 
-  public ContainerDefaultValueDto nullableRequiredArray(List<String> nullableRequiredArray) {
-    this.nullableRequiredArray = JsonNullable.of(nullableRequiredArray);
+  public ContainerDefaultValueDto nullableRequiredArray(JsonNullable<List<String>> nullableRequiredArray) {
+    this.nullableRequiredArray = nullableRequiredArray;
     return this;
   }
 
@@ -123,8 +119,8 @@ public class ContainerDefaultValueDto {
     this.requiredArray = requiredArray;
   }
 
-  public ContainerDefaultValueDto nullableArrayWithDefault(List<String> nullableArrayWithDefault) {
-    this.nullableArrayWithDefault = JsonNullable.of(nullableArrayWithDefault);
+  public ContainerDefaultValueDto nullableArrayWithDefault(JsonNullable<List<String>> nullableArrayWithDefault) {
+    this.nullableArrayWithDefault = nullableArrayWithDefault;
     return this;
   }
 
@@ -204,4 +200,3 @@ public class ContainerDefaultValueDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

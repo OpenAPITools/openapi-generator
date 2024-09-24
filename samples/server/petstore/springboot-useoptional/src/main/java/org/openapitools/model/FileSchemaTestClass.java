@@ -26,13 +26,12 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class FileSchemaTestClass {
 
-  private Optional<File> file = Optional.empty();
+  private Optional<@Valid File> file = Optional.empty();
 
-  @Valid
-  private List<@Valid File> files = new ArrayList<>();
+  private List<Optional<@Valid File>> files = new ArrayList<>();
 
-  public FileSchemaTestClass file(File file) {
-    this.file = Optional.of(file);
+  public FileSchemaTestClass file(Optional<File> file) {
+    this.file = file;
     return this;
   }
 
@@ -40,10 +39,9 @@ public class FileSchemaTestClass {
    * Get file
    * @return file
    */
-  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("file")
-  public Optional<File> getFile() {
+  public Optional<@Valid File> getFile() {
     return file;
   }
 
@@ -51,12 +49,12 @@ public class FileSchemaTestClass {
     this.file = file;
   }
 
-  public FileSchemaTestClass files(List<@Valid File> files) {
+  public FileSchemaTestClass files(List<Optional<File>> files) {
     this.files = files;
     return this;
   }
 
-  public FileSchemaTestClass addFilesItem(File filesItem) {
+  public FileSchemaTestClass addFilesItem(Optional<File> filesItem) {
     if (this.files == null) {
       this.files = new ArrayList<>();
     }
@@ -68,14 +66,13 @@ public class FileSchemaTestClass {
    * Get files
    * @return files
    */
-  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("files")
-  public List<@Valid File> getFiles() {
+  public List<Optional<@Valid File>> getFiles() {
     return files;
   }
 
-  public void setFiles(List<@Valid File> files) {
+  public void setFiles(List<Optional<File>> files) {
     this.files = files;
   }
 
@@ -182,4 +179,3 @@ public class FileSchemaTestClass {
   }
 
 }
-

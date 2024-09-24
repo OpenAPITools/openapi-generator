@@ -27,13 +27,13 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class Bar extends Entity implements BarRefOrValue {
 
-  private String id;
+  private @NotNull String id;
 
   private String barPropA;
 
   private String fooPropB;
 
-  private FooRefOrValue foo;
+  private @Valid FooRefOrValue foo;
 
   public Bar() {
     super();
@@ -56,10 +56,9 @@ public class Bar extends Entity implements BarRefOrValue {
    * Get id
    * @return id
    */
-  @NotNull 
   @Schema(name = "id", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("id")
-  public String getId() {
+  public @NotNull String getId() {
     return id;
   }
 
@@ -76,7 +75,6 @@ public class Bar extends Entity implements BarRefOrValue {
    * Get barPropA
    * @return barPropA
    */
-  
   @Schema(name = "barPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("barPropA")
   public String getBarPropA() {
@@ -96,7 +94,6 @@ public class Bar extends Entity implements BarRefOrValue {
    * Get fooPropB
    * @return fooPropB
    */
-  
   @Schema(name = "fooPropB", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("fooPropB")
   public String getFooPropB() {
@@ -116,10 +113,9 @@ public class Bar extends Entity implements BarRefOrValue {
    * Get foo
    * @return foo
    */
-  @Valid 
   @Schema(name = "foo", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("foo")
-  public FooRefOrValue getFoo() {
+  public @Valid FooRefOrValue getFoo() {
     return foo;
   }
 
@@ -295,4 +291,3 @@ public class Bar extends Entity implements BarRefOrValue {
   }
 
 }
-

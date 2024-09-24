@@ -48,7 +48,6 @@ public class Pasta extends Entity {
    * Get vendor
    * @return vendor
    */
-  
   @Schema(name = "vendor", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("vendor")
   public String getVendor() {
@@ -214,4 +213,3 @@ public class Pasta extends Entity {
   }
 
 }
-

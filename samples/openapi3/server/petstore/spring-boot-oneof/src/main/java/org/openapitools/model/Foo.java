@@ -50,7 +50,6 @@ public class Foo extends Entity implements FooRefOrValue {
    * Get fooPropA
    * @return fooPropA
    */
-  
   @Schema(name = "fooPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("fooPropA")
   public String getFooPropA() {
@@ -70,7 +69,6 @@ public class Foo extends Entity implements FooRefOrValue {
    * Get fooPropB
    * @return fooPropB
    */
-  
   @Schema(name = "fooPropB", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("fooPropB")
   public String getFooPropB() {
@@ -244,4 +242,3 @@ public class Foo extends Entity implements FooRefOrValue {
   }
 
 }
-

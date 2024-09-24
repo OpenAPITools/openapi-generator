@@ -26,15 +26,14 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class ArrayOfArrayOfNumberOnly {
 
-  @Valid
-  private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
+  private List<List<Optional<BigDecimal>>> arrayArrayNumber = new ArrayList<>();
 
-  public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+  public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<Optional<BigDecimal>>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
     return this;
   }
 
-  public ArrayOfArrayOfNumberOnly addArrayArrayNumberItem(List<BigDecimal> arrayArrayNumberItem) {
+  public ArrayOfArrayOfNumberOnly addArrayArrayNumberItem(List<Optional<BigDecimal>> arrayArrayNumberItem) {
     if (this.arrayArrayNumber == null) {
       this.arrayArrayNumber = new ArrayList<>();
     }
@@ -46,14 +45,13 @@ public class ArrayOfArrayOfNumberOnly {
    * Get arrayArrayNumber
    * @return arrayArrayNumber
    */
-  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("ArrayArrayNumber")
-  public List<List<BigDecimal>> getArrayArrayNumber() {
+  public List<List<Optional<BigDecimal>>> getArrayArrayNumber() {
     return arrayArrayNumber;
   }
 
-  public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+  public void setArrayArrayNumber(List<List<Optional<BigDecimal>>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
 
@@ -152,4 +150,3 @@ public class ArrayOfArrayOfNumberOnly {
   }
 
 }
-
