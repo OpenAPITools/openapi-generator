@@ -124,6 +124,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-decimalMin-message|Add this property whenever you need to customize the validation error message for the minimum of a decimal number|FIELD, OPERATION_PARAMETER|null
 |x-decimalMax-message|Add this property whenever you need to customize the validation error message for the maximum of a decimal number|FIELD, OPERATION_PARAMETER|null
 
+
 ## IMPORT MAPPING
 
 | Type/Alias | Imports |
