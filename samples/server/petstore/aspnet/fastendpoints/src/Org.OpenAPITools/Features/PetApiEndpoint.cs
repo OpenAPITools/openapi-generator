@@ -15,6 +15,7 @@ public class AddPetEndpoint : Endpoint<AddPetRequest, Pet>
     {
         Post("/v2/pet");
         
+        
         AllowAnonymous();
         
         Description(x =>
@@ -51,6 +52,7 @@ public class DeletePetEndpoint : Endpoint<DeletePetRequest>
     public override void Configure()
     {
         Delete("/v2/pet/{petId}");
+        
         
         AllowAnonymous();
         
@@ -89,6 +91,7 @@ public class FindPetsByStatusEndpoint : Endpoint<FindPetsByStatusRequest, List<P
     {
         Get("/v2/pet/findByStatus");
         
+        
         AllowAnonymous();
         
         Description(x =>
@@ -126,6 +129,7 @@ public class FindPetsByTagsEndpoint : Endpoint<FindPetsByTagsRequest, List<Pet>>
     {
         Get("/v2/pet/findByTags");
         
+        
         AllowAnonymous();
         
         Description(x =>
@@ -162,6 +166,7 @@ public class GetPetByIdEndpoint : Endpoint<GetPetByIdRequest, Pet>
     public override void Configure()
     {
         Get("/v2/pet/{petId}");
+        
         
         AllowAnonymous();
         
@@ -201,6 +206,7 @@ public class UpdatePetEndpoint : Endpoint<UpdatePetRequest, Pet>
     public override void Configure()
     {
         Put("/v2/pet");
+        
         
         AllowAnonymous();
         
@@ -243,6 +249,7 @@ public class UpdatePetWithFormEndpoint : Endpoint<UpdatePetWithFormRequest>
     {
         Post("/v2/pet/{petId}");
         
+        
         AllowAnonymous();
         
         Description(x =>
@@ -280,6 +287,7 @@ public class UploadFileEndpoint : Endpoint<UploadFileRequest, ApiResponse>
     public override void Configure()
     {
         Post("/v2/pet/{petId}/uploadImage");
+        
         
         AllowAnonymous();
         AllowFileUploads();
