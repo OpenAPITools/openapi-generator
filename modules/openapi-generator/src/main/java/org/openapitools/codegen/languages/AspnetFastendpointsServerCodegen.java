@@ -25,7 +25,7 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
     private boolean useRecords = false;
     private boolean useAuthentication = false;
     private boolean useValidators = false;
-    private boolean UseResponseCaching = false;
+    private boolean useResponseCaching = false;
 
 
     public CodegenType getTag() {
@@ -55,7 +55,7 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
         addSwitch(USE_RECORDS, "Use record instead of class for the requests and response.", useRecords);
         addSwitch(USE_AUTHENTICATION, "Enable authentication (https://fast-endpoints.com/docs/security).", useAuthentication);
         addSwitch(USE_VALIDATORS, "Enable request validators (https://fast-endpoints.com/docs/validation).", useValidators);
-        addSwitch(USE_RESPONSE_CACHING, "Enable response caching (https://fast-endpoints.com/docs/response-caching).", UseResponseCaching);
+        addSwitch(USE_RESPONSE_CACHING, "Enable response caching (https://fast-endpoints.com/docs/response-caching).", useResponseCaching);
     }
 
     @Override
@@ -141,9 +141,9 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
 
     private void setUseResponseCaching() {
         if (additionalProperties.containsKey(USE_RESPONSE_CACHING)) {
-            UseResponseCaching = convertPropertyToBooleanAndWriteBack(USE_RESPONSE_CACHING);
+            useResponseCaching = convertPropertyToBooleanAndWriteBack(USE_RESPONSE_CACHING);
         } else {
-            additionalProperties.put(USE_RESPONSE_CACHING, UseResponseCaching);
+            additionalProperties.put(USE_RESPONSE_CACHING, useResponseCaching);
         }
     }
 }
