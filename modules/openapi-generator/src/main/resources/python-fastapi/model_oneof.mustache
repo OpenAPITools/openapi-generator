@@ -41,6 +41,11 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}RootModel{{/parent}}
         """Returns the string representation of the actual instance"""
         return pprint.pformat(self.model_dump())
 
+    @classmethod
+    def from_dict(cls, obj: Dict) -> Self:
+        """Create an instance of {{classname}} from a dictionary"""
+        return cls(obj)
+
 {{#vendorExtensions.x-py-postponed-model-imports.size}}
 {{#vendorExtensions.x-py-postponed-model-imports}}
 {{{.}}}
