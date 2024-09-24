@@ -18,6 +18,10 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
     public static final String USE_AUTHENTICATION = "useAuthentication";
     public static final String USE_VALIDATORS = "useValidators";
     public static final String USE_RESPONSE_CACHING = "useResponseCaching";
+    public static final String USE_API_VERSIONING = "useApiVersioning";
+    public static final String ROUTE_PREFIX = "routePrefix";
+    public static final String VERSIONING_PREFIX = "versioningPrefix";
+    public static final String API_VERSION = "apiVersion";
 
     private final Logger LOGGER = LoggerFactory.getLogger(AspnetFastendpointsServerCodegen.class);
 
@@ -26,6 +30,10 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
     private boolean useAuthentication = false;
     private boolean useValidators = false;
     private boolean useResponseCaching = false;
+    private boolean useApiVersioning = false;
+    private String routePrefix = "api";
+    private String versioningPrefix = "v";
+    private String apiVersion = "1";
 
 
     public CodegenType getTag() {
@@ -56,6 +64,10 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
         addSwitch(USE_AUTHENTICATION, "Enable authentication (https://fast-endpoints.com/docs/security).", useAuthentication);
         addSwitch(USE_VALIDATORS, "Enable request validators (https://fast-endpoints.com/docs/validation).", useValidators);
         addSwitch(USE_RESPONSE_CACHING, "Enable response caching (https://fast-endpoints.com/docs/response-caching).", useResponseCaching);
+        addSwitch(USE_API_VERSIONING, "Enable API versioning (https://fast-endpoints.com/docs/api-versioning).", useApiVersioning);
+        addOption(ROUTE_PREFIX, "The route prefix for the API. Used only if useApiVersioning is true", routePrefix);
+        addOption(VERSIONING_PREFIX, "The versioning prefix for the API. Used only if useApiVersioning is true", versioningPrefix);
+        addOption(API_VERSION, "The version of the API. Used only if useApiVersioning is true", apiVersion);
     }
 
     @Override
@@ -71,6 +83,10 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
         setUseAuthentication();
         setUseValidators();
         setUseResponseCaching();
+        setUseApiVersioning();
+        setRoutePrefix();
+        setVersioningPrefix();
+        setApiVersion();
 
         super.processOpts();
 
@@ -144,6 +160,38 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
             useResponseCaching = convertPropertyToBooleanAndWriteBack(USE_RESPONSE_CACHING);
         } else {
             additionalProperties.put(USE_RESPONSE_CACHING, useResponseCaching);
+        }
+    }
+
+    private void setUseApiVersioning() {
+        if (additionalProperties.containsKey(USE_API_VERSIONING)) {
+            useApiVersioning = convertPropertyToBooleanAndWriteBack(USE_API_VERSIONING);
+        } else {
+            additionalProperties.put(USE_API_VERSIONING, useApiVersioning);
+        }
+    }
+
+    private void setRoutePrefix() {
+        if (additionalProperties.containsKey(ROUTE_PREFIX)) {
+            routePrefix = (String) additionalProperties.get(ROUTE_PREFIX);
+        } else {
+            additionalProperties.put(ROUTE_PREFIX, routePrefix);
+        }
+    }
+
+    private void setVersioningPrefix() {
+        if (additionalProperties.containsKey(VERSIONING_PREFIX)) {
+            versioningPrefix = (String) additionalProperties.get(VERSIONING_PREFIX);
+        } else {
+            additionalProperties.put(VERSIONING_PREFIX, versioningPrefix);
+        }
+    }
+
+    private void setApiVersion() {
+        if (additionalProperties.containsKey(API_VERSION)) {
+            apiVersion = (String) additionalProperties.get(API_VERSION);
+        } else {
+            additionalProperties.put(API_VERSION, apiVersion);
         }
     }
 }
