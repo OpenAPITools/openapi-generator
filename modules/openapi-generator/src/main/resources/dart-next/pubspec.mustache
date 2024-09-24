@@ -1,0 +1,28 @@
+name: {{pubName}}
+version: {{pubVersion}}
+description: {{pubDescription}}
+homepage: {{pubHomepage}}
+{{#pubRepository}}
+repository: {{.}}
+{{/pubRepository}}
+{{#pubPublishTo}}
+publish_to: {{.}}
+{{/pubPublishTo}}
+
+environment:
+  sdk: '>=3.4.3 <4.0.0'
+
+# Add regular dependencies here.
+dependencies:
+  http: ^1.2.1
+  xml: ^6.5.0
+  std_uritemplate: ^1.0.1
+  collection: ^1.19.0
+  http_parser: ^4.1.0
+  cross_file: '>=0.3.4+1 <1.0.0'
+  openapi_infrastructure: ^2.0.1
+
+dev_dependencies:
+  lints: ^3.0.0
+  test: ^1.24.0
+  parameterized_test: ^2.0.0

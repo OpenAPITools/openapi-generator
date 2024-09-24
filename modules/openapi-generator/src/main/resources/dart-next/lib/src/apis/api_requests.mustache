@@ -1,0 +1,305 @@
+// ignore_for_file: unnecessary_type_check
+
+{{#operations}}
+part of '{{classFilename}}.dart';
+{{/operations}}
+
+{{#operations}}{{#operation}}
+
+{{#allParams}}
+{{! you may think that this logic is redundant here, but these 2 lines are required
+since we don't have a #hasSchema variable.
+
+The first line will change the scope to the schema variable, and we can't go back to
+the parent once inside 'recursive_inline_enum'
+
+The second line will always target the current parameter scope.
+}}
+{{#schema}}{{>lib/src/models/enum_inline_recursive}}{{/schema}}
+{{^schema}}{{>lib/src/models/enum_inline_recursive}}{{/schema}}
+{{/allParams}}
+
+{{#isDeprecated}}
+@Deprecated('This operation has been deprecated')
+{{/isDeprecated}}
+{{#bodyAllowed}}abstract{{/bodyAllowed}} class {{classname}}{{operationIdCamelCase}}Request {
+  static const pathTemplate = r'{{{path}}}';
+  static String method = r'{{{httpMethod}}}';
+
+  {{#bodyAllowed}}
+  String get contentType;
+  {{/bodyAllowed}}
+  final Map<String, String> extraHeaders;
+  final Map<String, String> extraCookies;
+  final Map<String, Object /* String | List<String> */> extraQueryParameters;
+  final WireSerializationOptions wireSerializationOptions;
+  {{! add path / header / query / cookie params }}
+  {{#allParams}}
+  {{^isFormParam}}{{^isBodyParam}}
+  /// {{{description}}}
+  /// spec name: {{baseName}}
+  final {{>types/param}} {{paramName}};
+  {{/isBodyParam}}{{/isFormParam}}
+  {{/allParams}}
+
+  {{#bodyAllowed}}
+  const factory {{classname}}{{operationIdCamelCase}}Request.unsafe({
+    {{#allParams}}{{^isFormParam}}{{^isBodyParam}}
+    {{>types/required_ctor}} {{>types/param}} {{paramName}},
+    {{/isBodyParam}}{{/isFormParam}}{{/allParams}}
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    WireSerializationOptions wireSerializationOptions,
+    Stream<Uint8List>? bodyBytesStream,
+  }) = {{classname}}{{operationIdCamelCase}}RequestUnsafe;
+
+  {{#vendorExtensions}}{{#better-consumes}}{{#content}}{{#schema}}
+  const factory {{classname}}{{operationIdCamelCase}}Request.{{nameInCamelCase}}({
+    required {{>types/variable_recursive}} data,
+    {{#extraParameters}}
+    {{>types/param}} {{paramName}},
+    {{/extraParameters}}
+    {{#allParams}}
+    {{^isFormParam}}{{^isBodyParam}}
+    {{>types/required_ctor}} {{>types/param}} {{paramName}},
+    {{/isBodyParam}}{{/isFormParam}}
+    {{/allParams}}
+    WireSerializationOptions wireSerializationOptions,
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = {{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}};
+  {{/schema}}{{/content}}{{/better-consumes}}{{/vendorExtensions}}
+  {{/bodyAllowed}}
+
+  const {{classname}}{{operationIdCamelCase}}Request({
+    {{#allParams}}
+    {{^isFormParam}}{{^isBodyParam}}
+    {{>types/required_ctor}} this.{{paramName}}{{>types/default}},
+    {{/isBodyParam}}{{/isFormParam}}
+    {{/allParams}}
+    this.wireSerializationOptions = const WireSerializationOptions(),
+    this.extraHeaders = const {},
+    this.extraQueryParameters = const {},
+    this.extraCookies = const {},
+  });
+
+  Future<Uri> getResolvedUri({
+    required Uri baseUrl,
+    Map<String, dynamic> userContext = const {},
+  }) async {
+    var resolvedPath = pathTemplate;
+    {{! first we resolve path parameters }}
+    {{#pathParams}}
+    resolvedPath = OpenApiParameterSerializationPath.fromStyle(r'{{style}}', explode: {{isExplode}}, parameterName: r'{{baseName}}',).expand(resolvedPath, {{paramName}});
+    {{/pathParams}}
+    {{! then query parameters }}
+    var methodUri = Uri(path: resolvedPath);
+    {{#queryParams}}
+    {{^required}}
+    if ({{paramName}}.isDefined) {
+    {{/required}}
+      methodUri = OpenApiParameterSerializationQuery.fromStyle(r'{{style}}', explode: {{isExplode}}, parameterName: r'{{baseName}}', allowEmptyValue: {{isAllowEmptyValue}},).expandUri(methodUri, {{paramName}}{{^required}}.valueRequired{{/required}});
+    {{^required}}
+    }
+    {{/required}}
+    {{/queryParams}}
+
+    return baseUrl.replace(
+      pathSegments: [
+        ...baseUrl.pathSegments,
+        ...methodUri.pathSegments,
+      ],
+      queryParameters: {
+        ...baseUrl.queryParameters,
+        ...methodUri.queryParameters,
+        ...extraQueryParameters,
+      },
+    );
+  }
+
+  Future<Map<String, String>> getResolvedHeaders({
+    Map<String, dynamic> userContext = const {},
+  }) async {
+
+    final cookieParts = <String,String>{
+      {{#cookieParams}}
+        {{^required}}if ({{paramName}}.isDefined){{/required}}
+        r'{{baseName}}': OpenApiParameterSerializationCookie(parameterName: r'{{baseName}}',explode: {{isExplode}}).serialize({{paramName}}{{^required}}.valueRequired{{/required}}),
+      {{/cookieParams}}
+      ...extraCookies,
+    };
+
+    var headers = CaseInsensitiveMap<String>.from(<String,String>{
+      {{#bodyAllowed}}
+      'Content-Type': this.contentType,
+      {{/bodyAllowed}}
+      {{! first add cookie header }}
+      if (cookieParts.isNotEmpty)
+        'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
+      {{! then headers to override the cookie if necessary }}
+      {{#headerParams}}
+      {{>lib/src/apis/request/header_param}}
+      {{/headerParams}}
+      ...extraHeaders,
+    });
+
+    var contentType = headers['content-type'];
+    if (contentType != null) {
+      var parsedContentType = MediaType.parse(contentType).fillDefaults();
+      if (parsedContentType.type == 'multipart' && parsedContentType.parameters['boundary'] == null) {
+        parsedContentType = parsedContentType.change(
+          parameters: {
+            ...parsedContentType.parameters,
+            'boundary': MultiPartBodySerializer.getRandomBoundaryString(Random()),
+          }
+        );
+      }
+      headers['content-type'] = parsedContentType.toString();
+    }
+    return headers;
+  }
+
+
+  {{#bodyAllowed}}
+  Stream<List<int>> getResolvedBody({
+    required Map<String, String> headers,
+    Map<String, dynamic> userContext = const {},
+  });
+  {{/bodyAllowed}}
+
+  Future<HttpRequestBase> createHttpRequest({
+    required Uri baseUrl,
+    Map<String, dynamic> userContext = const {},
+  }) async {
+    final futures = [
+      getResolvedUri(
+        userContext: userContext,
+        baseUrl: baseUrl,
+      ),
+      getResolvedHeaders(userContext: userContext),
+    ];
+    final futureResults = await Future.wait(futures);
+    final headers = futureResults[1] as Map<String, String>;
+    return HttpRequestBase.stream(
+      url: futureResults[0] as Uri,
+      headers: headers,
+      method: method,
+      bodyBytesStream: {{#bodyAllowed}}getResolvedBody(userContext: userContext, headers: headers){{/bodyAllowed}}{{^bodyAllowed}}Stream.empty(){{/bodyAllowed}},
+      context: userContext,
+    );
+  }
+}
+
+{{#bodyAllowed}}
+/// A version of [{{classname}}{{operationIdCamelCase}}Request], where you can send arbitrary bytes in the body.
+class {{classname}}{{operationIdCamelCase}}RequestUnsafe extends {{classname}}{{operationIdCamelCase}}Request {
+  final Stream<Uint8List>? bodyBytesStream;
+
+  @override
+  final String contentType;
+
+  const {{classname}}{{operationIdCamelCase}}RequestUnsafe({
+    this.bodyBytesStream,
+    this.contentType = 'application/octet-stream',
+    {{#allParams}}
+    {{^isFormParam}}{{^isBodyParam}}
+    {{>types/required_ctor}} super.{{paramName}},
+    {{/isBodyParam}}{{/isFormParam}}
+    {{/allParams}}
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+    super.wireSerializationOptions,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    required Map<String, String> headers,
+    Map<String, dynamic> userContext = const {},
+  }) async* {
+    final body = this.bodyBytesStream;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
+}
+
+
+
+{{#vendorExtensions}}{{#better-consumes}}{{#content}}{{#schema}}
+
+{{#content}}{{#encoding}}{{#entrySet}}{{#value}}{{#headers}}
+{{#schema}}{{>lib/src/models/enum_inline_recursive}}{{/schema}}
+{{^schema}}{{>lib/src/models/enum_inline_recursive}}{{/schema}}
+{{/headers}}{{/value}}{{/entrySet}}{{/encoding}}{{/content}}
+class {{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}} extends {{classname}}{{operationIdCamelCase}}Request {
+  static const specMediaType = r'{{{key}}}';
+
+  @override
+  String get contentType => specMediaType;
+
+  final {{>types/variable_recursive}} data;
+  static const dataReflection = {{>types/reflection_recursive}};
+
+  {{#extraParameters}}
+  final {{>types/param}} {{paramName}};
+  {{/extraParameters}}
+
+  const {{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}}({
+    required this.data,
+    {{#extraParameters}}
+    {{>types/required_ctor}} this.{{paramName}}{{>types/default}},
+    {{/extraParameters}}
+    {{#allParams}}
+    {{^isFormParam}}{{^isBodyParam}}
+    {{>types/required_ctor}} super.{{paramName}},
+    {{/isBodyParam}}{{/isFormParam}}
+    {{/allParams}}
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+    super.wireSerializationOptions,
+  });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    {{#content}}{{#encoding}}
+    {{#entrySet}}
+    r'{{{key}}}': {{#value}}PropertyEncodingRule(
+      {{#style}}style: r'{{{style}}}',{{/style}}
+      {{#explode}}explode: {{explode}},{{/explode}}
+      {{#allowReserved}}allowReserved: {{allowReserved}},{{/allowReserved}}
+      {{#contentType}}contentType: MediaType.parse(r'{{{contentType}}}'),{{/contentType}}
+      {{#headers}}{{#-first}}
+      headers: <String, String>{
+      {{/-first}}
+      {{>lib/src/apis/request/header_param}}
+      {{#-last}}
+      },
+      {{/-last}}{{/headers}}
+    ),{{/value}}
+    {{/entrySet}}
+    {{/encoding}}{{/content}}
+  };
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    required Map<String, String> headers,
+    Map<String, dynamic> userContext = const {},
+  }) {
+    final contentType = headers['Content-Type']!;
+    final resolvedMediaType = MediaType.parse(contentType);
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
+    final v = data;
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
+  }
+}{{/schema}}{{/content}}{{/better-consumes}}{{/vendorExtensions}}{{/bodyAllowed}}
+
+{{/operation}}{{/operations}}

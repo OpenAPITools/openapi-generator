@@ -1,0 +1,10 @@
+// Model def
+
+import 'package:{{pubName}}/_internal.dart';
+
+
+{{#models}}{{#model}}part '{{classFilename}}.reflection.dart';
+{{/model}}{{/models}}
+
+{{#models}}{{#model}}{{#isEnum}}{{>lib/src/models/enum}}{{/isEnum}}{{^isEnum}}{{>lib/src/models/class}}
+{{/isEnum}}{{/model}}{{/models}}

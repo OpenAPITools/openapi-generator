@@ -1,0 +1,59 @@
+group({{classname}}{{operationIdCamelCase}}Request, () {
+    late {{classname}}{{operationIdCamelCase}}Request request;
+    {{^bodyAllowed}}
+    test(r'No Body', () async {
+        request = {{classname}}{{operationIdCamelCase}}Request(
+            extraHeaders: {
+                "hello":"world",
+            },
+            extraQueryParameters: {
+                "welcome": "back",
+            },
+            extraCookies: {
+                "nice": "work",
+            },
+            {{>test/apis/param_examples}}
+        );
+        final createdRequest = await request.createHttpRequest(baseUrl: baseUrl);
+        expect(createdRequest, isNotNull);
+    });
+    {{/bodyAllowed}}
+    {{#bodyAllowed}}
+    test({{classname}}{{operationIdCamelCase}}RequestUnsafe, () async {
+        request = {{classname}}{{operationIdCamelCase}}Request.unsafe(
+            bodyBytesStream: Stream.value(Uint8List.fromList([1, 2, 3])),
+            extraHeaders: {
+                "hello":"world",
+            },
+            extraQueryParameters: {
+                "welcome": "back",
+            },
+            extraCookies: {
+                "nice": "work",
+            },
+            {{>test/apis/param_examples}}
+        );
+        final createdRequest = await request.createHttpRequest(baseUrl: baseUrl);
+        expect(createdRequest, isNotNull);
+    });
+    {{#vendorExtensions}}{{#better-consumes}}{{#content}}{{#schema}}
+    test({{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}}, () async {
+        request = {{classname}}{{operationIdCamelCase}}Request.{{nameInCamelCase}}(
+            data: {{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}}.dataReflection.exampleFunction(exampleContext),
+            extraHeaders: {
+                "hello":"world",
+            },
+            extraQueryParameters: {
+                "welcome": "back",
+            },
+            extraCookies: {
+                "nice": "work",
+            },
+            {{>test/apis/param_examples}}
+        );
+        final createdRequest = await request.createHttpRequest(baseUrl: baseUrl);
+        expect(createdRequest, isNotNull);
+    });
+    {{/schema}}{{/content}}{{/better-consumes}}{{/vendorExtensions}}
+    {{/bodyAllowed}}
+});

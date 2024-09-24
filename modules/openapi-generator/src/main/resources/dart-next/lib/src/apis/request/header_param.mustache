@@ -1,0 +1,2 @@
+{{^required}}if ({{paramName}}.isDefined){{/required}}
+  r'{{baseName}}': OpenApiParameterSerializationHeader(parameterName: r'{{baseName}}',explode: {{isExplode}}).serialize({{paramName}}{{^required}}.valueRequired{{/required}}),

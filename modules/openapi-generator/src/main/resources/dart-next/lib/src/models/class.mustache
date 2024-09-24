@@ -1,0 +1,106 @@
+/// {{{description}}}{{^description}}{{classname}}Mixin{{/description}}
+{{#hasVars}}
+///
+/// Properties:
+{{#vars}}
+/// * [{{{name}}}] {{#description}}- {{{.}}}{{/description}}
+{{/vars}}
+{{/hasVars}}
+{{#isDeprecated}}
+@Deprecated('{{{classname}}}Mixin has been deprecated')
+{{/isDeprecated}}
+mixin {{classname}}Mixin on
+  {{#allOf}}{{.}}Mixin, {{/allOf}}$OpenApiObjectMixin {
+  {{#vars}}{{>types/variable}} get {{name}};
+  {{/vars}}
+  {{#composedSchemas}}{{#oneOf}}
+  UndefinedWrapper<{{>types/variable_recursive_nonnullable}}> get {{name}};{{/oneOf}}{{#anyOf}}
+  UndefinedWrapper<{{>types/variable_recursive_nonnullable}}> get {{name}};{{/anyOf}}{{/composedSchemas}}
+}
+
+/// {{{description}}}{{^description}}{{classname}}{{/description}}
+{{#hasVars}}
+///
+/// Properties:
+{{#allVars}}
+/// * [{{{name}}}] {{#description}}- {{{.}}}{{/description}}
+{{/allVars}}
+{{/hasVars}}
+{{#isDeprecated}}
+@Deprecated('{{{classname}}}Mixin has been deprecated')
+{{/isDeprecated}}
+class {{classname}} with
+$OpenApiObjectMixin,
+{{#allOf}}{{.}}Mixin,{{/allOf}}
+{{classname}}Mixin {
+  {{#allVars}}
+  @override
+  {{>types/variable}} {{name}};
+  {{/allVars}}
+
+  {{#additionalProperties}}
+  AdditionalProperties<{{>types/variable_recursive}}> additionalProperties;{{/additionalProperties}}
+
+  {{#composedSchemas}}{{#oneOf}}
+  @override
+  UndefinedWrapper<{{>types/variable_recursive_nonnullable}}> {{name}};
+  {{/oneOf}}{{#anyOf}}
+  @override
+  UndefinedWrapper<{{>types/variable_recursive_nonnullable}}> {{name}};
+  {{/anyOf}}{{/composedSchemas}}
+
+  {{classname}}.$all({
+    {{#allVars}}    required this.{{name}},
+    {{/allVars}}
+    {{#additionalProperties}}required this.additionalProperties,{{/additionalProperties}}
+    {{#composedSchemas}}{{#oneOf}}
+    required this.{{name}},{{/oneOf}}{{#anyOf}}
+    required this.{{name}},{{/anyOf}}{{/composedSchemas}}
+  });
+
+  {{classname}}({
+    {{#allVars}}{{>types/required_ctor}}  this.{{name}} {{>types/default}},
+    {{/allVars}}
+    {{#additionalProperties}}AdditionalProperties<{{>types/variable_recursive}}>? additionalProperties,{{/additionalProperties}}
+    {{#composedSchemas}}{{#oneOf}}
+    this.{{name}} = const UndefinedWrapper.undefined(),{{/oneOf}}{{#anyOf}}
+    this.{{name}} = const UndefinedWrapper.undefined(),
+    {{/anyOf}}{{/composedSchemas}}
+  }){{#additionalProperties}} : additionalProperties = additionalProperties ?? {}{{/additionalProperties}};
+
+  static const $reflection = {{classname}}Reflection.instance;
+  {{classname}}Reflection get $classReflection => $reflection;
+
+  @override
+  bool validate() {
+    {{#composedSchemas}}
+      {{#oneOf}}{{#-first}}final oneOfs = [{{/-first}}{{name}},{{#-last}}].where((e) => e.isDefined).take(2);
+      if (oneOfs.length > 1) {
+        // there must be AT MOST one "oneOf" schema.
+        return false;
+      }
+      {{/-last}}{{/oneOf}}
+    {{/composedSchemas}}
+    return super.validate();
+  }
+
+  factory {{classname}}.deserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
+    return $reflection.deserialize(src, context);
+  }
+
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
+    return $reflection.canDeserialize(src, context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json(),]) {
+    return $reflection.serialize(this, context);
+  }
+
+  {{classname}} clone() {
+    return $reflection.clone(this);
+  }
+}
+
+{{#vars}}
+{{>lib/src/models/enum_inline_recursive}}
+{{/vars}}

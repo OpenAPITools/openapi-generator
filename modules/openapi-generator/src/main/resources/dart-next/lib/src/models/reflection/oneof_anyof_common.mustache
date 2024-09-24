@@ -1,0 +1,22 @@
+const {{classname}}{{nameInPascalCase}}Part({
+  required {{classname}}Reflection Function() super.parentReflectionGetter,
+});
+@override
+FunctionWrapper1<UndefinedWrapper<{{>types/variable_recursive_nonnullable}}>, {{classname}}> get getter => FunctionWrapper1(_getter);
+@override
+FunctionWrapper2<void, {{classname}}, UndefinedWrapper<{{>types/variable_recursive_nonnullable}}>> get setter => FunctionWrapper2(_setter);
+
+static UndefinedWrapper<{{>types/variable_recursive_nonnullable}}> _getter({{classname}} src) {
+  return src.{{name}};
+}
+static void _setter({{classname}} src, UndefinedWrapper<{{>types/variable_recursive_nonnullable}}> value) {
+  src.{{name}} = value;
+}
+
+@override
+UndefinedWrapperReflection<{{>types/variable_recursive_nonnullable}}> get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: {{>types/xml}},
+    {{>types/reflection_recursive_nonnullable}}
+  ),
+);

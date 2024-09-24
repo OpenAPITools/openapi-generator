@@ -1,0 +1,90 @@
+group({{>lib/src/apis/response/response_class}}, () {
+  late {{>lib/src/apis/response/response_class}} response;
+  test('Unkown status code', () async {
+    response = await {{>lib/src/apis/response/response_class}}.fromResponse(
+      createFakeTextResponse(
+        statusCode: 2,
+        value: "value",
+      ),
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<{{>lib/src/apis/response/response_class}}>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+    );
+    expect(response.statusCode, 2);
+  });
+  {{#responses}}
+  group({{>lib/src/apis/response/response_class_code}}, () {
+    test('Unknown mime', () async {
+      final codeExample = {{>lib/src/apis/response/code_example}};
+      response = await {{>lib/src/apis/response/response_class}}.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<{{>lib/src/apis/response/response_class_code}}>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
+    });
+    {{#content}}{{#entrySet}}{{#value}}{{#schema}}
+    test({{>lib/src/apis/response/response_class_code_mime}}, () async {
+      final codeExample = {{>lib/src/apis/response/code_example}};
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'{{key}}'));
+      final bodyReflection = {{>lib/src/apis/response/response_class_code_mime}}.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      {{#vendorExtensions}}
+      {{#is_mime_application_json}}
+      finalValue = jsonEncode(serializedBody, toEncodable: wireOptions.toEncodable);
+      {{/is_mime_application_json}}
+      {{#is_mime_text}}
+      finalValue = jsonEncode(serializedBody, toEncodable: wireOptions.toEncodable);
+      {{/is_mime_text}}
+      {{#is_mime_application_xml}}
+      finalValue = serializedBody;
+      {{/is_mime_application_xml}}
+      {{#is_mime_application_x-www-form-urlencoded}}
+      finalValue = serializedBody is Map<String, dynamic> ? OASNetworkingUtils.formUrlEncoded(serializedBody, {}) : serializedBody.toString();
+      {{/is_mime_application_x-www-form-urlencoded}}
+      {{/vendorExtensions}}
+
+      response = await {{>lib/src/apis/response/response_class}}.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
+    });
+    {{/schema}}{{/value}}{{/entrySet}}{{/content}}
+  });
+  {{/responses}}
+
+});
