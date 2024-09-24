@@ -15,6 +15,7 @@ public class DeleteOrderEndpoint : Endpoint<DeleteOrderRequest>
     {
         Delete("/v2/store/order/{orderId}");
         
+        
         AllowAnonymous();
         
         Description(x =>
@@ -53,6 +54,7 @@ public class GetInventoryEndpoint : EndpointWithoutRequest<Dictionary<string, in
     {
         Get("/v2/store/inventory");
         
+        
         AllowAnonymous();
         
         Description(x =>
@@ -86,6 +88,7 @@ public class GetOrderByIdEndpoint : Endpoint<GetOrderByIdRequest, Order>
     public override void Configure()
     {
         Get("/v2/store/order/{orderId}");
+        
         
         AllowAnonymous();
         
@@ -125,6 +128,7 @@ public class PlaceOrderEndpoint : Endpoint<PlaceOrderRequest, Order>
     public override void Configure()
     {
         Post("/v2/store/order");
+        
         
         AllowAnonymous();
         

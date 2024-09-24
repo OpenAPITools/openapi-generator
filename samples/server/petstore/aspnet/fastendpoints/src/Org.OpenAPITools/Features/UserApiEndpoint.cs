@@ -15,6 +15,7 @@ public class CreateUserEndpoint : Endpoint<CreateUserRequest>
     {
         Post("/v2/user");
         
+        
         AllowAnonymous();
         
         Description(x =>
@@ -50,6 +51,7 @@ public class CreateUsersWithArrayInputEndpoint : Endpoint<CreateUsersWithArrayIn
     public override void Configure()
     {
         Post("/v2/user/createWithArray");
+        
         
         AllowAnonymous();
         
@@ -87,6 +89,7 @@ public class CreateUsersWithListInputEndpoint : Endpoint<CreateUsersWithListInpu
     {
         Post("/v2/user/createWithList");
         
+        
         AllowAnonymous();
         
         Description(x =>
@@ -122,6 +125,7 @@ public class DeleteUserEndpoint : Endpoint<DeleteUserRequest>
     public override void Configure()
     {
         Delete("/v2/user/{username}");
+        
         
         AllowAnonymous();
         
@@ -160,6 +164,7 @@ public class GetUserByNameEndpoint : Endpoint<GetUserByNameRequest, User>
     public override void Configure()
     {
         Get("/v2/user/{username}");
+        
         
         AllowAnonymous();
         
@@ -200,6 +205,7 @@ public class LoginUserEndpoint : Endpoint<LoginUserRequest, string>
     {
         Get("/v2/user/login");
         
+        
         AllowAnonymous();
         
         Description(x =>
@@ -238,6 +244,7 @@ public class LogoutUserEndpoint : EndpointWithoutRequest
     {
         Get("/v2/user/logout");
         
+        
         AllowAnonymous();
         
         Description(x =>
@@ -272,6 +279,7 @@ public class UpdateUserEndpoint : Endpoint<UpdateUserRequest>
     public override void Configure()
     {
         Put("/v2/user/{username}");
+        
         
         AllowAnonymous();
         
