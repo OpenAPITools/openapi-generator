@@ -33,6 +33,10 @@ app
     .UseFastEndpoints(x =>
     {
         {{#useProblemDetails}}x.Errors.UseProblemDetails();{{/useProblemDetails}}
+        {{#useApiVersioning}}
+        x.Endpoints.RoutePrefix = "{{routePrefix}}";
+        x.Versioning.Prefix = "{{versioningPrefix}}";
+        {{/useApiVersioning}}
     })
     .UseSwaggerGen();
 
