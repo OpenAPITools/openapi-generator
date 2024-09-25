@@ -299,37 +299,31 @@ public class Pet {
       return this;
     }
 
-    public Pet.Builder id(Long id) {
+    public Pet.Builder id(Optional<Long> id) {
       this.instance.id(id);
       return this;
     }
-    
-    public Pet.Builder category(Category category) {
+    public Pet.Builder category(Optional<Category> category) {
       this.instance.category(category);
       return this;
     }
-    
     public Pet.Builder name(String name) {
       this.instance.name(name);
       return this;
     }
-    
-    public Pet.Builder photoUrls(Set<String> photoUrls) {
+    public Pet.Builder photoUrls(Set<Optional<String>> photoUrls) {
       this.instance.photoUrls(photoUrls);
       return this;
     }
-    
-    public Pet.Builder tags(List<@Valid Tag> tags) {
+    public Pet.Builder tags(List<Optional<Tag>> tags) {
       this.instance.tags(tags);
       return this;
     }
-    
     @Deprecated
-    public Pet.Builder status(StatusEnum status) {
+    public Pet.Builder status(Optional<StatusEnum> status) {
       this.instance.status(status);
       return this;
     }
-    
     /**
     * returns a built Pet instance.
     *

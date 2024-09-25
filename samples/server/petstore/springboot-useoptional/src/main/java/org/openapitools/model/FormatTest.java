@@ -443,76 +443,62 @@ public class FormatTest {
       return this;
     }
 
-    public FormatTest.Builder integer(Integer integer) {
+    public FormatTest.Builder integer(Optional<Integer> integer) {
       this.instance.integer(integer);
       return this;
     }
-    
-    public FormatTest.Builder int32(Integer int32) {
+    public FormatTest.Builder int32(Optional<Integer> int32) {
       this.instance.int32(int32);
       return this;
     }
-    
-    public FormatTest.Builder int64(Long int64) {
+    public FormatTest.Builder int64(Optional<Long> int64) {
       this.instance.int64(int64);
       return this;
     }
-    
     public FormatTest.Builder number(BigDecimal number) {
       this.instance.number(number);
       return this;
     }
-    
-    public FormatTest.Builder _float(Float _float) {
+    public FormatTest.Builder _float(Optional<Float> _float) {
       this.instance._float(_float);
       return this;
     }
-    
-    public FormatTest.Builder _double(Double _double) {
+    public FormatTest.Builder _double(Optional<Double> _double) {
       this.instance._double(_double);
       return this;
     }
-    
-    public FormatTest.Builder string(String string) {
+    public FormatTest.Builder string(Optional<String> string) {
       this.instance.string(string);
       return this;
     }
-    
     public FormatTest.Builder _byte(byte[] _byte) {
       this.instance._byte(_byte);
       return this;
     }
-    
-    public FormatTest.Builder binary(org.springframework.core.io.Resource binary) {
+    public FormatTest.Builder binary(Optional<org.springframework.core.io.Resource> binary) {
       this.instance.binary(binary);
       return this;
     }
-    
     public FormatTest.Builder date(LocalDate date) {
       this.instance.date(date);
       return this;
     }
-    
-    public FormatTest.Builder dateTime(OffsetDateTime dateTime) {
+    public FormatTest.Builder dateTime(Optional<OffsetDateTime> dateTime) {
       this.instance.dateTime(dateTime);
       return this;
     }
-    
-    public FormatTest.Builder uuid(UUID uuid) {
+    public FormatTest.Builder uuid(Optional<UUID> uuid) {
       this.instance.uuid(uuid);
       return this;
     }
-    
     public FormatTest.Builder password(String password) {
       this.instance.password(password);
       return this;
     }
-    
-    public FormatTest.Builder bigDecimal(BigDecimal bigDecimal) {
+    public FormatTest.Builder bigDecimal(Optional<BigDecimal> bigDecimal) {
       this.instance.bigDecimal(bigDecimal);
       return this;
     }
-    
     /**
     * returns a built FormatTest instance.
     *

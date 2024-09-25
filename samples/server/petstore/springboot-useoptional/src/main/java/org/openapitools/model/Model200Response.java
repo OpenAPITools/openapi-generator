@@ -124,16 +124,14 @@ public class Model200Response {
       return this;
     }
 
-    public Model200Response.Builder name(Integer name) {
+    public Model200Response.Builder name(Optional<Integer> name) {
       this.instance.name(name);
       return this;
     }
-    
-    public Model200Response.Builder propertyClass(String propertyClass) {
+    public Model200Response.Builder propertyClass(Optional<String> propertyClass) {
       this.instance.propertyClass(propertyClass);
       return this;
     }
-    
     /**
     * returns a built Model200Response instance.
     *

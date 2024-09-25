@@ -229,41 +229,22 @@ public class ContainerDefaultValue {
       return this;
     }
 
-    public ContainerDefaultValue.Builder nullableArray(List<String> nullableArray) {
+    public ContainerDefaultValue.Builder nullableArray(JsonNullable<List<Optional<String>>> nullableArray) {
       this.instance.nullableArray(nullableArray);
       return this;
     }
-    
-    public ContainerDefaultValue.Builder nullableArray(JsonNullable<List<String>> nullableArray) {
-      this.instance.nullableArray = nullableArray;
-      return this;
-    }
-    
-    public ContainerDefaultValue.Builder nullableRequiredArray(List<String> nullableRequiredArray) {
+    public ContainerDefaultValue.Builder nullableRequiredArray(JsonNullable<List<Optional<String>>> nullableRequiredArray) {
       this.instance.nullableRequiredArray(nullableRequiredArray);
       return this;
     }
-    
-    public ContainerDefaultValue.Builder nullableRequiredArray(JsonNullable<List<String>> nullableRequiredArray) {
-      this.instance.nullableRequiredArray = nullableRequiredArray;
-      return this;
-    }
-    
-    public ContainerDefaultValue.Builder requiredArray(List<String> requiredArray) {
+    public ContainerDefaultValue.Builder requiredArray(List<Optional<String>> requiredArray) {
       this.instance.requiredArray(requiredArray);
       return this;
     }
-    
-    public ContainerDefaultValue.Builder nullableArrayWithDefault(List<String> nullableArrayWithDefault) {
+    public ContainerDefaultValue.Builder nullableArrayWithDefault(JsonNullable<List<Optional<String>>> nullableArrayWithDefault) {
       this.instance.nullableArrayWithDefault(nullableArrayWithDefault);
       return this;
     }
-    
-    public ContainerDefaultValue.Builder nullableArrayWithDefault(JsonNullable<List<String>> nullableArrayWithDefault) {
-      this.instance.nullableArrayWithDefault = nullableArrayWithDefault;
-      return this;
-    }
-    
     /**
     * returns a built ContainerDefaultValue instance.
     *

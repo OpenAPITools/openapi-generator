@@ -181,21 +181,14 @@ public class ParentWithNullable {
       return this;
     }
 
-    public ParentWithNullable.Builder type(TypeEnum type) {
+    public ParentWithNullable.Builder type(Optional<TypeEnum> type) {
       this.instance.type(type);
       return this;
     }
-    
-    public ParentWithNullable.Builder nullableProperty(String nullableProperty) {
+    public ParentWithNullable.Builder nullableProperty(JsonNullable<String> nullableProperty) {
       this.instance.nullableProperty(nullableProperty);
       return this;
     }
-    
-    public ParentWithNullable.Builder nullableProperty(JsonNullable<String> nullableProperty) {
-      this.instance.nullableProperty = nullableProperty;
-      return this;
-    }
-    
     /**
     * returns a built ParentWithNullable instance.
     *

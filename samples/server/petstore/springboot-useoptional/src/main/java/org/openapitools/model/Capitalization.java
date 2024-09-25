@@ -217,36 +217,30 @@ public class Capitalization {
       return this;
     }
 
-    public Capitalization.Builder smallCamel(String smallCamel) {
+    public Capitalization.Builder smallCamel(Optional<String> smallCamel) {
       this.instance.smallCamel(smallCamel);
       return this;
     }
-    
-    public Capitalization.Builder capitalCamel(String capitalCamel) {
+    public Capitalization.Builder capitalCamel(Optional<String> capitalCamel) {
       this.instance.capitalCamel(capitalCamel);
       return this;
     }
-    
-    public Capitalization.Builder smallSnake(String smallSnake) {
+    public Capitalization.Builder smallSnake(Optional<String> smallSnake) {
       this.instance.smallSnake(smallSnake);
       return this;
     }
-    
-    public Capitalization.Builder capitalSnake(String capitalSnake) {
+    public Capitalization.Builder capitalSnake(Optional<String> capitalSnake) {
       this.instance.capitalSnake(capitalSnake);
       return this;
     }
-    
-    public Capitalization.Builder scAETHFlowPoints(String scAETHFlowPoints) {
+    public Capitalization.Builder scAETHFlowPoints(Optional<String> scAETHFlowPoints) {
       this.instance.scAETHFlowPoints(scAETHFlowPoints);
       return this;
     }
-    
-    public Capitalization.Builder ATT_NAME(String ATT_NAME) {
+    public Capitalization.Builder ATT_NAME(Optional<String> ATT_NAME) {
       this.instance.ATT_NAME(ATT_NAME);
       return this;
     }
-    
     /**
     * returns a built Capitalization instance.
     *

@@ -135,23 +135,20 @@ public class Cat extends Animal {
       return this;
     }
 
-    public Cat.Builder declawed(Boolean declawed) {
+    public Cat.Builder declawed(Optional<Boolean> declawed) {
       this.instance.declawed(declawed);
       return this;
     }
-    
     @Override
     public Cat.Builder className(String className) {
       this.instance.className(className);
       return this;
     }
-    
     @Override
-    public Cat.Builder color(String color) {
+    public Cat.Builder color(Optional<String> color) {
       this.instance.color(color);
       return this;
     }
-    
     /**
     * returns a built Cat instance.
     *

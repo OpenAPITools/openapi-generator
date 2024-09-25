@@ -142,11 +142,10 @@ public class AdditionalPropertiesArray {
       return this;
     }
 
-    public AdditionalPropertiesArray.Builder name(String name) {
+    public AdditionalPropertiesArray.Builder name(Optional<String> name) {
       this.instance.name(name);
       return this;
     }
-    
     public AdditionalPropertiesArray.Builder additionalProperties(Map<String, List> additionalProperties) {
       this.instance.additionalProperties = additionalProperties;
       return this;

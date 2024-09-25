@@ -140,12 +140,10 @@ public class Apple implements Fruit {
       this.instance.seeds(seeds);
       return this;
     }
-    
     public Apple.Builder fruitType(FruitType fruitType) {
       this.instance.fruitType(fruitType);
       return this;
     }
-    
     /**
     * returns a built Apple instance.
     *

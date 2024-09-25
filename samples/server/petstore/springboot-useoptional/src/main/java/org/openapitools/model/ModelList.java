@@ -99,11 +99,10 @@ public class ModelList {
       return this;
     }
 
-    public ModelList.Builder _123list(String _123list) {
+    public ModelList.Builder _123list(Optional<String> _123list) {
       this.instance._123list(_123list);
       return this;
     }
-    
     /**
     * returns a built ModelList instance.
     *

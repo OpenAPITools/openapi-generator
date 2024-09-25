@@ -98,11 +98,10 @@ public class NumberOnly {
       return this;
     }
 
-    public NumberOnly.Builder justNumber(BigDecimal justNumber) {
+    public NumberOnly.Builder justNumber(Optional<BigDecimal> justNumber) {
       this.instance.justNumber(justNumber);
       return this;
     }
-    
     /**
     * returns a built NumberOnly instance.
     *

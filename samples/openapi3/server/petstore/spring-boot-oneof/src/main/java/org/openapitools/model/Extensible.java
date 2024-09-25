@@ -159,17 +159,14 @@ public class Extensible {
       this.instance.atSchemaLocation(atSchemaLocation);
       return this;
     }
-    
     public Extensible.Builder atBaseType(String atBaseType) {
       this.instance.atBaseType(atBaseType);
       return this;
     }
-    
     public Extensible.Builder atType(String atType) {
       this.instance.atType(atType);
       return this;
     }
-    
     /**
     * returns a built Extensible instance.
     *

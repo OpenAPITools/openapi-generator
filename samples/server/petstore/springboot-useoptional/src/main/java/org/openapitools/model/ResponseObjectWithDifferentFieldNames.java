@@ -169,26 +169,22 @@ public class ResponseObjectWithDifferentFieldNames {
       return this;
     }
 
-    public ResponseObjectWithDifferentFieldNames.Builder normalPropertyName(String normalPropertyName) {
+    public ResponseObjectWithDifferentFieldNames.Builder normalPropertyName(Optional<String> normalPropertyName) {
       this.instance.normalPropertyName(normalPropertyName);
       return this;
     }
-    
-    public ResponseObjectWithDifferentFieldNames.Builder UPPER_CASE_PROPERTY_SNAKE(String UPPER_CASE_PROPERTY_SNAKE) {
+    public ResponseObjectWithDifferentFieldNames.Builder UPPER_CASE_PROPERTY_SNAKE(Optional<String> UPPER_CASE_PROPERTY_SNAKE) {
       this.instance.UPPER_CASE_PROPERTY_SNAKE(UPPER_CASE_PROPERTY_SNAKE);
       return this;
     }
-    
-    public ResponseObjectWithDifferentFieldNames.Builder lowerCasePropertyDashes(String lowerCasePropertyDashes) {
+    public ResponseObjectWithDifferentFieldNames.Builder lowerCasePropertyDashes(Optional<String> lowerCasePropertyDashes) {
       this.instance.lowerCasePropertyDashes(lowerCasePropertyDashes);
       return this;
     }
-    
-    public ResponseObjectWithDifferentFieldNames.Builder propertyNameWithSpaces(String propertyNameWithSpaces) {
+    public ResponseObjectWithDifferentFieldNames.Builder propertyNameWithSpaces(Optional<String> propertyNameWithSpaces) {
       this.instance.propertyNameWithSpaces(propertyNameWithSpaces);
       return this;
     }
-    
     /**
     * returns a built ResponseObjectWithDifferentFieldNames instance.
     *

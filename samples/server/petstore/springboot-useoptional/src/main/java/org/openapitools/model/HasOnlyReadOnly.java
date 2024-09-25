@@ -123,16 +123,14 @@ public class HasOnlyReadOnly {
       return this;
     }
 
-    public HasOnlyReadOnly.Builder bar(String bar) {
+    public HasOnlyReadOnly.Builder bar(Optional<String> bar) {
       this.instance.bar(bar);
       return this;
     }
-    
-    public HasOnlyReadOnly.Builder foo(String foo) {
+    public HasOnlyReadOnly.Builder foo(Optional<String> foo) {
       this.instance.foo(foo);
       return this;
     }
-    
     /**
     * returns a built HasOnlyReadOnly instance.
     *

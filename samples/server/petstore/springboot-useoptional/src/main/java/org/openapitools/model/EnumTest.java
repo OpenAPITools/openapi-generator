@@ -352,31 +352,26 @@ public class EnumTest {
       return this;
     }
 
-    public EnumTest.Builder enumString(EnumStringEnum enumString) {
+    public EnumTest.Builder enumString(Optional<EnumStringEnum> enumString) {
       this.instance.enumString(enumString);
       return this;
     }
-    
     public EnumTest.Builder enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
       this.instance.enumStringRequired(enumStringRequired);
       return this;
     }
-    
-    public EnumTest.Builder enumInteger(EnumIntegerEnum enumInteger) {
+    public EnumTest.Builder enumInteger(Optional<EnumIntegerEnum> enumInteger) {
       this.instance.enumInteger(enumInteger);
       return this;
     }
-    
-    public EnumTest.Builder enumNumber(EnumNumberEnum enumNumber) {
+    public EnumTest.Builder enumNumber(Optional<EnumNumberEnum> enumNumber) {
       this.instance.enumNumber(enumNumber);
       return this;
     }
-    
-    public EnumTest.Builder outerEnum(OuterEnum outerEnum) {
+    public EnumTest.Builder outerEnum(Optional<OuterEnum> outerEnum) {
       this.instance.outerEnum(outerEnum);
       return this;
     }
-    
     /**
     * returns a built EnumTest instance.
     *

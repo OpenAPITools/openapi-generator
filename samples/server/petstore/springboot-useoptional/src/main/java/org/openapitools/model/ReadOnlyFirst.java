@@ -121,16 +121,14 @@ public class ReadOnlyFirst {
       return this;
     }
 
-    public ReadOnlyFirst.Builder bar(String bar) {
+    public ReadOnlyFirst.Builder bar(Optional<String> bar) {
       this.instance.bar(bar);
       return this;
     }
-    
-    public ReadOnlyFirst.Builder baz(String baz) {
+    public ReadOnlyFirst.Builder baz(Optional<String> baz) {
       this.instance.baz(baz);
       return this;
     }
-    
     /**
     * returns a built ReadOnlyFirst instance.
     *

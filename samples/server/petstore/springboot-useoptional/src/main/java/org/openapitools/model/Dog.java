@@ -127,23 +127,20 @@ public class Dog extends Animal {
       return this;
     }
 
-    public Dog.Builder breed(String breed) {
+    public Dog.Builder breed(Optional<String> breed) {
       this.instance.breed(breed);
       return this;
     }
-    
     @Override
     public Dog.Builder className(String className) {
       this.instance.className(className);
       return this;
     }
-    
     @Override
-    public Dog.Builder color(String color) {
+    public Dog.Builder color(Optional<String> color) {
       this.instance.color(color);
       return this;
     }
-    
     /**
     * returns a built Dog instance.
     *

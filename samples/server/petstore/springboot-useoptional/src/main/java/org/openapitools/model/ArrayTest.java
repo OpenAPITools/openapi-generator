@@ -173,21 +173,18 @@ public class ArrayTest {
       return this;
     }
 
-    public ArrayTest.Builder arrayOfString(List<String> arrayOfString) {
+    public ArrayTest.Builder arrayOfString(List<Optional<String>> arrayOfString) {
       this.instance.arrayOfString(arrayOfString);
       return this;
     }
-    
-    public ArrayTest.Builder arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
+    public ArrayTest.Builder arrayArrayOfInteger(List<List<Optional<Long>>> arrayArrayOfInteger) {
       this.instance.arrayArrayOfInteger(arrayArrayOfInteger);
       return this;
     }
-    
-    public ArrayTest.Builder arrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
+    public ArrayTest.Builder arrayArrayOfModel(List<List<Optional<ReadOnlyFirst>>> arrayArrayOfModel) {
       this.instance.arrayArrayOfModel(arrayArrayOfModel);
       return this;
     }
-    
     /**
     * returns a built ArrayTest instance.
     *

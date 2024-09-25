@@ -140,12 +140,10 @@ public class Banana implements Fruit {
       this.instance.length(length);
       return this;
     }
-    
     public Banana.Builder fruitType(FruitType fruitType) {
       this.instance.fruitType(fruitType);
       return this;
     }
-    
     /**
     * returns a built Banana instance.
     *

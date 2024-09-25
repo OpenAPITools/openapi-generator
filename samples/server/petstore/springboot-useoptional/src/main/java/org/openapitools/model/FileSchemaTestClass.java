@@ -133,16 +133,14 @@ public class FileSchemaTestClass {
       return this;
     }
 
-    public FileSchemaTestClass.Builder file(File file) {
+    public FileSchemaTestClass.Builder file(Optional<File> file) {
       this.instance.file(file);
       return this;
     }
-    
-    public FileSchemaTestClass.Builder files(List<@Valid File> files) {
+    public FileSchemaTestClass.Builder files(List<Optional<File>> files) {
       this.instance.files(files);
       return this;
     }
-    
     /**
     * returns a built FileSchemaTestClass instance.
     *

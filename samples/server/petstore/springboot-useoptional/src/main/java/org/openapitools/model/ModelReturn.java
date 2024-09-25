@@ -100,11 +100,10 @@ public class ModelReturn {
       return this;
     }
 
-    public ModelReturn.Builder _return(Integer _return) {
+    public ModelReturn.Builder _return(Optional<Integer> _return) {
       this.instance._return(_return);
       return this;
     }
-    
     /**
     * returns a built ModelReturn instance.
     *

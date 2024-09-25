@@ -224,27 +224,22 @@ public class Entity {
       this.instance.href(href);
       return this;
     }
-    
     public Entity.Builder id(String id) {
       this.instance.id(id);
       return this;
     }
-    
     public Entity.Builder atSchemaLocation(String atSchemaLocation) {
       this.instance.atSchemaLocation(atSchemaLocation);
       return this;
     }
-    
     public Entity.Builder atBaseType(String atBaseType) {
       this.instance.atBaseType(atBaseType);
       return this;
     }
-    
     public Entity.Builder atType(String atType) {
       this.instance.atType(atType);
       return this;
     }
-    
     /**
     * returns a built Entity instance.
     *

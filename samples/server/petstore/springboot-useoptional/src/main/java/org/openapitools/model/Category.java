@@ -132,16 +132,14 @@ public class Category {
       return this;
     }
 
-    public Category.Builder id(Long id) {
+    public Category.Builder id(Optional<Long> id) {
       this.instance.id(id);
       return this;
     }
-    
     public Category.Builder name(String name) {
       this.instance.name(name);
       return this;
     }
-    
     /**
     * returns a built Category instance.
     *

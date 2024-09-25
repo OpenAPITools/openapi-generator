@@ -125,12 +125,10 @@ public class Addressable {
       this.instance.href(href);
       return this;
     }
-    
     public Addressable.Builder id(String id) {
       this.instance.id(id);
       return this;
     }
-    
     /**
     * returns a built Addressable instance.
     *

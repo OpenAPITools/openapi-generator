@@ -109,11 +109,10 @@ public class ArrayOfNumberOnly {
       return this;
     }
 
-    public ArrayOfNumberOnly.Builder arrayNumber(List<BigDecimal> arrayNumber) {
+    public ArrayOfNumberOnly.Builder arrayNumber(List<Optional<BigDecimal>> arrayNumber) {
       this.instance.arrayNumber(arrayNumber);
       return this;
     }
-    
     /**
     * returns a built ArrayOfNumberOnly instance.
     *
