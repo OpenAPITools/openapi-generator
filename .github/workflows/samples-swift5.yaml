@@ -1,4 +1,4 @@
-name: Samples Swift
+name: Samples Swift 5
 
 on:
   push:
@@ -15,23 +15,6 @@ jobs:
       matrix:
         os: [macos-latest]
         sample:
-          - samples/client/petstore/swift6/alamofireLibrary
-          - samples/client/petstore/swift6/anycodableLibrary
-          - samples/client/petstore/swift6/apiNonStaticMethod
-          - samples/client/petstore/swift6/asyncAwaitLibrary
-          - samples/client/petstore/swift6/combineDeferredLibrary
-          - samples/client/petstore/swift6/combineLibrary
-          - samples/client/petstore/swift6/default
-          - samples/client/petstore/swift6/deprecated
-          - samples/client/petstore/swift6/objcCompatible
-          - samples/client/petstore/swift6/oneOf
-          - samples/client/petstore/swift6/promisekitLibrary
-          - samples/client/petstore/swift6/resultLibrary
-          - samples/client/petstore/swift6/rxswiftLibrary
-          - samples/client/petstore/swift6/urlsessionLibrary
-          - samples/client/petstore/swift6/validation
-          # NOTE: disabled as vaporLibrary doesnt build when adding this CI config
-          #- samples/client/petstore/swift6/vaporLibrary
           - samples/client/petstore/swift5/alamofireLibrary
           - samples/client/petstore/swift5/anycodableLibrary
           - samples/client/petstore/swift5/asyncAwaitLibrary
