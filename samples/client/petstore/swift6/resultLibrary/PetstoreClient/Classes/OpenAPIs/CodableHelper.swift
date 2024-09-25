@@ -7,9 +7,9 @@
 
 import Foundation
 
-open class CodableHelper: @unchecked Sendable {
+internal class CodableHelper: @unchecked Sendable {
     private init() {}
-    public static let shared = CodableHelper()
+    internal static let shared = CodableHelper()
 
     private var customDateFormatter: DateFormatter?
     private var defaultDateFormatter: DateFormatter = OpenISO8601DateFormatter()
@@ -29,24 +29,24 @@ open class CodableHelper: @unchecked Sendable {
         return encoder
     }()
 
-    public var dateFormatter: DateFormatter {
+    internal var dateFormatter: DateFormatter {
         get { return customDateFormatter ?? defaultDateFormatter }
         set { customDateFormatter = newValue }
     }
-    public var jsonDecoder: JSONDecoder {
+    internal var jsonDecoder: JSONDecoder {
         get { return customJSONDecoder ?? defaultJSONDecoder }
         set { customJSONDecoder = newValue }
     }
-    public var jsonEncoder: JSONEncoder {
+    internal var jsonEncoder: JSONEncoder {
         get { return customJSONEncoder ?? defaultJSONEncoder }
         set { customJSONEncoder = newValue }
     }
 
-    open func decode<T>(_ type: T.Type, from data: Data) -> Swift.Result<T, Error> where T: Decodable {
+    internal func decode<T>(_ type: T.Type, from data: Data) -> Swift.Result<T, Error> where T: Decodable {
         return Swift.Result { try jsonDecoder.decode(type, from: data) }
     }
 
-    open func encode<T>(_ value: T) -> Swift.Result<Data, Error> where T: Encodable {
+    internal func encode<T>(_ value: T) -> Swift.Result<Data, Error> where T: Encodable {
         return Swift.Result { try jsonEncoder.encode(value) }
     }
 }
