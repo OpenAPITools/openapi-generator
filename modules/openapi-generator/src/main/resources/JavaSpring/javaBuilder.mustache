@@ -24,29 +24,17 @@
     {{#deprecated}}
     @Deprecated
     {{/deprecated}}
-    public {{classname}}.Builder {{name}}({{{datatypeWithEnum}}} {{name}}) {
+    public {{classname}}.Builder {{name}}({{>nullableDataType}} {{name}}) {
       this.instance.{{name}}({{name}});
       return this;
     }
-    {{#openApiNullable}}{{#isNullable}}
-    public {{classname}}.Builder {{name}}(JsonNullable<{{{datatypeWithEnum}}}> {{name}}) {
-      this.instance.{{name}} = {{name}};
-      return this;
-    }
-    {{/isNullable}}{{/openApiNullable}}
 {{/vars}}
 {{#parentVars}}
     @Override
-    public {{classname}}.Builder {{name}}({{{datatypeWithEnum}}} {{name}}) {
+    public {{classname}}.Builder {{name}}({{>nullableDataType}} {{name}}) {
       this.instance.{{name}}({{name}});
       return this;
     }
-    {{#openApiNullable}}{{#isNullable}}
-    public {{classname}}.Builder {{name}}(JsonNullable<{{{datatypeWithEnum}}}> {{name}}) {
-      this.instance.{{setter}}({{name}});
-      return this;
-    }
-    {{/isNullable}}{{/openApiNullable}}
 {{/parentVars}}
 {{#additionalPropertiesType}}
     public {{classname}}.Builder additionalProperties(Map<String, {{{.}}}> additionalProperties) {

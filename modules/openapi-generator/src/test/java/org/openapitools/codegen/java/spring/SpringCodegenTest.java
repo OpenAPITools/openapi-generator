@@ -4828,9 +4828,9 @@ public class SpringCodegenTest {
                         "return builder.copyOf(this);");
         JavaFileAssert.assertThat(files.get("SimpleObject.java"))
                 .fileContains("public SimpleObject.Builder additionalProperties(Map<String, Integer> additionalProperties) {",
-                        "SimpleObject.Builder nullableObject(String nullableObject) {",
-                        "SimpleObject.Builder nullableObject(JsonNullable<String> nullableObject) {",
-                        "SimpleObject.Builder nb(BigDecimal nb) {");
+                        "public SimpleObject.Builder nullableObject(JsonNullable<String> nullableObject) {",
+                        "public SimpleObject.Builder nullableList(JsonNullable<List<Optional<String>>> nullableList) {",
+                        "public SimpleObject.Builder nb(Optional<BigDecimal> nb) {");
     }
 
     @Test
