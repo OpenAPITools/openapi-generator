@@ -16,7 +16,7 @@ export { Middleware } from './middleware{{importFileExtension}}';
 export{{#platforms}}{{#deno}} type{{/deno}}{{/platforms}} { PromiseMiddleware as Middleware } from './middleware{{importFileExtension}}';
 {{/useRxJS}}
 {{#useObjectParameters}}
-export { {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{classname}}{{operationIdCamelCase}}Request, {{/operation}}Object{{classname}} as {{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './types/ObjectParamAPI{{importFileExtension}}';
+export { {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#platforms}}{{#deno}}type {{/deno}}{{/platforms}}{{classname}}{{operationIdCamelCase}}Request, {{/operation}}Object{{classname}} as {{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './types/ObjectParamAPI{{importFileExtension}}';
 {{/useObjectParameters}}
 {{^useObjectParameters}}
 {{#useRxJS}}

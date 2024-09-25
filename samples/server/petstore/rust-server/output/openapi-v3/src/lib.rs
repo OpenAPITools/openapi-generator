@@ -49,9 +49,15 @@ pub enum ComplexQueryParamGetResponse {
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
-pub enum EnumInPathPathParamGetResponse {
-    /// Success
-    Success
+pub enum FormTestResponse {
+    /// OK
+    OK
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub enum GetWithBooleanParameterResponse {
+    /// OK
+    OK
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -202,6 +208,12 @@ pub enum Rfc7807GetResponse {
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub enum TwoFirstLetterHeadersResponse {
+    /// OK
+    OK
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum UntypedPropertyGetResponse {
     /// Check that untyped properties works
     CheckThatUntypedPropertiesWorks
@@ -266,6 +278,18 @@ pub enum XmlPutResponse {
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub enum EnumInPathPathParamGetResponse {
+    /// Success
+    Success
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub enum MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse {
+    /// Success
+    Success
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum CreateRepoResponse {
     /// Success
     Success
@@ -301,10 +325,16 @@ pub trait Api<C: Send + Sync> {
         list_of_strings: Option<&Vec<models::StringObject>>,
         context: &C) -> Result<ComplexQueryParamGetResponse, ApiError>;
 
-    async fn enum_in_path_path_param_get(
+    /// Test a Form Post
+    async fn form_test(
         &self,
-        path_param: models::StringEnum,
-        context: &C) -> Result<EnumInPathPathParamGetResponse, ApiError>;
+        required_array: Option<&Vec<String>>,
+        context: &C) -> Result<FormTestResponse, ApiError>;
+
+    async fn get_with_boolean_parameter(
+        &self,
+        iambool: bool,
+        context: &C) -> Result<GetWithBooleanParameterResponse, ApiError>;
 
     async fn json_complex_query_param_get(
         &self,
@@ -367,6 +397,12 @@ pub trait Api<C: Send + Sync> {
         &self,
         context: &C) -> Result<Rfc7807GetResponse, ApiError>;
 
+    async fn two_first_letter_headers(
+        &self,
+        x_header_one: Option<bool>,
+        x_header_two: Option<bool>,
+        context: &C) -> Result<TwoFirstLetterHeadersResponse, ApiError>;
+
     async fn untyped_property_get(
         &self,
         object_untyped_props: Option<models::ObjectUntypedProps>,
@@ -391,7 +427,7 @@ pub trait Api<C: Send + Sync> {
         another_xml_array: Option<models::AnotherXmlArray>,
         context: &C) -> Result<XmlOtherPutResponse, ApiError>;
 
-    /// Post an array
+    /// Post an array.  It's important we test apostrophes, so include one here.
     async fn xml_post(
         &self,
         xml_array: Option<models::XmlArray>,
@@ -401,6 +437,17 @@ pub trait Api<C: Send + Sync> {
         &self,
         xml_object: Option<models::XmlObject>,
         context: &C) -> Result<XmlPutResponse, ApiError>;
+
+    async fn enum_in_path_path_param_get(
+        &self,
+        path_param: models::StringEnum,
+        context: &C) -> Result<EnumInPathPathParamGetResponse, ApiError>;
+
+    async fn multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get(
+        &self,
+        path_param_a: String,
+        path_param_b: String,
+        context: &C) -> Result<MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse, ApiError>;
 
     async fn create_repo(
         &self,
@@ -438,10 +485,16 @@ pub trait ApiNoContext<C: Send + Sync> {
         list_of_strings: Option<&Vec<models::StringObject>>,
         ) -> Result<ComplexQueryParamGetResponse, ApiError>;
 
-    async fn enum_in_path_path_param_get(
+    /// Test a Form Post
+    async fn form_test(
         &self,
-        path_param: models::StringEnum,
-        ) -> Result<EnumInPathPathParamGetResponse, ApiError>;
+        required_array: Option<&Vec<String>>,
+        ) -> Result<FormTestResponse, ApiError>;
+
+    async fn get_with_boolean_parameter(
+        &self,
+        iambool: bool,
+        ) -> Result<GetWithBooleanParameterResponse, ApiError>;
 
     async fn json_complex_query_param_get(
         &self,
@@ -504,6 +557,12 @@ pub trait ApiNoContext<C: Send + Sync> {
         &self,
         ) -> Result<Rfc7807GetResponse, ApiError>;
 
+    async fn two_first_letter_headers(
+        &self,
+        x_header_one: Option<bool>,
+        x_header_two: Option<bool>,
+        ) -> Result<TwoFirstLetterHeadersResponse, ApiError>;
+
     async fn untyped_property_get(
         &self,
         object_untyped_props: Option<models::ObjectUntypedProps>,
@@ -528,7 +587,7 @@ pub trait ApiNoContext<C: Send + Sync> {
         another_xml_array: Option<models::AnotherXmlArray>,
         ) -> Result<XmlOtherPutResponse, ApiError>;
 
-    /// Post an array
+    /// Post an array.  It's important we test apostrophes, so include one here.
     async fn xml_post(
         &self,
         xml_array: Option<models::XmlArray>,
@@ -538,6 +597,17 @@ pub trait ApiNoContext<C: Send + Sync> {
         &self,
         xml_object: Option<models::XmlObject>,
         ) -> Result<XmlPutResponse, ApiError>;
+
+    async fn enum_in_path_path_param_get(
+        &self,
+        path_param: models::StringEnum,
+        ) -> Result<EnumInPathPathParamGetResponse, ApiError>;
+
+    async fn multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get(
+        &self,
+        path_param_a: String,
+        path_param_b: String,
+        ) -> Result<MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse, ApiError>;
 
     async fn create_repo(
         &self,
@@ -601,13 +671,23 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         self.api().complex_query_param_get(list_of_strings, &context).await
     }
 
-    async fn enum_in_path_path_param_get(
+    /// Test a Form Post
+    async fn form_test(
         &self,
-        path_param: models::StringEnum,
-        ) -> Result<EnumInPathPathParamGetResponse, ApiError>
+        required_array: Option<&Vec<String>>,
+        ) -> Result<FormTestResponse, ApiError>
     {
         let context = self.context().clone();
-        self.api().enum_in_path_path_param_get(path_param, &context).await
+        self.api().form_test(required_array, &context).await
+    }
+
+    async fn get_with_boolean_parameter(
+        &self,
+        iambool: bool,
+        ) -> Result<GetWithBooleanParameterResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().get_with_boolean_parameter(iambool, &context).await
     }
 
     async fn json_complex_query_param_get(
@@ -723,6 +803,16 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         self.api().rfc7807_get(&context).await
     }
 
+    async fn two_first_letter_headers(
+        &self,
+        x_header_one: Option<bool>,
+        x_header_two: Option<bool>,
+        ) -> Result<TwoFirstLetterHeadersResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().two_first_letter_headers(x_header_one, x_header_two, &context).await
+    }
+
     async fn untyped_property_get(
         &self,
         object_untyped_props: Option<models::ObjectUntypedProps>,
@@ -767,7 +857,7 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         self.api().xml_other_put(another_xml_array, &context).await
     }
 
-    /// Post an array
+    /// Post an array.  It's important we test apostrophes, so include one here.
     async fn xml_post(
         &self,
         xml_array: Option<models::XmlArray>,
@@ -784,6 +874,25 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     {
         let context = self.context().clone();
         self.api().xml_put(xml_object, &context).await
+    }
+
+    async fn enum_in_path_path_param_get(
+        &self,
+        path_param: models::StringEnum,
+        ) -> Result<EnumInPathPathParamGetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().enum_in_path_path_param_get(path_param, &context).await
+    }
+
+    async fn multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get(
+        &self,
+        path_param_a: String,
+        path_param_b: String,
+        ) -> Result<MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get(path_param_a, path_param_b, &context).await
     }
 
     async fn create_repo(

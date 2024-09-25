@@ -9,7 +9,8 @@ use openapi_v3::{Api, ApiNoContext, Claims, Client, ContextWrapperExt, models,
                       AnyOfGetResponse,
                       CallbackWithHeaderPostResponse,
                       ComplexQueryParamGetResponse,
-                      EnumInPathPathParamGetResponse,
+                      FormTestResponse,
+                      GetWithBooleanParameterResponse,
                       JsonComplexQueryParamGetResponse,
                       MandatoryRequestHeaderGetResponse,
                       MergePatchJsonGetResponse,
@@ -23,6 +24,7 @@ use openapi_v3::{Api, ApiNoContext, Claims, Client, ContextWrapperExt, models,
                       RequiredOctetStreamPutResponse,
                       ResponsesWithHeadersGetResponse,
                       Rfc7807GetResponse,
+                      TwoFirstLetterHeadersResponse,
                       UntypedPropertyGetResponse,
                       UuidGetResponse,
                       XmlExtraPostResponse,
@@ -30,6 +32,8 @@ use openapi_v3::{Api, ApiNoContext, Claims, Client, ContextWrapperExt, models,
                       XmlOtherPutResponse,
                       XmlPostResponse,
                       XmlPutResponse,
+                      EnumInPathPathParamGetResponse,
+                      MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse,
                       CreateRepoResponse,
                       GetRepoInfoResponse,
                      };
@@ -63,6 +67,8 @@ fn main() {
                 "AnyOfGet",
                 "CallbackWithHeaderPost",
                 "ComplexQueryParamGet",
+                "FormTest",
+                "GetWithBooleanParameter",
                 "JsonComplexQueryParamGet",
                 "MandatoryRequestHeaderGet",
                 "MergePatchJsonGet",
@@ -76,6 +82,7 @@ fn main() {
                 "RequiredOctetStreamPut",
                 "ResponsesWithHeadersGet",
                 "Rfc7807Get",
+                "TwoFirstLetterHeaders",
                 "UntypedPropertyGet",
                 "UuidGet",
                 "XmlExtraPost",
@@ -83,6 +90,7 @@ fn main() {
                 "XmlOtherPut",
                 "XmlPost",
                 "XmlPut",
+                "MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGet",
                 "CreateRepo",
                 "GetRepoInfo",
             ])
@@ -120,6 +128,8 @@ fn main() {
                   [
                             "test.read",
                             "test.write",
+                            "additional.test.read",
+                            "additional.test.write",
                   ].join::<&str>(", ")
             },
             b"secret").unwrap();
@@ -177,14 +187,18 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
-        /* Disabled because there's no example.
-        Some("EnumInPathPathParamGet") => {
-            let result = rt.block_on(client.enum_in_path_path_param_get(
-                  ???
+        Some("FormTest") => {
+            let result = rt.block_on(client.form_test(
+                  Some(&Vec::new())
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
-        */
+        Some("GetWithBooleanParameter") => {
+            let result = rt.block_on(client.get_with_boolean_parameter(
+                  true
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
         Some("JsonComplexQueryParamGet") => {
             let result = rt.block_on(client.json_complex_query_param_get(
                   Some(&Vec::new())
@@ -257,6 +271,13 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+        Some("TwoFirstLetterHeaders") => {
+            let result = rt.block_on(client.two_first_letter_headers(
+                  Some(true),
+                  Some(true)
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
         Some("UntypedPropertyGet") => {
             let result = rt.block_on(client.untyped_property_get(
                   None
@@ -295,6 +316,21 @@ fn main() {
         Some("XmlPut") => {
             let result = rt.block_on(client.xml_put(
                   None
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        /* Disabled because there's no example.
+        Some("EnumInPathPathParamGet") => {
+            let result = rt.block_on(client.enum_in_path_path_param_get(
+                  ???
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        */
+        Some("MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGet") => {
+            let result = rt.block_on(client.multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get(
+                  "path_param_a_example".to_string(),
+                  "path_param_b_example".to_string()
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },

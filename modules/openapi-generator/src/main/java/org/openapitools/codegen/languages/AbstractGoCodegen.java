@@ -786,7 +786,43 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                             cp.pattern.replace("\\", "\\\\").replaceAll("^/|/$", "") +
                             "\"");
                 }
+
+                // construct data tag in the template: x-go-datatag
+                // originl template
+                // `json:"{{{baseName}}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{{baseName}}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#withValidate}} validate:"{{validate}}"{{/withValidate}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+                String goDataTag = "json:\"" + cp.baseName;
+                if (!cp.required) {
+                    goDataTag += ",omitempty";
+                }
+                goDataTag += "\"";
+
+                if (withXml) {
+                    goDataTag += " xml:" + "\"" + cp.baseName;
+                    if (cp.isXmlAttribute) {
+                        goDataTag += ",attr";
+                    }
+                    goDataTag += "\"";
+                }
+
+                // {{#withValidate}} validate:"{{validate}}"{{/withValidate}}
+                if (Boolean.parseBoolean(String.valueOf(additionalProperties.getOrDefault("withValidate", "false")))) {
+                    goDataTag += " validate:\"" + additionalProperties.getOrDefault("validate", "") + "\"";
+                }
+
+                // {{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}
+                if (StringUtils.isNotEmpty(String.valueOf(cp.vendorExtensions.getOrDefault("x-go-custom-tag", "")))) {
+                    goDataTag += " " + cp.vendorExtensions.get("x-go-custom-tag");
+                }
+
+                // if it contains backtick, wrap with " instead
+                if (goDataTag.contains("`")) {
+                    goDataTag = " \"" + goDataTag.replace("\"", "\\\"") + "\"";
+                } else {
+                    goDataTag = " `" + goDataTag + "`";
+                }
+                cp.vendorExtensions.put("x-go-datatag", goDataTag);
             }
+
             if (this instanceof GoClientCodegen && model.isEnum) {
                 imports.add(createMapping("import", "fmt"));
             }

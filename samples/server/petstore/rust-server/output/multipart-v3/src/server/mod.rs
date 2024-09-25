@@ -16,7 +16,7 @@ use hyper_0_10::header::{Headers, ContentType};
 use mime_0_2::{TopLevel, SubLevel, Mime as Mime2};
 use mime_multipart::{read_multipart_body, Node, Part};
 use multipart::server::Multipart;
-use multipart::server::save::SaveResult;
+use multipart::server::save::{PartialReason, SaveResult};
 
 #[allow(unused_imports)]
 use crate::{models, header, AuthenticationApi};
@@ -55,6 +55,7 @@ pub struct MakeService<T, C> where
     C: Has<XSpanIdString>  + Send + Sync + 'static
 {
     api_impl: T,
+    multipart_form_size_limit: Option<u64>,
     marker: PhantomData<C>,
 }
 
@@ -65,11 +66,21 @@ impl<T, C> MakeService<T, C> where
     pub fn new(api_impl: T) -> Self {
         MakeService {
             api_impl,
+            multipart_form_size_limit: Some(8 * 1024 * 1024),
             marker: PhantomData
         }
     }
-}
 
+    /// Configure size limit when inspecting a multipart/form body.
+    ///
+    /// Default is 8 MiB.
+    ///
+    /// Set to None for no size limit, which presents a Denial of Service attack risk.
+    pub fn multipart_form_size_limit(mut self, multipart_form_size_limit: Option<u64>) -> Self {
+        self.multipart_form_size_limit = multipart_form_size_limit;
+        self
+    }
+}
 
 impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
     T: Api<C> + Clone + Send + 'static,
@@ -84,9 +95,10 @@ impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
     }
 
     fn call(&mut self, target: Target) -> Self::Future {
-        future::ok(Service::new(
-            self.api_impl.clone(),
-        ))
+        let service = Service::new(self.api_impl.clone())
+            .multipart_form_size_limit(self.multipart_form_size_limit);
+
+        future::ok(service)
     }
 }
 
@@ -103,6 +115,7 @@ pub struct Service<T, C> where
     C: Has<XSpanIdString>  + Send + Sync + 'static
 {
     api_impl: T,
+    multipart_form_size_limit: Option<u64>,
     marker: PhantomData<C>,
 }
 
@@ -113,8 +126,19 @@ impl<T, C> Service<T, C> where
     pub fn new(api_impl: T) -> Self {
         Service {
             api_impl,
+            multipart_form_size_limit: Some(8 * 1024 * 1024),
             marker: PhantomData
         }
+    }
+
+    /// Configure size limit when extracting a multipart/form body.
+    ///
+    /// Default is 8 MiB.
+    ///
+    /// Set to None for no size limit, which presents a Denial of Service attack risk.
+    pub fn multipart_form_size_limit(mut self, multipart_form_size_limit: Option<u64>) -> Self {
+        self.multipart_form_size_limit = multipart_form_size_limit;
+        self
     }
 }
 
@@ -125,6 +149,7 @@ impl<T, C> Clone for Service<T, C> where
     fn clone(&self) -> Self {
         Service {
             api_impl: self.api_impl.clone(),
+            multipart_form_size_limit: Some(8 * 1024 * 1024),
             marker: self.marker,
         }
     }
@@ -142,16 +167,21 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
         self.api_impl.poll_ready(cx)
     }
 
-    fn call(&mut self, req: (Request<Body>, C)) -> Self::Future { async fn run<T, C>(mut api_impl: T, req: (Request<Body>, C)) -> Result<Response<Body>, crate::ServiceError> where
-        T: Api<C> + Clone + Send + 'static,
-        C: Has<XSpanIdString>  + Send + Sync + 'static
-    {
-        let (request, context) = req;
-        let (parts, body) = request.into_parts();
-        let (method, uri, headers) = (parts.method, parts.uri, parts.headers);
-        let path = paths::GLOBAL_REGEX_SET.matches(uri.path());
+    fn call(&mut self, req: (Request<Body>, C)) -> Self::Future {
+        async fn run<T, C>(
+            mut api_impl: T,
+            req: (Request<Body>, C),
+            multipart_form_size_limit: Option<u64>,
+        ) -> Result<Response<Body>, crate::ServiceError> where
+            T: Api<C> + Clone + Send + 'static,
+            C: Has<XSpanIdString>  + Send + Sync + 'static
+        {
+            let (request, context) = req;
+            let (parts, body) = request.into_parts();
+            let (method, uri, headers) = (parts.method, parts.uri, parts.headers);
+            let path = paths::GLOBAL_REGEX_SET.matches(uri.path());
 
-        match method {
+            match method {
 
             // MultipartRelatedRequestPost - POST /multipart_related_request
             hyper::Method::POST if path.matched(paths::ID_MULTIPART_RELATED_REQUEST) => {
@@ -303,15 +333,43 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 use std::io::Read;
 
                                 // Read Form Parameters from body
-                                let mut entries = match Multipart::with_body(&body.to_vec()[..], boundary).save().temp() {
+                                let mut entries = match Multipart::with_body(&body.to_vec()[..], boundary)
+                                    .save()
+                                    .size_limit(multipart_form_size_limit)
+                                    .temp()
+                                {
                                     SaveResult::Full(entries) => {
                                         entries
                                     },
-                                    _ => {
+                                    SaveResult::Partial(_, PartialReason::CountLimit) => {
                                         return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from("Unable to process all message parts".to_string()))
-                                                        .expect("Unable to create Bad Request response due to failure to process all message"))
+                                                        .body(Body::from("Unable to process message part due to excessive parts".to_string()))
+                                                        .expect("Unable to create Bad Request response due to excessive parts"))
+                                    },
+                                    SaveResult::Partial(_, PartialReason::SizeLimit) => {
+                                        return Ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from("Unable to process message part due to excessive data".to_string()))
+                                                        .expect("Unable to create Bad Request response due to excessive data"))
+                                    },
+                                    SaveResult::Partial(_, PartialReason::Utf8Error(_)) => {
+                                        return Ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from("Unable to process message part due to invalid data".to_string()))
+                                                        .expect("Unable to create Bad Request response due to invalid data"))
+                                    },
+                                    SaveResult::Partial(_, PartialReason::IoError(_)) => {
+                                        return Ok(Response::builder()
+                                                        .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                                        .body(Body::from("Failed to process message part due an internal error".to_string()))
+                                                        .expect("Unable to create Internal Server Error response due to an internal errror"))
+                                    },
+                                    SaveResult::Error(e) => {
+                                        return Ok(Response::builder()
+                                                        .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                                        .body(Body::from("Failed to process all message parts due to an internal error".to_string()))
+                                                        .expect("Unable to create Internal Server Error response due to an internal error"))
                                     },
                                 };
                                 let field_string_field = entries.fields.remove("string_field");
@@ -553,11 +611,17 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             _ if path.matched(paths::ID_MULTIPART_RELATED_REQUEST) => method_not_allowed(),
             _ if path.matched(paths::ID_MULTIPART_REQUEST) => method_not_allowed(),
             _ if path.matched(paths::ID_MULTIPLE_IDENTICAL_MIME_TYPES) => method_not_allowed(),
-            _ => Ok(Response::builder().status(StatusCode::NOT_FOUND)
-                    .body(Body::empty())
-                    .expect("Unable to create Not Found response"))
+                _ => Ok(Response::builder().status(StatusCode::NOT_FOUND)
+                        .body(Body::empty())
+                        .expect("Unable to create Not Found response"))
+            }
         }
-    } Box::pin(run(self.api_impl.clone(), req)) }
+        Box::pin(run(
+            self.api_impl.clone(),
+            req,
+            self.multipart_form_size_limit,
+        ))
+    }
 }
 
 /// Request parser for `Api`.

@@ -844,9 +844,10 @@ public class ModelUtils {
      *         The value can be any type except the 'null' value.
      *
      * @param schema  potentially containing a '$ref'
+     * @param openAPI  document containing the Schema.
      * @return true if it's a free-form object
      */
-    public static boolean isFreeFormObject(Schema schema) {
+    public static boolean isFreeFormObject(Schema schema, OpenAPI openAPI) {
         if (schema == null) {
             // TODO: Is this message necessary? A null schema is not a free-form object, so the result is correct.
             once(LOGGER).error("Schema cannot be null in isFreeFormObject check");
@@ -905,6 +906,8 @@ public class ModelUtils {
                 if (addlProps == null) {
                     return true;
                 } else {
+                    addlProps = getReferencedSchema(openAPI, addlProps);
+
                     if (addlProps instanceof ObjectSchema) {
                         ObjectSchema objSchema = (ObjectSchema) addlProps;
                         // additionalProperties defined as {}

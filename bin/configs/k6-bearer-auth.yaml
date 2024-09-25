@@ -1,0 +1,4 @@
+generatorName: k6
+outputDir: samples/client/others/k6/bearerAuth
+inputSpec: modules/openapi-generator/src/test/resources/3_0/k6/bearer_auth.yaml
+templateDir: modules/openapi-generator/src/main/resources/k6

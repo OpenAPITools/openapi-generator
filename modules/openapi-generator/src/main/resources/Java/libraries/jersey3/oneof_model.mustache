@@ -112,7 +112,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     attemptParsing |= (token == JsonToken.VALUE_NUMBER_FLOAT);
                     {{/isDecimal}}
                     {{#isBoolean}}
-                    attemptParsing |= (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                    attemptParsing |= (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE);
                     {{/isBoolean}}
                     {{#isNullable}}
                     attemptParsing |= (token == JsonToken.VALUE_NULL);
