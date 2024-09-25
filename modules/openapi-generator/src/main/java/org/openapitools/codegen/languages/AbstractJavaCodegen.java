@@ -755,6 +755,72 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return objs;
     }
 
+    @Override
+    protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {
+        super.updateEnumVarsWithExtensions(enumVars, vendorExtensions, dataType);
+        if (vendorExtensions == null) {
+            return;
+        }
+
+        var xDeprecated = (List<Object>) vendorExtensions.get("x-deprecated");
+        if (xDeprecated != null && !xDeprecated.isEmpty()) {
+            for (var deprecatedItem : xDeprecated) {
+                Map<String, Object> foundEnumVar = null;
+                for (var enumVar : enumVars) {
+                    var isString = (boolean) enumVar.get("isString");
+                    var value = (String) enumVar.get("value");
+                    if (!isString) {
+                        if (value.startsWith("(short)")) {
+                            value = value.replace("(short) ", "");
+                        } else if (value.startsWith("(byte)")) {
+                            value = value.replace("(byte) ", "");
+                        }
+                        var argPos = value.indexOf('(');
+                        // case for BigDecimal
+                        if (argPos >= 0) {
+                            value = value.substring(argPos + 1, value.indexOf(')'));
+                        }
+                        var upperValue = value.toUpperCase();
+                        if (upperValue.endsWith("F")
+                            || upperValue.endsWith("L")
+                            || upperValue.endsWith("D")) {
+                            value = value.substring(0, value.length() - 1);
+                        }
+                        if (!value.contains("'")) {
+                            value = value.replace("'", "");
+                        }
+                        if (!value.contains("\"")) {
+                            value = "\"" + value + "\"";
+                        }
+                    }
+                    if (value.equals("\"" + deprecatedItem + '"')) {
+                        foundEnumVar = enumVar;
+                        break;
+                    }
+                }
+                if (foundEnumVar != null) {
+                    foundEnumVar.put("deprecated", true);
+                }
+            }
+        }
+
+        var baseType = (String) vendorExtensions.get("baseType");
+        for (var enumVar : enumVars) {
+            if ((boolean) enumVar.get("isString")) {
+                continue;
+            }
+            var value = (String) enumVar.get("value");
+            value = value.replace("\"", "");
+            if ("char".equals(baseType) && !value.startsWith("'")) {
+                enumVar.put("value", "'" + value + "'");
+            } else if ("short".equalsIgnoreCase(baseType) && !value.startsWith("(short)")) {
+                enumVar.put("value", "(short) " + value);
+            } else if ("byte".equalsIgnoreCase(baseType) && !value.startsWith("(byte)")) {
+                enumVar.put("value", "(byte) " + value);
+            }
+        }
+    }
+
     private List<CodegenModel> getParentModelList(CodegenModel codegenModel) {
         CodegenModel parentCodegenModel = codegenModel.parentModel;
         List<CodegenModel> parentModelList = new ArrayList<>();

@@ -23,6 +23,9 @@
     {{#withXml}}
     @XmlEnumValue({{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{#isLong}}"{{/isLong}}{{#isFloat}}"{{/isFloat}}{{{value}}}{{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{#isLong}}"{{/isLong}}{{#isFloat}}"{{/isFloat}})
     {{/withXml}}
+    {{#deprecated}}
+    @Deprecated
+    {{/deprecated}}
     {{{name}}}({{{value}}}){{^-last}},
     {{/-last}}{{#-last}};{{/-last}}
       {{/enumVars}}
