@@ -585,7 +585,7 @@ private class FormDataEncoding: ParameterEncoding {
     func mimeType(for url: URL) -> String {
         let pathExtension = url.pathExtension
 
-        if #available(iOS 15, macOS 11, *) {
+        if #available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *) {
             #if canImport(UniformTypeIdentifiers)
             if let utType = UTType(filenameExtension: pathExtension) {
                 return utType.preferredMIMEType ?? "application/octet-stream"

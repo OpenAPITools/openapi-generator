@@ -111,7 +111,7 @@ internal class Response<T> {
 }
 
 internal final class RequestTask {
-    private var lock = NSRecursiveLock()
+    private let lock = NSRecursiveLock()
     private var task: URLSessionDataTaskProtocol?
 
     internal func set(task: URLSessionDataTaskProtocol) {
