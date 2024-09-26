@@ -21,7 +21,6 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.dashize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-import java.lang.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
