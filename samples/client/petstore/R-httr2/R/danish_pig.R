@@ -17,15 +17,13 @@ DanishPig <- R6::R6Class(
   public = list(
     `className` = NULL,
     `size` = NULL,
-    #' Initialize a new DanishPig class.
-    #'
+
     #' @description
     #' Initialize a new DanishPig class.
     #'
     #' @param className className
     #' @param size size
     #' @param ... Other optional arguments.
-    #' @export
     initialize = function(`className`, `size`, ...) {
       if (!missing(`className`)) {
         if (!(is.character(`className`) && length(`className`) == 1)) {
@@ -40,13 +38,11 @@ DanishPig <- R6::R6Class(
         self$`size` <- `size`
       }
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return DanishPig in JSON format
-    #' @export
     toJSON = function() {
       DanishPigObject <- list()
       if (!is.null(self$`className`)) {
@@ -59,14 +55,12 @@ DanishPig <- R6::R6Class(
       }
       DanishPigObject
     },
-    #' Deserialize JSON string into an instance of DanishPig
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of DanishPig
     #'
     #' @param input_json the JSON input
     #' @return the instance of DanishPig
-    #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`className`)) {
@@ -77,13 +71,11 @@ DanishPig <- R6::R6Class(
       }
       self
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return DanishPig in JSON format
-    #' @export
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`className`)) {
@@ -106,27 +98,23 @@ DanishPig <- R6::R6Class(
       jsoncontent <- paste(jsoncontent, collapse = ",")
       json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
     },
-    #' Deserialize JSON string into an instance of DanishPig
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of DanishPig
     #'
     #' @param input_json the JSON input
     #' @return the instance of DanishPig
-    #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`className` <- this_object$`className`
       self$`size` <- this_object$`size`
       self
     },
-    #' Validate JSON input with respect to DanishPig
-    #'
+
     #' @description
     #' Validate JSON input with respect to DanishPig and throw an exception if invalid
     #'
     #' @param input the JSON input
-    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
       # check the required field `className`
@@ -146,23 +134,19 @@ DanishPig <- R6::R6Class(
         stop(paste("The JSON input `", input, "` is invalid for DanishPig: the required field `size` is missing."))
       }
     },
-    #' To string (JSON format)
-    #'
+
     #' @description
     #' To string (JSON format)
     #'
     #' @return String representation of DanishPig
-    #' @export
     toString = function() {
       self$toJSONString()
     },
-    #' Return true if the values in all fields are valid.
-    #'
+
     #' @description
     #' Return true if the values in all fields are valid.
     #'
     #' @return true if the values in all fields are valid.
-    #' @export
     isValid = function() {
       # check if the required `className` is null
       if (is.null(self$`className`)) {
@@ -176,13 +160,11 @@ DanishPig <- R6::R6Class(
 
       TRUE
     },
-    #' Return a list of invalid fields (if any).
-    #'
+
     #' @description
     #' Return a list of invalid fields (if any).
     #'
     #' @return A list of invalid fields (if any).
-    #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
       # check if the required `className` is null
@@ -197,12 +179,9 @@ DanishPig <- R6::R6Class(
 
       invalid_fields
     },
-    #' Print the object
-    #'
+
     #' @description
     #' Print the object
-    #'
-    #' @export
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)

@@ -19,8 +19,7 @@ ModelApiResponse <- R6::R6Class(
     `code` = NULL,
     `type` = NULL,
     `message` = NULL,
-    #' Initialize a new ModelApiResponse class.
-    #'
+
     #' @description
     #' Initialize a new ModelApiResponse class.
     #'
@@ -28,7 +27,6 @@ ModelApiResponse <- R6::R6Class(
     #' @param type type
     #' @param message message
     #' @param ... Other optional arguments.
-    #' @export
     initialize = function(`code` = NULL, `type` = NULL, `message` = NULL, ...) {
       if (!is.null(`code`)) {
         if (!(is.numeric(`code`) && length(`code`) == 1)) {
@@ -49,13 +47,11 @@ ModelApiResponse <- R6::R6Class(
         self$`message` <- `message`
       }
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return ModelApiResponse in JSON format
-    #' @export
     toJSON = function() {
       ModelApiResponseObject <- list()
       if (!is.null(self$`code`)) {
@@ -72,14 +68,12 @@ ModelApiResponse <- R6::R6Class(
       }
       ModelApiResponseObject
     },
-    #' Deserialize JSON string into an instance of ModelApiResponse
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of ModelApiResponse
     #'
     #' @param input_json the JSON input
     #' @return the instance of ModelApiResponse
-    #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`code`)) {
@@ -93,13 +87,11 @@ ModelApiResponse <- R6::R6Class(
       }
       self
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return ModelApiResponse in JSON format
-    #' @export
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`code`)) {
@@ -130,14 +122,12 @@ ModelApiResponse <- R6::R6Class(
       jsoncontent <- paste(jsoncontent, collapse = ",")
       json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
     },
-    #' Deserialize JSON string into an instance of ModelApiResponse
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of ModelApiResponse
     #'
     #' @param input_json the JSON input
     #' @return the instance of ModelApiResponse
-    #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`code` <- this_object$`code`
@@ -145,53 +135,42 @@ ModelApiResponse <- R6::R6Class(
       self$`message` <- this_object$`message`
       self
     },
-    #' Validate JSON input with respect to ModelApiResponse
-    #'
+
     #' @description
     #' Validate JSON input with respect to ModelApiResponse and throw an exception if invalid
     #'
     #' @param input the JSON input
-    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
     },
-    #' To string (JSON format)
-    #'
+
     #' @description
     #' To string (JSON format)
     #'
     #' @return String representation of ModelApiResponse
-    #' @export
     toString = function() {
       self$toJSONString()
     },
-    #' Return true if the values in all fields are valid.
-    #'
+
     #' @description
     #' Return true if the values in all fields are valid.
     #'
     #' @return true if the values in all fields are valid.
-    #' @export
     isValid = function() {
       TRUE
     },
-    #' Return a list of invalid fields (if any).
-    #'
+
     #' @description
     #' Return a list of invalid fields (if any).
     #'
     #' @return A list of invalid fields (if any).
-    #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
       invalid_fields
     },
-    #' Print the object
-    #'
+
     #' @description
     #' Print the object
-    #'
-    #' @export
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)
