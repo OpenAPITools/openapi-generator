@@ -1598,7 +1598,8 @@ public class ModelUtils {
         return getAllParentsName(composedSchema, allSchemas, includeAncestors, new HashSet<>());
     }
 
-    public static List<String> getAllParentsName(
+    // Use a set of seen names to avoid infinite recursion
+    private static List<String> getAllParentsName(
             Schema composedSchema, Map<String, Schema> allSchemas, boolean includeAncestors, Set<String> seenNames) {
         List<Schema> interfaces = getInterfaces(composedSchema);
         List<String> names = new ArrayList<String>();

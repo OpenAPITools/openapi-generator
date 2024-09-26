@@ -3575,30 +3575,24 @@ public class DefaultCodegen implements CodegenConfig {
         discriminator.getMappedModels().addAll(uniqueDescendants);
 
         // check current schema, all parents and descendants to see if the discriminator property is an enum string
-        List<Schema> schemasToCheckForEnumDiscriminator = new ArrayList<>();
-        schemasToCheckForEnumDiscriminator.add(schema);
-        if (ModelUtils.isComposedSchema(schema)) {
-            ModelUtils.getAllParentsName(schema, openAPI.getComponents().getSchemas(), true).stream()
-                    .map(n -> ModelUtils.getSchema(openAPI, n))
-                    .forEach(schemasToCheckForEnumDiscriminator::add);
-        }
-        uniqueDescendants.stream().map(MappedModel::getModelName)
-                .map(n->ModelUtils.getSchema(openAPI, n))
-                .forEach(schemasToCheckForEnumDiscriminator::add);
-        for (Schema schemaToCheck : schemasToCheckForEnumDiscriminator) {
-            if (schemaToCheck == null) {
-                continue;
-            }
-            boolean hasDiscriminatorEnum = Optional.ofNullable(schemaToCheck.getProperties())
-                    .map(p -> (Schema) p.get(discriminatorPropertyName))
-                    .map(s -> ModelUtils.getReferencedSchema(openAPI, s))
-                    .filter(s -> s instanceof StringSchema && s.getEnum() != null && !s.getEnum().isEmpty())
-                    .isPresent();
-            if (hasDiscriminatorEnum) {
-                discriminator.setIsEnum(true);
-                break;
-            }
-        }
+        Stream<Schema> schemasToCheckForEnumDiscriminator = Stream.concat(
+                Stream.of(schema),
+                Stream.concat(
+                        ModelUtils.isComposedSchema(schema)
+                                ? ModelUtils.getAllParentsName(schema, openAPI.getComponents().getSchemas(), true).stream()
+                                : Stream.of(),
+                        uniqueDescendants.stream().map(MappedModel::getModelName)
+                ).flatMap(s -> Optional.ofNullable(ModelUtils.getSchema(openAPI, s)).stream())
+        );
+
+        boolean isEnum = schemasToCheckForEnumDiscriminator.anyMatch(s -> Optional
+                .ofNullable(s.getProperties())
+                .map(p -> (Schema) p.get(discriminatorPropertyName))
+                .map(s1 -> ModelUtils.getReferencedSchema(openAPI, s1))
+                .filter(s1 -> s1 instanceof StringSchema && s1.getEnum() != null && !s1.getEnum().isEmpty())
+                .isPresent()
+        );
+        discriminator.setIsEnum(isEnum);
 
         return discriminator;
     }

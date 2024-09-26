@@ -2287,15 +2287,16 @@ public class JavaClientCodegenTest {
         assertNull(files.get("pom.xml"));
     }
 
-    @Test public void testEnumDiscriminatorDefaultValueIsNotString() throws IOException {
+    @Test
+    public void testEnumDiscriminatorDefaultValueIsNotString() {
         final Path output = newTempFolder();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec(
-            "src/test/resources/3_0/enum_discriminator_inheritance.yaml");
+                "src/test/resources/3_0/enum_discriminator_inheritance.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.setOutputDir(output.toString());
 
         Map<String, File> files = new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen))
-            .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
+                .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
 
         List<String> entities = List.of(
                 "Cat",
