@@ -16,11 +16,9 @@ jobs:
         os: [macos-latest]
         sample:
           - samples/client/petstore/swift5/alamofireLibrary
-          - samples/client/petstore/swift5/anycodableLibrary
           - samples/client/petstore/swift5/asyncAwaitLibrary
           - samples/client/petstore/swift5/combineLibrary
           - samples/client/petstore/swift5/default
-          - samples/client/petstore/swift5/deprecated
           - samples/client/petstore/swift5/objcCompatible
           - samples/client/petstore/swift5/oneOf
           - samples/client/petstore/swift5/promisekitLibrary

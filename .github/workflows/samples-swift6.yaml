@@ -16,13 +16,11 @@ jobs:
         os: [macos-latest]
         sample:
           - samples/client/petstore/swift6/alamofireLibrary
-          - samples/client/petstore/swift6/anycodableLibrary
           - samples/client/petstore/swift6/apiNonStaticMethod
           - samples/client/petstore/swift6/asyncAwaitLibrary
           - samples/client/petstore/swift6/combineDeferredLibrary
           - samples/client/petstore/swift6/combineLibrary
           - samples/client/petstore/swift6/default
-          - samples/client/petstore/swift6/deprecated
           - samples/client/petstore/swift6/objcCompatible
           - samples/client/petstore/swift6/oneOf
           - samples/client/petstore/swift6/promisekitLibrary
