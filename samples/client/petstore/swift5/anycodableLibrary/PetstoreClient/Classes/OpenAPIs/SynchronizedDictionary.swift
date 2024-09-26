@@ -13,14 +13,14 @@ internal struct SynchronizedDictionary<K: Hashable, V> {
 
     internal subscript(key: K) -> V? {
         get {
-            lock.withLock {
-                self.dictionary[key]
-            }
+            lock.lock()
+            defer { lock.unlock() }
+            return self.dictionary[key]
         }
         set {
-            lock.withLock {
-                self.dictionary[key] = newValue
-            }
+            lock.lock()
+            defer { lock.unlock() }
+            self.dictionary[key] = newValue
         }
     }
 }
