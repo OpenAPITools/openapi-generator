@@ -3,7 +3,6 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "noImplicitAny": false,
-        "suppressImplicitAnyIndexErrors": true,
         "target": "es5",
         "module": "commonjs",
         "moduleResolution": "node",

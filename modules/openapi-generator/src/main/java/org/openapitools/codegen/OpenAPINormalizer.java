@@ -20,6 +20,7 @@ package org.openapitools.codegen;
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.callbacks.Callback;
 import io.swagger.v3.oas.models.headers.Header;
+import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -283,8 +284,22 @@ public class OpenAPINormalizer {
             this.openAPI.getComponents().setSchemas(new HashMap<String, Schema>());
         }
 
+        normalizeInfo();
         normalizePaths();
         normalizeComponentsSchemas();
+    }
+
+    /**
+     * Pre-populate info if it's not defined.
+     */
+    private void normalizeInfo() {
+        if (this.openAPI.getInfo() == null) {
+            Info info = new Info();
+            info.setTitle("OpenAPI");
+            info.setVersion("0.0.1");
+            info.setDescription("OpenAPI");
+            this.openAPI.setInfo(info);
+        }
     }
 
     /**

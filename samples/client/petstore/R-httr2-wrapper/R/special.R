@@ -31,8 +31,7 @@ Special <- R6::R6Class(
     `empty_string` = NULL,
     `_field_list` = c("set_test", "item_self", "item_private", "item_super", "123_number", "array[test]", "empty_string"),
     `additional_properties` = list(),
-    #' Initialize a new Special class.
-    #'
+
     #' @description
     #' Initialize a new Special class.
     #'
@@ -45,7 +44,6 @@ Special <- R6::R6Class(
     #' @param empty_string empty_string
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
-    #' @export
     initialize = function(`set_test` = NULL, `item_self` = NULL, `item_private` = NULL, `item_super` = NULL, `123_number` = NULL, `array[test]` = NULL, `empty_string` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`set_test`)) {
         stopifnot(is.vector(`set_test`), length(`set_test`) != 0)
@@ -97,13 +95,11 @@ Special <- R6::R6Class(
         }
       }
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return Special in JSON format
-    #' @export
     toJSON = function() {
       SpecialObject <- list()
       if (!is.null(self$`set_test`)) {
@@ -140,14 +136,12 @@ Special <- R6::R6Class(
 
       SpecialObject
     },
-    #' Deserialize JSON string into an instance of Special
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of Special
     #'
     #' @param input_json the JSON input
     #' @return the instance of Special
-    #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`set_test`)) {
@@ -183,13 +177,11 @@ Special <- R6::R6Class(
 
       self
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return Special in JSON format
-    #' @export
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`set_test`)) {
@@ -257,14 +249,12 @@ Special <- R6::R6Class(
       }
       json_string <- as.character(jsonlite::minify(jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA)))
     },
-    #' Deserialize JSON string into an instance of Special
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of Special
     #'
     #' @param input_json the JSON input
     #' @return the instance of Special
-    #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`set_test` <- ApiClient$new()$deserializeObj(this_object$`set_test`, "set[character]", loadNamespace("petstore"))
@@ -286,55 +276,44 @@ Special <- R6::R6Class(
 
       self
     },
-    #' Validate JSON input with respect to Special
-    #'
+
     #' @description
     #' Validate JSON input with respect to Special and throw an exception if invalid
     #'
     #' @param input the JSON input
-    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
     },
-    #' To string (JSON format)
-    #'
+
     #' @description
     #' To string (JSON format)
     #'
     #' @return String representation of Special
-    #' @export
     toString = function() {
       self$toJSONString()
     },
-    #' Return true if the values in all fields are valid.
-    #'
+
     #' @description
     #' Return true if the values in all fields are valid.
     #'
     #' @return true if the values in all fields are valid.
-    #' @export
     isValid = function() {
 
       TRUE
     },
-    #' Return a list of invalid fields (if any).
-    #'
+
     #' @description
     #' Return a list of invalid fields (if any).
     #'
     #' @return A list of invalid fields (if any).
-    #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
 
       invalid_fields
     },
-    #' Print the object
-    #'
+
     #' @description
     #' Print the object
-    #'
-    #' @export
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)

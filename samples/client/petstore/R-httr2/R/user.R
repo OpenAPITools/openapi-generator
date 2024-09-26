@@ -29,8 +29,7 @@ User <- R6::R6Class(
     `password` = NULL,
     `phone` = NULL,
     `userStatus` = NULL,
-    #' Initialize a new User class.
-    #'
+
     #' @description
     #' Initialize a new User class.
     #'
@@ -43,7 +42,6 @@ User <- R6::R6Class(
     #' @param phone phone
     #' @param userStatus User Status
     #' @param ... Other optional arguments.
-    #' @export
     initialize = function(`id` = NULL, `username` = NULL, `firstName` = NULL, `lastName` = NULL, `email` = NULL, `password` = NULL, `phone` = NULL, `userStatus` = NULL, ...) {
       if (!is.null(`id`)) {
         if (!(is.numeric(`id`) && length(`id`) == 1)) {
@@ -94,13 +92,11 @@ User <- R6::R6Class(
         self$`userStatus` <- `userStatus`
       }
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return User in JSON format
-    #' @export
     toJSON = function() {
       UserObject <- list()
       if (!is.null(self$`id`)) {
@@ -137,14 +133,12 @@ User <- R6::R6Class(
       }
       UserObject
     },
-    #' Deserialize JSON string into an instance of User
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of User
     #'
     #' @param input_json the JSON input
     #' @return the instance of User
-    #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`id`)) {
@@ -173,13 +167,11 @@ User <- R6::R6Class(
       }
       self
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return User in JSON format
-    #' @export
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`id`)) {
@@ -250,14 +242,12 @@ User <- R6::R6Class(
       jsoncontent <- paste(jsoncontent, collapse = ",")
       json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
     },
-    #' Deserialize JSON string into an instance of User
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of User
     #'
     #' @param input_json the JSON input
     #' @return the instance of User
-    #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`id` <- this_object$`id`
@@ -270,53 +260,42 @@ User <- R6::R6Class(
       self$`userStatus` <- this_object$`userStatus`
       self
     },
-    #' Validate JSON input with respect to User
-    #'
+
     #' @description
     #' Validate JSON input with respect to User and throw an exception if invalid
     #'
     #' @param input the JSON input
-    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
     },
-    #' To string (JSON format)
-    #'
+
     #' @description
     #' To string (JSON format)
     #'
     #' @return String representation of User
-    #' @export
     toString = function() {
       self$toJSONString()
     },
-    #' Return true if the values in all fields are valid.
-    #'
+
     #' @description
     #' Return true if the values in all fields are valid.
     #'
     #' @return true if the values in all fields are valid.
-    #' @export
     isValid = function() {
       TRUE
     },
-    #' Return a list of invalid fields (if any).
-    #'
+
     #' @description
     #' Return a list of invalid fields (if any).
     #'
     #' @return A list of invalid fields (if any).
-    #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
       invalid_fields
     },
-    #' Print the object
-    #'
+
     #' @description
     #' Print the object
-    #'
-    #' @export
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)

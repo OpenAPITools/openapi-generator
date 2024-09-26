@@ -134,7 +134,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         if (ModelUtils.isMapSchema(p)) {
             String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "Map[String, " + inner + "]() ";
-        } else if (ModelUtils.isFreeFormObject(p)) {
+        } else if (ModelUtils.isFreeFormObject(p, openAPI)) {
             // We're opinionated in this template to use ujson
             return "ujson.Null";
         }
@@ -143,7 +143,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
     @Override
     public String getSchemaType(Schema p) {
-        if (ModelUtils.isFreeFormObject(p)) {
+        if (ModelUtils.isFreeFormObject(p, openAPI)) {
             // We're opinionated in this template to use ujson
             return "Value";
         }
@@ -829,7 +829,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         CodegenProperty property = super.fromProperty(name, schema);
 
         // Customize type for freeform objects
-        if (ModelUtils.isFreeFormObject(schema)) {
+        if (ModelUtils.isFreeFormObject(schema, openAPI)) {
             property.dataType = "Value";
             property.baseType = "Value";
         }
@@ -839,7 +839,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
     @Override
     public String getTypeDeclaration(Schema schema) {
-        if (ModelUtils.isFreeFormObject(schema)) {
+        if (ModelUtils.isFreeFormObject(schema, openAPI)) {
             return "Value";
         }
         return super.getTypeDeclaration(schema);

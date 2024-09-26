@@ -89,6 +89,7 @@ To run a client, follow one of the following simple steps:
 cargo run --example client AnyOfGet
 cargo run --example client CallbackWithHeaderPost
 cargo run --example client ComplexQueryParamGet
+cargo run --example client FormTest
 cargo run --example client GetWithBooleanParameter
 cargo run --example client JsonComplexQueryParamGet
 cargo run --example client MandatoryRequestHeaderGet
@@ -152,6 +153,7 @@ Method | HTTP request | Description
 [****](docs/default_api.md#) | **GET** /any-of | 
 [****](docs/default_api.md#) | **POST** /callback-with-header | 
 [****](docs/default_api.md#) | **GET** /complex-query-param | 
+[**FormTest**](docs/default_api.md#FormTest) | **POST** /form-test | Test a Form Post
 [**GetWithBooleanParameter**](docs/default_api.md#GetWithBooleanParameter) | **GET** /get-with-bool | 
 [****](docs/default_api.md#) | **GET** /json-complex-query-param | 
 [****](docs/default_api.md#) | **GET** /mandatory-request-header | 
@@ -182,7 +184,9 @@ Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [AdditionalPropertiesReferencedAnyOfObject](docs/AdditionalPropertiesReferencedAnyOfObject.md)
  - [AdditionalPropertiesWithList](docs/AdditionalPropertiesWithList.md)
+ - [AdditionalPropertiesWithNullable](docs/AdditionalPropertiesWithNullable.md)
  - [AnotherXmlArray](docs/AnotherXmlArray.md)
  - [AnotherXmlInner](docs/AnotherXmlInner.md)
  - [AnotherXmlObject](docs/AnotherXmlObject.md)
@@ -200,6 +204,7 @@ Method | HTTP request | Description
  - [MultigetGet201Response](docs/MultigetGet201Response.md)
  - [MyId](docs/MyId.md)
  - [MyIdList](docs/MyIdList.md)
+ - [NullableObject](docs/NullableObject.md)
  - [NullableTest](docs/NullableTest.md)
  - [ObjectHeader](docs/ObjectHeader.md)
  - [ObjectParam](docs/ObjectParam.md)

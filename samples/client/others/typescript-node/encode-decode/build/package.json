@@ -1,0 +1,28 @@
+{
+    "name": "@openapitools/typescript-node-encode-decode",
+    "version": "1.0.0",
+    "description": "NodeJS client for @openapitools/typescript-node-encode-decode",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/GIT_USER_ID/GIT_REPO_ID.git"
+    },
+    "main": "dist/api.js",
+    "types": "dist/api.d.ts",
+    "scripts": {
+        "clean": "rm -Rf node_modules/ *.js",
+        "build": "tsc",
+        "test": "npm run build && node dist/client.js"
+    },
+    "author": "OpenAPI-Generator Contributors",
+    "license": "Unlicense",
+    "dependencies": {
+        "bluebird": "^3.7.2",
+        "request": "^2.88.2"
+    },
+    "devDependencies": {
+        "@types/bluebird": "^3.5.33",
+        "@types/node": "^12",
+        "@types/request": "^2.48.8",
+        "typescript": "^4.0 || ^5.0"
+    }
+}

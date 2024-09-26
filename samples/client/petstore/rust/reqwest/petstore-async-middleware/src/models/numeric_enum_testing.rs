@@ -24,14 +24,14 @@ pub enum NumericEnumTesting {
 
 }
 
-impl ToString for NumericEnumTesting {
-    fn to_string(&self) -> String {
-        match self {
-            Self::Variant0 => String::from("0"),
-            Self::Variant1 => String::from("1"),
-            Self::Variant2 => String::from("2"),
-            Self::Variant3 => String::from("3"),
-        }
+impl std::fmt::Display for NumericEnumTesting {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", match self {
+            Self::Variant0 => "0",
+            Self::Variant1 => "1",
+            Self::Variant2 => "2",
+            Self::Variant3 => "3",
+        })
     }
 }
 impl Default for NumericEnumTesting {
