@@ -29,8 +29,7 @@ Order <- R6::R6Class(
     `complete` = NULL,
     `_field_list` = c("id", "petId", "quantity", "shipDate", "status", "complete"),
     `additional_properties` = list(),
-    #' Initialize a new Order class.
-    #'
+
     #' @description
     #' Initialize a new Order class.
     #'
@@ -42,7 +41,6 @@ Order <- R6::R6Class(
     #' @param complete complete. Default to FALSE.
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
-    #' @export
     initialize = function(`id` = NULL, `petId` = NULL, `quantity` = NULL, `shipDate` = NULL, `status` = NULL, `complete` = FALSE, additional_properties = NULL, ...) {
       if (!is.null(`id`)) {
         if (!(is.numeric(`id`) && length(`id`) == 1)) {
@@ -89,13 +87,11 @@ Order <- R6::R6Class(
         }
       }
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return Order in JSON format
-    #' @export
     toJSON = function() {
       OrderObject <- list()
       if (!is.null(self$`id`)) {
@@ -128,14 +124,12 @@ Order <- R6::R6Class(
 
       OrderObject
     },
-    #' Deserialize JSON string into an instance of Order
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of Order
     #'
     #' @param input_json the JSON input
     #' @return the instance of Order
-    #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`id`)) {
@@ -168,13 +162,11 @@ Order <- R6::R6Class(
 
       self
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return Order in JSON format
-    #' @export
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`id`)) {
@@ -234,14 +226,12 @@ Order <- R6::R6Class(
       }
       json_string <- as.character(jsonlite::minify(jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA)))
     },
-    #' Deserialize JSON string into an instance of Order
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of Order
     #'
     #' @param input_json the JSON input
     #' @return the instance of Order
-    #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`id` <- this_object$`id`
@@ -262,53 +252,42 @@ Order <- R6::R6Class(
 
       self
     },
-    #' Validate JSON input with respect to Order
-    #'
+
     #' @description
     #' Validate JSON input with respect to Order and throw an exception if invalid
     #'
     #' @param input the JSON input
-    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
     },
-    #' To string (JSON format)
-    #'
+
     #' @description
     #' To string (JSON format)
     #'
     #' @return String representation of Order
-    #' @export
     toString = function() {
       self$toJSONString()
     },
-    #' Return true if the values in all fields are valid.
-    #'
+
     #' @description
     #' Return true if the values in all fields are valid.
     #'
     #' @return true if the values in all fields are valid.
-    #' @export
     isValid = function() {
       TRUE
     },
-    #' Return a list of invalid fields (if any).
-    #'
+
     #' @description
     #' Return a list of invalid fields (if any).
     #'
     #' @return A list of invalid fields (if any).
-    #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
       invalid_fields
     },
-    #' Print the object
-    #'
+
     #' @description
     #' Print the object
-    #'
-    #' @export
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)

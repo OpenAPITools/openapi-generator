@@ -17,15 +17,13 @@ Query <- R6::R6Class(
   public = list(
     `id` = NULL,
     `outcomes` = NULL,
-    #' Initialize a new Query class.
-    #'
+
     #' @description
     #' Initialize a new Query class.
     #'
     #' @param id Query
     #' @param outcomes outcomes. Default to ["SUCCESS","FAILURE"].
     #' @param ... Other optional arguments.
-    #' @export
     initialize = function(`id` = NULL, `outcomes` = ["SUCCESS","FAILURE"], ...) {
       if (!is.null(`id`)) {
         if (!(is.numeric(`id`) && length(`id`) == 1)) {
@@ -39,13 +37,11 @@ Query <- R6::R6Class(
         self$`outcomes` <- `outcomes`
       }
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return Query in JSON format
-    #' @export
     toJSON = function() {
       QueryObject <- list()
       if (!is.null(self$`id`)) {
@@ -58,14 +54,12 @@ Query <- R6::R6Class(
       }
       QueryObject
     },
-    #' Deserialize JSON string into an instance of Query
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of Query
     #'
     #' @param input_json the JSON input
     #' @return the instance of Query
-    #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`id`)) {
@@ -76,13 +70,11 @@ Query <- R6::R6Class(
       }
       self
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return Query in JSON format
-    #' @export
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`id`)) {
@@ -105,67 +97,54 @@ Query <- R6::R6Class(
       jsoncontent <- paste(jsoncontent, collapse = ",")
       json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
     },
-    #' Deserialize JSON string into an instance of Query
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of Query
     #'
     #' @param input_json the JSON input
     #' @return the instance of Query
-    #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`id` <- this_object$`id`
       self$`outcomes` <- ApiClient$new()$deserializeObj(this_object$`outcomes`, "array[character]", loadNamespace("openapi"))
       self
     },
-    #' Validate JSON input with respect to Query
-    #'
+
     #' @description
     #' Validate JSON input with respect to Query and throw an exception if invalid
     #'
     #' @param input the JSON input
-    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
     },
-    #' To string (JSON format)
-    #'
+
     #' @description
     #' To string (JSON format)
     #'
     #' @return String representation of Query
-    #' @export
     toString = function() {
       self$toJSONString()
     },
-    #' Return true if the values in all fields are valid.
-    #'
+
     #' @description
     #' Return true if the values in all fields are valid.
     #'
     #' @return true if the values in all fields are valid.
-    #' @export
     isValid = function() {
       TRUE
     },
-    #' Return a list of invalid fields (if any).
-    #'
+
     #' @description
     #' Return a list of invalid fields (if any).
     #'
     #' @return A list of invalid fields (if any).
-    #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
       invalid_fields
     },
-    #' Print the object
-    #'
+
     #' @description
     #' Print the object
-    #'
-    #' @export
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)
