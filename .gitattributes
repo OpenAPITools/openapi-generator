@@ -1,3 +1,3 @@
 **/*.mustache linguist-vendored=true
 * text=auto eol=lf
-.gitattributes.mustache linguist-language=gitattributes
+modules/openapi-generator/src/main/resources/typescript/.gitattributes.mustache linguist-language=gitattributes
