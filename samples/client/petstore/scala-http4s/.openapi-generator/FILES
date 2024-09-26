@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 build.sbt
 project/build.properties
 src/main/scala/org/openapitools/client/apis/BaseClient.scala

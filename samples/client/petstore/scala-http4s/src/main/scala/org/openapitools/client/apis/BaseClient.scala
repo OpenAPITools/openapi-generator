@@ -27,7 +27,7 @@ abstract class BaseClient[F[*]: Concurrent](
     httpClient: Http4sClient[F]
 ) {
 
-  val ApiVersion: String = ""
+  val ApiVersion: String = "1.0.0"
 
   private lazy val defaultApiHeaders = Seq(
     ("X-Apidoc-Version", ApiVersion)

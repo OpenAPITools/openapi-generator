@@ -39,7 +39,7 @@ import java.util.regex.Pattern;
 public class ScalaHttp4sClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaHttp4sClientCodegen.class);
 
-    private String mainPackage = "org.openapitools.client";
+    protected String packageName = "org.openapitools.client";
     protected String groupId = "org.openapitools";
     protected String artifactId = "scala-http4s-client";
     protected String artifactVersion = "1.0.0";
@@ -52,7 +52,6 @@ public class ScalaHttp4sClientCodegen extends AbstractScalaCodegen implements Co
     protected static final String EXCLUDE_SBT = "excludeSbt";
     protected static final String EXCLUDE_API = "excludeApi";
     protected String sourceFolder = "src" + File.separator + "main" + File.separator + "scala";
-    protected String projectName = artifactId;
 
     @Override
     public CodegenType getTag() {
@@ -104,8 +103,8 @@ public class ScalaHttp4sClientCodegen extends AbstractScalaCodegen implements Co
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
 
-        setApiPackage(mainPackage+ ".apis");
-        setModelPackage(mainPackage + ".models");
+        setApiPackage(packageName + ".apis");
+        setModelPackage(packageName + ".models");
 
         setReservedWordsLowerCase(
                 Arrays.asList(
@@ -188,9 +187,11 @@ public class ScalaHttp4sClientCodegen extends AbstractScalaCodegen implements Co
         typeMapping.put("OffsetDateTime", "OffsetDateTime");
         typeMapping.put("uuid", "UUID");
 
+        additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
+        additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
+        additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
         additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage());
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage());
-        additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
         additionalProperties.put("infoUrl", "http://org.openapitools");
         additionalProperties.put("infoEmail", "team@openapitools.org");
         additionalProperties.put("licenseInfo", "Apache 2.0");
@@ -246,20 +247,20 @@ public class ScalaHttp4sClientCodegen extends AbstractScalaCodegen implements Co
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
-            mainPackage = (String) additionalProperties.get(CodegenConstants.PACKAGE_NAME);
-            setApiPackage(mainPackage + ".apis");
-            setModelPackage(mainPackage + ".models");
+            packageName = (String) additionalProperties.get(CodegenConstants.PACKAGE_NAME);
+            setApiPackage(packageName + ".apis");
+            setModelPackage(packageName + ".models");
             additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage());
             additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage());
         } else {
-            additionalProperties.put(CodegenConstants.PACKAGE_NAME, mainPackage);
+            additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         }
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
             //you can set your own source folder, i.e. target/scala-3.3.3/src_managed/main
             this.sourceFolder = (String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER);
         }
-        if (additionalProperties.containsKey(CodegenConstants.PROJECT_NAME)) {
-            this.projectName = (String) additionalProperties.get(CodegenConstants.PROJECT_NAME);
+        if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_ID)) {
+            this.artifactId = (String) additionalProperties.get(CodegenConstants.ARTIFACT_ID);
         }
 
         additionalProperties.put("fnEnumEntry", new EnumEntryLambda());

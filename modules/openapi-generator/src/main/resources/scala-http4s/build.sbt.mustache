@@ -1,5 +1,9 @@
 scalaVersion := "3.3.3"
 
+version := "{{artifactVersion}}"
+name := "{{artifactId}}"
+organization := "{{groupId}}"
+
 val CirceVersion   = "0.14.9"
 val Http4sVersion  = "0.23.26"
 
@@ -27,9 +31,4 @@ scalacOptions := Seq(
   "-source:future"
 )
 
-lazy val root = project
-  .in(file("."))
-  .settings(
-    name := "{{projectName}}",
-    publishArtifact := false
-  )
+Compile / publishArtifact := false

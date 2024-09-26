@@ -1,5 +1,9 @@
 scalaVersion := "3.3.3"
 
+version := "1.0.0"
+name := "scala-http4s-client"
+organization := "org.openapitools"
+
 val CirceVersion   = "0.14.9"
 val Http4sVersion  = "0.23.26"
 
@@ -27,9 +31,4 @@ scalacOptions := Seq(
   "-source:future"
 )
 
-lazy val root = project
-  .in(file("."))
-  .settings(
-    name := "scala-http4s-client",
-    publishArtifact := false
-  )
+Compile / publishArtifact := false

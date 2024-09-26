@@ -7,7 +7,7 @@ import java.io.File;
 import java.util.Map;
 
 public class ScalaHttp4sClientCodegenOptionsProvider implements OptionsProvider {
-    public static final String PROJECT_NAME_VALUE = "OpenAPI";
+    public static final String ARTIFACT_ID_VALUE = "scala-http4s-client";
     public static final String PACKAGE_NAME_VALUE = "org.openapitools.client";
     public static final String MODEL_PACKAGE_VALUE = PACKAGE_NAME_VALUE + ".models";
     public static final String API_PACKAGE_VALUE = PACKAGE_NAME_VALUE + ".apis";
@@ -29,7 +29,7 @@ public class ScalaHttp4sClientCodegenOptionsProvider implements OptionsProvider 
     public Map<String, String> createOptions() {
         ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
         return builder
-                .put(CodegenConstants.PROJECT_NAME, PROJECT_NAME_VALUE)
+                .put(CodegenConstants.ARTIFACT_ID, ARTIFACT_ID_VALUE)
                 .put(CodegenConstants.PACKAGE_NAME, PACKAGE_NAME_VALUE)
                 .put(CodegenConstants.MODEL_PACKAGE, MODEL_PACKAGE_VALUE)
                 .put(CodegenConstants.API_PACKAGE, API_PACKAGE_VALUE)
