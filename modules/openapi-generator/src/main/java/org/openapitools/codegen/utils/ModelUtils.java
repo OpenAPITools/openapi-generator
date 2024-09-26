@@ -63,6 +63,7 @@ public class ModelUtils {
 
     private static final String URI_FORMAT = "uri";
 
+    // These types are for 3.0.x only; 3.1 also has a `null` type as well
     private static final Set<String> OPENAPI_TYPES = Set.of("array", "integer", "number", "boolean", "string", "object");
 
     private static final String generateAliasAsModelKey = "generateAliasAsModel";
