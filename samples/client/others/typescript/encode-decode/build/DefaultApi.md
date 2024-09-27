@@ -46,17 +46,15 @@ Method | HTTP request | Description
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:any = {};
+const request = {};
 
-apiInstance.testDecodeArrayOfArraysGet(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testDecodeArrayOfArraysGet(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -93,17 +91,15 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:any = {};
+const request = {};
 
-apiInstance.testDecodeArrayOfGet(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testDecodeArrayOfGet(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -140,17 +136,15 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:any = {};
+const request = {};
 
-apiInstance.testDecodeArrayOfMapsOfObjectsGet(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testDecodeArrayOfMapsOfObjectsGet(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -187,17 +181,15 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:any = {};
+const request = {};
 
-apiInstance.testDecodeArrayOfNullableGet(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testDecodeArrayOfNullableGet(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -234,17 +226,15 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:any = {};
+const request = {};
 
-apiInstance.testDecodeArrayOfNullableObjectsGet(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testDecodeArrayOfNullableObjectsGet(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -281,17 +271,15 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:any = {};
+const request = {};
 
-apiInstance.testDecodeCompositeObjectsGet(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testDecodeCompositeObjectsGet(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -328,17 +316,15 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:any = {};
+const request = {};
 
-apiInstance.testDecodeMapOfMapsOfObjectsGet(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testDecodeMapOfMapsOfObjectsGet(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -375,17 +361,15 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:any = {};
+const request = {};
 
-apiInstance.testDecodeMapOfObjectsGet(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testDecodeMapOfObjectsGet(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -422,17 +406,15 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:any = {};
+const request = {};
 
-apiInstance.testDecodeMapOfPrimitiveGet(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testDecodeMapOfPrimitiveGet(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -469,17 +451,15 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:any = {};
+const request = {};
 
-apiInstance.testDecodeNullableArrayGet(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testDecodeNullableArrayGet(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -516,17 +496,15 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:any = {};
+const request = {};
 
-apiInstance.testDecodeNullableGet(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testDecodeNullableGet(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -563,17 +541,15 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:any = {};
+const request = {};
 
-apiInstance.testDecodeObjectGet(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testDecodeObjectGet(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -610,17 +586,15 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:any = {};
+const request = {};
 
-apiInstance.testDecodePrimitiveBooleanGet(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testDecodePrimitiveBooleanGet(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -657,17 +631,15 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:any = {};
+const request = {};
 
-apiInstance.testDecodePrimitiveIntegerGet(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testDecodePrimitiveIntegerGet(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -704,17 +676,15 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:any = {};
+const request = {};
 
-apiInstance.testDecodePrimitiveNumberGet(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testDecodePrimitiveNumberGet(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -751,17 +721,15 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:any = {};
+const request = {};
 
-apiInstance.testDecodePrimitiveStringGet(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testDecodePrimitiveStringGet(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -798,14 +766,14 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
+import type { DefaultApiTestEncodeArrayOfArraysPostRequest } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:.DefaultApiTestEncodeArrayOfArraysPostRequest = {
-  // Array<Array<string>>
+const request: DefaultApiTestEncodeArrayOfArraysPostRequest = {
+  
   requestBody: [
     [
       "string_example",
@@ -813,9 +781,8 @@ let body:.DefaultApiTestEncodeArrayOfArraysPostRequest = {
   ],
 };
 
-apiInstance.testEncodeArrayOfArraysPost(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testEncodeArrayOfArraysPost(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -855,14 +822,14 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
+import type { DefaultApiTestEncodeArrayOfMapsOfObjectsPostRequest } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:.DefaultApiTestEncodeArrayOfMapsOfObjectsPostRequest = {
-  // Array<{ [key: string]: ComplexObject; }>
+const request: DefaultApiTestEncodeArrayOfMapsOfObjectsPostRequest = {
+  
   complexObject: [
     {
       "key": {
@@ -875,9 +842,8 @@ let body:.DefaultApiTestEncodeArrayOfMapsOfObjectsPostRequest = {
   ],
 };
 
-apiInstance.testEncodeArrayOfMapsOfObjectsPost(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testEncodeArrayOfMapsOfObjectsPost(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -917,14 +883,14 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
+import type { DefaultApiTestEncodeArrayOfNullableObjectsPostRequest } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:.DefaultApiTestEncodeArrayOfNullableObjectsPostRequest = {
-  // Array<ComplexObject>
+const request: DefaultApiTestEncodeArrayOfNullableObjectsPostRequest = {
+  
   complexObject: [
     {
       requiredProperty: "requiredProperty_example",
@@ -935,9 +901,8 @@ let body:.DefaultApiTestEncodeArrayOfNullableObjectsPostRequest = {
   ],
 };
 
-apiInstance.testEncodeArrayOfNullableObjectsPost(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testEncodeArrayOfNullableObjectsPost(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -977,22 +942,21 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
+import type { DefaultApiTestEncodeArrayOfNullablePostRequest } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:.DefaultApiTestEncodeArrayOfNullablePostRequest = {
-  // Array<string | null>
+const request: DefaultApiTestEncodeArrayOfNullablePostRequest = {
+  
   requestBody: [
     "requestBody_example",
   ],
 };
 
-apiInstance.testEncodeArrayOfNullablePost(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testEncodeArrayOfNullablePost(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -1032,22 +996,21 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
+import type { DefaultApiTestEncodeArrayOfPostRequest } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:.DefaultApiTestEncodeArrayOfPostRequest = {
-  // Array<string>
+const request: DefaultApiTestEncodeArrayOfPostRequest = {
+  
   requestBody: [
     "requestBody_example",
   ],
 };
 
-apiInstance.testEncodeArrayOfPost(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testEncodeArrayOfPost(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -1087,14 +1050,14 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
+import type { DefaultApiTestEncodeCompositeObjectsPostRequest } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:.DefaultApiTestEncodeCompositeObjectsPostRequest = {
-  // CompositeObject
+const request: DefaultApiTestEncodeCompositeObjectsPostRequest = {
+  
   compositeObject: {
     optionalNullableInnerObject: {
       requiredProperty: "requiredProperty_example",
@@ -1105,9 +1068,8 @@ let body:.DefaultApiTestEncodeCompositeObjectsPostRequest = {
   },
 };
 
-apiInstance.testEncodeCompositeObjectsPost(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testEncodeCompositeObjectsPost(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -1147,14 +1109,14 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
+import type { DefaultApiTestEncodeMapOfMapsOfObjectsPostRequest } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:.DefaultApiTestEncodeMapOfMapsOfObjectsPostRequest = {
-  // { [key: string]: { [key: string]: ComplexObject; }; }
+const request: DefaultApiTestEncodeMapOfMapsOfObjectsPostRequest = {
+  
   requestBody: {
     "key": 
       key: {
@@ -1167,9 +1129,8 @@ let body:.DefaultApiTestEncodeMapOfMapsOfObjectsPostRequest = {
   },
 };
 
-apiInstance.testEncodeMapOfMapsOfObjectsPost(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testEncodeMapOfMapsOfObjectsPost(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -1209,14 +1170,14 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
+import type { DefaultApiTestEncodeMapOfObjectsPostRequest } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:.DefaultApiTestEncodeMapOfObjectsPostRequest = {
-  // { [key: string]: ComplexObject | null; }
+const request: DefaultApiTestEncodeMapOfObjectsPostRequest = {
+  
   requestBody: {
     "key": {
       requiredProperty: "requiredProperty_example",
@@ -1227,9 +1188,8 @@ let body:.DefaultApiTestEncodeMapOfObjectsPostRequest = {
   },
 };
 
-apiInstance.testEncodeMapOfObjectsPost(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testEncodeMapOfObjectsPost(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -1269,22 +1229,21 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
+import type { DefaultApiTestEncodeMapOfPrimitivePostRequest } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:.DefaultApiTestEncodeMapOfPrimitivePostRequest = {
-  // { [key: string]: string; }
+const request: DefaultApiTestEncodeMapOfPrimitivePostRequest = {
+  
   requestBody: {
     "key": "key_example",
   },
 };
 
-apiInstance.testEncodeMapOfPrimitivePost(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testEncodeMapOfPrimitivePost(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -1324,22 +1283,21 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
+import type { DefaultApiTestEncodeNullableArrayPostRequest } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:.DefaultApiTestEncodeNullableArrayPostRequest = {
-  // Array<string> (optional)
+const request: DefaultApiTestEncodeNullableArrayPostRequest = {
+  
   requestBody: [
     "requestBody_example",
   ],
 };
 
-apiInstance.testEncodeNullableArrayPost(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testEncodeNullableArrayPost(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -1379,20 +1337,19 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
+import type { DefaultApiTestEncodeNullablePostRequest } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:.DefaultApiTestEncodeNullablePostRequest = {
-  // string (optional)
+const request: DefaultApiTestEncodeNullablePostRequest = {
+  
   body: "body_example",
 };
 
-apiInstance.testEncodeNullablePost(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testEncodeNullablePost(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -1432,14 +1389,14 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
+import type { DefaultApiTestEncodeObjectPostRequest } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:.DefaultApiTestEncodeObjectPostRequest = {
-  // ComplexObject
+const request: DefaultApiTestEncodeObjectPostRequest = {
+  
   complexObject: {
     requiredProperty: "requiredProperty_example",
     requiredNullableProperty: "requiredNullableProperty_example",
@@ -1448,9 +1405,8 @@ let body:.DefaultApiTestEncodeObjectPostRequest = {
   },
 };
 
-apiInstance.testEncodeObjectPost(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testEncodeObjectPost(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -1490,20 +1446,19 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
+import type { DefaultApiTestEncodePrimitiveBooleanPostRequest } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:.DefaultApiTestEncodePrimitiveBooleanPostRequest = {
-  // boolean
+const request: DefaultApiTestEncodePrimitiveBooleanPostRequest = {
+  
   body: true,
 };
 
-apiInstance.testEncodePrimitiveBooleanPost(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testEncodePrimitiveBooleanPost(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -1543,20 +1498,19 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
+import type { DefaultApiTestEncodePrimitiveIntegerPostRequest } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:.DefaultApiTestEncodePrimitiveIntegerPostRequest = {
-  // number
+const request: DefaultApiTestEncodePrimitiveIntegerPostRequest = {
+  
   body: 1,
 };
 
-apiInstance.testEncodePrimitiveIntegerPost(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testEncodePrimitiveIntegerPost(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -1596,20 +1550,19 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
+import type { DefaultApiTestEncodePrimitiveNumberPostRequest } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:.DefaultApiTestEncodePrimitiveNumberPostRequest = {
-  // number
+const request: DefaultApiTestEncodePrimitiveNumberPostRequest = {
+  
   body: 3.14,
 };
 
-apiInstance.testEncodePrimitiveNumberPost(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testEncodePrimitiveNumberPost(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -1649,20 +1602,19 @@ No authorization required
 
 
 ```typescript
-import {  } from '';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from '';
+import type { DefaultApiTestEncodePrimitiveStringPostRequest } from '';
 
-const configuration = .createConfiguration();
-const apiInstance = new .DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:.DefaultApiTestEncodePrimitiveStringPostRequest = {
-  // string
+const request: DefaultApiTestEncodePrimitiveStringPostRequest = {
+  
   body: "body_example",
 };
 
-apiInstance.testEncodePrimitiveStringPost(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testEncodePrimitiveStringPost(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
