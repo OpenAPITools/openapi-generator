@@ -26,7 +26,8 @@ class {{classname}} {{#parent}}{{^parentModel}}{{#vendorExtensions.x-is-array}}e
      * Only for internal use.
      */{{/emitJSDoc}}
     static initialize(obj{{#vendorExtensions.x-all-required}}, {{name}}{{/vendorExtensions.x-all-required}}) { {{#vars}}{{#required}}
-        {{#defaultValue}}obj['{{baseName}}'] = {{name}} || {{{defaultValue}}};{{/defaultValue}}{{^defaultValue}}obj['{{baseName}}'] = {{name}};{{/defaultValue}}{{/required}}{{/vars}}
+        {{#defaultValue}}obj['{{baseName}}'] = {{name}} || {{{defaultValue}}};{{/defaultValue}}{{^defaultValue}}obj['{{baseName}}'] = {{name}};{{/defaultValue}}{{/required}}{{#defaultValue}}{{^required}}
+        obj['{{baseName}}'] = {{{defaultValue}}};{{/required}}{{/defaultValue}}{{/vars}}
     }
 
     {{#emitJSDoc}}/**
