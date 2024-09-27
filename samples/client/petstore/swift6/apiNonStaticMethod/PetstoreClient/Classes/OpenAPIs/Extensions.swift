@@ -231,8 +231,8 @@ extension KeyedDecodingContainerProtocol {
 }
 
 extension HTTPURLResponse {
-    func isStatusCodeSuccessful(client: OpenAPIClient) -> Bool {
-        return client.successfulStatusCodeRange.contains(statusCode)
+    func isStatusCodeSuccessful(successfulStatusCodeRange: Range<Int>) -> Bool {
+        return successfulStatusCodeRange.contains(statusCode)
     }
 }
 
