@@ -81,6 +81,15 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     val generatorName = project.objects.property<String>()
 
     /**
+     * This is the configuration for reference paths where schemas for openapi generation are stored
+     * The directory which contains the additional schema files
+     */
+    @Optional
+    @InputDirectory
+    @PathSensitive(PathSensitivity.ABSOLUTE)
+    val schemaLocation = project.objects.property<String>()
+
+    /**
      * The output target directory into which code will be generated.
      */
     @Optional
