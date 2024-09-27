@@ -7,12 +7,13 @@
 import Foundation
 import Alamofire
 
-class AlamofireRequestBuilderFactory: RequestBuilderFactory {
-    func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
+public class AlamofireRequestBuilderFactory: RequestBuilderFactory {
+    public init() {}
+    public func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
         return AlamofireRequestBuilder<T>.self
     }
 
-    func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type {
+    public func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type {
         return AlamofireDecodableRequestBuilder<T>.self
     }
 }
@@ -26,10 +27,10 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
 }
 
 open class AlamofireRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
-    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool) {
-        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication)
+    required public init(method: String, URLString: String, parameters: [String : Any]?, headers: [String : String] = [:], requiresAuthentication: Bool, client: OpenAPIClient = OpenAPIClient.shared) {
+        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication, client: client)
     }
-
+    
     /**
      May be overridden by a subclass if you want to control the session
      configuration.
@@ -84,7 +85,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
     }
 
     @discardableResult
-    override open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+    override open func execute(completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         let managerId = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let manager = createAlamofireSession()
@@ -138,7 +139,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
 
                 requestTask.set(request: upload)
 
-                self.processRequest(request: upload, managerId, apiResponseQueue, completion)
+                self.processRequest(request: upload, managerId, completion)
             } else if contentType.hasPrefix("application/x-www-form-urlencoded") {
                 encoding = URLEncoding(destination: .httpBody)
             } else {
@@ -154,14 +155,14 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
             if let onProgressReady = self.onProgressReady {
                 onProgressReady(request.uploadProgress)
             }
-            processRequest(request: request, managerId, apiResponseQueue, completion)
+            processRequest(request: request, managerId, completion)
             requestTask.set(request: request)
         }
 
         return requestTask
     }
 
-    fileprivate func processRequest(request: DataRequest, _ managerId: String, _ apiResponseQueue: DispatchQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
+    fileprivate func processRequest(request: DataRequest, _ managerId: String, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
         if let credential = self.credential {
             request.authenticate(with: credential)
         }
@@ -170,12 +171,12 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
             AlamofireRequestBuilderConfiguration.shared.managerStore[managerId] = nil
         }
 
-        let validatedRequest = request.validate(statusCode: PetstoreClientAPI.shared.successfulStatusCodeRange)
+        let validatedRequest = request.validate(statusCode: client.successfulStatusCodeRange)
 
         switch T.self {
         case is Void.Type:
-            validatedRequest.response(queue: apiResponseQueue,
-                          responseSerializer: PetstoreClientAPI.shared.dataResponseSerializer,
+            validatedRequest.response(queue: client.apiResponseQueue,
+                          responseSerializer: client.dataResponseSerializer,
                           completionHandler: { voidResponse in
                 cleanupRequest()
 
@@ -255,7 +256,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
 
 open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuilder<T>, @unchecked Sendable {
 
-    override fileprivate func processRequest(request: DataRequest, _ managerId: String, _ apiResponseQueue: DispatchQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
+    override fileprivate func processRequest(request: DataRequest, _ managerId: String, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
         if let credential = self.credential {
             request.authenticate(with: credential)
         }
@@ -264,12 +265,12 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
             AlamofireRequestBuilderConfiguration.shared.managerStore[managerId] = nil
         }
 
-        let validatedRequest = request.validate(statusCode: PetstoreClientAPI.shared.successfulStatusCodeRange)
+        let validatedRequest = request.validate(statusCode: client.successfulStatusCodeRange)
 
         switch T.self {
         case is String.Type:
-            validatedRequest.response(queue: apiResponseQueue,
-                          responseSerializer: PetstoreClientAPI.shared.stringResponseSerializer,
+            validatedRequest.response(queue: client.apiResponseQueue,
+                          responseSerializer: client.stringResponseSerializer,
                           completionHandler: { stringResponse in
                 cleanupRequest()
 
@@ -282,8 +283,8 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
 
             })
         case is URL.Type:
-            validatedRequest.response(queue: apiResponseQueue,
-                          responseSerializer: PetstoreClientAPI.shared.dataResponseSerializer,
+            validatedRequest.response(queue: client.apiResponseQueue,
+                          responseSerializer: client.dataResponseSerializer,
                           completionHandler: { dataResponse in
                 cleanupRequest()
 
@@ -330,8 +331,8 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
                 return
             })
         case is Void.Type:
-            validatedRequest.response(queue: apiResponseQueue,
-                          responseSerializer: PetstoreClientAPI.shared.dataResponseSerializer,
+            validatedRequest.response(queue: client.apiResponseQueue,
+                          responseSerializer: client.dataResponseSerializer,
                           completionHandler: { voidResponse in
                 cleanupRequest()
 
@@ -344,8 +345,8 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
 
             })
         case is Data.Type:
-            validatedRequest.response(queue: apiResponseQueue,
-                          responseSerializer: PetstoreClientAPI.shared.dataResponseSerializer,
+            validatedRequest.response(queue: client.apiResponseQueue,
+                          responseSerializer: client.dataResponseSerializer,
                           completionHandler: { dataResponse in
                 cleanupRequest()
 
@@ -358,8 +359,8 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
 
             })
         default:
-            validatedRequest.response(queue: apiResponseQueue,
-                          responseSerializer: PetstoreClientAPI.shared.dataResponseSerializer,
+            validatedRequest.response(queue: client.apiResponseQueue,
+                          responseSerializer: client.dataResponseSerializer,
                           completionHandler: { dataResponse in
                 cleanupRequest()
 
@@ -382,7 +383,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
                     return
                 }
 
-                let decodeResult = CodableHelper.shared.decode(T.self, from: unwrappedData)
+                let decodeResult = self.client.codableHelper.decode(T.self, from: unwrappedData)
 
                 switch decodeResult {
                 case let .success(decodableObj):

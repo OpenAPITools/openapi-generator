@@ -23,9 +23,9 @@ open class FakeAPI {
      - parameter body: (body) Input boolean as post body (optional)
      - returns: Promise<Bool>
      */
-    open func fakeOuterBooleanSerialize( body: Bool? = nil) -> Promise<Bool> {
+    open func fakeOuterBooleanSerialize( body: Bool? = nil, client: OpenAPIClient = OpenAPIClient.shared) -> Promise<Bool> {
         let deferred = Promise<Bool>.pending()
-        fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute { result in
+        fakeOuterBooleanSerializeWithRequestBuilder(body: body, client: client).execute { result in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body)
@@ -42,9 +42,9 @@ open class FakeAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Bool>
      */
-    open func fakeOuterBooleanSerialize(body: Bool? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue) -> Observable<Bool> {
+    open func fakeOuterBooleanSerialize(body: Bool? = nil, client: OpenAPIClient = OpenAPIClient.shared) -> Observable<Bool> {
         return Observable.create { observer -> Disposable in
-            let requestTask = self.fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+            let requestTask = self.fakeOuterBooleanSerializeWithRequestBuilder(body: body, client: client).execute { result in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body)
@@ -67,8 +67,8 @@ open class FakeAPI {
      */
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func fakeOuterBooleanSerialize(body: Bool? = nil) -> AnyPublisher<Bool, Error> {
-        let requestBuilder = fakeOuterBooleanSerializeWithRequestBuilder(body: body)
+    open func fakeOuterBooleanSerialize(body: Bool? = nil, client: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Bool, Error> {
+        let requestBuilder = fakeOuterBooleanSerializeWithRequestBuilder(body: body, client: client)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Bool, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -96,8 +96,8 @@ open class FakeAPI {
      - returns: Bool
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func fakeOuterBooleanSerialize(body: Bool? = nil) async throws(ErrorResponse) -> Bool {
-        return try await fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute().body
+    open func fakeOuterBooleanSerialize(body: Bool? = nil, client: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> Bool {
+        return try await fakeOuterBooleanSerializeWithRequestBuilder(body: body, client: client).execute().body
     }
 
     /**
@@ -107,8 +107,8 @@ open class FakeAPI {
      - parameter completion: completion handler to receive the result
      */
     @discardableResult
-    open func fakeOuterBooleanSerialize(body: Bool? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue, completion: @Sendable @escaping (_ result: Swift.Result<Bool, ErrorResponse>) -> Void) -> RequestTask {
-        return fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+    open func fakeOuterBooleanSerialize(body: Bool? = nil, client: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Bool, ErrorResponse>) -> Void) -> RequestTask {
+        return fakeOuterBooleanSerializeWithRequestBuilder(body: body, client: client).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -124,9 +124,9 @@ open class FakeAPI {
      - parameter body: (body) Input boolean as post body (optional)
      - returns: RequestBuilder<Bool> 
      */
-    open func fakeOuterBooleanSerializeWithRequestBuilder(body: Bool? = nil) -> RequestBuilder<Bool> {
+    open func fakeOuterBooleanSerializeWithRequestBuilder(body: Bool? = nil, client: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Bool> {
         let localVariablePath = "/fake/outer/boolean"
-        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
+        let localVariableURLString = client.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -137,7 +137,7 @@ open class FakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Bool>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Bool>.Type = client.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
@@ -147,7 +147,7 @@ open class FakeAPI {
      - parameter body: (body) Input composite as post body (optional)
      - returns: Promise<OuterComposite>
      */
-    open func fakeOuterCompositeSerialize( body: OuterComposite? = nil) -> Promise<OuterComposite> {
+    open func fakeOuterCompositeSerialize( body: OuterComposite? = nil, client: OpenAPIClient = OpenAPIClient.shared) -> Promise<OuterComposite> {
         let deferred = Promise<OuterComposite>.pending()
         fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute { result in
             switch result {
@@ -166,9 +166,9 @@ open class FakeAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<OuterComposite>
      */
-    open func fakeOuterCompositeSerialize(body: OuterComposite? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue) -> Observable<OuterComposite> {
+    open func fakeOuterCompositeSerialize(body: OuterComposite? = nil, client: OpenAPIClient = OpenAPIClient.shared) -> Observable<OuterComposite> {
         return Observable.create { observer -> Disposable in
-            let requestTask = self.fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+            let requestTask = self.fakeOuterCompositeSerializeWithRequestBuilder(body: body, client: client).execute { result in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body)
@@ -191,8 +191,8 @@ open class FakeAPI {
      */
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func fakeOuterCompositeSerialize(body: OuterComposite? = nil) -> AnyPublisher<OuterComposite, Error> {
-        let requestBuilder = fakeOuterCompositeSerializeWithRequestBuilder(body: body)
+    open func fakeOuterCompositeSerialize(body: OuterComposite? = nil, client: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<OuterComposite, Error> {
+        let requestBuilder = fakeOuterCompositeSerializeWithRequestBuilder(body: body, client: client)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<OuterComposite, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -220,8 +220,8 @@ open class FakeAPI {
      - returns: OuterComposite
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func fakeOuterCompositeSerialize(body: OuterComposite? = nil) async throws(ErrorResponse) -> OuterComposite {
-        return try await fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute().body
+    open func fakeOuterCompositeSerialize(body: OuterComposite? = nil, client: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> OuterComposite {
+        return try await fakeOuterCompositeSerializeWithRequestBuilder(body: body, client: client).execute().body
     }
 
     /**
@@ -231,8 +231,8 @@ open class FakeAPI {
      - parameter completion: completion handler to receive the result
      */
     @discardableResult
-    open func fakeOuterCompositeSerialize(body: OuterComposite? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue, completion: @Sendable @escaping (_ result: Swift.Result<OuterComposite, ErrorResponse>) -> Void) -> RequestTask {
-        return fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+    open func fakeOuterCompositeSerialize(body: OuterComposite? = nil, client: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<OuterComposite, ErrorResponse>) -> Void) -> RequestTask {
+        return fakeOuterCompositeSerializeWithRequestBuilder(body: body, client: client).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -248,9 +248,9 @@ open class FakeAPI {
      - parameter body: (body) Input composite as post body (optional)
      - returns: RequestBuilder<OuterComposite> 
      */
-    open func fakeOuterCompositeSerializeWithRequestBuilder(body: OuterComposite? = nil) -> RequestBuilder<OuterComposite> {
+    open func fakeOuterCompositeSerializeWithRequestBuilder(body: OuterComposite? = nil, client: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<OuterComposite> {
         let localVariablePath = "/fake/outer/composite"
-        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
+        let localVariableURLString = client.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -261,7 +261,7 @@ open class FakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<OuterComposite>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<OuterComposite>.Type = client.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
@@ -271,9 +271,9 @@ open class FakeAPI {
      - parameter body: (body) Input number as post body (optional)
      - returns: Promise<Double>
      */
-    open func fakeOuterNumberSerialize( body: Double? = nil) -> Promise<Double> {
+    open func fakeOuterNumberSerialize( body: Double? = nil, client: OpenAPIClient = OpenAPIClient.shared) -> Promise<Double> {
         let deferred = Promise<Double>.pending()
-        fakeOuterNumberSerializeWithRequestBuilder(body: body).execute { result in
+        fakeOuterNumberSerializeWithRequestBuilder(body: body, client: client).execute { result in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body)
@@ -290,9 +290,9 @@ open class FakeAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Double>
      */
-    open func fakeOuterNumberSerialize(body: Double? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue) -> Observable<Double> {
+    open func fakeOuterNumberSerialize(body: Double? = nil, client: OpenAPIClient = OpenAPIClient.shared) -> Observable<Double> {
         return Observable.create { observer -> Disposable in
-            let requestTask = self.fakeOuterNumberSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+            let requestTask = self.fakeOuterNumberSerializeWithRequestBuilder(body: body, client: client).execute { result in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body)
@@ -315,8 +315,8 @@ open class FakeAPI {
      */
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func fakeOuterNumberSerialize(body: Double? = nil) -> AnyPublisher<Double, Error> {
-        let requestBuilder = fakeOuterNumberSerializeWithRequestBuilder(body: body)
+    open func fakeOuterNumberSerialize(body: Double? = nil, client: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Double, Error> {
+        let requestBuilder = fakeOuterNumberSerializeWithRequestBuilder(body: body, client: client)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Double, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -344,8 +344,8 @@ open class FakeAPI {
      - returns: Double
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func fakeOuterNumberSerialize(body: Double? = nil) async throws(ErrorResponse) -> Double {
-        return try await fakeOuterNumberSerializeWithRequestBuilder(body: body).execute().body
+    open func fakeOuterNumberSerialize(body: Double? = nil, client: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> Double {
+        return try await fakeOuterNumberSerializeWithRequestBuilder(body: body, client: client).execute().body
     }
 
     /**
@@ -355,8 +355,8 @@ open class FakeAPI {
      - parameter completion: completion handler to receive the result
      */
     @discardableResult
-    open func fakeOuterNumberSerialize(body: Double? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue, completion: @Sendable @escaping (_ result: Swift.Result<Double, ErrorResponse>) -> Void) -> RequestTask {
-        return fakeOuterNumberSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+    open func fakeOuterNumberSerialize(body: Double? = nil, client: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Double, ErrorResponse>) -> Void) -> RequestTask {
+        return fakeOuterNumberSerializeWithRequestBuilder(body: body, client: client).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -372,9 +372,9 @@ open class FakeAPI {
      - parameter body: (body) Input number as post body (optional)
      - returns: RequestBuilder<Double> 
      */
-    open func fakeOuterNumberSerializeWithRequestBuilder(body: Double? = nil) -> RequestBuilder<Double> {
+    open func fakeOuterNumberSerializeWithRequestBuilder(body: Double? = nil, client: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Double> {
         let localVariablePath = "/fake/outer/number"
-        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
+        let localVariableURLString = client.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -385,7 +385,7 @@ open class FakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Double>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Double>.Type = client.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
@@ -395,9 +395,9 @@ open class FakeAPI {
      - parameter body: (body) Input string as post body (optional)
      - returns: Promise<String>
      */
-    open func fakeOuterStringSerialize( body: String? = nil) -> Promise<String> {
+    open func fakeOuterStringSerialize( body: String? = nil, client: OpenAPIClient = OpenAPIClient.shared) -> Promise<String> {
         let deferred = Promise<String>.pending()
-        fakeOuterStringSerializeWithRequestBuilder(body: body).execute { result in
+        fakeOuterStringSerializeWithRequestBuilder(body: body, client: client).execute { result in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body)
@@ -414,9 +414,9 @@ open class FakeAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<String>
      */
-    open func fakeOuterStringSerialize(body: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue) -> Observable<String> {
+    open func fakeOuterStringSerialize(body: String? = nil, client: OpenAPIClient = OpenAPIClient.shared) -> Observable<String> {
         return Observable.create { observer -> Disposable in
-            let requestTask = self.fakeOuterStringSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+            let requestTask = self.fakeOuterStringSerializeWithRequestBuilder(body: body, client: client).execute { result in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body)
@@ -439,8 +439,8 @@ open class FakeAPI {
      */
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func fakeOuterStringSerialize(body: String? = nil) -> AnyPublisher<String, Error> {
-        let requestBuilder = fakeOuterStringSerializeWithRequestBuilder(body: body)
+    open func fakeOuterStringSerialize(body: String? = nil, client: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<String, Error> {
+        let requestBuilder = fakeOuterStringSerializeWithRequestBuilder(body: body, client: client)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<String, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -468,8 +468,8 @@ open class FakeAPI {
      - returns: String
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func fakeOuterStringSerialize(body: String? = nil) async throws(ErrorResponse) -> String {
-        return try await fakeOuterStringSerializeWithRequestBuilder(body: body).execute().body
+    open func fakeOuterStringSerialize(body: String? = nil, client: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> String {
+        return try await fakeOuterStringSerializeWithRequestBuilder(body: body, client: client).execute().body
     }
 
     /**
@@ -479,8 +479,8 @@ open class FakeAPI {
      - parameter completion: completion handler to receive the result
      */
     @discardableResult
-    open func fakeOuterStringSerialize(body: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue, completion: @Sendable @escaping (_ result: Swift.Result<String, ErrorResponse>) -> Void) -> RequestTask {
-        return fakeOuterStringSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+    open func fakeOuterStringSerialize(body: String? = nil, client: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<String, ErrorResponse>) -> Void) -> RequestTask {
+        return fakeOuterStringSerializeWithRequestBuilder(body: body, client: client).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -496,9 +496,9 @@ open class FakeAPI {
      - parameter body: (body) Input string as post body (optional)
      - returns: RequestBuilder<String> 
      */
-    open func fakeOuterStringSerializeWithRequestBuilder(body: String? = nil) -> RequestBuilder<String> {
+    open func fakeOuterStringSerializeWithRequestBuilder(body: String? = nil, client: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<String> {
         let localVariablePath = "/fake/outer/string"
-        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
+        let localVariableURLString = client.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -509,1313 +509,1313 @@ open class FakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<String>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<String>.Type = client.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
 
-    /**
-
-     - parameter body: (body)  
-     - returns: Promise<Void>
-     */
-    open func testBodyWithFileSchema( body: FileSchemaTestClass) -> Promise<Void> {
-        let deferred = Promise<Void>.pending()
-        testBodyWithFileSchemaWithRequestBuilder(body: body).execute { result in
-            switch result {
-            case .success:
-                deferred.resolver.fulfill(())
-            case let .failure(error):
-                deferred.resolver.reject(error)
-            }
-        }
-        return deferred.promise
-    }
-
-    /**
-
-     - parameter body: (body)  
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - returns: Observable<Void>
-     */
-    open func testBodyWithFileSchema(body: FileSchemaTestClass, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue) -> Observable<Void> {
-        return Observable.create { observer -> Disposable in
-            let requestTask = self.testBodyWithFileSchemaWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    observer.onNext(())
-                case let .failure(error):
-                    observer.onError(error)
-                }
-                observer.onCompleted()
-            }
-            
-            return Disposables.create {
-                requestTask.cancel()
-            }
-        }
-    }
-
-    /**
-
-     - parameter body: (body)  
-     - returns: AnyPublisher<Void, Error>
-     */
-    #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func testBodyWithFileSchema(body: FileSchemaTestClass) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testBodyWithFileSchemaWithRequestBuilder(body: body)
-        let requestTask = requestBuilder.requestTask
-        return Deferred { Future<Void, Error> { promise in
-            nonisolated(unsafe) let promise = promise
-            requestBuilder.execute { result in
-                switch result {
-                case .success:
-                    promise(.success(()))
-                case let .failure(error):
-                    promise(.failure(error))
-                }
-            }
-        }
-        .handleEvents(receiveCancel: {
-            requestTask.cancel()
-        })
-        .eraseToAnyPublisher()
-        }
-        .eraseToAnyPublisher()
-    }
-    #endif
-
-    /**
-
-     - parameter body: (body)  
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func testBodyWithFileSchema(body: FileSchemaTestClass) async throws(ErrorResponse) {
-        return try await testBodyWithFileSchemaWithRequestBuilder(body: body).execute().body
-    }
-
-    /**
-
-     - parameter body: (body)  
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the result
-     */
-    @discardableResult
-    open func testBodyWithFileSchema(body: FileSchemaTestClass, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return testBodyWithFileSchemaWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
-            switch result {
-            case .success:
-                completion(.success(()))
-            case let .failure(error):
-                completion(.failure(error))
-            }
-        }
-    }
-
-    /**
-     - PUT /fake/body-with-file-schema
-     - For this test, the body for this request much reference a schema named `File`.
-     - parameter body: (body)  
-     - returns: RequestBuilder<Void> 
-     */
-    open func testBodyWithFileSchemaWithRequestBuilder(body: FileSchemaTestClass) -> RequestBuilder<Void> {
-        let localVariablePath = "/fake/body-with-file-schema"
-        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
-    }
-
-    /**
-
-     - parameter query: (query)  
-     - parameter body: (body)  
-     - returns: Promise<Void>
-     */
-    open func testBodyWithQueryParams( query: String,  body: User) -> Promise<Void> {
-        let deferred = Promise<Void>.pending()
-        testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute { result in
-            switch result {
-            case .success:
-                deferred.resolver.fulfill(())
-            case let .failure(error):
-                deferred.resolver.reject(error)
-            }
-        }
-        return deferred.promise
-    }
-
-    /**
-
-     - parameter query: (query)  
-     - parameter body: (body)  
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - returns: Observable<Void>
-     */
-    open func testBodyWithQueryParams(query: String, body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue) -> Observable<Void> {
-        return Observable.create { observer -> Disposable in
-            let requestTask = self.testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    observer.onNext(())
-                case let .failure(error):
-                    observer.onError(error)
-                }
-                observer.onCompleted()
-            }
-            
-            return Disposables.create {
-                requestTask.cancel()
-            }
-        }
-    }
-
-    /**
-
-     - parameter query: (query)  
-     - parameter body: (body)  
-     - returns: AnyPublisher<Void, Error>
-     */
-    #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func testBodyWithQueryParams(query: String, body: User) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testBodyWithQueryParamsWithRequestBuilder(query: query, body: body)
-        let requestTask = requestBuilder.requestTask
-        return Deferred { Future<Void, Error> { promise in
-            nonisolated(unsafe) let promise = promise
-            requestBuilder.execute { result in
-                switch result {
-                case .success:
-                    promise(.success(()))
-                case let .failure(error):
-                    promise(.failure(error))
-                }
-            }
-        }
-        .handleEvents(receiveCancel: {
-            requestTask.cancel()
-        })
-        .eraseToAnyPublisher()
-        }
-        .eraseToAnyPublisher()
-    }
-    #endif
-
-    /**
-
-     - parameter query: (query)  
-     - parameter body: (body)  
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func testBodyWithQueryParams(query: String, body: User) async throws(ErrorResponse) {
-        return try await testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute().body
-    }
-
-    /**
-
-     - parameter query: (query)  
-     - parameter body: (body)  
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the result
-     */
-    @discardableResult
-    open func testBodyWithQueryParams(query: String, body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute(apiResponseQueue) { result in
-            switch result {
-            case .success:
-                completion(.success(()))
-            case let .failure(error):
-                completion(.failure(error))
-            }
-        }
-    }
-
-    /**
-     - PUT /fake/body-with-query-params
-     - parameter query: (query)  
-     - parameter body: (body)  
-     - returns: RequestBuilder<Void> 
-     */
-    open func testBodyWithQueryParamsWithRequestBuilder(query: String, body: User) -> RequestBuilder<Void> {
-        let localVariablePath = "/fake/body-with-query-params"
-        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "query": (wrappedValue: query.encodeToJSON(), isExplode: false),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
-    }
-
-    /**
-     To test \"client\" model
-     
-     - parameter body: (body) client model 
-     - returns: Promise<Client>
-     */
-    open func testClientModel( body: Client) -> Promise<Client> {
-        let deferred = Promise<Client>.pending()
-        testClientModelWithRequestBuilder(body: body).execute { result in
-            switch result {
-            case let .success(response):
-                deferred.resolver.fulfill(response.body)
-            case let .failure(error):
-                deferred.resolver.reject(error)
-            }
-        }
-        return deferred.promise
-    }
-
-    /**
-     To test \"client\" model
-     
-     - parameter body: (body) client model 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - returns: Observable<Client>
-     */
-    open func testClientModel(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue) -> Observable<Client> {
-        return Observable.create { observer -> Disposable in
-            let requestTask = self.testClientModelWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    observer.onNext(response.body)
-                case let .failure(error):
-                    observer.onError(error)
-                }
-                observer.onCompleted()
-            }
-            
-            return Disposables.create {
-                requestTask.cancel()
-            }
-        }
-    }
-
-    /**
-     To test \"client\" model
-     
-     - parameter body: (body) client model 
-     - returns: AnyPublisher<Client, Error>
-     */
-    #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func testClientModel(body: Client) -> AnyPublisher<Client, Error> {
-        let requestBuilder = testClientModelWithRequestBuilder(body: body)
-        let requestTask = requestBuilder.requestTask
-        return Deferred { Future<Client, Error> { promise in
-            nonisolated(unsafe) let promise = promise
-            requestBuilder.execute { result in
-                switch result {
-                case let .success(response):
-                    promise(.success(response.body))
-                case let .failure(error):
-                    promise(.failure(error))
-                }
-            }
-        }
-        .handleEvents(receiveCancel: {
-            requestTask.cancel()
-        })
-        .eraseToAnyPublisher()
-        }
-        .eraseToAnyPublisher()
-    }
-    #endif
-
-    /**
-     To test \"client\" model
-     
-     - parameter body: (body) client model 
-     - returns: Client
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func testClientModel(body: Client) async throws(ErrorResponse) -> Client {
-        return try await testClientModelWithRequestBuilder(body: body).execute().body
-    }
-
-    /**
-     To test \"client\" model
-     
-     - parameter body: (body) client model 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the result
-     */
-    @discardableResult
-    open func testClientModel(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue, completion: @Sendable @escaping (_ result: Swift.Result<Client, ErrorResponse>) -> Void) -> RequestTask {
-        return testClientModelWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
-            switch result {
-            case let .success(response):
-                completion(.success(response.body))
-            case let .failure(error):
-                completion(.failure(error))
-            }
-        }
-    }
-
-    /**
-     To test \"client\" model
-     - PATCH /fake
-     - To test \"client\" model
-     - parameter body: (body) client model 
-     - returns: RequestBuilder<Client> 
-     */
-    open func testClientModelWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
-        let localVariablePath = "/fake"
-        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
-    }
-
-    /**
-     Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-     
-     - parameter number: (form) None 
-     - parameter double: (form) None 
-     - parameter patternWithoutDelimiter: (form) None 
-     - parameter byte: (form) None 
-     - parameter integer: (form) None (optional)
-     - parameter int32: (form) None (optional)
-     - parameter int64: (form) None (optional)
-     - parameter float: (form) None (optional)
-     - parameter string: (form) None (optional)
-     - parameter binary: (form) None (optional)
-     - parameter date: (form) None (optional)
-     - parameter dateTime: (form) None (optional)
-     - parameter password: (form) None (optional)
-     - parameter callback: (form) None (optional)
-     - returns: Promise<Void>
-     */
-    open func testEndpointParameters( number: Double,  double: Double,  patternWithoutDelimiter: String,  byte: Data,  integer: Int? = nil,  int32: Int? = nil,  int64: Int64? = nil,  float: Float? = nil,  string: String? = nil,  binary: URL? = nil,  date: Date? = nil,  dateTime: Date? = nil,  password: String? = nil,  callback: String? = nil) -> Promise<Void> {
-        let deferred = Promise<Void>.pending()
-        testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { result in
-            switch result {
-            case .success:
-                deferred.resolver.fulfill(())
-            case let .failure(error):
-                deferred.resolver.reject(error)
-            }
-        }
-        return deferred.promise
-    }
-
-    /**
-     Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-     
-     - parameter number: (form) None 
-     - parameter double: (form) None 
-     - parameter patternWithoutDelimiter: (form) None 
-     - parameter byte: (form) None 
-     - parameter integer: (form) None (optional)
-     - parameter int32: (form) None (optional)
-     - parameter int64: (form) None (optional)
-     - parameter float: (form) None (optional)
-     - parameter string: (form) None (optional)
-     - parameter binary: (form) None (optional)
-     - parameter date: (form) None (optional)
-     - parameter dateTime: (form) None (optional)
-     - parameter password: (form) None (optional)
-     - parameter callback: (form) None (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - returns: Observable<Void>
-     */
-    open func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue) -> Observable<Void> {
-        return Observable.create { observer -> Disposable in
-            let requestTask = self.testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    observer.onNext(())
-                case let .failure(error):
-                    observer.onError(error)
-                }
-                observer.onCompleted()
-            }
-            
-            return Disposables.create {
-                requestTask.cancel()
-            }
-        }
-    }
-
-    /**
-     Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-     
-     - parameter number: (form) None 
-     - parameter double: (form) None 
-     - parameter patternWithoutDelimiter: (form) None 
-     - parameter byte: (form) None 
-     - parameter integer: (form) None (optional)
-     - parameter int32: (form) None (optional)
-     - parameter int64: (form) None (optional)
-     - parameter float: (form) None (optional)
-     - parameter string: (form) None (optional)
-     - parameter binary: (form) None (optional)
-     - parameter date: (form) None (optional)
-     - parameter dateTime: (form) None (optional)
-     - parameter password: (form) None (optional)
-     - parameter callback: (form) None (optional)
-     - returns: AnyPublisher<Void, Error>
-     */
-    #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback)
-        let requestTask = requestBuilder.requestTask
-        return Deferred { Future<Void, Error> { promise in
-            nonisolated(unsafe) let promise = promise
-            requestBuilder.execute { result in
-                switch result {
-                case .success:
-                    promise(.success(()))
-                case let .failure(error):
-                    promise(.failure(error))
-                }
-            }
-        }
-        .handleEvents(receiveCancel: {
-            requestTask.cancel()
-        })
-        .eraseToAnyPublisher()
-        }
-        .eraseToAnyPublisher()
-    }
-    #endif
-
-    /**
-     Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-     
-     - parameter number: (form) None 
-     - parameter double: (form) None 
-     - parameter patternWithoutDelimiter: (form) None 
-     - parameter byte: (form) None 
-     - parameter integer: (form) None (optional)
-     - parameter int32: (form) None (optional)
-     - parameter int64: (form) None (optional)
-     - parameter float: (form) None (optional)
-     - parameter string: (form) None (optional)
-     - parameter binary: (form) None (optional)
-     - parameter date: (form) None (optional)
-     - parameter dateTime: (form) None (optional)
-     - parameter password: (form) None (optional)
-     - parameter callback: (form) None (optional)
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) async throws(ErrorResponse) {
-        return try await testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute().body
-    }
-
-    /**
-     Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-     
-     - parameter number: (form) None 
-     - parameter double: (form) None 
-     - parameter patternWithoutDelimiter: (form) None 
-     - parameter byte: (form) None 
-     - parameter integer: (form) None (optional)
-     - parameter int32: (form) None (optional)
-     - parameter int64: (form) None (optional)
-     - parameter float: (form) None (optional)
-     - parameter string: (form) None (optional)
-     - parameter binary: (form) None (optional)
-     - parameter date: (form) None (optional)
-     - parameter dateTime: (form) None (optional)
-     - parameter password: (form) None (optional)
-     - parameter callback: (form) None (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the result
-     */
-    @discardableResult
-    open func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute(apiResponseQueue) { result in
-            switch result {
-            case .success:
-                completion(.success(()))
-            case let .failure(error):
-                completion(.failure(error))
-            }
-        }
-    }
-
-    /**
-     Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-     - POST /fake
-     - Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-     - BASIC:
-       - type: http
-       - name: http_basic_test
-     - parameter number: (form) None 
-     - parameter double: (form) None 
-     - parameter patternWithoutDelimiter: (form) None 
-     - parameter byte: (form) None 
-     - parameter integer: (form) None (optional)
-     - parameter int32: (form) None (optional)
-     - parameter int64: (form) None (optional)
-     - parameter float: (form) None (optional)
-     - parameter string: (form) None (optional)
-     - parameter binary: (form) None (optional)
-     - parameter date: (form) None (optional)
-     - parameter dateTime: (form) None (optional)
-     - parameter password: (form) None (optional)
-     - parameter callback: (form) None (optional)
-     - returns: RequestBuilder<Void> 
-     */
-    open func testEndpointParametersWithRequestBuilder(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> RequestBuilder<Void> {
-        let localVariablePath = "/fake"
-        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
-        let localVariableFormParams: [String: Any?] = [
-            "integer": integer?.encodeToJSON(),
-            "int32": int32?.encodeToJSON(),
-            "int64": int64?.encodeToJSON(),
-            "number": number.encodeToJSON(),
-            "float": float?.encodeToJSON(),
-            "double": double.encodeToJSON(),
-            "string": string?.encodeToJSON(),
-            "pattern_without_delimiter": patternWithoutDelimiter.encodeToJSON(),
-            "byte": byte.encodeToJSON(),
-            "binary": binary?.encodeToJSON(),
-            "date": date?.encodeToJSON(),
-            "dateTime": dateTime?.encodeToJSON(),
-            "password": password?.encodeToJSON(),
-            "callback": callback?.encodeToJSON(),
-        ]
-
-        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
-        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/x-www-form-urlencoded",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     * enum for parameter enumHeaderStringArray
-     */
-    public enum EnumHeaderStringArray_testEnumParameters: String, CaseIterable {
-        case greaterThan = ">"
-        case dollar = "$"
-    }
-
-    /**
-     * enum for parameter enumHeaderString
-     */
-    public enum EnumHeaderString_testEnumParameters: String, CaseIterable {
-        case abc = "_abc"
-        case efg = "-efg"
-        case xyz = "(xyz)"
-    }
-
-    /**
-     * enum for parameter enumQueryStringArray
-     */
-    public enum EnumQueryStringArray_testEnumParameters: String, CaseIterable {
-        case greaterThan = ">"
-        case dollar = "$"
-    }
-
-    /**
-     * enum for parameter enumQueryString
-     */
-    public enum EnumQueryString_testEnumParameters: String, CaseIterable {
-        case abc = "_abc"
-        case efg = "-efg"
-        case xyz = "(xyz)"
-    }
-
-    /**
-     * enum for parameter enumQueryInteger
-     */
-    public enum EnumQueryInteger_testEnumParameters: Int, CaseIterable {
-        case _1 = 1
-        case number2 = -2
-    }
-
-    /**
-     * enum for parameter enumQueryDouble
-     */
-    public enum EnumQueryDouble_testEnumParameters: Double, CaseIterable {
-        case _11 = 1.1
-        case number12 = -1.2
-    }
-
-    /**
-     * enum for parameter enumFormStringArray
-     */
-    public enum EnumFormStringArray_testEnumParameters: String, CaseIterable {
-        case greaterThan = ">"
-        case dollar = "$"
-    }
-
-    /**
-     * enum for parameter enumFormString
-     */
-    public enum EnumFormString_testEnumParameters: String, CaseIterable {
-        case abc = "_abc"
-        case efg = "-efg"
-        case xyz = "(xyz)"
-    }
-
-    /**
-     To test enum parameters
-     
-     - parameter enumHeaderStringArray: (header) Header parameter enum test (string array) (optional)
-     - parameter enumHeaderString: (header) Header parameter enum test (string) (optional, default to .efg)
-     - parameter enumQueryStringArray: (query) Query parameter enum test (string array) (optional)
-     - parameter enumQueryString: (query) Query parameter enum test (string) (optional, default to .efg)
-     - parameter enumQueryInteger: (query) Query parameter enum test (double) (optional)
-     - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
-     - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to .dollar)
-     - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .efg)
-     - returns: Promise<Void>
-     */
-    open func testEnumParameters( enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil,  enumHeaderString: EnumHeaderString_testEnumParameters? = nil,  enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil,  enumQueryString: EnumQueryString_testEnumParameters? = nil,  enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil,  enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil,  enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil,  enumFormString: EnumFormString_testEnumParameters? = nil) -> Promise<Void> {
-        let deferred = Promise<Void>.pending()
-        testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute { result in
-            switch result {
-            case .success:
-                deferred.resolver.fulfill(())
-            case let .failure(error):
-                deferred.resolver.reject(error)
-            }
-        }
-        return deferred.promise
-    }
-
-    /**
-     To test enum parameters
-     
-     - parameter enumHeaderStringArray: (header) Header parameter enum test (string array) (optional)
-     - parameter enumHeaderString: (header) Header parameter enum test (string) (optional, default to .efg)
-     - parameter enumQueryStringArray: (query) Query parameter enum test (string array) (optional)
-     - parameter enumQueryString: (query) Query parameter enum test (string) (optional, default to .efg)
-     - parameter enumQueryInteger: (query) Query parameter enum test (double) (optional)
-     - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
-     - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to .dollar)
-     - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .efg)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - returns: Observable<Void>
-     */
-    open func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue) -> Observable<Void> {
-        return Observable.create { observer -> Disposable in
-            let requestTask = self.testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    observer.onNext(())
-                case let .failure(error):
-                    observer.onError(error)
-                }
-                observer.onCompleted()
-            }
-            
-            return Disposables.create {
-                requestTask.cancel()
-            }
-        }
-    }
-
-    /**
-     To test enum parameters
-     
-     - parameter enumHeaderStringArray: (header) Header parameter enum test (string array) (optional)
-     - parameter enumHeaderString: (header) Header parameter enum test (string) (optional, default to .efg)
-     - parameter enumQueryStringArray: (query) Query parameter enum test (string array) (optional)
-     - parameter enumQueryString: (query) Query parameter enum test (string) (optional, default to .efg)
-     - parameter enumQueryInteger: (query) Query parameter enum test (double) (optional)
-     - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
-     - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to .dollar)
-     - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .efg)
-     - returns: AnyPublisher<Void, Error>
-     */
-    #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString)
-        let requestTask = requestBuilder.requestTask
-        return Deferred { Future<Void, Error> { promise in
-            nonisolated(unsafe) let promise = promise
-            requestBuilder.execute { result in
-                switch result {
-                case .success:
-                    promise(.success(()))
-                case let .failure(error):
-                    promise(.failure(error))
-                }
-            }
-        }
-        .handleEvents(receiveCancel: {
-            requestTask.cancel()
-        })
-        .eraseToAnyPublisher()
-        }
-        .eraseToAnyPublisher()
-    }
-    #endif
-
-    /**
-     To test enum parameters
-     
-     - parameter enumHeaderStringArray: (header) Header parameter enum test (string array) (optional)
-     - parameter enumHeaderString: (header) Header parameter enum test (string) (optional, default to .efg)
-     - parameter enumQueryStringArray: (query) Query parameter enum test (string array) (optional)
-     - parameter enumQueryString: (query) Query parameter enum test (string) (optional, default to .efg)
-     - parameter enumQueryInteger: (query) Query parameter enum test (double) (optional)
-     - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
-     - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to .dollar)
-     - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .efg)
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) async throws(ErrorResponse) {
-        return try await testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute().body
-    }
-
-    /**
-     To test enum parameters
-     
-     - parameter enumHeaderStringArray: (header) Header parameter enum test (string array) (optional)
-     - parameter enumHeaderString: (header) Header parameter enum test (string) (optional, default to .efg)
-     - parameter enumQueryStringArray: (query) Query parameter enum test (string array) (optional)
-     - parameter enumQueryString: (query) Query parameter enum test (string) (optional, default to .efg)
-     - parameter enumQueryInteger: (query) Query parameter enum test (double) (optional)
-     - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
-     - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to .dollar)
-     - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .efg)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the result
-     */
-    @discardableResult
-    open func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute(apiResponseQueue) { result in
-            switch result {
-            case .success:
-                completion(.success(()))
-            case let .failure(error):
-                completion(.failure(error))
-            }
-        }
-    }
-
-    /**
-     To test enum parameters
-     - GET /fake
-     - To test enum parameters
-     - parameter enumHeaderStringArray: (header) Header parameter enum test (string array) (optional)
-     - parameter enumHeaderString: (header) Header parameter enum test (string) (optional, default to .efg)
-     - parameter enumQueryStringArray: (query) Query parameter enum test (string array) (optional)
-     - parameter enumQueryString: (query) Query parameter enum test (string) (optional, default to .efg)
-     - parameter enumQueryInteger: (query) Query parameter enum test (double) (optional)
-     - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
-     - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to .dollar)
-     - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .efg)
-     - returns: RequestBuilder<Void> 
-     */
-    open func testEnumParametersWithRequestBuilder(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) -> RequestBuilder<Void> {
-        let localVariablePath = "/fake"
-        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
-        let localVariableFormParams: [String: Any?] = [
-            "enum_form_string_array": enumFormStringArray?.encodeToJSON(),
-            "enum_form_string": enumFormString?.encodeToJSON(),
-        ]
-
-        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
-        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "enum_query_string_array": (wrappedValue: enumQueryStringArray?.encodeToJSON(), isExplode: false),
-            "enum_query_string": (wrappedValue: enumQueryString?.encodeToJSON(), isExplode: false),
-            "enum_query_integer": (wrappedValue: enumQueryInteger?.encodeToJSON(), isExplode: false),
-            "enum_query_double": (wrappedValue: enumQueryDouble?.encodeToJSON(), isExplode: false),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/x-www-form-urlencoded",
-            "enum_header_string_array": enumHeaderStringArray?.encodeToJSON(),
-            "enum_header_string": enumHeaderString?.encodeToJSON(),
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
-    }
-
-    /**
-     Fake endpoint to test group parameters (optional)
-     
-     - parameter requiredStringGroup: (query) Required String in group parameters 
-     - parameter requiredBooleanGroup: (header) Required Boolean in group parameters 
-     - parameter requiredInt64Group: (query) Required Integer in group parameters 
-     - parameter stringGroup: (query) String in group parameters (optional)
-     - parameter booleanGroup: (header) Boolean in group parameters (optional)
-     - parameter int64Group: (query) Integer in group parameters (optional)
-     - returns: Promise<Void>
-     */
-    open func testGroupParameters( requiredStringGroup: Int,  requiredBooleanGroup: Bool,  requiredInt64Group: Int64,  stringGroup: Int? = nil,  booleanGroup: Bool? = nil,  int64Group: Int64? = nil) -> Promise<Void> {
-        let deferred = Promise<Void>.pending()
-        testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute { result in
-            switch result {
-            case .success:
-                deferred.resolver.fulfill(())
-            case let .failure(error):
-                deferred.resolver.reject(error)
-            }
-        }
-        return deferred.promise
-    }
-
-    /**
-     Fake endpoint to test group parameters (optional)
-     
-     - parameter requiredStringGroup: (query) Required String in group parameters 
-     - parameter requiredBooleanGroup: (header) Required Boolean in group parameters 
-     - parameter requiredInt64Group: (query) Required Integer in group parameters 
-     - parameter stringGroup: (query) String in group parameters (optional)
-     - parameter booleanGroup: (header) Boolean in group parameters (optional)
-     - parameter int64Group: (query) Integer in group parameters (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - returns: Observable<Void>
-     */
-    open func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue) -> Observable<Void> {
-        return Observable.create { observer -> Disposable in
-            let requestTask = self.testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    observer.onNext(())
-                case let .failure(error):
-                    observer.onError(error)
-                }
-                observer.onCompleted()
-            }
-            
-            return Disposables.create {
-                requestTask.cancel()
-            }
-        }
-    }
-
-    /**
-     Fake endpoint to test group parameters (optional)
-     
-     - parameter requiredStringGroup: (query) Required String in group parameters 
-     - parameter requiredBooleanGroup: (header) Required Boolean in group parameters 
-     - parameter requiredInt64Group: (query) Required Integer in group parameters 
-     - parameter stringGroup: (query) String in group parameters (optional)
-     - parameter booleanGroup: (header) Boolean in group parameters (optional)
-     - parameter int64Group: (query) Integer in group parameters (optional)
-     - returns: AnyPublisher<Void, Error>
-     */
-    #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group)
-        let requestTask = requestBuilder.requestTask
-        return Deferred { Future<Void, Error> { promise in
-            nonisolated(unsafe) let promise = promise
-            requestBuilder.execute { result in
-                switch result {
-                case .success:
-                    promise(.success(()))
-                case let .failure(error):
-                    promise(.failure(error))
-                }
-            }
-        }
-        .handleEvents(receiveCancel: {
-            requestTask.cancel()
-        })
-        .eraseToAnyPublisher()
-        }
-        .eraseToAnyPublisher()
-    }
-    #endif
-
-    /**
-     Fake endpoint to test group parameters (optional)
-     
-     - parameter requiredStringGroup: (query) Required String in group parameters 
-     - parameter requiredBooleanGroup: (header) Required Boolean in group parameters 
-     - parameter requiredInt64Group: (query) Required Integer in group parameters 
-     - parameter stringGroup: (query) String in group parameters (optional)
-     - parameter booleanGroup: (header) Boolean in group parameters (optional)
-     - parameter int64Group: (query) Integer in group parameters (optional)
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil) async throws(ErrorResponse) {
-        return try await testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute().body
-    }
-
-    /**
-     Fake endpoint to test group parameters (optional)
-     
-     - parameter requiredStringGroup: (query) Required String in group parameters 
-     - parameter requiredBooleanGroup: (header) Required Boolean in group parameters 
-     - parameter requiredInt64Group: (query) Required Integer in group parameters 
-     - parameter stringGroup: (query) String in group parameters (optional)
-     - parameter booleanGroup: (header) Boolean in group parameters (optional)
-     - parameter int64Group: (query) Integer in group parameters (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the result
-     */
-    @discardableResult
-    open func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute(apiResponseQueue) { result in
-            switch result {
-            case .success:
-                completion(.success(()))
-            case let .failure(error):
-                completion(.failure(error))
-            }
-        }
-    }
-
-    /**
-     Fake endpoint to test group parameters (optional)
-     - DELETE /fake
-     - Fake endpoint to test group parameters (optional)
-     - parameter requiredStringGroup: (query) Required String in group parameters 
-     - parameter requiredBooleanGroup: (header) Required Boolean in group parameters 
-     - parameter requiredInt64Group: (query) Required Integer in group parameters 
-     - parameter stringGroup: (query) String in group parameters (optional)
-     - parameter booleanGroup: (header) Boolean in group parameters (optional)
-     - parameter int64Group: (query) Integer in group parameters (optional)
-     - returns: RequestBuilder<Void> 
-     */
-    open func testGroupParametersWithRequestBuilder(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil) -> RequestBuilder<Void> {
-        let localVariablePath = "/fake"
-        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "required_string_group": (wrappedValue: requiredStringGroup.encodeToJSON(), isExplode: false),
-            "required_int64_group": (wrappedValue: requiredInt64Group.encodeToJSON(), isExplode: false),
-            "string_group": (wrappedValue: stringGroup?.encodeToJSON(), isExplode: false),
-            "int64_group": (wrappedValue: int64Group?.encodeToJSON(), isExplode: false),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "required_boolean_group": requiredBooleanGroup.encodeToJSON(),
-            "boolean_group": booleanGroup?.encodeToJSON(),
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
-    }
-
-    /**
-     test inline additionalProperties
-     
-     - parameter param: (body) request body 
-     - returns: Promise<Void>
-     */
-    open func testInlineAdditionalProperties( param: [String: String]) -> Promise<Void> {
-        let deferred = Promise<Void>.pending()
-        testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute { result in
-            switch result {
-            case .success:
-                deferred.resolver.fulfill(())
-            case let .failure(error):
-                deferred.resolver.reject(error)
-            }
-        }
-        return deferred.promise
-    }
-
-    /**
-     test inline additionalProperties
-     
-     - parameter param: (body) request body 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - returns: Observable<Void>
-     */
-    open func testInlineAdditionalProperties(param: [String: String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue) -> Observable<Void> {
-        return Observable.create { observer -> Disposable in
-            let requestTask = self.testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    observer.onNext(())
-                case let .failure(error):
-                    observer.onError(error)
-                }
-                observer.onCompleted()
-            }
-            
-            return Disposables.create {
-                requestTask.cancel()
-            }
-        }
-    }
-
-    /**
-     test inline additionalProperties
-     
-     - parameter param: (body) request body 
-     - returns: AnyPublisher<Void, Error>
-     */
-    #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func testInlineAdditionalProperties(param: [String: String]) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testInlineAdditionalPropertiesWithRequestBuilder(param: param)
-        let requestTask = requestBuilder.requestTask
-        return Deferred { Future<Void, Error> { promise in
-            nonisolated(unsafe) let promise = promise
-            requestBuilder.execute { result in
-                switch result {
-                case .success:
-                    promise(.success(()))
-                case let .failure(error):
-                    promise(.failure(error))
-                }
-            }
-        }
-        .handleEvents(receiveCancel: {
-            requestTask.cancel()
-        })
-        .eraseToAnyPublisher()
-        }
-        .eraseToAnyPublisher()
-    }
-    #endif
-
-    /**
-     test inline additionalProperties
-     
-     - parameter param: (body) request body 
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func testInlineAdditionalProperties(param: [String: String]) async throws(ErrorResponse) {
-        return try await testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute().body
-    }
-
-    /**
-     test inline additionalProperties
-     
-     - parameter param: (body) request body 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the result
-     */
-    @discardableResult
-    open func testInlineAdditionalProperties(param: [String: String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute(apiResponseQueue) { result in
-            switch result {
-            case .success:
-                completion(.success(()))
-            case let .failure(error):
-                completion(.failure(error))
-            }
-        }
-    }
-
-    /**
-     test inline additionalProperties
-     - POST /fake/inline-additionalProperties
-     - parameter param: (body) request body 
-     - returns: RequestBuilder<Void> 
-     */
-    open func testInlineAdditionalPropertiesWithRequestBuilder(param: [String: String]) -> RequestBuilder<Void> {
-        let localVariablePath = "/fake/inline-additionalProperties"
-        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: param)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
-    }
-
-    /**
-     test json serialization of form data
-     
-     - parameter param: (form) field1 
-     - parameter param2: (form) field2 
-     - returns: Promise<Void>
-     */
-    open func testJsonFormData( param: String,  param2: String) -> Promise<Void> {
-        let deferred = Promise<Void>.pending()
-        testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute { result in
-            switch result {
-            case .success:
-                deferred.resolver.fulfill(())
-            case let .failure(error):
-                deferred.resolver.reject(error)
-            }
-        }
-        return deferred.promise
-    }
-
-    /**
-     test json serialization of form data
-     
-     - parameter param: (form) field1 
-     - parameter param2: (form) field2 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - returns: Observable<Void>
-     */
-    open func testJsonFormData(param: String, param2: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue) -> Observable<Void> {
-        return Observable.create { observer -> Disposable in
-            let requestTask = self.testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    observer.onNext(())
-                case let .failure(error):
-                    observer.onError(error)
-                }
-                observer.onCompleted()
-            }
-            
-            return Disposables.create {
-                requestTask.cancel()
-            }
-        }
-    }
-
-    /**
-     test json serialization of form data
-     
-     - parameter param: (form) field1 
-     - parameter param2: (form) field2 
-     - returns: AnyPublisher<Void, Error>
-     */
-    #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func testJsonFormData(param: String, param2: String) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testJsonFormDataWithRequestBuilder(param: param, param2: param2)
-        let requestTask = requestBuilder.requestTask
-        return Deferred { Future<Void, Error> { promise in
-            nonisolated(unsafe) let promise = promise
-            requestBuilder.execute { result in
-                switch result {
-                case .success:
-                    promise(.success(()))
-                case let .failure(error):
-                    promise(.failure(error))
-                }
-            }
-        }
-        .handleEvents(receiveCancel: {
-            requestTask.cancel()
-        })
-        .eraseToAnyPublisher()
-        }
-        .eraseToAnyPublisher()
-    }
-    #endif
-
-    /**
-     test json serialization of form data
-     
-     - parameter param: (form) field1 
-     - parameter param2: (form) field2 
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func testJsonFormData(param: String, param2: String) async throws(ErrorResponse) {
-        return try await testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute().body
-    }
-
-    /**
-     test json serialization of form data
-     
-     - parameter param: (form) field1 
-     - parameter param2: (form) field2 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the result
-     */
-    @discardableResult
-    open func testJsonFormData(param: String, param2: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute(apiResponseQueue) { result in
-            switch result {
-            case .success:
-                completion(.success(()))
-            case let .failure(error):
-                completion(.failure(error))
-            }
-        }
-    }
-
-    /**
-     test json serialization of form data
-     - GET /fake/jsonFormData
-     - parameter param: (form) field1 
-     - parameter param2: (form) field2 
-     - returns: RequestBuilder<Void> 
-     */
-    open func testJsonFormDataWithRequestBuilder(param: String, param2: String) -> RequestBuilder<Void> {
-        let localVariablePath = "/fake/jsonFormData"
-        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
-        let localVariableFormParams: [String: Any?] = [
-            "param": param.encodeToJSON(),
-            "param2": param2.encodeToJSON(),
-        ]
-
-        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
-        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/x-www-form-urlencoded",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
-    }
+//    /**
+//
+//     - parameter body: (body)  
+//     - returns: Promise<Void>
+//     */
+//    open func testBodyWithFileSchema( body: FileSchemaTestClass) -> Promise<Void> {
+//        let deferred = Promise<Void>.pending()
+//        testBodyWithFileSchemaWithRequestBuilder(body: body).execute { result in
+//            switch result {
+//            case .success:
+//                deferred.resolver.fulfill(())
+//            case let .failure(error):
+//                deferred.resolver.reject(error)
+//            }
+//        }
+//        return deferred.promise
+//    }
+//
+//    /**
+//
+//     - parameter body: (body)  
+//     - parameter apiResponseQueue: The queue on which api response is dispatched.
+//     - returns: Observable<Void>
+//     */
+//    open func testBodyWithFileSchema(body: FileSchemaTestClass, client: OpenAPIClient = OpenAPIClient.shared) -> Observable<Void> {
+//        return Observable.create { observer -> Disposable in
+//            let requestTask = self.testBodyWithFileSchemaWithRequestBuilder(body: body, client: client).execute(client) { result in
+//                switch result {
+//                case .success:
+//                    observer.onNext(())
+//                case let .failure(error):
+//                    observer.onError(error)
+//                }
+//                observer.onCompleted()
+//            }
+//            
+//            return Disposables.create {
+//                requestTask.cancel()
+//            }
+//        }
+//    }
+//
+//    /**
+//
+//     - parameter body: (body)  
+//     - returns: AnyPublisher<Void, Error>
+//     */
+//    #if canImport(Combine)
+//    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+//    open func testBodyWithFileSchema(body: FileSchemaTestClass) -> AnyPublisher<Void, Error> {
+//        let requestBuilder = testBodyWithFileSchemaWithRequestBuilder(body: body)
+//        let requestTask = requestBuilder.requestTask
+//        return Deferred { Future<Void, Error> { promise in
+//            nonisolated(unsafe) let promise = promise
+//            requestBuilder.execute { result in
+//                switch result {
+//                case .success:
+//                    promise(.success(()))
+//                case let .failure(error):
+//                    promise(.failure(error))
+//                }
+//            }
+//        }
+//        .handleEvents(receiveCancel: {
+//            requestTask.cancel()
+//        })
+//        .eraseToAnyPublisher()
+//        }
+//        .eraseToAnyPublisher()
+//    }
+//    #endif
+//
+//    /**
+//
+//     - parameter body: (body)  
+//     - returns: Void
+//     */
+//    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+//    open func testBodyWithFileSchema(body: FileSchemaTestClass) async throws(ErrorResponse) {
+//        return try await testBodyWithFileSchemaWithRequestBuilder(body: body, client: client).execute().body
+//    }
+//
+//    /**
+//
+//     - parameter body: (body)  
+//     - parameter apiResponseQueue: The queue on which api response is dispatched.
+//     - parameter completion: completion handler to receive the result
+//     */
+//    @discardableResult
+//    open func testBodyWithFileSchema(body: FileSchemaTestClass, client: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
+//        return testBodyWithFileSchemaWithRequestBuilder(body: body, client: client).execute(client) { result in
+//            switch result {
+//            case .success:
+//                completion(.success(()))
+//            case let .failure(error):
+//                completion(.failure(error))
+//            }
+//        }
+//    }
+//
+//    /**
+//     - PUT /fake/body-with-file-schema
+//     - For this test, the body for this request much reference a schema named `File`.
+//     - parameter body: (body)  
+//     - returns: RequestBuilder<Void> 
+//     */
+//    open func testBodyWithFileSchemaWithRequestBuilder(body: FileSchemaTestClass, client: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
+//        let localVariablePath = "/fake/body-with-file-schema"
+//        let localVariableURLString = client.basePath + localVariablePath
+//        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+//
+//        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+//
+//        let localVariableNillableHeaders: [String: Any?] = [
+//            "Content-Type": "application/json",
+//        ]
+//
+//        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+//
+//        let localVariableRequestBuilder: RequestBuilder<Void>.Type = client.requestBuilderFactory.getNonDecodableBuilder()
+//
+//        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+//    }
+//
+//    /**
+//
+//     - parameter query: (query)  
+//     - parameter body: (body)  
+//     - returns: Promise<Void>
+//     */
+//    open func testBodyWithQueryParams( query: String,  body: User) -> Promise<Void> {
+//        let deferred = Promise<Void>.pending()
+//        testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute { result in
+//            switch result {
+//            case .success:
+//                deferred.resolver.fulfill(())
+//            case let .failure(error):
+//                deferred.resolver.reject(error)
+//            }
+//        }
+//        return deferred.promise
+//    }
+//
+//    /**
+//
+//     - parameter query: (query)  
+//     - parameter body: (body)  
+//     - parameter apiResponseQueue: The queue on which api response is dispatched.
+//     - returns: Observable<Void>
+//     */
+//    open func testBodyWithQueryParams(query: String, body: User, client: OpenAPIClient = OpenAPIClient.shared) -> Observable<Void> {
+//        return Observable.create { observer -> Disposable in
+//            let requestTask = self.testBodyWithQueryParamsWithRequestBuilder(query: query, body: body, client: client).execute(client) { result in
+//                switch result {
+//                case .success:
+//                    observer.onNext(())
+//                case let .failure(error):
+//                    observer.onError(error)
+//                }
+//                observer.onCompleted()
+//            }
+//            
+//            return Disposables.create {
+//                requestTask.cancel()
+//            }
+//        }
+//    }
+//
+//    /**
+//
+//     - parameter query: (query)  
+//     - parameter body: (body)  
+//     - returns: AnyPublisher<Void, Error>
+//     */
+//    #if canImport(Combine)
+//    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+//    open func testBodyWithQueryParams(query: String, body: User) -> AnyPublisher<Void, Error> {
+//        let requestBuilder = testBodyWithQueryParamsWithRequestBuilder(query: query, body: body)
+//        let requestTask = requestBuilder.requestTask
+//        return Deferred { Future<Void, Error> { promise in
+//            nonisolated(unsafe) let promise = promise
+//            requestBuilder.execute { result in
+//                switch result {
+//                case .success:
+//                    promise(.success(()))
+//                case let .failure(error):
+//                    promise(.failure(error))
+//                }
+//            }
+//        }
+//        .handleEvents(receiveCancel: {
+//            requestTask.cancel()
+//        })
+//        .eraseToAnyPublisher()
+//        }
+//        .eraseToAnyPublisher()
+//    }
+//    #endif
+//
+//    /**
+//
+//     - parameter query: (query)  
+//     - parameter body: (body)  
+//     - returns: Void
+//     */
+//    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+//    open func testBodyWithQueryParams(query: String, body: User) async throws(ErrorResponse) {
+//        return try await testBodyWithQueryParamsWithRequestBuilder(query: query, body: body, client: client).execute().body
+//    }
+//
+//    /**
+//
+//     - parameter query: (query)  
+//     - parameter body: (body)  
+//     - parameter apiResponseQueue: The queue on which api response is dispatched.
+//     - parameter completion: completion handler to receive the result
+//     */
+//    @discardableResult
+//    open func testBodyWithQueryParams(query: String, body: User, client: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
+//        return testBodyWithQueryParamsWithRequestBuilder(query: query, body: body, client: client).execute(client) { result in
+//            switch result {
+//            case .success:
+//                completion(.success(()))
+//            case let .failure(error):
+//                completion(.failure(error))
+//            }
+//        }
+//    }
+//
+//    /**
+//     - PUT /fake/body-with-query-params
+//     - parameter query: (query)  
+//     - parameter body: (body)  
+//     - returns: RequestBuilder<Void> 
+//     */
+//    open func testBodyWithQueryParamsWithRequestBuilder(query: String, body: User, client: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
+//        let localVariablePath = "/fake/body-with-query-params"
+//        let localVariableURLString = client.basePath + localVariablePath
+//        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+//
+//        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+//        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+//            "query": (wrappedValue: query.encodeToJSON(codableHelper: client.codableHelper), isExplode: false),
+//        ])
+//
+//        let localVariableNillableHeaders: [String: Any?] = [
+//            "Content-Type": "application/json",
+//        ]
+//
+//        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+//
+//        let localVariableRequestBuilder: RequestBuilder<Void>.Type = client.requestBuilderFactory.getNonDecodableBuilder()
+//
+//        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+//    }
+//
+//    /**
+//     To test \"client\" model
+//     
+//     - parameter body: (body) client model 
+//     - returns: Promise<Client>
+//     */
+//    open func testClientModel( body: Client) -> Promise<Client> {
+//        let deferred = Promise<Client>.pending()
+//        testClientModelWithRequestBuilder(body: body).execute { result in
+//            switch result {
+//            case let .success(response):
+//                deferred.resolver.fulfill(response.body)
+//            case let .failure(error):
+//                deferred.resolver.reject(error)
+//            }
+//        }
+//        return deferred.promise
+//    }
+//
+//    /**
+//     To test \"client\" model
+//     
+//     - parameter body: (body) client model 
+//     - parameter apiResponseQueue: The queue on which api response is dispatched.
+//     - returns: Observable<Client>
+//     */
+//    open func testClientModel(body: Client, client: OpenAPIClient = OpenAPIClient.shared) -> Observable<Client> {
+//        return Observable.create { observer -> Disposable in
+//            let requestTask = self.testClientModelWithRequestBuilder(body: body, client: client).execute(client) { result in
+//                switch result {
+//                case let .success(response):
+//                    observer.onNext(response.body)
+//                case let .failure(error):
+//                    observer.onError(error)
+//                }
+//                observer.onCompleted()
+//            }
+//            
+//            return Disposables.create {
+//                requestTask.cancel()
+//            }
+//        }
+//    }
+//
+//    /**
+//     To test \"client\" model
+//     
+//     - parameter body: (body) client model 
+//     - returns: AnyPublisher<Client, Error>
+//     */
+//    #if canImport(Combine)
+//    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+//    open func testClientModel(body: Client) -> AnyPublisher<Client, Error> {
+//        let requestBuilder = testClientModelWithRequestBuilder(body: body)
+//        let requestTask = requestBuilder.requestTask
+//        return Deferred { Future<Client, Error> { promise in
+//            nonisolated(unsafe) let promise = promise
+//            requestBuilder.execute { result in
+//                switch result {
+//                case let .success(response):
+//                    promise(.success(response.body))
+//                case let .failure(error):
+//                    promise(.failure(error))
+//                }
+//            }
+//        }
+//        .handleEvents(receiveCancel: {
+//            requestTask.cancel()
+//        })
+//        .eraseToAnyPublisher()
+//        }
+//        .eraseToAnyPublisher()
+//    }
+//    #endif
+//
+//    /**
+//     To test \"client\" model
+//     
+//     - parameter body: (body) client model 
+//     - returns: Client
+//     */
+//    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+//    open func testClientModel(body: Client) async throws(ErrorResponse) -> Client {
+//        return try await testClientModelWithRequestBuilder(body: body, client: client).execute().body
+//    }
+//
+//    /**
+//     To test \"client\" model
+//     
+//     - parameter body: (body) client model 
+//     - parameter apiResponseQueue: The queue on which api response is dispatched.
+//     - parameter completion: completion handler to receive the result
+//     */
+//    @discardableResult
+//    open func testClientModel(body: Client, client: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Client, ErrorResponse>) -> Void) -> RequestTask {
+//        return testClientModelWithRequestBuilder(body: body, client: client).execute(client) { result in
+//            switch result {
+//            case let .success(response):
+//                completion(.success(response.body))
+//            case let .failure(error):
+//                completion(.failure(error))
+//            }
+//        }
+//    }
+//
+//    /**
+//     To test \"client\" model
+//     - PATCH /fake
+//     - To test \"client\" model
+//     - parameter body: (body) client model 
+//     - returns: RequestBuilder<Client> 
+//     */
+//    open func testClientModelWithRequestBuilder(body: Client, client: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Client> {
+//        let localVariablePath = "/fake"
+//        let localVariableURLString = client.basePath + localVariablePath
+//        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+//
+//        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+//
+//        let localVariableNillableHeaders: [String: Any?] = [
+//            "Content-Type": "application/json",
+//        ]
+//
+//        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+//
+//        let localVariableRequestBuilder: RequestBuilder<Client>.Type = client.requestBuilderFactory.getBuilder()
+//
+//        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+//    }
+//
+//    /**
+//     Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+//     
+//     - parameter number: (form) None 
+//     - parameter double: (form) None 
+//     - parameter patternWithoutDelimiter: (form) None 
+//     - parameter byte: (form) None 
+//     - parameter integer: (form) None (optional)
+//     - parameter int32: (form) None (optional)
+//     - parameter int64: (form) None (optional)
+//     - parameter float: (form) None (optional)
+//     - parameter string: (form) None (optional)
+//     - parameter binary: (form) None (optional)
+//     - parameter date: (form) None (optional)
+//     - parameter dateTime: (form) None (optional)
+//     - parameter password: (form) None (optional)
+//     - parameter callback: (form) None (optional)
+//     - returns: Promise<Void>
+//     */
+//    open func testEndpointParameters( number: Double,  double: Double,  patternWithoutDelimiter: String,  byte: Data,  integer: Int? = nil,  int32: Int? = nil,  int64: Int64? = nil,  float: Float? = nil,  string: String? = nil,  binary: URL? = nil,  date: Date? = nil,  dateTime: Date? = nil,  password: String? = nil,  callback: String? = nil) -> Promise<Void> {
+//        let deferred = Promise<Void>.pending()
+//        testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { result in
+//            switch result {
+//            case .success:
+//                deferred.resolver.fulfill(())
+//            case let .failure(error):
+//                deferred.resolver.reject(error)
+//            }
+//        }
+//        return deferred.promise
+//    }
+//
+//    /**
+//     Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+//     
+//     - parameter number: (form) None 
+//     - parameter double: (form) None 
+//     - parameter patternWithoutDelimiter: (form) None 
+//     - parameter byte: (form) None 
+//     - parameter integer: (form) None (optional)
+//     - parameter int32: (form) None (optional)
+//     - parameter int64: (form) None (optional)
+//     - parameter float: (form) None (optional)
+//     - parameter string: (form) None (optional)
+//     - parameter binary: (form) None (optional)
+//     - parameter date: (form) None (optional)
+//     - parameter dateTime: (form) None (optional)
+//     - parameter password: (form) None (optional)
+//     - parameter callback: (form) None (optional)
+//     - parameter apiResponseQueue: The queue on which api response is dispatched.
+//     - returns: Observable<Void>
+//     */
+//    open func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, client: OpenAPIClient = OpenAPIClient.shared) -> Observable<Void> {
+//        return Observable.create { observer -> Disposable in
+//            let requestTask = self.testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback, client: client).execute(client) { result in
+//                switch result {
+//                case .success:
+//                    observer.onNext(())
+//                case let .failure(error):
+//                    observer.onError(error)
+//                }
+//                observer.onCompleted()
+//            }
+//            
+//            return Disposables.create {
+//                requestTask.cancel()
+//            }
+//        }
+//    }
+//
+//    /**
+//     Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+//     
+//     - parameter number: (form) None 
+//     - parameter double: (form) None 
+//     - parameter patternWithoutDelimiter: (form) None 
+//     - parameter byte: (form) None 
+//     - parameter integer: (form) None (optional)
+//     - parameter int32: (form) None (optional)
+//     - parameter int64: (form) None (optional)
+//     - parameter float: (form) None (optional)
+//     - parameter string: (form) None (optional)
+//     - parameter binary: (form) None (optional)
+//     - parameter date: (form) None (optional)
+//     - parameter dateTime: (form) None (optional)
+//     - parameter password: (form) None (optional)
+//     - parameter callback: (form) None (optional)
+//     - returns: AnyPublisher<Void, Error>
+//     */
+//    #if canImport(Combine)
+//    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+//    open func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> AnyPublisher<Void, Error> {
+//        let requestBuilder = testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback)
+//        let requestTask = requestBuilder.requestTask
+//        return Deferred { Future<Void, Error> { promise in
+//            nonisolated(unsafe) let promise = promise
+//            requestBuilder.execute { result in
+//                switch result {
+//                case .success:
+//                    promise(.success(()))
+//                case let .failure(error):
+//                    promise(.failure(error))
+//                }
+//            }
+//        }
+//        .handleEvents(receiveCancel: {
+//            requestTask.cancel()
+//        })
+//        .eraseToAnyPublisher()
+//        }
+//        .eraseToAnyPublisher()
+//    }
+//    #endif
+//
+//    /**
+//     Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+//     
+//     - parameter number: (form) None 
+//     - parameter double: (form) None 
+//     - parameter patternWithoutDelimiter: (form) None 
+//     - parameter byte: (form) None 
+//     - parameter integer: (form) None (optional)
+//     - parameter int32: (form) None (optional)
+//     - parameter int64: (form) None (optional)
+//     - parameter float: (form) None (optional)
+//     - parameter string: (form) None (optional)
+//     - parameter binary: (form) None (optional)
+//     - parameter date: (form) None (optional)
+//     - parameter dateTime: (form) None (optional)
+//     - parameter password: (form) None (optional)
+//     - parameter callback: (form) None (optional)
+//     - returns: Void
+//     */
+//    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+//    open func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) async throws(ErrorResponse) {
+//        return try await testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback, client: client).execute().body
+//    }
+//
+//    /**
+//     Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+//     
+//     - parameter number: (form) None 
+//     - parameter double: (form) None 
+//     - parameter patternWithoutDelimiter: (form) None 
+//     - parameter byte: (form) None 
+//     - parameter integer: (form) None (optional)
+//     - parameter int32: (form) None (optional)
+//     - parameter int64: (form) None (optional)
+//     - parameter float: (form) None (optional)
+//     - parameter string: (form) None (optional)
+//     - parameter binary: (form) None (optional)
+//     - parameter date: (form) None (optional)
+//     - parameter dateTime: (form) None (optional)
+//     - parameter password: (form) None (optional)
+//     - parameter callback: (form) None (optional)
+//     - parameter apiResponseQueue: The queue on which api response is dispatched.
+//     - parameter completion: completion handler to receive the result
+//     */
+//    @discardableResult
+//    open func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, client: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
+//        return testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback, client: client).execute(client) { result in
+//            switch result {
+//            case .success:
+//                completion(.success(()))
+//            case let .failure(error):
+//                completion(.failure(error))
+//            }
+//        }
+//    }
+//
+//    /**
+//     Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+//     - POST /fake
+//     - Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+//     - BASIC:
+//       - type: http
+//       - name: http_basic_test
+//     - parameter number: (form) None 
+//     - parameter double: (form) None 
+//     - parameter patternWithoutDelimiter: (form) None 
+//     - parameter byte: (form) None 
+//     - parameter integer: (form) None (optional)
+//     - parameter int32: (form) None (optional)
+//     - parameter int64: (form) None (optional)
+//     - parameter float: (form) None (optional)
+//     - parameter string: (form) None (optional)
+//     - parameter binary: (form) None (optional)
+//     - parameter date: (form) None (optional)
+//     - parameter dateTime: (form) None (optional)
+//     - parameter password: (form) None (optional)
+//     - parameter callback: (form) None (optional)
+//     - returns: RequestBuilder<Void>
+//     */
+//    open func testEndpointParametersWithRequestBuilder(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, client: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
+//        let localVariablePath = "/fake"
+//        let localVariableURLString = client.basePath + localVariablePath
+//        let localVariableFormParams: [String: Any?] = [
+//            "integer": integer?.encodeToJSON(codableHelper: client.codableHelper),
+//            "int32": int32?.encodeToJSON(codableHelper: client.codableHelper),
+//            "int64": int64?.encodeToJSON(codableHelper: client.codableHelper),
+//            "number": number.encodeToJSON(codableHelper: client.codableHelper),
+//            "float": float?.encodeToJSON(codableHelper: client.codableHelper),
+//            "double": double.encodeToJSON(codableHelper: client.codableHelper),
+//            "string": string?.encodeToJSON(codableHelper: client.codableHelper),
+//            "pattern_without_delimiter": patternWithoutDelimiter.encodeToJSON(codableHelper: client.codableHelper),
+//            "byte": byte.encodeToJSON(codableHelper: client.codableHelper),
+//            "binary": binary?.encodeToJSON(codableHelper: client.codableHelper),
+//            "date": date?.encodeToJSON(codableHelper: client.codableHelper),
+//            "dateTime": dateTime?.encodeToJSON(codableHelper: client.codableHelper),
+//            "password": password?.encodeToJSON(codableHelper: client.codableHelper),
+//            "callback": callback?.encodeToJSON(codableHelper: client.codableHelper),
+//        ]
+//
+//        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
+//        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
+//
+//        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+//
+//        let localVariableNillableHeaders: [String: Any?] = [
+//            "Content-Type": "application/x-www-form-urlencoded",
+//        ]
+//
+//        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+//
+//        let localVariableRequestBuilder: RequestBuilder<Void>.Type = client.requestBuilderFactory.getNonDecodableBuilder()
+//
+//        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+//    }
+//
+//    /**
+//     * enum for parameter enumHeaderStringArray
+//     */
+//    public enum EnumHeaderStringArray_testEnumParameters: String, CaseIterable {
+//        case greaterThan = ">"
+//        case dollar = "$"
+//    }
+//
+//    /**
+//     * enum for parameter enumHeaderString
+//     */
+//    public enum EnumHeaderString_testEnumParameters: String, CaseIterable {
+//        case abc = "_abc"
+//        case efg = "-efg"
+//        case xyz = "(xyz)"
+//    }
+//
+//    /**
+//     * enum for parameter enumQueryStringArray
+//     */
+//    public enum EnumQueryStringArray_testEnumParameters: String, CaseIterable {
+//        case greaterThan = ">"
+//        case dollar = "$"
+//    }
+//
+//    /**
+//     * enum for parameter enumQueryString
+//     */
+//    public enum EnumQueryString_testEnumParameters: String, CaseIterable {
+//        case abc = "_abc"
+//        case efg = "-efg"
+//        case xyz = "(xyz)"
+//    }
+//
+//    /**
+//     * enum for parameter enumQueryInteger
+//     */
+//    public enum EnumQueryInteger_testEnumParameters: Int, CaseIterable {
+//        case _1 = 1
+//        case number2 = -2
+//    }
+//
+//    /**
+//     * enum for parameter enumQueryDouble
+//     */
+//    public enum EnumQueryDouble_testEnumParameters: Double, CaseIterable {
+//        case _11 = 1.1
+//        case number12 = -1.2
+//    }
+//
+//    /**
+//     * enum for parameter enumFormStringArray
+//     */
+//    public enum EnumFormStringArray_testEnumParameters: String, CaseIterable {
+//        case greaterThan = ">"
+//        case dollar = "$"
+//    }
+//
+//    /**
+//     * enum for parameter enumFormString
+//     */
+//    public enum EnumFormString_testEnumParameters: String, CaseIterable {
+//        case abc = "_abc"
+//        case efg = "-efg"
+//        case xyz = "(xyz)"
+//    }
+//
+//    /**
+//     To test enum parameters
+//     
+//     - parameter enumHeaderStringArray: (header) Header parameter enum test (string array) (optional)
+//     - parameter enumHeaderString: (header) Header parameter enum test (string) (optional, default to .efg)
+//     - parameter enumQueryStringArray: (query) Query parameter enum test (string array) (optional)
+//     - parameter enumQueryString: (query) Query parameter enum test (string) (optional, default to .efg)
+//     - parameter enumQueryInteger: (query) Query parameter enum test (double) (optional)
+//     - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
+//     - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to .dollar)
+//     - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .efg)
+//     - returns: Promise<Void>
+//     */
+//    open func testEnumParameters( enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil,  enumHeaderString: EnumHeaderString_testEnumParameters? = nil,  enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil,  enumQueryString: EnumQueryString_testEnumParameters? = nil,  enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil,  enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil,  enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil,  enumFormString: EnumFormString_testEnumParameters? = nil) -> Promise<Void> {
+//        let deferred = Promise<Void>.pending()
+//        testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute { result in
+//            switch result {
+//            case .success:
+//                deferred.resolver.fulfill(())
+//            case let .failure(error):
+//                deferred.resolver.reject(error)
+//            }
+//        }
+//        return deferred.promise
+//    }
+//
+//    /**
+//     To test enum parameters
+//     
+//     - parameter enumHeaderStringArray: (header) Header parameter enum test (string array) (optional)
+//     - parameter enumHeaderString: (header) Header parameter enum test (string) (optional, default to .efg)
+//     - parameter enumQueryStringArray: (query) Query parameter enum test (string array) (optional)
+//     - parameter enumQueryString: (query) Query parameter enum test (string) (optional, default to .efg)
+//     - parameter enumQueryInteger: (query) Query parameter enum test (double) (optional)
+//     - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
+//     - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to .dollar)
+//     - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .efg)
+//     - parameter apiResponseQueue: The queue on which api response is dispatched.
+//     - returns: Observable<Void>
+//     */
+//    open func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, client: OpenAPIClient = OpenAPIClient.shared) -> Observable<Void> {
+//        return Observable.create { observer -> Disposable in
+//            let requestTask = self.testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, client: client).execute(client) { result in
+//                switch result {
+//                case .success:
+//                    observer.onNext(())
+//                case let .failure(error):
+//                    observer.onError(error)
+//                }
+//                observer.onCompleted()
+//            }
+//            
+//            return Disposables.create {
+//                requestTask.cancel()
+//            }
+//        }
+//    }
+//
+//    /**
+//     To test enum parameters
+//     
+//     - parameter enumHeaderStringArray: (header) Header parameter enum test (string array) (optional)
+//     - parameter enumHeaderString: (header) Header parameter enum test (string) (optional, default to .efg)
+//     - parameter enumQueryStringArray: (query) Query parameter enum test (string array) (optional)
+//     - parameter enumQueryString: (query) Query parameter enum test (string) (optional, default to .efg)
+//     - parameter enumQueryInteger: (query) Query parameter enum test (double) (optional)
+//     - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
+//     - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to .dollar)
+//     - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .efg)
+//     - returns: AnyPublisher<Void, Error>
+//     */
+//    #if canImport(Combine)
+//    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+//    open func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) -> AnyPublisher<Void, Error> {
+//        let requestBuilder = testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString)
+//        let requestTask = requestBuilder.requestTask
+//        return Deferred { Future<Void, Error> { promise in
+//            nonisolated(unsafe) let promise = promise
+//            requestBuilder.execute { result in
+//                switch result {
+//                case .success:
+//                    promise(.success(()))
+//                case let .failure(error):
+//                    promise(.failure(error))
+//                }
+//            }
+//        }
+//        .handleEvents(receiveCancel: {
+//            requestTask.cancel()
+//        })
+//        .eraseToAnyPublisher()
+//        }
+//        .eraseToAnyPublisher()
+//    }
+//    #endif
+//
+//    /**
+//     To test enum parameters
+//     
+//     - parameter enumHeaderStringArray: (header) Header parameter enum test (string array) (optional)
+//     - parameter enumHeaderString: (header) Header parameter enum test (string) (optional, default to .efg)
+//     - parameter enumQueryStringArray: (query) Query parameter enum test (string array) (optional)
+//     - parameter enumQueryString: (query) Query parameter enum test (string) (optional, default to .efg)
+//     - parameter enumQueryInteger: (query) Query parameter enum test (double) (optional)
+//     - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
+//     - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to .dollar)
+//     - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .efg)
+//     - returns: Void
+//     */
+//    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+//    open func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) async throws(ErrorResponse) {
+//        return try await testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, client: client).execute().body
+//    }
+//
+//    /**
+//     To test enum parameters
+//     
+//     - parameter enumHeaderStringArray: (header) Header parameter enum test (string array) (optional)
+//     - parameter enumHeaderString: (header) Header parameter enum test (string) (optional, default to .efg)
+//     - parameter enumQueryStringArray: (query) Query parameter enum test (string array) (optional)
+//     - parameter enumQueryString: (query) Query parameter enum test (string) (optional, default to .efg)
+//     - parameter enumQueryInteger: (query) Query parameter enum test (double) (optional)
+//     - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
+//     - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to .dollar)
+//     - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .efg)
+//     - parameter apiResponseQueue: The queue on which api response is dispatched.
+//     - parameter completion: completion handler to receive the result
+//     */
+//    @discardableResult
+//    open func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, client: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
+//        return testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, client: client).execute(client) { result in
+//            switch result {
+//            case .success:
+//                completion(.success(()))
+//            case let .failure(error):
+//                completion(.failure(error))
+//            }
+//        }
+//    }
+//
+//    /**
+//     To test enum parameters
+//     - GET /fake
+//     - To test enum parameters
+//     - parameter enumHeaderStringArray: (header) Header parameter enum test (string array) (optional)
+//     - parameter enumHeaderString: (header) Header parameter enum test (string) (optional, default to .efg)
+//     - parameter enumQueryStringArray: (query) Query parameter enum test (string array) (optional)
+//     - parameter enumQueryString: (query) Query parameter enum test (string) (optional, default to .efg)
+//     - parameter enumQueryInteger: (query) Query parameter enum test (double) (optional)
+//     - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
+//     - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to .dollar)
+//     - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .efg)
+//     - returns: RequestBuilder<Void> 
+//     */
+//    open func testEnumParametersWithRequestBuilder(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, client: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
+//        let localVariablePath = "/fake"
+//        let localVariableURLString = client.basePath + localVariablePath
+//        let localVariableFormParams: [String: Any?] = [
+//            "enum_form_string_array": enumFormStringArray?.encodeToJSON(codableHelper: client.codableHelper),
+//            "enum_form_string": enumFormString?.encodeToJSON(codableHelper: client.codableHelper),
+//        ]
+//
+//        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
+//        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
+//
+//        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+//        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+//            "enum_query_string_array": (wrappedValue: enumQueryStringArray?.encodeToJSON(codableHelper: client.codableHelper), isExplode: false),
+//            "enum_query_string": (wrappedValue: enumQueryString?.encodeToJSON(codableHelper: client.codableHelper), isExplode: false),
+//            "enum_query_integer": (wrappedValue: enumQueryInteger?.encodeToJSON(codableHelper: client.codableHelper), isExplode: false),
+//            "enum_query_double": (wrappedValue: enumQueryDouble?.encodeToJSON(codableHelper: client.codableHelper), isExplode: false),
+//        ])
+//
+//        let localVariableNillableHeaders: [String: Any?] = [
+//            "Content-Type": "application/x-www-form-urlencoded",
+//            "enum_header_string_array": enumHeaderStringArray?.encodeToJSON(codableHelper: client.codableHelper),
+//            "enum_header_string": enumHeaderString?.encodeToJSON(codableHelper: client.codableHelper),
+//        ]
+//
+//        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+//
+//        let localVariableRequestBuilder: RequestBuilder<Void>.Type = client.requestBuilderFactory.getNonDecodableBuilder()
+//
+//        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+//    }
+//
+//    /**
+//     Fake endpoint to test group parameters (optional)
+//     
+//     - parameter requiredStringGroup: (query) Required String in group parameters 
+//     - parameter requiredBooleanGroup: (header) Required Boolean in group parameters 
+//     - parameter requiredInt64Group: (query) Required Integer in group parameters 
+//     - parameter stringGroup: (query) String in group parameters (optional)
+//     - parameter booleanGroup: (header) Boolean in group parameters (optional)
+//     - parameter int64Group: (query) Integer in group parameters (optional)
+//     - returns: Promise<Void>
+//     */
+//    open func testGroupParameters( requiredStringGroup: Int,  requiredBooleanGroup: Bool,  requiredInt64Group: Int64,  stringGroup: Int? = nil,  booleanGroup: Bool? = nil,  int64Group: Int64? = nil) -> Promise<Void> {
+//        let deferred = Promise<Void>.pending()
+//        testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute { result in
+//            switch result {
+//            case .success:
+//                deferred.resolver.fulfill(())
+//            case let .failure(error):
+//                deferred.resolver.reject(error)
+//            }
+//        }
+//        return deferred.promise
+//    }
+//
+//    /**
+//     Fake endpoint to test group parameters (optional)
+//     
+//     - parameter requiredStringGroup: (query) Required String in group parameters 
+//     - parameter requiredBooleanGroup: (header) Required Boolean in group parameters 
+//     - parameter requiredInt64Group: (query) Required Integer in group parameters 
+//     - parameter stringGroup: (query) String in group parameters (optional)
+//     - parameter booleanGroup: (header) Boolean in group parameters (optional)
+//     - parameter int64Group: (query) Integer in group parameters (optional)
+//     - parameter apiResponseQueue: The queue on which api response is dispatched.
+//     - returns: Observable<Void>
+//     */
+//    open func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, client: OpenAPIClient = OpenAPIClient.shared) -> Observable<Void> {
+//        return Observable.create { observer -> Disposable in
+//            let requestTask = self.testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group, client: client).execute(client) { result in
+//                switch result {
+//                case .success:
+//                    observer.onNext(())
+//                case let .failure(error):
+//                    observer.onError(error)
+//                }
+//                observer.onCompleted()
+//            }
+//            
+//            return Disposables.create {
+//                requestTask.cancel()
+//            }
+//        }
+//    }
+//
+//    /**
+//     Fake endpoint to test group parameters (optional)
+//     
+//     - parameter requiredStringGroup: (query) Required String in group parameters 
+//     - parameter requiredBooleanGroup: (header) Required Boolean in group parameters 
+//     - parameter requiredInt64Group: (query) Required Integer in group parameters 
+//     - parameter stringGroup: (query) String in group parameters (optional)
+//     - parameter booleanGroup: (header) Boolean in group parameters (optional)
+//     - parameter int64Group: (query) Integer in group parameters (optional)
+//     - returns: AnyPublisher<Void, Error>
+//     */
+//    #if canImport(Combine)
+//    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+//    open func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil) -> AnyPublisher<Void, Error> {
+//        let requestBuilder = testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group)
+//        let requestTask = requestBuilder.requestTask
+//        return Deferred { Future<Void, Error> { promise in
+//            nonisolated(unsafe) let promise = promise
+//            requestBuilder.execute { result in
+//                switch result {
+//                case .success:
+//                    promise(.success(()))
+//                case let .failure(error):
+//                    promise(.failure(error))
+//                }
+//            }
+//        }
+//        .handleEvents(receiveCancel: {
+//            requestTask.cancel()
+//        })
+//        .eraseToAnyPublisher()
+//        }
+//        .eraseToAnyPublisher()
+//    }
+//    #endif
+//
+//    /**
+//     Fake endpoint to test group parameters (optional)
+//     
+//     - parameter requiredStringGroup: (query) Required String in group parameters 
+//     - parameter requiredBooleanGroup: (header) Required Boolean in group parameters 
+//     - parameter requiredInt64Group: (query) Required Integer in group parameters 
+//     - parameter stringGroup: (query) String in group parameters (optional)
+//     - parameter booleanGroup: (header) Boolean in group parameters (optional)
+//     - parameter int64Group: (query) Integer in group parameters (optional)
+//     - returns: Void
+//     */
+//    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+//    open func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil) async throws(ErrorResponse) {
+//        return try await testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group, client: client).execute().body
+//    }
+//
+//    /**
+//     Fake endpoint to test group parameters (optional)
+//     
+//     - parameter requiredStringGroup: (query) Required String in group parameters 
+//     - parameter requiredBooleanGroup: (header) Required Boolean in group parameters 
+//     - parameter requiredInt64Group: (query) Required Integer in group parameters 
+//     - parameter stringGroup: (query) String in group parameters (optional)
+//     - parameter booleanGroup: (header) Boolean in group parameters (optional)
+//     - parameter int64Group: (query) Integer in group parameters (optional)
+//     - parameter apiResponseQueue: The queue on which api response is dispatched.
+//     - parameter completion: completion handler to receive the result
+//     */
+//    @discardableResult
+//    open func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, client: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
+//        return testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group, client: client).execute(client) { result in
+//            switch result {
+//            case .success:
+//                completion(.success(()))
+//            case let .failure(error):
+//                completion(.failure(error))
+//            }
+//        }
+//    }
+//
+//    /**
+//     Fake endpoint to test group parameters (optional)
+//     - DELETE /fake
+//     - Fake endpoint to test group parameters (optional)
+//     - parameter requiredStringGroup: (query) Required String in group parameters 
+//     - parameter requiredBooleanGroup: (header) Required Boolean in group parameters 
+//     - parameter requiredInt64Group: (query) Required Integer in group parameters 
+//     - parameter stringGroup: (query) String in group parameters (optional)
+//     - parameter booleanGroup: (header) Boolean in group parameters (optional)
+//     - parameter int64Group: (query) Integer in group parameters (optional)
+//     - returns: RequestBuilder<Void> 
+//     */
+//    open func testGroupParametersWithRequestBuilder(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, client: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
+//        let localVariablePath = "/fake"
+//        let localVariableURLString = client.basePath + localVariablePath
+//        let localVariableParameters: [String: Any]? = nil
+//
+//        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+//        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+//            "required_string_group": (wrappedValue: requiredStringGroup.encodeToJSON(codableHelper: client.codableHelper), isExplode: false),
+//            "required_int64_group": (wrappedValue: requiredInt64Group.encodeToJSON(codableHelper: client.codableHelper), isExplode: false),
+//            "string_group": (wrappedValue: stringGroup?.encodeToJSON(codableHelper: client.codableHelper), isExplode: false),
+//            "int64_group": (wrappedValue: int64Group?.encodeToJSON(codableHelper: client.codableHelper), isExplode: false),
+//        ])
+//
+//        let localVariableNillableHeaders: [String: Any?] = [
+//            "required_boolean_group": requiredBooleanGroup.encodeToJSON(codableHelper: client.codableHelper),
+//            "boolean_group": booleanGroup?.encodeToJSON(codableHelper: client.codableHelper),
+//        ]
+//
+//        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+//
+//        let localVariableRequestBuilder: RequestBuilder<Void>.Type = client.requestBuilderFactory.getNonDecodableBuilder()
+//
+//        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+//    }
+//
+//    /**
+//     test inline additionalProperties
+//     
+//     - parameter param: (body) request body 
+//     - returns: Promise<Void>
+//     */
+//    open func testInlineAdditionalProperties( param: [String: String]) -> Promise<Void> {
+//        let deferred = Promise<Void>.pending()
+//        testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute { result in
+//            switch result {
+//            case .success:
+//                deferred.resolver.fulfill(())
+//            case let .failure(error):
+//                deferred.resolver.reject(error)
+//            }
+//        }
+//        return deferred.promise
+//    }
+//
+//    /**
+//     test inline additionalProperties
+//     
+//     - parameter param: (body) request body 
+//     - parameter apiResponseQueue: The queue on which api response is dispatched.
+//     - returns: Observable<Void>
+//     */
+//    open func testInlineAdditionalProperties(param: [String: String], client: OpenAPIClient = OpenAPIClient.shared) -> Observable<Void> {
+//        return Observable.create { observer -> Disposable in
+//            let requestTask = self.testInlineAdditionalPropertiesWithRequestBuilder(param: param, client: client).execute(client) { result in
+//                switch result {
+//                case .success:
+//                    observer.onNext(())
+//                case let .failure(error):
+//                    observer.onError(error)
+//                }
+//                observer.onCompleted()
+//            }
+//            
+//            return Disposables.create {
+//                requestTask.cancel()
+//            }
+//        }
+//    }
+//
+//    /**
+//     test inline additionalProperties
+//     
+//     - parameter param: (body) request body 
+//     - returns: AnyPublisher<Void, Error>
+//     */
+//    #if canImport(Combine)
+//    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+//    open func testInlineAdditionalProperties(param: [String: String]) -> AnyPublisher<Void, Error> {
+//        let requestBuilder = testInlineAdditionalPropertiesWithRequestBuilder(param: param)
+//        let requestTask = requestBuilder.requestTask
+//        return Deferred { Future<Void, Error> { promise in
+//            nonisolated(unsafe) let promise = promise
+//            requestBuilder.execute { result in
+//                switch result {
+//                case .success:
+//                    promise(.success(()))
+//                case let .failure(error):
+//                    promise(.failure(error))
+//                }
+//            }
+//        }
+//        .handleEvents(receiveCancel: {
+//            requestTask.cancel()
+//        })
+//        .eraseToAnyPublisher()
+//        }
+//        .eraseToAnyPublisher()
+//    }
+//    #endif
+//
+//    /**
+//     test inline additionalProperties
+//     
+//     - parameter param: (body) request body 
+//     - returns: Void
+//     */
+//    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+//    open func testInlineAdditionalProperties(param: [String: String]) async throws(ErrorResponse) {
+//        return try await testInlineAdditionalPropertiesWithRequestBuilder(param: param, client: client).execute().body
+//    }
+//
+//    /**
+//     test inline additionalProperties
+//     
+//     - parameter param: (body) request body 
+//     - parameter apiResponseQueue: The queue on which api response is dispatched.
+//     - parameter completion: completion handler to receive the result
+//     */
+//    @discardableResult
+//    open func testInlineAdditionalProperties(param: [String: String], client: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
+//        return testInlineAdditionalPropertiesWithRequestBuilder(param: param, client: client).execute(client) { result in
+//            switch result {
+//            case .success:
+//                completion(.success(()))
+//            case let .failure(error):
+//                completion(.failure(error))
+//            }
+//        }
+//    }
+//
+//    /**
+//     test inline additionalProperties
+//     - POST /fake/inline-additionalProperties
+//     - parameter param: (body) request body 
+//     - returns: RequestBuilder<Void> 
+//     */
+//    open func testInlineAdditionalPropertiesWithRequestBuilder(param: [String: String], client: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
+//        let localVariablePath = "/fake/inline-additionalProperties"
+//        let localVariableURLString = client.basePath + localVariablePath
+//        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: param)
+//
+//        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+//
+//        let localVariableNillableHeaders: [String: Any?] = [
+//            "Content-Type": "application/json",
+//        ]
+//
+//        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+//
+//        let localVariableRequestBuilder: RequestBuilder<Void>.Type = client.requestBuilderFactory.getNonDecodableBuilder()
+//
+//        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+//    }
+//
+//    /**
+//     test json serialization of form data
+//     
+//     - parameter param: (form) field1 
+//     - parameter param2: (form) field2 
+//     - returns: Promise<Void>
+//     */
+//    open func testJsonFormData( param: String,  param2: String) -> Promise<Void> {
+//        let deferred = Promise<Void>.pending()
+//        testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute { result in
+//            switch result {
+//            case .success:
+//                deferred.resolver.fulfill(())
+//            case let .failure(error):
+//                deferred.resolver.reject(error)
+//            }
+//        }
+//        return deferred.promise
+//    }
+//
+//    /**
+//     test json serialization of form data
+//     
+//     - parameter param: (form) field1 
+//     - parameter param2: (form) field2 
+//     - parameter apiResponseQueue: The queue on which api response is dispatched.
+//     - returns: Observable<Void>
+//     */
+//    open func testJsonFormData(param: String, param2: String, client: OpenAPIClient = OpenAPIClient.shared) -> Observable<Void> {
+//        return Observable.create { observer -> Disposable in
+//            let requestTask = self.testJsonFormDataWithRequestBuilder(param: param, param2: param2, client: client).execute(client) { result in
+//                switch result {
+//                case .success:
+//                    observer.onNext(())
+//                case let .failure(error):
+//                    observer.onError(error)
+//                }
+//                observer.onCompleted()
+//            }
+//            
+//            return Disposables.create {
+//                requestTask.cancel()
+//            }
+//        }
+//    }
+//
+//    /**
+//     test json serialization of form data
+//     
+//     - parameter param: (form) field1 
+//     - parameter param2: (form) field2 
+//     - returns: AnyPublisher<Void, Error>
+//     */
+//    #if canImport(Combine)
+//    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+//    open func testJsonFormData(param: String, param2: String) -> AnyPublisher<Void, Error> {
+//        let requestBuilder = testJsonFormDataWithRequestBuilder(param: param, param2: param2)
+//        let requestTask = requestBuilder.requestTask
+//        return Deferred { Future<Void, Error> { promise in
+//            nonisolated(unsafe) let promise = promise
+//            requestBuilder.execute { result in
+//                switch result {
+//                case .success:
+//                    promise(.success(()))
+//                case let .failure(error):
+//                    promise(.failure(error))
+//                }
+//            }
+//        }
+//        .handleEvents(receiveCancel: {
+//            requestTask.cancel()
+//        })
+//        .eraseToAnyPublisher()
+//        }
+//        .eraseToAnyPublisher()
+//    }
+//    #endif
+//
+//    /**
+//     test json serialization of form data
+//     
+//     - parameter param: (form) field1 
+//     - parameter param2: (form) field2 
+//     - returns: Void
+//     */
+//    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+//    open func testJsonFormData(param: String, param2: String) async throws(ErrorResponse) {
+//        return try await testJsonFormDataWithRequestBuilder(param: param, param2: param2, client: client).execute().body
+//    }
+//
+//    /**
+//     test json serialization of form data
+//     
+//     - parameter param: (form) field1 
+//     - parameter param2: (form) field2 
+//     - parameter apiResponseQueue: The queue on which api response is dispatched.
+//     - parameter completion: completion handler to receive the result
+//     */
+//    @discardableResult
+//    open func testJsonFormData(param: String, param2: String, client: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
+//        return testJsonFormDataWithRequestBuilder(param: param, param2: param2, client: client).execute(client) { result in
+//            switch result {
+//            case .success:
+//                completion(.success(()))
+//            case let .failure(error):
+//                completion(.failure(error))
+//            }
+//        }
+//    }
+//
+//    /**
+//     test json serialization of form data
+//     - GET /fake/jsonFormData
+//     - parameter param: (form) field1 
+//     - parameter param2: (form) field2 
+//     - returns: RequestBuilder<Void> 
+//     */
+//    open func testJsonFormDataWithRequestBuilder(param: String, param2: String, client: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
+//        let localVariablePath = "/fake/jsonFormData"
+//        let localVariableURLString = client.basePath + localVariablePath
+//        let localVariableFormParams: [String: Any?] = [
+//            "param": param.encodeToJSON(codableHelper: client.codableHelper),
+//            "param2": param2.encodeToJSON(codableHelper: client.codableHelper),
+//        ]
+//
+//        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
+//        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
+//
+//        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+//
+//        let localVariableNillableHeaders: [String: Any?] = [
+//            "Content-Type": "application/x-www-form-urlencoded",
+//        ]
+//
+//        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+//
+//        let localVariableRequestBuilder: RequestBuilder<Void>.Type = client.requestBuilderFactory.getNonDecodableBuilder()
+//
+//        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+//    }
 }
