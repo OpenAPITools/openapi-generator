@@ -37,7 +37,6 @@ public class ReadOnlyFirstDto {
    * Get bar
    * @return bar
    */
-  
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("bar")
   public String getBar() {
@@ -57,7 +56,6 @@ public class ReadOnlyFirstDto {
    * Get baz
    * @return baz
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("baz")
   public String getBaz() {
@@ -107,4 +105,3 @@ public class ReadOnlyFirstDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

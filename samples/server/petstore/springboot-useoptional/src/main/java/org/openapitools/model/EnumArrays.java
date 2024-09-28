@@ -98,11 +98,10 @@ public class EnumArrays {
     }
   }
 
-  @Valid
-  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
+  private List<Optional<ArrayEnumEnum>> arrayEnum = new ArrayList<>();
 
-  public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
-    this.justSymbol = Optional.of(justSymbol);
+  public EnumArrays justSymbol(Optional<JustSymbolEnum> justSymbol) {
+    this.justSymbol = justSymbol;
     return this;
   }
 
@@ -110,7 +109,6 @@ public class EnumArrays {
    * Get justSymbol
    * @return justSymbol
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("just_symbol")
   public Optional<JustSymbolEnum> getJustSymbol() {
@@ -121,12 +119,12 @@ public class EnumArrays {
     this.justSymbol = justSymbol;
   }
 
-  public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
+  public EnumArrays arrayEnum(List<Optional<ArrayEnumEnum>> arrayEnum) {
     this.arrayEnum = arrayEnum;
     return this;
   }
 
-  public EnumArrays addArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
+  public EnumArrays addArrayEnumItem(Optional<ArrayEnumEnum> arrayEnumItem) {
     if (this.arrayEnum == null) {
       this.arrayEnum = new ArrayList<>();
     }
@@ -138,14 +136,13 @@ public class EnumArrays {
    * Get arrayEnum
    * @return arrayEnum
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("array_enum")
-  public List<ArrayEnumEnum> getArrayEnum() {
+  public List<Optional<ArrayEnumEnum>> getArrayEnum() {
     return arrayEnum;
   }
 
-  public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
+  public void setArrayEnum(List<Optional<ArrayEnumEnum>> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
 
@@ -206,16 +203,14 @@ public class EnumArrays {
       return this;
     }
 
-    public EnumArrays.Builder justSymbol(JustSymbolEnum justSymbol) {
+    public EnumArrays.Builder justSymbol(Optional<JustSymbolEnum> justSymbol) {
       this.instance.justSymbol(justSymbol);
       return this;
     }
-    
-    public EnumArrays.Builder arrayEnum(List<ArrayEnumEnum> arrayEnum) {
+    public EnumArrays.Builder arrayEnum(List<Optional<ArrayEnumEnum>> arrayEnum) {
       this.instance.arrayEnum(arrayEnum);
       return this;
     }
-    
     /**
     * returns a built EnumArrays instance.
     *
@@ -252,4 +247,3 @@ public class EnumArrays {
   }
 
 }
-

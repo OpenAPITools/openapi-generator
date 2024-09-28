@@ -29,8 +29,8 @@ public class AdditionalPropertiesObject {
 
   private Optional<String> name = Optional.empty();
 
-  public AdditionalPropertiesObject name(String name) {
-    this.name = Optional.of(name);
+  public AdditionalPropertiesObject name(Optional<String> name) {
+    this.name = name;
     return this;
   }
 
@@ -38,7 +38,6 @@ public class AdditionalPropertiesObject {
    * Get name
    * @return name
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public Optional<String> getName() {
@@ -143,11 +142,10 @@ public class AdditionalPropertiesObject {
       return this;
     }
 
-    public AdditionalPropertiesObject.Builder name(String name) {
+    public AdditionalPropertiesObject.Builder name(Optional<String> name) {
       this.instance.name(name);
       return this;
     }
-    
     public AdditionalPropertiesObject.Builder additionalProperties(Map<String, Map> additionalProperties) {
       this.instance.additionalProperties = additionalProperties;
       return this;
@@ -189,4 +187,3 @@ public class AdditionalPropertiesObject {
   }
 
 }
-

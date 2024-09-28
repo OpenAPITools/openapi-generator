@@ -48,8 +48,8 @@ public class Cat extends Animal {
     super(className);
   }
 
-  public Cat declawed(Boolean declawed) {
-    this.declawed = Optional.of(declawed);
+  public Cat declawed(Optional<Boolean> declawed) {
+    this.declawed = declawed;
     return this;
   }
 
@@ -57,7 +57,6 @@ public class Cat extends Animal {
    * Get declawed
    * @return declawed
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("declawed")
   public Optional<Boolean> getDeclawed() {
@@ -74,7 +73,7 @@ public class Cat extends Animal {
     return this;
   }
 
-  public Cat color(String color) {
+  public Cat color(Optional<String> color) {
     super.color(color);
     return this;
   }
@@ -136,23 +135,20 @@ public class Cat extends Animal {
       return this;
     }
 
-    public Cat.Builder declawed(Boolean declawed) {
+    public Cat.Builder declawed(Optional<Boolean> declawed) {
       this.instance.declawed(declawed);
       return this;
     }
-    
     @Override
     public Cat.Builder className(String className) {
       this.instance.className(className);
       return this;
     }
-    
     @Override
-    public Cat.Builder color(String color) {
+    public Cat.Builder color(Optional<String> color) {
       this.instance.color(color);
       return this;
     }
-    
     /**
     * returns a built Cat instance.
     *
@@ -190,4 +186,3 @@ public class Cat extends Animal {
   }
 
 }
-

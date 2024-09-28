@@ -79,4 +79,3 @@ public class ClassModelDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

@@ -28,16 +28,15 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class TypeHolderDefaultDto {
 
-  private String stringItem = "what";
+  private @NotNull String stringItem = "what";
 
-  private BigDecimal numberItem = new BigDecimal("1.234");
+  private @NotNull BigDecimal numberItem = new BigDecimal("1.234");
 
-  private Integer integerItem = -2;
+  private @NotNull Integer integerItem = -2;
 
-  private Boolean boolItem = true;
+  private @NotNull Boolean boolItem = true;
 
-  @Valid
-  private List<Integer> arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
+  private @NotNull List<Integer> arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
 
   public TypeHolderDefaultDto() {
     super();
@@ -63,10 +62,9 @@ public class TypeHolderDefaultDto {
    * Get stringItem
    * @return stringItem
    */
-  @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("string_item")
-  public String getStringItem() {
+  public @NotNull String getStringItem() {
     return stringItem;
   }
 
@@ -83,10 +81,9 @@ public class TypeHolderDefaultDto {
    * Get numberItem
    * @return numberItem
    */
-  @NotNull @Valid 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("number_item")
-  public BigDecimal getNumberItem() {
+  public @NotNull BigDecimal getNumberItem() {
     return numberItem;
   }
 
@@ -103,10 +100,9 @@ public class TypeHolderDefaultDto {
    * Get integerItem
    * @return integerItem
    */
-  @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("integer_item")
-  public Integer getIntegerItem() {
+  public @NotNull Integer getIntegerItem() {
     return integerItem;
   }
 
@@ -123,10 +119,9 @@ public class TypeHolderDefaultDto {
    * Get boolItem
    * @return boolItem
    */
-  @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("bool_item")
-  public Boolean getBoolItem() {
+  public @NotNull Boolean getBoolItem() {
     return boolItem;
   }
 
@@ -151,10 +146,9 @@ public class TypeHolderDefaultDto {
    * Get arrayItem
    * @return arrayItem
    */
-  @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("array_item")
-  public List<Integer> getArrayItem() {
+  public @NotNull List<Integer> getArrayItem() {
     return arrayItem;
   }
 
@@ -207,4 +201,3 @@ public class TypeHolderDefaultDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

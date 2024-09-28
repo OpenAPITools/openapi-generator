@@ -26,8 +26,8 @@ public class ReadOnlyFirst {
 
   private Optional<String> baz = Optional.empty();
 
-  public ReadOnlyFirst bar(String bar) {
-    this.bar = Optional.of(bar);
+  public ReadOnlyFirst bar(Optional<String> bar) {
+    this.bar = bar;
     return this;
   }
 
@@ -35,7 +35,6 @@ public class ReadOnlyFirst {
    * Get bar
    * @return bar
    */
-  
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("bar")
   public Optional<String> getBar() {
@@ -46,8 +45,8 @@ public class ReadOnlyFirst {
     this.bar = bar;
   }
 
-  public ReadOnlyFirst baz(String baz) {
-    this.baz = Optional.of(baz);
+  public ReadOnlyFirst baz(Optional<String> baz) {
+    this.baz = baz;
     return this;
   }
 
@@ -55,7 +54,6 @@ public class ReadOnlyFirst {
    * Get baz
    * @return baz
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("baz")
   public Optional<String> getBaz() {
@@ -123,16 +121,14 @@ public class ReadOnlyFirst {
       return this;
     }
 
-    public ReadOnlyFirst.Builder bar(String bar) {
+    public ReadOnlyFirst.Builder bar(Optional<String> bar) {
       this.instance.bar(bar);
       return this;
     }
-    
-    public ReadOnlyFirst.Builder baz(String baz) {
+    public ReadOnlyFirst.Builder baz(Optional<String> baz) {
       this.instance.baz(baz);
       return this;
     }
-    
     /**
     * returns a built ReadOnlyFirst instance.
     *
@@ -169,4 +165,3 @@ public class ReadOnlyFirst {
   }
 
 }
-

@@ -37,14 +37,12 @@ public class Pet {
 
   private Long id;
 
-  private Category category;
+  private @Valid Category category;
 
-  private String name;
+  private @NotNull String name;
 
-  @Valid
-  private List<String> photoUrls = new ArrayList<>();
+  private @NotNull List<String> photoUrls = new ArrayList<>();
 
-  @Valid
   private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
@@ -102,13 +100,13 @@ public class Pet {
   /**
    * Constructor with all args parameters
    */
-  public Pet(Long id, Category category, String name, List<String> photoUrls, List<@Valid Tag> tags, StatusEnum status) {
-      this.id = id;
-      this.category = category;
-      this.name = name;
-      this.photoUrls = photoUrls;
-      this.tags = tags;
-      this.status = status;
+  public Pet(Long id, Category category, String name, List<String> photoUrls, List<Tag> tags, StatusEnum status) {
+    this.id = id;
+    this.category = category;
+    this.name = name;
+    this.photoUrls = photoUrls;
+    this.tags = tags;
+    this.status = status;
   }
 
   public Pet id(Long id) {
@@ -120,7 +118,6 @@ public class Pet {
    * Get id
    * @return id
    */
-  
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
@@ -142,12 +139,11 @@ public class Pet {
    * Get category
    * @return category
    */
-  @Valid 
   @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("category")
   @JacksonXmlProperty(localName = "Category")
   @XmlElement(name = "Category")
-  public Category getCategory() {
+  public @Valid Category getCategory() {
     return category;
   }
 
@@ -164,12 +160,11 @@ public class Pet {
    * Get name
    * @return name
    */
-  @NotNull 
   @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
   @JacksonXmlProperty(localName = "name")
   @XmlElement(name = "name")
-  public String getName() {
+  public @NotNull String getName() {
     return name;
   }
 
@@ -194,14 +189,13 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
    */
-  @NotNull 
   @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("photoUrls")
   @JacksonXmlProperty(localName = "photoUrl")
   @JacksonXmlElementWrapper(localName = "photoUrl", useWrapping = true)
   @XmlElement(name = "photoUrl")
   @XmlElementWrapper(name = "photoUrl")
-  public List<String> getPhotoUrls() {
+  public @NotNull List<String> getPhotoUrls() {
     return photoUrls;
   }
 
@@ -209,7 +203,7 @@ public class Pet {
     this.photoUrls = photoUrls;
   }
 
-  public Pet tags(List<@Valid Tag> tags) {
+  public Pet tags(List<Tag> tags) {
     this.tags = tags;
     return this;
   }
@@ -226,7 +220,6 @@ public class Pet {
    * Get tags
    * @return tags
    */
-  @Valid 
   @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("tags")
   @JacksonXmlProperty(localName = "Tag")
@@ -237,7 +230,7 @@ public class Pet {
     return tags;
   }
 
-  public void setTags(List<@Valid Tag> tags) {
+  public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
 
@@ -251,7 +244,6 @@ public class Pet {
    * @return status
    * @deprecated
    */
-  
   @Schema(name = "status", description = "pet status in the store", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
   @JacksonXmlProperty(localName = "status")
@@ -342,33 +334,27 @@ public class Pet {
       this.instance.id(id);
       return this;
     }
-    
     public Pet.Builder category(Category category) {
       this.instance.category(category);
       return this;
     }
-    
     public Pet.Builder name(String name) {
       this.instance.name(name);
       return this;
     }
-    
     public Pet.Builder photoUrls(List<String> photoUrls) {
       this.instance.photoUrls(photoUrls);
       return this;
     }
-    
-    public Pet.Builder tags(List<@Valid Tag> tags) {
+    public Pet.Builder tags(List<Tag> tags) {
       this.instance.tags(tags);
       return this;
     }
-    
     @Deprecated
     public Pet.Builder status(StatusEnum status) {
       this.instance.status(status);
       return this;
     }
-    
     /**
     * returns a built Pet instance.
     *
@@ -405,4 +391,3 @@ public class Pet {
   }
 
 }
-

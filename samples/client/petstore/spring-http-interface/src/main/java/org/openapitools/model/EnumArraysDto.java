@@ -97,7 +97,6 @@ public class EnumArraysDto {
     }
   }
 
-  
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArraysDto justSymbol(JustSymbolEnum justSymbol) {
@@ -185,4 +184,3 @@ public class EnumArraysDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

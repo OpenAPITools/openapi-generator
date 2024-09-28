@@ -127,8 +127,8 @@ public interface UserApi {
         accept = { "application/json", "application/xml" }
     )
     ResponseEntity<String> loginUser(
-         @RequestParam(value = "username", required = true) String username,
-         @RequestParam(value = "password", required = true) String password
+         @RequestParam(value = "username") String username,
+         @RequestParam(value = "password") String password
     );
 
 

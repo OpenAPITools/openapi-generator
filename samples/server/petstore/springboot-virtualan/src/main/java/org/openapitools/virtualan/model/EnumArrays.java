@@ -97,7 +97,6 @@ public class EnumArrays {
     }
   }
 
-  @Valid
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
@@ -109,7 +108,6 @@ public class EnumArrays {
    * Get justSymbol
    * @return justSymbol
    */
-  
   @Schema(name = "just_symbol", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("just_symbol")
   public JustSymbolEnum getJustSymbol() {
@@ -137,7 +135,6 @@ public class EnumArrays {
    * Get arrayEnum
    * @return arrayEnum
    */
-  
   @Schema(name = "array_enum", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("array_enum")
   public List<ArrayEnumEnum> getArrayEnum() {
@@ -187,4 +184,3 @@ public class EnumArrays {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

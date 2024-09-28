@@ -35,7 +35,6 @@ public class TypeHolderExampleDto {
 
   private Boolean boolItem;
 
-  
   private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderExampleDto() {
@@ -211,4 +210,3 @@ public class TypeHolderExampleDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

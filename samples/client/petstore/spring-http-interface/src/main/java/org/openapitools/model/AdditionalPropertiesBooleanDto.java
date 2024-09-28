@@ -123,4 +123,3 @@ public class AdditionalPropertiesBooleanDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

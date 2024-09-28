@@ -28,8 +28,8 @@ public class ModelApiResponse {
 
   private Optional<String> message = Optional.empty();
 
-  public ModelApiResponse code(Integer code) {
-    this.code = Optional.of(code);
+  public ModelApiResponse code(Optional<Integer> code) {
+    this.code = code;
     return this;
   }
 
@@ -37,7 +37,6 @@ public class ModelApiResponse {
    * Get code
    * @return code
    */
-  
   @JsonProperty("code")
   public Optional<Integer> getCode() {
     return code;
@@ -47,8 +46,8 @@ public class ModelApiResponse {
     this.code = code;
   }
 
-  public ModelApiResponse type(String type) {
-    this.type = Optional.of(type);
+  public ModelApiResponse type(Optional<String> type) {
+    this.type = type;
     return this;
   }
 
@@ -56,7 +55,6 @@ public class ModelApiResponse {
    * Get type
    * @return type
    */
-  
   @JsonProperty("type")
   public Optional<String> getType() {
     return type;
@@ -66,8 +64,8 @@ public class ModelApiResponse {
     this.type = type;
   }
 
-  public ModelApiResponse message(String message) {
-    this.message = Optional.of(message);
+  public ModelApiResponse message(Optional<String> message) {
+    this.message = message;
     return this;
   }
 
@@ -75,7 +73,6 @@ public class ModelApiResponse {
    * Get message
    * @return message
    */
-  
   @JsonProperty("message")
   public Optional<String> getMessage() {
     return message;
@@ -126,4 +123,3 @@ public class ModelApiResponse {
     return o.toString().replace("\n", "\n    ");
   }
 }
-
