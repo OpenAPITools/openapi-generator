@@ -1102,6 +1102,42 @@ paths:
       responses:
         "200":
           description: Success
+  "/anyof-array":
+    post:
+      description: Response with anyof containing arrays and a oneof parameter as well as a map request body
+      tags:
+        - fake
+      operationId: anyof-array
+      parameters:
+        - "$ref": "#/components/parameters/oneOfParam"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              properties:
+                mapProp:
+                  oneOf:
+                    - type: object
+                      additionalProperties: true
+                    - type: string
+                      default: 'false'
+                      enum:
+                        - 'true'
+                        - 'false'
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - type: array
+                    items:
+                      "$ref": "#/components/schemas/AnyOf1"
+                  - type: array
+                    items:
+                      "$ref": "#/components/schemas/AnyOf2"
   '/fake/{petId}/uploadImageWithRequiredFile':
     post:
       tags:
@@ -1211,6 +1247,15 @@ servers:
   - url: https://127.0.0.1/no_variable
     description: The local server without variables
 components:
+  parameters:
+    oneOfParam:
+      "name": "oneOfParam"
+      "in": "path"
+      "required": true
+      "schema":
+        "oneOf":
+          - "type": "integer"
+          - "type": "string"
   requestBodies:
     UserArray:
       content:
@@ -1429,6 +1474,26 @@ components:
             - sold
       xml:
         name: Pet
+    AnyOf1:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+    AnyOf2:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
     ApiResponse:
       type: object
       properties:
