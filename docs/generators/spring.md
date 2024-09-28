@@ -105,7 +105,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## SUPPORTED VENDOR EXTENSIONS
 
 | Extension name | Description | Applicable for | Default value |
-| -------------- | ----------- | -------------- | ------------- |
+| ----------- | ----------- | -------------- | ------------- |
 |x-discriminator-value|Used with model inheritance to specify value for discriminator that identifies current model|MODEL|
 |x-implements|Ability to specify interfaces that model must implements|MODEL|empty array
 |x-setter-extra-annotation|Custom annotation that can be specified over java setter for specific field|FIELD|When field is array & uniqueItems, then this extension is used to add `@JsonDeserialize(as = LinkedHashSet.class)` over setter, otherwise no value
@@ -118,11 +118,13 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-spring-paginated|Add org.springframework.data.domain.Pageable to controller method. Can be used to handle page & size query parameters|OPERATION|false
 |x-version-param|Marker property that tells that this parameter would be used for endpoint versioning. Applicable for headers & query params. true/false|OPERATION_PARAMETER|null
 |x-pattern-message|Add this property whenever you need to customize the validation error message for the regex pattern of a variable|FIELD, OPERATION_PARAMETER|null
+|x-pattern-message|Add this property whenever you need to customize the validation error message for the regex pattern of a variable|FIELD, OPERATION_PARAMETER|null
 |x-size-message|Add this property whenever you need to customize the validation error message for the size of a variable (can be applied along with `minLength`, `maxLength`, `minItems`, `maxItems`)|FIELD, OPERATION_PARAMETER|null
 |x-min-message|Add this property whenever you need to customize the validation error message for the minimum of a number|FIELD, OPERATION_PARAMETER|null
 |x-max-message|Add this property whenever you need to customize the validation error message for the maximum of a number|FIELD, OPERATION_PARAMETER|null
 |x-decimalMin-message|Add this property whenever you need to customize the validation error message for the minimum of a decimal number|FIELD, OPERATION_PARAMETER|null
 |x-decimalMax-message|Add this property whenever you need to customize the validation error message for the maximum of a decimal number|FIELD, OPERATION_PARAMETER|null
+
 
 ## IMPORT MAPPING
 
