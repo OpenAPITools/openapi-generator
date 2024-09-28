@@ -128,12 +128,15 @@ public class SpringCodegenTest {
                 .toMethod()
                 .assertParameter("limit").hasType("BigDecimal")
                 .assertParameterAnnotations()
-                .containsWithName("Valid")
                 .containsWithNameAndAttributes("Parameter", ImmutableMap.of("name", "\"limit\""))
                 .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("required", "false", "value", "\"limit\""))
                 .toParameter()
                 .toMethod()
                 .assertParameter("animalParams").hasType("AnimalParams")
+                .assertParameterAnnotations()
+                .containsWithName("Valid")
+                .containsWithNameAndAttributes("Parameter", ImmutableMap.of("name", "\"animalParams\""))
+                .toParameter()
                 .toMethod()
                 .commentContainsLines("GET /zebras", "@param limit  (optional)")
                 .bodyContainsLines("return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED)");
@@ -206,7 +209,6 @@ public class SpringCodegenTest {
                 .toMethod()
                 .assertParameter("limit").hasType("Optional<BigDecimal>")
                 .assertParameterAnnotations()
-                .containsWithName("Valid")
                 .containsWithNameAndAttributes("Parameter", ImmutableMap.of("name", "\"limit\""))
                 .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("required", "false", "value", "\"limit\""))
                 .toParameter()
@@ -716,13 +718,12 @@ public class SpringCodegenTest {
                 .assertMethod("multipartMixed", "MultipartMixedStatus", "MultipartFile", "MultipartMixedRequestMarker", "List<MultipartMixedStatus>")
                 .assertParameter("status").hasType("MultipartMixedStatus")
                 .assertParameterAnnotations()
-                .containsWithName("Valid")
                 .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("value", "\"\""))
-                .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("value", "\"status\"", "required", "true"))
+                .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("value", "\"status\""))
                 .toParameter().toMethod()
                 .assertParameter("file").hasType("MultipartFile")
                 .assertParameterAnnotations()
-                .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"file\"", "required", "true"))
+                .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"file\""))
                 .toParameter().toMethod()
                 .assertParameter("marker").hasType("MultipartMixedRequestMarker")
                 .assertParameterAnnotations()
@@ -1301,7 +1302,7 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApi.java"))
-            .fileContains("Mono<Map<String, DummyRequest>>")
+            .fileContains("Mono<@NotNull Map<String, @Valid DummyRequest>>")
             .fileDoesNotContain("Mono<DummyRequest>");
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApiDelegate.java"))
             .fileContains("Mono<Map<String, DummyRequest>>")
@@ -4565,7 +4566,7 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
 
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"),
-                "@Valid @RequestPart(value = \"additionalMetadata\", required = false) String additionalMetadata");
+                "@RequestPart(value = \"additionalMetadata\", required = false) String additionalMetadata");
     }
 
     @Test
@@ -4593,7 +4594,7 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
 
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"),
-                "@Valid @RequestParam(value = \"additionalMetadata\", required = false) String additionalMetadata");
+                "@RequestParam(value = \"additionalMetadata\", required = false) String additionalMetadata");
     }
 
     @Test

@@ -36,10 +36,24 @@ import org.mockito.Answers;
 import org.mockito.Mockito;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
+import org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen;
+import org.openapitools.codegen.languages.GroovyClientCodegen;
+import org.openapitools.codegen.languages.JavaCXFClientCodegen;
+import org.openapitools.codegen.languages.JavaClientCodegen;
+import org.openapitools.codegen.languages.JavaHelidonCommonCodegen;
+import org.openapitools.codegen.languages.JavaInflectorServerCodegen;
+import org.openapitools.codegen.languages.JavaMicronautAbstractCodegen;
+import org.openapitools.codegen.languages.JavaPKMSTServerCodegen;
+import org.openapitools.codegen.languages.JavaPlayFrameworkCodegen;
+import org.openapitools.codegen.languages.JavaVertXServerCodegen;
+import org.openapitools.codegen.languages.JavaVertXWebServerCodegen;
+import org.openapitools.codegen.languages.JavaWiremockServerCodegen;
+import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
 import org.openapitools.codegen.testutils.ConfigAssert;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -66,6 +80,48 @@ public class AbstractJavaCodegenTest {
         codegen = Mockito.mock(
             AbstractJavaCodegen.class, Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()
         );        
+    }
+
+    @DataProvider(name = "childCodegens")
+    public Object[] childCodegens() {
+        return new Object[] {
+            Mockito.mock(
+                AbstractJavaJAXRSServerCodegen.class,
+                Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()),
+            Mockito.mock(
+                GroovyClientCodegen.class,
+                Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()),
+            Mockito.mock(
+                JavaClientCodegen.class,
+                Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()),
+            Mockito.mock(
+                JavaCXFClientCodegen.class,
+                Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()),
+            Mockito.mock(
+                JavaHelidonCommonCodegen.class,
+                Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()),
+            Mockito.mock(
+                JavaInflectorServerCodegen.class,
+                Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()),
+            Mockito.mock(
+                JavaMicronautAbstractCodegen.class,
+                Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()),
+            Mockito.mock(
+                JavaPKMSTServerCodegen.class,
+                Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()),
+            Mockito.mock(
+                JavaPlayFrameworkCodegen.class,
+                Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()),
+            Mockito.mock(
+                JavaVertXServerCodegen.class,
+                Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()),
+            Mockito.mock(
+                JavaVertXWebServerCodegen.class,
+                Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()),
+            Mockito.mock(
+                JavaWiremockServerCodegen.class,
+                Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()),
+        };
     }
 
     @Test
@@ -618,37 +674,37 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(parameter.getSchema().baseType, "Date");
     }
 
-    @Test
-    public void getTypeDeclarationGivenSchemaMappingTest() {
-        codegen.schemaMapping().put("MyStringType", "com.example.foo");
-        codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("MyStringType", new StringSchema())));
+    @Test(dataProvider = "childCodegens")
+    public void getTypeDeclarationGivenSchemaMappingTest(AbstractJavaCodegen childCodegens) {
+        childCodegens.schemaMapping().put("MyStringType", "com.example.foo");
+        childCodegens.setOpenAPI(new OpenAPI().components(new Components().addSchemas("MyStringType", new StringSchema())));
         Schema<?> schema = new ArraySchema().items(new Schema<>().$ref("#/components/schemas/MyStringType"));
-        
-        String defaultValue = codegen.getTypeDeclaration(schema);
+
+        String defaultValue = childCodegens.getTypeDeclaration(schema);
 
         Assert.assertEquals(defaultValue, "List<com.example.foo>");
     }
 
-    @Test
-    public void getTypeDeclarationTest() {
+    @Test(dataProvider = "childCodegens")
+    public void getTypeDeclarationTest(AbstractJavaCodegen childCodegens) {
 
         Schema<?> schema = new ObjectSchema().addProperty("id", new IntegerSchema().format("int32")).minItems(1);
-        String defaultValue = codegen.getTypeDeclaration(schema);
+        String defaultValue = childCodegens.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "Object");
 
         // Create an alias to an array schema
         Schema<?> nestedArraySchema = new ArraySchema().items(new IntegerSchema().format("int32"));
-        codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("NestedArray", nestedArraySchema)));
+        childCodegens.setOpenAPI(new OpenAPI().components(new Components().addSchemas("NestedArray", nestedArraySchema)));
 
         // Create an array schema with item type set to the array alias
         schema = new ArraySchema().items(new Schema<>().$ref("#/components/schemas/NestedArray"));
 
         ModelUtils.setGenerateAliasAsModel(false);
-        defaultValue = codegen.getTypeDeclaration(schema);
+        defaultValue = childCodegens.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<List<Integer>>");
 
         ModelUtils.setGenerateAliasAsModel(true);
-        defaultValue = codegen.getTypeDeclaration(schema);
+        defaultValue = childCodegens.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<NestedArray>");
 
         // Create an array schema with item type set to the array alias
@@ -656,22 +712,22 @@ public class AbstractJavaCodegenTest {
         schema.setUniqueItems(true);
 
         ModelUtils.setGenerateAliasAsModel(false);
-        defaultValue = codegen.getTypeDeclaration(schema);
+        defaultValue = childCodegens.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "Set<List<Integer>>");
 
         ModelUtils.setGenerateAliasAsModel(true);
-        defaultValue = codegen.getTypeDeclaration(schema);
+        defaultValue = childCodegens.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "Set<NestedArray>");
 
         // Create a map schema with additionalProperties type set to array alias
         schema = new MapSchema().additionalProperties(new Schema<>().$ref("#/components/schemas/NestedArray"));
 
         ModelUtils.setGenerateAliasAsModel(false);
-        defaultValue = codegen.getTypeDeclaration(schema);
+        defaultValue = childCodegens.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "Map<String, List<Integer>>");
 
         ModelUtils.setGenerateAliasAsModel(true);
-        defaultValue = codegen.getTypeDeclaration(schema);
+        defaultValue = childCodegens.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "Map<String, NestedArray>");
     }
 
@@ -845,114 +901,114 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(defaultValue, "String");
     }
 
-    @Test
-    public void ignoreBeanValidationAnnotationsContainerTest() {
-        codegen.additionalProperties().put("useBeanValidation", true);
+    @Test(dataProvider = "childCodegens")
+    public void ignoreBeanValidationAnnotationsContainerTest(AbstractJavaCodegen childCodegens) {
+        childCodegens.additionalProperties().put("useBeanValidation", true);
 
         Schema<?> schema = new ArraySchema().items(new Schema<>().type("string").format("uuid").pattern("^[a-z]$").maxLength(36));
-        String defaultValue = codegen.getTypeDeclaration(schema);
-        Assert.assertEquals(defaultValue, "List<UUID>");
+        String defaultValue = childCodegens.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<" + childCodegens.typeMapping().get("UUID") + ">");
 
         schema = new ArraySchema().items(new Schema<>().type("string").format("uri").pattern("^[a-z]$").maxLength(36));
-        defaultValue = codegen.getTypeDeclaration(schema);
-        Assert.assertEquals(defaultValue, "List<URI>");
+        defaultValue = childCodegens.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<" + childCodegens.typeMapping().get("URI") + ">");
 
         schema = new ArraySchema().items(new Schema<>().type("string").format("byte").pattern("^[a-z]$").maxLength(36));
-        defaultValue = codegen.getTypeDeclaration(schema);
-        Assert.assertEquals(defaultValue, "List<byte[]>");
+        defaultValue = childCodegens.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<" + childCodegens.typeMapping().get("ByteArray") + ">");
 
         schema = new ArraySchema().items(new Schema<>().type("string").format("binary").pattern("^[a-z]$").maxLength(36));
-        defaultValue = codegen.getTypeDeclaration(schema);
-        Assert.assertEquals(defaultValue, "List<File>");
+        defaultValue = childCodegens.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<" + childCodegens.typeMapping().get("file") + ">");
 
         schema = new ArraySchema().items(new Schema<>().type("string")._enum(List.of("A","B")).pattern("^[a-z]$").maxLength(36));
-        defaultValue = codegen.getTypeDeclaration(schema);
+        defaultValue = childCodegens.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<String>");
     }
 
-    @Test
-    public void AnnotationsContainerTest() {
-        codegen.setUseBeanValidation(true);
+    @Test(dataProvider = "childCodegens")
+    public void AnnotationsContainerTest(AbstractJavaCodegen childCodegens) {
+        childCodegens.setUseBeanValidation(true);
 
         // 1. string type
         Schema<?> schema = new ArraySchema().items(new Schema<>().type("string").pattern("^[a-z]$").minLength(0).maxLength(36));
-        String defaultValue = codegen.getTypeDeclaration(schema);
+        String defaultValue = childCodegens.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<@Pattern(regexp = \"^[a-z]$\")@Size(min = 0, max = 36)String>");
 
         schema = new ArraySchema().items(new Schema<>().type("string").pattern("^[a-z]$").minLength(0));
-        defaultValue = codegen.getTypeDeclaration(schema);
+        defaultValue = childCodegens.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<@Pattern(regexp = \"^[a-z]$\")@Size(min = 0)String>");
 
         schema = new ArraySchema().items(new Schema<>().type("string").pattern("^[a-z]$").maxLength(36));
-        defaultValue = codegen.getTypeDeclaration(schema);
+        defaultValue = childCodegens.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<@Pattern(regexp = \"^[a-z]$\")@Size(max = 36)String>");
 
         schema = new ArraySchema().items(new Schema<>().type("string").format("email"));
-        defaultValue = codegen.getTypeDeclaration(schema);
+        defaultValue = childCodegens.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<@Email String>");
 
         // 2. string type with number format
         schema = new ArraySchema().items(new Schema<>().type("string").format("number").minimum(BigDecimal.ZERO).maximum(BigDecimal.TEN).exclusiveMinimum(Boolean.TRUE).exclusiveMaximum(Boolean.TRUE));
-        defaultValue = codegen.getTypeDeclaration(schema);
+        defaultValue = childCodegens.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<@DecimalMin(value = \"0\", inclusive = false) @DecimalMax(value = \"10\", inclusive = false)BigDecimal>");
 
         schema = new ArraySchema().items(new Schema<>().type("string").format("number").minimum(BigDecimal.ZERO).exclusiveMinimum(Boolean.TRUE));
-        defaultValue = codegen.getTypeDeclaration(schema);
+        defaultValue = childCodegens.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<@DecimalMin( value = \"0\", inclusive = false)BigDecimal>");
 
         schema = new ArraySchema().items(new Schema<>().type("string").format("number").maximum(BigDecimal.TEN).exclusiveMaximum(Boolean.TRUE));
-        defaultValue = codegen.getTypeDeclaration(schema);
+        defaultValue = childCodegens.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<@DecimalMax( value = \"10\", inclusive = false)BigDecimal>");
 
         // 3. number type
         schema = new ArraySchema().items(new Schema<>().type("number").minimum(BigDecimal.ZERO).maximum(BigDecimal.TEN).exclusiveMinimum(Boolean.TRUE).exclusiveMaximum(Boolean.TRUE));
-        defaultValue = codegen.getTypeDeclaration(schema);
+        defaultValue = childCodegens.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<@DecimalMin(value = \"0\", inclusive = false) @DecimalMax(value = \"10\", inclusive = false)BigDecimal>");
 
         schema = new ArraySchema().items(new Schema<>().type("number").minimum(BigDecimal.ZERO).exclusiveMinimum(Boolean.TRUE));
-        defaultValue = codegen.getTypeDeclaration(schema);
+        defaultValue = childCodegens.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<@DecimalMin( value = \"0\", inclusive = false)BigDecimal>");
 
         schema = new ArraySchema().items(new Schema<>().type("number").maximum(BigDecimal.TEN).exclusiveMaximum(Boolean.TRUE));
-        defaultValue = codegen.getTypeDeclaration(schema);
+        defaultValue = childCodegens.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<@DecimalMax( value = \"10\", inclusive = false)BigDecimal>");
 
         schema = new ArraySchema().items(new Schema<>().type("number").minimum(BigDecimal.ZERO).maximum(BigDecimal.TEN));
-        defaultValue = codegen.getTypeDeclaration(schema);
+        defaultValue = childCodegens.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<@DecimalMin(value = \"0\", inclusive = true) @DecimalMax(value = \"10\", inclusive = true)BigDecimal>");
 
         schema = new ArraySchema().items(new Schema<>().type("number").minimum(BigDecimal.ZERO));
-        defaultValue = codegen.getTypeDeclaration(schema);
+        defaultValue = childCodegens.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<@DecimalMin( value = \"0\", inclusive = true)BigDecimal>");
 
         schema = new ArraySchema().items(new Schema<>().type("number").maximum(BigDecimal.TEN));
-        defaultValue = codegen.getTypeDeclaration(schema);
+        defaultValue = childCodegens.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<@DecimalMax( value = \"10\", inclusive = true)BigDecimal>");
 
         // 4. integer type with int64 format
         schema = new ArraySchema().items(new Schema<>().type("integer").format("int64").minimum(BigDecimal.ZERO).maximum(BigDecimal.TEN));
-        defaultValue = codegen.getTypeDeclaration(schema);
+        defaultValue = childCodegens.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<@Min(0L) @Max(10L)Long>");
 
         schema = new ArraySchema().items(new Schema<>().type("integer").format("int64").minimum(BigDecimal.ZERO));
-        defaultValue = codegen.getTypeDeclaration(schema);
+        defaultValue = childCodegens.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<@Min(0L)Long>");
 
         schema = new ArraySchema().items(new Schema<>().type("integer").format("int64").maximum(BigDecimal.TEN));
-        defaultValue = codegen.getTypeDeclaration(schema);
+        defaultValue = childCodegens.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<@Max(10L)Long>");
 
         // 5. integer type
         schema = new ArraySchema().items(new Schema<>().type("integer").minimum(BigDecimal.ZERO).maximum(BigDecimal.TEN));
-        defaultValue = codegen.getTypeDeclaration(schema);
+        defaultValue = childCodegens.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<@Min(0) @Max(10)Integer>");
 
         schema = new ArraySchema().items(new Schema<>().type("integer").minimum(BigDecimal.ZERO));
-        defaultValue = codegen.getTypeDeclaration(schema);
+        defaultValue = childCodegens.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<@Min(0)Integer>");
 
         schema = new ArraySchema().items(new Schema<>().type("integer").maximum(BigDecimal.TEN));
-        defaultValue = codegen.getTypeDeclaration(schema);
+        defaultValue = childCodegens.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<@Max(10)Integer>");
     }
 }

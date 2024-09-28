@@ -420,8 +420,8 @@ public class JavaValidationArrayPrimitivesTest {
                 { Map.of("array", "List"), "@Valid MyItem" },
                 { Map.of("array", "Set"), "@Valid MyItem" },
                 { Collections.emptyMap(), "@Valid MyItem" },
-                { Map.of( "MyItem", "com.mycompany.MyItem"), "com.mycompany.@Valid MyItem"},
-                { Map.of( "MyItem", "com.mycompany.MyContainer<java.lang.String>"), "com.mycompany.@Valid MyContainer<java.lang.String>"}
+                { Map.of( "MyItem", "com.mycompany.MyItem"), "@Valid com.mycompany.MyItem"},
+                { Map.of( "MyItem", "com.mycompany.MyContainer<java.lang.String>"), "@Valid com.mycompany.MyContainer<java.lang.String>"}
         };
     }
 
@@ -447,25 +447,25 @@ public class JavaValidationArrayPrimitivesTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        String arrayMapping= typeMappings.getOrDefault("array", "List");
+        String arrayMapping = typeMappings.getOrDefault("array", "List");
         // @Valid@Size(min = 5) is not nice, but not related to this fix
         // adding a space would probably break many other tests
         JavaFileAssert.assertThat(files.get("ListOfPatternsApi.java"))
                 .fileContains("ResponseEntity<" + arrayMapping + "<String>>",
-                        arrayMapping + "<@Pattern(regexp = \"([a-z]+)\")String> requestBody")
-                .fileContainsPattern("@Valid\\s*@Size\\(min = 5\\)\\s*@RequestBody");
+                        arrayMapping + "<@Pattern(regexp = \"([a-z]+)\") String> requestBody")
+                .fileContainsPattern("@RequestBody\\(required = false\\)\\s*@Size\\(min = 5\\)");
 
         JavaFileAssert.assertThat(files.get("ListOfStringsApi.java"))
                 .fileContains(
                         "ResponseEntity<" + arrayMapping + "<String>>",
-                        arrayMapping + "<@Size(min = 2, max = 2)String> requestBody")
-                .fileContainsPattern("@Valid\\s*@Size\\(min = 5\\)\\s*@RequestBody");
+                        arrayMapping + "<@Size(min = 2, max = 2) String> requestBody")
+                .fileContainsPattern("@RequestBody\\(required = false\\)\\s*@Size\\(min = 5\\)");
 
         JavaFileAssert.assertThat(files.get("ListOfObjectsApi.java"))
                 .fileContains(
                         "ResponseEntity<" + arrayMapping + "<ListOfObjectsInner>>",
                         arrayMapping + "<@Valid ListOfObjectsInner> listOfObjectsInner")
-                .fileContainsPattern("@Valid\\s*@Size\\(min = 5\\)\\s*@RequestBody");
+                .fileContainsPattern("@RequestBody\\(required = false\\)\\s*@Size\\(min = 5\\)");
 
         String myItem = typeMappings.getOrDefault("MyItem", "MyItem");
         JavaFileAssert.assertThat(files.get("ListOfQualifiedItemApi.java"))
