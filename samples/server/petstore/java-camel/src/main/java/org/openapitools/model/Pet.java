@@ -42,8 +42,10 @@ public class Pet {
 
   private @NotNull String name;
 
+  @Valid
   private @NotNull List<String> photoUrls = new ArrayList<>();
 
+  @Valid
   private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
@@ -107,6 +109,7 @@ public class Pet {
    * Get id
    * @return id
    */
+  
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
@@ -127,6 +130,7 @@ public class Pet {
    * Get category
    * @return category
    */
+  @Valid 
   @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("category")
   @JacksonXmlProperty(localName = "Category")
@@ -147,6 +151,7 @@ public class Pet {
    * Get name
    * @return name
    */
+  @NotNull 
   @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
   @JacksonXmlProperty(localName = "name")
@@ -175,6 +180,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
    */
+  @NotNull 
   @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("photoUrls")
   @JacksonXmlProperty(localName = "photoUrl")
@@ -187,7 +193,7 @@ public class Pet {
     this.photoUrls = photoUrls;
   }
 
-  public Pet tags(List<Tag> tags) {
+  public Pet tags(List<@Valid Tag> tags) {
     this.tags = tags;
     return this;
   }
@@ -204,6 +210,7 @@ public class Pet {
    * Get tags
    * @return tags
    */
+  
   @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("tags")
   @JacksonXmlProperty(localName = "Tag")
@@ -226,6 +233,7 @@ public class Pet {
    * @return status
    * @deprecated
    */
+  
   @Schema(name = "status", description = "pet status in the store", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
   @JacksonXmlProperty(localName = "status")
