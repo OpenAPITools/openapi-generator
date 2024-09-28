@@ -138,6 +138,7 @@ public class DataQuery extends Query {
     return this;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
