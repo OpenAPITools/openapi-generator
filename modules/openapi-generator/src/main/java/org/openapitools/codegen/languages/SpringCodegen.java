@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.ModelUtils.getSchemaItems;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 import com.samskivert.mustache.Mustache;
@@ -28,6 +29,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.tags.Tag;
 import java.io.File;
@@ -70,6 +72,7 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.SplitStringLambda;
 import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
 import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
@@ -1067,6 +1070,13 @@ public class SpringCodegen extends AbstractJavaCodegen
         return codegenOperation;
     }
 
+    @Override
+    public String getTypeDeclaration(Schema p) {
+        Schema<?> schema = unaliasSchema(p);
+        Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
+        return super.getTypeDeclaration(target);
+    }
+
     private Set<String> reformatProvideArgsParams(Operation operation) {
         Set<String> provideArgsClassSet = new HashSet<>();
         Object argObj = operation.getExtensions().get("x-spring-provide-args");
@@ -1169,12 +1179,11 @@ public class SpringCodegen extends AbstractJavaCodegen
         extensions.add(VendorExtension.X_OPERATION_EXTRA_ANNOTATION);
         extensions.add(VendorExtension.X_SPRING_PAGINATED);
         extensions.add(VendorExtension.X_VERSION_PARAM);
+        extensions.add(VendorExtension.X_NOT_NULL);
         extensions.add(VendorExtension.X_PATTERN_MESSAGE);
         extensions.add(VendorExtension.X_SIZE_MESSAGE);
         extensions.add(VendorExtension.X_MIN_MESSAGE);
         extensions.add(VendorExtension.X_MAX_MESSAGE);
-        extensions.add(VendorExtension.X_DECIMAL_MIN_MESSAGE);
-        extensions.add(VendorExtension.X_DECIMAL_MAX_MESSAGE);
         return extensions;
     }
 }
