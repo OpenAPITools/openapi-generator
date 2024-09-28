@@ -124,3 +124,4 @@ public class AdditionalPropertiesNumberDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

@@ -73,8 +73,8 @@ public class Order {
 
   private Optional<Boolean> complete = Optional.of(false);
 
-  public Order id(Optional<Long> id) {
-    this.id = id;
+  public Order id(Long id) {
+    this.id = Optional.of(id);
     return this;
   }
 
@@ -82,6 +82,7 @@ public class Order {
    * Get id
    * @return id
    */
+  
   @JsonProperty("id")
   public Optional<Long> getId() {
     return id;
@@ -91,8 +92,8 @@ public class Order {
     this.id = id;
   }
 
-  public Order petId(Optional<Long> petId) {
-    this.petId = petId;
+  public Order petId(Long petId) {
+    this.petId = Optional.of(petId);
     return this;
   }
 
@@ -100,6 +101,7 @@ public class Order {
    * Get petId
    * @return petId
    */
+  
   @JsonProperty("petId")
   public Optional<Long> getPetId() {
     return petId;
@@ -109,8 +111,8 @@ public class Order {
     this.petId = petId;
   }
 
-  public Order quantity(Optional<Integer> quantity) {
-    this.quantity = quantity;
+  public Order quantity(Integer quantity) {
+    this.quantity = Optional.of(quantity);
     return this;
   }
 
@@ -118,6 +120,7 @@ public class Order {
    * Get quantity
    * @return quantity
    */
+  
   @JsonProperty("quantity")
   public Optional<Integer> getQuantity() {
     return quantity;
@@ -127,8 +130,8 @@ public class Order {
     this.quantity = quantity;
   }
 
-  public Order shipDate(Optional<OffsetDateTime> shipDate) {
-    this.shipDate = shipDate;
+  public Order shipDate(OffsetDateTime shipDate) {
+    this.shipDate = Optional.of(shipDate);
     return this;
   }
 
@@ -136,6 +139,7 @@ public class Order {
    * Get shipDate
    * @return shipDate
    */
+  @Valid 
   @JsonProperty("shipDate")
   public Optional<OffsetDateTime> getShipDate() {
     return shipDate;
@@ -145,8 +149,8 @@ public class Order {
     this.shipDate = shipDate;
   }
 
-  public Order status(Optional<StatusEnum> status) {
-    this.status = status;
+  public Order status(StatusEnum status) {
+    this.status = Optional.of(status);
     return this;
   }
 
@@ -154,6 +158,7 @@ public class Order {
    * Order Status
    * @return status
    */
+  
   @JsonProperty("status")
   public Optional<StatusEnum> getStatus() {
     return status;
@@ -163,8 +168,8 @@ public class Order {
     this.status = status;
   }
 
-  public Order complete(Optional<Boolean> complete) {
-    this.complete = complete;
+  public Order complete(Boolean complete) {
+    this.complete = Optional.of(complete);
     return this;
   }
 
@@ -172,6 +177,7 @@ public class Order {
    * Get complete
    * @return complete
    */
+  
   @JsonProperty("complete")
   public Optional<Boolean> getComplete() {
     return complete;
@@ -228,3 +234,4 @@ public class Order {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

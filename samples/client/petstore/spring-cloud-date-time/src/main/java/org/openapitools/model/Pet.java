@@ -26,7 +26,7 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class Pet {
 
-  private @NotNull String atType = "Pet";
+  private String atType = "Pet";
 
   private Integer age = 4;
 
@@ -60,9 +60,10 @@ public class Pet {
    * Get atType
    * @return atType
    */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("@type")
-  public @NotNull String getAtType() {
+  public String getAtType() {
     return atType;
   }
 
@@ -79,6 +80,7 @@ public class Pet {
    * Get age
    * @return age
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("age")
   public Integer getAge() {
@@ -98,6 +100,7 @@ public class Pet {
    * Get happy
    * @return happy
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("happy")
   public Boolean getHappy() {
@@ -117,6 +120,7 @@ public class Pet {
    * Get price
    * @return price
    */
+  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("price")
   public BigDecimal getPrice() {
@@ -136,6 +140,7 @@ public class Pet {
    * Get lastFeed
    * @return lastFeed
    */
+  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("lastFeed")
   public OffsetDateTime getLastFeed() {
@@ -155,6 +160,7 @@ public class Pet {
    * Get dateOfBirth
    * @return dateOfBirth
    */
+  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("dateOfBirth")
   public LocalDate getDateOfBirth() {
@@ -212,3 +218,4 @@ public class Pet {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

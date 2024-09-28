@@ -26,8 +26,8 @@ public class SpecialModelName {
 
   private Optional<Long> $specialPropertyName = Optional.empty();
 
-  public SpecialModelName $specialPropertyName(Optional<Long> $specialPropertyName) {
-    this.$specialPropertyName = $specialPropertyName;
+  public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
+    this.$specialPropertyName = Optional.of($specialPropertyName);
     return this;
   }
 
@@ -35,6 +35,7 @@ public class SpecialModelName {
    * Get $specialPropertyName
    * @return $specialPropertyName
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("$special[property.name]")
   public Optional<Long> get$SpecialPropertyName() {
@@ -140,3 +141,4 @@ public class SpecialModelName {
   }
 
 }
+

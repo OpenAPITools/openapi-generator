@@ -34,6 +34,7 @@ public class ReadOnlyFirst {
    * Get bar
    * @return bar
    */
+  
   @Schema(name = "bar", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("bar")
   public String getBar() {
@@ -53,6 +54,7 @@ public class ReadOnlyFirst {
    * Get baz
    * @return baz
    */
+  
   @Schema(name = "baz", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("baz")
   public String getBaz() {
@@ -102,3 +104,4 @@ public class ReadOnlyFirst {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

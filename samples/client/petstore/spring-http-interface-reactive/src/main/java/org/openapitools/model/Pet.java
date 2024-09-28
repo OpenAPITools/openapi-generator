@@ -34,8 +34,10 @@ public class Pet {
 
   private String name;
 
+  
   private Set<String> photoUrls = new LinkedHashSet<>();
 
+  
   private List<Tag> tags = new ArrayList<>();
 
   /**
@@ -274,3 +276,4 @@ public class Pet {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

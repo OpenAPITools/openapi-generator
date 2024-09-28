@@ -28,8 +28,8 @@ public class HasOnlyReadOnly {
 
   private Optional<String> foo = Optional.empty();
 
-  public HasOnlyReadOnly bar(Optional<String> bar) {
-    this.bar = bar;
+  public HasOnlyReadOnly bar(String bar) {
+    this.bar = Optional.of(bar);
     return this;
   }
 
@@ -37,6 +37,7 @@ public class HasOnlyReadOnly {
    * Get bar
    * @return bar
    */
+  
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("bar")
   public Optional<String> getBar() {
@@ -47,8 +48,8 @@ public class HasOnlyReadOnly {
     this.bar = bar;
   }
 
-  public HasOnlyReadOnly foo(Optional<String> foo) {
-    this.foo = foo;
+  public HasOnlyReadOnly foo(String foo) {
+    this.foo = Optional.of(foo);
     return this;
   }
 
@@ -56,6 +57,7 @@ public class HasOnlyReadOnly {
    * Get foo
    * @return foo
    */
+  
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("foo")
   public Optional<String> getFoo() {
@@ -169,3 +171,4 @@ public class HasOnlyReadOnly {
   }
 
 }
+

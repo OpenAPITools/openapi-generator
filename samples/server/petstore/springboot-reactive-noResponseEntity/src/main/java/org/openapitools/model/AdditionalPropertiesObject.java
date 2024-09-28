@@ -38,6 +38,7 @@ public class AdditionalPropertiesObject {
    * Get name
    * @return name
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public String getName() {
@@ -125,3 +126,4 @@ public class AdditionalPropertiesObject {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

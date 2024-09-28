@@ -33,7 +33,7 @@ public class BarCreate extends Entity {
 
   private String fooPropB;
 
-  private @Valid FooRefOrValue foo;
+  private FooRefOrValue foo;
 
   public BarCreate() {
     super();
@@ -55,6 +55,7 @@ public class BarCreate extends Entity {
    * Get barPropA
    * @return barPropA
    */
+  
   @Schema(name = "barPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("barPropA")
   public String getBarPropA() {
@@ -74,6 +75,7 @@ public class BarCreate extends Entity {
    * Get fooPropB
    * @return fooPropB
    */
+  
   @Schema(name = "fooPropB", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("fooPropB")
   public String getFooPropB() {
@@ -93,9 +95,10 @@ public class BarCreate extends Entity {
    * Get foo
    * @return foo
    */
+  @Valid 
   @Schema(name = "foo", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("foo")
-  public @Valid FooRefOrValue getFoo() {
+  public FooRefOrValue getFoo() {
     return foo;
   }
 
@@ -274,3 +277,4 @@ public class BarCreate extends Entity {
   }
 
 }
+

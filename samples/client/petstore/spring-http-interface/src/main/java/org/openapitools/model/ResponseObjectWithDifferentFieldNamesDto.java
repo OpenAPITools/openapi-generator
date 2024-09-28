@@ -148,3 +148,4 @@ public class ResponseObjectWithDifferentFieldNamesDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

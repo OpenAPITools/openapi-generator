@@ -29,33 +29,33 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class FormatTest {
 
-  private @Min(10) @Max(100) Integer integer;
+  private Integer integer;
 
-  private @Min(20) @Max(200) Integer int32;
+  private Integer int32;
 
   private Long int64;
 
-  private @NotNull @DecimalMin("32.1") @DecimalMax("543.2") BigDecimal number;
+  private BigDecimal number;
 
-  private @DecimalMin("54.3") @DecimalMax("987.6") Float _float;
+  private Float _float;
 
-  private @DecimalMin("67.8") @DecimalMax("123.4") Double _double;
+  private Double _double;
 
-  private @Pattern(regexp = "/[a-z]/i") String string;
+  private String string;
 
-  private @NotNull byte[] _byte;
+  private byte[] _byte;
 
   private org.springframework.core.io.Resource binary;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-  private @NotNull LocalDate date;
+  private LocalDate date;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime dateTime;
 
   private UUID uuid;
 
-  private @NotNull @Size(min = 10, max = 64) String password;
+  private String password;
 
   private BigDecimal bigDecimal;
 
@@ -84,9 +84,10 @@ public class FormatTest {
    * maximum: 100
    * @return integer
    */
+  @Min(10) @Max(100) 
   @Schema(name = "integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("integer")
-  public @Min(10) @Max(100) Integer getInteger() {
+  public Integer getInteger() {
     return integer;
   }
 
@@ -105,9 +106,10 @@ public class FormatTest {
    * maximum: 200
    * @return int32
    */
+  @Min(20) @Max(200) 
   @Schema(name = "int32", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("int32")
-  public @Min(20) @Max(200) Integer getInt32() {
+  public Integer getInt32() {
     return int32;
   }
 
@@ -124,6 +126,7 @@ public class FormatTest {
    * Get int64
    * @return int64
    */
+  
   @Schema(name = "int64", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("int64")
   public Long getInt64() {
@@ -145,9 +148,10 @@ public class FormatTest {
    * maximum: 543.2
    * @return number
    */
+  @NotNull @Valid @DecimalMin("32.1") @DecimalMax("543.2") 
   @Schema(name = "number", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("number")
-  public @NotNull @DecimalMin("32.1") @DecimalMax("543.2") BigDecimal getNumber() {
+  public BigDecimal getNumber() {
     return number;
   }
 
@@ -166,9 +170,10 @@ public class FormatTest {
    * maximum: 987.6
    * @return _float
    */
+  @DecimalMin("54.3") @DecimalMax("987.6") 
   @Schema(name = "float", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("float")
-  public @DecimalMin("54.3") @DecimalMax("987.6") Float getFloat() {
+  public Float getFloat() {
     return _float;
   }
 
@@ -187,9 +192,10 @@ public class FormatTest {
    * maximum: 123.4
    * @return _double
    */
+  @DecimalMin("67.8") @DecimalMax("123.4") 
   @Schema(name = "double", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("double")
-  public @DecimalMin("67.8") @DecimalMax("123.4") Double getDouble() {
+  public Double getDouble() {
     return _double;
   }
 
@@ -206,9 +212,10 @@ public class FormatTest {
    * Get string
    * @return string
    */
+  @Pattern(regexp = "/[a-z]/i") 
   @Schema(name = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("string")
-  public @Pattern(regexp = "/[a-z]/i") String getString() {
+  public String getString() {
     return string;
   }
 
@@ -225,9 +232,10 @@ public class FormatTest {
    * Get _byte
    * @return _byte
    */
+  @NotNull 
   @Schema(name = "byte", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("byte")
-  public @NotNull byte[] getByte() {
+  public byte[] getByte() {
     return _byte;
   }
 
@@ -244,6 +252,7 @@ public class FormatTest {
    * Get binary
    * @return binary
    */
+  @Valid 
   @Schema(name = "binary", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("binary")
   public org.springframework.core.io.Resource getBinary() {
@@ -263,9 +272,10 @@ public class FormatTest {
    * Get date
    * @return date
    */
+  @NotNull @Valid 
   @Schema(name = "date", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("date")
-  public @NotNull LocalDate getDate() {
+  public LocalDate getDate() {
     return date;
   }
 
@@ -282,6 +292,7 @@ public class FormatTest {
    * Get dateTime
    * @return dateTime
    */
+  @Valid 
   @Schema(name = "dateTime", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("dateTime")
   public OffsetDateTime getDateTime() {
@@ -301,6 +312,7 @@ public class FormatTest {
    * Get uuid
    * @return uuid
    */
+  @Valid 
   @Schema(name = "uuid", example = "72f98069-206d-4f12-9f12-3d1e525a8e84", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("uuid")
   public UUID getUuid() {
@@ -320,9 +332,10 @@ public class FormatTest {
    * Get password
    * @return password
    */
+  @NotNull @Size(min = 10, max = 64) 
   @Schema(name = "password", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("password")
-  public @NotNull @Size(min = 10, max = 64) String getPassword() {
+  public String getPassword() {
     return password;
   }
 
@@ -339,6 +352,7 @@ public class FormatTest {
    * Get bigDecimal
    * @return bigDecimal
    */
+  @Valid 
   @Schema(name = "BigDecimal", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("BigDecimal")
   public BigDecimal getBigDecimal() {
@@ -412,3 +426,4 @@ public class FormatTest {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

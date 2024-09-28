@@ -27,14 +27,15 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class NullableMapProperty {
 
-  private JsonNullable<Map<String, Optional<String>>> languageValues = JsonNullable.undefined();
+  @Valid
+  private JsonNullable<Map<String, String>> languageValues = JsonNullable.<Map<String, String>>undefined();
 
-  public NullableMapProperty languageValues(JsonNullable<Map<String, Optional<String>>> languageValues) {
-    this.languageValues = languageValues;
+  public NullableMapProperty languageValues(Map<String, String> languageValues) {
+    this.languageValues = JsonNullable.of(languageValues);
     return this;
   }
 
-  public NullableMapProperty putLanguageValuesItem(String key, Optional<String> languageValuesItem) {
+  public NullableMapProperty putLanguageValuesItem(String key, String languageValuesItem) {
     if (this.languageValues == null || !this.languageValues.isPresent()) {
       this.languageValues = JsonNullable.of(new HashMap<>());
     }
@@ -46,13 +47,14 @@ public class NullableMapProperty {
    * Get languageValues
    * @return languageValues
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("languageValues")
-  public JsonNullable<Map<String, Optional<String>>> getLanguageValues() {
+  public JsonNullable<Map<String, String>> getLanguageValues() {
     return languageValues;
   }
 
-  public void setLanguageValues(JsonNullable<Map<String, Optional<String>>> languageValues) {
+  public void setLanguageValues(JsonNullable<Map<String, String>> languageValues) {
     this.languageValues = languageValues;
   }
 
@@ -167,3 +169,4 @@ public class NullableMapProperty {
   }
 
 }
+

@@ -37,6 +37,7 @@ public class TagDto {
    * Get id
    * @return id
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
@@ -56,6 +57,7 @@ public class TagDto {
    * Get name
    * @return name
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public String getName() {
@@ -105,3 +107,4 @@ public class TagDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

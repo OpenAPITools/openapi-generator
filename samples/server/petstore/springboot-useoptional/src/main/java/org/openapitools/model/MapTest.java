@@ -25,7 +25,8 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class MapTest {
 
-  private Map<String, Map<String, Optional<String>>> mapMapOfString = new HashMap<>();
+  @Valid
+  private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
   /**
    * Gets or Sets inner
@@ -62,18 +63,21 @@ public class MapTest {
     }
   }
 
-  private Map<String, Optional<InnerEnum>> mapOfEnumString = new HashMap<>();
+  @Valid
+  private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
-  private Map<String, Optional<Boolean>> directMap = new HashMap<>();
+  @Valid
+  private Map<String, Boolean> directMap = new HashMap<>();
 
-  private Map<String, Optional<Boolean>> indirectMap = new HashMap<>();
+  @Valid
+  private Map<String, Boolean> indirectMap = new HashMap<>();
 
-  public MapTest mapMapOfString(Map<String, Map<String, Optional<String>>> mapMapOfString) {
+  public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
     return this;
   }
 
-  public MapTest putMapMapOfStringItem(String key, Map<String, Optional<String>> mapMapOfStringItem) {
+  public MapTest putMapMapOfStringItem(String key, Map<String, String> mapMapOfStringItem) {
     if (this.mapMapOfString == null) {
       this.mapMapOfString = new HashMap<>();
     }
@@ -85,22 +89,23 @@ public class MapTest {
    * Get mapMapOfString
    * @return mapMapOfString
    */
+  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("map_map_of_string")
-  public Map<String, Map<String, Optional<String>>> getMapMapOfString() {
+  public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
 
-  public void setMapMapOfString(Map<String, Map<String, Optional<String>>> mapMapOfString) {
+  public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
   }
 
-  public MapTest mapOfEnumString(Map<String, Optional<InnerEnum>> mapOfEnumString) {
+  public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
     return this;
   }
 
-  public MapTest putMapOfEnumStringItem(String key, Optional<InnerEnum> mapOfEnumStringItem) {
+  public MapTest putMapOfEnumStringItem(String key, InnerEnum mapOfEnumStringItem) {
     if (this.mapOfEnumString == null) {
       this.mapOfEnumString = new HashMap<>();
     }
@@ -112,22 +117,23 @@ public class MapTest {
    * Get mapOfEnumString
    * @return mapOfEnumString
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("map_of_enum_string")
-  public Map<String, Optional<InnerEnum>> getMapOfEnumString() {
+  public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }
 
-  public void setMapOfEnumString(Map<String, Optional<InnerEnum>> mapOfEnumString) {
+  public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
   }
 
-  public MapTest directMap(Map<String, Optional<Boolean>> directMap) {
+  public MapTest directMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
     return this;
   }
 
-  public MapTest putDirectMapItem(String key, Optional<Boolean> directMapItem) {
+  public MapTest putDirectMapItem(String key, Boolean directMapItem) {
     if (this.directMap == null) {
       this.directMap = new HashMap<>();
     }
@@ -139,22 +145,23 @@ public class MapTest {
    * Get directMap
    * @return directMap
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("direct_map")
-  public Map<String, Optional<Boolean>> getDirectMap() {
+  public Map<String, Boolean> getDirectMap() {
     return directMap;
   }
 
-  public void setDirectMap(Map<String, Optional<Boolean>> directMap) {
+  public void setDirectMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
   }
 
-  public MapTest indirectMap(Map<String, Optional<Boolean>> indirectMap) {
+  public MapTest indirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
     return this;
   }
 
-  public MapTest putIndirectMapItem(String key, Optional<Boolean> indirectMapItem) {
+  public MapTest putIndirectMapItem(String key, Boolean indirectMapItem) {
     if (this.indirectMap == null) {
       this.indirectMap = new HashMap<>();
     }
@@ -166,13 +173,14 @@ public class MapTest {
    * Get indirectMap
    * @return indirectMap
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("indirect_map")
-  public Map<String, Optional<Boolean>> getIndirectMap() {
+  public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }
 
-  public void setIndirectMap(Map<String, Optional<Boolean>> indirectMap) {
+  public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
 
@@ -295,3 +303,4 @@ public class MapTest {
   }
 
 }
+

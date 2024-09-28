@@ -31,6 +31,7 @@ public class XmlItem {
 
   private Boolean attributeBoolean;
 
+  
   private List<Integer> wrappedArray = new ArrayList<>();
 
   private String nameString;
@@ -41,8 +42,10 @@ public class XmlItem {
 
   private Boolean nameBoolean;
 
+  
   private List<Integer> nameArray = new ArrayList<>();
 
+  
   private List<Integer> nameWrappedArray = new ArrayList<>();
 
   private String prefixString;
@@ -53,8 +56,10 @@ public class XmlItem {
 
   private Boolean prefixBoolean;
 
+  
   private List<Integer> prefixArray = new ArrayList<>();
 
+  
   private List<Integer> prefixWrappedArray = new ArrayList<>();
 
   private String namespaceString;
@@ -65,8 +70,10 @@ public class XmlItem {
 
   private Boolean namespaceBoolean;
 
+  
   private List<Integer> namespaceArray = new ArrayList<>();
 
+  
   private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
   private String prefixNsString;
@@ -77,8 +84,10 @@ public class XmlItem {
 
   private Boolean prefixNsBoolean;
 
+  
   private List<Integer> prefixNsArray = new ArrayList<>();
 
+  
   private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   public XmlItem attributeString(String attributeString) {
@@ -797,3 +806,4 @@ public class XmlItem {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

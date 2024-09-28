@@ -40,8 +40,8 @@ public class Dog extends Animal {
     super(className);
   }
 
-  public Dog breed(Optional<String> breed) {
-    this.breed = breed;
+  public Dog breed(String breed) {
+    this.breed = Optional.of(breed);
     return this;
   }
 
@@ -49,6 +49,7 @@ public class Dog extends Animal {
    * Get breed
    * @return breed
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("breed")
   public Optional<String> getBreed() {
@@ -65,7 +66,7 @@ public class Dog extends Animal {
     return this;
   }
 
-  public Dog color(Optional<String> color) {
+  public Dog color(String color) {
     super.color(color);
     return this;
   }
@@ -181,3 +182,4 @@ public class Dog extends Animal {
   }
 
 }
+

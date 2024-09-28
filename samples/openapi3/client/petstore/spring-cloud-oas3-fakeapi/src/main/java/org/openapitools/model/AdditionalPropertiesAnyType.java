@@ -36,6 +36,7 @@ public class AdditionalPropertiesAnyType {
    * Get name
    * @return name
    */
+  
   @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
   public String getName() {
@@ -123,3 +124,4 @@ public class AdditionalPropertiesAnyType {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

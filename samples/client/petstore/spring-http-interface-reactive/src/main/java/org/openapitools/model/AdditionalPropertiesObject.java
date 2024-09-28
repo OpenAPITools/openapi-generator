@@ -122,3 +122,4 @@ public class AdditionalPropertiesObject {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

@@ -102,3 +102,4 @@ public class Model200ResponseDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

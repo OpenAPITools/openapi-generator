@@ -32,12 +32,14 @@ public class Pet {
 
   private Long id;
 
-  private @Valid Category category;
+  private Category category;
 
-  private @NotNull String name;
+  private String name;
 
-  private @NotNull Set<String> photoUrls = new LinkedHashSet<>();
+  @Valid
+  private Set<String> photoUrls = new LinkedHashSet<>();
 
+  @Valid
   private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
@@ -101,6 +103,7 @@ public class Pet {
    * Get id
    * @return id
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
@@ -120,9 +123,10 @@ public class Pet {
    * Get category
    * @return category
    */
+  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("category")
-  public @Valid Category getCategory() {
+  public Category getCategory() {
     return category;
   }
 
@@ -139,9 +143,10 @@ public class Pet {
    * Get name
    * @return name
    */
+  @NotNull 
   @ApiModelProperty(example = "doggie", required = true, value = "")
   @JsonProperty("name")
-  public @NotNull String getName() {
+  public String getName() {
     return name;
   }
 
@@ -166,9 +171,10 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
    */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("photoUrls")
-  public @NotNull Set<String> getPhotoUrls() {
+  public Set<String> getPhotoUrls() {
     return photoUrls;
   }
 
@@ -177,7 +183,7 @@ public class Pet {
     this.photoUrls = photoUrls;
   }
 
-  public Pet tags(List<Tag> tags) {
+  public Pet tags(List<@Valid Tag> tags) {
     this.tags = tags;
     return this;
   }
@@ -194,13 +200,14 @@ public class Pet {
    * Get tags
    * @return tags
    */
+  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
   public List<@Valid Tag> getTags() {
     return tags;
   }
 
-  public void setTags(List<Tag> tags) {
+  public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
 
@@ -214,6 +221,7 @@ public class Pet {
    * @return status
    * @deprecated
    */
+  
   @ApiModelProperty(value = "pet status in the store")
   @JsonProperty("status")
   @Deprecated
@@ -276,3 +284,4 @@ public class Pet {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

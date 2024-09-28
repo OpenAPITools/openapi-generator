@@ -24,7 +24,7 @@ public class Category {
 
   private Optional<Long> id = Optional.empty();
 
-  private @NotNull String name = "default-name";
+  private String name = "default-name";
 
   public Category() {
     super();
@@ -37,8 +37,8 @@ public class Category {
     this.name = name;
   }
 
-  public Category id(Optional<Long> id) {
-    this.id = id;
+  public Category id(Long id) {
+    this.id = Optional.of(id);
     return this;
   }
 
@@ -46,6 +46,7 @@ public class Category {
    * Get id
    * @return id
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Optional<Long> getId() {
@@ -65,9 +66,10 @@ public class Category {
    * Get name
    * @return name
    */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("name")
-  public @NotNull String getName() {
+  public String getName() {
     return name;
   }
 
@@ -178,3 +180,4 @@ public class Category {
   }
 
 }
+

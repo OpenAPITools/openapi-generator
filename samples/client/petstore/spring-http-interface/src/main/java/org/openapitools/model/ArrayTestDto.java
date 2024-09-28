@@ -25,10 +25,13 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class ArrayTestDto {
 
+  
   private List<String> arrayOfString = new ArrayList<>();
 
+  
   private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
+  
   private List<List<ReadOnlyFirstDto>> arrayArrayOfModel = new ArrayList<>();
 
   public ArrayTestDto arrayOfString(List<String> arrayOfString) {
@@ -153,3 +156,4 @@ public class ArrayTestDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

@@ -36,6 +36,7 @@ public class FileDto {
    * Test capitalization
    * @return sourceURI
    */
+  
   @ApiModelProperty(value = "Test capitalization")
   @JsonProperty("sourceURI")
   public String getSourceURI() {
@@ -83,3 +84,4 @@ public class FileDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

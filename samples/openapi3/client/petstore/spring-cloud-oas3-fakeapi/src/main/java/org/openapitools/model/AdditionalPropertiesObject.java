@@ -37,6 +37,7 @@ public class AdditionalPropertiesObject {
    * Get name
    * @return name
    */
+  
   @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
   public String getName() {
@@ -124,3 +125,4 @@ public class AdditionalPropertiesObject {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

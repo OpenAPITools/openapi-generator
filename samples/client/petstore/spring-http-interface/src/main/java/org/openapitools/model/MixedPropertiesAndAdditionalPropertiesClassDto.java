@@ -32,6 +32,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime dateTime;
 
+  
   private Map<String, AnimalDto> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClassDto uuid(UUID uuid) {
@@ -140,3 +141,4 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

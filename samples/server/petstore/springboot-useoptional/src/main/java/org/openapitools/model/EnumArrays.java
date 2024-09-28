@@ -98,10 +98,11 @@ public class EnumArrays {
     }
   }
 
-  private List<Optional<ArrayEnumEnum>> arrayEnum = new ArrayList<>();
+  @Valid
+  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
-  public EnumArrays justSymbol(Optional<JustSymbolEnum> justSymbol) {
-    this.justSymbol = justSymbol;
+  public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
+    this.justSymbol = Optional.of(justSymbol);
     return this;
   }
 
@@ -109,6 +110,7 @@ public class EnumArrays {
    * Get justSymbol
    * @return justSymbol
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("just_symbol")
   public Optional<JustSymbolEnum> getJustSymbol() {
@@ -119,12 +121,12 @@ public class EnumArrays {
     this.justSymbol = justSymbol;
   }
 
-  public EnumArrays arrayEnum(List<Optional<ArrayEnumEnum>> arrayEnum) {
+  public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
     return this;
   }
 
-  public EnumArrays addArrayEnumItem(Optional<ArrayEnumEnum> arrayEnumItem) {
+  public EnumArrays addArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
     if (this.arrayEnum == null) {
       this.arrayEnum = new ArrayList<>();
     }
@@ -136,13 +138,14 @@ public class EnumArrays {
    * Get arrayEnum
    * @return arrayEnum
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("array_enum")
-  public List<Optional<ArrayEnumEnum>> getArrayEnum() {
+  public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }
 
-  public void setArrayEnum(List<Optional<ArrayEnumEnum>> arrayEnum) {
+  public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
 
@@ -249,3 +252,4 @@ public class EnumArrays {
   }
 
 }
+

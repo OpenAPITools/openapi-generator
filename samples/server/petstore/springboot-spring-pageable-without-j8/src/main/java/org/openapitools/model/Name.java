@@ -23,7 +23,7 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class Name {
 
-  private @NotNull Integer name;
+  private Integer name;
 
   private Integer snakeCase;
 
@@ -51,9 +51,10 @@ public class Name {
    * Get name
    * @return name
    */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("name")
-  public @NotNull Integer getName() {
+  public Integer getName() {
     return name;
   }
 
@@ -70,6 +71,7 @@ public class Name {
    * Get snakeCase
    * @return snakeCase
    */
+  
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("snake_case")
   public Integer getSnakeCase() {
@@ -89,6 +91,7 @@ public class Name {
    * Get property
    * @return property
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("property")
   public String getProperty() {
@@ -108,6 +111,7 @@ public class Name {
    * Get _123number
    * @return _123number
    */
+  
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("123Number")
   public Integer get123number() {
@@ -161,3 +165,4 @@ public class Name {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

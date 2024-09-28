@@ -77,3 +77,4 @@ public class ClassModel {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

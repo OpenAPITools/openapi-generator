@@ -95,6 +95,7 @@ public class EnumArrays {
     }
   }
 
+  
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
@@ -182,3 +183,4 @@ public class EnumArrays {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

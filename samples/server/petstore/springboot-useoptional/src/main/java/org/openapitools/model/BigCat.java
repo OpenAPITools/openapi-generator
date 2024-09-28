@@ -80,8 +80,8 @@ public class BigCat extends Cat {
     super(className);
   }
 
-  public BigCat kind(Optional<KindEnum> kind) {
-    this.kind = kind;
+  public BigCat kind(KindEnum kind) {
+    this.kind = Optional.of(kind);
     return this;
   }
 
@@ -89,6 +89,7 @@ public class BigCat extends Cat {
    * Get kind
    * @return kind
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("kind")
   public Optional<KindEnum> getKind() {
@@ -100,7 +101,7 @@ public class BigCat extends Cat {
   }
 
 
-  public BigCat declawed(Optional<Boolean> declawed) {
+  public BigCat declawed(Boolean declawed) {
     super.declawed(declawed);
     return this;
   }
@@ -110,7 +111,7 @@ public class BigCat extends Cat {
     return this;
   }
 
-  public BigCat color(Optional<String> color) {
+  public BigCat color(String color) {
     super.color(color);
     return this;
   }
@@ -232,3 +233,4 @@ public class BigCat extends Cat {
   }
 
 }
+

@@ -29,8 +29,8 @@ public class AdditionalPropertiesArray {
 
   private Optional<String> name = Optional.empty();
 
-  public AdditionalPropertiesArray name(Optional<String> name) {
-    this.name = name;
+  public AdditionalPropertiesArray name(String name) {
+    this.name = Optional.of(name);
     return this;
   }
 
@@ -38,6 +38,7 @@ public class AdditionalPropertiesArray {
    * Get name
    * @return name
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public Optional<String> getName() {
@@ -188,3 +189,4 @@ public class AdditionalPropertiesArray {
   }
 
 }
+

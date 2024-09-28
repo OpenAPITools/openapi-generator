@@ -25,8 +25,8 @@ public class NumberOnly {
 
   private Optional<BigDecimal> justNumber = Optional.empty();
 
-  public NumberOnly justNumber(Optional<BigDecimal> justNumber) {
-    this.justNumber = justNumber;
+  public NumberOnly justNumber(BigDecimal justNumber) {
+    this.justNumber = Optional.of(justNumber);
     return this;
   }
 
@@ -34,6 +34,7 @@ public class NumberOnly {
    * Get justNumber
    * @return justNumber
    */
+  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("JustNumber")
   public Optional<BigDecimal> getJustNumber() {
@@ -139,3 +140,4 @@ public class NumberOnly {
   }
 
 }
+

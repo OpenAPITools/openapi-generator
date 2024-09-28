@@ -39,6 +39,7 @@ public class ApiResponseDto {
    * Get code
    * @return code
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("code")
   public Integer getCode() {
@@ -58,6 +59,7 @@ public class ApiResponseDto {
    * Get type
    * @return type
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("type")
   public String getType() {
@@ -77,6 +79,7 @@ public class ApiResponseDto {
    * Get message
    * @return message
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("message")
   public String getMessage() {
@@ -128,3 +131,4 @@ public class ApiResponseDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

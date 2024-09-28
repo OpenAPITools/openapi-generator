@@ -36,6 +36,7 @@ public class ClassModelDto {
    * Get propertyClass
    * @return propertyClass
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("_class")
   public String getPropertyClass() {
@@ -83,3 +84,4 @@ public class ClassModelDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+
