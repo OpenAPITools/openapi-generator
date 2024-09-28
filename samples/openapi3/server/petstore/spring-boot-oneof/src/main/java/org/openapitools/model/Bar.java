@@ -214,38 +214,46 @@ public class Bar extends Entity implements BarRefOrValue {
       this.instance.id(id);
       return this;
     }
+    
     public Bar.Builder barPropA(String barPropA) {
       this.instance.barPropA(barPropA);
       return this;
     }
+    
     public Bar.Builder fooPropB(String fooPropB) {
       this.instance.fooPropB(fooPropB);
       return this;
     }
+    
     public Bar.Builder foo(FooRefOrValue foo) {
       this.instance.foo(foo);
       return this;
     }
+    
     @Override
     public Bar.Builder href(String href) {
       this.instance.href(href);
       return this;
     }
+    
     @Override
     public Bar.Builder atSchemaLocation(String atSchemaLocation) {
       this.instance.atSchemaLocation(atSchemaLocation);
       return this;
     }
+    
     @Override
     public Bar.Builder atBaseType(String atBaseType) {
       this.instance.atBaseType(atBaseType);
       return this;
     }
+    
     @Override
     public Bar.Builder atType(String atType) {
       this.instance.atType(atType);
       return this;
     }
+    
     /**
     * returns a built Bar instance.
     *

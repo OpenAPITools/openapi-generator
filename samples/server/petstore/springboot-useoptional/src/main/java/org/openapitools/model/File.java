@@ -98,10 +98,11 @@ public class File {
       return this;
     }
 
-    public File.Builder sourceURI(Optional<String> sourceURI) {
+    public File.Builder sourceURI(String sourceURI) {
       this.instance.sourceURI(sourceURI);
       return this;
     }
+    
     /**
     * returns a built File instance.
     *

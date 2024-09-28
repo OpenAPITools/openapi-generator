@@ -224,22 +224,27 @@ public class TypeHolderDefault {
       this.instance.stringItem(stringItem);
       return this;
     }
+    
     public TypeHolderDefault.Builder numberItem(BigDecimal numberItem) {
       this.instance.numberItem(numberItem);
       return this;
     }
+    
     public TypeHolderDefault.Builder integerItem(Integer integerItem) {
       this.instance.integerItem(integerItem);
       return this;
     }
+    
     public TypeHolderDefault.Builder boolItem(Boolean boolItem) {
       this.instance.boolItem(boolItem);
       return this;
     }
-    public TypeHolderDefault.Builder arrayItem(List<Optional<Integer>> arrayItem) {
+    
+    public TypeHolderDefault.Builder arrayItem(List<Integer> arrayItem) {
       this.instance.arrayItem(arrayItem);
       return this;
     }
+    
     /**
     * returns a built TypeHolderDefault instance.
     *

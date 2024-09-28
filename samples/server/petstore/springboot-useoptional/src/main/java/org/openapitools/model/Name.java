@@ -185,18 +185,22 @@ public class Name {
       this.instance.name(name);
       return this;
     }
-    public Name.Builder snakeCase(Optional<Integer> snakeCase) {
+    
+    public Name.Builder snakeCase(Integer snakeCase) {
       this.instance.snakeCase(snakeCase);
       return this;
     }
-    public Name.Builder property(Optional<String> property) {
+    
+    public Name.Builder property(String property) {
       this.instance.property(property);
       return this;
     }
-    public Name.Builder _123number(Optional<Integer> _123number) {
+    
+    public Name.Builder _123number(Integer _123number) {
       this.instance._123number(_123number);
       return this;
     }
+    
     /**
     * returns a built Name instance.
     *

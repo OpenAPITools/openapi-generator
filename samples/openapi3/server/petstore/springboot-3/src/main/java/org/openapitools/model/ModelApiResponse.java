@@ -177,14 +177,17 @@ public class ModelApiResponse {
       this.instance.code(code);
       return this;
     }
+    
     public ModelApiResponse.Builder type(String type) {
       this.instance.type(type);
       return this;
     }
+    
     public ModelApiResponse.Builder message(String message) {
       this.instance.message(message);
       return this;
     }
+    
     /**
     * returns a built ModelApiResponse instance.
     *

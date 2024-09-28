@@ -121,14 +121,16 @@ public class Tag {
       return this;
     }
 
-    public Tag.Builder id(Optional<Long> id) {
+    public Tag.Builder id(Long id) {
       this.instance.id(id);
       return this;
     }
-    public Tag.Builder name(Optional<String> name) {
+    
+    public Tag.Builder name(String name) {
       this.instance.name(name);
       return this;
     }
+    
     /**
     * returns a built Tag instance.
     *

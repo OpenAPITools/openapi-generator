@@ -97,10 +97,11 @@ public class Client {
       return this;
     }
 
-    public Client.Builder client(Optional<String> client) {
+    public Client.Builder client(String client) {
       this.instance.client(client);
       return this;
     }
+    
     /**
     * returns a built Client instance.
     *

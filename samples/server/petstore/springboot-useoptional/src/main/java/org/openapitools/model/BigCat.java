@@ -172,25 +172,29 @@ public class BigCat extends Cat {
       return this;
     }
 
-    public BigCat.Builder kind(Optional<KindEnum> kind) {
+    public BigCat.Builder kind(KindEnum kind) {
       this.instance.kind(kind);
       return this;
     }
+    
     @Override
-    public BigCat.Builder declawed(Optional<Boolean> declawed) {
+    public BigCat.Builder declawed(Boolean declawed) {
       this.instance.declawed(declawed);
       return this;
     }
+    
     @Override
     public BigCat.Builder className(String className) {
       this.instance.className(className);
       return this;
     }
+    
     @Override
-    public BigCat.Builder color(Optional<String> color) {
+    public BigCat.Builder color(String color) {
       this.instance.color(color);
       return this;
     }
+    
     /**
     * returns a built BigCat instance.
     *

@@ -142,10 +142,11 @@ public class AdditionalPropertiesNumber {
       return this;
     }
 
-    public AdditionalPropertiesNumber.Builder name(Optional<String> name) {
+    public AdditionalPropertiesNumber.Builder name(String name) {
       this.instance.name(name);
       return this;
     }
+    
     public AdditionalPropertiesNumber.Builder additionalProperties(Map<String, BigDecimal> additionalProperties) {
       this.instance.additionalProperties = additionalProperties;
       return this;

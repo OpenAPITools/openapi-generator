@@ -121,10 +121,16 @@ public class NullableMapProperty {
       return this;
     }
 
-    public NullableMapProperty.Builder languageValues(JsonNullable<Map<String, Optional<String>>> languageValues) {
+    public NullableMapProperty.Builder languageValues(Map<String, String> languageValues) {
       this.instance.languageValues(languageValues);
       return this;
     }
+    
+    public NullableMapProperty.Builder languageValues(JsonNullable<Map<String, String>> languageValues) {
+      this.instance.languageValues = languageValues;
+      return this;
+    }
+    
     /**
     * returns a built NullableMapProperty instance.
     *

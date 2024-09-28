@@ -269,30 +269,37 @@ public class EntityRef {
       this.instance.name(name);
       return this;
     }
+    
     public EntityRef.Builder atReferredType(String atReferredType) {
       this.instance.atReferredType(atReferredType);
       return this;
     }
+    
     public EntityRef.Builder href(String href) {
       this.instance.href(href);
       return this;
     }
+    
     public EntityRef.Builder id(String id) {
       this.instance.id(id);
       return this;
     }
+    
     public EntityRef.Builder atSchemaLocation(String atSchemaLocation) {
       this.instance.atSchemaLocation(atSchemaLocation);
       return this;
     }
+    
     public EntityRef.Builder atBaseType(String atBaseType) {
       this.instance.atBaseType(atBaseType);
       return this;
     }
+    
     public EntityRef.Builder atType(String atType) {
       this.instance.atType(atType);
       return this;
     }
+    
     /**
     * returns a built EntityRef instance.
     *

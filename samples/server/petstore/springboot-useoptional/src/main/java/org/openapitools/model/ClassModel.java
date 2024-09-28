@@ -98,10 +98,11 @@ public class ClassModel {
       return this;
     }
 
-    public ClassModel.Builder propertyClass(Optional<String> propertyClass) {
+    public ClassModel.Builder propertyClass(String propertyClass) {
       this.instance.propertyClass(propertyClass);
       return this;
     }
+    
     /**
     * returns a built ClassModel instance.
     *

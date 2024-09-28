@@ -203,14 +203,16 @@ public class EnumArrays {
       return this;
     }
 
-    public EnumArrays.Builder justSymbol(Optional<JustSymbolEnum> justSymbol) {
+    public EnumArrays.Builder justSymbol(JustSymbolEnum justSymbol) {
       this.instance.justSymbol(justSymbol);
       return this;
     }
-    public EnumArrays.Builder arrayEnum(List<Optional<ArrayEnumEnum>> arrayEnum) {
+    
+    public EnumArrays.Builder arrayEnum(List<ArrayEnumEnum> arrayEnum) {
       this.instance.arrayEnum(arrayEnum);
       return this;
     }
+    
     /**
     * returns a built EnumArrays instance.
     *

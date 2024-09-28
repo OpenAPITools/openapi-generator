@@ -141,10 +141,11 @@ public class AdditionalPropertiesAnyType {
       return this;
     }
 
-    public AdditionalPropertiesAnyType.Builder name(Optional<String> name) {
+    public AdditionalPropertiesAnyType.Builder name(String name) {
       this.instance.name(name);
       return this;
     }
+    
     public AdditionalPropertiesAnyType.Builder additionalProperties(Map<String, Object> additionalProperties) {
       this.instance.additionalProperties = additionalProperties;
       return this;

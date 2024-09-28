@@ -141,10 +141,11 @@ public class AdditionalPropertiesInteger {
       return this;
     }
 
-    public AdditionalPropertiesInteger.Builder name(Optional<String> name) {
+    public AdditionalPropertiesInteger.Builder name(String name) {
       this.instance.name(name);
       return this;
     }
+    
     public AdditionalPropertiesInteger.Builder additionalProperties(Map<String, Integer> additionalProperties) {
       this.instance.additionalProperties = additionalProperties;
       return this;

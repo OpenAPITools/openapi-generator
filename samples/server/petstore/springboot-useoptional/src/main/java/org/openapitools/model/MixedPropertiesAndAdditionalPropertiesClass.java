@@ -160,18 +160,21 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
       return this;
     }
 
-    public MixedPropertiesAndAdditionalPropertiesClass.Builder uuid(Optional<UUID> uuid) {
+    public MixedPropertiesAndAdditionalPropertiesClass.Builder uuid(UUID uuid) {
       this.instance.uuid(uuid);
       return this;
     }
-    public MixedPropertiesAndAdditionalPropertiesClass.Builder dateTime(Optional<OffsetDateTime> dateTime) {
+    
+    public MixedPropertiesAndAdditionalPropertiesClass.Builder dateTime(OffsetDateTime dateTime) {
       this.instance.dateTime(dateTime);
       return this;
     }
-    public MixedPropertiesAndAdditionalPropertiesClass.Builder map(Map<String, Optional<Animal>> map) {
+    
+    public MixedPropertiesAndAdditionalPropertiesClass.Builder map(Map<String, Animal> map) {
       this.instance.map(map);
       return this;
     }
+    
     /**
     * returns a built MixedPropertiesAndAdditionalPropertiesClass instance.
     *

@@ -99,10 +99,11 @@ public class SpecialModelName {
       return this;
     }
 
-    public SpecialModelName.Builder $specialPropertyName(Optional<Long> $specialPropertyName) {
+    public SpecialModelName.Builder $specialPropertyName(Long $specialPropertyName) {
       this.instance.$specialPropertyName($specialPropertyName);
       return this;
     }
+    
     /**
     * returns a built SpecialModelName instance.
     *

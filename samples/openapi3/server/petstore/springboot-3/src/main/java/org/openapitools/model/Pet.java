@@ -334,27 +334,33 @@ public class Pet {
       this.instance.id(id);
       return this;
     }
+    
     public Pet.Builder category(Category category) {
       this.instance.category(category);
       return this;
     }
+    
     public Pet.Builder name(String name) {
       this.instance.name(name);
       return this;
     }
+    
     public Pet.Builder photoUrls(List<String> photoUrls) {
       this.instance.photoUrls(photoUrls);
       return this;
     }
-    public Pet.Builder tags(List<Tag> tags) {
+    
+    public Pet.Builder tags(List<@Valid Tag> tags) {
       this.instance.tags(tags);
       return this;
     }
+    
     @Deprecated
     public Pet.Builder status(StatusEnum status) {
       this.instance.status(status);
       return this;
     }
+    
     /**
     * returns a built Pet instance.
     *

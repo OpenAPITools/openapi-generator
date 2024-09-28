@@ -310,34 +310,42 @@ public class User {
       this.instance.id(id);
       return this;
     }
+    
     public User.Builder username(String username) {
       this.instance.username(username);
       return this;
     }
+    
     public User.Builder firstName(String firstName) {
       this.instance.firstName(firstName);
       return this;
     }
+    
     public User.Builder lastName(String lastName) {
       this.instance.lastName(lastName);
       return this;
     }
+    
     public User.Builder email(String email) {
       this.instance.email(email);
       return this;
     }
+    
     public User.Builder password(String password) {
       this.instance.password(password);
       return this;
     }
+    
     public User.Builder phone(String phone) {
       this.instance.phone(phone);
       return this;
     }
+    
     public User.Builder userStatus(Integer userStatus) {
       this.instance.userStatus(userStatus);
       return this;
     }
+    
     /**
     * returns a built User instance.
     *

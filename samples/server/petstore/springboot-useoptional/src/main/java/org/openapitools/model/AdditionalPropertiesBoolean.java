@@ -141,10 +141,11 @@ public class AdditionalPropertiesBoolean {
       return this;
     }
 
-    public AdditionalPropertiesBoolean.Builder name(Optional<String> name) {
+    public AdditionalPropertiesBoolean.Builder name(String name) {
       this.instance.name(name);
       return this;
     }
+    
     public AdditionalPropertiesBoolean.Builder additionalProperties(Map<String, Boolean> additionalProperties) {
       this.instance.additionalProperties = additionalProperties;
       return this;

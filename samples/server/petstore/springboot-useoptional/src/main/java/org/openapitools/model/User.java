@@ -265,38 +265,46 @@ public class User {
       return this;
     }
 
-    public User.Builder id(Optional<Long> id) {
+    public User.Builder id(Long id) {
       this.instance.id(id);
       return this;
     }
-    public User.Builder username(Optional<String> username) {
+    
+    public User.Builder username(String username) {
       this.instance.username(username);
       return this;
     }
-    public User.Builder firstName(Optional<String> firstName) {
+    
+    public User.Builder firstName(String firstName) {
       this.instance.firstName(firstName);
       return this;
     }
-    public User.Builder lastName(Optional<String> lastName) {
+    
+    public User.Builder lastName(String lastName) {
       this.instance.lastName(lastName);
       return this;
     }
-    public User.Builder email(Optional<String> email) {
+    
+    public User.Builder email(String email) {
       this.instance.email(email);
       return this;
     }
-    public User.Builder password(Optional<String> password) {
+    
+    public User.Builder password(String password) {
       this.instance.password(password);
       return this;
     }
-    public User.Builder phone(Optional<String> phone) {
+    
+    public User.Builder phone(String phone) {
       this.instance.phone(phone);
       return this;
     }
-    public User.Builder userStatus(Optional<Integer> userStatus) {
+    
+    public User.Builder userStatus(Integer userStatus) {
       this.instance.userStatus(userStatus);
       return this;
     }
+    
     /**
     * returns a built User instance.
     *

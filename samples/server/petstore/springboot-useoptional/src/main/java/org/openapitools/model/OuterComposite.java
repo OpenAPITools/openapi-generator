@@ -146,18 +146,21 @@ public class OuterComposite {
       return this;
     }
 
-    public OuterComposite.Builder myNumber(Optional<BigDecimal> myNumber) {
+    public OuterComposite.Builder myNumber(BigDecimal myNumber) {
       this.instance.myNumber(myNumber);
       return this;
     }
-    public OuterComposite.Builder myString(Optional<String> myString) {
+    
+    public OuterComposite.Builder myString(String myString) {
       this.instance.myString(myString);
       return this;
     }
-    public OuterComposite.Builder myBoolean(Optional<Boolean> myBoolean) {
+    
+    public OuterComposite.Builder myBoolean(Boolean myBoolean) {
       this.instance.myBoolean(myBoolean);
       return this;
     }
+    
     /**
     * returns a built OuterComposite instance.
     *

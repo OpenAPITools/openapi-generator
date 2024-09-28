@@ -297,26 +297,32 @@ public class Order {
       this.instance.id(id);
       return this;
     }
+    
     public Order.Builder petId(Long petId) {
       this.instance.petId(petId);
       return this;
     }
+    
     public Order.Builder quantity(Integer quantity) {
       this.instance.quantity(quantity);
       return this;
     }
+    
     public Order.Builder shipDate(OffsetDateTime shipDate) {
       this.instance.shipDate(shipDate);
       return this;
     }
+    
     public Order.Builder status(StatusEnum status) {
       this.instance.status(status);
       return this;
     }
+    
     public Order.Builder complete(Boolean complete) {
       this.instance.complete(complete);
       return this;
     }
+    
     /**
     * returns a built Order instance.
     *

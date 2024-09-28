@@ -147,18 +147,21 @@ public class ModelApiResponse {
       return this;
     }
 
-    public ModelApiResponse.Builder code(Optional<Integer> code) {
+    public ModelApiResponse.Builder code(Integer code) {
       this.instance.code(code);
       return this;
     }
-    public ModelApiResponse.Builder type(Optional<String> type) {
+    
+    public ModelApiResponse.Builder type(String type) {
       this.instance.type(type);
       return this;
     }
-    public ModelApiResponse.Builder message(Optional<String> message) {
+    
+    public ModelApiResponse.Builder message(String message) {
       this.instance.message(message);
       return this;
     }
+    
     /**
     * returns a built ModelApiResponse instance.
     *

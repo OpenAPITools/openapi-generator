@@ -148,10 +148,12 @@ public class Category {
       this.instance.id(id);
       return this;
     }
+    
     public Category.Builder name(String name) {
       this.instance.name(name);
       return this;
     }
+    
     /**
     * returns a built Category instance.
     *

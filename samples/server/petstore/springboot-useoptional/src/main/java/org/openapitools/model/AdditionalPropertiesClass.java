@@ -419,50 +419,66 @@ public class AdditionalPropertiesClass {
       return this;
     }
 
-    public AdditionalPropertiesClass.Builder mapString(Map<String, Optional<String>> mapString) {
+    public AdditionalPropertiesClass.Builder mapString(Map<String, String> mapString) {
       this.instance.mapString(mapString);
       return this;
     }
-    public AdditionalPropertiesClass.Builder mapNumber(Map<String, Optional<BigDecimal>> mapNumber) {
+    
+    public AdditionalPropertiesClass.Builder mapNumber(Map<String, BigDecimal> mapNumber) {
       this.instance.mapNumber(mapNumber);
       return this;
     }
-    public AdditionalPropertiesClass.Builder mapInteger(Map<String, Optional<Integer>> mapInteger) {
+    
+    public AdditionalPropertiesClass.Builder mapInteger(Map<String, Integer> mapInteger) {
       this.instance.mapInteger(mapInteger);
       return this;
     }
-    public AdditionalPropertiesClass.Builder mapBoolean(Map<String, Optional<Boolean>> mapBoolean) {
+    
+    public AdditionalPropertiesClass.Builder mapBoolean(Map<String, Boolean> mapBoolean) {
       this.instance.mapBoolean(mapBoolean);
       return this;
     }
-    public AdditionalPropertiesClass.Builder mapArrayInteger(Map<String, List<Optional<Integer>>> mapArrayInteger) {
+    
+    public AdditionalPropertiesClass.Builder mapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
       this.instance.mapArrayInteger(mapArrayInteger);
       return this;
     }
-    public AdditionalPropertiesClass.Builder mapArrayAnytype(Map<String, List<Optional<Object>>> mapArrayAnytype) {
+    
+    public AdditionalPropertiesClass.Builder mapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
       this.instance.mapArrayAnytype(mapArrayAnytype);
       return this;
     }
-    public AdditionalPropertiesClass.Builder mapMapString(Map<String, Map<String, Optional<String>>> mapMapString) {
+    
+    public AdditionalPropertiesClass.Builder mapMapString(Map<String, Map<String, String>> mapMapString) {
       this.instance.mapMapString(mapMapString);
       return this;
     }
-    public AdditionalPropertiesClass.Builder mapMapAnytype(Map<String, Map<String, Optional<Object>>> mapMapAnytype) {
+    
+    public AdditionalPropertiesClass.Builder mapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
       this.instance.mapMapAnytype(mapMapAnytype);
       return this;
     }
-    public AdditionalPropertiesClass.Builder anytype1(Optional<Object> anytype1) {
+    
+    public AdditionalPropertiesClass.Builder anytype1(Object anytype1) {
       this.instance.anytype1(anytype1);
       return this;
     }
-    public AdditionalPropertiesClass.Builder anytype2(JsonNullable<Object> anytype2) {
+    
+    public AdditionalPropertiesClass.Builder anytype2(Object anytype2) {
       this.instance.anytype2(anytype2);
       return this;
     }
-    public AdditionalPropertiesClass.Builder anytype3(Optional<Object> anytype3) {
+    
+    public AdditionalPropertiesClass.Builder anytype2(JsonNullable<Object> anytype2) {
+      this.instance.anytype2 = anytype2;
+      return this;
+    }
+    
+    public AdditionalPropertiesClass.Builder anytype3(Object anytype3) {
       this.instance.anytype3(anytype3);
       return this;
     }
+    
     /**
     * returns a built AdditionalPropertiesClass instance.
     *

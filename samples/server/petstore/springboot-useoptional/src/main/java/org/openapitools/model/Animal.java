@@ -150,10 +150,12 @@ public class Animal {
       this.instance.className(className);
       return this;
     }
-    public Animal.Builder color(Optional<String> color) {
+    
+    public Animal.Builder color(String color) {
       this.instance.color(color);
       return this;
     }
+    
     /**
     * returns a built Animal instance.
     *
