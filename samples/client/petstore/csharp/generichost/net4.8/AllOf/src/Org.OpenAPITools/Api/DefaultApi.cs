@@ -172,27 +172,27 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="personId"></param>
-        private void OnErrorListDefaultImplementation(Exception exception, string pathFormat, string path, string personId)
+        private void OnErrorListDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string personId)
         {
-            bool suppressDefaultLog = false;
-            OnErrorList(ref suppressDefaultLog, exception, pathFormat, path, personId);
-            if (!suppressDefaultLog)
-                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorList(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, personId);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         /// <param name="personId"></param>
-        partial void OnErrorList(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, string personId);
+        partial void OnErrorList(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string personId);
 
         /// <summary>
         ///  
