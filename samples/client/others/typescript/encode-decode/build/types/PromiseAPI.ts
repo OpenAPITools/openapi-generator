@@ -242,7 +242,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      */
     public testEncodeArrayOfArraysPostWithHttpInfo(requestBody: Array<Array<string>>, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.testEncodeArrayOfArraysPostWithHttpInfo(requestBody, _options);
@@ -250,7 +250,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      */
     public testEncodeArrayOfArraysPost(requestBody: Array<Array<string>>, _options?: Configuration): Promise<void> {
         const result = this.api.testEncodeArrayOfArraysPost(requestBody, _options);
@@ -258,7 +258,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param complexObject 
+     * @param complexObject
      */
     public testEncodeArrayOfMapsOfObjectsPostWithHttpInfo(complexObject: Array<{ [key: string]: ComplexObject; }>, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.testEncodeArrayOfMapsOfObjectsPostWithHttpInfo(complexObject, _options);
@@ -266,7 +266,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param complexObject 
+     * @param complexObject
      */
     public testEncodeArrayOfMapsOfObjectsPost(complexObject: Array<{ [key: string]: ComplexObject; }>, _options?: Configuration): Promise<void> {
         const result = this.api.testEncodeArrayOfMapsOfObjectsPost(complexObject, _options);
@@ -274,7 +274,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param complexObject 
+     * @param complexObject
      */
     public testEncodeArrayOfNullableObjectsPostWithHttpInfo(complexObject: Array<ComplexObject>, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.testEncodeArrayOfNullableObjectsPostWithHttpInfo(complexObject, _options);
@@ -282,7 +282,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param complexObject 
+     * @param complexObject
      */
     public testEncodeArrayOfNullableObjectsPost(complexObject: Array<ComplexObject>, _options?: Configuration): Promise<void> {
         const result = this.api.testEncodeArrayOfNullableObjectsPost(complexObject, _options);
@@ -290,7 +290,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      */
     public testEncodeArrayOfNullablePostWithHttpInfo(requestBody: Array<string | null>, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.testEncodeArrayOfNullablePostWithHttpInfo(requestBody, _options);
@@ -298,7 +298,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      */
     public testEncodeArrayOfNullablePost(requestBody: Array<string | null>, _options?: Configuration): Promise<void> {
         const result = this.api.testEncodeArrayOfNullablePost(requestBody, _options);
@@ -306,7 +306,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      */
     public testEncodeArrayOfPostWithHttpInfo(requestBody: Array<string>, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.testEncodeArrayOfPostWithHttpInfo(requestBody, _options);
@@ -314,7 +314,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      */
     public testEncodeArrayOfPost(requestBody: Array<string>, _options?: Configuration): Promise<void> {
         const result = this.api.testEncodeArrayOfPost(requestBody, _options);
@@ -322,7 +322,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param compositeObject 
+     * @param compositeObject
      */
     public testEncodeCompositeObjectsPostWithHttpInfo(compositeObject: CompositeObject, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.testEncodeCompositeObjectsPostWithHttpInfo(compositeObject, _options);
@@ -330,7 +330,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param compositeObject 
+     * @param compositeObject
      */
     public testEncodeCompositeObjectsPost(compositeObject: CompositeObject, _options?: Configuration): Promise<void> {
         const result = this.api.testEncodeCompositeObjectsPost(compositeObject, _options);
@@ -338,7 +338,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      */
     public testEncodeMapOfMapsOfObjectsPostWithHttpInfo(requestBody: { [key: string]: { [key: string]: ComplexObject; }; }, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.testEncodeMapOfMapsOfObjectsPostWithHttpInfo(requestBody, _options);
@@ -346,7 +346,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      */
     public testEncodeMapOfMapsOfObjectsPost(requestBody: { [key: string]: { [key: string]: ComplexObject; }; }, _options?: Configuration): Promise<void> {
         const result = this.api.testEncodeMapOfMapsOfObjectsPost(requestBody, _options);
@@ -354,7 +354,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      */
     public testEncodeMapOfObjectsPostWithHttpInfo(requestBody: { [key: string]: ComplexObject | null; }, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.testEncodeMapOfObjectsPostWithHttpInfo(requestBody, _options);
@@ -362,7 +362,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      */
     public testEncodeMapOfObjectsPost(requestBody: { [key: string]: ComplexObject | null; }, _options?: Configuration): Promise<void> {
         const result = this.api.testEncodeMapOfObjectsPost(requestBody, _options);
@@ -370,7 +370,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      */
     public testEncodeMapOfPrimitivePostWithHttpInfo(requestBody: { [key: string]: string; }, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.testEncodeMapOfPrimitivePostWithHttpInfo(requestBody, _options);
@@ -378,7 +378,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      */
     public testEncodeMapOfPrimitivePost(requestBody: { [key: string]: string; }, _options?: Configuration): Promise<void> {
         const result = this.api.testEncodeMapOfPrimitivePost(requestBody, _options);
@@ -386,7 +386,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param requestBody 
+     * @param [requestBody]
      */
     public testEncodeNullableArrayPostWithHttpInfo(requestBody?: Array<string>, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.testEncodeNullableArrayPostWithHttpInfo(requestBody, _options);
@@ -394,7 +394,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param requestBody 
+     * @param [requestBody]
      */
     public testEncodeNullableArrayPost(requestBody?: Array<string>, _options?: Configuration): Promise<void> {
         const result = this.api.testEncodeNullableArrayPost(requestBody, _options);
@@ -402,7 +402,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param body 
+     * @param [body]
      */
     public testEncodeNullablePostWithHttpInfo(body?: string, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.testEncodeNullablePostWithHttpInfo(body, _options);
@@ -410,7 +410,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param body 
+     * @param [body]
      */
     public testEncodeNullablePost(body?: string, _options?: Configuration): Promise<void> {
         const result = this.api.testEncodeNullablePost(body, _options);
@@ -418,7 +418,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param complexObject 
+     * @param complexObject
      */
     public testEncodeObjectPostWithHttpInfo(complexObject: ComplexObject, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.testEncodeObjectPostWithHttpInfo(complexObject, _options);
@@ -426,7 +426,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param complexObject 
+     * @param complexObject
      */
     public testEncodeObjectPost(complexObject: ComplexObject, _options?: Configuration): Promise<void> {
         const result = this.api.testEncodeObjectPost(complexObject, _options);
@@ -434,7 +434,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param body 
+     * @param body
      */
     public testEncodePrimitiveBooleanPostWithHttpInfo(body: boolean, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.testEncodePrimitiveBooleanPostWithHttpInfo(body, _options);
@@ -442,7 +442,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param body 
+     * @param body
      */
     public testEncodePrimitiveBooleanPost(body: boolean, _options?: Configuration): Promise<void> {
         const result = this.api.testEncodePrimitiveBooleanPost(body, _options);
@@ -450,7 +450,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param body 
+     * @param body
      */
     public testEncodePrimitiveIntegerPostWithHttpInfo(body: number, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.testEncodePrimitiveIntegerPostWithHttpInfo(body, _options);
@@ -458,7 +458,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param body 
+     * @param body
      */
     public testEncodePrimitiveIntegerPost(body: number, _options?: Configuration): Promise<void> {
         const result = this.api.testEncodePrimitiveIntegerPost(body, _options);
@@ -466,7 +466,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param body 
+     * @param body
      */
     public testEncodePrimitiveNumberPostWithHttpInfo(body: number, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.testEncodePrimitiveNumberPostWithHttpInfo(body, _options);
@@ -474,7 +474,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param body 
+     * @param body
      */
     public testEncodePrimitiveNumberPost(body: number, _options?: Configuration): Promise<void> {
         const result = this.api.testEncodePrimitiveNumberPost(body, _options);
@@ -482,7 +482,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param body 
+     * @param body
      */
     public testEncodePrimitiveStringPostWithHttpInfo(body: string, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.testEncodePrimitiveStringPostWithHttpInfo(body, _options);
@@ -490,7 +490,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param body 
+     * @param body
      */
     public testEncodePrimitiveStringPost(body: string, _options?: Configuration): Promise<void> {
         const result = this.api.testEncodePrimitiveStringPost(body, _options);

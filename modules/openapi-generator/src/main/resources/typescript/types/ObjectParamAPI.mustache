@@ -21,6 +21,15 @@ export interface {{classname}}{{operationIdCamelCase}}Request {
     {{#allParams}}
     /**
      * {{description}}
+     {{#minimum}}
+     * Minimum: {{minimum}}
+     {{/minimum}}
+     {{#maximum}}
+     * Maximum: {{maximum}}
+     {{/maximum}}
+     {{#defaultValue}}
+     * Defaults to: {{defaultValue}}
+     {{/defaultValue}}
      * @type {{dataType}}
      * @memberof {{classname}}{{nickname}}
      */

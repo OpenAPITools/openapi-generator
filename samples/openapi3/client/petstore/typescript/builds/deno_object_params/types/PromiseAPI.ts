@@ -45,7 +45,7 @@ export class PromisePetApi {
      * 
      * Deletes a pet
      * @param petId Pet id to delete
-     * @param apiKey 
+     * @param [apiKey]
      */
     public deletePetWithHttpInfo(petId: number, apiKey?: string, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.deletePetWithHttpInfo(petId, apiKey, _options);
@@ -56,7 +56,7 @@ export class PromisePetApi {
      * 
      * Deletes a pet
      * @param petId Pet id to delete
-     * @param apiKey 
+     * @param [apiKey]
      */
     public deletePet(petId: number, apiKey?: string, _options?: Configuration): Promise<void> {
         const result = this.api.deletePet(petId, apiKey, _options);
@@ -147,8 +147,8 @@ export class PromisePetApi {
      * 
      * Updates a pet in the store with form data
      * @param petId ID of pet that needs to be updated
-     * @param name Updated name of the pet
-     * @param status Updated status of the pet
+     * @param [name] Updated name of the pet
+     * @param [status] Updated status of the pet
      */
     public updatePetWithFormWithHttpInfo(petId: number, name?: string, status?: string, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.updatePetWithFormWithHttpInfo(petId, name, status, _options);
@@ -159,8 +159,8 @@ export class PromisePetApi {
      * 
      * Updates a pet in the store with form data
      * @param petId ID of pet that needs to be updated
-     * @param name Updated name of the pet
-     * @param status Updated status of the pet
+     * @param [name] Updated name of the pet
+     * @param [status] Updated status of the pet
      */
     public updatePetWithForm(petId: number, name?: string, status?: string, _options?: Configuration): Promise<void> {
         const result = this.api.updatePetWithForm(petId, name, status, _options);
@@ -171,8 +171,8 @@ export class PromisePetApi {
      * 
      * uploads an image
      * @param petId ID of pet to update
-     * @param additionalMetadata Additional data to pass to server
-     * @param file file to upload
+     * @param [additionalMetadata] Additional data to pass to server
+     * @param [file] file to upload
      */
     public uploadFileWithHttpInfo(petId: number, additionalMetadata?: string, file?: HttpFile, _options?: Configuration): Promise<HttpInfo<ApiResponse>> {
         const result = this.api.uploadFileWithHttpInfo(petId, additionalMetadata, file, _options);
@@ -183,8 +183,8 @@ export class PromisePetApi {
      * 
      * uploads an image
      * @param petId ID of pet to update
-     * @param additionalMetadata Additional data to pass to server
-     * @param file file to upload
+     * @param [additionalMetadata] Additional data to pass to server
+     * @param [file] file to upload
      */
     public uploadFile(petId: number, additionalMetadata?: string, file?: HttpFile, _options?: Configuration): Promise<ApiResponse> {
         const result = this.api.uploadFile(petId, additionalMetadata, file, _options);

@@ -169,8 +169,8 @@ export class PromiseFakeApi {
     /**
      * test http signature authentication
      * @param pet Pet object that needs to be added to the store
-     * @param query1 query parameter
-     * @param header1 header parameter
+     * @param [query1] query parameter
+     * @param [header1] header parameter
      */
     public fakeHttpSignatureTestWithHttpInfo(pet: Pet, query1?: string, header1?: string, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.fakeHttpSignatureTestWithHttpInfo(pet, query1, header1, _options);
@@ -180,8 +180,8 @@ export class PromiseFakeApi {
     /**
      * test http signature authentication
      * @param pet Pet object that needs to be added to the store
-     * @param query1 query parameter
-     * @param header1 header parameter
+     * @param [query1] query parameter
+     * @param [header1] header parameter
      */
     public fakeHttpSignatureTest(pet: Pet, query1?: string, header1?: string, _options?: Configuration): Promise<void> {
         const result = this.api.fakeHttpSignatureTest(pet, query1, header1, _options);
@@ -190,7 +190,7 @@ export class PromiseFakeApi {
 
     /**
      * Test serialization of outer boolean types
-     * @param body Input boolean as post body
+     * @param [body] Input boolean as post body
      */
     public fakeOuterBooleanSerializeWithHttpInfo(body?: boolean, _options?: Configuration): Promise<HttpInfo<boolean>> {
         const result = this.api.fakeOuterBooleanSerializeWithHttpInfo(body, _options);
@@ -199,7 +199,7 @@ export class PromiseFakeApi {
 
     /**
      * Test serialization of outer boolean types
-     * @param body Input boolean as post body
+     * @param [body] Input boolean as post body
      */
     public fakeOuterBooleanSerialize(body?: boolean, _options?: Configuration): Promise<boolean> {
         const result = this.api.fakeOuterBooleanSerialize(body, _options);
@@ -208,7 +208,7 @@ export class PromiseFakeApi {
 
     /**
      * Test serialization of object with outer number type
-     * @param outerComposite Input composite as post body
+     * @param [outerComposite] Input composite as post body
      */
     public fakeOuterCompositeSerializeWithHttpInfo(outerComposite?: OuterComposite, _options?: Configuration): Promise<HttpInfo<OuterComposite>> {
         const result = this.api.fakeOuterCompositeSerializeWithHttpInfo(outerComposite, _options);
@@ -217,7 +217,7 @@ export class PromiseFakeApi {
 
     /**
      * Test serialization of object with outer number type
-     * @param outerComposite Input composite as post body
+     * @param [outerComposite] Input composite as post body
      */
     public fakeOuterCompositeSerialize(outerComposite?: OuterComposite, _options?: Configuration): Promise<OuterComposite> {
         const result = this.api.fakeOuterCompositeSerialize(outerComposite, _options);
@@ -226,7 +226,7 @@ export class PromiseFakeApi {
 
     /**
      * Test serialization of outer number types
-     * @param body Input number as post body
+     * @param [body] Input number as post body
      */
     public fakeOuterNumberSerializeWithHttpInfo(body?: number, _options?: Configuration): Promise<HttpInfo<number>> {
         const result = this.api.fakeOuterNumberSerializeWithHttpInfo(body, _options);
@@ -235,7 +235,7 @@ export class PromiseFakeApi {
 
     /**
      * Test serialization of outer number types
-     * @param body Input number as post body
+     * @param [body] Input number as post body
      */
     public fakeOuterNumberSerialize(body?: number, _options?: Configuration): Promise<number> {
         const result = this.api.fakeOuterNumberSerialize(body, _options);
@@ -244,7 +244,7 @@ export class PromiseFakeApi {
 
     /**
      * Test serialization of outer string types
-     * @param body Input string as post body
+     * @param [body] Input string as post body
      */
     public fakeOuterStringSerializeWithHttpInfo(body?: string, _options?: Configuration): Promise<HttpInfo<string>> {
         const result = this.api.fakeOuterStringSerializeWithHttpInfo(body, _options);
@@ -253,7 +253,7 @@ export class PromiseFakeApi {
 
     /**
      * Test serialization of outer string types
-     * @param body Input string as post body
+     * @param [body] Input string as post body
      */
     public fakeOuterStringSerialize(body?: string, _options?: Configuration): Promise<string> {
         const result = this.api.fakeOuterStringSerialize(body, _options);
@@ -298,7 +298,7 @@ export class PromiseFakeApi {
 
     /**
      * For this test, the body for this request must reference a schema named `File`.
-     * @param fileSchemaTestClass 
+     * @param fileSchemaTestClass
      */
     public testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass: FileSchemaTestClass, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass, _options);
@@ -307,7 +307,7 @@ export class PromiseFakeApi {
 
     /**
      * For this test, the body for this request must reference a schema named `File`.
-     * @param fileSchemaTestClass 
+     * @param fileSchemaTestClass
      */
     public testBodyWithFileSchema(fileSchemaTestClass: FileSchemaTestClass, _options?: Configuration): Promise<void> {
         const result = this.api.testBodyWithFileSchema(fileSchemaTestClass, _options);
@@ -315,8 +315,8 @@ export class PromiseFakeApi {
     }
 
     /**
-     * @param query 
-     * @param user 
+     * @param query
+     * @param user
      */
     public testBodyWithQueryParamsWithHttpInfo(query: string, user: User, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.testBodyWithQueryParamsWithHttpInfo(query, user, _options);
@@ -324,8 +324,8 @@ export class PromiseFakeApi {
     }
 
     /**
-     * @param query 
-     * @param user 
+     * @param query
+     * @param user
      */
     public testBodyWithQueryParams(query: string, user: User, _options?: Configuration): Promise<void> {
         const result = this.api.testBodyWithQueryParams(query, user, _options);
@@ -359,16 +359,16 @@ export class PromiseFakeApi {
      * @param _double None
      * @param patternWithoutDelimiter None
      * @param _byte None
-     * @param integer None
-     * @param int32 None
-     * @param int64 None
-     * @param _float None
-     * @param string None
-     * @param binary None
-     * @param date None
-     * @param dateTime None
-     * @param password None
-     * @param callback None
+     * @param [integer] None
+     * @param [int32] None
+     * @param [int64] None
+     * @param [_float] None
+     * @param [string] None
+     * @param [binary] None
+     * @param [date] None
+     * @param [dateTime] None
+     * @param [password] None
+     * @param [callback] None
      */
     public testEndpointParametersWithHttpInfo(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: HttpFile, date?: string, dateTime?: Date, password?: string, callback?: string, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, _options);
@@ -382,16 +382,16 @@ export class PromiseFakeApi {
      * @param _double None
      * @param patternWithoutDelimiter None
      * @param _byte None
-     * @param integer None
-     * @param int32 None
-     * @param int64 None
-     * @param _float None
-     * @param string None
-     * @param binary None
-     * @param date None
-     * @param dateTime None
-     * @param password None
-     * @param callback None
+     * @param [integer] None
+     * @param [int32] None
+     * @param [int64] None
+     * @param [_float] None
+     * @param [string] None
+     * @param [binary] None
+     * @param [date] None
+     * @param [dateTime] None
+     * @param [password] None
+     * @param [callback] None
      */
     public testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: HttpFile, date?: string, dateTime?: Date, password?: string, callback?: string, _options?: Configuration): Promise<void> {
         const result = this.api.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, _options);
@@ -401,15 +401,15 @@ export class PromiseFakeApi {
     /**
      * To test enum parameters
      * To test enum parameters
-     * @param enumHeaderStringArray Header parameter enum test (string array)
-     * @param enumHeaderString Header parameter enum test (string)
-     * @param enumQueryStringArray Query parameter enum test (string array)
-     * @param enumQueryString Query parameter enum test (string)
-     * @param enumQueryInteger Query parameter enum test (double)
-     * @param enumQueryDouble Query parameter enum test (double)
-     * @param enumQueryModelArray 
-     * @param enumFormStringArray Form parameter enum test (string array)
-     * @param enumFormString Form parameter enum test (string)
+     * @param [enumHeaderStringArray] Header parameter enum test (string array)
+     * @param [enumHeaderString] Header parameter enum test (string)
+     * @param [enumQueryStringArray] Query parameter enum test (string array)
+     * @param [enumQueryString] Query parameter enum test (string)
+     * @param [enumQueryInteger] Query parameter enum test (double)
+     * @param [enumQueryDouble] Query parameter enum test (double)
+     * @param [enumQueryModelArray]
+     * @param [enumFormStringArray] Form parameter enum test (string array)
+     * @param [enumFormString] Form parameter enum test (string)
      */
     public testEnumParametersWithHttpInfo(enumHeaderStringArray?: Array<'>' | '$'>, enumHeaderString?: '_abc' | '-efg' | '(xyz)', enumQueryStringArray?: Array<'>' | '$'>, enumQueryString?: '_abc' | '-efg' | '(xyz)', enumQueryInteger?: 1 | -2, enumQueryDouble?: 1.1 | -1.2, enumQueryModelArray?: Array<EnumClass>, enumFormStringArray?: Array<string>, enumFormString?: string, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, _options);
@@ -419,15 +419,15 @@ export class PromiseFakeApi {
     /**
      * To test enum parameters
      * To test enum parameters
-     * @param enumHeaderStringArray Header parameter enum test (string array)
-     * @param enumHeaderString Header parameter enum test (string)
-     * @param enumQueryStringArray Query parameter enum test (string array)
-     * @param enumQueryString Query parameter enum test (string)
-     * @param enumQueryInteger Query parameter enum test (double)
-     * @param enumQueryDouble Query parameter enum test (double)
-     * @param enumQueryModelArray 
-     * @param enumFormStringArray Form parameter enum test (string array)
-     * @param enumFormString Form parameter enum test (string)
+     * @param [enumHeaderStringArray] Header parameter enum test (string array)
+     * @param [enumHeaderString] Header parameter enum test (string)
+     * @param [enumQueryStringArray] Query parameter enum test (string array)
+     * @param [enumQueryString] Query parameter enum test (string)
+     * @param [enumQueryInteger] Query parameter enum test (double)
+     * @param [enumQueryDouble] Query parameter enum test (double)
+     * @param [enumQueryModelArray]
+     * @param [enumFormStringArray] Form parameter enum test (string array)
+     * @param [enumFormString] Form parameter enum test (string)
      */
     public testEnumParameters(enumHeaderStringArray?: Array<'>' | '$'>, enumHeaderString?: '_abc' | '-efg' | '(xyz)', enumQueryStringArray?: Array<'>' | '$'>, enumQueryString?: '_abc' | '-efg' | '(xyz)', enumQueryInteger?: 1 | -2, enumQueryDouble?: 1.1 | -1.2, enumQueryModelArray?: Array<EnumClass>, enumFormStringArray?: Array<string>, enumFormString?: string, _options?: Configuration): Promise<void> {
         const result = this.api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, _options);
@@ -440,9 +440,9 @@ export class PromiseFakeApi {
      * @param requiredStringGroup Required String in group parameters
      * @param requiredBooleanGroup Required Boolean in group parameters
      * @param requiredInt64Group Required Integer in group parameters
-     * @param stringGroup String in group parameters
-     * @param booleanGroup Boolean in group parameters
-     * @param int64Group Integer in group parameters
+     * @param [stringGroup] String in group parameters
+     * @param [booleanGroup] Boolean in group parameters
+     * @param [int64Group] Integer in group parameters
      */
     public testGroupParametersWithHttpInfo(requiredStringGroup: number, requiredBooleanGroup: boolean, requiredInt64Group: number, stringGroup?: number, booleanGroup?: boolean, int64Group?: number, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, _options);
@@ -455,9 +455,9 @@ export class PromiseFakeApi {
      * @param requiredStringGroup Required String in group parameters
      * @param requiredBooleanGroup Required Boolean in group parameters
      * @param requiredInt64Group Required Integer in group parameters
-     * @param stringGroup String in group parameters
-     * @param booleanGroup Boolean in group parameters
-     * @param int64Group Integer in group parameters
+     * @param [stringGroup] String in group parameters
+     * @param [booleanGroup] Boolean in group parameters
+     * @param [int64Group] Integer in group parameters
      */
     public testGroupParameters(requiredStringGroup: number, requiredBooleanGroup: boolean, requiredInt64Group: number, stringGroup?: number, booleanGroup?: boolean, int64Group?: number, _options?: Configuration): Promise<void> {
         const result = this.api.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, _options);
@@ -508,13 +508,13 @@ export class PromiseFakeApi {
 
     /**
      * To test the collection format in query parameters
-     * @param pipe 
-     * @param ioutil 
-     * @param http 
-     * @param url 
-     * @param context 
-     * @param allowEmpty 
-     * @param language 
+     * @param pipe
+     * @param ioutil
+     * @param http
+     * @param url
+     * @param context
+     * @param allowEmpty
+     * @param [language]
      */
     public testQueryParameterCollectionFormatWithHttpInfo(pipe: Array<string>, ioutil: Array<string>, http: Array<string>, url: Array<string>, context: Array<string>, allowEmpty: string, language?: { [key: string]: string; }, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, allowEmpty, language, _options);
@@ -523,13 +523,13 @@ export class PromiseFakeApi {
 
     /**
      * To test the collection format in query parameters
-     * @param pipe 
-     * @param ioutil 
-     * @param http 
-     * @param url 
-     * @param context 
-     * @param allowEmpty 
-     * @param language 
+     * @param pipe
+     * @param ioutil
+     * @param http
+     * @param url
+     * @param context
+     * @param allowEmpty
+     * @param [language]
      */
     public testQueryParameterCollectionFormat(pipe: Array<string>, ioutil: Array<string>, http: Array<string>, url: Array<string>, context: Array<string>, allowEmpty: string, language?: { [key: string]: string; }, _options?: Configuration): Promise<void> {
         const result = this.api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language, _options);
@@ -618,7 +618,7 @@ export class PromisePetApi {
      * 
      * Deletes a pet
      * @param petId Pet id to delete
-     * @param apiKey 
+     * @param [apiKey]
      */
     public deletePetWithHttpInfo(petId: number, apiKey?: string, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.deletePetWithHttpInfo(petId, apiKey, _options);
@@ -629,7 +629,7 @@ export class PromisePetApi {
      * 
      * Deletes a pet
      * @param petId Pet id to delete
-     * @param apiKey 
+     * @param [apiKey]
      */
     public deletePet(petId: number, apiKey?: string, _options?: Configuration): Promise<void> {
         const result = this.api.deletePet(petId, apiKey, _options);
@@ -720,8 +720,8 @@ export class PromisePetApi {
      * 
      * Updates a pet in the store with form data
      * @param petId ID of pet that needs to be updated
-     * @param name Updated name of the pet
-     * @param status Updated status of the pet
+     * @param [name] Updated name of the pet
+     * @param [status] Updated status of the pet
      */
     public updatePetWithFormWithHttpInfo(petId: number, name?: string, status?: string, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.updatePetWithFormWithHttpInfo(petId, name, status, _options);
@@ -732,8 +732,8 @@ export class PromisePetApi {
      * 
      * Updates a pet in the store with form data
      * @param petId ID of pet that needs to be updated
-     * @param name Updated name of the pet
-     * @param status Updated status of the pet
+     * @param [name] Updated name of the pet
+     * @param [status] Updated status of the pet
      */
     public updatePetWithForm(petId: number, name?: string, status?: string, _options?: Configuration): Promise<void> {
         const result = this.api.updatePetWithForm(petId, name, status, _options);
@@ -744,8 +744,8 @@ export class PromisePetApi {
      * 
      * uploads an image
      * @param petId ID of pet to update
-     * @param additionalMetadata Additional data to pass to server
-     * @param file file to upload
+     * @param [additionalMetadata] Additional data to pass to server
+     * @param [file] file to upload
      */
     public uploadFileWithHttpInfo(petId: number, additionalMetadata?: string, file?: HttpFile, _options?: Configuration): Promise<HttpInfo<ApiResponse>> {
         const result = this.api.uploadFileWithHttpInfo(petId, additionalMetadata, file, _options);
@@ -756,8 +756,8 @@ export class PromisePetApi {
      * 
      * uploads an image
      * @param petId ID of pet to update
-     * @param additionalMetadata Additional data to pass to server
-     * @param file file to upload
+     * @param [additionalMetadata] Additional data to pass to server
+     * @param [file] file to upload
      */
     public uploadFile(petId: number, additionalMetadata?: string, file?: HttpFile, _options?: Configuration): Promise<ApiResponse> {
         const result = this.api.uploadFile(petId, additionalMetadata, file, _options);
@@ -769,7 +769,7 @@ export class PromisePetApi {
      * uploads an image (required)
      * @param petId ID of pet to update
      * @param requiredFile file to upload
-     * @param additionalMetadata Additional data to pass to server
+     * @param [additionalMetadata] Additional data to pass to server
      */
     public uploadFileWithRequiredFileWithHttpInfo(petId: number, requiredFile: HttpFile, additionalMetadata?: string, _options?: Configuration): Promise<HttpInfo<ApiResponse>> {
         const result = this.api.uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata, _options);
@@ -781,7 +781,7 @@ export class PromisePetApi {
      * uploads an image (required)
      * @param petId ID of pet to update
      * @param requiredFile file to upload
-     * @param additionalMetadata Additional data to pass to server
+     * @param [additionalMetadata] Additional data to pass to server
      */
     public uploadFileWithRequiredFile(petId: number, requiredFile: HttpFile, additionalMetadata?: string, _options?: Configuration): Promise<ApiResponse> {
         const result = this.api.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, _options);
