@@ -17,10 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -30,39 +26,14 @@ import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.tags.Tag;
-import java.io.File;
-import java.net.URL;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.CodegenSecurity;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.VendorExtension;
-import org.openapitools.codegen.languages.features.BeanValidationFeatures;
-import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
-import org.openapitools.codegen.languages.features.OptionalFeatures;
-import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
-import org.openapitools.codegen.languages.features.SwaggerUIFeatures;
-import org.openapitools.codegen.meta.features.DocumentationFeature;
-import org.openapitools.codegen.meta.features.GlobalFeature;
-import org.openapitools.codegen.meta.features.ParameterFeature;
-import org.openapitools.codegen.meta.features.SchemaSupportFeature;
-import org.openapitools.codegen.meta.features.SecurityFeature;
-import org.openapitools.codegen.meta.features.WireFormatFeature;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.languages.features.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -74,6 +45,18 @@ import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.net.URL;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class SpringCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, PerformBeanValidationFeatures, OptionalFeatures, SwaggerUIFeatures {
@@ -102,6 +85,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String SPRING_BOOT = "spring-boot";
     public static final String SPRING_CLOUD_LIBRARY = "spring-cloud";
     public static final String SPRING_HTTP_INTERFACE = "spring-http-interface";
+    public static final String SPRING_HTTP_CLIENT_ADAPTER = "springHttpClientAdapter";
     public static final String API_FIRST = "apiFirst";
     public static final String SPRING_CONTROLLER = "useSpringController";
     public static final String HATEOAS = "hateoas";
@@ -124,6 +108,25 @@ public class SpringCodegen extends AbstractJavaCodegen
         RequestMappingMode(String description) {
             this.description = description;
         }
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    public enum SpringHttpClientAdapter {
+        web_client("web-client", "Use RestClientAdapter", "httpInterfacesWebClientConfiguration.mustache"),
+        rest_client("rest-client", "Use RestClientAdapter", "httpInterfacesRestClientConfiguration.mustache"),
+        rest_template("rest-template", "Use RestTemplateAdapter", "httpInterfacesRestTemplateConfiguration.mustache");
+
+        private final String key;
+        private final String description;
+        private final String templateFileName;
+
+        static SpringHttpClientAdapter fromKey(String key) {
+            return Stream.of(values()).filter(value -> value.getKey().equals(key)).findFirst().orElseThrow(
+                () -> new IllegalArgumentException("Invalid SpringHttpClientAdapter key: " + key)
+            );
+        }
+
     }
 
     public static final String OPEN_BRACE = "{";
@@ -165,6 +168,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean generatedConstructorWithRequiredArgs = true;
     @Getter @Setter
     protected RequestMappingMode requestMappingMode = RequestMappingMode.controller;
+    @Setter SpringHttpClientAdapter springHttpClientAdapter;
 
     public SpringCodegen() {
         super();
@@ -268,6 +272,10 @@ public class SpringCodegen extends AbstractJavaCodegen
             generatedConstructorWithRequiredArgs));
         cliOptions.add(new CliOption(RESOURCE_FOLDER, RESOURCE_FOLDER_DESC).defaultValue(this.getResourceFolder()));
 
+        cliOptions.add(CliOption.newString(SPRING_HTTP_CLIENT_ADAPTER,
+            "Allows users to choose between different HTTP client implementations for Spring HTTP interfaces (`web-client`, `rest-client`, `rest-template`).")
+            .defaultValue(SpringHttpClientAdapter.web_client.getKey()
+        ));
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
             "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
@@ -443,7 +451,9 @@ public class SpringCodegen extends AbstractJavaCodegen
             useJakartaEe=true;
             applyJakartaPackage();
         }
+
         convertPropertyToStringAndWriteBack(RESOURCE_FOLDER, this::setResourceFolder);
+        convertPropertyToTypeAndWriteBack(SPRING_HTTP_CLIENT_ADAPTER, SpringHttpClientAdapter::fromKey, this::setSpringHttpClientAdapter);
 
         typeMapping.put("file", "org.springframework.core.io.Resource");
         importMapping.put("org.springframework.core.io.Resource", "org.springframework.core.io.Resource");
@@ -528,7 +538,12 @@ public class SpringCodegen extends AbstractJavaCodegen
                     }
                 }
             } else if (SPRING_HTTP_INTERFACE.equals(library)) {
-                supportingFiles.add(new SupportingFile("httpInterfacesConfiguration.mustache",
+                if (!reactive && springHttpClientAdapter == SpringHttpClientAdapter.web_client) {
+                    LOGGER.warn("Configuration mismatch: The 'web-client' is selected as the HTTP client adapter, "
+                        + "but 'reactive' is set to 'false'. "
+                        + "Consider using 'rest-template' or 'rest-client' for non-reactive configurations.");
+                }
+                supportingFiles.add(new SupportingFile(springHttpClientAdapter.getTemplateFileName(),
                     (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "HttpInterfacesAbstractConfigurator.java"));
                 writePropertyBack(USE_BEANVALIDATION, false);
             }
