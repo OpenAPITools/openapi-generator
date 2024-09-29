@@ -552,6 +552,24 @@ public class JavaClientCodegenTest {
             .contains("@Pattern", "import jakarta.validation.constraints.*");
     }
 
+    @Test public void testJersey3JacksonWithTypeFormat() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JERSEY3)
+                .addAdditionalProperty(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model")
+                .addAdditionalProperty(JavaClientCodegen.USE_JAKARTA_EE, true)
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, JavaClientCodegen.SERIALIZATION_LIBRARY_JACKSON)
+                .setInputSpec("src/test/resources/3_1/java/java-type-with-format.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/DataResponse.java")).content()
+                .contains("TRUE(Boolean.valueOf(\"true\"))");
+    }
+
     @Test public void testJdkHttpClientWithAndWithoutDiscriminator() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()

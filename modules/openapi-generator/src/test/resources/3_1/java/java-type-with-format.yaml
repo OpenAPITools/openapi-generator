@@ -1,0 +1,29 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  description: Specification to reproduce incorrectly generated Java code when using formats
+  title: FormatTest Api
+paths:
+  /format-test:
+    get:
+      tags:
+        - test
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/data-response"
+components:
+  schemas:
+    data-response:
+      type: object
+      title: Response
+      properties:
+        id:
+          type: string
+        flag:
+          type: boolean
+          enum:
+            - true
