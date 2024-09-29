@@ -1452,7 +1452,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Return the file name of the Api Test
+     * Return the file name of the Api
      *
      * @param name the file name of the Api
      * @return the file name of the Api
@@ -5668,6 +5668,8 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    private final Set<String> seenOperationIds = new HashSet<>();
+
     /**
      * Add operation to group
      *
@@ -5695,6 +5697,10 @@ public class DefaultCodegen implements CodegenConfig {
                 counter++;
             }
         }
+        if (seenOperationIds.contains(uniqueName.toLowerCase(Locale.ROOT))) {
+            uniqueName = co.operationId + "_" + counter;
+            counter++;
+        }
         if (!co.operationId.equals(uniqueName)) {
             LOGGER.warn("generated unique operationId `{}`", uniqueName);
         }
@@ -5704,6 +5710,7 @@ public class DefaultCodegen implements CodegenConfig {
         co.operationIdSnakeCase = underscore(uniqueName);
         opList.add(co);
         co.baseName = tag;
+        seenOperationIds.add(co.operationId.toLowerCase(Locale.ROOT));
     }
 
     protected void addParentFromContainer(CodegenModel model, Schema schema) {
@@ -6070,29 +6077,67 @@ public class DefaultCodegen implements CodegenConfig {
         return result;
     }
 
+    /**
+     * Return a value that is unique, suffixed with _index to make it unique
+     * Ensures generated files are unique when compared case-insensitive
+     * Not all operating systems support case-sensitive paths
+     */
+    private String uniqueCaseInsensitiveString(String value, Map<String, String> seenValues) {
+        if (seenValues.keySet().contains(value)) {
+            return seenValues.get(value);
+        }
+
+        Optional<Entry<String,String>> foundEntry = seenValues.entrySet().stream().filter(v -> v.getKey().toLowerCase(Locale.ROOT).equals(value.toLowerCase(Locale.ROOT))).findAny();
+        if (foundEntry.isPresent()) {
+            int counter = 0;
+            String uniqueValue = value + "_" + counter;
+
+            while (seenValues.containsKey(uniqueValue)) {
+                counter++;
+                uniqueValue = value + "_" + counter;
+            }
+
+            seenValues.put(value, uniqueValue);
+            return uniqueValue;
+        }
+
+        seenValues.put(value, value);
+        return value;
+    }
+
+    private final Map<String, String> seenApiFilenames = new HashMap<String, String>();
+
     @Override
     public String apiFilename(String templateName, String tag) {
+        String uniqueTag = uniqueCaseInsensitiveString(tag, seenApiFilenames);
         String suffix = apiTemplateFiles().get(templateName);
-        return apiFileFolder() + File.separator + toApiFilename(tag) + suffix;
+        return apiFileFolder() + File.separator + toApiFilename(uniqueTag) + suffix;
     }
 
     @Override
     public String apiFilename(String templateName, String tag, String outputDir) {
+        String uniqueTag = uniqueCaseInsensitiveString(tag, seenApiFilenames);
         String suffix = apiTemplateFiles().get(templateName);
-        return outputDir + File.separator + toApiFilename(tag) + suffix;
+        return outputDir + File.separator + toApiFilename(uniqueTag) + suffix;
     }
+
+    private final Map<String, String> seenModelFilenames = new HashMap<String, String>();
 
     @Override
     public String modelFilename(String templateName, String modelName) {
+        String uniqueModelName = uniqueCaseInsensitiveString(modelName, seenModelFilenames);
         String suffix = modelTemplateFiles().get(templateName);
-        return modelFileFolder() + File.separator + toModelFilename(modelName) + suffix;
+        return modelFileFolder() + File.separator + toModelFilename(uniqueModelName) + suffix;
     }
 
     @Override
     public String modelFilename(String templateName, String modelName, String outputDir) {
+        String uniqueModelName = uniqueCaseInsensitiveString(modelName, seenModelFilenames);
         String suffix = modelTemplateFiles().get(templateName);
-        return outputDir + File.separator + toModelFilename(modelName) + suffix;
+        return outputDir + File.separator + toModelFilename(uniqueModelName) + suffix;
     }
+
+    private final Map<String, String> seenApiDocFilenames = new HashMap<String, String>();
 
     /**
      * Return the full path and API documentation file
@@ -6103,10 +6148,13 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String apiDocFilename(String templateName, String tag) {
+        String uniqueTag = uniqueCaseInsensitiveString(tag, seenApiDocFilenames);
         String docExtension = getDocExtension();
         String suffix = docExtension != null ? docExtension : apiDocTemplateFiles().get(templateName);
-        return apiDocFileFolder() + File.separator + toApiDocFilename(tag) + suffix;
+        return apiDocFileFolder() + File.separator + toApiDocFilename(uniqueTag) + suffix;
     }
+
+    private final Map<String, String> seenApiTestFilenames = new HashMap<String, String>();
 
     /**
      * Return the full path and API test file
@@ -6117,8 +6165,9 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String apiTestFilename(String templateName, String tag) {
+        String uniqueTag = uniqueCaseInsensitiveString(tag, seenApiTestFilenames);
         String suffix = apiTestTemplateFiles().get(templateName);
-        return apiTestFileFolder() + File.separator + toApiTestFilename(tag) + suffix;
+        return apiTestFileFolder() + File.separator + toApiTestFilename(uniqueTag) + suffix;
     }
 
     @Override
