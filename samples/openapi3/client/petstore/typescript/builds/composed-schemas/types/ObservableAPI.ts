@@ -27,7 +27,7 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param filePostRequest 
+     * @param [filePostRequest]
      */
     public filePostWithHttpInfo(filePostRequest?: FilePostRequest, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.filePost(filePostRequest, _options);
@@ -49,14 +49,14 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param filePostRequest 
+     * @param [filePostRequest]
      */
     public filePost(filePostRequest?: FilePostRequest, _options?: Configuration): Observable<void> {
         return this.filePostWithHttpInfo(filePostRequest, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
-     * @param petsFilteredPatchRequest 
+     * @param [petsFilteredPatchRequest]
      */
     public petsFilteredPatchWithHttpInfo(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.petsFilteredPatch(petsFilteredPatchRequest, _options);
@@ -78,14 +78,14 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param petsFilteredPatchRequest 
+     * @param [petsFilteredPatchRequest]
      */
     public petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: Configuration): Observable<void> {
         return this.petsFilteredPatchWithHttpInfo(petsFilteredPatchRequest, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
-     * @param petsPatchRequest 
+     * @param [petsPatchRequest]
      */
     public petsPatchWithHttpInfo(petsPatchRequest?: PetsPatchRequest, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.petsPatch(petsPatchRequest, _options);
@@ -107,7 +107,7 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param petsPatchRequest 
+     * @param [petsPatchRequest]
      */
     public petsPatch(petsPatchRequest?: PetsPatchRequest, _options?: Configuration): Observable<void> {
         return this.petsPatchWithHttpInfo(petsPatchRequest, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));

@@ -10,8 +10,9 @@ import Foundation
 import AnyCodable
 #endif
 
-public enum OuterEnum: String, Codable, CaseIterable {
+internal enum OuterEnum: String, Codable, CaseIterable, CaseIterableDefaultsLast {
     case placed = "placed"
     case approved = "approved"
     case delivered = "delivered"
+    case unknownDefaultOpenApi = "unknown_default_open_api"
 }

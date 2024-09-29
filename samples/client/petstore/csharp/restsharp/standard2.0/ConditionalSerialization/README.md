@@ -274,7 +274,7 @@ Authentication schemes defined for the API:
 ### api_key
 
 - **Type**: API key
-- **API key parameter name**: api_key
+- **API key parameter name**: api-key
 - **Location**: HTTP header
 
 <a id="api_key_query"></a>

@@ -1274,6 +1274,7 @@ public class OpenAPINormalizer {
                 as.setMaxItems(schema.getMaxItems());
                 as.setExtensions(schema.getExtensions());
                 as.setXml(schema.getXml());
+                as.setNullable(schema.getNullable());
                 as.setUniqueItems(schema.getUniqueItems());
                 if (schema.getItems() != null) {
                     // `items` is also a json schema

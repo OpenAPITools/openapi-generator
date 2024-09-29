@@ -3069,7 +3069,7 @@ components:
       type: oauth2
     api_key:
       in: header
-      name: api_key
+      name: api-key
       type: apiKey
     api_key_query:
       in: query

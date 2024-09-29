@@ -128,7 +128,7 @@ public struct AnyResponseSerializer<T>: ResponseSerializer {
 }
 
 public final class RequestTask: @unchecked Sendable {
-    private var lock = NSRecursiveLock()
+    private let lock = NSRecursiveLock()
     private var request: Request?
 
     internal func set(request: Request) {
