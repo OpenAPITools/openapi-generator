@@ -1,5 +1,11 @@
 {{#operations}}
 {{#operation}}
-public record {{operationId}}Request({{#allParams}}{{#isPathParam}}{{&dataType}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}} {{nameInPascalCase}}{{/isPathParam}}{{#isQueryParam}}[property: QueryParam] {{&dataType}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}} {{nameInPascalCase}}{{/isQueryParam}}{{#isBodyParam}}[property: FromBody] {{&dataType}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}} {{paramName}}{{/isBodyParam}}{{#isFormParam}}{{&dataType}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}} {{nameInPascalCase}}{{/isFormParam}}{{#isHeaderParam}}[property: FromHeader] {{&dataType}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}} {{nameInPascalCase}}{{/isHeaderParam}}{{^-last}}{{^isCookieParam}}, {{/isCookieParam}}{{/-last}}{{/allParams}});
+public record {{operationId}}Request({{#requiredParams}}{{#isPathParam}}{{&dataType}} {{nameInPascalCase}}{{/isPathParam}}{{#isQueryParam}}[property: QueryParam] {{&dataType}} {{nameInPascalCase}}{{/isQueryParam}}{{#isBodyParam}}[property: FromBody] {{&dataType}} {{paramName}}{{/isBodyParam}}{{#isFormParam}}{{&dataType}} {{nameInPascalCase}}{{/isFormParam}}{{#isHeaderParam}}[property: FromHeader] {{&dataType}} {{nameInPascalCase}}{{/isHeaderParam}}{{^-last}}{{^isCookieParam}}, {{/isCookieParam}}{{/-last}}{{/requiredParams}})
+{
+{{#optionalParams}}
+    {{#isPathParam}}public {{&dataType}}{{#isNullable}}?{{/isNullable}} {{nameInPascalCase}} {get; init; }{{/isPathParam}}{{#isQueryParam}}[property: QueryParam] public {{&dataType}}{{#isNullable}}?{{/isNullable}} {{nameInPascalCase}} {get; init; }{{/isQueryParam}}{{#isBodyParam}}[property: FromBody] public {{&dataType}}{{#isNullable}}?{{/isNullable}} {{paramName}} {get; init; }{{/isBodyParam}}{{#isFormParam}}public {{&dataType}}{{#isNullable}}?{{/isNullable}} {{nameInPascalCase}} {get; init; }{{/isFormParam}}{{#isHeaderParam}}[property: FromHeader] public {{&dataType}}{{#isNullable}}?{{/isNullable}} {{nameInPascalCase}} {get; init; }{{/isHeaderParam}}
+{{/optionalParams}}
+}
+
 {{/operation}}
 {{/operations}}
