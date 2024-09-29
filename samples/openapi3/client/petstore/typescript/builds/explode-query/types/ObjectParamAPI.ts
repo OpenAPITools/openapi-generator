@@ -135,12 +135,14 @@ export interface FakeApiFakeHttpSignatureTestRequest {
     pet: Pet
     /**
      * query parameter
+     * Defaults to: undefined
      * @type string
      * @memberof FakeApifakeHttpSignatureTest
      */
     query1?: string
     /**
      * header parameter
+     * Defaults to: undefined
      * @type string
      * @memberof FakeApifakeHttpSignatureTest
      */
@@ -213,6 +215,7 @@ export interface FakeApiTestBodyWithFileSchemaRequest {
 export interface FakeApiTestBodyWithQueryParamsRequest {
     /**
      * 
+     * Defaults to: undefined
      * @type string
      * @memberof FakeApitestBodyWithQueryParams
      */
@@ -237,84 +240,107 @@ export interface FakeApiTestClientModelRequest {
 export interface FakeApiTestEndpointParametersRequest {
     /**
      * None
+     * Minimum: 32.1
+     * Maximum: 543.2
+     * Defaults to: undefined
      * @type number
      * @memberof FakeApitestEndpointParameters
      */
     number: number
     /**
      * None
+     * Minimum: 67.8
+     * Maximum: 123.4
+     * Defaults to: undefined
      * @type number
      * @memberof FakeApitestEndpointParameters
      */
     _double: number
     /**
      * None
+     * Defaults to: undefined
      * @type string
      * @memberof FakeApitestEndpointParameters
      */
     patternWithoutDelimiter: string
     /**
      * None
+     * Defaults to: undefined
      * @type string
      * @memberof FakeApitestEndpointParameters
      */
     _byte: string
     /**
      * None
+     * Minimum: 10
+     * Maximum: 100
+     * Defaults to: undefined
      * @type number
      * @memberof FakeApitestEndpointParameters
      */
     integer?: number
     /**
      * None
+     * Minimum: 20
+     * Maximum: 200
+     * Defaults to: undefined
      * @type number
      * @memberof FakeApitestEndpointParameters
      */
     int32?: number
     /**
      * None
+     * Defaults to: undefined
      * @type number
      * @memberof FakeApitestEndpointParameters
      */
     int64?: number
     /**
      * None
+     * Maximum: 987.6
+     * Defaults to: undefined
      * @type number
      * @memberof FakeApitestEndpointParameters
      */
     _float?: number
     /**
      * None
+     * Defaults to: undefined
      * @type string
      * @memberof FakeApitestEndpointParameters
      */
     string?: string
     /**
      * None
+     * Defaults to: undefined
      * @type HttpFile
      * @memberof FakeApitestEndpointParameters
      */
     binary?: HttpFile
     /**
      * None
+     * Defaults to: undefined
      * @type string
      * @memberof FakeApitestEndpointParameters
      */
     date?: string
     /**
      * None
+     * Defaults to: undefined
      * @type Date
      * @memberof FakeApitestEndpointParameters
      */
     dateTime?: Date
     /**
      * None
+     * Defaults to: undefined
      * @type string
      * @memberof FakeApitestEndpointParameters
      */
     password?: string
     /**
      * None
+     * Defaults to: undefined
      * @type string
      * @memberof FakeApitestEndpointParameters
      */
@@ -324,54 +350,63 @@ export interface FakeApiTestEndpointParametersRequest {
 export interface FakeApiTestEnumParametersRequest {
     /**
      * Header parameter enum test (string array)
+     * Defaults to: undefined
      * @type Array&lt;&#39;&gt;&#39; | &#39;$&#39;&gt;
      * @memberof FakeApitestEnumParameters
      */
     enumHeaderStringArray?: Array<'>' | '$'>
     /**
      * Header parameter enum test (string)
+     * Defaults to: &#39;-efg&#39;
      * @type &#39;_abc&#39; | &#39;-efg&#39; | &#39;(xyz)&#39;
      * @memberof FakeApitestEnumParameters
      */
     enumHeaderString?: '_abc' | '-efg' | '(xyz)'
     /**
      * Query parameter enum test (string array)
+     * Defaults to: undefined
      * @type Array&lt;&#39;&gt;&#39; | &#39;$&#39;&gt;
      * @memberof FakeApitestEnumParameters
      */
     enumQueryStringArray?: Array<'>' | '$'>
     /**
      * Query parameter enum test (string)
+     * Defaults to: &#39;-efg&#39;
      * @type &#39;_abc&#39; | &#39;-efg&#39; | &#39;(xyz)&#39;
      * @memberof FakeApitestEnumParameters
      */
     enumQueryString?: '_abc' | '-efg' | '(xyz)'
     /**
      * Query parameter enum test (double)
+     * Defaults to: undefined
      * @type 1 | -2
      * @memberof FakeApitestEnumParameters
      */
     enumQueryInteger?: 1 | -2
     /**
      * Query parameter enum test (double)
+     * Defaults to: undefined
      * @type 1.1 | -1.2
      * @memberof FakeApitestEnumParameters
      */
     enumQueryDouble?: 1.1 | -1.2
     /**
      * 
+     * Defaults to: undefined
      * @type Array&lt;EnumClass&gt;
      * @memberof FakeApitestEnumParameters
      */
     enumQueryModelArray?: Array<EnumClass>
     /**
      * Form parameter enum test (string array)
+     * Defaults to: &#39;$&#39;
      * @type Array&lt;string&gt;
      * @memberof FakeApitestEnumParameters
      */
     enumFormStringArray?: Array<string>
     /**
      * Form parameter enum test (string)
+     * Defaults to: &#39;-efg&#39;
      * @type string
      * @memberof FakeApitestEnumParameters
      */
@@ -381,36 +416,42 @@ export interface FakeApiTestEnumParametersRequest {
 export interface FakeApiTestGroupParametersRequest {
     /**
      * Required String in group parameters
+     * Defaults to: undefined
      * @type number
      * @memberof FakeApitestGroupParameters
      */
     requiredStringGroup: number
     /**
      * Required Boolean in group parameters
+     * Defaults to: undefined
      * @type boolean
      * @memberof FakeApitestGroupParameters
      */
     requiredBooleanGroup: boolean
     /**
      * Required Integer in group parameters
+     * Defaults to: undefined
      * @type number
      * @memberof FakeApitestGroupParameters
      */
     requiredInt64Group: number
     /**
      * String in group parameters
+     * Defaults to: undefined
      * @type number
      * @memberof FakeApitestGroupParameters
      */
     stringGroup?: number
     /**
      * Boolean in group parameters
+     * Defaults to: undefined
      * @type boolean
      * @memberof FakeApitestGroupParameters
      */
     booleanGroup?: boolean
     /**
      * Integer in group parameters
+     * Defaults to: undefined
      * @type number
      * @memberof FakeApitestGroupParameters
      */
@@ -429,12 +470,14 @@ export interface FakeApiTestInlineAdditionalPropertiesRequest {
 export interface FakeApiTestJsonFormDataRequest {
     /**
      * field1
+     * Defaults to: undefined
      * @type string
      * @memberof FakeApitestJsonFormData
      */
     param: string
     /**
      * field2
+     * Defaults to: undefined
      * @type string
      * @memberof FakeApitestJsonFormData
      */
@@ -444,42 +487,49 @@ export interface FakeApiTestJsonFormDataRequest {
 export interface FakeApiTestQueryParameterCollectionFormatRequest {
     /**
      * 
+     * Defaults to: undefined
      * @type Array&lt;string&gt;
      * @memberof FakeApitestQueryParameterCollectionFormat
      */
     pipe: Array<string>
     /**
      * 
+     * Defaults to: undefined
      * @type Array&lt;string&gt;
      * @memberof FakeApitestQueryParameterCollectionFormat
      */
     ioutil: Array<string>
     /**
      * 
+     * Defaults to: undefined
      * @type Array&lt;string&gt;
      * @memberof FakeApitestQueryParameterCollectionFormat
      */
     http: Array<string>
     /**
      * 
+     * Defaults to: undefined
      * @type Array&lt;string&gt;
      * @memberof FakeApitestQueryParameterCollectionFormat
      */
     url: Array<string>
     /**
      * 
+     * Defaults to: undefined
      * @type Array&lt;string&gt;
      * @memberof FakeApitestQueryParameterCollectionFormat
      */
     context: Array<string>
     /**
      * 
+     * Defaults to: undefined
      * @type string
      * @memberof FakeApitestQueryParameterCollectionFormat
      */
     allowEmpty: string
     /**
      * 
+     * Defaults to: undefined
      * @type { [key: string]: string; }
      * @memberof FakeApitestQueryParameterCollectionFormat
      */
@@ -847,12 +897,14 @@ export interface PetApiAddPetRequest {
 export interface PetApiDeletePetRequest {
     /**
      * Pet id to delete
+     * Defaults to: undefined
      * @type number
      * @memberof PetApideletePet
      */
     petId: number
     /**
      * 
+     * Defaults to: undefined
      * @type string
      * @memberof PetApideletePet
      */
@@ -862,6 +914,7 @@ export interface PetApiDeletePetRequest {
 export interface PetApiFindPetsByStatusRequest {
     /**
      * Status values that need to be considered for filter
+     * Defaults to: undefined
      * @type Array&lt;&#39;available&#39; | &#39;pending&#39; | &#39;sold&#39;&gt;
      * @memberof PetApifindPetsByStatus
      */
@@ -871,6 +924,7 @@ export interface PetApiFindPetsByStatusRequest {
 export interface PetApiFindPetsByTagsRequest {
     /**
      * Tags to filter by
+     * Defaults to: undefined
      * @type Set&lt;string&gt;
      * @memberof PetApifindPetsByTags
      */
@@ -880,6 +934,7 @@ export interface PetApiFindPetsByTagsRequest {
 export interface PetApiGetPetByIdRequest {
     /**
      * ID of pet to return
+     * Defaults to: undefined
      * @type number
      * @memberof PetApigetPetById
      */
@@ -898,18 +953,21 @@ export interface PetApiUpdatePetRequest {
 export interface PetApiUpdatePetWithFormRequest {
     /**
      * ID of pet that needs to be updated
+     * Defaults to: undefined
      * @type number
      * @memberof PetApiupdatePetWithForm
      */
     petId: number
     /**
      * Updated name of the pet
+     * Defaults to: undefined
      * @type string
      * @memberof PetApiupdatePetWithForm
      */
     name?: string
     /**
      * Updated status of the pet
+     * Defaults to: undefined
      * @type string
      * @memberof PetApiupdatePetWithForm
      */
@@ -919,18 +977,21 @@ export interface PetApiUpdatePetWithFormRequest {
 export interface PetApiUploadFileRequest {
     /**
      * ID of pet to update
+     * Defaults to: undefined
      * @type number
      * @memberof PetApiuploadFile
      */
     petId: number
     /**
      * Additional data to pass to server
+     * Defaults to: undefined
      * @type string
      * @memberof PetApiuploadFile
      */
     additionalMetadata?: string
     /**
      * file to upload
+     * Defaults to: undefined
      * @type HttpFile
      * @memberof PetApiuploadFile
      */
@@ -940,18 +1001,21 @@ export interface PetApiUploadFileRequest {
 export interface PetApiUploadFileWithRequiredFileRequest {
     /**
      * ID of pet to update
+     * Defaults to: undefined
      * @type number
      * @memberof PetApiuploadFileWithRequiredFile
      */
     petId: number
     /**
      * file to upload
+     * Defaults to: undefined
      * @type HttpFile
      * @memberof PetApiuploadFileWithRequiredFile
      */
     requiredFile: HttpFile
     /**
      * Additional data to pass to server
+     * Defaults to: undefined
      * @type string
      * @memberof PetApiuploadFileWithRequiredFile
      */
@@ -1135,6 +1199,7 @@ import { StoreApiRequestFactory, StoreApiResponseProcessor} from "../apis/StoreA
 export interface StoreApiDeleteOrderRequest {
     /**
      * ID of the order that needs to be deleted
+     * Defaults to: undefined
      * @type string
      * @memberof StoreApideleteOrder
      */
@@ -1147,6 +1212,9 @@ export interface StoreApiGetInventoryRequest {
 export interface StoreApiGetOrderByIdRequest {
     /**
      * ID of pet that needs to be fetched
+     * Minimum: 1
+     * Maximum: 5
+     * Defaults to: undefined
      * @type number
      * @memberof StoreApigetOrderById
      */
@@ -1276,6 +1344,7 @@ export interface UserApiCreateUsersWithListInputRequest {
 export interface UserApiDeleteUserRequest {
     /**
      * The name that needs to be deleted
+     * Defaults to: undefined
      * @type string
      * @memberof UserApideleteUser
      */
@@ -1285,6 +1354,7 @@ export interface UserApiDeleteUserRequest {
 export interface UserApiGetUserByNameRequest {
     /**
      * The name that needs to be fetched. Use user1 for testing.
+     * Defaults to: undefined
      * @type string
      * @memberof UserApigetUserByName
      */
@@ -1294,12 +1364,14 @@ export interface UserApiGetUserByNameRequest {
 export interface UserApiLoginUserRequest {
     /**
      * The user name for login
+     * Defaults to: undefined
      * @type string
      * @memberof UserApiloginUser
      */
     username: string
     /**
      * The password for login in clear text
+     * Defaults to: undefined
      * @type string
      * @memberof UserApiloginUser
      */
@@ -1312,6 +1384,7 @@ export interface UserApiLogoutUserRequest {
 export interface UserApiUpdateUserRequest {
     /**
      * name that need to be deleted
+     * Defaults to: undefined
      * @type string
      * @memberof UserApiupdateUser
      */
