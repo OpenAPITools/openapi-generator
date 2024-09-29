@@ -454,7 +454,7 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      */
     public testEncodeArrayOfArraysPostWithHttpInfo(requestBody: Array<Array<string>>, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.testEncodeArrayOfArraysPost(requestBody, _options);
@@ -476,14 +476,14 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      */
     public testEncodeArrayOfArraysPost(requestBody: Array<Array<string>>, _options?: Configuration): Observable<void> {
         return this.testEncodeArrayOfArraysPostWithHttpInfo(requestBody, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
-     * @param complexObject 
+     * @param complexObject
      */
     public testEncodeArrayOfMapsOfObjectsPostWithHttpInfo(complexObject: Array<{ [key: string]: ComplexObject; }>, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.testEncodeArrayOfMapsOfObjectsPost(complexObject, _options);
@@ -505,14 +505,14 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param complexObject 
+     * @param complexObject
      */
     public testEncodeArrayOfMapsOfObjectsPost(complexObject: Array<{ [key: string]: ComplexObject; }>, _options?: Configuration): Observable<void> {
         return this.testEncodeArrayOfMapsOfObjectsPostWithHttpInfo(complexObject, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
-     * @param complexObject 
+     * @param complexObject
      */
     public testEncodeArrayOfNullableObjectsPostWithHttpInfo(complexObject: Array<ComplexObject>, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.testEncodeArrayOfNullableObjectsPost(complexObject, _options);
@@ -534,14 +534,14 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param complexObject 
+     * @param complexObject
      */
     public testEncodeArrayOfNullableObjectsPost(complexObject: Array<ComplexObject>, _options?: Configuration): Observable<void> {
         return this.testEncodeArrayOfNullableObjectsPostWithHttpInfo(complexObject, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      */
     public testEncodeArrayOfNullablePostWithHttpInfo(requestBody: Array<string | null>, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.testEncodeArrayOfNullablePost(requestBody, _options);
@@ -563,14 +563,14 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      */
     public testEncodeArrayOfNullablePost(requestBody: Array<string | null>, _options?: Configuration): Observable<void> {
         return this.testEncodeArrayOfNullablePostWithHttpInfo(requestBody, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      */
     public testEncodeArrayOfPostWithHttpInfo(requestBody: Array<string>, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.testEncodeArrayOfPost(requestBody, _options);
@@ -592,14 +592,14 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      */
     public testEncodeArrayOfPost(requestBody: Array<string>, _options?: Configuration): Observable<void> {
         return this.testEncodeArrayOfPostWithHttpInfo(requestBody, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
-     * @param compositeObject 
+     * @param compositeObject
      */
     public testEncodeCompositeObjectsPostWithHttpInfo(compositeObject: CompositeObject, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.testEncodeCompositeObjectsPost(compositeObject, _options);
@@ -621,14 +621,14 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param compositeObject 
+     * @param compositeObject
      */
     public testEncodeCompositeObjectsPost(compositeObject: CompositeObject, _options?: Configuration): Observable<void> {
         return this.testEncodeCompositeObjectsPostWithHttpInfo(compositeObject, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      */
     public testEncodeMapOfMapsOfObjectsPostWithHttpInfo(requestBody: { [key: string]: { [key: string]: ComplexObject; }; }, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.testEncodeMapOfMapsOfObjectsPost(requestBody, _options);
@@ -650,14 +650,14 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      */
     public testEncodeMapOfMapsOfObjectsPost(requestBody: { [key: string]: { [key: string]: ComplexObject; }; }, _options?: Configuration): Observable<void> {
         return this.testEncodeMapOfMapsOfObjectsPostWithHttpInfo(requestBody, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      */
     public testEncodeMapOfObjectsPostWithHttpInfo(requestBody: { [key: string]: ComplexObject | null; }, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.testEncodeMapOfObjectsPost(requestBody, _options);
@@ -679,14 +679,14 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      */
     public testEncodeMapOfObjectsPost(requestBody: { [key: string]: ComplexObject | null; }, _options?: Configuration): Observable<void> {
         return this.testEncodeMapOfObjectsPostWithHttpInfo(requestBody, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      */
     public testEncodeMapOfPrimitivePostWithHttpInfo(requestBody: { [key: string]: string; }, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.testEncodeMapOfPrimitivePost(requestBody, _options);
@@ -708,14 +708,14 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      */
     public testEncodeMapOfPrimitivePost(requestBody: { [key: string]: string; }, _options?: Configuration): Observable<void> {
         return this.testEncodeMapOfPrimitivePostWithHttpInfo(requestBody, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
-     * @param requestBody 
+     * @param [requestBody]
      */
     public testEncodeNullableArrayPostWithHttpInfo(requestBody?: Array<string>, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.testEncodeNullableArrayPost(requestBody, _options);
@@ -737,14 +737,14 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param requestBody 
+     * @param [requestBody]
      */
     public testEncodeNullableArrayPost(requestBody?: Array<string>, _options?: Configuration): Observable<void> {
         return this.testEncodeNullableArrayPostWithHttpInfo(requestBody, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
-     * @param body 
+     * @param [body]
      */
     public testEncodeNullablePostWithHttpInfo(body?: string, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.testEncodeNullablePost(body, _options);
@@ -766,14 +766,14 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param body 
+     * @param [body]
      */
     public testEncodeNullablePost(body?: string, _options?: Configuration): Observable<void> {
         return this.testEncodeNullablePostWithHttpInfo(body, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
-     * @param complexObject 
+     * @param complexObject
      */
     public testEncodeObjectPostWithHttpInfo(complexObject: ComplexObject, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.testEncodeObjectPost(complexObject, _options);
@@ -795,14 +795,14 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param complexObject 
+     * @param complexObject
      */
     public testEncodeObjectPost(complexObject: ComplexObject, _options?: Configuration): Observable<void> {
         return this.testEncodeObjectPostWithHttpInfo(complexObject, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
-     * @param body 
+     * @param body
      */
     public testEncodePrimitiveBooleanPostWithHttpInfo(body: boolean, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.testEncodePrimitiveBooleanPost(body, _options);
@@ -824,14 +824,14 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param body 
+     * @param body
      */
     public testEncodePrimitiveBooleanPost(body: boolean, _options?: Configuration): Observable<void> {
         return this.testEncodePrimitiveBooleanPostWithHttpInfo(body, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
-     * @param body 
+     * @param body
      */
     public testEncodePrimitiveIntegerPostWithHttpInfo(body: number, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.testEncodePrimitiveIntegerPost(body, _options);
@@ -853,14 +853,14 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param body 
+     * @param body
      */
     public testEncodePrimitiveIntegerPost(body: number, _options?: Configuration): Observable<void> {
         return this.testEncodePrimitiveIntegerPostWithHttpInfo(body, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
-     * @param body 
+     * @param body
      */
     public testEncodePrimitiveNumberPostWithHttpInfo(body: number, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.testEncodePrimitiveNumberPost(body, _options);
@@ -882,14 +882,14 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param body 
+     * @param body
      */
     public testEncodePrimitiveNumberPost(body: number, _options?: Configuration): Observable<void> {
         return this.testEncodePrimitiveNumberPostWithHttpInfo(body, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
-     * @param body 
+     * @param body
      */
     public testEncodePrimitiveStringPostWithHttpInfo(body: string, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.testEncodePrimitiveStringPost(body, _options);
@@ -911,7 +911,7 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param body 
+     * @param body
      */
     public testEncodePrimitiveStringPost(body: string, _options?: Configuration): Observable<void> {
         return this.testEncodePrimitiveStringPostWithHttpInfo(body, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
