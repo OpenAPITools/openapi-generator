@@ -81,8 +81,8 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
      */
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var taskDidReceiveChallenge: {{projectName}}APIChallengeHandler?
 
-    required {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool) {
-        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication)
+    required {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, client: OpenAPIClient = OpenAPIClient.shared) {
+        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication, client: client)
     }
 
     /**
@@ -128,7 +128,7 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
     }
 
     @discardableResult
-    override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ apiResponseQueue: DispatchQueue = {{projectName}}API.shared.apiResponseQueue, _ completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+    override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         let urlSession = createURLSession()
 
         guard let xMethod = HTTPMethod(rawValue: method) else {
@@ -161,7 +161,7 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
             let request = try createURLRequest(urlSession: urlSession, method: xMethod, encoding: encoding, headers: headers)
 
             let dataTask = urlSession.dataTaskFromProtocol(with: request) { data, response, error in
-                apiResponseQueue.async {
+                self.client.apiResponseQueue.async {
                     self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
                     self.cleanupRequest()
                 }
@@ -176,7 +176,7 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
 
             dataTask.resume()
         } catch {
-            apiResponseQueue.async {
+            self.client.apiResponseQueue.async {
                 completion(.failure(ErrorResponse.error(415, nil, nil, error)))
             }
         }
@@ -203,7 +203,7 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
             return
         }
 
-        guard httpResponse.isStatusCodeSuccessful else {
+        guard client.successfulStatusCodeRange.contains(httpResponse.statusCode) else {
             completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode)))
             return
         }
@@ -221,7 +221,7 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func buildHeaders() -> [String: String] {
         var httpHeaders: [String: String] = [:]
-        for (key, value) in {{projectName}}API.shared.customHeaders {
+        for (key, value) in client.customHeaders {
             httpHeaders[key] = value
         }
         for (key, value) in headers {
@@ -296,7 +296,7 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
             return
         }
 
-        guard httpResponse.isStatusCodeSuccessful else {
+        guard client.successfulStatusCodeRange.contains(httpResponse.statusCode) else {
             completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode)))
             return
         }
@@ -364,7 +364,7 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
                 return
             }
 
-            let decodeResult = CodableHelper.shared.decode(T.self, from: unwrappedData)
+            let decodeResult = client.codableHelper.decode(T.self, from: unwrappedData)
 
             switch decodeResult {
             case let .success(decodableObj):
