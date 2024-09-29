@@ -3155,8 +3155,12 @@ public class DefaultCodegen implements CodegenConfig {
             }
         } else {
             // if additioanl properties is set (e.g. free form object, any type, string, etc)
-            addPropProp = fromProperty(getAdditionalPropertiesName(), (Schema) schema.getAdditionalProperties(), false);
-            additionalPropertiesIsAnyType = true;
+            Schema additionalPropertiesSchema = (Schema) schema.getAdditionalProperties();
+            // Only consider the schema if it is not explicitly false
+            if (!Boolean.FALSE.equals(additionalPropertiesSchema.getBooleanSchemaValue())) {
+                addPropProp = fromProperty( getAdditionalPropertiesName(), additionalPropertiesSchema, false );
+                additionalPropertiesIsAnyType = true;
+            }
         }
         if (additionalPropertiesIsAnyType) {
             property.setAdditionalPropertiesIsAnyType(true);

@@ -558,7 +558,7 @@ public class ModelUtils {
         }
 
         // additionalProperties explicitly set to false
-        if (schema.getAdditionalProperties() instanceof Boolean && Boolean.FALSE.equals(schema.getAdditionalProperties())) {
+        if (getAdditionalProperties(schema) == null) {
             return false;
         }
 
@@ -794,8 +794,7 @@ public class ModelUtils {
                 // has properties
                 (null != schema.getProperties() && !schema.getProperties().isEmpty()) &&
                 // no additionalProperties is set
-                (schema.getAdditionalProperties() == null ||
-                        (schema.getAdditionalProperties() instanceof Boolean && !(Boolean) schema.getAdditionalProperties()));
+                getAdditionalProperties(schema) == null;
     }
 
     public static boolean hasValidation(Schema sc) {
@@ -863,9 +862,7 @@ public class ModelUtils {
                 return false;
             }
 
-            if (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties()) {
-                return true;
-            } else if (schema.getAdditionalProperties() instanceof JsonSchema) {
+            if (getAdditionalProperties(schema) != null) {
                 return true;
             } else if (schema.getTypes() != null) {
                 if (schema.getTypes().size() == 1) { // types = [object]
@@ -1421,7 +1418,12 @@ public class ModelUtils {
     public static Schema getAdditionalProperties(Schema schema) {
         Object addProps = schema.getAdditionalProperties();
         if (addProps instanceof Schema) {
-            return (Schema) addProps;
+            Schema additionalPropertiesSchema = (Schema) addProps;
+            // Only consider the schema if it is not explicitly false
+            if (!Boolean.FALSE.equals(additionalPropertiesSchema.getBooleanSchemaValue())) {
+                return additionalPropertiesSchema;
+            }
+            return null;
         }
         if (addProps == null) {
             // When reaching this code path, this should indicate the 'additionalProperties' keyword is
