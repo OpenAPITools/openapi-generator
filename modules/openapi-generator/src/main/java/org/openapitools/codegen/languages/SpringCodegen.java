@@ -132,7 +132,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Getter
     @RequiredArgsConstructor
     public enum SpringHttpClientAdapter {
-        web_client("web-client", "Use RestClientAdapter", "httpInterfacesWebClientConfiguration.mustache"),
+        web_client("web-client", "Use WebClientAdapter", "httpInterfacesWebClientConfiguration.mustache"),
         rest_client("rest-client", "Use RestClientAdapter", "httpInterfacesRestClientConfiguration.mustache"),
         rest_template("rest-template", "Use RestTemplateAdapter", "httpInterfacesRestTemplateConfiguration.mustache");
 
