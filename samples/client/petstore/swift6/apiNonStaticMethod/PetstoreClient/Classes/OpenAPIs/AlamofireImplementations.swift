@@ -9,6 +9,7 @@ import Alamofire
 
 public class AlamofireRequestBuilderFactory: RequestBuilderFactory {
     public init() {}
+
     public func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
         return AlamofireRequestBuilder<T>.self
     }
@@ -27,10 +28,10 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
 }
 
 open class AlamofireRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
-    required public init(method: String, URLString: String, parameters: [String : Any]?, headers: [String : String] = [:], requiresAuthentication: Bool, client: OpenAPIClient = OpenAPIClient.shared) {
+    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, client: OpenAPIClient = OpenAPIClient.shared) {
         super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication, client: client)
     }
-    
+
     /**
      May be overridden by a subclass if you want to control the session
      configuration.
@@ -139,7 +140,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
 
                 requestTask.set(request: upload)
 
-                self.processRequest(request: upload, managerId, completion)
+                self.processRequest(request: upload, managerId: managerId, completion: completion)
             } else if contentType.hasPrefix("application/x-www-form-urlencoded") {
                 encoding = URLEncoding(destination: .httpBody)
             } else {
@@ -155,14 +156,14 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
             if let onProgressReady = self.onProgressReady {
                 onProgressReady(request.uploadProgress)
             }
-            processRequest(request: request, managerId, completion)
+            processRequest(request: request, managerId: managerId, completion: completion)
             requestTask.set(request: request)
         }
 
         return requestTask
     }
 
-    fileprivate func processRequest(request: DataRequest, _ managerId: String, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
+    fileprivate func processRequest(request: DataRequest, managerId: String, completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
         if let credential = self.credential {
             request.authenticate(with: credential)
         }
@@ -256,7 +257,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
 
 open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuilder<T>, @unchecked Sendable {
 
-    override fileprivate func processRequest(request: DataRequest, _ managerId: String, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
+    override fileprivate func processRequest(request: DataRequest, managerId: String, completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
         if let credential = self.credential {
             request.authenticate(with: credential)
         }

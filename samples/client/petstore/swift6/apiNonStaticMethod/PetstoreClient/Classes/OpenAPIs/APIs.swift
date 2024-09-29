@@ -20,7 +20,7 @@ open class OpenAPIClient: @unchecked Sendable {
     public var requestBuilderFactory: RequestBuilderFactory
     public var apiResponseQueue: DispatchQueue
     public var codableHelper: CodableHelper
-    
+
     /// Configures the range of HTTP status codes that will result in a successful response
     ///
     /// If a HTTP status code is outside of this range the response will be interpreted as failed.
@@ -33,7 +33,7 @@ open class OpenAPIClient: @unchecked Sendable {
     ///
     /// If unchanged, Alamofires default `StringResponseSerializer` will be used. 
     public var stringResponseSerializer: AnyResponseSerializer<String>
-    
+
     public init(
         basePath: String = "http://petstore.swagger.io:80/v2",
         customHeaders: [String: String] = [:],
@@ -55,7 +55,7 @@ open class OpenAPIClient: @unchecked Sendable {
         self.dataResponseSerializer = dataResponseSerializer
         self.stringResponseSerializer = stringResponseSerializer
     }
-    
+
     public static let shared = OpenAPIClient()
 }
 
