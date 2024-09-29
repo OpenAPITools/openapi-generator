@@ -34,6 +34,7 @@ public class DeleteUserRequest
     /// <summary>
     /// The name that needs to be deleted
     /// </summary>
+    [BindFrom("username")]
     public string Username { get; set; }
 }
 public class GetUserByNameRequest
@@ -41,6 +42,7 @@ public class GetUserByNameRequest
     /// <summary>
     /// The name that needs to be fetched. Use user1 for testing.
     /// </summary>
+    [BindFrom("username")]
     public string Username { get; set; }
 }
 public class LoginUserRequest
@@ -48,12 +50,12 @@ public class LoginUserRequest
     /// <summary>
     /// The user name for login
     /// </summary>
-    [QueryParam]
+    [QueryParam, BindFrom("username")]
     public string Username { get; set; }
     /// <summary>
     /// The password for login in clear text
     /// </summary>
-    [QueryParam]
+    [QueryParam, BindFrom("password")]
     public string Password { get; set; }
 }
 public class LogoutUserRequest
@@ -64,6 +66,7 @@ public class UpdateUserRequest
     /// <summary>
     /// name that need to be deleted
     /// </summary>
+    [BindFrom("username")]
     public string Username { get; set; }
     /// <summary>
     /// Updated user object

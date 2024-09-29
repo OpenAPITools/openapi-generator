@@ -16,15 +16,15 @@ public record CreateUsersWithListInputRequest([property: FromBody] List<User> us
 {
 }
 
-public record DeleteUserRequest(string Username)
+public record DeleteUserRequest([property: BindFrom("username")] string Username)
 {
 }
 
-public record GetUserByNameRequest(string Username)
+public record GetUserByNameRequest([property: BindFrom("username")] string Username)
 {
 }
 
-public record LoginUserRequest([property: QueryParam] string Username, [property: QueryParam] string Password)
+public record LoginUserRequest([property: QueryParam, BindFrom("username")] string Username, [property: QueryParam, BindFrom("password")] string Password)
 {
 }
 
@@ -32,7 +32,7 @@ public record LogoutUserRequest()
 {
 }
 
-public record UpdateUserRequest(string Username, [property: FromBody] User user)
+public record UpdateUserRequest([property: BindFrom("username")] string Username, [property: FromBody] User user)
 {
 }
 
