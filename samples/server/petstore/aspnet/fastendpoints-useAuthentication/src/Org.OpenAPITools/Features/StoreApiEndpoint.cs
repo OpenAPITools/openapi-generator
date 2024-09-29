@@ -17,7 +17,7 @@ public class DeleteOrderEndpoint : Endpoint<DeleteOrderRequest>
         Delete("/v2/store/order/{orderId}");
         
         
-        AllowAnonymous();
+        //TODO : authentication is enabled, you need to configure the authorizations : https://fast-endpoints.com/docs/security#endpoint-authorization
         
         Description(x =>
         {
@@ -56,7 +56,7 @@ public class GetInventoryEndpoint : EndpointWithoutRequest<Dictionary<string, in
         Get("/v2/store/inventory");
         
         
-        AllowAnonymous();
+        //TODO : authentication is enabled, you need to configure the authorizations : https://fast-endpoints.com/docs/security#endpoint-authorization
         
         Description(x =>
         {
@@ -91,7 +91,7 @@ public class GetOrderByIdEndpoint : Endpoint<GetOrderByIdRequest, Order>
         Get("/v2/store/order/{orderId}");
         
         
-        AllowAnonymous();
+        //TODO : authentication is enabled, you need to configure the authorizations : https://fast-endpoints.com/docs/security#endpoint-authorization
         
         Description(x =>
         {
@@ -131,7 +131,7 @@ public class PlaceOrderEndpoint : Endpoint<PlaceOrderRequest, Order>
         Post("/v2/store/order");
         
         
-        AllowAnonymous();
+        //TODO : authentication is enabled, you need to configure the authorizations : https://fast-endpoints.com/docs/security#endpoint-authorization
         
         Description(x =>
         {

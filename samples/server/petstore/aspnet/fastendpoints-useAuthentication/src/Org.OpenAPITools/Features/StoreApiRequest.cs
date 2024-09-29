@@ -1,7 +1,7 @@
 using FastEndpoints;
 
 using Org.OpenAPITools.Models;
-using Order = Org.OpenAPITools.Models.Order;
+using Order = FastEndpoints.Order;
 
 namespace Org.OpenAPITools.Features;
 
