@@ -8,7 +8,7 @@
 import Foundation
 
 open class CodableHelper: @unchecked Sendable {
-    public init(){}
+    public init() {}
 
     private var customDateFormatter: DateFormatter?
     private var defaultDateFormatter: DateFormatter = OpenISO8601DateFormatter()
