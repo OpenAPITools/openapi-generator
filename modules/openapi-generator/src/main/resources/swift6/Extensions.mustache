@@ -229,13 +229,7 @@ extension KeyedDecodingContainerProtocol {
         return decimalValue
     }
 
-}{{/generateModelAdditionalProperties}}{{^useVapor}}
-
-extension HTTPURLResponse {
-    func isStatusCodeSuccessful(client: OpenAPIClient) -> Bool {
-        return client.successfulStatusCodeRange.contains(statusCode)
-    }
-}{{/useVapor}}{{#usePromiseKit}}
+}{{/generateModelAdditionalProperties}}{{#usePromiseKit}}
 
 extension RequestBuilder {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func execute() -> Promise<Response<T>> {
