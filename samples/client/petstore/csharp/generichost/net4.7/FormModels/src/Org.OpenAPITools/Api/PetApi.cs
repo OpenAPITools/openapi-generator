@@ -1699,7 +1699,7 @@ namespace Org.OpenAPITools.Api
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
-                    ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("api_key", cancellationToken).ConfigureAwait(false);
+                    ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("api-key", cancellationToken).ConfigureAwait(false);
                     tokenBaseLocalVars.Add(apiKeyTokenLocalVar1);
                     apiKeyTokenLocalVar1.UseInHeader(httpRequestMessageLocalVar);
 

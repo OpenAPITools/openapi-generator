@@ -60,7 +60,7 @@ namespace Org.OpenAPITools.Client
         public enum ApiKeyHeader
         {
             /// <summary>
-            /// The api_key header
+            /// The api-key header
             /// </summary>
             Api_key,
             /// <summary>
@@ -79,7 +79,7 @@ namespace Org.OpenAPITools.Client
         {
             return value switch
             {
-                ApiKeyHeader.Api_key => "api_key",
+                ApiKeyHeader.Api_key => "api-key",
                 ApiKeyHeader.Api_key_query => "api_key_query",
                 _ => throw new System.ComponentModel.InvalidEnumArgumentException(nameof(value), (int)value, typeof(ApiKeyHeader)),
             };
