@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 README.md
 apis/baseapi.ts
 apis/exception.ts

@@ -13,7 +13,7 @@
 import { HttpFile } from '../http/http';
 
 export class SingleValueEnum31 {
-    'type': string;
+    'type': SingleValueEnum31TypeEnum;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -23,7 +23,7 @@ export class SingleValueEnum31 {
         {
             "name": "type",
             "baseName": "type",
-            "type": "string",
+            "type": "SingleValueEnum31TypeEnum",
             "format": ""
         }    ];
 
@@ -34,3 +34,8 @@ export class SingleValueEnum31 {
     public constructor() {
     }
 }
+
+export enum SingleValueEnum31TypeEnum {
+    ThisIsMyOnlyValue = 'this-is-my-only-value'
+}
+
