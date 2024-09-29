@@ -6,13 +6,14 @@ public class {{operationId}}Request
     /// <summary>
     /// {{description}}
     /// </summary>
+    [BindFrom("{{baseName}}")]
     public {{&dataType}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}} {{nameInPascalCase}} { get; set; }
     {{/pathParams}}
     {{#queryParams}}
     /// <summary>
     /// {{description}}
     /// </summary>
-    [QueryParam]
+    [QueryParam, BindFrom("{{baseName}}")]
     public {{&dataType}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}} {{nameInPascalCase}} { get; set; }
     {{/queryParams}}
     {{#bodyParams}}
@@ -26,6 +27,7 @@ public class {{operationId}}Request
     /// <summary>
     /// {{description}}
     /// </summary>
+    [BindFrom("{{baseName}}")]
     public {{&dataType}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}} {{nameInPascalCase}} { get; set; }
     {{/formParams}}
     {{#headerParams}}
