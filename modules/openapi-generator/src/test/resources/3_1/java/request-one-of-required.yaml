@@ -1,0 +1,40 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  description: Specification to reproduce incorrectly generated Java code when using oneOf to specify requirements
+  title: OneOf required Test Api
+paths:
+  /format-test:
+    post:
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                prop2:
+                  type: string
+                prop3:
+                  type: string
+              oneOf:
+                - required:
+                    - prop2
+                - required:
+                    - prop3
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/data-response"
+components:
+  schemas:
+    data-response:
+      type: object
+      title: Response
+      properties:
+        id:
+          type: string
