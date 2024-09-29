@@ -22,8 +22,8 @@ public class DeleteOrderEndpoint : Endpoint<DeleteOrderRequest>
         Description(x =>
         {
             x.WithTags("store")
-             .ProducesProblemFE(400)
-             .ProducesProblemFE(404);
+             .ProducesProblemDetails(400)
+             .ProducesProblemDetails(404);
         });
 
         Summary(s => {
@@ -96,8 +96,8 @@ public class GetOrderByIdEndpoint : Endpoint<GetOrderByIdRequest, Order>
         Description(x =>
         {
             x.WithTags("store")
-             .ProducesProblemFE(400)
-             .ProducesProblemFE(404);
+             .ProducesProblemDetails(400)
+             .ProducesProblemDetails(404);
         });
 
         Summary(s => {
@@ -136,7 +136,7 @@ public class PlaceOrderEndpoint : Endpoint<PlaceOrderRequest, Order>
         Description(x =>
         {
             x.WithTags("store")
-             .ProducesProblemFE(400);
+             .ProducesProblemDetails(400);
         });
 
         Summary(s => {
