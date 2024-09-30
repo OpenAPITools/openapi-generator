@@ -19,10 +19,10 @@ export class FormatTest {
     'int64'?: number;
     'number': number;
     '_float'?: number;
-    '_double'?: number;
+    'double'?: number;
     'decimal'?: Decimal;
     'string'?: string;
-    '_byte': string;
+    'byte': string;
     'binary'?: HttpFile;
     'date': string;
     'dateTime'?: Date;
@@ -73,7 +73,7 @@ export class FormatTest {
             "format": "float"
         },
         {
-            "name": "_double",
+            "name": "double",
             "baseName": "double",
             "type": "number",
             "format": "double"
@@ -91,7 +91,7 @@ export class FormatTest {
             "format": ""
         },
         {
-            "name": "_byte",
+            "name": "byte",
             "baseName": "byte",
             "type": "string",
             "format": "byte"

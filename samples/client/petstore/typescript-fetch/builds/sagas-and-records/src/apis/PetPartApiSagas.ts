@@ -93,9 +93,9 @@ export interface PayloadGetMatchingParts extends PayloadGetMatchingPartsRequest,
 
 export interface PayloadGetMatchingPartsRequest {
     fakePetPartId: string;
-    _long: boolean;
+    long: boolean;
     smooth: boolean;
-    _short: boolean;
+    short: boolean;
     name?: string;
     connectedPart?: string;
 }
@@ -117,9 +117,9 @@ export function *getMatchingPartsSagaImp(_action_: Action<PayloadGetMatchingPart
         const {toEntities, toInlined = !toEntities, ...requestPayload} = _payloadRest_;
         const {
             fakePetPartId,
-            _long,
+            long,
             smooth,
-            _short,
+            short,
             name,
             connectedPart,
         } = _payloadRest_;
@@ -128,9 +128,9 @@ export function *getMatchingPartsSagaImp(_action_: Action<PayloadGetMatchingPart
 
         const response: Required<GetMatchingPartsResponse> = yield apiCall(Api.petPartApi, Api.petPartApi['getMatchingParts'],
             parseFloat(fakePetPartId),
-            _long,
+            long,
             smooth,
-            _short,
+            short,
             name,
             connectedPart,
         );

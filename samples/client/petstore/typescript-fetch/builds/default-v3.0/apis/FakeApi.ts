@@ -101,9 +101,9 @@ export interface TestClientModelRequest {
 
 export interface TestEndpointParametersRequest {
     number: number;
-    _double: number;
+    double: number;
     patternWithoutDelimiter: string;
-    _byte: string;
+    byte: string;
     integer?: number;
     int32?: number;
     int64?: number;
@@ -633,10 +633,10 @@ export class FakeApi extends runtime.BaseAPI {
             );
         }
 
-        if (requestParameters['_double'] == null) {
+        if (requestParameters['double'] == null) {
             throw new runtime.RequiredError(
-                '_double',
-                'Required parameter "_double" was null or undefined when calling testEndpointParameters().'
+                'double',
+                'Required parameter "double" was null or undefined when calling testEndpointParameters().'
             );
         }
 
@@ -647,10 +647,10 @@ export class FakeApi extends runtime.BaseAPI {
             );
         }
 
-        if (requestParameters['_byte'] == null) {
+        if (requestParameters['byte'] == null) {
             throw new runtime.RequiredError(
-                '_byte',
-                'Required parameter "_byte" was null or undefined when calling testEndpointParameters().'
+                'byte',
+                'Required parameter "byte" was null or undefined when calling testEndpointParameters().'
             );
         }
 
@@ -697,8 +697,8 @@ export class FakeApi extends runtime.BaseAPI {
             formParams.append('float', requestParameters['_float'] as any);
         }
 
-        if (requestParameters['_double'] != null) {
-            formParams.append('double', requestParameters['_double'] as any);
+        if (requestParameters['double'] != null) {
+            formParams.append('double', requestParameters['double'] as any);
         }
 
         if (requestParameters['string'] != null) {
@@ -709,8 +709,8 @@ export class FakeApi extends runtime.BaseAPI {
             formParams.append('pattern_without_delimiter', requestParameters['patternWithoutDelimiter'] as any);
         }
 
-        if (requestParameters['_byte'] != null) {
-            formParams.append('byte', requestParameters['_byte'] as any);
+        if (requestParameters['byte'] != null) {
+            formParams.append('byte', requestParameters['byte'] as any);
         }
 
         if (requestParameters['binary'] != null) {

@@ -1,3 +1,4 @@
+.gitattributes
 .gitignore
 README.md
 apis/baseapi.ts
