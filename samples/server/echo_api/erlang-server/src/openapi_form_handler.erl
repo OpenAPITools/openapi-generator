@@ -1,5 +1,17 @@
-%% basic handler
 -module(openapi_form_handler).
+-moduledoc """
+Exposes the following operation IDs:
+
+- `POST` to `/form/integer/boolean/string`, OperationId: `TestFormIntegerBooleanString`:
+Test form parameter(s).
+
+- `POST` to `/form/object/multipart`, OperationId: `TestFormObjectMultipart`:
+Test form parameter(s) for multipart schema.
+
+- `POST` to `/form/oneof`, OperationId: `TestFormOneof`:
+Test form parameter(s) for oneOf schema.
+
+""".
 
 -behaviour(cowboy_rest).
 

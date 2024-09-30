@@ -652,7 +652,7 @@ validation_error(ViolatedRule, Name, Info) ->
     {Value :: any(), Req :: cowboy_req:req()} |
     {error, Reason :: any(), Req :: cowboy_req:req()}.
 get_value(body, _Name, Req0) ->
-    {ok, Body, Req} = cowboy_req:read_body(Req0),
+    {ok, Body, Req} = read_entire_body(Req0),
     case prepare_body(Body) of
         {error, Reason} ->
             {error, Reason, Req};
@@ -671,14 +671,27 @@ get_value(binding, Name, Req) ->
     Value = cowboy_req:binding(to_binding(Name), Req),
     {Value, Req}.
 
+-spec read_entire_body(cowboy_req:req()) -> {ok, iodata(), cowboy_req:req()}.
+read_entire_body(Req) ->
+    read_entire_body(Req, []).
+
+-spec read_entire_body(cowboy_req:req(), iodata()) -> {ok, binary(), cowboy_req:req()}.
+read_entire_body(Request, Acc) -> % {
+    case cowboy_req:read_body(Request) of
+        {ok, Data, NewRequest} ->
+            {ok, iolist_to_binary(lists:reverse([Data | Acc])), NewRequest};
+        {more, Data, NewRequest} ->
+            read_entire_body(NewRequest, [Data | Acc])
+    end.
+
 prepare_body(<<>>) ->
     <<>>;
 prepare_body(Body) ->
     try
         json:decode(Body)
     catch
-        error:_ ->
-            {error, {invalid_body, not_json, Body}}
+        error:Error ->
+            {error, {invalid_json, Body, Error}}
     end.
 
 validate_with_schema(Body, Definition, ValidatorState) ->

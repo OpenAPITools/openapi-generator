@@ -19,152 +19,219 @@ get_paths(LogicHandler) ->
 
 group_paths() ->
     maps:fold(
-      fun(OperationID, #{path := Path, method := Method, handler := Handler}, Acc) ->
-              case maps:find(Path, Acc) of
+      fun(OperationID, #{servers := Servers, base_path := BasePath, path := Path,
+                         method := Method, handler := Handler}, Acc) ->
+              FullPaths = build_full_paths(Servers, BasePath, Path),
+              merge_paths(FullPaths, OperationID, Method, Handler, Acc)
+      end, #{}, get_operations()).
+
+build_full_paths([], BasePath, Path) ->
+    [lists:append([BasePath, Path])];
+build_full_paths(Servers, _BasePath, Path) ->
+    [lists:append([Server, Path]) || Server <- Servers ].
+
+merge_paths(FullPaths, OperationID, Method, Handler, Acc) ->
+    lists:foldl(
+      fun(Path, Acc0) ->
+              case maps:find(Path, Acc0) of
                   {ok, PathInfo0 = #{operations := Operations0}} ->
                       Operations = Operations0#{Method => OperationID},
                       PathInfo = PathInfo0#{operations => Operations},
-                      Acc#{Path => PathInfo};
+                      Acc0#{Path => PathInfo};
                   error ->
                       Operations = #{Method => OperationID},
                       PathInfo = #{handler => Handler, operations => Operations},
-                      Acc#{Path => PathInfo}
+                      Acc0#{Path => PathInfo}
               end
-      end, #{}, get_operations()).
+      end, Acc, FullPaths).
 
 get_operations() ->
     #{ 
-        'TestAuthHttpBasic' => #{
+       'TestAuthHttpBasic' => #{
+            servers => [],
+            base_path => "",
             path => "/auth/http/basic",
             method => <<"POST">>,
             handler => 'openapi_auth_handler'
         },
-        'TestAuthHttpBearer' => #{
+       'TestAuthHttpBearer' => #{
+            servers => [],
+            base_path => "",
             path => "/auth/http/bearer",
             method => <<"POST">>,
             handler => 'openapi_auth_handler'
         },
-        'TestBinaryGif' => #{
+       'TestBinaryGif' => #{
+            servers => [],
+            base_path => "",
             path => "/binary/gif",
             method => <<"POST">>,
             handler => 'openapi_body_handler'
         },
-        'TestBodyApplicationOctetstreamBinary' => #{
+       'TestBodyApplicationOctetstreamBinary' => #{
+            servers => [],
+            base_path => "",
             path => "/body/application/octetstream/binary",
             method => <<"POST">>,
             handler => 'openapi_body_handler'
         },
-        'TestBodyMultipartFormdataArrayOfBinary' => #{
+       'TestBodyMultipartFormdataArrayOfBinary' => #{
+            servers => [],
+            base_path => "",
             path => "/body/application/octetstream/array_of_binary",
             method => <<"POST">>,
             handler => 'openapi_body_handler'
         },
-        'TestBodyMultipartFormdataSingleBinary' => #{
+       'TestBodyMultipartFormdataSingleBinary' => #{
+            servers => [],
+            base_path => "",
             path => "/body/application/octetstream/single_binary",
             method => <<"POST">>,
             handler => 'openapi_body_handler'
         },
-        'TestEchoBodyAllOfPet' => #{
+       'TestEchoBodyAllOfPet' => #{
+            servers => [],
+            base_path => "",
             path => "/echo/body/allOf/Pet",
             method => <<"POST">>,
             handler => 'openapi_body_handler'
         },
-        'TestEchoBodyFreeFormObjectResponseString' => #{
+       'TestEchoBodyFreeFormObjectResponseString' => #{
+            servers => [],
+            base_path => "",
             path => "/echo/body/FreeFormObject/response_string",
             method => <<"POST">>,
             handler => 'openapi_body_handler'
         },
-        'TestEchoBodyPet' => #{
+       'TestEchoBodyPet' => #{
+            servers => [],
+            base_path => "",
             path => "/echo/body/Pet",
             method => <<"POST">>,
             handler => 'openapi_body_handler'
         },
-        'TestEchoBodyPetResponseString' => #{
+       'TestEchoBodyPetResponseString' => #{
+            servers => [],
+            base_path => "",
             path => "/echo/body/Pet/response_string",
             method => <<"POST">>,
             handler => 'openapi_body_handler'
         },
-        'TestEchoBodyStringEnum' => #{
+       'TestEchoBodyStringEnum' => #{
+            servers => [],
+            base_path => "",
             path => "/echo/body/string_enum",
             method => <<"POST">>,
             handler => 'openapi_body_handler'
         },
-        'TestEchoBodyTagResponseString' => #{
+       'TestEchoBodyTagResponseString' => #{
+            servers => [],
+            base_path => "",
             path => "/echo/body/Tag/response_string",
             method => <<"POST">>,
             handler => 'openapi_body_handler'
         },
-        'TestFormIntegerBooleanString' => #{
+       'TestFormIntegerBooleanString' => #{
+            servers => [],
+            base_path => "",
             path => "/form/integer/boolean/string",
             method => <<"POST">>,
             handler => 'openapi_form_handler'
         },
-        'TestFormObjectMultipart' => #{
+       'TestFormObjectMultipart' => #{
+            servers => [],
+            base_path => "",
             path => "/form/object/multipart",
             method => <<"POST">>,
             handler => 'openapi_form_handler'
         },
-        'TestFormOneof' => #{
+       'TestFormOneof' => #{
+            servers => [],
+            base_path => "",
             path => "/form/oneof",
             method => <<"POST">>,
             handler => 'openapi_form_handler'
         },
-        'TestHeaderIntegerBooleanStringEnums' => #{
+       'TestHeaderIntegerBooleanStringEnums' => #{
+            servers => [],
+            base_path => "",
             path => "/header/integer/boolean/string/enums",
             method => <<"GET">>,
             handler => 'openapi_header_handler'
         },
-        'TestsPathString{pathString}Integer{pathInteger}{enumNonrefStringPath}{enumRefStringPath}' => #{
+       'TestsPathString{pathString}Integer{pathInteger}{enumNonrefStringPath}{enumRefStringPath}' => #{
+            servers => [],
+            base_path => "",
             path => "/path/string/:path_string/integer/:path_integer/:enum_nonref_string_path/:enum_ref_string_path",
             method => <<"GET">>,
             handler => 'openapi_path_handler'
         },
-        'TestEnumRefString' => #{
+       'TestEnumRefString' => #{
+            servers => [],
+            base_path => "",
             path => "/query/enum_ref_string",
             method => <<"GET">>,
             handler => 'openapi_query_handler'
         },
-        'TestQueryDatetimeDateString' => #{
+       'TestQueryDatetimeDateString' => #{
+            servers => [],
+            base_path => "",
             path => "/query/datetime/date/string",
             method => <<"GET">>,
             handler => 'openapi_query_handler'
         },
-        'TestQueryIntegerBooleanString' => #{
+       'TestQueryIntegerBooleanString' => #{
+            servers => [],
+            base_path => "",
             path => "/query/integer/boolean/string",
             method => <<"GET">>,
             handler => 'openapi_query_handler'
         },
-        'TestQueryStyleDeepObjectExplodeTrueObject' => #{
+       'TestQueryStyleDeepObjectExplodeTrueObject' => #{
+            servers => [],
+            base_path => "",
             path => "/query/style_deepObject/explode_true/object",
             method => <<"GET">>,
             handler => 'openapi_query_handler'
         },
-        'TestQueryStyleDeepObjectExplodeTrueObjectAllOf' => #{
+       'TestQueryStyleDeepObjectExplodeTrueObjectAllOf' => #{
+            servers => [],
+            base_path => "",
             path => "/query/style_deepObject/explode_true/object/allOf",
             method => <<"GET">>,
             handler => 'openapi_query_handler'
         },
-        'TestQueryStyleFormExplodeFalseArrayInteger' => #{
+       'TestQueryStyleFormExplodeFalseArrayInteger' => #{
+            servers => [],
+            base_path => "",
             path => "/query/style_form/explode_false/array_integer",
             method => <<"GET">>,
             handler => 'openapi_query_handler'
         },
-        'TestQueryStyleFormExplodeFalseArrayString' => #{
+       'TestQueryStyleFormExplodeFalseArrayString' => #{
+            servers => [],
+            base_path => "",
             path => "/query/style_form/explode_false/array_string",
             method => <<"GET">>,
             handler => 'openapi_query_handler'
         },
-        'TestQueryStyleFormExplodeTrueArrayString' => #{
+       'TestQueryStyleFormExplodeTrueArrayString' => #{
+            servers => [],
+            base_path => "",
             path => "/query/style_form/explode_true/array_string",
             method => <<"GET">>,
             handler => 'openapi_query_handler'
         },
-        'TestQueryStyleFormExplodeTrueObject' => #{
+       'TestQueryStyleFormExplodeTrueObject' => #{
+            servers => [],
+            base_path => "",
             path => "/query/style_form/explode_true/object",
             method => <<"GET">>,
             handler => 'openapi_query_handler'
         },
-        'TestQueryStyleFormExplodeTrueObjectAllOf' => #{
+       'TestQueryStyleFormExplodeTrueObjectAllOf' => #{
+            servers => [],
+            base_path => "",
             path => "/query/style_form/explode_true/object/allOf",
             method => <<"GET">>,
             handler => 'openapi_query_handler'

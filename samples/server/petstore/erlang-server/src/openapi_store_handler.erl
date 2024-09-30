@@ -1,5 +1,20 @@
-%% basic handler
 -module(openapi_store_handler).
+-moduledoc """
+Exposes the following operation IDs:
+
+- `DELETE` to `/store/order/:orderId`, OperationId: `DeleteOrder`:
+Delete purchase order by ID.
+
+- `GET` to `/store/inventory`, OperationId: `GetInventory`:
+Returns pet inventories by status.
+
+- `GET` to `/store/order/:orderId`, OperationId: `GetOrderById`:
+Find purchase order by ID.
+
+- `POST` to `/store/order`, OperationId: `PlaceOrder`:
+Place an order for a pet.
+
+""".
 
 -behaviour(cowboy_rest).
 
