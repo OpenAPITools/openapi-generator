@@ -364,8 +364,8 @@ prepare_body(Body) ->
     try
         json:decode(Body)
     catch
-        error:_ ->
-            {error, {invalid_body, not_json, Body}}
+        error:Error ->
+            {error, {invalid_json, Body, Error}}
     end.
 
 validate_with_schema(Body, Definition, ValidatorState) ->
