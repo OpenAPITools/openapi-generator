@@ -25,7 +25,7 @@ extension {{projectName}} {
 {{^apiStaticMethod}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let openAPIClient: OpenAPIClient
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(openAPIClient: OpenAPIClient) {
-        self.client = client
+        self.openAPIClient = openAPIClient
     }
 {{/apiStaticMethod}}
 {{#operation}}
