@@ -1,0 +1,37 @@
+name: TypeScript Client (Encoding / Decoding Test)
+
+on:
+  pull_request:
+    paths:
+      - samples/client/others/typescript/encode-decode/**
+      - .github/workflows/samples-typescript-encode-decode.yaml
+jobs:
+  build:
+    name: Test TypeScript Encoding / Decoding
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          # clients
+          - samples/client/others/typescript/encode-decode/test
+        node-version:
+          - 16
+          - 18
+          - 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install
+        working-directory: ${{ matrix.sample }}
+        run: |
+          npm run preinstall
+          npm i
+
+      - name: Test
+        working-directory: ${{ matrix.sample }}
+        run: npm test

@@ -5,6 +5,7 @@ All URIs are relative to http://petstore.swagger.io:80/v2, except if the operati
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
 | [**fakeBigDecimalMap()**](FakeApi.md#fakeBigDecimalMap) | **GET** /fake/BigDecimalMap |  |
+| [**fakeEnumEndpoint()**](FakeApi.md#fakeEnumEndpoint) | **GET** /fake/enum/endpoint | test endpoint with enum parameter |
 | [**fakeHealthGet()**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint |
 | [**fakeHttpSignatureTest()**](FakeApi.md#fakeHttpSignatureTest) | **GET** /fake/http-signature-test | test http signature authentication |
 | [**fakeOuterBooleanSerialize()**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean |  |
@@ -76,6 +77,64 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: `*/*`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `fakeEnumEndpoint()`
+
+```php
+fakeEnumEndpoint($enum_class, $enum_class_array, $enum_class_map): \OpenAPI\Client\Model\EnumClass
+```
+
+test endpoint with enum parameter
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+$apiInstance = new OpenAPI\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$enum_class = new \OpenAPI\Client\Model\\OpenAPI\Client\Model\EnumClass(); // \OpenAPI\Client\Model\EnumClass | enum class parameter
+$enum_class_array = array(new \OpenAPI\Client\Model\\OpenAPI\Client\Model\EnumClass()); // \OpenAPI\Client\Model\EnumClass[] | enum class parameter
+$enum_class_map = array('key' => new \OpenAPI\Client\Model\\OpenAPI\Client\Model\EnumClass()); // array<string,\OpenAPI\Client\Model\EnumClass> | enum class parameter
+
+try {
+    $result = $apiInstance->fakeEnumEndpoint($enum_class, $enum_class_array, $enum_class_map);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->fakeEnumEndpoint: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **enum_class** | [**\OpenAPI\Client\Model\EnumClass**](../Model/.md)| enum class parameter | |
+| **enum_class_array** | [**\OpenAPI\Client\Model\EnumClass[]**](../Model/\OpenAPI\Client\Model\EnumClass.md)| enum class parameter | |
+| **enum_class_map** | [**array<string,\OpenAPI\Client\Model\EnumClass>**](../Model/\OpenAPI\Client\Model\EnumClass.md)| enum class parameter | |
+
+### Return type
+
+[**\OpenAPI\Client\Model\EnumClass**](../Model/EnumClass.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
 [[Back to Model list]](../../README.md#models)

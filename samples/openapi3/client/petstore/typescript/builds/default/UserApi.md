@@ -23,14 +23,14 @@ This can only be done by the logged in user.
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, UserApi } from 'ts-petstore-client';
+import type { UserApiCreateUserRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.UserApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new UserApi(configuration);
 
-let body:petstore.UserApiCreateUserRequest = {
-  // User | Created user object
+const request: UserApiCreateUserRequest = {
+    // Created user object
   user: {
     id: 1,
     username: "username_example",
@@ -43,9 +43,8 @@ let body:petstore.UserApiCreateUserRequest = {
   },
 };
 
-apiInstance.createUser(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.createUser(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -86,14 +85,14 @@ void (empty response body)
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, UserApi } from 'ts-petstore-client';
+import type { UserApiCreateUsersWithArrayInputRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.UserApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new UserApi(configuration);
 
-let body:petstore.UserApiCreateUsersWithArrayInputRequest = {
-  // Array<User> | List of user object
+const request: UserApiCreateUsersWithArrayInputRequest = {
+    // List of user object
   user: [
     {
       id: 1,
@@ -108,9 +107,8 @@ let body:petstore.UserApiCreateUsersWithArrayInputRequest = {
   ],
 };
 
-apiInstance.createUsersWithArrayInput(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.createUsersWithArrayInput(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -151,14 +149,14 @@ void (empty response body)
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, UserApi } from 'ts-petstore-client';
+import type { UserApiCreateUsersWithListInputRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.UserApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new UserApi(configuration);
 
-let body:petstore.UserApiCreateUsersWithListInputRequest = {
-  // Array<User> | List of user object
+const request: UserApiCreateUsersWithListInputRequest = {
+    // List of user object
   user: [
     {
       id: 1,
@@ -173,9 +171,8 @@ let body:petstore.UserApiCreateUsersWithListInputRequest = {
   ],
 };
 
-apiInstance.createUsersWithListInput(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.createUsersWithListInput(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -216,20 +213,19 @@ This can only be done by the logged in user.
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, UserApi } from 'ts-petstore-client';
+import type { UserApiDeleteUserRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.UserApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new UserApi(configuration);
 
-let body:petstore.UserApiDeleteUserRequest = {
-  // string | The name that needs to be deleted
+const request: UserApiDeleteUserRequest = {
+    // The name that needs to be deleted
   username: "username_example",
 };
 
-apiInstance.deleteUser(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.deleteUser(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -271,20 +267,19 @@ void (empty response body)
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, UserApi } from 'ts-petstore-client';
+import type { UserApiGetUserByNameRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.UserApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new UserApi(configuration);
 
-let body:petstore.UserApiGetUserByNameRequest = {
-  // string | The name that needs to be fetched. Use user1 for testing.
+const request: UserApiGetUserByNameRequest = {
+    // The name that needs to be fetched. Use user1 for testing.
   username: "username_example",
 };
 
-apiInstance.getUserByName(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.getUserByName(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -327,22 +322,21 @@ No authorization required
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, UserApi } from 'ts-petstore-client';
+import type { UserApiLoginUserRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.UserApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new UserApi(configuration);
 
-let body:petstore.UserApiLoginUserRequest = {
-  // string | The user name for login
+const request: UserApiLoginUserRequest = {
+    // The user name for login
   username: "CbUUGjjNSwg0_bs9ZayIMrKdgNvb6gvxmPb9GcsM61ate1RA89q3w1l4eH4XxEz.5awLMdeXylwK0lMGUSM4jsrh4dstlnQUN5vVdMLPA",
-  // string | The password for login in clear text
+    // The password for login in clear text
   password: "password_example",
 };
 
-apiInstance.loginUser(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.loginUser(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -385,17 +379,15 @@ No authorization required
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, UserApi } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.UserApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new UserApi(configuration);
 
-let body:any = {};
+const request = {};
 
-apiInstance.logoutUser(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.logoutUser(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -433,16 +425,16 @@ This can only be done by the logged in user.
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, UserApi } from 'ts-petstore-client';
+import type { UserApiUpdateUserRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.UserApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new UserApi(configuration);
 
-let body:petstore.UserApiUpdateUserRequest = {
-  // string | name that need to be deleted
+const request: UserApiUpdateUserRequest = {
+    // name that need to be deleted
   username: "username_example",
-  // User | Updated user object
+    // Updated user object
   user: {
     id: 1,
     username: "username_example",
@@ -455,9 +447,8 @@ let body:petstore.UserApiUpdateUserRequest = {
   },
 };
 
-apiInstance.updateUser(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.updateUser(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
