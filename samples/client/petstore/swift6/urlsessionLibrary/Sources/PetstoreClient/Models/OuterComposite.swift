@@ -10,8 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClient.OuterComposite")
-public typealias OuterComposite = PetstoreClient.OuterComposite
+@available(*, deprecated, renamed: "PetstoreClientAPI.OuterComposite")
+public typealias OuterComposite = PetstoreClientAPI.OuterComposite
 
 extension PetstoreClient {
 

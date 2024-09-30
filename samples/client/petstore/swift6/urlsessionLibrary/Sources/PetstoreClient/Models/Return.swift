@@ -10,8 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClient.Return")
-public typealias Return = PetstoreClient.Return
+@available(*, deprecated, renamed: "PetstoreClientAPI.Return")
+public typealias Return = PetstoreClientAPI.Return
 
 extension PetstoreClient {
 

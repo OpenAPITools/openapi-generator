@@ -10,9 +10,6 @@ import FoundationNetworking
 #endif
 import Vapor
 
-@available(*, deprecated, message: "Use `OpenAPIClient` instead")
-public typealias PetstoreClientAPI = OpenAPIClient
-
 open class OpenAPIClient: @unchecked Sendable {
     public var basePath: String
     public var customHeaders: HTTPHeaders

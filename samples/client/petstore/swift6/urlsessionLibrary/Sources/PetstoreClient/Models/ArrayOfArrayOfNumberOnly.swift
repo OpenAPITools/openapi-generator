@@ -10,8 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClient.ArrayOfArrayOfNumberOnly")
-public typealias ArrayOfArrayOfNumberOnly = PetstoreClient.ArrayOfArrayOfNumberOnly
+@available(*, deprecated, renamed: "PetstoreClientAPI.ArrayOfArrayOfNumberOnly")
+public typealias ArrayOfArrayOfNumberOnly = PetstoreClientAPI.ArrayOfArrayOfNumberOnly
 
 extension PetstoreClient {
 

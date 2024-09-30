@@ -10,8 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClient.EnumArrays")
-public typealias EnumArrays = PetstoreClient.EnumArrays
+@available(*, deprecated, renamed: "PetstoreClientAPI.EnumArrays")
+public typealias EnumArrays = PetstoreClientAPI.EnumArrays
 
 extension PetstoreClient {
 

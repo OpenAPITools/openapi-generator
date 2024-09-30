@@ -10,8 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClient.HasOnlyReadOnly")
-public typealias HasOnlyReadOnly = PetstoreClient.HasOnlyReadOnly
+@available(*, deprecated, renamed: "PetstoreClientAPI.HasOnlyReadOnly")
+public typealias HasOnlyReadOnly = PetstoreClientAPI.HasOnlyReadOnly
 
 extension PetstoreClient {
 

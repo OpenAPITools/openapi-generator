@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 
 open class PetAPI {

@@ -10,8 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClient.File")
-public typealias File = PetstoreClient.File
+@available(*, deprecated, renamed: "PetstoreClientAPI.File")
+public typealias File = PetstoreClientAPI.File
 
 extension PetstoreClient {
 

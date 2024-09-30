@@ -10,8 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClient.MixedPropertiesAndAdditionalPropertiesClass")
-public typealias MixedPropertiesAndAdditionalPropertiesClass = PetstoreClient.MixedPropertiesAndAdditionalPropertiesClass
+@available(*, deprecated, renamed: "PetstoreClientAPI.MixedPropertiesAndAdditionalPropertiesClass")
+public typealias MixedPropertiesAndAdditionalPropertiesClass = PetstoreClientAPI.MixedPropertiesAndAdditionalPropertiesClass
 
 extension PetstoreClient {
 

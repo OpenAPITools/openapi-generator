@@ -9,10 +9,7 @@ import Foundation
 import FoundationNetworking
 #endif
 
-public enum PetstoreClient {}
-
-@available(*, deprecated, message: "Use `OpenAPIClient` instead")
-public typealias PetstoreClientAPI = OpenAPIClient
+public enum PetstoreClientAPI {}
 
 open class OpenAPIClient: @unchecked Sendable {
     public var basePath: String
