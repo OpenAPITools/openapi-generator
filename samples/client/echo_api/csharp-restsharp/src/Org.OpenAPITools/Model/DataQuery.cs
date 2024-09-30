@@ -58,7 +58,9 @@ namespace Org.OpenAPITools.Model
         /// Some text containing white spaces
         /// </summary>
         /// <value>Some text containing white spaces</value>
-        /// <example>Some text</example>
+        /*
+        <example>Some text</example>
+        */
         [DataMember(Name = "text", EmitDefaultValue = false)]
         public string Text { get; set; }
 

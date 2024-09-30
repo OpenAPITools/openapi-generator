@@ -30,10 +30,8 @@ impl OpGetRequest {
 impl std::string::ToString for OpGetRequest {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             Some("property".to_string()),
             Some(self.property.to_string()),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")

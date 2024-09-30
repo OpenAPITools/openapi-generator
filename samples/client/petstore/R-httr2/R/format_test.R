@@ -43,8 +43,7 @@ FormatTest <- R6::R6Class(
     `password` = NULL,
     `pattern_with_digits` = NULL,
     `pattern_with_digits_and_delimiter` = NULL,
-    #' Initialize a new FormatTest class.
-    #'
+
     #' @description
     #' Initialize a new FormatTest class.
     #'
@@ -64,7 +63,6 @@ FormatTest <- R6::R6Class(
     #' @param pattern_with_digits A string that is a 10 digit number. Can have leading zeros.
     #' @param pattern_with_digits_and_delimiter A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
     #' @param ... Other optional arguments.
-    #' @export
     initialize = function(`number`, `byte`, `date`, `password`, `integer` = NULL, `int32` = NULL, `int64` = NULL, `float` = NULL, `double` = NULL, `string` = NULL, `binary` = NULL, `dateTime` = "2015-10-28T14:38:02Z", `uuid` = NULL, `pattern_with_digits` = NULL, `pattern_with_digits_and_delimiter` = NULL, ...) {
       if (!missing(`number`)) {
         self$`number` <- `number`
@@ -148,13 +146,11 @@ FormatTest <- R6::R6Class(
         self$`pattern_with_digits_and_delimiter` <- `pattern_with_digits_and_delimiter`
       }
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return FormatTest in JSON format
-    #' @export
     toJSON = function() {
       FormatTestObject <- list()
       if (!is.null(self$`integer`)) {
@@ -219,14 +215,12 @@ FormatTest <- R6::R6Class(
       }
       FormatTestObject
     },
-    #' Deserialize JSON string into an instance of FormatTest
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of FormatTest
     #'
     #' @param input_json the JSON input
     #' @return the instance of FormatTest
-    #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`integer`)) {
@@ -276,13 +270,11 @@ FormatTest <- R6::R6Class(
       }
       self
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return FormatTest in JSON format
-    #' @export
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`integer`)) {
@@ -409,14 +401,12 @@ FormatTest <- R6::R6Class(
       jsoncontent <- paste(jsoncontent, collapse = ",")
       json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
     },
-    #' Deserialize JSON string into an instance of FormatTest
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of FormatTest
     #'
     #' @param input_json the JSON input
     #' @return the instance of FormatTest
-    #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`integer` <- this_object$`integer`
@@ -436,13 +426,11 @@ FormatTest <- R6::R6Class(
       self$`pattern_with_digits_and_delimiter` <- this_object$`pattern_with_digits_and_delimiter`
       self
     },
-    #' Validate JSON input with respect to FormatTest
-    #'
+
     #' @description
     #' Validate JSON input with respect to FormatTest and throw an exception if invalid
     #'
     #' @param input the JSON input
-    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
       # check the required field `number`
@@ -472,23 +460,19 @@ FormatTest <- R6::R6Class(
         stop(paste("The JSON input `", input, "` is invalid for FormatTest: the required field `password` is missing."))
       }
     },
-    #' To string (JSON format)
-    #'
+
     #' @description
     #' To string (JSON format)
     #'
     #' @return String representation of FormatTest
-    #' @export
     toString = function() {
       self$toJSONString()
     },
-    #' Return true if the values in all fields are valid.
-    #'
+
     #' @description
     #' Return true if the values in all fields are valid.
     #'
     #' @return true if the values in all fields are valid.
-    #' @export
     isValid = function() {
       if (self$`integer` > 100) {
         return(FALSE)
@@ -566,13 +550,11 @@ FormatTest <- R6::R6Class(
 
       TRUE
     },
-    #' Return a list of invalid fields (if any).
-    #'
+
     #' @description
     #' Return a list of invalid fields (if any).
     #'
     #' @return A list of invalid fields (if any).
-    #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
       if (self$`integer` > 100) {
@@ -651,12 +633,9 @@ FormatTest <- R6::R6Class(
 
       invalid_fields
     },
-    #' Print the object
-    #'
+
     #' @description
     #' Print the object
-    #'
-    #' @export
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)

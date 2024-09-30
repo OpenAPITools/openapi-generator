@@ -41,7 +41,6 @@ enum EnumClass: string
     case EFG = '-efg';
 
     case XYZ = '(xyz)';
-
 }
 
 

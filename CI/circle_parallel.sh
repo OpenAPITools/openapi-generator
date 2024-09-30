@@ -91,6 +91,7 @@ elif [ "$NODE_INDEX" = "3" ]; then
   #(cd samples/openapi3/client/petstore/typescript/tests/deno && mvn integration-test)
   (cd samples/openapi3/client/petstore/typescript/builds/browser && mvn integration-test)
   (cd samples/openapi3/client/petstore/typescript/tests/browser && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/builds/nullable-enum && mvn integration-test)
   (cd samples/client/petstore/typescript-fetch/builds/default && mvn integration-test)
   (cd samples/client/petstore/typescript-fetch/builds/es6-target && mvn integration-test)
   (cd samples/client/petstore/typescript-fetch/builds/with-npm-version && mvn integration-test)

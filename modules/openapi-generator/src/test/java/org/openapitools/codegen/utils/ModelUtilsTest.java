@@ -142,7 +142,7 @@ public class ModelUtilsTest {
         Schema commandSchema = ModelUtils.getSchema(openAPI, "Command");
 
         Assert.assertTrue(ModelUtils.isModel(commandSchema));
-        Assert.assertFalse(ModelUtils.isFreeFormObject(commandSchema));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(commandSchema, openAPI));
     }
 
     @Test
@@ -247,23 +247,23 @@ public class ModelUtilsTest {
         OpenAPI openAPI = new OpenAPI().openapi("3.0.0");
         // Create initial "empty" object schema.
         ObjectSchema objSchema = new ObjectSchema();
-        Assert.assertTrue(ModelUtils.isFreeFormObject(objSchema));
+        Assert.assertTrue(ModelUtils.isFreeFormObject(objSchema, openAPI));
 
         // Set additionalProperties to an empty ObjectSchema.
         objSchema.setAdditionalProperties(new ObjectSchema());
-        Assert.assertTrue(ModelUtils.isFreeFormObject(objSchema));
+        Assert.assertTrue(ModelUtils.isFreeFormObject(objSchema, openAPI));
 
         // Add a single property to the schema (no longer a free-form object).
         Map<String, Schema> props = new HashMap<>();
         props.put("prop1", new StringSchema());
         objSchema.setProperties(props);
-        Assert.assertFalse(ModelUtils.isFreeFormObject(objSchema));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(objSchema, openAPI));
 
         // Test a non-object schema
-        Assert.assertFalse(ModelUtils.isFreeFormObject(new StringSchema()));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(new StringSchema(), openAPI));
 
         // Test a null schema
-        Assert.assertFalse(ModelUtils.isFreeFormObject(null));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(null, openAPI));
     }
 
     @Test
@@ -326,9 +326,9 @@ public class ModelUtilsTest {
         Assert.assertTrue(ModelUtils.isMapSchema((Schema) misc.getProperties().get("map1")));
 
         // test free form object
-        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_1")));
-        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_2")));
-        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_3")));
+        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_1"), openAPI));
+        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_2"), openAPI));
+        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_3"), openAPI));
 
         // test oneOf
         Assert.assertTrue(ModelUtils.isOneOf((Schema) misc.getProperties().get("oneof1")));
@@ -360,9 +360,9 @@ public class ModelUtilsTest {
         Assert.assertTrue(ModelUtils.isMapSchema((Schema) misc.getProperties().get("map1")));
 
         // test free form object
-        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_1")));
-        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_2")));
-        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_3")));
+        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_1"), openAPI));
+        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_2"), openAPI));
+        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_3"), openAPI));
 
         // test oneOf property
         Assert.assertTrue(ModelUtils.isOneOf((Schema) misc.getProperties().get("oneof1")));
