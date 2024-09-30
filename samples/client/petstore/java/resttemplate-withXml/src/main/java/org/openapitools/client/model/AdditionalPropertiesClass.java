@@ -43,16 +43,18 @@ import io.github.threetenjaxb.core.*;
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
   @XmlElement(name = "map_property")
+  @javax.annotation.Nullable
   private Map<String, String> mapProperty = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_OF_MAP_PROPERTY = "map_of_map_property";
   @XmlElement(name = "map_of_map_property")
+  @javax.annotation.Nullable
   private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
 
   public AdditionalPropertiesClass() {
   }
 
-  public AdditionalPropertiesClass mapProperty(Map<String, String> mapProperty) {
+  public AdditionalPropertiesClass mapProperty(@javax.annotation.Nullable Map<String, String> mapProperty) {
     
     this.mapProperty = mapProperty;
     return this;
@@ -85,11 +87,11 @@ public class AdditionalPropertiesClass {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "map_property")
   @JacksonXmlElementWrapper(useWrapping = false)
-  public void setMapProperty(Map<String, String> mapProperty) {
+  public void setMapProperty(@javax.annotation.Nullable Map<String, String> mapProperty) {
     this.mapProperty = mapProperty;
   }
 
-  public AdditionalPropertiesClass mapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
+  public AdditionalPropertiesClass mapOfMapProperty(@javax.annotation.Nullable Map<String, Map<String, String>> mapOfMapProperty) {
     
     this.mapOfMapProperty = mapOfMapProperty;
     return this;
@@ -122,7 +124,7 @@ public class AdditionalPropertiesClass {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "map_of_map_property")
   @JacksonXmlElementWrapper(useWrapping = false)
-  public void setMapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
+  public void setMapOfMapProperty(@javax.annotation.Nullable Map<String, Map<String, String>> mapOfMapProperty) {
     this.mapOfMapProperty = mapOfMapProperty;
   }
 

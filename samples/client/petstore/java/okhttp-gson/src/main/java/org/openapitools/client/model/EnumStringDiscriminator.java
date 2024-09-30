@@ -104,12 +104,13 @@ public class EnumStringDiscriminator {
 
   public static final String SERIALIZED_NAME_ENUM_STR_TYPE = "enum_str_type";
   @SerializedName(SERIALIZED_NAME_ENUM_STR_TYPE)
+  @javax.annotation.Nonnull
   protected EnumStrTypeEnum enumStrType;
 
   public EnumStringDiscriminator() {
   }
 
-  public EnumStringDiscriminator enumStrType(EnumStrTypeEnum enumStrType) {
+  public EnumStringDiscriminator enumStrType(@javax.annotation.Nonnull EnumStrTypeEnum enumStrType) {
     this.enumStrType = enumStrType;
     return this;
   }
@@ -123,7 +124,7 @@ public class EnumStringDiscriminator {
     return enumStrType;
   }
 
-  public void setEnumStrType(EnumStrTypeEnum enumStrType) {
+  public void setEnumStrType(@javax.annotation.Nonnull EnumStrTypeEnum enumStrType) {
     this.enumStrType = enumStrType;
   }
 

@@ -52,16 +52,18 @@ import org.openapitools.client.JSON;
 public class ComplexQuadrilateral {
   public static final String SERIALIZED_NAME_SHAPE_TYPE = "shapeType";
   @SerializedName(SERIALIZED_NAME_SHAPE_TYPE)
+  @javax.annotation.Nonnull
   private String shapeType;
 
   public static final String SERIALIZED_NAME_QUADRILATERAL_TYPE = "quadrilateralType";
   @SerializedName(SERIALIZED_NAME_QUADRILATERAL_TYPE)
+  @javax.annotation.Nonnull
   private String quadrilateralType;
 
   public ComplexQuadrilateral() {
   }
 
-  public ComplexQuadrilateral shapeType(String shapeType) {
+  public ComplexQuadrilateral shapeType(@javax.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
     return this;
   }
@@ -75,12 +77,12 @@ public class ComplexQuadrilateral {
     return shapeType;
   }
 
-  public void setShapeType(String shapeType) {
+  public void setShapeType(@javax.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
   }
 
 
-  public ComplexQuadrilateral quadrilateralType(String quadrilateralType) {
+  public ComplexQuadrilateral quadrilateralType(@javax.annotation.Nonnull String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;
     return this;
   }
@@ -94,7 +96,7 @@ public class ComplexQuadrilateral {
     return quadrilateralType;
   }
 
-  public void setQuadrilateralType(String quadrilateralType) {
+  public void setQuadrilateralType(@javax.annotation.Nonnull String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;
   }
 

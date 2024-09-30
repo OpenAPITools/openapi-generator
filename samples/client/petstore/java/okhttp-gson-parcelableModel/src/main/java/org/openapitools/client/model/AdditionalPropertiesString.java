@@ -54,12 +54,13 @@ import org.openapitools.client.JSON;
 public class AdditionalPropertiesString implements Parcelable {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nullable
   private String name;
 
   public AdditionalPropertiesString() {
   }
 
-  public AdditionalPropertiesString name(String name) {
+  public AdditionalPropertiesString name(@javax.annotation.Nullable String name) {
     this.name = name;
     return this;
   }
@@ -73,7 +74,7 @@ public class AdditionalPropertiesString implements Parcelable {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
 

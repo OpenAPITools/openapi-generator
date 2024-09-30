@@ -82,6 +82,7 @@ public class ParentWithNullable {
   }
 
   public static final String JSON_PROPERTY_TYPE = "type";
+  @javax.annotation.Nullable
   protected TypeEnum type;
 
   public static final String JSON_PROPERTY_NULLABLE_PROPERTY = "nullableProperty";
@@ -90,7 +91,7 @@ public class ParentWithNullable {
   public ParentWithNullable() {
   }
 
-  public ParentWithNullable type(TypeEnum type) {
+  public ParentWithNullable type(@javax.annotation.Nullable TypeEnum type) {
     
     this.type = type;
     return this;
@@ -111,12 +112,12 @@ public class ParentWithNullable {
 
   @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setType(TypeEnum type) {
+  public void setType(@javax.annotation.Nullable TypeEnum type) {
     this.type = type;
   }
 
 
-  public ParentWithNullable nullableProperty(String nullableProperty) {
+  public ParentWithNullable nullableProperty(@javax.annotation.Nullable String nullableProperty) {
     this.nullableProperty = JsonNullable.<String>of(nullableProperty);
     
     return this;
@@ -145,7 +146,7 @@ public class ParentWithNullable {
     this.nullableProperty = nullableProperty;
   }
 
-  public void setNullableProperty(String nullableProperty) {
+  public void setNullableProperty(@javax.annotation.Nullable String nullableProperty) {
     this.nullableProperty = JsonNullable.<String>of(nullableProperty);
   }
 

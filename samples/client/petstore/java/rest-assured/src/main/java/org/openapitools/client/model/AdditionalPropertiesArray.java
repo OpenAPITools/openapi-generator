@@ -35,13 +35,14 @@ import org.hibernate.validator.constraints.*;
 public class AdditionalPropertiesArray extends HashMap<String, List> {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nullable
   private String name;
 
   public AdditionalPropertiesArray() {
 
   }
 
-  public AdditionalPropertiesArray name(String name) {
+  public AdditionalPropertiesArray name(@javax.annotation.Nullable String name) {
     
     this.name = name;
     return this;
@@ -59,7 +60,7 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
   }
 
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
 

@@ -42,10 +42,12 @@ import io.github.threetenjaxb.core.*;
 public class HasOnlyReadOnly {
   public static final String JSON_PROPERTY_BAR = "bar";
   @XmlElement(name = "bar")
+  @javax.annotation.Nullable
   private String bar;
 
   public static final String JSON_PROPERTY_FOO = "foo";
   @XmlElement(name = "foo")
+  @javax.annotation.Nullable
   private String foo;
 
   public HasOnlyReadOnly() {

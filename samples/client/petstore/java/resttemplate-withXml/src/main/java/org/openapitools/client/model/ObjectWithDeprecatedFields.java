@@ -48,24 +48,28 @@ import io.github.threetenjaxb.core.*;
 public class ObjectWithDeprecatedFields {
   public static final String JSON_PROPERTY_UUID = "uuid";
   @XmlElement(name = "uuid")
+  @javax.annotation.Nullable
   private String uuid;
 
   public static final String JSON_PROPERTY_ID = "id";
   @XmlElement(name = "id")
+  @javax.annotation.Nullable
   private BigDecimal id;
 
   public static final String JSON_PROPERTY_DEPRECATED_REF = "deprecatedRef";
   @XmlElement(name = "deprecatedRef")
+  @javax.annotation.Nullable
   private DeprecatedObject deprecatedRef;
 
   public static final String JSON_PROPERTY_BARS = "bars";
   @XmlElement(name = "bars")
+  @javax.annotation.Nullable
   private List<String> bars = new ArrayList<>();
 
   public ObjectWithDeprecatedFields() {
   }
 
-  public ObjectWithDeprecatedFields uuid(String uuid) {
+  public ObjectWithDeprecatedFields uuid(@javax.annotation.Nullable String uuid) {
     
     this.uuid = uuid;
     return this;
@@ -88,11 +92,11 @@ public class ObjectWithDeprecatedFields {
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "uuid")
-  public void setUuid(String uuid) {
+  public void setUuid(@javax.annotation.Nullable String uuid) {
     this.uuid = uuid;
   }
 
-  public ObjectWithDeprecatedFields id(BigDecimal id) {
+  public ObjectWithDeprecatedFields id(@javax.annotation.Nullable BigDecimal id) {
     
     this.id = id;
     return this;
@@ -117,11 +121,11 @@ public class ObjectWithDeprecatedFields {
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "id")
-  public void setId(BigDecimal id) {
+  public void setId(@javax.annotation.Nullable BigDecimal id) {
     this.id = id;
   }
 
-  public ObjectWithDeprecatedFields deprecatedRef(DeprecatedObject deprecatedRef) {
+  public ObjectWithDeprecatedFields deprecatedRef(@javax.annotation.Nullable DeprecatedObject deprecatedRef) {
     
     this.deprecatedRef = deprecatedRef;
     return this;
@@ -146,11 +150,11 @@ public class ObjectWithDeprecatedFields {
   @JsonProperty(JSON_PROPERTY_DEPRECATED_REF)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "deprecatedRef")
-  public void setDeprecatedRef(DeprecatedObject deprecatedRef) {
+  public void setDeprecatedRef(@javax.annotation.Nullable DeprecatedObject deprecatedRef) {
     this.deprecatedRef = deprecatedRef;
   }
 
-  public ObjectWithDeprecatedFields bars(List<String> bars) {
+  public ObjectWithDeprecatedFields bars(@javax.annotation.Nullable List<String> bars) {
     
     this.bars = bars;
     return this;
@@ -185,7 +189,7 @@ public class ObjectWithDeprecatedFields {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "bars")
   @JacksonXmlElementWrapper(useWrapping = false)
-  public void setBars(List<String> bars) {
+  public void setBars(@javax.annotation.Nullable List<String> bars) {
     this.bars = bars;
   }
 

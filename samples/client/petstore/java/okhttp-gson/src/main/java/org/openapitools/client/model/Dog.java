@@ -53,13 +53,14 @@ import org.openapitools.client.JSON;
 public class Dog extends Animal {
   public static final String SERIALIZED_NAME_BREED = "breed";
   @SerializedName(SERIALIZED_NAME_BREED)
+  @javax.annotation.Nullable
   private String breed;
 
   public Dog() {
     this.className = this.getClass().getSimpleName();
   }
 
-  public Dog breed(String breed) {
+  public Dog breed(@javax.annotation.Nullable String breed) {
     this.breed = breed;
     return this;
   }
@@ -73,7 +74,7 @@ public class Dog extends Animal {
     return breed;
   }
 
-  public void setBreed(String breed) {
+  public void setBreed(@javax.annotation.Nullable String breed) {
     this.breed = breed;
   }
 

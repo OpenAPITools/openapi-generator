@@ -55,12 +55,13 @@ import org.openapitools.client.JSON;
 public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
   public static final String SERIALIZED_NAME_VALUE = "value";
   @SerializedName(SERIALIZED_NAME_VALUE)
+  @javax.annotation.Nonnull
   private List<AllOfModelArrayAnyOfAllOfLinkListColumn1Value> value = new ArrayList<>();
 
   public AllOfModelArrayAnyOfAllOfLinkListColumn1() {
   }
 
-  public AllOfModelArrayAnyOfAllOfLinkListColumn1 value(List<AllOfModelArrayAnyOfAllOfLinkListColumn1Value> value) {
+  public AllOfModelArrayAnyOfAllOfLinkListColumn1 value(@javax.annotation.Nonnull List<AllOfModelArrayAnyOfAllOfLinkListColumn1Value> value) {
     this.value = value;
     return this;
   }
@@ -82,7 +83,7 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
     return value;
   }
 
-  public void setValue(List<AllOfModelArrayAnyOfAllOfLinkListColumn1Value> value) {
+  public void setValue(@javax.annotation.Nonnull List<AllOfModelArrayAnyOfAllOfLinkListColumn1Value> value) {
     this.value = value;
   }
 

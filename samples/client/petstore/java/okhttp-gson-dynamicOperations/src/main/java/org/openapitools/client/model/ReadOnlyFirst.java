@@ -52,10 +52,12 @@ import org.openapitools.client.JSON;
 public class ReadOnlyFirst {
   public static final String SERIALIZED_NAME_BAR = "bar";
   @SerializedName(SERIALIZED_NAME_BAR)
+  @javax.annotation.Nullable
   private String bar;
 
   public static final String SERIALIZED_NAME_BAZ = "baz";
   @SerializedName(SERIALIZED_NAME_BAZ)
+  @javax.annotation.Nullable
   private String baz;
 
   public ReadOnlyFirst() {
@@ -79,7 +81,7 @@ public class ReadOnlyFirst {
 
 
 
-  public ReadOnlyFirst baz(String baz) {
+  public ReadOnlyFirst baz(@javax.annotation.Nullable String baz) {
     this.baz = baz;
     return this;
   }
@@ -93,7 +95,7 @@ public class ReadOnlyFirst {
     return baz;
   }
 
-  public void setBaz(String baz) {
+  public void setBaz(@javax.annotation.Nullable String baz) {
     this.baz = baz;
   }
 

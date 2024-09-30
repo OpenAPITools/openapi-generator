@@ -54,16 +54,18 @@ import io.github.threetenjaxb.core.*;
 public class Animal {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
   @XmlElement(name = "className")
+  @javax.annotation.Nonnull
   protected String className;
 
   public static final String JSON_PROPERTY_COLOR = "color";
   @XmlElement(name = "color")
+  @javax.annotation.Nullable
   protected String color = "red";
 
   public Animal() {
   }
 
-  public Animal className(String className) {
+  public Animal className(@javax.annotation.Nonnull String className) {
     
     this.className = className;
     return this;
@@ -86,11 +88,11 @@ public class Animal {
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "className")
-  public void setClassName(String className) {
+  public void setClassName(@javax.annotation.Nonnull String className) {
     this.className = className;
   }
 
-  public Animal color(String color) {
+  public Animal color(@javax.annotation.Nullable String color) {
     
     this.color = color;
     return this;
@@ -113,7 +115,7 @@ public class Animal {
   @JsonProperty(JSON_PROPERTY_COLOR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "color")
-  public void setColor(String color) {
+  public void setColor(@javax.annotation.Nullable String color) {
     this.color = color;
   }
 

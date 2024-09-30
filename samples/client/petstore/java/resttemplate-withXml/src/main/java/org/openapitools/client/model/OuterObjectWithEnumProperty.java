@@ -41,12 +41,13 @@ import io.github.threetenjaxb.core.*;
 public class OuterObjectWithEnumProperty {
   public static final String JSON_PROPERTY_VALUE = "value";
   @XmlElement(name = "value")
+  @javax.annotation.Nonnull
   private OuterEnumInteger value;
 
   public OuterObjectWithEnumProperty() {
   }
 
-  public OuterObjectWithEnumProperty value(OuterEnumInteger value) {
+  public OuterObjectWithEnumProperty value(@javax.annotation.Nonnull OuterEnumInteger value) {
     
     this.value = value;
     return this;
@@ -69,7 +70,7 @@ public class OuterObjectWithEnumProperty {
   @JsonProperty(JSON_PROPERTY_VALUE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "value")
-  public void setValue(OuterEnumInteger value) {
+  public void setValue(@javax.annotation.Nonnull OuterEnumInteger value) {
     this.value = value;
   }
 
