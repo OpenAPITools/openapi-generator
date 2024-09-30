@@ -10,8 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClient.Name")
-public typealias Name = PetstoreClient.Name
+@available(*, deprecated, renamed: "PetstoreClientAPI.Name")
+public typealias Name = PetstoreClientAPI.Name
 
 extension PetstoreClient {
 

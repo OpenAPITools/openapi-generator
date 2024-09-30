@@ -10,8 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClient.StringBooleanMap")
-public typealias StringBooleanMap = PetstoreClient.StringBooleanMap
+@available(*, deprecated, renamed: "PetstoreClientAPI.StringBooleanMap")
+public typealias StringBooleanMap = PetstoreClientAPI.StringBooleanMap
 
 extension PetstoreClient {
 

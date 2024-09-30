@@ -12,8 +12,8 @@ import AnyCodable
 import Vapor{{/useVapor}}
 {{#swiftUseApiNamespace}}
 
-@available(*, deprecated, renamed: "{{projectName}}.{{classname}}")
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} typealias {{classname}} = {{projectName}}.{{classname}}
+@available(*, deprecated, renamed: "{{projectName}}API.{{classname}}")
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} typealias {{classname}} = {{projectName}}API.{{classname}}
 
 extension {{projectName}} {
 {{/swiftUseApiNamespace}}

@@ -12,11 +12,8 @@ import Vapor{{/useVapor}}{{#useAlamofire}}
 import Alamofire{{/useAlamofire}}
 {{#swiftUseApiNamespace}}
 
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum {{projectName}} {}
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum {{projectName}}API {}
 {{/swiftUseApiNamespace}}
-
-@available(*, deprecated, message: "Use `OpenAPIClient` instead")
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} typealias {{projectName}}API = OpenAPIClient
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class OpenAPIClient: @unchecked Sendable {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var basePath: String{{#useVapor}}

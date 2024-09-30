@@ -16,7 +16,7 @@ import Vapor{{/useVapor}}
 import AnyCodable
 #endif{{#swiftUseApiNamespace}}
 
-extension {{projectName}} {
+extension {{projectName}}API {
 {{/swiftUseApiNamespace}}
 
 {{#description}}
@@ -296,12 +296,12 @@ extension {{projectName}} {
         localVariablePath = localVariablePath.replacingOccurrences(of: "{{=<% %>=}}{<%baseName%>}<%={{ }}=%>", with: {{paramName}}PostEscape, options: .literal, range: nil){{/pathParams}}
         let localVariableURLString = openAPIClient.basePath + localVariablePath
 
-        guard let localVariableApiClient = {{#swiftUseApiNamespace}}{{projectName}}.{{/swiftUseApiNamespace}}openAPIClient.apiClient else {
+        guard let localVariableApiClient = {{#swiftUseApiNamespace}}{{projectName}}API.{{/swiftUseApiNamespace}}openAPIClient.apiClient else {
             fatalError("openAPIClient.apiClient is not set.")
         }
 
         return localVariableApiClient.send(.{{httpMethod}}, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
-            try {{#swiftUseApiNamespace}}{{projectName}}.{{/swiftUseApiNamespace}}Configuration.apiWrapper(&localVariableRequest)
+            try {{#swiftUseApiNamespace}}{{projectName}}API.{{/swiftUseApiNamespace}}Configuration.apiWrapper(&localVariableRequest)
             {{#hasHeaderParams}}{{#headerParams}}
             localVariableRequest.headers.add(name: "{{baseName}}", value: {{#isArray}}{{paramName}}{{^required}}?{{/required}}.map { $0{{#isEnum}}.rawValue{{/isEnum}}.description }.description{{/isArray}}{{^isArray}}{{#isEnum}}{{paramName}}{{^required}}?{{/required}}.rawValue.description{{/isEnum}}{{^isEnum}}{{paramName}}{{^required}}?{{/required}}.description{{/isEnum}}{{/isArray}}{{^required}} ?? ""{{/required}})
             {{/headerParams}}{{/hasHeaderParams}}

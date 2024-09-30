@@ -10,8 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClient.TypeHolderDefault")
-public typealias TypeHolderDefault = PetstoreClient.TypeHolderDefault
+@available(*, deprecated, renamed: "PetstoreClientAPI.TypeHolderDefault")
+public typealias TypeHolderDefault = PetstoreClientAPI.TypeHolderDefault
 
 extension PetstoreClient {
 

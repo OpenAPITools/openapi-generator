@@ -10,8 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClient.Capitalization")
-public typealias Capitalization = PetstoreClient.Capitalization
+@available(*, deprecated, renamed: "PetstoreClientAPI.Capitalization")
+public typealias Capitalization = PetstoreClientAPI.Capitalization
 
 extension PetstoreClient {
 

@@ -9,9 +9,6 @@ import Foundation
 import FoundationNetworking
 #endif
 
-@available(*, deprecated, message: "Use `OpenAPIClient` instead")
-internal typealias PetstoreClientAPI = OpenAPIClient
-
 internal class OpenAPIClient: @unchecked Sendable {
     internal var basePath: String
     internal var customHeaders: [String: String]
