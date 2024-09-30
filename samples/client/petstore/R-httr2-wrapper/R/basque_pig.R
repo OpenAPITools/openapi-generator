@@ -21,8 +21,7 @@ BasquePig <- R6::R6Class(
     `color` = NULL,
     `_field_list` = c("className", "color"),
     `additional_properties` = list(),
-    #' Initialize a new BasquePig class.
-    #'
+
     #' @description
     #' Initialize a new BasquePig class.
     #'
@@ -30,7 +29,6 @@ BasquePig <- R6::R6Class(
     #' @param color color
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
-    #' @export
     initialize = function(`className`, `color`, additional_properties = NULL, ...) {
       if (!missing(`className`)) {
         if (!(is.character(`className`) && length(`className`) == 1)) {
@@ -50,13 +48,11 @@ BasquePig <- R6::R6Class(
         }
       }
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return BasquePig in JSON format
-    #' @export
     toJSON = function() {
       BasquePigObject <- list()
       if (!is.null(self$`className`)) {
@@ -73,14 +69,12 @@ BasquePig <- R6::R6Class(
 
       BasquePigObject
     },
-    #' Deserialize JSON string into an instance of BasquePig
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of BasquePig
     #'
     #' @param input_json the JSON input
     #' @return the instance of BasquePig
-    #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`className`)) {
@@ -98,13 +92,11 @@ BasquePig <- R6::R6Class(
 
       self
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return BasquePig in JSON format
-    #' @export
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`className`)) {
@@ -132,14 +124,12 @@ BasquePig <- R6::R6Class(
       }
       json_string <- as.character(jsonlite::minify(jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA)))
     },
-    #' Deserialize JSON string into an instance of BasquePig
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of BasquePig
     #'
     #' @param input_json the JSON input
     #' @return the instance of BasquePig
-    #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`className` <- this_object$`className`
@@ -153,13 +143,11 @@ BasquePig <- R6::R6Class(
 
       self
     },
-    #' Validate JSON input with respect to BasquePig
-    #'
+
     #' @description
     #' Validate JSON input with respect to BasquePig and throw an exception if invalid
     #'
     #' @param input the JSON input
-    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
       # check the required field `className`
@@ -179,23 +167,19 @@ BasquePig <- R6::R6Class(
         stop(paste("The JSON input `", input, "` is invalid for BasquePig: the required field `color` is missing."))
       }
     },
-    #' To string (JSON format)
-    #'
+
     #' @description
     #' To string (JSON format)
     #'
     #' @return String representation of BasquePig
-    #' @export
     toString = function() {
       self$toJSONString()
     },
-    #' Return true if the values in all fields are valid.
-    #'
+
     #' @description
     #' Return true if the values in all fields are valid.
     #'
     #' @return true if the values in all fields are valid.
-    #' @export
     isValid = function() {
       # check if the required `className` is null
       if (is.null(self$`className`)) {
@@ -209,13 +193,11 @@ BasquePig <- R6::R6Class(
 
       TRUE
     },
-    #' Return a list of invalid fields (if any).
-    #'
+
     #' @description
     #' Return a list of invalid fields (if any).
     #'
     #' @return A list of invalid fields (if any).
-    #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
       # check if the required `className` is null
@@ -230,12 +212,9 @@ BasquePig <- R6::R6Class(
 
       invalid_fields
     },
-    #' Print the object
-    #'
+
     #' @description
     #' Print the object
-    #'
-    #' @export
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)

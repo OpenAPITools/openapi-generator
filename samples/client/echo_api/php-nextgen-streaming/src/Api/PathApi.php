@@ -131,7 +131,7 @@ class PathApi
      * @param  string $path_string path_string (required)
      * @param  int $path_integer path_integer (required)
      * @param  string $enum_nonref_string_path enum_nonref_string_path (required)
-     * @param  StringEnumRef $enum_ref_string_path enum_ref_string_path (required)
+     * @param  \OpenAPI\Client\Model\StringEnumRef $enum_ref_string_path enum_ref_string_path (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -142,7 +142,7 @@ class PathApi
         string $path_string,
         int $path_integer,
         string $enum_nonref_string_path,
-        StringEnumRef $enum_ref_string_path,
+        \OpenAPI\Client\Model\StringEnumRef $enum_ref_string_path,
         string $contentType = self::contentTypes['testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'][0]
     ): string
     {
@@ -158,7 +158,7 @@ class PathApi
      * @param  string $path_string (required)
      * @param  int $path_integer (required)
      * @param  string $enum_nonref_string_path (required)
-     * @param  StringEnumRef $enum_ref_string_path (required)
+     * @param  \OpenAPI\Client\Model\StringEnumRef $enum_ref_string_path (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -169,7 +169,7 @@ class PathApi
         string $path_string,
         int $path_integer,
         string $enum_nonref_string_path,
-        StringEnumRef $enum_ref_string_path,
+        \OpenAPI\Client\Model\StringEnumRef $enum_ref_string_path,
         string $contentType = self::contentTypes['testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'][0]
     ): array
     {
@@ -291,7 +291,7 @@ class PathApi
      * @param  string $path_string (required)
      * @param  int $path_integer (required)
      * @param  string $enum_nonref_string_path (required)
-     * @param  StringEnumRef $enum_ref_string_path (required)
+     * @param  \OpenAPI\Client\Model\StringEnumRef $enum_ref_string_path (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -301,7 +301,7 @@ class PathApi
         string $path_string,
         int $path_integer,
         string $enum_nonref_string_path,
-        StringEnumRef $enum_ref_string_path,
+        \OpenAPI\Client\Model\StringEnumRef $enum_ref_string_path,
         string $contentType = self::contentTypes['testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'][0]
     ): PromiseInterface
     {
@@ -321,7 +321,7 @@ class PathApi
      * @param  string $path_string (required)
      * @param  int $path_integer (required)
      * @param  string $enum_nonref_string_path (required)
-     * @param  StringEnumRef $enum_ref_string_path (required)
+     * @param  \OpenAPI\Client\Model\StringEnumRef $enum_ref_string_path (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -380,7 +380,7 @@ class PathApi
      * @param  string $path_string (required)
      * @param  int $path_integer (required)
      * @param  string $enum_nonref_string_path (required)
-     * @param  StringEnumRef $enum_ref_string_path (required)
+     * @param  \OpenAPI\Client\Model\StringEnumRef $enum_ref_string_path (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException

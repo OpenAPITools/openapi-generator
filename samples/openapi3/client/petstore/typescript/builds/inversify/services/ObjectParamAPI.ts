@@ -1,5 +1,5 @@
 import type { HttpFile } from '../http/http';
-import type { Configuration } from '../configuration'
+import type { Configuration } from '../configuration';
 import type * as req from "../types/ObjectParamAPI";
 
 import type { ApiResponse } from '../models/ApiResponse';
