@@ -13,7 +13,7 @@ import AnyCodable
 @available(*, deprecated, renamed: "PetstoreClientAPI.ArrayTest")
 public typealias ArrayTest = PetstoreClientAPI.ArrayTest
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 public final class ArrayTest: Codable, JSONEncodable, Hashable {
 

@@ -13,7 +13,7 @@ import AnyCodable
 @available(*, deprecated, renamed: "PetstoreClientAPI.TypeHolderDefault")
 public typealias TypeHolderDefault = PetstoreClientAPI.TypeHolderDefault
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 public final class TypeHolderDefault: Codable, JSONEncodable, Hashable {
 

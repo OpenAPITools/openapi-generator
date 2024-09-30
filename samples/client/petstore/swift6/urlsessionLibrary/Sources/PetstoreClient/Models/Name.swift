@@ -13,7 +13,7 @@ import AnyCodable
 @available(*, deprecated, renamed: "PetstoreClientAPI.Name")
 public typealias Name = PetstoreClientAPI.Name
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 /** Model for testing model name same as property name */
 public final class Name: Codable, JSONEncodable, Hashable {

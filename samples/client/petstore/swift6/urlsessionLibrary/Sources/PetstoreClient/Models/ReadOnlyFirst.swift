@@ -13,7 +13,7 @@ import AnyCodable
 @available(*, deprecated, renamed: "PetstoreClientAPI.ReadOnlyFirst")
 public typealias ReadOnlyFirst = PetstoreClientAPI.ReadOnlyFirst
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 public final class ReadOnlyFirst: Codable, JSONEncodable, Hashable {
 

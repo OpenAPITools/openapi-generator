@@ -13,7 +13,7 @@ import AnyCodable
 @available(*, deprecated, renamed: "PetstoreClientAPI.AnimalFarm")
 public typealias AnimalFarm = PetstoreClientAPI.AnimalFarm
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 public typealias AnimalFarm = [Animal]
 }

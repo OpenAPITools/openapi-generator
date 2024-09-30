@@ -13,7 +13,7 @@ import AnyCodable
 @available(*, deprecated, renamed: "PetstoreClientAPI.EnumArrays")
 public typealias EnumArrays = PetstoreClientAPI.EnumArrays
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 public final class EnumArrays: Codable, JSONEncodable, Hashable {
 

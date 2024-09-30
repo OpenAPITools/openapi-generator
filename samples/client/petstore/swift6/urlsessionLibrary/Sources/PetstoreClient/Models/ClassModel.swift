@@ -13,7 +13,7 @@ import AnyCodable
 @available(*, deprecated, renamed: "PetstoreClientAPI.ClassModel")
 public typealias ClassModel = PetstoreClientAPI.ClassModel
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 /** Model for testing model with \&quot;_class\&quot; property */
 public final class ClassModel: Codable, JSONEncodable, Hashable {

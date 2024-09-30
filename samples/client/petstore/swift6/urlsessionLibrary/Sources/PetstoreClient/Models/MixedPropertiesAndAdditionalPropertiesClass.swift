@@ -13,7 +13,7 @@ import AnyCodable
 @available(*, deprecated, renamed: "PetstoreClientAPI.MixedPropertiesAndAdditionalPropertiesClass")
 public typealias MixedPropertiesAndAdditionalPropertiesClass = PetstoreClientAPI.MixedPropertiesAndAdditionalPropertiesClass
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 public final class MixedPropertiesAndAdditionalPropertiesClass: Codable, JSONEncodable, Hashable {
 

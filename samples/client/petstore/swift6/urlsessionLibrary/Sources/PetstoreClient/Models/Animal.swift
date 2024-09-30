@@ -13,7 +13,7 @@ import AnyCodable
 @available(*, deprecated, renamed: "PetstoreClientAPI.Animal")
 public typealias Animal = PetstoreClientAPI.Animal
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 public final class Animal: Codable, JSONEncodable, Hashable {
 

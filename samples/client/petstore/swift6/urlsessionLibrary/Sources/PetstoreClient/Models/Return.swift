@@ -13,7 +13,7 @@ import AnyCodable
 @available(*, deprecated, renamed: "PetstoreClientAPI.Return")
 public typealias Return = PetstoreClientAPI.Return
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 /** Model for testing reserved words */
 public final class Return: Codable, JSONEncodable, Hashable {

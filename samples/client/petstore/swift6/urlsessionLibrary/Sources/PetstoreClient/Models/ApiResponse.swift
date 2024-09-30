@@ -13,7 +13,7 @@ import AnyCodable
 @available(*, deprecated, renamed: "PetstoreClientAPI.ApiResponse")
 public typealias ApiResponse = PetstoreClientAPI.ApiResponse
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 public final class ApiResponse: Codable, JSONEncodable, Hashable {
 

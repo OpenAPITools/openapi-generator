@@ -13,7 +13,7 @@ import AnyCodable
 @available(*, deprecated, renamed: "PetstoreClientAPI.MapTest")
 public typealias MapTest = PetstoreClientAPI.MapTest
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 public final class MapTest: Codable, JSONEncodable, Hashable {
 

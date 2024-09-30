@@ -13,7 +13,7 @@ import AnyCodable
 @available(*, deprecated, renamed: "PetstoreClientAPI.FormatTest")
 public typealias FormatTest = PetstoreClientAPI.FormatTest
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 public final class FormatTest: Codable, JSONEncodable, Hashable {
 

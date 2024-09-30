@@ -13,7 +13,7 @@ import AnyCodable
 @available(*, deprecated, renamed: "PetstoreClientAPI.SpecialModelName")
 public typealias SpecialModelName = PetstoreClientAPI.SpecialModelName
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 public final class SpecialModelName: Codable, JSONEncodable, Hashable {
 

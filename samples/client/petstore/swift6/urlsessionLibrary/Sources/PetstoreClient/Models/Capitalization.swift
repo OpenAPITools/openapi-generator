@@ -13,7 +13,7 @@ import AnyCodable
 @available(*, deprecated, renamed: "PetstoreClientAPI.Capitalization")
 public typealias Capitalization = PetstoreClientAPI.Capitalization
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 public final class Capitalization: Codable, JSONEncodable, Hashable {
 

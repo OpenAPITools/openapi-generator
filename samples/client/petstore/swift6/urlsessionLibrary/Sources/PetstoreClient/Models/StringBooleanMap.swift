@@ -13,7 +13,7 @@ import AnyCodable
 @available(*, deprecated, renamed: "PetstoreClientAPI.StringBooleanMap")
 public typealias StringBooleanMap = PetstoreClientAPI.StringBooleanMap
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 public final class StringBooleanMap: Codable, JSONEncodable, Hashable {
 

@@ -13,7 +13,7 @@ import AnyCodable
 @available(*, deprecated, renamed: "PetstoreClientAPI.FileSchemaTestClass")
 public typealias FileSchemaTestClass = PetstoreClientAPI.FileSchemaTestClass
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 public final class FileSchemaTestClass: Codable, JSONEncodable, Hashable {
 

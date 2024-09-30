@@ -13,7 +13,7 @@ import AnyCodable
 @available(*, deprecated, renamed: "PetstoreClientAPI.TypeHolderExample")
 public typealias TypeHolderExample = PetstoreClientAPI.TypeHolderExample
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 public final class TypeHolderExample: Codable, JSONEncodable, Hashable {
 

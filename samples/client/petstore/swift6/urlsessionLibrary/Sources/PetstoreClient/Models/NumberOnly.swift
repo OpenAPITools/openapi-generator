@@ -13,7 +13,7 @@ import AnyCodable
 @available(*, deprecated, renamed: "PetstoreClientAPI.NumberOnly")
 public typealias NumberOnly = PetstoreClientAPI.NumberOnly
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 public final class NumberOnly: Codable, JSONEncodable, Hashable {
 
