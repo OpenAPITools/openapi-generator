@@ -40,12 +40,14 @@ extension URLSession: URLSessionProtocol {
 
 extension URLSessionDataTask: URLSessionDataTaskProtocol {}
 
-class URLSessionRequestBuilderFactory: RequestBuilderFactory {
-    func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
+public class URLSessionRequestBuilderFactory: RequestBuilderFactory {
+    public init() {}
+
+    public func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
         return URLSessionRequestBuilder<T>.self
     }
 
-    func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type {
+    public func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type {
         return URLSessionDecodableRequestBuilder<T>.self
     }
 }
@@ -79,8 +81,8 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
      */
     public var taskDidReceiveChallenge: PetstoreClientAPIChallengeHandler?
 
-    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool) {
-        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication)
+    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, client: OpenAPIClient = OpenAPIClient.shared) {
+        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication, client: client)
     }
 
     /**
@@ -126,7 +128,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
     }
 
     @discardableResult
-    override open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue, _ completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+    override open func execute(completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         let urlSession = createURLSession()
 
         guard let xMethod = HTTPMethod(rawValue: method) else {
@@ -159,7 +161,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
             let request = try createURLRequest(urlSession: urlSession, method: xMethod, encoding: encoding, headers: headers)
 
             let dataTask = urlSession.dataTaskFromProtocol(with: request) { data, response, error in
-                apiResponseQueue.async {
+                self.client.apiResponseQueue.async {
                     self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
                     self.cleanupRequest()
                 }
@@ -174,7 +176,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
 
             dataTask.resume()
         } catch {
-            apiResponseQueue.async {
+            self.client.apiResponseQueue.async {
                 completion(.failure(ErrorResponse.error(415, nil, nil, error)))
             }
         }
@@ -201,7 +203,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
             return
         }
 
-        guard httpResponse.isStatusCodeSuccessful else {
+        guard client.successfulStatusCodeRange.contains(httpResponse.statusCode) else {
             completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode)))
             return
         }
@@ -219,7 +221,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
 
     open func buildHeaders() -> [String: String] {
         var httpHeaders: [String: String] = [:]
-        for (key, value) in PetstoreClientAPI.shared.customHeaders {
+        for (key, value) in client.customHeaders {
             httpHeaders[key] = value
         }
         for (key, value) in headers {
@@ -294,7 +296,7 @@ open class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBui
             return
         }
 
-        guard httpResponse.isStatusCodeSuccessful else {
+        guard client.successfulStatusCodeRange.contains(httpResponse.statusCode) else {
             completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode)))
             return
         }
@@ -362,7 +364,7 @@ open class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBui
                 return
             }
 
-            let decodeResult = CodableHelper.shared.decode(T.self, from: unwrappedData)
+            let decodeResult = client.codableHelper.decode(T.self, from: unwrappedData)
 
             switch decodeResult {
             case let .success(decodableObj):

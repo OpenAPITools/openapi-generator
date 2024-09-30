@@ -10,13 +10,29 @@ import FoundationNetworking
 #endif
 import Vapor
 
-open class PetstoreClientAPI: @unchecked Sendable {
-    private init() {}
-    public static let shared = PetstoreClientAPI()
+@available(*, deprecated, message: "Use `OpenAPIClient` instead")
+public typealias PetstoreClientAPI = OpenAPIClient
 
-    public var basePath = "http://petstore.swagger.io:80/v2"
-    public var customHeaders: HTTPHeaders = [:]
-    public var apiClient: Vapor.Client? = nil
-    public var apiWrapper: (inout Vapor.ClientRequest) throws -> () = { _ in }
-    public var contentConfiguration = ContentConfiguration.default()
+open class OpenAPIClient: @unchecked Sendable {
+    public var basePath: String
+    public var customHeaders: HTTPHeaders
+    public var apiClient: Vapor.Client?
+    public var apiWrapper: (inout Vapor.ClientRequest) throws -> ()
+    public var contentConfiguration
+
+    public init(
+        basePath: String = "http://petstore.swagger.io:80/v2",
+        customHeaders: HTTPHeaders = [:],
+        apiClient: Vapor.Client? = nil,
+        apiWrapper: (inout Vapor.ClientRequest) throws -> () = { _ in },
+        contentConfiguration = ContentConfiguration.default()
+    ) {
+        self.basePath = basePath
+        customHeaders = customHeaders
+        apiClient = apiClient
+        apiWrapper = apiWrapper
+        contentConfiguration = contentConfiguration
+    }
+
+    public static let shared = OpenAPIClient()
 }

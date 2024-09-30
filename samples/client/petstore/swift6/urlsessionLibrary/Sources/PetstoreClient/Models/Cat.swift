@@ -10,10 +10,10 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClientAPI.Cat")
-public typealias Cat = PetstoreClientAPI.Cat
+@available(*, deprecated, renamed: "PetstoreClient.Cat")
+public typealias Cat = PetstoreClient.Cat
 
-extension PetstoreClientAPI {
+extension PetstoreClient {
 
 public final class Cat: Codable, JSONEncodable, Hashable {
 

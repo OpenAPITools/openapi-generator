@@ -10,10 +10,10 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClientAPI.ReadOnlyFirst")
-public typealias ReadOnlyFirst = PetstoreClientAPI.ReadOnlyFirst
+@available(*, deprecated, renamed: "PetstoreClient.ReadOnlyFirst")
+public typealias ReadOnlyFirst = PetstoreClient.ReadOnlyFirst
 
-extension PetstoreClientAPI {
+extension PetstoreClient {
 
 public final class ReadOnlyFirst: Codable, JSONEncodable, Hashable {
 

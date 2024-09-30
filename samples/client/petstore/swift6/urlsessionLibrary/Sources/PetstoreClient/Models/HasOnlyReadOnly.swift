@@ -10,10 +10,10 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClientAPI.HasOnlyReadOnly")
-public typealias HasOnlyReadOnly = PetstoreClientAPI.HasOnlyReadOnly
+@available(*, deprecated, renamed: "PetstoreClient.HasOnlyReadOnly")
+public typealias HasOnlyReadOnly = PetstoreClient.HasOnlyReadOnly
 
-extension PetstoreClientAPI {
+extension PetstoreClient {
 
 public final class HasOnlyReadOnly: Codable, JSONEncodable, Hashable {
 

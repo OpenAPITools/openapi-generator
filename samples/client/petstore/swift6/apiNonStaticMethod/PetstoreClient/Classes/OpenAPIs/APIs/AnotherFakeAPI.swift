@@ -16,7 +16,10 @@ import AnyCodable
 #endif
 
 open class AnotherFakeAPI {
-    public init() {}
+    public let client: OpenAPIClient
+    public init(client: OpenAPIClient) {
+        self.client = client
+    }
 
     /**
      To test special tags
@@ -24,9 +27,9 @@ open class AnotherFakeAPI {
      - parameter body: (body) client model 
      - returns: Promise<Client>
      */
-    open func call123testSpecialTags(body: Client, client: OpenAPIClient = OpenAPIClient.shared) -> Promise<Client> {
+    open func call123testSpecialTags(body: Client) -> Promise<Client> {
         let deferred = Promise<Client>.pending()
-        call123testSpecialTagsWithRequestBuilder(body: body, client: client).execute { result in
+        call123testSpecialTagsWithRequestBuilder(body: body).execute { result in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body)
@@ -41,12 +44,11 @@ open class AnotherFakeAPI {
      To test special tags
      
      - parameter body: (body) client model 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Client>
      */
-    open func call123testSpecialTags(body: Client, client: OpenAPIClient = OpenAPIClient.shared) -> Observable<Client> {
+    open func call123testSpecialTags(body: Client) -> Observable<Client> {
         return Observable.create { observer -> Disposable in
-            let requestTask = self.call123testSpecialTagsWithRequestBuilder(body: body, client: client).execute { result in
+            let requestTask = self.call123testSpecialTagsWithRequestBuilder(body: body).execute { result in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body)
@@ -70,8 +72,8 @@ open class AnotherFakeAPI {
      */
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func call123testSpecialTags(body: Client, client: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Client, Error> {
-        let requestBuilder = call123testSpecialTagsWithRequestBuilder(body: body, client: client)
+    open func call123testSpecialTags(body: Client) -> AnyPublisher<Client, Error> {
+        let requestBuilder = call123testSpecialTagsWithRequestBuilder(body: body, )
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Client, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -100,20 +102,19 @@ open class AnotherFakeAPI {
      - returns: Client
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func call123testSpecialTags(body: Client, client: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> Client {
-        return try await call123testSpecialTagsWithRequestBuilder(body: body, client: client).execute().body
+    open func call123testSpecialTags(body: Client) async throws(ErrorResponse) -> Client {
+        return try await call123testSpecialTagsWithRequestBuilder(body: body).execute().body
     }
 
     /**
      To test special tags
      
      - parameter body: (body) client model 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the result
      */
     @discardableResult
-    open func call123testSpecialTags(body: Client, client: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Client, ErrorResponse>) -> Void) -> RequestTask {
-        return call123testSpecialTagsWithRequestBuilder(body: body, client: client).execute { result in
+    open func call123testSpecialTags(body: Client, completion: @Sendable @escaping (_ result: Swift.Result<Client, ErrorResponse>) -> Void) -> RequestTask {
+        return call123testSpecialTagsWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -128,9 +129,10 @@ open class AnotherFakeAPI {
      - PATCH /another-fake/dummy
      - To test special tags and operation ID starting with number
      - parameter body: (body) client model 
+     
      - returns: RequestBuilder<Client> 
      */
-    open func call123testSpecialTagsWithRequestBuilder(body: Client, client: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Client> {
+    open func call123testSpecialTagsWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
         let localVariablePath = "/another-fake/dummy"
         let localVariableURLString = client.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
@@ -145,6 +147,6 @@ open class AnotherFakeAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Client>.Type = client.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, client: client)
     }
 }
