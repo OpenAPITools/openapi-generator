@@ -150,13 +150,9 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{#authMethods}}
     {{#isApiKey}}
     {{#isKeyInQuery}}
-    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
-        let local_var_key = local_var_apikey.key.clone();
-        let local_var_value = match local_var_apikey.prefix {
-            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
-            None => local_var_key,
-        };
-        local_var_req_builder = local_var_req_builder.query(&[("{{{keyParamName}}}", local_var_value)]);
+    if let Some(local_var_apikey) = local_var_configuration.api_keys.get("{{{keyParamName}}}") {
+        let local_var_key = local_var_apikey.clone();
+        local_var_req_builder = local_var_req_builder.query(&[("{{{keyParamName}}}", local_var_key)]);
     }
     {{/isKeyInQuery}}
     {{/isApiKey}}
@@ -213,13 +209,9 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{#authMethods}}
     {{#isApiKey}}
     {{#isKeyInHeader}}
-    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
-        let local_var_key = local_var_apikey.key.clone();
-        let local_var_value = match local_var_apikey.prefix {
-            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
-            None => local_var_key,
-        };
-        local_var_req_builder = local_var_req_builder.header("{{{keyParamName}}}", local_var_value);
+    if let Some(local_var_apikey) = local_var_configuration.api_keys.get("{{{keyParamName}}}") {
+        let local_var_key = local_var_apikey.clone();
+        local_var_req_builder = local_var_req_builder.header("{{{keyParamName}}}", local_var_key);
     };
     {{/isKeyInHeader}}
     {{/isApiKey}}
