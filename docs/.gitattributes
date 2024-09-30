@@ -1,0 +1,2 @@
+**/*.md linguist-documentation=true
+generators/*.md linguist-generated=true
