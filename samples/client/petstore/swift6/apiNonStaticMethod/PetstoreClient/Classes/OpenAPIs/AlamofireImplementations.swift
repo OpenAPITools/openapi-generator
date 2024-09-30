@@ -28,8 +28,8 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
 }
 
 open class AlamofireRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
-    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, client: OpenAPIClient = OpenAPIClient.shared) {
-        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication, client: client)
+    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, openAPIClient: OpenAPIClient = OpenAPIClient.shared) {
+        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication, openAPIClient: openAPIClient)
     }
 
     /**
@@ -172,12 +172,12 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
             AlamofireRequestBuilderConfiguration.shared.managerStore[managerId] = nil
         }
 
-        let validatedRequest = request.validate(statusCode: client.successfulStatusCodeRange)
+        let validatedRequest = request.validate(statusCode: openAPIClient.successfulStatusCodeRange)
 
         switch T.self {
         case is Void.Type:
-            validatedRequest.response(queue: client.apiResponseQueue,
-                          responseSerializer: client.dataResponseSerializer,
+            validatedRequest.response(queue: openAPIClient.apiResponseQueue,
+                          responseSerializer: openAPIClient.dataResponseSerializer,
                           completionHandler: { voidResponse in
                 cleanupRequest()
 
@@ -266,12 +266,12 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
             AlamofireRequestBuilderConfiguration.shared.managerStore[managerId] = nil
         }
 
-        let validatedRequest = request.validate(statusCode: client.successfulStatusCodeRange)
+        let validatedRequest = request.validate(statusCode: openAPIClient.successfulStatusCodeRange)
 
         switch T.self {
         case is String.Type:
-            validatedRequest.response(queue: client.apiResponseQueue,
-                          responseSerializer: client.stringResponseSerializer,
+            validatedRequest.response(queue: openAPIClient.apiResponseQueue,
+                          responseSerializer: openAPIClient.stringResponseSerializer,
                           completionHandler: { stringResponse in
                 cleanupRequest()
 
@@ -284,8 +284,8 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
 
             })
         case is URL.Type:
-            validatedRequest.response(queue: client.apiResponseQueue,
-                          responseSerializer: client.dataResponseSerializer,
+            validatedRequest.response(queue: openAPIClient.apiResponseQueue,
+                          responseSerializer: openAPIClient.dataResponseSerializer,
                           completionHandler: { dataResponse in
                 cleanupRequest()
 
@@ -332,8 +332,8 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
                 return
             })
         case is Void.Type:
-            validatedRequest.response(queue: client.apiResponseQueue,
-                          responseSerializer: client.dataResponseSerializer,
+            validatedRequest.response(queue: openAPIClient.apiResponseQueue,
+                          responseSerializer: openAPIClient.dataResponseSerializer,
                           completionHandler: { voidResponse in
                 cleanupRequest()
 
@@ -346,8 +346,8 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
 
             })
         case is Data.Type:
-            validatedRequest.response(queue: client.apiResponseQueue,
-                          responseSerializer: client.dataResponseSerializer,
+            validatedRequest.response(queue: openAPIClient.apiResponseQueue,
+                          responseSerializer: openAPIClient.dataResponseSerializer,
                           completionHandler: { dataResponse in
                 cleanupRequest()
 
@@ -360,8 +360,8 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
 
             })
         default:
-            validatedRequest.response(queue: client.apiResponseQueue,
-                          responseSerializer: client.dataResponseSerializer,
+            validatedRequest.response(queue: openAPIClient.apiResponseQueue,
+                          responseSerializer: openAPIClient.dataResponseSerializer,
                           completionHandler: { dataResponse in
                 cleanupRequest()
 
@@ -384,7 +384,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
                     return
                 }
 
-                let decodeResult = client.codableHelper.decode(T.self, from: unwrappedData)
+                let decodeResult = openAPIClient.codableHelper.decode(T.self, from: unwrappedData)
 
                 switch decodeResult {
                 case let .success(decodableObj):

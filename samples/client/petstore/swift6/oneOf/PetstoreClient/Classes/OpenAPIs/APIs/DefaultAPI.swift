@@ -14,12 +14,12 @@ open class DefaultAPI {
 
     /**
 
-     - parameter client: The OpenAPIClient that contains the configuration for the http request.
+     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func rootGet(client: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Fruit?, _ error: Error?) -> Void) -> RequestTask {
-        return rootGetWithRequestBuilder(client: client).execute { result in
+    open class func rootGet(openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Fruit?, _ error: Error?) -> Void) -> RequestTask {
+        return rootGetWithRequestBuilder(openAPIClient: openAPIClient).execute { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -32,12 +32,12 @@ open class DefaultAPI {
     /**
      - GET /
 
-     - parameter client: The OpenAPIClient that contains the configuration for the http request.
+     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Fruit> 
      */
-    open class func rootGetWithRequestBuilder(client: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Fruit> {
+    open class func rootGetWithRequestBuilder(openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Fruit> {
         let localVariablePath = "/"
-        let localVariableURLString = client.basePath + localVariablePath
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -48,8 +48,8 @@ open class DefaultAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Fruit>.Type = client.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Fruit>.Type = openAPIClient.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, client: client)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
     }
 }
