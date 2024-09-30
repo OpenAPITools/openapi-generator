@@ -5668,7 +5668,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    private final Set<String> seenOperationIds = new HashSet<>();
+    private final Map<String, Integer> seenOperationIds = new HashMap<String, Integer>();
 
     /**
      * Add operation to group
@@ -5690,17 +5690,18 @@ public class DefaultCodegen implements CodegenConfig {
         }
         // check for operationId uniqueness
         String uniqueName = co.operationId;
-        int counter = 0;
+        int counter = seenOperationIds.getOrDefault(uniqueName, 0);
+        while(seenOperationIds.containsKey(uniqueName)) {
+            uniqueName = co.operationId + "_" + counter;
+            counter++;
+        }
         for (CodegenOperation op : opList) {
             if (uniqueName.equals(op.operationId)) {
                 uniqueName = co.operationId + "_" + counter;
                 counter++;
             }
         }
-        if (seenOperationIds.contains(uniqueName.toLowerCase(Locale.ROOT))) {
-            uniqueName = co.operationId + "_" + counter;
-            counter++;
-        }
+        seenOperationIds.put(co.operationId, counter);
         if (!co.operationId.equals(uniqueName)) {
             LOGGER.warn("generated unique operationId `{}`", uniqueName);
         }
@@ -5710,7 +5711,6 @@ public class DefaultCodegen implements CodegenConfig {
         co.operationIdSnakeCase = underscore(uniqueName);
         opList.add(co);
         co.baseName = tag;
-        seenOperationIds.add(co.operationId.toLowerCase(Locale.ROOT));
     }
 
     protected void addParentFromContainer(CodegenModel model, Schema schema) {
@@ -6087,12 +6087,12 @@ public class DefaultCodegen implements CodegenConfig {
             return seenValues.get(value);
         }
 
-        Optional<Entry<String,String>> foundEntry = seenValues.entrySet().stream().filter(v -> v.getKey().toLowerCase(Locale.ROOT).equals(value.toLowerCase(Locale.ROOT))).findAny();
+        Optional<Entry<String,String>> foundEntry = seenValues.entrySet().stream().filter(v -> v.getValue().toLowerCase(Locale.ROOT).equals(value.toLowerCase(Locale.ROOT))).findAny();
         if (foundEntry.isPresent()) {
             int counter = 0;
             String uniqueValue = value + "_" + counter;
 
-            while (seenValues.containsKey(uniqueValue)) {
+            while (seenValues.values().stream().map(v -> v.toLowerCase(Locale.ROOT)).collect(Collectors.toList()).contains(uniqueValue.toLowerCase(Locale.ROOT))) {
                 counter++;
                 uniqueValue = value + "_" + counter;
             }
