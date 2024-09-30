@@ -24,17 +24,17 @@ open class PetAPI {
      */
     open class func addPetRaw(body: Pet, headers: HTTPHeaders = OpenAPIClient.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         let localVariablePath = "/pet"
-        let localVariableURLString = client.basePath + localVariablePath
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
 
-        guard let localVariableApiClient = client.apiClient else {
-            fatalError("client.apiClient is not set.")
+        guard let localVariableApiClient = openAPIClient.apiClient else {
+            fatalError("openAPIClient.apiClient is not set.")
         }
 
         return localVariableApiClient.send(.POST, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
             try Configuration.apiWrapper(&localVariableRequest)
             
             
-            try localVariableRequest.content.encode(body, using: client.contentConfiguration.requireEncoder(for: Pet.defaultContentType))
+            try localVariableRequest.content.encode(body, using: openAPIClient.contentConfiguration.requireEncoder(for: Pet.defaultContentType))
             
             try beforeSend(&localVariableRequest)
         }
@@ -83,10 +83,10 @@ open class PetAPI {
         let petIdPreEscape = String(describing: petId)
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = client.basePath + localVariablePath
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
 
-        guard let localVariableApiClient = client.apiClient else {
-            fatalError("client.apiClient is not set.")
+        guard let localVariableApiClient = openAPIClient.apiClient else {
+            fatalError("openAPIClient.apiClient is not set.")
         }
 
         return localVariableApiClient.send(.DELETE, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
@@ -150,10 +150,10 @@ open class PetAPI {
      */
     open class func findPetsByStatusRaw(status: [Status_findPetsByStatus], headers: HTTPHeaders = OpenAPIClient.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         let localVariablePath = "/pet/findByStatus"
-        let localVariableURLString = client.basePath + localVariablePath
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
 
-        guard let localVariableApiClient = client.apiClient else {
-            fatalError("client.apiClient is not set.")
+        guard let localVariableApiClient = openAPIClient.apiClient else {
+            fatalError("openAPIClient.apiClient is not set.")
         }
 
         return localVariableApiClient.send(.GET, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
@@ -192,7 +192,7 @@ open class PetAPI {
         return findPetsByStatusRaw(status: status, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> FindPetsByStatus in
             switch response.status.code {
             case 200:
-                return .http200(value: try response.content.decode([Pet].self, using: client.contentConfiguration.requireDecoder(for: [Pet].defaultContentType)), raw: response)
+                return .http200(value: try response.content.decode([Pet].self, using: openAPIClient.contentConfiguration.requireDecoder(for: [Pet].defaultContentType)), raw: response)
             case 400:
                 return .http400(raw: response)
             default:
@@ -214,10 +214,10 @@ open class PetAPI {
     @available(*, deprecated, message: "This operation is deprecated.")
     open class func findPetsByTagsRaw(tags: Set<String>, headers: HTTPHeaders = OpenAPIClient.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         let localVariablePath = "/pet/findByTags"
-        let localVariableURLString = client.basePath + localVariablePath
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
 
-        guard let localVariableApiClient = client.apiClient else {
-            fatalError("client.apiClient is not set.")
+        guard let localVariableApiClient = openAPIClient.apiClient else {
+            fatalError("openAPIClient.apiClient is not set.")
         }
 
         return localVariableApiClient.send(.GET, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
@@ -257,7 +257,7 @@ open class PetAPI {
         return findPetsByTagsRaw(tags: tags, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> FindPetsByTags in
             switch response.status.code {
             case 200:
-                return .http200(value: try response.content.decode(Set<Pet>.self, using: client.contentConfiguration.requireDecoder(for: Set<Pet>.defaultContentType)), raw: response)
+                return .http200(value: try response.content.decode(Set<Pet>.self, using: openAPIClient.contentConfiguration.requireDecoder(for: Set<Pet>.defaultContentType)), raw: response)
             case 400:
                 return .http400(raw: response)
             default:
@@ -281,10 +281,10 @@ open class PetAPI {
         let petIdPreEscape = String(describing: petId)
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = client.basePath + localVariablePath
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
 
-        guard let localVariableApiClient = client.apiClient else {
-            fatalError("client.apiClient is not set.")
+        guard let localVariableApiClient = openAPIClient.apiClient else {
+            fatalError("openAPIClient.apiClient is not set.")
         }
 
         return localVariableApiClient.send(.GET, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
@@ -317,7 +317,7 @@ open class PetAPI {
         return getPetByIdRaw(petId: petId, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> GetPetById in
             switch response.status.code {
             case 200:
-                return .http200(value: try response.content.decode(Pet.self, using: client.contentConfiguration.requireDecoder(for: Pet.defaultContentType)), raw: response)
+                return .http200(value: try response.content.decode(Pet.self, using: openAPIClient.contentConfiguration.requireDecoder(for: Pet.defaultContentType)), raw: response)
             case 400:
                 return .http400(raw: response)
             case 404:
@@ -339,17 +339,17 @@ open class PetAPI {
      */
     open class func updatePetRaw(body: Pet, headers: HTTPHeaders = OpenAPIClient.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         let localVariablePath = "/pet"
-        let localVariableURLString = client.basePath + localVariablePath
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
 
-        guard let localVariableApiClient = client.apiClient else {
-            fatalError("client.apiClient is not set.")
+        guard let localVariableApiClient = openAPIClient.apiClient else {
+            fatalError("openAPIClient.apiClient is not set.")
         }
 
         return localVariableApiClient.send(.PUT, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
             try Configuration.apiWrapper(&localVariableRequest)
             
             
-            try localVariableRequest.content.encode(body, using: client.contentConfiguration.requireEncoder(for: Pet.defaultContentType))
+            try localVariableRequest.content.encode(body, using: openAPIClient.contentConfiguration.requireEncoder(for: Pet.defaultContentType))
             
             try beforeSend(&localVariableRequest)
         }
@@ -405,10 +405,10 @@ open class PetAPI {
         let petIdPreEscape = String(describing: petId)
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = client.basePath + localVariablePath
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
 
-        guard let localVariableApiClient = client.apiClient else {
-            fatalError("client.apiClient is not set.")
+        guard let localVariableApiClient = openAPIClient.apiClient else {
+            fatalError("openAPIClient.apiClient is not set.")
         }
 
         return localVariableApiClient.send(.POST, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
@@ -420,7 +420,7 @@ open class PetAPI {
                 var name: String?
                 var status: String?
             }
-            try localVariableRequest.content.encode(FormParams(name: name, status: status), using: client.contentConfiguration.requireEncoder(for: FormParams.defaultContentType))
+            try localVariableRequest.content.encode(FormParams(name: name, status: status), using: openAPIClient.contentConfiguration.requireEncoder(for: FormParams.defaultContentType))
             try beforeSend(&localVariableRequest)
         }
     }
@@ -468,10 +468,10 @@ open class PetAPI {
         let petIdPreEscape = String(describing: petId)
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = client.basePath + localVariablePath
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
 
-        guard let localVariableApiClient = client.apiClient else {
-            fatalError("client.apiClient is not set.")
+        guard let localVariableApiClient = openAPIClient.apiClient else {
+            fatalError("openAPIClient.apiClient is not set.")
         }
 
         return localVariableApiClient.send(.POST, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
@@ -483,7 +483,7 @@ open class PetAPI {
                 var additionalMetadata: String?
                 var file: Data?
             }
-            try localVariableRequest.content.encode(FormParams(additionalMetadata: additionalMetadata, file: file), using: client.contentConfiguration.requireEncoder(for: FormParams.defaultContentType))
+            try localVariableRequest.content.encode(FormParams(additionalMetadata: additionalMetadata, file: file), using: openAPIClient.contentConfiguration.requireEncoder(for: FormParams.defaultContentType))
             try beforeSend(&localVariableRequest)
         }
     }
@@ -508,7 +508,7 @@ open class PetAPI {
         return uploadFileRaw(petId: petId, additionalMetadata: additionalMetadata, file: file, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> UploadFile in
             switch response.status.code {
             case 200:
-                return .http200(value: try response.content.decode(ApiResponse.self, using: client.contentConfiguration.requireDecoder(for: ApiResponse.defaultContentType)), raw: response)
+                return .http200(value: try response.content.decode(ApiResponse.self, using: openAPIClient.contentConfiguration.requireDecoder(for: ApiResponse.defaultContentType)), raw: response)
             default:
                 return .http0(raw: response)
             }
@@ -531,10 +531,10 @@ open class PetAPI {
         let petIdPreEscape = String(describing: petId)
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = client.basePath + localVariablePath
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
 
-        guard let localVariableApiClient = client.apiClient else {
-            fatalError("client.apiClient is not set.")
+        guard let localVariableApiClient = openAPIClient.apiClient else {
+            fatalError("openAPIClient.apiClient is not set.")
         }
 
         return localVariableApiClient.send(.POST, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
@@ -546,7 +546,7 @@ open class PetAPI {
                 var additionalMetadata: String?
                 var requiredFile: Data
             }
-            try localVariableRequest.content.encode(FormParams(additionalMetadata: additionalMetadata, requiredFile: requiredFile), using: client.contentConfiguration.requireEncoder(for: FormParams.defaultContentType))
+            try localVariableRequest.content.encode(FormParams(additionalMetadata: additionalMetadata, requiredFile: requiredFile), using: openAPIClient.contentConfiguration.requireEncoder(for: FormParams.defaultContentType))
             try beforeSend(&localVariableRequest)
         }
     }
@@ -571,7 +571,7 @@ open class PetAPI {
         return uploadFileWithRequiredFileRaw(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> UploadFileWithRequiredFile in
             switch response.status.code {
             case 200:
-                return .http200(value: try response.content.decode(ApiResponse.self, using: client.contentConfiguration.requireDecoder(for: ApiResponse.defaultContentType)), raw: response)
+                return .http200(value: try response.content.decode(ApiResponse.self, using: openAPIClient.contentConfiguration.requireDecoder(for: ApiResponse.defaultContentType)), raw: response)
             default:
                 return .http0(raw: response)
             }

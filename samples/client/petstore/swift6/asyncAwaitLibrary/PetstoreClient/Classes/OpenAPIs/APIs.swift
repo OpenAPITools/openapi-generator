@@ -54,12 +54,12 @@ open class RequestBuilder<T>: @unchecked Sendable {
     public let URLString: String
     public let requestTask: RequestTask = RequestTask()
     public let requiresAuthentication: Bool
-    public let client: OpenAPIClient
+    public let openAPIClient: OpenAPIClient
 
     /// Optional block to obtain a reference to the request's progress instance when available.
     public var onProgressReady: ((Progress) -> Void)?
 
-    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, client: OpenAPIClient = OpenAPIClient.shared) {
+    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, openAPIClient: OpenAPIClient = OpenAPIClient.shared) {
         self.method = method
         self.URLString = URLString
         self.parameters = parameters
@@ -67,7 +67,7 @@ open class RequestBuilder<T>: @unchecked Sendable {
         self.requiresAuthentication = requiresAuthentication
         self.client = client
 
-        addHeaders(client.customHeaders)
+        addHeaders(openAPIClient.customHeaders)
     }
 
     open func addHeaders(_ aHeaders: [String: String]) {
@@ -124,7 +124,7 @@ open class RequestBuilder<T>: @unchecked Sendable {
     }
 
     open func addCredential() -> Self {
-        credential = client.credential
+        credential = openAPIClient.credential
         return self
     }
 }

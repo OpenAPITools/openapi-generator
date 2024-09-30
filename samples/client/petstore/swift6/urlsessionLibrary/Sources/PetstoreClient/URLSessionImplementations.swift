@@ -81,8 +81,8 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
      */
     public var taskDidReceiveChallenge: PetstoreClientAPIChallengeHandler?
 
-    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, client: OpenAPIClient = OpenAPIClient.shared) {
-        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication, client: client)
+    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, openAPIClient: OpenAPIClient = OpenAPIClient.shared) {
+        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication, openAPIClient: openAPIClient)
     }
 
     /**
@@ -161,7 +161,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
             let request = try createURLRequest(urlSession: urlSession, method: xMethod, encoding: encoding, headers: headers)
 
             let dataTask = urlSession.dataTaskFromProtocol(with: request) { data, response, error in
-                self.client.apiResponseQueue.async {
+                self.openAPIClient.apiResponseQueue.async {
                     self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
                     self.cleanupRequest()
                 }
@@ -176,7 +176,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
 
             dataTask.resume()
         } catch {
-            self.client.apiResponseQueue.async {
+            self.openAPIClient.apiResponseQueue.async {
                 completion(.failure(ErrorResponse.error(415, nil, nil, error)))
             }
         }
@@ -203,7 +203,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
             return
         }
 
-        guard client.successfulStatusCodeRange.contains(httpResponse.statusCode) else {
+        guard openAPIClient.successfulStatusCodeRange.contains(httpResponse.statusCode) else {
             completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode)))
             return
         }
@@ -221,7 +221,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
 
     open func buildHeaders() -> [String: String] {
         var httpHeaders: [String: String] = [:]
-        for (key, value) in client.customHeaders {
+        for (key, value) in openAPIClient.customHeaders {
             httpHeaders[key] = value
         }
         for (key, value) in headers {
@@ -296,7 +296,7 @@ open class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBui
             return
         }
 
-        guard client.successfulStatusCodeRange.contains(httpResponse.statusCode) else {
+        guard openAPIClient.successfulStatusCodeRange.contains(httpResponse.statusCode) else {
             completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode)))
             return
         }
@@ -364,7 +364,7 @@ open class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBui
                 return
             }
 
-            let decodeResult = client.codableHelper.decode(T.self, from: unwrappedData)
+            let decodeResult = openAPIClient.codableHelper.decode(T.self, from: unwrappedData)
 
             switch decodeResult {
             case let .success(decodableObj):

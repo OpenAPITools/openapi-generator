@@ -25,10 +25,10 @@ open class StoreAPI {
         let orderIdPreEscape = String(describing: orderId)
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = client.basePath + localVariablePath
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
 
-        guard let localVariableApiClient = client.apiClient else {
-            fatalError("client.apiClient is not set.")
+        guard let localVariableApiClient = openAPIClient.apiClient else {
+            fatalError("openAPIClient.apiClient is not set.")
         }
 
         return localVariableApiClient.send(.DELETE, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
@@ -77,10 +77,10 @@ open class StoreAPI {
      */
     open class func getInventoryRaw(headers: HTTPHeaders = OpenAPIClient.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         let localVariablePath = "/store/inventory"
-        let localVariableURLString = client.basePath + localVariablePath
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
 
-        guard let localVariableApiClient = client.apiClient else {
-            fatalError("client.apiClient is not set.")
+        guard let localVariableApiClient = openAPIClient.apiClient else {
+            fatalError("openAPIClient.apiClient is not set.")
         }
 
         return localVariableApiClient.send(.GET, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
@@ -110,7 +110,7 @@ open class StoreAPI {
         return getInventoryRaw(headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> GetInventory in
             switch response.status.code {
             case 200:
-                return .http200(value: try response.content.decode([String: Int].self, using: client.contentConfiguration.requireDecoder(for: [String: Int].defaultContentType)), raw: response)
+                return .http200(value: try response.content.decode([String: Int].self, using: openAPIClient.contentConfiguration.requireDecoder(for: [String: Int].defaultContentType)), raw: response)
             default:
                 return .http0(raw: response)
             }
@@ -129,10 +129,10 @@ open class StoreAPI {
         let orderIdPreEscape = String(describing: orderId)
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = client.basePath + localVariablePath
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
 
-        guard let localVariableApiClient = client.apiClient else {
-            fatalError("client.apiClient is not set.")
+        guard let localVariableApiClient = openAPIClient.apiClient else {
+            fatalError("openAPIClient.apiClient is not set.")
         }
 
         return localVariableApiClient.send(.GET, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
@@ -162,7 +162,7 @@ open class StoreAPI {
         return getOrderByIdRaw(orderId: orderId, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> GetOrderById in
             switch response.status.code {
             case 200:
-                return .http200(value: try response.content.decode(Order.self, using: client.contentConfiguration.requireDecoder(for: Order.defaultContentType)), raw: response)
+                return .http200(value: try response.content.decode(Order.self, using: openAPIClient.contentConfiguration.requireDecoder(for: Order.defaultContentType)), raw: response)
             case 400:
                 return .http400(raw: response)
             case 404:
@@ -181,17 +181,17 @@ open class StoreAPI {
      */
     open class func placeOrderRaw(body: Order, headers: HTTPHeaders = OpenAPIClient.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         let localVariablePath = "/store/order"
-        let localVariableURLString = client.basePath + localVariablePath
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
 
-        guard let localVariableApiClient = client.apiClient else {
-            fatalError("client.apiClient is not set.")
+        guard let localVariableApiClient = openAPIClient.apiClient else {
+            fatalError("openAPIClient.apiClient is not set.")
         }
 
         return localVariableApiClient.send(.POST, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
             try Configuration.apiWrapper(&localVariableRequest)
             
             
-            try localVariableRequest.content.encode(body, using: client.contentConfiguration.requireEncoder(for: Order.defaultContentType))
+            try localVariableRequest.content.encode(body, using: openAPIClient.contentConfiguration.requireEncoder(for: Order.defaultContentType))
             
             try beforeSend(&localVariableRequest)
         }
@@ -213,7 +213,7 @@ open class StoreAPI {
         return placeOrderRaw(body: body, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> PlaceOrder in
             switch response.status.code {
             case 200:
-                return .http200(value: try response.content.decode(Order.self, using: client.contentConfiguration.requireDecoder(for: Order.defaultContentType)), raw: response)
+                return .http200(value: try response.content.decode(Order.self, using: openAPIClient.contentConfiguration.requireDecoder(for: Order.defaultContentType)), raw: response)
             case 400:
                 return .http400(raw: response)
             default:

@@ -17,12 +17,12 @@ open class FakeClassnameTags123API {
      To test class name in snake case
      
      - parameter body: (body) client model 
-     - parameter client: The OpenAPIClient that contains the configuration for the http request.
+     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: Observable<Client>
      */
-    open class func testClassname(body: Client, client: OpenAPIClient = OpenAPIClient.shared) -> Observable<Client> {
+    open class func testClassname(body: Client, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> Observable<Client> {
         return Observable.create { observer -> Disposable in
-            let requestTask = self.testClassnameWithRequestBuilder(body: body, client: client).execute { result in
+            let requestTask = self.testClassnameWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body)
@@ -47,12 +47,12 @@ open class FakeClassnameTags123API {
        - name: api_key_query
      - parameter body: (body) client model 
      
-     - parameter client: The OpenAPIClient that contains the configuration for the http request.
+     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Client> 
      */
-    open class func testClassnameWithRequestBuilder(body: Client, client: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Client> {
+    open class func testClassnameWithRequestBuilder(body: Client, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Client> {
         let localVariablePath = "/fake_classname_test"
-        let localVariableURLString = client.basePath + localVariablePath
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -63,8 +63,8 @@ open class FakeClassnameTags123API {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Client>.Type = client.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Client>.Type = openAPIClient.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, client: client)
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, openAPIClient: openAPIClient)
     }
 }

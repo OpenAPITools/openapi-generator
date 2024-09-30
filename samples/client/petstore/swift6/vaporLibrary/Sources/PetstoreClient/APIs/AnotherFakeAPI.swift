@@ -23,10 +23,10 @@ open class AnotherFakeAPI {
      */
     open class func call123testSpecialTagsRaw(uuidTest: UUID, body: Client, headers: HTTPHeaders = OpenAPIClient.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         let localVariablePath = "/another-fake/dummy"
-        let localVariableURLString = client.basePath + localVariablePath
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
 
-        guard let localVariableApiClient = client.apiClient else {
-            fatalError("client.apiClient is not set.")
+        guard let localVariableApiClient = openAPIClient.apiClient else {
+            fatalError("openAPIClient.apiClient is not set.")
         }
 
         return localVariableApiClient.send(.PATCH, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
@@ -35,7 +35,7 @@ open class AnotherFakeAPI {
             localVariableRequest.headers.add(name: "uuid_test", value: uuidTest.description)
             
             
-            try localVariableRequest.content.encode(body, using: client.contentConfiguration.requireEncoder(for: Client.defaultContentType))
+            try localVariableRequest.content.encode(body, using: openAPIClient.contentConfiguration.requireEncoder(for: Client.defaultContentType))
             
             try beforeSend(&localVariableRequest)
         }
@@ -58,7 +58,7 @@ open class AnotherFakeAPI {
         return call123testSpecialTagsRaw(uuidTest: uuidTest, body: body, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> Call123testSpecialTags in
             switch response.status.code {
             case 200:
-                return .http200(value: try response.content.decode(Client.self, using: client.contentConfiguration.requireDecoder(for: Client.defaultContentType)), raw: response)
+                return .http200(value: try response.content.decode(Client.self, using: openAPIClient.contentConfiguration.requireDecoder(for: Client.defaultContentType)), raw: response)
             default:
                 return .http0(raw: response)
             }
