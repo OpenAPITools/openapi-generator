@@ -84,12 +84,12 @@ import Alamofire{{/useAlamofire}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let URLString: String
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let requestTask: RequestTask = RequestTask()
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let requiresAuthentication: Bool
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let client: OpenAPIClient
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let openAPIClient: OpenAPIClient
 
     /// Optional block to obtain a reference to the request's progress instance when available.
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var onProgressReady: ((Progress) -> Void)?
 
-    required {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, client: OpenAPIClient = OpenAPIClient.shared) {
+    required {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, openAPIClient: OpenAPIClient = OpenAPIClient.shared) {
         self.method = method
         self.URLString = URLString
         self.parameters = parameters
@@ -97,7 +97,7 @@ import Alamofire{{/useAlamofire}}
         self.requiresAuthentication = requiresAuthentication
         self.client = client
 
-        addHeaders(client.customHeaders)
+        addHeaders(openAPIClient.customHeaders)
     }
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func addHeaders(_ aHeaders: [String: String]) {
@@ -156,7 +156,7 @@ import Alamofire{{/useAlamofire}}
     }
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func addCredential() -> Self {
-        credential = client.credential
+        credential = openAPIClient.credential
         return self
     }
 }
