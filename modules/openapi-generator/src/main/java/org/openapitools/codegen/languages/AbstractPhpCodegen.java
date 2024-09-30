@@ -18,6 +18,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
@@ -385,6 +386,11 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
+    protected String getParameterDataType(Parameter parameter, Schema schema) {
+        return getTypeDeclaration(schema);
+    }
+
+    @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
         String type = null;
@@ -685,6 +691,28 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
+    protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {
+        if (vendorExtensions != null) {
+            if (vendorExtensions.containsKey("x-enum-varnames")) {
+                List<String> values = (List<String>) vendorExtensions.get("x-enum-varnames");
+                int size = Math.min(enumVars.size(), values.size());
+
+                for (int i = 0; i < size; i++) {
+                    enumVars.get(i).put("name", toEnumVarName(values.get(i), dataType));
+                }
+            }
+
+            if (vendorExtensions.containsKey("x-enum-descriptions")) {
+                List<String> values = (List<String>) vendorExtensions.get("x-enum-descriptions");
+                int size = Math.min(enumVars.size(), values.size());
+                for (int i = 0; i < size; i++) {
+                    enumVars.get(i).put("enumDescription", values.get(i));
+                }
+            }
+        }
+    }
+
+    @Override
     public String toEnumValue(String value, String datatype) {
         if ("int".equals(datatype) || "float".equals(datatype)) {
             return value;
@@ -704,11 +732,11 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             return enumNameMapping.get(name);
         }
 
-        if (name.length() == 0) {
+        if (name.isEmpty()) {
             return "EMPTY";
         }
 
-        if (name.trim().length() == 0) {
+        if (name.trim().isEmpty()) {
             return "SPACE_" + name.length();
         }
 
@@ -719,11 +747,12 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         // number
         if ("int".equals(datatype) || "float".equals(datatype)) {
-            String varName = name;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
-            return varName;
+            if (name.matches("\\d.*")) { // starts with number
+                name = "NUMBER_" + name;
+            }
+            name = name.replaceAll("-", "MINUS_");
+            name = name.replaceAll("\\+", "PLUS_");
+            name = name.replaceAll("\\.", "_DOT_");
         }
 
         // string

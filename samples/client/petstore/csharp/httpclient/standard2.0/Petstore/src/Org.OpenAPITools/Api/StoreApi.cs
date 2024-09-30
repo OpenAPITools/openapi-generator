@@ -565,9 +565,9 @@ namespace Org.OpenAPITools.Api
 
 
             // authentication (api_key) required
-            if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
+            if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api-key")))
             {
-                localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
+                localVarRequestOptions.HeaderParameters.Add("api-key", this.Configuration.GetApiKeyWithPrefix("api-key"));
             }
 
             // make the HTTP request
@@ -622,9 +622,9 @@ namespace Org.OpenAPITools.Api
 
 
             // authentication (api_key) required
-            if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
+            if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api-key")))
             {
-                localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
+                localVarRequestOptions.HeaderParameters.Add("api-key", this.Configuration.GetApiKeyWithPrefix("api-key"));
             }
 
             // make the HTTP request

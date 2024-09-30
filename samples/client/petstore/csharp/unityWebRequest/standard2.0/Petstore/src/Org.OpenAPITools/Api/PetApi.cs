@@ -1285,9 +1285,9 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
 
             // authentication (api_key) required
-            if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
+            if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api-key")))
             {
-                localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
+                localVarRequestOptions.HeaderParameters.Add("api-key", this.Configuration.GetApiKeyWithPrefix("api-key"));
             }
             // authentication (api_key_query) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key_query")))
@@ -1356,9 +1356,9 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
 
             // authentication (api_key) required
-            if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
+            if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api-key")))
             {
-                localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
+                localVarRequestOptions.HeaderParameters.Add("api-key", this.Configuration.GetApiKeyWithPrefix("api-key"));
             }
             // authentication (api_key_query) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key_query")))

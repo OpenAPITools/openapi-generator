@@ -9,7 +9,7 @@ release_note=$3
 git_host=$4
 
 if [ "$git_host" = "" ]; then
-    git_host="github.com"
+    git_host="GIT_HOST"
     echo "[INFO] No command line input provided. Set \$git_host to $git_host"
 fi
 

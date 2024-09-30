@@ -124,6 +124,25 @@ impl<T, A, B, C, D, ReqBody> Service<Request<ReqBody>> for AddContext<T, A, B, C
                 return self.inner.call((request, context))
             }
         }
+        {
+            use swagger::auth::Bearer;
+            use std::ops::Deref;
+            if let Some(bearer) = swagger::auth::from_headers::<Bearer>(headers) {
+                let authorization = self.inner.bearer_authorization(&bearer);
+                let auth_data = AuthData::Bearer(bearer);
+
+                let context = context.push(Some(auth_data));
+                let context = match authorization {
+                    Ok(auth) => context.push(Some(auth)),
+                    Err(err) => {
+                        error!("Error during Authorization: {err:?}");
+                        context.push(None::<Authorization>)
+                    }
+                };
+
+                return self.inner.call((request, context))
+            }
+        }
 
         let context = context.push(None::<AuthData>);
         let context = context.push(None::<Authorization>);

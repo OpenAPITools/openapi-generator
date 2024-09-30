@@ -70,43 +70,43 @@ fn main() {
         .arg(Arg::with_name("operation")
             .help("Sets the operation to run")
             .possible_values(&[
-                "Op10Get", 
-                "Op11Get", 
-                "Op12Get", 
-                "Op13Get", 
-                "Op14Get", 
-                "Op15Get", 
-                "Op16Get", 
-                "Op17Get", 
-                "Op18Get", 
-                "Op19Get", 
-                "Op1Get", 
-                "Op20Get", 
-                "Op21Get", 
-                "Op22Get", 
-                "Op23Get", 
-                "Op24Get", 
-                "Op25Get", 
-                "Op26Get", 
-                "Op27Get", 
-                "Op28Get", 
-                "Op29Get", 
-                "Op2Get", 
-                "Op30Get", 
-                "Op31Get", 
-                "Op32Get", 
-                "Op33Get", 
-                "Op34Get", 
-                "Op35Get", 
-                "Op36Get", 
-                "Op37Get", 
-                "Op3Get", 
-                "Op4Get", 
-                "Op5Get", 
-                "Op6Get", 
-                "Op7Get", 
-                "Op8Get", 
-                "Op9Get", 
+                "Op10Get",
+                "Op11Get",
+                "Op12Get",
+                "Op13Get",
+                "Op14Get",
+                "Op15Get",
+                "Op16Get",
+                "Op17Get",
+                "Op18Get",
+                "Op19Get",
+                "Op1Get",
+                "Op20Get",
+                "Op21Get",
+                "Op22Get",
+                "Op23Get",
+                "Op24Get",
+                "Op25Get",
+                "Op26Get",
+                "Op27Get",
+                "Op28Get",
+                "Op29Get",
+                "Op2Get",
+                "Op30Get",
+                "Op31Get",
+                "Op32Get",
+                "Op33Get",
+                "Op34Get",
+                "Op35Get",
+                "Op36Get",
+                "Op37Get",
+                "Op3Get",
+                "Op4Get",
+                "Op5Get",
+                "Op6Get",
+                "Op7Get",
+                "Op8Get",
+                "Op9Get",
             ])
             .required(true)
             .index(1))
@@ -129,19 +129,18 @@ fn main() {
     // In a real (production) system this Bearer token should be obtained via an external Identity/Authentication-server
     // Ensure that you set the correct algorithm and encodingkey that matches what is used on the server side.
     // See https://github.com/Keats/jsonwebtoken for more information
-
     let auth_token = build_token(
             Claims {
-                sub: "tester@acme.com".to_owned(), 
+                sub: "tester@acme.com".to_owned(),
                 company: "ACME".to_owned(),
                 iss: "my_identity_provider".to_owned(),
                 // added a very long expiry time
                 aud: "org.acme.Resource_Server".to_string(),
                 exp: 10000000000,
                 // In this example code all available Scopes are added, so the current Bearer Token gets fully authorization.
-                scopes: [
-                ].join(", ")
-            }, 
+                scopes:
+                  "".to_owned()
+            },
             b"secret").unwrap();
 
     let auth_data = if !auth_token.is_empty() {

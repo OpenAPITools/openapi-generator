@@ -9,3 +9,4 @@ additionalProperties:
   useDateTimeForDate: true
   targetFramework: net8.0
   modelPropertySorting: alphabetical
+  operationParameterSorting: alphabetical

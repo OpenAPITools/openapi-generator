@@ -102,14 +102,18 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
-        /// <example>10</example>
+        /*
+        <example>10</example>
+        */
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public long Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        /// <example>doggie</example>
+        /*
+        <example>doggie</example>
+        */
         [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = true)]
         public string Name { get; set; }
 

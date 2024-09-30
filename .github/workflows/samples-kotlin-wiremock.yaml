@@ -3,11 +3,11 @@ name: Samples Kotlin WireMock
 on:
   push:
     branches:
-      - samples/server/petstore/kotlin-wiremock/**
+      - samples/server/petstore/kotlin-wiremock*/**
       - samples/server/echo_api/kotlin-wiremock/**
   pull_request:
     paths:
-      - samples/server/petstore/kotlin-wiremock/**
+      - samples/server/petstore/kotlin-wiremock*/**
       - samples/server/echo_api/kotlin-wiremock/**
 
 jobs:
@@ -19,6 +19,7 @@ jobs:
       matrix:
         sample:
           - samples/server/petstore/kotlin-wiremock
+          - samples/server/petstore/kotlin-wiremock-responses
           - samples/server/echo_api/kotlin-wiremock
     steps:
       - uses: actions/checkout@v4

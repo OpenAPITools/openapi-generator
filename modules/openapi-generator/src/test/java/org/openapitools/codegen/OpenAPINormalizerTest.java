@@ -625,6 +625,24 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void testOpenAPINormalizerProcessingArraySchema31NullabilitySpec() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/null-types-simple.yaml");
+        Schema schema = openAPI.getComponents().getSchemas().get("WithNullableType");
+
+        assertNull(((Schema) schema.getProperties().get("arrayDataOrNull")).getNullable());
+        assertNull(((Schema) schema.getProperties().get("stringDataOrNull")).getNullable());
+        assertNull(((Schema) schema.getProperties().get("oneofOrNull")).getNullable());
+
+        Map<String, String> inputRules = Map.of("NORMALIZE_31SPEC", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
+        openAPINormalizer.normalize();
+
+        assertTrue(((Schema) schema.getProperties().get("arrayDataOrNull")).getNullable());
+        assertTrue(((Schema) schema.getProperties().get("stringDataOrNull")).getNullable());
+        assertTrue(((Schema) schema.getProperties().get("oneofOrNull")).getNullable());
+    }
+
+    @Test
     public void testOpenAPINormalizerSimplifyOneOfAnyOf31Spec() {
         // to test the rule SIMPLIFY_ONEOF_ANYOF with 3.1 spec
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/simplifyOneOfAnyOf_test.yaml");

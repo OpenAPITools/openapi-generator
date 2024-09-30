@@ -139,6 +139,11 @@
   infoLink: "https://www.coinapi.io/"
   pinned: false
 -
+  caption: ConfigCat
+  image: "img/companies/configcat.svg"
+  infoLink: "https://configcat.com/"
+  pinned: false
+-
   caption: Commencis
   image: "img/companies/commencis.png"
   infoLink: "https://www.commencis.com/"

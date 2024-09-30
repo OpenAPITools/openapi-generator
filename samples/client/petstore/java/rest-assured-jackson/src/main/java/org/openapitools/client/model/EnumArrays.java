@@ -25,8 +25,8 @@ import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
@@ -36,7 +36,7 @@ import org.hibernate.validator.constraints.*;
   EnumArrays.JSON_PROPERTY_JUST_SYMBOL,
   EnumArrays.JSON_PROPERTY_ARRAY_ENUM
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class EnumArrays {
   /**
    * Gets or Sets justSymbol

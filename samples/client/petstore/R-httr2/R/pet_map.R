@@ -15,14 +15,12 @@ PetMap <- R6::R6Class(
   "PetMap",
   public = list(
     `pet` = NULL,
-    #' Initialize a new PetMap class.
-    #'
+
     #' @description
     #' Initialize a new PetMap class.
     #'
     #' @param pet pet
     #' @param ... Other optional arguments.
-    #' @export
     initialize = function(`pet` = NULL, ...) {
       if (!is.null(`pet`)) {
         stopifnot(is.vector(`pet`), length(`pet`) != 0)
@@ -30,13 +28,11 @@ PetMap <- R6::R6Class(
         self$`pet` <- `pet`
       }
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return PetMap in JSON format
-    #' @export
     toJSON = function() {
       PetMapObject <- list()
       if (!is.null(self$`pet`)) {
@@ -45,14 +41,12 @@ PetMap <- R6::R6Class(
       }
       PetMapObject
     },
-    #' Deserialize JSON string into an instance of PetMap
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of PetMap
     #'
     #' @param input_json the JSON input
     #' @return the instance of PetMap
-    #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`pet`)) {
@@ -60,13 +54,11 @@ PetMap <- R6::R6Class(
       }
       self
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return PetMap in JSON format
-    #' @export
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`pet`)) {
@@ -81,66 +73,53 @@ PetMap <- R6::R6Class(
       jsoncontent <- paste(jsoncontent, collapse = ",")
       json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
     },
-    #' Deserialize JSON string into an instance of PetMap
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of PetMap
     #'
     #' @param input_json the JSON input
     #' @return the instance of PetMap
-    #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`pet` <- ApiClient$new()$deserializeObj(this_object$`pet`, "map(character)", loadNamespace("petstore"))
       self
     },
-    #' Validate JSON input with respect to PetMap
-    #'
+
     #' @description
     #' Validate JSON input with respect to PetMap and throw an exception if invalid
     #'
     #' @param input the JSON input
-    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
     },
-    #' To string (JSON format)
-    #'
+
     #' @description
     #' To string (JSON format)
     #'
     #' @return String representation of PetMap
-    #' @export
     toString = function() {
       self$toJSONString()
     },
-    #' Return true if the values in all fields are valid.
-    #'
+
     #' @description
     #' Return true if the values in all fields are valid.
     #'
     #' @return true if the values in all fields are valid.
-    #' @export
     isValid = function() {
       TRUE
     },
-    #' Return a list of invalid fields (if any).
-    #'
+
     #' @description
     #' Return a list of invalid fields (if any).
     #'
     #' @return A list of invalid fields (if any).
-    #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
       invalid_fields
     },
-    #' Print the object
-    #'
+
     #' @description
     #' Print the object
-    #'
-    #' @export
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)

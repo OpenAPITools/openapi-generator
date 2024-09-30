@@ -1379,7 +1379,7 @@ components:
             'read:pets': read your pets
     api_key:
       type: apiKey
-      name: api_key
+      name: api-key
       in: header
     api_key_query:
       type: apiKey

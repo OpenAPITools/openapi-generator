@@ -112,7 +112,7 @@ extension NullEncodable: Codable where Wrapped: Codable {
 }
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} final class RequestTask{{#useAsyncAwait}}: @unchecked Sendable{{/useAsyncAwait}} {
-    private var lock = NSRecursiveLock()
+    private let lock = NSRecursiveLock()
 {{#useAlamofire}}
     private var request: Request?
 

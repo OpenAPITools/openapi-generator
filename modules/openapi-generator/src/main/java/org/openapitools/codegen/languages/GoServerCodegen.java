@@ -66,6 +66,9 @@ public class GoServerCodegen extends AbstractGoCodegen {
     public GoServerCodegen() {
         super();
 
+        // skip sorting of operations to preserve the order found in the OpenAPI spec file
+        super.setSkipSortingOperations(true);
+
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))

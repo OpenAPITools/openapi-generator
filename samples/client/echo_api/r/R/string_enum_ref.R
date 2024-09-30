@@ -8,13 +8,11 @@
 StringEnumRef <- R6::R6Class(
   "StringEnumRef",
   public = list(
-    #' Initialize a new StringEnumRef class.
-    #'
+
     #' @description
     #' Initialize a new StringEnumRef class.
     #'
     #' @param ... Optional arguments.
-    #' @export
     initialize = function(...) {
       local.optional.var <- list(...)
       val <- unlist(local.optional.var)
@@ -37,48 +35,42 @@ StringEnumRef <- R6::R6Class(
       }
       private$value <- val
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return StringEnumRef in JSON format
-    #' @export
     toJSON = function() {
         jsonlite::toJSON(private$value, auto_unbox = TRUE)
     },
-    #' Deserialize JSON string into an instance of StringEnumRef
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of StringEnumRef
     #'
     #' @param input_json the JSON input
+    #'
     #' @return the instance of StringEnumRef
-    #' @export
     fromJSON = function(input_json) {
       private$value <- jsonlite::fromJSON(input_json,
           simplifyVector = FALSE)
       self
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return StringEnumRef in JSON format
-    #' @export
     toJSONString = function() {
       as.character(jsonlite::toJSON(private$value,
           auto_unbox = TRUE))
     },
-    #' Deserialize JSON string into an instance of StringEnumRef
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of StringEnumRef
     #'
     #' @param input_json the JSON input
+    #'
     #' @return the instance of StringEnumRef
-    #' @export
     fromJSONString = function(input_json) {
       private$value <- jsonlite::fromJSON(input_json,
           simplifyVector = FALSE)
