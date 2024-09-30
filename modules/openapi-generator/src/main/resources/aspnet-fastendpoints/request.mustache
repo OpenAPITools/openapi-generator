@@ -13,10 +13,9 @@ public class {{operationId}}RequestValidator : Validator<{{operationId}}Request>
 {
     public {{operationId}}RequestValidator()
     {
-    {{#allParams}}
+    {{#requiredParams}}
         RuleFor(x => x.{{#isBodyParam}}{{paramName}}{{/isBodyParam}}{{^isBodyParam}}{{nameInPascalCase}}{{/isBodyParam}}).NotEmpty();
-    {{/allParams}}
-        //TODO Add any additional validation rules here
+    {{/requiredParams}}
     }
 }
 
