@@ -230,12 +230,6 @@ extension KeyedDecodingContainerProtocol {
 
 }
 
-extension HTTPURLResponse {
-    func isStatusCodeSuccessful(client: OpenAPIClient) -> Bool {
-        return client.successfulStatusCodeRange.contains(statusCode)
-    }
-}
-
 extension RequestBuilder {
     public func execute() -> Promise<Response<T>> {
         let deferred = Promise<Response<T>>.pending()

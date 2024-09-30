@@ -10,10 +10,10 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClientAPI.EnumArrays")
-public typealias EnumArrays = PetstoreClientAPI.EnumArrays
+@available(*, deprecated, renamed: "PetstoreClient.EnumArrays")
+public typealias EnumArrays = PetstoreClient.EnumArrays
 
-extension PetstoreClientAPI {
+extension PetstoreClient {
 
 public final class EnumArrays: Codable, JSONEncodable, Hashable {
 

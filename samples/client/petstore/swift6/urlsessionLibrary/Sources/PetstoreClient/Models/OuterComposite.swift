@@ -10,10 +10,10 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClientAPI.OuterComposite")
-public typealias OuterComposite = PetstoreClientAPI.OuterComposite
+@available(*, deprecated, renamed: "PetstoreClient.OuterComposite")
+public typealias OuterComposite = PetstoreClient.OuterComposite
 
-extension PetstoreClientAPI {
+extension PetstoreClient {
 
 public final class OuterComposite: Codable, JSONEncodable, Hashable {
 

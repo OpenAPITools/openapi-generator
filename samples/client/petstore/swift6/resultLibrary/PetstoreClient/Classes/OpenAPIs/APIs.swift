@@ -9,41 +9,65 @@ import Foundation
 import FoundationNetworking
 #endif
 
-internal class PetstoreClientAPI: @unchecked Sendable {
-    private init() {}
-    internal static let shared = PetstoreClientAPI()
+@available(*, deprecated, message: "Use `OpenAPIClient` instead")
+internal typealias PetstoreClientAPI = OpenAPIClient
 
-    internal var basePath = "http://petstore.swagger.io:80/v2"
-    internal var customHeaders: [String: String] = [:]
+internal class OpenAPIClient: @unchecked Sendable {
+    internal var basePath: String
+    internal var customHeaders: [String: String]
     internal var credential: URLCredential?
-    internal var requestBuilderFactory: RequestBuilderFactory = URLSessionRequestBuilderFactory()
-    internal var apiResponseQueue: DispatchQueue = .main
+    internal var requestBuilderFactory: RequestBuilderFactory
+    internal var apiResponseQueue: DispatchQueue
+    internal var codableHelper: CodableHelper
+
     /// Configures the range of HTTP status codes that will result in a successful response
     ///
     /// If a HTTP status code is outside of this range the response will be interpreted as failed.
-    internal var successfulStatusCodeRange: Range = 200..<300
+    internal var successfulStatusCodeRange: Range<Int>
+
+    internal init(
+        basePath: String = "http://petstore.swagger.io:80/v2",
+        customHeaders: [String: String] = [:],
+        credential: URLCredential? = nil,
+        requestBuilderFactory: RequestBuilderFactory = URLSessionRequestBuilderFactory(),
+        apiResponseQueue: DispatchQueue = .main,
+        codableHelper: CodableHelper = CodableHelper(),
+        successfulStatusCodeRange: Range<Int> = 200..<300
+    ) {
+        self.basePath = basePath
+        self.customHeaders = customHeaders
+        self.credential = credential
+        self.requestBuilderFactory = requestBuilderFactory
+        self.apiResponseQueue = apiResponseQueue
+        self.codableHelper = codableHelper
+        self.successfulStatusCodeRange = successfulStatusCodeRange
+    }
+
+    internal static let shared = OpenAPIClient()
 }
 
 internal class RequestBuilder<T>: @unchecked Sendable {
-    var credential: URLCredential?
-    var headers: [String: String]
+    internal var credential: URLCredential?
+    internal var headers: [String: String]
     internal let parameters: [String: Any]?
     internal let method: String
     internal let URLString: String
     internal let requestTask: RequestTask = RequestTask()
     internal let requiresAuthentication: Bool
+    internal let client: OpenAPIClient
 
     /// Optional block to obtain a reference to the request's progress instance when available.
     internal var onProgressReady: ((Progress) -> Void)?
 
-    required internal init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool) {
+    required internal init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, client: OpenAPIClient = OpenAPIClient.shared) {
         self.method = method
         self.URLString = URLString
         self.parameters = parameters
         self.headers = headers
         self.requiresAuthentication = requiresAuthentication
+        self.client = client
 
-        addHeaders(PetstoreClientAPI.shared.customHeaders)
+        addHeaders(client.customHeaders)
     }
 
     internal func addHeaders(_ aHeaders: [String: String]) {
@@ -53,7 +77,7 @@ internal class RequestBuilder<T>: @unchecked Sendable {
     }
 
     @discardableResult
-    internal func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue, _ completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+    internal func execute(completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         return requestTask
     }
 
@@ -65,7 +89,7 @@ internal class RequestBuilder<T>: @unchecked Sendable {
     }
 
     internal func addCredential() -> Self {
-        credential = PetstoreClientAPI.shared.credential
+        credential = client.credential
         return self
     }
 }

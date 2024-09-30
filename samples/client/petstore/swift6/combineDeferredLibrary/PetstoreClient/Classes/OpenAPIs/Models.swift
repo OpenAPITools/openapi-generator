@@ -10,7 +10,7 @@ import FoundationNetworking
 #endif
 
 protocol JSONEncodable {
-    func encodeToJSON() -> Any
+    func encodeToJSON(codableHelper: CodableHelper) -> Any
 }
 
 /// An enum where the last case value can be used as a default catch-all.

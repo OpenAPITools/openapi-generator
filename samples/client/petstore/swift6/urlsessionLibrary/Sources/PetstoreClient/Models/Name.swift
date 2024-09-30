@@ -10,10 +10,10 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClientAPI.Name")
-public typealias Name = PetstoreClientAPI.Name
+@available(*, deprecated, renamed: "PetstoreClient.Name")
+public typealias Name = PetstoreClient.Name
 
-extension PetstoreClientAPI {
+extension PetstoreClient {
 
 /** Model for testing model name same as property name */
 public final class Name: Codable, JSONEncodable, Hashable {

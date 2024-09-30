@@ -10,10 +10,10 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClientAPI.AnimalFarm")
-public typealias AnimalFarm = PetstoreClientAPI.AnimalFarm
+@available(*, deprecated, renamed: "PetstoreClient.AnimalFarm")
+public typealias AnimalFarm = PetstoreClient.AnimalFarm
 
-extension PetstoreClientAPI {
+extension PetstoreClient {
 
 public typealias AnimalFarm = [Animal]
 }
