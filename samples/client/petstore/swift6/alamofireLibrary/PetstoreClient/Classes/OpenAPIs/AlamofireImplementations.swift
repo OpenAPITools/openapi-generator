@@ -384,7 +384,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
                     return
                 }
 
-                let decodeResult = openAPIClient.codableHelper.decode(T.self, from: unwrappedData)
+                let decodeResult = self.openAPIClient.codableHelper.decode(T.self, from: unwrappedData)
 
                 switch decodeResult {
                 case let .success(decodableObj):

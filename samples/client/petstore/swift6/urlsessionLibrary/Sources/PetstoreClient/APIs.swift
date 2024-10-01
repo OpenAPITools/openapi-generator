@@ -64,7 +64,7 @@ open class RequestBuilder<T>: @unchecked Sendable {
         self.parameters = parameters
         self.headers = headers
         self.requiresAuthentication = requiresAuthentication
-        self.client = client
+        self.openAPIClient = openAPIClient
 
         addHeaders(openAPIClient.customHeaders)
     }

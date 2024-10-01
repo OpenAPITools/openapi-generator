@@ -384,7 +384,7 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
                     return
                 }
 
-                let decodeResult = openAPIClient.codableHelper.decode(T.self, from: unwrappedData)
+                let decodeResult = self.openAPIClient.codableHelper.decode(T.self, from: unwrappedData)
 
                 switch decodeResult {
                 case let .success(decodableObj):
