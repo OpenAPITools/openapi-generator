@@ -262,9 +262,9 @@ validate(Rule = {type, date}, Value, ReqParamName, _) ->
         false -> validation_error(Rule, ReqParamName, Value)
     end;
 validate(Rule = {type, datetime}, Value, ReqParamName, _) ->
-    case is_binary(Value) of
-        true -> ok;
-        false -> validation_error(Rule, ReqParamName, Value)
+    try calendar:rfc3339_to_system_time(binary_to_list(Value)) of
+        _ -> ok
+    catch error:_Error -> validation_error(Rule, ReqParamName, Value)
     end;
 validate(Rule = {enum, Values}, Value, ReqParamName, _) ->
     try
