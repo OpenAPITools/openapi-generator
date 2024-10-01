@@ -1,4 +1,9 @@
 -module({{packageName}}_server).
+{{#appDescription}}
+-moduledoc """
+{{{appDescription}}}
+""".
+{{/appDescription}}
 
 -define(DEFAULT_LOGIC_HANDLER, {{packageName}}_logic_handler).
 
