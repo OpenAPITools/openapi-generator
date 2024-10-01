@@ -23,6 +23,11 @@ const searchMiddleware = (action) => {
     return action
 }
 
+const isCreateAction = (key) => {
+    // TODO: return true if the key is a "create" action for your API
+    return !isSearchAction(key);
+}
+
 const requestOptionsMiddleware = (z, bundle, requestOptions) => {
   // TODO: modify the request options for all outgoing request to your api
   //       if you are using session authentication without a Bearer token.
@@ -50,4 +55,5 @@ module.exports = {
     requestOptionsMiddleware: requestOptionsMiddleware,
     isTrigger: isTrigger,
     triggerMiddleware: triggerMiddleware,
+    isCreateAction: isCreateAction,
 }
