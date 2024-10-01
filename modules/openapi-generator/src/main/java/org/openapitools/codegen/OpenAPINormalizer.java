@@ -1280,6 +1280,9 @@ public class OpenAPINormalizer {
                         Schema updatedItems = normalizeSchema(schema.getItems(), visitedSchemas);
                         as.setItems(updatedItems);
                     }
+                } else {
+                    // when items is not defined, default to any type
+                    as.setItems(new Schema());
                 }
 
                 return as;

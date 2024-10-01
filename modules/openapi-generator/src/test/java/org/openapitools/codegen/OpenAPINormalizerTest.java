@@ -600,6 +600,11 @@ public class OpenAPINormalizerTest {
         assertEquals(((Schema) schema5.getProperties().get("arrayOfStrings")).getItems().getType(), null);
         assertEquals(((Schema) schema5.getProperties().get("arrayOfStrings")).getItems().getTypes().contains("string"), true);
 
+        Schema schema7 = openAPI.getComponents().getSchemas().get("ArrayWithPrefixItems");
+        assertEquals(((Schema) schema7.getProperties().get("with_prefixitems")).getItems(), null);
+        assertNotEquals(((Schema) schema7.getProperties().get("with_prefixitems")).getPrefixItems(), null);
+        assertEquals(((Schema) schema7.getProperties().get("without_items")).getItems(), null);
+
         Map<String, String> inputRules = Map.of("NORMALIZE_31SPEC", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
         openAPINormalizer.normalize();
@@ -622,6 +627,11 @@ public class OpenAPINormalizerTest {
         assertEquals(((Schema) schema6.getProperties().get("arrayOfStrings")).getItems().getTypes().contains("string"), true);
         assertEquals(((Schema) schema6.getProperties().get("arrayOfStrings")).getItems().getType(), "string");
         assertEquals(((Schema) schema6.getProperties().get("arrayOfStrings")).getType(), "array");
+
+        Schema schema8 = openAPI.getComponents().getSchemas().get("ArrayWithPrefixItems");
+        assertNotEquals(((Schema) schema8.getProperties().get("with_prefixitems")).getItems(), null);
+        assertEquals(((Schema) schema8.getProperties().get("with_prefixitems")).getPrefixItems(), null);
+        assertNotEquals(((Schema) schema8.getProperties().get("without_items")).getItems(), null);
     }
 
     @Test
