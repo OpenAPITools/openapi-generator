@@ -39,7 +39,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -51,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
   public static final String SERIALIZED_NAME_VALUES = "values";
   @SerializedName(SERIALIZED_NAME_VALUES)
@@ -73,10 +72,10 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
     return this;
   }
 
-   /**
+  /**
    * Get values
    * @return values
-  **/
+   */
   @javax.annotation.Nullable
   public List<String> getValues() {
     return values;
@@ -138,12 +137,12 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -194,22 +193,22 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
     }
   }
 
- /**
-  * Create an instance of TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
-  * @throws IOException if the JSON string is invalid with respect to TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
-  */
+  /**
+   * Create an instance of TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
+   * @throws IOException if the JSON string is invalid with respect to TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
+   */
   public static TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.class);
   }
 
- /**
-  * Convert an instance of TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

@@ -1,5 +1,14 @@
 package org.openapitools.codegen.java.assertions;
 
+import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.*;
+import com.github.javaparser.ast.nodeTypes.NodeWithName;
+import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithAbstractModifier;
+import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.util.CanIgnoreReturnValue;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -7,19 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.ConstructorDeclaration;
-import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.api.Assertions;
-import org.assertj.core.util.CanIgnoreReturnValue;
-
-import com.github.javaparser.StaticJavaParser;
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.body.FieldDeclaration;
-import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.nodeTypes.NodeWithName;
-import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithAbstractModifier;
 
 @CanIgnoreReturnValue
 public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUnit> {
@@ -41,11 +37,7 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
     }
 
     public static JavaFileAssert assertThat(final File file) {
-        try {
-            return new JavaFileAssert(StaticJavaParser.parse(file));
-        } catch (IOException e) {
-            throw new RuntimeException("Exception while reading file: " + file, e);
-        }
+        return assertThat(file.toPath());
     }
 
     public JavaFileAssert isInterface() {
@@ -72,7 +64,7 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
         return this;
     }
 
-    public JavaFileAssert assertNoMethod(final String methodName, final String... paramTypes) {
+    public JavaFileAssert hasNoMethod(final String methodName, final String... paramTypes) {
         List<MethodDeclaration> methods = paramTypes.length == 0
             ? actual.getType(0).getMethodsByName(methodName)
             : actual.getType(0).getMethodsBySignature(methodName, paramTypes);
@@ -98,7 +90,23 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
 
         return new MethodAssert(this, methods.get(0));
     }
+    
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
+    public InnerClassAssert assertInnerClass(final String className) {
+        Optional<ClassOrInterfaceDeclaration> innerClass = actual.getType(0).getMembers().stream()
+            .filter(BodyDeclaration::isClassOrInterfaceDeclaration)
+            .map(clazz -> (ClassOrInterfaceDeclaration) clazz)
+            .filter(clazz -> clazz.isInnerClass() || clazz.isStatic() && clazz.getNameAsString().equals(className))
+            .findFirst();
 
+        Assertions.assertThat(innerClass)
+            .withFailMessage("No inner class with name %s found", className)
+            .isPresent();
+        
+        return new InnerClassAssert(this, innerClass.get ());
+    }
+
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     public ConstructorAssert assertConstructor(final String... paramTypes) {
         Optional<ConstructorDeclaration> constructorDeclaration = actual.getType(0).getConstructorByParameterTypes(paramTypes);
         Assertions.assertThat(constructorDeclaration)
@@ -108,7 +116,7 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
         return new ConstructorAssert(this, constructorDeclaration.get());
     }
 
-    public JavaFileAssert assertNoConstructor(final String... paramTypes) {
+    public JavaFileAssert hasNoConstructor(final String... paramTypes) {
         Optional<ConstructorDeclaration> constructorDeclaration = actual.getType(0).getConstructorByParameterTypes(paramTypes);
         Assertions.assertThat(constructorDeclaration)
                 .withFailMessage("Found constructor with parameter(s) %s", Arrays.toString(paramTypes))
@@ -117,7 +125,8 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
         return this;
     }
 
-    public PropertyAssert hasProperty(final String propertyName) {
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
+    public PropertyAssert assertProperty(final String propertyName) {
         Optional<FieldDeclaration> fieldOptional = actual.getType(0).getMembers().stream()
             .filter(FieldDeclaration.class::isInstance)
             .map(FieldDeclaration.class::cast)
@@ -161,7 +170,7 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
         return this;
     }
 
-    public JavaFileAssert fileDoesNotContains(final String... lines) {
+    public JavaFileAssert fileDoesNotContain(final String... lines) {
         final String actualBody = actual.getTokenRange()
                 .orElseThrow(() -> new IllegalStateException("Empty file"))
                 .toString();
@@ -175,8 +184,21 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
         return this;
     }
 
-    public TypeAnnotationAssert assertTypeAnnotations() {
-        return new TypeAnnotationAssert(this, actual.getType(0).getAnnotations());
+    public TypeAnnotationsAssert assertTypeAnnotations() {
+        return new TypeAnnotationsAssert(this, actual.getType(0).getAnnotations());
     }
 
+    public JavaFileAssert fileContainsPattern(final String pattern) {
+        final String actualBody = actual.getTokenRange()
+                .orElseThrow(() -> new IllegalStateException("Empty file"))
+                .toString();
+        Assertions.assertThat(actualBody)
+                .withFailMessage(
+                        "File should contains pattern\n====\n%s\n====\nbut actually was\n====\n%s\n====",
+                        pattern, actualBody
+                )
+                .containsPattern(pattern);
+
+        return this;
+    }
 }

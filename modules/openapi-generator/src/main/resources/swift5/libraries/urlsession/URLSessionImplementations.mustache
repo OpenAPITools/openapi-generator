@@ -134,7 +134,7 @@ private var credentialStore = SynchronizedDictionary<Int, URLCredential>()
         case .options, .post, .put, .patch, .delete, .trace, .connect:
             let contentType = headers["Content-Type"] ?? "application/json"
 
-            if contentType.hasPrefix("application/json") {
+            if contentType.hasPrefix("application/") && contentType.contains("json") {
                 encoding = JSONDataEncoding()
             } else if contentType.hasPrefix("multipart/form-data") {
                 encoding = FormDataEncoding(contentTypeForFormPart: contentTypeForFormPart(fileURL:))
@@ -585,7 +585,7 @@ private class FormDataEncoding: ParameterEncoding {
     func mimeType(for url: URL) -> String {
         let pathExtension = url.pathExtension
 
-        if #available(iOS 15, macOS 11, *) {
+        if #available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *) {
             #if canImport(UniformTypeIdentifiers)
             if let utType = UTType(filenameExtension: pathExtension) {
                 return utType.preferredMIMEType ?? "application/octet-stream"

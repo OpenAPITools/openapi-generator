@@ -32,7 +32,7 @@ import jakarta.validation.Valid;
   ReadOnlyFirst.JSON_PROPERTY_BAR,
   ReadOnlyFirst.JSON_PROPERTY_BAZ
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class ReadOnlyFirst {
   public static final String JSON_PROPERTY_BAR = "bar";
   private String bar;
@@ -42,7 +42,9 @@ public class ReadOnlyFirst {
 
   public ReadOnlyFirst() {
   }
-
+  /**
+   * Constructor with only readonly parameters
+   */
   @JsonCreator
   public ReadOnlyFirst(
     @JsonProperty(JSON_PROPERTY_BAR) String bar
@@ -51,10 +53,10 @@ public class ReadOnlyFirst {
     this.bar = bar;
   }
 
-   /**
+  /**
    * Get bar
    * @return bar
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_BAR)
@@ -66,17 +68,16 @@ public class ReadOnlyFirst {
 
 
 
-
   public ReadOnlyFirst baz(String baz) {
     
     this.baz = baz;
     return this;
   }
 
-   /**
+  /**
    * Get baz
    * @return baz
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_BAZ)

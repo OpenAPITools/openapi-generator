@@ -280,7 +280,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of EnumInteger
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<EnumIntegerEnum?> EnumIntegerOption { get; private set; }
 
         /// <summary>
@@ -352,7 +352,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of EnumIntegerOnly
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<EnumIntegerOnlyEnum?> EnumIntegerOnlyOption { get; private set; }
 
         /// <summary>
@@ -431,7 +431,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of EnumNumber
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<EnumNumberEnum?> EnumNumberOption { get; private set; }
 
         /// <summary>
@@ -594,7 +594,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of EnumString
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<EnumStringEnum?> EnumStringOption { get; private set; }
 
         /// <summary>
@@ -607,7 +607,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of OuterEnum
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<OuterEnum?> OuterEnumOption { get; private set; }
 
         /// <summary>
@@ -620,7 +620,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of OuterEnumDefaultValue
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<OuterEnumDefaultValue?> OuterEnumDefaultValueOption { get; private set; }
 
         /// <summary>
@@ -633,7 +633,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of OuterEnumInteger
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<OuterEnumInteger?> OuterEnumIntegerOption { get; private set; }
 
         /// <summary>
@@ -646,7 +646,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of OuterEnumIntegerDefaultValue
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<OuterEnumIntegerDefaultValue?> OuterEnumIntegerDefaultValueOption { get; private set; }
 
         /// <summary>
@@ -688,7 +688,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -830,7 +830,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, enumTest, jsonSerializerOptions);
+            WriteProperties(writer, enumTest, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -841,7 +841,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="enumTest"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, EnumTest enumTest, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, EnumTest enumTest, JsonSerializerOptions jsonSerializerOptions)
         {
             var enumStringRequiredRawValue = EnumTest.EnumStringRequiredEnumToJsonValue(enumTest.EnumStringRequired);
             writer.WriteString("enum_string_required", enumStringRequiredRawValue);

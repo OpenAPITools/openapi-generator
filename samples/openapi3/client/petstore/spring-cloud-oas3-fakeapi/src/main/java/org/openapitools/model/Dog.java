@@ -23,10 +23,14 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class Dog extends Animal {
 
   private String breed;
+
+  public Dog() {
+    super();
+  }
 
   public Dog breed(String breed) {
     this.breed = breed;
@@ -36,7 +40,7 @@ public class Dog extends Animal {
   /**
    * Get breed
    * @return breed
-  */
+   */
   
   @Schema(name = "breed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("breed")

@@ -36,7 +36,7 @@ export interface AdditionalPropertiesClass {
 /**
  * Check if a given object implements the AdditionalPropertiesClass interface.
  */
-export function instanceOfAdditionalPropertiesClass(value: object): boolean {
+export function instanceOfAdditionalPropertiesClass(value: object): value is AdditionalPropertiesClass {
     return true;
 }
 
@@ -55,10 +55,15 @@ export function AdditionalPropertiesClassFromJSONTyped(json: any, ignoreDiscrimi
     };
 }
 
-export function AdditionalPropertiesClassToJSON(value?: AdditionalPropertiesClass | null): any {
+  export function AdditionalPropertiesClassToJSON(json: any): AdditionalPropertiesClass {
+      return AdditionalPropertiesClassToJSONTyped(json, false);
+  }
+
+  export function AdditionalPropertiesClassToJSONTyped(value?: AdditionalPropertiesClass | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'map_property': value['mapProperty'],

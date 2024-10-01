@@ -20,6 +20,7 @@ package org.openapitools.codegen;
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.callbacks.Callback;
 import io.swagger.v3.oas.models.headers.Header;
+import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -283,8 +284,22 @@ public class OpenAPINormalizer {
             this.openAPI.getComponents().setSchemas(new HashMap<String, Schema>());
         }
 
+        normalizeInfo();
         normalizePaths();
         normalizeComponentsSchemas();
+    }
+
+    /**
+     * Pre-populate info if it's not defined.
+     */
+    private void normalizeInfo() {
+        if (this.openAPI.getInfo() == null) {
+            Info info = new Info();
+            info.setTitle("OpenAPI");
+            info.setVersion("0.0.1");
+            info.setDescription("OpenAPI");
+            this.openAPI.setInfo(info);
+        }
     }
 
     /**
@@ -411,9 +426,7 @@ public class OpenAPINormalizer {
                 parameter = ModelUtils.getReferencedParameter(openAPI, parameter);
             }
 
-            if (parameter.getSchema() == null) {
-                continue;
-            } else {
+            if (parameter.getSchema() != null) {
                 Schema newSchema = normalizeSchema(parameter.getSchema(), new HashSet<>());
                 parameter.setSchema(newSchema);
             }
@@ -943,7 +956,13 @@ public class OpenAPINormalizer {
             if (oneOfSchemas.size() == 6) {
                 TreeSet<String> ts = new TreeSet<>();
                 for (Schema s: oneOfSchemas) {
-                    ts.add(ModelUtils.getType(s));
+                    s = ModelUtils.getReferencedSchema(openAPI, s);
+                    String type = ModelUtils.getType(s);
+                    if (type == null) {
+                        LOGGER.debug("Error null type found in schema when simplifying any type with 6 sub-schemas: {}", s);
+                    } else {
+                        ts.add(type);
+                    }
                 }
 
                 if (ts.equals(anyTypeTreeSet)) {
@@ -1068,7 +1087,13 @@ public class OpenAPINormalizer {
             if (anyOfSchemas.size() == 6) {
                 TreeSet<String> ts = new TreeSet<>();
                 for (Schema s: anyOfSchemas) {
-                    ts.add(ModelUtils.getType(s));
+                    s = ModelUtils.getReferencedSchema(openAPI, s);
+                    String type = ModelUtils.getType(s);
+                    if (type == null) {
+                        LOGGER.debug("Error null type found in schema when simplifying any type with 6 sub-schemas: {}", s);
+                    } else {
+                        ts.add(type);
+                    }
                 }
 
                 if (ts.equals(anyTypeTreeSet)) {
@@ -1243,6 +1268,7 @@ public class OpenAPINormalizer {
                 as.setMaxItems(schema.getMaxItems());
                 as.setExtensions(schema.getExtensions());
                 as.setXml(schema.getXml());
+                as.setNullable(schema.getNullable());
                 as.setUniqueItems(schema.getUniqueItems());
                 if (schema.getItems() != null) {
                     // `items` is also a json schema
@@ -1254,6 +1280,9 @@ public class OpenAPINormalizer {
                         Schema updatedItems = normalizeSchema(schema.getItems(), visitedSchemas);
                         as.setItems(updatedItems);
                     }
+                } else {
+                    // when items is not defined, default to any type
+                    as.setItems(new Schema());
                 }
 
                 return as;

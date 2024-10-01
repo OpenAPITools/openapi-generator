@@ -126,72 +126,72 @@ Accept: application/json
 
 ### List issues assigned to the authenticated user
 ## List issues assigned to the authenticated user
-GET https://api.github.com/issues
+GET https://api.github.com/issues?filter={{filter}}&state={{state}}&labels={{labels}}&sort={{sort}}&direction={{direction}}&since={{since}}&collab={{collab}}&orgs={{orgs}}&owned={{owned}}&pulls={{pulls}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List assignees
 ## List assignees
-GET https://api.github.com/repos/{{owner}}/{{repo}}/assignees
+GET https://api.github.com/repos/{{owner}}/{{repo}}/assignees?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List issue comments
 ## List issue comments
-GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/comments
+GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/comments?since={{since}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List issue comments for a repository
 ## List issue comments for a repository
-GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/comments
+GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/comments?sort={{sort}}&direction={{direction}}&since={{since}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List issue events
 ## List issue events
-GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/events
+GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/events?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List issue events for a repository
 ## List issue events for a repository
-GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/events
+GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/events?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List timeline events for an issue
 ## List timeline events for an issue
-GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/timeline
+GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/timeline?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List user account issues assigned to the authenticated user
 ## List user account issues assigned to the authenticated user
-GET https://api.github.com/user/issues
+GET https://api.github.com/user/issues?filter={{filter}}&state={{state}}&labels={{labels}}&sort={{sort}}&direction={{direction}}&since={{since}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List organization issues assigned to the authenticated user
 ## List organization issues assigned to the authenticated user
-GET https://api.github.com/orgs/{{org}}/issues
+GET https://api.github.com/orgs/{{org}}/issues?filter={{filter}}&state={{state}}&labels={{labels}}&sort={{sort}}&direction={{direction}}&since={{since}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List repository issues
 ## List repository issues
-GET https://api.github.com/repos/{{owner}}/{{repo}}/issues
+GET https://api.github.com/repos/{{owner}}/{{repo}}/issues?milestone={{milestone}}&state={{state}}&assignee={{assignee}}&creator={{creator}}&mentioned={{mentioned}}&labels={{labels}}&sort={{sort}}&direction={{direction}}&since={{since}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List labels for issues in a milestone
 ## List labels for issues in a milestone
-GET https://api.github.com/repos/{{owner}}/{{repo}}/milestones/{{milestone_number}}/labels
+GET https://api.github.com/repos/{{owner}}/{{repo}}/milestones/{{milestone_number}}/labels?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List labels for a repository
 ## List labels for a repository
-GET https://api.github.com/repos/{{owner}}/{{repo}}/labels
+GET https://api.github.com/repos/{{owner}}/{{repo}}/labels?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List labels for an issue
 ## List labels for an issue
-GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/labels
+GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/labels?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List milestones
 ## List milestones
-GET https://api.github.com/repos/{{owner}}/{{repo}}/milestones
+GET https://api.github.com/repos/{{owner}}/{{repo}}/milestones?state={{state}}&sort={{sort}}&direction={{direction}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### Lock an issue

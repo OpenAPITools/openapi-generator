@@ -7,6 +7,11 @@
 export enum {{classname}} {
 {{#allowableValues}}
 {{#enumVars}}
+    {{#enumDescription}}
+    /**
+    * {{enumDescription}}
+    */
+    {{/enumDescription}}
     {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
 {{/enumVars}}
 {{/allowableValues}}
@@ -19,6 +24,11 @@ export enum {{classname}} {
 export const {{classname}} = {
 {{#allowableValues}}
 {{#enumVars}}
+    {{#enumDescription}}
+    /**
+    * {{enumDescription}}
+    */
+    {{/enumDescription}}
     {{{name}}}: {{{value}}}{{^-last}},{{/-last}}
 {{/enumVars}}
 {{/allowableValues}}

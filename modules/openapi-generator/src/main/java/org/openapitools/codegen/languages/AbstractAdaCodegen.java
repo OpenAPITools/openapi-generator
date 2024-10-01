@@ -20,7 +20,6 @@ package org.openapitools.codegen.languages;
 import com.samskivert.mustache.Escapers;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
@@ -885,6 +884,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
             this.name = name;
         }
 
+        @Override
         public int compareTo(ModelDepend second) {
 
             if (depend != null && depend.contains(second.name)) {

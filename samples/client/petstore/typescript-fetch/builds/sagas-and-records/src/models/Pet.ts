@@ -18,24 +18,28 @@ import {
     CategoryFromJSON,
     CategoryFromJSONTyped,
     CategoryToJSON,
+    CategoryToJSONTyped,
 } from './Category';
 import type { DeploymentRequestStatus } from './DeploymentRequestStatus';
 import {
     DeploymentRequestStatusFromJSON,
     DeploymentRequestStatusFromJSONTyped,
     DeploymentRequestStatusToJSON,
+    DeploymentRequestStatusToJSONTyped,
 } from './DeploymentRequestStatus';
 import type { Tag } from './Tag';
 import {
     TagFromJSON,
     TagFromJSONTyped,
     TagToJSON,
+    TagToJSONTyped,
 } from './Tag';
 import type { WarningCode } from './WarningCode';
 import {
     WarningCodeFromJSON,
     WarningCodeFromJSONTyped,
     WarningCodeToJSON,
+    WarningCodeToJSONTyped,
 } from './WarningCode';
 
 /**
@@ -166,10 +170,10 @@ export interface Pet {
     status: PetStatusEnum;
     /**
      * An array of all 15-minute time slots in 24 hours.
-     * @type {Array<Array<number>>}
+     * @type {Array<Array<number | null>>}
      * @memberof Pet
      */
-    regions?: Array<Array<number>>;
+    regions?: Array<Array<number | null>>;
 }
 
 
@@ -187,21 +191,21 @@ export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 /**
  * Check if a given object implements the Pet interface.
  */
-export function instanceOfPet(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('otherFriendIds' in value)) return false;
-    if (!('friendAge' in value)) return false;
-    if (!('age' in value)) return false;
-    if (!('isHappy' in value)) return false;
-    if (!('isTall' in value)) return false;
-    if (!('category' in value)) return false;
-    if (!('name' in value)) return false;
-    if (!('photoUrls' in value)) return false;
-    if (!('warningStatus' in value)) return false;
-    if (!('alternateStatus' in value)) return false;
-    if (!('otherDepStatuses' in value)) return false;
-    if (!('tags' in value)) return false;
-    if (!('status' in value)) return false;
+export function instanceOfPet(value: object): value is Pet {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('otherFriendIds' in value) || value['otherFriendIds'] === undefined) return false;
+    if (!('friendAge' in value) || value['friendAge'] === undefined) return false;
+    if (!('age' in value) || value['age'] === undefined) return false;
+    if (!('isHappy' in value) || value['isHappy'] === undefined) return false;
+    if (!('isTall' in value) || value['isTall'] === undefined) return false;
+    if (!('category' in value) || value['category'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('photoUrls' in value) || value['photoUrls'] === undefined) return false;
+    if (!('warningStatus' in value) || value['warningStatus'] === undefined) return false;
+    if (!('alternateStatus' in value) || value['alternateStatus'] === undefined) return false;
+    if (!('otherDepStatuses' in value) || value['otherDepStatuses'] === undefined) return false;
+    if (!('tags' in value) || value['tags'] === undefined) return false;
+    if (!('status' in value) || value['status'] === undefined) return false;
     return true;
 }
 
@@ -239,10 +243,15 @@ export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
     };
 }
 
-export function PetToJSON(value?: Pet | null): any {
+  export function PetToJSON(json: any): Pet {
+      return PetToJSONTyped(json, false);
+  }
+
+  export function PetToJSONTyped(value?: Pet | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],

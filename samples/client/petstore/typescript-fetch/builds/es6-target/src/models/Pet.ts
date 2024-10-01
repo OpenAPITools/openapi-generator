@@ -18,12 +18,14 @@ import {
     CategoryFromJSON,
     CategoryFromJSONTyped,
     CategoryToJSON,
+    CategoryToJSONTyped,
 } from './Category';
 import type { Tag } from './Tag';
 import {
     TagFromJSON,
     TagFromJSONTyped,
     TagToJSON,
+    TagToJSONTyped,
 } from './Tag';
 
 /**
@@ -85,9 +87,9 @@ export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 /**
  * Check if a given object implements the Pet interface.
  */
-export function instanceOfPet(value: object): boolean {
-    if (!('name' in value)) return false;
-    if (!('photoUrls' in value)) return false;
+export function instanceOfPet(value: object): value is Pet {
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('photoUrls' in value) || value['photoUrls'] === undefined) return false;
     return true;
 }
 
@@ -110,10 +112,15 @@ export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
     };
 }
 
-export function PetToJSON(value?: Pet | null): any {
+  export function PetToJSON(json: any): Pet {
+      return PetToJSONTyped(json, false);
+  }
+
+  export function PetToJSONTyped(value?: Pet | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],

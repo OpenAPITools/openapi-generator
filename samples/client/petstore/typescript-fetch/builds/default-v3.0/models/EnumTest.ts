@@ -18,25 +18,29 @@ import {
     OuterEnumFromJSON,
     OuterEnumFromJSONTyped,
     OuterEnumToJSON,
+    OuterEnumToJSONTyped,
 } from './OuterEnum';
-import type { OuterEnumDefaultValue } from './OuterEnumDefaultValue';
-import {
-    OuterEnumDefaultValueFromJSON,
-    OuterEnumDefaultValueFromJSONTyped,
-    OuterEnumDefaultValueToJSON,
-} from './OuterEnumDefaultValue';
-import type { OuterEnumInteger } from './OuterEnumInteger';
-import {
-    OuterEnumIntegerFromJSON,
-    OuterEnumIntegerFromJSONTyped,
-    OuterEnumIntegerToJSON,
-} from './OuterEnumInteger';
 import type { OuterEnumIntegerDefaultValue } from './OuterEnumIntegerDefaultValue';
 import {
     OuterEnumIntegerDefaultValueFromJSON,
     OuterEnumIntegerDefaultValueFromJSONTyped,
     OuterEnumIntegerDefaultValueToJSON,
+    OuterEnumIntegerDefaultValueToJSONTyped,
 } from './OuterEnumIntegerDefaultValue';
+import type { OuterEnumInteger } from './OuterEnumInteger';
+import {
+    OuterEnumIntegerFromJSON,
+    OuterEnumIntegerFromJSONTyped,
+    OuterEnumIntegerToJSON,
+    OuterEnumIntegerToJSONTyped,
+} from './OuterEnumInteger';
+import type { OuterEnumDefaultValue } from './OuterEnumDefaultValue';
+import {
+    OuterEnumDefaultValueFromJSON,
+    OuterEnumDefaultValueFromJSONTyped,
+    OuterEnumDefaultValueToJSON,
+    OuterEnumDefaultValueToJSONTyped,
+} from './OuterEnumDefaultValue';
 
 /**
  * 
@@ -73,7 +77,7 @@ export interface EnumTest {
      * @type {OuterEnum}
      * @memberof EnumTest
      */
-    outerEnum?: OuterEnum;
+    outerEnum?: OuterEnum | null;
     /**
      * 
      * @type {OuterEnumInteger}
@@ -137,8 +141,8 @@ export type EnumTestEnumNumberEnum = typeof EnumTestEnumNumberEnum[keyof typeof 
 /**
  * Check if a given object implements the EnumTest interface.
  */
-export function instanceOfEnumTest(value: object): boolean {
-    if (!('enumStringRequired' in value)) return false;
+export function instanceOfEnumTest(value: object): value is EnumTest {
+    if (!('enumStringRequired' in value) || value['enumStringRequired'] === undefined) return false;
     return true;
 }
 
@@ -163,10 +167,15 @@ export function EnumTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     };
 }
 
-export function EnumTestToJSON(value?: EnumTest | null): any {
+  export function EnumTestToJSON(json: any): EnumTest {
+      return EnumTestToJSONTyped(json, false);
+  }
+
+  export function EnumTestToJSONTyped(value?: EnumTest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'enum_string': value['enumString'],

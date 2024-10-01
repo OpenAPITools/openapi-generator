@@ -43,6 +43,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
      * @return the CodegenType for this generator
      * @see org.openapitools.codegen.CodegenType
      */
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
@@ -53,6 +54,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
      *
      * @return the friendly name for the generator
      */
+    @Override
     public String getName() {
         return "php-laravel";
     }
@@ -63,6 +65,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
      *
      * @return A string value for the help message
      */
+    @Override
     public String getHelp() {
         return "Generates a PHP laravel server library.";
     }
@@ -198,9 +201,6 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("config/services.php", outputFolder + File.separator + "config", "services.php"));
         supportingFiles.add(new SupportingFile("config/session.php", outputFolder + File.separator + "config", "session.php"));
         supportingFiles.add(new SupportingFile("config/view.php", outputFolder + File.separator + "config", "view.php"));
-
-        // /database/
-        supportingFiles.add(new SupportingFile("database/migrations/2019_08_19_000000_create_failed_jobs_table.php", outputFolder + File.separator + "database" + File.separator + "migrations", "2019_08_19_000000_create_failed_jobs_table.php"));
 
         // /resources/
         supportingFiles.add(new SupportingFile("resources/js/app.js", outputFolder + File.separator + "resources" + File.separator + "assets" + File.separator + "js", "app.js"));
@@ -373,23 +373,5 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
     @Override
     public String toEnumDefaultValue(String value, String datatype) {
         return datatype + "::" + value;
-    }
-
-    @Override
-    public String toEnumVarName(String value, String datatype) {
-        if (value.length() == 0) {
-            return super.toEnumVarName(value, datatype);
-        }
-
-        // number
-        if ("int".equals(datatype) || "float".equals(datatype)) {
-            String varName = "NUMBER_" + value;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
-            return varName;
-        }
-
-        return super.toEnumVarName(value, datatype);
     }
 }

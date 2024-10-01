@@ -48,8 +48,8 @@ export interface Name {
 /**
  * Check if a given object implements the Name interface.
  */
-export function instanceOfName(value: object): boolean {
-    if (!('name' in value)) return false;
+export function instanceOfName(value: object): value is Name {
+    if (!('name' in value) || value['name'] === undefined) return false;
     return true;
 }
 
@@ -70,10 +70,15 @@ export function NameFromJSONTyped(json: any, ignoreDiscriminator: boolean): Name
     };
 }
 
-export function NameToJSON(value?: Omit<Name, 'snake_case'|'123Number'> | null): any {
+  export function NameToJSON(json: any): Name {
+      return NameToJSONTyped(json, false);
+  }
+
+  export function NameToJSONTyped(value?: Omit<Name, 'snake_case'|'123Number'> | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'name': value['name'],

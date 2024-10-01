@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of File
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<File> FileOption { get; private set; }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Files
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<File>> FilesOption { get; private set; }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -176,7 +176,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, fileSchemaTestClass, jsonSerializerOptions);
+            WriteProperties(writer, fileSchemaTestClass, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -187,7 +187,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="fileSchemaTestClass"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, FileSchemaTestClass fileSchemaTestClass, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, FileSchemaTestClass fileSchemaTestClass, JsonSerializerOptions jsonSerializerOptions)
         {
             if (fileSchemaTestClass.FileOption.IsSet && fileSchemaTestClass.File == null)
                 throw new ArgumentNullException(nameof(fileSchemaTestClass.File), "Property is required for class FileSchemaTestClass.");

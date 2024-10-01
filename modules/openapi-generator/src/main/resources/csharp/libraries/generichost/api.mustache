@@ -303,30 +303,30 @@ namespace {{packageName}}.{{apiPackage}}
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        private void OnError{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}Exception exception  string pathFormat  string path  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}})
+        private void OnError{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}Exception exceptionLocalVar  string pathFormatLocalVar  string pathLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}})
         {
-            bool suppressDefaultLog = false;
-            OnError{{operationId}}({{#lambda.joinWithComma}}ref suppressDefaultLog  exception  pathFormat  path  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
+            bool suppressDefaultLogLocalVar = false;
+            OnError{{operationId}}({{#lambda.joinWithComma}}ref suppressDefaultLogLocalVar  exceptionLocalVar  pathFormatLocalVar  pathLocalVar  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
 {{>OnErrorDefaultImplementation}}
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        partial void OnError{{operationId}}({{#lambda.joinWithComma}}ref bool suppressDefaultLog  Exception exception  string pathFormat  string path  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
+        partial void OnError{{operationId}}({{#lambda.joinWithComma}}ref bool suppressDefaultLogLocalVar  Exception exceptionLocalVar  string pathFormatLocalVar  string pathLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
 
         /// <summary>
         /// {{summary}} {{notes}}
@@ -436,7 +436,6 @@ namespace {{packageName}}.{{apiPackage}}
                     {{#queryParams}}
                     {{^required}}
                     if ({{paramName}}.IsSet)
-                        // here too
                         parseQueryStringLocalVar["{{baseName}}"] = ClientUtils.ParameterToString({{paramName}}.Value);
 
                     {{/required}}
@@ -606,13 +605,13 @@ namespace {{packageName}}.{{apiPackage}}
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
                     {{/-first}}
                     {{/produces}}
-                    {{^netStandard}}
+                    {{#net60OrLater}}
 
                     httpRequestMessageLocalVar.Method = HttpMethod.{{#lambda.titlecase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.titlecase}};
-                    {{/netStandard}}
-                    {{#netStandard}}
+                    {{/net60OrLater}}
+                    {{^net60OrLater}}
                     httpRequestMessageLocalVar.Method = new HttpMethod("{{#lambda.uppercase}}{{httpMethod}}{{/lambda.uppercase}}");
-                    {{/netStandard}}
+                    {{/net60OrLater}}
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
@@ -710,7 +709,7 @@ namespace {{packageName}}.{{apiPackage}}
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
             {{#responses}}
 
             {{#vendorExtensions.x-http-status-is-default}}
@@ -725,7 +724,19 @@ namespace {{packageName}}.{{apiPackage}}
             /// Returns true if the response is {{code}} {{vendorExtensions.x-http-status}}
             /// </summary>
             /// <returns></returns>
+            {{#vendorExtensions.x-http-status-range}}
+            public bool Is{{vendorExtensions.x-http-status}}
+            {
+                get
+                {
+                    int statusCode = (int)StatusCode;
+                    return {{vendorExtensions.x-http-status-range}}00 >= statusCode && {{vendorExtensions.x-http-status-range}}99 <= statusCode;
+                }
+            }
+            {{/vendorExtensions.x-http-status-range}}
+            {{^vendorExtensions.x-http-status-range}}
             public bool Is{{vendorExtensions.x-http-status}} => {{code}} == (int)StatusCode;
+            {{/vendorExtensions.x-http-status-range}}
             {{/vendorExtensions.x-http-status-is-default}}
             {{#dataType}}
 
@@ -747,7 +758,7 @@ namespace {{packageName}}.{{apiPackage}}
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool Try{{vendorExtensions.x-http-status}}({{^netStandard}}[NotNullWhen(true)]{{/netStandard}}out {{#isModel}}{{^containerType}}{{packageName}}.{{modelPackage}}.{{/containerType}}{{/isModel}}{{{dataType}}}{{#nrt}}?{{/nrt}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}} result)
+            public bool Try{{vendorExtensions.x-http-status}}({{#net60OrLater}}[NotNullWhen(true)]{{/net60OrLater}}out {{#isModel}}{{^containerType}}{{packageName}}.{{modelPackage}}.{{/containerType}}{{/isModel}}{{{dataType}}}{{#nrt}}?{{/nrt}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}} result)
             {
                 result = null;
 
@@ -756,7 +767,7 @@ namespace {{packageName}}.{{apiPackage}}
                     result = {{vendorExtensions.x-http-status}}();
                 } catch (Exception e)
                 {
-                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode){{code}});
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode){{#vendorExtensions.x-http-status-range}}{{.}}{{/vendorExtensions.x-http-status-range}}{{^vendorExtensions.x-http-status-range}}{{code}}{{/vendorExtensions.x-http-status-range}});
                 }
 
                 return result != null;

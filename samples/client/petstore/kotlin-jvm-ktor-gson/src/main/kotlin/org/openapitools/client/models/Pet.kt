@@ -66,5 +66,6 @@ data class Pet (
         @SerializedName(value = "sold") sold("sold"),
         @SerializedName(value = "unknown_default_open_api") unknown_default_open_api("unknown_default_open_api");
     }
+
 }
 

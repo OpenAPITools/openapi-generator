@@ -73,7 +73,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -147,7 +147,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, shapeInterface, jsonSerializerOptions);
+            WriteProperties(writer, shapeInterface, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -158,7 +158,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapeInterface"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, ShapeInterface shapeInterface, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, ShapeInterface shapeInterface, JsonSerializerOptions jsonSerializerOptions)
         {
             if (shapeInterface.ShapeType == null)
                 throw new ArgumentNullException(nameof(shapeInterface.ShapeType), "Property is required for class ShapeInterface.");

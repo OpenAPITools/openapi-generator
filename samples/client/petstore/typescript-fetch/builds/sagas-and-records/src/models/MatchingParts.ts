@@ -18,6 +18,7 @@ import {
     PartFromJSON,
     PartFromJSONTyped,
     PartToJSON,
+    PartToJSONTyped,
 } from './Part';
 
 /**
@@ -43,9 +44,9 @@ export interface MatchingParts {
 /**
  * Check if a given object implements the MatchingParts interface.
  */
-export function instanceOfMatchingParts(value: object): boolean {
-    if (!('connected' in value)) return false;
-    if (!('related' in value)) return false;
+export function instanceOfMatchingParts(value: object): value is MatchingParts {
+    if (!('connected' in value) || value['connected'] === undefined) return false;
+    if (!('related' in value) || value['related'] === undefined) return false;
     return true;
 }
 
@@ -64,10 +65,15 @@ export function MatchingPartsFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function MatchingPartsToJSON(value?: MatchingParts | null): any {
+  export function MatchingPartsToJSON(json: any): MatchingParts {
+      return MatchingPartsToJSONTyped(json, false);
+  }
+
+  export function MatchingPartsToJSONTyped(value?: MatchingParts | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'connected': ((value['connected'] as Array<any>).map(PartToJSON)),

@@ -15,6 +15,7 @@ import (
 	"fmt"
 )
 
+
 // GmFruit struct for GmFruit
 type GmFruit struct {
 	Apple *Apple
@@ -65,6 +66,7 @@ func (src *GmFruit) MarshalJSON() ([]byte, error) {
 
 	return nil, nil // no data in anyOf schemas
 }
+
 
 type NullableGmFruit struct {
 	value *GmFruit

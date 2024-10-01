@@ -18,6 +18,7 @@ import {
     ReadOnlyFirstFromJSON,
     ReadOnlyFirstFromJSONTyped,
     ReadOnlyFirstToJSON,
+    ReadOnlyFirstToJSONTyped,
 } from './ReadOnlyFirst';
 
 /**
@@ -49,7 +50,7 @@ export interface ArrayTest {
 /**
  * Check if a given object implements the ArrayTest interface.
  */
-export function instanceOfArrayTest(value: object): boolean {
+export function instanceOfArrayTest(value: object): value is ArrayTest {
     return true;
 }
 
@@ -69,10 +70,15 @@ export function ArrayTestFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     };
 }
 
-export function ArrayTestToJSON(value?: ArrayTest | null): any {
+  export function ArrayTestToJSON(json: any): ArrayTest {
+      return ArrayTestToJSONTyped(json, false);
+  }
+
+  export function ArrayTestToJSONTyped(value?: ArrayTest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'array_of_string': value['arrayOfString'],

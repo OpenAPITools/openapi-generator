@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.collect.Iterables;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -52,18 +53,21 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
     private final Logger LOGGER = LoggerFactory.getLogger(GoServerCodegen.class);
 
-    protected String packageVersion = "1.0.0";
-    protected int serverPort = 8080;
+    @Setter protected String packageVersion = "1.0.0";
+    @Setter protected int serverPort = 8080;
     protected String projectName = "openapi-server";
-    protected String sourceFolder = "go";
+    @Setter protected String sourceFolder = "go";
     protected Boolean corsFeatureEnabled = false;
-    protected Boolean addResponseHeaders = false;
-    protected Boolean outputAsLibrary = false;
-    protected Boolean onlyInterfaces = false;
+    @Setter protected Boolean addResponseHeaders = false;
+    @Setter protected Boolean outputAsLibrary = false;
+    @Setter protected Boolean onlyInterfaces = false;
 
 
     public GoServerCodegen() {
         super();
+
+        // skip sorting of operations to preserve the order found in the OpenAPI spec file
+        super.setSkipSortingOperations(true);
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
@@ -398,8 +402,28 @@ public class GoServerCodegen extends AbstractGoCodegen {
             }
         }
 
+        this.addConditionalImportInformation(objs);
+
         return objs;
     }
+
+    private void addConditionalImportInformation(OperationsMap operations) {
+        boolean hasPathParams = false;
+        boolean hasBodyParams = false;
+
+        for (CodegenOperation op : operations.getOperations().getOperation()) {
+            if (op.getHasPathParams()) {
+                hasPathParams = true;
+            }
+            if (op.getHasBodyParam()) {
+                hasBodyParams = true;
+            }
+        }
+
+        additionalProperties.put("hasPathParams", hasPathParams);
+        additionalProperties.put("hasBodyParams", hasBodyParams);
+    }
+
 
     @Override
     public String apiPackage() {
@@ -454,32 +478,8 @@ public class GoServerCodegen extends AbstractGoCodegen {
         return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
     }
 
-    public void setSourceFolder(String sourceFolder) {
-        this.sourceFolder = sourceFolder;
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
-    }
-
-    public void setServerPort(int serverPort) {
-        this.serverPort = serverPort;
-    }
-
     public void setFeatureCORS(Boolean featureCORS) {
         this.corsFeatureEnabled = featureCORS;
-    }
-
-    public void setAddResponseHeaders(Boolean addResponseHeaders) {
-        this.addResponseHeaders = addResponseHeaders;
-    }
-
-    public void setOnlyInterfaces(Boolean onlyInterfaces) {
-        this.onlyInterfaces = onlyInterfaces;
-    }
-
-    public void setOutputAsLibrary(Boolean outputAsLibrary) {
-        this.outputAsLibrary = outputAsLibrary;
     }
 
 }

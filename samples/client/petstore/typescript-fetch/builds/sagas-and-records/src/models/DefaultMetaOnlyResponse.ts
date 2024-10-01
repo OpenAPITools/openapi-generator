@@ -18,6 +18,7 @@ import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
+    ResponseMetaToJSONTyped,
 } from './ResponseMeta';
 
 /**
@@ -37,8 +38,8 @@ export interface DefaultMetaOnlyResponse {
 /**
  * Check if a given object implements the DefaultMetaOnlyResponse interface.
  */
-export function instanceOfDefaultMetaOnlyResponse(value: object): boolean {
-    if (!('meta' in value)) return false;
+export function instanceOfDefaultMetaOnlyResponse(value: object): value is DefaultMetaOnlyResponse {
+    if (!('meta' in value) || value['meta'] === undefined) return false;
     return true;
 }
 
@@ -56,10 +57,15 @@ export function DefaultMetaOnlyResponseFromJSONTyped(json: any, ignoreDiscrimina
     };
 }
 
-export function DefaultMetaOnlyResponseToJSON(value?: DefaultMetaOnlyResponse | null): any {
+  export function DefaultMetaOnlyResponseToJSON(json: any): DefaultMetaOnlyResponse {
+      return DefaultMetaOnlyResponseToJSONTyped(json, false);
+  }
+
+  export function DefaultMetaOnlyResponseToJSONTyped(value?: DefaultMetaOnlyResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'meta': ResponseMetaToJSON(value['meta']),

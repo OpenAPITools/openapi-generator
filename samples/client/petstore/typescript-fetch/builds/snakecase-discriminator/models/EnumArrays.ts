@@ -56,7 +56,7 @@ export type EnumArraysArrayEnumEnum = typeof EnumArraysArrayEnumEnum[keyof typeo
 /**
  * Check if a given object implements the EnumArrays interface.
  */
-export function instanceOfEnumArrays(value: object): boolean {
+export function instanceOfEnumArrays(value: object): value is EnumArrays {
     return true;
 }
 
@@ -75,10 +75,15 @@ export function EnumArraysFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     };
 }
 
-export function EnumArraysToJSON(value?: EnumArrays | null): any {
+  export function EnumArraysToJSON(json: any): EnumArrays {
+      return EnumArraysToJSONTyped(json, false);
+  }
+
+  export function EnumArraysToJSONTyped(value?: EnumArrays | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'just_symbol': value['justSymbol'],

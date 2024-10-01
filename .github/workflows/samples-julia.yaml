@@ -30,7 +30,7 @@ jobs:
           # Using develop mode to install package so that it is easier to modify the package test files
           julia -e "using Pkg; Pkg.develop(\"OpenAPI\");"
           cd ~/.julia/dev/OpenAPI
-          git checkout v0.1.14
+          git checkout v0.1.25
           cd $currdir
           rm -rf ~/.julia/dev/OpenAPI/test/client/openapigenerator_petstore_v3/petstore
           rm -rf ~/.julia/dev/OpenAPI/test/server/openapigenerator_petstore_v3/petstore

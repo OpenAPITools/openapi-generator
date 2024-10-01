@@ -18,6 +18,7 @@ import {
     ErrorCodeFromJSON,
     ErrorCodeFromJSONTyped,
     ErrorCodeToJSON,
+    ErrorCodeToJSONTyped,
 } from './ErrorCode';
 
 /**
@@ -99,8 +100,8 @@ export type ResponseMetaCodeEnum = typeof ResponseMetaCodeEnum[keyof typeof Resp
 /**
  * Check if a given object implements the ResponseMeta interface.
  */
-export function instanceOfResponseMeta(value: object): boolean {
-    if (!('code' in value)) return false;
+export function instanceOfResponseMeta(value: object): value is ResponseMeta {
+    if (!('code' in value) || value['code'] === undefined) return false;
     return true;
 }
 
@@ -123,10 +124,15 @@ export function ResponseMetaFromJSONTyped(json: any, ignoreDiscriminator: boolea
     };
 }
 
-export function ResponseMetaToJSON(value?: ResponseMeta | null): any {
+  export function ResponseMetaToJSON(json: any): ResponseMeta {
+      return ResponseMetaToJSONTyped(json, false);
+  }
+
+  export function ResponseMetaToJSONTyped(value?: ResponseMeta | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'code': value['code'],

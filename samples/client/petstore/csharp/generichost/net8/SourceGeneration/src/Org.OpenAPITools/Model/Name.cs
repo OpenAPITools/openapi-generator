@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Property
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> PropertyOption { get; private set; }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of SnakeCase
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> SnakeCaseOption { get; }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Var123Number
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> Var123NumberOption { get; }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -263,7 +263,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, name, jsonSerializerOptions);
+            WriteProperties(writer, name, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -274,7 +274,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="name"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Name name, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Name name, JsonSerializerOptions jsonSerializerOptions)
         {
             if (name.PropertyOption.IsSet && name.Property == null)
                 throw new ArgumentNullException(nameof(name.Property), "Property is required for class Name.");

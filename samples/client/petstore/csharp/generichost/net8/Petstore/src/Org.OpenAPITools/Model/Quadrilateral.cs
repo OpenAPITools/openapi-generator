@@ -33,11 +33,9 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Quadrilateral" /> class.
         /// </summary>
         /// <param name="simpleQuadrilateral"></param>
-        /// <param name="quadrilateralType">quadrilateralType</param>
-        public Quadrilateral(SimpleQuadrilateral simpleQuadrilateral, string quadrilateralType)
+        public Quadrilateral(SimpleQuadrilateral simpleQuadrilateral)
         {
             SimpleQuadrilateral = simpleQuadrilateral;
-            QuadrilateralType = quadrilateralType;
             OnCreated();
         }
 
@@ -45,11 +43,9 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Quadrilateral" /> class.
         /// </summary>
         /// <param name="complexQuadrilateral"></param>
-        /// <param name="quadrilateralType">quadrilateralType</param>
-        public Quadrilateral(ComplexQuadrilateral complexQuadrilateral, string quadrilateralType)
+        public Quadrilateral(ComplexQuadrilateral complexQuadrilateral)
         {
             ComplexQuadrilateral = complexQuadrilateral;
-            QuadrilateralType = quadrilateralType;
             OnCreated();
         }
 
@@ -66,12 +62,6 @@ namespace Org.OpenAPITools.Model
         public ComplexQuadrilateral ComplexQuadrilateral { get; set; }
 
         /// <summary>
-        /// Gets or Sets QuadrilateralType
-        /// </summary>
-        [JsonPropertyName("quadrilateralType")]
-        public string QuadrilateralType { get; set; }
-
-        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -85,7 +75,6 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Quadrilateral {\n");
-            sb.Append("  QuadrilateralType: ").Append(QuadrilateralType).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -96,7 +85,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -106,7 +95,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -200,10 +189,10 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(quadrilateralType), "Property is not nullable for class Quadrilateral.");
 
             if (complexQuadrilateral != null)
-                return new Quadrilateral(complexQuadrilateral, quadrilateralType.Value);
+                return new Quadrilateral(complexQuadrilateral);
 
             if (simpleQuadrilateral != null)
-                return new Quadrilateral(simpleQuadrilateral, quadrilateralType.Value);
+                return new Quadrilateral(simpleQuadrilateral);
 
             throw new JsonException();
         }
@@ -219,17 +208,19 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            if (quadrilateral.SimpleQuadrilateral != null) {
+            if (quadrilateral.SimpleQuadrilateral != null)
+            {
                 SimpleQuadrilateralJsonConverter simpleQuadrilateralJsonConverter = (SimpleQuadrilateralJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(quadrilateral.SimpleQuadrilateral.GetType()));
-                simpleQuadrilateralJsonConverter.WriteProperties(ref writer, quadrilateral.SimpleQuadrilateral, jsonSerializerOptions);
+                simpleQuadrilateralJsonConverter.WriteProperties(writer, quadrilateral.SimpleQuadrilateral, jsonSerializerOptions);
             }
 
-            if (quadrilateral.ComplexQuadrilateral != null) {
+            if (quadrilateral.ComplexQuadrilateral != null)
+            {
                 ComplexQuadrilateralJsonConverter complexQuadrilateralJsonConverter = (ComplexQuadrilateralJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(quadrilateral.ComplexQuadrilateral.GetType()));
-                complexQuadrilateralJsonConverter.WriteProperties(ref writer, quadrilateral.ComplexQuadrilateral, jsonSerializerOptions);
+                complexQuadrilateralJsonConverter.WriteProperties(writer, quadrilateral.ComplexQuadrilateral, jsonSerializerOptions);
             }
 
-            WriteProperties(ref writer, quadrilateral, jsonSerializerOptions);
+            WriteProperties(writer, quadrilateral, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -240,12 +231,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="quadrilateral"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Quadrilateral quadrilateral, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Quadrilateral quadrilateral, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (quadrilateral.QuadrilateralType == null)
-                throw new ArgumentNullException(nameof(quadrilateral.QuadrilateralType), "Property is required for class Quadrilateral.");
 
-            writer.WriteString("quadrilateralType", quadrilateral.QuadrilateralType);
         }
     }
 }

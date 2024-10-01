@@ -296,6 +296,8 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **200** | successful operation |  -  |
 | **400** | Invalid status value |  -  |
+| **2XX** | Anything within 200-299 |  -  |
+| **4XX** | Anything within 400-499 |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -424,9 +426,9 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             // Configure API key authorization: api_key
-            config.AddApiKey("api_key", "YOUR_API_KEY");
+            config.AddApiKey("api-key", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // config.AddApiKeyPrefix("api_key", "Bearer");
+            // config.AddApiKeyPrefix("api-key", "Bearer");
             // Configure API key authorization: api_key_query
             config.AddApiKey("api_key_query", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed

@@ -267,5 +267,5 @@ public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServer
     }
 
     @Override
-    public String generatorLanguageVersion() { return "3.5.2+"; };
+    public String generatorLanguageVersion() { return "3.5.2+"; }
 }

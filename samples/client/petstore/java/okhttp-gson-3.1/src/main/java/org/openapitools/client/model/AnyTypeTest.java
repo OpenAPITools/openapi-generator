@@ -40,7 +40,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -52,7 +51,7 @@ import org.openapitools.client.JSON;
 /**
  * AnyTypeTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class AnyTypeTest {
   public static final String SERIALIZED_NAME_ANY_TYPE_PROPERTY = "any_type_property";
   @SerializedName(SERIALIZED_NAME_ANY_TYPE_PROPERTY)
@@ -64,7 +63,7 @@ public class AnyTypeTest {
 
   public static final String SERIALIZED_NAME_REF_ARRAY_PREFIX_ITEMS = "ref_array_prefix_items";
   @SerializedName(SERIALIZED_NAME_REF_ARRAY_PREFIX_ITEMS)
-  private List<String> refArrayPrefixItems = new ArrayList<>();
+  private List<Object> refArrayPrefixItems = new ArrayList<>();
 
   public AnyTypeTest() {
   }
@@ -74,10 +73,10 @@ public class AnyTypeTest {
     return this;
   }
 
-   /**
+  /**
    * Get anyTypeProperty
    * @return anyTypeProperty
-  **/
+   */
   @javax.annotation.Nullable
   public Object getAnyTypeProperty() {
     return anyTypeProperty;
@@ -101,10 +100,10 @@ public class AnyTypeTest {
     return this;
   }
 
-   /**
+  /**
    * test array in 3.1 spec
    * @return arrayProp
-  **/
+   */
   @javax.annotation.Nullable
   public List<String> getArrayProp() {
     return arrayProp;
@@ -115,12 +114,12 @@ public class AnyTypeTest {
   }
 
 
-  public AnyTypeTest refArrayPrefixItems(List<String> refArrayPrefixItems) {
+  public AnyTypeTest refArrayPrefixItems(List<Object> refArrayPrefixItems) {
     this.refArrayPrefixItems = refArrayPrefixItems;
     return this;
   }
 
-  public AnyTypeTest addRefArrayPrefixItemsItem(String refArrayPrefixItemsItem) {
+  public AnyTypeTest addRefArrayPrefixItemsItem(Object refArrayPrefixItemsItem) {
     if (this.refArrayPrefixItems == null) {
       this.refArrayPrefixItems = new ArrayList<>();
     }
@@ -128,16 +127,16 @@ public class AnyTypeTest {
     return this;
   }
 
-   /**
+  /**
    * An item that was added to the queue. 
    * @return refArrayPrefixItems
-  **/
+   */
   @javax.annotation.Nullable
-  public List<String> getRefArrayPrefixItems() {
+  public List<Object> getRefArrayPrefixItems() {
     return refArrayPrefixItems;
   }
 
-  public void setRefArrayPrefixItems(List<String> refArrayPrefixItems) {
+  public void setRefArrayPrefixItems(List<Object> refArrayPrefixItems) {
     this.refArrayPrefixItems = refArrayPrefixItems;
   }
 
@@ -256,12 +255,12 @@ public class AnyTypeTest {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to AnyTypeTest
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to AnyTypeTest
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!AnyTypeTest.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -351,22 +350,22 @@ public class AnyTypeTest {
     }
   }
 
- /**
-  * Create an instance of AnyTypeTest given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of AnyTypeTest
-  * @throws IOException if the JSON string is invalid with respect to AnyTypeTest
-  */
+  /**
+   * Create an instance of AnyTypeTest given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of AnyTypeTest
+   * @throws IOException if the JSON string is invalid with respect to AnyTypeTest
+   */
   public static AnyTypeTest fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, AnyTypeTest.class);
   }
 
- /**
-  * Convert an instance of AnyTypeTest to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of AnyTypeTest to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

@@ -30,10 +30,10 @@ import com.fasterxml.jackson.annotation.JsonProperty
 data class Query (
 
     /* Query */
-    @field:JsonProperty("id")
+    @get:JsonProperty("id")
     val id: kotlin.Long? = null,
 
-    @field:JsonProperty("outcomes")
+    @get:JsonProperty("outcomes")
     val outcomes: kotlin.collections.List<Query.Outcomes>? = null
 
 ) {
@@ -49,5 +49,6 @@ data class Query (
         @JsonProperty(value = "SKIPPED") SKIPPED("SKIPPED"),
         @JsonProperty(value = "unknown_default_open_api") @JsonEnumDefaultValue unknown_default_open_api("unknown_default_open_api");
     }
+
 }
 

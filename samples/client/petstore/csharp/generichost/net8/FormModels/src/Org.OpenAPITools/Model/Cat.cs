@@ -32,11 +32,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Cat" /> class.
         /// </summary>
-        /// <param name="className">className</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
         /// <param name="declawed">declawed</param>
         [JsonConstructor]
-        public Cat(string className, Option<string> color = default, Option<bool?> declawed = default) : base(className, color)
+        public Cat(Option<string> color = default, Option<bool?> declawed = default) : base(color)
         {
             DeclawedOption = declawed;
             OnCreated();
@@ -45,10 +44,17 @@ namespace Org.OpenAPITools.Model
         partial void OnCreated();
 
         /// <summary>
+        /// The discriminator
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public new string ClassName { get; } = "Cat";
+
+        /// <summary>
         /// Used to track the state of Declawed
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<bool?> DeclawedOption { get; private set; }
 
         /// <summary>
@@ -141,7 +147,7 @@ namespace Org.OpenAPITools.Model
             if (declawed.IsSet && declawed.Value == null)
                 throw new ArgumentNullException(nameof(declawed), "Property is not nullable for class Cat.");
 
-            return new Cat(className.Value, color, declawed);
+            return new Cat(color, declawed);
         }
 
         /// <summary>
@@ -155,7 +161,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, cat, jsonSerializerOptions);
+            WriteProperties(writer, cat, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -166,11 +172,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="cat"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Cat cat, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Cat cat, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (cat.ClassName == null)
-                throw new ArgumentNullException(nameof(cat.ClassName), "Property is required for class Cat.");
-
             if (cat.ColorOption.IsSet && cat.Color == null)
                 throw new ArgumentNullException(nameof(cat.Color), "Property is required for class Cat.");
 

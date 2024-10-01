@@ -20,18 +20,21 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.servers.Server;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenResponse;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -57,49 +60,49 @@ public class PhpFlightServerCodegen extends AbstractPhpCodegen {
     // Type-hintable primitive types
     // ref: http://php.net/manual/en/functions.arguments.php#functions.arguments.type-declaration
     protected HashSet<String> typeHintable = new HashSet<>(
-        Arrays.asList(
-            "array",
-            "bool",
-            "float",
-            "int",
-            "string"
-        )
+            Arrays.asList(
+                    "array",
+                    "bool",
+                    "float",
+                    "int",
+                    "string"
+            )
     );
 
     public PhpFlightServerCodegen() {
         super();
 
         modifyFeatureSet(features -> features
-            .includeDocumentationFeatures(DocumentationFeature.Readme)
-            .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
-            .securityFeatures(EnumSet.of(
-                SecurityFeature.BasicAuth,
-                SecurityFeature.BearerToken,
-                SecurityFeature.ApiKey,
-                SecurityFeature.OAuth2_Implicit))
-            .excludeDataTypeFeatures(
-                DataTypeFeature.MapOfCollectionOfEnum,
-                DataTypeFeature.MapOfEnum,
-                DataTypeFeature.MapOfCollectionOfModel,
-                DataTypeFeature.MapOfModel)
-            .excludeParameterFeatures(
-                ParameterFeature.FormMultipart,
-                ParameterFeature.FormUnencoded,
-                ParameterFeature.Cookie)
-            .excludeGlobalFeatures(
-                GlobalFeature.XMLStructureDefinitions,
-                GlobalFeature.Callbacks,
-                GlobalFeature.LinkObjects,
-                GlobalFeature.ParameterStyling
-            )
-            .excludeSchemaSupportFeatures(
-                SchemaSupportFeature.Polymorphism
-            )
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.OAuth2_Implicit))
+                .excludeDataTypeFeatures(
+                        DataTypeFeature.MapOfCollectionOfEnum,
+                        DataTypeFeature.MapOfEnum,
+                        DataTypeFeature.MapOfCollectionOfModel,
+                        DataTypeFeature.MapOfModel)
+                .excludeParameterFeatures(
+                        ParameterFeature.FormMultipart,
+                        ParameterFeature.FormUnencoded,
+                        ParameterFeature.Cookie)
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
         );
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-            .stability(Stability.EXPERIMENTAL)
-            .build();
+                .stability(Stability.EXPERIMENTAL)
+                .build();
 
         embeddedTemplateDir = templateDir = "php-flight";
 
@@ -110,9 +113,9 @@ public class PhpFlightServerCodegen extends AbstractPhpCodegen {
         srcBasePath = "";
 
         defaultIncludes = new HashSet<>(
-            Arrays.asList(
-                "\\DateTime"
-            )
+                Arrays.asList(
+                        "\\DateTime"
+                )
         );
 
         variableNamingConvention = "camelCase";
@@ -131,7 +134,7 @@ public class PhpFlightServerCodegen extends AbstractPhpCodegen {
         embeddedTemplateDir = templateDir = "php-flight";
 
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
-            .defaultValue(Boolean.TRUE.toString()));
+                .defaultValue(Boolean.TRUE.toString()));
         cliOptions.stream().filter(o -> Objects.equals(o.getOpt(), VARIABLE_NAMING_CONVENTION)).findFirst().ifPresent(o -> o.defaultValue("camelCase"));
     }
 
@@ -200,11 +203,14 @@ public class PhpFlightServerCodegen extends AbstractPhpCodegen {
         List<CodegenOperation> operationList = operations.getOperation();
         operationList.forEach(operation -> {
             operation.vendorExtensions.put("x-path", mapToFlightPath(operation.path));
-            String returnType = operation.responses.stream().filter(r -> r.is2xx && r.dataType != null).map(r -> this.getTypeHint(r.dataType, false, false)).filter(t -> !t.isEmpty()).map(t -> t + "|null").findFirst().orElse("void");
+            CodegenResponse defaultResponse = operation.responses.stream().filter(r -> r.is2xx && r.dataType != null && !this.getTypeHint(r.dataType, false, false).isEmpty()).findFirst().orElse(null);
+            String returnType = defaultResponse != null ? this.getTypeHint(defaultResponse.dataType, false, false) + "|null" : "void";
             operation.vendorExtensions.put("x-return-type", returnType);
             operation.vendorExtensions.put("x-return-type-is-void", returnType.equals("void"));
-            operation.vendorExtensions.put("x-return-type-comment",
-                operation.responses.stream().filter(r -> r.is2xx && r.dataType != null).map(r -> this.getTypeHint(r.dataType, true, false)).filter(t -> !t.isEmpty()).map(t -> t+"|null").findFirst().orElse("void"));
+            operation.vendorExtensions.put("x-return-type-comment", defaultResponse != null ? this.getTypeHint(defaultResponse.dataType, true, false) + "|null" : "void");
+            operation.vendorExtensions.put("x-default-media-type", defaultResponse != null ? (
+                defaultResponse.getContent().containsKey("application/json") ? "application/json" : defaultResponse.getContent().keySet().stream().findFirst().orElse(null)) : null);
+            operation.vendorExtensions.put("x-default-status-code", defaultResponse != null ? defaultResponse.code : operation.responses.stream().filter(r -> !r.isDefault).findFirst().map(r -> r.code).orElse("200"));
             operation.vendorExtensions.put("x-nonFormParams", operation.allParams.stream().filter(p -> !p.isFormParam).toArray());
 
             operation.allParams.forEach(param -> {
@@ -314,9 +320,9 @@ public class PhpFlightServerCodegen extends AbstractPhpCodegen {
 
     @Override
     public CodegenOperation fromOperation(String path,
-        String httpMethod,
-        Operation operation,
-        List<Server> servers) {
+                                          String httpMethod,
+                                          Operation operation,
+                                          List<Server> servers) {
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
         op.path = encodePath(path);
         return op;

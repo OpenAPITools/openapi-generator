@@ -34,7 +34,7 @@ import jakarta.validation.Valid;
   Name.JSON_PROPERTY_PROPERTY,
   Name.JSON_PROPERTY_123NUMBER
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class Name {
   public static final String JSON_PROPERTY_NAME = "name";
   private Integer name;
@@ -50,7 +50,9 @@ public class Name {
 
   public Name() {
   }
-
+  /**
+   * Constructor with only readonly parameters
+   */
   @JsonCreator
   public Name(
     @JsonProperty(JSON_PROPERTY_SNAKE_CASE) Integer snakeCase, 
@@ -67,10 +69,10 @@ public class Name {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 
@@ -88,11 +90,10 @@ public class Name {
     this.name = name;
   }
 
-
-   /**
+  /**
    * Get snakeCase
    * @return snakeCase
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_SNAKE_CASE)
@@ -104,17 +105,16 @@ public class Name {
 
 
 
-
   public Name property(String property) {
     
     this.property = property;
     return this;
   }
 
-   /**
+  /**
    * Get property
    * @return property
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PROPERTY)
@@ -131,11 +131,10 @@ public class Name {
     this.property = property;
   }
 
-
-   /**
+  /**
    * Get _123number
    * @return _123number
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_123NUMBER)

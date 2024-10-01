@@ -38,7 +38,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -50,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * User
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class User {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -108,10 +107,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
   public Long getId() {
     return id;
@@ -127,10 +126,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get username
    * @return username
-  **/
+   */
   @javax.annotation.Nullable
   public String getUsername() {
     return username;
@@ -146,10 +145,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get firstName
    * @return firstName
-  **/
+   */
   @javax.annotation.Nullable
   public String getFirstName() {
     return firstName;
@@ -165,10 +164,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get lastName
    * @return lastName
-  **/
+   */
   @javax.annotation.Nullable
   public String getLastName() {
     return lastName;
@@ -184,10 +183,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get email
    * @return email
-  **/
+   */
   @javax.annotation.Nullable
   public String getEmail() {
     return email;
@@ -203,10 +202,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get password
    * @return password
-  **/
+   */
   @javax.annotation.Nullable
   public String getPassword() {
     return password;
@@ -222,10 +221,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get phone
    * @return phone
-  **/
+   */
   @javax.annotation.Nullable
   public String getPhone() {
     return phone;
@@ -241,10 +240,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * User Status
    * @return userStatus
-  **/
+   */
   @javax.annotation.Nullable
   public Integer getUserStatus() {
     return userStatus;
@@ -260,10 +259,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.
    * @return objectWithNoDeclaredProps
-  **/
+   */
   @javax.annotation.Nullable
   public Object getObjectWithNoDeclaredProps() {
     return objectWithNoDeclaredProps;
@@ -279,10 +278,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.
    * @return objectWithNoDeclaredPropsNullable
-  **/
+   */
   @javax.annotation.Nullable
   public Object getObjectWithNoDeclaredPropsNullable() {
     return objectWithNoDeclaredPropsNullable;
@@ -298,10 +297,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
    * @return anyTypeProp
-  **/
+   */
   @javax.annotation.Nullable
   public Object getAnyTypeProp() {
     return anyTypeProp;
@@ -317,10 +316,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.
    * @return anyTypePropNullable
-  **/
+   */
   @javax.annotation.Nullable
   public Object getAnyTypePropNullable() {
     return anyTypePropNullable;
@@ -472,12 +471,12 @@ public class User {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to User
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to User
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!User.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -577,22 +576,22 @@ public class User {
     }
   }
 
- /**
-  * Create an instance of User given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of User
-  * @throws IOException if the JSON string is invalid with respect to User
-  */
+  /**
+   * Create an instance of User given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of User
+   * @throws IOException if the JSON string is invalid with respect to User
+   */
   public static User fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, User.class);
   }
 
- /**
-  * Convert an instance of User to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of User to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

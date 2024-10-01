@@ -7,12 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-{{^netStandard}}
 using System.Threading.Channels;
-{{/netStandard}}
-{{#netStandard}}
-using System.Threading.Channels;
-{{/netStandard}}
 
 namespace {{packageName}}.{{clientPackage}}
 {
@@ -70,7 +65,7 @@ namespace {{packageName}}.{{clientPackage}}
                     _tokens[i].TokenBecameAvailable += ((sender) => tokens.Writer.TryWrite((TTokenBase) sender));
         }
 
-        internal override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(string header = "", System.Threading.CancellationToken cancellation = default{{^netstandard20OrLater}}(System.Threading.CancellationToken){{/netstandard20OrLater}})
+        internal override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(string header = "", System.Threading.CancellationToken cancellation = default{{^netstandard20OrLater}}(global::System.Threading.CancellationToken){{/netstandard20OrLater}})
         {
             if (!AvailableTokens.TryGetValue(header, out Channel<TTokenBase>{{nrt?}} tokens))
                 throw new KeyNotFoundException($"Could not locate a token for header '{header}'.");

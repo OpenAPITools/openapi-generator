@@ -112,7 +112,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     attemptParsing |= (token == JsonToken.VALUE_NUMBER_FLOAT);
                     {{/isDecimal}}
                     {{#isBoolean}}
-                    attemptParsing |= (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                    attemptParsing |= (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE);
                     {{/isBoolean}}
                     {{#isNullable}}
                     attemptParsing |= (token == JsonToken.VALUE_NULL);
@@ -169,7 +169,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<>();
+    public static final Map<String, GenericType<?>> schemas = new HashMap<>();
 
     public {{classname}}() {
         super("oneOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
@@ -218,7 +218,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     }
 
     @Override
-    public Map<String, GenericType> getSchemas() {
+    public Map<String, GenericType<?>> getSchemas() {
         return {{classname}}.schemas;
     }
 

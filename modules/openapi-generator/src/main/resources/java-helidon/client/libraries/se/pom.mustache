@@ -45,8 +45,8 @@
 {{/openApiNullable}}
 {{#jackson}}
         <dependency>
-            <groupId>io.helidon.media</groupId>
-            <artifactId>helidon-media-jackson</artifactId>
+            <groupId>io.helidon.{{^x-helidon-v3}}http.{{/x-helidon-v3}}media</groupId>
+            <artifactId>helidon-{{^x-helidon-v3}}http-{{/x-helidon-v3}}media-jackson</artifactId>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
@@ -63,8 +63,8 @@
             <artifactId>{{x-helidon-rootJavaEEDepPrefix}}.json.bind-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.helidon.media</groupId>
-            <artifactId>helidon-media-jsonb</artifactId>
+            <groupId>io.helidon.http.media</groupId>
+            <artifactId>helidon-http1media-jsonb</artifactId>
         </dependency>
 {{/jsonb}}
         <dependency>

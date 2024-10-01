@@ -58,22 +58,6 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
         return "Generates a TypeScript client library for the Aurelia framework (beta).";
     }
 
-    public String getNpmName() {
-        return npmName;
-    }
-
-    public void setNpmName(String npmName) {
-        this.npmName = npmName;
-    }
-
-    public String getNpmVersion() {
-        return npmVersion;
-    }
-
-    public void setNpmVersion(String npmVersion) {
-        this.npmVersion = npmVersion;
-    }
-
     @Override
     public void processOpts() {
         super.processOpts();

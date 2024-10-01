@@ -90,7 +90,7 @@ namespace Org.OpenAPITools.Client
         /// <param name="path">Path</param>
         /// <param name="requestOptions">Request options</param>
         /// <returns>Http signed headers</returns>
-        internal Dictionary<string, string> GetHttpSignedHeader(string basePath,string method, string path, RequestOptions requestOptions)
+        public Dictionary<string, string> GetHttpSignedHeader(string basePath,string method, string path, RequestOptions requestOptions)
         {
             const string HEADER_REQUEST_TARGET = "(request-target)";
             //The time when the HTTP signature expires. The API server should reject HTTP requests
@@ -501,7 +501,7 @@ namespace Org.OpenAPITools.Client
                 binkey = Convert.FromBase64String(pvkstr);
                 return binkey;
             }
-            catch (System.FormatException)
+            catch (global::System.FormatException)
             {
                 StringReader str = new StringReader(pvkstr);
 
@@ -531,7 +531,7 @@ namespace Org.OpenAPITools.Client
                 {   //should have b64 encrypted RSA key now
                     binkey = Convert.FromBase64String(encryptedstr);
                 }
-                catch (System.FormatException)
+                catch (global::System.FormatException)
                 {   //data is not in base64 format
                     return null;
                 }

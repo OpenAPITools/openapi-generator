@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  * ArrayOfArrayOfNumberOnly
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class ArrayOfArrayOfNumberOnly {
 
   
@@ -42,7 +42,7 @@ public class ArrayOfArrayOfNumberOnly {
   /**
    * Get arrayArrayNumber
    * @return arrayArrayNumber
-  */
+   */
   
   @JsonProperty("ArrayArrayNumber")
   public List<List<BigDecimal>> getArrayArrayNumber() {

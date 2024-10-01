@@ -12,7 +12,7 @@ class BasePetApi:
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         BasePetApi.subclasses = BasePetApi.subclasses + (cls,)
-    def add_pet(
+    async def add_pet(
         self,
         pet: Pet,
     ) -> Pet:
@@ -20,7 +20,7 @@ class BasePetApi:
         ...
 
 
-    def delete_pet(
+    async def delete_pet(
         self,
         petId: int,
         api_key: str,
@@ -29,7 +29,7 @@ class BasePetApi:
         ...
 
 
-    def find_pets_by_status(
+    async def find_pets_by_status(
         self,
         status: List[str],
     ) -> List[Pet]:
@@ -37,7 +37,7 @@ class BasePetApi:
         ...
 
 
-    def find_pets_by_tags(
+    async def find_pets_by_tags(
         self,
         tags: List[str],
     ) -> List[Pet]:
@@ -45,7 +45,7 @@ class BasePetApi:
         ...
 
 
-    def get_pet_by_id(
+    async def get_pet_by_id(
         self,
         petId: int,
     ) -> Pet:
@@ -53,7 +53,7 @@ class BasePetApi:
         ...
 
 
-    def update_pet(
+    async def update_pet(
         self,
         pet: Pet,
     ) -> Pet:
@@ -61,7 +61,7 @@ class BasePetApi:
         ...
 
 
-    def update_pet_with_form(
+    async def update_pet_with_form(
         self,
         petId: int,
         name: str,
@@ -71,7 +71,7 @@ class BasePetApi:
         ...
 
 
-    def upload_file(
+    async def upload_file(
         self,
         petId: int,
         additional_metadata: str,

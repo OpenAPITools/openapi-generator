@@ -1,14 +1,12 @@
 package org.openapitools.codegen;
 
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.fail;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.assertFalse;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.github.javaparser.JavaParser;
-import com.github.javaparser.ParserConfiguration;
 import com.github.javaparser.ParseResult;
+import com.github.javaparser.ParserConfiguration;
 import com.github.javaparser.ast.CompilationUnit;
+import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -17,30 +15,18 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
-
-import org.apache.commons.io.IOUtils;
-import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.openrewrite.maven.internal.RawPom;
-import org.testng.Assert;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
-import com.google.common.collect.ImmutableMap;
+import static org.testng.Assert.*;
 
 public class TestUtils {
 
@@ -100,29 +86,11 @@ public class TestUtils {
         return openAPI;
     }
 
-    public static OpenAPI createOpenAPIWithOneSchema(String name, Schema schema) {
+    public static OpenAPI createOpenAPIWithOneSchema(String name, Schema<?> schema) {
         OpenAPI openAPI = createOpenAPI();
         openAPI.setComponents(new Components());
         openAPI.getComponents().addSchemas(name, schema);
         return openAPI;
-    }
-
-    /**
-     * Extract file from {@link MockDefaultGenerator}
-     *
-     * @param generator Generator
-     * @param root root path
-     * @param filename filename under root
-     *
-     * @return a {@link WrittenTemplateBasedFile}
-     * @deprecated Since 5.0. Please avoid this method and usage of {@link MockDefaultGenerator}, prefer {@link DefaultGenerator#DefaultGenerator(Boolean)} with dryRun=true.
-     */
-    @Deprecated
-    public static WrittenTemplateBasedFile getTemplateBasedFile(MockDefaultGenerator generator, File root, String filename) {
-        String defaultApiFilename = new File(root, filename).getAbsolutePath().replace("\\", "/");
-        Optional<WrittenTemplateBasedFile> optional = generator.getTemplateBasedFiles().stream().filter(f -> defaultApiFilename.equals(f.getOutputFilename())).findFirst();
-        Assert.assertTrue(optional.isPresent());
-        return optional.get();
     }
 
     public static void ensureContainsFile(List<File> generatedFiles, File root, String filename) {
@@ -130,52 +98,41 @@ public class TestUtils {
         assertTrue(generatedFiles.contains(path.toFile()), "File '" + path.toAbsolutePath() + "' was not found in the list of generated files");
     }
 
-    public static void ensureDoesNotContainsFile(List<File> generatedFiles, File root, String filename) {
+    public static void ensureDoesNotContainFile(List<File> generatedFiles, File root, String filename) {
         Path path = root.toPath().resolve(filename);
         assertFalse(generatedFiles.contains(path.toFile()), "File '" + path.toAbsolutePath() + "' was found in the list of generated files");
     }
 
-    public static void validatePomXmlFiles(final Map<String, String> fileMap) {
-        fileMap.forEach( (fileName, fileContents) -> {
-            if ("pom.xml".equals(fileName)) {
-                assertValidPomXml(fileContents);
-            }
-        });
-    }
-
     public static void validatePomXmlFiles(final List<File> files) {
-        files.forEach( f -> {
-                    String fileName = f.getName();
-                    if ("pom.xml".equals(fileName)) {
-                        try {
-                            String fileContents = new String(Files.readAllBytes(f.toPath()), StandardCharsets.UTF_8);
-                            assertValidPomXml(fileContents);
-                        } catch (IOException exception) {
-                            throw new RuntimeException(exception);
-                        }
-                    }
-                }
-        );
+        if (files == null 
+            || files.isEmpty() 
+            || files.stream().noneMatch(f -> f.getName().equals("pom.xml"))) return;
+        
+        final XmlMapper mapper = new XmlMapper();
+        for (File file : files) {
+            if (!"pom.xml".equals(file.getName())) continue;
+
+            try {
+                JsonNode pomContents = mapper.readTree(file);
+                assertValidPomXml(pomContents);
+            } catch (IOException exception) {
+                throw new RuntimeException(exception);
+            }
+        };
     }
 
-    private static void assertValidPomXml(final String fileContents) {
-        final InputStream input = new ByteArrayInputStream(fileContents.getBytes(StandardCharsets.UTF_8));
-        try {
-            RawPom pom = RawPom.parse(input, null);
-            assertTrue(pom.getDependencies().getDependencies().size() > 0);
-            assertNotNull(pom.getName());
-            assertNotNull(pom.getArtifactId());
-            assertNotNull(pom.getGroupId());
-            assertNotNull(pom.getVersion());
-        } finally {
-            IOUtils.closeQuietly(input);
-        }
+    private static void assertValidPomXml(final JsonNode pom) {
+        assertFalse(pom.path("dependencies").isEmpty());
+        assertNotNull(pom.get("name"));
+        assertNotNull(pom.get("artifactId"));
+        assertNotNull(pom.get("groupId"));
+        assertNotNull(pom.get("version"));
     }
 
     public static void validateJavaSourceFiles(Map<String, String> fileMap) {
         fileMap.forEach( (fileName, fileContents) -> {
                 if (fileName.endsWith(".java")) {
-                    assertValidJavaSourceCode(fileContents, fileName);
+                    assertValidJavaSourceCode(fileContents);
                 }
             }
         );
@@ -183,21 +140,20 @@ public class TestUtils {
 
     public static void validateJavaSourceFiles(List<File> files) {
         files.forEach( f -> {
-                    String fileName = f.getName();
-                    if (fileName.endsWith(".java")) {
+                    if (f.getName().endsWith(".java")) {
                         String fileContents = "";
                         try {
-                            fileContents = new String(Files.readAllBytes(f.toPath()), StandardCharsets.UTF_8);
+                            fileContents = Files.readString(f.toPath());
                         } catch (IOException ignored) {
 
                         }
-                        assertValidJavaSourceCode(fileContents, fileName);
+                        assertValidJavaSourceCode(fileContents);
                     }
                 }
         );
     }
 
-    public static void assertValidJavaSourceCode(String javaSourceCode, String filename) {
+    public static void assertValidJavaSourceCode(String javaSourceCode) {
         ParserConfiguration config = new ParserConfiguration();
         config.setLanguageLevel(ParserConfiguration.LanguageLevel.JAVA_11);
         JavaParser parser = new JavaParser(config);
@@ -207,7 +163,7 @@ public class TestUtils {
 
     public static void assertFileContains(Path path, String... lines) {
         try {
-            String generatedFile = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+            String generatedFile = Files.readString(path);
             String file = linearize(generatedFile);
             assertNotNull(file);
             for (String line : lines)
@@ -224,7 +180,7 @@ public class TestUtils {
     public static void assertFileNotContains(Path path, String... lines) {
         String generatedFile = null;
         try {
-            generatedFile = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+            generatedFile = Files.readString(path);
         } catch (IOException e) {
             fail("Unable to evaluate file " + path);
         }
@@ -236,7 +192,7 @@ public class TestUtils {
 
     public static void assertFileNotExists(Path path) {
         try {
-            new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+            Files.readString(path);
             fail("File exists when it should not: " + path);
         } catch (IOException e) {
             // File exists, pass.
@@ -246,7 +202,7 @@ public class TestUtils {
 
     public static void assertFileExists(Path path) {
         try {
-            new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+            Files.readString(path);
             // File exists, pass.
             assertTrue(true);
         } catch (IOException e) {
@@ -261,7 +217,7 @@ public class TestUtils {
                     .containsWithName("javax.persistence.Entity")
                     .containsWithNameAndAttributes("javax.persistence.Table", ImmutableMap.of("name", "\"employees\""))
                 .toType()
-                .hasProperty("assignments")
+                .assertProperty("assignments")
                     .assertPropertyAnnotations()
                     .containsWithNameAndAttributes("javax.persistence.OneToMany", ImmutableMap.of("mappedBy", "\"employee\""))
                     .toProperty()
@@ -271,17 +227,17 @@ public class TestUtils {
                 .assertTypeAnnotations()
                     .containsWithName("javax.persistence.MappedSuperclass")
                 .toType()
-                .hasProperty("id")
+                .assertProperty("id")
                     .assertPropertyAnnotations()
                     .containsWithName("javax.persistence.Id")
                     .toProperty()
                 .toType()
-                .hasProperty("email")
+                .assertProperty("email")
                     .assertPropertyAnnotations()
                     .containsWithName("org.hibernate.annotations.Formula")
                     .toProperty()
                 .toType()
-                .hasProperty("hasAcceptedTerms")
+                .assertProperty("hasAcceptedTerms")
                     .assertPropertyAnnotations()
                     .containsWithName("javax.persistence.Transient")
                     .toProperty()
@@ -292,13 +248,13 @@ public class TestUtils {
                     .containsWithName("javax.persistence.Entity")
                     .containsWithNameAndAttributes("javax.persistence.Table", ImmutableMap.of("name", "\"survey_groups\""))
                 .toType()
-                .hasProperty("assignments")
+                .assertProperty("assignments")
                     .assertPropertyAnnotations()
                     .containsWithName("javax.persistence.OneToMany")
                     .containsWithNameAndAttributes("javax.persistence.JoinColumn", ImmutableMap.of("name", "\"survey_group_id\""))
                     .toProperty()
                 .toType()
-                .hasProperty("disabled")
+                .assertProperty("disabled")
                     .assertPropertyAnnotations()
                     .containsWithNameAndAttributes("javax.persistence.Column", ImmutableMap.of("nullable", "false"))
                     .toProperty()
@@ -309,7 +265,7 @@ public class TestUtils {
                     .containsWithName("javax.persistence.MappedSuperclass")
                     .containsWithName("javax.persistence.EntityListeners")
                 .toType()
-                .hasProperty("id")
+                .assertProperty("id")
                     .assertPropertyAnnotations()
                     .containsWithName("javax.persistence.Id")
                     .containsWithNameAndAttributes("javax.persistence.GeneratedValue", ImmutableMap.of("generator", "\"UUID\""))
@@ -317,39 +273,39 @@ public class TestUtils {
                     .containsWithNameAndAttributes("javax.persistence.Column", ImmutableMap.of("name", "\"id\"","updatable", "false","nullable", "false"))
                     .toProperty()
                 .toType()
-                .hasProperty("createdDate")
+                .assertProperty("createdDate")
                     .assertPropertyAnnotations()
                     .containsWithName("org.springframework.data.annotation.CreatedDate")
                     .toProperty()
                 .toType()
-                .hasProperty("createdBy")
+                .assertProperty("createdBy")
                     .assertPropertyAnnotations()
                     .containsWithName("org.springframework.data.annotation.CreatedBy")
                     .toProperty()
                 .toType()
-                .hasProperty("modifiedDate")
+                .assertProperty("modifiedDate")
                     .assertPropertyAnnotations()
                     .containsWithName("org.springframework.data.annotation.LastModifiedDate")
                     .toProperty()
                 .toType()
-                .hasProperty("modifiedBy")
+                .assertProperty("modifiedBy")
                     .assertPropertyAnnotations()
                     .containsWithName("org.springframework.data.annotation.LastModifiedBy")
                     .toProperty()
                 .toType()
-                .hasProperty("opportunityId")
+                .assertProperty("opportunityId")
                     .assertPropertyAnnotations()
                     .containsWithNameAndAttributes("javax.persistence.Column", ImmutableMap.of("unique", "true"))
                     .toProperty()
                 .toType()
-                .hasProperty("submissionStatus")
+                .assertProperty("submissionStatus")
                     .assertPropertyAnnotations()
                     .containsWithName("javax.persistence.Transient")
                     .toProperty()
                 .toType();
 
         JavaFileAssert.assertThat(java.nio.file.Paths.get(baseOutputPath + "/CompanyDto.java"))
-            .hasProperty("priceCategory")
+            .assertProperty("priceCategory")
                 .assertPropertyAnnotations()
                 .containsWithNameAndAttributes("IgnoreForRoles", ImmutableMap.of("value", "\"MEDIA_ADMIN\""));
     }
@@ -362,5 +318,17 @@ public class TestUtils {
         modelMaps.add(modelMap);
         objs.setModels(modelMaps);
         return objs;
+    }
+
+    public static Path newTempFolder() {
+        final Path tempDir;
+        try {
+            tempDir = Files.createTempDirectory("test");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        tempDir.toFile().deleteOnExit();
+
+        return tempDir;
     }
 }

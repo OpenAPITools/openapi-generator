@@ -21,16 +21,17 @@ Accept: application/json
 ### Deletes a pet
 ## Deletes a pet
 DELETE http://petstore.swagger.io/v2/pet/{{petId}}
+api_key: {{apiKey}}
 
 ### Finds Pets by status
 ## Finds Pets by status
-GET http://petstore.swagger.io/v2/pet/findByStatus
+GET http://petstore.swagger.io/v2/pet/findByStatus?status={{status}}
 Accept: application/xml
 Accept: application/json
 
 ### Finds Pets by tags
 ## Finds Pets by tags
-GET http://petstore.swagger.io/v2/pet/findByTags
+GET http://petstore.swagger.io/v2/pet/findByTags?tags={{tags}}
 Accept: application/xml
 Accept: application/json
 

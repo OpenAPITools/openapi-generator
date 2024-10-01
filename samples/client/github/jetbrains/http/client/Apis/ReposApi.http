@@ -80,12 +80,12 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/vulnerability-alerts
 
 ### List CODEOWNERS errors
 ## List CODEOWNERS errors
-GET https://api.github.com/repos/{{owner}}/{{repo}}/codeowners/errors
+GET https://api.github.com/repos/{{owner}}/{{repo}}/codeowners/errors?ref={{ref}}
 Accept: application/json
 
 ### Compare two commits
 ## Compare two commits
-GET https://api.github.com/repos/{{owner}}/{{repo}}/compare/{{basehead}}
+GET https://api.github.com/repos/{{owner}}/{{repo}}/compare/{{basehead}}?page={{page}}&perPage={{perPage}}
 Accept: application/json
 
 ### Create an autolink reference for a repository
@@ -665,7 +665,7 @@ Accept: application/json
 
 ### List environments
 ## List environments
-GET https://api.github.com/repos/{{owner}}/{{repo}}/environments
+GET https://api.github.com/repos/{{owner}}/{{repo}}/environments?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### Get all status check contexts
@@ -675,7 +675,7 @@ Accept: application/json
 
 ### Get all repository topics
 ## Get all repository topics
-GET https://api.github.com/repos/{{owner}}/{{repo}}/topics
+GET https://api.github.com/repos/{{owner}}/{{repo}}/topics?page={{page}}&perPage={{perPage}}
 Accept: application/json
 
 ### Get apps with access to the protected branch
@@ -700,12 +700,12 @@ Accept: application/json
 
 ### Get rules for a branch
 ## Get rules for a branch
-GET https://api.github.com/repos/{{owner}}/{{repo}}/rules/branches/{{branch}}
+GET https://api.github.com/repos/{{owner}}/{{repo}}/rules/branches/{{branch}}?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### Get repository clones
 ## Get repository clones
-GET https://api.github.com/repos/{{owner}}/{{repo}}/traffic/clones
+GET https://api.github.com/repos/{{owner}}/{{repo}}/traffic/clones?per={{per}}
 Accept: application/json
 
 ### Get the weekly commit activity
@@ -720,12 +720,12 @@ Accept: application/json
 
 ### Get the combined status for a specific reference
 ## Get the combined status for a specific reference
-GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{ref}}/status
+GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{ref}}/status?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### Get a commit
 ## Get a commit
-GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{ref}}
+GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{ref}}?page={{page}}&perPage={{perPage}}
 Accept: application/json
 
 ### Get the last year of commit activity
@@ -750,7 +750,7 @@ Accept: application/json
 
 ### Get repository content
 ## Get repository content
-GET https://api.github.com/repos/{{owner}}/{{repo}}/contents/{{path}}
+GET https://api.github.com/repos/{{owner}}/{{repo}}/contents/{{path}}?ref={{ref}}
 Accept: application/vnd.github.object
 Accept: application/json
 
@@ -811,7 +811,7 @@ Accept: application/json
 
 ### List organization rule suites
 ## List organization rule suites
-GET https://api.github.com/orgs/{{org}}/rulesets/rule-suites
+GET https://api.github.com/orgs/{{org}}/rulesets/rule-suites?repositoryName={{repositoryName}}&timePeriod={{timePeriod}}&actorName={{actorName}}&ruleSuiteResult={{ruleSuiteResult}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### Get an organization repository ruleset
@@ -821,7 +821,7 @@ Accept: application/json
 
 ### Get all organization repository rulesets
 ## Get all organization repository rulesets
-GET https://api.github.com/orgs/{{org}}/rulesets
+GET https://api.github.com/orgs/{{org}}/rulesets?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### Get a GitHub Pages site
@@ -861,12 +861,12 @@ Accept: application/json
 
 ### Get a repository README
 ## Get a repository README
-GET https://api.github.com/repos/{{owner}}/{{repo}}/readme
+GET https://api.github.com/repos/{{owner}}/{{repo}}/readme?ref={{ref}}
 Accept: application/json
 
 ### Get a repository README for a directory
 ## Get a repository README for a directory
-GET https://api.github.com/repos/{{owner}}/{{repo}}/readme/{{dir}}
+GET https://api.github.com/repos/{{owner}}/{{repo}}/readme/{{dir}}?ref={{ref}}
 Accept: application/json
 
 ### Get a release
@@ -891,17 +891,17 @@ Accept: application/json
 
 ### List repository rule suites
 ## List repository rule suites
-GET https://api.github.com/repos/{{owner}}/{{repo}}/rulesets/rule-suites
+GET https://api.github.com/repos/{{owner}}/{{repo}}/rulesets/rule-suites?ref={{ref}}&timePeriod={{timePeriod}}&actorName={{actorName}}&ruleSuiteResult={{ruleSuiteResult}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### Get a repository ruleset
 ## Get a repository ruleset
-GET https://api.github.com/repos/{{owner}}/{{repo}}/rulesets/{{ruleset_id}}
+GET https://api.github.com/repos/{{owner}}/{{repo}}/rulesets/{{ruleset_id}}?includesParents={{includesParents}}
 Accept: application/json
 
 ### Get all repository rulesets
 ## Get all repository rulesets
-GET https://api.github.com/repos/{{owner}}/{{repo}}/rulesets
+GET https://api.github.com/repos/{{owner}}/{{repo}}/rulesets?perPage={{perPage}}&page={{page}}&includesParents={{includesParents}}
 Accept: application/json
 
 ### Get status checks protection
@@ -931,7 +931,7 @@ Accept: application/json
 
 ### Get page views
 ## Get page views
-GET https://api.github.com/repos/{{owner}}/{{repo}}/traffic/views
+GET https://api.github.com/repos/{{owner}}/{{repo}}/traffic/views?per={{per}}
 Accept: application/json
 
 ### Get a repository webhook
@@ -952,7 +952,7 @@ Accept: application/scim+json
 
 ### List repository activities
 ## List repository activities
-GET https://api.github.com/repos/{{owner}}/{{repo}}/activity
+GET https://api.github.com/repos/{{owner}}/{{repo}}/activity?direction={{direction}}&perPage={{perPage}}&before={{before}}&after={{after}}&ref={{ref}}&actor={{actor}}&timePeriod={{timePeriod}}&activityType={{activityType}}
 Accept: application/json
 
 ### Get all autolinks of a repository
@@ -962,7 +962,7 @@ Accept: application/json
 
 ### List branches
 ## List branches
-GET https://api.github.com/repos/{{owner}}/{{repo}}/branches
+GET https://api.github.com/repos/{{owner}}/{{repo}}/branches?protected={{protected}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List branches for HEAD commit
@@ -972,89 +972,89 @@ Accept: application/json
 
 ### List repository collaborators
 ## List repository collaborators
-GET https://api.github.com/repos/{{owner}}/{{repo}}/collaborators
+GET https://api.github.com/repos/{{owner}}/{{repo}}/collaborators?affiliation={{affiliation}}&permission={{permission}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List commit comments
 ## List commit comments
-GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{commit_sha}}/comments
+GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{commit_sha}}/comments?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List commit comments for a repository
 ## List commit comments for a repository
-GET https://api.github.com/repos/{{owner}}/{{repo}}/comments
+GET https://api.github.com/repos/{{owner}}/{{repo}}/comments?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List commit statuses for a reference
 ## List commit statuses for a reference
-GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{ref}}/statuses
+GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{ref}}/statuses?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List commits
 ## List commits
-GET https://api.github.com/repos/{{owner}}/{{repo}}/commits
+GET https://api.github.com/repos/{{owner}}/{{repo}}/commits?sha={{sha}}&path={{path}}&author={{author}}&committer={{committer}}&since={{since}}&until={{until}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 Accept: application/scim+json
 
 ### List repository contributors
 ## List repository contributors
-GET https://api.github.com/repos/{{owner}}/{{repo}}/contributors
+GET https://api.github.com/repos/{{owner}}/{{repo}}/contributors?anon={{anon}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List custom deployment rule integrations available for an environment
 ## List custom deployment rule integrations available for an environment
-GET https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment_protection_rules/apps
+GET https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment_protection_rules/apps?page={{page}}&perPage={{perPage}}
 Accept: application/json
 
 ### List deploy keys
 ## List deploy keys
-GET https://api.github.com/repos/{{owner}}/{{repo}}/keys
+GET https://api.github.com/repos/{{owner}}/{{repo}}/keys?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List deployment branch policies
 ## List deployment branch policies
-GET https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment-branch-policies
+GET https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment-branch-policies?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List deployment statuses
 ## List deployment statuses
-GET https://api.github.com/repos/{{owner}}/{{repo}}/deployments/{{deployment_id}}/statuses
+GET https://api.github.com/repos/{{owner}}/{{repo}}/deployments/{{deployment_id}}/statuses?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List deployments
 ## List deployments
-GET https://api.github.com/repos/{{owner}}/{{repo}}/deployments
+GET https://api.github.com/repos/{{owner}}/{{repo}}/deployments?sha={{sha}}&ref={{ref}}&task={{task}}&environment={{environment}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List repositories for the authenticated user
 ## List repositories for the authenticated user
-GET https://api.github.com/user/repos
+GET https://api.github.com/user/repos?visibility={{visibility}}&affiliation={{affiliation}}&type={{type}}&sort={{sort}}&direction={{direction}}&perPage={{perPage}}&page={{page}}&since={{since}}&before={{before}}
 Accept: application/json
 
 ### List organization repositories
 ## List organization repositories
-GET https://api.github.com/orgs/{{org}}/repos
+GET https://api.github.com/orgs/{{org}}/repos?type={{type}}&sort={{sort}}&direction={{direction}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List repositories for a user
 ## List repositories for a user
-GET https://api.github.com/users/{{username}}/repos
+GET https://api.github.com/users/{{username}}/repos?type={{type}}&sort={{sort}}&direction={{direction}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List forks
 ## List forks
-GET https://api.github.com/repos/{{owner}}/{{repo}}/forks
+GET https://api.github.com/repos/{{owner}}/{{repo}}/forks?sort={{sort}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 Accept: application/scim+json
 
 ### List repository invitations
 ## List repository invitations
-GET https://api.github.com/repos/{{owner}}/{{repo}}/invitations
+GET https://api.github.com/repos/{{owner}}/{{repo}}/invitations?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List repository invitations for the authenticated user
 ## List repository invitations for the authenticated user
-GET https://api.github.com/user/repository_invitations
+GET https://api.github.com/user/repository_invitations?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List repository languages
@@ -1064,27 +1064,27 @@ Accept: application/json
 
 ### List GitHub Pages builds
 ## List GitHub Pages builds
-GET https://api.github.com/repos/{{owner}}/{{repo}}/pages/builds
+GET https://api.github.com/repos/{{owner}}/{{repo}}/pages/builds?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List public repositories
 ## List public repositories
-GET https://api.github.com/repositories
+GET https://api.github.com/repositories?since={{since}}
 Accept: application/json
 
 ### List pull requests associated with a commit
 ## List pull requests associated with a commit
-GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{commit_sha}}/pulls
+GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{commit_sha}}/pulls?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List release assets
 ## List release assets
-GET https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}/assets
+GET https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}/assets?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List releases
 ## List releases
-GET https://api.github.com/repos/{{owner}}/{{repo}}/releases
+GET https://api.github.com/repos/{{owner}}/{{repo}}/releases?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List tag protection states for a repository
@@ -1094,23 +1094,23 @@ Accept: application/json
 
 ### List repository tags
 ## List repository tags
-GET https://api.github.com/repos/{{owner}}/{{repo}}/tags
+GET https://api.github.com/repos/{{owner}}/{{repo}}/tags?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List repository teams
 ## List repository teams
-GET https://api.github.com/repos/{{owner}}/{{repo}}/teams
+GET https://api.github.com/repos/{{owner}}/{{repo}}/teams?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List deliveries for a repository webhook
 ## List deliveries for a repository webhook
-GET https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}/deliveries
+GET https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}/deliveries?perPage={{perPage}}&cursor={{cursor}}&redelivery={{redelivery}}
 Accept: application/json
 Accept: application/scim+json
 
 ### List repository webhooks
 ## List repository webhooks
-GET https://api.github.com/repos/{{owner}}/{{repo}}/hooks
+GET https://api.github.com/repos/{{owner}}/{{repo}}/hooks?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### Merge a branch
@@ -1559,7 +1559,7 @@ Accept: application/json
 
 ### Upload a release asset
 ## Upload a release asset
-POST https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}/assets
+POST https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}/assets?name={{name}}&label={{label}}
 Content-Type: application/octet-stream
 Accept: application/json
 

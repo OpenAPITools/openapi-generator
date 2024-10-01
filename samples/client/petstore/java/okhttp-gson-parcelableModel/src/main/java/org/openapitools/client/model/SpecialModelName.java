@@ -39,7 +39,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -51,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * SpecialModelName
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class SpecialModelName implements Parcelable {
   public static final String SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   @SerializedName(SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME)
@@ -65,10 +64,10 @@ public class SpecialModelName implements Parcelable {
     return this;
   }
 
-   /**
+  /**
    * Get $specialPropertyName
    * @return $specialPropertyName
-  **/
+   */
   @javax.annotation.Nullable
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;
@@ -151,12 +150,12 @@ public class SpecialModelName implements Parcelable {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to SpecialModelName
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to SpecialModelName
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!SpecialModelName.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -203,22 +202,22 @@ public class SpecialModelName implements Parcelable {
     }
   }
 
- /**
-  * Create an instance of SpecialModelName given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of SpecialModelName
-  * @throws IOException if the JSON string is invalid with respect to SpecialModelName
-  */
+  /**
+   * Create an instance of SpecialModelName given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of SpecialModelName
+   * @throws IOException if the JSON string is invalid with respect to SpecialModelName
+   */
   public static SpecialModelName fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, SpecialModelName.class);
   }
 
- /**
-  * Convert an instance of SpecialModelName to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of SpecialModelName to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

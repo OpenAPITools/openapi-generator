@@ -41,7 +41,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -53,7 +52,7 @@ import org.openapitools.client.JSON;
 /**
  * PetUsingAllOf
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class PetUsingAllOf {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -141,10 +140,10 @@ public class PetUsingAllOf {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
   public Long getId() {
     return id;
@@ -160,10 +159,10 @@ public class PetUsingAllOf {
     return this;
   }
 
-   /**
+  /**
    * multi line description 2nd line last line 
    * @return category
-  **/
+   */
   @javax.annotation.Nullable
   public Category getCategory() {
     return category;
@@ -179,10 +178,10 @@ public class PetUsingAllOf {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nonnull
   public String getName() {
     return name;
@@ -206,10 +205,10 @@ public class PetUsingAllOf {
     return this;
   }
 
-   /**
+  /**
    * Get photoUrls
    * @return photoUrls
-  **/
+   */
   @javax.annotation.Nonnull
   public List<String> getPhotoUrls() {
     return photoUrls;
@@ -233,10 +232,10 @@ public class PetUsingAllOf {
     return this;
   }
 
-   /**
+  /**
    * Get tags
    * @return tags
-  **/
+   */
   @javax.annotation.Nullable
   public List<Tag> getTags() {
     return tags;
@@ -252,10 +251,10 @@ public class PetUsingAllOf {
     return this;
   }
 
-   /**
+  /**
    * pet status in the store
    * @return status
-  **/
+   */
   @javax.annotation.Nullable
   public StatusEnum getStatus() {
     return status;
@@ -380,12 +379,12 @@ public class PetUsingAllOf {
     openapiRequiredFields.add("photoUrls");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to PetUsingAllOf
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to PetUsingAllOf
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!PetUsingAllOf.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -508,22 +507,22 @@ public class PetUsingAllOf {
     }
   }
 
- /**
-  * Create an instance of PetUsingAllOf given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of PetUsingAllOf
-  * @throws IOException if the JSON string is invalid with respect to PetUsingAllOf
-  */
+  /**
+   * Create an instance of PetUsingAllOf given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of PetUsingAllOf
+   * @throws IOException if the JSON string is invalid with respect to PetUsingAllOf
+   */
   public static PetUsingAllOf fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, PetUsingAllOf.class);
   }
 
- /**
-  * Convert an instance of PetUsingAllOf to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of PetUsingAllOf to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

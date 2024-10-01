@@ -17,6 +17,8 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -53,15 +55,17 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
     public static final String FILE_NAMING = "fileNaming";
     public static final String STRING_ENUMS = "stringEnums";
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
+    public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
 
     protected String nestVersion = "8.0.0";
+    @Getter @Setter
     protected String npmRepository = null;
     protected String serviceSuffix = "Service";
     protected String serviceFileSuffix = ".service";
     protected String modelSuffix = "";
     protected String modelFileSuffix = "";
     protected String fileNaming = "camelCase";
-    protected Boolean stringEnums = false;
+    @Getter protected Boolean stringEnums = false;
 
     private boolean taggedUnions = false;
 
@@ -99,6 +103,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         this.cliOptions.add(new CliOption(MODEL_FILE_SUFFIX, "The suffix of the file of the generated model (model<suffix>.ts)."));
         this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'camelCase', 'kebab-case'.").defaultValue(this.fileNaming));
         this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC).defaultValue(String.valueOf(this.stringEnums)));
+        this.cliOptions.add(new CliOption(USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.").defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -214,10 +219,6 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
 
     public void setStringEnums(boolean value) {
         stringEnums = value;
-    }
-
-    public Boolean getStringEnums() {
-        return stringEnums;
     }
 
     @Override
@@ -450,14 +451,6 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         return modelPackage() + "/" + toModelFilename(name);
     }
 
-    public String getNpmRepository() {
-        return npmRepository;
-    }
-
-    public void setNpmRepository(String npmRepository) {
-        this.npmRepository = npmRepository;
-    }
-
     private String getApiFilenameFromClassname(String classname) {
         String name = classname.substring(0, classname.length() - serviceSuffix.length());
         return toApiFilename(name);
@@ -548,6 +541,4 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         }
         return name;
     }
-
 }
-

@@ -41,7 +41,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -53,7 +52,7 @@ import org.openapitools.client.JSON;
 /**
  * DataQuery
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class DataQuery extends Query {
   public static final String SERIALIZED_NAME_SUFFIX = "suffix";
   @SerializedName(SERIALIZED_NAME_SUFFIX)
@@ -75,10 +74,10 @@ public class DataQuery extends Query {
     return this;
   }
 
-   /**
+  /**
    * test suffix
    * @return suffix
-  **/
+   */
   @javax.annotation.Nullable
   public String getSuffix() {
     return suffix;
@@ -94,10 +93,10 @@ public class DataQuery extends Query {
     return this;
   }
 
-   /**
+  /**
    * Some text containing white spaces
    * @return text
-  **/
+   */
   @javax.annotation.Nullable
   public String getText() {
     return text;
@@ -113,10 +112,10 @@ public class DataQuery extends Query {
     return this;
   }
 
-   /**
+  /**
    * A date
    * @return date
-  **/
+   */
   @javax.annotation.Nullable
   public OffsetDateTime getDate() {
     return date;
@@ -188,12 +187,12 @@ public class DataQuery extends Query {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to DataQuery
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to DataQuery
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!DataQuery.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -246,22 +245,22 @@ public class DataQuery extends Query {
     }
   }
 
- /**
-  * Create an instance of DataQuery given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of DataQuery
-  * @throws IOException if the JSON string is invalid with respect to DataQuery
-  */
+  /**
+   * Create an instance of DataQuery given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of DataQuery
+   * @throws IOException if the JSON string is invalid with respect to DataQuery
+   */
   public static DataQuery fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, DataQuery.class);
   }
 
- /**
-  * Convert an instance of DataQuery to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of DataQuery to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

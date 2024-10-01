@@ -19,7 +19,6 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.io.FilenameUtils;
@@ -147,14 +146,17 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     final private static Pattern CONTAINS_JSON_MIME_PATTERN = Pattern.compile("(?i)application/.*json(;.*)?");
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "haskell-http-client";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Haskell http-client library.";
     }
@@ -1180,12 +1182,19 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     @Override
     public String toVarName(String name) {
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         return toVarName("", name);
     }
 
     public String toVarName(String prefix, String name) {
         boolean hasPrefix = !StringUtils.isBlank(prefix);
         name = underscore(sanitizeName(name.replaceAll("-", "_")));
+        if (name.equals("_")) {
+            name = "underscore";
+        }
         name = camelize(name, hasPrefix ? UPPERCASE_FIRST_CHAR : LOWERCASE_FIRST_LETTER);
 
         if (hasPrefix) {
@@ -1201,6 +1210,10 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     @Override
     public String toParamName(String name) {
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         return toVarName(name);
     }
 
@@ -1214,6 +1227,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         return toTypeName("Model", name);
     }
 
+    @Override
     public String toApiName(String name) {
         if (name.length() == 0) {
             return "Default";
@@ -1434,6 +1448,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     // override with any special text escaping logic
+    @Override
     @SuppressWarnings("static-method")
     public String escapeText(String input) {
         if (input == null) {

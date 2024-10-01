@@ -14,8 +14,7 @@ use swagger::auth::Scopes;
 use url::form_urlencoded;
 
 #[allow(unused_imports)]
-use crate::models;
-use crate::header;
+use crate::{models, header, AuthenticationApi};
 
 pub use crate::context;
 
@@ -24,6 +23,8 @@ type ServiceFuture = BoxFuture<'static, Result<Response<Body>, crate::ServiceErr
 use crate::{Api,
      OpGetResponse
 };
+
+mod server_auth;
 
 mod paths {
     use lazy_static::lazy_static;
@@ -36,6 +37,7 @@ mod paths {
     }
     pub(crate) static ID_OP: usize = 0;
 }
+
 
 pub struct MakeService<T, C> where
     T: Api<C> + Clone + Send + 'static,
@@ -70,9 +72,9 @@ impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
     }
 
     fn call(&mut self, target: Target) -> Self::Future {
-        futures::future::ok(Service::new(
-            self.api_impl.clone(),
-        ))
+        let service = Service::new(self.api_impl.clone());
+
+        future::ok(service)
     }
 }
 
@@ -128,28 +130,32 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
         self.api_impl.poll_ready(cx)
     }
 
-    fn call(&mut self, req: (Request<Body>, C)) -> Self::Future { async fn run<T, C>(mut api_impl: T, req: (Request<Body>, C)) -> Result<Response<Body>, crate::ServiceError> where
-        T: Api<C> + Clone + Send + 'static,
-        C: Has<XSpanIdString>  + Send + Sync + 'static
-    {
-        let (request, context) = req;
-        let (parts, body) = request.into_parts();
-        let (method, uri, headers) = (parts.method, parts.uri, parts.headers);
-        let path = paths::GLOBAL_REGEX_SET.matches(uri.path());
+    fn call(&mut self, req: (Request<Body>, C)) -> Self::Future {
+        async fn run<T, C>(
+            mut api_impl: T,
+            req: (Request<Body>, C),
+        ) -> Result<Response<Body>, crate::ServiceError> where
+            T: Api<C> + Clone + Send + 'static,
+            C: Has<XSpanIdString>  + Send + Sync + 'static
+        {
+            let (request, context) = req;
+            let (parts, body) = request.into_parts();
+            let (method, uri, headers) = (parts.method, parts.uri, parts.headers);
+            let path = paths::GLOBAL_REGEX_SET.matches(uri.path());
 
-        match method {
+            match method {
 
             // OpGet - GET /op
             hyper::Method::GET if path.matched(paths::ID_OP) => {
-                // Body parameters (note that non-required body parameters will ignore garbage
+                // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 let result = body.into_raw().await;
                 match result {
-                            Ok(body) => {
-                                let mut unused_elements = Vec::new();
+                     Ok(body) => {
+                                let mut unused_elements : Vec<String> = vec![];
                                 let param_op_get_request: Option<models::OpGetRequest> = if !body.is_empty() {
-                                    let deserializer = &mut serde_json::Deserializer::from_slice(&body);
+                                    let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
@@ -171,6 +177,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         .expect("Unable to create Bad Request response for missing body parameter OpGetRequest")),
                                 };
 
+
                                 let result = api_impl.op_get(
                                             param_op_get_request,
                                         &context
@@ -187,12 +194,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
                                                     .expect("Unable to create Warning header value"));
                                         }
-
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 OpGetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
                                                 },
                                             },
                                             Err(_) => {
@@ -207,17 +214,22 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Couldn't read body parameter OpGetRequest: {}", e)))
-                                                .expect("Unable to create Bad Request response due to unable to read body parameter OpGetRequest")),
+                                                .body(Body::from(format!("Unable to read body: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
 
             _ if path.matched(paths::ID_OP) => method_not_allowed(),
-            _ => Ok(Response::builder().status(StatusCode::NOT_FOUND)
-                    .body(Body::empty())
-                    .expect("Unable to create Not Found response"))
+                _ => Ok(Response::builder().status(StatusCode::NOT_FOUND)
+                        .body(Body::empty())
+                        .expect("Unable to create Not Found response"))
+            }
         }
-    } Box::pin(run(self.api_impl.clone(), req)) }
+        Box::pin(run(
+            self.api_impl.clone(),
+            req,
+        ))
+    }
 }
 
 /// Request parser for `Api`.

@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of EscapedLiteralString
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> EscapedLiteralStringOption { get; private set; }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of UnescapedLiteralString
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> UnescapedLiteralStringOption { get; private set; }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -176,7 +176,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, literalStringClass, jsonSerializerOptions);
+            WriteProperties(writer, literalStringClass, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -187,7 +187,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="literalStringClass"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, LiteralStringClass literalStringClass, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, LiteralStringClass literalStringClass, JsonSerializerOptions jsonSerializerOptions)
         {
             if (literalStringClass.EscapedLiteralStringOption.IsSet && literalStringClass.EscapedLiteralString == null)
                 throw new ArgumentNullException(nameof(literalStringClass.EscapedLiteralString), "Property is required for class LiteralStringClass.");

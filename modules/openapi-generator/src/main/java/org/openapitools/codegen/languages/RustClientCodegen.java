@@ -22,6 +22,8 @@ import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import joptsimple.internal.Strings;
+import lombok.AccessLevel;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -43,41 +45,48 @@ import java.util.stream.Collectors;
 
 public class RustClientCodegen extends AbstractRustCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
-    private boolean useSingleRequestParameter = false;
-    private boolean supportAsync = true;
-    private boolean supportMiddleware = false;
+    @Setter(AccessLevel.PRIVATE) private boolean useSingleRequestParameter = false;
+    @Setter(AccessLevel.PRIVATE) private boolean supportAsync = true;
+    @Setter(AccessLevel.PRIVATE) private boolean supportMiddleware = false;
+    @Setter(AccessLevel.PRIVATE) private boolean supportTokenSource = false;
     private boolean supportMultipleResponses = false;
     private boolean withAWSV4Signature = false;
-    private boolean preferUnsignedInt = false;
-    private boolean bestFitInt = false;
-    private boolean avoidBoxedModels = false;
+    @Setter private boolean preferUnsignedInt = false;
+    @Setter private boolean bestFitInt = false;
+    @Setter private boolean avoidBoxedModels = false;
 
     public static final String PACKAGE_NAME = "packageName";
+    public static final String EXTERN_CRATE_NAME = "externCrateName";
     public static final String PACKAGE_VERSION = "packageVersion";
     public static final String HYPER_LIBRARY = "hyper";
+    public static final String HYPER0X_LIBRARY = "hyper0x";
     public static final String REQWEST_LIBRARY = "reqwest";
     public static final String SUPPORT_ASYNC = "supportAsync";
     public static final String SUPPORT_MIDDLEWARE = "supportMiddleware";
+    public static final String SUPPORT_TOKEN_SOURCE = "supportTokenSource";
     public static final String SUPPORT_MULTIPLE_RESPONSES = "supportMultipleResponses";
     public static final String PREFER_UNSIGNED_INT = "preferUnsignedInt";
     public static final String BEST_FIT_INT = "bestFitInt";
     public static final String AVOID_BOXED_MODELS = "avoidBoxedModels";
 
-    protected String packageName = "openapi";
-    protected String packageVersion = "1.0.0";
+    @Setter protected String packageName = "openapi";
+    @Setter protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected String apiFolder = "src/apis";
     protected String modelFolder = "src/models";
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "rust";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Rust client library (beta).";
     }
@@ -185,6 +194,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(SUPPORT_MIDDLEWARE, "If set, add support for reqwest-middleware. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(SUPPORT_TOKEN_SOURCE, "If set, add support for google-cloud-token. This option is for 'reqwest' library only and requires the 'supportAsync' option", SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(SUPPORT_MULTIPLE_RESPONSES, "If set, return type wraps an enum of all possible 2xx schemas. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.ENUM_NAME_SUFFIX, CodegenConstants.ENUM_NAME_SUFFIX_DESC).defaultValue(this.enumSuffix));
@@ -197,7 +208,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         cliOptions.add(new CliOption(AVOID_BOXED_MODELS, "If set, `Box<T>` will not be used for models", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
 
-        supportedLibraries.put(HYPER_LIBRARY, "HTTP client: Hyper.");
+        supportedLibraries.put(HYPER_LIBRARY, "HTTP client: Hyper (v1.x).");
+        supportedLibraries.put(HYPER0X_LIBRARY, "HTTP client: Hyper (v0.x).");
         supportedLibraries.put(REQWEST_LIBRARY, "HTTP client: Reqwest.");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use.");
@@ -270,10 +282,10 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
-        // Remove the discriminator field from the model, serde will take care of this
         for (ModelMap model : objs.getModels()) {
             CodegenModel cm = model.getModel();
 
+            // Remove the discriminator field from the model, serde will take care of this
             if (cm.discriminator != null) {
                 String reserved_var_name = cm.discriminator.getPropertyBaseName();
 
@@ -282,6 +294,14 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                         cm.vars.remove(cp);
                         break;
                     }
+                }
+            }
+
+            // Flag structs with byteArrays in them so that we can annotate them with the serde_as macro
+            for (CodegenProperty cp : cm.vars) {
+                if (cp.isByteArray) {
+                    cm.vendorExtensions.put("x-rust-has-byte-array", true);
+                    break;
                 }
             }
         }
@@ -330,6 +350,11 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         }
         writePropertyBack(SUPPORT_MIDDLEWARE, getSupportMiddleware());
 
+        if (additionalProperties.containsKey(SUPPORT_TOKEN_SOURCE)) {
+            this.setSupportTokenSource(convertPropertyToBoolean(SUPPORT_TOKEN_SOURCE));
+        }
+        writePropertyBack(SUPPORT_TOKEN_SOURCE, getSupportTokenSource());
+
         if (additionalProperties.containsKey(SUPPORT_MULTIPLE_RESPONSES)) {
             this.setSupportMultipleReturns(convertPropertyToBoolean(SUPPORT_MULTIPLE_RESPONSES));
         }
@@ -352,12 +377,16 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
+        additionalProperties.put(EXTERN_CRATE_NAME, getExternCrateName());
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
 
         if (HYPER_LIBRARY.equals(getLibrary())) {
             additionalProperties.put(HYPER_LIBRARY, "true");
+        } else if (HYPER0X_LIBRARY.equals(getLibrary())) {
+            additionalProperties.put(HYPER_LIBRARY, "true");
+            additionalProperties.put(HYPER0X_LIBRARY, "true");
         } else if (REQWEST_LIBRARY.equals(getLibrary())) {
             additionalProperties.put(REQWEST_LIBRARY, "true");
         } else {
@@ -405,20 +434,21 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
 
     }
 
-    private boolean getSupportAsync() {
-        return supportAsync;
+    private String getExternCrateName() {
+        // The external name used when importing a crate has all '-' replaced with '_'.
+        return packageName.replace('-', '_');
     }
 
-    private void setSupportAsync(boolean supportAsync) {
-        this.supportAsync = supportAsync;
+    private boolean getSupportAsync() {
+        return supportAsync;
     }
 
     private boolean getSupportMiddleware() {
         return supportMiddleware;
     }
-
-    private void setSupportMiddleware(boolean supportMiddleware) {
-        this.supportMiddleware = supportMiddleware;
+    
+    private boolean getSupportTokenSource() {
+        return supportTokenSource;
     }
 
     public boolean getSupportMultipleReturns() {
@@ -433,32 +463,16 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         return preferUnsignedInt;
     }
 
-    public void setPreferUnsignedInt(boolean preferUnsignedInt) {
-        this.preferUnsignedInt = preferUnsignedInt;
-    }
-
     public boolean getBestFitInt() {
         return bestFitInt;
-    }
-
-    public void setBestFitInt(boolean bestFitInt) {
-        this.bestFitInt = bestFitInt;
     }
 
     private boolean getUseSingleRequestParameter() {
         return useSingleRequestParameter;
     }
 
-    private void setUseSingleRequestParameter(boolean useSingleRequestParameter) {
-        this.useSingleRequestParameter = useSingleRequestParameter;
-    }
-
     public boolean getAvoidBoxedModels() {
         return avoidBoxedModels;
-    }
-
-    public void setAvoidBoxedModels(boolean avoidBoxedModels) {
-        this.avoidBoxedModels = avoidBoxedModels;
     }
 
     @Override
@@ -537,6 +551,11 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         if (property.isNullable && !property.required) {
             additionalProperties.put("serdeWith", true);
         }
+
+        // If a property is a base64-encoded byte array, use `serde_with` for deserialization.
+        if (property.isByteArray) {
+            additionalProperties.put("serdeWith", true);
+        }
     }
 
     @Override
@@ -608,14 +627,6 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         }
 
         return objs;
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
     }
 
     @Override

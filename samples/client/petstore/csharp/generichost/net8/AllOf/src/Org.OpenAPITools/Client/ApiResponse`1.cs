@@ -133,7 +133,7 @@ namespace Org.OpenAPITools.Client
         /// <param name="path"></param>
         /// <param name="requestedAt"></param>
         /// <param name="jsonSerializerOptions"></param>
-        public ApiResponse(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
+        public ApiResponse(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
         {
             StatusCode = httpResponseMessage.StatusCode;
             Headers = httpResponseMessage.Headers;
@@ -147,7 +147,7 @@ namespace Org.OpenAPITools.Client
             OnCreated(httpRequestMessage, httpResponseMessage);
         }
 
-        partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+        partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
     }
 
     /// <summary>

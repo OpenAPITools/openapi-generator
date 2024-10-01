@@ -67,7 +67,7 @@ import {{packageName}}.infrastructure.*
     @Deprecated(message = "This operation is deprecated.")
     {{/isDeprecated}}
     fun {{operationId}}({{#allParams}}{{{paramName}}}: {{#isEnum}}{{#isContainer}}kotlin.collections.List<{{enumName}}{{operationIdCamelCase}}>{{/isContainer}}{{^isContainer}}{{enumName}}{{operationIdCamelCase}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{#defaultValue}} = {{>param_default_value}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}): {{#returnType}}{{{returnType}}}{{#nullableReturnType}}?{{/nullableReturnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}} {
-        val result = {{operationId}}WithHttpInfo({{#allParams}}{{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+        {{#returnType}}val result = {{/returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
         {{#returnType}}
         return result.body!!
         {{/returnType}}
@@ -92,7 +92,7 @@ import {{packageName}}.infrastructure.*
           }}{{#bodyParams}}{{{paramName}}}{{/bodyParams}}{{/hasBodyParam}}{{^hasBodyParam}}{{!
           }}{{^hasFormParams}}null{{/hasFormParams}}{{!
           }}{{#hasFormParams}}mapOf({{#formParams}}
-            "{{{baseName}}}" to PartConfig(body = {{{paramName}}}{{#isEnum}}.value{{/isEnum}}, headers = mutableMapOf({{#contentType}}"Content-Type" to "{{contentType}}"{{/contentType}})),{{!
+            "{{{baseName}}}" to PartConfig(body = {{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}, headers = mutableMapOf({{#contentType}}"Content-Type" to "{{contentType}}"{{/contentType}})),{{!
             }}{{/formParams}}){{/hasFormParams}}{{!
         }}{{/hasBodyParam}}
         val localVariableQuery = {{^hasQueryParams}}mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
@@ -127,7 +127,7 @@ import {{packageName}}.infrastructure.*
 
         val params = mutableMapOf<String, Any>(
         {{#pathParams}}
-            "{{baseName}}" to {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}.value{{/isEnum}}{{/isContainer}},
+            "{{baseName}}" to {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}{{/isContainer}},
         {{/pathParams}}
         )
 

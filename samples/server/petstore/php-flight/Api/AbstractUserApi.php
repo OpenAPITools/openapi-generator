@@ -23,7 +23,8 @@ abstract class AbstractUserApi
 
     /**
      * Operation createUser
-     * Path: /user
+     *
+     * Path: `/user`
      *
      * Create user
      *
@@ -37,8 +38,23 @@ abstract class AbstractUserApi
     }
 
     /**
+     * Operation createUser (stream)
+     *
+     * Path: `/user`
+     *
+     * Create user
+     *
+     * @param \OpenAPIServer\Model\User $user Created user object (required)
+     *
+     */
+    public function createUserStream(\OpenAPIServer\Model\User $user): void
+    {
+        throw new \Exception('Not implemented');
+    }
+    /**
      * Operation createUsersWithArrayInput
-     * Path: /user/createWithArray
+     *
+     * Path: `/user/createWithArray`
      *
      * Creates list of users with given input array
      *
@@ -52,8 +68,23 @@ abstract class AbstractUserApi
     }
 
     /**
+     * Operation createUsersWithArrayInput (stream)
+     *
+     * Path: `/user/createWithArray`
+     *
+     * Creates list of users with given input array
+     *
+     * @param array $user List of user object (required)
+     *
+     */
+    public function createUsersWithArrayInputStream(array $user): void
+    {
+        throw new \Exception('Not implemented');
+    }
+    /**
      * Operation createUsersWithListInput
-     * Path: /user/createWithList
+     *
+     * Path: `/user/createWithList`
      *
      * Creates list of users with given input array
      *
@@ -67,8 +98,23 @@ abstract class AbstractUserApi
     }
 
     /**
+     * Operation createUsersWithListInput (stream)
+     *
+     * Path: `/user/createWithList`
+     *
+     * Creates list of users with given input array
+     *
+     * @param array $user List of user object (required)
+     *
+     */
+    public function createUsersWithListInputStream(array $user): void
+    {
+        throw new \Exception('Not implemented');
+    }
+    /**
      * Operation deleteUser
-     * Path: /user/{username}
+     *
+     * Path: `/user/{username}`
      *
      * Delete user
      *
@@ -82,8 +128,23 @@ abstract class AbstractUserApi
     }
 
     /**
+     * Operation deleteUser (stream)
+     *
+     * Path: `/user/{username}`
+     *
+     * Delete user
+     *
+     * @param string $username The name that needs to be deleted (required)
+     *
+     */
+    public function deleteUserStream(string $username): void
+    {
+        throw new \Exception('Not implemented');
+    }
+    /**
      * Operation getUserByName
-     * Path: /user/{username}
+     *
+     * Path: `/user/{username}`
      *
      * Get user by user name
      *
@@ -97,8 +158,23 @@ abstract class AbstractUserApi
     }
 
     /**
+     * Operation getUserByName (stream)
+     *
+     * Path: `/user/{username}`
+     *
+     * Get user by user name
+     *
+     * @param string $username The name that needs to be fetched. Use user1 for testing. (required)
+     *
+     */
+    public function getUserByNameStream(string $username): void
+    {
+        throw new \Exception('Not implemented');
+    }
+    /**
      * Operation loginUser
-     * Path: /user/login
+     *
+     * Path: `/user/login`
      *
      * Logs user into the system
      *
@@ -113,8 +189,24 @@ abstract class AbstractUserApi
     }
 
     /**
+     * Operation loginUser (stream)
+     *
+     * Path: `/user/login`
+     *
+     * Logs user into the system
+     *
+     * @param string $username The user name for login (required)
+     * @param string $password The password for login in clear text (required)
+     *
+     */
+    public function loginUserStream(string $username, string $password): void
+    {
+        throw new \Exception('Not implemented');
+    }
+    /**
      * Operation logoutUser
-     * Path: /user/logout
+     *
+     * Path: `/user/logout`
      *
      * Logs out current logged in user session
      *
@@ -127,8 +219,22 @@ abstract class AbstractUserApi
     }
 
     /**
+     * Operation logoutUser (stream)
+     *
+     * Path: `/user/logout`
+     *
+     * Logs out current logged in user session
+     *
+     *
+     */
+    public function logoutUserStream(): void
+    {
+        throw new \Exception('Not implemented');
+    }
+    /**
      * Operation updateUser
-     * Path: /user/{username}
+     *
+     * Path: `/user/{username}`
      *
      * Updated user
      *
@@ -142,4 +248,19 @@ abstract class AbstractUserApi
         throw new \Exception('Not implemented');
     }
 
+    /**
+     * Operation updateUser (stream)
+     *
+     * Path: `/user/{username}`
+     *
+     * Updated user
+     *
+     * @param string $username name that need to be deleted (required)
+     * @param \OpenAPIServer\Model\User $user Updated user object (required)
+     *
+     */
+    public function updateUserStream(string $username, \OpenAPIServer\Model\User $user): void
+    {
+        throw new \Exception('Not implemented');
+    }
 }

@@ -13,18 +13,20 @@
  */
 
 import { mapValues } from '../runtime';
-import type { MatchingParts } from './MatchingParts';
-import {
-    MatchingPartsFromJSON,
-    MatchingPartsFromJSONTyped,
-    MatchingPartsToJSON,
-} from './MatchingParts';
 import type { ResponseMeta } from './ResponseMeta';
 import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
+    ResponseMetaToJSONTyped,
 } from './ResponseMeta';
+import type { MatchingParts } from './MatchingParts';
+import {
+    MatchingPartsFromJSON,
+    MatchingPartsFromJSONTyped,
+    MatchingPartsToJSON,
+    MatchingPartsToJSONTyped,
+} from './MatchingParts';
 
 /**
  * 
@@ -49,8 +51,8 @@ export interface GetMatchingPartsResponse {
 /**
  * Check if a given object implements the GetMatchingPartsResponse interface.
  */
-export function instanceOfGetMatchingPartsResponse(value: object): boolean {
-    if (!('meta' in value)) return false;
+export function instanceOfGetMatchingPartsResponse(value: object): value is GetMatchingPartsResponse {
+    if (!('meta' in value) || value['meta'] === undefined) return false;
     return true;
 }
 
@@ -69,10 +71,15 @@ export function GetMatchingPartsResponseFromJSONTyped(json: any, ignoreDiscrimin
     };
 }
 
-export function GetMatchingPartsResponseToJSON(value?: GetMatchingPartsResponse | null): any {
+  export function GetMatchingPartsResponseToJSON(json: any): GetMatchingPartsResponse {
+      return GetMatchingPartsResponseToJSONTyped(json, false);
+  }
+
+  export function GetMatchingPartsResponseToJSONTyped(value?: GetMatchingPartsResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'meta': ResponseMetaToJSON(value['meta']),

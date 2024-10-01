@@ -1,0 +1,26 @@
+package {{apiPackage}}
+
+import io.javalin.http.Context
+import io.javalin.http.bodyAsClass
+import io.javalin.http.pathParamAsClass
+import io.javalin.http.queryParamAsClass
+
+{{#imports}}import {{import}}
+{{/imports}}
+
+{{#operations}}
+class {{classname}}(private val service: {{classname}}Service) {
+    {{#operation}}
+    /**{{#summary}}
+     * {{.}}{{/summary}}
+     * {{unescapedNotes}}
+     {{#allParams}}* @param {{paramName}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+     {{/allParams}}*/
+    fun {{operationId}}(ctx: Context) {
+        val result = service.{{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}ctx)
+        ctx.status({{#responses}}{{#-first}}{{code}}{{/-first}}{{/responses}}).json(result)
+    }
+
+    {{/operation}}
+}
+{{/operations}}

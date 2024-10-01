@@ -26,7 +26,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 /**
   * A category for a pet
- **/
+  */
 
 public class Category  {
   
@@ -38,10 +38,10 @@ public class Category  {
   
   private String name;
 
- /**
+  /**
    * Get id
    * @return id
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Long getId() {
@@ -49,8 +49,8 @@ public class Category  {
   }
 
   /**
-    * Set id
-  **/
+   * Set id
+   */
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(Long id) {
@@ -62,10 +62,10 @@ public class Category  {
     return this;
   }
 
- /**
+  /**
    * Get name
    * @return name
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getName() {
@@ -73,8 +73,8 @@ public class Category  {
   }
 
   /**
-    * Set name
-  **/
+   * Set name
+   */
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setName(String name) {
@@ -88,8 +88,8 @@ public class Category  {
 
 
   /**
-    * Create a string representation of this pojo.
-  **/
+   * Create a string representation of this pojo.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -112,3 +112,4 @@ public class Category  {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

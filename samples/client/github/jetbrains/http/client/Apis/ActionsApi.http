@@ -156,7 +156,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/caches/{{cache_id
 
 ### Delete GitHub Actions caches for a repository (using a cache key)
 ## Delete GitHub Actions caches for a repository (using a cache key)
-DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/caches
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/caches?key={{key}}&ref={{ref}}
 Accept: application/json
 
 ### Delete an artifact
@@ -272,7 +272,7 @@ Accept: application/json
 
 ### List GitHub Actions caches for a repository
 ## List GitHub Actions caches for a repository
-GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/caches
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/caches?perPage={{perPage}}&page={{page}}&ref={{ref}}&key={{key}}&sort={{sort}}&direction={{direction}}
 Accept: application/json
 
 ### Get GitHub Actions cache usage for a repository
@@ -282,7 +282,7 @@ Accept: application/json
 
 ### List repositories with GitHub Actions cache usage for an organization
 ## List repositories with GitHub Actions cache usage for an organization
-GET https://api.github.com/orgs/{{org}}/actions/cache/usage-by-repository
+GET https://api.github.com/orgs/{{org}}/actions/cache/usage-by-repository?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### Get GitHub Actions cache usage for an organization
@@ -413,12 +413,12 @@ Accept: application/json
 
 ### Get a workflow run
 ## Get a workflow run
-GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}?excludePullRequests={{excludePullRequests}}
 Accept: application/json
 
 ### Get a workflow run attempt
 ## Get a workflow run attempt
-GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/attempts/{{attempt_number}}
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/attempts/{{attempt_number}}?excludePullRequests={{excludePullRequests}}
 Accept: application/json
 
 ### Get workflow run usage
@@ -433,27 +433,27 @@ Accept: application/json
 
 ### List artifacts for a repository
 ## List artifacts for a repository
-GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/artifacts
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/artifacts?perPage={{perPage}}&page={{page}}&name={{name}}
 Accept: application/json
 
 ### List environment secrets
 ## List environment secrets
-GET https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/secrets
+GET https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/secrets?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List environment variables
 ## List environment variables
-GET https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/variables
+GET https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/variables?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List jobs for a workflow run
 ## List jobs for a workflow run
-GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/jobs
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/jobs?filter={{filter}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List jobs for a workflow run attempt
 ## List jobs for a workflow run attempt
-GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/attempts/{{attempt_number}}/jobs
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/attempts/{{attempt_number}}/jobs?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List labels for a self-hosted runner for an organization
@@ -468,37 +468,37 @@ Accept: application/json
 
 ### List organization secrets
 ## List organization secrets
-GET https://api.github.com/orgs/{{org}}/actions/secrets
+GET https://api.github.com/orgs/{{org}}/actions/secrets?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List organization variables
 ## List organization variables
-GET https://api.github.com/orgs/{{org}}/actions/variables
+GET https://api.github.com/orgs/{{org}}/actions/variables?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List repository organization secrets
 ## List repository organization secrets
-GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/organization-secrets
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/organization-secrets?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List repository organization variables
 ## List repository organization variables
-GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/organization-variables
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/organization-variables?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List repository secrets
 ## List repository secrets
-GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/secrets
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/secrets?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List repository variables
 ## List repository variables
-GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/variables
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/variables?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List repository workflows
 ## List repository workflows
-GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/workflows
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/workflows?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List runner applications for an organization
@@ -513,42 +513,42 @@ Accept: application/json
 
 ### List selected repositories for an organization secret
 ## List selected repositories for an organization secret
-GET https://api.github.com/orgs/{{org}}/actions/secrets/{{secret_name}}/repositories
+GET https://api.github.com/orgs/{{org}}/actions/secrets/{{secret_name}}/repositories?page={{page}}&perPage={{perPage}}
 Accept: application/json
 
 ### List selected repositories for an organization variable
 ## List selected repositories for an organization variable
-GET https://api.github.com/orgs/{{org}}/actions/variables/{{name}}/repositories
+GET https://api.github.com/orgs/{{org}}/actions/variables/{{name}}/repositories?page={{page}}&perPage={{perPage}}
 Accept: application/json
 
 ### List selected repositories enabled for GitHub Actions in an organization
 ## List selected repositories enabled for GitHub Actions in an organization
-GET https://api.github.com/orgs/{{org}}/actions/permissions/repositories
+GET https://api.github.com/orgs/{{org}}/actions/permissions/repositories?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List self-hosted runners for an organization
 ## List self-hosted runners for an organization
-GET https://api.github.com/orgs/{{org}}/actions/runners
+GET https://api.github.com/orgs/{{org}}/actions/runners?name={{name}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List self-hosted runners for a repository
 ## List self-hosted runners for a repository
-GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners?name={{name}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List workflow run artifacts
 ## List workflow run artifacts
-GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/artifacts
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/artifacts?perPage={{perPage}}&page={{page}}&name={{name}}
 Accept: application/json
 
 ### List workflow runs for a workflow
 ## List workflow runs for a workflow
-GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/workflows/{{workflow_id}}/runs
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/workflows/{{workflow_id}}/runs?actor={{actor}}&branch={{branch}}&event={{event}}&status={{status}}&perPage={{perPage}}&page={{page}}&created={{created}}&excludePullRequests={{excludePullRequests}}&checkSuiteId={{checkSuiteId}}&headSha={{headSha}}
 Accept: application/json
 
 ### List workflow runs for a repository
 ## List workflow runs for a repository
-GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs?actor={{actor}}&branch={{branch}}&event={{event}}&status={{status}}&perPage={{perPage}}&page={{page}}&created={{created}}&excludePullRequests={{excludePullRequests}}&checkSuiteId={{checkSuiteId}}&headSha={{headSha}}
 Accept: application/json
 
 

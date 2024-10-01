@@ -1,4 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
+{{#useEquatable}}
+import 'package:equatable/src/equatable_utils.dart';
+{{/useEquatable}}
 
 part '{{classFilename}}.g.dart';
 
@@ -43,7 +46,12 @@ class {{{classname}}} {
     {{#defaultValue}}defaultValue: {{{defaultValue}}},{{/defaultValue}}
     name: r'{{{baseName}}}',
     required: {{#required}}true{{/required}}{{^required}}false{{/required}},
-    includeIfNull: {{#required}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/required}}{{^required}}false{{/required}}
+    includeIfNull: {{#required}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/required}}{{^required}}false{{/required}},
+  {{#isEnumOrRef}}
+  {{#enumUnknownDefaultCase}}
+  unknownEnumValue: {{{datatypeWithEnum}}}.unknownDefaultOpenApi,
+  {{/enumUnknownDefaultCase}}
+  {{/isEnumOrRef}}
   )
   {{/isBinary}}
   {{#isBinary}}
@@ -61,17 +69,50 @@ class {{{classname}}} {
 
 
 {{/vars}}
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is {{{classname}}} &&
-  {{#vars}}
-     other.{{{name}}} == {{{name}}}{{^-last}} &&{{/-last}}{{#-last}};{{/-last}}
-  {{/vars}}
 
-  @override
-  int get hashCode =>
-  {{#vars}}
-    {{#isNullable}}({{{name}}} == null ? 0 : {{{name}}}.hashCode){{/isNullable}}{{^isNullable}}{{{name}}}.hashCode{{/isNullable}}{{^-last}} +{{/-last}}{{#-last}};{{/-last}}
-  {{/vars}}
+  {{#useEquatable}}
+    bool operator ==(Object other) {
+      return identical(this, other) ||
+      other is {{{classname}}} &&
+      runtimeType == other.runtimeType &&
+      equals(
+        [
+          {{#vars}}
+            {{{name}}},
+          {{/vars}}
+        ],
+        [
+          {{#vars}}
+            other.{{{name}}},
+          {{/vars}}
+        ]
+      );
+    }
+  {{/useEquatable}}
+
+  {{^useEquatable}}
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is {{{classname}}} &&
+    {{#vars}}
+      other.{{{name}}} == {{{name}}}{{^-last}} &&{{/-last}}{{#-last}};{{/-last}}
+    {{/vars}}
+  {{/useEquatable}}
+
+  {{#useEquatable}}
+    @override
+    int get hashCode => runtimeType.hashCode ^ mapPropsToHashCode([
+    {{#vars}}
+        {{{name}}},
+    {{/vars}}
+    ],);
+  {{/useEquatable}}
+  {{^useEquatable}}
+    @override
+    int get hashCode =>
+    {{#vars}}
+        {{#isNullable}}({{{name}}} == null ? 0 : {{{name}}}.hashCode){{/isNullable}}{{^isNullable}}{{{name}}}.hashCode{{/isNullable}}{{^-last}} +{{/-last}}{{#-last}};{{/-last}}
+    {{/vars}}
+  {{/useEquatable}}
 
   factory {{{classname}}}.fromJson(Map<String, dynamic> json) => _${{{classname}}}FromJson(json);
 

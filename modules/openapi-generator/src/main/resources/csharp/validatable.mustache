@@ -4,7 +4,7 @@
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -14,7 +14,7 @@
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
 {{/discriminator}}
 {{^discriminator}}
@@ -24,7 +24,7 @@
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -34,7 +34,7 @@
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
   {{/parent}}
   {{^parent}}
@@ -43,7 +43,7 @@
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
   {{/parent}}
 {{/discriminator}}
@@ -64,7 +64,7 @@
             // {{{name}}} ({{{dataType}}}) maxLength
             if (this.{{{name}}} != null && this.{{{name}}}.Length > {{maxLength}})
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, length must be less than {{maxLength}}.", new [] { "{{{name}}}" });
+                yield return new ValidationResult("Invalid value for {{{name}}}, length must be less than {{maxLength}}.", new [] { "{{{name}}}" });
             }
 
             {{/maxLength}}
@@ -72,23 +72,23 @@
             // {{{name}}} ({{{dataType}}}) minLength
             if (this.{{{name}}} != null && this.{{{name}}}.Length < {{minLength}})
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, length must be greater than {{minLength}}.", new [] { "{{{name}}}" });
+                yield return new ValidationResult("Invalid value for {{{name}}}, length must be greater than {{minLength}}.", new [] { "{{{name}}}" });
             }
 
             {{/minLength}}
             {{#maximum}}
             // {{{name}}} ({{{dataType}}}) maximum
-            if ({{#useGenericHost}}{{^required}}this.{{{name}}}Option.IsSet && {{/required}}{{/useGenericHost}}this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}} > ({{{dataType}}}){{maximum}})
+            if ({{#useGenericHost}}{{^required}}this.{{{name}}}Option.IsSet && {{/required}}{{/useGenericHost}}this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}} {{#exclusiveMaximum}}<={{/exclusiveMaximum}}{{^exclusiveMaximum}}>{{/exclusiveMaximum}} ({{{dataType}}}){{maximum}})
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, must be a value less than or equal to {{maximum}}.", new [] { "{{{name}}}" });
+                yield return new ValidationResult("Invalid value for {{{name}}}, must be a value less than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}.", new [] { "{{{name}}}" });
             }
 
             {{/maximum}}
             {{#minimum}}
             // {{{name}}} ({{{dataType}}}) minimum
-            if ({{#useGenericHost}}{{^required}}this.{{{name}}}Option.IsSet && {{/required}}{{/useGenericHost}}this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}} < ({{{dataType}}}){{minimum}})
+            if ({{#useGenericHost}}{{^required}}this.{{{name}}}Option.IsSet && {{/required}}{{/useGenericHost}}this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}} {{#exclusiveMaximum}}>={{/exclusiveMaximum}}{{^exclusiveMaximum}}<{{/exclusiveMaximum}} ({{{dataType}}}){{minimum}})
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, must be a value greater than or equal to {{minimum}}.", new [] { "{{{name}}}" });
+                yield return new ValidationResult("Invalid value for {{{name}}}, must be a value greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{minimum}}.", new [] { "{{{name}}}" });
             }
 
             {{/minimum}}

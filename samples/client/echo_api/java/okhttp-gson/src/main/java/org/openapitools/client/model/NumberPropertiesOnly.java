@@ -38,7 +38,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -50,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * NumberPropertiesOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class NumberPropertiesOnly {
   public static final String SERIALIZED_NAME_NUMBER = "number";
   @SerializedName(SERIALIZED_NAME_NUMBER)
@@ -72,10 +71,10 @@ public class NumberPropertiesOnly {
     return this;
   }
 
-   /**
+  /**
    * Get number
    * @return number
-  **/
+   */
   @javax.annotation.Nullable
   public BigDecimal getNumber() {
     return number;
@@ -91,10 +90,10 @@ public class NumberPropertiesOnly {
     return this;
   }
 
-   /**
+  /**
    * Get _float
    * @return _float
-  **/
+   */
   @javax.annotation.Nullable
   public Float getFloat() {
     return _float;
@@ -110,12 +109,12 @@ public class NumberPropertiesOnly {
     return this;
   }
 
-   /**
+  /**
    * Get _double
    * minimum: 0.8
    * maximum: 50.2
    * @return _double
-  **/
+   */
   @javax.annotation.Nullable
   public Double getDouble() {
     return _double;
@@ -183,12 +182,12 @@ public class NumberPropertiesOnly {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to NumberPropertiesOnly
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to NumberPropertiesOnly
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!NumberPropertiesOnly.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -235,22 +234,22 @@ public class NumberPropertiesOnly {
     }
   }
 
- /**
-  * Create an instance of NumberPropertiesOnly given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of NumberPropertiesOnly
-  * @throws IOException if the JSON string is invalid with respect to NumberPropertiesOnly
-  */
+  /**
+   * Create an instance of NumberPropertiesOnly given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of NumberPropertiesOnly
+   * @throws IOException if the JSON string is invalid with respect to NumberPropertiesOnly
+   */
   public static NumberPropertiesOnly fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, NumberPropertiesOnly.class);
   }
 
- /**
-  * Convert an instance of NumberPropertiesOnly to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of NumberPropertiesOnly to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

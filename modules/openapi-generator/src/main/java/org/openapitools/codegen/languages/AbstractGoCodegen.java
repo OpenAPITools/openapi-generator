@@ -17,8 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -40,15 +40,28 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractGoCodegen.class);
     private static final String NUMERIC_ENUM_PREFIX = "_";
 
+    @Setter
     protected boolean withGoCodegenComment = false;
+    @Setter
     protected boolean withAWSV4Signature = false;
+    @Setter
     protected boolean withXml = false;
+    @Setter
     protected boolean enumClassPrefix = false;
+    @Setter
     protected boolean structPrefix = false;
+    @Setter
     protected boolean generateInterfaces = false;
+    @Setter
     protected boolean withGoMod = false;
+    @Setter
     protected boolean generateMarshalJSON = true;
+    @Setter
+    protected boolean generateUnmarshalJSON = true;
+    @Setter
+    protected boolean useDefaultValuesForRequiredVars = false;
 
+    @Setter
     protected String packageName = "openapi";
     protected Set<String> numberTypes;
 
@@ -423,6 +436,13 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         String ref = p.get$ref();
         String type;
 
+        // schema is a ref to property's schema e.g. #/components/schemas/Pet/properties/id
+        if (ModelUtils.isRefToSchemaWithProperties(ref)) {
+            Schema propertySchema = ModelUtils.getSchemaFromRefToSchemaWithProperties(openAPI, ref);
+            openAPIType = super.getSchemaType(propertySchema);
+            ref = propertySchema.get$ref();
+        }
+
         if (ref != null && !ref.isEmpty()) {
             type = toModelName(openAPIType);
         } else if ("object".equals(openAPIType) && ModelUtils.isAnyType(p)) {
@@ -430,10 +450,12 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             type = "interface{}";
         } else if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
-            if (languageSpecificPrimitives.contains(type))
+            if (languageSpecificPrimitives.contains(type)) {
                 return (type);
-        } else
+            }
+        } else {
             type = openAPIType;
+        }
         return type;
     }
 
@@ -723,6 +745,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         for (ModelMap m : objs.getModels()) {
             boolean addedTimeImport = false;
             boolean addedOSImport = false;
+            boolean addedValidator = false;
             CodegenModel model = m.getModel();
 
             List<CodegenProperty> inheritedProperties = new ArrayList<>();
@@ -751,15 +774,62 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     imports.add(createMapping("import", "time"));
                     addedTimeImport = true;
                 }
-                
+
                 if (!addedOSImport && ("*os.File".equals(cp.dataType) ||
                         (cp.items != null && "*os.File".equals(cp.items.dataType)))) {
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }
+
+                if (cp.pattern != null) {
+                    cp.vendorExtensions.put("x-go-custom-tag", "validate:\"regexp=" +
+                            cp.pattern.replace("\\", "\\\\").replaceAll("^/|/$", "") +
+                            "\"");
+                }
+
+                // construct data tag in the template: x-go-datatag
+                // originl template
+                // `json:"{{{baseName}}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{{baseName}}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#withValidate}} validate:"{{validate}}"{{/withValidate}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+                String goDataTag = "json:\"" + cp.baseName;
+                if (!cp.required) {
+                    goDataTag += ",omitempty";
+                }
+                goDataTag += "\"";
+
+                if (withXml) {
+                    goDataTag += " xml:" + "\"" + cp.baseName;
+                    if (cp.isXmlAttribute) {
+                        goDataTag += ",attr";
+                    }
+                    goDataTag += "\"";
+                }
+
+                // {{#withValidate}} validate:"{{validate}}"{{/withValidate}}
+                if (Boolean.parseBoolean(String.valueOf(additionalProperties.getOrDefault("withValidate", "false")))) {
+                    goDataTag += " validate:\"" + additionalProperties.getOrDefault("validate", "") + "\"";
+                }
+
+                // {{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}
+                if (StringUtils.isNotEmpty(String.valueOf(cp.vendorExtensions.getOrDefault("x-go-custom-tag", "")))) {
+                    goDataTag += " " + cp.vendorExtensions.get("x-go-custom-tag");
+                }
+
+                // if it contains backtick, wrap with " instead
+                if (goDataTag.contains("`")) {
+                    goDataTag = " \"" + goDataTag.replace("\"", "\\\"") + "\"";
+                } else {
+                    goDataTag = " `" + goDataTag + "`";
+                }
+                cp.vendorExtensions.put("x-go-datatag", goDataTag);
             }
+
             if (this instanceof GoClientCodegen && model.isEnum) {
                 imports.add(createMapping("import", "fmt"));
+            }
+
+            if (model.oneOf != null && !model.oneOf.isEmpty() && !addedValidator && generateUnmarshalJSON) {
+                imports.add(createMapping("import", "gopkg.in/validator.v2"));
+                addedValidator = true;
             }
 
             // if oneOf contains "null" type
@@ -775,7 +845,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             }
 
             if (generateMarshalJSON) {
-                model.vendorExtensions.put("x-go-generate-marshal-json", true);
+                model.vendorExtensions.putIfAbsent("x-go-generate-marshal-json", true);
+            }
+
+            if (generateUnmarshalJSON) {
+                model.vendorExtensions.putIfAbsent("x-go-generate-unmarshal-json", true);
             }
         }
 
@@ -806,10 +880,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     @Override
     protected boolean needToImport(String type) {
         return !defaultIncludes.contains(type) && !languageSpecificPrimitives.contains(type);
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
     }
 
     @Override
@@ -900,38 +970,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         }
     }
 
-    public void setWithGoCodegenComment(boolean withGoCodegenComment) {
-        this.withGoCodegenComment = withGoCodegenComment;
-    }
-
-    public void setWithAWSV4Signature(boolean withAWSV4Signature) {
-        this.withAWSV4Signature = withAWSV4Signature;
-    }
-
-    public void setWithXml(boolean withXml) {
-        this.withXml = withXml;
-    }
-
-    public void setEnumClassPrefix(boolean enumClassPrefix) {
-        this.enumClassPrefix = enumClassPrefix;
-    }
-
-    public void setStructPrefix(boolean structPrefix) {
-        this.structPrefix = structPrefix;
-    }
-
-    public void setGenerateInterfaces(boolean generateInterfaces) {
-        this.generateInterfaces = generateInterfaces;
-    }
-
-    public void setWithGoMod(boolean withGoMod) {
-        this.withGoMod = withGoMod;
-    }
-
-    public void setGenerateMarshalJSON(boolean generateMarshalJSON) {
-        this.generateMarshalJSON = generateMarshalJSON;
-    }
-
     @Override
     public String toDefaultValue(Schema schema) {
         schema = unaliasSchema(schema);
@@ -956,7 +994,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // only process the following type (or we can simply rely on the file extension to check if it's a Go file)
         Set<String> supportedFileType = new HashSet<>(
                 Arrays.asList(
-                        "supporting-mustache",
+                        "supporting-file",
                         "model-test",
                         "model",
                         "api-test",

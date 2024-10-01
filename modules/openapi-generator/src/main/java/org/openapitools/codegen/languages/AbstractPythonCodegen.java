@@ -41,11 +41,11 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenDiscriminator;
 import org.openapitools.codegen.CodegenMediaType;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
@@ -66,7 +66,6 @@ import org.slf4j.LoggerFactory;
 import com.github.curiousoddman.rgxgen.RgxGen;
 
 import io.swagger.v3.oas.models.examples.Example;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 
@@ -80,8 +79,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     public static final String MAP_NUMBER_TO = "mapNumberTo";
 
     protected String packageName = "openapi_client";
-    protected String packageVersion = "1.0.0";
-    protected String projectName; // for setup.py, e.g. petstore-api
+    @Setter protected String packageVersion = "1.0.0";
+    @Setter protected String projectName; // for setup.py, e.g. petstore-api
     protected boolean hasModelsToImport = Boolean.FALSE;
     protected String mapNumberTo = "Union[StrictFloat, StrictInt]";
     protected Map<Character, String> regexModifiers;
@@ -199,6 +198,18 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
      */
     @Override
     public String toDefaultValue(Schema p) {
+        // If the Schema is a $ref, get the default value from the reference.
+        String ref = ModelUtils.getSimpleRef(p.get$ref());
+        if (ref != null) {
+            Schema referencedSchema = ModelUtils.getSchemas(this.openAPI).get(ref);
+            if (referencedSchema != null) {
+                String defaultValue = toDefaultValue(referencedSchema);
+                if (defaultValue != null) {
+                    return defaultValue;
+                }
+                // No default was found for the $ref, so see if one has been defined locally.
+            }
+        }
         if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 if (!Boolean.valueOf(p.getDefault().toString()))
@@ -217,6 +228,14 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         } else if (ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
+            }
+        } else if (ModelUtils.isEnumSchema(p)) {
+            // Enum must come before string to use enum reference!
+            if (p.getDefault() != null) {
+                String defaultValue = String.valueOf(p.getDefault());
+                if (defaultValue != null) {
+                    return defaultValue;
+                }
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
@@ -238,7 +257,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 return null;
             }
         }
-
         return null;
     }
 
@@ -679,14 +697,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, this.packageName);
     }
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
-    }
-
     @Override
     public String getTypeDeclaration(Schema p) {
         p = ModelUtils.unaliasSchema(openAPI, p);
@@ -992,7 +1002,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                         enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "str"));
                     } else {
                         model.vendorExtensions.putIfAbsent("x-py-enum-type", "int");
-                        enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "int"));
+                        // Do not overwrite the variable name if already set through x-enum-varnames
+                        if (model.vendorExtensions.get("x-enum-varnames") == null) {
+                            enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "int"));
+                        }
                     }
                 }
             }
@@ -1091,7 +1104,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
 
         // remove quote e.g. 'abc' => abc
-        name = name.substring(1, name.length() - 1);
+        if (name.startsWith("'") && name.endsWith("'")) {
+            name = name.substring(1, name.length() - 1);
+        }
 
         if (name.length() == 0) {
             return "EMPTY";
@@ -1402,7 +1417,13 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public String toEnumDefaultValue(String value, String datatype) {
+    public String toEnumDefaultValue(CodegenProperty property, String value) {
+        if (property.isEnumRef) {
+            // Determine if it's a string by checking if the value has already been encapsulated in single quotes.
+            String dataType = (value.startsWith("'") && value.endsWith("'")) ? "string" : "int";
+            // If the property is an enum reference, then use the fully qualified name with the data type.
+            return property.dataType + "." + toEnumVariableName(value, dataType);
+        }
         return value;
     }
 
@@ -1930,9 +1951,22 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
 
                 moduleImports.add("typing", "Union");
+
                 PythonType pt = new PythonType("Union");
                 pt.addTypeParam(bytest);
                 pt.addTypeParam(strt);
+
+                if (cp.getIsBinary()) {
+                    moduleImports.add("typing", "Tuple");
+
+                    PythonType tt = new PythonType("Tuple");
+                    // this string is a filename, not a validated value
+                    tt.addTypeParam(new PythonType("str"));
+                    tt.addTypeParam(bytest);
+
+                    pt.addTypeParam(tt);
+                }
+
                 return pt;
             } else {
                 // same as above which has validation
@@ -1943,6 +1977,17 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 PythonType pt = new PythonType("Union");
                 pt.addTypeParam(new PythonType("StrictBytes"));
                 pt.addTypeParam(new PythonType("StrictStr"));
+
+                if (cp.getIsBinary()) {
+                    moduleImports.add("typing", "Tuple");
+
+                    PythonType tt = new PythonType("Tuple");
+                    tt.addTypeParam(new PythonType("StrictStr"));
+                    tt.addTypeParam(new PythonType("StrictBytes"));
+
+                    pt.addTypeParam(tt);
+                }
+
                 return pt;
             }
         }

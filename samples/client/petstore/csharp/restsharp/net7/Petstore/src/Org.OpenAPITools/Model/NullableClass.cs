@@ -92,7 +92,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets DateProp
         /// </summary>
         [DataMember(Name = "date_prop", EmitDefaultValue = true)]
-        [JsonConverter(typeof(OpenAPIDateConverter))]
         public DateOnly DateProp { get; set; }
 
         /// <summary>
@@ -267,7 +266,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

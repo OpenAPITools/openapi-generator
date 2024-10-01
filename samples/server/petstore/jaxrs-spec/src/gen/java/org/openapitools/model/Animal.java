@@ -18,14 +18,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
-  @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
-  @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
-  @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
+  @JsonSubTypes.Type(value = Cat.class, name = "CAT"),
+  @JsonSubTypes.Type(value = Dog.class, name = "DOG"),
 })
 
 
 @JsonTypeName("Animal")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class Animal  implements Serializable {
   private String className;
   private String color = "red";
@@ -122,7 +121,7 @@ public class Animal  implements Serializable {
     return new AnimalBuilderImpl();
   }
 
-  private static final class AnimalBuilderImpl extends AnimalBuilder<Animal, AnimalBuilderImpl> {
+  private static class AnimalBuilderImpl extends AnimalBuilder<Animal, AnimalBuilderImpl> {
 
     @Override
     protected AnimalBuilderImpl self() {

@@ -36,7 +36,7 @@ export interface FakeBigDecimalMap200Response {
 /**
  * Check if a given object implements the FakeBigDecimalMap200Response interface.
  */
-export function instanceOfFakeBigDecimalMap200Response(value: object): boolean {
+export function instanceOfFakeBigDecimalMap200Response(value: object): value is FakeBigDecimalMap200Response {
     return true;
 }
 
@@ -55,10 +55,15 @@ export function FakeBigDecimalMap200ResponseFromJSONTyped(json: any, ignoreDiscr
     };
 }
 
-export function FakeBigDecimalMap200ResponseToJSON(value?: FakeBigDecimalMap200Response | null): any {
+  export function FakeBigDecimalMap200ResponseToJSON(json: any): FakeBigDecimalMap200Response {
+      return FakeBigDecimalMap200ResponseToJSONTyped(json, false);
+  }
+
+  export function FakeBigDecimalMap200ResponseToJSONTyped(value?: FakeBigDecimalMap200Response | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'someId': value['someId'],

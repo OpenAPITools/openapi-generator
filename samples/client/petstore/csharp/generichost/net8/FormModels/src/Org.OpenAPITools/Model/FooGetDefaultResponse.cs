@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of String
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Foo> StringOption { get; private set; }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -152,7 +152,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, fooGetDefaultResponse, jsonSerializerOptions);
+            WriteProperties(writer, fooGetDefaultResponse, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -163,7 +163,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="fooGetDefaultResponse"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, FooGetDefaultResponse fooGetDefaultResponse, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, FooGetDefaultResponse fooGetDefaultResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (fooGetDefaultResponse.StringOption.IsSet && fooGetDefaultResponse.String == null)
                 throw new ArgumentNullException(nameof(fooGetDefaultResponse.String), "Property is required for class FooGetDefaultResponse.");

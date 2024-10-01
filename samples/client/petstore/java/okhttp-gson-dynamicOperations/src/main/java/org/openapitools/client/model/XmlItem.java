@@ -40,7 +40,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -52,7 +51,7 @@ import org.openapitools.client.JSON;
 /**
  * XmlItem
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class XmlItem {
   public static final String SERIALIZED_NAME_ATTRIBUTE_STRING = "attribute_string";
   @SerializedName(SERIALIZED_NAME_ATTRIBUTE_STRING)
@@ -178,10 +177,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get attributeString
    * @return attributeString
-  **/
+   */
   @javax.annotation.Nullable
   public String getAttributeString() {
     return attributeString;
@@ -197,10 +196,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get attributeNumber
    * @return attributeNumber
-  **/
+   */
   @javax.annotation.Nullable
   public BigDecimal getAttributeNumber() {
     return attributeNumber;
@@ -216,10 +215,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get attributeInteger
    * @return attributeInteger
-  **/
+   */
   @javax.annotation.Nullable
   public Integer getAttributeInteger() {
     return attributeInteger;
@@ -235,10 +234,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get attributeBoolean
    * @return attributeBoolean
-  **/
+   */
   @javax.annotation.Nullable
   public Boolean getAttributeBoolean() {
     return attributeBoolean;
@@ -262,10 +261,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get wrappedArray
    * @return wrappedArray
-  **/
+   */
   @javax.annotation.Nullable
   public List<Integer> getWrappedArray() {
     return wrappedArray;
@@ -281,10 +280,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get nameString
    * @return nameString
-  **/
+   */
   @javax.annotation.Nullable
   public String getNameString() {
     return nameString;
@@ -300,10 +299,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get nameNumber
    * @return nameNumber
-  **/
+   */
   @javax.annotation.Nullable
   public BigDecimal getNameNumber() {
     return nameNumber;
@@ -319,10 +318,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get nameInteger
    * @return nameInteger
-  **/
+   */
   @javax.annotation.Nullable
   public Integer getNameInteger() {
     return nameInteger;
@@ -338,10 +337,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get nameBoolean
    * @return nameBoolean
-  **/
+   */
   @javax.annotation.Nullable
   public Boolean getNameBoolean() {
     return nameBoolean;
@@ -365,10 +364,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get nameArray
    * @return nameArray
-  **/
+   */
   @javax.annotation.Nullable
   public List<Integer> getNameArray() {
     return nameArray;
@@ -392,10 +391,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get nameWrappedArray
    * @return nameWrappedArray
-  **/
+   */
   @javax.annotation.Nullable
   public List<Integer> getNameWrappedArray() {
     return nameWrappedArray;
@@ -411,10 +410,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixString
    * @return prefixString
-  **/
+   */
   @javax.annotation.Nullable
   public String getPrefixString() {
     return prefixString;
@@ -430,10 +429,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixNumber
    * @return prefixNumber
-  **/
+   */
   @javax.annotation.Nullable
   public BigDecimal getPrefixNumber() {
     return prefixNumber;
@@ -449,10 +448,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixInteger
    * @return prefixInteger
-  **/
+   */
   @javax.annotation.Nullable
   public Integer getPrefixInteger() {
     return prefixInteger;
@@ -468,10 +467,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixBoolean
    * @return prefixBoolean
-  **/
+   */
   @javax.annotation.Nullable
   public Boolean getPrefixBoolean() {
     return prefixBoolean;
@@ -495,10 +494,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixArray
    * @return prefixArray
-  **/
+   */
   @javax.annotation.Nullable
   public List<Integer> getPrefixArray() {
     return prefixArray;
@@ -522,10 +521,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixWrappedArray
    * @return prefixWrappedArray
-  **/
+   */
   @javax.annotation.Nullable
   public List<Integer> getPrefixWrappedArray() {
     return prefixWrappedArray;
@@ -541,10 +540,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get namespaceString
    * @return namespaceString
-  **/
+   */
   @javax.annotation.Nullable
   public String getNamespaceString() {
     return namespaceString;
@@ -560,10 +559,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get namespaceNumber
    * @return namespaceNumber
-  **/
+   */
   @javax.annotation.Nullable
   public BigDecimal getNamespaceNumber() {
     return namespaceNumber;
@@ -579,10 +578,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get namespaceInteger
    * @return namespaceInteger
-  **/
+   */
   @javax.annotation.Nullable
   public Integer getNamespaceInteger() {
     return namespaceInteger;
@@ -598,10 +597,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get namespaceBoolean
    * @return namespaceBoolean
-  **/
+   */
   @javax.annotation.Nullable
   public Boolean getNamespaceBoolean() {
     return namespaceBoolean;
@@ -625,10 +624,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get namespaceArray
    * @return namespaceArray
-  **/
+   */
   @javax.annotation.Nullable
   public List<Integer> getNamespaceArray() {
     return namespaceArray;
@@ -652,10 +651,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get namespaceWrappedArray
    * @return namespaceWrappedArray
-  **/
+   */
   @javax.annotation.Nullable
   public List<Integer> getNamespaceWrappedArray() {
     return namespaceWrappedArray;
@@ -671,10 +670,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixNsString
    * @return prefixNsString
-  **/
+   */
   @javax.annotation.Nullable
   public String getPrefixNsString() {
     return prefixNsString;
@@ -690,10 +689,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixNsNumber
    * @return prefixNsNumber
-  **/
+   */
   @javax.annotation.Nullable
   public BigDecimal getPrefixNsNumber() {
     return prefixNsNumber;
@@ -709,10 +708,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixNsInteger
    * @return prefixNsInteger
-  **/
+   */
   @javax.annotation.Nullable
   public Integer getPrefixNsInteger() {
     return prefixNsInteger;
@@ -728,10 +727,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixNsBoolean
    * @return prefixNsBoolean
-  **/
+   */
   @javax.annotation.Nullable
   public Boolean getPrefixNsBoolean() {
     return prefixNsBoolean;
@@ -755,10 +754,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixNsArray
    * @return prefixNsArray
-  **/
+   */
   @javax.annotation.Nullable
   public List<Integer> getPrefixNsArray() {
     return prefixNsArray;
@@ -782,10 +781,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixNsWrappedArray
    * @return prefixNsWrappedArray
-  **/
+   */
   @javax.annotation.Nullable
   public List<Integer> getPrefixNsWrappedArray() {
     return prefixNsWrappedArray;
@@ -931,12 +930,12 @@ public class XmlItem {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to XmlItem
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to XmlItem
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!XmlItem.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -1034,22 +1033,22 @@ public class XmlItem {
     }
   }
 
- /**
-  * Create an instance of XmlItem given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of XmlItem
-  * @throws IOException if the JSON string is invalid with respect to XmlItem
-  */
+  /**
+   * Create an instance of XmlItem given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of XmlItem
+   * @throws IOException if the JSON string is invalid with respect to XmlItem
+   */
   public static XmlItem fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, XmlItem.class);
   }
 
- /**
-  * Convert an instance of XmlItem to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of XmlItem to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

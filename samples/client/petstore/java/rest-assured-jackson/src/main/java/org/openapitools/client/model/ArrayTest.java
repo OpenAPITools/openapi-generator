@@ -38,7 +38,7 @@ import org.hibernate.validator.constraints.*;
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER,
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class ArrayTest {
   public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
   private List<String> arrayOfString = new ArrayList<>();
@@ -66,10 +66,10 @@ public class ArrayTest {
     return this;
   }
 
-   /**
+  /**
    * Get arrayOfString
    * @return arrayOfString
-  **/
+   */
   @javax.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
@@ -86,7 +86,6 @@ public class ArrayTest {
     this.arrayOfString = arrayOfString;
   }
 
-
   public ArrayTest arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     
     this.arrayArrayOfInteger = arrayArrayOfInteger;
@@ -101,10 +100,10 @@ public class ArrayTest {
     return this;
   }
 
-   /**
+  /**
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
-  **/
+   */
   @javax.annotation.Nullable
   @Valid
 
@@ -122,7 +121,6 @@ public class ArrayTest {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
 
-
   public ArrayTest arrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
     
     this.arrayArrayOfModel = arrayArrayOfModel;
@@ -137,10 +135,10 @@ public class ArrayTest {
     return this;
   }
 
-   /**
+  /**
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
-  **/
+   */
   @javax.annotation.Nullable
   @Valid
 

@@ -25,67 +25,67 @@ export interface NullableClass {
      * @type {number}
      * @memberof NullableClass
      */
-    integerProp?: number;
+    integerProp?: number | null;
     /**
      * 
      * @type {number}
      * @memberof NullableClass
      */
-    numberProp?: number;
+    numberProp?: number | null;
     /**
      * 
      * @type {boolean}
      * @memberof NullableClass
      */
-    booleanProp?: boolean;
+    booleanProp?: boolean | null;
     /**
      * 
      * @type {string}
      * @memberof NullableClass
      */
-    stringProp?: string;
+    stringProp?: string | null;
     /**
      * 
      * @type {Date}
      * @memberof NullableClass
      */
-    dateProp?: Date;
+    dateProp?: Date | null;
     /**
      * 
      * @type {Date}
      * @memberof NullableClass
      */
-    datetimeProp?: Date;
+    datetimeProp?: Date | null;
     /**
      * 
      * @type {Array<object>}
      * @memberof NullableClass
      */
-    arrayNullableProp?: Array<object>;
+    arrayNullableProp?: Array<object> | null;
     /**
      * 
-     * @type {Array<object>}
+     * @type {Array<object | null>}
      * @memberof NullableClass
      */
-    arrayAndItemsNullableProp?: Array<object>;
+    arrayAndItemsNullableProp?: Array<object | null> | null;
     /**
      * 
-     * @type {Array<object>}
+     * @type {Array<object | null>}
      * @memberof NullableClass
      */
-    arrayItemsNullable?: Array<object>;
+    arrayItemsNullable?: Array<object | null>;
     /**
      * 
      * @type {{ [key: string]: object; }}
      * @memberof NullableClass
      */
-    objectNullableProp?: { [key: string]: object; };
+    objectNullableProp?: { [key: string]: object; } | null;
     /**
      * 
      * @type {{ [key: string]: object | null; }}
      * @memberof NullableClass
      */
-    objectAndItemsNullableProp?: { [key: string]: object | null; };
+    objectAndItemsNullableProp?: { [key: string]: object | null; } | null;
     /**
      * 
      * @type {{ [key: string]: object | null; }}
@@ -97,7 +97,7 @@ export interface NullableClass {
 /**
  * Check if a given object implements the NullableClass interface.
  */
-export function instanceOfNullableClass(value: object): boolean {
+export function instanceOfNullableClass(value: object): value is NullableClass {
     return true;
 }
 
@@ -127,10 +127,15 @@ export function NullableClassFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function NullableClassToJSON(value?: NullableClass | null): any {
+  export function NullableClassToJSON(json: any): NullableClass {
+      return NullableClassToJSONTyped(json, false);
+  }
+
+  export function NullableClassToJSONTyped(value?: NullableClass | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
             ...value,

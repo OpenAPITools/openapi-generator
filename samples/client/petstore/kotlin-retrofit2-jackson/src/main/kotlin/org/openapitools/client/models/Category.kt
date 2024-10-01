@@ -29,16 +29,17 @@ import java.io.Serializable
 
 data class Category (
 
-    @field:JsonProperty("id")
+    @get:JsonProperty("id")
     val id: kotlin.Long? = null,
 
-    @field:JsonProperty("name")
+    @get:JsonProperty("name")
     val name: kotlin.String? = null
 
 ) : Serializable {
     companion object {
         private const val serialVersionUID: Long = 123
     }
+
 
 }
 

@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of VarClient
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> VarClientOption { get; private set; }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -151,7 +151,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, modelClient, jsonSerializerOptions);
+            WriteProperties(writer, modelClient, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -162,7 +162,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="modelClient"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, ModelClient modelClient, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, ModelClient modelClient, JsonSerializerOptions jsonSerializerOptions)
         {
             if (modelClient.VarClientOption.IsSet && modelClient.VarClient == null)
                 throw new ArgumentNullException(nameof(modelClient.VarClient), "Property is required for class ModelClient.");

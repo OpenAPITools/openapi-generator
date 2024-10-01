@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 {{#useBeanValidation}}
 import {{javaxPackage}}.validation.constraints.*;
 import {{javaxPackage}}.validation.Valid;
+
 {{/useBeanValidation}}
 {{#hasFormParamsInSpec}}
 import org.apache.http.HttpEntity;
@@ -371,7 +372,10 @@ public class {{classname}} {
       }
             {{/isArray}}
             {{^isArray}}
-      localVarQueryStringJoiner.add({{paramName}}.toUrlQueryString("{{baseName}}"));
+      String queryString = {{paramName}}.toUrlQueryString("{{baseName}}");
+      if (!queryString.isBlank()) {
+        localVarQueryStringJoiner.add(queryString);
+      }
             {{/isArray}}
     }
         {{/isDeepObject}}

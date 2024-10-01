@@ -20,7 +20,6 @@ package org.openapitools.codegen.languages;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
@@ -106,7 +105,8 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
                         GlobalFeature.MultiServer
                 )
                 .includeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
+                        SchemaSupportFeature.Polymorphism,
+                        SchemaSupportFeature.oneOf
                 )
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
@@ -161,6 +161,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         typeMapping.put("long", "int64_t");
         typeMapping.put("boolean", "bool");
         typeMapping.put("array", "std::vector");
+        typeMapping.put("set", "std::set");
         typeMapping.put("map", "std::map");
         typeMapping.put("file", "HttpContent");
         typeMapping.put("object", "Object");
@@ -173,6 +174,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         super.importMapping = new HashMap<>();
         importMapping.put("std::vector", "#include <vector>");
         importMapping.put("std::map", "#include <map>");
+        importMapping.put("std::set", "#include <set>");
         importMapping.put("std::string", "#include <string>");
         importMapping.put("HttpContent", "#include \"HttpContent.h\"");
         importMapping.put("Object", "#include \"Object.h\"");
@@ -421,7 +423,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
             return "new " + toModelName(ModelUtils.getSimpleRef(p.get$ref())) + "()";
         } else if (ModelUtils.isStringSchema(p)) {
             return "utility::conversions::to_string_t(\"\")";
-        } else if (ModelUtils.isFreeFormObject(p)) {
+        } else if (ModelUtils.isFreeFormObject(p, openAPI)) {
             return "new Object()";
         }
 

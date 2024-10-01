@@ -22,6 +22,7 @@ import java.util.*;
 
 import org.openapitools.client.model.ApiResponse;
 import java.io.File;
+import java.util.*;
 import org.openapitools.client.model.Pet;
 
 import org.apache.http.entity.mime.MultipartEntityBuilder;

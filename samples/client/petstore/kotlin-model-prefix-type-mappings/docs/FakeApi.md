@@ -2,9 +2,9 @@
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**annotations**](FakeApi.md#annotations) | **POST** fake/annotations | annotate
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**annotations**](FakeApi.md#annotations) | **POST** fake/annotations | annotate |
 
 
 
@@ -27,10 +27,9 @@ launch(Dispatchers.IO) {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **apiAnnotation** | [**ApiAnnotation**](ApiAnnotation.md)|  |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **apiAnnotation** | [**ApiAnnotation**](ApiAnnotation.md)|  | |
 
 ### Return type
 

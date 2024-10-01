@@ -37,7 +37,7 @@ import jakarta.validation.Valid;
   Order.JSON_PROPERTY_STATUS,
   Order.JSON_PROPERTY_COMPLETE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class Order {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -103,10 +103,10 @@ public class Order {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_ID)
@@ -123,17 +123,16 @@ public class Order {
     this.id = id;
   }
 
-
   public Order petId(Long petId) {
     
     this.petId = petId;
     return this;
   }
 
-   /**
+  /**
    * Get petId
    * @return petId
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PET_ID)
@@ -150,17 +149,16 @@ public class Order {
     this.petId = petId;
   }
 
-
   public Order quantity(Integer quantity) {
     
     this.quantity = quantity;
     return this;
   }
 
-   /**
+  /**
    * Get quantity
    * @return quantity
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_QUANTITY)
@@ -177,17 +175,16 @@ public class Order {
     this.quantity = quantity;
   }
 
-
   public Order shipDate(OffsetDateTime shipDate) {
     
     this.shipDate = shipDate;
     return this;
   }
 
-   /**
+  /**
    * Get shipDate
    * @return shipDate
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -205,17 +202,16 @@ public class Order {
     this.shipDate = shipDate;
   }
 
-
   public Order status(StatusEnum status) {
     
     this.status = status;
     return this;
   }
 
-   /**
+  /**
    * Order Status
    * @return status
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_STATUS)
@@ -232,17 +228,16 @@ public class Order {
     this.status = status;
   }
 
-
   public Order complete(Boolean complete) {
     
     this.complete = complete;
     return this;
   }
 
-   /**
+  /**
    * Get complete
    * @return complete
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_COMPLETE)
