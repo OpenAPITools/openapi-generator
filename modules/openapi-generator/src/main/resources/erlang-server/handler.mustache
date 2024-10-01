@@ -1,5 +1,11 @@
-%% basic handler
 -module({{classname}}).
+-moduledoc """
+Exposes the following operation IDs:
+{{#operations}}{{#operation}}
+- `{{httpMethod}}` to `{{path}}`, OperationId: `{{operationId}}`:
+{{summary}}.
+{{/operation}}{{/operations}}
+""".
 
 -behaviour(cowboy_rest).
 

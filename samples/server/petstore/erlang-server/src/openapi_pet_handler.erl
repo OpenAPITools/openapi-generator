@@ -1,5 +1,32 @@
-%% basic handler
 -module(openapi_pet_handler).
+-moduledoc """
+Exposes the following operation IDs:
+
+- `POST` to `/pet`, OperationId: `AddPet`:
+Add a new pet to the store.
+
+- `DELETE` to `/pet/:petId`, OperationId: `DeletePet`:
+Deletes a pet.
+
+- `GET` to `/pet/findByStatus`, OperationId: `FindPetsByStatus`:
+Finds Pets by status.
+
+- `GET` to `/pet/findByTags`, OperationId: `FindPetsByTags`:
+Finds Pets by tags.
+
+- `GET` to `/pet/:petId`, OperationId: `GetPetById`:
+Find pet by ID.
+
+- `PUT` to `/pet`, OperationId: `UpdatePet`:
+Update an existing pet.
+
+- `POST` to `/pet/:petId`, OperationId: `UpdatePetWithForm`:
+Updates a pet in the store with form data.
+
+- `POST` to `/pet/:petId/uploadImage`, OperationId: `UploadFile`:
+uploads an image.
+
+""".
 
 -behaviour(cowboy_rest).
 

@@ -1,5 +1,14 @@
-%% basic handler
 -module(openapi_auth_handler).
+-moduledoc """
+Exposes the following operation IDs:
+
+- `POST` to `/auth/http/basic`, OperationId: `TestAuthHttpBasic`:
+To test HTTP basic authentication.
+
+- `POST` to `/auth/http/bearer`, OperationId: `TestAuthHttpBearer`:
+To test HTTP bearer authentication.
+
+""".
 
 -behaviour(cowboy_rest).
 

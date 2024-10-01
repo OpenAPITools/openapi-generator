@@ -249,14 +249,14 @@ module XAuthIDAlias
             type: 'api_key',
             in: 'header',
             key: 'X-Api-Key',
-            value: api_key_with_prefix('api_key')
+            value: api_key_with_prefix('X-Api-Key')
           },
         'api_key_query' =>
           {
             type: 'api_key',
             in: 'query',
             key: 'api_key',
-            value: api_key_with_prefix('api_key_query', 'api_key')
+            value: api_key_with_prefix('api_key', 'api_key')
           },
       }
     end

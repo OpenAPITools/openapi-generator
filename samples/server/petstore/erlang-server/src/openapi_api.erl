@@ -46,7 +46,7 @@ accept_callback(Class, OperationID, Req, Context) ->
 
 -export_type([operation_id/0]).
 
--dialyzer({nowarn_function, [to_binary/1, to_list/1, validate_response_body/4]}).
+-dialyzer({nowarn_function, [to_binary/1, validate_response_body/4]}).
 
 -type rule() ::
     {type, binary} |
@@ -484,24 +484,31 @@ request_param_info('UpdateUser', 'User') ->
 request_param_info(OperationID, Name) ->
     error({unknown_param, OperationID, Name}).
 
+-spec populate_request_params(
+        operation_id(), [request_param()], cowboy_req:req(), jesse_state:state(), map()) ->
+    {ok, map(), cowboy_req:req()} | {error, _, cowboy_req:req()}.
 populate_request_params(_, [], Req, _, Model) ->
     {ok, Model, Req};
-populate_request_params(OperationID, [FieldParams | T], Req0, ValidatorState, Model) ->
-    case populate_request_param(OperationID, FieldParams, Req0, ValidatorState) of
-        {ok, K, V, Req} ->
-            populate_request_params(OperationID, T, Req, ValidatorState, maps:put(K, V, Model));
+populate_request_params(OperationID, [ReqParamName | T], Req0, ValidatorState, Model0) ->
+    case populate_request_param(OperationID, ReqParamName, Req0, ValidatorState) of
+        {ok, V, Req} ->
+            Model = maps:put(ReqParamName, V, Model0),
+            populate_request_params(OperationID, T, Req, ValidatorState, Model);
         Error ->
             Error
     end.
 
-populate_request_param(OperationID, Name, Req0, ValidatorState) ->
-    #{rules := Rules, source := Source} = request_param_info(OperationID, Name),
-    case get_value(Source, Name, Req0) of
+-spec populate_request_param(
+        operation_id(), request_param(), cowboy_req:req(), jesse_state:state()) ->
+    {ok, term(), cowboy_req:req()} | {error, term(), cowboy_req:req()}.
+populate_request_param(OperationID, ReqParamName, Req0, ValidatorState) ->
+    #{rules := Rules, source := Source} = request_param_info(OperationID, ReqParamName),
+    case get_value(Source, ReqParamName, Req0) of
         {error, Reason, Req} ->
             {error, Reason, Req};
         {Value, Req} ->
-            case prepare_param(Rules, Name, Value, ValidatorState) of
-                {ok, Result} -> {ok, Name, Result, Req};
+            case prepare_param(Rules, ReqParamName, Value, ValidatorState) of
+                {ok, Result} -> {ok, Result, Req};
                 {error, Reason} ->
                     {error, Reason, Req}
             end
@@ -511,112 +518,111 @@ populate_request_param(OperationID, Name, Req0, ValidatorState) ->
 
 validate_response_body(list, ReturnBaseType, Body, ValidatorState) ->
     [
-        validate(schema, ReturnBaseType, Item, ValidatorState)
+        validate(schema, Item, ReturnBaseType, ValidatorState)
     || Item <- Body];
 
 validate_response_body(_, ReturnBaseType, Body, ValidatorState) ->
-    validate(schema, ReturnBaseType, Body, ValidatorState).
+    validate(schema, Body, ReturnBaseType, ValidatorState).
 
-validate(Rule = required, Name, Value, _ValidatorState) ->
-    case Value of
-        undefined -> validation_error(Rule, Name);
-        _ -> ok
+-spec validate(rule(), term(), request_param(), jesse_state:state()) ->
+    ok | {ok, term()}.
+validate(required, undefined, ReqParamName, _) ->
+    validation_error(required, ReqParamName, undefined);
+validate(required, _Value, _ReqParamName, _) ->
+    ok;
+validate(not_required, _Value, _ReqParamName, _) ->
+    ok;
+validate(_, undefined, _ReqParamName, _) ->
+    ok;
+validate({type, boolean}, Value, _ReqParamName, _) when is_boolean(Value) ->
+    {ok, Value};
+validate({type, integer}, Value, _ReqParamName, _) when is_integer(Value) ->
+    ok;
+validate({type, float}, Value, _ReqParamName, _) when is_float(Value) ->
+    ok;
+validate({type, binary}, Value, _ReqParamName, _) when is_binary(Value) ->
+    ok;
+validate(Rule = {type, binary}, Value, ReqParamName, _) ->
+    validation_error(Rule, ReqParamName, Value);
+validate(Rule = {type, boolean}, Value, ReqParamName, _) ->
+    case binary_to_lower(Value) of
+        <<"true">> -> {ok, true};
+        <<"false">> -> {ok, false};
+        _ -> validation_error(Rule, ReqParamName, Value)
     end;
-validate(not_required, _Name, _Value, _ValidatorState) ->
-    ok;
-validate(_, _Name, undefined, _ValidatorState) ->
-    ok;
-validate(Rule = {type, integer}, Name, Value, _ValidatorState) ->
+validate(Rule = {type, integer}, Value, ReqParamName, _) ->
     try
         {ok, to_int(Value)}
     catch
         error:badarg ->
-            validation_error(Rule, Name)
+            validation_error(Rule, ReqParamName, Value)
     end;
-validate(Rule = {type, float}, Name, Value, _ValidatorState) ->
+validate(Rule = {type, float}, Value, ReqParamName, _) ->
     try
         {ok, to_float(Value)}
     catch
         error:badarg ->
-            validation_error(Rule, Name)
+            validation_error(Rule, ReqParamName, Value)
     end;
-validate(Rule = {type, binary}, Name, Value, _ValidatorState) ->
+validate(Rule = {type, date}, Value, ReqParamName, _) ->
     case is_binary(Value) of
         true -> ok;
-        false -> validation_error(Rule, Name)
+        false -> validation_error(Rule, ReqParamName, Value)
     end;
-validate(_Rule = {type, boolean}, _Name, Value, _ValidatorState) when is_boolean(Value) ->
-    {ok, Value};
-validate(Rule = {type, boolean}, Name, Value, _ValidatorState) ->
-    V = binary_to_lower(Value),
-    try
-        case binary_to_existing_atom(V, utf8) of
-            B when is_boolean(B) -> {ok, B};
-            _ -> validation_error(Rule, Name)
-        end
-    catch
-        error:badarg ->
-            validation_error(Rule, Name)
-    end;
-validate(Rule = {type, date}, Name, Value, _ValidatorState) ->
+validate(Rule = {type, datetime}, Value, ReqParamName, _) ->
     case is_binary(Value) of
         true -> ok;
-        false -> validation_error(Rule, Name)
+        false -> validation_error(Rule, ReqParamName, Value)
     end;
-validate(Rule = {type, datetime}, Name, Value, _ValidatorState) ->
-    case is_binary(Value) of
-        true -> ok;
-        false -> validation_error(Rule, Name)
-    end;
-validate(Rule = {enum, Values}, Name, Value, _ValidatorState) ->
+validate(Rule = {enum, Values}, Value, ReqParamName, _) ->
     try
         FormattedValue = erlang:binary_to_existing_atom(Value, utf8),
         case lists:member(FormattedValue, Values) of
             true -> {ok, FormattedValue};
-            false -> validation_error(Rule, Name)
+            false -> validation_error(Rule, ReqParamName, Value)
         end
     catch
         error:badarg ->
-            validation_error(Rule, Name)
+            validation_error(Rule, ReqParamName, Value)
     end;
-validate(Rule = {max, Max}, Name, Value, _ValidatorState) ->
+validate(Rule = {max, Max}, Value, ReqParamName, _) ->
     case Value =< Max of
         true -> ok;
-        false -> validation_error(Rule, Name)
+        false -> validation_error(Rule, ReqParamName, Value)
     end;
-validate(Rule = {exclusive_max, ExclusiveMax}, Name, Value, _ValidatorState) ->
+validate(Rule = {exclusive_max, ExclusiveMax}, Value, ReqParamName, _) ->
     case Value > ExclusiveMax of
         true -> ok;
-        false -> validation_error(Rule, Name)
+        false -> validation_error(Rule, ReqParamName, Value)
     end;
-validate(Rule = {min, Min}, Name, Value, _ValidatorState) ->
+validate(Rule = {min, Min}, Value, ReqParamName, _) ->
     case Value >= Min of
         true -> ok;
-        false -> validation_error(Rule, Name)
+        false -> validation_error(Rule, ReqParamName, Value)
     end;
-validate(Rule = {exclusive_min, ExclusiveMin}, Name, Value, _ValidatorState) ->
+validate(Rule = {exclusive_min, ExclusiveMin}, Value, ReqParamName, _) ->
     case Value =< ExclusiveMin of
         true -> ok;
-        false -> validation_error(Rule, Name)
+        false -> validation_error(Rule, ReqParamName, Value)
     end;
-validate(Rule = {max_length, MaxLength}, Name, Value, _ValidatorState) ->
+validate(Rule = {max_length, MaxLength}, Value, ReqParamName, _) ->
     case size(Value) =< MaxLength of
         true -> ok;
-        false -> validation_error(Rule, Name)
+        false -> validation_error(Rule, ReqParamName, Value)
     end;
-validate(Rule = {min_length, MinLength}, Name, Value, _ValidatorState) ->
+validate(Rule = {min_length, MinLength}, Value, ReqParamName, _) ->
     case size(Value) >= MinLength of
         true -> ok;
-        false -> validation_error(Rule, Name)
+        false -> validation_error(Rule, ReqParamName, Value)
     end;
-validate(Rule = {pattern, Pattern}, Name, Value, _ValidatorState) ->
+validate(Rule = {pattern, Pattern}, Value, ReqParamName, _) ->
     {ok, MP} = re:compile(Pattern),
     case re:run(Value, MP) of
         {match, _} -> ok;
-        _ -> validation_error(Rule, Name)
+        _ -> validation_error(Rule, ReqParamName, Value)
     end;
-validate(Rule = schema, Name, Value, ValidatorState) ->
-    Definition =  list_to_binary("#/components/schemas/" ++ to_list(Name)),
+validate(Rule = schema, Value, ReqParamName, ValidatorState) ->
+    Definition = iolist_to_binary(["#/components/schemas/", atom_to_binary(ReqParamName)]),
     try
         _ = validate_with_schema(Value, Definition, ValidatorState),
         ok
@@ -626,7 +632,7 @@ validate(Rule = schema, Name, Value, ValidatorState) ->
                 type => schema_invalid,
                 error => Error
             },
-            validation_error(Rule, Name, Info);
+            validation_error(Rule, ReqParamName, Value, Info);
         throw:[{data_invalid, Schema, Error, _, Path} | _] ->
             Info = #{
                 type => data_invalid,
@@ -634,25 +640,25 @@ validate(Rule = schema, Name, Value, ValidatorState) ->
                 schema => Schema,
                 path => Path
             },
-            validation_error(Rule, Name, Info)
+            validation_error(Rule, ReqParamName, Value, Info)
     end;
-validate(Rule, Name, _Value, _ValidatorState) ->
-    ?LOG_INFO(#{what => "Cannot validate rule", name => Name, rule => Rule}),
+validate(Rule, _Value, ReqParamName, _) ->
+    ?LOG_INFO(#{what => "Cannot validate rule", name => ReqParamName, rule => Rule}),
     error({unknown_validation_rule, Rule}).
 
--spec validation_error(Rule :: any(), Name :: any()) -> no_return().
-validation_error(ViolatedRule, Name) ->
-    validation_error(ViolatedRule, Name, #{}).
+-spec validation_error(rule(), request_param(), term()) -> no_return().
+validation_error(ViolatedRule, Name, Value) ->
+    validation_error(ViolatedRule, Name, Value, #{}).
 
--spec validation_error(Rule :: any(), Name :: any(), Info :: #{_ := _}) -> no_return().
-validation_error(ViolatedRule, Name, Info) ->
-    throw({wrong_param, Name, ViolatedRule, Info}).
+-spec validation_error(rule(), request_param(), term(), Info :: #{_ := _}) -> no_return().
+validation_error(ViolatedRule, Name, Value, Info) ->
+    throw({wrong_param, Name, Value, ViolatedRule, Info}).
 
--spec get_value(body | qs_val | header | binding, Name :: any(), Req0 :: cowboy_req:req()) ->
-    {Value :: any(), Req :: cowboy_req:req()} |
-    {error, Reason :: any(), Req :: cowboy_req:req()}.
+-spec get_value(body | qs_val | header | binding, request_param(), cowboy_req:req()) ->
+    {any(), cowboy_req:req()} |
+    {error, any(), cowboy_req:req()}.
 get_value(body, _Name, Req0) ->
-    {ok, Body, Req} = cowboy_req:read_body(Req0),
+    {ok, Body, Req} = read_entire_body(Req0),
     case prepare_body(Body) of
         {error, Reason} ->
             {error, Reason, Req};
@@ -668,8 +674,21 @@ get_value(header, Name, Req) ->
     Value =  maps:get(to_header(Name), Headers, undefined),
     {Value, Req};
 get_value(binding, Name, Req) ->
-    Value = cowboy_req:binding(to_binding(Name), Req),
+    Value = cowboy_req:binding(Name, Req),
     {Value, Req}.
+
+-spec read_entire_body(cowboy_req:req()) -> {ok, binary(), cowboy_req:req()}.
+read_entire_body(Req) ->
+    read_entire_body(Req, []).
+
+-spec read_entire_body(cowboy_req:req(), iodata()) -> {ok, binary(), cowboy_req:req()}.
+read_entire_body(Request, Acc) -> % {
+    case cowboy_req:read_body(Request) of
+        {ok, Data, NewRequest} ->
+            {ok, iolist_to_binary(lists:reverse([Data | Acc])), NewRequest};
+        {more, Data, NewRequest} ->
+            read_entire_body(NewRequest, [Data | Acc])
+    end.
 
 prepare_body(<<>>) ->
     <<>>;
@@ -677,8 +696,8 @@ prepare_body(Body) ->
     try
         json:decode(Body)
     catch
-        error:_ ->
-            {error, {invalid_body, not_json, Body}}
+        error:Error ->
+            {error, {invalid_json, Body, Error}}
     end.
 
 validate_with_schema(Body, Definition, ValidatorState) ->
@@ -688,18 +707,17 @@ validate_with_schema(Body, Definition, ValidatorState) ->
         ValidatorState
     ).
 
-prepare_param(Rules, Name, Value, ValidatorState) ->
+-spec prepare_param([rule()], request_param(), term(), jesse_state:state()) ->
+    {ok, term()} | {error, Reason :: any()}.
+prepare_param(Rules, ReqParamName, Value, ValidatorState) ->
+    Fun = fun(Rule, Acc) ->
+        case validate(Rule, Acc, ReqParamName, ValidatorState) of
+            ok -> Acc;
+            {ok, Prepared} -> Prepared
+        end
+    end,
     try
-        Result = lists:foldl(
-            fun(Rule, Acc) ->
-                case validate(Rule, Name, Acc, ValidatorState) of
-                    ok -> Acc;
-                    {ok, Prepared} -> Prepared
-                end
-            end,
-            Value,
-            Rules
-        ),
+        Result = lists:foldl(Fun, Value, Rules),
         {ok, Result}
     catch
         throw:Reason ->
@@ -713,40 +731,28 @@ to_binary(V) when is_atom(V)    -> atom_to_binary(V, utf8);
 to_binary(V) when is_integer(V) -> integer_to_binary(V);
 to_binary(V) when is_float(V)   -> float_to_binary(V).
 
--spec to_list(iodata() | atom() | number()) -> binary().
-to_list(V) when is_list(V)    -> V;
-to_list(V) when is_binary(V)  -> binary_to_list(V);
-to_list(V) when is_atom(V)    -> atom_to_list(V);
-to_list(V) when is_integer(V) -> integer_to_list(V);
-to_list(V) when is_float(V)   -> float_to_list(V).
+-spec to_float(binary() | list()) -> integer().
+to_float(Data) when is_binary(Data) ->
+    binary_to_float(Data);
+to_float(Data) when is_list(Data) ->
+    list_to_float(Data).
 
--spec to_float(iodata()) -> float().
-to_float(V) ->
-    binary_to_float(iolist_to_binary([V])).
-
--spec to_int(integer() | binary() | list()) -> integer().
-to_int(Data) when is_integer(Data) ->
-    Data;
+-spec to_int(binary() | list()) -> integer().
 to_int(Data) when is_binary(Data) ->
     binary_to_integer(Data);
 to_int(Data) when is_list(Data) ->
     list_to_integer(Data).
 
--spec to_header(iodata() | atom() | number()) -> binary().
+-spec to_header(request_param()) -> binary().
 to_header(Name) ->
-    to_binary(string:lowercase(to_binary(Name))).
+    to_binary(string:lowercase(atom_to_binary(Name, utf8))).
 
 binary_to_lower(V) when is_binary(V) ->
     string:lowercase(V).
 
--spec to_qs(iodata() | atom() | number()) -> binary().
+-spec to_qs(request_param()) -> binary().
 to_qs(Name) ->
-    to_binary(Name).
-
--spec to_binding(iodata() | atom() | number()) -> atom().
-to_binding(Name) ->
-    Prepared = to_binary(Name),
-    binary_to_existing_atom(Prepared, utf8).
+    atom_to_binary(Name, utf8).
 
 -spec get_opt(any(), []) -> any().
 get_opt(Key, Opts) ->

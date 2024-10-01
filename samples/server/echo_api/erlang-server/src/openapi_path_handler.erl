@@ -1,5 +1,11 @@
-%% basic handler
 -module(openapi_path_handler).
+-moduledoc """
+Exposes the following operation IDs:
+
+- `GET` to `/path/string/:path_string/integer/:path_integer/:enum_nonref_string_path/:enum_ref_string_path`, OperationId: `TestsPathString{pathString}Integer{pathInteger}{enumNonrefStringPath}{enumRefStringPath}`:
+Test path parameter(s).
+
+""".
 
 -behaviour(cowboy_rest).
 

@@ -71,5 +71,10 @@ reqwest = { version = "^0.12", features = ["json", "multipart"] }
 {{#supportMiddleware}}
 reqwest-middleware = { version = "^0.3", features = ["json", "multipart"] }
 {{/supportMiddleware}}
+{{#supportTokenSource}}
+async-trait = "^0.1"
+# TODO: propose to Yoshidan to externalize this as non google related crate, so that it can easily be extended for other cloud providers.
+google-cloud-token = "^0.1"
+{{/supportTokenSource}}
 {{/supportAsync}}
 {{/reqwest}}

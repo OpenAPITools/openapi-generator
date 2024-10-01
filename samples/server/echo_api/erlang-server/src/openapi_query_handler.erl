@@ -1,5 +1,38 @@
-%% basic handler
 -module(openapi_query_handler).
+-moduledoc """
+Exposes the following operation IDs:
+
+- `GET` to `/query/enum_ref_string`, OperationId: `TestEnumRefString`:
+Test query parameter(s).
+
+- `GET` to `/query/datetime/date/string`, OperationId: `TestQueryDatetimeDateString`:
+Test query parameter(s).
+
+- `GET` to `/query/integer/boolean/string`, OperationId: `TestQueryIntegerBooleanString`:
+Test query parameter(s).
+
+- `GET` to `/query/style_deepObject/explode_true/object`, OperationId: `TestQueryStyleDeepObjectExplodeTrueObject`:
+Test query parameter(s).
+
+- `GET` to `/query/style_deepObject/explode_true/object/allOf`, OperationId: `TestQueryStyleDeepObjectExplodeTrueObjectAllOf`:
+Test query parameter(s).
+
+- `GET` to `/query/style_form/explode_false/array_integer`, OperationId: `TestQueryStyleFormExplodeFalseArrayInteger`:
+Test query parameter(s).
+
+- `GET` to `/query/style_form/explode_false/array_string`, OperationId: `TestQueryStyleFormExplodeFalseArrayString`:
+Test query parameter(s).
+
+- `GET` to `/query/style_form/explode_true/array_string`, OperationId: `TestQueryStyleFormExplodeTrueArrayString`:
+Test query parameter(s).
+
+- `GET` to `/query/style_form/explode_true/object`, OperationId: `TestQueryStyleFormExplodeTrueObject`:
+Test query parameter(s).
+
+- `GET` to `/query/style_form/explode_true/object/allOf`, OperationId: `TestQueryStyleFormExplodeTrueObjectAllOf`:
+Test query parameter(s).
+
+""".
 
 -behaviour(cowboy_rest).
 
