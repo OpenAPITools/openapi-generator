@@ -22,7 +22,7 @@ class BearerRequestBuilderFactory: RequestBuilderFactory {
 class BearerRequestBuilder<T>: URLSessionRequestBuilder<T>, @unchecked Sendable {
 
     @discardableResult
-    override func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue, _ completion: @Sendable @escaping (Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+    override func execute(_ apiResponseQueue: DispatchQueue = OpenAPIClient.shared.apiResponseQueue, _ completion: @Sendable @escaping (Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
 
         guard self.requiresAuthentication else {
             return super.execute(apiResponseQueue, completion)
@@ -79,7 +79,7 @@ class BearerRequestBuilder<T>: URLSessionRequestBuilder<T>, @unchecked Sendable 
 class BearerDecodableRequestBuilder<T: Decodable>: URLSessionDecodableRequestBuilder<T>, @unchecked Sendable {
 
     @discardableResult
-    override func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue, _ completion: @Sendable @escaping (Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+    override func execute(_ apiResponseQueue: DispatchQueue = OpenAPIClient.shared.apiResponseQueue, _ completion: @Sendable @escaping (Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         
         guard self.requiresAuthentication else {
             return super.execute(apiResponseQueue, completion)
