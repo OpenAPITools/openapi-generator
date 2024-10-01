@@ -116,6 +116,12 @@ namespace Org.OpenAPITools.Client
                 // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
                 // For example: 2009-06-15T13:45:30.0000000
                 return dateTimeOffset.ToString((configuration ?? GlobalConfiguration.Instance).DateTimeFormat);
+            if (obj is DateOnly dateOnly)
+                // Return a formatted date string - Can be customized with Configuration.DateTimeFormat
+                // Defaults to an ISO 8601, using the known as a Round-trip date/time pattern ("o")
+                // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
+                // For example: 2009-06-15
+                return dateOnly.ToString((configuration ?? GlobalConfiguration.Instance).DateTimeFormat);
             if (obj is bool boolean)
                 return boolean ? "true" : "false";
             if (obj is ICollection collection) {
