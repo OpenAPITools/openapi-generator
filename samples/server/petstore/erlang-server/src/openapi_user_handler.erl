@@ -1,5 +1,32 @@
-%% basic handler
 -module(openapi_user_handler).
+-moduledoc """
+Exposes the following operation IDs:
+
+- `POST` to `/user`, OperationId: `CreateUser`:
+Create user.
+
+- `POST` to `/user/createWithArray`, OperationId: `CreateUsersWithArrayInput`:
+Creates list of users with given input array.
+
+- `POST` to `/user/createWithList`, OperationId: `CreateUsersWithListInput`:
+Creates list of users with given input array.
+
+- `DELETE` to `/user/:username`, OperationId: `DeleteUser`:
+Delete user.
+
+- `GET` to `/user/:username`, OperationId: `GetUserByName`:
+Get user by user name.
+
+- `GET` to `/user/login`, OperationId: `LoginUser`:
+Logs user into the system.
+
+- `GET` to `/user/logout`, OperationId: `LogoutUser`:
+Logs out current logged in user session.
+
+- `PUT` to `/user/:username`, OperationId: `UpdateUser`:
+Updated user.
+
+""".
 
 -behaviour(cowboy_rest).
 

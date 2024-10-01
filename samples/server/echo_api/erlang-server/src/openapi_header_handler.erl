@@ -1,5 +1,11 @@
-%% basic handler
 -module(openapi_header_handler).
+-moduledoc """
+Exposes the following operation IDs:
+
+- `GET` to `/header/integer/boolean/string/enums`, OperationId: `TestHeaderIntegerBooleanStringEnums`:
+Test header parameter(s).
+
+""".
 
 -behaviour(cowboy_rest).
 

@@ -1,4 +1,7 @@
 -module(openapi_server).
+-moduledoc """
+This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+""".
 
 -define(DEFAULT_LOGIC_HANDLER, openapi_logic_handler).
 
