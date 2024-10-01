@@ -25,7 +25,7 @@ open class AnotherFakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func call123testSpecialTags(body: Client, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Client, Error> {
-        let requestBuilder = call123testSpecialTagsWithRequestBuilder(body: body, , openAPIClient: openAPIClient)
+        let requestBuilder = call123testSpecialTagsWithRequestBuilder(body: body, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Client, Error> { promise in
             nonisolated(unsafe) let promise = promise

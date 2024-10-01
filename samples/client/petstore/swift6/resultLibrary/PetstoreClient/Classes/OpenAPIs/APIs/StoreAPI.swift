@@ -21,7 +21,7 @@ internal class StoreAPI {
      */
     @discardableResult
     internal class func deleteOrder(orderId: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return deleteOrderWithRequestBuilder(orderId: orderId, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return deleteOrderWithRequestBuilder(orderId: orderId, openAPIClient: openAPIClient).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -69,7 +69,7 @@ internal class StoreAPI {
      */
     @discardableResult
     internal class func getInventory(openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<[String: Int], ErrorResponse>) -> Void) -> RequestTask {
-        return getInventoryWithRequestBuilder(openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return getInventoryWithRequestBuilder(openAPIClient: openAPIClient).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -117,7 +117,7 @@ internal class StoreAPI {
      */
     @discardableResult
     internal class func getOrderById(orderId: Int64, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Order, ErrorResponse>) -> Void) -> RequestTask {
-        return getOrderByIdWithRequestBuilder(orderId: orderId, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return getOrderByIdWithRequestBuilder(orderId: orderId, openAPIClient: openAPIClient).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -166,7 +166,7 @@ internal class StoreAPI {
      */
     @discardableResult
     internal class func placeOrder(body: Order, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Order, ErrorResponse>) -> Void) -> RequestTask {
-        return placeOrderWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return placeOrderWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))

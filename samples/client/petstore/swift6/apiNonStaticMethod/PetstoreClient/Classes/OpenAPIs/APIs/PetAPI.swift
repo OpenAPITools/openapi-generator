@@ -73,7 +73,7 @@ open class PetAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func addPet(body: Pet) -> AnyPublisher<Void, Error> {
-        let requestBuilder = addPetWithRequestBuilder(body: body, )
+        let requestBuilder = addPetWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -114,7 +114,7 @@ open class PetAPI {
      */
     @discardableResult
     open func addPet(body: Pet, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return addPetWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+        return addPetWithRequestBuilder(body: body).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -210,7 +210,7 @@ open class PetAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func deletePet(petId: Int64, apiKey: String? = nil) -> AnyPublisher<Void, Error> {
-        let requestBuilder = deletePetWithRequestBuilder(petId: petId, apiKey: apiKey, )
+        let requestBuilder = deletePetWithRequestBuilder(petId: petId, apiKey: apiKey)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -253,7 +253,7 @@ open class PetAPI {
      */
     @discardableResult
     open func deletePet(petId: Int64, apiKey: String? = nil, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute(apiResponseQueue) { result in
+        return deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -356,7 +356,7 @@ open class PetAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func findPetsByStatus(status: [Status_findPetsByStatus]) -> AnyPublisher<[Pet], Error> {
-        let requestBuilder = findPetsByStatusWithRequestBuilder(status: status, )
+        let requestBuilder = findPetsByStatusWithRequestBuilder(status: status)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<[Pet], Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -397,7 +397,7 @@ open class PetAPI {
      */
     @discardableResult
     open func findPetsByStatus(status: [Status_findPetsByStatus], completion: @Sendable @escaping (_ result: Swift.Result<[Pet], ErrorResponse>) -> Void) -> RequestTask {
-        return findPetsByStatusWithRequestBuilder(status: status).execute(apiResponseQueue) { result in
+        return findPetsByStatusWithRequestBuilder(status: status).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -494,7 +494,7 @@ open class PetAPI {
     @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func findPetsByTags(tags: [String]) -> AnyPublisher<[Pet], Error> {
-        let requestBuilder = findPetsByTagsWithRequestBuilder(tags: tags, )
+        let requestBuilder = findPetsByTagsWithRequestBuilder(tags: tags)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<[Pet], Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -537,7 +537,7 @@ open class PetAPI {
     @available(*, deprecated, message: "This operation is deprecated.")
     @discardableResult
     open func findPetsByTags(tags: [String], completion: @Sendable @escaping (_ result: Swift.Result<[Pet], ErrorResponse>) -> Void) -> RequestTask {
-        return findPetsByTagsWithRequestBuilder(tags: tags).execute(apiResponseQueue) { result in
+        return findPetsByTagsWithRequestBuilder(tags: tags).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -632,7 +632,7 @@ open class PetAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getPetById(petId: Int64) -> AnyPublisher<Pet, Error> {
-        let requestBuilder = getPetByIdWithRequestBuilder(petId: petId, )
+        let requestBuilder = getPetByIdWithRequestBuilder(petId: petId)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Pet, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -673,7 +673,7 @@ open class PetAPI {
      */
     @discardableResult
     open func getPetById(petId: Int64, completion: @Sendable @escaping (_ result: Swift.Result<Pet, ErrorResponse>) -> Void) -> RequestTask {
-        return getPetByIdWithRequestBuilder(petId: petId).execute(apiResponseQueue) { result in
+        return getPetByIdWithRequestBuilder(petId: petId).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -767,7 +767,7 @@ open class PetAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func updatePet(body: Pet) -> AnyPublisher<Void, Error> {
-        let requestBuilder = updatePetWithRequestBuilder(body: body, )
+        let requestBuilder = updatePetWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -808,7 +808,7 @@ open class PetAPI {
      */
     @discardableResult
     open func updatePet(body: Pet, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return updatePetWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+        return updatePetWithRequestBuilder(body: body).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -904,7 +904,7 @@ open class PetAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil) -> AnyPublisher<Void, Error> {
-        let requestBuilder = updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status, )
+        let requestBuilder = updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -949,7 +949,7 @@ open class PetAPI {
      */
     @discardableResult
     open func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute(apiResponseQueue) { result in
+        return updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -1056,7 +1056,7 @@ open class PetAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil) -> AnyPublisher<ApiResponse, Error> {
-        let requestBuilder = uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file, )
+        let requestBuilder = uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<ApiResponse, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -1101,7 +1101,7 @@ open class PetAPI {
      */
     @discardableResult
     open func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, completion: @Sendable @escaping (_ result: Swift.Result<ApiResponse, ErrorResponse>) -> Void) -> RequestTask {
-        return uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute(apiResponseQueue) { result in
+        return uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -1208,7 +1208,7 @@ open class PetAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil) -> AnyPublisher<ApiResponse, Error> {
-        let requestBuilder = uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata, )
+        let requestBuilder = uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<ApiResponse, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -1253,7 +1253,7 @@ open class PetAPI {
      */
     @discardableResult
     open func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, completion: @Sendable @escaping (_ result: Swift.Result<ApiResponse, ErrorResponse>) -> Void) -> RequestTask {
-        return uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute(apiResponseQueue) { result in
+        return uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))

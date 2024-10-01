@@ -181,7 +181,7 @@ extension {{projectName}}API {
     {{/isDeprecated}}
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} {{#apiStaticMethod}}class {{/apiStaticMethod}}func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}[{{enumName}}_{{operationId}}]{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#apiStaticMethod}}{{#hasParams}}, {{/hasParams}}openAPIClient: OpenAPIClient = OpenAPIClient.shared{{/apiStaticMethod}}) -> AnyPublisher<{{{returnType}}}{{#returnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Void{{/returnType}}, Error> {
-        let requestBuilder = {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}, {{#apiStaticMethod}}{{#hasParams}}, {{/hasParams}}openAPIClient: openAPIClient{{/apiStaticMethod}})
+        let requestBuilder = {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#apiStaticMethod}}{{#hasParams}}, {{/hasParams}}openAPIClient: openAPIClient{{/apiStaticMethod}})
         let requestTask = requestBuilder.requestTask
         return {{#combineDeferred}}Deferred { {{/combineDeferred}}Future<{{{returnType}}}{{#returnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Void{{/returnType}}, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -243,8 +243,8 @@ extension {{projectName}}API {
     @available(*, deprecated, message: "This operation is deprecated.")
     {{/isDeprecated}}
     @discardableResult
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} {{#apiStaticMethod}}class {{/apiStaticMethod}}func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}[{{enumName}}_{{operationId}}]{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#apiStaticMethod}}{{#hasParams}}, {{/hasParams}}openAPIClient: OpenAPIClient = OpenAPIClient.shared{{/apiStaticMethod}}, completion: @Sendable @escaping (_ result: Swift.Result<{{{returnType}}}{{#returnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Void{{/returnType}}, ErrorResponse>) -> Void) -> RequestTask {
-        return {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#apiStaticMethod}}{{#hasParams}}, {{/hasParams}}openAPIClient: openAPIClient{{/apiStaticMethod}}).execute(apiResponseQueue) { result in
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} {{#apiStaticMethod}}class {{/apiStaticMethod}}func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}[{{enumName}}_{{operationId}}]{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}, {{/allParams}}{{#apiStaticMethod}}openAPIClient: OpenAPIClient = OpenAPIClient.shared, {{/apiStaticMethod}}completion: @Sendable @escaping (_ result: Swift.Result<{{{returnType}}}{{#returnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Void{{/returnType}}, ErrorResponse>) -> Void) -> RequestTask {
+        return {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#apiStaticMethod}}{{#hasParams}}, {{/hasParams}}openAPIClient: openAPIClient{{/apiStaticMethod}}).execute { result in
             switch result {
             {{#returnType}}
             case let .success(response):

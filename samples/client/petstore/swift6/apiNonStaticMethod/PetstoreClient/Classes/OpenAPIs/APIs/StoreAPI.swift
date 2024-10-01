@@ -73,7 +73,7 @@ open class StoreAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func deleteOrder(orderId: String) -> AnyPublisher<Void, Error> {
-        let requestBuilder = deleteOrderWithRequestBuilder(orderId: orderId, )
+        let requestBuilder = deleteOrderWithRequestBuilder(orderId: orderId)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -114,7 +114,7 @@ open class StoreAPI {
      */
     @discardableResult
     open func deleteOrder(orderId: String, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return deleteOrderWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
+        return deleteOrderWithRequestBuilder(orderId: orderId).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -202,7 +202,7 @@ open class StoreAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getInventory() -> AnyPublisher<[String: Int], Error> {
-        let requestBuilder = getInventoryWithRequestBuilder(, )
+        let requestBuilder = getInventoryWithRequestBuilder()
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<[String: Int], Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -240,8 +240,8 @@ open class StoreAPI {
      - parameter completion: completion handler to receive the result
      */
     @discardableResult
-    open func getInventory(, completion: @Sendable @escaping (_ result: Swift.Result<[String: Int], ErrorResponse>) -> Void) -> RequestTask {
-        return getInventoryWithRequestBuilder().execute(apiResponseQueue) { result in
+    open func getInventory(completion: @Sendable @escaping (_ result: Swift.Result<[String: Int], ErrorResponse>) -> Void) -> RequestTask {
+        return getInventoryWithRequestBuilder().execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -331,7 +331,7 @@ open class StoreAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getOrderById(orderId: Int64) -> AnyPublisher<Order, Error> {
-        let requestBuilder = getOrderByIdWithRequestBuilder(orderId: orderId, )
+        let requestBuilder = getOrderByIdWithRequestBuilder(orderId: orderId)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Order, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -372,7 +372,7 @@ open class StoreAPI {
      */
     @discardableResult
     open func getOrderById(orderId: Int64, completion: @Sendable @escaping (_ result: Swift.Result<Order, ErrorResponse>) -> Void) -> RequestTask {
-        return getOrderByIdWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
+        return getOrderByIdWithRequestBuilder(orderId: orderId).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -463,7 +463,7 @@ open class StoreAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func placeOrder(body: Order) -> AnyPublisher<Order, Error> {
-        let requestBuilder = placeOrderWithRequestBuilder(body: body, )
+        let requestBuilder = placeOrderWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Order, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -504,7 +504,7 @@ open class StoreAPI {
      */
     @discardableResult
     open func placeOrder(body: Order, completion: @Sendable @escaping (_ result: Swift.Result<Order, ErrorResponse>) -> Void) -> RequestTask {
-        return placeOrderWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+        return placeOrderWithRequestBuilder(body: body).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))

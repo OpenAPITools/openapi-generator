@@ -22,10 +22,10 @@ class BearerRequestBuilderFactory: RequestBuilderFactory {
 class BearerRequestBuilder<T>: URLSessionRequestBuilder<T>, @unchecked Sendable {
 
     @discardableResult
-    override func execute(_ apiResponseQueue: DispatchQueue = OpenAPIClient.shared.apiResponseQueue, _ completion: @Sendable @escaping (Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+    override func execute(completion: @Sendable @escaping (Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
 
         guard self.requiresAuthentication else {
-            return super.execute(apiResponseQueue, completion)
+            return super.execute(completion: completion)
         }
 
         // Before making the request, we can validate if we have a bearer token to be able to make a request
@@ -34,7 +34,7 @@ class BearerRequestBuilder<T>: URLSessionRequestBuilder<T>, @unchecked Sendable 
             self.addHeaders(["Authorization": "Bearer \(token)"])
             
             // Here we make the request
-            super.execute(apiResponseQueue) { result in
+            super.execute { result in
                 
                 switch result {
                 case .success:
@@ -57,7 +57,7 @@ class BearerRequestBuilder<T>: URLSessionRequestBuilder<T>, @unchecked Sendable 
                                 
                                 // If the token was refreshed, it's because it was a 401 error, so we refreshed the token, and we are going to retry the request by calling self.execute()
                                 self.addHeaders(["Authorization": "Bearer \(newToken)"])
-                                self.execute(apiResponseQueue, completion)
+                                self.execute(completion: completion)
                             } else {
                                 // If the token was not refreshed, it's because it was not a 401 error, so we send the response to the completion block
                                 completion(result)
@@ -79,10 +79,10 @@ class BearerRequestBuilder<T>: URLSessionRequestBuilder<T>, @unchecked Sendable 
 class BearerDecodableRequestBuilder<T: Decodable>: URLSessionDecodableRequestBuilder<T>, @unchecked Sendable {
 
     @discardableResult
-    override func execute(_ apiResponseQueue: DispatchQueue = OpenAPIClient.shared.apiResponseQueue, _ completion: @Sendable @escaping (Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
-        
+    override func execute(completion: @Sendable @escaping (Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+
         guard self.requiresAuthentication else {
-            return super.execute(apiResponseQueue, completion)
+            return super.execute(completion: completion)
         }
 
         // Before making the request, we can validate if we have a bearer token to be able to make a request
@@ -91,7 +91,7 @@ class BearerDecodableRequestBuilder<T: Decodable>: URLSessionDecodableRequestBui
             self.addHeaders(["Authorization": "Bearer \(token)"])
             
             // Here we make the request
-            super.execute(apiResponseQueue) { result in
+            super.execute { result in
                 
                 switch result {
                 case .success:
@@ -114,7 +114,7 @@ class BearerDecodableRequestBuilder<T: Decodable>: URLSessionDecodableRequestBui
                                 
                                 // If the token was refreshed, it's because it was a 401 error, so we refreshed the token, and we are going to retry the request by calling self.execute()
                                 self.addHeaders(["Authorization": "Bearer \(newToken)"])
-                                self.execute(apiResponseQueue, completion)
+                                self.execute(completion: completion)
                             } else {
                                 // If the token was not refreshed, it's because it was not a 401 error, so we send the response to the completion block
                                 completion(result)

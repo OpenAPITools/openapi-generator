@@ -21,7 +21,7 @@ internal class UserAPI {
      */
     @discardableResult
     internal class func createUser(body: User, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return createUserWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return createUserWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -67,7 +67,7 @@ internal class UserAPI {
      */
     @discardableResult
     internal class func createUsersWithArrayInput(body: [User], openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return createUsersWithArrayInputWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return createUsersWithArrayInputWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -112,7 +112,7 @@ internal class UserAPI {
      */
     @discardableResult
     internal class func createUsersWithListInput(body: [User], openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return createUsersWithListInputWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return createUsersWithListInputWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -157,7 +157,7 @@ internal class UserAPI {
      */
     @discardableResult
     internal class func deleteUser(username: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return deleteUserWithRequestBuilder(username: username, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return deleteUserWithRequestBuilder(username: username, openAPIClient: openAPIClient).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -206,7 +206,7 @@ internal class UserAPI {
      */
     @discardableResult
     internal class func getUserByName(username: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<User, ErrorResponse>) -> Void) -> RequestTask {
-        return getUserByNameWithRequestBuilder(username: username, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return getUserByNameWithRequestBuilder(username: username, openAPIClient: openAPIClient).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -255,7 +255,7 @@ internal class UserAPI {
      */
     @discardableResult
     internal class func loginUser(username: String, password: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<String, ErrorResponse>) -> Void) -> RequestTask {
-        return loginUserWithRequestBuilder(username: username, password: password, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return loginUserWithRequestBuilder(username: username, password: password, openAPIClient: openAPIClient).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -305,7 +305,7 @@ internal class UserAPI {
      */
     @discardableResult
     internal class func logoutUser(openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return logoutUserWithRequestBuilder(openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return logoutUserWithRequestBuilder(openAPIClient: openAPIClient).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -350,7 +350,7 @@ internal class UserAPI {
      */
     @discardableResult
     internal class func updateUser(username: String, body: User, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return updateUserWithRequestBuilder(username: username, body: body, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return updateUserWithRequestBuilder(username: username, body: body, openAPIClient: openAPIClient).execute { result in
             switch result {
             case .success:
                 completion(.success(()))

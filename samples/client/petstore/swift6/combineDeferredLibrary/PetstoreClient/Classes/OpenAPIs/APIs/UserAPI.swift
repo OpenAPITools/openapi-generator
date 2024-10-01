@@ -25,7 +25,7 @@ open class UserAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func createUser(body: User, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Void, Error> {
-        let requestBuilder = createUserWithRequestBuilder(body: body, , openAPIClient: openAPIClient)
+        let requestBuilder = createUserWithRequestBuilder(body: body, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -84,7 +84,7 @@ open class UserAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func createUsersWithArrayInput(body: [User], openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Void, Error> {
-        let requestBuilder = createUsersWithArrayInputWithRequestBuilder(body: body, , openAPIClient: openAPIClient)
+        let requestBuilder = createUsersWithArrayInputWithRequestBuilder(body: body, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -142,7 +142,7 @@ open class UserAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func createUsersWithListInput(body: [User], openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Void, Error> {
-        let requestBuilder = createUsersWithListInputWithRequestBuilder(body: body, , openAPIClient: openAPIClient)
+        let requestBuilder = createUsersWithListInputWithRequestBuilder(body: body, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -200,7 +200,7 @@ open class UserAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deleteUser(username: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Void, Error> {
-        let requestBuilder = deleteUserWithRequestBuilder(username: username, , openAPIClient: openAPIClient)
+        let requestBuilder = deleteUserWithRequestBuilder(username: username, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -262,7 +262,7 @@ open class UserAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getUserByName(username: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<User, Error> {
-        let requestBuilder = getUserByNameWithRequestBuilder(username: username, , openAPIClient: openAPIClient)
+        let requestBuilder = getUserByNameWithRequestBuilder(username: username, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<User, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -324,7 +324,7 @@ open class UserAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func loginUser(username: String, password: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<String, Error> {
-        let requestBuilder = loginUserWithRequestBuilder(username: username, password: password, , openAPIClient: openAPIClient)
+        let requestBuilder = loginUserWithRequestBuilder(username: username, password: password, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<String, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -387,7 +387,7 @@ open class UserAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func logoutUser(openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Void, Error> {
-        let requestBuilder = logoutUserWithRequestBuilder(, openAPIClient: openAPIClient)
+        let requestBuilder = logoutUserWithRequestBuilder(openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -445,7 +445,7 @@ open class UserAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func updateUser(username: String, body: User, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Void, Error> {
-        let requestBuilder = updateUserWithRequestBuilder(username: username, body: body, , openAPIClient: openAPIClient)
+        let requestBuilder = updateUserWithRequestBuilder(username: username, body: body, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise

@@ -25,7 +25,7 @@ open class FakeClassnameTags123API {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testClassname(body: Client, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Client, Error> {
-        let requestBuilder = testClassnameWithRequestBuilder(body: body, , openAPIClient: openAPIClient)
+        let requestBuilder = testClassnameWithRequestBuilder(body: body, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Client, Error> { promise in
             nonisolated(unsafe) let promise = promise

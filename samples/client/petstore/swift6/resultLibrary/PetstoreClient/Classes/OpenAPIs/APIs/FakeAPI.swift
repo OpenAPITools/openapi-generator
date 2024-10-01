@@ -20,7 +20,7 @@ internal class FakeAPI {
      */
     @discardableResult
     internal class func fakeOuterBooleanSerialize(body: Bool? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Bool, ErrorResponse>) -> Void) -> RequestTask {
-        return fakeOuterBooleanSerializeWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return fakeOuterBooleanSerializeWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -64,7 +64,7 @@ internal class FakeAPI {
      */
     @discardableResult
     internal class func fakeOuterCompositeSerialize(body: OuterComposite? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<OuterComposite, ErrorResponse>) -> Void) -> RequestTask {
-        return fakeOuterCompositeSerializeWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return fakeOuterCompositeSerializeWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -108,7 +108,7 @@ internal class FakeAPI {
      */
     @discardableResult
     internal class func fakeOuterNumberSerialize(body: Double? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Double, ErrorResponse>) -> Void) -> RequestTask {
-        return fakeOuterNumberSerializeWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return fakeOuterNumberSerializeWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -152,7 +152,7 @@ internal class FakeAPI {
      */
     @discardableResult
     internal class func fakeOuterStringSerialize(body: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<String, ErrorResponse>) -> Void) -> RequestTask {
-        return fakeOuterStringSerializeWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return fakeOuterStringSerializeWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -196,7 +196,7 @@ internal class FakeAPI {
      */
     @discardableResult
     internal class func testBodyWithFileSchema(body: FileSchemaTestClass, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return testBodyWithFileSchemaWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return testBodyWithFileSchemaWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -241,7 +241,7 @@ internal class FakeAPI {
      */
     @discardableResult
     internal class func testBodyWithQueryParams(query: String, body: User, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return testBodyWithQueryParamsWithRequestBuilder(query: query, body: body, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return testBodyWithQueryParamsWithRequestBuilder(query: query, body: body, openAPIClient: openAPIClient).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -289,7 +289,7 @@ internal class FakeAPI {
      */
     @discardableResult
     internal class func testClientModel(body: Client, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Client, ErrorResponse>) -> Void) -> RequestTask {
-        return testClientModelWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return testClientModelWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -348,7 +348,7 @@ internal class FakeAPI {
      */
     @discardableResult
     internal class func testEndpointParameters(integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, number: Double, float: Float? = nil, double: Double, string: String? = nil, patternWithoutDelimiter: String, byte: Data, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return testEndpointParametersWithRequestBuilder(integer: integer, int32: int32, int64: int64, number: number, float: float, double: double, string: string, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return testEndpointParametersWithRequestBuilder(integer: integer, int32: int32, int64: int64, number: number, float: float, double: double, string: string, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback, openAPIClient: openAPIClient).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -502,7 +502,7 @@ internal class FakeAPI {
      */
     @discardableResult
     internal class func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, openAPIClient: openAPIClient).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -574,7 +574,7 @@ internal class FakeAPI {
      */
     @discardableResult
     internal class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group, openAPIClient: openAPIClient).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -632,7 +632,7 @@ internal class FakeAPI {
      */
     @discardableResult
     internal class func testInlineAdditionalProperties(param: [String: String], openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return testInlineAdditionalPropertiesWithRequestBuilder(param: param, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return testInlineAdditionalPropertiesWithRequestBuilder(param: param, openAPIClient: openAPIClient).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -678,7 +678,7 @@ internal class FakeAPI {
      */
     @discardableResult
     internal class func testJsonFormData(param: String, param2: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return testJsonFormDataWithRequestBuilder(param: param, param2: param2, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return testJsonFormDataWithRequestBuilder(param: param, param2: param2, openAPIClient: openAPIClient).execute { result in
             switch result {
             case .success:
                 completion(.success(()))

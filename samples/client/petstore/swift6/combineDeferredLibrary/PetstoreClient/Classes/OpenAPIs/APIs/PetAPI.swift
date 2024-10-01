@@ -25,7 +25,7 @@ open class PetAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func addPet(body: Pet, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Void, Error> {
-        let requestBuilder = addPetWithRequestBuilder(body: body, , openAPIClient: openAPIClient)
+        let requestBuilder = addPetWithRequestBuilder(body: body, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -90,7 +90,7 @@ open class PetAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deletePet(petId: Int64, apiKey: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Void, Error> {
-        let requestBuilder = deletePetWithRequestBuilder(petId: petId, apiKey: apiKey, , openAPIClient: openAPIClient)
+        let requestBuilder = deletePetWithRequestBuilder(petId: petId, apiKey: apiKey, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -164,7 +164,7 @@ open class PetAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func findPetsByStatus(status: [Status_findPetsByStatus], openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<[Pet], Error> {
-        let requestBuilder = findPetsByStatusWithRequestBuilder(status: status, , openAPIClient: openAPIClient)
+        let requestBuilder = findPetsByStatusWithRequestBuilder(status: status, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<[Pet], Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -230,7 +230,7 @@ open class PetAPI {
     @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func findPetsByTags(tags: [String], openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<[Pet], Error> {
-        let requestBuilder = findPetsByTagsWithRequestBuilder(tags: tags, , openAPIClient: openAPIClient)
+        let requestBuilder = findPetsByTagsWithRequestBuilder(tags: tags, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<[Pet], Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -296,7 +296,7 @@ open class PetAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getPetById(petId: Int64, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Pet, Error> {
-        let requestBuilder = getPetByIdWithRequestBuilder(petId: petId, , openAPIClient: openAPIClient)
+        let requestBuilder = getPetByIdWithRequestBuilder(petId: petId, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Pet, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -361,7 +361,7 @@ open class PetAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func updatePet(body: Pet, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Void, Error> {
-        let requestBuilder = updatePetWithRequestBuilder(body: body, , openAPIClient: openAPIClient)
+        let requestBuilder = updatePetWithRequestBuilder(body: body, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -424,7 +424,7 @@ open class PetAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Void, Error> {
-        let requestBuilder = updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status, , openAPIClient: openAPIClient)
+        let requestBuilder = updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -498,7 +498,7 @@ open class PetAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<ApiResponse, Error> {
-        let requestBuilder = uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file, , openAPIClient: openAPIClient)
+        let requestBuilder = uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<ApiResponse, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -572,7 +572,7 @@ open class PetAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<ApiResponse, Error> {
-        let requestBuilder = uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata, , openAPIClient: openAPIClient)
+        let requestBuilder = uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<ApiResponse, Error> { promise in
             nonisolated(unsafe) let promise = promise

@@ -21,7 +21,7 @@ internal class FakeClassnameTags123API {
      */
     @discardableResult
     internal class func testClassname(body: Client, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Client, ErrorResponse>) -> Void) -> RequestTask {
-        return testClassnameWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return testClassnameWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))

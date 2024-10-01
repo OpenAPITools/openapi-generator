@@ -24,7 +24,7 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func fakeOuterBooleanSerialize(body: Bool? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Bool, Error> {
-        let requestBuilder = fakeOuterBooleanSerializeWithRequestBuilder(body: body, , openAPIClient: openAPIClient)
+        let requestBuilder = fakeOuterBooleanSerializeWithRequestBuilder(body: body, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Bool, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -81,7 +81,7 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<OuterComposite, Error> {
-        let requestBuilder = fakeOuterCompositeSerializeWithRequestBuilder(body: body, , openAPIClient: openAPIClient)
+        let requestBuilder = fakeOuterCompositeSerializeWithRequestBuilder(body: body, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<OuterComposite, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -138,7 +138,7 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func fakeOuterNumberSerialize(body: Double? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Double, Error> {
-        let requestBuilder = fakeOuterNumberSerializeWithRequestBuilder(body: body, , openAPIClient: openAPIClient)
+        let requestBuilder = fakeOuterNumberSerializeWithRequestBuilder(body: body, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Double, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -195,7 +195,7 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func fakeOuterStringSerialize(body: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<String, Error> {
-        let requestBuilder = fakeOuterStringSerializeWithRequestBuilder(body: body, , openAPIClient: openAPIClient)
+        let requestBuilder = fakeOuterStringSerializeWithRequestBuilder(body: body, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<String, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -252,7 +252,7 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testBodyWithFileSchema(body: FileSchemaTestClass, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testBodyWithFileSchemaWithRequestBuilder(body: body, , openAPIClient: openAPIClient)
+        let requestBuilder = testBodyWithFileSchemaWithRequestBuilder(body: body, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -310,7 +310,7 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testBodyWithQueryParams(query: String, body: User, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testBodyWithQueryParamsWithRequestBuilder(query: query, body: body, , openAPIClient: openAPIClient)
+        let requestBuilder = testBodyWithQueryParamsWithRequestBuilder(query: query, body: body, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -371,7 +371,7 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testClientModel(body: Client, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Client, Error> {
-        let requestBuilder = testClientModelWithRequestBuilder(body: body, , openAPIClient: openAPIClient)
+        let requestBuilder = testClientModelWithRequestBuilder(body: body, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Client, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -443,7 +443,7 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback, , openAPIClient: openAPIClient)
+        let requestBuilder = testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -610,7 +610,7 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, , openAPIClient: openAPIClient)
+        let requestBuilder = testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -695,7 +695,7 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group, , openAPIClient: openAPIClient)
+        let requestBuilder = testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -766,7 +766,7 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testInlineAdditionalProperties(param: [String: String], openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testInlineAdditionalPropertiesWithRequestBuilder(param: param, , openAPIClient: openAPIClient)
+        let requestBuilder = testInlineAdditionalPropertiesWithRequestBuilder(param: param, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -825,7 +825,7 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testJsonFormData(param: String, param2: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testJsonFormDataWithRequestBuilder(param: param, param2: param2, , openAPIClient: openAPIClient)
+        let requestBuilder = testJsonFormDataWithRequestBuilder(param: param, param2: param2, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise

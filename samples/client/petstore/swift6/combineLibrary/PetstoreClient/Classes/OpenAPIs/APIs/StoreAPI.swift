@@ -25,7 +25,7 @@ open class StoreAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deleteOrder(orderId: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Void, Error> {
-        let requestBuilder = deleteOrderWithRequestBuilder(orderId: orderId, , openAPIClient: openAPIClient)
+        let requestBuilder = deleteOrderWithRequestBuilder(orderId: orderId, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -84,7 +84,7 @@ open class StoreAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getInventory(openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<[String: Int], Error> {
-        let requestBuilder = getInventoryWithRequestBuilder(, openAPIClient: openAPIClient)
+        let requestBuilder = getInventoryWithRequestBuilder(openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Future<[String: Int], Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -143,7 +143,7 @@ open class StoreAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getOrderById(orderId: Int64, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Order, Error> {
-        let requestBuilder = getOrderByIdWithRequestBuilder(orderId: orderId, , openAPIClient: openAPIClient)
+        let requestBuilder = getOrderByIdWithRequestBuilder(orderId: orderId, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Future<Order, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -203,7 +203,7 @@ open class StoreAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func placeOrder(body: Order, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Order, Error> {
-        let requestBuilder = placeOrderWithRequestBuilder(body: body, , openAPIClient: openAPIClient)
+        let requestBuilder = placeOrderWithRequestBuilder(body: body, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Future<Order, Error> { promise in
             nonisolated(unsafe) let promise = promise

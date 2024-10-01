@@ -70,7 +70,7 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func fakeOuterBooleanSerialize(body: Bool? = nil) -> AnyPublisher<Bool, Error> {
-        let requestBuilder = fakeOuterBooleanSerializeWithRequestBuilder(body: body, )
+        let requestBuilder = fakeOuterBooleanSerializeWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Bool, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -109,7 +109,7 @@ open class FakeAPI {
      */
     @discardableResult
     open func fakeOuterBooleanSerialize(body: Bool? = nil, completion: @Sendable @escaping (_ result: Swift.Result<Bool, ErrorResponse>) -> Void) -> RequestTask {
-        return fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+        return fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -193,7 +193,7 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func fakeOuterCompositeSerialize(body: OuterComposite? = nil) -> AnyPublisher<OuterComposite, Error> {
-        let requestBuilder = fakeOuterCompositeSerializeWithRequestBuilder(body: body, )
+        let requestBuilder = fakeOuterCompositeSerializeWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<OuterComposite, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -232,7 +232,7 @@ open class FakeAPI {
      */
     @discardableResult
     open func fakeOuterCompositeSerialize(body: OuterComposite? = nil, completion: @Sendable @escaping (_ result: Swift.Result<OuterComposite, ErrorResponse>) -> Void) -> RequestTask {
-        return fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+        return fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -316,7 +316,7 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func fakeOuterNumberSerialize(body: Double? = nil) -> AnyPublisher<Double, Error> {
-        let requestBuilder = fakeOuterNumberSerializeWithRequestBuilder(body: body, )
+        let requestBuilder = fakeOuterNumberSerializeWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Double, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -355,7 +355,7 @@ open class FakeAPI {
      */
     @discardableResult
     open func fakeOuterNumberSerialize(body: Double? = nil, completion: @Sendable @escaping (_ result: Swift.Result<Double, ErrorResponse>) -> Void) -> RequestTask {
-        return fakeOuterNumberSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+        return fakeOuterNumberSerializeWithRequestBuilder(body: body).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -439,7 +439,7 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func fakeOuterStringSerialize(body: String? = nil) -> AnyPublisher<String, Error> {
-        let requestBuilder = fakeOuterStringSerializeWithRequestBuilder(body: body, )
+        let requestBuilder = fakeOuterStringSerializeWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<String, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -478,7 +478,7 @@ open class FakeAPI {
      */
     @discardableResult
     open func fakeOuterStringSerialize(body: String? = nil, completion: @Sendable @escaping (_ result: Swift.Result<String, ErrorResponse>) -> Void) -> RequestTask {
-        return fakeOuterStringSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+        return fakeOuterStringSerializeWithRequestBuilder(body: body).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -562,7 +562,7 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func testBodyWithFileSchema(body: FileSchemaTestClass) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testBodyWithFileSchemaWithRequestBuilder(body: body, )
+        let requestBuilder = testBodyWithFileSchemaWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -601,7 +601,7 @@ open class FakeAPI {
      */
     @discardableResult
     open func testBodyWithFileSchema(body: FileSchemaTestClass, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return testBodyWithFileSchemaWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+        return testBodyWithFileSchemaWithRequestBuilder(body: body).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -688,7 +688,7 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func testBodyWithQueryParams(query: String, body: User) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testBodyWithQueryParamsWithRequestBuilder(query: query, body: body, )
+        let requestBuilder = testBodyWithQueryParamsWithRequestBuilder(query: query, body: body)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -729,7 +729,7 @@ open class FakeAPI {
      */
     @discardableResult
     open func testBodyWithQueryParams(query: String, body: User, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute(apiResponseQueue) { result in
+        return testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -819,7 +819,7 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func testClientModel(body: Client) -> AnyPublisher<Client, Error> {
-        let requestBuilder = testClientModelWithRequestBuilder(body: body, )
+        let requestBuilder = testClientModelWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Client, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -860,7 +860,7 @@ open class FakeAPI {
      */
     @discardableResult
     open func testClientModel(body: Client, completion: @Sendable @escaping (_ result: Swift.Result<Client, ErrorResponse>) -> Void) -> RequestTask {
-        return testClientModelWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+        return testClientModelWithRequestBuilder(body: body).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -987,7 +987,7 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback, )
+        let requestBuilder = testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -1054,7 +1054,7 @@ open class FakeAPI {
      */
     @discardableResult
     open func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute(apiResponseQueue) { result in
+        return testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -1264,7 +1264,7 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, )
+        let requestBuilder = testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -1319,7 +1319,7 @@ open class FakeAPI {
      */
     @discardableResult
     open func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute(apiResponseQueue) { result in
+        return testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -1443,7 +1443,7 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group, )
+        let requestBuilder = testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -1494,7 +1494,7 @@ open class FakeAPI {
      */
     @discardableResult
     open func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute(apiResponseQueue) { result in
+        return testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -1594,7 +1594,7 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func testInlineAdditionalProperties(param: [String: String]) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testInlineAdditionalPropertiesWithRequestBuilder(param: param, )
+        let requestBuilder = testInlineAdditionalPropertiesWithRequestBuilder(param: param)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -1635,7 +1635,7 @@ open class FakeAPI {
      */
     @discardableResult
     open func testInlineAdditionalProperties(param: [String: String], completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute(apiResponseQueue) { result in
+        return testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -1725,7 +1725,7 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func testJsonFormData(param: String, param2: String) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testJsonFormDataWithRequestBuilder(param: param, param2: param2, )
+        let requestBuilder = testJsonFormDataWithRequestBuilder(param: param, param2: param2)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -1768,7 +1768,7 @@ open class FakeAPI {
      */
     @discardableResult
     open func testJsonFormData(param: String, param2: String, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute(apiResponseQueue) { result in
+        return testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute { result in
             switch result {
             case .success:
                 completion(.success(()))

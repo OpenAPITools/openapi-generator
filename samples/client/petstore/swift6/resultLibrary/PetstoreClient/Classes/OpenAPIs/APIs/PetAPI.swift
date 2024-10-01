@@ -21,7 +21,7 @@ internal class PetAPI {
      */
     @discardableResult
     internal class func addPet(body: Pet, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return addPetWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return addPetWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -73,7 +73,7 @@ internal class PetAPI {
      */
     @discardableResult
     internal class func deletePet(apiKey: String? = nil, petId: Int64, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return deletePetWithRequestBuilder(apiKey: apiKey, petId: petId, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return deletePetWithRequestBuilder(apiKey: apiKey, petId: petId, openAPIClient: openAPIClient).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -134,7 +134,7 @@ internal class PetAPI {
      */
     @discardableResult
     internal class func findPetsByStatus(status: [Status_findPetsByStatus], openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<[Pet], ErrorResponse>) -> Void) -> RequestTask {
-        return findPetsByStatusWithRequestBuilder(status: status, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return findPetsByStatusWithRequestBuilder(status: status, openAPIClient: openAPIClient).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -187,7 +187,7 @@ internal class PetAPI {
     @available(*, deprecated, message: "This operation is deprecated.")
     @discardableResult
     internal class func findPetsByTags(tags: [String], openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<[Pet], ErrorResponse>) -> Void) -> RequestTask {
-        return findPetsByTagsWithRequestBuilder(tags: tags, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return findPetsByTagsWithRequestBuilder(tags: tags, openAPIClient: openAPIClient).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -240,7 +240,7 @@ internal class PetAPI {
      */
     @discardableResult
     internal class func getPetById(petId: Int64, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Pet, ErrorResponse>) -> Void) -> RequestTask {
-        return getPetByIdWithRequestBuilder(petId: petId, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return getPetByIdWithRequestBuilder(petId: petId, openAPIClient: openAPIClient).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -292,7 +292,7 @@ internal class PetAPI {
      */
     @discardableResult
     internal class func updatePet(body: Pet, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return updatePetWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return updatePetWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -342,7 +342,7 @@ internal class PetAPI {
      */
     @discardableResult
     internal class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status, openAPIClient: openAPIClient).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -403,7 +403,7 @@ internal class PetAPI {
      */
     @discardableResult
     internal class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<ApiResponse, ErrorResponse>) -> Void) -> RequestTask {
-        return uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file, openAPIClient: openAPIClient).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -464,7 +464,7 @@ internal class PetAPI {
      */
     @discardableResult
     internal class func uploadFileWithRequiredFile(petId: Int64, additionalMetadata: String? = nil, requiredFile: URL, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ result: Swift.Result<ApiResponse, ErrorResponse>) -> Void) -> RequestTask {
-        return uploadFileWithRequiredFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, requiredFile: requiredFile, openAPIClient: openAPIClient).execute(apiResponseQueue) { result in
+        return uploadFileWithRequiredFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, requiredFile: requiredFile, openAPIClient: openAPIClient).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))

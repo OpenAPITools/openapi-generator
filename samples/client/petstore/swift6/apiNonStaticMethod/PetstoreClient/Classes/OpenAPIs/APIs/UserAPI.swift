@@ -73,7 +73,7 @@ open class UserAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func createUser(body: User) -> AnyPublisher<Void, Error> {
-        let requestBuilder = createUserWithRequestBuilder(body: body, )
+        let requestBuilder = createUserWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -114,7 +114,7 @@ open class UserAPI {
      */
     @discardableResult
     open func createUser(body: User, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return createUserWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+        return createUserWithRequestBuilder(body: body).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -202,7 +202,7 @@ open class UserAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func createUsersWithArrayInput(body: [User]) -> AnyPublisher<Void, Error> {
-        let requestBuilder = createUsersWithArrayInputWithRequestBuilder(body: body, )
+        let requestBuilder = createUsersWithArrayInputWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -243,7 +243,7 @@ open class UserAPI {
      */
     @discardableResult
     open func createUsersWithArrayInput(body: [User], completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return createUsersWithArrayInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+        return createUsersWithArrayInputWithRequestBuilder(body: body).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -330,7 +330,7 @@ open class UserAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func createUsersWithListInput(body: [User]) -> AnyPublisher<Void, Error> {
-        let requestBuilder = createUsersWithListInputWithRequestBuilder(body: body, )
+        let requestBuilder = createUsersWithListInputWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -371,7 +371,7 @@ open class UserAPI {
      */
     @discardableResult
     open func createUsersWithListInput(body: [User], completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return createUsersWithListInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+        return createUsersWithListInputWithRequestBuilder(body: body).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -458,7 +458,7 @@ open class UserAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func deleteUser(username: String) -> AnyPublisher<Void, Error> {
-        let requestBuilder = deleteUserWithRequestBuilder(username: username, )
+        let requestBuilder = deleteUserWithRequestBuilder(username: username)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -499,7 +499,7 @@ open class UserAPI {
      */
     @discardableResult
     open func deleteUser(username: String, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return deleteUserWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
+        return deleteUserWithRequestBuilder(username: username).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -590,7 +590,7 @@ open class UserAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getUserByName(username: String) -> AnyPublisher<User, Error> {
-        let requestBuilder = getUserByNameWithRequestBuilder(username: username, )
+        let requestBuilder = getUserByNameWithRequestBuilder(username: username)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<User, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -631,7 +631,7 @@ open class UserAPI {
      */
     @discardableResult
     open func getUserByName(username: String, completion: @Sendable @escaping (_ result: Swift.Result<User, ErrorResponse>) -> Void) -> RequestTask {
-        return getUserByNameWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
+        return getUserByNameWithRequestBuilder(username: username).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -724,7 +724,7 @@ open class UserAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func loginUser(username: String, password: String) -> AnyPublisher<String, Error> {
-        let requestBuilder = loginUserWithRequestBuilder(username: username, password: password, )
+        let requestBuilder = loginUserWithRequestBuilder(username: username, password: password)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<String, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -767,7 +767,7 @@ open class UserAPI {
      */
     @discardableResult
     open func loginUser(username: String, password: String, completion: @Sendable @escaping (_ result: Swift.Result<String, ErrorResponse>) -> Void) -> RequestTask {
-        return loginUserWithRequestBuilder(username: username, password: password).execute(apiResponseQueue) { result in
+        return loginUserWithRequestBuilder(username: username, password: password).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -857,7 +857,7 @@ open class UserAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func logoutUser() -> AnyPublisher<Void, Error> {
-        let requestBuilder = logoutUserWithRequestBuilder(, )
+        let requestBuilder = logoutUserWithRequestBuilder()
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -895,8 +895,8 @@ open class UserAPI {
      - parameter completion: completion handler to receive the result
      */
     @discardableResult
-    open func logoutUser(, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return logoutUserWithRequestBuilder().execute(apiResponseQueue) { result in
+    open func logoutUser(completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
+        return logoutUserWithRequestBuilder().execute { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -985,7 +985,7 @@ open class UserAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func updateUser(username: String, body: User) -> AnyPublisher<Void, Error> {
-        let requestBuilder = updateUserWithRequestBuilder(username: username, body: body, )
+        let requestBuilder = updateUserWithRequestBuilder(username: username, body: body)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<Void, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -1028,7 +1028,7 @@ open class UserAPI {
      */
     @discardableResult
     open func updateUser(username: String, body: User, completion: @Sendable @escaping (_ result: Swift.Result<Void, ErrorResponse>) -> Void) -> RequestTask {
-        return updateUserWithRequestBuilder(username: username, body: body).execute(apiResponseQueue) { result in
+        return updateUserWithRequestBuilder(username: username, body: body).execute { result in
             switch result {
             case .success:
                 completion(.success(()))
