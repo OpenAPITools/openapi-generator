@@ -187,7 +187,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean generatedConstructorWithRequiredArgs = true;
     @Getter @Setter
     protected RequestMappingMode requestMappingMode = RequestMappingMode.controller;
-    @Setter SpringHttpClientAdapter springHttpClientAdapter;
+    @Setter SpringHttpClientAdapter springHttpClientAdapter = SpringHttpClientAdapter.web_client;
 
     public SpringCodegen() {
         super();
@@ -293,8 +293,8 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         cliOptions.add(CliOption.newString(SPRING_HTTP_CLIENT_ADAPTER,
             "Allows users to choose between different HTTP client implementations for Spring HTTP interfaces (`web-client`, `rest-client`, `rest-template`).")
-            .defaultValue(SpringHttpClientAdapter.web_client.getKey()
-        ));
+            .defaultValue(SpringHttpClientAdapter.web_client.getKey())
+        );
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
             "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
