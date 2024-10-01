@@ -27,37 +27,37 @@ public abstract class HttpInterfacesAbstractConfigurator {
 
     @Bean(name = "org.openapitools.configuration.HttpInterfacesAbstractConfigurator.anotherFake")
     AnotherFakeApi anotherFakeHttpProxy() {
-        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builder(WebClientAdapter.forClient(webClient)).build();
+        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(WebClientAdapter.forClient(webClient)).build();
         return factory.createClient(AnotherFakeApi.class);
     }
 
     @Bean(name = "org.openapitools.configuration.HttpInterfacesAbstractConfigurator.fake")
     FakeApi fakeHttpProxy() {
-        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builder(WebClientAdapter.forClient(webClient)).build();
+        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(WebClientAdapter.forClient(webClient)).build();
         return factory.createClient(FakeApi.class);
     }
 
     @Bean(name = "org.openapitools.configuration.HttpInterfacesAbstractConfigurator.fakeClassnameTags123")
     FakeClassnameTags123Api fakeClassnameTags123HttpProxy() {
-        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builder(WebClientAdapter.forClient(webClient)).build();
+        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(WebClientAdapter.forClient(webClient)).build();
         return factory.createClient(FakeClassnameTags123Api.class);
     }
 
     @Bean(name = "org.openapitools.configuration.HttpInterfacesAbstractConfigurator.pet")
     PetApi petHttpProxy() {
-        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builder(WebClientAdapter.forClient(webClient)).build();
+        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(WebClientAdapter.forClient(webClient)).build();
         return factory.createClient(PetApi.class);
     }
 
     @Bean(name = "org.openapitools.configuration.HttpInterfacesAbstractConfigurator.store")
     StoreApi storeHttpProxy() {
-        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builder(WebClientAdapter.forClient(webClient)).build();
+        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(WebClientAdapter.forClient(webClient)).build();
         return factory.createClient(StoreApi.class);
     }
 
     @Bean(name = "org.openapitools.configuration.HttpInterfacesAbstractConfigurator.user")
     UserApi userHttpProxy() {
-        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builder(WebClientAdapter.forClient(webClient)).build();
+        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(WebClientAdapter.forClient(webClient)).build();
         return factory.createClient(UserApi.class);
     }
 
