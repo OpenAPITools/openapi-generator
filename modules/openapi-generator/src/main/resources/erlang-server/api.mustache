@@ -50,6 +50,7 @@ accept_callback(Class, OperationID, Req, Context) ->
 
 -type rule() ::
     {type, binary} |
+    {type, byte} |
     {type, integer} |
     {type, float} |
     {type, boolean} |
@@ -137,7 +138,7 @@ for the `OperationID` operation.
             {type, integer},{{/isLong}}{{#isFloat}}
             {type, float},{{/isFloat}}{{#isDouble}}
             {type, float},{{/isDouble}}{{#isByteArray}}
-            {type, binary},{{/isByteArray}}{{#isBinary}}
+            {type, byte},{{/isByteArray}}{{#isBinary}}
             {type, binary},{{/isBinary}}{{#isBoolean}}
             {type, boolean},{{/isBoolean}}{{#isDate}}
             {type, date},{{/isDate}}{{#isDateTime}}
@@ -216,6 +217,11 @@ validate({type, float}, Value, _ReqParamName, _) when is_float(Value) ->
     ok;
 validate({type, binary}, Value, _ReqParamName, _) when is_binary(Value) ->
     ok;
+validate(Rule = {type, byte}, Value, ReqParamName, _) when is_binary(Value) ->
+    try base64:decode(Value) of
+        Decoded -> {ok, Decoded}
+    catch error:_Error -> validation_error(Rule, ReqParamName, Value)
+    end;
 validate({max, Max}, Value, _, _) when Value =< Max ->
     ok;
 validate({min, Min}, Value, _, _) when Min =< Value ->
