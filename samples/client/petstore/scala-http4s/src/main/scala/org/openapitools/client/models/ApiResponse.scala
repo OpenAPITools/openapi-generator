@@ -23,9 +23,9 @@ import io.circe.{ Decoder, Encoder }
 * @param message 
 */
 case class ApiResponse(
-  code: Option[Int],
-  `type`: Option[String],
-  message: Option[String]
+  code: Option[Int] = None,
+  `type`: Option[String] = None,
+  message: Option[String] = None
 )
   
 object ApiResponse {

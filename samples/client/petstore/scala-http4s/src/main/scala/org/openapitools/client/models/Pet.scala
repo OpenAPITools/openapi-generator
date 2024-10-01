@@ -27,12 +27,12 @@ import scala.collection.immutable.Seq
 * @param status 
 */
 case class Pet(
-  id: Option[Long],
-  category: Option[Category],
+  id: Option[Long] = None,
+  category: Option[Category] = None,
   name: String,
   photoUrls: Seq[String],
-  tags: Option[Seq[Tag]],
-  status: Option[PetStatus]
+  tags: Option[Seq[Tag]] = None,
+  status: Option[PetStatus] = None
 )
   
 object Pet {

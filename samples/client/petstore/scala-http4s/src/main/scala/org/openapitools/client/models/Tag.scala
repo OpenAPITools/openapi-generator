@@ -22,8 +22,8 @@ import io.circe.{ Decoder, Encoder }
 * @param name 
 */
 case class Tag(
-  id: Option[Long],
-  name: Option[String]
+  id: Option[Long] = None,
+  name: Option[String] = None
 )
   
 object Tag {

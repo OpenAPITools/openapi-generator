@@ -27,12 +27,12 @@ import java.time.Instant
 * @param complete 
 */
 case class Order(
-  id: Option[Long],
-  petId: Option[Long],
-  quantity: Option[Int],
-  shipDate: Option[Instant],
-  status: Option[OrderStatus],
-  complete: Option[Boolean]
+  id: Option[Long] = None,
+  petId: Option[Long] = None,
+  quantity: Option[Int] = None,
+  shipDate: Option[Instant] = None,
+  status: Option[OrderStatus] = None,
+  complete: Option[Boolean] = None
 )
   
 object Order {

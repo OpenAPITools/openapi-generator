@@ -33,11 +33,9 @@ abstract class BaseClient[F[*]: Concurrent](
     ("X-Apidoc-Version", ApiVersion)
   )
 
-  protected def apiHeaders: Seq[(String, String)] = defaultApiHeaders
-
   protected def modifyRequest(request: Request[F]): Request[F] = request
 
-  protected def _executeRequest[T, U](
+  def _executeRequest[T, U](
       method: String,
       path: String,
       body: Option[T] = None,
@@ -54,7 +52,7 @@ abstract class BaseClient[F[*]: Concurrent](
 
     val headers = Headers(
       (
-        apiHeaders ++
+        defaultApiHeaders ++
         defaultHeaders ++
         requestHeaders
       ).groupBy(_._1).map { case (k, l) => Header.Raw(CIString(k), l.last._2) }.toList

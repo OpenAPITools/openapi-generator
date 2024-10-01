@@ -39,7 +39,7 @@ object {{classname}} {
 {{^isEnum}}
 case class {{classname}}(
 {{#vars}}
-  {{name}}: {{^required}}Option[{{{dataType}}}]{{/required}}{{#required}}{{{dataType}}}{{/required}}{{^-last}},{{/-last}}
+  {{name}}: {{^required}}Option[{{{dataType}}}] = None{{/required}}{{#required}}{{{dataType}}}{{/required}}{{^-last}},{{/-last}}
 {{/vars}}
 )
   
