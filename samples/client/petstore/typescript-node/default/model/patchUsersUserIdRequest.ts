@@ -12,38 +12,18 @@
 
 import { RequestFile } from './models';
 
-/**
-* 
-*/
-export class User {
+export class PatchUsersUserIdRequest {
+    'firstName'?: string;
+    'lastName'?: string;
     /**
-    * Unique identifier for the given user.
+    * If a new email is given, the user\'s email verified property will be set to false.
     */
-    'id': number;
-    'firstName': string;
-    'lastName': string;
-    'email': string;
+    'email'?: string;
     'dateOfBirth'?: string;
-    /**
-    * Set to true if the user\'s email has been verified.
-    *
-    * @deprecated
-    */
-    'emailVerified': boolean;
-    /**
-    * The date that the user was created.
-    */
-    'createDate'?: string;
-    'tags'?: Array<string>;
 
     static discriminator: string | undefined = undefined;
 
     static attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
-        {
-            "name": "id",
-            "baseName": "id",
-            "type": "number"
-        },
         {
             "name": "firstName",
             "baseName": "firstName",
@@ -63,25 +43,10 @@ export class User {
             "name": "dateOfBirth",
             "baseName": "dateOfBirth",
             "type": "string"
-        },
-        {
-            "name": "emailVerified",
-            "baseName": "emailVerified",
-            "type": "boolean"
-        },
-        {
-            "name": "createDate",
-            "baseName": "createDate",
-            "type": "string"
-        },
-        {
-            "name": "tags",
-            "baseName": "tags",
-            "type": "Array<string>"
         }    ];
 
     static getAttributeTypeMap() {
-        return User.attributeTypeMap;
+        return PatchUsersUserIdRequest.attributeTypeMap;
     }
 }
 
