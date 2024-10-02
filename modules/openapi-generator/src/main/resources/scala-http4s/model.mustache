@@ -3,7 +3,7 @@ package {{modelPackage}}
 
 import io.circe.*
 import io.circe.syntax.*
-import io.circe.{ Decoder, Encoder }
+import io.circe.{Decoder, Encoder}
 
 {{#imports}}
 import {{import}}
@@ -11,12 +11,11 @@ import {{import}}
 
 {{#models}}
 {{#model}}
-/**
-* {{{description}}}
+/** {{{description}}}
 {{#vars}}
-* @param {{name}} {{{description}}}
+  * @param {{name}} {{{description}}}
 {{/vars}}
-*/
+  */
 {{#isEnum}}
 enum {{classname}}(val value: String) {
   {{#allowableValues}}
@@ -39,7 +38,7 @@ object {{classname}} {
 {{^isEnum}}
 case class {{classname}}(
 {{#vars}}
-  {{name}}: {{^required}}Option[{{{dataType}}}] = None{{/required}}{{#required}}{{{dataType}}}{{/required}}{{^-last}},{{/-last}}
+    {{name}}: {{^required}}Option[{{{dataType}}}] = None{{/required}}{{#required}}{{{dataType}}}{{/required}}{{^-last}},{{/-last}}
 {{/vars}}
 )
   
