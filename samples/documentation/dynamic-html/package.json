@@ -6,7 +6,7 @@
     "node": ">= 0.8.x"
   },
   "dependencies": {
-    "express": "3.x"
+    "express": "4.0.0"
   },
   "license": "Unlicense"
 }
