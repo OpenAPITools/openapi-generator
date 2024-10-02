@@ -605,6 +605,16 @@ public class OpenAPINormalizerTest {
         assertNotEquals(((Schema) schema7.getProperties().get("with_prefixitems")).getPrefixItems(), null);
         assertEquals(((Schema) schema7.getProperties().get("without_items")).getItems(), null);
 
+        Schema schema9 = openAPI.getComponents().getSchemas().get("AnyOfArrayWithPrefixItems");
+        assertEquals(((Schema) schema9.getAnyOf().get(0)).getItems(), null);
+        assertNotEquals(((Schema) schema9.getAnyOf().get(0)).getPrefixItems(), null);
+        assertEquals(((Schema) schema9.getAnyOf().get(1)).getItems(), null);
+
+        Schema schema11 = openAPI.getComponents().getSchemas().get("OneOfArrayWithPrefixItems");
+        assertEquals(((Schema) schema11.getOneOf().get(0)).getItems(), null);
+        assertNotEquals(((Schema) schema11.getOneOf().get(0)).getPrefixItems(), null);
+        assertEquals(((Schema) schema11.getOneOf().get(1)).getItems(), null);
+
         Map<String, String> inputRules = Map.of("NORMALIZE_31SPEC", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
         openAPINormalizer.normalize();
@@ -632,6 +642,16 @@ public class OpenAPINormalizerTest {
         assertNotEquals(((Schema) schema8.getProperties().get("with_prefixitems")).getItems(), null);
         assertEquals(((Schema) schema8.getProperties().get("with_prefixitems")).getPrefixItems(), null);
         assertNotEquals(((Schema) schema8.getProperties().get("without_items")).getItems(), null);
+
+        Schema schema10 = openAPI.getComponents().getSchemas().get("AnyOfArrayWithPrefixItems");
+        assertNotEquals(((Schema) schema10.getAnyOf().get(0)).getItems(), null);
+        assertEquals(((Schema) schema10.getAnyOf().get(0)).getPrefixItems(), null);
+        assertNotEquals(((Schema) schema10.getAnyOf().get(1)).getItems(), null);
+
+        Schema schema12 = openAPI.getComponents().getSchemas().get("OneOfArrayWithPrefixItems");
+        assertNotEquals(((Schema) schema12.getOneOf().get(0)).getItems(), null);
+        assertEquals(((Schema) schema12.getOneOf().get(0)).getPrefixItems(), null);
+        assertNotEquals(((Schema) schema12.getOneOf().get(1)).getItems(), null);
     }
 
     @Test
