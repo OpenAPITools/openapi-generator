@@ -28,13 +28,6 @@ const isCreateAction = (key) => {
     return !isSearchAction(key);
 }
 
-const requestOptionsMiddleware = (z, bundle, requestOptions) => {
-  // TODO: modify the request options for all outgoing request to your api
-  //       if you are using session authentication without a Bearer token.
-  //       This may be true if your API uses basic authentication or api keys.
-  return requestOptions
-}
-
 const isTrigger = (key) => {
     // TODO: custom logic
     return false
@@ -42,6 +35,24 @@ const isTrigger = (key) => {
 
 const triggerMiddleware = (action) => {
     return action
+}
+
+const requestOptionsMiddleware = (z, bundle, requestOptions) => {
+  // TODO: modify the request options for all outgoing request to your api
+  //       if you are using session authentication without a Bearer token.
+  //       This may be true if your API uses basic authentication or api keys.
+  return requestOptions
+}
+
+const responseOptionsMiddleware = (z, bundle, key, json) => {
+  // TODO: modify if your response needs to be transformed before returning the
+  //      data to Zapier. For example, you may need to map an id field to the
+  //      "id" field. For example, map "contactId": 1 to "id": 1. Or wrap your
+  //      response in a json object. For example, { data: response }.
+  //
+  //      Note that if the type being returned from the endpoint is a primitive
+  //      type, the response is automatically wrapped like this: { data: response }.
+  return json
 }
 
 module.exports = {
@@ -53,6 +64,7 @@ module.exports = {
     isSearchAction: isSearchAction,
     searchMiddleware: searchMiddleware,
     requestOptionsMiddleware: requestOptionsMiddleware,
+    responseOptionsMiddleware: responseOptionsMiddleware,
     isTrigger: isTrigger,
     triggerMiddleware: triggerMiddleware,
     isCreateAction: isCreateAction,
