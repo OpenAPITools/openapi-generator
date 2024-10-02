@@ -106,7 +106,7 @@ defmodule OpenapiPetstore.RequestBuilder do
     headers =
       request
       |> Map.get(:headers, [])
-      |> List.keystore(key, 0, {key, value})
+      |> List.keystore(key, 0, {key, to_string(value)})
 
     Map.put(request, :headers, headers)
   end
