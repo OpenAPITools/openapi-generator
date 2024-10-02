@@ -26,7 +26,7 @@ internal class JSONEncodingHelper {
         return params
     }
 
-    internal class func encodingParameters(forEncodableObject encodableObj: Any?) -> [String: Any]? {
+    internal class func encodingParameters(forEncodableObject encodableObj: Any?, codableHelper: CodableHelper) -> [String: Any]? {
         var params: [String: Any]?
 
         if let encodableObj = encodableObj {

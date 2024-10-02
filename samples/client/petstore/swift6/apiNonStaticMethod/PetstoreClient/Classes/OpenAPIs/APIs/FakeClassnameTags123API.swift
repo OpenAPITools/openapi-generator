@@ -17,7 +17,7 @@ import AnyCodable
 
 open class FakeClassnameTags123API {
     public let openAPIClient: OpenAPIClient
-    public init(openAPIClient: OpenAPIClient) {
+    public init(openAPIClient: OpenAPIClient = OpenAPIClient.shared) {
         self.openAPIClient = openAPIClient
     }
 
@@ -138,7 +138,7 @@ open class FakeClassnameTags123API {
     open func testClassnameWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
         let localVariablePath = "/fake_classname_test"
         let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 

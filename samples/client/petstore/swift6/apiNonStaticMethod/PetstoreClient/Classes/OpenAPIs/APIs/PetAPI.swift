@@ -17,7 +17,7 @@ import AnyCodable
 
 open class PetAPI {
     public let openAPIClient: OpenAPIClient
-    public init(openAPIClient: OpenAPIClient) {
+    public init(openAPIClient: OpenAPIClient = OpenAPIClient.shared) {
         self.openAPIClient = openAPIClient
     }
 
@@ -140,7 +140,7 @@ open class PetAPI {
     open func addPetWithRequestBuilder(body: Pet) -> RequestBuilder<Void> {
         let localVariablePath = "/pet"
         let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -831,7 +831,7 @@ open class PetAPI {
     open func updatePetWithRequestBuilder(body: Pet) -> RequestBuilder<Void> {
         let localVariablePath = "/pet"
         let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 

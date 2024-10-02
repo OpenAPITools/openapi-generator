@@ -24,7 +24,7 @@ extension {{projectName}}API {
 {{#objcCompatible}}@objcMembers {{/objcCompatible}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class {{classname}}{{#objcCompatible}} : NSObject{{/objcCompatible}} {
 {{^apiStaticMethod}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let openAPIClient: OpenAPIClient
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(openAPIClient: OpenAPIClient) {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(openAPIClient: OpenAPIClient = OpenAPIClient.shared) {
         self.openAPIClient = openAPIClient
     }
 {{/apiStaticMethod}}
@@ -425,7 +425,7 @@ extension {{projectName}}API {
         let localVariableParameters = ["body": {{paramName}}]
             {{/isBinary}}
             {{^isBinary}}
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: {{paramName}})
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: {{paramName}}, codableHelper: openAPIClient.codableHelper)
             {{/isBinary}}
         {{/bodyParam}}
         {{^bodyParam}}

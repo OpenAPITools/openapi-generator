@@ -26,7 +26,7 @@ import Foundation
         return params
     }
 
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func encodingParameters(forEncodableObject encodableObj: Any?) -> [String: Any]? {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func encodingParameters(forEncodableObject encodableObj: Any?, codableHelper: CodableHelper) -> [String: Any]? {
         var params: [String: Any]?
 
         if let encodableObj = encodableObj {

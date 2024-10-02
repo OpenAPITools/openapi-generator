@@ -36,7 +36,7 @@ open class UserAPI {
     open class func createUserWithRequestBuilder(body: User, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/user"
         let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -74,7 +74,7 @@ open class UserAPI {
     open class func createUsersWithArrayInputWithRequestBuilder(body: [User], openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/user/createWithArray"
         let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -112,7 +112,7 @@ open class UserAPI {
     open class func createUsersWithListInputWithRequestBuilder(body: [User], openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/user/createWithList"
         let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -320,7 +320,7 @@ open class UserAPI {
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{username}", with: usernamePostEscape, options: .literal, range: nil)
         let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 

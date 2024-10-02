@@ -50,7 +50,7 @@ open class PetAPI {
     open class func addPetWithRequestBuilder(body: Pet, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/pet"
         let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -323,7 +323,7 @@ open class PetAPI {
     open class func updatePetWithRequestBuilder(body: Pet, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/pet"
         let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 

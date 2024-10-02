@@ -26,7 +26,7 @@ open class JSONEncodingHelper {
         return params
     }
 
-    open class func encodingParameters(forEncodableObject encodableObj: Any?) -> [String: Any]? {
+    open class func encodingParameters(forEncodableObject encodableObj: Any?, codableHelper: CodableHelper) -> [String: Any]? {
         var params: [String: Any]?
 
         if let encodableObj = encodableObj {

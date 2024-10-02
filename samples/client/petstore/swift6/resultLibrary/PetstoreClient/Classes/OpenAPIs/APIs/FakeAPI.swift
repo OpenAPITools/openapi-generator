@@ -41,7 +41,7 @@ internal class FakeAPI {
     internal class func fakeOuterBooleanSerializeWithRequestBuilder(body: Bool? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Bool> {
         let localVariablePath = "/fake/outer/boolean"
         let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -85,7 +85,7 @@ internal class FakeAPI {
     internal class func fakeOuterCompositeSerializeWithRequestBuilder(body: OuterComposite? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<OuterComposite> {
         let localVariablePath = "/fake/outer/composite"
         let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -129,7 +129,7 @@ internal class FakeAPI {
     internal class func fakeOuterNumberSerializeWithRequestBuilder(body: Double? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Double> {
         let localVariablePath = "/fake/outer/number"
         let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -173,7 +173,7 @@ internal class FakeAPI {
     internal class func fakeOuterStringSerializeWithRequestBuilder(body: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<String> {
         let localVariablePath = "/fake/outer/string"
         let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -217,7 +217,7 @@ internal class FakeAPI {
     internal class func testBodyWithFileSchemaWithRequestBuilder(body: FileSchemaTestClass, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/fake/body-with-file-schema"
         let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -262,7 +262,7 @@ internal class FakeAPI {
     internal class func testBodyWithQueryParamsWithRequestBuilder(query: String, body: User, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/fake/body-with-query-params"
         let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
@@ -311,7 +311,7 @@ internal class FakeAPI {
     internal class func testClientModelWithRequestBuilder(body: Client, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Client> {
         let localVariablePath = "/fake"
         let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -653,7 +653,7 @@ internal class FakeAPI {
     internal class func testInlineAdditionalPropertiesWithRequestBuilder(param: [String: String], openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/fake/inline-additionalProperties"
         let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: param)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: param, codableHelper: openAPIClient.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 

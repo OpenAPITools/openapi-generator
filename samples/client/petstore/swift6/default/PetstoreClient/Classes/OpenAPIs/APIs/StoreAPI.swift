@@ -187,7 +187,7 @@ open class StoreAPI {
     open class func placeOrderWithRequestBuilder(body: Order, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Order> {
         let localVariablePath = "/store/order"
         let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
