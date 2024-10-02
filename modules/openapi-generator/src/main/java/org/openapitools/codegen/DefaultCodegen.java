@@ -2632,6 +2632,8 @@ public class DefaultCodegen implements CodegenConfig {
 
         // TODO revise the logic below to set discriminator, xml attributes
         if (supportsInheritance || supportsMixins) {
+            // FIXME Comment out the next line, and allVars will be used in the template to generate the missing fields.
+            // Why is m.allVars being reset in this case?
             m.allVars = new ArrayList<>();
             if (composed.getAllOf() != null) {
                 int modelImplCnt = 0; // only one inline object allowed in a ComposedModel
