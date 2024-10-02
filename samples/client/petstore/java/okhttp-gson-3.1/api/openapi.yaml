@@ -815,6 +815,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/myObject'
                 nullable: true
+                type: array
           description: ""
       tags:
       - fake
@@ -1185,6 +1186,7 @@ components:
       - type: string
       - items:
           type: string
+        type: array
   securitySchemes:
     petstore_auth:
       flows:
