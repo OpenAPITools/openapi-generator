@@ -104,6 +104,7 @@ public class Swift6ClientCodegenOptionsProvider implements OptionsProvider {
                 .put(Swift6ClientCodegen.MAP_FILE_BINARY_TO_DATA, "false")
                 .put(Swift6ClientCodegen.USE_CUSTOM_DATE_WITHOUT_TIME, "false")
                 .put(Swift6ClientCodegen.VALIDATABLE, "true")
+                .put(Swift6ClientCodegen.ONE_OF_UNKNOWN_DEFAULT_CASE, "false")
                 .put(Swift6ClientCodegen.USE_CLASSES, "false")
                 .put(Swift6ClientCodegen.API_STATIC_METHOD, 
                         API_STATIC_METHOD_VALUE)

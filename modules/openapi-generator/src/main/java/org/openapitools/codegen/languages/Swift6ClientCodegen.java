@@ -67,6 +67,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String LENIENT_TYPE_CAST = "lenientTypeCast";
     public static final String USE_SPM_FILE_STRUCTURE = "useSPMFileStructure";
     public static final String SWIFT_PACKAGE_PATH = "swiftPackagePath";
+    public static final String ONE_OF_UNKNOWN_DEFAULT_CASE = "oneOfUnknownDefaultCase";
     public static final String USE_CLASSES = "useClasses";
     public static final String USE_BACKTICK_ESCAPES = "useBacktickEscapes";
     public static final String GENERATE_MODEL_ADDITIONAL_PROPERTIES = "generateModelAdditionalProperties";
@@ -103,6 +104,8 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean useSPMFileStructure = false;
     @Setter
     protected String swiftPackagePath = "Classes" + File.separator + "OpenAPIs";
+    @Setter
+    protected boolean oneOfUnknownDefaultCase = false;
     @Setter
     protected boolean useClasses = false;
     @Setter
@@ -321,6 +324,9 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(GENERATE_MODEL_ADDITIONAL_PROPERTIES,
                 "Generate model additional properties (default: true)")
                 .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(ONE_OF_UNKNOWN_DEFAULT_CASE,
+                "Add unknownDefault case to oneOf enum (default: false)")
+                .defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(new CliOption(CodegenConstants.API_NAME_PREFIX, CodegenConstants.API_NAME_PREFIX_DESC));
         cliOptions.add(new CliOption(USE_SPM_FILE_STRUCTURE, "Use SPM file structure"
@@ -572,6 +578,11 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         } else {
             typeMapping.put("date", "Date");
         }
+
+        if (additionalProperties.containsKey(ONE_OF_UNKNOWN_DEFAULT_CASE)) {
+            setOneOfUnknownDefaultCase(convertPropertyToBooleanAndWriteBack(ONE_OF_UNKNOWN_DEFAULT_CASE));
+        }
+        additionalProperties.put(ONE_OF_UNKNOWN_DEFAULT_CASE, oneOfUnknownDefaultCase);
 
         if (additionalProperties.containsKey(USE_CLASSES)) {
             setUseClasses(convertPropertyToBooleanAndWriteBack(USE_CLASSES));

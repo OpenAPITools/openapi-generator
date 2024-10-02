@@ -34,6 +34,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |mapFileBinaryToData|[WARNING] This option will be removed and enabled by default in the future once we've enhanced the code to work with `Data` in all the different situations. Map File and Binary to Data (default: false)| |false|
 |nonPublicApi|Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.(default: false)| |null|
 |objcCompatible|Add additional properties and methods for Objective-C compatibility (default: false)| |null|
+|oneOfUnknownDefaultCase|Add unknownDefault case to oneOf enum (default: false)| |false|
 |podAuthors|Authors used for Podspec| |null|
 |podDescription|Description used for Podspec| |null|
 |podDocumentationURL|Documentation URL used for Podspec| |null|
