@@ -16,7 +16,10 @@ import AnyCodable
 #endif
 
 open class FakeClassnameTags123API {
-    public init() {}
+    public let openAPIClient: OpenAPIClient
+    public init(openAPIClient: OpenAPIClient = OpenAPIClient.shared) {
+        self.openAPIClient = openAPIClient
+    }
 
     /**
      To test class name in snake case
@@ -24,7 +27,7 @@ open class FakeClassnameTags123API {
      - parameter body: (body) client model 
      - returns: Promise<Client>
      */
-    open func testClassname( body: Client) -> Promise<Client> {
+    open func testClassname(body: Client) -> Promise<Client> {
         let deferred = Promise<Client>.pending()
         testClassnameWithRequestBuilder(body: body).execute { result in
             switch result {
@@ -41,12 +44,11 @@ open class FakeClassnameTags123API {
      To test class name in snake case
      
      - parameter body: (body) client model 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Client>
      */
-    open func testClassname(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue) -> Observable<Client> {
+    open func testClassname(body: Client) -> Observable<Client> {
         return Observable.create { observer -> Disposable in
-            let requestTask = self.testClassnameWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+            let requestTask = self.testClassnameWithRequestBuilder(body: body).execute { result in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body)
@@ -108,12 +110,11 @@ open class FakeClassnameTags123API {
      To test class name in snake case
      
      - parameter body: (body) client model 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the result
      */
     @discardableResult
-    open func testClassname(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue, completion: @Sendable @escaping (_ result: Swift.Result<Client, ErrorResponse>) -> Void) -> RequestTask {
-        return testClassnameWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+    open func testClassname(body: Client, completion: @Sendable @escaping (_ result: Swift.Result<Client, ErrorResponse>) -> Void) -> RequestTask {
+        return testClassnameWithRequestBuilder(body: body).execute { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body))
@@ -131,12 +132,13 @@ open class FakeClassnameTags123API {
        - type: apiKey api_key_query (QUERY)
        - name: api_key_query
      - parameter body: (body) client model 
+     
      - returns: RequestBuilder<Client> 
      */
     open func testClassnameWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
         let localVariablePath = "/fake_classname_test"
-        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -146,8 +148,8 @@ open class FakeClassnameTags123API {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Client>.Type = openAPIClient.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, openAPIClient: openAPIClient)
     }
 }

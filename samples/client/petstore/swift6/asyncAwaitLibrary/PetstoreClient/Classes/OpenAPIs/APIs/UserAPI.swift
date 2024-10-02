@@ -16,11 +16,12 @@ open class UserAPI {
      Create user
      
      - parameter body: (body) Created user object 
+     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func createUser(body: User) async throws(ErrorResponse) {
-        return try await createUserWithRequestBuilder(body: body).execute().body
+    open class func createUser(body: User, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
+        return try await createUserWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -28,12 +29,14 @@ open class UserAPI {
      - POST /user
      - This can only be done by the logged in user.
      - parameter body: (body) Created user object 
+     
+     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func createUserWithRequestBuilder(body: User) -> RequestBuilder<Void> {
+    open class func createUserWithRequestBuilder(body: User, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/user"
-        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -43,32 +46,35 @@ open class UserAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
     }
 
     /**
      Creates list of users with given input array
      
      - parameter body: (body) List of user object 
+     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func createUsersWithArrayInput(body: [User]) async throws(ErrorResponse) {
-        return try await createUsersWithArrayInputWithRequestBuilder(body: body).execute().body
+    open class func createUsersWithArrayInput(body: [User], openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
+        return try await createUsersWithArrayInputWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute().body
     }
 
     /**
      Creates list of users with given input array
      - POST /user/createWithArray
      - parameter body: (body) List of user object 
+     
+     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func createUsersWithArrayInputWithRequestBuilder(body: [User]) -> RequestBuilder<Void> {
+    open class func createUsersWithArrayInputWithRequestBuilder(body: [User], openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/user/createWithArray"
-        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -78,32 +84,35 @@ open class UserAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
     }
 
     /**
      Creates list of users with given input array
      
      - parameter body: (body) List of user object 
+     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func createUsersWithListInput(body: [User]) async throws(ErrorResponse) {
-        return try await createUsersWithListInputWithRequestBuilder(body: body).execute().body
+    open class func createUsersWithListInput(body: [User], openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
+        return try await createUsersWithListInputWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute().body
     }
 
     /**
      Creates list of users with given input array
      - POST /user/createWithList
      - parameter body: (body) List of user object 
+     
+     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func createUsersWithListInputWithRequestBuilder(body: [User]) -> RequestBuilder<Void> {
+    open class func createUsersWithListInputWithRequestBuilder(body: [User], openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/user/createWithList"
-        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -113,20 +122,21 @@ open class UserAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
     }
 
     /**
      Delete user
      
      - parameter username: (path) The name that needs to be deleted 
+     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteUser(username: String) async throws(ErrorResponse) {
-        return try await deleteUserWithRequestBuilder(username: username).execute().body
+    open class func deleteUser(username: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
+        return try await deleteUserWithRequestBuilder(username: username, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -134,14 +144,16 @@ open class UserAPI {
      - DELETE /user/{username}
      - This can only be done by the logged in user.
      - parameter username: (path) The name that needs to be deleted 
+     
+     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func deleteUserWithRequestBuilder(username: String) -> RequestBuilder<Void> {
+    open class func deleteUserWithRequestBuilder(username: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/user/{username}"
         let usernamePreEscape = "\(APIHelper.mapValueToPathItem(username))"
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{username}", with: usernamePostEscape, options: .literal, range: nil)
-        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -152,34 +164,37 @@ open class UserAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
     }
 
     /**
      Get user by user name
      
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
+     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: User
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getUserByName(username: String) async throws(ErrorResponse) -> User {
-        return try await getUserByNameWithRequestBuilder(username: username).execute().body
+    open class func getUserByName(username: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> User {
+        return try await getUserByNameWithRequestBuilder(username: username, openAPIClient: openAPIClient).execute().body
     }
 
     /**
      Get user by user name
      - GET /user/{username}
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
+     
+     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<User> 
      */
-    open class func getUserByNameWithRequestBuilder(username: String) -> RequestBuilder<User> {
+    open class func getUserByNameWithRequestBuilder(username: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<User> {
         var localVariablePath = "/user/{username}"
         let usernamePreEscape = "\(APIHelper.mapValueToPathItem(username))"
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{username}", with: usernamePostEscape, options: .literal, range: nil)
-        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -190,9 +205,9 @@ open class UserAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<User>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<User>.Type = openAPIClient.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
     }
 
     /**
@@ -200,11 +215,12 @@ open class UserAPI {
      
      - parameter username: (query) The user name for login 
      - parameter password: (query) The password for login in clear text 
+     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: String
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func loginUser(username: String, password: String) async throws(ErrorResponse) -> String {
-        return try await loginUserWithRequestBuilder(username: username, password: password).execute().body
+    open class func loginUser(username: String, password: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> String {
+        return try await loginUserWithRequestBuilder(username: username, password: password, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -212,18 +228,20 @@ open class UserAPI {
      - GET /user/login
      - responseHeaders: [X-Rate-Limit(Int), X-Expires-After(Date)]
      - parameter username: (query) The user name for login 
-     - parameter password: (query) The password for login in clear text 
+          - parameter password: (query) The password for login in clear text 
+     
+     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<String> 
      */
-    open class func loginUserWithRequestBuilder(username: String, password: String) -> RequestBuilder<String> {
+    open class func loginUserWithRequestBuilder(username: String, password: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<String> {
         let localVariablePath = "/user/login"
-        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "username": (wrappedValue: username.encodeToJSON(), isExplode: false),
-            "password": (wrappedValue: password.encodeToJSON(), isExplode: false),
+            "username": (wrappedValue: username.encodeToJSON(codableHelper: openAPIClient.codableHelper), isExplode: false),
+            "password": (wrappedValue: password.encodeToJSON(codableHelper: openAPIClient.codableHelper), isExplode: false),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -232,29 +250,32 @@ open class UserAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<String>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<String>.Type = openAPIClient.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
     }
 
     /**
      Logs out current logged in user session
      
+     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func logoutUser() async throws(ErrorResponse) {
-        return try await logoutUserWithRequestBuilder().execute().body
+    open class func logoutUser(openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
+        return try await logoutUserWithRequestBuilder(openAPIClient: openAPIClient).execute().body
     }
 
     /**
      Logs out current logged in user session
      - GET /user/logout
+
+     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func logoutUserWithRequestBuilder() -> RequestBuilder<Void> {
+    open class func logoutUserWithRequestBuilder(openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/user/logout"
-        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -265,9 +286,9 @@ open class UserAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
     }
 
     /**
@@ -275,11 +296,12 @@ open class UserAPI {
      
      - parameter username: (path) name that need to be deleted 
      - parameter body: (body) Updated user object 
+     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func updateUser(username: String, body: User) async throws(ErrorResponse) {
-        return try await updateUserWithRequestBuilder(username: username, body: body).execute().body
+    open class func updateUser(username: String, body: User, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
+        return try await updateUserWithRequestBuilder(username: username, body: body, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -287,16 +309,18 @@ open class UserAPI {
      - PUT /user/{username}
      - This can only be done by the logged in user.
      - parameter username: (path) name that need to be deleted 
-     - parameter body: (body) Updated user object 
+          - parameter body: (body) Updated user object 
+     
+     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func updateUserWithRequestBuilder(username: String, body: User) -> RequestBuilder<Void> {
+    open class func updateUserWithRequestBuilder(username: String, body: User, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/user/{username}"
         let usernamePreEscape = "\(APIHelper.mapValueToPathItem(username))"
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{username}", with: usernamePostEscape, options: .literal, range: nil)
-        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -306,8 +330,8 @@ open class UserAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
     }
 }

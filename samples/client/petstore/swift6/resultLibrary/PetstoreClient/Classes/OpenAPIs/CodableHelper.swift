@@ -8,8 +8,7 @@
 import Foundation
 
 internal class CodableHelper: @unchecked Sendable {
-    private init() {}
-    internal static let shared = CodableHelper()
+    internal init() {}
 
     private var customDateFormatter: DateFormatter?
     private var defaultDateFormatter: DateFormatter = OpenISO8601DateFormatter()

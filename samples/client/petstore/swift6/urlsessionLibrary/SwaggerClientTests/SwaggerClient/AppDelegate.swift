@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         // Customize requestBuilderFactory
-        PetstoreClientAPI.shared.requestBuilderFactory = BearerRequestBuilderFactory()
+        OpenAPIClient.shared.requestBuilderFactory = BearerRequestBuilderFactory()
         
         return true
     }

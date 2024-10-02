@@ -9,12 +9,12 @@ import Foundation
 
 open class JSONEncodingHelper {
 
-    open class func encodingParameters<T: Encodable>(forEncodableObject encodableObj: T?) -> [String: Any]? {
+    open class func encodingParameters<T: Encodable>(forEncodableObject encodableObj: T?, codableHelper: CodableHelper) -> [String: Any]? {
         var params: [String: Any]?
 
         // Encode the Encodable object
         if let encodableObj = encodableObj {
-            let encodeResult = CodableHelper.shared.encode(encodableObj)
+            let encodeResult = codableHelper.encode(encodableObj)
             do {
                 let data = try encodeResult.get()
                 params = JSONDataEncoding.encodingParameters(jsonData: data)
@@ -26,7 +26,7 @@ open class JSONEncodingHelper {
         return params
     }
 
-    open class func encodingParameters(forEncodableObject encodableObj: Any?) -> [String: Any]? {
+    open class func encodingParameters(forEncodableObject encodableObj: Any?, codableHelper: CodableHelper) -> [String: Any]? {
         var params: [String: Any]?
 
         if let encodableObj = encodableObj {

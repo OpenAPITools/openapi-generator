@@ -19,12 +19,13 @@ open class AnotherFakeAPI {
      To test special tags
      
      - parameter body: (body) client model 
+     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: AnyPublisher<Client, Error>
      */
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func call123testSpecialTags(body: Client) -> AnyPublisher<Client, Error> {
-        let requestBuilder = call123testSpecialTagsWithRequestBuilder(body: body)
+    open class func call123testSpecialTags(body: Client, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> AnyPublisher<Client, Error> {
+        let requestBuilder = call123testSpecialTagsWithRequestBuilder(body: body, openAPIClient: openAPIClient)
         let requestTask = requestBuilder.requestTask
         return Future<Client, Error> { promise in
             nonisolated(unsafe) let promise = promise
@@ -49,12 +50,14 @@ open class AnotherFakeAPI {
      - PATCH /another-fake/dummy
      - To test special tags and operation ID starting with number
      - parameter body: (body) client model 
+     
+     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Client> 
      */
-    open class func call123testSpecialTagsWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
+    open class func call123testSpecialTagsWithRequestBuilder(body: Client, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Client> {
         let localVariablePath = "/another-fake/dummy"
-        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -64,8 +67,8 @@ open class AnotherFakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Client>.Type = openAPIClient.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
     }
 }

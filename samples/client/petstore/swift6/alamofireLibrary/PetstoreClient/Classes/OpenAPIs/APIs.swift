@@ -10,49 +10,74 @@ import FoundationNetworking
 #endif
 import Alamofire
 
-open class PetstoreClientAPI: @unchecked Sendable {
-    private init() {}
-    public static let shared = PetstoreClientAPI()
-
-    public var basePath = "http://petstore.swagger.io:80/v2"
-    public var customHeaders: [String: String] = [:]
+open class OpenAPIClient: @unchecked Sendable {
+    public var basePath: String
+    public var customHeaders: [String: String]
     public var credential: URLCredential?
-    public var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory()
-    public var apiResponseQueue: DispatchQueue = .main
+    public var requestBuilderFactory: RequestBuilderFactory
+    public var apiResponseQueue: DispatchQueue
+    public var codableHelper: CodableHelper
+
     /// Configures the range of HTTP status codes that will result in a successful response
     ///
     /// If a HTTP status code is outside of this range the response will be interpreted as failed.
-    public var successfulStatusCodeRange: Range = 200..<300
+    public var successfulStatusCodeRange: Range<Int>
     /// ResponseSerializer that will be used by the generator for `Data` responses
     ///
     /// If unchanged, Alamofires default `DataResponseSerializer` will be used. 
-    public var dataResponseSerializer: AnyResponseSerializer<Data> = AnyResponseSerializer(DataResponseSerializer())
+    public var dataResponseSerializer: AnyResponseSerializer<Data>
     /// ResponseSerializer that will be used by the generator for `String` responses
     ///
     /// If unchanged, Alamofires default `StringResponseSerializer` will be used. 
-    public var stringResponseSerializer: AnyResponseSerializer<String> = AnyResponseSerializer(StringResponseSerializer())
+    public var stringResponseSerializer: AnyResponseSerializer<String>
+
+    public init(
+        basePath: String = "http://petstore.swagger.io:80/v2",
+        customHeaders: [String: String] = [:],
+        credential: URLCredential? = nil,
+        requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory(),
+        apiResponseQueue: DispatchQueue = .main,
+        codableHelper: CodableHelper = CodableHelper(),
+        successfulStatusCodeRange: Range<Int> = 200..<300,
+        dataResponseSerializer: AnyResponseSerializer<Data> = AnyResponseSerializer(DataResponseSerializer()),
+        stringResponseSerializer: AnyResponseSerializer<String> = AnyResponseSerializer(StringResponseSerializer())
+    ) {
+        self.basePath = basePath
+        self.customHeaders = customHeaders
+        self.credential = credential
+        self.requestBuilderFactory = requestBuilderFactory
+        self.apiResponseQueue = apiResponseQueue
+        self.codableHelper = codableHelper
+        self.successfulStatusCodeRange = successfulStatusCodeRange
+        self.dataResponseSerializer = dataResponseSerializer
+        self.stringResponseSerializer = stringResponseSerializer
+    }
+
+    public static let shared = OpenAPIClient()
 }
 
 open class RequestBuilder<T>: @unchecked Sendable {
-    var credential: URLCredential?
-    var headers: [String: String]
+    public var credential: URLCredential?
+    public var headers: [String: String]
     public let parameters: [String: Any]?
     public let method: String
     public let URLString: String
     public let requestTask: RequestTask = RequestTask()
     public let requiresAuthentication: Bool
+    public let openAPIClient: OpenAPIClient
 
     /// Optional block to obtain a reference to the request's progress instance when available.
     public var onProgressReady: ((Progress) -> Void)?
 
-    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool) {
+    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, openAPIClient: OpenAPIClient = OpenAPIClient.shared) {
         self.method = method
         self.URLString = URLString
         self.parameters = parameters
         self.headers = headers
         self.requiresAuthentication = requiresAuthentication
+        self.openAPIClient = openAPIClient
 
-        addHeaders(PetstoreClientAPI.shared.customHeaders)
+        addHeaders(openAPIClient.customHeaders)
     }
 
     open func addHeaders(_ aHeaders: [String: String]) {
@@ -62,7 +87,7 @@ open class RequestBuilder<T>: @unchecked Sendable {
     }
 
     @discardableResult
-    open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue, _ completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+    open func execute(completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         return requestTask
     }
 
@@ -74,7 +99,7 @@ open class RequestBuilder<T>: @unchecked Sendable {
     }
 
     open func addCredential() -> Self {
-        credential = PetstoreClientAPI.shared.credential
+        credential = openAPIClient.credential
         return self
     }
 }

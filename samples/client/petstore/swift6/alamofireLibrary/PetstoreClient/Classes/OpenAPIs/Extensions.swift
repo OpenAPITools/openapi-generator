@@ -13,97 +13,97 @@ import AnyCodable
 #endif
 
 extension Bool: JSONEncodable {
-    func encodeToJSON() -> Any { self }
+    func encodeToJSON(codableHelper: CodableHelper) -> Any { self }
 }
 
 extension Float: JSONEncodable {
-    func encodeToJSON() -> Any { self }
+    func encodeToJSON(codableHelper: CodableHelper) -> Any { self }
 }
 
 extension Int: JSONEncodable {
-    func encodeToJSON() -> Any { self }
+    func encodeToJSON(codableHelper: CodableHelper) -> Any { self }
 }
 
 extension Int32: JSONEncodable {
-    func encodeToJSON() -> Any { self }
+    func encodeToJSON(codableHelper: CodableHelper) -> Any { self }
 }
 
 extension Int64: JSONEncodable {
-    func encodeToJSON() -> Any { self }
+    func encodeToJSON(codableHelper: CodableHelper) -> Any { self }
 }
 
 extension Double: JSONEncodable {
-    func encodeToJSON() -> Any { self }
+    func encodeToJSON(codableHelper: CodableHelper) -> Any { self }
 }
 
 extension Decimal: JSONEncodable {
-    func encodeToJSON() -> Any { self }
+    func encodeToJSON(codableHelper: CodableHelper) -> Any { self }
 }
 
 extension String: JSONEncodable {
-    func encodeToJSON() -> Any { self }
+    func encodeToJSON(codableHelper: CodableHelper) -> Any { self }
 }
 
 extension URL: JSONEncodable {
-    func encodeToJSON() -> Any { self }
+    func encodeToJSON(codableHelper: CodableHelper) -> Any { self }
 }
 
 extension UUID: JSONEncodable {
-    func encodeToJSON() -> Any { self }
+    func encodeToJSON(codableHelper: CodableHelper) -> Any { self }
 }
 
 extension RawRepresentable where RawValue: JSONEncodable {
-    func encodeToJSON() -> Any { return self.rawValue }
+    func encodeToJSON(codableHelper: CodableHelper) -> Any { return self.rawValue }
 }
 
-private func encodeIfPossible<T>(_ object: T) -> Any {
+private func encodeIfPossible<T>(_ object: T, codableHelper: CodableHelper) -> Any {
     if let encodableObject = object as? JSONEncodable {
-        return encodableObject.encodeToJSON()
+        return encodableObject.encodeToJSON(codableHelper: codableHelper)
     } else {
         return object
     }
 }
 
 extension Array: JSONEncodable {
-    func encodeToJSON() -> Any {
-        return self.map(encodeIfPossible)
+    func encodeToJSON(codableHelper: CodableHelper) -> Any {
+        return self.map { encodeIfPossible($0, codableHelper: codableHelper) }
     }
 }
 
 extension Set: JSONEncodable {
-    func encodeToJSON() -> Any {
-        return Array(self).encodeToJSON()
+    func encodeToJSON(codableHelper: CodableHelper) -> Any {
+        return Array(self).encodeToJSON(codableHelper: codableHelper)
     }
 }
 
 extension Dictionary: JSONEncodable {
-    func encodeToJSON() -> Any {
+    func encodeToJSON(codableHelper: CodableHelper) -> Any {
         var dictionary = [AnyHashable: Any]()
         for (key, value) in self {
-            dictionary[key] = encodeIfPossible(value)
+            dictionary[key] = encodeIfPossible(value, codableHelper: codableHelper)
         }
         return dictionary
     }
 }
 
 extension Data: JSONEncodable {
-    func encodeToJSON() -> Any {
+    func encodeToJSON(codableHelper: CodableHelper) -> Any {
         return self.base64EncodedString(options: Data.Base64EncodingOptions())
     }
 }
 
 extension Date: JSONEncodable {
-    func encodeToJSON() -> Any {
-        return CodableHelper.shared.dateFormatter.string(from: self)
+    func encodeToJSON(codableHelper: CodableHelper) -> Any {
+        return codableHelper.dateFormatter.string(from: self)
     }
 }
 
 extension JSONEncodable where Self: Encodable {
-    func encodeToJSON() -> Any {
-        guard let data = try? CodableHelper.shared.jsonEncoder.encode(self) else {
+    func encodeToJSON(codableHelper: CodableHelper) -> Any {
+        guard let data = try? codableHelper.jsonEncoder.encode(self) else {
             fatalError("Could not encode to json: \(self)")
         }
-        return data.encodeToJSON()
+        return data.encodeToJSON(codableHelper: codableHelper)
     }
 }
 
@@ -227,10 +227,4 @@ extension KeyedDecodingContainerProtocol {
         return decimalValue
     }
 
-}
-
-extension HTTPURLResponse {
-    var isStatusCodeSuccessful: Bool {
-        return PetstoreClientAPI.shared.successfulStatusCodeRange.contains(statusCode)
-    }
 }
