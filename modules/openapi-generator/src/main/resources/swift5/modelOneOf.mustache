@@ -3,7 +3,7 @@
     case type{{.}}({{.}})
     {{/oneOf}}
     {{#oneOfUnknownDefaultCase}}
-    case unknownDefault
+    case unknownDefaultOpenApi
     {{/oneOfUnknownDefaultCase}}
 
     public func encode(to encoder: Encoder) throws {
@@ -14,7 +14,7 @@
             try container.encode(value)
         {{/oneOf}}
         {{#oneOfUnknownDefaultCase}}
-        case unknownDefault(let type):
+        case unknownDefaultOpenApi(let type):
             try container.encodeNil()
         {{/oneOfUnknownDefaultCase}}
         }
@@ -33,7 +33,7 @@
         {{/oneOf}}
         } else {
             {{#oneOfUnknownDefaultCase}}
-            self = .unknownDefault
+            self = .unknownDefaultOpenApi
             {{/oneOfUnknownDefaultCase}}
             {{^oneOfUnknownDefaultCase}}
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of {{classname}}"))
