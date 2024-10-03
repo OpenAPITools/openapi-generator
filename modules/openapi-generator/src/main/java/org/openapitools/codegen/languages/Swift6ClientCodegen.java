@@ -98,9 +98,9 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     @Setter
     protected boolean swiftUseApiNamespace = false;
     @Setter
-    protected boolean useSPMFileStructure = false;
+    protected boolean useSPMFileStructure = true;
     @Setter
-    protected String swiftPackagePath = "Classes" + File.separator + "OpenAPIs";
+    protected String swiftPackagePath = "Sources" + File.separator + projectName;
     @Setter
     protected boolean oneOfUnknownDefaultCase = false;
     @Setter
@@ -323,9 +323,9 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         cliOptions.add(new CliOption(CodegenConstants.API_NAME_PREFIX, CodegenConstants.API_NAME_PREFIX_DESC));
         cliOptions.add(new CliOption(USE_SPM_FILE_STRUCTURE, "Use SPM file structure"
-                + " and set the source path to Sources" + File.separator + "{{projectName}} (default: false)."));
+                + " and set the source path to Sources" + File.separator + "{{projectName}} (default: true)."));
         cliOptions.add(new CliOption(SWIFT_PACKAGE_PATH, "Set a custom source path instead of "
-                + projectName + File.separator + "Classes" + File.separator + "OpenAPIs" + "."));
+                + projectName + File.separator + "Sources" + File.separator + "{{projectName}}" + "."));
         cliOptions.add(new CliOption(USE_CLASSES, "Use final classes for models instead of structs (default: false)")
                 .defaultValue(Boolean.FALSE.toString()));
 
@@ -458,7 +458,6 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         } else {
             additionalProperties.put(PROJECT_NAME, projectName);
         }
-        sourceFolder = projectName + File.separator + sourceFolder;
 
         // Setup nonPublicApi option, which generates code with reduced access
         // modifiers; allows embedding elsewhere without exposing non-public API calls
@@ -524,7 +523,11 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         if (additionalProperties.containsKey(USE_SPM_FILE_STRUCTURE)) {
             setUseSPMFileStructure(convertPropertyToBooleanAndWriteBack(USE_SPM_FILE_STRUCTURE));
+        }
+        if (useSPMFileStructure) {
             sourceFolder = "Sources" + File.separator + projectName;
+        } else {
+            sourceFolder = projectName + File.separator + "Classes" + File.separator + "OpenAPIs";
         }
 
         if (additionalProperties.containsKey(SWIFT_PACKAGE_PATH)
