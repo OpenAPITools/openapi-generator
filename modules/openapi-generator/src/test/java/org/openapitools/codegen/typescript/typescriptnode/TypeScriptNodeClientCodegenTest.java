@@ -310,7 +310,7 @@ public class TypeScriptNodeClientCodegenTest {
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
-        //files.forEach(File::deleteOnExit);
+        files.forEach(File::deleteOnExit);
 
         TestUtils.assertFileContains(Paths.get(output + "/api/defaultApi.ts"),
                 "* @deprecated", 118);
