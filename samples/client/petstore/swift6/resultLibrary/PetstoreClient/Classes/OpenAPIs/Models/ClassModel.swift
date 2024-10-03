@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 /** Model for testing model with \&quot;_class\&quot; property */
 internal struct ClassModel: Codable, JSONEncodable {

@@ -8,9 +8,6 @@ import Foundation
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 @preconcurrency import PromiseKit
 
 extension Bool: JSONEncodable {

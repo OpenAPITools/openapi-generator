@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 /** Model for testing reserved words */
 @objcMembers public class Return: NSObject, Codable, JSONEncodable {

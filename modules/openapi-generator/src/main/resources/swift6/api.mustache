@@ -11,10 +11,7 @@ import Foundation{{#usePromiseKit}}
 #if canImport(Combine)
 import Combine
 #endif{{/useCombine}}{{#useVapor}}
-import Vapor{{/useVapor}}
-#if canImport(AnyCodable)
-import AnyCodable
-#endif{{#swiftUseApiNamespace}}
+import Vapor{{/useVapor}}{{#swiftUseApiNamespace}}
 
 extension {{projectName}}API {
 {{/swiftUseApiNamespace}}

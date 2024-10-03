@@ -1,15 +1,6 @@
 {
-  "originHash" : "48faf8e7b544007b7b8b639e29704d9531ea5fdc227db7a2ddaee149d8c41e39",
+  "originHash" : "6fd6d6a686ec78068b932a1816e15c281f6491eaa381ec9f343d63363e2f0bd1",
   "pins" : [
-    {
-      "identity" : "anycodable",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Flight-School/AnyCodable",
-      "state" : {
-        "revision" : "862808b2070cd908cb04f9aafe7de83d35f81b05",
-        "version" : "0.6.7"
-      }
-    },
     {
       "identity" : "promisekit",
       "kind" : "remoteSourceControl",

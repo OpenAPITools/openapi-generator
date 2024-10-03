@@ -11,9 +11,6 @@ import Foundation
 #if canImport(Combine)
 import Combine
 #endif
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class FakeClassnameTags123API {
     public let openAPIClient: OpenAPIClient

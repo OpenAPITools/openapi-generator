@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 /** Model for testing model name same as property name */
 public struct Name: Codable, JSONEncodable, Hashable {

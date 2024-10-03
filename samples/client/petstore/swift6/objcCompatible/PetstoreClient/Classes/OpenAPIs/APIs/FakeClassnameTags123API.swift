@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 @objcMembers open class FakeClassnameTags123API : NSObject {
 

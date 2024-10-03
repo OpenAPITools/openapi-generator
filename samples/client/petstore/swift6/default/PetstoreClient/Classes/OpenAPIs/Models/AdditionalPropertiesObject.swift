@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 public struct AdditionalPropertiesObject: Codable, JSONEncodable, Hashable {
 
@@ -22,9 +19,9 @@ public struct AdditionalPropertiesObject: Codable, JSONEncodable, Hashable {
         case name
     }
 
-    public var additionalProperties: [String: [String: AnyCodable]] = [:]
+    public var additionalProperties: [String: [String: JSONValue]] = [:]
 
-    public subscript(key: String) -> [String: AnyCodable]? {
+    public subscript(key: String) -> [String: JSONValue]? {
         get {
             if let value = additionalProperties[key] {
                 return value
@@ -55,7 +52,7 @@ public struct AdditionalPropertiesObject: Codable, JSONEncodable, Hashable {
         var nonAdditionalPropertyKeys = Set<String>()
         nonAdditionalPropertyKeys.insert("name")
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
-        additionalProperties = try additionalPropertiesContainer.decodeMap([String: AnyCodable].self, excludedKeys: nonAdditionalPropertyKeys)
+        additionalProperties = try additionalPropertiesContainer.decodeMap([String: JSONValue].self, excludedKeys: nonAdditionalPropertyKeys)
     }
 }
 

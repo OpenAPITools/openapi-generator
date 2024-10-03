@@ -76,7 +76,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 <ul class="column-ul">
 <li>Any</li>
-<li>AnyCodable</li>
 <li>AnyObject</li>
 <li>Bool</li>
 <li>Character</li>
@@ -88,6 +87,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>Int</li>
 <li>Int32</li>
 <li>Int64</li>
+<li>JSONValue</li>
 <li>OpenAPIDateWithoutTime</li>
 <li>String</li>
 <li>URL</li>
