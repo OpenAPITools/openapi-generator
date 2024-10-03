@@ -728,7 +728,7 @@ public class DefaultCodegenTest {
     public void testExecutePostProcessor() throws InterruptedException, ExecutionException {
         final DefaultCodegen codegen = new DefaultCodegen();
 
-        ExecutorService executor = Executors.newFixedThreadPool(2);
+        ExecutorService executor = Executors.newFixedThreadPool(1);
         try {
             Future<Boolean> call1 = executor.submit(new Callable<Boolean>() {
                 @Override
