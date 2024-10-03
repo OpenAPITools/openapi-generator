@@ -173,6 +173,18 @@ public class TestUtils {
         }
     }
 
+    public static void assertFileContains(Path path, String line, int lineNumber) {
+        try {
+            List<String> lines = Files.readAllLines(path);
+            assertNotNull(lines);
+
+            String target = lines.get(lineNumber - 1);
+            assertTrue(target.contains(line), "File does not contain line [" + line + "] at lineNumber [" + lineNumber + "]");
+        } catch (IOException e) {
+            fail("Unable to evaluate file " + path);
+        }
+    }
+
     public static String linearize(String target) {
         return target.replaceAll("\r?\n", "").replaceAll("\\s+", "\\s");
     }
