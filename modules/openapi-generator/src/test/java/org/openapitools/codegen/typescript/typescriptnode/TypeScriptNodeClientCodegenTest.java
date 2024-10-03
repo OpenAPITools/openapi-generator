@@ -296,6 +296,26 @@ public class TypeScriptNodeClientCodegenTest {
                 "* @deprecated");
     }
 
+    @Test
+    public void testDeprecatedOperation() throws IOException {
+
+        File output = Files.createTempDirectory("typescriptnodeclient_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-node")
+                .setInputSpec("src/test/resources/3_0/typescript-node/SampleProject.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+        //files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileContains(Paths.get(output + "/api/defaultApi.ts"),
+                "* @deprecated", 118);
+    }
+
     private OperationsMap createPostProcessOperationsMapWithImportName(String importName) {
         OperationMap operations = new OperationMap();
         operations.setClassname("Pet");

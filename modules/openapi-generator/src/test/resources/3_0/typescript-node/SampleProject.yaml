@@ -147,6 +147,7 @@ paths:
     patch:
       summary: Update User Information
       operationId: patch-users-userId
+      deprecated: true
       responses:
         '200':
           description: User Updated
