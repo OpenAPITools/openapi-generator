@@ -86,9 +86,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected static final String RESPONSE_LIBRARY_COMBINE = "Combine";
     protected static final String RESPONSE_LIBRARY_ASYNC_AWAIT = "AsyncAwait";
     protected static final String RESPONSE_LIBRARY_OBJC_BLOCK = "ObjcBlock";
-    protected static final String[] RESPONSE_LIBRARIES = { RESPONSE_LIBRARY_PROMISE_KIT, RESPONSE_LIBRARY_RX_SWIFT,
-            RESPONSE_LIBRARY_RESULT, RESPONSE_LIBRARY_COMBINE, RESPONSE_LIBRARY_ASYNC_AWAIT, 
-            RESPONSE_LIBRARY_OBJC_BLOCK };
+    protected static final String[] RESPONSE_LIBRARIES = { RESPONSE_LIBRARY_ASYNC_AWAIT, RESPONSE_LIBRARY_COMBINE, RESPONSE_LIBRARY_RESULT, RESPONSE_LIBRARY_RX_SWIFT, RESPONSE_LIBRARY_OBJC_BLOCK, RESPONSE_LIBRARY_PROMISE_KIT };
     @Setter
     protected String projectName = "OpenAPIClient";
     @Setter
