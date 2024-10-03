@@ -266,14 +266,14 @@ public interface FakeApiDelegate {
      *         or Not found (status code 404)
      * @see FakeApi#testEnumParameters
      */
-    default Mono<ResponseEntity<Void>> testEnumParameters(List<EnumHeaderStringArrayEnum> enumHeaderStringArray,
-        EnumHeaderStringEnum enumHeaderString,
-        List<EnumQueryStringArrayEnum> enumQueryStringArray,
-        EnumQueryStringEnum enumQueryString,
-        EnumQueryIntegerEnum enumQueryInteger,
-        EnumQueryDoubleEnum enumQueryDouble,
-        List<InnerEnum> enumFormStringArray,
-        EnumFormStringEnum enumFormString,
+    default Mono<ResponseEntity<Void>> testEnumParameters(List<String> enumHeaderStringArray,
+        String enumHeaderString,
+        List<String> enumQueryStringArray,
+        String enumQueryString,
+        Integer enumQueryInteger,
+        Double enumQueryDouble,
+        List<String> enumFormStringArray,
+        String enumFormString,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);

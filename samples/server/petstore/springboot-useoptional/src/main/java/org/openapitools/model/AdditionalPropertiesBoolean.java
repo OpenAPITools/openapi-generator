@@ -28,8 +28,8 @@ public class AdditionalPropertiesBoolean {
 
   private Optional<String> name = Optional.empty();
 
-  public AdditionalPropertiesBoolean name(Optional<String> name) {
-    this.name = name;
+  public AdditionalPropertiesBoolean name(String name) {
+    this.name = Optional.of(name);
     return this;
   }
 
@@ -37,6 +37,7 @@ public class AdditionalPropertiesBoolean {
    * Get name
    * @return name
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public Optional<String> getName() {
@@ -141,10 +142,11 @@ public class AdditionalPropertiesBoolean {
       return this;
     }
 
-    public AdditionalPropertiesBoolean.Builder name(Optional<String> name) {
+    public AdditionalPropertiesBoolean.Builder name(String name) {
       this.instance.name(name);
       return this;
     }
+    
     public AdditionalPropertiesBoolean.Builder additionalProperties(Map<String, Boolean> additionalProperties) {
       this.instance.additionalProperties = additionalProperties;
       return this;
@@ -186,3 +188,4 @@ public class AdditionalPropertiesBoolean {
   }
 
 }
+

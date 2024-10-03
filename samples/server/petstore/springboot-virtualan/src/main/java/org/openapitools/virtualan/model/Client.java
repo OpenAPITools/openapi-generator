@@ -32,6 +32,7 @@ public class Client {
    * Get client
    * @return client
    */
+  
   @Schema(name = "client", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("client")
   public String getClient() {
@@ -79,3 +80,4 @@ public class Client {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

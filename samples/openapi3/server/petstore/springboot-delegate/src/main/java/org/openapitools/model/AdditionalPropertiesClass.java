@@ -28,25 +28,33 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
 
+  @Valid
   private Map<String, String> mapString = new HashMap<>();
 
+  @Valid
   private Map<String, BigDecimal> mapNumber = new HashMap<>();
 
+  @Valid
   private Map<String, Integer> mapInteger = new HashMap<>();
 
+  @Valid
   private Map<String, Boolean> mapBoolean = new HashMap<>();
 
+  @Valid
   private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
 
+  @Valid
   private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
 
+  @Valid
   private Map<String, Map<String, String>> mapMapString = new HashMap<>();
 
+  @Valid
   private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
   private Object anytype1;
 
-  private JsonNullable<Object> anytype2 = JsonNullable.of(null);
+  private JsonNullable<Object> anytype2 = JsonNullable.<Object>undefined();
 
   private Object anytype3;
 
@@ -67,6 +75,7 @@ public class AdditionalPropertiesClass {
    * Get mapString
    * @return mapString
    */
+  
   @Schema(name = "map_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_string")
   public Map<String, String> getMapString() {
@@ -94,6 +103,7 @@ public class AdditionalPropertiesClass {
    * Get mapNumber
    * @return mapNumber
    */
+  @Valid 
   @Schema(name = "map_number", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_number")
   public Map<String, BigDecimal> getMapNumber() {
@@ -121,6 +131,7 @@ public class AdditionalPropertiesClass {
    * Get mapInteger
    * @return mapInteger
    */
+  
   @Schema(name = "map_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_integer")
   public Map<String, Integer> getMapInteger() {
@@ -148,6 +159,7 @@ public class AdditionalPropertiesClass {
    * Get mapBoolean
    * @return mapBoolean
    */
+  
   @Schema(name = "map_boolean", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_boolean")
   public Map<String, Boolean> getMapBoolean() {
@@ -175,6 +187,7 @@ public class AdditionalPropertiesClass {
    * Get mapArrayInteger
    * @return mapArrayInteger
    */
+  @Valid 
   @Schema(name = "map_array_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_array_integer")
   public Map<String, List<Integer>> getMapArrayInteger() {
@@ -202,6 +215,7 @@ public class AdditionalPropertiesClass {
    * Get mapArrayAnytype
    * @return mapArrayAnytype
    */
+  @Valid 
   @Schema(name = "map_array_anytype", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_array_anytype")
   public Map<String, List<Object>> getMapArrayAnytype() {
@@ -229,6 +243,7 @@ public class AdditionalPropertiesClass {
    * Get mapMapString
    * @return mapMapString
    */
+  @Valid 
   @Schema(name = "map_map_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_map_string")
   public Map<String, Map<String, String>> getMapMapString() {
@@ -256,6 +271,7 @@ public class AdditionalPropertiesClass {
    * Get mapMapAnytype
    * @return mapMapAnytype
    */
+  @Valid 
   @Schema(name = "map_map_anytype", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_map_anytype")
   public Map<String, Map<String, Object>> getMapMapAnytype() {
@@ -275,6 +291,7 @@ public class AdditionalPropertiesClass {
    * Get anytype1
    * @return anytype1
    */
+  
   @Schema(name = "anytype_1", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("anytype_1")
   public Object getAnytype1() {
@@ -285,8 +302,8 @@ public class AdditionalPropertiesClass {
     this.anytype1 = anytype1;
   }
 
-  public AdditionalPropertiesClass anytype2(JsonNullable<Object> anytype2) {
-    this.anytype2 = anytype2;
+  public AdditionalPropertiesClass anytype2(Object anytype2) {
+    this.anytype2 = JsonNullable.of(anytype2);
     return this;
   }
 
@@ -294,6 +311,7 @@ public class AdditionalPropertiesClass {
    * Get anytype2
    * @return anytype2
    */
+  
   @Schema(name = "anytype_2", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("anytype_2")
   public JsonNullable<Object> getAnytype2() {
@@ -313,6 +331,7 @@ public class AdditionalPropertiesClass {
    * Get anytype3
    * @return anytype3
    */
+  
   @Schema(name = "anytype_3", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("anytype_3")
   public Object getAnytype3() {
@@ -391,3 +410,4 @@ public class AdditionalPropertiesClass {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

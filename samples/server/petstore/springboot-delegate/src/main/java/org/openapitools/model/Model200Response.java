@@ -37,8 +37,8 @@ public class Model200Response {
    * Constructor with all args parameters
    */
   public Model200Response(Integer name, String propertyClass) {
-    this.name = name;
-    this.propertyClass = propertyClass;
+      this.name = name;
+      this.propertyClass = propertyClass;
   }
 
   public Model200Response name(Integer name) {
@@ -50,6 +50,7 @@ public class Model200Response {
    * Get name
    * @return name
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public Integer getName() {
@@ -69,6 +70,7 @@ public class Model200Response {
    * Get propertyClass
    * @return propertyClass
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("class")
   public String getPropertyClass() {
@@ -118,3 +120,4 @@ public class Model200Response {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

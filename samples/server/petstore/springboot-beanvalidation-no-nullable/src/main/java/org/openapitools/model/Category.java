@@ -23,7 +23,7 @@ public class Category {
 
   private Long id;
 
-  private @NotNull String name = "default-name";
+  private String name = "default-name";
 
   public Category() {
     super();
@@ -45,6 +45,7 @@ public class Category {
    * Get id
    * @return id
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
@@ -64,9 +65,10 @@ public class Category {
    * Get name
    * @return name
    */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("name")
-  public @NotNull String getName() {
+  public String getName() {
     return name;
   }
 
@@ -113,3 +115,4 @@ public class Category {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

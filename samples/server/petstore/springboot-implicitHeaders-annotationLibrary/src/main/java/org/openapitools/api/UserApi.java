@@ -44,7 +44,7 @@ public interface UserApi {
     )
     
     default ResponseEntity<Void> createUser(
-         @RequestBody @NotNull @Valid User user
+         @Valid @RequestBody User user
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -65,7 +65,7 @@ public interface UserApi {
     )
     
     default ResponseEntity<Void> createUsersWithArrayInput(
-         @RequestBody @NotNull List<@Valid User> user
+         @Valid @RequestBody List<@Valid User> user
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -86,7 +86,7 @@ public interface UserApi {
     )
     
     default ResponseEntity<Void> createUsersWithListInput(
-         @RequestBody @NotNull List<@Valid User> user
+         @Valid @RequestBody List<@Valid User> user
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -107,7 +107,7 @@ public interface UserApi {
     )
     
     default ResponseEntity<Void> deleteUser(
-         @PathVariable("username") @NotNull String username
+         @PathVariable("username") String username
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -130,7 +130,7 @@ public interface UserApi {
     )
     
     default ResponseEntity<User> getUserByName(
-         @PathVariable("username") @NotNull String username
+         @PathVariable("username") String username
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -167,8 +167,8 @@ public interface UserApi {
     )
     
     default ResponseEntity<String> loginUser(
-         @RequestParam(value = "username") @NotNull @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") String username,
-         @RequestParam(value = "password") @NotNull String password
+        @NotNull @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")  @Valid @RequestParam(value = "username", required = true) String username,
+        @NotNull  @Valid @RequestParam(value = "password", required = true) String password
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -210,8 +210,8 @@ public interface UserApi {
     )
     
     default ResponseEntity<Void> updateUser(
-         @PathVariable("username") @NotNull String username,
-         @RequestBody @NotNull @Valid User user
+         @PathVariable("username") String username,
+         @Valid @RequestBody User user
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 

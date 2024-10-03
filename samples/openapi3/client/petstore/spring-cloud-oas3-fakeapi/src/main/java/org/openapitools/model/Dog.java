@@ -41,6 +41,7 @@ public class Dog extends Animal {
    * Get breed
    * @return breed
    */
+  
   @Schema(name = "breed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("breed")
   public String getBreed() {
@@ -100,3 +101,4 @@ public class Dog extends Animal {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

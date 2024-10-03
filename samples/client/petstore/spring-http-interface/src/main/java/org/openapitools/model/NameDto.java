@@ -152,3 +152,4 @@ public class NameDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

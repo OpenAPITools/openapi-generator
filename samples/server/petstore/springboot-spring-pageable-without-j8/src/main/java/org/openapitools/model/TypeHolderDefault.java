@@ -26,15 +26,16 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class TypeHolderDefault {
 
-  private @NotNull String stringItem = "what";
+  private String stringItem = "what";
 
-  private @NotNull BigDecimal numberItem;
+  private BigDecimal numberItem;
 
-  private @NotNull Integer integerItem;
+  private Integer integerItem;
 
-  private @NotNull Boolean boolItem = true;
+  private Boolean boolItem = true;
 
-  private @NotNull List<Integer> arrayItem = new ArrayList<>();
+  @Valid
+  private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderDefault() {
     super();
@@ -60,9 +61,10 @@ public class TypeHolderDefault {
    * Get stringItem
    * @return stringItem
    */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("string_item")
-  public @NotNull String getStringItem() {
+  public String getStringItem() {
     return stringItem;
   }
 
@@ -79,9 +81,10 @@ public class TypeHolderDefault {
    * Get numberItem
    * @return numberItem
    */
+  @NotNull @Valid 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("number_item")
-  public @NotNull BigDecimal getNumberItem() {
+  public BigDecimal getNumberItem() {
     return numberItem;
   }
 
@@ -98,9 +101,10 @@ public class TypeHolderDefault {
    * Get integerItem
    * @return integerItem
    */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("integer_item")
-  public @NotNull Integer getIntegerItem() {
+  public Integer getIntegerItem() {
     return integerItem;
   }
 
@@ -117,9 +121,10 @@ public class TypeHolderDefault {
    * Get boolItem
    * @return boolItem
    */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("bool_item")
-  public @NotNull Boolean getBoolItem() {
+  public Boolean getBoolItem() {
     return boolItem;
   }
 
@@ -144,9 +149,10 @@ public class TypeHolderDefault {
    * Get arrayItem
    * @return arrayItem
    */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("array_item")
-  public @NotNull List<Integer> getArrayItem() {
+  public List<Integer> getArrayItem() {
     return arrayItem;
   }
 
@@ -199,3 +205,4 @@ public class TypeHolderDefault {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

@@ -37,7 +37,7 @@ public class AdditionalPropertiesNumber {
    * Constructor with all args parameters
    */
   public AdditionalPropertiesNumber(String name) {
-    this.name = name;
+      this.name = name;
   }
 
   public AdditionalPropertiesNumber name(String name) {
@@ -49,6 +49,7 @@ public class AdditionalPropertiesNumber {
    * Get name
    * @return name
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public String getName() {
@@ -136,3 +137,4 @@ public class AdditionalPropertiesNumber {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

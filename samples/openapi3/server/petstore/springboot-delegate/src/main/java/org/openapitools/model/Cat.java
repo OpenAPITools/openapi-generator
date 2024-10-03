@@ -56,6 +56,7 @@ public class Cat extends Animal {
    * Get declawed
    * @return declawed
    */
+  
   @Schema(name = "declawed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("declawed")
   public Boolean getDeclawed() {
@@ -115,3 +116,4 @@ public class Cat extends Animal {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

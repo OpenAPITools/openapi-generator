@@ -73,10 +73,10 @@ public class ParentWithNullable {
 
   private Optional<TypeEnum> type = Optional.empty();
 
-  private JsonNullable<String> nullableProperty = JsonNullable.undefined();
+  private JsonNullable<String> nullableProperty = JsonNullable.<String>undefined();
 
-  public ParentWithNullable type(Optional<TypeEnum> type) {
-    this.type = type;
+  public ParentWithNullable type(TypeEnum type) {
+    this.type = Optional.of(type);
     return this;
   }
 
@@ -84,6 +84,7 @@ public class ParentWithNullable {
    * Get type
    * @return type
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("type")
   public Optional<TypeEnum> getType() {
@@ -94,8 +95,8 @@ public class ParentWithNullable {
     this.type = type;
   }
 
-  public ParentWithNullable nullableProperty(JsonNullable<String> nullableProperty) {
-    this.nullableProperty = nullableProperty;
+  public ParentWithNullable nullableProperty(String nullableProperty) {
+    this.nullableProperty = JsonNullable.of(nullableProperty);
     return this;
   }
 
@@ -103,6 +104,7 @@ public class ParentWithNullable {
    * Get nullableProperty
    * @return nullableProperty
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("nullableProperty")
   public JsonNullable<String> getNullableProperty() {
@@ -181,14 +183,21 @@ public class ParentWithNullable {
       return this;
     }
 
-    public ParentWithNullable.Builder type(Optional<TypeEnum> type) {
+    public ParentWithNullable.Builder type(TypeEnum type) {
       this.instance.type(type);
       return this;
     }
-    public ParentWithNullable.Builder nullableProperty(JsonNullable<String> nullableProperty) {
+    
+    public ParentWithNullable.Builder nullableProperty(String nullableProperty) {
       this.instance.nullableProperty(nullableProperty);
       return this;
     }
+    
+    public ParentWithNullable.Builder nullableProperty(JsonNullable<String> nullableProperty) {
+      this.instance.nullableProperty = nullableProperty;
+      return this;
+    }
+    
     /**
     * returns a built ParentWithNullable instance.
     *
@@ -225,3 +234,4 @@ public class ParentWithNullable {
   }
 
 }
+

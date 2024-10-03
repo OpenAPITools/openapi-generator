@@ -107,3 +107,4 @@ public class CatDto extends AnimalDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

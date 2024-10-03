@@ -38,9 +38,9 @@ public class ModelApiResponse {
    * Constructor with all args parameters
    */
   public ModelApiResponse(Integer code, String type, String message) {
-    this.code = code;
-    this.type = type;
-    this.message = message;
+      this.code = code;
+      this.type = type;
+      this.message = message;
   }
 
   public ModelApiResponse code(Integer code) {
@@ -52,6 +52,7 @@ public class ModelApiResponse {
    * Get code
    * @return code
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("code")
   public Integer getCode() {
@@ -71,6 +72,7 @@ public class ModelApiResponse {
    * Get type
    * @return type
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("type")
   public String getType() {
@@ -90,6 +92,7 @@ public class ModelApiResponse {
    * Get message
    * @return message
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("message")
   public String getMessage() {
@@ -141,3 +144,4 @@ public class ModelApiResponse {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

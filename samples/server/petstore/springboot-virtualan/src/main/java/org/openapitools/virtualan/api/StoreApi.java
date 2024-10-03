@@ -70,7 +70,7 @@ public interface StoreApi {
     )
     
     default ResponseEntity<Void> deleteOrder(
-        @Parameter(name = "order_id", description = "ID of the order that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("order_id") @NotNull String orderId
+        @Parameter(name = "order_id", description = "ID of the order that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("order_id") String orderId
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -143,7 +143,7 @@ public interface StoreApi {
     )
     
     default ResponseEntity<Order> getOrderById(
-        @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("order_id") @NotNull @Min(1L) @Max(5L) Long orderId
+        @Min(1L) @Max(5L) @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("order_id") Long orderId
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -194,7 +194,7 @@ public interface StoreApi {
     )
     
     default ResponseEntity<Order> placeOrder(
-        @Parameter(name = "Order", description = "order placed for purchasing the pet", required = true) @RequestBody @NotNull @Valid Order order
+        @Parameter(name = "Order", description = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order order
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

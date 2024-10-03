@@ -34,12 +34,14 @@ public class Pet {
 
   private Long id;
 
-  private @Valid Category category;
+  private Category category;
 
-  private @NotNull String name;
+  private String name;
 
-  private @NotNull List<String> photoUrls = new ArrayList<>();
+  @Valid
+  private List<String> photoUrls = new ArrayList<>();
 
+  @Valid
   private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
@@ -83,3 +85,4 @@ public class Pet {
   private StatusEnum status;
 
 }
+

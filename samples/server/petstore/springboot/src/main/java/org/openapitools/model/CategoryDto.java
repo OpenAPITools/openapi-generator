@@ -26,7 +26,7 @@ public class CategoryDto {
 
   private Long id;
 
-  private @NotNull String name = "default-name";
+  private String name = "default-name";
 
   public CategoryDto() {
     super();
@@ -48,6 +48,7 @@ public class CategoryDto {
    * Get id
    * @return id
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
@@ -67,9 +68,10 @@ public class CategoryDto {
    * Get name
    * @return name
    */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("name")
-  public @NotNull String getName() {
+  public String getName() {
     return name;
   }
 
@@ -116,3 +118,4 @@ public class CategoryDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

@@ -57,6 +57,7 @@ public class Cat extends Animal {
    * Get declawed
    * @return declawed
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("declawed")
   public Boolean getDeclawed() {
@@ -116,3 +117,4 @@ public class Cat extends Animal {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

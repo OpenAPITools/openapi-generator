@@ -240,3 +240,4 @@ public class UserDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

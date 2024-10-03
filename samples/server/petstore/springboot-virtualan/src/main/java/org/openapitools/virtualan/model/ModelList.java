@@ -34,6 +34,7 @@ public class ModelList {
    * Get _123list
    * @return _123list
    */
+  
   @Schema(name = "123-list", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("123-list")
   public String get123list() {
@@ -81,3 +82,4 @@ public class ModelList {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

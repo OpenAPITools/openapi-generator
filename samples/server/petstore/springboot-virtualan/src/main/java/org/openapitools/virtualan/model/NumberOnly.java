@@ -33,6 +33,7 @@ public class NumberOnly {
    * Get justNumber
    * @return justNumber
    */
+  @Valid 
   @Schema(name = "JustNumber", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("JustNumber")
   public BigDecimal getJustNumber() {
@@ -80,3 +81,4 @@ public class NumberOnly {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

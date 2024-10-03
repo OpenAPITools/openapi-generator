@@ -321,3 +321,4 @@ public class EnumTestDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

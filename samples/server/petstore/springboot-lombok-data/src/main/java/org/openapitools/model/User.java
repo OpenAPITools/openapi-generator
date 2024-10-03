@@ -43,3 +43,4 @@ public class User {
   private Integer userStatus;
 
 }
+

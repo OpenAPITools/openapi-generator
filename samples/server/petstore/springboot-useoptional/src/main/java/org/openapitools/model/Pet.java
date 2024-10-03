@@ -33,13 +33,15 @@ public class Pet {
 
   private Optional<Long> id = Optional.empty();
 
-  private Optional<@Valid Category> category = Optional.empty();
+  private Optional<Category> category = Optional.empty();
 
-  private @NotNull String name;
+  private String name;
 
-  private @NotNull Set<Optional<String>> photoUrls = new LinkedHashSet<>();
+  @Valid
+  private Set<String> photoUrls = new LinkedHashSet<>();
 
-  private List<Optional<@Valid Tag>> tags = new ArrayList<>();
+  @Valid
+  private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -88,13 +90,13 @@ public class Pet {
   /**
    * Constructor with only required parameters
    */
-  public Pet(String name, Set<Optional<String>> photoUrls) {
+  public Pet(String name, Set<String> photoUrls) {
     this.name = name;
     this.photoUrls = photoUrls;
   }
 
-  public Pet id(Optional<Long> id) {
-    this.id = id;
+  public Pet id(Long id) {
+    this.id = Optional.of(id);
     return this;
   }
 
@@ -102,6 +104,7 @@ public class Pet {
    * Get id
    * @return id
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Optional<Long> getId() {
@@ -112,8 +115,8 @@ public class Pet {
     this.id = id;
   }
 
-  public Pet category(Optional<Category> category) {
-    this.category = category;
+  public Pet category(Category category) {
+    this.category = Optional.of(category);
     return this;
   }
 
@@ -121,9 +124,10 @@ public class Pet {
    * Get category
    * @return category
    */
+  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("category")
-  public Optional<@Valid Category> getCategory() {
+  public Optional<Category> getCategory() {
     return category;
   }
 
@@ -140,9 +144,10 @@ public class Pet {
    * Get name
    * @return name
    */
+  @NotNull 
   @ApiModelProperty(example = "doggie", required = true, value = "")
   @JsonProperty("name")
-  public @NotNull String getName() {
+  public String getName() {
     return name;
   }
 
@@ -150,12 +155,12 @@ public class Pet {
     this.name = name;
   }
 
-  public Pet photoUrls(Set<Optional<String>> photoUrls) {
+  public Pet photoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
 
-  public Pet addPhotoUrlsItem(Optional<String> photoUrlsItem) {
+  public Pet addPhotoUrlsItem(String photoUrlsItem) {
     if (this.photoUrls == null) {
       this.photoUrls = new LinkedHashSet<>();
     }
@@ -167,23 +172,24 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
    */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("photoUrls")
-  public @NotNull Set<Optional<String>> getPhotoUrls() {
+  public Set<String> getPhotoUrls() {
     return photoUrls;
   }
 
   @JsonDeserialize(as = LinkedHashSet.class)
-  public void setPhotoUrls(Set<Optional<String>> photoUrls) {
+  public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
-  public Pet tags(List<Optional<Tag>> tags) {
+  public Pet tags(List<@Valid Tag> tags) {
     this.tags = tags;
     return this;
   }
 
-  public Pet addTagsItem(Optional<Tag> tagsItem) {
+  public Pet addTagsItem(Tag tagsItem) {
     if (this.tags == null) {
       this.tags = new ArrayList<>();
     }
@@ -195,18 +201,19 @@ public class Pet {
    * Get tags
    * @return tags
    */
+  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
-  public List<Optional<@Valid Tag>> getTags() {
+  public List<@Valid Tag> getTags() {
     return tags;
   }
 
-  public void setTags(List<Optional<Tag>> tags) {
+  public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
 
-  public Pet status(Optional<StatusEnum> status) {
-    this.status = status;
+  public Pet status(StatusEnum status) {
+    this.status = Optional.of(status);
     return this;
   }
 
@@ -215,6 +222,7 @@ public class Pet {
    * @return status
    * @deprecated
    */
+  
   @ApiModelProperty(value = "pet status in the store")
   @JsonProperty("status")
   @Deprecated
@@ -299,31 +307,37 @@ public class Pet {
       return this;
     }
 
-    public Pet.Builder id(Optional<Long> id) {
+    public Pet.Builder id(Long id) {
       this.instance.id(id);
       return this;
     }
-    public Pet.Builder category(Optional<Category> category) {
+    
+    public Pet.Builder category(Category category) {
       this.instance.category(category);
       return this;
     }
+    
     public Pet.Builder name(String name) {
       this.instance.name(name);
       return this;
     }
-    public Pet.Builder photoUrls(Set<Optional<String>> photoUrls) {
+    
+    public Pet.Builder photoUrls(Set<String> photoUrls) {
       this.instance.photoUrls(photoUrls);
       return this;
     }
-    public Pet.Builder tags(List<Optional<Tag>> tags) {
+    
+    public Pet.Builder tags(List<@Valid Tag> tags) {
       this.instance.tags(tags);
       return this;
     }
+    
     @Deprecated
-    public Pet.Builder status(Optional<StatusEnum> status) {
+    public Pet.Builder status(StatusEnum status) {
       this.instance.status(status);
       return this;
     }
+    
     /**
     * returns a built Pet instance.
     *
@@ -360,3 +374,4 @@ public class Pet {
   }
 
 }
+

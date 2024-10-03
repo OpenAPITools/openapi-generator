@@ -43,6 +43,7 @@ public class ChildWithNullableDto extends ParentWithNullableDto {
    * Get otherProperty
    * @return otherProperty
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("otherProperty")
   public String getOtherProperty() {
@@ -59,7 +60,7 @@ public class ChildWithNullableDto extends ParentWithNullableDto {
     return this;
   }
 
-  public ChildWithNullableDto nullableProperty(JsonNullable<String> nullableProperty) {
+  public ChildWithNullableDto nullableProperty(String nullableProperty) {
     super.nullableProperty(nullableProperty);
     return this;
   }
@@ -113,3 +114,4 @@ public class ChildWithNullableDto extends ParentWithNullableDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

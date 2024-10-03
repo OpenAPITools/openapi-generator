@@ -124,3 +124,4 @@ public class AdditionalPropertiesArrayDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

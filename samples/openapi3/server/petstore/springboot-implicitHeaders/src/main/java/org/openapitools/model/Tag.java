@@ -34,6 +34,7 @@ public class Tag {
    * Get id
    * @return id
    */
+  
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public Long getId() {
@@ -53,6 +54,7 @@ public class Tag {
    * Get name
    * @return name
    */
+  
   @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
   public String getName() {
@@ -102,3 +104,4 @@ public class Tag {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

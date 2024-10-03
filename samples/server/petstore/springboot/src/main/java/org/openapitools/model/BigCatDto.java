@@ -91,6 +91,7 @@ public class BigCatDto extends CatDto {
    * Get kind
    * @return kind
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("kind")
   public KindEnum getKind() {
@@ -155,3 +156,4 @@ public class BigCatDto extends CatDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

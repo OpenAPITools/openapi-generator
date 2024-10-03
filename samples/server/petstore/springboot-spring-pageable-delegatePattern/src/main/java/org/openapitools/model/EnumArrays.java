@@ -98,6 +98,7 @@ public class EnumArrays {
     }
   }
 
+  @Valid
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
@@ -109,6 +110,7 @@ public class EnumArrays {
    * Get justSymbol
    * @return justSymbol
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("just_symbol")
   public JustSymbolEnum getJustSymbol() {
@@ -136,6 +138,7 @@ public class EnumArrays {
    * Get arrayEnum
    * @return arrayEnum
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("array_enum")
   public List<ArrayEnumEnum> getArrayEnum() {
@@ -185,3 +188,4 @@ public class EnumArrays {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

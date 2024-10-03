@@ -40,6 +40,7 @@ public class AdditionalPropertiesArrayDto {
    * Get name
    * @return name
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public String getName() {
@@ -127,3 +128,4 @@ public class AdditionalPropertiesArrayDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

@@ -32,7 +32,7 @@ public class Client {
    * Constructor with all args parameters
    */
   public Client(String client) {
-    this.client = client;
+      this.client = client;
   }
 
   public Client client(String client) {
@@ -44,6 +44,7 @@ public class Client {
    * Get client
    * @return client
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("client")
   public String getClient() {
@@ -91,3 +92,4 @@ public class Client {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

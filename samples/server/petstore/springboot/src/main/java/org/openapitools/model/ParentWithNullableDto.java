@@ -74,7 +74,7 @@ public class ParentWithNullableDto {
 
   private TypeEnum type;
 
-  private JsonNullable<String> nullableProperty = JsonNullable.undefined();
+  private JsonNullable<String> nullableProperty = JsonNullable.<String>undefined();
 
   public ParentWithNullableDto type(TypeEnum type) {
     this.type = type;
@@ -85,6 +85,7 @@ public class ParentWithNullableDto {
    * Get type
    * @return type
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("type")
   public TypeEnum getType() {
@@ -95,8 +96,8 @@ public class ParentWithNullableDto {
     this.type = type;
   }
 
-  public ParentWithNullableDto nullableProperty(JsonNullable<String> nullableProperty) {
-    this.nullableProperty = nullableProperty;
+  public ParentWithNullableDto nullableProperty(String nullableProperty) {
+    this.nullableProperty = JsonNullable.of(nullableProperty);
     return this;
   }
 
@@ -104,6 +105,7 @@ public class ParentWithNullableDto {
    * Get nullableProperty
    * @return nullableProperty
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("nullableProperty")
   public JsonNullable<String> getNullableProperty() {
@@ -164,3 +166,4 @@ public class ParentWithNullableDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+
