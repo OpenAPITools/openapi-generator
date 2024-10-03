@@ -64,6 +64,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String READONLY_PROPERTIES = "readonlyProperties";
     public static final String SWIFT_USE_API_NAMESPACE = "swiftUseApiNamespace";
     public static final String DEFAULT_POD_AUTHORS = "OpenAPI Generator";
+    public static final String LENIENT_TYPE_CAST = "lenientTypeCast";
     public static final String USE_SPM_FILE_STRUCTURE = "useSPMFileStructure";
     public static final String SWIFT_PACKAGE_PATH = "swiftPackagePath";
     public static final String ONE_OF_UNKNOWN_DEFAULT_CASE = "oneOfUnknownDefaultCase";
@@ -93,6 +94,8 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean nonPublicApi = false;
     @Setter
     protected boolean objcCompatible = false;
+    @Setter
+    protected boolean lenientTypeCast = false;
     @Setter
     protected boolean readonlyProperties = false;
     @Setter
@@ -600,6 +603,8 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
             setCombineDeferred(convertPropertyToBooleanAndWriteBack(COMBINE_DEFERRED));
         }
         additionalProperties.put(COMBINE_DEFERRED, combineDeferred);
+
+        setLenientTypeCast(convertPropertyToBooleanAndWriteBack(LENIENT_TYPE_CAST));
 
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
