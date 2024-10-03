@@ -8092,6 +8092,12 @@ public class DefaultCodegen implements CodegenConfig {
         LOGGER.debug("Post processing file {} ({})", file, fileType);
     }
 
+    /**
+     * Executes an external command for file post processing.
+     *
+     * @param commandArr an array of commands and arguments. They will be concatenated with space and tokenized again.
+     * @return Whether the execution passed (true) or failed (false)
+     */
     protected boolean executePostProcessor(String[] commandArr) {
         final String command = String.join(" ", commandArr);
         try {
