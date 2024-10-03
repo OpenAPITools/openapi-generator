@@ -325,7 +325,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(USE_SPM_FILE_STRUCTURE, "Use SPM file structure"
                 + " and set the source path to Sources" + File.separator + "{{projectName}} (default: true)."));
         cliOptions.add(new CliOption(SWIFT_PACKAGE_PATH, "Set a custom source path instead of "
-                + projectName + File.separator + "Sources" + File.separator + "{{projectName}}" + "."));
+                + "Sources" + File.separator + "{{projectName}}" + "."));
         cliOptions.add(new CliOption(USE_CLASSES, "Use final classes for models instead of structs (default: false)")
                 .defaultValue(Boolean.FALSE.toString()));
 

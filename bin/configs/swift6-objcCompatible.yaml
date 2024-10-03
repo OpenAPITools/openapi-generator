@@ -4,7 +4,6 @@ inputSpec: modules/openapi-generator/src/test/resources/2_0/swift/petstore-with-
 templateDir: modules/openapi-generator/src/main/resources/swift6
 generateAliasAsModel: true
 additionalProperties:
-  useSPMFileStructure: false
   podAuthors: ""
   podSummary: PetstoreClient
   objcCompatible: true
