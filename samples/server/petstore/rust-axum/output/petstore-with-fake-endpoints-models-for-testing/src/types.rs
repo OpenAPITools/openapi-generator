@@ -175,7 +175,7 @@ impl<T> Nullable<T> {
     /// assert_eq!(x.expect("the world is ending"), "value");
     /// ```
     ///
-    /// ```{.should_panic}
+    /// ```should_panic
     /// # use petstore_with_fake_endpoints_models_for_testing::types::Nullable;
     ///
     /// let x: Nullable<&str> = Nullable::Null;
@@ -210,7 +210,7 @@ impl<T> Nullable<T> {
     /// assert_eq!(x.unwrap(), "air");
     /// ```
     ///
-    /// ```{.should_panic}
+    /// ```should_panic
     /// # use petstore_with_fake_endpoints_models_for_testing::types::Nullable;
     ///
     /// let x: Nullable<&str> = Nullable::Null;
