@@ -655,7 +655,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                 infrastructureFolder,
                 "OpenISO8601DateFormatter.swift"));
         supportingFiles.add(new SupportingFile("JSONValue.mustache",
-                sourceFolder,
+                infrastructureFolder,
                 "JSONValue.swift"));
         if (useCustomDateWithoutTime) {
             supportingFiles.add(new SupportingFile("OpenAPIDateWithoutTime.mustache",
