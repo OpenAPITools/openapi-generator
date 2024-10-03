@@ -606,6 +606,9 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         setLenientTypeCast(convertPropertyToBooleanAndWriteBack(LENIENT_TYPE_CAST));
 
+        // infrastructure destination folder
+        final String infrastructureFolder = sourceFolder + File.separator + "Infrastructure";
+
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
@@ -618,50 +621,50 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                     "",
                     "Cartfile"));
             supportingFiles.add(new SupportingFile("CodableHelper.mustache",
-                    sourceFolder,
+                    infrastructureFolder,
                     "CodableHelper.swift"));
             supportingFiles.add(new SupportingFile("JSONDataEncoding.mustache",
-                    sourceFolder,
+                    infrastructureFolder,
                     "JSONDataEncoding.swift"));
             supportingFiles.add(new SupportingFile("JSONEncodingHelper.mustache",
-                    sourceFolder,
+                    infrastructureFolder,
                     "JSONEncodingHelper.swift"));
             supportingFiles.add(new SupportingFile("git_push.sh.mustache",
                     "",
                     "git_push.sh"));
             supportingFiles.add(new SupportingFile("SynchronizedDictionary.mustache",
-                    sourceFolder,
+                    infrastructureFolder,
                     "SynchronizedDictionary.swift"));
             supportingFiles.add(new SupportingFile("XcodeGen.mustache",
                     "",
                     "project.yml"));
             supportingFiles.add(new SupportingFile("APIHelper.mustache",
-                    sourceFolder,
+                    infrastructureFolder,
                     "APIHelper.swift"));
             supportingFiles.add(new SupportingFile("Models.mustache",
-                    sourceFolder,
+                    infrastructureFolder,
                     "Models.swift"));
         }
         supportingFiles.add(new SupportingFile("Package.swift.mustache",
                 "",
                 "Package.swift"));
         supportingFiles.add(new SupportingFile("Extensions.mustache",
-                sourceFolder,
+                infrastructureFolder,
                 "Extensions.swift"));
         supportingFiles.add(new SupportingFile("OpenISO8601DateFormatter.mustache",
-                sourceFolder,
+                infrastructureFolder,
                 "OpenISO8601DateFormatter.swift"));
         if (useCustomDateWithoutTime) {
             supportingFiles.add(new SupportingFile("OpenAPIDateWithoutTime.mustache",
-                    sourceFolder,
+                    infrastructureFolder,
                     "OpenAPIDateWithoutTime.swift"));
         }
         supportingFiles.add(new SupportingFile("APIs.mustache",
-                sourceFolder,
+                infrastructureFolder,
                 "APIs.swift"));
         if (validatable) {
             supportingFiles.add(new SupportingFile("Validation.mustache",
-                    sourceFolder,
+                    infrastructureFolder,
                     "Validation.swift"));
         }
         supportingFiles.add(new SupportingFile("gitignore.mustache",
@@ -678,13 +681,13 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
             case LIBRARY_ALAMOFIRE:
                 additionalProperties.put("useAlamofire", true);
                 supportingFiles.add(new SupportingFile("AlamofireImplementations.mustache",
-                        sourceFolder,
+                        infrastructureFolder,
                         "AlamofireImplementations.swift"));
                 break;
             case LIBRARY_URLSESSION:
                 additionalProperties.put("useURLSession", true);
                 supportingFiles.add(new SupportingFile("URLSessionImplementations.mustache",
-                        sourceFolder,
+                        infrastructureFolder,
                         "URLSessionImplementations.swift"));
                 break;
             case LIBRARY_VAPOR:
