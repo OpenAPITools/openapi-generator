@@ -155,7 +155,7 @@ export class {{classname}} {
      {{/allParams}}
      {{#isDeprecated}}
      *
- * @deprecated
+     * @deprecated
      {{/isDeprecated}}
      */
     public async {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; {{#returnType}}body: {{{.}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }> {
