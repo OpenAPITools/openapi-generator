@@ -55,7 +55,7 @@ public interface UserApi {
     @ResponseStatus(HttpStatus.OK)
     
     default void createUser(
-        @ApiParam(value = "Created user object", required = true) @Valid @RequestBody User user
+        @ApiParam(value = "Created user object", required = true) @RequestBody @NotNull @Valid User user
     ) {
         getDelegate().createUser(user);
     }
@@ -88,7 +88,7 @@ public interface UserApi {
     @ResponseStatus(HttpStatus.OK)
     
     default void createUsersWithArrayInput(
-        @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user
+        @ApiParam(value = "List of user object", required = true) @RequestBody @NotNull List<@Valid User> user
     ) {
         getDelegate().createUsersWithArrayInput(user);
     }
@@ -121,7 +121,7 @@ public interface UserApi {
     @ResponseStatus(HttpStatus.OK)
     
     default void createUsersWithListInput(
-        @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user
+        @ApiParam(value = "List of user object", required = true) @RequestBody @NotNull List<@Valid User> user
     ) {
         getDelegate().createUsersWithListInput(user);
     }
@@ -155,7 +155,7 @@ public interface UserApi {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     
     default void deleteUser(
-        @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username
+        @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") @NotNull String username
     ) {
         getDelegate().deleteUser(username);
     }
@@ -190,7 +190,7 @@ public interface UserApi {
     @ResponseStatus(HttpStatus.OK)
     
     default User getUserByName(
-        @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username
+        @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") @NotNull String username
     ) {
         return getDelegate().getUserByName(username);
     }
@@ -224,8 +224,8 @@ public interface UserApi {
     @ResponseStatus(HttpStatus.OK)
     
     default String loginUser(
-        @NotNull @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,
-        @NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password
+        @ApiParam(value = "The user name for login", required = true) @RequestParam(value = "username") @NotNull @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") String username,
+        @ApiParam(value = "The password for login in clear text", required = true) @RequestParam(value = "password") @NotNull String password
     ) {
         return getDelegate().loginUser(username, password);
     }
@@ -292,8 +292,8 @@ public interface UserApi {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     
     default void updateUser(
-        @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,
-        @ApiParam(value = "Updated user object", required = true) @Valid @RequestBody User user
+        @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") @NotNull String username,
+        @ApiParam(value = "Updated user object", required = true) @RequestBody @NotNull @Valid User user
     ) {
         getDelegate().updateUser(username, user);
     }

@@ -70,7 +70,7 @@ public class Order {
     }
   }
 
-  private StatusEnum status;
+  private String status;
 
   private Boolean complete = false;
 
@@ -83,7 +83,6 @@ public class Order {
    * Get id
    * @return id
    */
-  
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public Long getId() {
@@ -103,7 +102,6 @@ public class Order {
    * Get petId
    * @return petId
    */
-  
   @Schema(name = "petId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("petId")
   public Long getPetId() {
@@ -123,7 +121,6 @@ public class Order {
    * Get quantity
    * @return quantity
    */
-  
   @Schema(name = "quantity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("quantity")
   public Integer getQuantity() {
@@ -143,7 +140,6 @@ public class Order {
    * Get shipDate
    * @return shipDate
    */
-  @Valid 
   @Schema(name = "shipDate", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("shipDate")
   public OffsetDateTime getShipDate() {
@@ -163,10 +159,9 @@ public class Order {
    * Order Status
    * @return status
    */
-  
   @Schema(name = "status", description = "Order Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
-  public StatusEnum getStatus() {
+  public String getStatus() {
     return status;
   }
 
@@ -183,7 +178,6 @@ public class Order {
    * Get complete
    * @return complete
    */
-  
   @Schema(name = "complete", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("complete")
   public Boolean getComplete() {
@@ -241,4 +235,3 @@ public class Order {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

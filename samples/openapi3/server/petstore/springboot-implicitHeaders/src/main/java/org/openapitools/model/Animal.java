@@ -35,7 +35,7 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class Animal {
 
-  private String className;
+  private @NotNull String className;
 
   private String color = "red";
 
@@ -59,10 +59,9 @@ public class Animal {
    * Get className
    * @return className
    */
-  @NotNull 
   @Schema(name = "className", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("className")
-  public String getClassName() {
+  public @NotNull String getClassName() {
     return className;
   }
 
@@ -79,7 +78,6 @@ public class Animal {
    * Get color
    * @return color
    */
-  
   @Schema(name = "color", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("color")
   public String getColor() {
@@ -129,4 +127,3 @@ public class Animal {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

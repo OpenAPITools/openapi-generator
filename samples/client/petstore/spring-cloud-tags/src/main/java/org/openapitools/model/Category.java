@@ -36,7 +36,6 @@ public class Category {
    * Get id
    * @return id
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
@@ -56,7 +55,6 @@ public class Category {
    * Get name
    * @return name
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public String getName() {
@@ -106,4 +104,3 @@ public class Category {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

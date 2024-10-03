@@ -48,7 +48,6 @@ public class FooRef extends EntityRef implements FooRefOrValue {
    * Get foorefPropA
    * @return foorefPropA
    */
-  
   @Schema(name = "foorefPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("foorefPropA")
   public String getFoorefPropA() {
@@ -156,49 +155,41 @@ public class FooRef extends EntityRef implements FooRefOrValue {
       this.instance.foorefPropA(foorefPropA);
       return this;
     }
-    
     @Override
     public FooRef.Builder name(String name) {
       this.instance.name(name);
       return this;
     }
-    
     @Override
     public FooRef.Builder atReferredType(String atReferredType) {
       this.instance.atReferredType(atReferredType);
       return this;
     }
-    
     @Override
     public FooRef.Builder href(String href) {
       this.instance.href(href);
       return this;
     }
-    
     @Override
     public FooRef.Builder id(String id) {
       this.instance.id(id);
       return this;
     }
-    
     @Override
     public FooRef.Builder atSchemaLocation(String atSchemaLocation) {
       this.instance.atSchemaLocation(atSchemaLocation);
       return this;
     }
-    
     @Override
     public FooRef.Builder atBaseType(String atBaseType) {
       this.instance.atBaseType(atBaseType);
       return this;
     }
-    
     @Override
     public FooRef.Builder atType(String atType) {
       this.instance.atType(atType);
       return this;
     }
-    
     /**
     * returns a built FooRef instance.
     *
@@ -236,4 +227,3 @@ public class FooRef extends EntityRef implements FooRefOrValue {
   }
 
 }
-

@@ -29,17 +29,13 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class ContainerDefaultValueDto {
 
-  @Valid
-  private JsonNullable<List<String>> nullableArray = JsonNullable.<List<String>>undefined();
+  private JsonNullable<List<String>> nullableArray = JsonNullable.undefined();
 
-  @Valid
-  private JsonNullable<List<String>> nullableRequiredArray = JsonNullable.<List<String>>undefined();
+  private JsonNullable<List<String>> nullableRequiredArray = JsonNullable.undefined();
 
-  @Valid
-  private List<String> requiredArray = new ArrayList<>();
+  private @NotNull List<String> requiredArray = new ArrayList<>();
 
-  @Valid
-  private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.<List<String>>undefined();
+  private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.of(new ArrayList<>(Arrays.asList("foo", "bar")));
 
   public ContainerDefaultValueDto() {
     super();
@@ -48,13 +44,13 @@ public class ContainerDefaultValueDto {
   /**
    * Constructor with only required parameters
    */
-  public ContainerDefaultValueDto(List<String> nullableRequiredArray, List<String> requiredArray) {
-    this.nullableRequiredArray = JsonNullable.of(nullableRequiredArray);
+  public ContainerDefaultValueDto(JsonNullable<List<String>> nullableRequiredArray, List<String> requiredArray) {
+    this.nullableRequiredArray = nullableRequiredArray;
     this.requiredArray = requiredArray;
   }
 
-  public ContainerDefaultValueDto nullableArray(List<String> nullableArray) {
-    this.nullableArray = JsonNullable.of(nullableArray);
+  public ContainerDefaultValueDto nullableArray(JsonNullable<List<String>> nullableArray) {
+    this.nullableArray = nullableArray;
     return this;
   }
 
@@ -70,7 +66,6 @@ public class ContainerDefaultValueDto {
    * Get nullableArray
    * @return nullableArray
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("nullable_array")
   public JsonNullable<List<String>> getNullableArray() {
@@ -81,8 +76,8 @@ public class ContainerDefaultValueDto {
     this.nullableArray = nullableArray;
   }
 
-  public ContainerDefaultValueDto nullableRequiredArray(List<String> nullableRequiredArray) {
-    this.nullableRequiredArray = JsonNullable.of(nullableRequiredArray);
+  public ContainerDefaultValueDto nullableRequiredArray(JsonNullable<List<String>> nullableRequiredArray) {
+    this.nullableRequiredArray = nullableRequiredArray;
     return this;
   }
 
@@ -98,7 +93,6 @@ public class ContainerDefaultValueDto {
    * Get nullableRequiredArray
    * @return nullableRequiredArray
    */
-  @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("nullable_required_array")
   public JsonNullable<List<String>> getNullableRequiredArray() {
@@ -126,10 +120,9 @@ public class ContainerDefaultValueDto {
    * Get requiredArray
    * @return requiredArray
    */
-  @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("required_array")
-  public List<String> getRequiredArray() {
+  public @NotNull List<String> getRequiredArray() {
     return requiredArray;
   }
 
@@ -137,8 +130,8 @@ public class ContainerDefaultValueDto {
     this.requiredArray = requiredArray;
   }
 
-  public ContainerDefaultValueDto nullableArrayWithDefault(List<String> nullableArrayWithDefault) {
-    this.nullableArrayWithDefault = JsonNullable.of(nullableArrayWithDefault);
+  public ContainerDefaultValueDto nullableArrayWithDefault(JsonNullable<List<String>> nullableArrayWithDefault) {
+    this.nullableArrayWithDefault = nullableArrayWithDefault;
     return this;
   }
 
@@ -154,7 +147,6 @@ public class ContainerDefaultValueDto {
    * Get nullableArrayWithDefault
    * @return nullableArrayWithDefault
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("nullable_array_with_default")
   public JsonNullable<List<String>> getNullableArrayWithDefault() {
@@ -219,4 +211,3 @@ public class ContainerDefaultValueDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

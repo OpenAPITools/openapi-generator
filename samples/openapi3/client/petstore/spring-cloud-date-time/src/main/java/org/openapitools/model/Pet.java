@@ -25,7 +25,7 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class Pet {
 
-  private String atType = "Pet";
+  private @NotNull String atType = "Pet";
 
   private Integer age = 4;
 
@@ -59,10 +59,9 @@ public class Pet {
    * Get atType
    * @return atType
    */
-  @NotNull 
   @Schema(name = "@type", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("@type")
-  public String getAtType() {
+  public @NotNull String getAtType() {
     return atType;
   }
 
@@ -79,7 +78,6 @@ public class Pet {
    * Get age
    * @return age
    */
-  
   @Schema(name = "age", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("age")
   public Integer getAge() {
@@ -99,7 +97,6 @@ public class Pet {
    * Get happy
    * @return happy
    */
-  
   @Schema(name = "happy", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("happy")
   public Boolean getHappy() {
@@ -119,7 +116,6 @@ public class Pet {
    * Get price
    * @return price
    */
-  @Valid 
   @Schema(name = "price", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("price")
   public BigDecimal getPrice() {
@@ -139,7 +135,6 @@ public class Pet {
    * Get lastFeed
    * @return lastFeed
    */
-  @Valid 
   @Schema(name = "lastFeed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("lastFeed")
   public OffsetDateTime getLastFeed() {
@@ -159,7 +154,6 @@ public class Pet {
    * Get dateOfBirth
    * @return dateOfBirth
    */
-  @Valid 
   @Schema(name = "dateOfBirth", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("dateOfBirth")
   public LocalDate getDateOfBirth() {
@@ -217,4 +211,3 @@ public class Pet {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

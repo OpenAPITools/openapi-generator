@@ -24,7 +24,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class MapTest {
 
-  @Valid
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
   /**
@@ -62,13 +61,10 @@ public class MapTest {
     }
   }
 
-  @Valid
-  private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
+  private Map<String, String> mapOfEnumString = new HashMap<>();
 
-  @Valid
   private Map<String, Boolean> directMap = new HashMap<>();
 
-  @Valid
   private Map<String, Boolean> indirectMap = new HashMap<>();
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
@@ -88,7 +84,6 @@ public class MapTest {
    * Get mapMapOfString
    * @return mapMapOfString
    */
-  @Valid 
   @Schema(name = "map_map_of_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_map_of_string")
   public Map<String, Map<String, String>> getMapMapOfString() {
@@ -116,10 +111,9 @@ public class MapTest {
    * Get mapOfEnumString
    * @return mapOfEnumString
    */
-  
   @Schema(name = "map_of_enum_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_of_enum_string")
-  public Map<String, InnerEnum> getMapOfEnumString() {
+  public Map<String, String> getMapOfEnumString() {
     return mapOfEnumString;
   }
 
@@ -144,7 +138,6 @@ public class MapTest {
    * Get directMap
    * @return directMap
    */
-  
   @Schema(name = "direct_map", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("direct_map")
   public Map<String, Boolean> getDirectMap() {
@@ -172,7 +165,6 @@ public class MapTest {
    * Get indirectMap
    * @return indirectMap
    */
-  
   @Schema(name = "indirect_map", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("indirect_map")
   public Map<String, Boolean> getIndirectMap() {
@@ -226,4 +218,3 @@ public class MapTest {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

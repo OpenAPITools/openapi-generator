@@ -26,33 +26,25 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
 
-  
   private Map<String, String> mapString = new HashMap<>();
 
-  
   private Map<String, BigDecimal> mapNumber = new HashMap<>();
 
-  
   private Map<String, Integer> mapInteger = new HashMap<>();
 
-  
   private Map<String, Boolean> mapBoolean = new HashMap<>();
 
-  
   private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
 
-  
   private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
 
-  
   private Map<String, Map<String, String>> mapMapString = new HashMap<>();
 
-  
   private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
   private Object anytype1;
 
-  private JsonNullable<Object> anytype2 = JsonNullable.<Object>undefined();
+  private JsonNullable<Object> anytype2 = JsonNullable.of(null);
 
   private Object anytype3;
 
@@ -291,8 +283,8 @@ public class AdditionalPropertiesClass {
     this.anytype1 = anytype1;
   }
 
-  public AdditionalPropertiesClass anytype2(Object anytype2) {
-    this.anytype2 = JsonNullable.of(anytype2);
+  public AdditionalPropertiesClass anytype2(JsonNullable<Object> anytype2) {
+    this.anytype2 = anytype2;
     return this;
   }
 
@@ -397,4 +389,3 @@ public class AdditionalPropertiesClass {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

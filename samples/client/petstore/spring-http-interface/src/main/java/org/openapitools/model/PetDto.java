@@ -36,10 +36,8 @@ public class PetDto {
 
   private String name;
 
-  
   private Set<String> photoUrls = new LinkedHashSet<>();
 
-  
   private List<TagDto> tags = new ArrayList<>();
 
   /**
@@ -80,7 +78,7 @@ public class PetDto {
   }
 
   @Deprecated
-  private StatusEnum status;
+  private String status;
 
   public PetDto() {
     super();
@@ -211,7 +209,7 @@ public class PetDto {
   
   @JsonProperty("status")
   @Deprecated
-  public StatusEnum getStatus() {
+  public String getStatus() {
     return status;
   }
 
@@ -270,4 +268,3 @@ public class PetDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

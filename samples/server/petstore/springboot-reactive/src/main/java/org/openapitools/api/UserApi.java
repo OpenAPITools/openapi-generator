@@ -56,7 +56,7 @@ public interface UserApi {
     )
     
     default Mono<ResponseEntity<Void>> createUser(
-        @ApiParam(value = "Created user object", required = true) @Valid @RequestBody Mono<User> user,
+        @ApiParam(value = "Created user object", required = true) @RequestBody Mono<@NotNull @Valid User> user,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().createUser(user, exchange);
@@ -86,7 +86,7 @@ public interface UserApi {
     )
     
     default Mono<ResponseEntity<Void>> createUsersWithArrayInput(
-        @ApiParam(value = "List of user object", required = true) @Valid @RequestBody Flux<User> user,
+        @ApiParam(value = "List of user object", required = true) @RequestBody Flux<@Valid User> user,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().createUsersWithArrayInput(user, exchange);
@@ -116,7 +116,7 @@ public interface UserApi {
     )
     
     default Mono<ResponseEntity<Void>> createUsersWithListInput(
-        @ApiParam(value = "List of user object", required = true) @Valid @RequestBody Flux<User> user,
+        @ApiParam(value = "List of user object", required = true) @RequestBody Flux<@Valid User> user,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().createUsersWithListInput(user, exchange);
@@ -147,7 +147,7 @@ public interface UserApi {
     )
     
     default Mono<ResponseEntity<Void>> deleteUser(
-        @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username,
+        @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") @NotNull String username,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().deleteUser(username, exchange);
@@ -182,7 +182,7 @@ public interface UserApi {
     )
     
     default Mono<ResponseEntity<User>> getUserByName(
-        @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username,
+        @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") @NotNull String username,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().getUserByName(username, exchange);
@@ -216,8 +216,8 @@ public interface UserApi {
     )
     
     default Mono<ResponseEntity<String>> loginUser(
-        @NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,
-        @NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password,
+        @ApiParam(value = "The user name for login", required = true) @RequestParam(value = "username") @NotNull String username,
+        @ApiParam(value = "The password for login in clear text", required = true) @RequestParam(value = "password") @NotNull String password,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().loginUser(username, password, exchange);
@@ -277,8 +277,8 @@ public interface UserApi {
     )
     
     default Mono<ResponseEntity<Void>> updateUser(
-        @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,
-        @ApiParam(value = "Updated user object", required = true) @Valid @RequestBody Mono<User> user,
+        @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") @NotNull String username,
+        @ApiParam(value = "Updated user object", required = true) @RequestBody Mono<@NotNull @Valid User> user,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().updateUser(username, user, exchange);

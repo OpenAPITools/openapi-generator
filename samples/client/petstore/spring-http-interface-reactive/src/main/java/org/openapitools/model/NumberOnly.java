@@ -78,4 +78,3 @@ public class NumberOnly {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

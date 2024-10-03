@@ -62,7 +62,7 @@ public interface FakeApi {
     )
     
     default ResponseEntity<Void> createXmlItem(
-        @ApiParam(value = "XmlItem Body", required = true) @Valid @RequestBody XmlItem xmlItem
+        @ApiParam(value = "XmlItem Body", required = true) @RequestBody @NotNull @Valid XmlItem xmlItem
     ) {
         return getDelegate().createXmlItem(xmlItem);
     }
@@ -93,7 +93,7 @@ public interface FakeApi {
     )
     
     default ResponseEntity<Boolean> fakeOuterBooleanSerialize(
-        @ApiParam(value = "Input boolean as post body") @Valid @RequestBody(required = false) Boolean body
+        @ApiParam(value = "Input boolean as post body") @RequestBody(required = false) Boolean body
     ) {
         return getDelegate().fakeOuterBooleanSerialize(body);
     }
@@ -124,7 +124,7 @@ public interface FakeApi {
     )
     
     default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(
-        @ApiParam(value = "Input composite as post body") @Valid @RequestBody(required = false) OuterComposite outerComposite
+        @ApiParam(value = "Input composite as post body") @RequestBody(required = false) @Valid OuterComposite outerComposite
     ) {
         return getDelegate().fakeOuterCompositeSerialize(outerComposite);
     }
@@ -155,7 +155,7 @@ public interface FakeApi {
     )
     
     default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
-        @ApiParam(value = "Input number as post body") @Valid @RequestBody(required = false) BigDecimal body
+        @ApiParam(value = "Input number as post body") @RequestBody(required = false) BigDecimal body
     ) {
         return getDelegate().fakeOuterNumberSerialize(body);
     }
@@ -186,7 +186,7 @@ public interface FakeApi {
     )
     
     default ResponseEntity<String> fakeOuterStringSerialize(
-        @ApiParam(value = "Input string as post body") @Valid @RequestBody(required = false) String body
+        @ApiParam(value = "Input string as post body") @RequestBody(required = false) String body
     ) {
         return getDelegate().fakeOuterStringSerialize(body);
     }
@@ -215,7 +215,7 @@ public interface FakeApi {
     )
     
     default ResponseEntity<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(
-        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
+        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") @NotNull Long petId
     ) {
         return getDelegate().responseObjectDifferentNames(petId);
     }
@@ -244,7 +244,7 @@ public interface FakeApi {
     )
     
     default ResponseEntity<Void> testBodyWithFileSchema(
-        @ApiParam(value = "", required = true) @Valid @RequestBody FileSchemaTestClass fileSchemaTestClass
+        @ApiParam(value = "", required = true) @RequestBody @NotNull @Valid FileSchemaTestClass fileSchemaTestClass
     ) {
         return getDelegate().testBodyWithFileSchema(fileSchemaTestClass);
     }
@@ -273,8 +273,8 @@ public interface FakeApi {
     )
     
     default ResponseEntity<Void> testBodyWithQueryParams(
-        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,
-        @ApiParam(value = "", required = true) @Valid @RequestBody User user
+        @ApiParam(value = "", required = true) @RequestParam(value = "query") @NotNull String query,
+        @ApiParam(value = "", required = true) @RequestBody @NotNull @Valid User user
     ) {
         return getDelegate().testBodyWithQueryParams(query, user);
     }
@@ -305,7 +305,7 @@ public interface FakeApi {
     )
     
     default ResponseEntity<Client> testClientModel(
-        @ApiParam(value = "client model", required = true) @Valid @RequestBody Client client
+        @ApiParam(value = "client model", required = true) @RequestBody @NotNull @Valid Client client
     ) {
         return getDelegate().testClientModel(client);
     }
@@ -352,20 +352,20 @@ public interface FakeApi {
     )
     
     default ResponseEntity<Void> testEndpointParameters(
-        @ApiParam(value = "None", required = true) @Valid @RequestParam(value = "number", required = true) BigDecimal number,
-        @ApiParam(value = "None", required = true) @Valid @RequestParam(value = "double", required = true) Double _double,
-        @ApiParam(value = "None", required = true) @Valid @RequestParam(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
-        @ApiParam(value = "None", required = true) @Valid @RequestParam(value = "byte", required = true) byte[] _byte,
-        @ApiParam(value = "None") @Valid @RequestParam(value = "integer", required = false) Integer integer,
-        @ApiParam(value = "None") @Valid @RequestParam(value = "int32", required = false) Integer int32,
-        @ApiParam(value = "None") @Valid @RequestParam(value = "int64", required = false) Long int64,
-        @ApiParam(value = "None") @Valid @RequestParam(value = "float", required = false) Float _float,
-        @ApiParam(value = "None") @Valid @RequestParam(value = "string", required = false) String string,
+        @ApiParam(value = "None", required = true) @RequestParam(value = "number") @NotNull @DecimalMin("32.1") @DecimalMax("543.2") BigDecimal number,
+        @ApiParam(value = "None", required = true) @RequestParam(value = "double") @NotNull @DecimalMin("67.8") @DecimalMax("123.4") Double _double,
+        @ApiParam(value = "None", required = true) @RequestParam(value = "pattern_without_delimiter") @NotNull @Pattern(regexp = "^[A-Z].*") String patternWithoutDelimiter,
+        @ApiParam(value = "None", required = true) @RequestParam(value = "byte") @NotNull byte[] _byte,
+        @ApiParam(value = "None") @RequestParam(value = "integer", required = false) @Min(10) @Max(100) Integer integer,
+        @ApiParam(value = "None") @RequestParam(value = "int32", required = false) @Min(20) @Max(200) Integer int32,
+        @ApiParam(value = "None") @RequestParam(value = "int64", required = false) Long int64,
+        @ApiParam(value = "None") @RequestParam(value = "float", required = false) @DecimalMax("987.6") Float _float,
+        @ApiParam(value = "None") @RequestParam(value = "string", required = false) @Pattern(regexp = "/[a-z]/i") String string,
         @ApiParam(value = "None") @RequestPart(value = "binary", required = false) MultipartFile binary,
-        @ApiParam(value = "None") @Valid @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-        @ApiParam(value = "None") @Valid @RequestParam(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
-        @ApiParam(value = "None") @Valid @RequestParam(value = "password", required = false) String password,
-        @ApiParam(value = "None") @Valid @RequestParam(value = "callback", required = false) String paramCallback
+        @ApiParam(value = "None") @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+        @ApiParam(value = "None") @RequestParam(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
+        @ApiParam(value = "None") @RequestParam(value = "password", required = false) @Size(min = 10, max = 64) String password,
+        @ApiParam(value = "None") @RequestParam(value = "callback", required = false) String paramCallback
     ) {
         return getDelegate().testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
     }
@@ -403,14 +403,14 @@ public interface FakeApi {
     )
     
     default ResponseEntity<Void> testEnumParameters(
-        @ApiParam(value = "Header parameter enum test (string array)", allowableValues = ">, $") @RequestHeader(value = "enum_header_string_array", required = false) List<String> enumHeaderStringArray,
+        @ApiParam(value = "Header parameter enum test (string array)", allowableValues = ">, $") @RequestHeader(value = "enum_header_string_array", required = false) List enumHeaderStringArray,
         @ApiParam(value = "Header parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @RequestHeader(value = "enum_header_string", required = false, defaultValue = "-efg") String enumHeaderString,
-        @ApiParam(value = "Query parameter enum test (string array)", allowableValues = ">, $") @Valid @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,
-        @ApiParam(value = "Query parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
-        @ApiParam(value = "Query parameter enum test (double)", allowableValues = "1, -2") @Valid @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,
-        @ApiParam(value = "Query parameter enum test (double)", allowableValues = "1.1, -1.2") @Valid @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble,
-        @ApiParam(value = "Form parameter enum test (string array)", allowableValues = ">, $", defaultValue = "$") @Valid @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
-        @ApiParam(value = "Form parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_form_string", required = false) String enumFormString
+        @ApiParam(value = "Query parameter enum test (string array)", allowableValues = ">, $") @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,
+        @ApiParam(value = "Query parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
+        @ApiParam(value = "Query parameter enum test (double)", allowableValues = "1, -2") @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,
+        @ApiParam(value = "Query parameter enum test (double)", allowableValues = "1.1, -1.2") @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble,
+        @ApiParam(value = "Form parameter enum test (string array)", allowableValues = ">, $", defaultValue = "$") @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
+        @ApiParam(value = "Form parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @RequestParam(value = "enum_form_string", required = false) String enumFormString
     ) {
         return getDelegate().testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
     }
@@ -443,12 +443,12 @@ public interface FakeApi {
     )
     
     default ResponseEntity<Void> testGroupParameters(
-        @NotNull @ApiParam(value = "Required String in group parameters", required = true) @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,
+        @ApiParam(value = "Required String in group parameters", required = true) @RequestParam(value = "required_string_group") @NotNull Integer requiredStringGroup,
         @NotNull @ApiParam(value = "Required Boolean in group parameters", required = true) @RequestHeader(value = "required_boolean_group", required = true) Boolean requiredBooleanGroup,
-        @NotNull @ApiParam(value = "Required Integer in group parameters", required = true) @Valid @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,
-        @ApiParam(value = "String in group parameters") @Valid @RequestParam(value = "string_group", required = false) Integer stringGroup,
+        @ApiParam(value = "Required Integer in group parameters", required = true) @RequestParam(value = "required_int64_group") @NotNull Long requiredInt64Group,
+        @ApiParam(value = "String in group parameters") @RequestParam(value = "string_group", required = false) Integer stringGroup,
         @ApiParam(value = "Boolean in group parameters") @RequestHeader(value = "boolean_group", required = false) Boolean booleanGroup,
-        @ApiParam(value = "Integer in group parameters") @Valid @RequestParam(value = "int64_group", required = false) Long int64Group
+        @ApiParam(value = "Integer in group parameters") @RequestParam(value = "int64_group", required = false) Long int64Group
     ) {
         return getDelegate().testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
     }
@@ -477,7 +477,7 @@ public interface FakeApi {
     )
     
     default ResponseEntity<Void> testInlineAdditionalProperties(
-        @ApiParam(value = "request body", required = true) @Valid @RequestBody Map<String, String> requestBody
+        @ApiParam(value = "request body", required = true) @RequestBody @NotNull Map<String, String> requestBody
     ) {
         return getDelegate().testInlineAdditionalProperties(requestBody);
     }
@@ -507,8 +507,8 @@ public interface FakeApi {
     )
     
     default ResponseEntity<Void> testJsonFormData(
-        @ApiParam(value = "field1", required = true) @Valid @RequestParam(value = "param", required = true) String param,
-        @ApiParam(value = "field2", required = true) @Valid @RequestParam(value = "param2", required = true) String param2
+        @ApiParam(value = "field1", required = true) @RequestParam(value = "param") @NotNull String param,
+        @ApiParam(value = "field2", required = true) @RequestParam(value = "param2") @NotNull String param2
     ) {
         return getDelegate().testJsonFormData(param, param2);
     }
@@ -537,7 +537,7 @@ public interface FakeApi {
     )
     
     default ResponseEntity<Void> testNullable(
-        @ApiParam(value = "request body", required = true) @Valid @RequestBody ChildWithNullable childWithNullable
+        @ApiParam(value = "request body", required = true) @RequestBody @NotNull @Valid ChildWithNullable childWithNullable
     ) {
         return getDelegate().testNullable(childWithNullable);
     }
@@ -568,10 +568,10 @@ public interface FakeApi {
     )
     
     default ResponseEntity<Void> testQueryParameterCollectionFormat(
-        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,
-        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "http", required = true) List<String> http,
-        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "url", required = true) List<String> url,
-        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "context", required = true) List<String> context
+        @ApiParam(value = "", required = true) @RequestParam(value = "pipe") @NotNull List<String> pipe,
+        @ApiParam(value = "", required = true) @RequestParam(value = "http") @NotNull List<String> http,
+        @ApiParam(value = "", required = true) @RequestParam(value = "url") @NotNull List<String> url,
+        @ApiParam(value = "", required = true) @RequestParam(value = "context") @NotNull List<String> context
     ) {
         return getDelegate().testQueryParameterCollectionFormat(pipe, http, url, context);
     }
@@ -639,9 +639,9 @@ public interface FakeApi {
     )
     
     default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(
-        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
-        @ApiParam(value = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
-        @ApiParam(value = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
+        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") @NotNull Long petId,
+        @ApiParam(value = "file to upload", required = true) @RequestPart(value = "requiredFile") MultipartFile requiredFile,
+        @ApiParam(value = "Additional data to pass to server") @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
     ) {
         return getDelegate().uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
     }

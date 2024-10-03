@@ -66,7 +66,7 @@ public class BigCatDto extends CatDto {
     }
   }
 
-  private KindEnum kind;
+  private String kind;
 
   public BigCatDto() {
     super();
@@ -83,7 +83,7 @@ public class BigCatDto extends CatDto {
    */
   
   @JsonProperty("kind")
-  public KindEnum getKind() {
+  public String getKind() {
     return kind;
   }
 
@@ -145,4 +145,3 @@ public class BigCatDto extends CatDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

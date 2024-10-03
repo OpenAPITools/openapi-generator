@@ -40,7 +40,7 @@ public interface StoreApi {
     )
     
     ResponseEntity<Void> deleteOrder(
-         @PathVariable("orderId") String orderId
+         @PathVariable("orderId") @NotNull String orderId
     );
 
 
@@ -77,7 +77,7 @@ public interface StoreApi {
     )
     
     ResponseEntity<Order> getOrderById(
-        @Min(1L) @Max(5L)  @PathVariable("orderId") Long orderId
+         @PathVariable("orderId") @NotNull @Min(1L) @Max(5L) Long orderId
     );
 
 
@@ -97,7 +97,7 @@ public interface StoreApi {
     )
     
     ResponseEntity<Order> placeOrder(
-         @Valid @RequestBody Order order
+         @RequestBody @NotNull @Valid Order order
     );
 
 }

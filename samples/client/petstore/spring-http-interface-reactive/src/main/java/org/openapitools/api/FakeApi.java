@@ -156,7 +156,7 @@ public interface FakeApi {
         contentType = "application/json"
     )
     Mono<ResponseEntity<Void>> testBodyWithQueryParams(
-         @RequestParam(value = "query", required = true) String query,
+         @RequestParam(value = "query") String query,
          @RequestBody Mono<User> user
     );
 
@@ -207,10 +207,10 @@ public interface FakeApi {
         contentType = "application/x-www-form-urlencoded"
     )
     Mono<ResponseEntity<Void>> testEndpointParameters(
-         @RequestPart(value = "number", required = true) BigDecimal number,
-         @RequestPart(value = "double", required = true) Double _double,
-         @RequestPart(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
-         @RequestPart(value = "byte", required = true) byte[] _byte,
+         @RequestPart(value = "number") BigDecimal number,
+         @RequestPart(value = "double") Double _double,
+         @RequestPart(value = "pattern_without_delimiter") String patternWithoutDelimiter,
+         @RequestPart(value = "byte") byte[] _byte,
          @RequestPart(value = "integer", required = false) Integer integer,
          @RequestPart(value = "int32", required = false) Integer int32,
          @RequestPart(value = "int64", required = false) Long int64,
@@ -246,7 +246,7 @@ public interface FakeApi {
         contentType = "application/x-www-form-urlencoded"
     )
     Mono<ResponseEntity<Void>> testEnumParameters(
-         @RequestHeader(value = "enum_header_string_array", required = false) List<String> enumHeaderStringArray,
+         @RequestHeader(value = "enum_header_string_array", required = false) List enumHeaderStringArray,
          @RequestHeader(value = "enum_header_string", required = false, defaultValue = "-efg") String enumHeaderString,
          @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,
          @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
@@ -275,9 +275,9 @@ public interface FakeApi {
         accept = { "application/json" }
     )
     Mono<ResponseEntity<Void>> testGroupParameters(
-         @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,
+         @RequestParam(value = "required_string_group") Integer requiredStringGroup,
          @RequestHeader(value = "required_boolean_group", required = true) Boolean requiredBooleanGroup,
-         @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,
+         @RequestParam(value = "required_int64_group") Long requiredInt64Group,
          @RequestParam(value = "string_group", required = false) Integer stringGroup,
          @RequestHeader(value = "boolean_group", required = false) Boolean booleanGroup,
          @RequestParam(value = "int64_group", required = false) Long int64Group
@@ -317,8 +317,8 @@ public interface FakeApi {
         contentType = "application/x-www-form-urlencoded"
     )
     Mono<ResponseEntity<Void>> testJsonFormData(
-         @RequestPart(value = "param", required = true) String param,
-         @RequestPart(value = "param2", required = true) String param2
+         @RequestPart(value = "param") String param,
+         @RequestPart(value = "param2") String param2
     );
 
 
@@ -356,10 +356,10 @@ public interface FakeApi {
         accept = { "application/json" }
     )
     Mono<ResponseEntity<Void>> testQueryParameterCollectionFormat(
-         @RequestParam(value = "pipe", required = true) List<String> pipe,
-         @RequestParam(value = "http", required = true) List<String> http,
-         @RequestParam(value = "url", required = true) List<String> url,
-         @RequestParam(value = "context", required = true) List<String> context
+         @RequestParam(value = "pipe") List<String> pipe,
+         @RequestParam(value = "http") List<String> http,
+         @RequestParam(value = "url") List<String> url,
+         @RequestParam(value = "context") List<String> context
     );
 
 

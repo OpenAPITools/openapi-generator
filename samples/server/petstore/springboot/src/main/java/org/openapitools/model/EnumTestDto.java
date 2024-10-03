@@ -63,7 +63,7 @@ public class EnumTestDto {
     }
   }
 
-  private EnumStringEnum enumString;
+  private String enumString;
 
   /**
    * Gets or Sets enumStringRequired
@@ -102,7 +102,7 @@ public class EnumTestDto {
     }
   }
 
-  private EnumStringRequiredEnum enumStringRequired;
+  private @NotNull String enumStringRequired;
 
   /**
    * Gets or Sets enumInteger
@@ -139,7 +139,7 @@ public class EnumTestDto {
     }
   }
 
-  private EnumIntegerEnum enumInteger;
+  private Integer enumInteger;
 
   /**
    * Gets or Sets enumNumber
@@ -176,7 +176,7 @@ public class EnumTestDto {
     }
   }
 
-  private EnumNumberEnum enumNumber;
+  private Double enumNumber;
 
   private OuterEnumDto outerEnum;
 
@@ -200,10 +200,9 @@ public class EnumTestDto {
    * Get enumString
    * @return enumString
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("enum_string")
-  public EnumStringEnum getEnumString() {
+  public String getEnumString() {
     return enumString;
   }
 
@@ -220,10 +219,9 @@ public class EnumTestDto {
    * Get enumStringRequired
    * @return enumStringRequired
    */
-  @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("enum_string_required")
-  public EnumStringRequiredEnum getEnumStringRequired() {
+  public @NotNull String getEnumStringRequired() {
     return enumStringRequired;
   }
 
@@ -240,10 +238,9 @@ public class EnumTestDto {
    * Get enumInteger
    * @return enumInteger
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("enum_integer")
-  public EnumIntegerEnum getEnumInteger() {
+  public Integer getEnumInteger() {
     return enumInteger;
   }
 
@@ -260,10 +257,9 @@ public class EnumTestDto {
    * Get enumNumber
    * @return enumNumber
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("enum_number")
-  public EnumNumberEnum getEnumNumber() {
+  public Double getEnumNumber() {
     return enumNumber;
   }
 
@@ -280,7 +276,6 @@ public class EnumTestDto {
    * Get outerEnum
    * @return outerEnum
    */
-  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("outerEnum")
   public OuterEnumDto getOuterEnum() {
@@ -336,4 +331,3 @@ public class EnumTestDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

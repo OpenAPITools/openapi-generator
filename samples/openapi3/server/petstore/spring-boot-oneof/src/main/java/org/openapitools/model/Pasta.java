@@ -48,7 +48,6 @@ public class Pasta extends Entity {
    * Get vendor
    * @return vendor
    */
-  
   @Schema(name = "vendor", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("vendor")
   public String getVendor() {
@@ -146,37 +145,31 @@ public class Pasta extends Entity {
       this.instance.vendor(vendor);
       return this;
     }
-    
     @Override
     public Pasta.Builder href(String href) {
       this.instance.href(href);
       return this;
     }
-    
     @Override
     public Pasta.Builder id(String id) {
       this.instance.id(id);
       return this;
     }
-    
     @Override
     public Pasta.Builder atSchemaLocation(String atSchemaLocation) {
       this.instance.atSchemaLocation(atSchemaLocation);
       return this;
     }
-    
     @Override
     public Pasta.Builder atBaseType(String atBaseType) {
       this.instance.atBaseType(atBaseType);
       return this;
     }
-    
     @Override
     public Pasta.Builder atType(String atType) {
       this.instance.atType(atType);
       return this;
     }
-    
     /**
     * returns a built Pasta instance.
     *
@@ -214,4 +207,3 @@ public class Pasta extends Entity {
   }
 
 }
-

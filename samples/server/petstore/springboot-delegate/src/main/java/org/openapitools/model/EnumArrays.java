@@ -61,7 +61,7 @@ public class EnumArrays {
     }
   }
 
-  private JustSymbolEnum justSymbol;
+  private String justSymbol;
 
   /**
    * Gets or Sets arrayEnum
@@ -98,8 +98,7 @@ public class EnumArrays {
     }
   }
 
-  @Valid
-  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
+  private List<String> arrayEnum = new ArrayList<>();
 
   public EnumArrays() {
     super();
@@ -109,8 +108,8 @@ public class EnumArrays {
    * Constructor with all args parameters
    */
   public EnumArrays(JustSymbolEnum justSymbol, List<ArrayEnumEnum> arrayEnum) {
-      this.justSymbol = justSymbol;
-      this.arrayEnum = arrayEnum;
+    this.justSymbol = justSymbol;
+    this.arrayEnum = arrayEnum;
   }
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
@@ -122,10 +121,9 @@ public class EnumArrays {
    * Get justSymbol
    * @return justSymbol
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("just_symbol")
-  public JustSymbolEnum getJustSymbol() {
+  public String getJustSymbol() {
     return justSymbol;
   }
 
@@ -150,10 +148,9 @@ public class EnumArrays {
    * Get arrayEnum
    * @return arrayEnum
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("array_enum")
-  public List<ArrayEnumEnum> getArrayEnum() {
+  public List<String> getArrayEnum() {
     return arrayEnum;
   }
 
@@ -200,4 +197,3 @@ public class EnumArrays {
     return o.toString().replace("\n", "\n    ");
   }
 }
-
