@@ -46,10 +46,11 @@ accept_callback(Class, OperationID, Req, Context) ->
 
 -export_type([operation_id/0]).
 
--dialyzer({nowarn_function, [to_binary/1, validate_response_body/4]}).
+-dialyzer({nowarn_function, [validate_response_body/4]}).
 
 -type rule() ::
     {type, binary} |
+    {type, byte} |
     {type, integer} |
     {type, float} |
     {type, boolean} |
@@ -137,16 +138,16 @@ for the `OperationID` operation.
             {type, integer},{{/isLong}}{{#isFloat}}
             {type, float},{{/isFloat}}{{#isDouble}}
             {type, float},{{/isDouble}}{{#isByteArray}}
-            {type, binary},{{/isByteArray}}{{#isBinary}}
+            {type, byte},{{/isByteArray}}{{#isBinary}}
             {type, binary},{{/isBinary}}{{#isBoolean}}
             {type, boolean},{{/isBoolean}}{{#isDate}}
             {type, date},{{/isDate}}{{#isDateTime}}
             {type, datetime},{{/isDateTime}}{{#isEnum}}
             {enum, [{{#allowableValues}}{{#values}}'{{.}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}] },{{/isEnum}}{{#maximum}}
-            {max, {{maximum}}},{{/maximum}}{{#exclusiveMaximum}}
-            {exclusive_max, {{exclusiveMaximum}}},{{/exclusiveMaximum}}{{#minimum}}
-            {min, {{minimum}}},{{/minimum}}{{#exclusiveMinimum}}
-            {exclusive_min, {{exclusiveMinimum}}},{{/exclusiveMinimum}}{{#maxLength}}
+            {max, {{maximum}}},{{#exclusiveMaximum}}
+            {exclusive_max, {{maximum}}},{{/exclusiveMaximum}}{{/maximum}}{{#minimum}}
+            {min, {{minimum}}},{{#exclusiveMinimum}}
+            {exclusive_min, {{minimum}}},{{/exclusiveMinimum}}{{/minimum}}{{#maxLength}}
             {max_length, {{maxLength}}},{{/maxLength}}{{#minLength}}
             {min_length, {{minLength}}},{{/minLength}}{{#pattern}}
             {pattern, "{{{pattern}}}"},{{/pattern}}{{#isBodyParam}}
@@ -202,38 +203,53 @@ validate_response_body(_, ReturnBaseType, Body, ValidatorState) ->
     ok | {ok, term()}.
 validate(required, undefined, ReqParamName, _) ->
     validation_error(required, ReqParamName, undefined);
-validate(required, _Value, _ReqParamName, _) ->
+validate(required, _Value, _, _) ->
     ok;
-validate(not_required, _Value, _ReqParamName, _) ->
+validate(not_required, _Value, _, _) ->
     ok;
-validate(_, undefined, _ReqParamName, _) ->
+validate(_, undefined, _, _) ->
     ok;
-validate({type, boolean}, Value, _ReqParamName, _) when is_boolean(Value) ->
-    {ok, Value};
-validate({type, integer}, Value, _ReqParamName, _) when is_integer(Value) ->
+validate({type, boolean}, Value, _, _) when is_boolean(Value) ->
     ok;
-validate({type, float}, Value, _ReqParamName, _) when is_float(Value) ->
+validate({type, integer}, Value, _, _) when is_integer(Value) ->
     ok;
-validate({type, binary}, Value, _ReqParamName, _) when is_binary(Value) ->
+validate({type, float}, Value, _, _) when is_float(Value) ->
     ok;
-validate(Rule = {type, binary}, Value, ReqParamName, _) ->
-    validation_error(Rule, ReqParamName, Value);
-validate(Rule = {type, boolean}, Value, ReqParamName, _) ->
-    case binary_to_lower(Value) of
+validate({type, binary}, Value, _, _) when is_binary(Value) ->
+    ok;
+validate({max, Max}, Value, _, _) when Value =< Max ->
+    ok;
+validate({min, Min}, Value, _, _) when Min =< Value ->
+    ok;
+validate({exclusive_max, Max}, Value, _, _) when Value < Max ->
+    ok;
+validate({exclusive_min, Min}, Value, _, _) when Min < Value ->
+    ok;
+validate({max_length, MaxLength}, Value, _, _) when is_binary(Value), byte_size(Value) =< MaxLength ->
+    ok;
+validate({min_length, MinLength}, Value, _, _) when is_binary(Value), MinLength =< byte_size(Value) ->
+    ok;
+validate(Rule = {type, byte}, Value, ReqParamName, _) when is_binary(Value) ->
+    try base64:decode(Value) of
+        Decoded -> {ok, Decoded}
+    catch error:_Error -> validation_error(Rule, ReqParamName, Value)
+    end;
+validate(Rule = {type, boolean}, Value, ReqParamName, _) when is_binary(Value) ->
+    case to_binary(string:lowercase(Value)) of
         <<"true">> -> {ok, true};
         <<"false">> -> {ok, false};
         _ -> validation_error(Rule, ReqParamName, Value)
     end;
-validate(Rule = {type, integer}, Value, ReqParamName, _) ->
+validate(Rule = {type, integer}, Value, ReqParamName, _) when is_binary(Value) ->
     try
-        {ok, to_int(Value)}
+        {ok, binary_to_integer(Value)}
     catch
         error:badarg ->
             validation_error(Rule, ReqParamName, Value)
     end;
-validate(Rule = {type, float}, Value, ReqParamName, _) ->
+validate(Rule = {type, float}, Value, ReqParamName, _) when is_binary(Value) ->
     try
-        {ok, to_float(Value)}
+        {ok, binary_to_float(Value)}
     catch
         error:badarg ->
             validation_error(Rule, ReqParamName, Value)
@@ -244,9 +260,9 @@ validate(Rule = {type, date}, Value, ReqParamName, _) ->
         false -> validation_error(Rule, ReqParamName, Value)
     end;
 validate(Rule = {type, datetime}, Value, ReqParamName, _) ->
-    case is_binary(Value) of
-        true -> ok;
-        false -> validation_error(Rule, ReqParamName, Value)
+    try calendar:rfc3339_to_system_time(binary_to_list(Value)) of
+        _ -> ok
+    catch error:_Error -> validation_error(Rule, ReqParamName, Value)
     end;
 validate(Rule = {enum, Values}, Value, ReqParamName, _) ->
     try
@@ -259,36 +275,6 @@ validate(Rule = {enum, Values}, Value, ReqParamName, _) ->
         error:badarg ->
             validation_error(Rule, ReqParamName, Value)
     end;
-validate(Rule = {max, Max}, Value, ReqParamName, _) ->
-    case Value =< Max of
-        true -> ok;
-        false -> validation_error(Rule, ReqParamName, Value)
-    end;
-validate(Rule = {exclusive_max, ExclusiveMax}, Value, ReqParamName, _) ->
-    case Value > ExclusiveMax of
-        true -> ok;
-        false -> validation_error(Rule, ReqParamName, Value)
-    end;
-validate(Rule = {min, Min}, Value, ReqParamName, _) ->
-    case Value >= Min of
-        true -> ok;
-        false -> validation_error(Rule, ReqParamName, Value)
-    end;
-validate(Rule = {exclusive_min, ExclusiveMin}, Value, ReqParamName, _) ->
-    case Value =< ExclusiveMin of
-        true -> ok;
-        false -> validation_error(Rule, ReqParamName, Value)
-    end;
-validate(Rule = {max_length, MaxLength}, Value, ReqParamName, _) ->
-    case size(Value) =< MaxLength of
-        true -> ok;
-        false -> validation_error(Rule, ReqParamName, Value)
-    end;
-validate(Rule = {min_length, MinLength}, Value, ReqParamName, _) ->
-    case size(Value) >= MinLength of
-        true -> ok;
-        false -> validation_error(Rule, ReqParamName, Value)
-    end;
 validate(Rule = {pattern, Pattern}, Value, ReqParamName, _) ->
     {ok, MP} = re:compile(Pattern),
     case re:run(Value, MP) of
@@ -296,7 +282,7 @@ validate(Rule = {pattern, Pattern}, Value, ReqParamName, _) ->
         _ -> validation_error(Rule, ReqParamName, Value)
     end;
 validate(Rule = schema, Value, ReqParamName, ValidatorState) ->
-    Definition = iolist_to_binary(["#/components/schemas/", atom_to_binary(ReqParamName)]),
+    Definition = iolist_to_binary(["#/components/schemas/", atom_to_binary(ReqParamName, utf8)]),
     try
         _ = validate_with_schema(Value, Definition, ValidatorState),
         ok
@@ -316,9 +302,8 @@ validate(Rule = schema, Value, ReqParamName, ValidatorState) ->
             },
             validation_error(Rule, ReqParamName, Value, Info)
     end;
-validate(Rule, _Value, ReqParamName, _) ->
-    ?LOG_INFO(#{what => "Cannot validate rule", name => ReqParamName, rule => Rule}),
-    error({unknown_validation_rule, Rule}).
+validate(Rule, Value, ReqParamName, _) ->
+    validation_error(Rule, ReqParamName, Value).
 
 -spec validation_error(rule(), request_param(), term()) -> no_return().
 validation_error(ViolatedRule, Name, Value) ->
@@ -345,7 +330,7 @@ get_value(qs_val, Name, Req) ->
     {Value, Req};
 get_value(header, Name, Req) ->
     Headers = cowboy_req:headers(Req),
-    Value =  maps:get(to_header(Name), Headers, undefined),
+    Value = maps:get(to_header(Name), Headers, undefined),
     {Value, Req};
 get_value(binding, Name, Req) ->
     Value = cowboy_req:binding(Name, Req),
@@ -398,31 +383,13 @@ prepare_param(Rules, ReqParamName, Value, ValidatorState) ->
             {error, Reason}
     end.
 
--spec to_binary(iodata() | atom() | number()) -> binary().
+-spec to_binary(iodata()) -> binary().
 to_binary(V) when is_binary(V)  -> V;
-to_binary(V) when is_list(V)    -> iolist_to_binary(V);
-to_binary(V) when is_atom(V)    -> atom_to_binary(V, utf8);
-to_binary(V) when is_integer(V) -> integer_to_binary(V);
-to_binary(V) when is_float(V)   -> float_to_binary(V).
-
--spec to_float(binary() | list()) -> integer().
-to_float(Data) when is_binary(Data) ->
-    binary_to_float(Data);
-to_float(Data) when is_list(Data) ->
-    list_to_float(Data).
-
--spec to_int(binary() | list()) -> integer().
-to_int(Data) when is_binary(Data) ->
-    binary_to_integer(Data);
-to_int(Data) when is_list(Data) ->
-    list_to_integer(Data).
+to_binary(V) when is_list(V)    -> iolist_to_binary(V).
 
 -spec to_header(request_param()) -> binary().
 to_header(Name) ->
     to_binary(string:lowercase(atom_to_binary(Name, utf8))).
-
-binary_to_lower(V) when is_binary(V) ->
-    string:lowercase(V).
 
 -spec to_qs(request_param()) -> binary().
 to_qs(Name) ->
