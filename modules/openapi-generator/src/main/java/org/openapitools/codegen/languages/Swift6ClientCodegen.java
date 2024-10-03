@@ -516,6 +516,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (additionalProperties.containsKey(SWIFT_USE_API_NAMESPACE)) {
             setSwiftUseApiNamespace(convertPropertyToBooleanAndWriteBack(SWIFT_USE_API_NAMESPACE));
         }
+        additionalProperties.put(SWIFT_USE_API_NAMESPACE, swiftUseApiNamespace);
 
         if (!additionalProperties.containsKey(POD_AUTHORS)) {
             additionalProperties.put(POD_AUTHORS, DEFAULT_POD_AUTHORS);
@@ -524,6 +525,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (additionalProperties.containsKey(USE_SPM_FILE_STRUCTURE)) {
             setUseSPMFileStructure(convertPropertyToBooleanAndWriteBack(USE_SPM_FILE_STRUCTURE));
         }
+        additionalProperties.put(USE_SPM_FILE_STRUCTURE, useSPMFileStructure);
         if (useSPMFileStructure) {
             sourceFolder = "Sources" + File.separator + projectName;
         } else {
