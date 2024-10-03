@@ -31,7 +31,7 @@ class PetAPITests: XCTestCase {
         try await PetAPI().addPet(body: newPet)
     }
 
-    func test2GetPet() {
+    @MainActor func test2GetPet() {
         let expectation = self.expectation(description: "testGetPet")
 
         PetAPI().getPetById(petId: 1000) { (pet, error) in
@@ -48,7 +48,7 @@ class PetAPITests: XCTestCase {
             }
         }
 
-        self.waitForExpectations(timeout: testTimeout, handler: nil)
+        self.waitForExpectations(timeout: 10.0, handler: nil)
     }
 
     func test3UploadFile() async throws {
