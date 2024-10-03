@@ -115,7 +115,7 @@ export class DefaultApi {
      * @param strCode2 Code as header2
      * @param patchUsersUserIdRequest Patch user properties to update.
      *
-	 * @deprecated
+     * @deprecated
      */
     public async patchUsersUserId (userId: number, strCode?: string, strCode2?: string, patchUsersUserIdRequest?: PatchUsersUserIdRequest, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: User;  }> {
         const localVarPath = this.basePath + '/users/{userId}'

@@ -305,7 +305,7 @@ export class PetApi {
      * @summary Finds Pets by tags
      * @param tags Tags to filter by
      *
-	 * @deprecated
+     * @deprecated
      */
     public async findPetsByTags (tags: Array<string>, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Array<Pet>;  }> {
         const localVarPath = this.basePath + '/pet/findByTags';
