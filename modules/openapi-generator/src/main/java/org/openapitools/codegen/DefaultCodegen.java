@@ -6648,7 +6648,7 @@ public class DefaultCodegen implements CodegenConfig {
         for (Object value : values) {
             if (value == null) {
                 // raw null values in enums are unions for nullable
-                // atttributes, not actual enum values, so we remove them here
+                // attributes, not actual enum values, so we remove them here
                 continue;
             }
             Map<String, Object> enumVar = new HashMap<>();
