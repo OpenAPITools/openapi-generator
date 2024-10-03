@@ -8,9 +8,6 @@ import Foundation
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 import Vapor
 
 extension String: @retroactive CodingKey {
@@ -166,4 +163,4 @@ extension Set: RequestDecodable where Element: Content {
 
 extension Set: Content where Element: Content { }
 
-extension AnyCodable: Content {}
+extension JSONValue: Content {}

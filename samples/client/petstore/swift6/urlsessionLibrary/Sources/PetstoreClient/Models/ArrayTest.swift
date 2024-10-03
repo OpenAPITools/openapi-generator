@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 @available(*, deprecated, renamed: "PetstoreClientAPI.ArrayTest")
 public typealias ArrayTest = PetstoreClientAPI.ArrayTest

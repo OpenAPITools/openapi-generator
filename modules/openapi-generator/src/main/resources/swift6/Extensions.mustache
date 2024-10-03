@@ -7,9 +7,6 @@
 import Foundation
 #if canImport(FoundationNetworking)
 import FoundationNetworking
-#endif
-#if canImport(AnyCodable)
-import AnyCodable
 #endif{{#usePromiseKit}}
 @preconcurrency import PromiseKit{{/usePromiseKit}}{{#useVapor}}
 import Vapor{{/useVapor}}{{^useVapor}}
@@ -277,4 +274,4 @@ extension Set: RequestDecodable where Element: Content {
 
 extension Set: Content where Element: Content { }
 
-extension AnyCodable: Content {}{{/useVapor}}
+extension JSONValue: Content {}{{/useVapor}}

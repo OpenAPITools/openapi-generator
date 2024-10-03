@@ -7,9 +7,6 @@
 
 import Foundation
 @preconcurrency import PromiseKit
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class FakeClassnameTags123API {
 

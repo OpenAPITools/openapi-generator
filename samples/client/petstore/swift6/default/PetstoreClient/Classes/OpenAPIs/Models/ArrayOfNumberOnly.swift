@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 public struct ArrayOfNumberOnly: Codable, JSONEncodable, Hashable {
 

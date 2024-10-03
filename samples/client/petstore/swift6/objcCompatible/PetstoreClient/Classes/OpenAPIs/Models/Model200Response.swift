@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 /** Model for testing model name starting with number */
 @objcMembers public class Model200Response: NSObject, Codable, JSONEncodable {

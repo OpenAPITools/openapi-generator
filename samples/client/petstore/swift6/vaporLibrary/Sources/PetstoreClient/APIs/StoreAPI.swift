@@ -7,9 +7,6 @@
 
 import Foundation
 import Vapor
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class StoreAPI {
 

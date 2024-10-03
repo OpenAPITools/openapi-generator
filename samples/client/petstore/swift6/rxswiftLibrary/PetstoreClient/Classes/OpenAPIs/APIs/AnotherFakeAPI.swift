@@ -7,9 +7,6 @@
 
 import Foundation
 @preconcurrency import RxSwift
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class AnotherFakeAPI {
 
