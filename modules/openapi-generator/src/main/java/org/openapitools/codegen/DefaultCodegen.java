@@ -8092,10 +8092,13 @@ public class DefaultCodegen implements CodegenConfig {
         LOGGER.debug("Post processing file {} ({})", file, fileType);
     }
 
-    protected void executePostProcessor(String[] commandArr) {
+    protected boolean executePostProcessor(String[] commandArr) {
         final String command = String.join(" ", commandArr);
         try {
-            Process p = Runtime.getRuntime().exec(commandArr);
+            // we don't use the array variant here, because the command passed in by the user is often not only a single binary
+            // but a combination of binary + parameters, e.g. `/etc/bin prettier -w`, which would then not be found, as the
+            // first array item would be expected to be the binary only. The exec method is tokenizing the command for us.
+            Process p = Runtime.getRuntime().exec(command);
             p.waitFor();
             int exitValue = p.exitValue();
             if (exitValue != 0) {
@@ -8110,12 +8113,14 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             } else {
                 LOGGER.info("Successfully executed: {}", command);
+                return true;
             }
         } catch (InterruptedException | IOException e) {
             LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             // Restore interrupted state
             Thread.currentThread().interrupt();
         }
+        return false;
     }
 
     /**
