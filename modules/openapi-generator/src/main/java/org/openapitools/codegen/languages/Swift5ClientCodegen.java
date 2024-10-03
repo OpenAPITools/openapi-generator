@@ -64,7 +64,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String READONLY_PROPERTIES = "readonlyProperties";
     public static final String SWIFT_USE_API_NAMESPACE = "swiftUseApiNamespace";
     public static final String DEFAULT_POD_AUTHORS = "OpenAPI Generator";
-    public static final String LENIENT_TYPE_CAST = "lenientTypeCast";
     public static final String USE_SPM_FILE_STRUCTURE = "useSPMFileStructure";
     public static final String SWIFT_PACKAGE_PATH = "swiftPackagePath";
     public static final String ONE_OF_UNKNOWN_DEFAULT_CASE = "oneOfUnknownDefaultCase";
@@ -88,7 +87,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     @Setter protected String projectName = "OpenAPIClient";
     @Setter protected boolean nonPublicApi = false;
     @Setter protected boolean objcCompatible = false;
-    @Setter protected boolean lenientTypeCast = false;
     @Setter protected boolean readonlyProperties = false;
     @Setter protected boolean swiftUseApiNamespace = false;
     @Setter protected boolean useSPMFileStructure = false;
@@ -284,10 +282,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
                 CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(new CliOption(LENIENT_TYPE_CAST,
-                "Accept and cast values for simple types (string->bool, "
-                        + "string->int, int->string)")
-                .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(USE_BACKTICK_ESCAPES,
                 "Escape reserved words using backticks (default: false)")
                 .defaultValue(Boolean.FALSE.toString()));
@@ -551,8 +545,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             setValidatable(convertPropertyToBooleanAndWriteBack(VALIDATABLE));
         }
         additionalProperties.put(VALIDATABLE, validatable);
-
-        setLenientTypeCast(convertPropertyToBooleanAndWriteBack(LENIENT_TYPE_CAST));
 
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
