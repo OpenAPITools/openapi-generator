@@ -14,18 +14,11 @@ open class PetAPI {
      
      - parameter body: (body) Pet object that needs to be added to the store 
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Void
      */
-    @discardableResult
-    open class func addPet(body: Pet, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
-        return addPetWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func addPet(body: Pet, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
+        return try await addPetWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -63,18 +56,11 @@ open class PetAPI {
      - parameter petId: (path) Pet id to delete 
      - parameter apiKey: (header)  (optional)
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Void
      */
-    @discardableResult
-    open class func deletePet(petId: Int64, apiKey: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
-        return deletePetWithRequestBuilder(petId: petId, apiKey: apiKey, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deletePet(petId: Int64, apiKey: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
+        return try await deletePetWithRequestBuilder(petId: petId, apiKey: apiKey, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -124,18 +110,11 @@ open class PetAPI {
      
      - parameter status: (query) Status values that need to be considered for filter 
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: [Pet]
      */
-    @discardableResult
-    open class func findPetsByStatus(status: [Status_findPetsByStatus], openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: [Pet]?, _ error: Error?) -> Void) -> RequestTask {
-        return findPetsByStatusWithRequestBuilder(status: status, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func findPetsByStatus(status: [Status_findPetsByStatus], openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> [Pet] {
+        return try await findPetsByStatusWithRequestBuilder(status: status, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -176,19 +155,12 @@ open class PetAPI {
      
      - parameter tags: (query) Tags to filter by 
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Set<Pet>
      */
     @available(*, deprecated, message: "This operation is deprecated.")
-    @discardableResult
-    open class func findPetsByTags(tags: Set<String>, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Set<Pet>?, _ error: Error?) -> Void) -> RequestTask {
-        return findPetsByTagsWithRequestBuilder(tags: tags, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func findPetsByTags(tags: Set<String>, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> Set<Pet> {
+        return try await findPetsByTagsWithRequestBuilder(tags: tags, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -230,18 +202,11 @@ open class PetAPI {
      
      - parameter petId: (path) ID of pet to return 
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Pet
      */
-    @discardableResult
-    open class func getPetById(petId: Int64, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Pet?, _ error: Error?) -> Void) -> RequestTask {
-        return getPetByIdWithRequestBuilder(petId: petId, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getPetById(petId: Int64, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> Pet {
+        return try await getPetByIdWithRequestBuilder(petId: petId, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -282,18 +247,11 @@ open class PetAPI {
      
      - parameter body: (body) Pet object that needs to be added to the store 
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Void
      */
-    @discardableResult
-    open class func updatePet(body: Pet, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
-        return updatePetWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func updatePet(body: Pet, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
+        return try await updatePetWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -332,18 +290,11 @@ open class PetAPI {
      - parameter name: (form) Updated name of the pet (optional)
      - parameter status: (form) Updated status of the pet (optional)
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Void
      */
-    @discardableResult
-    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
-        return updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
+        return try await updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -393,18 +344,11 @@ open class PetAPI {
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
      - parameter file: (form) file to upload (optional)
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: ApiResponse
      */
-    @discardableResult
-    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: ApiResponse?, _ error: Error?) -> Void) -> RequestTask {
-        return uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> ApiResponse {
+        return try await uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -454,18 +398,11 @@ open class PetAPI {
      - parameter requiredFile: (form) file to upload 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: ApiResponse
      */
-    @discardableResult
-    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: ApiResponse?, _ error: Error?) -> Void) -> RequestTask {
-        return uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> ApiResponse {
+        return try await uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata, openAPIClient: openAPIClient).execute().body
     }
 
     /**

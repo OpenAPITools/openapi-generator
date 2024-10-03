@@ -14,18 +14,11 @@ open class FakeAPI {
      
      - parameter xmlItem: (body) XmlItem Body 
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Void
      */
-    @discardableResult
-    open class func createXmlItem(xmlItem: XmlItem, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
-        return createXmlItemWithRequestBuilder(xmlItem: xmlItem, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func createXmlItem(xmlItem: XmlItem, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
+        return try await createXmlItemWithRequestBuilder(xmlItem: xmlItem, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -59,18 +52,11 @@ open class FakeAPI {
 
      - parameter body: (body) Input boolean as post body (optional)
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Bool
      */
-    @discardableResult
-    open class func fakeOuterBooleanSerialize(body: Bool? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Bool?, _ error: Error?) -> Void) -> RequestTask {
-        return fakeOuterBooleanSerializeWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func fakeOuterBooleanSerialize(body: Bool? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> Bool {
+        return try await fakeOuterBooleanSerializeWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -103,18 +89,11 @@ open class FakeAPI {
 
      - parameter body: (body) Input composite as post body (optional)
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: OuterComposite
      */
-    @discardableResult
-    open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: OuterComposite?, _ error: Error?) -> Void) -> RequestTask {
-        return fakeOuterCompositeSerializeWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> OuterComposite {
+        return try await fakeOuterCompositeSerializeWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -147,18 +126,11 @@ open class FakeAPI {
 
      - parameter body: (body) Input number as post body (optional)
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Double
      */
-    @discardableResult
-    open class func fakeOuterNumberSerialize(body: Double? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Double?, _ error: Error?) -> Void) -> RequestTask {
-        return fakeOuterNumberSerializeWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func fakeOuterNumberSerialize(body: Double? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> Double {
+        return try await fakeOuterNumberSerializeWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -191,18 +163,11 @@ open class FakeAPI {
 
      - parameter body: (body) Input string as post body (optional)
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: String
      */
-    @discardableResult
-    open class func fakeOuterStringSerialize(body: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: String?, _ error: Error?) -> Void) -> RequestTask {
-        return fakeOuterStringSerializeWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func fakeOuterStringSerialize(body: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> String {
+        return try await fakeOuterStringSerializeWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -235,18 +200,11 @@ open class FakeAPI {
 
      - parameter body: (body)  
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Void
      */
-    @discardableResult
-    open class func testBodyWithFileSchema(body: FileSchemaTestClass, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
-        return testBodyWithFileSchemaWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func testBodyWithFileSchema(body: FileSchemaTestClass, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
+        return try await testBodyWithFileSchemaWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -280,18 +238,11 @@ open class FakeAPI {
      - parameter query: (query)  
      - parameter body: (body)  
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Void
      */
-    @discardableResult
-    open class func testBodyWithQueryParams(query: String, body: User, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
-        return testBodyWithQueryParamsWithRequestBuilder(query: query, body: body, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func testBodyWithQueryParams(query: String, body: User, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
+        return try await testBodyWithQueryParamsWithRequestBuilder(query: query, body: body, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -328,18 +279,11 @@ open class FakeAPI {
      
      - parameter body: (body) client model 
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Client
      */
-    @discardableResult
-    open class func testClientModel(body: Client, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Client?, _ error: Error?) -> Void) -> RequestTask {
-        return testClientModelWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func testClientModel(body: Client, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> Client {
+        return try await testClientModelWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -387,18 +331,11 @@ open class FakeAPI {
      - parameter password: (form) None (optional)
      - parameter callback: (form) None (optional)
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Void
      */
-    @discardableResult
-    open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
-        return testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
+        return try await testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -541,18 +478,11 @@ open class FakeAPI {
      - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to .dollar)
      - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .efg)
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Void
      */
-    @discardableResult
-    open class func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
-        return testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
+        return try await testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -613,18 +543,11 @@ open class FakeAPI {
      - parameter booleanGroup: (header) Boolean in group parameters (optional)
      - parameter int64Group: (query) Integer in group parameters (optional)
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Void
      */
-    @discardableResult
-    open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
-        return testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
+        return try await testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -671,18 +594,11 @@ open class FakeAPI {
      
      - parameter param: (body) request body 
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Void
      */
-    @discardableResult
-    open class func testInlineAdditionalProperties(param: [String: String], openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
-        return testInlineAdditionalPropertiesWithRequestBuilder(param: param, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func testInlineAdditionalProperties(param: [String: String], openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
+        return try await testInlineAdditionalPropertiesWithRequestBuilder(param: param, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -717,18 +633,11 @@ open class FakeAPI {
      - parameter param: (form) field1 
      - parameter param2: (form) field2 
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Void
      */
-    @discardableResult
-    open class func testJsonFormData(param: String, param2: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
-        return testJsonFormDataWithRequestBuilder(param: param, param2: param2, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func testJsonFormData(param: String, param2: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
+        return try await testJsonFormDataWithRequestBuilder(param: param, param2: param2, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -772,18 +681,11 @@ open class FakeAPI {
      - parameter url: (query)  
      - parameter context: (query)  
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Void
      */
-    @discardableResult
-    open class func testQueryParameterCollectionFormat(pipe: [String], ioutil: [String], http: [String], url: [String], context: [String], openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
-        return testQueryParameterCollectionFormatWithRequestBuilder(pipe: pipe, ioutil: ioutil, http: http, url: url, context: context, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func testQueryParameterCollectionFormat(pipe: [String], ioutil: [String], http: [String], url: [String], context: [String], openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
+        return try await testQueryParameterCollectionFormatWithRequestBuilder(pipe: pipe, ioutil: ioutil, http: http, url: url, context: context, openAPIClient: openAPIClient).execute().body
     }
 
     /**

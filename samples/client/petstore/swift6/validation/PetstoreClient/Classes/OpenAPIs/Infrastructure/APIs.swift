@@ -78,6 +78,41 @@ open class RequestBuilder<T>: @unchecked Sendable {
         return requestTask
     }
 
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    @discardableResult
+    open func execute() async throws(ErrorResponse) -> Response<T> {
+        do {
+            let requestTask = self.requestTask
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                      continuation.resume(throwing: CancellationError())
+                      return
+                    }
+
+                    self.execute { result in
+                        switch result {
+                        case let .success(response):
+                            nonisolated(unsafe) let response = response
+                            continuation.resume(returning: response)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
+                }
+            } onCancel: {
+                requestTask.cancel()
+            }
+        } catch {
+            if let errorResponse = error as? ErrorResponse {
+                throw errorResponse
+            } else {
+                throw ErrorResponse.error(-3, nil, nil, error)
+            }
+        }
+    }
+    
     public func addHeader(name: String, value: String) -> Self {
         if !value.isEmpty {
             headers[name] = value

@@ -53,11 +53,7 @@ extension {{projectName}}API {
     {{/isEnum}}
     {{/allParams}}
 {{^useVapor}}
-{{^usePromiseKit}}
-{{^useRxSwift}}
-{{^useResult}}
-{{^useCombine}}
-{{^useAsyncAwait}}
+{{#useObjcBlock}}
 
     /**
      {{#summary}}
@@ -71,7 +67,7 @@ extension {{projectName}}API {
     @available(*, deprecated, message: "This operation is deprecated.")
     {{/isDeprecated}}
     @discardableResult
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} {{#apiStaticMethod}}class {{/apiStaticMethod}}func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}[{{enumName}}_{{operationId}}]{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#apiStaticMethod}}{{#hasParams}}, {{/hasParams}}openAPIClient: OpenAPIClient = OpenAPIClient.shared{{/apiStaticMethod}}, completion: @Sendable @escaping (_ data: {{{returnType}}}{{^returnType}}Void{{/returnType}}?, _ error: Error?) -> Void) -> RequestTask {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} {{#apiStaticMethod}}class {{/apiStaticMethod}}func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}[{{enumName}}_{{operationId}}]{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}, {{/allParams}}{{#apiStaticMethod}}openAPIClient: OpenAPIClient = OpenAPIClient.shared, {{/apiStaticMethod}}completion: @Sendable @escaping (_ data: {{{returnType}}}{{^returnType}}Void{{/returnType}}?, _ error: Error?) -> Void) -> RequestTask {
         return {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#apiStaticMethod}}{{#hasParams}}, {{/hasParams}}openAPIClient: openAPIClient{{/apiStaticMethod}}).execute { result in
             switch result {
             {{#returnType}}
@@ -87,12 +83,7 @@ extension {{projectName}}API {
             }
         }
     }
-{{/useAsyncAwait}}
-{{/useCombine}}
-{{/useResult}}
-{{/useRxSwift}}
-{{/usePromiseKit}}
-{{/useVapor}}
+{{/useObjcBlock}}
 {{#usePromiseKit}}
 
     /**
@@ -257,6 +248,86 @@ extension {{projectName}}API {
         }
     }
 {{/useResult}}
+
+    /**
+     {{#summary}}
+     {{{.}}}
+     {{/summary}}
+     - {{httpMethod}} {{{path}}}{{#notes}}
+     - {{{.}}}{{/notes}}{{#subresourceOperation}}
+     - subresourceOperation: {{.}}{{/subresourceOperation}}{{#defaultResponse}}
+     - defaultResponse: {{.}}{{/defaultResponse}}
+     {{#authMethods}}
+     - {{#isBasicBasic}}BASIC{{/isBasicBasic}}{{#isBasicBearer}}Bearer Token{{/isBasicBearer}}{{#isOAuth}}OAuth{{/isOAuth}}{{#isApiKey}}API Key{{/isApiKey}}:
+       - type: {{type}}{{#keyParamName}} {{keyParamName}} {{#isKeyInQuery}}(QUERY){{/isKeyInQuery}}{{#isKeyInHeader}}(HEADER){{/isKeyInHeader}}{{/keyParamName}}
+       - name: {{name}}
+       {{/authMethods}}
+     {{#hasResponseHeaders}}
+     - responseHeaders: [{{#responseHeaders}}{{{baseName}}}({{{dataType}}}){{^-last}}, {{/-last}}{{/responseHeaders}}]
+     {{/hasResponseHeaders}}
+     {{#externalDocs}}
+     - externalDocs: {{.}}
+     {{/externalDocs}}
+     {{#allParams}}
+     - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+     {{/allParams}}{{#apiStaticMethod}}
+     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.{{/apiStaticMethod}}
+     - returns: RequestBuilder<{{{returnType}}}{{#returnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{description}}
+     */
+    {{#isDeprecated}}
+    @available(*, deprecated, message: "This operation is deprecated.")
+    {{/isDeprecated}}
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} {{#apiStaticMethod}}class {{/apiStaticMethod}}func {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}[{{enumName}}_{{operationId}}]{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#apiStaticMethod}}{{#hasParams}}, {{/hasParams}}openAPIClient: OpenAPIClient = OpenAPIClient.shared{{/apiStaticMethod}}) -> RequestBuilder<{{{returnType}}}{{#returnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
+        {{^pathParams}}let{{/pathParams}}{{#pathParams}}{{#-first}}var{{/-first}}{{/pathParams}} localVariablePath = "{{{path}}}"{{#pathParams}}
+        let {{paramName}}PreEscape = "\({{#isEnum}}{{paramName}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}.rawValue{{/isContainer}}{{/isEnum}}{{^isEnum}}APIHelper.mapValueToPathItem({{paramName}}){{/isEnum}})"
+        let {{paramName}}PostEscape = {{paramName}}PreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{{=<% %>=}}{<%baseName%>}<%={{ }}=%>", with: {{paramName}}PostEscape, options: .literal, range: nil){{/pathParams}}
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
+        {{#bodyParam}}
+            {{#isBinary}}
+        let localVariableParameters = ["body": {{paramName}}]
+            {{/isBinary}}
+            {{^isBinary}}
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: {{paramName}}, codableHelper: openAPIClient.codableHelper)
+            {{/isBinary}}
+        {{/bodyParam}}
+        {{^bodyParam}}
+            {{#hasFormParams}}
+        let localVariableFormParams: [String: Any?] = [
+                {{#formParams}}
+            {{> _param}},
+                {{/formParams}}
+        ]
+
+        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
+        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
+            {{/hasFormParams}}
+            {{^hasFormParams}}
+        let localVariableParameters: [String: Any]? = nil
+            {{/hasFormParams}}
+{{/bodyParam}}{{#hasQueryParams}}
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([{{^queryParams}}:{{/queryParams}}
+            {{#queryParams}}
+            {{> _param}},
+            {{/queryParams}}
+        ]){{/hasQueryParams}}{{^hasQueryParams}}
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString){{/hasQueryParams}}
+
+        let localVariableNillableHeaders: [String: Any?] = [{{^headerParams}}{{^hasFormParams}}{{^hasConsumes}}
+            :{{/hasConsumes}}{{/hasFormParams}}{{/headerParams}}{{#hasFormParams}}
+            "Content-Type": {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}},{{/hasFormParams}}{{^hasFormParams}}{{#hasConsumes}}
+            "Content-Type": {{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}},{{/hasConsumes}}{{/hasFormParams}}{{#headerParams}}
+            {{> _param}},{{/headerParams}}
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<{{{returnType}}}{{#returnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Void{{/returnType}}>.Type = openAPIClient.requestBuilderFactory.{{#returnType}}getBuilder(){{/returnType}}{{^returnType}}getNonDecodableBuilder(){{/returnType}}
+
+        return localVariableRequestBuilder.init(method: "{{httpMethod}}", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: {{#hasAuthMethods}}true{{/hasAuthMethods}}{{^hasAuthMethods}}false{{/hasAuthMethods}}, openAPIClient: openAPIClient)
+    }
+{{/useVapor}}
 {{#useVapor}}
 
     /**
@@ -379,87 +450,6 @@ extension {{projectName}}API {
             {{/hasDefaultResponse}}
             }
         }
-    }
-{{/useVapor}}
-{{^useVapor}}
-
-    /**
-     {{#summary}}
-     {{{.}}}
-     {{/summary}}
-     - {{httpMethod}} {{{path}}}{{#notes}}
-     - {{{.}}}{{/notes}}{{#subresourceOperation}}
-     - subresourceOperation: {{.}}{{/subresourceOperation}}{{#defaultResponse}}
-     - defaultResponse: {{.}}{{/defaultResponse}}
-     {{#authMethods}}
-     - {{#isBasicBasic}}BASIC{{/isBasicBasic}}{{#isBasicBearer}}Bearer Token{{/isBasicBearer}}{{#isOAuth}}OAuth{{/isOAuth}}{{#isApiKey}}API Key{{/isApiKey}}:
-       - type: {{type}}{{#keyParamName}} {{keyParamName}} {{#isKeyInQuery}}(QUERY){{/isKeyInQuery}}{{#isKeyInHeader}}(HEADER){{/isKeyInHeader}}{{/keyParamName}}
-       - name: {{name}}
-       {{/authMethods}}
-     {{#hasResponseHeaders}}
-     - responseHeaders: [{{#responseHeaders}}{{{baseName}}}({{{dataType}}}){{^-last}}, {{/-last}}{{/responseHeaders}}]
-     {{/hasResponseHeaders}}
-     {{#externalDocs}}
-     - externalDocs: {{.}}
-     {{/externalDocs}}
-     {{#allParams}}
-     - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
-     {{/allParams}}{{#apiStaticMethod}}
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.{{/apiStaticMethod}}
-     - returns: RequestBuilder<{{{returnType}}}{{#returnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{description}}
-     */
-    {{#isDeprecated}}
-    @available(*, deprecated, message: "This operation is deprecated.")
-    {{/isDeprecated}}
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} {{#apiStaticMethod}}class {{/apiStaticMethod}}func {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}[{{enumName}}_{{operationId}}]{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#apiStaticMethod}}{{#hasParams}}, {{/hasParams}}openAPIClient: OpenAPIClient = OpenAPIClient.shared{{/apiStaticMethod}}) -> RequestBuilder<{{{returnType}}}{{#returnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
-        {{^pathParams}}let{{/pathParams}}{{#pathParams}}{{#-first}}var{{/-first}}{{/pathParams}} localVariablePath = "{{{path}}}"{{#pathParams}}
-        let {{paramName}}PreEscape = "\({{#isEnum}}{{paramName}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}.rawValue{{/isContainer}}{{/isEnum}}{{^isEnum}}APIHelper.mapValueToPathItem({{paramName}}){{/isEnum}})"
-        let {{paramName}}PostEscape = {{paramName}}PreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{{=<% %>=}}{<%baseName%>}<%={{ }}=%>", with: {{paramName}}PostEscape, options: .literal, range: nil){{/pathParams}}
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
-        {{#bodyParam}}
-            {{#isBinary}}
-        let localVariableParameters = ["body": {{paramName}}]
-            {{/isBinary}}
-            {{^isBinary}}
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: {{paramName}}, codableHelper: openAPIClient.codableHelper)
-            {{/isBinary}}
-        {{/bodyParam}}
-        {{^bodyParam}}
-            {{#hasFormParams}}
-        let localVariableFormParams: [String: Any?] = [
-                {{#formParams}}
-            {{> _param}},
-                {{/formParams}}
-        ]
-
-        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
-        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
-            {{/hasFormParams}}
-            {{^hasFormParams}}
-        let localVariableParameters: [String: Any]? = nil
-            {{/hasFormParams}}
-{{/bodyParam}}{{#hasQueryParams}}
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([{{^queryParams}}:{{/queryParams}}
-            {{#queryParams}}
-            {{> _param}},
-            {{/queryParams}}
-        ]){{/hasQueryParams}}{{^hasQueryParams}}
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString){{/hasQueryParams}}
-
-        let localVariableNillableHeaders: [String: Any?] = [{{^headerParams}}{{^hasFormParams}}{{^hasConsumes}}
-            :{{/hasConsumes}}{{/hasFormParams}}{{/headerParams}}{{#hasFormParams}}
-            "Content-Type": {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}},{{/hasFormParams}}{{^hasFormParams}}{{#hasConsumes}}
-            "Content-Type": {{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}},{{/hasConsumes}}{{/hasFormParams}}{{#headerParams}}
-            {{> _param}},{{/headerParams}}
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<{{{returnType}}}{{#returnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Void{{/returnType}}>.Type = openAPIClient.requestBuilderFactory.{{#returnType}}getBuilder(){{/returnType}}{{^returnType}}getNonDecodableBuilder(){{/returnType}}
-
-        return localVariableRequestBuilder.init(method: "{{httpMethod}}", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: {{#hasAuthMethods}}true{{/hasAuthMethods}}{{^hasAuthMethods}}false{{/hasAuthMethods}}, openAPIClient: openAPIClient)
     }
 {{/useVapor}}
 {{/operation}}

@@ -22,6 +22,24 @@ open class FakeClassnameTags123API {
      To test class name in snake case
      
      - parameter body: (body) client model 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open func testClassname(body: Client, completion: @Sendable @escaping (_ data: Client?, _ error: Error?) -> Void) -> RequestTask {
+        return testClassnameWithRequestBuilder(body: body).execute { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     To test class name in snake case
+     
+     - parameter body: (body) client model 
      - returns: Promise<Client>
      */
     open func testClassname(body: Client) -> Promise<Client> {

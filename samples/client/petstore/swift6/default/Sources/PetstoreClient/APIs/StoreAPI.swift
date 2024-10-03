@@ -14,18 +14,11 @@ open class StoreAPI {
      
      - parameter orderId: (path) ID of the order that needs to be deleted 
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Void
      */
-    @discardableResult
-    open class func deleteOrder(orderId: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
-        return deleteOrderWithRequestBuilder(orderId: orderId, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteOrder(orderId: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
+        return try await deleteOrderWithRequestBuilder(orderId: orderId, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -62,18 +55,11 @@ open class StoreAPI {
      Returns pet inventories by status
      
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: [String: Int]
      */
-    @discardableResult
-    open class func getInventory(openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: [String: Int]?, _ error: Error?) -> Void) -> RequestTask {
-        return getInventoryWithRequestBuilder(openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getInventory(openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> [String: Int] {
+        return try await getInventoryWithRequestBuilder(openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -110,18 +96,11 @@ open class StoreAPI {
      
      - parameter orderId: (path) ID of pet that needs to be fetched 
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Order
      */
-    @discardableResult
-    open class func getOrderById(orderId: Int64, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Order?, _ error: Error?) -> Void) -> RequestTask {
-        return getOrderByIdWithRequestBuilder(orderId: orderId, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getOrderById(orderId: Int64, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> Order {
+        return try await getOrderByIdWithRequestBuilder(orderId: orderId, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -159,18 +138,11 @@ open class StoreAPI {
      
      - parameter body: (body) order placed for purchasing the pet 
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Order
      */
-    @discardableResult
-    open class func placeOrder(body: Order, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Order?, _ error: Error?) -> Void) -> RequestTask {
-        return placeOrderWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func placeOrder(body: Order, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> Order {
+        return try await placeOrderWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute().body
     }
 
     /**
