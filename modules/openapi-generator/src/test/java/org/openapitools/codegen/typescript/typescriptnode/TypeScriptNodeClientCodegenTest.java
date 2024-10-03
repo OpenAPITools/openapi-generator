@@ -313,7 +313,7 @@ public class TypeScriptNodeClientCodegenTest {
         files.forEach(File::deleteOnExit);
 
         TestUtils.assertFileContains(Paths.get(output + "/api/defaultApi.ts"),
-                "* @deprecated", 118);
+                "* @deprecated");
     }
 
     private OperationsMap createPostProcessOperationsMapWithImportName(String importName) {
