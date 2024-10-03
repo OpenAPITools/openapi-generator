@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 /** Model for testing model with \&quot;_class\&quot; property */
 @objcMembers public class ClassModel: NSObject, Codable, JSONEncodable {

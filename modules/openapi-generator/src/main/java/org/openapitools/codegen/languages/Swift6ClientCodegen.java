@@ -173,7 +173,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                         "AnyObject",
                         "Any",
                         "Decimal",
-                        "AnyCodable") // from AnyCodable dependency
+                        "JSONValue")
         );
         defaultIncludes = new HashSet<>(
                 Arrays.asList(
@@ -279,8 +279,8 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("UUID", "UUID");
         typeMapping.put("URI", "String");
         typeMapping.put("decimal", "Decimal");
-        typeMapping.put("object", "AnyCodable");
-        typeMapping.put("AnyType", "AnyCodable");
+        typeMapping.put("object", "JSONValue");
+        typeMapping.put("AnyType", "JSONValue");
 
         importMapping = new HashMap<>();
 
@@ -651,6 +651,9 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("OpenISO8601DateFormatter.mustache",
                 sourceFolder,
                 "OpenISO8601DateFormatter.swift"));
+        supportingFiles.add(new SupportingFile("JSONValue.mustache",
+                sourceFolder,
+                "JSONValue.swift"));
         if (useCustomDateWithoutTime) {
             supportingFiles.add(new SupportingFile("OpenAPIDateWithoutTime.mustache",
                     sourceFolder,

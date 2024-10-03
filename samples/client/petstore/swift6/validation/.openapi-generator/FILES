@@ -10,6 +10,7 @@ PetstoreClient/Classes/OpenAPIs/CodableHelper.swift
 PetstoreClient/Classes/OpenAPIs/Extensions.swift
 PetstoreClient/Classes/OpenAPIs/JSONDataEncoding.swift
 PetstoreClient/Classes/OpenAPIs/JSONEncodingHelper.swift
+PetstoreClient/Classes/OpenAPIs/JSONValue.swift
 PetstoreClient/Classes/OpenAPIs/Models.swift
 PetstoreClient/Classes/OpenAPIs/Models/Banana.swift
 PetstoreClient/Classes/OpenAPIs/OpenISO8601DateFormatter.swift

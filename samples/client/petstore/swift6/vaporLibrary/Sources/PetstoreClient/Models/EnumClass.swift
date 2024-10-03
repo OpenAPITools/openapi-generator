@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 import Vapor
 
 public enum EnumClass: String, Content, Hashable, CaseIterable {

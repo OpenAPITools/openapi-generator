@@ -10,6 +10,7 @@ Sources/PetstoreClient/APIs/PetAPI.swift
 Sources/PetstoreClient/APIs/StoreAPI.swift
 Sources/PetstoreClient/APIs/UserAPI.swift
 Sources/PetstoreClient/Extensions.swift
+Sources/PetstoreClient/JSONValue.swift
 Sources/PetstoreClient/Models/AdditionalPropertiesAnyType.swift
 Sources/PetstoreClient/Models/AdditionalPropertiesArray.swift
 Sources/PetstoreClient/Models/AdditionalPropertiesBoolean.swift

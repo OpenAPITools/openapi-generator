@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 @available(*, deprecated, renamed: "PetstoreClientAPI.HasOnlyReadOnly")
 public typealias HasOnlyReadOnly = PetstoreClientAPI.HasOnlyReadOnly

@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 /** Must be named &#x60;File&#x60; for test. */
 public struct File: Codable, JSONEncodable, Hashable {

@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 @objcMembers public class FormatTest: NSObject, Codable, JSONEncodable {
 

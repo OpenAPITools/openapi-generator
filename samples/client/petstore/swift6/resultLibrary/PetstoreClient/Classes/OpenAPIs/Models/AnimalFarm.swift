@@ -6,8 +6,5 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 internal typealias AnimalFarm = [Animal]
