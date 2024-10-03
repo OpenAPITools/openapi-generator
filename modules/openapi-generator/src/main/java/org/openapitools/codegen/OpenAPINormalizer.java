@@ -516,7 +516,7 @@ public class OpenAPINormalizer {
             return schema;
         }
 
-        if ((visitedSchemas.contains(schema))) {
+        if (visitedSchemas.contains(schema)) {
             return schema; // skip due to circular reference
         } else {
             visitedSchemas.add(schema);
@@ -535,7 +535,6 @@ public class OpenAPINormalizer {
             return normalizeAnyOf(schema, visitedSchemas);
         } else if (ModelUtils.isAllOfWithProperties(schema)) { // allOf with properties
             schema = normalizeAllOfWithProperties(schema, visitedSchemas);
-            normalizeSchema(schema, visitedSchemas);
         } else if (ModelUtils.isAllOf(schema)) { // allOf
             return normalizeAllOf(schema, visitedSchemas);
         } else if (ModelUtils.isComposedSchema(schema)) { // composed schema
@@ -643,15 +642,19 @@ public class OpenAPINormalizer {
     }
 
     private Schema normalizeOneOf(Schema schema, Set<Schema> visitedSchemas) {
-        for (Object item : schema.getOneOf()) {
+        for (int i = 0; i < schema.getOneOf().size(); i++) {
+            // normalize oneOf sub schemas one by one
+            Object item = schema.getOneOf().get(i);
+
             if (item == null) {
                 continue;
             }
             if (!(item instanceof Schema)) {
                 throw new RuntimeException("Error! oneOf schema is not of the type Schema: " + item);
             }
-            // normalize oenOf sub schemas one by one
-            normalizeSchema((Schema) item, visitedSchemas);
+
+            // update sub-schema with the updated schema
+            schema.getOneOf().set(i, normalizeSchema((Schema) item, visitedSchemas));
         }
         // process rules here
         schema = processSimplifyOneOf(schema);
@@ -660,7 +663,10 @@ public class OpenAPINormalizer {
     }
 
     private Schema normalizeAnyOf(Schema schema, Set<Schema> visitedSchemas) {
-        for (Object item : schema.getAnyOf()) {
+        for (int i = 0; i < schema.getAnyOf().size(); i++) {
+            // normalize anyOf sub schemas one by one
+            Object item = schema.getAnyOf().get(i);
+
             if (item == null) {
                 continue;
             }
@@ -668,8 +674,9 @@ public class OpenAPINormalizer {
             if (!(item instanceof Schema)) {
                 throw new RuntimeException("Error! anyOf schema is not of the type Schema: " + item);
             }
-            // normalize anyOf sub schemas one by one
-            normalizeSchema((Schema) item, visitedSchemas);
+
+            // update sub-schema with the updated schema
+            schema.getAnyOf().set(i, normalizeSchema((Schema) item, visitedSchemas));
         }
 
         // process rules here
