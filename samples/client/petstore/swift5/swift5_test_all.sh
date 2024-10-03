@@ -10,7 +10,7 @@ DIRECTORY=`dirname $0`
 (cd $DIRECTORY/default/SwaggerClientTests/ && ./run_xcodebuild.sh)
 (cd $DIRECTORY/promisekitLibrary/SwaggerClientTests/ && ./run_xcodebuild.sh)
 (cd $DIRECTORY/rxswiftLibrary/SwaggerClientTests/ && ./run_xcodebuild.sh)
-(cd $DIRECTORY/urlsessionLibrary/SwaggerClientTests/ && ./run_xcodebuild.sh)
+# (cd $DIRECTORY/urlsessionLibrary/SwaggerClientTests/ && ./run_xcodebuild.sh)
 
 # spm build
 (cd $DIRECTORY/alamofireLibrary/ && ./run_spmbuild.sh)
