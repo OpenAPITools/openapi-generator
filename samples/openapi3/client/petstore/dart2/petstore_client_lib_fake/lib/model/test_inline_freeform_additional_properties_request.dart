@@ -13,7 +13,7 @@ part of openapi.api;
 class TestInlineFreeformAdditionalPropertiesRequest {
   /// Returns a new [TestInlineFreeformAdditionalPropertiesRequest] instance.
   TestInlineFreeformAdditionalPropertiesRequest({
-    this.someProperty,
+     this.someProperty,
   });
 
   ///

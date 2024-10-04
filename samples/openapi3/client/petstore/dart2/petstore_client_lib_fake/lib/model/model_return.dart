@@ -13,7 +13,7 @@ part of openapi.api;
 class ModelReturn {
   /// Returns a new [ModelReturn] instance.
   ModelReturn({
-    this.return_,
+     this.return_,
   });
 
   ///

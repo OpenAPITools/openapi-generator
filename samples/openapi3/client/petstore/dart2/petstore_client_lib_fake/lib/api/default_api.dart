@@ -19,39 +19,39 @@ class DefaultApi {
   /// Performs an HTTP 'GET /foo' operation and returns the [Response].
   Future<Response> fooGetWithHttpInfo() async {
     // ignore: prefer_const_declarations
-    final path = r'/foo';
+    final _path = r'/foo';
 
     // ignore: prefer_final_locals
-    Object? postBody;
+    Object? _postBody;
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
+    final __queryParams = <QueryParam>[];
+    final _headerParams = <String, String>{};
+    final _formParams = <String, String>{};
 
-    const contentTypes = <String>[];
+    const _contentTypes = <String>[];
 
 
     return apiClient.invokeAPI(
-      path,
+      _path,
       'GET',
-      queryParams,
-      postBody,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
+      __queryParams,
+      _postBody,
+      _headerParams,
+      _formParams,
+      _contentTypes.isEmpty ? null : _contentTypes.first,
     );
   }
 
   Future<FooGetDefaultResponse?> fooGet() async {
-    final response = await fooGetWithHttpInfo();
-    if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    final _response = await fooGetWithHttpInfo();
+    if (_response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(_response.statusCode, await _decodeBodyBytes(_response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'FooGetDefaultResponse',) as FooGetDefaultResponse;
+    if (_response.bodyBytes.isNotEmpty && _response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(_response), 'FooGetDefaultResponse',) as FooGetDefaultResponse;
     
     }
     return null;

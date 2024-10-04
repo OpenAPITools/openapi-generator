@@ -13,12 +13,12 @@ part of openapi.api;
 class Capitalization {
   /// Returns a new [Capitalization] instance.
   Capitalization({
-    this.smallCamel,
-    this.capitalCamel,
-    this.smallSnake,
-    this.capitalSnake,
-    this.sCAETHFlowPoints,
-    this.ATT_NAME,
+     this.smallCamel,
+     this.capitalCamel,
+     this.smallSnake,
+     this.capitalSnake,
+     this.sCAETHFlowPoints,
+     this.ATT_NAME,
   });
 
   ///

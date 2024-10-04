@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 **decimal** | **double** |  | [optional] 
 **string** | **String** |  | [optional] 
 **byte** | **String** |  | 
-**binary** | [**MultipartFile**](MultipartFile.md) |  | [optional] 
+**binary** | [**Uint8List**](Uint8List.md) |  | [optional] 
 **date** | [**DateTime**](DateTime.md) |  | 
 **dateTime** | [**DateTime**](DateTime.md) |  | [optional] 
 **uuid** | **String** |  | [optional] 

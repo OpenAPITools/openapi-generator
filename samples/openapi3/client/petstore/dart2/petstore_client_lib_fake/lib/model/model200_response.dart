@@ -13,8 +13,8 @@ part of openapi.api;
 class Model200Response {
   /// Returns a new [Model200Response] instance.
   Model200Response({
-    this.name,
-    this.class_,
+     this.name,
+     this.class_,
   });
 
   ///

@@ -13,8 +13,8 @@ part of openapi.api;
 class Tag {
   /// Returns a new [Tag] instance.
   Tag({
-    this.id,
-    this.name,
+     this.id,
+     this.name,
   });
 
   ///

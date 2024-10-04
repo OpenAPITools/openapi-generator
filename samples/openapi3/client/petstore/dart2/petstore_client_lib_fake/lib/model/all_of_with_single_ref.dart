@@ -13,8 +13,8 @@ part of openapi.api;
 class AllOfWithSingleRef {
   /// Returns a new [AllOfWithSingleRef] instance.
   AllOfWithSingleRef({
-    this.username,
-    this.singleRefType,
+     this.username,
+     this.singleRefType,
   });
 
   ///

@@ -13,7 +13,7 @@ part of openapi.api;
 class HealthCheckResult {
   /// Returns a new [HealthCheckResult] instance.
   HealthCheckResult({
-    this.nullableMessage,
+     this.nullableMessage,
   });
 
   String? nullableMessage;

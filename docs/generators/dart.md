@@ -65,6 +65,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 <ul class="column-ul">
 <li>abstract</li>
+<li>apiclient</li>
 <li>as</li>
 <li>assert</li>
 <li>async</li>
@@ -131,6 +132,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>true</li>
 <li>try</li>
 <li>typedef</li>
+<li>value</li>
 <li>var</li>
 <li>void</li>
 <li>when</li>

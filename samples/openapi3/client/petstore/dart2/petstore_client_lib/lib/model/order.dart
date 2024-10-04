@@ -13,12 +13,12 @@ part of openapi.api;
 class Order {
   /// Returns a new [Order] instance.
   Order({
-    this.id,
-    this.petId,
-    this.quantity,
-    this.shipDate,
-    this.status,
-    this.complete = false,
+     this.id,
+     this.petId,
+     this.quantity,
+     this.shipDate,
+     this.status,
+     this.complete = false,
   });
 
   ///
@@ -224,6 +224,12 @@ class OrderStatusEnum {
     }
     return result.toList(growable: growable);
   }
+
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is OrderStatusEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
 }
 
 /// Transformation class that can [encode] an instance of [OrderStatusEnum] to String,

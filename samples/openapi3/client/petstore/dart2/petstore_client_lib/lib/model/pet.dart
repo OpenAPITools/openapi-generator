@@ -13,12 +13,12 @@ part of openapi.api;
 class Pet {
   /// Returns a new [Pet] instance.
   Pet({
-    this.id,
-    this.category,
-    required this.name,
-    this.photoUrls = const [],
-    this.tags = const [],
-    this.status,
+     this.id,
+     this.category,
+     required this.name,
+     this.photoUrls = const [],
+     this.tags = const [],
+     this.status,
   });
 
   ///
@@ -208,6 +208,12 @@ class PetStatusEnum {
     }
     return result.toList(growable: growable);
   }
+
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is PetStatusEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
 }
 
 /// Transformation class that can [encode] an instance of [PetStatusEnum] to String,
