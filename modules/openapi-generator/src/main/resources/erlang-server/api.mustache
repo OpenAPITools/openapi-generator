@@ -46,7 +46,7 @@ accept_callback(Class, OperationID, Req, Context) ->
 {{/operations}}{{/apis}}{{/apiInfo}}    undefined.
 
 -type operation_id() ::
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}    '{{operationId}}' |
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}    '{{operationIdOriginal}}' |
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}    undefined.
 
 -type request_param() :: atom().
@@ -118,7 +118,7 @@ for the `OperationID` operation.
         Body :: jesse:json_term(),
         ValidatorState :: jesse_state:state()) ->
     ok | {ok, term()} | [ok | {ok, term()}] | no_return().
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#responses}}validate_response('{{operationId}}', {{code}}, Body, ValidatorState) ->
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#responses}}validate_response('{{operationIdOriginal}}', {{code}}, Body, ValidatorState) ->
     validate_response_body('{{dataType}}', '{{baseType}}', Body, ValidatorState);
 {{/responses}}
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}validate_response(_OperationID, _Code, _Body, _ValidatorState) ->
@@ -126,7 +126,7 @@ for the `OperationID` operation.
 
 %%%
 -spec request_params(OperationID :: operation_id()) -> [Param :: request_param()].
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}request_params('{{operationId}}') ->
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}request_params('{{operationIdOriginal}}') ->
     [{{#allParams}}{{^isBodyParam}}
         '{{baseName}}'{{/isBodyParam}}{{#isBodyParam}}
         '{{dataType}}'{{/isBodyParam}}{{^-last}},{{/-last}}{{/allParams}}
@@ -136,7 +136,7 @@ for the `OperationID` operation.
 
 -spec request_param_info(OperationID :: operation_id(), Name :: request_param()) ->
     #{source => qs_val | binding | header | body, rules => [rule()]}.
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#allParams}}request_param_info('{{operationId}}', {{^isBodyParam}}'{{baseName}}'{{/isBodyParam}}{{#isBodyParam}}'{{dataType}}'{{/isBodyParam}}) ->
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#allParams}}request_param_info('{{operationIdOriginal}}', {{^isBodyParam}}'{{baseName}}'{{/isBodyParam}}{{#isBodyParam}}'{{dataType}}'{{/isBodyParam}}) ->
     #{
         source => {{#isQueryParam}}qs_val{{/isQueryParam}}{{#isPathParam}}binding{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}{{#isFormParam}}body{{/isFormParam}},
         rules => [{{#isString}}
