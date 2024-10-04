@@ -339,7 +339,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         cliOptions.add(new CliOption(MAP_FILE_BINARY_TO_DATA,
                 "Map File and Binary to Data (default: false)")
-                .defaultValue(Boolean.TRUE.toString()));
+                .defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(new CliOption(USE_CUSTOM_DATE_WITHOUT_TIME,
                 "Uses a custom type to decode and encode dates without time information to support OpenAPIs date format (default: false)")
