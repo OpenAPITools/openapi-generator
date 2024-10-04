@@ -52,8 +52,6 @@ class PetAPITests: XCTestCase {
     }
 
     func test3UploadFile() async throws {
-        let imageName = UUID().uuidString + ".png"
-
         guard
             let image = UIImage(color: .red, size: CGSize(width: 10, height: 10)),
             let imageData = image.pngData()
