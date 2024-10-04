@@ -270,8 +270,8 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("float", "Float");
         typeMapping.put("number", "Double");
         typeMapping.put("double", "Double");
-        typeMapping.put("file", "URL");
-        typeMapping.put("binary", "URL");
+        typeMapping.put("file", "Data");
+        typeMapping.put("binary", "Data");
         typeMapping.put("ByteArray", "Data");
         typeMapping.put("UUID", "UUID");
         typeMapping.put("URI", "String");
@@ -338,8 +338,8 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                 .defaultValue(Boolean.TRUE.toString()));
 
         cliOptions.add(new CliOption(MAP_FILE_BINARY_TO_DATA,
-                "[WARNING] This option will be removed and enabled by default in the future once we've enhanced the code to work with `Data` in all the different situations. Map File and Binary to Data (default: false)")
-                .defaultValue(Boolean.FALSE.toString()));
+                "Map File and Binary to Data (default: true)")
+                .defaultValue(Boolean.TRUE.toString()));
 
         cliOptions.add(new CliOption(USE_CUSTOM_DATE_WITHOUT_TIME,
                 "Uses a custom type to decode and encode dates without time information to support OpenAPIs date format (default: false)")
@@ -565,9 +565,9 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
             setMapFileBinaryToData(convertPropertyToBooleanAndWriteBack(MAP_FILE_BINARY_TO_DATA));
         }
         additionalProperties.put(MAP_FILE_BINARY_TO_DATA, mapFileBinaryToData);
-        if (mapFileBinaryToData) {
-            typeMapping.put("file", "Data");
-            typeMapping.put("binary", "Data");
+        if (!mapFileBinaryToData) {
+            typeMapping.put("file", "URL");
+            typeMapping.put("binary", "URL");
         }
 
         if (additionalProperties.containsKey(USE_CUSTOM_DATE_WITHOUT_TIME)) {
