@@ -28,6 +28,7 @@ import javax.annotation.Generated;
 @Api(value = "user tag", description = "the user tag API")
 public interface UserController {
 
+    public static final String PATH_CREATE_USER = "/user";
     /**
      * POST /user : Create user
      * This can only be done by the logged in user.
@@ -46,7 +47,7 @@ public interface UserController {
     })
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/user"
+        value = UserController.PATH_CREATE_USER
     )
     
     ResponseEntity<Void> createUser(
@@ -54,6 +55,7 @@ public interface UserController {
     );
 
 
+    public static final String PATH_CREATE_USERS_WITH_ARRAY_INPUT = "/user/createWithArray";
     /**
      * POST /user/createWithArray : Creates list of users with given input array
      *
@@ -71,7 +73,7 @@ public interface UserController {
     })
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/user/createWithArray"
+        value = UserController.PATH_CREATE_USERS_WITH_ARRAY_INPUT
     )
     
     ResponseEntity<Void> createUsersWithArrayInput(
@@ -79,6 +81,7 @@ public interface UserController {
     );
 
 
+    public static final String PATH_CREATE_USERS_WITH_LIST_INPUT = "/user/createWithList";
     /**
      * POST /user/createWithList : Creates list of users with given input array
      *
@@ -96,7 +99,7 @@ public interface UserController {
     })
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/user/createWithList"
+        value = UserController.PATH_CREATE_USERS_WITH_LIST_INPUT
     )
     
     ResponseEntity<Void> createUsersWithListInput(
@@ -104,6 +107,7 @@ public interface UserController {
     );
 
 
+    public static final String PATH_DELETE_USER = "/user/{username}";
     /**
      * DELETE /user/{username} : Delete user
      * This can only be done by the logged in user.
@@ -124,7 +128,7 @@ public interface UserController {
     })
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = "/user/{username}"
+        value = UserController.PATH_DELETE_USER
     )
     
     ResponseEntity<Void> deleteUser(
@@ -132,6 +136,7 @@ public interface UserController {
     );
 
 
+    public static final String PATH_GET_USER_BY_NAME = "/user/{username}";
     /**
      * GET /user/{username} : Get user by user name
      *
@@ -154,7 +159,7 @@ public interface UserController {
     })
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/user/{username}",
+        value = UserController.PATH_GET_USER_BY_NAME,
         produces = { "application/json", "application/xml" }
     )
     
@@ -163,6 +168,7 @@ public interface UserController {
     );
 
 
+    public static final String PATH_LOGIN_USER = "/user/login";
     /**
      * GET /user/login : Logs user into the system
      *
@@ -184,7 +190,7 @@ public interface UserController {
     })
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/user/login",
+        value = UserController.PATH_LOGIN_USER,
         produces = { "application/json", "application/xml" }
     )
     
@@ -194,6 +200,7 @@ public interface UserController {
     );
 
 
+    public static final String PATH_LOGOUT_USER = "/user/logout";
     /**
      * GET /user/logout : Logs out current logged in user session
      *
@@ -210,7 +217,7 @@ public interface UserController {
     })
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/user/logout"
+        value = UserController.PATH_LOGOUT_USER
     )
     
     ResponseEntity<Void> logoutUser(
@@ -218,6 +225,7 @@ public interface UserController {
     );
 
 
+    public static final String PATH_LOGOUT_USER_OPTIONS = "/user/logout";
     /**
      * OPTIONS /user/logout : logoutUserOptions
      *
@@ -234,7 +242,7 @@ public interface UserController {
     })
     @RequestMapping(
         method = RequestMethod.OPTIONS,
-        value = "/user/logout"
+        value = UserController.PATH_LOGOUT_USER_OPTIONS
     )
     
     ResponseEntity<Void> logoutUserOptions(
@@ -242,6 +250,7 @@ public interface UserController {
     );
 
 
+    public static final String PATH_UPDATE_USER = "/user/{username}";
     /**
      * PUT /user/{username} : Updated user
      * This can only be done by the logged in user.
@@ -263,7 +272,7 @@ public interface UserController {
     })
     @RequestMapping(
         method = RequestMethod.PUT,
-        value = "/user/{username}"
+        value = UserController.PATH_UPDATE_USER
     )
     
     ResponseEntity<Void> updateUser(

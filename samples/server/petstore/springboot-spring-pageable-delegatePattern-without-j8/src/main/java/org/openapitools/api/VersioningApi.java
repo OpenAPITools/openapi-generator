@@ -27,6 +27,7 @@ public interface VersioningApi {
         return new VersioningApiDelegate() {};
     }
 
+    public static final String PATH_VERSIONING_HEADERS = "/versioning/headers";
     /**
      * POST /versioning/headers
      *
@@ -47,7 +48,7 @@ public interface VersioningApi {
     })
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/versioning/headers",
+        value = VersioningApi.PATH_VERSIONING_HEADERS,
         produces = { "*/*" },
         headers = { "VersionWithDefaultValue=V1", "VersionNoDefaultValue" } 
     )
@@ -61,6 +62,7 @@ public interface VersioningApi {
     }
 
 
+    public static final String PATH_VERSIONING_MIX = "/versioning/mix";
     /**
      * POST /versioning/mix
      *
@@ -83,7 +85,7 @@ public interface VersioningApi {
     })
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/versioning/mix",
+        value = VersioningApi.PATH_VERSIONING_MIX,
         produces = { "*/*" },
         headers = { "VersionWithDefaultValueHeader=V1", "VersionNoDefaultValueHeader" } ,
         params = { "VersionWithDefaultValueQuery=V1", "VersionNoDefaultValueQuery" } 
@@ -100,6 +102,7 @@ public interface VersioningApi {
     }
 
 
+    public static final String PATH_VERSIONING_QUERY_PARAMS = "/versioning/query-params";
     /**
      * POST /versioning/query-params
      *
@@ -120,7 +123,7 @@ public interface VersioningApi {
     })
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/versioning/query-params",
+        value = VersioningApi.PATH_VERSIONING_QUERY_PARAMS,
         produces = { "*/*" },
         params = { "VersionWithDefaultValue=V1", "VersionNoDefaultValue" } 
     )
