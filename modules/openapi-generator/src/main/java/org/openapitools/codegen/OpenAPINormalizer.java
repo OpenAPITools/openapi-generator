@@ -657,7 +657,7 @@ public class OpenAPINormalizer {
             schema.getOneOf().set(i, normalizeSchema((Schema) item, visitedSchemas));
         }
         // process rules here
-        schema = processSimplifyOneOf(schema);
+        schema = normalizeSchema(processSimplifyOneOf(schema), visitedSchemas);
 
         return schema;
     }
@@ -683,7 +683,7 @@ public class OpenAPINormalizer {
         schema = processSimplifyAnyOf(schema);
 
         // last rule to process as the schema may become String schema (not "anyOf") after the completion
-        return processSimplifyAnyOfStringAndEnumString(schema);
+        return normalizeSchema(processSimplifyAnyOfStringAndEnumString(schema), visitedSchemas);
     }
 
     private Schema normalizeComplexComposedSchema(Schema schema, Set<Schema> visitedSchemas) {
@@ -694,7 +694,7 @@ public class OpenAPINormalizer {
 
         processRemoveAnyOfOneOfAndKeepPropertiesOnly(schema);
 
-        return schema;
+        return normalizeSchema(schema, visitedSchemas);
     }
 
     // ===================== a list of rules =====================
@@ -996,6 +996,11 @@ public class OpenAPINormalizer {
                     }
                     return (Schema) oneOfSchemas.get(0);
                 }
+            }
+
+            if (ModelUtils.isIntegerSchema(schema) || ModelUtils.isNumberSchema(schema) || ModelUtils.isStringSchema(schema)) {
+                // TODO convert oneOf const to enum
+                schema.setOneOf(null);
             }
         }
 
