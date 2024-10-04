@@ -22,6 +22,24 @@ open class PetAPI {
      Add a new pet to the store
      
      - parameter body: (body) Pet object that needs to be added to the store 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open func addPet(body: Pet, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
+        return addPetWithRequestBuilder(body: body).execute { result in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Add a new pet to the store
+     
+     - parameter body: (body) Pet object that needs to be added to the store 
      - returns: Promise<Void>
      */
     open func addPet(body: Pet) -> Promise<Void> {
@@ -150,6 +168,25 @@ open class PetAPI {
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, openAPIClient: openAPIClient)
+    }
+
+    /**
+     Deletes a pet
+     
+     - parameter petId: (path) Pet id to delete 
+     - parameter apiKey: (header)  (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open func deletePet(petId: Int64, apiKey: String? = nil, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
+        return deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { result in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
     }
 
     /**
@@ -305,6 +342,24 @@ open class PetAPI {
      Finds Pets by status
      
      - parameter status: (query) Status values that need to be considered for filter 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open func findPetsByStatus(status: [Status_findPetsByStatus], completion: @Sendable @escaping (_ data: [Pet]?, _ error: Error?) -> Void) -> RequestTask {
+        return findPetsByStatusWithRequestBuilder(status: status).execute { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Finds Pets by status
+     
+     - parameter status: (query) Status values that need to be considered for filter 
      - returns: Promise<[Pet]>
      */
     open func findPetsByStatus(status: [Status_findPetsByStatus]) -> Promise<[Pet]> {
@@ -434,6 +489,25 @@ open class PetAPI {
         let localVariableRequestBuilder: RequestBuilder<[Pet]>.Type = openAPIClient.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, openAPIClient: openAPIClient)
+    }
+
+    /**
+     Finds Pets by tags
+     
+     - parameter tags: (query) Tags to filter by 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @available(*, deprecated, message: "This operation is deprecated.")
+    @discardableResult
+    open func findPetsByTags(tags: [String], completion: @Sendable @escaping (_ data: [Pet]?, _ error: Error?) -> Void) -> RequestTask {
+        return findPetsByTagsWithRequestBuilder(tags: tags).execute { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
     }
 
     /**
@@ -581,6 +655,24 @@ open class PetAPI {
      Find pet by ID
      
      - parameter petId: (path) ID of pet to return 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open func getPetById(petId: Int64, completion: @Sendable @escaping (_ data: Pet?, _ error: Error?) -> Void) -> RequestTask {
+        return getPetByIdWithRequestBuilder(petId: petId).execute { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Find pet by ID
+     
+     - parameter petId: (path) ID of pet to return 
      - returns: Promise<Pet>
      */
     open func getPetById(petId: Int64) -> Promise<Pet> {
@@ -716,6 +808,24 @@ open class PetAPI {
      Update an existing pet
      
      - parameter body: (body) Pet object that needs to be added to the store 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open func updatePet(body: Pet, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
+        return updatePetWithRequestBuilder(body: body).execute { result in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Update an existing pet
+     
+     - parameter body: (body) Pet object that needs to be added to the store 
      - returns: Promise<Void>
      */
     open func updatePet(body: Pet) -> Promise<Void> {
@@ -841,6 +951,26 @@ open class PetAPI {
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, openAPIClient: openAPIClient)
+    }
+
+    /**
+     Updates a pet in the store with form data
+     
+     - parameter petId: (path) ID of pet that needs to be updated 
+     - parameter name: (form) Updated name of the pet (optional)
+     - parameter status: (form) Updated status of the pet (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
+        return updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { result in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
     }
 
     /**
@@ -1001,6 +1131,26 @@ open class PetAPI {
      - parameter petId: (path) ID of pet to update 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
      - parameter file: (form) file to upload (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, completion: @Sendable @escaping (_ data: ApiResponse?, _ error: Error?) -> Void) -> RequestTask {
+        return uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     uploads an image
+     
+     - parameter petId: (path) ID of pet to update 
+     - parameter additionalMetadata: (form) Additional data to pass to server (optional)
+     - parameter file: (form) file to upload (optional)
      - returns: Promise<ApiResponse>
      */
     open func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil) -> Promise<ApiResponse> {
@@ -1145,6 +1295,26 @@ open class PetAPI {
         let localVariableRequestBuilder: RequestBuilder<ApiResponse>.Type = openAPIClient.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, openAPIClient: openAPIClient)
+    }
+
+    /**
+     uploads an image (required)
+     
+     - parameter petId: (path) ID of pet to update 
+     - parameter requiredFile: (form) file to upload 
+     - parameter additionalMetadata: (form) Additional data to pass to server (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, completion: @Sendable @escaping (_ data: ApiResponse?, _ error: Error?) -> Void) -> RequestTask {
+        return uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
     }
 
     /**

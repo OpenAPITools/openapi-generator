@@ -85,8 +85,8 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected static final String RESPONSE_LIBRARY_RESULT = "Result";
     protected static final String RESPONSE_LIBRARY_COMBINE = "Combine";
     protected static final String RESPONSE_LIBRARY_ASYNC_AWAIT = "AsyncAwait";
-    protected static final String[] RESPONSE_LIBRARIES = { RESPONSE_LIBRARY_PROMISE_KIT, RESPONSE_LIBRARY_RX_SWIFT,
-            RESPONSE_LIBRARY_RESULT, RESPONSE_LIBRARY_COMBINE, RESPONSE_LIBRARY_ASYNC_AWAIT };
+    protected static final String RESPONSE_LIBRARY_OBJC_BLOCK = "ObjcBlock";
+    protected static final String[] RESPONSE_LIBRARIES = { RESPONSE_LIBRARY_ASYNC_AWAIT, RESPONSE_LIBRARY_COMBINE, RESPONSE_LIBRARY_RESULT, RESPONSE_LIBRARY_RX_SWIFT, RESPONSE_LIBRARY_OBJC_BLOCK, RESPONSE_LIBRARY_PROMISE_KIT };
     @Setter
     protected String projectName = "OpenAPIClient";
     @Setter
@@ -125,7 +125,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     @Setter
     protected boolean combineDeferred = true;
     @Setter
-    protected String[] responseAs = new String[0];
+    protected String[] responseAs = { RESPONSE_LIBRARY_ASYNC_AWAIT };
     protected String sourceFolder = swiftPackagePath;
     protected HashSet objcReservedWords;
     protected String apiDocPath = "docs/";
@@ -502,6 +502,9 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
         if (ArrayUtils.contains(responseAs, RESPONSE_LIBRARY_ASYNC_AWAIT)) {
             additionalProperties.put("useAsyncAwait", true);
+        }
+        if (ArrayUtils.contains(responseAs, RESPONSE_LIBRARY_OBJC_BLOCK)) {
+            additionalProperties.put("useObjcBlock", true);
         }
 
         // Setup readonlyProperties option, which declares properties so they can only

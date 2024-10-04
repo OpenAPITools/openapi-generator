@@ -110,7 +110,7 @@ internal class Response<T> {
     }
 }
 
-internal final class RequestTask {
+internal final class RequestTask: @unchecked Sendable {
     private let lock = NSRecursiveLock()
     private var task: URLSessionDataTaskProtocol?
 

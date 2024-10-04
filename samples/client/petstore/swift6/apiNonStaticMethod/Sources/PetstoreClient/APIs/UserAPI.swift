@@ -22,6 +22,24 @@ open class UserAPI {
      Create user
      
      - parameter body: (body) Created user object 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open func createUser(body: User, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
+        return createUserWithRequestBuilder(body: body).execute { result in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Create user
+     
+     - parameter body: (body) Created user object 
      - returns: Promise<Void>
      */
     open func createUser(body: User) -> Promise<Void> {
@@ -145,6 +163,24 @@ open class UserAPI {
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+    }
+
+    /**
+     Creates list of users with given input array
+     
+     - parameter body: (body) List of user object 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open func createUsersWithArrayInput(body: [User], completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
+        return createUsersWithArrayInputWithRequestBuilder(body: body).execute { result in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
     }
 
     /**
@@ -279,6 +315,24 @@ open class UserAPI {
      Creates list of users with given input array
      
      - parameter body: (body) List of user object 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open func createUsersWithListInput(body: [User], completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
+        return createUsersWithListInputWithRequestBuilder(body: body).execute { result in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Creates list of users with given input array
+     
+     - parameter body: (body) List of user object 
      - returns: Promise<Void>
      */
     open func createUsersWithListInput(body: [User]) -> Promise<Void> {
@@ -401,6 +455,24 @@ open class UserAPI {
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+    }
+
+    /**
+     Delete user
+     
+     - parameter username: (path) The name that needs to be deleted 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open func deleteUser(username: String, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
+        return deleteUserWithRequestBuilder(username: username).execute { result in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
     }
 
     /**
@@ -539,6 +611,24 @@ open class UserAPI {
      Get user by user name
      
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open func getUserByName(username: String, completion: @Sendable @escaping (_ data: User?, _ error: Error?) -> Void) -> RequestTask {
+        return getUserByNameWithRequestBuilder(username: username).execute { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Get user by user name
+     
+     - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
      - returns: Promise<User>
      */
     open func getUserByName(username: String) -> Promise<User> {
@@ -664,6 +754,25 @@ open class UserAPI {
         let localVariableRequestBuilder: RequestBuilder<User>.Type = openAPIClient.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+    }
+
+    /**
+     Logs user into the system
+     
+     - parameter username: (query) The user name for login 
+     - parameter password: (query) The password for login in clear text 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open func loginUser(username: String, password: String, completion: @Sendable @escaping (_ data: String?, _ error: Error?) -> Void) -> RequestTask {
+        return loginUserWithRequestBuilder(username: username, password: password).execute { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
     }
 
     /**
@@ -808,6 +917,23 @@ open class UserAPI {
     /**
      Logs out current logged in user session
      
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open func logoutUser(completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
+        return logoutUserWithRequestBuilder().execute { result in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Logs out current logged in user session
+     
      - returns: Promise<Void>
      */
     open func logoutUser() -> Promise<Void> {
@@ -925,6 +1051,25 @@ open class UserAPI {
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+    }
+
+    /**
+     Updated user
+     
+     - parameter username: (path) name that need to be deleted 
+     - parameter body: (body) Updated user object 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open func updateUser(username: String, body: User, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
+        return updateUserWithRequestBuilder(username: username, body: body).execute { result in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
     }
 
     /**

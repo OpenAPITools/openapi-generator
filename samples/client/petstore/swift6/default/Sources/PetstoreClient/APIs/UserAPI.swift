@@ -14,18 +14,11 @@ open class UserAPI {
      
      - parameter body: (body) Created user object 
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Void
      */
-    @discardableResult
-    open class func createUser(body: User, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
-        return createUserWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func createUser(body: User, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
+        return try await createUserWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -60,18 +53,11 @@ open class UserAPI {
      
      - parameter body: (body) List of user object 
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Void
      */
-    @discardableResult
-    open class func createUsersWithArrayInput(body: [User], openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
-        return createUsersWithArrayInputWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func createUsersWithArrayInput(body: [User], openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
+        return try await createUsersWithArrayInputWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -105,18 +91,11 @@ open class UserAPI {
      
      - parameter body: (body) List of user object 
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Void
      */
-    @discardableResult
-    open class func createUsersWithListInput(body: [User], openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
-        return createUsersWithListInputWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func createUsersWithListInput(body: [User], openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
+        return try await createUsersWithListInputWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -150,18 +129,11 @@ open class UserAPI {
      
      - parameter username: (path) The name that needs to be deleted 
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Void
      */
-    @discardableResult
-    open class func deleteUser(username: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
-        return deleteUserWithRequestBuilder(username: username, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteUser(username: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
+        return try await deleteUserWithRequestBuilder(username: username, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -199,18 +171,11 @@ open class UserAPI {
      
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: User
      */
-    @discardableResult
-    open class func getUserByName(username: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: User?, _ error: Error?) -> Void) -> RequestTask {
-        return getUserByNameWithRequestBuilder(username: username, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getUserByName(username: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> User {
+        return try await getUserByNameWithRequestBuilder(username: username, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -248,18 +213,11 @@ open class UserAPI {
      - parameter username: (query) The user name for login 
      - parameter password: (query) The password for login in clear text 
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: String
      */
-    @discardableResult
-    open class func loginUser(username: String, password: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: String?, _ error: Error?) -> Void) -> RequestTask {
-        return loginUserWithRequestBuilder(username: username, password: password, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func loginUser(username: String, password: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> String {
+        return try await loginUserWithRequestBuilder(username: username, password: password, openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -298,18 +256,11 @@ open class UserAPI {
      Logs out current logged in user session
      
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Void
      */
-    @discardableResult
-    open class func logoutUser(openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
-        return logoutUserWithRequestBuilder(openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func logoutUser(openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
+        return try await logoutUserWithRequestBuilder(openAPIClient: openAPIClient).execute().body
     }
 
     /**
@@ -343,18 +294,11 @@ open class UserAPI {
      - parameter username: (path) name that need to be deleted 
      - parameter body: (body) Updated user object 
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Void
      */
-    @discardableResult
-    open class func updateUser(username: String, body: User, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
-        return updateUserWithRequestBuilder(username: username, body: body, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func updateUser(username: String, body: User, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
+        return try await updateUserWithRequestBuilder(username: username, body: body, openAPIClient: openAPIClient).execute().body
     }
 
     /**

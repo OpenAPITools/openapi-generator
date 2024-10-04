@@ -22,6 +22,24 @@ open class StoreAPI {
      Delete purchase order by ID
      
      - parameter orderId: (path) ID of the order that needs to be deleted 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open func deleteOrder(orderId: String, completion: @Sendable @escaping (_ data: Void?, _ error: Error?) -> Void) -> RequestTask {
+        return deleteOrderWithRequestBuilder(orderId: orderId).execute { result in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Delete purchase order by ID
+     
+     - parameter orderId: (path) ID of the order that needs to be deleted 
      - returns: Promise<Void>
      */
     open func deleteOrder(orderId: String) -> Promise<Void> {
@@ -148,6 +166,23 @@ open class StoreAPI {
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+    }
+
+    /**
+     Returns pet inventories by status
+     
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open func getInventory(completion: @Sendable @escaping (_ data: [String: Int]?, _ error: Error?) -> Void) -> RequestTask {
+        return getInventoryWithRequestBuilder().execute { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
     }
 
     /**
@@ -280,6 +315,24 @@ open class StoreAPI {
      Find purchase order by ID
      
      - parameter orderId: (path) ID of pet that needs to be fetched 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open func getOrderById(orderId: Int64, completion: @Sendable @escaping (_ data: Order?, _ error: Error?) -> Void) -> RequestTask {
+        return getOrderByIdWithRequestBuilder(orderId: orderId).execute { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Find purchase order by ID
+     
+     - parameter orderId: (path) ID of pet that needs to be fetched 
      - returns: Promise<Order>
      */
     open func getOrderById(orderId: Int64) -> Promise<Order> {
@@ -406,6 +459,24 @@ open class StoreAPI {
         let localVariableRequestBuilder: RequestBuilder<Order>.Type = openAPIClient.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+    }
+
+    /**
+     Place an order for a pet
+     
+     - parameter body: (body) order placed for purchasing the pet 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open func placeOrder(body: Order, completion: @Sendable @escaping (_ data: Order?, _ error: Error?) -> Void) -> RequestTask {
+        return placeOrderWithRequestBuilder(body: body).execute { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
     }
 
     /**

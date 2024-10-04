@@ -14,18 +14,11 @@ open class FakeClassnameTags123API {
      
      - parameter body: (body) client model 
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
-     - parameter completion: completion handler to receive the data and the error objects
+     - returns: Client
      */
-    @discardableResult
-    open class func testClassname(body: Client, openAPIClient: OpenAPIClient = OpenAPIClient.shared, completion: @Sendable @escaping (_ data: Client?, _ error: Error?) -> Void) -> RequestTask {
-        return testClassnameWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func testClassname(body: Client, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> Client {
+        return try await testClassnameWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute().body
     }
 
     /**
