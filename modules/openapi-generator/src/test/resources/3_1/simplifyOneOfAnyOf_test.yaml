@@ -125,3 +125,16 @@ components:
           description: This permission is for item C.
           const: 4
       format: int32
+    # need to repeat the issue when it only occurs with the 3rd, 4th, 5th, etc schemas with oneOf(type: null, $ref)
+    OneOfNullAndRef:
+      oneOf:
+        - $ref: '#/components/schemas/Parent'
+        - type: "null"
+    OneOfNullAndRef2:
+      oneOf:
+        - $ref: '#/components/schemas/Parent'
+        - type: "null"
+    OneOfNullAndRef3:
+      oneOf:
+        - $ref: '#/components/schemas/Parent'
+        - type: "null"

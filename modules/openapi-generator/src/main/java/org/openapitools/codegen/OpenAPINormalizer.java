@@ -642,22 +642,29 @@ public class OpenAPINormalizer {
     }
 
     private Schema normalizeOneOf(Schema schema, Set<Schema> visitedSchemas) {
-        for (int i = 0; i < schema.getOneOf().size(); i++) {
-            // normalize oneOf sub schemas one by one
-            Object item = schema.getOneOf().get(i);
+        // simplify first as the schema may no longer be a oneOf after processing the rule below
+        schema = processSimplifyOneOf(schema);
 
-            if (item == null) {
-                continue;
-            }
-            if (!(item instanceof Schema)) {
-                throw new RuntimeException("Error! oneOf schema is not of the type Schema: " + item);
-            }
+        // if it's still a oneOf, loop through the sub-schemas
+        if (schema.getOneOf() != null) {
+            for (int i = 0; i < schema.getOneOf().size(); i++) {
+                // normalize oneOf sub schemas one by one
+                Object item = schema.getOneOf().get(i);
 
-            // update sub-schema with the updated schema
-            schema.getOneOf().set(i, normalizeSchema((Schema) item, visitedSchemas));
+                if (item == null) {
+                    continue;
+                }
+                if (!(item instanceof Schema)) {
+                    throw new RuntimeException("Error! oneOf schema is not of the type Schema: " + item);
+                }
+
+                // update sub-schema with the updated schema
+                schema.getOneOf().set(i, normalizeSchema((Schema) item, visitedSchemas));
+            }
+        } else {
+            // normalize it as it's no longer an oneOf
+            schema = normalizeSchema(schema, visitedSchemas);
         }
-        // process rules here
-        schema = normalizeSchema(processSimplifyOneOf(schema), visitedSchemas);
 
         return schema;
     }
@@ -898,14 +905,27 @@ public class OpenAPINormalizer {
      * Return true if the schema's type is 'null' or not specified
      *
      * @param schema Schema
+     * @param openAPI OpenAPI
+     *
+     * @return true if schema is null type
      */
-    public boolean isNullTypeSchema(Schema schema) {
+    public boolean isNullTypeSchema(OpenAPI openAPI, Schema schema) {
         if (schema == null) {
             return true;
         }
 
+        // dereference the schema
+        schema = ModelUtils.getReferencedSchema(openAPI, schema);
+
         if (ModelUtils.hasAllOf(schema) || ModelUtils.hasOneOf(schema) || ModelUtils.hasAnyOf(schema)) {
             return false;
+        }
+
+        // convert referenced enum of null only to `nullable:true`
+        if (schema.getEnum() != null && schema.getEnum().size() == 1) {
+            if ("null".equals(String.valueOf(schema.getEnum().get(0)))) {
+                return true;
+            }
         }
 
         if (schema.getTypes() != null && !schema.getTypes().isEmpty()) {
@@ -929,14 +949,6 @@ public class OpenAPINormalizer {
             }
         } else { // 3.0.x or 2.x spec
             if ((schema.getType() == null || schema.getType().equals("null")) && schema.get$ref() == null) {
-                return true;
-            }
-        }
-
-        // convert referenced enum of null only to `nullable:true`
-        Schema referencedSchema = ModelUtils.getReferencedSchema(openAPI, schema);
-        if (referencedSchema.getEnum() != null && referencedSchema.getEnum().size() == 1) {
-            if ("null".equals(String.valueOf(referencedSchema.getEnum().get(0)))) {
                 return true;
             }
         }
@@ -986,7 +998,7 @@ public class OpenAPINormalizer {
                 }
             }
 
-            if (oneOfSchemas.removeIf(oneOf -> isNullTypeSchema(oneOf))) {
+            if (oneOfSchemas.removeIf(oneOf -> isNullTypeSchema(openAPI, oneOf))) {
                 schema.setNullable(true);
 
                 // if only one element left, simplify to just the element (schema)
@@ -1122,7 +1134,7 @@ public class OpenAPINormalizer {
                 }
             }
 
-            if (anyOfSchemas.removeIf(anyOf -> isNullTypeSchema(anyOf))) {
+            if (anyOfSchemas.removeIf(anyOf -> isNullTypeSchema(openAPI, anyOf))) {
                 schema.setNullable(true);
             }
 
