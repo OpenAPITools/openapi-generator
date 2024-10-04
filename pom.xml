@@ -6,7 +6,7 @@
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
         <version>5</version>
-        <relativePath />
+        <relativePath/>
         <!-- lookup parent from repository -->
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -1215,7 +1215,7 @@
         <archunit.version>1.3.0</archunit.version>
         <checkstyle.plugin.version>3.1.0</checkstyle.plugin.version>
         <commons-cli.version>1.5.0</commons-cli.version>
-        <commons-io.version>2.11.0</commons-io.version>
+        <commons-io.version>2.14.0</commons-io.version>
         <commons-lang.version>3.12.0</commons-lang.version>
         <commons-text.version>1.10.0</commons-text.version>
         <diffutils.version>1.3.0</diffutils.version>
