@@ -900,7 +900,7 @@ public class OpenAPINormalizer {
     }
 
     /**
-     * Check if the schema is of type 'null'
+     * Check if the schema is of type 'null' or schema itself is pointing to null
      * <p>
      * Return true if the schema's type is 'null' or not specified
      *
@@ -917,7 +917,13 @@ public class OpenAPINormalizer {
         // dereference the schema
         schema = ModelUtils.getReferencedSchema(openAPI, schema);
 
+        // allOf/anyOf/oneOf
         if (ModelUtils.hasAllOf(schema) || ModelUtils.hasOneOf(schema) || ModelUtils.hasAnyOf(schema)) {
+            return false;
+        }
+
+        // schema with properties
+        if (schema.getProperties() != null) {
             return false;
         }
 
