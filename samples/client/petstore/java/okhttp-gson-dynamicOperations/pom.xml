@@ -297,7 +297,7 @@
         <dependency>
             <groupId>io.swagger.parser.v3</groupId>
             <artifactId>swagger-parser-v3</artifactId>
-            <version>2.0.30</version>
+            <version>2.1.17</version>
         </dependency>
         <dependency>
             <groupId>jakarta.annotation</groupId>
