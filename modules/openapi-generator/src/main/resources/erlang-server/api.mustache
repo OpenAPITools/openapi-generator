@@ -41,10 +41,17 @@ accept_callback(Class, OperationID, Req, Context) ->
 -ignore_xref([populate_request/3, validate_response/4]).
 -ignore_xref([prepare_validator/0, prepare_validator/1, prepare_validator/2]).
 
--type operation_id() :: atom().
+-type class() ::
+{{#apiInfo}}{{#apis}}{{#operations}}    '{{pathPrefix}}' |
+{{/operations}}{{/apis}}{{/apiInfo}}    undefined.
+
+-type operation_id() ::
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}    '{{operationId}}' |
+{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}    undefined.
+
 -type request_param() :: atom().
 
--export_type([operation_id/0]).
+-export_type([class/0, operation_id/0]).
 
 -dialyzer({nowarn_function, [validate_response_body/4]}).
 

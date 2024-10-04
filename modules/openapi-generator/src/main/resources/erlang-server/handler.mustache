@@ -23,8 +23,16 @@ Exposes the following operation IDs:
 
 -ignore_xref([handle_type_accepted/2, handle_type_provided/2]).
 
+-export_type([class/0, operation_id/0]).
+
+-type class() :: '{{operations.pathPrefix}}'.
+
+-type operation_id() ::
+{{#operations}}{{#operation}}    {{^-first}}| {{/-first}}'{{operationId}}'{{#-last}}.{{/-last}}
+{{/operation}}{{/operations}}
+
 -record(state,
-        {operation_id :: {{packageName}}_api:operation_id(),
+        {operation_id :: operation_id(),
          accept_callback :: {{packageName}}_logic_handler:accept_callback(),
          provide_callback :: {{packageName}}_logic_handler:provide_callback(),
          api_key_handler :: {{packageName}}_logic_handler:api_key_callback(),
