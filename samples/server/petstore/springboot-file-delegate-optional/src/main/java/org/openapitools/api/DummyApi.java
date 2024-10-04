@@ -39,6 +39,7 @@ public interface DummyApi {
         return new DummyApiDelegate() {};
     }
 
+    public static final String PATH_UPLOAD_FILE = "/dummy";
     /**
      * POST /dummy
      * 
@@ -55,7 +56,7 @@ public interface DummyApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/dummy",
+        value = DummyApi.PATH_UPLOAD_FILE,
         consumes = { "application/octet-stream" }
     )
     

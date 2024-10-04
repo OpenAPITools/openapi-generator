@@ -35,6 +35,7 @@ public interface PetApi {
         return Optional.empty();
     }
 
+    public static final String PATH_ADD_PET = "/pet";
     /**
      * POST /pet : Add a new pet to the store
      *
@@ -60,7 +61,7 @@ public interface PetApi {
     })
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/pet",
+        value = PetApi.PATH_ADD_PET,
         consumes = { "application/json", "application/xml" }
     )
     
@@ -72,6 +73,7 @@ public interface PetApi {
     }
 
 
+    public static final String PATH_DELETE_PET = "/pet/{petId}";
     /**
      * DELETE /pet/{petId} : Deletes a pet
      *
@@ -98,7 +100,7 @@ public interface PetApi {
     })
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = "/pet/{petId}"
+        value = PetApi.PATH_DELETE_PET
     )
     
     default ResponseEntity<Void> deletePet(
@@ -110,6 +112,7 @@ public interface PetApi {
     }
 
 
+    public static final String PATH_FIND_PETS_BY_STATUS = "/pet/findByStatus";
     /**
      * GET /pet/findByStatus : Finds Pets by status
      * Multiple status values can be provided with comma separated strings
@@ -138,7 +141,7 @@ public interface PetApi {
     })
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/pet/findByStatus",
+        value = PetApi.PATH_FIND_PETS_BY_STATUS,
         produces = { "application/xml", "application/json" }
     )
     
@@ -165,6 +168,7 @@ public interface PetApi {
     }
 
 
+    public static final String PATH_FIND_PETS_BY_TAGS = "/pet/findByTags";
     /**
      * GET /pet/findByTags : Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -196,7 +200,7 @@ public interface PetApi {
     })
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/pet/findByTags",
+        value = PetApi.PATH_FIND_PETS_BY_TAGS,
         produces = { "application/xml", "application/json" }
     )
     
@@ -224,6 +228,7 @@ public interface PetApi {
     }
 
 
+    public static final String PATH_GET_PET_BY_ID = "/pet/{petId}";
     /**
      * GET /pet/{petId} : Find pet by ID
      * Returns a single pet
@@ -250,7 +255,7 @@ public interface PetApi {
     })
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/pet/{petId}",
+        value = PetApi.PATH_GET_PET_BY_ID,
         produces = { "application/xml", "application/json" }
     )
     
@@ -276,6 +281,7 @@ public interface PetApi {
     }
 
 
+    public static final String PATH_LIST_ALL_PETS = "/pet/all";
     /**
      * GET /pet/all : List all pets
      *
@@ -302,7 +308,7 @@ public interface PetApi {
     })
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/pet/all",
+        value = PetApi.PATH_LIST_ALL_PETS,
         produces = { "application/xml", "application/json" }
     )
     
@@ -328,6 +334,7 @@ public interface PetApi {
     }
 
 
+    public static final String PATH_UPDATE_PET = "/pet";
     /**
      * PUT /pet : Update an existing pet
      *
@@ -357,7 +364,7 @@ public interface PetApi {
     })
     @RequestMapping(
         method = RequestMethod.PUT,
-        value = "/pet",
+        value = PetApi.PATH_UPDATE_PET,
         consumes = { "application/json", "application/xml" }
     )
     
@@ -369,6 +376,7 @@ public interface PetApi {
     }
 
 
+    public static final String PATH_UPDATE_PET_WITH_FORM = "/pet/{petId}";
     /**
      * POST /pet/{petId} : Updates a pet in the store with form data
      *
@@ -394,7 +402,7 @@ public interface PetApi {
     })
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/pet/{petId}",
+        value = PetApi.PATH_UPDATE_PET_WITH_FORM,
         consumes = { "application/x-www-form-urlencoded" }
     )
     
@@ -408,6 +416,7 @@ public interface PetApi {
     }
 
 
+    public static final String PATH_UPLOAD_FILE = "/pet/{petId}/uploadImage";
     /**
      * POST /pet/{petId}/uploadImage : uploads an image
      *
@@ -434,7 +443,7 @@ public interface PetApi {
     })
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/pet/{petId}/uploadImage",
+        value = PetApi.PATH_UPLOAD_FILE,
         produces = { "application/json" },
         consumes = { "multipart/form-data" }
     )

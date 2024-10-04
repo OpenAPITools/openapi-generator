@@ -49,6 +49,7 @@ import javax.annotation.Generated;
 @Tag(name = "fake", description = "the fake API")
 public interface FakeApi {
 
+    public static final String PATH_CREATE_XML_ITEM = "/fake/create_xml_item";
     /**
      * POST /fake/create_xml_item : creates an XmlItem
      * this route creates an XmlItem
@@ -67,7 +68,7 @@ public interface FakeApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/fake/create_xml_item",
+        value = FakeApi.PATH_CREATE_XML_ITEM,
         consumes = "application/xml"
     )
     
@@ -76,6 +77,7 @@ public interface FakeApi {
     );
 
 
+    public static final String PATH_FAKE_OUTER_BOOLEAN_SERIALIZE = "/fake/outer/boolean";
     /**
      * POST /fake/outer/boolean
      * Test serialization of outer boolean types
@@ -95,7 +97,7 @@ public interface FakeApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/fake/outer/boolean",
+        value = FakeApi.PATH_FAKE_OUTER_BOOLEAN_SERIALIZE,
         produces = { "*/*" },
         consumes = "application/json"
     )
@@ -105,6 +107,7 @@ public interface FakeApi {
     );
 
 
+    public static final String PATH_FAKE_OUTER_COMPOSITE_SERIALIZE = "/fake/outer/composite";
     /**
      * POST /fake/outer/composite
      * Test serialization of object with outer number type
@@ -124,7 +127,7 @@ public interface FakeApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/fake/outer/composite",
+        value = FakeApi.PATH_FAKE_OUTER_COMPOSITE_SERIALIZE,
         produces = { "*/*" },
         consumes = "application/json"
     )
@@ -134,6 +137,7 @@ public interface FakeApi {
     );
 
 
+    public static final String PATH_FAKE_OUTER_NUMBER_SERIALIZE = "/fake/outer/number";
     /**
      * POST /fake/outer/number
      * Test serialization of outer number types
@@ -153,7 +157,7 @@ public interface FakeApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/fake/outer/number",
+        value = FakeApi.PATH_FAKE_OUTER_NUMBER_SERIALIZE,
         produces = { "*/*" },
         consumes = "application/json"
     )
@@ -163,6 +167,7 @@ public interface FakeApi {
     );
 
 
+    public static final String PATH_FAKE_OUTER_STRING_SERIALIZE = "/fake/outer/string";
     /**
      * POST /fake/outer/string
      * Test serialization of outer string types
@@ -182,7 +187,7 @@ public interface FakeApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/fake/outer/string",
+        value = FakeApi.PATH_FAKE_OUTER_STRING_SERIALIZE,
         produces = { "*/*" },
         consumes = "application/json"
     )
@@ -192,6 +197,7 @@ public interface FakeApi {
     );
 
 
+    public static final String PATH_TEST_BODY_WITH_FILE_SCHEMA = "/fake/body-with-file-schema";
     /**
      * PUT /fake/body-with-file-schema
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
@@ -209,7 +215,7 @@ public interface FakeApi {
     )
     @RequestMapping(
         method = RequestMethod.PUT,
-        value = "/fake/body-with-file-schema",
+        value = FakeApi.PATH_TEST_BODY_WITH_FILE_SCHEMA,
         consumes = "application/json"
     )
     
@@ -218,6 +224,7 @@ public interface FakeApi {
     );
 
 
+    public static final String PATH_TEST_BODY_WITH_QUERY_PARAMS = "/fake/body-with-query-params";
     /**
      * PUT /fake/body-with-query-params
      *
@@ -234,7 +241,7 @@ public interface FakeApi {
     )
     @RequestMapping(
         method = RequestMethod.PUT,
-        value = "/fake/body-with-query-params",
+        value = FakeApi.PATH_TEST_BODY_WITH_QUERY_PARAMS,
         consumes = "application/json"
     )
     
@@ -244,6 +251,7 @@ public interface FakeApi {
     );
 
 
+    public static final String PATH_TEST_CLIENT_MODEL = "/fake";
     /**
      * PATCH /fake : To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
@@ -264,7 +272,7 @@ public interface FakeApi {
     )
     @RequestMapping(
         method = RequestMethod.PATCH,
-        value = "/fake",
+        value = FakeApi.PATH_TEST_CLIENT_MODEL,
         produces = { "application/json" },
         consumes = "application/json"
     )
@@ -274,6 +282,7 @@ public interface FakeApi {
     );
 
 
+    public static final String PATH_TEST_ENDPOINT_PARAMETERS = "/fake";
     /**
      * POST /fake : Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -310,7 +319,7 @@ public interface FakeApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/fake",
+        value = FakeApi.PATH_TEST_ENDPOINT_PARAMETERS,
         consumes = "application/x-www-form-urlencoded"
     )
     
@@ -332,6 +341,7 @@ public interface FakeApi {
     );
 
 
+    public static final String PATH_TEST_ENUM_PARAMETERS = "/fake";
     /**
      * GET /fake : To test enum parameters
      * To test enum parameters
@@ -359,7 +369,7 @@ public interface FakeApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/fake",
+        value = FakeApi.PATH_TEST_ENUM_PARAMETERS,
         consumes = "application/x-www-form-urlencoded"
     )
     
@@ -375,6 +385,7 @@ public interface FakeApi {
     );
 
 
+    public static final String PATH_TEST_GROUP_PARAMETERS = "/fake";
     /**
      * DELETE /fake : Fake endpoint to test group parameters (optional)
      * Fake endpoint to test group parameters (optional)
@@ -398,7 +409,7 @@ public interface FakeApi {
     )
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = "/fake"
+        value = FakeApi.PATH_TEST_GROUP_PARAMETERS
     )
     
     ResponseEntity<Void> testGroupParameters(
@@ -411,6 +422,7 @@ public interface FakeApi {
     );
 
 
+    public static final String PATH_TEST_INLINE_ADDITIONAL_PROPERTIES = "/fake/inline-additionalProperties";
     /**
      * POST /fake/inline-additionalProperties : test inline additionalProperties
      * 
@@ -429,7 +441,7 @@ public interface FakeApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/fake/inline-additionalProperties",
+        value = FakeApi.PATH_TEST_INLINE_ADDITIONAL_PROPERTIES,
         consumes = "application/json"
     )
     
@@ -438,6 +450,7 @@ public interface FakeApi {
     );
 
 
+    public static final String PATH_TEST_JSON_FORM_DATA = "/fake/jsonFormData";
     /**
      * GET /fake/jsonFormData : test json serialization of form data
      * 
@@ -457,7 +470,7 @@ public interface FakeApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/fake/jsonFormData",
+        value = FakeApi.PATH_TEST_JSON_FORM_DATA,
         consumes = "application/x-www-form-urlencoded"
     )
     
@@ -467,6 +480,7 @@ public interface FakeApi {
     );
 
 
+    public static final String PATH_TEST_NULLABLE = "/fake/nullable";
     /**
      * POST /fake/nullable : test nullable parent property
      * 
@@ -485,7 +499,7 @@ public interface FakeApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/fake/nullable",
+        value = FakeApi.PATH_TEST_NULLABLE,
         consumes = "application/json"
     )
     
@@ -494,6 +508,7 @@ public interface FakeApi {
     );
 
 
+    public static final String PATH_TEST_QUERY_PARAMETER_COLLECTION_FORMAT = "/fake/test-query-parameters";
     /**
      * PUT /fake/test-query-parameters
      * To test the collection format in query parameters
@@ -514,7 +529,7 @@ public interface FakeApi {
     )
     @RequestMapping(
         method = RequestMethod.PUT,
-        value = "/fake/test-query-parameters"
+        value = FakeApi.PATH_TEST_QUERY_PARAMETER_COLLECTION_FORMAT
     )
     
     ResponseEntity<Void> testQueryParameterCollectionFormat(
@@ -525,6 +540,7 @@ public interface FakeApi {
     );
 
 
+    public static final String PATH_TEST_WITH_RESULT_EXAMPLE = "/fake/response-with-example";
     /**
      * GET /fake/response-with-example
      * This endpoint defines an example value for its response schema.
@@ -543,7 +559,7 @@ public interface FakeApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/fake/response-with-example",
+        value = FakeApi.PATH_TEST_WITH_RESULT_EXAMPLE,
         produces = { "application/json" }
     )
     

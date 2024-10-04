@@ -43,6 +43,7 @@ public interface NullableApi {
         return Optional.empty();
     }
 
+    public static final String PATH_NULLABLE_TEST = "/nullable";
     /**
      * POST /nullable
      * nullable test
@@ -61,7 +62,7 @@ public interface NullableApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/nullable",
+        value = NullableApi.PATH_NULLABLE_TEST,
         consumes = "application/json"
     )
     

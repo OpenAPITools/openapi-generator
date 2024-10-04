@@ -123,7 +123,7 @@ public class SpringCodegenTest {
                 .containsWithNameAndAttributes("Operation", ImmutableMap.of("operationId", "\"getZebras\""))
                 .containsWithNameAndAttributes("RequestMapping", ImmutableMap.of(
                         "method", "RequestMethod.GET",
-                        "value", "\"/zebras\""
+                        "value", "ZebrasApi.PATH_GET_ZEBRAS"
                 ))
                 .toMethod()
                 .assertParameter("limit").hasType("BigDecimal")
@@ -201,7 +201,7 @@ public class SpringCodegenTest {
                 .containsWithNameAndAttributes("Operation", ImmutableMap.of("operationId", "\"getZebras\""))
                 .containsWithNameAndAttributes("RequestMapping", ImmutableMap.of(
                         "method", "RequestMethod.GET",
-                        "value", "\"/zebras\""
+                        "value", "ZebrasApi.PATH_GET_ZEBRAS"
                 ))
                 .toMethod()
                 .assertParameter("limit").hasType("Optional<BigDecimal>")
@@ -1108,8 +1108,10 @@ public class SpringCodegenTest {
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/2_0/petstore.yaml");
 
         // Check that the @RequestMapping annotation is generated in the Api file
-        final File petApiFile = files.get("PetApi.java");
-        assertFileContains(petApiFile.toPath(), "@RequestMapping(\"${openapi.openAPIPetstore.base-path:/v2}\")");
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .fileContains("@RequestMapping(\"${openapi.openAPIPetstore.base-path:/v2}\")",
+                        "public static final String PATH_ADD_PET = \"/pet\";",
+                        "value = PetApi.PATH_ADD_PET");
 
         // Check that the @RequestMapping annotation is not generated in the Controller file
         final File petApiControllerFile = files.get("PetApiController.java");
