@@ -1,6 +1,6 @@
 //> using scala "3.3.1"
-//> using lib "com.lihaoyi::cask:0.9.2"
-//> using lib "com.lihaoyi::scalatags:0.8.2"
+//> using dep "com.lihaoyi::cask:0.9.2"
+//> using dep "com.lihaoyi::scalatags:0.8.2"
 /**
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
