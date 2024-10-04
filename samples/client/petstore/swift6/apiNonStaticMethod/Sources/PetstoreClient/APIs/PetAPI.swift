@@ -1134,7 +1134,7 @@ open class PetAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, completion: @Sendable @escaping (_ data: ApiResponse?, _ error: Error?) -> Void) -> RequestTask {
+    open func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: Data? = nil, completion: @Sendable @escaping (_ data: ApiResponse?, _ error: Error?) -> Void) -> RequestTask {
         return uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute { result in
             switch result {
             case let .success(response):
@@ -1153,7 +1153,7 @@ open class PetAPI {
      - parameter file: (form) file to upload (optional)
      - returns: Promise<ApiResponse>
      */
-    open func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil) -> Promise<ApiResponse> {
+    open func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: Data? = nil) -> Promise<ApiResponse> {
         let deferred = Promise<ApiResponse>.pending()
         uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute { result in
             switch result {
@@ -1174,7 +1174,7 @@ open class PetAPI {
      - parameter file: (form) file to upload (optional)
      - returns: Observable<ApiResponse>
      */
-    open func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil) -> Observable<ApiResponse> {
+    open func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: Data? = nil) -> Observable<ApiResponse> {
         return Observable.create { observer -> Disposable in
             let requestTask = self.uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute { result in
                 switch result {
@@ -1202,7 +1202,7 @@ open class PetAPI {
      */
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil) -> AnyPublisher<ApiResponse, Error> {
+    open func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: Data? = nil) -> AnyPublisher<ApiResponse, Error> {
         let requestBuilder = uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<ApiResponse, Error> { promise in
@@ -1234,7 +1234,7 @@ open class PetAPI {
      - returns: ApiResponse
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil) async throws(ErrorResponse) -> ApiResponse {
+    open func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: Data? = nil) async throws(ErrorResponse) -> ApiResponse {
         return try await uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute().body
     }
 
@@ -1247,7 +1247,7 @@ open class PetAPI {
      - parameter completion: completion handler to receive the result
      */
     @discardableResult
-    open func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, completion: @Sendable @escaping (_ result: Swift.Result<ApiResponse, ErrorResponse>) -> Void) -> RequestTask {
+    open func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: Data? = nil, completion: @Sendable @escaping (_ result: Swift.Result<ApiResponse, ErrorResponse>) -> Void) -> RequestTask {
         return uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute { result in
             switch result {
             case let .success(response):
@@ -1270,7 +1270,7 @@ open class PetAPI {
      
      - returns: RequestBuilder<ApiResponse> 
      */
-    open func uploadFileWithRequestBuilder(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil) -> RequestBuilder<ApiResponse> {
+    open func uploadFileWithRequestBuilder(petId: Int64, additionalMetadata: String? = nil, file: Data? = nil) -> RequestBuilder<ApiResponse> {
         var localVariablePath = "/pet/{petId}/uploadImage"
         let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -1306,7 +1306,7 @@ open class PetAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, completion: @Sendable @escaping (_ data: ApiResponse?, _ error: Error?) -> Void) -> RequestTask {
+    open func uploadFileWithRequiredFile(petId: Int64, requiredFile: Data, additionalMetadata: String? = nil, completion: @Sendable @escaping (_ data: ApiResponse?, _ error: Error?) -> Void) -> RequestTask {
         return uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute { result in
             switch result {
             case let .success(response):
@@ -1325,7 +1325,7 @@ open class PetAPI {
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
      - returns: Promise<ApiResponse>
      */
-    open func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil) -> Promise<ApiResponse> {
+    open func uploadFileWithRequiredFile(petId: Int64, requiredFile: Data, additionalMetadata: String? = nil) -> Promise<ApiResponse> {
         let deferred = Promise<ApiResponse>.pending()
         uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute { result in
             switch result {
@@ -1346,7 +1346,7 @@ open class PetAPI {
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
      - returns: Observable<ApiResponse>
      */
-    open func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil) -> Observable<ApiResponse> {
+    open func uploadFileWithRequiredFile(petId: Int64, requiredFile: Data, additionalMetadata: String? = nil) -> Observable<ApiResponse> {
         return Observable.create { observer -> Disposable in
             let requestTask = self.uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute { result in
                 switch result {
@@ -1374,7 +1374,7 @@ open class PetAPI {
      */
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil) -> AnyPublisher<ApiResponse, Error> {
+    open func uploadFileWithRequiredFile(petId: Int64, requiredFile: Data, additionalMetadata: String? = nil) -> AnyPublisher<ApiResponse, Error> {
         let requestBuilder = uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<ApiResponse, Error> { promise in
@@ -1406,7 +1406,7 @@ open class PetAPI {
      - returns: ApiResponse
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil) async throws(ErrorResponse) -> ApiResponse {
+    open func uploadFileWithRequiredFile(petId: Int64, requiredFile: Data, additionalMetadata: String? = nil) async throws(ErrorResponse) -> ApiResponse {
         return try await uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute().body
     }
 
@@ -1419,7 +1419,7 @@ open class PetAPI {
      - parameter completion: completion handler to receive the result
      */
     @discardableResult
-    open func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, completion: @Sendable @escaping (_ result: Swift.Result<ApiResponse, ErrorResponse>) -> Void) -> RequestTask {
+    open func uploadFileWithRequiredFile(petId: Int64, requiredFile: Data, additionalMetadata: String? = nil, completion: @Sendable @escaping (_ result: Swift.Result<ApiResponse, ErrorResponse>) -> Void) -> RequestTask {
         return uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute { result in
             switch result {
             case let .success(response):
@@ -1442,7 +1442,7 @@ open class PetAPI {
      
      - returns: RequestBuilder<ApiResponse> 
      */
-    open func uploadFileWithRequiredFileWithRequestBuilder(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil) -> RequestBuilder<ApiResponse> {
+    open func uploadFileWithRequiredFileWithRequestBuilder(petId: Int64, requiredFile: Data, additionalMetadata: String? = nil) -> RequestBuilder<ApiResponse> {
         var localVariablePath = "/fake/{petId}/uploadImageWithRequiredFile"
         let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

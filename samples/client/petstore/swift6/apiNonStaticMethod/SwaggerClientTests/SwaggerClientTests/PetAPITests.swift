@@ -52,21 +52,16 @@ class PetAPITests: XCTestCase {
     }
 
     func test3UploadFile() async throws {
-        let imageName = UUID().uuidString + ".png"
-
         guard
             let image = UIImage(color: .red, size: CGSize(width: 10, height: 10)),
-            let imageURL = FileUtils.saveImage(imageName: imageName, image: image)
+            let imageData = image.pngData()
         else {
             fatalError()
         }
 
         do {
-            let _ = try await PetAPI().uploadFile(petId: 1000, additionalMetadata: "additionalMetadata", file: imageURL)
-            
-            FileUtils.deleteFile(fileURL: imageURL)
+            let _ = try await PetAPI().uploadFile(petId: 1000, additionalMetadata: "additionalMetadata", file: imageData)
         } catch {
-            FileUtils.deleteFile(fileURL: imageURL)
             XCTFail("error uploading file")
         }
     }

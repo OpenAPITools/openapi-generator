@@ -365,7 +365,7 @@ Void (empty response body)
 
 # **uploadFile**
 ```swift
-    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, completion: @escaping (_ data: ApiResponse?, _ error: Error?) -> Void)
+    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: Data? = nil, completion: @escaping (_ data: ApiResponse?, _ error: Error?) -> Void)
 ```
 
 uploads an image
@@ -377,7 +377,7 @@ import PetstoreClient
 
 let petId = 987 // Int64 | ID of pet to update
 let additionalMetadata = "additionalMetadata_example" // String | Additional data to pass to server (optional)
-let file = URL(string: "https://example.com")! // URL | file to upload (optional)
+let file = Data([9, 8, 7]) // Data | file to upload (optional)
 
 // uploads an image
 PetAPI.uploadFile(petId: petId, additionalMetadata: additionalMetadata, file: file) { (response, error) in
@@ -398,7 +398,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Int64** | ID of pet to update | 
  **additionalMetadata** | **String** | Additional data to pass to server | [optional] 
- **file** | **URL** | file to upload | [optional] 
+ **file** | **Data** | file to upload | [optional] 
 
 ### Return type
 
@@ -417,7 +417,7 @@ Name | Type | Description  | Notes
 
 # **uploadFileWithRequiredFile**
 ```swift
-    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, completion: @escaping (_ data: ApiResponse?, _ error: Error?) -> Void)
+    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: Data, additionalMetadata: String? = nil, completion: @escaping (_ data: ApiResponse?, _ error: Error?) -> Void)
 ```
 
 uploads an image (required)
@@ -428,7 +428,7 @@ uploads an image (required)
 import PetstoreClient
 
 let petId = 987 // Int64 | ID of pet to update
-let requiredFile = URL(string: "https://example.com")! // URL | file to upload
+let requiredFile = Data([9, 8, 7]) // Data | file to upload
 let additionalMetadata = "additionalMetadata_example" // String | Additional data to pass to server (optional)
 
 // uploads an image (required)
@@ -449,7 +449,7 @@ PetAPI.uploadFileWithRequiredFile(petId: petId, requiredFile: requiredFile, addi
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Int64** | ID of pet to update | 
- **requiredFile** | **URL** | file to upload | 
+ **requiredFile** | **Data** | file to upload | 
  **additionalMetadata** | **String** | Additional data to pass to server | [optional] 
 
 ### Return type
