@@ -113,8 +113,8 @@ public class Swift6ClientCodegenTest {
         final Operation p = openAPI.getPaths().get(path).getPost();
         final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
 
-        Assert.assertEquals(op.returnType, "Data");
-        Assert.assertEquals(op.bodyParam.dataType, "Data");
+        Assert.assertEquals(op.returnType, "URL");
+        Assert.assertEquals(op.bodyParam.dataType, "URL");
         Assert.assertTrue(op.bodyParam.isBinary);
         Assert.assertTrue(op.responses.get(0).isBinary);
     }
