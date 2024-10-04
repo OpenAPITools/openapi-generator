@@ -75,7 +75,7 @@ class PetAPITests: XCTestCase {
             fatalError()
         }
 
-        PetstoreClientAPI.PetAPI.uploadFile(petId: 1000, additionalMetadata: "additionalMetadata", file: imageData) { (_, error) in
+        PetstoreClientAPI.PetAPI.uploadFile(petId: 1000, additionalMetadata: "additionalMetadata", file: imageData) { (_,, error) in
             guard error == nil else {
                 XCTFail("error uploading file")
                 return

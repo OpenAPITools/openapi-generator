@@ -55,7 +55,7 @@ class PetAPITests: XCTestCase {
         let imageName = UUID().uuidString + ".png"
 
         guard
-            let image = UIImage(color: .red, size: CGSize(width: 10, height: 10))
+            let image = UIImage(color: .red, size: CGSize(width: 10, height: 10)),
             let imageData = image.pngData()
         else {
             fatalError()
