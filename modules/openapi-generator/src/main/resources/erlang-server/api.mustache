@@ -196,8 +196,6 @@ populate_request_param(OperationID, ReqParamName, Req0, ValidatorState) ->
             end
     end.
 
--include_lib("kernel/include/logger.hrl").
-
 validate_response_body(list, ReturnBaseType, Body, ValidatorState) ->
     [
         validate(schema, Item, ReturnBaseType, ValidatorState)
