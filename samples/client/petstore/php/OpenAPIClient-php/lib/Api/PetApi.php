@@ -1315,7 +1315,7 @@ class PetApi
                 'Missing the required parameter $tags when calling findPetsByTags'
             );
         }
-
+        
 
         $resourcePath = '/pet/findByTags';
         $formParams = [];

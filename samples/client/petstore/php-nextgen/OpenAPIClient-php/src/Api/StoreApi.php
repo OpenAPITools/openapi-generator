@@ -931,7 +931,7 @@ class StoreApi
         if ($order_id < 1) {
             throw new InvalidArgumentException('invalid value for "$order_id" when calling StoreApi.getOrderById, must be bigger than or equal to 1.');
         }
-
+        
 
         $resourcePath = '/store/order/{order_id}';
         $formParams = [];
