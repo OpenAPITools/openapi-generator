@@ -115,7 +115,7 @@ class PetApi
         $hostIndex = 0
     ) {
         $this->client = $client ?: new Client();
-        $this->config = $config ?: new Configuration();
+        $this->config = $config ?: Configuration::getDefaultConfiguration();
         $this->headerSelector = $selector ?: new HeaderSelector();
         $this->hostIndex = $hostIndex;
     }
@@ -1315,7 +1315,7 @@ class PetApi
                 'Missing the required parameter $tags when calling findPetsByTags'
             );
         }
-        
+
 
         $resourcePath = '/pet/findByTags';
         $formParams = [];

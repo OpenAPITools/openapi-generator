@@ -156,7 +156,7 @@ class FakeApi
         $hostIndex = 0
     ) {
         $this->client = $client ?: new Client();
-        $this->config = $config ?: new Configuration();
+        $this->config = $config ?: Configuration::getDefaultConfiguration();
         $this->headerSelector = $selector ?: new HeaderSelector();
         $this->hostIndex = $hostIndex;
     }
@@ -4564,7 +4564,7 @@ class FakeApi
         if ($number < 32.1) {
             throw new \InvalidArgumentException('invalid value for "$number" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 32.1.');
         }
-        
+
         // verify the required parameter 'double' is set
         if ($double === null || (is_array($double) && count($double) === 0)) {
             throw new \InvalidArgumentException(
@@ -4577,7 +4577,7 @@ class FakeApi
         if ($double < 67.8) {
             throw new \InvalidArgumentException('invalid value for "$double" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 67.8.');
         }
-        
+
         // verify the required parameter 'pattern_without_delimiter' is set
         if ($pattern_without_delimiter === null || (is_array($pattern_without_delimiter) && count($pattern_without_delimiter) === 0)) {
             throw new \InvalidArgumentException(
@@ -4587,7 +4587,7 @@ class FakeApi
         if (!preg_match("/^[A-Z].*/", $pattern_without_delimiter)) {
             throw new \InvalidArgumentException("invalid value for \"pattern_without_delimiter\" when calling FakeApi.testEndpointParameters, must conform to the pattern /^[A-Z].*/.");
         }
-        
+
         // verify the required parameter 'byte' is set
         if ($byte === null || (is_array($byte) && count($byte) === 0)) {
             throw new \InvalidArgumentException(
@@ -4601,23 +4601,23 @@ class FakeApi
         if ($integer !== null && $integer < 10) {
             throw new \InvalidArgumentException('invalid value for "$integer" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 10.');
         }
-        
+
         if ($int32 !== null && $int32 > 200) {
             throw new \InvalidArgumentException('invalid value for "$int32" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 200.');
         }
         if ($int32 !== null && $int32 < 20) {
             throw new \InvalidArgumentException('invalid value for "$int32" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 20.');
         }
-        
+
 
         if ($float !== null && $float > 987.6) {
             throw new \InvalidArgumentException('invalid value for "$float" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 987.6.');
         }
-        
+
         if ($string !== null && !preg_match("/[a-z]/i", $string)) {
             throw new \InvalidArgumentException("invalid value for \"string\" when calling FakeApi.testEndpointParameters, must conform to the pattern /[a-z]/i.");
         }
-        
+
 
 
 
@@ -4627,7 +4627,7 @@ class FakeApi
         if ($password !== null && strlen($password) < 10) {
             throw new \InvalidArgumentException('invalid length for "$password" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 10.');
         }
-        
+
 
 
         $resourcePath = '/fake';
@@ -5280,7 +5280,7 @@ class FakeApi
         $boolean_group = array_key_exists('boolean_group', $associative_array) ? $associative_array['boolean_group'] : null;
         $int64_group = array_key_exists('int64_group', $associative_array) ? $associative_array['int64_group'] : null;
         $contentType = $associative_array['contentType'] ?? self::contentTypes['testGroupParameters'][0];
-        
+
         // verify the required parameter 'required_string_group' is set
         if ($required_string_group === null || (is_array($required_string_group) && count($required_string_group) === 0)) {
             throw new \InvalidArgumentException(
