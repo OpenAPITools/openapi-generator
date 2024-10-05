@@ -113,7 +113,7 @@ public class OpenAPINormalizerTest {
         Map<String, String> options = new HashMap<>();
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         Schema schema = openAPI.getComponents().getSchemas().get("AnyOfStringArrayOfString");
-        assertFalse(openAPINormalizer.isNullTypeSchema(schema));
+        assertFalse(openAPINormalizer.isNullTypeSchema(openAPI, schema));
     }
 
     @Test
@@ -705,6 +705,12 @@ public class OpenAPINormalizerTest {
         Schema schema13 = openAPI.getComponents().getSchemas().get("OneOfAnyType");
         assertEquals(schema13.getOneOf().size(), 6);
 
+        Schema schema15 = openAPI.getComponents().getSchemas().get("TypeIntegerWithOneOf");
+        assertEquals(schema15.getOneOf().size(), 3);
+
+        Schema schema17 = openAPI.getComponents().getSchemas().get("OneOfNullAndRef3");
+        assertEquals(schema17.getOneOf().size(), 2);
+
         Map<String, String> options = new HashMap<>();
         options.put("SIMPLIFY_ONEOF_ANYOF", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
@@ -742,5 +748,14 @@ public class OpenAPINormalizerTest {
         Schema schema14 = openAPI.getComponents().getSchemas().get("OneOfAnyType");
         assertEquals(schema14.getOneOf(), null);
         assertEquals(schema14.getType(), null);
+
+        Schema schema16 = openAPI.getComponents().getSchemas().get("TypeIntegerWithOneOf");
+        // oneOf should have been removed as the schema is essentially a primitive type
+        assertEquals(schema16.getOneOf(), null);
+
+        Schema schema18 = openAPI.getComponents().getSchemas().get("OneOfNullAndRef3");
+        // original oneOf removed and simplified to just $ref (oneOf sub-schema) instead
+        assertEquals(schema18.getOneOf(), null);
+        assertEquals(schema18.get$ref(), "#/components/schemas/Parent");
     }
 }
