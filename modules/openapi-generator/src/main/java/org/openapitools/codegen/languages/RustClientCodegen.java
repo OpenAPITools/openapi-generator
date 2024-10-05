@@ -61,6 +61,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     public static final String HYPER_LIBRARY = "hyper";
     public static final String HYPER0X_LIBRARY = "hyper0x";
     public static final String REQWEST_LIBRARY = "reqwest";
+    public static final String REQWEST_TRAIT_LIBRARY = "reqwest-trait";
+    public static final String REQWEST_TRAIT_LIBRARY_ATTR = "reqwestTrait";
     public static final String SUPPORT_ASYNC = "supportAsync";
     public static final String SUPPORT_MIDDLEWARE = "supportMiddleware";
     public static final String SUPPORT_TOKEN_SOURCE = "supportTokenSource";
@@ -211,6 +213,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         supportedLibraries.put(HYPER_LIBRARY, "HTTP client: Hyper (v1.x).");
         supportedLibraries.put(HYPER0X_LIBRARY, "HTTP client: Hyper (v0.x).");
         supportedLibraries.put(REQWEST_LIBRARY, "HTTP client: Reqwest.");
+        supportedLibraries.put(REQWEST_TRAIT_LIBRARY, "HTTP client: Reqwest (trait based).");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use.");
         libraryOption.setEnum(supportedLibraries);
@@ -389,6 +392,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             additionalProperties.put(HYPER0X_LIBRARY, "true");
         } else if (REQWEST_LIBRARY.equals(getLibrary())) {
             additionalProperties.put(REQWEST_LIBRARY, "true");
+        } else if (REQWEST_TRAIT_LIBRARY.equals(getLibrary())) {
+            additionalProperties.put(REQWEST_TRAIT_LIBRARY_ATTR, "true");
         } else {
             LOGGER.error("Unknown library option (-l/--library): {}", getLibrary());
         }
@@ -446,7 +451,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     private boolean getSupportMiddleware() {
         return supportMiddleware;
     }
-    
+
     private boolean getSupportTokenSource() {
         return supportTokenSource;
     }
@@ -566,7 +571,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             // http method verb conversion, depending on client library (e.g. Hyper: PUT => Put, Reqwest: PUT => put)
             if (HYPER_LIBRARY.equals(getLibrary())) {
                 operation.httpMethod = StringUtils.camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
-            } else if (REQWEST_LIBRARY.equals(getLibrary())) {
+            } else if (REQWEST_LIBRARY.equals(getLibrary()) || REQWEST_TRAIT_LIBRARY.equals(getLibrary())) {
                 operation.httpMethod = operation.httpMethod.toUpperCase(Locale.ROOT);
             }
 
