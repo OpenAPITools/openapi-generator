@@ -59,6 +59,7 @@ The following generators are available:
 * [rust](generators/rust.md)  
 * [scala-akka](generators/scala-akka.md)  
 * [scala-gatling](generators/scala-gatling.md)  
+* [scala-http4s](generators/scala-http4s.md)  
 * [scala-pekko](generators/scala-pekko.md)  
 * [scala-sttp](generators/scala-sttp.md)  
 * [scala-sttp4 (beta)](generators/scala-sttp4.md)  
