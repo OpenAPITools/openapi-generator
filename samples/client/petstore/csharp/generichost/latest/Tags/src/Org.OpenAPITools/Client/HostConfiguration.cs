@@ -18,7 +18,6 @@ using System.Text.Json.Serialization;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Client
 {

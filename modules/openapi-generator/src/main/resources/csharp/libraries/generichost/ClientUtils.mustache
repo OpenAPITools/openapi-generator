@@ -12,7 +12,11 @@ using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;{{#useCompareNetObjects}}
 using KellermanSoftware.CompareNetObjects;{{/useCompareNetObjects}}
+{{#models}}
+{{#-first}}
 using {{packageName}}.{{modelPackage}};
+{{/-first}}
+{{/models}}
 using System.Runtime.CompilerServices;
 
 {{>Assembly}}namespace {{packageName}}.{{clientPackage}}
