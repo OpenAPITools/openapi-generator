@@ -1,6 +1,5 @@
 /*
  * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright 2018 SmartBear Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -240,7 +239,7 @@ public class ScalaHttp4sClientCodegen extends AbstractScalaCodegen implements Co
             this.importMapping.put("Instant", "java.time.Instant");
             this.importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
             additionalProperties.put("java8", "true");
-        } else  {
+        } else {
             String error = "DateLibrary " + dateLibrary + " is not supported. Please use java8";
             LOGGER.error(error);
             throw new RuntimeException(error);
