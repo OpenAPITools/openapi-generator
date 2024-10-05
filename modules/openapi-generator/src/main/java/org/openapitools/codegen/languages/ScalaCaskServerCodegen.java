@@ -39,7 +39,10 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
 
-    private static final String AdditionalPropertiesType = "Additional Properties Type";
+    // this is our opinionated json type - ujson.Value - which is a first-class
+    // citizen of cask
+    private static final String AdditionalPropertiesType = "Value";
+
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaCaskServerCodegen.class);
 
     @Override
@@ -244,7 +247,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
         importMapping.put("LocalTime", "java.time.LocalTime");
         importMapping.put("Value", "ujson.Value");
-        importMapping.put(AdditionalPropertiesType, "ujson.Value // additional props");
+        importMapping.put(AdditionalPropertiesType, "ujson.Value");
     }
 
     static boolean consumesMimetype(CodegenOperation op, String mimetype) {
@@ -771,6 +774,23 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         return defaultValueNonOption(p, fallbackDefaultValue);
     }
 
+    /**
+     * the subtypes of IJsonSchemaValidationProperties have an 'isNumeric', but that's not a method on IJsonSchemaValidationProperties.
+     *
+     * This helper method tries to isolate that noisy logic in a safe way so we can ask 'is this IJsonSchemaValidationProperties numeric'?
+     * @param p the property
+     * @return true if the property is numeric
+     */
+    private static boolean isNumeric(IJsonSchemaValidationProperties p) {
+        if (p instanceof CodegenParameter) {
+            return ((CodegenParameter)p).isNumeric;
+        } else if (p instanceof CodegenProperty) {
+            return ((CodegenProperty)p).isNumeric;
+        } else {
+            return p.getIsNumber() || p.getIsFloat() || p.getIsDecimal() || p.getIsDouble() || p.getIsInteger()  || p.getIsLong() || p.getIsUnboundedInteger();
+        }
+    }
+
     private static String defaultValueNonOption(IJsonSchemaValidationProperties p, String fallbackDefaultValue) {
         if (p.getIsArray()) {
             if (p.getUniqueItems()) {
@@ -781,7 +801,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         if (p.getIsMap()) {
             return "Map.empty";
         }
-        if (p.getIsNumber() || p.getIsFloat() || p.getIsDecimal() || p.getIsDouble() || p.getIsInteger()  || p.getIsLong() || p.getIsUnboundedInteger()) {
+        if (isNumeric(p)) {
             return "0";
         }
         if (p.getIsEnum()) {
