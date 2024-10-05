@@ -42,12 +42,12 @@ accept_callback(Class, OperationID, Req, Context) ->
 -ignore_xref([prepare_validator/0, prepare_validator/1, prepare_validator/2]).
 
 -type class() ::
-{{#apiInfo}}{{#apis}}{{#operations}}    '{{pathPrefix}}' |
-{{/operations}}{{/apis}}{{/apiInfo}}    undefined.
+{{#apiInfo}}{{#apis}}{{#operations}}    {{^-first}}| {{/-first}}'{{pathPrefix}}'{{#-last}}.{{/-last}}
+{{/operations}}{{/apis}}{{/apiInfo}}
 
 -type operation_id() ::
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}    '{{operationIdOriginal}}' |
-{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}    undefined.
+{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}    {error, unknown_operation}.
 
 -type request_param() :: atom().
 
@@ -71,6 +71,7 @@ accept_callback(Class, OperationID, Req, Context) ->
     {max_length, MaxLength :: integer()} |
     {min_length, MaxLength :: integer()} |
     {pattern, Pattern :: string()} |
+    {schema, object | list, binary()} |
     schema |
     required |
     not_required.
@@ -129,14 +130,14 @@ for the `OperationID` operation.
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}request_params('{{operationIdOriginal}}') ->
     [{{#allParams}}{{^isBodyParam}}
         '{{baseName}}'{{/isBodyParam}}{{#isBodyParam}}
-        '{{dataType}}'{{/isBodyParam}}{{^-last}},{{/-last}}{{/allParams}}
+        {{#content.application/json.schema.openApiType}}'{{content.application/json.schema.openApiType}}'{{/content.application/json.schema.openApiType}}{{^content.application/json.schema.openApiType}}'{{dataType}}'{{/content.application/json.schema.openApiType}}{{/isBodyParam}}{{^-last}},{{/-last}}{{/allParams}}
     ];
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}request_params(_) ->
     error(unknown_operation).
 
 -spec request_param_info(OperationID :: operation_id(), Name :: request_param()) ->
     #{source => qs_val | binding | header | body, rules => [rule()]}.
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#allParams}}request_param_info('{{operationIdOriginal}}', {{^isBodyParam}}'{{baseName}}'{{/isBodyParam}}{{#isBodyParam}}'{{dataType}}'{{/isBodyParam}}) ->
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#allParams}}request_param_info('{{operationIdOriginal}}', {{^isBodyParam}}'{{baseName}}'{{/isBodyParam}}{{#isBodyParam}}{{#content.application/json.schema.openApiType}}'{{content.application/json.schema.openApiType}}'{{/content.application/json.schema.openApiType}}{{^content.application/json.schema.openApiType}}'{{dataType}}'{{/content.application/json.schema.openApiType}}{{/isBodyParam}}) ->
     #{
         source => {{#isQueryParam}}qs_val{{/isQueryParam}}{{#isPathParam}}binding{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}{{#isFormParam}}body{{/isFormParam}},
         rules => [{{#isString}}
@@ -157,8 +158,9 @@ for the `OperationID` operation.
             {exclusive_min, {{minimum}}},{{/exclusiveMinimum}}{{/minimum}}{{#maxLength}}
             {max_length, {{maxLength}}},{{/maxLength}}{{#minLength}}
             {min_length, {{minLength}}},{{/minLength}}{{#pattern}}
-            {pattern, "{{{pattern}}}"},{{/pattern}}{{#isBodyParam}}
-            schema,{{/isBodyParam}}{{#required}}
+            {pattern, "{{{pattern}}}"},{{/pattern}}{{#isBodyParam}}{{#content.application/json.schema.ref}}
+            {schema, object, <<"{{content.application/json.schema.ref}}">>},{{/content.application/json.schema.ref}}{{#content.application/json.schema.items.ref}}
+            {schema, list, <<"{{content.application/json.schema.items.ref}}">>},{{/content.application/json.schema.items.ref}}{{/isBodyParam}}{{#required}}
             required{{/required}}{{^required}}
             not_required{{/required}}
         ]
@@ -286,8 +288,15 @@ validate(Rule = {pattern, Pattern}, Value, ReqParamName, _) ->
         {match, _} -> ok;
         _ -> validation_error(Rule, ReqParamName, Value)
     end;
-validate(Rule = schema, Value, ReqParamName, ValidatorState) ->
+validate(schema, Value, ReqParamName, ValidatorState) ->
     Definition = iolist_to_binary(["#/components/schemas/", atom_to_binary(ReqParamName, utf8)]),
+    validate({schema, object, Definition}, Value, ReqParamName, ValidatorState);
+validate({schema, list, Definition}, Value, ReqParamName, ValidatorState) ->
+    lists:foreach(
+      fun(Item) ->
+              validate({schema, object, Definition}, Item, ReqParamName, ValidatorState)
+      end, Value);
+validate(Rule = {schema, object, Definition}, Value, ReqParamName, ValidatorState) ->
     try
         _ = validate_with_schema(Value, Definition, ValidatorState),
         ok
