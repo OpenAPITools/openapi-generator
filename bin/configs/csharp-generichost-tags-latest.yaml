@@ -1,6 +1,6 @@
 # for csharp generichost
 generatorName: csharp
-outputDir: samples/client/petstore/csharp/generichost/net8/Tags
+outputDir: samples/client/petstore/csharp/generichost/latest/Tags
 inputSpec: modules/openapi-generator/src/test/resources/3_0/csharp/tags.json
 library: generichost
 templateDir: modules/openapi-generator/src/main/resources/csharp
