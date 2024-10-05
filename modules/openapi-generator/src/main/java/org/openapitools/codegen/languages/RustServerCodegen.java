@@ -49,11 +49,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URL;
 import java.util.*;
-import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -265,6 +263,8 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
                     " 'export RUST_POST_PROCESS_FILE=\"/usr/local/bin/rustfmt\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` " +
                     " (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'RUST_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (!Boolean.TRUE.equals(ModelUtils.isGenerateAliasAsModel())) {
@@ -1570,6 +1570,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -1581,19 +1582,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
         // only process files with .rs extension
         if ("rs".equals(FilenameUtils.getExtension(file.toString()))) {
-            try {
-                Process p = Runtime.getRuntime().exec(new String[]{commandPrefix, file.toString()});
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({} {}). Exit code: {}", commandPrefix, file, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {} {}", commandPrefix, file);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({} ()). Exception: {}", commandPrefix, file, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[] {commandPrefix, file.toString()});
         }
     }
 
