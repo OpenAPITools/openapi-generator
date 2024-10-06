@@ -1,4 +1,3 @@
-using FastEndpoints;
 
 using Org.OpenAPITools.Models;
 
@@ -10,7 +9,7 @@ public class DeleteOrderRequest
     /// <summary>
     /// ID of the order that needs to be deleted
     /// </summary>
-    [BindFrom("orderId")]
+    [FastEndpoints.BindFrom("orderId")]
     public string OrderId { get; set; }
 }
 public class GetInventoryRequest
@@ -21,7 +20,7 @@ public class GetOrderByIdRequest
     /// <summary>
     /// ID of pet that needs to be fetched
     /// </summary>
-    [BindFrom("orderId")]
+    [FastEndpoints.BindFrom("orderId")]
     public long OrderId { get; set; }
 }
 public class PlaceOrderRequest
@@ -29,7 +28,7 @@ public class PlaceOrderRequest
     /// <summary>
     /// order placed for purchasing the pet
     /// </summary>
-    [FromBody]
+    [FastEndpoints.FromBody]
     public Order order { get; set; }
 }
 

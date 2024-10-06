@@ -1,4 +1,3 @@
-using FastEndpoints;
 using FluentValidation;
 using Org.OpenAPITools.Models;
 
@@ -10,7 +9,7 @@ public class DeleteOrderRequest
     /// <summary>
     /// ID of the order that needs to be deleted
     /// </summary>
-    [BindFrom("orderId")]
+    [FastEndpoints.BindFrom("orderId")]
     public string OrderId { get; set; }
 }
 public class GetInventoryRequest
@@ -21,7 +20,7 @@ public class GetOrderByIdRequest
     /// <summary>
     /// ID of pet that needs to be fetched
     /// </summary>
-    [BindFrom("orderId")]
+    [FastEndpoints.BindFrom("orderId")]
     public long OrderId { get; set; }
 }
 public class PlaceOrderRequest
@@ -29,47 +28,43 @@ public class PlaceOrderRequest
     /// <summary>
     /// order placed for purchasing the pet
     /// </summary>
-    [FromBody]
+    [FastEndpoints.FromBody]
     public Order order { get; set; }
 }
 
 
 
-public class DeleteOrderRequestValidator : Validator<DeleteOrderRequest>
+public class DeleteOrderRequestValidator : FastEndpoints.Validator<DeleteOrderRequest>
 {
     public DeleteOrderRequestValidator()
     {
         RuleFor(x => x.OrderId).NotEmpty();
-        //TODO Add any additional validation rules here
     }
 }
 
 
-public class GetInventoryRequestValidator : Validator<GetInventoryRequest>
+public class GetInventoryRequestValidator : FastEndpoints.Validator<GetInventoryRequest>
 {
     public GetInventoryRequestValidator()
     {
-        //TODO Add any additional validation rules here
     }
 }
 
 
-public class GetOrderByIdRequestValidator : Validator<GetOrderByIdRequest>
+public class GetOrderByIdRequestValidator : FastEndpoints.Validator<GetOrderByIdRequest>
 {
     public GetOrderByIdRequestValidator()
     {
         RuleFor(x => x.OrderId).NotEmpty();
-        //TODO Add any additional validation rules here
     }
 }
 
 
-public class PlaceOrderRequestValidator : Validator<PlaceOrderRequest>
+public class PlaceOrderRequestValidator : FastEndpoints.Validator<PlaceOrderRequest>
 {
     public PlaceOrderRequestValidator()
     {
         RuleFor(x => x.order).NotEmpty();
-        //TODO Add any additional validation rules here
     }
 }
 

@@ -1,5 +1,4 @@
 ﻿
-using FastEndpoints;
 
 namespace Org.OpenAPITools.Features;
 

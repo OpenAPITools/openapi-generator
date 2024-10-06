@@ -1,4 +1,3 @@
-using FastEndpoints;
 using Org.OpenAPITools.Models;
 
 namespace Org.OpenAPITools.Features;
@@ -9,7 +8,7 @@ namespace Org.OpenAPITools.Features;
 /// Add a new pet to the store
 /// </summary>
 
-public class AddPetEndpoint : Endpoint<AddPetRequest, Pet>
+public class AddPetEndpoint : FastEndpoints.Endpoint<AddPetRequest, Pet>
 {
     public override void Configure()
     {
@@ -20,8 +19,8 @@ public class AddPetEndpoint : Endpoint<AddPetRequest, Pet>
         
         Description(x =>
         {
-            x.WithTags("pet")
-             .ProducesProblemFE(405);
+            x.WithTags("pet");
+            FastEndpoints.RouteHandlerBuilderExtensions.ProducesProblemFE(x, 405);
         });
 
         Summary(s => {
@@ -47,7 +46,7 @@ public class AddPetEndpoint : Endpoint<AddPetRequest, Pet>
 /// Deletes a pet
 /// </summary>
 
-public class DeletePetEndpoint : Endpoint<DeletePetRequest>
+public class DeletePetEndpoint : FastEndpoints.Endpoint<DeletePetRequest>
 {
     public override void Configure()
     {
@@ -58,8 +57,8 @@ public class DeletePetEndpoint : Endpoint<DeletePetRequest>
         
         Description(x =>
         {
-            x.WithTags("pet")
-             .ProducesProblemFE(400);
+            x.WithTags("pet");
+            FastEndpoints.RouteHandlerBuilderExtensions.ProducesProblemFE(x, 400);
         });
 
         Summary(s => {
@@ -85,7 +84,7 @@ public class DeletePetEndpoint : Endpoint<DeletePetRequest>
 /// Finds Pets by status
 /// </summary>
 
-public class FindPetsByStatusEndpoint : Endpoint<FindPetsByStatusRequest, List<Pet>>
+public class FindPetsByStatusEndpoint : FastEndpoints.Endpoint<FindPetsByStatusRequest, List<Pet>>
 {
     public override void Configure()
     {
@@ -96,8 +95,8 @@ public class FindPetsByStatusEndpoint : Endpoint<FindPetsByStatusRequest, List<P
         
         Description(x =>
         {
-            x.WithTags("pet")
-             .ProducesProblemFE(400);
+            x.WithTags("pet");
+            FastEndpoints.RouteHandlerBuilderExtensions.ProducesProblemFE(x, 400);
         });
 
         Summary(s => {
@@ -123,7 +122,7 @@ public class FindPetsByStatusEndpoint : Endpoint<FindPetsByStatusRequest, List<P
 /// Finds Pets by tags
 /// </summary>
 [Obsolete]
-public class FindPetsByTagsEndpoint : Endpoint<FindPetsByTagsRequest, List<Pet>>
+public class FindPetsByTagsEndpoint : FastEndpoints.Endpoint<FindPetsByTagsRequest, List<Pet>>
 {
     public override void Configure()
     {
@@ -134,8 +133,8 @@ public class FindPetsByTagsEndpoint : Endpoint<FindPetsByTagsRequest, List<Pet>>
         
         Description(x =>
         {
-            x.WithTags("pet")
-             .ProducesProblemFE(400);
+            x.WithTags("pet");
+            FastEndpoints.RouteHandlerBuilderExtensions.ProducesProblemFE(x, 400);
         });
 
         Summary(s => {
@@ -161,7 +160,7 @@ public class FindPetsByTagsEndpoint : Endpoint<FindPetsByTagsRequest, List<Pet>>
 /// Find pet by ID
 /// </summary>
 
-public class GetPetByIdEndpoint : Endpoint<GetPetByIdRequest, Pet>
+public class GetPetByIdEndpoint : FastEndpoints.Endpoint<GetPetByIdRequest, Pet>
 {
     public override void Configure()
     {
@@ -172,9 +171,9 @@ public class GetPetByIdEndpoint : Endpoint<GetPetByIdRequest, Pet>
         
         Description(x =>
         {
-            x.WithTags("pet")
-             .ProducesProblemFE(400)
-             .ProducesProblemFE(404);
+            x.WithTags("pet");
+            FastEndpoints.RouteHandlerBuilderExtensions.ProducesProblemFE(x, 400);
+            FastEndpoints.RouteHandlerBuilderExtensions.ProducesProblemFE(x, 404);
         });
 
         Summary(s => {
@@ -201,7 +200,7 @@ public class GetPetByIdEndpoint : Endpoint<GetPetByIdRequest, Pet>
 /// Update an existing pet
 /// </summary>
 
-public class UpdatePetEndpoint : Endpoint<UpdatePetRequest, Pet>
+public class UpdatePetEndpoint : FastEndpoints.Endpoint<UpdatePetRequest, Pet>
 {
     public override void Configure()
     {
@@ -212,10 +211,10 @@ public class UpdatePetEndpoint : Endpoint<UpdatePetRequest, Pet>
         
         Description(x =>
         {
-            x.WithTags("pet")
-             .ProducesProblemFE(400)
-             .ProducesProblemFE(404)
-             .ProducesProblemFE(405);
+            x.WithTags("pet");
+            FastEndpoints.RouteHandlerBuilderExtensions.ProducesProblemFE(x, 400);
+            FastEndpoints.RouteHandlerBuilderExtensions.ProducesProblemFE(x, 404);
+            FastEndpoints.RouteHandlerBuilderExtensions.ProducesProblemFE(x, 405);
         });
 
         Summary(s => {
@@ -243,7 +242,7 @@ public class UpdatePetEndpoint : Endpoint<UpdatePetRequest, Pet>
 /// Updates a pet in the store with form data
 /// </summary>
 
-public class UpdatePetWithFormEndpoint : Endpoint<UpdatePetWithFormRequest>
+public class UpdatePetWithFormEndpoint : FastEndpoints.Endpoint<UpdatePetWithFormRequest>
 {
     public override void Configure()
     {
@@ -254,8 +253,8 @@ public class UpdatePetWithFormEndpoint : Endpoint<UpdatePetWithFormRequest>
         
         Description(x =>
         {
-            x.WithTags("pet")
-             .ProducesProblemFE(405);
+            x.WithTags("pet");
+            FastEndpoints.RouteHandlerBuilderExtensions.ProducesProblemFE(x, 405);
         });
 
         Summary(s => {
@@ -282,7 +281,7 @@ public class UpdatePetWithFormEndpoint : Endpoint<UpdatePetWithFormRequest>
 /// uploads an image
 /// </summary>
 
-public class UploadFileEndpoint : Endpoint<UploadFileRequest, ApiResponse>
+public class UploadFileEndpoint : FastEndpoints.Endpoint<UploadFileRequest, ApiResponse>
 {
     public override void Configure()
     {
