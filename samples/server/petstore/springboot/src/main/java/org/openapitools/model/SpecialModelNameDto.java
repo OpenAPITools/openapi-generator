@@ -35,6 +35,7 @@ public class SpecialModelNameDto {
    * Get $SpecialPropertyName
    * @return $SpecialPropertyName
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("$special[property.name]")
   public Long get$SpecialPropertyName() {
@@ -82,3 +83,4 @@ public class SpecialModelNameDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

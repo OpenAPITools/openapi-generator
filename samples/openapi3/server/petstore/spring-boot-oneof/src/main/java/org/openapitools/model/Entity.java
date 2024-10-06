@@ -46,7 +46,7 @@ public class Entity {
 
   private String atBaseType;
 
-  private @NotNull String atType;
+  private String atType;
 
   public Entity() {
     super();
@@ -68,6 +68,7 @@ public class Entity {
    * Hyperlink reference
    * @return href
    */
+  
   @Schema(name = "href", description = "Hyperlink reference", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("href")
   public String getHref() {
@@ -87,6 +88,7 @@ public class Entity {
    * unique identifier
    * @return id
    */
+  
   @Schema(name = "id", description = "unique identifier", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public String getId() {
@@ -106,6 +108,7 @@ public class Entity {
    * A URI to a JSON-Schema file that defines additional attributes and relationships
    * @return atSchemaLocation
    */
+  
   @Schema(name = "@schemaLocation", description = "A URI to a JSON-Schema file that defines additional attributes and relationships", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("@schemaLocation")
   public String getAtSchemaLocation() {
@@ -125,6 +128,7 @@ public class Entity {
    * When sub-classing, this defines the super-class
    * @return atBaseType
    */
+  
   @Schema(name = "@baseType", description = "When sub-classing, this defines the super-class", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("@baseType")
   public String getAtBaseType() {
@@ -144,9 +148,10 @@ public class Entity {
    * When sub-classing, this defines the sub-class Extensible name
    * @return atType
    */
+  @NotNull 
   @Schema(name = "@type", description = "When sub-classing, this defines the sub-class Extensible name", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("@type")
-  public @NotNull String getAtType() {
+  public String getAtType() {
     return atType;
   }
 
@@ -224,22 +229,27 @@ public class Entity {
       this.instance.href(href);
       return this;
     }
+    
     public Entity.Builder id(String id) {
       this.instance.id(id);
       return this;
     }
+    
     public Entity.Builder atSchemaLocation(String atSchemaLocation) {
       this.instance.atSchemaLocation(atSchemaLocation);
       return this;
     }
+    
     public Entity.Builder atBaseType(String atBaseType) {
       this.instance.atBaseType(atBaseType);
       return this;
     }
+    
     public Entity.Builder atType(String atType) {
       this.instance.atType(atType);
       return this;
     }
+    
     /**
     * returns a built Entity instance.
     *
@@ -276,3 +286,4 @@ public class Entity {
   }
 
 }
+

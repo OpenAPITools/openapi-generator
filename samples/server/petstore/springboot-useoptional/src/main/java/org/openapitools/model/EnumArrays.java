@@ -61,7 +61,7 @@ public class EnumArrays {
     }
   }
 
-  private Optional<String> justSymbol = Optional.empty();
+  private Optional<JustSymbolEnum> justSymbol = Optional.empty();
 
   /**
    * Gets or Sets arrayEnum
@@ -98,10 +98,11 @@ public class EnumArrays {
     }
   }
 
-  private List<Optional<String>> arrayEnum = new ArrayList<>();
+  @Valid
+  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
-  public EnumArrays justSymbol(Optional<JustSymbolEnum> justSymbol) {
-    this.justSymbol = justSymbol;
+  public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
+    this.justSymbol = Optional.of(justSymbol);
     return this;
   }
 
@@ -109,9 +110,10 @@ public class EnumArrays {
    * Get justSymbol
    * @return justSymbol
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("just_symbol")
-  public Optional<String> getJustSymbol() {
+  public Optional<JustSymbolEnum> getJustSymbol() {
     return justSymbol;
   }
 
@@ -119,12 +121,12 @@ public class EnumArrays {
     this.justSymbol = justSymbol;
   }
 
-  public EnumArrays arrayEnum(List<Optional<ArrayEnumEnum>> arrayEnum) {
+  public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
     return this;
   }
 
-  public EnumArrays addArrayEnumItem(Optional<ArrayEnumEnum> arrayEnumItem) {
+  public EnumArrays addArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
     if (this.arrayEnum == null) {
       this.arrayEnum = new ArrayList<>();
     }
@@ -136,13 +138,14 @@ public class EnumArrays {
    * Get arrayEnum
    * @return arrayEnum
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("array_enum")
-  public List<Optional<String>> getArrayEnum() {
+  public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }
 
-  public void setArrayEnum(List<Optional<ArrayEnumEnum>> arrayEnum) {
+  public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
 
@@ -203,14 +206,16 @@ public class EnumArrays {
       return this;
     }
 
-    public EnumArrays.Builder justSymbol(Optional<JustSymbolEnum> justSymbol) {
+    public EnumArrays.Builder justSymbol(JustSymbolEnum justSymbol) {
       this.instance.justSymbol(justSymbol);
       return this;
     }
-    public EnumArrays.Builder arrayEnum(List<Optional<ArrayEnumEnum>> arrayEnum) {
+    
+    public EnumArrays.Builder arrayEnum(List<ArrayEnumEnum> arrayEnum) {
       this.instance.arrayEnum(arrayEnum);
       return this;
     }
+    
     /**
     * returns a built EnumArrays instance.
     *
@@ -247,3 +252,4 @@ public class EnumArrays {
   }
 
 }
+

@@ -34,6 +34,7 @@ public class SpecialModelName {
    * Get $specialPropertyName
    * @return $specialPropertyName
    */
+  
   @Schema(name = "$special[property.name]", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("$special[property.name]")
   public Long get$SpecialPropertyName() {
@@ -81,3 +82,4 @@ public class SpecialModelName {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

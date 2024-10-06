@@ -66,7 +66,7 @@ public class BigCat extends Cat {
     }
   }
 
-  private String kind;
+  private KindEnum kind;
 
   public BigCat() {
     super();
@@ -88,9 +88,10 @@ public class BigCat extends Cat {
    * Get kind
    * @return kind
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("kind")
-  public String getKind() {
+  public KindEnum getKind() {
     return kind;
   }
 
@@ -152,3 +153,4 @@ public class BigCat extends Cat {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

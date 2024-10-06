@@ -94,7 +94,7 @@ public interface PathHandlerInterface {
      * <p>"<b>status</b>"
      * <p>Status values that need to be considered for filter</p>
      * <p>
-     * - Parameter type: <b>{@link java.util.List List} of {@link List}</b><br/>
+     * - Parameter type: <b>{@link java.util.List List} of {@link List&lt;String&gt;}</b><br/>
      * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
      * - Required: <b>true</b>
      * </p>
@@ -126,7 +126,7 @@ public interface PathHandlerInterface {
      * <p>"<b>tags</b>"
      * <p>Tags to filter by</p>
      * <p>
-     * - Parameter type: <b>{@link java.util.List List} of {@link List}</b><br/>
+     * - Parameter type: <b>{@link java.util.List List} of {@link List&lt;String&gt;}</b><br/>
      * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
      * - Required: <b>true</b>
      * </p>

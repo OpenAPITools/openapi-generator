@@ -67,7 +67,7 @@ public class ParentWithNullable {
     }
   }
 
-  private String type;
+  private TypeEnum type;
 
   private String nullableProperty = null;
 
@@ -80,9 +80,10 @@ public class ParentWithNullable {
    * Get type
    * @return type
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("type")
-  public String getType() {
+  public TypeEnum getType() {
     return type;
   }
 
@@ -99,6 +100,7 @@ public class ParentWithNullable {
    * Get nullableProperty
    * @return nullableProperty
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("nullableProperty")
   public String getNullableProperty() {
@@ -148,3 +150,4 @@ public class ParentWithNullable {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

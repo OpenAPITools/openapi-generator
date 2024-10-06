@@ -25,15 +25,16 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class TypeHolderDefault {
 
-  private @NotNull String stringItem = "what";
+  private String stringItem = "what";
 
-  private @NotNull BigDecimal numberItem = new BigDecimal("1.234");
+  private BigDecimal numberItem = new BigDecimal("1.234");
 
-  private @NotNull Integer integerItem = -2;
+  private Integer integerItem = -2;
 
-  private @NotNull Boolean boolItem = true;
+  private Boolean boolItem = true;
 
-  private @NotNull List<Integer> arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
+  @Valid
+  private List<Integer> arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
 
   public TypeHolderDefault() {
     super();
@@ -59,9 +60,10 @@ public class TypeHolderDefault {
    * Get stringItem
    * @return stringItem
    */
+  @NotNull 
   @Schema(name = "string_item", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("string_item")
-  public @NotNull String getStringItem() {
+  public String getStringItem() {
     return stringItem;
   }
 
@@ -78,9 +80,10 @@ public class TypeHolderDefault {
    * Get numberItem
    * @return numberItem
    */
+  @NotNull @Valid 
   @Schema(name = "number_item", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("number_item")
-  public @NotNull BigDecimal getNumberItem() {
+  public BigDecimal getNumberItem() {
     return numberItem;
   }
 
@@ -97,9 +100,10 @@ public class TypeHolderDefault {
    * Get integerItem
    * @return integerItem
    */
+  @NotNull 
   @Schema(name = "integer_item", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("integer_item")
-  public @NotNull Integer getIntegerItem() {
+  public Integer getIntegerItem() {
     return integerItem;
   }
 
@@ -116,9 +120,10 @@ public class TypeHolderDefault {
    * Get boolItem
    * @return boolItem
    */
+  @NotNull 
   @Schema(name = "bool_item", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("bool_item")
-  public @NotNull Boolean getBoolItem() {
+  public Boolean getBoolItem() {
     return boolItem;
   }
 
@@ -143,9 +148,10 @@ public class TypeHolderDefault {
    * Get arrayItem
    * @return arrayItem
    */
+  @NotNull 
   @Schema(name = "array_item", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("array_item")
-  public @NotNull List<Integer> getArrayItem() {
+  public List<Integer> getArrayItem() {
     return arrayItem;
   }
 
@@ -198,3 +204,4 @@ public class TypeHolderDefault {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

@@ -49,6 +49,7 @@ public class PizzaSpeziale extends Pizza {
    * Get toppings
    * @return toppings
    */
+  
   @Schema(name = "toppings", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("toppings")
   public String getToppings() {
@@ -151,36 +152,43 @@ public class PizzaSpeziale extends Pizza {
       this.instance.toppings(toppings);
       return this;
     }
+    
     @Override
     public PizzaSpeziale.Builder pizzaSize(BigDecimal pizzaSize) {
       this.instance.pizzaSize(pizzaSize);
       return this;
     }
+    
     @Override
     public PizzaSpeziale.Builder href(String href) {
       this.instance.href(href);
       return this;
     }
+    
     @Override
     public PizzaSpeziale.Builder id(String id) {
       this.instance.id(id);
       return this;
     }
+    
     @Override
     public PizzaSpeziale.Builder atSchemaLocation(String atSchemaLocation) {
       this.instance.atSchemaLocation(atSchemaLocation);
       return this;
     }
+    
     @Override
     public PizzaSpeziale.Builder atBaseType(String atBaseType) {
       this.instance.atBaseType(atBaseType);
       return this;
     }
+    
     @Override
     public PizzaSpeziale.Builder atType(String atType) {
       this.instance.atType(atType);
       return this;
     }
+    
     /**
     * returns a built PizzaSpeziale instance.
     *
@@ -218,3 +226,4 @@ public class PizzaSpeziale extends Pizza {
   }
 
 }
+

@@ -33,6 +33,7 @@ public class ClassModel {
    * Get propertyClass
    * @return propertyClass
    */
+  
   @Schema(name = "_class", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("_class")
   public String getPropertyClass() {
@@ -80,3 +81,4 @@ public class ClassModel {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

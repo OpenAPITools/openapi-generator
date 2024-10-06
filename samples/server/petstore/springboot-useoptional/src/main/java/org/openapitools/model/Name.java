@@ -23,7 +23,7 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class Name {
 
-  private @NotNull Integer name;
+  private Integer name;
 
   private Optional<Integer> snakeCase = Optional.empty();
 
@@ -51,9 +51,10 @@ public class Name {
    * Get name
    * @return name
    */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("name")
-  public @NotNull Integer getName() {
+  public Integer getName() {
     return name;
   }
 
@@ -61,8 +62,8 @@ public class Name {
     this.name = name;
   }
 
-  public Name snakeCase(Optional<Integer> snakeCase) {
-    this.snakeCase = snakeCase;
+  public Name snakeCase(Integer snakeCase) {
+    this.snakeCase = Optional.of(snakeCase);
     return this;
   }
 
@@ -70,6 +71,7 @@ public class Name {
    * Get snakeCase
    * @return snakeCase
    */
+  
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("snake_case")
   public Optional<Integer> getSnakeCase() {
@@ -80,8 +82,8 @@ public class Name {
     this.snakeCase = snakeCase;
   }
 
-  public Name property(Optional<String> property) {
-    this.property = property;
+  public Name property(String property) {
+    this.property = Optional.of(property);
     return this;
   }
 
@@ -89,6 +91,7 @@ public class Name {
    * Get property
    * @return property
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("property")
   public Optional<String> getProperty() {
@@ -99,8 +102,8 @@ public class Name {
     this.property = property;
   }
 
-  public Name _123number(Optional<Integer> _123number) {
-    this._123number = _123number;
+  public Name _123number(Integer _123number) {
+    this._123number = Optional.of(_123number);
     return this;
   }
 
@@ -108,6 +111,7 @@ public class Name {
    * Get _123number
    * @return _123number
    */
+  
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("123Number")
   public Optional<Integer> get123number() {
@@ -185,18 +189,22 @@ public class Name {
       this.instance.name(name);
       return this;
     }
-    public Name.Builder snakeCase(Optional<Integer> snakeCase) {
+    
+    public Name.Builder snakeCase(Integer snakeCase) {
       this.instance.snakeCase(snakeCase);
       return this;
     }
-    public Name.Builder property(Optional<String> property) {
+    
+    public Name.Builder property(String property) {
       this.instance.property(property);
       return this;
     }
-    public Name.Builder _123number(Optional<Integer> _123number) {
+    
+    public Name.Builder _123number(Integer _123number) {
       this.instance._123number(_123number);
       return this;
     }
+    
     /**
     * returns a built Name instance.
     *
@@ -233,3 +241,4 @@ public class Name {
   }
 
 }
+

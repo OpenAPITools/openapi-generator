@@ -37,6 +37,7 @@ public class ModelApiResponse {
    * Get code
    * @return code
    */
+  
   @JsonProperty("code")
   public Integer getCode() {
     return code;
@@ -55,6 +56,7 @@ public class ModelApiResponse {
    * Get type
    * @return type
    */
+  
   @JsonProperty("type")
   public String getType() {
     return type;
@@ -73,6 +75,7 @@ public class ModelApiResponse {
    * Get message
    * @return message
    */
+  
   @JsonProperty("message")
   public String getMessage() {
     return message;
@@ -123,3 +126,4 @@ public class ModelApiResponse {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

@@ -32,8 +32,8 @@ public class ChildWithNullable extends ParentWithNullable {
 
   private Optional<String> otherProperty = Optional.empty();
 
-  public ChildWithNullable otherProperty(Optional<String> otherProperty) {
-    this.otherProperty = otherProperty;
+  public ChildWithNullable otherProperty(String otherProperty) {
+    this.otherProperty = Optional.of(otherProperty);
     return this;
   }
 
@@ -41,6 +41,7 @@ public class ChildWithNullable extends ParentWithNullable {
    * Get otherProperty
    * @return otherProperty
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("otherProperty")
   public Optional<String> getOtherProperty() {
@@ -52,12 +53,12 @@ public class ChildWithNullable extends ParentWithNullable {
   }
 
 
-  public ChildWithNullable type(Optional<TypeEnum> type) {
+  public ChildWithNullable type(TypeEnum type) {
     super.type(type);
     return this;
   }
 
-  public ChildWithNullable nullableProperty(JsonNullable<String> nullableProperty) {
+  public ChildWithNullable nullableProperty(String nullableProperty) {
     super.nullableProperty(nullableProperty);
     return this;
   }
@@ -130,20 +131,28 @@ public class ChildWithNullable extends ParentWithNullable {
       return this;
     }
 
-    public ChildWithNullable.Builder otherProperty(Optional<String> otherProperty) {
+    public ChildWithNullable.Builder otherProperty(String otherProperty) {
       this.instance.otherProperty(otherProperty);
       return this;
     }
+    
     @Override
-    public ChildWithNullable.Builder type(Optional<TypeEnum> type) {
+    public ChildWithNullable.Builder type(TypeEnum type) {
       this.instance.type(type);
       return this;
     }
+    
     @Override
-    public ChildWithNullable.Builder nullableProperty(JsonNullable<String> nullableProperty) {
+    public ChildWithNullable.Builder nullableProperty(String nullableProperty) {
       this.instance.nullableProperty(nullableProperty);
       return this;
     }
+    
+    public ChildWithNullable.Builder nullableProperty(JsonNullable<String> nullableProperty) {
+      this.instance.setNullableProperty(nullableProperty);
+      return this;
+    }
+    
     /**
     * returns a built ChildWithNullable instance.
     *
@@ -181,3 +190,4 @@ public class ChildWithNullable extends ParentWithNullable {
   }
 
 }
+

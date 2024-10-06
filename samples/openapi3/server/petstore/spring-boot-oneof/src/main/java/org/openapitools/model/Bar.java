@@ -27,13 +27,13 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class Bar extends Entity implements BarRefOrValue {
 
-  private @NotNull String id;
+  private String id;
 
   private String barPropA;
 
   private String fooPropB;
 
-  private @Valid FooRefOrValue foo;
+  private FooRefOrValue foo;
 
   public Bar() {
     super();
@@ -56,9 +56,10 @@ public class Bar extends Entity implements BarRefOrValue {
    * Get id
    * @return id
    */
+  @NotNull 
   @Schema(name = "id", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("id")
-  public @NotNull String getId() {
+  public String getId() {
     return id;
   }
 
@@ -75,6 +76,7 @@ public class Bar extends Entity implements BarRefOrValue {
    * Get barPropA
    * @return barPropA
    */
+  
   @Schema(name = "barPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("barPropA")
   public String getBarPropA() {
@@ -94,6 +96,7 @@ public class Bar extends Entity implements BarRefOrValue {
    * Get fooPropB
    * @return fooPropB
    */
+  
   @Schema(name = "fooPropB", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("fooPropB")
   public String getFooPropB() {
@@ -113,9 +116,10 @@ public class Bar extends Entity implements BarRefOrValue {
    * Get foo
    * @return foo
    */
+  @Valid 
   @Schema(name = "foo", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("foo")
-  public @Valid FooRefOrValue getFoo() {
+  public FooRefOrValue getFoo() {
     return foo;
   }
 
@@ -214,38 +218,46 @@ public class Bar extends Entity implements BarRefOrValue {
       this.instance.id(id);
       return this;
     }
+    
     public Bar.Builder barPropA(String barPropA) {
       this.instance.barPropA(barPropA);
       return this;
     }
+    
     public Bar.Builder fooPropB(String fooPropB) {
       this.instance.fooPropB(fooPropB);
       return this;
     }
+    
     public Bar.Builder foo(FooRefOrValue foo) {
       this.instance.foo(foo);
       return this;
     }
+    
     @Override
     public Bar.Builder href(String href) {
       this.instance.href(href);
       return this;
     }
+    
     @Override
     public Bar.Builder atSchemaLocation(String atSchemaLocation) {
       this.instance.atSchemaLocation(atSchemaLocation);
       return this;
     }
+    
     @Override
     public Bar.Builder atBaseType(String atBaseType) {
       this.instance.atBaseType(atBaseType);
       return this;
     }
+    
     @Override
     public Bar.Builder atType(String atType) {
       this.instance.atType(atType);
       return this;
     }
+    
     /**
     * returns a built Bar instance.
     *
@@ -283,3 +295,4 @@ public class Bar extends Entity implements BarRefOrValue {
   }
 
 }
+

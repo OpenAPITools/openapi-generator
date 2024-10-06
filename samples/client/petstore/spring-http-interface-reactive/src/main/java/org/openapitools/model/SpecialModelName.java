@@ -79,3 +79,4 @@ public class SpecialModelName {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

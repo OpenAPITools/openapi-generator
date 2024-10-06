@@ -68,7 +68,7 @@ public class Order {
     }
   }
 
-  private String status;
+  private StatusEnum status;
 
   private Boolean complete = false;
 
@@ -159,7 +159,7 @@ public class Order {
    */
   
   @JsonProperty("status")
-  public String getStatus() {
+  public StatusEnum getStatus() {
     return status;
   }
 
@@ -233,3 +233,4 @@ public class Order {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

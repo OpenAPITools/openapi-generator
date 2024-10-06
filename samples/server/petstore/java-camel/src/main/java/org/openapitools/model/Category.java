@@ -32,7 +32,7 @@ public class Category {
 
   private Long id;
 
-  private @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") String name;
+  private String name;
 
   public Category id(Long id) {
     this.id = id;
@@ -43,6 +43,7 @@ public class Category {
    * Get id
    * @return id
    */
+  
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
@@ -63,10 +64,11 @@ public class Category {
    * Get name
    * @return name
    */
+  @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
   @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
   @JacksonXmlProperty(localName = "name")
-  public @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") String getName() {
+  public String getName() {
     return name;
   }
 

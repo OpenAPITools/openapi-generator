@@ -33,6 +33,7 @@ public class Tag {
    * Get id
    * @return id
    */
+  
   @JsonProperty("id")
   public Long getId() {
     return id;
@@ -51,6 +52,7 @@ public class Tag {
    * Get name
    * @return name
    */
+  
   @JsonProperty("name")
   public String getName() {
     return name;
@@ -99,3 +101,4 @@ public class Tag {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

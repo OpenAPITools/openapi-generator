@@ -33,6 +33,7 @@ public class File {
    * Test capitalization
    * @return sourceURI
    */
+  
   @Schema(name = "sourceURI", description = "Test capitalization", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("sourceURI")
   public String getSourceURI() {
@@ -80,3 +81,4 @@ public class File {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

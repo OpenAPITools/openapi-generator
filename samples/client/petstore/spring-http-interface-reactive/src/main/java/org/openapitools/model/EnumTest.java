@@ -60,7 +60,7 @@ public class EnumTest {
     }
   }
 
-  private String enumString;
+  private EnumStringEnum enumString;
 
   /**
    * Gets or Sets enumStringRequired
@@ -99,7 +99,7 @@ public class EnumTest {
     }
   }
 
-  private String enumStringRequired;
+  private EnumStringRequiredEnum enumStringRequired;
 
   /**
    * Gets or Sets enumInteger
@@ -136,7 +136,7 @@ public class EnumTest {
     }
   }
 
-  private Integer enumInteger;
+  private EnumIntegerEnum enumInteger;
 
   /**
    * Gets or Sets enumNumber
@@ -173,7 +173,7 @@ public class EnumTest {
     }
   }
 
-  private Double enumNumber;
+  private EnumNumberEnum enumNumber;
 
   private OuterEnum outerEnum;
 
@@ -199,7 +199,7 @@ public class EnumTest {
    */
   
   @JsonProperty("enum_string")
-  public String getEnumString() {
+  public EnumStringEnum getEnumString() {
     return enumString;
   }
 
@@ -218,7 +218,7 @@ public class EnumTest {
    */
   @NotNull
   @JsonProperty("enum_string_required")
-  public String getEnumStringRequired() {
+  public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
 
@@ -237,7 +237,7 @@ public class EnumTest {
    */
   
   @JsonProperty("enum_integer")
-  public Integer getEnumInteger() {
+  public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
 
@@ -256,7 +256,7 @@ public class EnumTest {
    */
   
   @JsonProperty("enum_number")
-  public Double getEnumNumber() {
+  public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
 
@@ -328,3 +328,4 @@ public class EnumTest {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

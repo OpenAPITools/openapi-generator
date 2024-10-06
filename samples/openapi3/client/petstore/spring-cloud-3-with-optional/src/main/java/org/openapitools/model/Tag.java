@@ -24,8 +24,8 @@ public class Tag {
 
   private Optional<String> name = Optional.empty();
 
-  public Tag id(Optional<Long> id) {
-    this.id = id;
+  public Tag id(Long id) {
+    this.id = Optional.of(id);
     return this;
   }
 
@@ -33,6 +33,7 @@ public class Tag {
    * Get id
    * @return id
    */
+  
   @JsonProperty("id")
   public Optional<Long> getId() {
     return id;
@@ -42,8 +43,8 @@ public class Tag {
     this.id = id;
   }
 
-  public Tag name(Optional<String> name) {
-    this.name = name;
+  public Tag name(String name) {
+    this.name = Optional.of(name);
     return this;
   }
 
@@ -51,6 +52,7 @@ public class Tag {
    * Get name
    * @return name
    */
+  
   @JsonProperty("name")
   public Optional<String> getName() {
     return name;
@@ -99,3 +101,4 @@ public class Tag {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

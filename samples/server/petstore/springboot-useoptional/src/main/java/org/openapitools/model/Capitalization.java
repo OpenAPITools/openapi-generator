@@ -34,8 +34,8 @@ public class Capitalization {
 
   private Optional<String> ATT_NAME = Optional.empty();
 
-  public Capitalization smallCamel(Optional<String> smallCamel) {
-    this.smallCamel = smallCamel;
+  public Capitalization smallCamel(String smallCamel) {
+    this.smallCamel = Optional.of(smallCamel);
     return this;
   }
 
@@ -43,6 +43,7 @@ public class Capitalization {
    * Get smallCamel
    * @return smallCamel
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("smallCamel")
   public Optional<String> getSmallCamel() {
@@ -53,8 +54,8 @@ public class Capitalization {
     this.smallCamel = smallCamel;
   }
 
-  public Capitalization capitalCamel(Optional<String> capitalCamel) {
-    this.capitalCamel = capitalCamel;
+  public Capitalization capitalCamel(String capitalCamel) {
+    this.capitalCamel = Optional.of(capitalCamel);
     return this;
   }
 
@@ -62,6 +63,7 @@ public class Capitalization {
    * Get capitalCamel
    * @return capitalCamel
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("CapitalCamel")
   public Optional<String> getCapitalCamel() {
@@ -72,8 +74,8 @@ public class Capitalization {
     this.capitalCamel = capitalCamel;
   }
 
-  public Capitalization smallSnake(Optional<String> smallSnake) {
-    this.smallSnake = smallSnake;
+  public Capitalization smallSnake(String smallSnake) {
+    this.smallSnake = Optional.of(smallSnake);
     return this;
   }
 
@@ -81,6 +83,7 @@ public class Capitalization {
    * Get smallSnake
    * @return smallSnake
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("small_Snake")
   public Optional<String> getSmallSnake() {
@@ -91,8 +94,8 @@ public class Capitalization {
     this.smallSnake = smallSnake;
   }
 
-  public Capitalization capitalSnake(Optional<String> capitalSnake) {
-    this.capitalSnake = capitalSnake;
+  public Capitalization capitalSnake(String capitalSnake) {
+    this.capitalSnake = Optional.of(capitalSnake);
     return this;
   }
 
@@ -100,6 +103,7 @@ public class Capitalization {
    * Get capitalSnake
    * @return capitalSnake
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("Capital_Snake")
   public Optional<String> getCapitalSnake() {
@@ -110,8 +114,8 @@ public class Capitalization {
     this.capitalSnake = capitalSnake;
   }
 
-  public Capitalization scAETHFlowPoints(Optional<String> scAETHFlowPoints) {
-    this.scAETHFlowPoints = scAETHFlowPoints;
+  public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
+    this.scAETHFlowPoints = Optional.of(scAETHFlowPoints);
     return this;
   }
 
@@ -119,6 +123,7 @@ public class Capitalization {
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("SCA_ETH_Flow_Points")
   public Optional<String> getScAETHFlowPoints() {
@@ -129,8 +134,8 @@ public class Capitalization {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
 
-  public Capitalization ATT_NAME(Optional<String> ATT_NAME) {
-    this.ATT_NAME = ATT_NAME;
+  public Capitalization ATT_NAME(String ATT_NAME) {
+    this.ATT_NAME = Optional.of(ATT_NAME);
     return this;
   }
 
@@ -138,6 +143,7 @@ public class Capitalization {
    * Name of the pet 
    * @return ATT_NAME
    */
+  
   @ApiModelProperty(value = "Name of the pet ")
   @JsonProperty("ATT_NAME")
   public Optional<String> getATTNAME() {
@@ -217,30 +223,36 @@ public class Capitalization {
       return this;
     }
 
-    public Capitalization.Builder smallCamel(Optional<String> smallCamel) {
+    public Capitalization.Builder smallCamel(String smallCamel) {
       this.instance.smallCamel(smallCamel);
       return this;
     }
-    public Capitalization.Builder capitalCamel(Optional<String> capitalCamel) {
+    
+    public Capitalization.Builder capitalCamel(String capitalCamel) {
       this.instance.capitalCamel(capitalCamel);
       return this;
     }
-    public Capitalization.Builder smallSnake(Optional<String> smallSnake) {
+    
+    public Capitalization.Builder smallSnake(String smallSnake) {
       this.instance.smallSnake(smallSnake);
       return this;
     }
-    public Capitalization.Builder capitalSnake(Optional<String> capitalSnake) {
+    
+    public Capitalization.Builder capitalSnake(String capitalSnake) {
       this.instance.capitalSnake(capitalSnake);
       return this;
     }
-    public Capitalization.Builder scAETHFlowPoints(Optional<String> scAETHFlowPoints) {
+    
+    public Capitalization.Builder scAETHFlowPoints(String scAETHFlowPoints) {
       this.instance.scAETHFlowPoints(scAETHFlowPoints);
       return this;
     }
-    public Capitalization.Builder ATT_NAME(Optional<String> ATT_NAME) {
+    
+    public Capitalization.Builder ATT_NAME(String ATT_NAME) {
       this.instance.ATT_NAME(ATT_NAME);
       return this;
     }
+    
     /**
     * returns a built Capitalization instance.
     *
@@ -277,3 +289,4 @@ public class Capitalization {
   }
 
 }
+

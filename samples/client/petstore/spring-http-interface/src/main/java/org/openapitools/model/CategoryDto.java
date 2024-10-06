@@ -106,3 +106,4 @@ public class CategoryDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

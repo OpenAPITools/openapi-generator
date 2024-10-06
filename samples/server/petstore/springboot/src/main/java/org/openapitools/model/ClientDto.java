@@ -35,6 +35,7 @@ public class ClientDto {
    * Get client
    * @return client
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("client")
   public String getClient() {
@@ -82,3 +83,4 @@ public class ClientDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

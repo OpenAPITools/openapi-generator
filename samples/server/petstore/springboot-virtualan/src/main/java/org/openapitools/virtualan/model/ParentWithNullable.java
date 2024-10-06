@@ -70,9 +70,9 @@ public class ParentWithNullable {
     }
   }
 
-  private String type;
+  private TypeEnum type;
 
-  private JsonNullable<String> nullableProperty = JsonNullable.undefined();
+  private JsonNullable<String> nullableProperty = JsonNullable.<String>undefined();
 
   public ParentWithNullable type(TypeEnum type) {
     this.type = type;
@@ -83,9 +83,10 @@ public class ParentWithNullable {
    * Get type
    * @return type
    */
+  
   @Schema(name = "type", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("type")
-  public String getType() {
+  public TypeEnum getType() {
     return type;
   }
 
@@ -93,8 +94,8 @@ public class ParentWithNullable {
     this.type = type;
   }
 
-  public ParentWithNullable nullableProperty(JsonNullable<String> nullableProperty) {
-    this.nullableProperty = nullableProperty;
+  public ParentWithNullable nullableProperty(String nullableProperty) {
+    this.nullableProperty = JsonNullable.of(nullableProperty);
     return this;
   }
 
@@ -102,6 +103,7 @@ public class ParentWithNullable {
    * Get nullableProperty
    * @return nullableProperty
    */
+  
   @Schema(name = "nullableProperty", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("nullableProperty")
   public JsonNullable<String> getNullableProperty() {
@@ -162,3 +164,4 @@ public class ParentWithNullable {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

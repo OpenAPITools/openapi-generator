@@ -50,6 +50,7 @@ public class Foo extends Entity implements FooRefOrValue {
    * Get fooPropA
    * @return fooPropA
    */
+  
   @Schema(name = "fooPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("fooPropA")
   public String getFooPropA() {
@@ -69,6 +70,7 @@ public class Foo extends Entity implements FooRefOrValue {
    * Get fooPropB
    * @return fooPropB
    */
+  
   @Schema(name = "fooPropB", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("fooPropB")
   public String getFooPropB() {
@@ -169,35 +171,42 @@ public class Foo extends Entity implements FooRefOrValue {
       this.instance.fooPropA(fooPropA);
       return this;
     }
+    
     public Foo.Builder fooPropB(String fooPropB) {
       this.instance.fooPropB(fooPropB);
       return this;
     }
+    
     @Override
     public Foo.Builder href(String href) {
       this.instance.href(href);
       return this;
     }
+    
     @Override
     public Foo.Builder id(String id) {
       this.instance.id(id);
       return this;
     }
+    
     @Override
     public Foo.Builder atSchemaLocation(String atSchemaLocation) {
       this.instance.atSchemaLocation(atSchemaLocation);
       return this;
     }
+    
     @Override
     public Foo.Builder atBaseType(String atBaseType) {
       this.instance.atBaseType(atBaseType);
       return this;
     }
+    
     @Override
     public Foo.Builder atType(String atType) {
       this.instance.atType(atType);
       return this;
     }
+    
     /**
     * returns a built Foo instance.
     *
@@ -235,3 +244,4 @@ public class Foo extends Entity implements FooRefOrValue {
   }
 
 }
+

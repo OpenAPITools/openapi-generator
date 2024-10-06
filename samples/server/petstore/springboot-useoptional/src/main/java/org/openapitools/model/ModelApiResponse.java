@@ -30,8 +30,8 @@ public class ModelApiResponse {
 
   private Optional<String> message = Optional.empty();
 
-  public ModelApiResponse code(Optional<Integer> code) {
-    this.code = code;
+  public ModelApiResponse code(Integer code) {
+    this.code = Optional.of(code);
     return this;
   }
 
@@ -39,6 +39,7 @@ public class ModelApiResponse {
    * Get code
    * @return code
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("code")
   public Optional<Integer> getCode() {
@@ -49,8 +50,8 @@ public class ModelApiResponse {
     this.code = code;
   }
 
-  public ModelApiResponse type(Optional<String> type) {
-    this.type = type;
+  public ModelApiResponse type(String type) {
+    this.type = Optional.of(type);
     return this;
   }
 
@@ -58,6 +59,7 @@ public class ModelApiResponse {
    * Get type
    * @return type
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("type")
   public Optional<String> getType() {
@@ -68,8 +70,8 @@ public class ModelApiResponse {
     this.type = type;
   }
 
-  public ModelApiResponse message(Optional<String> message) {
-    this.message = message;
+  public ModelApiResponse message(String message) {
+    this.message = Optional.of(message);
     return this;
   }
 
@@ -77,6 +79,7 @@ public class ModelApiResponse {
    * Get message
    * @return message
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("message")
   public Optional<String> getMessage() {
@@ -147,18 +150,21 @@ public class ModelApiResponse {
       return this;
     }
 
-    public ModelApiResponse.Builder code(Optional<Integer> code) {
+    public ModelApiResponse.Builder code(Integer code) {
       this.instance.code(code);
       return this;
     }
-    public ModelApiResponse.Builder type(Optional<String> type) {
+    
+    public ModelApiResponse.Builder type(String type) {
       this.instance.type(type);
       return this;
     }
-    public ModelApiResponse.Builder message(Optional<String> message) {
+    
+    public ModelApiResponse.Builder message(String message) {
       this.instance.message(message);
       return this;
     }
+    
     /**
     * returns a built ModelApiResponse instance.
     *
@@ -195,3 +201,4 @@ public class ModelApiResponse {
   }
 
 }
+

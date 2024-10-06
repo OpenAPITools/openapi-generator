@@ -35,7 +35,8 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime dateTime;
 
-  private Map<String, @Valid AnimalDto> map = new HashMap<>();
+  @Valid
+  private Map<String, AnimalDto> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClassDto uuid(UUID uuid) {
     this.uuid = uuid;
@@ -46,6 +47,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
    * Get uuid
    * @return uuid
    */
+  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("uuid")
   public UUID getUuid() {
@@ -65,6 +67,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
    * Get dateTime
    * @return dateTime
    */
+  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
   public OffsetDateTime getDateTime() {
@@ -92,9 +95,10 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
    * Get map
    * @return map
    */
+  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("map")
-  public Map<String, @Valid AnimalDto> getMap() {
+  public Map<String, AnimalDto> getMap() {
     return map;
   }
 
@@ -143,3 +147,4 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

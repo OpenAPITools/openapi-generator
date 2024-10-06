@@ -31,12 +31,16 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class ObjectWithUniqueItems {
 
-  private JsonNullable<Set<String>> nullSet = JsonNullable.undefined();
+  @Valid
+  private JsonNullable<Set<String>> nullSet = JsonNullable.<Set<String>>undefined();
 
+  @Valid
   private Set<String> notNullSet = new LinkedHashSet<>();
 
-  private JsonNullable<List<String>> nullList = JsonNullable.undefined();
+  @Valid
+  private JsonNullable<List<String>> nullList = JsonNullable.<List<String>>undefined();
 
+  @Valid
   private List<String> notNullList = new ArrayList<>();
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -45,8 +49,8 @@ public class ObjectWithUniqueItems {
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime nullDateField;
 
-  public ObjectWithUniqueItems nullSet(JsonNullable<Set<String>> nullSet) {
-    this.nullSet = nullSet;
+  public ObjectWithUniqueItems nullSet(Set<String> nullSet) {
+    this.nullSet = JsonNullable.of(nullSet);
     return this;
   }
 
@@ -62,6 +66,7 @@ public class ObjectWithUniqueItems {
    * Get nullSet
    * @return nullSet
    */
+  
   @Schema(name = "nullSet", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("nullSet")
   public JsonNullable<Set<String>> getNullSet() {
@@ -89,6 +94,7 @@ public class ObjectWithUniqueItems {
    * Get notNullSet
    * @return notNullSet
    */
+  
   @Schema(name = "notNullSet", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("notNullSet")
   public Set<String> getNotNullSet() {
@@ -100,8 +106,8 @@ public class ObjectWithUniqueItems {
     this.notNullSet = notNullSet;
   }
 
-  public ObjectWithUniqueItems nullList(JsonNullable<List<String>> nullList) {
-    this.nullList = nullList;
+  public ObjectWithUniqueItems nullList(List<String> nullList) {
+    this.nullList = JsonNullable.of(nullList);
     return this;
   }
 
@@ -117,6 +123,7 @@ public class ObjectWithUniqueItems {
    * Get nullList
    * @return nullList
    */
+  
   @Schema(name = "nullList", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("nullList")
   public JsonNullable<List<String>> getNullList() {
@@ -144,6 +151,7 @@ public class ObjectWithUniqueItems {
    * Get notNullList
    * @return notNullList
    */
+  
   @Schema(name = "notNullList", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("notNullList")
   public List<String> getNotNullList() {
@@ -163,6 +171,7 @@ public class ObjectWithUniqueItems {
    * Get notNullDateField
    * @return notNullDateField
    */
+  @Valid 
   @Schema(name = "notNullDateField", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("notNullDateField")
   public OffsetDateTime getNotNullDateField() {
@@ -182,6 +191,7 @@ public class ObjectWithUniqueItems {
    * Get nullDateField
    * @return nullDateField
    */
+  @Valid 
   @Schema(name = "nullDateField", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("nullDateField")
   public OffsetDateTime getNullDateField() {
@@ -250,3 +260,4 @@ public class ObjectWithUniqueItems {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

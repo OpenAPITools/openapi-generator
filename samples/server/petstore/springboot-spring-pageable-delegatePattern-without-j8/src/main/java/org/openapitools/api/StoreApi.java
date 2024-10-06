@@ -52,7 +52,7 @@ public interface StoreApi {
     )
     
     default ResponseEntity<Void> deleteOrder(
-        @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("order_id") @NotNull String orderId
+        @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("order_id") String orderId
     ) {
         return getDelegate().deleteOrder(orderId);
     }
@@ -70,13 +70,13 @@ public interface StoreApi {
         nickname = "getInventory",
         notes = "Returns a map of status codes to quantities",
         response = Integer.class,
-        responseContainer = "map",
+        responseContainer = "Map",
         authorizations = {
             @Authorization(value = "api_key")
          }
     )
     @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation", response = Map.class, responseContainer = "map")
+        @ApiResponse(code = 200, message = "successful operation", response = Map.class, responseContainer = "Map")
     })
     @RequestMapping(
         method = RequestMethod.GET,
@@ -119,7 +119,7 @@ public interface StoreApi {
     )
     
     default ResponseEntity<Order> getOrderById(
-        @ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathVariable("order_id") @NotNull @Min(1L) @Max(5L) Long orderId
+        @Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathVariable("order_id") Long orderId
     ) {
         return getDelegate().getOrderById(orderId);
     }
@@ -150,7 +150,7 @@ public interface StoreApi {
     )
     
     default ResponseEntity<Order> placeOrder(
-        @ApiParam(value = "order placed for purchasing the pet", required = true) @RequestBody @NotNull @Valid Order body
+        @ApiParam(value = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order body
     ) {
         return getDelegate().placeOrder(body);
     }

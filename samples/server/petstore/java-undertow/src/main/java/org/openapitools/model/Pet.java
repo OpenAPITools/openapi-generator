@@ -35,8 +35,8 @@ public class Pet   {
   private Long id;
   private Category category;
   private String name;
-  private List photoUrls = new ArrayList<>();
-  private List tags = new ArrayList<>();
+  private List<String> photoUrls = new ArrayList<>();
+  private List<Tag> tags = new ArrayList<>();
 
 
   public enum StatusEnum {
@@ -112,7 +112,7 @@ public class Pet   {
 
   /**
    */
-  public Pet photoUrls(List photoUrls) {
+  public Pet photoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
@@ -120,16 +120,16 @@ public class Pet   {
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("photoUrls")
-  public List getPhotoUrls() {
+  public List<String> getPhotoUrls() {
     return photoUrls;
   }
-  public void setPhotoUrls(List photoUrls) {
+  public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
   /**
    */
-  public Pet tags(List tags) {
+  public Pet tags(List<Tag> tags) {
     this.tags = tags;
     return this;
   }
@@ -137,10 +137,10 @@ public class Pet   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
-  public List getTags() {
+  public List<Tag> getTags() {
     return tags;
   }
-  public void setTags(List tags) {
+  public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
 

@@ -67,7 +67,7 @@ public class BigCat extends Cat {
     }
   }
 
-  private String kind;
+  private KindEnum kind;
 
   public BigCat() {
     super();
@@ -84,8 +84,8 @@ public class BigCat extends Cat {
    * Constructor with all args parameters
    */
   public BigCat(KindEnum kind, Boolean declawed, String className, String color) {
-    super(declawed, className, color);
-    this.kind = kind;
+      super(declawed, className, color);
+      this.kind = kind;
   }
 
   public BigCat kind(KindEnum kind) {
@@ -97,9 +97,10 @@ public class BigCat extends Cat {
    * Get kind
    * @return kind
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("kind")
-  public String getKind() {
+  public KindEnum getKind() {
     return kind;
   }
 
@@ -161,3 +162,4 @@ public class BigCat extends Cat {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

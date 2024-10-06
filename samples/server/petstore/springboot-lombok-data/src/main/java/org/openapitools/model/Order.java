@@ -75,8 +75,9 @@ public class Order {
     }
   }
 
-  private String status;
+  private StatusEnum status;
 
   private Boolean complete = false;
 
 }
+

@@ -36,6 +36,7 @@ public class ModelReturn {
    * Get _return
    * @return _return
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("return")
   public Integer getReturn() {
@@ -83,3 +84,4 @@ public class ModelReturn {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

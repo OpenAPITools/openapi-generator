@@ -131,8 +131,8 @@ public interface UserApi {
         accept = { "application/json", "application/xml" }
     )
     Mono<ResponseEntity<String>> loginUser(
-         @RequestParam(value = "username") String username,
-         @RequestParam(value = "password") String password
+         @RequestParam(value = "username", required = true) String username,
+         @RequestParam(value = "password", required = true) String password
     );
 
 

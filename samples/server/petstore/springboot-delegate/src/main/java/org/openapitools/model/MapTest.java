@@ -25,6 +25,7 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class MapTest {
 
+  @Valid
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
   /**
@@ -62,10 +63,13 @@ public class MapTest {
     }
   }
 
-  private Map<String, String> mapOfEnumString = new HashMap<>();
+  @Valid
+  private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
+  @Valid
   private Map<String, Boolean> directMap = new HashMap<>();
 
+  @Valid
   private Map<String, Boolean> indirectMap = new HashMap<>();
 
   public MapTest() {
@@ -76,10 +80,10 @@ public class MapTest {
    * Constructor with all args parameters
    */
   public MapTest(Map<String, Map<String, String>> mapMapOfString, Map<String, InnerEnum> mapOfEnumString, Map<String, Boolean> directMap, Map<String, Boolean> indirectMap) {
-    this.mapMapOfString = mapMapOfString;
-    this.mapOfEnumString = mapOfEnumString;
-    this.directMap = directMap;
-    this.indirectMap = indirectMap;
+      this.mapMapOfString = mapMapOfString;
+      this.mapOfEnumString = mapOfEnumString;
+      this.directMap = directMap;
+      this.indirectMap = indirectMap;
   }
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
@@ -99,6 +103,7 @@ public class MapTest {
    * Get mapMapOfString
    * @return mapMapOfString
    */
+  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("map_map_of_string")
   public Map<String, Map<String, String>> getMapMapOfString() {
@@ -126,9 +131,10 @@ public class MapTest {
    * Get mapOfEnumString
    * @return mapOfEnumString
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("map_of_enum_string")
-  public Map<String, String> getMapOfEnumString() {
+  public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }
 
@@ -153,6 +159,7 @@ public class MapTest {
    * Get directMap
    * @return directMap
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("direct_map")
   public Map<String, Boolean> getDirectMap() {
@@ -180,6 +187,7 @@ public class MapTest {
    * Get indirectMap
    * @return indirectMap
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("indirect_map")
   public Map<String, Boolean> getIndirectMap() {
@@ -233,3 +241,4 @@ public class MapTest {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

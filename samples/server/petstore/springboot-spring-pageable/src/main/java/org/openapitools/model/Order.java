@@ -71,7 +71,7 @@ public class Order {
     }
   }
 
-  private String status;
+  private StatusEnum status;
 
   private Boolean complete = false;
 
@@ -84,6 +84,7 @@ public class Order {
    * Get id
    * @return id
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
@@ -103,6 +104,7 @@ public class Order {
    * Get petId
    * @return petId
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("petId")
   public Long getPetId() {
@@ -122,6 +124,7 @@ public class Order {
    * Get quantity
    * @return quantity
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("quantity")
   public Integer getQuantity() {
@@ -141,6 +144,7 @@ public class Order {
    * Get shipDate
    * @return shipDate
    */
+  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("shipDate")
   public OffsetDateTime getShipDate() {
@@ -160,9 +164,10 @@ public class Order {
    * Order Status
    * @return status
    */
+  
   @ApiModelProperty(value = "Order Status")
   @JsonProperty("status")
-  public String getStatus() {
+  public StatusEnum getStatus() {
     return status;
   }
 
@@ -179,6 +184,7 @@ public class Order {
    * Get complete
    * @return complete
    */
+  
   @ApiModelProperty(value = "")
   @JsonProperty("complete")
   public Boolean getComplete() {
@@ -236,3 +242,4 @@ public class Order {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

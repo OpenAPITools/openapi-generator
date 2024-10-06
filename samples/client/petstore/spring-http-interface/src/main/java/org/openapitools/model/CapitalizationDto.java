@@ -194,3 +194,4 @@ public class CapitalizationDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+
