@@ -144,6 +144,46 @@ impl Api for ApiClient {
     fn user_api(&self) -> &dyn user_api::UserApi {
         self.user_api.as_ref()
     }
+}
 
+#[cfg(feature = "mockall")]
+pub struct MockApiClient {
+    pub fake_api_mock: fake_api::MockFakeApi,
+    pub pet_api_mock: pet_api::MockPetApi,
+    pub store_api_mock: store_api::MockStoreApi,
+    pub testing_api_mock: testing_api::MockTestingApi,
+    pub user_api_mock: user_api::MockUserApi,
+}
+
+#[cfg(feature = "mockall")]
+impl MockApiClient {
+    pub fn new() -> Self {
+        Self {
+            fake_api_mock: fake_api::MockFakeApi::new(),
+            pet_api_mock: pet_api::MockPetApi::new(),
+            store_api_mock: store_api::MockStoreApi::new(),
+            testing_api_mock: testing_api::MockTestingApi::new(),
+            user_api_mock: user_api::MockUserApi::new(),
+        }
+    }
+}
+
+#[cfg(feature = "mockall")]
+impl Api for MockApiClient {
+    fn fake_api(&self) -> &dyn fake_api::FakeApi {
+        &self.fake_api_mock
+    }
+    fn pet_api(&self) -> &dyn pet_api::PetApi {
+        &self.pet_api_mock
+    }
+    fn store_api(&self) -> &dyn store_api::StoreApi {
+        &self.store_api_mock
+    }
+    fn testing_api(&self) -> &dyn testing_api::TestingApi {
+        &self.testing_api_mock
+    }
+    fn user_api(&self) -> &dyn user_api::UserApi {
+        &self.user_api_mock
+    }
 }
 

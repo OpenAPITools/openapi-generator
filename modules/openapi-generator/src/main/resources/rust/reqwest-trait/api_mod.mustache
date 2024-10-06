@@ -175,7 +175,41 @@ impl Api for ApiClient {
     }
     {{/apis}}
     {{/apiInfo}}
-
 }
+
+{{#mockall}}
+#[cfg(feature = "mockall")]
+pub struct MockApiClient {
+    {{#apiInfo}}
+    {{#apis}}
+    pub {{{classFilename}}}_mock: {{{classFilename}}}::Mock{{classname}},
+    {{/apis}}
+    {{/apiInfo}}
+}
+
+#[cfg(feature = "mockall")]
+impl MockApiClient {
+    pub fn new() -> Self {
+        Self {
+            {{#apiInfo}}
+            {{#apis}}
+            {{{classFilename}}}_mock: {{{classFilename}}}::Mock{{classname}}::new(),
+            {{/apis}}
+            {{/apiInfo}}
+        }
+    }
+}
+
+#[cfg(feature = "mockall")]
+impl Api for MockApiClient {
+    {{#apiInfo}}
+    {{#apis}}
+    fn {{{classFilename}}}(&self) -> &dyn {{{classFilename}}}::{{classname}} {
+        &self.{{{classFilename}}}_mock
+    }
+    {{/apis}}
+    {{/apiInfo}}
+}
+{{/mockall}}
 
 {{/topLevelApiClient}}
