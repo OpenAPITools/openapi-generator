@@ -47,6 +47,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractPhpCodegen.class);
 
     public static final String VARIABLE_NAMING_CONVENTION = "variableNamingConvention";
+    public static final String METHOD_NAMING_CONVENTION = "methodNamingConvention";
     public static final String PACKAGE_NAME = "packageName";
     public static final String SRC_BASE_PATH = "srcBasePath";
     @Getter @Setter
@@ -64,6 +65,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     protected String apiDirName = "Api";
     protected String modelDirName = "Model";
     protected String variableNamingConvention = "snake_case";
+    @Getter @Setter
+    protected String methodNamingConvention = "PascalCase";
     protected String apiDocPath = docsBasePath + "/" + apiDirName;
     protected String modelDocPath = docsBasePath + "/" + modelDirName;
     protected String interfaceNamePrefix = "", interfaceNameSuffix = "Interface";
@@ -150,6 +153,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
         cliOptions.add(new CliOption(VARIABLE_NAMING_CONVENTION, "naming convention of variable name, e.g. camelCase.")
                 .defaultValue("snake_case"));
+        cliOptions.add(new CliOption(METHOD_NAMING_CONVENTION, "naming convention of class method name, e.g. PascalCase.")
+                .defaultValue("PascalCase"));
         cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, "The main namespace to use for all classes. e.g. Yay\\Pets"));
         cliOptions.add(new CliOption(PACKAGE_NAME, "The main package name for classes. e.g. GeneratedPetstore"));
         cliOptions.add(new CliOption(SRC_BASE_PATH, "The directory to serve as source root."));
@@ -243,6 +248,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         if (additionalProperties.containsKey(VARIABLE_NAMING_CONVENTION)) {
             this.setParameterNamingConvention((String) additionalProperties.get(VARIABLE_NAMING_CONVENTION));
+        }
+
+        if (additionalProperties.containsKey(METHOD_NAMING_CONVENTION)) {
+            this.setMethodNamingConvention((String) additionalProperties.get(METHOD_NAMING_CONVENTION));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.GIT_USER_ID)) {
@@ -427,8 +436,11 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         this.variableNamingConvention = variableNamingConvention;
     }
 
-    @Override
-    public String toVarName(String name) {
+    /**
+     * Abstracted method to get non convention var name because convention is handled
+     * different for toVarName and getter and setter
+     */
+    private String toNonConventionVarName(String name) {
         // obtain the name from nameMapping directly if provided
         if (nameMapping.containsKey(name)) {
             return nameMapping.get(name);
@@ -440,6 +452,19 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         // sanitize name
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+
+        // parameter name starting with number won't compile
+        // need to escape it by appending _ at the beginning
+        if (name.matches("^\\d.*")) {
+            name = "_" + name;
+        }
+
+        return name;
+    }
+
+    @Override
+    public String toVarName(String name) {
+        name = toNonConventionVarName(name);
 
         if ("camelCase".equals(variableNamingConvention)) {
             // return the name in camelCase style
@@ -453,10 +478,25 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             name = underscore(name);
         }
 
-        // parameter name starting with number won't compile
-        // need to escape it by appending _ at the beginning
-        if (name.matches("^\\d.*")) {
-            name = "_" + name;
+        return name;
+    }
+
+    @Override
+    public String getterAndSetterCapitalize(String name) {
+        name = toNonConventionVarName(name);
+
+        if ("snake_case".equals(methodNamingConvention)) {
+            // return the name in underscore style and prepend with _ to get method separation (e.g. get_phone_number)
+            // PhoneNumber => phone_number
+            name = "_" + underscore(name);
+        } else if ("camelCase".equals(methodNamingConvention)) {
+            // return the name in camelCase style
+            // phone_number => phoneNumber
+            name = camelize(name, LOWERCASE_FIRST_LETTER);
+        } else {
+            // return the name in PascalCase style
+            // phone_number => PhoneNumber
+            name = camelize(name);
         }
 
         return name;
