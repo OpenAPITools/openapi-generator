@@ -19,7 +19,6 @@ package org.openapitools.codegen.languages;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.ModelUtils.getSchemaItems;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 import com.samskivert.mustache.Mustache;
@@ -29,7 +28,6 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.tags.Tag;
 import java.io.File;
@@ -844,6 +842,43 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
     }
 
+    private void setAllEnumVariablesAsResolved(CodegenModel cm) {
+        for (CodegenProperty var : cm.vars) {
+            setEnumPropertyAsResolved(var);
+        }
+        for (CodegenProperty var : cm.optionalVars) {
+            setEnumPropertyAsResolved(var);
+        }
+        for (CodegenProperty var : cm.requiredVars) {
+            setEnumPropertyAsResolved(var);
+        }
+        for (CodegenProperty var : cm.parentVars) {
+            setEnumPropertyAsResolved(var);
+        }
+        for (CodegenProperty var : cm.allVars) {
+            setEnumPropertyAsResolved(var);
+        }
+        for (CodegenProperty var : cm.nonNullableVars) {
+            setEnumPropertyAsResolved(var);
+        }
+        for (CodegenProperty var : cm.readOnlyVars) {
+            setEnumPropertyAsResolved(var);
+        }
+        for (CodegenProperty var : cm.readWriteVars) {
+            setEnumPropertyAsResolved(var);
+        }
+    }
+
+    private void setEnumPropertyAsResolved(CodegenProperty property) {
+        if (property.isContainer && property.items != null) {
+            setEnumPropertyAsResolved(property.items);
+        } else {
+            if (property.isEnum) {
+                property.isResolvedEnum = true;
+            }
+        }
+    }
+
     private void prepareVersioningParameters(List<CodegenOperation> operations) {
         for (CodegenOperation operation : operations) {
             if (operation.getHasHeaderParams()) {
@@ -1142,6 +1177,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             for (CodegenProperty var : cm.vars) {
                 addNullableImports = isAddNullableImports(cm, addNullableImports, var);
             }
+            setAllEnumVariablesAsResolved(cm);
             if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
                 cm.imports.add(importMapping.get("JsonValue"));
                 final Map<String, String> item = new HashMap<>();
