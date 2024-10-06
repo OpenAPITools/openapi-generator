@@ -183,6 +183,12 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isEnum; // true if the enum is defined inline
     public boolean isInnerEnum; // Enums declared inline will be located inside the generic model, changing how the enum is referenced in some cases.
     public boolean isEnumRef; // true if it's a reference to an enum
+    /**
+     * This indicates that the enum whether it is inline or referenced can be used as a data type.
+     * If <code>RESOLVE_INLINE_ENUMS</code> is set to <code>true</code> in `<code>inlineSchemaOptions</code>, in those cases this field is irrelevant.
+     *
+     */
+    public boolean isResolvedEnum;
     public boolean isReadOnly;
     public boolean isWriteOnly;
     public boolean isNullable;
@@ -1025,6 +1031,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", isEnum=").append(isEnum);
         sb.append(", isInnerEnum=").append(isInnerEnum);
         sb.append(", isEnumRef=").append(isEnumRef);
+        sb.append(", isResolvedEnum=").append(isResolvedEnum);
         sb.append(", isAnyType=").append(isAnyType);
         sb.append(", isReadOnly=").append(isReadOnly);
         sb.append(", isWriteOnly=").append(isWriteOnly);
@@ -1122,6 +1129,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isEnum == that.isEnum &&
                 isInnerEnum == that.isInnerEnum &&
                 isEnumRef == that.isEnumRef &&
+                isResolvedEnum == that.isResolvedEnum &&
                 isAnyType == that.isAnyType &&
                 isReadOnly == that.isReadOnly &&
                 isWriteOnly == that.isWriteOnly &&
@@ -1211,7 +1219,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric,
                 isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isFile,
                 isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isPassword, isFreeFormObject,
-                isArray, isMap, isOptional, isEnum, isInnerEnum, isEnumRef, isAnyType, isReadOnly, isWriteOnly, isNullable, isShort,
+                isArray, isMap, isOptional, isEnum, isInnerEnum, isEnumRef, isResolvedEnum, isAnyType, isReadOnly, isWriteOnly, isNullable, isShort,
                 isUnboundedInteger, isSelfReference, isCircularReference, isDiscriminator, isNew, isOverridden, _enum,
                 allowableValues, items, mostInnerItems, additionalProperties, vars, requiredVars,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInPascalCase, nameInCamelCase,
