@@ -100,7 +100,7 @@ pub mod configuration;
 
 use std::sync::Arc;
 
-trait Api {
+pub trait Api {
     fn fake_api(&self) -> &dyn fake_api::FakeApi;
     fn pet_api(&self) -> &dyn pet_api::PetApi;
     fn store_api(&self) -> &dyn store_api::StoreApi;

@@ -72,9 +72,7 @@ reqwest = { version = "^0.12", features = ["json", "multipart"] }
 reqwest-middleware = { version = "^0.3", features = ["json", "multipart"] }
 {{/supportMiddleware}}
 {{#supportTokenSource}}
-{{^reqwestTrait}}
 async-trait = "^0.1"
-{{/reqwestTrait}}
 # TODO: propose to Yoshidan to externalize this as non google related crate, so that it can easily be extended for other cloud providers.
 google-cloud-token = "^0.1"
 {{/supportTokenSource}}
@@ -82,4 +80,12 @@ google-cloud-token = "^0.1"
 {{/reqwest}}
 {{#reqwestTrait}}
 async-trait = "^0.1"
+reqwest = { version = "^0.12", features = ["json", "multipart"] }
+{{#supportMiddleware}}
+reqwest-middleware = { version = "^0.3", features = ["json", "multipart"] }
+{{/supportMiddleware}}
+{{#supportTokenSource}}
+# TODO: propose to Yoshidan to externalize this as non google related crate, so that it can easily be extended for other cloud providers.
+google-cloud-token = "^0.1"
+{{/supportTokenSource}}
 {{/reqwestTrait}}
