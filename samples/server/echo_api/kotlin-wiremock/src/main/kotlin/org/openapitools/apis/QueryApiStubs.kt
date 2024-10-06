@@ -28,8 +28,8 @@ open class QueryApiStubs(private val objectMapper: ObjectMapper) {
      */
     fun testEnumRefString(enumNonrefStringQuery: StringValuePattern? = null, enumRefStringQuery: StringValuePattern? = null, configurer: MappingBuilder.() -> MappingBuilder = { this }): TestEnumRefStringStubBuilder =
         TestEnumRefStringStubBuilder(objectMapper, get(urlPathTemplate("/query/enum_ref_string"))
-            .apply { enumNonrefStringQuery?.let { withQueryParam("enumNonrefStringQuery", it) } }
-            .apply { enumRefStringQuery?.let { withQueryParam("enumRefStringQuery", it) } }
+            .apply { enumNonrefStringQuery?.let { withQueryParam("enum_nonref_string_query", it) } }
+            .apply { enumRefStringQuery?.let { withQueryParam("enum_ref_string_query", it) } }
             .configurer()
         )
 
@@ -44,9 +44,9 @@ open class QueryApiStubs(private val objectMapper: ObjectMapper) {
      */
     fun testQueryDatetimeDateString(datetimeQuery: StringValuePattern? = null, dateQuery: StringValuePattern? = null, stringQuery: StringValuePattern? = null, configurer: MappingBuilder.() -> MappingBuilder = { this }): TestQueryDatetimeDateStringStubBuilder =
         TestQueryDatetimeDateStringStubBuilder(objectMapper, get(urlPathTemplate("/query/datetime/date/string"))
-            .apply { datetimeQuery?.let { withQueryParam("datetimeQuery", it) } }
-            .apply { dateQuery?.let { withQueryParam("dateQuery", it) } }
-            .apply { stringQuery?.let { withQueryParam("stringQuery", it) } }
+            .apply { datetimeQuery?.let { withQueryParam("datetime_query", it) } }
+            .apply { dateQuery?.let { withQueryParam("date_query", it) } }
+            .apply { stringQuery?.let { withQueryParam("string_query", it) } }
             .configurer()
         )
 
@@ -61,9 +61,9 @@ open class QueryApiStubs(private val objectMapper: ObjectMapper) {
      */
     fun testQueryIntegerBooleanString(integerQuery: StringValuePattern? = null, booleanQuery: StringValuePattern? = null, stringQuery: StringValuePattern? = null, configurer: MappingBuilder.() -> MappingBuilder = { this }): TestQueryIntegerBooleanStringStubBuilder =
         TestQueryIntegerBooleanStringStubBuilder(objectMapper, get(urlPathTemplate("/query/integer/boolean/string"))
-            .apply { integerQuery?.let { withQueryParam("integerQuery", it) } }
-            .apply { booleanQuery?.let { withQueryParam("booleanQuery", it) } }
-            .apply { stringQuery?.let { withQueryParam("stringQuery", it) } }
+            .apply { integerQuery?.let { withQueryParam("integer_query", it) } }
+            .apply { booleanQuery?.let { withQueryParam("boolean_query", it) } }
+            .apply { stringQuery?.let { withQueryParam("string_query", it) } }
             .configurer()
         )
 
@@ -76,7 +76,7 @@ open class QueryApiStubs(private val objectMapper: ObjectMapper) {
      */
     fun testQueryStyleDeepObjectExplodeTrueObject(queryObject: StringValuePattern? = null, configurer: MappingBuilder.() -> MappingBuilder = { this }): TestQueryStyleDeepObjectExplodeTrueObjectStubBuilder =
         TestQueryStyleDeepObjectExplodeTrueObjectStubBuilder(objectMapper, get(urlPathTemplate("/query/style_deepObject/explode_true/object"))
-            .apply { queryObject?.let { withQueryParam("queryObject", it) } }
+            .apply { queryObject?.let { withQueryParam("query_object", it) } }
             .configurer()
         )
 
@@ -89,7 +89,7 @@ open class QueryApiStubs(private val objectMapper: ObjectMapper) {
      */
     fun testQueryStyleFormExplodeTrueArrayString(queryObject: StringValuePattern? = null, configurer: MappingBuilder.() -> MappingBuilder = { this }): TestQueryStyleFormExplodeTrueArrayStringStubBuilder =
         TestQueryStyleFormExplodeTrueArrayStringStubBuilder(objectMapper, get(urlPathTemplate("/query/style_form/explode_true/array_string"))
-            .apply { queryObject?.let { withQueryParam("queryObject", it) } }
+            .apply { queryObject?.let { withQueryParam("query_object", it) } }
             .configurer()
         )
 
@@ -102,7 +102,7 @@ open class QueryApiStubs(private val objectMapper: ObjectMapper) {
      */
     fun testQueryStyleFormExplodeTrueObject(queryObject: StringValuePattern? = null, configurer: MappingBuilder.() -> MappingBuilder = { this }): TestQueryStyleFormExplodeTrueObjectStubBuilder =
         TestQueryStyleFormExplodeTrueObjectStubBuilder(objectMapper, get(urlPathTemplate("/query/style_form/explode_true/object"))
-            .apply { queryObject?.let { withQueryParam("queryObject", it) } }
+            .apply { queryObject?.let { withQueryParam("query_object", it) } }
             .configurer()
         )
 }

@@ -90,7 +90,7 @@ class HeaderApi
         int $hostIndex = 0
     ) {
         $this->client = $client ?: new Client();
-        $this->config = $config ?: new Configuration();
+        $this->config = $config ?: Configuration::getDefaultConfiguration();
         $this->headerSelector = $selector ?: new HeaderSelector();
         $this->hostIndex = $hostIndex;
     }
@@ -132,7 +132,7 @@ class HeaderApi
      * @param  bool|null $boolean_header boolean_header (optional)
      * @param  string|null $string_header string_header (optional)
      * @param  string|null $enum_nonref_string_header enum_nonref_string_header (optional)
-     * @param  StringEnumRef|null $enum_ref_string_header enum_ref_string_header (optional)
+     * @param  \OpenAPI\Client\Model\StringEnumRef|null $enum_ref_string_header enum_ref_string_header (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testHeaderIntegerBooleanStringEnums'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -144,7 +144,7 @@ class HeaderApi
         ?bool $boolean_header = null,
         ?string $string_header = null,
         ?string $enum_nonref_string_header = null,
-        ?StringEnumRef $enum_ref_string_header = null,
+        ?\OpenAPI\Client\Model\StringEnumRef $enum_ref_string_header = null,
         string $contentType = self::contentTypes['testHeaderIntegerBooleanStringEnums'][0]
     ): string
     {
@@ -161,7 +161,7 @@ class HeaderApi
      * @param  bool|null $boolean_header (optional)
      * @param  string|null $string_header (optional)
      * @param  string|null $enum_nonref_string_header (optional)
-     * @param  StringEnumRef|null $enum_ref_string_header (optional)
+     * @param  \OpenAPI\Client\Model\StringEnumRef|null $enum_ref_string_header (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testHeaderIntegerBooleanStringEnums'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -173,7 +173,7 @@ class HeaderApi
         ?bool $boolean_header = null,
         ?string $string_header = null,
         ?string $enum_nonref_string_header = null,
-        ?StringEnumRef $enum_ref_string_header = null,
+        ?\OpenAPI\Client\Model\StringEnumRef $enum_ref_string_header = null,
         string $contentType = self::contentTypes['testHeaderIntegerBooleanStringEnums'][0]
     ): array
     {
@@ -296,7 +296,7 @@ class HeaderApi
      * @param  bool|null $boolean_header (optional)
      * @param  string|null $string_header (optional)
      * @param  string|null $enum_nonref_string_header (optional)
-     * @param  StringEnumRef|null $enum_ref_string_header (optional)
+     * @param  \OpenAPI\Client\Model\StringEnumRef|null $enum_ref_string_header (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testHeaderIntegerBooleanStringEnums'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -307,7 +307,7 @@ class HeaderApi
         ?bool $boolean_header = null,
         ?string $string_header = null,
         ?string $enum_nonref_string_header = null,
-        ?StringEnumRef $enum_ref_string_header = null,
+        ?\OpenAPI\Client\Model\StringEnumRef $enum_ref_string_header = null,
         string $contentType = self::contentTypes['testHeaderIntegerBooleanStringEnums'][0]
     ): PromiseInterface
     {
@@ -328,7 +328,7 @@ class HeaderApi
      * @param  bool|null $boolean_header (optional)
      * @param  string|null $string_header (optional)
      * @param  string|null $enum_nonref_string_header (optional)
-     * @param  StringEnumRef|null $enum_ref_string_header (optional)
+     * @param  \OpenAPI\Client\Model\StringEnumRef|null $enum_ref_string_header (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testHeaderIntegerBooleanStringEnums'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -389,7 +389,7 @@ class HeaderApi
      * @param  bool|null $boolean_header (optional)
      * @param  string|null $string_header (optional)
      * @param  string|null $enum_nonref_string_header (optional)
-     * @param  StringEnumRef|null $enum_ref_string_header (optional)
+     * @param  \OpenAPI\Client\Model\StringEnumRef|null $enum_ref_string_header (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testHeaderIntegerBooleanStringEnums'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException

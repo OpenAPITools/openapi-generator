@@ -10,25 +10,26 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct MapTest: Codable, JSONEncodable, Hashable {
+internal struct MapTest: Codable, JSONEncodable {
 
-    public enum MapOfEnumString: String, Codable, CaseIterable {
+    internal enum MapOfEnumString: String, Codable, CaseIterable, CaseIterableDefaultsLast {
         case upper = "UPPER"
         case lower = "lower"
+        case unknownDefaultOpenApi = "unknown_default_open_api"
     }
-    public var mapMapOfString: [String: [String: String]]?
-    public var mapOfEnumString: [String: String]?
-    public var directMap: [String: Bool]?
-    public var indirectMap: StringBooleanMap?
+    internal private(set) var mapMapOfString: [String: [String: String]]?
+    internal private(set) var mapOfEnumString: [String: String]?
+    internal private(set) var directMap: [String: Bool]?
+    internal private(set) var indirectMap: StringBooleanMap?
 
-    public init(mapMapOfString: [String: [String: String]]? = nil, mapOfEnumString: [String: String]? = nil, directMap: [String: Bool]? = nil, indirectMap: StringBooleanMap? = nil) {
+    internal init(mapMapOfString: [String: [String: String]]? = nil, mapOfEnumString: [String: String]? = nil, directMap: [String: Bool]? = nil, indirectMap: StringBooleanMap? = nil) {
         self.mapMapOfString = mapMapOfString
         self.mapOfEnumString = mapOfEnumString
         self.directMap = directMap
         self.indirectMap = indirectMap
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable {
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case mapMapOfString = "map_map_of_string"
         case mapOfEnumString = "map_of_enum_string"
         case directMap = "direct_map"
@@ -37,7 +38,7 @@ public struct MapTest: Codable, JSONEncodable, Hashable {
 
     // Encodable protocol methods
 
-    public func encode(to encoder: Encoder) throws {
+    internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(mapMapOfString, forKey: .mapMapOfString)
         try container.encodeIfPresent(mapOfEnumString, forKey: .mapOfEnumString)

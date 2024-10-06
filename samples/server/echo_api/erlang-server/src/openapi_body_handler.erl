@@ -1,5 +1,38 @@
-%% basic handler
 -module(openapi_body_handler).
+-moduledoc """
+Exposes the following operation IDs:
+
+- `POST` to `/binary/gif`, OperationId: `TestBinaryGif`:
+Test binary (gif) response body.
+
+- `POST` to `/body/application/octetstream/binary`, OperationId: `TestBodyApplicationOctetstreamBinary`:
+Test body parameter(s).
+
+- `POST` to `/body/application/octetstream/array_of_binary`, OperationId: `TestBodyMultipartFormdataArrayOfBinary`:
+Test array of binary in multipart mime.
+
+- `POST` to `/body/application/octetstream/single_binary`, OperationId: `TestBodyMultipartFormdataSingleBinary`:
+Test single binary in multipart mime.
+
+- `POST` to `/echo/body/allOf/Pet`, OperationId: `TestEchoBodyAllOfPet`:
+Test body parameter(s).
+
+- `POST` to `/echo/body/FreeFormObject/response_string`, OperationId: `TestEchoBodyFreeFormObjectResponseString`:
+Test free form object.
+
+- `POST` to `/echo/body/Pet`, OperationId: `TestEchoBodyPet`:
+Test body parameter(s).
+
+- `POST` to `/echo/body/Pet/response_string`, OperationId: `TestEchoBodyPetResponseString`:
+Test empty response body.
+
+- `POST` to `/echo/body/string_enum`, OperationId: `TestEchoBodyStringEnum`:
+Test string enum response body.
+
+- `POST` to `/echo/body/Tag/response_string`, OperationId: `TestEchoBodyTagResponseString`:
+Test empty json (request body).
+
+""".
 
 -behaviour(cowboy_rest).
 

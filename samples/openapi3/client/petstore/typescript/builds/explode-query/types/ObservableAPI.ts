@@ -223,8 +223,8 @@ export class ObservableFakeApi {
     /**
      * test http signature authentication
      * @param pet Pet object that needs to be added to the store
-     * @param query1 query parameter
-     * @param header1 header parameter
+     * @param [query1] query parameter
+     * @param [header1] header parameter
      */
     public fakeHttpSignatureTestWithHttpInfo(pet: Pet, query1?: string, header1?: string, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.fakeHttpSignatureTest(pet, query1, header1, _options);
@@ -248,8 +248,8 @@ export class ObservableFakeApi {
     /**
      * test http signature authentication
      * @param pet Pet object that needs to be added to the store
-     * @param query1 query parameter
-     * @param header1 header parameter
+     * @param [query1] query parameter
+     * @param [header1] header parameter
      */
     public fakeHttpSignatureTest(pet: Pet, query1?: string, header1?: string, _options?: Configuration): Observable<void> {
         return this.fakeHttpSignatureTestWithHttpInfo(pet, query1, header1, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
@@ -257,7 +257,7 @@ export class ObservableFakeApi {
 
     /**
      * Test serialization of outer boolean types
-     * @param body Input boolean as post body
+     * @param [body] Input boolean as post body
      */
     public fakeOuterBooleanSerializeWithHttpInfo(body?: boolean, _options?: Configuration): Observable<HttpInfo<boolean>> {
         const requestContextPromise = this.requestFactory.fakeOuterBooleanSerialize(body, _options);
@@ -280,7 +280,7 @@ export class ObservableFakeApi {
 
     /**
      * Test serialization of outer boolean types
-     * @param body Input boolean as post body
+     * @param [body] Input boolean as post body
      */
     public fakeOuterBooleanSerialize(body?: boolean, _options?: Configuration): Observable<boolean> {
         return this.fakeOuterBooleanSerializeWithHttpInfo(body, _options).pipe(map((apiResponse: HttpInfo<boolean>) => apiResponse.data));
@@ -288,7 +288,7 @@ export class ObservableFakeApi {
 
     /**
      * Test serialization of object with outer number type
-     * @param outerComposite Input composite as post body
+     * @param [outerComposite] Input composite as post body
      */
     public fakeOuterCompositeSerializeWithHttpInfo(outerComposite?: OuterComposite, _options?: Configuration): Observable<HttpInfo<OuterComposite>> {
         const requestContextPromise = this.requestFactory.fakeOuterCompositeSerialize(outerComposite, _options);
@@ -311,7 +311,7 @@ export class ObservableFakeApi {
 
     /**
      * Test serialization of object with outer number type
-     * @param outerComposite Input composite as post body
+     * @param [outerComposite] Input composite as post body
      */
     public fakeOuterCompositeSerialize(outerComposite?: OuterComposite, _options?: Configuration): Observable<OuterComposite> {
         return this.fakeOuterCompositeSerializeWithHttpInfo(outerComposite, _options).pipe(map((apiResponse: HttpInfo<OuterComposite>) => apiResponse.data));
@@ -319,7 +319,7 @@ export class ObservableFakeApi {
 
     /**
      * Test serialization of outer number types
-     * @param body Input number as post body
+     * @param [body] Input number as post body
      */
     public fakeOuterNumberSerializeWithHttpInfo(body?: number, _options?: Configuration): Observable<HttpInfo<number>> {
         const requestContextPromise = this.requestFactory.fakeOuterNumberSerialize(body, _options);
@@ -342,7 +342,7 @@ export class ObservableFakeApi {
 
     /**
      * Test serialization of outer number types
-     * @param body Input number as post body
+     * @param [body] Input number as post body
      */
     public fakeOuterNumberSerialize(body?: number, _options?: Configuration): Observable<number> {
         return this.fakeOuterNumberSerializeWithHttpInfo(body, _options).pipe(map((apiResponse: HttpInfo<number>) => apiResponse.data));
@@ -350,7 +350,7 @@ export class ObservableFakeApi {
 
     /**
      * Test serialization of outer string types
-     * @param body Input string as post body
+     * @param [body] Input string as post body
      */
     public fakeOuterStringSerializeWithHttpInfo(body?: string, _options?: Configuration): Observable<HttpInfo<string>> {
         const requestContextPromise = this.requestFactory.fakeOuterStringSerialize(body, _options);
@@ -373,7 +373,7 @@ export class ObservableFakeApi {
 
     /**
      * Test serialization of outer string types
-     * @param body Input string as post body
+     * @param [body] Input string as post body
      */
     public fakeOuterStringSerialize(body?: string, _options?: Configuration): Observable<string> {
         return this.fakeOuterStringSerializeWithHttpInfo(body, _options).pipe(map((apiResponse: HttpInfo<string>) => apiResponse.data));
@@ -443,7 +443,7 @@ export class ObservableFakeApi {
 
     /**
      * For this test, the body for this request must reference a schema named `File`.
-     * @param fileSchemaTestClass 
+     * @param fileSchemaTestClass
      */
     public testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass: FileSchemaTestClass, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.testBodyWithFileSchema(fileSchemaTestClass, _options);
@@ -466,15 +466,15 @@ export class ObservableFakeApi {
 
     /**
      * For this test, the body for this request must reference a schema named `File`.
-     * @param fileSchemaTestClass 
+     * @param fileSchemaTestClass
      */
     public testBodyWithFileSchema(fileSchemaTestClass: FileSchemaTestClass, _options?: Configuration): Observable<void> {
         return this.testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
-     * @param query 
-     * @param user 
+     * @param query
+     * @param user
      */
     public testBodyWithQueryParamsWithHttpInfo(query: string, user: User, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.testBodyWithQueryParams(query, user, _options);
@@ -496,8 +496,8 @@ export class ObservableFakeApi {
     }
 
     /**
-     * @param query 
-     * @param user 
+     * @param query
+     * @param user
      */
     public testBodyWithQueryParams(query: string, user: User, _options?: Configuration): Observable<void> {
         return this.testBodyWithQueryParamsWithHttpInfo(query, user, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
@@ -543,16 +543,16 @@ export class ObservableFakeApi {
      * @param _double None
      * @param patternWithoutDelimiter None
      * @param _byte None
-     * @param integer None
-     * @param int32 None
-     * @param int64 None
-     * @param _float None
-     * @param string None
-     * @param binary None
-     * @param date None
-     * @param dateTime None
-     * @param password None
-     * @param callback None
+     * @param [integer] None
+     * @param [int32] None
+     * @param [int64] None
+     * @param [_float] None
+     * @param [string] None
+     * @param [binary] None
+     * @param [date] None
+     * @param [dateTime] None
+     * @param [password] None
+     * @param [callback] None
      */
     public testEndpointParametersWithHttpInfo(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: HttpFile, date?: string, dateTime?: Date, password?: string, callback?: string, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, _options);
@@ -580,16 +580,16 @@ export class ObservableFakeApi {
      * @param _double None
      * @param patternWithoutDelimiter None
      * @param _byte None
-     * @param integer None
-     * @param int32 None
-     * @param int64 None
-     * @param _float None
-     * @param string None
-     * @param binary None
-     * @param date None
-     * @param dateTime None
-     * @param password None
-     * @param callback None
+     * @param [integer] None
+     * @param [int32] None
+     * @param [int64] None
+     * @param [_float] None
+     * @param [string] None
+     * @param [binary] None
+     * @param [date] None
+     * @param [dateTime] None
+     * @param [password] None
+     * @param [callback] None
      */
     public testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: HttpFile, date?: string, dateTime?: Date, password?: string, callback?: string, _options?: Configuration): Observable<void> {
         return this.testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
@@ -598,15 +598,15 @@ export class ObservableFakeApi {
     /**
      * To test enum parameters
      * To test enum parameters
-     * @param enumHeaderStringArray Header parameter enum test (string array)
-     * @param enumHeaderString Header parameter enum test (string)
-     * @param enumQueryStringArray Query parameter enum test (string array)
-     * @param enumQueryString Query parameter enum test (string)
-     * @param enumQueryInteger Query parameter enum test (double)
-     * @param enumQueryDouble Query parameter enum test (double)
-     * @param enumQueryModelArray 
-     * @param enumFormStringArray Form parameter enum test (string array)
-     * @param enumFormString Form parameter enum test (string)
+     * @param [enumHeaderStringArray] Header parameter enum test (string array)
+     * @param [enumHeaderString] Header parameter enum test (string)
+     * @param [enumQueryStringArray] Query parameter enum test (string array)
+     * @param [enumQueryString] Query parameter enum test (string)
+     * @param [enumQueryInteger] Query parameter enum test (double)
+     * @param [enumQueryDouble] Query parameter enum test (double)
+     * @param [enumQueryModelArray]
+     * @param [enumFormStringArray] Form parameter enum test (string array)
+     * @param [enumFormString] Form parameter enum test (string)
      */
     public testEnumParametersWithHttpInfo(enumHeaderStringArray?: Array<'>' | '$'>, enumHeaderString?: '_abc' | '-efg' | '(xyz)', enumQueryStringArray?: Array<'>' | '$'>, enumQueryString?: '_abc' | '-efg' | '(xyz)', enumQueryInteger?: 1 | -2, enumQueryDouble?: 1.1 | -1.2, enumQueryModelArray?: Array<EnumClass>, enumFormStringArray?: Array<string>, enumFormString?: string, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, _options);
@@ -630,15 +630,15 @@ export class ObservableFakeApi {
     /**
      * To test enum parameters
      * To test enum parameters
-     * @param enumHeaderStringArray Header parameter enum test (string array)
-     * @param enumHeaderString Header parameter enum test (string)
-     * @param enumQueryStringArray Query parameter enum test (string array)
-     * @param enumQueryString Query parameter enum test (string)
-     * @param enumQueryInteger Query parameter enum test (double)
-     * @param enumQueryDouble Query parameter enum test (double)
-     * @param enumQueryModelArray 
-     * @param enumFormStringArray Form parameter enum test (string array)
-     * @param enumFormString Form parameter enum test (string)
+     * @param [enumHeaderStringArray] Header parameter enum test (string array)
+     * @param [enumHeaderString] Header parameter enum test (string)
+     * @param [enumQueryStringArray] Query parameter enum test (string array)
+     * @param [enumQueryString] Query parameter enum test (string)
+     * @param [enumQueryInteger] Query parameter enum test (double)
+     * @param [enumQueryDouble] Query parameter enum test (double)
+     * @param [enumQueryModelArray]
+     * @param [enumFormStringArray] Form parameter enum test (string array)
+     * @param [enumFormString] Form parameter enum test (string)
      */
     public testEnumParameters(enumHeaderStringArray?: Array<'>' | '$'>, enumHeaderString?: '_abc' | '-efg' | '(xyz)', enumQueryStringArray?: Array<'>' | '$'>, enumQueryString?: '_abc' | '-efg' | '(xyz)', enumQueryInteger?: 1 | -2, enumQueryDouble?: 1.1 | -1.2, enumQueryModelArray?: Array<EnumClass>, enumFormStringArray?: Array<string>, enumFormString?: string, _options?: Configuration): Observable<void> {
         return this.testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
@@ -650,9 +650,9 @@ export class ObservableFakeApi {
      * @param requiredStringGroup Required String in group parameters
      * @param requiredBooleanGroup Required Boolean in group parameters
      * @param requiredInt64Group Required Integer in group parameters
-     * @param stringGroup String in group parameters
-     * @param booleanGroup Boolean in group parameters
-     * @param int64Group Integer in group parameters
+     * @param [stringGroup] String in group parameters
+     * @param [booleanGroup] Boolean in group parameters
+     * @param [int64Group] Integer in group parameters
      */
     public testGroupParametersWithHttpInfo(requiredStringGroup: number, requiredBooleanGroup: boolean, requiredInt64Group: number, stringGroup?: number, booleanGroup?: boolean, int64Group?: number, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, _options);
@@ -679,9 +679,9 @@ export class ObservableFakeApi {
      * @param requiredStringGroup Required String in group parameters
      * @param requiredBooleanGroup Required Boolean in group parameters
      * @param requiredInt64Group Required Integer in group parameters
-     * @param stringGroup String in group parameters
-     * @param booleanGroup Boolean in group parameters
-     * @param int64Group Integer in group parameters
+     * @param [stringGroup] String in group parameters
+     * @param [booleanGroup] Boolean in group parameters
+     * @param [int64Group] Integer in group parameters
      */
     public testGroupParameters(requiredStringGroup: number, requiredBooleanGroup: boolean, requiredInt64Group: number, stringGroup?: number, booleanGroup?: boolean, int64Group?: number, _options?: Configuration): Observable<void> {
         return this.testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
@@ -757,13 +757,13 @@ export class ObservableFakeApi {
 
     /**
      * To test the collection format in query parameters
-     * @param pipe 
-     * @param ioutil 
-     * @param http 
-     * @param url 
-     * @param context 
-     * @param allowEmpty 
-     * @param language 
+     * @param pipe
+     * @param ioutil
+     * @param http
+     * @param url
+     * @param context
+     * @param allowEmpty
+     * @param [language]
      */
     public testQueryParameterCollectionFormatWithHttpInfo(pipe: Array<string>, ioutil: Array<string>, http: Array<string>, url: Array<string>, context: Array<string>, allowEmpty: string, language?: { [key: string]: string; }, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language, _options);
@@ -786,13 +786,13 @@ export class ObservableFakeApi {
 
     /**
      * To test the collection format in query parameters
-     * @param pipe 
-     * @param ioutil 
-     * @param http 
-     * @param url 
-     * @param context 
-     * @param allowEmpty 
-     * @param language 
+     * @param pipe
+     * @param ioutil
+     * @param http
+     * @param url
+     * @param context
+     * @param allowEmpty
+     * @param [language]
      */
     public testQueryParameterCollectionFormat(pipe: Array<string>, ioutil: Array<string>, http: Array<string>, url: Array<string>, context: Array<string>, allowEmpty: string, language?: { [key: string]: string; }, _options?: Configuration): Observable<void> {
         return this.testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, allowEmpty, language, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
@@ -904,7 +904,7 @@ export class ObservablePetApi {
      * 
      * Deletes a pet
      * @param petId Pet id to delete
-     * @param apiKey 
+     * @param [apiKey]
      */
     public deletePetWithHttpInfo(petId: number, apiKey?: string, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.deletePet(petId, apiKey, _options);
@@ -929,7 +929,7 @@ export class ObservablePetApi {
      * 
      * Deletes a pet
      * @param petId Pet id to delete
-     * @param apiKey 
+     * @param [apiKey]
      */
     public deletePet(petId: number, apiKey?: string, _options?: Configuration): Observable<void> {
         return this.deletePetWithHttpInfo(petId, apiKey, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
@@ -1071,8 +1071,8 @@ export class ObservablePetApi {
      * 
      * Updates a pet in the store with form data
      * @param petId ID of pet that needs to be updated
-     * @param name Updated name of the pet
-     * @param status Updated status of the pet
+     * @param [name] Updated name of the pet
+     * @param [status] Updated status of the pet
      */
     public updatePetWithFormWithHttpInfo(petId: number, name?: string, status?: string, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.updatePetWithForm(petId, name, status, _options);
@@ -1097,8 +1097,8 @@ export class ObservablePetApi {
      * 
      * Updates a pet in the store with form data
      * @param petId ID of pet that needs to be updated
-     * @param name Updated name of the pet
-     * @param status Updated status of the pet
+     * @param [name] Updated name of the pet
+     * @param [status] Updated status of the pet
      */
     public updatePetWithForm(petId: number, name?: string, status?: string, _options?: Configuration): Observable<void> {
         return this.updatePetWithFormWithHttpInfo(petId, name, status, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
@@ -1108,8 +1108,8 @@ export class ObservablePetApi {
      * 
      * uploads an image
      * @param petId ID of pet to update
-     * @param additionalMetadata Additional data to pass to server
-     * @param file file to upload
+     * @param [additionalMetadata] Additional data to pass to server
+     * @param [file] file to upload
      */
     public uploadFileWithHttpInfo(petId: number, additionalMetadata?: string, file?: HttpFile, _options?: Configuration): Observable<HttpInfo<ApiResponse>> {
         const requestContextPromise = this.requestFactory.uploadFile(petId, additionalMetadata, file, _options);
@@ -1134,8 +1134,8 @@ export class ObservablePetApi {
      * 
      * uploads an image
      * @param petId ID of pet to update
-     * @param additionalMetadata Additional data to pass to server
-     * @param file file to upload
+     * @param [additionalMetadata] Additional data to pass to server
+     * @param [file] file to upload
      */
     public uploadFile(petId: number, additionalMetadata?: string, file?: HttpFile, _options?: Configuration): Observable<ApiResponse> {
         return this.uploadFileWithHttpInfo(petId, additionalMetadata, file, _options).pipe(map((apiResponse: HttpInfo<ApiResponse>) => apiResponse.data));
@@ -1146,7 +1146,7 @@ export class ObservablePetApi {
      * uploads an image (required)
      * @param petId ID of pet to update
      * @param requiredFile file to upload
-     * @param additionalMetadata Additional data to pass to server
+     * @param [additionalMetadata] Additional data to pass to server
      */
     public uploadFileWithRequiredFileWithHttpInfo(petId: number, requiredFile: HttpFile, additionalMetadata?: string, _options?: Configuration): Observable<HttpInfo<ApiResponse>> {
         const requestContextPromise = this.requestFactory.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, _options);
@@ -1172,7 +1172,7 @@ export class ObservablePetApi {
      * uploads an image (required)
      * @param petId ID of pet to update
      * @param requiredFile file to upload
-     * @param additionalMetadata Additional data to pass to server
+     * @param [additionalMetadata] Additional data to pass to server
      */
     public uploadFileWithRequiredFile(petId: number, requiredFile: HttpFile, additionalMetadata?: string, _options?: Configuration): Observable<ApiResponse> {
         return this.uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata, _options).pipe(map((apiResponse: HttpInfo<ApiResponse>) => apiResponse.data));

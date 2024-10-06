@@ -376,7 +376,7 @@ class FakeClassnameTags123Api
 
         // for model (json/xml)
         if (isset($client)) {
-            if ($headers['Content-Type'] === 'application/json') {
+            if ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
                 $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($client));
             } else {
                 $httpBody = $client;
@@ -396,7 +396,7 @@ class FakeClassnameTags123Api
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {

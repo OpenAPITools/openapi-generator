@@ -815,6 +815,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/myObject'
                 nullable: true
+                type: array
           description: ""
       tags:
       - fake
@@ -1099,9 +1100,7 @@ components:
         ref_array_prefix_items:
           description: |
             An item that was added to the queue.
-          items:
-            description: TODO default missing array inner type to string
-            type: string
+          items: {}
           maxItems: 5
           minItems: 3
           type: array
@@ -1112,9 +1111,7 @@ components:
     ArrayPrefixItems:
       description: |
         An item that was added to the queue.
-      items:
-        description: TODO default missing array inner type to string
-        type: string
+      items: {}
       maxItems: 5
       minItems: 3
       type: array
@@ -1189,6 +1186,7 @@ components:
       - type: string
       - items:
           type: string
+        type: array
   securitySchemes:
     petstore_auth:
       flows:

@@ -21,8 +21,7 @@ TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter <- R6::R6Clas
     `color` = NULL,
     `id` = NULL,
     `name` = NULL,
-    #' Initialize a new TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter class.
-    #'
+
     #' @description
     #' Initialize a new TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter class.
     #'
@@ -31,7 +30,6 @@ TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter <- R6::R6Clas
     #' @param id id
     #' @param name name
     #' @param ... Other optional arguments.
-    #' @export
     initialize = function(`size` = NULL, `color` = NULL, `id` = NULL, `name` = NULL, ...) {
       if (!is.null(`size`)) {
         if (!(is.character(`size`) && length(`size`) == 1)) {
@@ -58,13 +56,11 @@ TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter <- R6::R6Clas
         self$`name` <- `name`
       }
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter in JSON format
-    #' @export
     toJSON = function() {
       TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterObject <- list()
       if (!is.null(self$`size`)) {
@@ -85,14 +81,12 @@ TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter <- R6::R6Clas
       }
       TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterObject
     },
-    #' Deserialize JSON string into an instance of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
     #'
     #' @param input_json the JSON input
     #' @return the instance of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
-    #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`size`)) {
@@ -109,13 +103,11 @@ TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter <- R6::R6Clas
       }
       self
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter in JSON format
-    #' @export
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`size`)) {
@@ -154,14 +146,12 @@ TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter <- R6::R6Clas
       jsoncontent <- paste(jsoncontent, collapse = ",")
       json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
     },
-    #' Deserialize JSON string into an instance of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
     #'
     #' @param input_json the JSON input
     #' @return the instance of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
-    #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`size` <- this_object$`size`
@@ -170,53 +160,42 @@ TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter <- R6::R6Clas
       self$`name` <- this_object$`name`
       self
     },
-    #' Validate JSON input with respect to TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
-    #'
+
     #' @description
     #' Validate JSON input with respect to TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter and throw an exception if invalid
     #'
     #' @param input the JSON input
-    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
     },
-    #' To string (JSON format)
-    #'
+
     #' @description
     #' To string (JSON format)
     #'
     #' @return String representation of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
-    #' @export
     toString = function() {
       self$toJSONString()
     },
-    #' Return true if the values in all fields are valid.
-    #'
+
     #' @description
     #' Return true if the values in all fields are valid.
     #'
     #' @return true if the values in all fields are valid.
-    #' @export
     isValid = function() {
       TRUE
     },
-    #' Return a list of invalid fields (if any).
-    #'
+
     #' @description
     #' Return a list of invalid fields (if any).
     #'
     #' @return A list of invalid fields (if any).
-    #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
       invalid_fields
     },
-    #' Print the object
-    #'
+
     #' @description
     #' Print the object
-    #'
-    #' @export
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)

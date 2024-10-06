@@ -105,6 +105,7 @@ use openapi_v3::{
     AnyOfGetResponse,
     CallbackWithHeaderPostResponse,
     ComplexQueryParamGetResponse,
+    FormTestResponse,
     GetWithBooleanParameterResponse,
     JsonComplexQueryParamGetResponse,
     MandatoryRequestHeaderGetResponse,
@@ -163,6 +164,16 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<ComplexQueryParamGetResponse, ApiError>
     {
         info!("complex_query_param_get({:?}) - X-Span-ID: {:?}", list_of_strings, context.get().0.clone());
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
+    }
+
+    /// Test a Form Post
+    async fn form_test(
+        &self,
+        required_array: Option<&Vec<String>>,
+        context: &C) -> Result<FormTestResponse, ApiError>
+    {
+        info!("form_test({:?}) - X-Span-ID: {:?}", required_array, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 

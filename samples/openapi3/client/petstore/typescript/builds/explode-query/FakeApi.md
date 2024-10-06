@@ -33,17 +33,15 @@ for Java apache and Java native, test toUrlQueryString for maps with BegDecimal 
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, FakeApi } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.FakeApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new FakeApi(configuration);
 
-let body:any = {};
+const request = {};
 
-apiInstance.fakeBigDecimalMap(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.fakeBigDecimalMap(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -80,17 +78,15 @@ No authorization required
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, FakeApi } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.FakeApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new FakeApi(configuration);
 
-let body:any = {};
+const request = {};
 
-apiInstance.fakeHealthGet(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.fakeHealthGet(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -127,14 +123,14 @@ No authorization required
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, FakeApi } from 'ts-petstore-client';
+import type { FakeApiFakeHttpSignatureTestRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.FakeApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new FakeApi(configuration);
 
-let body:petstore.FakeApiFakeHttpSignatureTestRequest = {
-  // Pet | Pet object that needs to be added to the store
+const request: FakeApiFakeHttpSignatureTestRequest = {
+    // Pet object that needs to be added to the store
   pet: {
     id: 1,
     category: {
@@ -153,15 +149,14 @@ let body:petstore.FakeApiFakeHttpSignatureTestRequest = {
     ],
     status: "available",
   },
-  // string | query parameter (optional)
+    // query parameter (optional)
   query1: "query_1_example",
-  // string | header parameter (optional)
+    // header parameter (optional)
   header1: "header_1_example",
 };
 
-apiInstance.fakeHttpSignatureTest(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.fakeHttpSignatureTest(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -204,20 +199,19 @@ Test serialization of outer boolean types
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, FakeApi } from 'ts-petstore-client';
+import type { FakeApiFakeOuterBooleanSerializeRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.FakeApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new FakeApi(configuration);
 
-let body:petstore.FakeApiFakeOuterBooleanSerializeRequest = {
-  // boolean | Input boolean as post body (optional)
+const request: FakeApiFakeOuterBooleanSerializeRequest = {
+    // Input boolean as post body (optional)
   body: true,
 };
 
-apiInstance.fakeOuterBooleanSerialize(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.fakeOuterBooleanSerialize(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -258,14 +252,14 @@ Test serialization of object with outer number type
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, FakeApi } from 'ts-petstore-client';
+import type { FakeApiFakeOuterCompositeSerializeRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.FakeApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new FakeApi(configuration);
 
-let body:petstore.FakeApiFakeOuterCompositeSerializeRequest = {
-  // OuterComposite | Input composite as post body (optional)
+const request: FakeApiFakeOuterCompositeSerializeRequest = {
+    // Input composite as post body (optional)
   outerComposite: {
     myNumber: 3.14,
     myString: "myString_example",
@@ -273,9 +267,8 @@ let body:petstore.FakeApiFakeOuterCompositeSerializeRequest = {
   },
 };
 
-apiInstance.fakeOuterCompositeSerialize(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.fakeOuterCompositeSerialize(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -316,20 +309,19 @@ Test serialization of outer number types
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, FakeApi } from 'ts-petstore-client';
+import type { FakeApiFakeOuterNumberSerializeRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.FakeApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new FakeApi(configuration);
 
-let body:petstore.FakeApiFakeOuterNumberSerializeRequest = {
-  // number | Input number as post body (optional)
+const request: FakeApiFakeOuterNumberSerializeRequest = {
+    // Input number as post body (optional)
   body: 3.14,
 };
 
-apiInstance.fakeOuterNumberSerialize(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.fakeOuterNumberSerialize(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -370,20 +362,19 @@ Test serialization of outer string types
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, FakeApi } from 'ts-petstore-client';
+import type { FakeApiFakeOuterStringSerializeRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.FakeApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new FakeApi(configuration);
 
-let body:petstore.FakeApiFakeOuterStringSerializeRequest = {
-  // string | Input string as post body (optional)
+const request: FakeApiFakeOuterStringSerializeRequest = {
+    // Input string as post body (optional)
   body: "body_example",
 };
 
-apiInstance.fakeOuterStringSerialize(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.fakeOuterStringSerialize(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -424,22 +415,21 @@ Test serialization of enum (int) properties with examples
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, FakeApi } from 'ts-petstore-client';
+import type { FakeApiFakePropertyEnumIntegerSerializeRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.FakeApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new FakeApi(configuration);
 
-let body:petstore.FakeApiFakePropertyEnumIntegerSerializeRequest = {
-  // OuterObjectWithEnumProperty | Input enum (int) as post body
+const request: FakeApiFakePropertyEnumIntegerSerializeRequest = {
+    // Input enum (int) as post body
   outerObjectWithEnumProperty: {
     value: 2,
   },
 };
 
-apiInstance.fakePropertyEnumIntegerSerialize(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.fakePropertyEnumIntegerSerialize(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -480,20 +470,19 @@ For this test, the body has to be a binary file.
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, FakeApi } from 'ts-petstore-client';
+import type { FakeApiTestBodyWithBinaryRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.FakeApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new FakeApi(configuration);
 
-let body:petstore.FakeApiTestBodyWithBinaryRequest = {
-  // HttpFile | image to upload
+const request: FakeApiTestBodyWithBinaryRequest = {
+    // image to upload
   body: { data: Buffer.from(fs.readFileSync('/path/to/file', 'utf-8')), name: '/path/to/file' },
 };
 
-apiInstance.testBodyWithBinary(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testBodyWithBinary(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -534,14 +523,14 @@ For this test, the body for this request must reference a schema named `File`.
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, FakeApi } from 'ts-petstore-client';
+import type { FakeApiTestBodyWithFileSchemaRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.FakeApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new FakeApi(configuration);
 
-let body:petstore.FakeApiTestBodyWithFileSchemaRequest = {
-  // FileSchemaTestClass
+const request: FakeApiTestBodyWithFileSchemaRequest = {
+  
   fileSchemaTestClass: {
     file: {
       sourceURI: "sourceURI_example",
@@ -554,9 +543,8 @@ let body:petstore.FakeApiTestBodyWithFileSchemaRequest = {
   },
 };
 
-apiInstance.testBodyWithFileSchema(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testBodyWithFileSchema(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -596,16 +584,16 @@ No authorization required
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, FakeApi } from 'ts-petstore-client';
+import type { FakeApiTestBodyWithQueryParamsRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.FakeApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new FakeApi(configuration);
 
-let body:petstore.FakeApiTestBodyWithQueryParamsRequest = {
-  // string
+const request: FakeApiTestBodyWithQueryParamsRequest = {
+  
   query: "query_example",
-  // User
+  
   user: {
     id: 1,
     username: "username_example",
@@ -618,9 +606,8 @@ let body:petstore.FakeApiTestBodyWithQueryParamsRequest = {
   },
 };
 
-apiInstance.testBodyWithQueryParams(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testBodyWithQueryParams(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -662,22 +649,21 @@ To test \"client\" model
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, FakeApi } from 'ts-petstore-client';
+import type { FakeApiTestClientModelRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.FakeApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new FakeApi(configuration);
 
-let body:petstore.FakeApiTestClientModelRequest = {
-  // Client | client model
+const request: FakeApiTestClientModelRequest = {
+    // client model
   client: {
     client: "client_example",
   },
 };
 
-apiInstance.testClientModel(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testClientModel(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -718,46 +704,45 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, FakeApi } from 'ts-petstore-client';
+import type { FakeApiTestEndpointParametersRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.FakeApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new FakeApi(configuration);
 
-let body:petstore.FakeApiTestEndpointParametersRequest = {
-  // number | None
+const request: FakeApiTestEndpointParametersRequest = {
+    // None
   number: 32.1,
-  // number | None
+    // None
   _double: 67.8,
-  // string | None
+    // None
   patternWithoutDelimiter: "AUR,rZ#UM/?R,Fp^l6$ARjbhJk C>",
-  // string | None
+    // None
   _byte: 'YQ==',
-  // number | None (optional)
+    // None (optional)
   integer: 10,
-  // number | None (optional)
+    // None (optional)
   int32: 20,
-  // number | None (optional)
+    // None (optional)
   int64: 1,
-  // number | None (optional)
+    // None (optional)
   _float: 3.14,
-  // string | None (optional)
+    // None (optional)
   string: "/a/i",
-  // HttpFile | None (optional)
+    // None (optional)
   binary: { data: Buffer.from(fs.readFileSync('/path/to/file', 'utf-8')), name: '/path/to/file' },
-  // string | None (optional)
+    // None (optional)
   date: new Date('1970-01-01').toISOString().split('T')[0];,
-  // Date | None (optional)
+    // None (optional)
   dateTime: new Date('1970-01-01T00:00:00.00Z'),
-  // string | None (optional)
+    // None (optional)
   password: "password_example",
-  // string | None (optional)
+    // None (optional)
   callback: "callback_example",
 };
 
-apiInstance.testEndpointParameters(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testEndpointParameters(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -812,44 +797,43 @@ To test enum parameters
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, FakeApi } from 'ts-petstore-client';
+import type { FakeApiTestEnumParametersRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.FakeApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new FakeApi(configuration);
 
-let body:petstore.FakeApiTestEnumParametersRequest = {
-  // Array<'>' | '$'> | Header parameter enum test (string array) (optional)
+const request: FakeApiTestEnumParametersRequest = {
+    // Header parameter enum test (string array) (optional)
   enumHeaderStringArray: [
     "$",
   ],
-  // '_abc' | '-efg' | '(xyz)' | Header parameter enum test (string) (optional)
+    // Header parameter enum test (string) (optional)
   enumHeaderString: "-efg",
-  // Array<'>' | '$'> | Query parameter enum test (string array) (optional)
+    // Query parameter enum test (string array) (optional)
   enumQueryStringArray: [
     "$",
   ],
-  // '_abc' | '-efg' | '(xyz)' | Query parameter enum test (string) (optional)
+    // Query parameter enum test (string) (optional)
   enumQueryString: "-efg",
-  // 1 | -2 | Query parameter enum test (double) (optional)
+    // Query parameter enum test (double) (optional)
   enumQueryInteger: 1,
-  // 1.1 | -1.2 | Query parameter enum test (double) (optional)
+    // Query parameter enum test (double) (optional)
   enumQueryDouble: 1.1,
-  // Array<EnumClass> (optional)
+  
   enumQueryModelArray: [
     "-efg",
   ],
-  // Array<string> | Form parameter enum test (string array) (optional)
+    // Form parameter enum test (string array) (optional)
   enumFormStringArray: [
     "$",
   ],
-  // string | Form parameter enum test (string) (optional)
+    // Form parameter enum test (string) (optional)
   enumFormString: "-efg",
 };
 
-apiInstance.testEnumParameters(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testEnumParameters(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -899,30 +883,29 @@ Fake endpoint to test group parameters (optional)
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, FakeApi } from 'ts-petstore-client';
+import type { FakeApiTestGroupParametersRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.FakeApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new FakeApi(configuration);
 
-let body:petstore.FakeApiTestGroupParametersRequest = {
-  // number | Required String in group parameters
+const request: FakeApiTestGroupParametersRequest = {
+    // Required String in group parameters
   requiredStringGroup: 1,
-  // boolean | Required Boolean in group parameters
+    // Required Boolean in group parameters
   requiredBooleanGroup: true,
-  // number | Required Integer in group parameters
+    // Required Integer in group parameters
   requiredInt64Group: 1,
-  // number | String in group parameters (optional)
+    // String in group parameters (optional)
   stringGroup: 1,
-  // boolean | Boolean in group parameters (optional)
+    // Boolean in group parameters (optional)
   booleanGroup: true,
-  // number | Integer in group parameters (optional)
+    // Integer in group parameters (optional)
   int64Group: 1,
 };
 
-apiInstance.testGroupParameters(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testGroupParameters(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -968,22 +951,21 @@ void (empty response body)
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, FakeApi } from 'ts-petstore-client';
+import type { FakeApiTestInlineAdditionalPropertiesRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.FakeApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new FakeApi(configuration);
 
-let body:petstore.FakeApiTestInlineAdditionalPropertiesRequest = {
-  // { [key: string]: string; } | request body
+const request: FakeApiTestInlineAdditionalPropertiesRequest = {
+    // request body
   requestBody: {
     "key": "key_example",
   },
 };
 
-apiInstance.testInlineAdditionalProperties(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testInlineAdditionalProperties(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -1024,22 +1006,21 @@ No authorization required
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, FakeApi } from 'ts-petstore-client';
+import type { FakeApiTestJsonFormDataRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.FakeApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new FakeApi(configuration);
 
-let body:petstore.FakeApiTestJsonFormDataRequest = {
-  // string | field1
+const request: FakeApiTestJsonFormDataRequest = {
+    // field1
   param: "param_example",
-  // string | field2
+    // field2
   param2: "param2_example",
 };
 
-apiInstance.testJsonFormData(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testJsonFormData(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 
@@ -1081,44 +1062,43 @@ To test the collection format in query parameters
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, FakeApi } from 'ts-petstore-client';
+import type { FakeApiTestQueryParameterCollectionFormatRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.FakeApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new FakeApi(configuration);
 
-let body:petstore.FakeApiTestQueryParameterCollectionFormatRequest = {
-  // Array<string>
+const request: FakeApiTestQueryParameterCollectionFormatRequest = {
+  
   pipe: [
     "pipe_example",
   ],
-  // Array<string>
+  
   ioutil: [
     "ioutil_example",
   ],
-  // Array<string>
+  
   http: [
     "http_example",
   ],
-  // Array<string>
+  
   url: [
     "url_example",
   ],
-  // Array<string>
+  
   context: [
     "context_example",
   ],
-  // string
+  
   allowEmpty: "allowEmpty_example",
-  // { [key: string]: string; } (optional)
+  
   language: {
     "key": "key_example",
   },
 };
 
-apiInstance.testQueryParameterCollectionFormat(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testQueryParameterCollectionFormat(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 

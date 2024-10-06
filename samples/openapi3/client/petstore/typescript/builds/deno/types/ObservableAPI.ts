@@ -62,7 +62,7 @@ export class ObservablePetApi {
      * 
      * Deletes a pet
      * @param petId Pet id to delete
-     * @param apiKey 
+     * @param [apiKey]
      */
     public deletePetWithHttpInfo(petId: number, apiKey?: string, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.deletePet(petId, apiKey, _options);
@@ -87,7 +87,7 @@ export class ObservablePetApi {
      * 
      * Deletes a pet
      * @param petId Pet id to delete
-     * @param apiKey 
+     * @param [apiKey]
      */
     public deletePet(petId: number, apiKey?: string, _options?: Configuration): Observable<void> {
         return this.deletePetWithHttpInfo(petId, apiKey, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
@@ -229,8 +229,8 @@ export class ObservablePetApi {
      * 
      * Updates a pet in the store with form data
      * @param petId ID of pet that needs to be updated
-     * @param name Updated name of the pet
-     * @param status Updated status of the pet
+     * @param [name] Updated name of the pet
+     * @param [status] Updated status of the pet
      */
     public updatePetWithFormWithHttpInfo(petId: number, name?: string, status?: string, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.updatePetWithForm(petId, name, status, _options);
@@ -255,8 +255,8 @@ export class ObservablePetApi {
      * 
      * Updates a pet in the store with form data
      * @param petId ID of pet that needs to be updated
-     * @param name Updated name of the pet
-     * @param status Updated status of the pet
+     * @param [name] Updated name of the pet
+     * @param [status] Updated status of the pet
      */
     public updatePetWithForm(petId: number, name?: string, status?: string, _options?: Configuration): Observable<void> {
         return this.updatePetWithFormWithHttpInfo(petId, name, status, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
@@ -266,8 +266,8 @@ export class ObservablePetApi {
      * 
      * uploads an image
      * @param petId ID of pet to update
-     * @param additionalMetadata Additional data to pass to server
-     * @param file file to upload
+     * @param [additionalMetadata] Additional data to pass to server
+     * @param [file] file to upload
      */
     public uploadFileWithHttpInfo(petId: number, additionalMetadata?: string, file?: HttpFile, _options?: Configuration): Observable<HttpInfo<ApiResponse>> {
         const requestContextPromise = this.requestFactory.uploadFile(petId, additionalMetadata, file, _options);
@@ -292,8 +292,8 @@ export class ObservablePetApi {
      * 
      * uploads an image
      * @param petId ID of pet to update
-     * @param additionalMetadata Additional data to pass to server
-     * @param file file to upload
+     * @param [additionalMetadata] Additional data to pass to server
+     * @param [file] file to upload
      */
     public uploadFile(petId: number, additionalMetadata?: string, file?: HttpFile, _options?: Configuration): Observable<ApiResponse> {
         return this.uploadFileWithHttpInfo(petId, additionalMetadata, file, _options).pipe(map((apiResponse: HttpInfo<ApiResponse>) => apiResponse.data));

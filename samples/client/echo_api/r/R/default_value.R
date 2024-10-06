@@ -29,8 +29,7 @@ DefaultValue <- R6::R6Class(
     `array_string_nullable` = NULL,
     `array_string_extension_nullable` = NULL,
     `string_nullable` = NULL,
-    #' Initialize a new DefaultValue class.
-    #'
+
     #' @description
     #' Initialize a new DefaultValue class.
     #'
@@ -43,7 +42,6 @@ DefaultValue <- R6::R6Class(
     #' @param array_string_extension_nullable array_string_extension_nullable
     #' @param string_nullable string_nullable
     #' @param ... Other optional arguments.
-    #' @export
     initialize = function(`array_string_enum_ref_default` = ["success","failure"], `array_string_enum_default` = ["success","failure"], `array_string_default` = ["failure","skipped"], `array_integer_default` = [1,3], `array_string` = NULL, `array_string_nullable` = NULL, `array_string_extension_nullable` = NULL, `string_nullable` = NULL, ...) {
       if (!is.null(`array_string_enum_ref_default`)) {
         stopifnot(is.vector(`array_string_enum_ref_default`), length(`array_string_enum_ref_default`) != 0)
@@ -87,13 +85,11 @@ DefaultValue <- R6::R6Class(
         self$`string_nullable` <- `string_nullable`
       }
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return DefaultValue in JSON format
-    #' @export
     toJSON = function() {
       DefaultValueObject <- list()
       if (!is.null(self$`array_string_enum_ref_default`)) {
@@ -130,14 +126,12 @@ DefaultValue <- R6::R6Class(
       }
       DefaultValueObject
     },
-    #' Deserialize JSON string into an instance of DefaultValue
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of DefaultValue
     #'
     #' @param input_json the JSON input
     #' @return the instance of DefaultValue
-    #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`array_string_enum_ref_default`)) {
@@ -166,13 +160,11 @@ DefaultValue <- R6::R6Class(
       }
       self
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return DefaultValue in JSON format
-    #' @export
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`array_string_enum_ref_default`)) {
@@ -243,14 +235,12 @@ DefaultValue <- R6::R6Class(
       jsoncontent <- paste(jsoncontent, collapse = ",")
       json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
     },
-    #' Deserialize JSON string into an instance of DefaultValue
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of DefaultValue
     #'
     #' @param input_json the JSON input
     #' @return the instance of DefaultValue
-    #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`array_string_enum_ref_default` <- ApiClient$new()$deserializeObj(this_object$`array_string_enum_ref_default`, "array[StringEnumRef]", loadNamespace("openapi"))
@@ -263,53 +253,42 @@ DefaultValue <- R6::R6Class(
       self$`string_nullable` <- this_object$`string_nullable`
       self
     },
-    #' Validate JSON input with respect to DefaultValue
-    #'
+
     #' @description
     #' Validate JSON input with respect to DefaultValue and throw an exception if invalid
     #'
     #' @param input the JSON input
-    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
     },
-    #' To string (JSON format)
-    #'
+
     #' @description
     #' To string (JSON format)
     #'
     #' @return String representation of DefaultValue
-    #' @export
     toString = function() {
       self$toJSONString()
     },
-    #' Return true if the values in all fields are valid.
-    #'
+
     #' @description
     #' Return true if the values in all fields are valid.
     #'
     #' @return true if the values in all fields are valid.
-    #' @export
     isValid = function() {
       TRUE
     },
-    #' Return a list of invalid fields (if any).
-    #'
+
     #' @description
     #' Return a list of invalid fields (if any).
     #'
     #' @return A list of invalid fields (if any).
-    #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
       invalid_fields
     },
-    #' Print the object
-    #'
+
     #' @description
     #' Print the object
-    #'
-    #' @export
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)

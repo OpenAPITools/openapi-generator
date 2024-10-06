@@ -28,3 +28,15 @@ components:
             - 'coll-ision'
             - 'coll_ision'
           type: 'string'
+        another:
+          enum:
+            - 'x'
+            - 'y'
+            - null
+          type: 'string'
+        equivalent:
+          enum:
+            - 'x'
+            - 'y'
+          type: 'string'
+          nullable: true

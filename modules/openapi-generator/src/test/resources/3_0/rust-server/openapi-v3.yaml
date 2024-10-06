@@ -495,6 +495,24 @@ paths:
       responses:
         200:
           description: OK
+  /form-test:
+    post:
+      summary: Test a Form Post
+      operationId: FormTest
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                requiredArray:
+                  type: array
+                  items:
+                    type: string
+        required: true
+      responses:
+        '200':
+          description: OK
 
 components:
   securitySchemes:
@@ -526,6 +544,11 @@ components:
           $ref: '#/components/schemas/12345AnyOfObject'
       required:
       - requiredAnyOf
+    AdditionalPropertiesReferencedAnyOfObject:
+      description: Check that an object with only additional properties that references another object (e.g. an anyOf object) isn't treated as freeForm
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/AnyOfProperty'
     AnyOfObject:
       description: Test a model containing an anyOf
       anyOf:
