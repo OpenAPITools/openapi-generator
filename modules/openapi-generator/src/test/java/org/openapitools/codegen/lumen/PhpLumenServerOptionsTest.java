@@ -42,6 +42,7 @@ public class PhpLumenServerOptionsTest extends AbstractOptionsTest {
     protected void verifyOptions() {
         verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(PhpLumenServerOptionsProvider.SORT_PARAMS_VALUE));
         verify(clientCodegen).setParameterNamingConvention(PhpLumenServerOptionsProvider.VARIABLE_NAMING_CONVENTION_VALUE);
+        verify(clientCodegen).setMethodNamingConvention(PhpLumenServerOptionsProvider.METHOD_NAMING_CONVENTION_VALUE);
         verify(clientCodegen).setModelPackage(PhpLumenServerOptionsProvider.MODEL_PACKAGE_VALUE);
         verify(clientCodegen).setApiPackage(PhpLumenServerOptionsProvider.API_PACKAGE_VALUE);
         verify(clientCodegen).setInvokerPackage(PhpLumenServerOptionsProvider.INVOKER_PACKAGE_VALUE);

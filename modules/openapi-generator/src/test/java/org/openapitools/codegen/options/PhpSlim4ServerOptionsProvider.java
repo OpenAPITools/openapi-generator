@@ -28,6 +28,7 @@ public class PhpSlim4ServerOptionsProvider implements OptionsProvider {
     public static final String MODEL_PACKAGE_VALUE = "package";
     public static final String API_PACKAGE_VALUE = "apiPackage";
     public static final String VARIABLE_NAMING_CONVENTION_VALUE = "camelCase";
+    public static final String METHOD_NAMING_CONVENTION_VALUE = "PascalCase";
     public static final String INVOKER_PACKAGE_VALUE = "OpenAPIServer";
     public static final String PACKAGE_NAME_VALUE = "";
     public static final String SRC_BASE_PATH_VALUE = "src";
@@ -55,6 +56,7 @@ public class PhpSlim4ServerOptionsProvider implements OptionsProvider {
         ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
         return builder.put(CodegenConstants.MODEL_PACKAGE, MODEL_PACKAGE_VALUE)
                 .put(AbstractPhpCodegen.VARIABLE_NAMING_CONVENTION, VARIABLE_NAMING_CONVENTION_VALUE)
+                .put(AbstractPhpCodegen.METHOD_NAMING_CONVENTION, METHOD_NAMING_CONVENTION_VALUE)
                 .put(AbstractPhpCodegen.PACKAGE_NAME, PACKAGE_NAME_VALUE)
                 .put(AbstractPhpCodegen.SRC_BASE_PATH, SRC_BASE_PATH_VALUE)
                 .put(CodegenConstants.API_PACKAGE, API_PACKAGE_VALUE)
