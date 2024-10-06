@@ -1281,6 +1281,12 @@ public class OpenAPINormalizer {
             schema.getTypes().remove("null");
         }
 
+        // process const
+        if (schema.getConst() != null) {
+            schema.setEnum(Arrays.asList(schema.getConst()));
+            schema.setConst(null);
+        }
+
         // only one item (type) left
         if (schema.getTypes().size() == 1) {
             String type = String.valueOf(schema.getTypes().iterator().next());
