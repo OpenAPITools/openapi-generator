@@ -6,35 +6,35 @@ public class {{operationId}}Request
     /// <summary>
     /// {{description}}
     /// </summary>
-    [BindFrom("{{baseName}}")]
+    [FastEndpoints.BindFrom("{{baseName}}")]
     public {{&dataType}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}} {{nameInPascalCase}} { get; set; }
     {{/pathParams}}
     {{#queryParams}}
     /// <summary>
     /// {{description}}
     /// </summary>
-    [QueryParam, BindFrom("{{baseName}}")]
+    [FastEndpoints.QueryParam, FastEndpoints.BindFrom("{{baseName}}")]
     public {{&dataType}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}} {{nameInPascalCase}} { get; set; }
     {{/queryParams}}
     {{#bodyParams}}
     /// <summary>
     /// {{description}}
     /// </summary>
-    [FromBody]
+    [FastEndpoints.FromBody]
     public {{&dataType}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}} {{paramName}} { get; set; }
     {{/bodyParams}}
     {{#formParams}}
     /// <summary>
     /// {{description}}
     /// </summary>
-    [BindFrom("{{baseName}}")]
+    [FastEndpoints.BindFrom("{{baseName}}")]
     public {{&dataType}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}} {{nameInPascalCase}} { get; set; }
     {{/formParams}}
     {{#headerParams}}
     /// <summary>
     /// {{description}}
     /// </summary>
-    [FromHeader]
+    [FastEndpoints.FromHeader]
     public {{&dataType}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}} {{nameInPascalCase}} { get; set; }
     {{/headerParams}}
 }
