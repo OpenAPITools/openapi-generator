@@ -12,3 +12,6 @@ additionalProperties:
   useApiVersioning: "false"
   routePrefix: "api"
   versionPrefix: "v"
+  solutionGuid: "{4BC03566-F5F9-4E45-A835-8FA3B2B524B9}"
+  projectGuid: "{EA13F671-20C7-40AE-BDA2-BF5D0D8849F9}"
+  projectConfigurationGuid: "{5F32A09C-5CB7-4917-83AB-CD7D1A04FF49}"
