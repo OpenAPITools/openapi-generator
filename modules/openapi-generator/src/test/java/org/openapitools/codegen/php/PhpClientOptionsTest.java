@@ -44,6 +44,7 @@ public class PhpClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setApiPackage(PhpClientOptionsProvider.API_PACKAGE_VALUE);
         verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(PhpClientOptionsProvider.SORT_PARAMS_VALUE));
         verify(clientCodegen).setParameterNamingConvention(PhpClientOptionsProvider.VARIABLE_NAMING_CONVENTION_VALUE);
+        verify(clientCodegen).setMethodNamingConvention(PhpClientOptionsProvider.METHOD_NAMING_CONVENTION_VALUE);
         verify(clientCodegen).setInvokerPackage(PhpClientOptionsProvider.INVOKER_PACKAGE_VALUE);
         verify(clientCodegen).setPackageName(PhpClientOptionsProvider.PACKAGE_NAME_VALUE);
         verify(clientCodegen).setSrcBasePath(PhpClientOptionsProvider.SRC_BASE_PATH_VALUE);
