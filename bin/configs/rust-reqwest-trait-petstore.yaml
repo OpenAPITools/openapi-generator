@@ -6,5 +6,6 @@ templateDir: modules/openapi-generator/src/main/resources/rust
 additionalProperties:
   topLevelApiClient: true
   packageName: petstore-reqwest
+  mockall: true
 enumNameMappings:
   delivered: shipped

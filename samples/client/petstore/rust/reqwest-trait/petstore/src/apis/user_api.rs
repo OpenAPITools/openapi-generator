@@ -10,22 +10,25 @@
 
 
 use async_trait::async_trait;
+#[cfg(feature = "mockall")]
+use mockall::automock;
 use reqwest;
 use std::sync::Arc;
 use serde::{Deserialize, Serialize};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
+#[cfg_attr(feature = "mockall", automock)]
 #[async_trait]
 pub trait UserApi: Send + Sync {
-    async fn create_user(&self, user: models::User) -> Result<(), Error<CreateUserError>>;
-    async fn create_users_with_array_input(&self, user: Vec<models::User>) -> Result<(), Error<CreateUsersWithArrayInputError>>;
-    async fn create_users_with_list_input(&self, user: Vec<models::User>) -> Result<(), Error<CreateUsersWithListInputError>>;
-    async fn delete_user(&self, username: &str) -> Result<(), Error<DeleteUserError>>;
-    async fn get_user_by_name(&self, username: &str) -> Result<models::User, Error<GetUserByNameError>>;
-    async fn login_user(&self, username: &str, password: &str) -> Result<String, Error<LoginUserError>>;
-    async fn logout_user(&self, ) -> Result<(), Error<LogoutUserError>>;
-    async fn update_user(&self, username: &str, user: models::User) -> Result<(), Error<UpdateUserError>>;
+    async fn create_user<'user>(&self, user: models::User) -> Result<(), Error<CreateUserError>>;
+    async fn create_users_with_array_input<'user>(&self, user: Vec<models::User>) -> Result<(), Error<CreateUsersWithArrayInputError>>;
+    async fn create_users_with_list_input<'user>(&self, user: Vec<models::User>) -> Result<(), Error<CreateUsersWithListInputError>>;
+    async fn delete_user<'username>(&self, username: &'username str) -> Result<(), Error<DeleteUserError>>;
+    async fn get_user_by_name<'username>(&self, username: &'username str) -> Result<models::User, Error<GetUserByNameError>>;
+    async fn login_user<'username, 'password>(&self, username: &'username str, password: &'password str) -> Result<String, Error<LoginUserError>>;
+    async fn logout_user<>(&self, ) -> Result<(), Error<LogoutUserError>>;
+    async fn update_user<'username, 'user>(&self, username: &'username str, user: models::User) -> Result<(), Error<UpdateUserError>>;
 }
 
 pub struct UserApiClient {
@@ -41,7 +44,7 @@ impl UserApiClient {
 #[async_trait]
 impl UserApi for UserApiClient {
     /// This can only be done by the logged in user.
-    async fn create_user(&self, user: models::User) -> Result<(), Error<CreateUserError>> {
+    async fn create_user<'user>(&self, user: models::User) -> Result<(), Error<CreateUserError>> {
         let local_var_configuration = &self.configuration;
 
         let local_var_client = &local_var_configuration.client;
@@ -78,7 +81,7 @@ impl UserApi for UserApiClient {
     }
 
     /// 
-    async fn create_users_with_array_input(&self, user: Vec<models::User>) -> Result<(), Error<CreateUsersWithArrayInputError>> {
+    async fn create_users_with_array_input<'user>(&self, user: Vec<models::User>) -> Result<(), Error<CreateUsersWithArrayInputError>> {
         let local_var_configuration = &self.configuration;
 
         let local_var_client = &local_var_configuration.client;
@@ -115,7 +118,7 @@ impl UserApi for UserApiClient {
     }
 
     /// 
-    async fn create_users_with_list_input(&self, user: Vec<models::User>) -> Result<(), Error<CreateUsersWithListInputError>> {
+    async fn create_users_with_list_input<'user>(&self, user: Vec<models::User>) -> Result<(), Error<CreateUsersWithListInputError>> {
         let local_var_configuration = &self.configuration;
 
         let local_var_client = &local_var_configuration.client;
@@ -152,7 +155,7 @@ impl UserApi for UserApiClient {
     }
 
     /// This can only be done by the logged in user.
-    async fn delete_user(&self, username: &str) -> Result<(), Error<DeleteUserError>> {
+    async fn delete_user<'username>(&self, username: &'username str) -> Result<(), Error<DeleteUserError>> {
         let local_var_configuration = &self.configuration;
 
         let local_var_client = &local_var_configuration.client;
@@ -188,7 +191,7 @@ impl UserApi for UserApiClient {
     }
 
     /// 
-    async fn get_user_by_name(&self, username: &str) -> Result<models::User, Error<GetUserByNameError>> {
+    async fn get_user_by_name<'username>(&self, username: &'username str) -> Result<models::User, Error<GetUserByNameError>> {
         let local_var_configuration = &self.configuration;
 
         let local_var_client = &local_var_configuration.client;
@@ -216,7 +219,7 @@ impl UserApi for UserApiClient {
     }
 
     /// 
-    async fn login_user(&self, username: &str, password: &str) -> Result<String, Error<LoginUserError>> {
+    async fn login_user<'username, 'password>(&self, username: &'username str, password: &'password str) -> Result<String, Error<LoginUserError>> {
         let local_var_configuration = &self.configuration;
 
         let local_var_client = &local_var_configuration.client;
@@ -246,7 +249,7 @@ impl UserApi for UserApiClient {
     }
 
     /// 
-    async fn logout_user(&self, ) -> Result<(), Error<LogoutUserError>> {
+    async fn logout_user<>(&self, ) -> Result<(), Error<LogoutUserError>> {
         let local_var_configuration = &self.configuration;
 
         let local_var_client = &local_var_configuration.client;
@@ -282,7 +285,7 @@ impl UserApi for UserApiClient {
     }
 
     /// This can only be done by the logged in user.
-    async fn update_user(&self, username: &str, user: models::User) -> Result<(), Error<UpdateUserError>> {
+    async fn update_user<'username, 'user>(&self, username: &'username str, user: models::User) -> Result<(), Error<UpdateUserError>> {
         let local_var_configuration = &self.configuration;
 
         let local_var_client = &local_var_configuration.client;

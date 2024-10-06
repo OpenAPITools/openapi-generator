@@ -10,16 +10,19 @@
 
 
 use async_trait::async_trait;
+#[cfg(feature = "mockall")]
+use mockall::automock;
 use reqwest;
 use std::sync::Arc;
 use serde::{Deserialize, Serialize};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
+#[cfg_attr(feature = "mockall", automock)]
 #[async_trait]
 pub trait TestingApi: Send + Sync {
-    async fn tests_file_response_get(&self, ) -> Result<std::path::PathBuf, Error<TestsFileResponseGetError>>;
-    async fn tests_type_testing_get(&self, ) -> Result<models::TypeTesting, Error<TestsTypeTestingGetError>>;
+    async fn tests_file_response_get<>(&self, ) -> Result<std::path::PathBuf, Error<TestsFileResponseGetError>>;
+    async fn tests_type_testing_get<>(&self, ) -> Result<models::TypeTesting, Error<TestsTypeTestingGetError>>;
 }
 
 pub struct TestingApiClient {
@@ -34,7 +37,7 @@ impl TestingApiClient {
 
 #[async_trait]
 impl TestingApi for TestingApiClient {
-    async fn tests_file_response_get(&self, ) -> Result<std::path::PathBuf, Error<TestsFileResponseGetError>> {
+    async fn tests_file_response_get<>(&self, ) -> Result<std::path::PathBuf, Error<TestsFileResponseGetError>> {
         let local_var_configuration = &self.configuration;
 
         let local_var_client = &local_var_configuration.client;
@@ -61,7 +64,7 @@ impl TestingApi for TestingApiClient {
         }
     }
 
-    async fn tests_type_testing_get(&self, ) -> Result<models::TypeTesting, Error<TestsTypeTestingGetError>> {
+    async fn tests_type_testing_get<>(&self, ) -> Result<models::TypeTesting, Error<TestsTypeTestingGetError>> {
         let local_var_configuration = &self.configuration;
 
         let local_var_client = &local_var_configuration.client;

@@ -10,15 +10,18 @@
 
 
 use async_trait::async_trait;
+#[cfg(feature = "mockall")]
+use mockall::automock;
 use reqwest;
 use std::sync::Arc;
 use serde::{Deserialize, Serialize};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
+#[cfg_attr(feature = "mockall", automock)]
 #[async_trait]
 pub trait FakeApi: Send + Sync {
-    async fn test_nullable_required_param(&self, username: &str, dummy_required_nullable_param: Option<&str>, uppercase: Option<&str>) -> Result<(), Error<TestNullableRequiredParamError>>;
+    async fn test_nullable_required_param<'username, 'dummy_required_nullable_param, 'uppercase>(&self, username: &'username str, dummy_required_nullable_param: Option<&'dummy_required_nullable_param str>, uppercase: Option<&'uppercase str>) -> Result<(), Error<TestNullableRequiredParamError>>;
 }
 
 pub struct FakeApiClient {
@@ -34,7 +37,7 @@ impl FakeApiClient {
 #[async_trait]
 impl FakeApi for FakeApiClient {
     /// 
-    async fn test_nullable_required_param(&self, username: &str, dummy_required_nullable_param: Option<&str>, uppercase: Option<&str>) -> Result<(), Error<TestNullableRequiredParamError>> {
+    async fn test_nullable_required_param<'username, 'dummy_required_nullable_param, 'uppercase>(&self, username: &'username str, dummy_required_nullable_param: Option<&'dummy_required_nullable_param str>, uppercase: Option<&'uppercase str>) -> Result<(), Error<TestNullableRequiredParamError>> {
         let local_var_configuration = &self.configuration;
 
         let local_var_client = &local_var_configuration.client;

@@ -10,18 +10,21 @@
 
 
 use async_trait::async_trait;
+#[cfg(feature = "mockall")]
+use mockall::automock;
 use reqwest;
 use std::sync::Arc;
 use serde::{Deserialize, Serialize};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
+#[cfg_attr(feature = "mockall", automock)]
 #[async_trait]
 pub trait StoreApi: Send + Sync {
-    async fn delete_order(&self, order_id: &str) -> Result<(), Error<DeleteOrderError>>;
-    async fn get_inventory(&self, ) -> Result<std::collections::HashMap<String, i32>, Error<GetInventoryError>>;
-    async fn get_order_by_id(&self, order_id: i64) -> Result<models::Order, Error<GetOrderByIdError>>;
-    async fn place_order(&self, order: models::Order) -> Result<models::Order, Error<PlaceOrderError>>;
+    async fn delete_order<'order_id>(&self, order_id: &'order_id str) -> Result<(), Error<DeleteOrderError>>;
+    async fn get_inventory<>(&self, ) -> Result<std::collections::HashMap<String, i32>, Error<GetInventoryError>>;
+    async fn get_order_by_id<'order_id>(&self, order_id: i64) -> Result<models::Order, Error<GetOrderByIdError>>;
+    async fn place_order<'order>(&self, order: models::Order) -> Result<models::Order, Error<PlaceOrderError>>;
 }
 
 pub struct StoreApiClient {
@@ -37,7 +40,7 @@ impl StoreApiClient {
 #[async_trait]
 impl StoreApi for StoreApiClient {
     /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-    async fn delete_order(&self, order_id: &str) -> Result<(), Error<DeleteOrderError>> {
+    async fn delete_order<'order_id>(&self, order_id: &'order_id str) -> Result<(), Error<DeleteOrderError>> {
         let local_var_configuration = &self.configuration;
 
         let local_var_client = &local_var_configuration.client;
@@ -65,7 +68,7 @@ impl StoreApi for StoreApiClient {
     }
 
     /// Returns a map of status codes to quantities
-    async fn get_inventory(&self, ) -> Result<std::collections::HashMap<String, i32>, Error<GetInventoryError>> {
+    async fn get_inventory<>(&self, ) -> Result<std::collections::HashMap<String, i32>, Error<GetInventoryError>> {
         let local_var_configuration = &self.configuration;
 
         let local_var_client = &local_var_configuration.client;
@@ -101,7 +104,7 @@ impl StoreApi for StoreApiClient {
     }
 
     /// For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
-    async fn get_order_by_id(&self, order_id: i64) -> Result<models::Order, Error<GetOrderByIdError>> {
+    async fn get_order_by_id<'order_id>(&self, order_id: i64) -> Result<models::Order, Error<GetOrderByIdError>> {
         let local_var_configuration = &self.configuration;
 
         let local_var_client = &local_var_configuration.client;
@@ -129,7 +132,7 @@ impl StoreApi for StoreApiClient {
     }
 
     /// 
-    async fn place_order(&self, order: models::Order) -> Result<models::Order, Error<PlaceOrderError>> {
+    async fn place_order<'order>(&self, order: models::Order) -> Result<models::Order, Error<PlaceOrderError>> {
         let local_var_configuration = &self.configuration;
 
         let local_var_client = &local_var_configuration.client;

@@ -10,22 +10,25 @@
 
 
 use async_trait::async_trait;
+#[cfg(feature = "mockall")]
+use mockall::automock;
 use reqwest;
 use std::sync::Arc;
 use serde::{Deserialize, Serialize};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
+#[cfg_attr(feature = "mockall", automock)]
 #[async_trait]
 pub trait PetApi: Send + Sync {
-    async fn add_pet(&self, pet: models::Pet) -> Result<models::Pet, Error<AddPetError>>;
-    async fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> Result<(), Error<DeletePetError>>;
-    async fn find_pets_by_status(&self, status: Vec<String>) -> Result<Vec<models::Pet>, Error<FindPetsByStatusError>>;
-    async fn find_pets_by_tags(&self, tags: Vec<String>) -> Result<Vec<models::Pet>, Error<FindPetsByTagsError>>;
-    async fn get_pet_by_id(&self, pet_id: i64) -> Result<models::Pet, Error<GetPetByIdError>>;
-    async fn update_pet(&self, pet: models::Pet) -> Result<models::Pet, Error<UpdatePetError>>;
-    async fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<(), Error<UpdatePetWithFormError>>;
-    async fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<models::ApiResponse, Error<UploadFileError>>;
+    async fn add_pet<'pet>(&self, pet: models::Pet) -> Result<models::Pet, Error<AddPetError>>;
+    async fn delete_pet<'pet_id, 'api_key>(&self, pet_id: i64, api_key: Option<&'api_key str>) -> Result<(), Error<DeletePetError>>;
+    async fn find_pets_by_status<'status>(&self, status: Vec<String>) -> Result<Vec<models::Pet>, Error<FindPetsByStatusError>>;
+    async fn find_pets_by_tags<'tags>(&self, tags: Vec<String>) -> Result<Vec<models::Pet>, Error<FindPetsByTagsError>>;
+    async fn get_pet_by_id<'pet_id>(&self, pet_id: i64) -> Result<models::Pet, Error<GetPetByIdError>>;
+    async fn update_pet<'pet>(&self, pet: models::Pet) -> Result<models::Pet, Error<UpdatePetError>>;
+    async fn update_pet_with_form<'pet_id, 'name, 'status>(&self, pet_id: i64, name: Option<&'name str>, status: Option<&'status str>) -> Result<(), Error<UpdatePetWithFormError>>;
+    async fn upload_file<'pet_id, 'additional_metadata, 'file>(&self, pet_id: i64, additional_metadata: Option<&'additional_metadata str>, file: Option<std::path::PathBuf>) -> Result<models::ApiResponse, Error<UploadFileError>>;
 }
 
 pub struct PetApiClient {
@@ -41,7 +44,7 @@ impl PetApiClient {
 #[async_trait]
 impl PetApi for PetApiClient {
     /// 
-    async fn add_pet(&self, pet: models::Pet) -> Result<models::Pet, Error<AddPetError>> {
+    async fn add_pet<'pet>(&self, pet: models::Pet) -> Result<models::Pet, Error<AddPetError>> {
         let local_var_configuration = &self.configuration;
 
         let local_var_client = &local_var_configuration.client;
@@ -73,7 +76,7 @@ impl PetApi for PetApiClient {
     }
 
     /// 
-    async fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> Result<(), Error<DeletePetError>> {
+    async fn delete_pet<'pet_id, 'api_key>(&self, pet_id: i64, api_key: Option<&'api_key str>) -> Result<(), Error<DeletePetError>> {
         let local_var_configuration = &self.configuration;
 
         let local_var_client = &local_var_configuration.client;
@@ -107,7 +110,7 @@ impl PetApi for PetApiClient {
     }
 
     /// Multiple status values can be provided with comma separated strings
-    async fn find_pets_by_status(&self, status: Vec<String>) -> Result<Vec<models::Pet>, Error<FindPetsByStatusError>> {
+    async fn find_pets_by_status<'status>(&self, status: Vec<String>) -> Result<Vec<models::Pet>, Error<FindPetsByStatusError>> {
         let local_var_configuration = &self.configuration;
 
         let local_var_client = &local_var_configuration.client;
@@ -142,7 +145,7 @@ impl PetApi for PetApiClient {
     }
 
     /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-    async fn find_pets_by_tags(&self, tags: Vec<String>) -> Result<Vec<models::Pet>, Error<FindPetsByTagsError>> {
+    async fn find_pets_by_tags<'tags>(&self, tags: Vec<String>) -> Result<Vec<models::Pet>, Error<FindPetsByTagsError>> {
         let local_var_configuration = &self.configuration;
 
         let local_var_client = &local_var_configuration.client;
@@ -177,7 +180,7 @@ impl PetApi for PetApiClient {
     }
 
     /// Returns a single pet
-    async fn get_pet_by_id(&self, pet_id: i64) -> Result<models::Pet, Error<GetPetByIdError>> {
+    async fn get_pet_by_id<'pet_id>(&self, pet_id: i64) -> Result<models::Pet, Error<GetPetByIdError>> {
         let local_var_configuration = &self.configuration;
 
         let local_var_client = &local_var_configuration.client;
@@ -213,7 +216,7 @@ impl PetApi for PetApiClient {
     }
 
     /// 
-    async fn update_pet(&self, pet: models::Pet) -> Result<models::Pet, Error<UpdatePetError>> {
+    async fn update_pet<'pet>(&self, pet: models::Pet) -> Result<models::Pet, Error<UpdatePetError>> {
         let local_var_configuration = &self.configuration;
 
         let local_var_client = &local_var_configuration.client;
@@ -245,7 +248,7 @@ impl PetApi for PetApiClient {
     }
 
     /// 
-    async fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<(), Error<UpdatePetWithFormError>> {
+    async fn update_pet_with_form<'pet_id, 'name, 'status>(&self, pet_id: i64, name: Option<&'name str>, status: Option<&'status str>) -> Result<(), Error<UpdatePetWithFormError>> {
         let local_var_configuration = &self.configuration;
 
         let local_var_client = &local_var_configuration.client;
@@ -284,7 +287,7 @@ impl PetApi for PetApiClient {
     }
 
     /// 
-    async fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<models::ApiResponse, Error<UploadFileError>> {
+    async fn upload_file<'pet_id, 'additional_metadata, 'file>(&self, pet_id: i64, additional_metadata: Option<&'additional_metadata str>, file: Option<std::path::PathBuf>) -> Result<models::ApiResponse, Error<UploadFileError>> {
         let local_var_configuration = &self.configuration;
 
         let local_var_client = &local_var_configuration.client;
