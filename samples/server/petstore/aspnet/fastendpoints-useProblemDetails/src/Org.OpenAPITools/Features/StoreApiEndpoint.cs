@@ -1,4 +1,3 @@
-using FastEndpoints;
 using Org.OpenAPITools.Models;
 
 namespace Org.OpenAPITools.Features;
@@ -9,7 +8,7 @@ namespace Org.OpenAPITools.Features;
 /// Delete purchase order by ID
 /// </summary>
 
-public class DeleteOrderEndpoint : Endpoint<DeleteOrderRequest>
+public class DeleteOrderEndpoint : FastEndpoints.Endpoint<DeleteOrderRequest>
 {
     public override void Configure()
     {
@@ -20,9 +19,9 @@ public class DeleteOrderEndpoint : Endpoint<DeleteOrderRequest>
         
         Description(x =>
         {
-            x.WithTags("store")
-             .ProducesProblemDetails(400)
-             .ProducesProblemDetails(404);
+            x.WithTags("store");
+            FastEndpoints.RouteHandlerBuilderExtensions.ProducesProblemDetails(x, 400);
+            FastEndpoints.RouteHandlerBuilderExtensions.ProducesProblemDetails(x, 404);
         });
 
         Summary(s => {
@@ -48,7 +47,7 @@ public class DeleteOrderEndpoint : Endpoint<DeleteOrderRequest>
 /// Returns pet inventories by status
 /// </summary>
 
-public class GetInventoryEndpoint : EndpointWithoutRequest<Dictionary<string, int>>
+public class GetInventoryEndpoint : FastEndpoints.EndpointWithoutRequest<Dictionary<string, int>>
 {
     public override void Configure()
     {
@@ -83,7 +82,7 @@ public class GetInventoryEndpoint : EndpointWithoutRequest<Dictionary<string, in
 /// Find purchase order by ID
 /// </summary>
 
-public class GetOrderByIdEndpoint : Endpoint<GetOrderByIdRequest, Order>
+public class GetOrderByIdEndpoint : FastEndpoints.Endpoint<GetOrderByIdRequest, Order>
 {
     public override void Configure()
     {
@@ -94,9 +93,9 @@ public class GetOrderByIdEndpoint : Endpoint<GetOrderByIdRequest, Order>
         
         Description(x =>
         {
-            x.WithTags("store")
-             .ProducesProblemDetails(400)
-             .ProducesProblemDetails(404);
+            x.WithTags("store");
+            FastEndpoints.RouteHandlerBuilderExtensions.ProducesProblemDetails(x, 400);
+            FastEndpoints.RouteHandlerBuilderExtensions.ProducesProblemDetails(x, 404);
         });
 
         Summary(s => {
@@ -123,7 +122,7 @@ public class GetOrderByIdEndpoint : Endpoint<GetOrderByIdRequest, Order>
 /// Place an order for a pet
 /// </summary>
 
-public class PlaceOrderEndpoint : Endpoint<PlaceOrderRequest, Order>
+public class PlaceOrderEndpoint : FastEndpoints.Endpoint<PlaceOrderRequest, Order>
 {
     public override void Configure()
     {
@@ -134,8 +133,8 @@ public class PlaceOrderEndpoint : Endpoint<PlaceOrderRequest, Order>
         
         Description(x =>
         {
-            x.WithTags("store")
-             .ProducesProblemDetails(400);
+            x.WithTags("store");
+            FastEndpoints.RouteHandlerBuilderExtensions.ProducesProblemDetails(x, 400);
         });
 
         Summary(s => {

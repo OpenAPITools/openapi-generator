@@ -1,4 +1,3 @@
-using FastEndpoints;
 using FluentValidation;
 using Org.OpenAPITools.Models;
 
@@ -10,7 +9,7 @@ public class CreateUserRequest
     /// <summary>
     /// Created user object
     /// </summary>
-    [FromBody]
+    [FastEndpoints.FromBody]
     public User user { get; set; }
 }
 public class CreateUsersWithArrayInputRequest
@@ -18,7 +17,7 @@ public class CreateUsersWithArrayInputRequest
     /// <summary>
     /// List of user object
     /// </summary>
-    [FromBody]
+    [FastEndpoints.FromBody]
     public List<User> user { get; set; }
 }
 public class CreateUsersWithListInputRequest
@@ -26,7 +25,7 @@ public class CreateUsersWithListInputRequest
     /// <summary>
     /// List of user object
     /// </summary>
-    [FromBody]
+    [FastEndpoints.FromBody]
     public List<User> user { get; set; }
 }
 public class DeleteUserRequest
@@ -34,7 +33,7 @@ public class DeleteUserRequest
     /// <summary>
     /// The name that needs to be deleted
     /// </summary>
-    [BindFrom("username")]
+    [FastEndpoints.BindFrom("username")]
     public string Username { get; set; }
 }
 public class GetUserByNameRequest
@@ -42,7 +41,7 @@ public class GetUserByNameRequest
     /// <summary>
     /// The name that needs to be fetched. Use user1 for testing.
     /// </summary>
-    [BindFrom("username")]
+    [FastEndpoints.BindFrom("username")]
     public string Username { get; set; }
 }
 public class LoginUserRequest
@@ -50,12 +49,12 @@ public class LoginUserRequest
     /// <summary>
     /// The user name for login
     /// </summary>
-    [QueryParam, BindFrom("username")]
+    [FastEndpoints.QueryParam, FastEndpoints.BindFrom("username")]
     public string Username { get; set; }
     /// <summary>
     /// The password for login in clear text
     /// </summary>
-    [QueryParam, BindFrom("password")]
+    [FastEndpoints.QueryParam, FastEndpoints.BindFrom("password")]
     public string Password { get; set; }
 }
 public class LogoutUserRequest
@@ -66,94 +65,86 @@ public class UpdateUserRequest
     /// <summary>
     /// name that need to be deleted
     /// </summary>
-    [BindFrom("username")]
+    [FastEndpoints.BindFrom("username")]
     public string Username { get; set; }
     /// <summary>
     /// Updated user object
     /// </summary>
-    [FromBody]
+    [FastEndpoints.FromBody]
     public User user { get; set; }
 }
 
 
 
-public class CreateUserRequestValidator : Validator<CreateUserRequest>
+public class CreateUserRequestValidator : FastEndpoints.Validator<CreateUserRequest>
 {
     public CreateUserRequestValidator()
     {
         RuleFor(x => x.user).NotEmpty();
-        //TODO Add any additional validation rules here
     }
 }
 
 
-public class CreateUsersWithArrayInputRequestValidator : Validator<CreateUsersWithArrayInputRequest>
+public class CreateUsersWithArrayInputRequestValidator : FastEndpoints.Validator<CreateUsersWithArrayInputRequest>
 {
     public CreateUsersWithArrayInputRequestValidator()
     {
         RuleFor(x => x.user).NotEmpty();
-        //TODO Add any additional validation rules here
     }
 }
 
 
-public class CreateUsersWithListInputRequestValidator : Validator<CreateUsersWithListInputRequest>
+public class CreateUsersWithListInputRequestValidator : FastEndpoints.Validator<CreateUsersWithListInputRequest>
 {
     public CreateUsersWithListInputRequestValidator()
     {
         RuleFor(x => x.user).NotEmpty();
-        //TODO Add any additional validation rules here
     }
 }
 
 
-public class DeleteUserRequestValidator : Validator<DeleteUserRequest>
+public class DeleteUserRequestValidator : FastEndpoints.Validator<DeleteUserRequest>
 {
     public DeleteUserRequestValidator()
     {
         RuleFor(x => x.Username).NotEmpty();
-        //TODO Add any additional validation rules here
     }
 }
 
 
-public class GetUserByNameRequestValidator : Validator<GetUserByNameRequest>
+public class GetUserByNameRequestValidator : FastEndpoints.Validator<GetUserByNameRequest>
 {
     public GetUserByNameRequestValidator()
     {
         RuleFor(x => x.Username).NotEmpty();
-        //TODO Add any additional validation rules here
     }
 }
 
 
-public class LoginUserRequestValidator : Validator<LoginUserRequest>
+public class LoginUserRequestValidator : FastEndpoints.Validator<LoginUserRequest>
 {
     public LoginUserRequestValidator()
     {
         RuleFor(x => x.Username).NotEmpty();
         RuleFor(x => x.Password).NotEmpty();
-        //TODO Add any additional validation rules here
     }
 }
 
 
-public class LogoutUserRequestValidator : Validator<LogoutUserRequest>
+public class LogoutUserRequestValidator : FastEndpoints.Validator<LogoutUserRequest>
 {
     public LogoutUserRequestValidator()
     {
-        //TODO Add any additional validation rules here
     }
 }
 
 
-public class UpdateUserRequestValidator : Validator<UpdateUserRequest>
+public class UpdateUserRequestValidator : FastEndpoints.Validator<UpdateUserRequest>
 {
     public UpdateUserRequestValidator()
     {
         RuleFor(x => x.Username).NotEmpty();
         RuleFor(x => x.user).NotEmpty();
-        //TODO Add any additional validation rules here
     }
 }
 

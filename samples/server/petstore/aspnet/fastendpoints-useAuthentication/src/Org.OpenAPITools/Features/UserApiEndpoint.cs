@@ -1,4 +1,3 @@
-using FastEndpoints;
 using Org.OpenAPITools.Models;
 
 namespace Org.OpenAPITools.Features;
@@ -9,7 +8,7 @@ namespace Org.OpenAPITools.Features;
 /// Create user
 /// </summary>
 
-public class CreateUserEndpoint : Endpoint<CreateUserRequest>
+public class CreateUserEndpoint : FastEndpoints.Endpoint<CreateUserRequest>
 {
     public override void Configure()
     {
@@ -20,8 +19,8 @@ public class CreateUserEndpoint : Endpoint<CreateUserRequest>
         
         Description(x =>
         {
-            x.WithTags("user")
-             .ProducesProblemFE(0);
+            x.WithTags("user");
+            FastEndpoints.RouteHandlerBuilderExtensions.ProducesProblemFE(x, 0);
         });
 
         Summary(s => {
@@ -46,7 +45,7 @@ public class CreateUserEndpoint : Endpoint<CreateUserRequest>
 /// Creates list of users with given input array
 /// </summary>
 
-public class CreateUsersWithArrayInputEndpoint : Endpoint<CreateUsersWithArrayInputRequest>
+public class CreateUsersWithArrayInputEndpoint : FastEndpoints.Endpoint<CreateUsersWithArrayInputRequest>
 {
     public override void Configure()
     {
@@ -57,8 +56,8 @@ public class CreateUsersWithArrayInputEndpoint : Endpoint<CreateUsersWithArrayIn
         
         Description(x =>
         {
-            x.WithTags("user")
-             .ProducesProblemFE(0);
+            x.WithTags("user");
+            FastEndpoints.RouteHandlerBuilderExtensions.ProducesProblemFE(x, 0);
         });
 
         Summary(s => {
@@ -83,7 +82,7 @@ public class CreateUsersWithArrayInputEndpoint : Endpoint<CreateUsersWithArrayIn
 /// Creates list of users with given input array
 /// </summary>
 
-public class CreateUsersWithListInputEndpoint : Endpoint<CreateUsersWithListInputRequest>
+public class CreateUsersWithListInputEndpoint : FastEndpoints.Endpoint<CreateUsersWithListInputRequest>
 {
     public override void Configure()
     {
@@ -94,8 +93,8 @@ public class CreateUsersWithListInputEndpoint : Endpoint<CreateUsersWithListInpu
         
         Description(x =>
         {
-            x.WithTags("user")
-             .ProducesProblemFE(0);
+            x.WithTags("user");
+            FastEndpoints.RouteHandlerBuilderExtensions.ProducesProblemFE(x, 0);
         });
 
         Summary(s => {
@@ -120,7 +119,7 @@ public class CreateUsersWithListInputEndpoint : Endpoint<CreateUsersWithListInpu
 /// Delete user
 /// </summary>
 
-public class DeleteUserEndpoint : Endpoint<DeleteUserRequest>
+public class DeleteUserEndpoint : FastEndpoints.Endpoint<DeleteUserRequest>
 {
     public override void Configure()
     {
@@ -131,9 +130,9 @@ public class DeleteUserEndpoint : Endpoint<DeleteUserRequest>
         
         Description(x =>
         {
-            x.WithTags("user")
-             .ProducesProblemFE(400)
-             .ProducesProblemFE(404);
+            x.WithTags("user");
+            FastEndpoints.RouteHandlerBuilderExtensions.ProducesProblemFE(x, 400);
+            FastEndpoints.RouteHandlerBuilderExtensions.ProducesProblemFE(x, 404);
         });
 
         Summary(s => {
@@ -159,7 +158,7 @@ public class DeleteUserEndpoint : Endpoint<DeleteUserRequest>
 /// Get user by user name
 /// </summary>
 
-public class GetUserByNameEndpoint : Endpoint<GetUserByNameRequest, User>
+public class GetUserByNameEndpoint : FastEndpoints.Endpoint<GetUserByNameRequest, User>
 {
     public override void Configure()
     {
@@ -170,9 +169,9 @@ public class GetUserByNameEndpoint : Endpoint<GetUserByNameRequest, User>
         
         Description(x =>
         {
-            x.WithTags("user")
-             .ProducesProblemFE(400)
-             .ProducesProblemFE(404);
+            x.WithTags("user");
+            FastEndpoints.RouteHandlerBuilderExtensions.ProducesProblemFE(x, 400);
+            FastEndpoints.RouteHandlerBuilderExtensions.ProducesProblemFE(x, 404);
         });
 
         Summary(s => {
@@ -199,7 +198,7 @@ public class GetUserByNameEndpoint : Endpoint<GetUserByNameRequest, User>
 /// Logs user into the system
 /// </summary>
 
-public class LoginUserEndpoint : Endpoint<LoginUserRequest, string>
+public class LoginUserEndpoint : FastEndpoints.Endpoint<LoginUserRequest, string>
 {
     public override void Configure()
     {
@@ -210,8 +209,8 @@ public class LoginUserEndpoint : Endpoint<LoginUserRequest, string>
         
         Description(x =>
         {
-            x.WithTags("user")
-             .ProducesProblemFE(400);
+            x.WithTags("user");
+            FastEndpoints.RouteHandlerBuilderExtensions.ProducesProblemFE(x, 400);
         });
 
         Summary(s => {
@@ -238,7 +237,7 @@ public class LoginUserEndpoint : Endpoint<LoginUserRequest, string>
 /// Logs out current logged in user session
 /// </summary>
 
-public class LogoutUserEndpoint : EndpointWithoutRequest
+public class LogoutUserEndpoint : FastEndpoints.EndpointWithoutRequest
 {
     public override void Configure()
     {
@@ -249,8 +248,8 @@ public class LogoutUserEndpoint : EndpointWithoutRequest
         
         Description(x =>
         {
-            x.WithTags("user")
-             .ProducesProblemFE(0);
+            x.WithTags("user");
+            FastEndpoints.RouteHandlerBuilderExtensions.ProducesProblemFE(x, 0);
         });
 
         Summary(s => {
@@ -274,7 +273,7 @@ public class LogoutUserEndpoint : EndpointWithoutRequest
 /// Updated user
 /// </summary>
 
-public class UpdateUserEndpoint : Endpoint<UpdateUserRequest>
+public class UpdateUserEndpoint : FastEndpoints.Endpoint<UpdateUserRequest>
 {
     public override void Configure()
     {
@@ -285,9 +284,9 @@ public class UpdateUserEndpoint : Endpoint<UpdateUserRequest>
         
         Description(x =>
         {
-            x.WithTags("user")
-             .ProducesProblemFE(400)
-             .ProducesProblemFE(404);
+            x.WithTags("user");
+            FastEndpoints.RouteHandlerBuilderExtensions.ProducesProblemFE(x, 400);
+            FastEndpoints.RouteHandlerBuilderExtensions.ProducesProblemFE(x, 404);
         });
 
         Summary(s => {

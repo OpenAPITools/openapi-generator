@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{6DB2D0AE-6096-40EC-9A6F-C285CF61BCB7}") = "Org.OpenAPITools", "Org.OpenAPITools\Org.OpenAPITools.csproj", "{F742FB08-BF20-4916-8513-A91993D8D680}"
+Project("{0278DA7D-B8A4-4C01-8785-E33A8B5FE975}") = "Org.OpenAPITools", "Org.OpenAPITools\Org.OpenAPITools.csproj", "{D465FD3B-3146-4661-BB50-522608AA3967}"
 EndProject
 Global
     GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
         Release|Any CPU = Release|Any CPU
     EndGlobalSection
     GlobalSection(ProjectConfigurationPlatforms) = postSolution
-        {F742FB08-BF20-4916-8513-A91993D8D680}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-        {F742FB08-BF20-4916-8513-A91993D8D680}.Debug|Any CPU.Build.0 = Debug|Any CPU
-        {F742FB08-BF20-4916-8513-A91993D8D680}.Release|Any CPU.ActiveCfg = Release|Any CPU
-        {F742FB08-BF20-4916-8513-A91993D8D680}.Release|Any CPU.Build.0 = Release|Any CPU
+        {D465FD3B-3146-4661-BB50-522608AA3967}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+        {D465FD3B-3146-4661-BB50-522608AA3967}.Debug|Any CPU.Build.0 = Debug|Any CPU
+        {D465FD3B-3146-4661-BB50-522608AA3967}.Release|Any CPU.ActiveCfg = Release|Any CPU
+        {D465FD3B-3146-4661-BB50-522608AA3967}.Release|Any CPU.Build.0 = Release|Any CPU
     EndGlobalSection
     GlobalSection(SolutionProperties) = preSolution
         HideSolutionNode = FALSE
     EndGlobalSection
     GlobalSection(ExtensibilityGlobals) = postSolution
-        SolutionGuid = {CD1882DE-3B72-4C1D-93CC-07C328C709B7}
+        SolutionGuid = {C5D2BEB0-AB74-433F-BC14-DA66CAC82C10}
     EndGlobalSection
 EndGlobal
