@@ -24,7 +24,7 @@ public class Category {
 
   private Long id;
 
-  private String name = "default-name";
+  private @NotNull String name = "default-name";
 
   public Category() {
     super();
@@ -41,8 +41,8 @@ public class Category {
    * Constructor with all args parameters
    */
   public Category(Long id, String name) {
-      this.id = id;
-      this.name = name;
+    this.id = id;
+    this.name = name;
   }
 
   public Category id(Long id) {
@@ -54,7 +54,6 @@ public class Category {
    * Get id
    * @return id
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
@@ -74,10 +73,9 @@ public class Category {
    * Get name
    * @return name
    */
-  @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("name")
-  public String getName() {
+  public @NotNull String getName() {
     return name;
   }
 
@@ -124,4 +122,3 @@ public class Category {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

@@ -40,7 +40,7 @@ public interface UserApi {
     )
     
     ResponseEntity<Void> createUser(
-         @Valid @RequestBody User user
+         @RequestBody @NotNull @Valid User user
     );
 
 
@@ -58,7 +58,7 @@ public interface UserApi {
     )
     
     ResponseEntity<Void> createUsersWithArrayInput(
-         @Valid @RequestBody List<@Valid User> user
+         @RequestBody @NotNull List<Optional<@Valid User>> user
     );
 
 
@@ -76,7 +76,7 @@ public interface UserApi {
     )
     
     ResponseEntity<Void> createUsersWithListInput(
-         @Valid @RequestBody List<@Valid User> user
+         @RequestBody @NotNull List<Optional<@Valid User>> user
     );
 
 
@@ -94,7 +94,7 @@ public interface UserApi {
     )
     
     ResponseEntity<Void> deleteUser(
-         @PathVariable("username") String username
+         @PathVariable("username") @NotNull String username
     );
 
 
@@ -114,7 +114,7 @@ public interface UserApi {
     )
     
     ResponseEntity<User> getUserByName(
-         @PathVariable("username") String username
+         @PathVariable("username") @NotNull String username
     );
 
 
@@ -134,8 +134,8 @@ public interface UserApi {
     )
     
     ResponseEntity<String> loginUser(
-        @NotNull @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")  @Valid @RequestParam(value = "username", required = true) String username,
-        @NotNull  @Valid @RequestParam(value = "password", required = true) String password
+         @RequestParam(value = "username") @NotNull @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") String username,
+         @RequestParam(value = "password") @NotNull String password
     );
 
 
@@ -171,8 +171,8 @@ public interface UserApi {
     )
     
     ResponseEntity<Void> updateUser(
-         @PathVariable("username") String username,
-         @Valid @RequestBody User user
+         @PathVariable("username") @NotNull String username,
+         @RequestBody @NotNull @Valid User user
     );
 
 }

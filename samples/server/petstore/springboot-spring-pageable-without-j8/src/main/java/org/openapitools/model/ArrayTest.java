@@ -26,13 +26,10 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class ArrayTest {
 
-  @Valid
   private List<String> arrayOfString = new ArrayList<>();
 
-  @Valid
   private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
-  @Valid
   private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
@@ -52,7 +49,6 @@ public class ArrayTest {
    * Get arrayOfString
    * @return arrayOfString
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("array_of_string")
   public List<String> getArrayOfString() {
@@ -80,7 +76,6 @@ public class ArrayTest {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
    */
-  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_integer")
   public List<List<Long>> getArrayArrayOfInteger() {
@@ -91,12 +86,12 @@ public class ArrayTest {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
 
-  public ArrayTest arrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
+  public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
 
-  public ArrayTest addArrayArrayOfModelItem(List<@Valid ReadOnlyFirst> arrayArrayOfModelItem) {
+  public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
     if (this.arrayArrayOfModel == null) {
       this.arrayArrayOfModel = new ArrayList<>();
     }
@@ -108,14 +103,13 @@ public class ArrayTest {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
    */
-  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_model")
   public List<List<@Valid ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
 
-  public void setArrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
+  public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 
@@ -160,4 +154,3 @@ public class ArrayTest {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

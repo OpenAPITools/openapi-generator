@@ -90,12 +90,12 @@ public class Order {
    * Constructor with all args parameters
    */
   public Order(Long id, Long petId, Integer quantity, OffsetDateTime shipDate, StatusEnum status, Boolean complete) {
-      this.id = id;
-      this.petId = petId;
-      this.quantity = quantity;
-      this.shipDate = shipDate;
-      this.status = status;
-      this.complete = complete;
+    this.id = id;
+    this.petId = petId;
+    this.quantity = quantity;
+    this.shipDate = shipDate;
+    this.status = status;
+    this.complete = complete;
   }
 
   public Order id(Long id) {
@@ -107,7 +107,6 @@ public class Order {
    * Get id
    * @return id
    */
-  
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
@@ -129,7 +128,6 @@ public class Order {
    * Get petId
    * @return petId
    */
-  
   @Schema(name = "petId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("petId")
   @JacksonXmlProperty(localName = "petId")
@@ -151,7 +149,6 @@ public class Order {
    * Get quantity
    * @return quantity
    */
-  
   @Schema(name = "quantity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("quantity")
   @JacksonXmlProperty(localName = "quantity")
@@ -173,7 +170,6 @@ public class Order {
    * Get shipDate
    * @return shipDate
    */
-  @Valid 
   @Schema(name = "shipDate", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("shipDate")
   @JacksonXmlProperty(localName = "shipDate")
@@ -195,7 +191,6 @@ public class Order {
    * Order Status
    * @return status
    */
-  
   @Schema(name = "status", description = "Order Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
   @JacksonXmlProperty(localName = "status")
@@ -217,7 +212,6 @@ public class Order {
    * Get complete
    * @return complete
    */
-  
   @Schema(name = "complete", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("complete")
   @JacksonXmlProperty(localName = "complete")
@@ -303,32 +297,26 @@ public class Order {
       this.instance.id(id);
       return this;
     }
-    
     public Order.Builder petId(Long petId) {
       this.instance.petId(petId);
       return this;
     }
-    
     public Order.Builder quantity(Integer quantity) {
       this.instance.quantity(quantity);
       return this;
     }
-    
     public Order.Builder shipDate(OffsetDateTime shipDate) {
       this.instance.shipDate(shipDate);
       return this;
     }
-    
     public Order.Builder status(StatusEnum status) {
       this.instance.status(status);
       return this;
     }
-    
     public Order.Builder complete(Boolean complete) {
       this.instance.complete(complete);
       return this;
     }
-    
     /**
     * returns a built Order instance.
     *
@@ -365,4 +353,3 @@ public class Order {
   }
 
 }
-

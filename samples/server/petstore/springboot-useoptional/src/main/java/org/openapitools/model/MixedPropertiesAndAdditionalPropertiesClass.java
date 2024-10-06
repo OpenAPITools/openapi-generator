@@ -33,11 +33,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private Optional<OffsetDateTime> dateTime = Optional.empty();
 
-  @Valid
-  private Map<String, Animal> map = new HashMap<>();
+  private Map<String, Optional<@Valid Animal>> map = new HashMap<>();
 
-  public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
-    this.uuid = Optional.of(uuid);
+  public MixedPropertiesAndAdditionalPropertiesClass uuid(Optional<UUID> uuid) {
+    this.uuid = uuid;
     return this;
   }
 
@@ -45,7 +44,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Get uuid
    * @return uuid
    */
-  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("uuid")
   public Optional<UUID> getUuid() {
@@ -56,8 +54,8 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     this.uuid = uuid;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
-    this.dateTime = Optional.of(dateTime);
+  public MixedPropertiesAndAdditionalPropertiesClass dateTime(Optional<OffsetDateTime> dateTime) {
+    this.dateTime = dateTime;
     return this;
   }
 
@@ -65,7 +63,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Get dateTime
    * @return dateTime
    */
-  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
   public Optional<OffsetDateTime> getDateTime() {
@@ -76,12 +73,12 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     this.dateTime = dateTime;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
+  public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Optional<Animal>> map) {
     this.map = map;
     return this;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
+  public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Optional<Animal> mapItem) {
     if (this.map == null) {
       this.map = new HashMap<>();
     }
@@ -93,14 +90,13 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Get map
    * @return map
    */
-  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("map")
-  public Map<String, Animal> getMap() {
+  public Map<String, Optional<@Valid Animal>> getMap() {
     return map;
   }
 
-  public void setMap(Map<String, Animal> map) {
+  public void setMap(Map<String, Optional<Animal>> map) {
     this.map = map;
   }
 
@@ -164,21 +160,18 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
       return this;
     }
 
-    public MixedPropertiesAndAdditionalPropertiesClass.Builder uuid(UUID uuid) {
+    public MixedPropertiesAndAdditionalPropertiesClass.Builder uuid(Optional<UUID> uuid) {
       this.instance.uuid(uuid);
       return this;
     }
-    
-    public MixedPropertiesAndAdditionalPropertiesClass.Builder dateTime(OffsetDateTime dateTime) {
+    public MixedPropertiesAndAdditionalPropertiesClass.Builder dateTime(Optional<OffsetDateTime> dateTime) {
       this.instance.dateTime(dateTime);
       return this;
     }
-    
-    public MixedPropertiesAndAdditionalPropertiesClass.Builder map(Map<String, Animal> map) {
+    public MixedPropertiesAndAdditionalPropertiesClass.Builder map(Map<String, Optional<Animal>> map) {
       this.instance.map(map);
       return this;
     }
-    
     /**
     * returns a built MixedPropertiesAndAdditionalPropertiesClass instance.
     *
@@ -215,4 +208,3 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
 }
-

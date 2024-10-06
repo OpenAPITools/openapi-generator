@@ -35,7 +35,6 @@ public class ListDto {
    * Get _123List
    * @return _123List
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("123-list")
   public String get123List() {
@@ -83,4 +82,3 @@ public class ListDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

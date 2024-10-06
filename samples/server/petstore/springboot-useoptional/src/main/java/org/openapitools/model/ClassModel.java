@@ -25,8 +25,8 @@ public class ClassModel {
 
   private Optional<String> propertyClass = Optional.empty();
 
-  public ClassModel propertyClass(String propertyClass) {
-    this.propertyClass = Optional.of(propertyClass);
+  public ClassModel propertyClass(Optional<String> propertyClass) {
+    this.propertyClass = propertyClass;
     return this;
   }
 
@@ -34,7 +34,6 @@ public class ClassModel {
    * Get propertyClass
    * @return propertyClass
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("_class")
   public Optional<String> getPropertyClass() {
@@ -99,11 +98,10 @@ public class ClassModel {
       return this;
     }
 
-    public ClassModel.Builder propertyClass(String propertyClass) {
+    public ClassModel.Builder propertyClass(Optional<String> propertyClass) {
       this.instance.propertyClass(propertyClass);
       return this;
     }
-    
     /**
     * returns a built ClassModel instance.
     *
@@ -140,4 +138,3 @@ public class ClassModel {
   }
 
 }
-

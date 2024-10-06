@@ -52,8 +52,8 @@ public class Cat extends Animal {
    * Constructor with all args parameters
    */
   public Cat(Boolean declawed, String className, String color) {
-      super(className, color);
-      this.declawed = declawed;
+    super(className, color);
+    this.declawed = declawed;
   }
 
   public Cat declawed(Boolean declawed) {
@@ -65,7 +65,6 @@ public class Cat extends Animal {
    * Get declawed
    * @return declawed
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("declawed")
   public Boolean getDeclawed() {
@@ -125,4 +124,3 @@ public class Cat extends Animal {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

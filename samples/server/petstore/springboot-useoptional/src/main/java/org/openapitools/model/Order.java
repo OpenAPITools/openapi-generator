@@ -75,8 +75,8 @@ public class Order {
 
   private Optional<Boolean> complete = Optional.of(false);
 
-  public Order id(Long id) {
-    this.id = Optional.of(id);
+  public Order id(Optional<Long> id) {
+    this.id = id;
     return this;
   }
 
@@ -84,7 +84,6 @@ public class Order {
    * Get id
    * @return id
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Optional<Long> getId() {
@@ -95,8 +94,8 @@ public class Order {
     this.id = id;
   }
 
-  public Order petId(Long petId) {
-    this.petId = Optional.of(petId);
+  public Order petId(Optional<Long> petId) {
+    this.petId = petId;
     return this;
   }
 
@@ -104,7 +103,6 @@ public class Order {
    * Get petId
    * @return petId
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("petId")
   public Optional<Long> getPetId() {
@@ -115,8 +113,8 @@ public class Order {
     this.petId = petId;
   }
 
-  public Order quantity(Integer quantity) {
-    this.quantity = Optional.of(quantity);
+  public Order quantity(Optional<Integer> quantity) {
+    this.quantity = quantity;
     return this;
   }
 
@@ -124,7 +122,6 @@ public class Order {
    * Get quantity
    * @return quantity
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("quantity")
   public Optional<Integer> getQuantity() {
@@ -135,8 +132,8 @@ public class Order {
     this.quantity = quantity;
   }
 
-  public Order shipDate(OffsetDateTime shipDate) {
-    this.shipDate = Optional.of(shipDate);
+  public Order shipDate(Optional<OffsetDateTime> shipDate) {
+    this.shipDate = shipDate;
     return this;
   }
 
@@ -144,7 +141,6 @@ public class Order {
    * Get shipDate
    * @return shipDate
    */
-  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("shipDate")
   public Optional<OffsetDateTime> getShipDate() {
@@ -155,8 +151,8 @@ public class Order {
     this.shipDate = shipDate;
   }
 
-  public Order status(StatusEnum status) {
-    this.status = Optional.of(status);
+  public Order status(Optional<StatusEnum> status) {
+    this.status = status;
     return this;
   }
 
@@ -164,7 +160,6 @@ public class Order {
    * Order Status
    * @return status
    */
-  
   @ApiModelProperty(value = "Order Status")
   @JsonProperty("status")
   public Optional<StatusEnum> getStatus() {
@@ -175,8 +170,8 @@ public class Order {
     this.status = status;
   }
 
-  public Order complete(Boolean complete) {
-    this.complete = Optional.of(complete);
+  public Order complete(Optional<Boolean> complete) {
+    this.complete = complete;
     return this;
   }
 
@@ -184,7 +179,6 @@ public class Order {
    * Get complete
    * @return complete
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("complete")
   public Optional<Boolean> getComplete() {
@@ -264,36 +258,30 @@ public class Order {
       return this;
     }
 
-    public Order.Builder id(Long id) {
+    public Order.Builder id(Optional<Long> id) {
       this.instance.id(id);
       return this;
     }
-    
-    public Order.Builder petId(Long petId) {
+    public Order.Builder petId(Optional<Long> petId) {
       this.instance.petId(petId);
       return this;
     }
-    
-    public Order.Builder quantity(Integer quantity) {
+    public Order.Builder quantity(Optional<Integer> quantity) {
       this.instance.quantity(quantity);
       return this;
     }
-    
-    public Order.Builder shipDate(OffsetDateTime shipDate) {
+    public Order.Builder shipDate(Optional<OffsetDateTime> shipDate) {
       this.instance.shipDate(shipDate);
       return this;
     }
-    
-    public Order.Builder status(StatusEnum status) {
+    public Order.Builder status(Optional<StatusEnum> status) {
       this.instance.status(status);
       return this;
     }
-    
-    public Order.Builder complete(Boolean complete) {
+    public Order.Builder complete(Optional<Boolean> complete) {
       this.instance.complete(complete);
       return this;
     }
-    
     /**
     * returns a built Order instance.
     *
@@ -330,4 +318,3 @@ public class Order {
   }
 
 }
-

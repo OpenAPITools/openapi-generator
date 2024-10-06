@@ -35,7 +35,7 @@ public class ModelReturn {
    * Constructor with all args parameters
    */
   public ModelReturn(Integer _return) {
-      this._return = _return;
+    this._return = _return;
   }
 
   public ModelReturn _return(Integer _return) {
@@ -47,7 +47,6 @@ public class ModelReturn {
    * Get _return
    * @return _return
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("return")
   public Integer getReturn() {
@@ -95,4 +94,3 @@ public class ModelReturn {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

@@ -27,15 +27,14 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class NullableMapProperty {
 
-  @Valid
-  private JsonNullable<Map<String, String>> languageValues = JsonNullable.<Map<String, String>>undefined();
+  private JsonNullable<Map<String, Optional<String>>> languageValues = JsonNullable.undefined();
 
-  public NullableMapProperty languageValues(Map<String, String> languageValues) {
-    this.languageValues = JsonNullable.of(languageValues);
+  public NullableMapProperty languageValues(JsonNullable<Map<String, Optional<String>>> languageValues) {
+    this.languageValues = languageValues;
     return this;
   }
 
-  public NullableMapProperty putLanguageValuesItem(String key, String languageValuesItem) {
+  public NullableMapProperty putLanguageValuesItem(String key, Optional<String> languageValuesItem) {
     if (this.languageValues == null || !this.languageValues.isPresent()) {
       this.languageValues = JsonNullable.of(new HashMap<>());
     }
@@ -47,14 +46,13 @@ public class NullableMapProperty {
    * Get languageValues
    * @return languageValues
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("languageValues")
-  public JsonNullable<Map<String, String>> getLanguageValues() {
+  public JsonNullable<Map<String, Optional<String>>> getLanguageValues() {
     return languageValues;
   }
 
-  public void setLanguageValues(JsonNullable<Map<String, String>> languageValues) {
+  public void setLanguageValues(JsonNullable<Map<String, Optional<String>>> languageValues) {
     this.languageValues = languageValues;
   }
 
@@ -123,16 +121,10 @@ public class NullableMapProperty {
       return this;
     }
 
-    public NullableMapProperty.Builder languageValues(Map<String, String> languageValues) {
+    public NullableMapProperty.Builder languageValues(JsonNullable<Map<String, Optional<String>>> languageValues) {
       this.instance.languageValues(languageValues);
       return this;
     }
-    
-    public NullableMapProperty.Builder languageValues(JsonNullable<Map<String, String>> languageValues) {
-      this.instance.languageValues = languageValues;
-      return this;
-    }
-    
     /**
     * returns a built NullableMapProperty instance.
     *
@@ -169,4 +161,3 @@ public class NullableMapProperty {
   }
 
 }
-

@@ -36,7 +36,7 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class Animal {
 
-  private String className;
+  private @NotNull String className;
 
   private String color = "red";
 
@@ -55,8 +55,8 @@ public class Animal {
    * Constructor with all args parameters
    */
   public Animal(String className, String color) {
-      this.className = className;
-      this.color = color;
+    this.className = className;
+    this.color = color;
   }
 
   public Animal className(String className) {
@@ -68,10 +68,9 @@ public class Animal {
    * Get className
    * @return className
    */
-  @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("className")
-  public String getClassName() {
+  public @NotNull String getClassName() {
     return className;
   }
 
@@ -88,7 +87,6 @@ public class Animal {
    * Get color
    * @return color
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("color")
   public String getColor() {
@@ -138,4 +136,3 @@ public class Animal {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

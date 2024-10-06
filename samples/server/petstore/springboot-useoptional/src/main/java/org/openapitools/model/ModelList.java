@@ -26,8 +26,8 @@ public class ModelList {
 
   private Optional<String> _123list = Optional.empty();
 
-  public ModelList _123list(String _123list) {
-    this._123list = Optional.of(_123list);
+  public ModelList _123list(Optional<String> _123list) {
+    this._123list = _123list;
     return this;
   }
 
@@ -35,7 +35,6 @@ public class ModelList {
    * Get _123list
    * @return _123list
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("123-list")
   public Optional<String> get123list() {
@@ -100,11 +99,10 @@ public class ModelList {
       return this;
     }
 
-    public ModelList.Builder _123list(String _123list) {
+    public ModelList.Builder _123list(Optional<String> _123list) {
       this.instance._123list(_123list);
       return this;
     }
-    
     /**
     * returns a built ModelList instance.
     *
@@ -141,4 +139,3 @@ public class ModelList {
   }
 
 }
-

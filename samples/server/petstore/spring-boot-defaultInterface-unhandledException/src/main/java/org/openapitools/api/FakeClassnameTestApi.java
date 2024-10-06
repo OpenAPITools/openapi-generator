@@ -66,7 +66,7 @@ public interface FakeClassnameTestApi {
     )
     
     ResponseEntity<Client> testClassname(
-        @Parameter(name = "Client", description = "client model", required = true) @Valid @RequestBody Client client
+        @Parameter(name = "Client", description = "client model", required = true) @RequestBody @NotNull @Valid Client client
     ) throws Exception;
 
 }

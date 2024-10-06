@@ -33,7 +33,6 @@ public class TypeHolderExample {
 
   private Boolean boolItem;
 
-  
   private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderExample() {
@@ -221,4 +220,3 @@ public class TypeHolderExample {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

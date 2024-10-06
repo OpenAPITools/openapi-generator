@@ -79,4 +79,3 @@ public class ReturnDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-
