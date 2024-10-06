@@ -1,4 +1,3 @@
-using FastEndpoints;
 {{#useValidators}}using FluentValidation;{{/useValidators}}
 using {{packageName}}.Models;
 
@@ -9,7 +8,7 @@ namespace {{packageName}}.{{apiPackage}};
 
 {{#useValidators}}
 {{#operations}}{{#operation}}
-public class {{operationId}}RequestValidator : Validator<{{operationId}}Request>
+public class {{operationId}}RequestValidator : FastEndpoints.Validator<{{operationId}}Request>
 {
     public {{operationId}}RequestValidator()
     {
