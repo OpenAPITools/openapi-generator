@@ -8,29 +8,32 @@ and `validate_response/4` respectively.
 
 For example, the user-defined `Module:accept_callback/4` can be implemented as follows:
 ```
--spec accept_callback(atom(), openapi_api:operation_id(), cowboy_req:req(), context()) ->
-    {cowboy:http_status(), cowboy:http_headers(), json:encode_value()}.
-accept_callback(Class, OperationID, Req, Context) ->
+-spec accept_callback(
+        Class :: openapi_api:class(),
+        OperationID :: openapi_api:operation_id(),
+        Req :: cowboy_req:req(),
+        Context :: openapi_logic_handler:context()) ->
+    {openapi_logic_handler:accept_callback_return(),
+     cowboy_req:req(),
+     openapi_logic_handler:context()}.
+accept_callback(Class, OperationID, Req0, Context0) ->
     ValidatorState = openapi_api:prepare_validator(),
     case openapi_api:populate_request(OperationID, Req0, ValidatorState) of
-        {ok, Populated, Req1} ->
-            {Code, Headers, Body} = openapi_logic_handler:handle_request(
-                LogicHandler,
-                OperationID,
-                Req1,
-                maps:merge(State#state.context, Populated)
-            ),
-            _ = openapi_api:validate_response(
-                OperationID,
-                Code,
-                Body,
-                ValidatorState
-            ),
-            PreparedBody = prepare_body(Code, Body),
-            Response = {ok, {Code, Headers, PreparedBody}},
-            process_response(Response, Req1, State);
+        {ok, Model, Req1} ->
+            Context1 = maps:merge(Context0, Model),
+            case do_accept_callback(Class, OperationID, Req1, Context1) of
+                {false, Req2, Context2} ->
+                    {false, Req2, Context2};
+                {{true, Code, Body}, Req2, Context2} ->
+                    case validate_response(OperationID, Code, Body, ValidatorState) of
+                        ok ->
+                            process_response({ok, Code, Body}, Req2, Context2);
+                        {error, Reason} ->
+                            process_response({error, Reason}, Req2, Context2)
+                    end
+            end;
         {error, Reason, Req1} ->
-            process_response({error, Reason}, Req1, State)
+            process_response({error, Reason}, Req1, Context0)
     end.
 ```
 """.
@@ -46,7 +49,7 @@ accept_callback(Class, OperationID, Req, Context) ->
 {{/operations}}{{/apis}}{{/apiInfo}}
 
 -type operation_id() ::
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}    '{{operationIdOriginal}}' |
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}    '{{operationIdOriginal}}' | %% {{summary}}
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}    {error, unknown_operation}.
 
 -type request_param() :: atom().

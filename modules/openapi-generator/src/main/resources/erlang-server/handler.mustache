@@ -4,6 +4,7 @@ Exposes the following operation IDs:
 {{#operations}}{{#operation}}
 - `{{httpMethod}}` to `{{path}}`, OperationId: `{{operationIdOriginal}}`:
 {{summary}}.
+{{notes}}
 {{/operation}}{{/operations}}
 """.
 
@@ -28,7 +29,7 @@ Exposes the following operation IDs:
 -type class() :: '{{operations.pathPrefix}}'.
 
 -type operation_id() ::
-{{#operations}}{{#operation}}    {{^-first}}| {{/-first}}'{{operationIdOriginal}}'{{#-last}}.{{/-last}}
+{{#operations}}{{#operation}}    {{^-first}}| {{/-first}}'{{operationIdOriginal}}'{{#-last}}.{{/-last}} %% {{summary}}
 {{/operation}}{{/operations}}
 
 -record(state,
