@@ -94,6 +94,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     public static final String PREFER_UNSIGNED_INT = "preferUnsignedInt";
     public static final String BEST_FIT_INT = "bestFitInt";
     public static final String AVOID_BOXED_MODELS = "avoidBoxedModels";
+    public static final String TOP_LEVEL_API_CLIENT = "topLevelApiClient";
     public static final String MOCKALL = "mockall";
 
     @Setter protected String packageName = "openapi";
@@ -235,6 +236,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         cliOptions.add(new CliOption(AVOID_BOXED_MODELS, "If set, `Box<T>` will not be used for models", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(MOCKALL, "Adds `#[automock]` from the mockall crate to api traits. This option is for 'reqwest-trait' library only", SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(TOP_LEVEL_API_CLIENT, "Creates a top level `Api` trait and `ApiClient` struct that contain all Apis. This option is for 'reqwest-trait' library only", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put(HYPER_LIBRARY, "HTTP client: Hyper (v1.x).");
