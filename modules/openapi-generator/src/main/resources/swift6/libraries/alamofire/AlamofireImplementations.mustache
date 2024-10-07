@@ -36,11 +36,11 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
      May be overridden by a subclass if you want to control the session
      configuration.
      */
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func createAlamofireSession(interceptor: RequestInterceptor? = nil) -> Alamofire.Session {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func createAlamofireSession() -> Alamofire.Session {
         let configuration = URLSessionConfiguration.default
         configuration.httpAdditionalHeaders = buildHeaders()
         return Alamofire.Session(configuration: configuration,
-                                 interceptor: interceptor)
+                                 interceptor: openAPIClient.interceptor)
     }
 
     /**

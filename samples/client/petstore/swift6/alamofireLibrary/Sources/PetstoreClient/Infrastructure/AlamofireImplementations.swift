@@ -36,11 +36,11 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
      May be overridden by a subclass if you want to control the session
      configuration.
      */
-    open func createAlamofireSession(interceptor: RequestInterceptor? = nil) -> Alamofire.Session {
+    open func createAlamofireSession() -> Alamofire.Session {
         let configuration = URLSessionConfiguration.default
         configuration.httpAdditionalHeaders = buildHeaders()
         return Alamofire.Session(configuration: configuration,
-                                 interceptor: interceptor)
+                                 interceptor: openAPIClient.interceptor)
     }
 
     /**
