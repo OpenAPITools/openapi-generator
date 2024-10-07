@@ -412,7 +412,7 @@ class ApiClient:
                 data = ""
             else:
                 data = json.loads(response_text)
-        elif re.match(r'^text/plain\s*(;|$)', content_type, re.IGNORECASE):
+        elif re.match(r'^text\/[a-z.+-]+\s*(;|$)', content_type, re.IGNORECASE):
             data = response_text
         else:
             raise ApiException(
