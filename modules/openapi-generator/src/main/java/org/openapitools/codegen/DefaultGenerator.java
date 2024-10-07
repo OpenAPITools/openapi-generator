@@ -1441,6 +1441,8 @@ public class DefaultGenerator implements Generator {
         return processTemplateToFile(templateData, templateName, outputFilename, shouldGenerate, skippedByOption, this.config.getOutputDir());
     }
 
+    private final Set<String> seenFiles = new HashSet<>();
+
     private File processTemplateToFile(Map<String, Object> templateData, String templateName, String outputFilename, boolean shouldGenerate, String skippedByOption, String intendedOutputDir) throws IOException {
         String adjustedOutputFilename = outputFilename.replaceAll("//", "/").replace('/', File.separatorChar);
         File target = new File(adjustedOutputFilename);
@@ -1451,6 +1453,11 @@ public class DefaultGenerator implements Generator {
                 if (!absoluteTarget.startsWith(outDir)) {
                     throw new RuntimeException(String.format(Locale.ROOT, "Target files must be generated within the output directory; absoluteTarget=%s outDir=%s", absoluteTarget, outDir));
                 }
+
+                if (seenFiles.stream().filter(f -> f.toLowerCase(Locale.ROOT).equals(absoluteTarget.toString().toLowerCase(Locale.ROOT))).findAny().isPresent()) {
+                    LOGGER.warn("Duplicate file path detected. Not all operating systems can handle case sensitive file paths. path={}", absoluteTarget.toString());
+                }
+                seenFiles.add(absoluteTarget.toString());
                 return this.templateProcessor.write(templateData, templateName, target);
             } else {
                 this.templateProcessor.skip(target.toPath(), String.format(Locale.ROOT, "Skipped by %s options supplied by user.", skippedByOption));
