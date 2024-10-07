@@ -24,8 +24,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import java.util.HashMap;
-import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
@@ -37,12 +35,11 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 @javax.annotation.concurrent.Immutable
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
-public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
+public class AdditionalPropertiesBoolean {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
   public AdditionalPropertiesBoolean() {
-
   }
 
   public AdditionalPropertiesBoolean name(String name) {
@@ -124,20 +121,20 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
     }
     AdditionalPropertiesBoolean additionalPropertiesBoolean = (AdditionalPropertiesBoolean) o;
     return Objects.equals(this.name, additionalPropertiesBoolean.name) &&
-        super.equals(o);
+        Objects.equals(this.additionalProperties, additionalPropertiesBoolean.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, super.hashCode());
+    return Objects.hash(name, additionalProperties);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AdditionalPropertiesBoolean {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }
