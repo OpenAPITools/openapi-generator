@@ -44,11 +44,11 @@ pub fn get_parameter_name_mapping(configuration: &configuration::Configuration, 
     let local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
     } else {
+        let local_var_content = local_var_resp.text()?;
         let local_var_entity: Option<GetParameterNameMappingError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
