@@ -11,10 +11,10 @@
 -type api_key_callback() ::
     fun(({{packageName}}_api:operation_id(), binary()) -> {true, context()} | {false, iodata()}).
 -type accept_callback() ::
-    fun((atom(), {{packageName}}_api:operation_id(), cowboy_req:req(), context()) ->
+    fun(({{packageName}}_api:class(), {{packageName}}_api:operation_id(), cowboy_req:req(), context()) ->
             {accept_callback_return(), cowboy_req:req(), context()}).
 -type provide_callback() ::
-    fun((atom(), {{packageName}}_api:operation_id(), cowboy_req:req(), context()) ->
+    fun(({{packageName}}_api:class(), {{packageName}}_api:operation_id(), cowboy_req:req(), context()) ->
             {cowboy_req:resp_body(), cowboy_req:req(), context()}).
 -type context() :: #{_ := _}.
 
@@ -26,10 +26,10 @@
 -callback api_key_callback({{packageName}}_api:operation_id(), binary()) ->
     {true, context()} | {false, iodata()}.
 
--callback accept_callback(atom(), {{packageName}}_api:operation_id(), cowboy_req:req(), context()) ->
+-callback accept_callback({{packageName}}_api:class(), {{packageName}}_api:operation_id(), cowboy_req:req(), context()) ->
     {accept_callback_return(), cowboy_req:req(), context()}.
 
--callback provide_callback(atom(), {{packageName}}_api:operation_id(), cowboy_req:req(), context()) ->
+-callback provide_callback({{packageName}}_api:class(), {{packageName}}_api:operation_id(), cowboy_req:req(), context()) ->
     {cowboy_req:resp_body(), cowboy_req:req(), context()}.
 
 -export([api_key_callback/2, accept_callback/4, provide_callback/4]).
@@ -42,7 +42,7 @@ api_key_callback(OperationID, ApiKey) ->
                  api_key => ApiKey}),
     {true, #{}}.
 
--spec accept_callback(atom(), {{packageName}}_api:operation_id(), cowboy_req:req(), context()) ->
+-spec accept_callback({{packageName}}_api:class(), {{packageName}}_api:operation_id(), cowboy_req:req(), context()) ->
     {accept_callback_return(), cowboy_req:req(), context()}.
 accept_callback(Class, OperationID, Req, Context) ->
     ?LOG_ERROR(#{what => "Got not implemented request to process",
@@ -52,7 +52,7 @@ accept_callback(Class, OperationID, Req, Context) ->
                  context => Context}),
     {false, Req, Context}.
 
--spec provide_callback(atom(), {{packageName}}_api:operation_id(), cowboy_req:req(), context()) ->
+-spec provide_callback({{packageName}}_api:class(), {{packageName}}_api:operation_id(), cowboy_req:req(), context()) ->
     {cowboy_req:resp_body(), cowboy_req:req(), context()}.
 provide_callback(Class, OperationID, Req, Context) ->
     ?LOG_ERROR(#{what => "Got not implemented request to process",
