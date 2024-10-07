@@ -76,6 +76,7 @@ The following generators are available:
 * [typescript-jquery](generators/typescript-jquery.md)  
 * [typescript-nestjs (experimental)](generators/typescript-nestjs.md)  
 * [typescript-node](generators/typescript-node.md)  
+* [typescript-playwright](generators/typescript-playwright.md)  
 * [typescript-redux-query](generators/typescript-redux-query.md)  
 * [typescript-rxjs](generators/typescript-rxjs.md)  
 * [xojo-client](generators/xojo-client.md)  
