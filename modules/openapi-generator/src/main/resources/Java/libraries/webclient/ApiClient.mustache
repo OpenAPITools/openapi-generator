@@ -37,6 +37,9 @@ import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
+{{#generateClientAsBean}}
+import org.springframework.stereotype.Component;
+{{/generateClientAsBean}}
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 import java.util.Optional;
@@ -76,6 +79,9 @@ import {{invokerPackage}}.auth.OAuth;
 {{/hasOAuthMethods}}
 
 {{>generatedAnnotation}}
+{{#generateClientAsBean}}
+@Component("{{invokerPackage}}.ApiClient")
+{{/generateClientAsBean}}
 public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
