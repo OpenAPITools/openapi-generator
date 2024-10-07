@@ -121,7 +121,7 @@ Endpoints do not require authorization.
 ## Api Information
 - appName: OpenAPI Dates
 - appVersion: 1.0.0
-- appDescription: Thic spec contains endpoints with dates in different formats
+- appDescription: This spec contains endpoints with dates in different formats
 
 ## [OpenApi Global properties](https://openapi-generator.tech/docs/globals)
 - generateAliasAsModel: 

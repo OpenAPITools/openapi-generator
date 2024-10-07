@@ -1060,7 +1060,7 @@ components:
         type: integer
       description: string or int
     OneOfStringOrInt:
-      description: string or int (onefOf)
+      description: string or int (oneOf)
       oneOf:
       - type: string
       - type: integer

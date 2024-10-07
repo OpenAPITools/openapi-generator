@@ -868,7 +868,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
      * <p>
      * The data variant can have nulls and other non-scala things, but they know how to create validated model objects.
      * <p>
-     * This 'asScalaDataType' is used to ensure the type hierarchy is correct for both the model and data varients.
+     * This 'asScalaDataType' is used to ensure the type hierarchy is correct for both the model and data variants.
      * <p>
      * e.g. consider this example:
      * ```

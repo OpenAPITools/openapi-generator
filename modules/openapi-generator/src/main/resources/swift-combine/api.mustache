@@ -74,7 +74,7 @@ open class {{classname}} {
     /// - defaultResponse: {{.}}{{/defaultResponse}}
     {{#authMethods}}
     /// - {{#isBasicBasic}}BASIC{{/isBasicBasic}}{{#isOAuth}}OAuth{{/isOAuth}}{{#isApiKey}}API Key{{/isApiKey}}:
-    /// - type: {{type}}{{#keyParamName}} {{keyParamName}} {{#isKeyInQuery}}(QUERY){{/isKeyInQuery}}{{#isKeyInHeaer}}(HEADER){{/isKeyInHeaer}}{{/keyParamName}}
+    /// - type: {{type}}{{#keyParamName}} {{keyParamName}} {{#isKeyInQuery}}(QUERY){{/isKeyInQuery}}{{#isKeyInHeader}}(HEADER){{/isKeyInHeader}}{{/keyParamName}}
     /// - name: {{name}}
     {{/authMethods}}
     {{#hasResponseHeaders}}

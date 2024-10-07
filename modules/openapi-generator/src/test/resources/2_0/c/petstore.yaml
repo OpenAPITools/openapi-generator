@@ -726,7 +726,7 @@ definitions:
         type: string
         format: uuid
         default: 1111-2222-3333-4444
-  model_with_set_propertes:
+  model_with_set_properties:
     description: to test set properties
     type: object
     properties:

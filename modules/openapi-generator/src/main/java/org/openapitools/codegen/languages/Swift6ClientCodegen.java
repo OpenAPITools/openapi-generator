@@ -345,7 +345,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                 .defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(new CliOption(VALIDATABLE,
-                "Make validation rules and validator for model properies (default: true)")
+                "Make validation rules and validator for model properties (default: true)")
                 .defaultValue(Boolean.TRUE.toString()));
 
         cliOptions.add(new CliOption(API_STATIC_METHOD,
