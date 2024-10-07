@@ -126,7 +126,7 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
             return null
         } else if (T::class.java == Unit::class.java) {
             // No need to parse the body when we're not interested in the body
-            // Or when other content-type
+            // Useful when API is returning other Content-Type
             return null
         } else if (T::class.java == File::class.java) {
             // return tempFile
