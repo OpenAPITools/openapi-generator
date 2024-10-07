@@ -48,9 +48,9 @@ public class MapTest {
    * Gets or Sets inner
    */
   public enum InnerEnum {
-    UPPER("UPPER"),
+    UPPER(String.valueOf("UPPER")),
     
-    LOWER("lower");
+    LOWER(String.valueOf("lower"));
 
     private String value;
 

@@ -54,11 +54,11 @@ public class Order {
    * Order Status
    */
   public enum StatusEnum {
-    PLACED("placed"),
+    PLACED(String.valueOf("placed")),
     
-    APPROVED("approved"),
+    APPROVED(String.valueOf("approved")),
     
-    DELIVERED("delivered");
+    DELIVERED(String.valueOf("delivered"));
 
     private String value;
 
