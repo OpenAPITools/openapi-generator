@@ -90,7 +90,11 @@ Pet <- R6::R6Class(
       }
       if (!is.null(self$`category`)) {
         PetObject[["category"]] <-
-          self$`category`$toJSON()
+          if (length(names(self$`category`$toJSON())) == 0L && is.character(jsonlite::fromJSON(self$`category`$toJSON()))) {
+            jsonlite::fromJSON(self$`category`$toJSON())
+          } else {
+            self$`category`$toJSON()
+          }
       }
       if (!is.null(self$`photoUrls`)) {
         PetObject[["photoUrls"]] <-

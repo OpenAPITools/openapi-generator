@@ -52,7 +52,11 @@ UpdatePetRequest <- R6::R6Class(
       UpdatePetRequestObject <- list()
       if (!is.null(self$`jsonData`)) {
         UpdatePetRequestObject[["jsonData"]] <-
-          self$`jsonData`$toJSON()
+          if (length(names(self$`jsonData`$toJSON())) == 0L && is.character(jsonlite::fromJSON(self$`jsonData`$toJSON()))) {
+            jsonlite::fromJSON(self$`jsonData`$toJSON())
+          } else {
+            self$`jsonData`$toJSON()
+          }
       }
       if (!is.null(self$`binaryDataN2Information`)) {
         UpdatePetRequestObject[["binaryDataN2Information"]] <-
