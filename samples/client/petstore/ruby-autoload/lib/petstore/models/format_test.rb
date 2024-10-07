@@ -197,55 +197,67 @@ module Petstore
     def list_invalid_properties
       warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
       invalid_properties = Array.new
-      if !@integer.nil? && @integer > 100
-        invalid_properties.push('invalid value for "integer", must be smaller than or equal to 100.')
-      end
+      if !@integer.nil?
+        if !@integer.nil? && @integer > 100
+          invalid_properties.push('invalid value for "integer", must be smaller than or equal to 100.')
+        end
 
-      if !@integer.nil? && @integer < 10
-        invalid_properties.push('invalid value for "integer", must be greater than or equal to 10.')
-      end
+        if !@integer.nil? && @integer < 10
+          invalid_properties.push('invalid value for "integer", must be greater than or equal to 10.')
+        end
 
-      if !@int32.nil? && @int32 > 200
-        invalid_properties.push('invalid value for "int32", must be smaller than or equal to 200.')
-      end
+        end
+      if !@int32.nil?
+        if !@int32.nil? && @int32 > 200
+          invalid_properties.push('invalid value for "int32", must be smaller than or equal to 200.')
+        end
 
-      if !@int32.nil? && @int32 < 20
-        invalid_properties.push('invalid value for "int32", must be greater than or equal to 20.')
-      end
+        if !@int32.nil? && @int32 < 20
+          invalid_properties.push('invalid value for "int32", must be greater than or equal to 20.')
+        end
 
+        end
       if @number.nil?
         invalid_properties.push('invalid value for "number", number cannot be nil.')
       end
 
-      if @number > 543.2
-        invalid_properties.push('invalid value for "number", must be smaller than or equal to 543.2.')
-      end
+      if !@number.nil?
+        if @number > 543.2
+          invalid_properties.push('invalid value for "number", must be smaller than or equal to 543.2.')
+        end
 
-      if @number < 32.1
-        invalid_properties.push('invalid value for "number", must be greater than or equal to 32.1.')
-      end
+        if @number < 32.1
+          invalid_properties.push('invalid value for "number", must be greater than or equal to 32.1.')
+        end
 
-      if !@float.nil? && @float > 987.6
-        invalid_properties.push('invalid value for "float", must be smaller than or equal to 987.6.')
-      end
+        end
+      if !@float.nil?
+        if !@float.nil? && @float > 987.6
+          invalid_properties.push('invalid value for "float", must be smaller than or equal to 987.6.')
+        end
 
-      if !@float.nil? && @float < 54.3
-        invalid_properties.push('invalid value for "float", must be greater than or equal to 54.3.')
-      end
+        if !@float.nil? && @float < 54.3
+          invalid_properties.push('invalid value for "float", must be greater than or equal to 54.3.')
+        end
 
-      if !@double.nil? && @double > 123.4
-        invalid_properties.push('invalid value for "double", must be smaller than or equal to 123.4.')
-      end
+        end
+      if !@double.nil?
+        if !@double.nil? && @double > 123.4
+          invalid_properties.push('invalid value for "double", must be smaller than or equal to 123.4.')
+        end
 
-      if !@double.nil? && @double < 67.8
-        invalid_properties.push('invalid value for "double", must be greater than or equal to 67.8.')
-      end
+        if !@double.nil? && @double < 67.8
+          invalid_properties.push('invalid value for "double", must be greater than or equal to 67.8.')
+        end
 
-      pattern = Regexp.new(/[a-z]/i)
-      if !@string.nil? && @string !~ pattern
-        invalid_properties.push("invalid value for \"string\", must conform to the pattern #{pattern}.")
-      end
+        end
+      if !@string.nil?
+        pattern = Regexp.new(/[a-z]/i)
+        if !@string.nil? && @string !~ pattern
+          invalid_properties.push("invalid value for \"string\", must conform to the pattern #{pattern}.")
+        end
 
+        end
       if @byte.nil?
         invalid_properties.push('invalid value for "byte", byte cannot be nil.')
       end
@@ -258,24 +270,30 @@ module Petstore
         invalid_properties.push('invalid value for "password", password cannot be nil.')
       end
 
-      if @password.to_s.length > 64
-        invalid_properties.push('invalid value for "password", the character length must be smaller than or equal to 64.')
-      end
+      if !@password.nil?
+        if @password.to_s.length > 64
+          invalid_properties.push('invalid value for "password", the character length must be smaller than or equal to 64.')
+        end
 
-      if @password.to_s.length < 10
-        invalid_properties.push('invalid value for "password", the character length must be great than or equal to 10.')
-      end
+        if @password.to_s.length < 10
+          invalid_properties.push('invalid value for "password", the character length must be great than or equal to 10.')
+        end
 
-      pattern = Regexp.new(/^\d{10}$/)
-      if !@pattern_with_digits.nil? && @pattern_with_digits !~ pattern
-        invalid_properties.push("invalid value for \"pattern_with_digits\", must conform to the pattern #{pattern}.")
-      end
+        end
+      if !@pattern_with_digits.nil?
+        pattern = Regexp.new(/^\d{10}$/)
+        if !@pattern_with_digits.nil? && @pattern_with_digits !~ pattern
+          invalid_properties.push("invalid value for \"pattern_with_digits\", must conform to the pattern #{pattern}.")
+        end
 
-      pattern = Regexp.new(/^image_\d{1,3}$/i)
-      if !@pattern_with_digits_and_delimiter.nil? && @pattern_with_digits_and_delimiter !~ pattern
-        invalid_properties.push("invalid value for \"pattern_with_digits_and_delimiter\", must conform to the pattern #{pattern}.")
-      end
+        end
+      if !@pattern_with_digits_and_delimiter.nil?
+        pattern = Regexp.new(/^image_\d{1,3}$/i)
+        if !@pattern_with_digits_and_delimiter.nil? && @pattern_with_digits_and_delimiter !~ pattern
+          invalid_properties.push("invalid value for \"pattern_with_digits_and_delimiter\", must conform to the pattern #{pattern}.")
+        end
 
+        end
       invalid_properties
     end
 
