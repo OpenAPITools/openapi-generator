@@ -12,7 +12,7 @@ import PetstoreClient
 public class BearerOpenAPIInterceptor: OpenAPIInterceptor {
     public init() {}
     
-    public func intercept(urlRequest: URLRequest, urlSession: URLSessionProtocol, completion: @escaping (Result<URLRequest, any Error>) -> Void) {
+    public func intercept(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, completion: @escaping (Result<URLRequest, any Error>) -> Void) {
         BearerTokenHandler.shared.refreshTokenIfDoesntExist { token in
             
             // Change the current url request
@@ -20,13 +20,13 @@ public class BearerOpenAPIInterceptor: OpenAPIInterceptor {
             newUrlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
             
             // Change the global headers
-            OpenAPIClient.shared.customHeaders["Authorization"] = "Bearer \(token)"
+            openAPIClient.customHeaders["Authorization"] = "Bearer \(token)"
             
             completion(.success(newUrlRequest))
         }
     }
     
-    public func retry(urlRequest: URLRequest, urlSession: URLSessionProtocol, data: Data?, response: URLResponse, error: Error, completion: @escaping (OpenAPIInterceptorRetry) -> Void) {
+    public func retry(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, data: Data?, response: URLResponse, error: Error, completion: @escaping (OpenAPIInterceptorRetry) -> Void) {
         // We will analyse the response to see if it's a 401, and if it's a 401, we will refresh the token and retry the request
         BearerTokenHandler.shared.refreshTokenIfUnauthorizedRequestResponse(
             data: data,
@@ -37,7 +37,7 @@ public class BearerOpenAPIInterceptor: OpenAPIInterceptor {
             if wasTokenRefreshed, let newToken = newToken {
                 
                 // Change the global headers
-                OpenAPIClient.shared.customHeaders["Authorization"] = "Bearer \(newToken)"
+                openAPIClient.customHeaders["Authorization"] = "Bearer \(newToken)"
                 
                 completion(.retry)
             } else {
