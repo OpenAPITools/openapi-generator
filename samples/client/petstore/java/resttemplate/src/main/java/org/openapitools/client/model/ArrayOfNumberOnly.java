@@ -81,6 +81,7 @@ public class ArrayOfNumberOnly {
     this.arrayNumber = arrayNumber;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

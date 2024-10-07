@@ -94,6 +94,7 @@ public class ChildWithNullable extends ParentWithNullable {
     return this;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -156,6 +156,7 @@ public class ParentWithNullable {
     this.nullableProperty = JsonNullable.<String>of(nullableProperty);
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
