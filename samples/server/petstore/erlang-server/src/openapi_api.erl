@@ -8,29 +8,32 @@ and `validate_response/4` respectively.
 
 For example, the user-defined `Module:accept_callback/4` can be implemented as follows:
 ```
--spec accept_callback(atom(), openapi_api:operation_id(), cowboy_req:req(), context()) ->
-    {cowboy:http_status(), cowboy:http_headers(), json:encode_value()}.
-accept_callback(Class, OperationID, Req, Context) ->
+-spec accept_callback(
+        Class :: openapi_api:class(),
+        OperationID :: openapi_api:operation_id(),
+        Req :: cowboy_req:req(),
+        Context :: openapi_logic_handler:context()) ->
+    {openapi_logic_handler:accept_callback_return(),
+     cowboy_req:req(),
+     openapi_logic_handler:context()}.
+accept_callback(Class, OperationID, Req0, Context0) ->
     ValidatorState = openapi_api:prepare_validator(),
     case openapi_api:populate_request(OperationID, Req0, ValidatorState) of
-        {ok, Populated, Req1} ->
-            {Code, Headers, Body} = openapi_logic_handler:handle_request(
-                LogicHandler,
-                OperationID,
-                Req1,
-                maps:merge(State#state.context, Populated)
-            ),
-            _ = openapi_api:validate_response(
-                OperationID,
-                Code,
-                Body,
-                ValidatorState
-            ),
-            PreparedBody = prepare_body(Code, Body),
-            Response = {ok, {Code, Headers, PreparedBody}},
-            process_response(Response, Req1, State);
+        {ok, Model, Req1} ->
+            Context1 = maps:merge(Context0, Model),
+            case do_accept_callback(Class, OperationID, Req1, Context1) of
+                {false, Req2, Context2} ->
+                    {false, Req2, Context2};
+                {{true, Code, Body}, Req2, Context2} ->
+                    case validate_response(OperationID, Code, Body, ValidatorState) of
+                        ok ->
+                            process_response({ok, Code, Body}, Req2, Context2);
+                        {error, Reason} ->
+                            process_response({error, Reason}, Req2, Context2)
+                    end
+            end;
         {error, Reason, Req1} ->
-            process_response({error, Reason}, Req1, State)
+            process_response({error, Reason}, Req1, Context0)
     end.
 ```
 """.
@@ -41,10 +44,38 @@ accept_callback(Class, OperationID, Req, Context) ->
 -ignore_xref([populate_request/3, validate_response/4]).
 -ignore_xref([prepare_validator/0, prepare_validator/1, prepare_validator/2]).
 
--type operation_id() :: atom().
+-type class() ::
+    'pet'
+    | 'store'
+    | 'user'.
+
+
+-type operation_id() ::
+    'addPet' | %% Add a new pet to the store
+    'deletePet' | %% Deletes a pet
+    'findPetsByStatus' | %% Finds Pets by status
+    'findPetsByTags' | %% Finds Pets by tags
+    'getPetById' | %% Find pet by ID
+    'updatePet' | %% Update an existing pet
+    'updatePetWithForm' | %% Updates a pet in the store with form data
+    'uploadFile' | %% uploads an image
+    'deleteOrder' | %% Delete purchase order by ID
+    'getInventory' | %% Returns pet inventories by status
+    'getOrderById' | %% Find purchase order by ID
+    'placeOrder' | %% Place an order for a pet
+    'createUser' | %% Create user
+    'createUsersWithArrayInput' | %% Creates list of users with given input array
+    'createUsersWithListInput' | %% Creates list of users with given input array
+    'deleteUser' | %% Delete user
+    'getUserByName' | %% Get user by user name
+    'loginUser' | %% Logs user into the system
+    'logoutUser' | %% Logs out current logged in user session
+    'updateUser' | %% Updated user
+    {error, unknown_operation}.
+
 -type request_param() :: atom().
 
--export_type([operation_id/0]).
+-export_type([class/0, operation_id/0]).
 
 -dialyzer({nowarn_function, [validate_response_body/4]}).
 
@@ -64,6 +95,7 @@ accept_callback(Class, OperationID, Req, Context) ->
     {max_length, MaxLength :: integer()} |
     {min_length, MaxLength :: integer()} |
     {pattern, Pattern :: string()} |
+    {schema, object | list, binary()} |
     schema |
     required |
     not_required.
@@ -111,166 +143,166 @@ for the `OperationID` operation.
         Body :: jesse:json_term(),
         ValidatorState :: jesse_state:state()) ->
     ok | {ok, term()} | [ok | {ok, term()}] | no_return().
-validate_response('AddPet', 200, Body, ValidatorState) ->
+validate_response('addPet', 200, Body, ValidatorState) ->
     validate_response_body('Pet', 'Pet', Body, ValidatorState);
-validate_response('AddPet', 405, Body, ValidatorState) ->
+validate_response('addPet', 405, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('DeletePet', 400, Body, ValidatorState) ->
+validate_response('deletePet', 400, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('FindPetsByStatus', 200, Body, ValidatorState) ->
+validate_response('findPetsByStatus', 200, Body, ValidatorState) ->
     validate_response_body('list', 'Pet', Body, ValidatorState);
-validate_response('FindPetsByStatus', 400, Body, ValidatorState) ->
+validate_response('findPetsByStatus', 400, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('FindPetsByTags', 200, Body, ValidatorState) ->
+validate_response('findPetsByTags', 200, Body, ValidatorState) ->
     validate_response_body('list', 'Pet', Body, ValidatorState);
-validate_response('FindPetsByTags', 400, Body, ValidatorState) ->
+validate_response('findPetsByTags', 400, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('GetPetById', 200, Body, ValidatorState) ->
+validate_response('getPetById', 200, Body, ValidatorState) ->
     validate_response_body('Pet', 'Pet', Body, ValidatorState);
-validate_response('GetPetById', 400, Body, ValidatorState) ->
+validate_response('getPetById', 400, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('GetPetById', 404, Body, ValidatorState) ->
+validate_response('getPetById', 404, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('UpdatePet', 200, Body, ValidatorState) ->
+validate_response('updatePet', 200, Body, ValidatorState) ->
     validate_response_body('Pet', 'Pet', Body, ValidatorState);
-validate_response('UpdatePet', 400, Body, ValidatorState) ->
+validate_response('updatePet', 400, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('UpdatePet', 404, Body, ValidatorState) ->
+validate_response('updatePet', 404, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('UpdatePet', 405, Body, ValidatorState) ->
+validate_response('updatePet', 405, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('UpdatePetWithForm', 405, Body, ValidatorState) ->
+validate_response('updatePetWithForm', 405, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('UploadFile', 200, Body, ValidatorState) ->
+validate_response('uploadFile', 200, Body, ValidatorState) ->
     validate_response_body('ApiResponse', 'ApiResponse', Body, ValidatorState);
-validate_response('DeleteOrder', 400, Body, ValidatorState) ->
+validate_response('deleteOrder', 400, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('DeleteOrder', 404, Body, ValidatorState) ->
+validate_response('deleteOrder', 404, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('GetInventory', 200, Body, ValidatorState) ->
+validate_response('getInventory', 200, Body, ValidatorState) ->
     validate_response_body('map', 'integer', Body, ValidatorState);
-validate_response('GetOrderById', 200, Body, ValidatorState) ->
+validate_response('getOrderById', 200, Body, ValidatorState) ->
     validate_response_body('Order', 'Order', Body, ValidatorState);
-validate_response('GetOrderById', 400, Body, ValidatorState) ->
+validate_response('getOrderById', 400, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('GetOrderById', 404, Body, ValidatorState) ->
+validate_response('getOrderById', 404, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('PlaceOrder', 200, Body, ValidatorState) ->
+validate_response('placeOrder', 200, Body, ValidatorState) ->
     validate_response_body('Order', 'Order', Body, ValidatorState);
-validate_response('PlaceOrder', 400, Body, ValidatorState) ->
+validate_response('placeOrder', 400, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('CreateUser', 0, Body, ValidatorState) ->
+validate_response('createUser', 0, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('CreateUsersWithArrayInput', 0, Body, ValidatorState) ->
+validate_response('createUsersWithArrayInput', 0, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('CreateUsersWithListInput', 0, Body, ValidatorState) ->
+validate_response('createUsersWithListInput', 0, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('DeleteUser', 400, Body, ValidatorState) ->
+validate_response('deleteUser', 400, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('DeleteUser', 404, Body, ValidatorState) ->
+validate_response('deleteUser', 404, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('GetUserByName', 200, Body, ValidatorState) ->
+validate_response('getUserByName', 200, Body, ValidatorState) ->
     validate_response_body('User', 'User', Body, ValidatorState);
-validate_response('GetUserByName', 400, Body, ValidatorState) ->
+validate_response('getUserByName', 400, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('GetUserByName', 404, Body, ValidatorState) ->
+validate_response('getUserByName', 404, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('LoginUser', 200, Body, ValidatorState) ->
+validate_response('loginUser', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
-validate_response('LoginUser', 400, Body, ValidatorState) ->
+validate_response('loginUser', 400, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('LogoutUser', 0, Body, ValidatorState) ->
+validate_response('logoutUser', 0, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('UpdateUser', 400, Body, ValidatorState) ->
+validate_response('updateUser', 400, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('UpdateUser', 404, Body, ValidatorState) ->
+validate_response('updateUser', 404, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
 validate_response(_OperationID, _Code, _Body, _ValidatorState) ->
     ok.
 
 %%%
 -spec request_params(OperationID :: operation_id()) -> [Param :: request_param()].
-request_params('AddPet') ->
+request_params('addPet') ->
     [
         'Pet'
     ];
-request_params('DeletePet') ->
+request_params('deletePet') ->
     [
         'petId',
         'api_key'
     ];
-request_params('FindPetsByStatus') ->
+request_params('findPetsByStatus') ->
     [
         'status'
     ];
-request_params('FindPetsByTags') ->
+request_params('findPetsByTags') ->
     [
         'tags'
     ];
-request_params('GetPetById') ->
+request_params('getPetById') ->
     [
         'petId'
     ];
-request_params('UpdatePet') ->
+request_params('updatePet') ->
     [
         'Pet'
     ];
-request_params('UpdatePetWithForm') ->
+request_params('updatePetWithForm') ->
     [
         'petId',
         'name',
         'status'
     ];
-request_params('UploadFile') ->
+request_params('uploadFile') ->
     [
         'petId',
         'additionalMetadata',
         'file'
     ];
-request_params('DeleteOrder') ->
+request_params('deleteOrder') ->
     [
         'orderId'
     ];
-request_params('GetInventory') ->
+request_params('getInventory') ->
     [
     ];
-request_params('GetOrderById') ->
+request_params('getOrderById') ->
     [
         'orderId'
     ];
-request_params('PlaceOrder') ->
+request_params('placeOrder') ->
     [
         'Order'
     ];
-request_params('CreateUser') ->
+request_params('createUser') ->
     [
         'User'
     ];
-request_params('CreateUsersWithArrayInput') ->
+request_params('createUsersWithArrayInput') ->
     [
-        'list'
+        'array'
     ];
-request_params('CreateUsersWithListInput') ->
+request_params('createUsersWithListInput') ->
     [
-        'list'
+        'array'
     ];
-request_params('DeleteUser') ->
-    [
-        'username'
-    ];
-request_params('GetUserByName') ->
+request_params('deleteUser') ->
     [
         'username'
     ];
-request_params('LoginUser') ->
+request_params('getUserByName') ->
+    [
+        'username'
+    ];
+request_params('loginUser') ->
     [
         'username',
         'password'
     ];
-request_params('LogoutUser') ->
+request_params('logoutUser') ->
     [
     ];
-request_params('UpdateUser') ->
+request_params('updateUser') ->
     [
         'username',
         'User'
@@ -280,15 +312,15 @@ request_params(_) ->
 
 -spec request_param_info(OperationID :: operation_id(), Name :: request_param()) ->
     #{source => qs_val | binding | header | body, rules => [rule()]}.
-request_param_info('AddPet', 'Pet') ->
+request_param_info('addPet', 'Pet') ->
     #{
         source => body,
         rules => [
-            schema,
+            {schema, object, <<"#/components/schemas/Pet">>},
             required
         ]
     };
-request_param_info('DeletePet', 'petId') ->
+request_param_info('deletePet', 'petId') ->
     #{
         source => binding,
         rules => [
@@ -296,7 +328,7 @@ request_param_info('DeletePet', 'petId') ->
             required
         ]
     };
-request_param_info('DeletePet', 'api_key') ->
+request_param_info('deletePet', 'api_key') ->
     #{
         source => header,
         rules => [
@@ -304,7 +336,7 @@ request_param_info('DeletePet', 'api_key') ->
             not_required
         ]
     };
-request_param_info('FindPetsByStatus', 'status') ->
+request_param_info('findPetsByStatus', 'status') ->
     #{
         source => qs_val,
         rules => [
@@ -312,14 +344,14 @@ request_param_info('FindPetsByStatus', 'status') ->
             required
         ]
     };
-request_param_info('FindPetsByTags', 'tags') ->
+request_param_info('findPetsByTags', 'tags') ->
     #{
         source => qs_val,
         rules => [
             required
         ]
     };
-request_param_info('GetPetById', 'petId') ->
+request_param_info('getPetById', 'petId') ->
     #{
         source => binding,
         rules => [
@@ -327,15 +359,15 @@ request_param_info('GetPetById', 'petId') ->
             required
         ]
     };
-request_param_info('UpdatePet', 'Pet') ->
+request_param_info('updatePet', 'Pet') ->
     #{
         source => body,
         rules => [
-            schema,
+            {schema, object, <<"#/components/schemas/Pet">>},
             required
         ]
     };
-request_param_info('UpdatePetWithForm', 'petId') ->
+request_param_info('updatePetWithForm', 'petId') ->
     #{
         source => binding,
         rules => [
@@ -343,7 +375,7 @@ request_param_info('UpdatePetWithForm', 'petId') ->
             required
         ]
     };
-request_param_info('UpdatePetWithForm', 'name') ->
+request_param_info('updatePetWithForm', 'name') ->
     #{
         source => body,
         rules => [
@@ -351,7 +383,7 @@ request_param_info('UpdatePetWithForm', 'name') ->
             not_required
         ]
     };
-request_param_info('UpdatePetWithForm', 'status') ->
+request_param_info('updatePetWithForm', 'status') ->
     #{
         source => body,
         rules => [
@@ -359,7 +391,7 @@ request_param_info('UpdatePetWithForm', 'status') ->
             not_required
         ]
     };
-request_param_info('UploadFile', 'petId') ->
+request_param_info('uploadFile', 'petId') ->
     #{
         source => binding,
         rules => [
@@ -367,7 +399,7 @@ request_param_info('UploadFile', 'petId') ->
             required
         ]
     };
-request_param_info('UploadFile', 'additionalMetadata') ->
+request_param_info('uploadFile', 'additionalMetadata') ->
     #{
         source => body,
         rules => [
@@ -375,7 +407,7 @@ request_param_info('UploadFile', 'additionalMetadata') ->
             not_required
         ]
     };
-request_param_info('UploadFile', 'file') ->
+request_param_info('uploadFile', 'file') ->
     #{
         source => body,
         rules => [
@@ -383,7 +415,7 @@ request_param_info('UploadFile', 'file') ->
             not_required
         ]
     };
-request_param_info('DeleteOrder', 'orderId') ->
+request_param_info('deleteOrder', 'orderId') ->
     #{
         source => binding,
         rules => [
@@ -391,7 +423,7 @@ request_param_info('DeleteOrder', 'orderId') ->
             required
         ]
     };
-request_param_info('GetOrderById', 'orderId') ->
+request_param_info('getOrderById', 'orderId') ->
     #{
         source => binding,
         rules => [
@@ -401,39 +433,39 @@ request_param_info('GetOrderById', 'orderId') ->
             required
         ]
     };
-request_param_info('PlaceOrder', 'Order') ->
+request_param_info('placeOrder', 'Order') ->
     #{
         source => body,
         rules => [
-            schema,
+            {schema, object, <<"#/components/schemas/Order">>},
             required
         ]
     };
-request_param_info('CreateUser', 'User') ->
+request_param_info('createUser', 'User') ->
     #{
         source => body,
         rules => [
-            schema,
+            {schema, object, <<"#/components/schemas/User">>},
             required
         ]
     };
-request_param_info('CreateUsersWithArrayInput', 'list') ->
+request_param_info('createUsersWithArrayInput', 'array') ->
     #{
         source => body,
         rules => [
-            schema,
+            {schema, list, <<"#/components/schemas/User">>},
             required
         ]
     };
-request_param_info('CreateUsersWithListInput', 'list') ->
+request_param_info('createUsersWithListInput', 'array') ->
     #{
         source => body,
         rules => [
-            schema,
+            {schema, list, <<"#/components/schemas/User">>},
             required
         ]
     };
-request_param_info('DeleteUser', 'username') ->
+request_param_info('deleteUser', 'username') ->
     #{
         source => binding,
         rules => [
@@ -441,7 +473,7 @@ request_param_info('DeleteUser', 'username') ->
             required
         ]
     };
-request_param_info('GetUserByName', 'username') ->
+request_param_info('getUserByName', 'username') ->
     #{
         source => binding,
         rules => [
@@ -449,7 +481,7 @@ request_param_info('GetUserByName', 'username') ->
             required
         ]
     };
-request_param_info('LoginUser', 'username') ->
+request_param_info('loginUser', 'username') ->
     #{
         source => qs_val,
         rules => [
@@ -458,7 +490,7 @@ request_param_info('LoginUser', 'username') ->
             required
         ]
     };
-request_param_info('LoginUser', 'password') ->
+request_param_info('loginUser', 'password') ->
     #{
         source => qs_val,
         rules => [
@@ -466,7 +498,7 @@ request_param_info('LoginUser', 'password') ->
             required
         ]
     };
-request_param_info('UpdateUser', 'username') ->
+request_param_info('updateUser', 'username') ->
     #{
         source => binding,
         rules => [
@@ -474,11 +506,11 @@ request_param_info('UpdateUser', 'username') ->
             required
         ]
     };
-request_param_info('UpdateUser', 'User') ->
+request_param_info('updateUser', 'User') ->
     #{
         source => body,
         rules => [
-            schema,
+            {schema, object, <<"#/components/schemas/User">>},
             required
         ]
     };
@@ -514,8 +546,6 @@ populate_request_param(OperationID, ReqParamName, Req0, ValidatorState) ->
                     {error, Reason, Req}
             end
     end.
-
--include_lib("kernel/include/logger.hrl").
 
 validate_response_body(list, ReturnBaseType, Body, ValidatorState) ->
     [
@@ -607,8 +637,15 @@ validate(Rule = {pattern, Pattern}, Value, ReqParamName, _) ->
         {match, _} -> ok;
         _ -> validation_error(Rule, ReqParamName, Value)
     end;
-validate(Rule = schema, Value, ReqParamName, ValidatorState) ->
+validate(schema, Value, ReqParamName, ValidatorState) ->
     Definition = iolist_to_binary(["#/components/schemas/", atom_to_binary(ReqParamName, utf8)]),
+    validate({schema, object, Definition}, Value, ReqParamName, ValidatorState);
+validate({schema, list, Definition}, Value, ReqParamName, ValidatorState) ->
+    lists:foreach(
+      fun(Item) ->
+              validate({schema, object, Definition}, Item, ReqParamName, ValidatorState)
+      end, Value);
+validate(Rule = {schema, object, Definition}, Value, ReqParamName, ValidatorState) ->
     try
         _ = validate_with_schema(Value, Definition, ValidatorState),
         ok
