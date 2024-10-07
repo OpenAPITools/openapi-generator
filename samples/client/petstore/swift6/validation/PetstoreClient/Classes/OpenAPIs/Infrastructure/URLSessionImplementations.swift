@@ -25,7 +25,7 @@ public protocol URLSessionDataTaskProtocol {
 }
 
 // Protocol allowing implementations to alter what is returned or to test their implementations.
-public protocol URLSessionProtocol {
+public protocol URLSessionProtocol: Sendable {
     // Task which performs the network fetch. Expected to be from URLSession.dataTask(with:completionHandler:) such that a network request
     // is sent off when `.resume()` is called.
     func dataTaskFromProtocol(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, URLResponse?, (any Error)?) -> Void) -> URLSessionDataTaskProtocol
@@ -160,21 +160,46 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
         do {
             let request = try createURLRequest(urlSession: urlSession, method: xMethod, encoding: encoding, headers: headers)
 
-            let dataTask = urlSession.dataTaskFromProtocol(with: request) { data, response, error in
-                self.openAPIClient.apiResponseQueue.async {
-                    self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
+            openAPIClient.interceptor.intercept(urlRequest: request, urlSession: urlSession, openAPIClient: openAPIClient) { result in
+
+                switch result {
+                case .success(let modifiedRequest):
+                    let dataTask = urlSession.dataTaskFromProtocol(with: modifiedRequest) { data, response, error in
                     self.cleanupRequest()
+                        if let response, let error {
+                            self.openAPIClient.interceptor.retry(urlRequest: modifiedRequest, urlSession: urlSession, openAPIClient: self.openAPIClient, data: data, response: response, error: error) { retry in
+                                switch retry {
+                                case .retry:
+                                    self.execute(completion: completion)
+
+                                case .dontRetry:
+                                    self.openAPIClient.apiResponseQueue.async {
+                                        self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
+                                    }
+                                }
+                            }
+                        } else {
+                            self.openAPIClient.apiResponseQueue.async {
+                                self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
+                            }
+                        }
+                    }
+
+                    self.onProgressReady?(dataTask.progress)
+
+                    URLSessionRequestBuilderConfiguration.shared.challengeHandlerStore[dataTask.taskIdentifier] = self.taskDidReceiveChallenge
+                    URLSessionRequestBuilderConfiguration.shared.credentialStore[dataTask.taskIdentifier] = self.credential
+
+                    self.requestTask.set(task: dataTask)
+
+                    dataTask.resume()
+
+                case .failure(let error):
+                    self.openAPIClient.apiResponseQueue.async {
+                        completion(.failure(ErrorResponse.error(415, nil, nil, error)))
+                    }
                 }
             }
-
-            onProgressReady?(dataTask.progress)
-
-            URLSessionRequestBuilderConfiguration.shared.challengeHandlerStore[dataTask.taskIdentifier] = taskDidReceiveChallenge
-            URLSessionRequestBuilderConfiguration.shared.credentialStore[dataTask.taskIdentifier] = credential
-
-            requestTask.set(task: dataTask)
-
-            dataTask.resume()
         } catch {
             self.openAPIClient.apiResponseQueue.async {
                 completion(.failure(ErrorResponse.error(415, nil, nil, error)))
@@ -676,3 +701,26 @@ private extension Optional where Wrapped == Data {
 }
 
 extension JSONDataEncoding: ParameterEncoding {}
+
+public enum OpenAPIInterceptorRetry {
+    case retry
+    case dontRetry
+}
+
+public protocol OpenAPIInterceptor {
+    func intercept(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, completion: @escaping (Result<URLRequest, Error>) -> Void)
+
+    func retry(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, data: Data?, response: URLResponse, error: Error, completion: @escaping (OpenAPIInterceptorRetry) -> Void)
+}
+
+public class DefaultOpenAPIInterceptor: OpenAPIInterceptor {
+    public init() {}
+    
+    public func intercept(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, completion: @escaping (Result<URLRequest, any Error>) -> Void) {
+        completion(.success(urlRequest))
+    }
+    
+    public func retry(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, data: Data?, response: URLResponse, error: Error, completion: @escaping (OpenAPIInterceptorRetry) -> Void) {
+        completion(.dontRetry)
+    }
+}

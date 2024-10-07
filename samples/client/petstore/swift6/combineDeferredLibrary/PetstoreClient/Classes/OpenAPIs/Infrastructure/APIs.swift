@@ -22,6 +22,8 @@ open class OpenAPIClient: @unchecked Sendable {
     /// If a HTTP status code is outside of this range the response will be interpreted as failed.
     public var successfulStatusCodeRange: Range<Int>
 
+    public var interceptor: OpenAPIInterceptor
+
     public init(
         basePath: String = "http://petstore.swagger.io:80/v2",
         customHeaders: [String: String] = [:],
@@ -29,7 +31,8 @@ open class OpenAPIClient: @unchecked Sendable {
         requestBuilderFactory: RequestBuilderFactory = URLSessionRequestBuilderFactory(),
         apiResponseQueue: DispatchQueue = .main,
         codableHelper: CodableHelper = CodableHelper(),
-        successfulStatusCodeRange: Range<Int> = 200..<300
+        successfulStatusCodeRange: Range<Int> = 200..<300,
+        interceptor: OpenAPIInterceptor = DefaultOpenAPIInterceptor()
     ) {
         self.basePath = basePath
         self.customHeaders = customHeaders
@@ -38,6 +41,7 @@ open class OpenAPIClient: @unchecked Sendable {
         self.apiResponseQueue = apiResponseQueue
         self.codableHelper = codableHelper
         self.successfulStatusCodeRange = successfulStatusCodeRange
+        self.interceptor = interceptor
     }
 
     public static let shared = OpenAPIClient()
