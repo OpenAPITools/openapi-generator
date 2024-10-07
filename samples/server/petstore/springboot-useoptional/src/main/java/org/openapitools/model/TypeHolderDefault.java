@@ -34,7 +34,7 @@ public class TypeHolderDefault {
 
   private @NotNull Boolean boolItem = true;
 
-  private @NotNull List<Optional<Integer>> arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
+  private @NotNull List<Optional<Integer>> arrayItem = new ArrayList<>(Arrays.asList(Optional.of(0), Optional.of(1), Optional.of(2), Optional.of(3)));
 
   public TypeHolderDefault() {
     super();
@@ -134,7 +134,7 @@ public class TypeHolderDefault {
 
   public TypeHolderDefault addArrayItemItem(Optional<Integer> arrayItemItem) {
     if (this.arrayItem == null) {
-      this.arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
+      this.arrayItem = new ArrayList<>(Arrays.asList(Optional.of(0), Optional.of(1), Optional.of(2), Optional.of(3)));
     }
     this.arrayItem.add(arrayItemItem);
     return this;
