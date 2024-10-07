@@ -165,24 +165,22 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
                 switch result {
                 case .success(let modifiedRequest):
                     let dataTask = urlSession.dataTaskFromProtocol(with: modifiedRequest) { data, response, error in
+                    self.cleanupRequest()
                         if let response, let error {
                             self.openAPIClient.interceptor.retry(urlRequest: modifiedRequest, urlSession: urlSession, data: data, response: response, error: error) { retry in
                                 switch retry {
                                 case .retry:
-                                    self.cleanupRequest()
                                     self.execute(completion: completion)
 
                                 case .dontRetry:
                                     self.openAPIClient.apiResponseQueue.async {
                                         self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
-                                        self.cleanupRequest()
                                     }
                                 }
                             }
                         } else {
                             self.openAPIClient.apiResponseQueue.async {
                                 self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
-                                self.cleanupRequest()
                             }
                         }
                     }
