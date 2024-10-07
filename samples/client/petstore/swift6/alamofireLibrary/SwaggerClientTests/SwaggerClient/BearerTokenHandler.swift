@@ -1,5 +1,5 @@
 //
-//  BearerDecodableRequestBuilder.swift
+//  BearerTokenHandler.swift
 //  SwaggerClient
 //
 //  Created by Bruno Coelho on 31/12/2020.
@@ -9,44 +9,6 @@
 import Foundation
 import Alamofire
 import PetstoreClient
-
-class BearerRequestBuilderFactory: RequestBuilderFactory {
-    func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
-        BearerRequestBuilder<T>.self
-    }
-    
-    func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type {
-        BearerDecodableRequestBuilder<T>.self
-    }
-}
-
-class BearerRequestBuilder<T>: AlamofireRequestBuilder<T>, @unchecked Sendable {
-    override func createAlamofireSession(interceptor: RequestInterceptor? = nil) -> Session {
-        if self.requiresAuthentication {
-
-            let bearerTokenHandler = BearerTokenHandler()
-            let alamofireSession = super.createAlamofireSession(interceptor: bearerTokenHandler)
-
-            return alamofireSession
-        } else {
-            return super.createAlamofireSession(interceptor: nil)
-        }      
-    }
-}
-
-class BearerDecodableRequestBuilder<T: Decodable>: AlamofireDecodableRequestBuilder<T>, @unchecked Sendable {
-    override func createAlamofireSession(interceptor: RequestInterceptor? = nil) -> Session {
-        if self.requiresAuthentication {
-
-            let bearerTokenHandler = BearerTokenHandler()
-            let alamofireSession = super.createAlamofireSession(interceptor: bearerTokenHandler)
-
-            return alamofireSession
-        } else {
-            return super.createAlamofireSession(interceptor: nil)
-        }  
-    }
-}
 
 class BearerTokenHandler: RequestInterceptor, @unchecked Sendable {
     private var bearerToken: String? = nil
