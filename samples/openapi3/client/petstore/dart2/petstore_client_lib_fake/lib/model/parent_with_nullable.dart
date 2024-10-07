@@ -69,6 +69,7 @@ class ParentWithNullable {
       }());
 
       return ParentWithNullable(
+                
         type: ParentWithNullableTypeEnum.fromJson(json[r'type']),
         nullableProperty: mapValueOfType<String>(json, r'nullableProperty'),
       );
@@ -155,6 +156,12 @@ class ParentWithNullableTypeEnum {
     }
     return result.toList(growable: growable);
   }
+
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is ParentWithNullableTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
 }
 
 /// Transformation class that can [encode] an instance of [ParentWithNullableTypeEnum] to String,
