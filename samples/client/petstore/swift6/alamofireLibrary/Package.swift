@@ -27,7 +27,7 @@ let package = Package(
         .target(
             name: "PetstoreClient",
             dependencies: ["Alamofire", ],
-            path: "PetstoreClient/Classes"
+            path: "Sources/PetstoreClient"
         ),
     ],
     swiftLanguageModes: [.v6]

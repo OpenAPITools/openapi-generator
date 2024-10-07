@@ -113,7 +113,7 @@ public class OpenAPINormalizerTest {
         Map<String, String> options = new HashMap<>();
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         Schema schema = openAPI.getComponents().getSchemas().get("AnyOfStringArrayOfString");
-        assertFalse(openAPINormalizer.isNullTypeSchema(schema));
+        assertFalse(openAPINormalizer.isNullTypeSchema(openAPI, schema));
     }
 
     @Test
@@ -705,6 +705,12 @@ public class OpenAPINormalizerTest {
         Schema schema13 = openAPI.getComponents().getSchemas().get("OneOfAnyType");
         assertEquals(schema13.getOneOf().size(), 6);
 
+        Schema schema15 = openAPI.getComponents().getSchemas().get("TypeIntegerWithOneOf");
+        assertEquals(schema15.getOneOf().size(), 3);
+
+        Schema schema17 = openAPI.getComponents().getSchemas().get("OneOfNullAndRef3");
+        assertEquals(schema17.getOneOf().size(), 2);
+
         Map<String, String> options = new HashMap<>();
         options.put("SIMPLIFY_ONEOF_ANYOF", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
@@ -742,5 +748,39 @@ public class OpenAPINormalizerTest {
         Schema schema14 = openAPI.getComponents().getSchemas().get("OneOfAnyType");
         assertEquals(schema14.getOneOf(), null);
         assertEquals(schema14.getType(), null);
+
+        Schema schema16 = openAPI.getComponents().getSchemas().get("TypeIntegerWithOneOf");
+        // oneOf should have been removed as the schema is essentially a primitive type
+        assertEquals(schema16.getOneOf(), null);
+
+        Schema schema18 = openAPI.getComponents().getSchemas().get("OneOfNullAndRef3");
+        // original oneOf removed and simplified to just $ref (oneOf sub-schema) instead
+        assertEquals(schema18.getOneOf(), null);
+        assertEquals(schema18.get$ref(), "#/components/schemas/Parent");
+    }
+
+    @Test
+    public void testOpenAPINormalizerSingleConstEnum31Spec() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/enum-single-value.yaml");
+
+        Schema reference_3_0 = openAPI.getComponents().getSchemas().get("SingleValueEnum_3_0");
+        assertEquals(((Schema) reference_3_0.getProperties().get("type")).getEnum().size(), 1);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("SingleValueEnum_3_1");
+        Schema originalTypeSchema = (Schema) schema.getProperties().get("type");
+        assertFalse(ModelUtils.isEnumSchema(originalTypeSchema));
+        var originalConst = originalTypeSchema.getConst();
+        assertNotNull(originalConst);
+
+        Map<String, String> inputRules = Map.of("NORMALIZE_31SPEC", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
+        openAPINormalizer.normalize();
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("SingleValueEnum_3_1");
+        Schema normalizedTypeSchema = (Schema) schema2.getProperties().get("type");
+        assertTrue(ModelUtils.isEnumSchema(normalizedTypeSchema));
+        assertNull(normalizedTypeSchema.getConst());
+        assertEquals(normalizedTypeSchema.getEnum().size(), 1);
+        assertEquals(Arrays.asList(originalConst), normalizedTypeSchema.getEnum());
     }
 }

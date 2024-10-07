@@ -7,97 +7,53 @@
 //
 
 import PetstoreClient
+import Combine
 import XCTest
 @testable import SwaggerClient
 
-@MainActor
-class StoreAPITests: XCTestCase, @unchecked Sendable {
+@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+class StoreAPITests: XCTestCase {
 
     let isoDateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
 
-    let testTimeout = 10.0
-
-    func test1PlaceOrder() {
+    func test1PlaceOrder() async throws {
         // use explicit naming to reference the enum so that we test we don't regress on enum naming
         let shipDate = Date()
         let order = Order(id: 1000, petId: 1000, quantity: 10, shipDate: shipDate, status: .placed, complete: true)
-        let expectation = self.expectation(description: "testPlaceOrder")
-
-        StoreAPI.placeOrder(body: order) { (order, error) in
-            guard error == nil else {
-                XCTFail("error placing order: \(error.debugDescription)")
-                return
-            }
-
-            if let order = order {
-                XCTAssert(order.id == 1000, "invalid id")
-                XCTAssert(order.quantity == 10, "invalid quantity")
-                XCTAssert(order.status == .placed, "invalid status")
-                XCTAssert(order.shipDate!.isEqual(shipDate, format: self.isoDateFormat),
-                          "Date should be idempotent")
-
-                expectation.fulfill()
-            }
-        }
-
-        self.waitForExpectations(timeout: testTimeout, handler: nil)
+        let placedOrder = try await StoreAPI.placeOrder(body: order)
+                    
+        XCTAssert(placedOrder.id == 1000, "invalid id")
+        XCTAssert(placedOrder.quantity == 10, "invalid quantity")
+        XCTAssert(placedOrder.status == .placed, "invalid status")
+        XCTAssert(placedOrder.shipDate!.isEqual(shipDate, format: self.isoDateFormat),
+                  "Date should be idempotent")
+        XCTAssert(placedOrder.complete == true, "invalid complete")
     }
 
-    func test2GetOrder() {
-        let expectation = self.expectation(description: "testGetOrder")
-
-        StoreAPI.getOrderById(orderId: 1000) { (order, error) in
-            guard error == nil else {
-                XCTFail("error retrieving order: \(error.debugDescription)")
-                return
-            }
-
-            if let order = order {
-                XCTAssert(order.id == 1000, "invalid id")
-                XCTAssert(order.quantity == 10, "invalid quantity")
-                XCTAssert(order.status == .placed, "invalid status")
-
-                expectation.fulfill()
-            }
-        }
-
-        self.waitForExpectations(timeout: testTimeout, handler: nil)
+    func test2GetOrder() async throws {
+        let order = try await StoreAPI.getOrderById(orderId: 1000)
+        XCTAssert(order.id == 1000, "invalid id")
+        XCTAssert(order.quantity == 10, "invalid quantity")
+        XCTAssert(order.status == .placed, "invalid status")
+        XCTAssert(order.complete == true, "invalid complete")
     }
 
-    func test3DeleteOrder() {
-        let expectation = self.expectation(description: "testDeleteOrder")
-
-        StoreAPI.deleteOrder(orderId: "1000") { (response, error) in
-            guard error == nil else {
+    func test3DeleteOrder() async throws {
+        do {
+            try await StoreAPI.deleteOrder(orderId: "1000")
+        } catch let errorType {
+            // The server gives us no data back so alamofire parsing fails - at least
+            // verify that is the error we get here
+            // Error Domain=com.alamofire.error Code=-6006 "JSON could not be serialized. Input data was nil or zero
+            // length." UserInfo={NSLocalizedFailureReason=JSON could not be serialized. Input data was nil or zero
+            // length.}
+            let error = errorType as NSError
+            if error.code == -6006 {
+                // Everything ok!
+            } else {
                 XCTFail("error deleting order")
-                return
             }
-
-            guard let _ = response else {
-                XCTFail("response is nil")
-                return
-            }
-
-            expectation.fulfill()
         }
-
-        self.waitForExpectations(timeout: testTimeout, handler: nil)
-    }
-
-    func testDownloadProgress() {
-        let responseExpectation = self.expectation(description: "obtain response")
-        let progressExpectation = self.expectation(description: "obtain progress")
-        let requestBuilder = StoreAPI.getOrderByIdWithRequestBuilder(orderId: 1000)
-
-        requestBuilder.onProgressReady = { (_) in
-            progressExpectation.fulfill()
-        }
-
-        requestBuilder.execute { _ in
-            responseExpectation.fulfill()
-        }
-
-        self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 
 }

@@ -29,7 +29,7 @@ let package = Package(
         .target(
             name: "PetstoreClient",
             dependencies: ["Alamofire", "PromiseKit", "RxSwift"],
-            path: "PetstoreClient/Classes"
+            path: "Sources/PetstoreClient"
         ),
     ],
     swiftLanguageModes: [.v6]

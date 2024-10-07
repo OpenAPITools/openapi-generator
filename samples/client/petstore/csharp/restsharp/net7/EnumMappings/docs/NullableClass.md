@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **NumberProp** | **decimal?** |  | [optional] 
 **BooleanProp** | **bool?** |  | [optional] 
 **StringProp** | **string** |  | [optional] 
-**DateProp** | **DateOnly** |  | [optional] 
+**DateProp** | **DateOnly?** |  | [optional] 
 **DatetimeProp** | **DateTime?** |  | [optional] 
 **ArrayNullableProp** | **List&lt;Object&gt;** |  | [optional] 
 **ArrayAndItemsNullableProp** | **List&lt;Object&gt;** |  | [optional] 

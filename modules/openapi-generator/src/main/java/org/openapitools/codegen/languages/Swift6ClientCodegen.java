@@ -36,7 +36,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.time.OffsetDateTime;
 import java.time.Instant;
@@ -85,8 +84,8 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected static final String RESPONSE_LIBRARY_RESULT = "Result";
     protected static final String RESPONSE_LIBRARY_COMBINE = "Combine";
     protected static final String RESPONSE_LIBRARY_ASYNC_AWAIT = "AsyncAwait";
-    protected static final String[] RESPONSE_LIBRARIES = { RESPONSE_LIBRARY_PROMISE_KIT, RESPONSE_LIBRARY_RX_SWIFT,
-            RESPONSE_LIBRARY_RESULT, RESPONSE_LIBRARY_COMBINE, RESPONSE_LIBRARY_ASYNC_AWAIT };
+    protected static final String RESPONSE_LIBRARY_OBJC_BLOCK = "ObjcBlock";
+    protected static final String[] RESPONSE_LIBRARIES = { RESPONSE_LIBRARY_ASYNC_AWAIT, RESPONSE_LIBRARY_COMBINE, RESPONSE_LIBRARY_RESULT, RESPONSE_LIBRARY_RX_SWIFT, RESPONSE_LIBRARY_OBJC_BLOCK, RESPONSE_LIBRARY_PROMISE_KIT };
     @Setter
     protected String projectName = "OpenAPIClient";
     @Setter
@@ -98,9 +97,9 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     @Setter
     protected boolean swiftUseApiNamespace = false;
     @Setter
-    protected boolean useSPMFileStructure = false;
+    protected boolean useSPMFileStructure = true;
     @Setter
-    protected String swiftPackagePath = "Classes" + File.separator + "OpenAPIs";
+    protected String swiftPackagePath = "Sources" + File.separator + projectName;
     @Setter
     protected boolean oneOfUnknownDefaultCase = false;
     @Setter
@@ -125,7 +124,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     @Setter
     protected boolean combineDeferred = true;
     @Setter
-    protected String[] responseAs = new String[0];
+    protected String[] responseAs = { RESPONSE_LIBRARY_ASYNC_AWAIT };
     protected String sourceFolder = swiftPackagePath;
     protected HashSet objcReservedWords;
     protected String apiDocPath = "docs/";
@@ -323,9 +322,9 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         cliOptions.add(new CliOption(CodegenConstants.API_NAME_PREFIX, CodegenConstants.API_NAME_PREFIX_DESC));
         cliOptions.add(new CliOption(USE_SPM_FILE_STRUCTURE, "Use SPM file structure"
-                + " and set the source path to Sources" + File.separator + "{{projectName}} (default: false)."));
+                + " and set the source path to Sources" + File.separator + "{{projectName}} (default: true)."));
         cliOptions.add(new CliOption(SWIFT_PACKAGE_PATH, "Set a custom source path instead of "
-                + projectName + File.separator + "Classes" + File.separator + "OpenAPIs" + "."));
+                + "Sources" + File.separator + "{{projectName}}" + "."));
         cliOptions.add(new CliOption(USE_CLASSES, "Use final classes for models instead of structs (default: false)")
                 .defaultValue(Boolean.FALSE.toString()));
 
@@ -338,7 +337,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                 .defaultValue(Boolean.TRUE.toString()));
 
         cliOptions.add(new CliOption(MAP_FILE_BINARY_TO_DATA,
-                "[WARNING] This option will be removed and enabled by default in the future once we've enhanced the code to work with `Data` in all the different situations. Map File and Binary to Data (default: false)")
+                "Map File and Binary to Data (default: false)")
                 .defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(new CliOption(USE_CUSTOM_DATE_WITHOUT_TIME,
@@ -450,6 +449,8 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                     "Environment variable SWIFT_POST_PROCESS_FILE not defined so the Swift code may not be properly formatted. To define it, try 'export SWIFT_POST_PROCESS_FILE=/usr/local/bin/swiftformat' (Linux/Mac)");
             LOGGER.info(
                     "NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'SWIFT_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         // Setup project name
@@ -458,7 +459,6 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         } else {
             additionalProperties.put(PROJECT_NAME, projectName);
         }
-        sourceFolder = projectName + File.separator + sourceFolder;
 
         // Setup nonPublicApi option, which generates code with reduced access
         // modifiers; allows embedding elsewhere without exposing non-public API calls
@@ -504,6 +504,9 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (ArrayUtils.contains(responseAs, RESPONSE_LIBRARY_ASYNC_AWAIT)) {
             additionalProperties.put("useAsyncAwait", true);
         }
+        if (ArrayUtils.contains(responseAs, RESPONSE_LIBRARY_OBJC_BLOCK)) {
+            additionalProperties.put("useObjcBlock", true);
+        }
 
         // Setup readonlyProperties option, which declares properties so they can only
         // be set at initialization
@@ -517,6 +520,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (additionalProperties.containsKey(SWIFT_USE_API_NAMESPACE)) {
             setSwiftUseApiNamespace(convertPropertyToBooleanAndWriteBack(SWIFT_USE_API_NAMESPACE));
         }
+        additionalProperties.put(SWIFT_USE_API_NAMESPACE, swiftUseApiNamespace);
 
         if (!additionalProperties.containsKey(POD_AUTHORS)) {
             additionalProperties.put(POD_AUTHORS, DEFAULT_POD_AUTHORS);
@@ -524,7 +528,12 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         if (additionalProperties.containsKey(USE_SPM_FILE_STRUCTURE)) {
             setUseSPMFileStructure(convertPropertyToBooleanAndWriteBack(USE_SPM_FILE_STRUCTURE));
+        }
+        additionalProperties.put(USE_SPM_FILE_STRUCTURE, useSPMFileStructure);
+        if (useSPMFileStructure) {
             sourceFolder = "Sources" + File.separator + projectName;
+        } else {
+            sourceFolder = projectName + File.separator + "Classes" + File.separator + "OpenAPIs";
         }
 
         if (additionalProperties.containsKey(SWIFT_PACKAGE_PATH)
@@ -1221,6 +1230,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -1230,20 +1240,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
         // only process files with swift extension
         if ("swift".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = swiftPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[] {swiftPostProcessFile, file.toString()});
         }
     }
 
