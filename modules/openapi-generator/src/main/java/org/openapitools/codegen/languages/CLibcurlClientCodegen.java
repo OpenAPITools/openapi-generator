@@ -255,7 +255,11 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
                         // VC++ reserved keywords
                         "stdin",
                         "stdout",
-                        "stderr")
+                        "stderr",
+
+                        // gcc predefined macros
+                        "linux"
+                        )
         );
 
         instantiationTypes.clear();
