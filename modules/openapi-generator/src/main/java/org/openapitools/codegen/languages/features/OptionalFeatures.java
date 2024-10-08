@@ -24,4 +24,6 @@ public interface OptionalFeatures {
 
     void setUseOptional(boolean useOptional);
 
+    boolean getUseOptional();
+
 }

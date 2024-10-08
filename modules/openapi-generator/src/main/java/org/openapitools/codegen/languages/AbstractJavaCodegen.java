@@ -40,6 +40,7 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
+import org.openapitools.codegen.languages.features.OptionalFeatures;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -66,7 +67,7 @@ import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractJavaCodegen extends DefaultCodegen implements CodegenConfig,
-        DocumentationProviderFeatures {
+        DocumentationProviderFeatures, OptionalFeatures {
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaCodegen.class);
     private static final String ARTIFACT_VERSION_DEFAULT_VALUE = "1.0.0";
@@ -173,6 +174,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Setter protected boolean implicitHeaders = false;
     @Setter protected String implicitHeadersRegex = null;
     @Setter protected boolean camelCaseDollarSign = false;
+    protected boolean useOptional = false;
     @Setter protected boolean useJakartaEe = false;
     @Setter protected boolean containerDefaultToNull = false;
     @Getter @Setter
@@ -2116,6 +2118,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
+    @Override
+    public void setUseOptional(boolean useOptional) {
+        this.useOptional = useOptional;
+    }
+
+    @Override
+    public boolean getUseOptional() {
+        return this.useOptional;
     }
 
     /*

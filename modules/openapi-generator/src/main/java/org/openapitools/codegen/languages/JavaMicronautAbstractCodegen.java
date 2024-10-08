@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 import static org.openapitools.codegen.CodegenConstants.INVOKER_PACKAGE;
 import static org.openapitools.codegen.utils.ModelUtils.getSchemaItems;
 
-public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen implements BeanValidationFeatures, OptionalFeatures {
+public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
     public static final String OPT_TITLE = "title";
     public static final String OPT_BUILD = "build";
     public static final String OPT_BUILD_GRADLE = "gradle";
@@ -61,7 +61,6 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     protected final Logger LOGGER = LoggerFactory.getLogger(JavaMicronautAbstractCodegen.class);
 
     protected String title;
-    @Getter protected boolean useOptional;
     @Getter @Setter
     protected boolean visitable;
     protected String buildTool;
@@ -88,7 +87,6 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
 
         // Set all the fields
         useBeanValidation = true;
-        useOptional = false;
         visitable = false;
         buildTool = OPT_BUILD_ALL;
         testTool = OPT_TEST_JUNIT;
@@ -446,11 +444,6 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             return toModelName(name) + "Spec";
         }
         return toModelName(name) + "Test";
-    }
-
-    @Override
-    public void setUseOptional(boolean useOptional) {
-        this.useOptional = useOptional;
     }
 
     @Override
