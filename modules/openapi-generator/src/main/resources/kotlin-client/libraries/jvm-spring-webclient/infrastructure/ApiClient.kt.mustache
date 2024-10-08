@@ -6,6 +6,7 @@ import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.http.ResponseEntity
+import org.springframework.http.client.MultipartBodyBuilder
 import org.springframework.util.LinkedMultiValueMap
 import reactor.core.publisher.Mono
 
@@ -47,8 +48,24 @@ open class ApiClient(protected val client: WebClient) {
     private fun <I> WebClient.RequestBodySpec.headers(requestConfig: RequestConfig<I>) =
         apply { requestConfig.headers.forEach { (name, value) -> header(name, value) } }
 
-    private fun <I : Any> WebClient.RequestBodySpec.body(requestConfig: RequestConfig<I>) =
-        apply { if (requestConfig.body != null) bodyValue(requestConfig.body) }
+    private fun <I : Any> WebClient.RequestBodySpec.body(requestConfig: RequestConfig<I>): WebClient.RequestBodySpec {
+        when {
+            requestConfig.headers[HttpHeaders.CONTENT_TYPE] == MediaType.MULTIPART_FORM_DATA_VALUE -> {
+                val builder = MultipartBodyBuilder()
+                (requestConfig.body as Map<String, PartConfig<*>>).forEach { (name, part) ->
+                    if (part.body != null) {
+                        val partBuilder = builder.part(name, part.body)
+                        val partHeaders = part.headers
+                        partHeaders.forEach { partBuilder.header(it.key, it.value) }
+                    }
+                }
+                return apply { bodyValue(builder.build()) }
+            }
+            else -> {
+                return apply { if (requestConfig.body != null) bodyValue(requestConfig.body) }
+            }
+        }
+    }
 }
 
 inline fun <reified T: Any> parseDateToQueryString(value : T): String {
