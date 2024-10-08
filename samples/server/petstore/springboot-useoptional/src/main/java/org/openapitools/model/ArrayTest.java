@@ -189,7 +189,7 @@ public class ArrayTest {
       return this;
     }
     
-    public ArrayTest.Builder arrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
+    public ArrayTest.Builder arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
       this.instance.arrayArrayOfModel(arrayArrayOfModel);
       return this;
     }
