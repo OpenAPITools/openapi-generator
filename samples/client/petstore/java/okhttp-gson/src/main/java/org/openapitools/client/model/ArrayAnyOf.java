@@ -213,6 +213,7 @@ public class ArrayAnyOf extends AbstractOpenApiSchema {
     public Integer getInteger() throws ClassCastException {
         return (Integer)super.getActualInstance();
     }
+
     /**
      * Get the actual instance of `List<String>`. If the actual instance is not `List<String>`,
      * the ClassCastException will be thrown.

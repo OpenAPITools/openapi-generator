@@ -282,17 +282,6 @@ public class MammalAnyof extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `Pig`. If the actual instance is not `Pig`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `Pig`
-     * @throws ClassCastException if the instance is not `Pig`
-     */
-    public Pig getPig() throws ClassCastException {
-        return (Pig)super.getActualInstance();
-    }
-
-    /**
      * Get the actual instance of `Whale`. If the actual instance is not `Whale`,
      * the ClassCastException will be thrown.
      *
@@ -312,6 +301,17 @@ public class MammalAnyof extends AbstractOpenApiSchema {
      */
     public Zebra getZebra() throws ClassCastException {
         return (Zebra)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `Pig`. If the actual instance is not `Pig`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Pig`
+     * @throws ClassCastException if the instance is not `Pig`
+     */
+    public Pig getPig() throws ClassCastException {
+        return (Pig)super.getActualInstance();
     }
 
 }

@@ -231,6 +231,7 @@ public class Pig extends AbstractOpenApiSchema {
     public BasquePig getBasquePig() throws ClassCastException {
         return (BasquePig)super.getActualInstance();
     }
+
     /**
      * Get the actual instance of `DanishPig`. If the actual instance is not `DanishPig`,
      * the ClassCastException will be thrown.

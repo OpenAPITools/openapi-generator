@@ -196,6 +196,17 @@ public class FakeOneOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
     }
 
     /**
+     * Get the actual instance of `List<Integer>`. If the actual instance is not `List<Integer>`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `List<Integer>`
+     * @throws ClassCastException if the instance is not `List<Integer>`
+     */
+    public List<Integer> getListInteger() throws ClassCastException {
+        return (List<Integer>)super.getActualInstance();
+    }
+
+    /**
      * Validates the JSON Element and throws an exception if issues found
      *
      * @param jsonElement JSON Element

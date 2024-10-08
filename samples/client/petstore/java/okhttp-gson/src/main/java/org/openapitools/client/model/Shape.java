@@ -231,6 +231,7 @@ public class Shape extends AbstractOpenApiSchema {
     public Triangle getTriangle() throws ClassCastException {
         return (Triangle)super.getActualInstance();
     }
+
     /**
      * Get the actual instance of `Quadrilateral`. If the actual instance is not `Quadrilateral`,
      * the ClassCastException will be thrown.

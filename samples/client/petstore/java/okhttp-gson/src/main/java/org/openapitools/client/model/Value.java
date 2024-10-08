@@ -218,6 +218,7 @@ public class Value extends AbstractOpenApiSchema {
     public Scalar getScalar() throws ClassCastException {
         return (Scalar)super.getActualInstance();
     }
+
     /**
      * Get the actual instance of `List<Scalar>`. If the actual instance is not `List<Scalar>`,
      * the ClassCastException will be thrown.

@@ -205,6 +205,7 @@ public class SimpleOneOf extends AbstractOpenApiSchema implements Serializable {
     public String getString() throws ClassCastException {
         return (String)super.getActualInstance();
     }
+
     /**
      * Get the actual instance of `Integer`. If the actual instance is not `Integer`,
      * the ClassCastException will be thrown.
