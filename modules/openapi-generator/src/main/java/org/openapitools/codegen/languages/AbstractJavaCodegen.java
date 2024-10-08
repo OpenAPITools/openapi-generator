@@ -1213,19 +1213,19 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     _values = java.util.Collections.singletonList(String.valueOf(schema.getDefault()));
                 }
 
-                String defaultValue = "";
+                List<String> processedValues;
 
                 if (cp.items.getIsEnumOrRef()) { // inline or ref enum
-                    List<String> defaultValues = new ArrayList<>();
-                    for (String _value : _values) {
-                        defaultValues.add(cp.items.datatypeWithEnum + "." + toEnumVarName(_value, cp.items.dataType));
-                    }
-                    defaultValue = StringUtils.join(defaultValues, ", ");
+                    processedValues = _values.stream()
+                        .map(v -> cp.items.datatypeWithEnum + "." + toEnumVarName(v, cp.items.dataType))
+                        .collect(Collectors.toList());
                 } else if (_values.size() > 0) {
                     if (cp.items.isString) { // array item is string
-                        defaultValue = String.format(Locale.ROOT, "\"%s\"", StringUtils.join(_values, "\", \""));
+                        processedValues = _values.stream()
+                            .map(v -> String.format(Locale.ROOT, "\"%s\"", v))
+                            .collect(Collectors.toList());
                     } else if (cp.items.isNumeric) {
-                        defaultValue = _values.stream()
+                        processedValues = _values.stream()
                                 .map(v -> {
                                     if ("BigInteger".equals(cp.items.dataType)) {
                                         return "new BigInteger(\"" + v + "\")";
@@ -1236,14 +1236,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                                     } else {
                                         return v;
                                     }
-                                })
-                                .collect(Collectors.joining(", "));
+                                }).collect(Collectors.toList());
                     } else { // array item is non-string, e.g. integer
-                        defaultValue = StringUtils.join(_values, ", ");
+                        processedValues = _values;
                     }
                 } else {
                     return getDefaultCollectionType(schema);
                 }
+
+                CodegenProperty cpItems = cp.items;
+                if (useOptional && !cpItems.required && !cpItems.isNullable && !cpItems.isContainer) {
+                    processedValues = processedValues.stream()
+                        .map(v -> String.format(Locale.ROOT, "Optional.of(%s)", v))
+                        .collect(Collectors.toList());
+                }
+
+                String defaultValue = StringUtils.join(processedValues, ", ");
 
                 return getDefaultCollectionType(schema, defaultValue);
             }
