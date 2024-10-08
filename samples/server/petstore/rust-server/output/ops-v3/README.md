@@ -14,7 +14,7 @@ To see how to make this your own, look here:
 [README]((https://openapi-generator.tech))
 
 - API version: 0.0.1
-- Generator version: 7.9.0-SNAPSHOT
+- Generator version: 7.10.0-SNAPSHOT
 
 
 
