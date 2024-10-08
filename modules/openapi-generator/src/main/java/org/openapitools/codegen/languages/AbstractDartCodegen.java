@@ -579,6 +579,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                 property.setDatatypeWithEnum(property.datatypeWithEnum.replace(property.items.datatypeWithEnum, enumName));
                 property.items.setDatatypeWithEnum(enumName);
                 property.items.setEnumName(enumName);
+                property.mostInnerItems.setDatatypeWithEnum(enumName);
+                property.mostInnerItems.setEnumName(enumName);
             } else {
                 // plain enum property
                 property.setDatatypeWithEnum(property.datatypeWithEnum.replace(property.enumName, enumName));
