@@ -3230,12 +3230,12 @@ public class JavaClientCodegenTest {
                 "DeletePetRequest(Long petId, String apiKey)",
                 "Long petId()",
                 "String apiKey()",
-                "public void deletePet(DeletePetRequest requestParameters) throws RestClientResponseException {",
-                "public ResponseEntity<Void> deletePetWithHttpInfo(DeletePetRequest requestParameters) throws RestClientResponseException {",
-                "public ResponseSpec deletePetWithResponseSpec(DeletePetRequest requestParameters) throws RestClientResponseException {",
-                "public void deletePet(Long petId, String apiKey) throws RestClientResponseException {",
-                "public ResponseEntity<Void> deletePetWithHttpInfo(Long petId, String apiKey) throws RestClientResponseException {",
-                "public ResponseSpec deletePetWithResponseSpec(Long petId, String apiKey) throws RestClientResponseException {"
+                "public Mono<Void> deletePet(DeletePetRequest requestParameters) throws WebClientResponseException {",
+                "public Mono<ResponseEntity<Void>> deletePetWithHttpInfo(DeletePetRequest requestParameters) throws WebClientResponseException {",
+                "public ResponseSpec deletePetWithResponseSpec(DeletePetRequest requestParameters) throws WebClientResponseException {",
+                "public Mono<Void> deletePet(Long petId, String apiKey) throws WebClientResponseException {",
+                "public Mono<ResponseEntity<Void>> deletePetWithHttpInfo(Long petId, String apiKey) throws WebClientResponseException {",
+                "public ResponseSpec deletePetWithResponseSpec(Long petId, String apiKey) throws WebClientResponseException {"
         );
     }
 

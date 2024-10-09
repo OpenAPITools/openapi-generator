@@ -31,20 +31,20 @@ public class UserApi {
     private ApiClient apiClient;
 
     public UserApi() {
-        this(new ApiClient());
+      this(new ApiClient());
     }
 
     @Autowired
     public UserApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
+      this.apiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-        return apiClient;
+      return apiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+      this.apiClient = apiClient;
     }
 
     /**

@@ -37,26 +37,27 @@ public class {{classname}} {
     private ApiClient apiClient;
 
     public {{classname}}() {
-        this(new ApiClient());
+      this(new ApiClient());
     }
 
     @Autowired
     public {{classname}}(ApiClient apiClient) {
-        this.apiClient = apiClient;
+      this.apiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-        return apiClient;
+      return apiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+      this.apiClient = apiClient;
     }
 
     {{#operation}}
       {{#useSingleRequestParameter}}
         {{#hasParams}}
           {{^hasSingleParam}}
+
     public class {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request {
     {{#allParams}}
       private final {{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}};
