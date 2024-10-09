@@ -33,20 +33,20 @@ public class PetApi {
     private ApiClient apiClient;
 
     public PetApi() {
-        this(new ApiClient());
+      this(new ApiClient());
     }
 
     @Autowired
     public PetApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
+      this.apiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-        return apiClient;
+      return apiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+      this.apiClient = apiClient;
     }
 
     /**
