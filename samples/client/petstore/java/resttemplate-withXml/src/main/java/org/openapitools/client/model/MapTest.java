@@ -54,10 +54,10 @@ public class MapTest {
   @XmlEnum(String.class)
   public enum InnerEnum {
     @XmlEnumValue("UPPER")
-    UPPER("UPPER"),
+    UPPER(String.valueOf("UPPER")),
     
     @XmlEnumValue("lower")
-    LOWER("lower");
+    LOWER(String.valueOf("lower"));
 
     private String value;
 

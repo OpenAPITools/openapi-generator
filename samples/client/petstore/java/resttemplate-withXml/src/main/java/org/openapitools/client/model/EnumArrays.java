@@ -49,10 +49,10 @@ public class EnumArrays {
   @XmlEnum(String.class)
   public enum JustSymbolEnum {
     @XmlEnumValue(">=")
-    GREATER_THAN_OR_EQUAL_TO(">="),
+    GREATER_THAN_OR_EQUAL_TO(String.valueOf(">=")),
     
     @XmlEnumValue("$")
-    DOLLAR("$");
+    DOLLAR(String.valueOf("$"));
 
     private String value;
 
@@ -92,10 +92,10 @@ public class EnumArrays {
   @XmlEnum(String.class)
   public enum ArrayEnumEnum {
     @XmlEnumValue("fish")
-    FISH("fish"),
+    FISH(String.valueOf("fish")),
     
     @XmlEnumValue("crab")
-    CRAB("crab");
+    CRAB(String.valueOf("crab"));
 
     private String value;
 

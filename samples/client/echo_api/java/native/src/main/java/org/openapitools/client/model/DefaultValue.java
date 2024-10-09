@@ -58,11 +58,11 @@ public class DefaultValue {
    * Gets or Sets arrayStringEnumDefault
    */
   public enum ArrayStringEnumDefaultEnum {
-    SUCCESS("success"),
+    SUCCESS(String.valueOf("success")),
     
-    FAILURE("failure"),
+    FAILURE(String.valueOf("failure")),
     
-    UNCLASSIFIED("unclassified");
+    UNCLASSIFIED(String.valueOf("unclassified"));
 
     private String value;
 

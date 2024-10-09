@@ -62,7 +62,7 @@ public class ParentWithNullable {
   @XmlEnum(String.class)
   public enum TypeEnum {
     @XmlEnumValue("ChildWithNullable")
-    CHILD_WITH_NULLABLE("ChildWithNullable");
+    CHILD_WITH_NULLABLE(String.valueOf("ChildWithNullable"));
 
     private String value;
 

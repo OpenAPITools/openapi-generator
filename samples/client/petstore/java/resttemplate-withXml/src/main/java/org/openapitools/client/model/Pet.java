@@ -80,13 +80,13 @@ public class Pet {
   @XmlEnum(String.class)
   public enum StatusEnum {
     @XmlEnumValue("available")
-    AVAILABLE("available"),
+    AVAILABLE(String.valueOf("available")),
     
     @XmlEnumValue("pending")
-    PENDING("pending"),
+    PENDING(String.valueOf("pending")),
     
     @XmlEnumValue("sold")
-    SOLD("sold");
+    SOLD(String.valueOf("sold"));
 
     private String value;
 

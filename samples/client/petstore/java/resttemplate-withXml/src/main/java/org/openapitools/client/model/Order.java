@@ -68,13 +68,13 @@ public class Order {
   @XmlEnum(String.class)
   public enum StatusEnum {
     @XmlEnumValue("placed")
-    PLACED("placed"),
+    PLACED(String.valueOf("placed")),
     
     @XmlEnumValue("approved")
-    APPROVED("approved"),
+    APPROVED(String.valueOf("approved")),
     
     @XmlEnumValue("delivered")
-    DELIVERED("delivered");
+    DELIVERED(String.valueOf("delivered"));
 
     private String value;
 
