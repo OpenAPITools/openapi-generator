@@ -168,4 +168,12 @@ public class TypeScriptClientCodegenTest {
             .get("foo");
         Assert.assertEquals(codegen.getTypeDeclaration(schema), "Array<string | null>");
     }
+
+    @Test
+    public void multilineCommentsAreEscaped() {
+        final DefaultCodegen codegen = new TypeScriptClientCodegen();
+        final String multilineComment = "/* This is a multiline comment */";
+        final String escapedComment = codegen.escapeUnsafeCharacters(multilineComment);
+        Assert.assertEquals(escapedComment, "/_* This is a multiline comment *_/");
+    }
 }
