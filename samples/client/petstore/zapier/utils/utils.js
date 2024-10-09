@@ -28,6 +28,10 @@ const isCreateAction = (key) => {
     return !isSearchAction(key);
 }
 
+const createMiddleware = (action) => {
+    return action
+}
+
 const isTrigger = (key) => {
     // TODO: custom logic
     return false
@@ -68,4 +72,5 @@ module.exports = {
     isTrigger: isTrigger,
     triggerMiddleware: triggerMiddleware,
     isCreateAction: isCreateAction,
+    createMiddleware: createMiddleware,
 }
