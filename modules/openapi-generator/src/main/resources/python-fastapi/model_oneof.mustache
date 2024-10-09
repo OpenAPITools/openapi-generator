@@ -46,6 +46,18 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}RootModel{{/parent}}
         """Create an instance of {{classname}} from a dictionary"""
         return cls(obj)
 
+    def to_dict(self) -> Dict:
+        """Returns the dict representation of the actual instance"""
+        if self.root is None:
+            return None
+
+        to_dict = getattr(self.root, "to_dict", None)
+        if callable(to_dict):
+            return self.root.to_dict()
+        else:
+            # primitive type
+            return self.root
+
 {{#vendorExtensions.x-py-postponed-model-imports.size}}
 {{#vendorExtensions.x-py-postponed-model-imports}}
 {{{.}}}
