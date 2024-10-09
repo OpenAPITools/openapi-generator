@@ -23,6 +23,7 @@ import java.time.LocalDate
 import java.util.UUID
 import scala.reflect.ClassTag
 import scala.util.*
+import upickle.default.*
 
 // needed for BigDecimal params
 given cask.endpoints.QueryParamReader.SimpleParam[BigDecimal](BigDecimal.apply)
@@ -154,6 +155,15 @@ extension (request: cask.Request) {
   def headerManyValues(paramName: String, required: Boolean): Parsed[List[String]] = Parsed.manyValues(request.headers, paramName, required)
 
   def bodyAsString = new String(request.readAllBytes(), "UTF-8")
+
+  def bodyAsJson : Try[ujson.Value] = {
+      val jason  = bodyAsString
+      try {
+        Success(read[ujson.Value](jason))
+      } catch {
+        case scala.util.control.NonFatal(e) => sys.error(s"Error parsing json '$jason': $e")
+      }
+    }
   
   def pathValue(index: Int, paramName: String, required : Boolean): Parsed[String] = {
     request

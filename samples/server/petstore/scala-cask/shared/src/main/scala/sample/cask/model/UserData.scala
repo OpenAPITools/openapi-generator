@@ -25,170 +25,73 @@ import upickle.default.*
   */
 case class UserData(
   id: Long = 0 ,
-
-    username: String = "" ,
-
-    firstName: String = "" ,
-
-    lastName: String = "" ,
-
-    email: String = "" ,
-
-    password: String = "" ,
-
-    phone: String = "" ,
-
-  /* User Status */
+  username: String = "" ,
+  firstName: String = "" ,
+  lastName: String = "" ,
+  email: String = "" ,
+  password: String = "" ,
+  phone: String = "" ,
+/* User Status */
   userStatus: Int = 0 
+  
 
-  ) {
+) derives RW {
 
-  def asJson: String = write(this)
+  def asJsonString: String = asJson.toString()
+
+  def asJson : ujson.Value = {
+    val jason = writeJs(this)
+    jason
+  }
 
   def validationErrors(path : Seq[Field], failFast : Boolean) : Seq[ValidationError] = {
     val errors = scala.collection.mutable.ListBuffer[ValidationError]()
-        // ==================
-        // id
-
-
-
-
-
-
+        // ================== id validation ==================
+        
+        
+        
         
 
-
-
-
-
-
-
+        // ================== username validation ==================
+        
+        
+        
         
 
-        // ==================
-        // username
-
-
-
-
-
-
+        // ================== firstName validation ==================
+        
+        
+        
         
 
-
-
-
-
-
-
+        // ================== lastName validation ==================
+        
+        
+        
         
 
-        // ==================
-        // firstName
-
-
-
-
-
-
+        // ================== email validation ==================
+        
+        
+        
         
 
-
-
-
-
-
-
+        // ================== password validation ==================
+        
+        
+        
         
 
-        // ==================
-        // lastName
-
-
-
-
-
-
+        // ================== phone validation ==================
+        
+        
+        
         
 
-
-
-
-
-
-
+        // ================== userStatus validation ==================
         
-
-        // ==================
-        // email
-
-
-
-
-
-
         
-
-
-
-
-
-
-
         
-
-        // ==================
-        // password
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-
-        // ==================
-        // phone
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-
-        // ==================
-        // userStatus
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
         
 
     errors.toSeq
@@ -236,19 +139,28 @@ case class UserData(
         userStatus
         )
         
+    
     )
   }
 }
 
 object UserData {
 
-  given readWriter : RW[UserData] = macroRW
+  def fromJson(jason : ujson.Value) : UserData = try {
+        val data = read[UserData](jason)
+        data
+    } catch {
+      case NonFatal(e) => sys.error(s"Error creating UserData from json '$jason': $e")
+  }
 
-  def fromJsonString(jason : String) : UserData = try {
-        read[UserData](jason)
-     } catch {
+  def fromJsonString(jason : String) : UserData = {
+        val parsed = try {
+           read[ujson.Value](jason)
+        } catch {
           case NonFatal(e) => sys.error(s"Error parsing json '$jason': $e")
-     }
+        }
+        fromJson(parsed)
+  }
 
   def manyFromJsonString(jason : String) : Seq[UserData] = try {
         read[List[UserData]](jason)

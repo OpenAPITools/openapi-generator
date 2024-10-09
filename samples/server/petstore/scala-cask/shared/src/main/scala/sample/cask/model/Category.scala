@@ -21,27 +21,27 @@ import upickle.default.*
 
 case class Category(
   id: Option[Long] = None ,
+  name: Option[String] = None 
 
-    name: Option[String] = None 
 
-  ) {
+) {
 
-  def asJson: String = asData.asJson
+  def asJsonString: String = asData.asJsonString
+  def asJson: ujson.Value = asData.asJson
 
   def asData : CategoryData = {
     CategoryData(
             id = id.getOrElse(0),
             name = name.getOrElse("")
+        
     )
   }
-
 }
 
-object Category{
+object Category {
+    given RW[Category] = summon[RW[ujson.Value]].bimap[Category](_.asJson, json => read[CategoryData](json).asModel)
 
-    given RW[Category] = CategoryData.readWriter.bimap[Category](_.asData, _.asModel)
-
-    enum Fields(fieldName : String) extends Field(fieldName) {
+    enum Fields(val fieldName : String) extends Field(fieldName) {
             case id extends Fields("id")
             case name extends Fields("name")
     }

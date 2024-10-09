@@ -38,7 +38,8 @@
             {{/vendorExtensions.x-deserialize-asModelMap}}
           {{/isMap}}
           {{^isMap}}
-              {{paramName}}Data <- Parsed.eval({{vendorExtensions.x-container-type}}Data.fromJsonString(request.bodyAsString)).mapError(e => s"Error parsing json as {{vendorExtensions.x-container-type}} from >${request.bodyAsString}< : ${e}") /* not array or map */
+              {{paramName}}Json <- Parsed.fromTry(request.bodyAsJson)
+              {{paramName}}Data <- Parsed.eval({{vendorExtensions.x-container-type}}Data.fromJson({{paramName}}Json)) /* not array or map */
               {{paramName}} <- Parsed.fromTry({{paramName}}Data.validated(failFast))
           {{/isMap}}
         {{/isArray}}
