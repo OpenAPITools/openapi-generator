@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableMap;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen;
 import org.openapitools.codegen.languages.TypeScriptAngularClientCodegen;
+import org.openapitools.codegen.languages.TypeScriptNodeClientCodegen;
 
 import java.util.Map;
 
@@ -62,10 +63,11 @@ public class TypeScriptNodeClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.ENUM_PROPERTY_NAMING, ENUM_PROPERTY_NAMING_VALUE)
                 .put(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING_VALUE)
                 .put(CodegenConstants.PARAM_NAMING, PARAM_NAMING_VALUE)
-                .put(TypeScriptAngularClientCodegen.NPM_NAME, NMP_NAME)
-                .put(TypeScriptAngularClientCodegen.NPM_VERSION, NMP_VERSION)
-                .put(TypeScriptAngularClientCodegen.SNAPSHOT, Boolean.FALSE.toString())
-                .put(TypeScriptAngularClientCodegen.NPM_REPOSITORY, NPM_REPOSITORY)
+                .put(TypeScriptNodeClientCodegen.NPM_NAME, NMP_NAME)
+                .put(TypeScriptNodeClientCodegen.NPM_VERSION, NMP_VERSION)
+                .put(TypeScriptNodeClientCodegen.SNAPSHOT, Boolean.FALSE.toString())
+                .put(TypeScriptNodeClientCodegen.NPM_REPOSITORY, NPM_REPOSITORY)
+                .put(TypeScriptNodeClientCodegen.ENRICHED_MAPS, Boolean.FALSE.toString())
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")

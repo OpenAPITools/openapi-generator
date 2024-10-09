@@ -62,6 +62,7 @@ public class TypeScriptAureliaClientOptionsProvider implements OptionsProvider {
                 .put(TypeScriptAureliaClientCodegen.NPM_NAME, NPM_NAME)
                 .put(TypeScriptAureliaClientCodegen.NPM_VERSION, NPM_VERSION)
                 .put(TypeScriptAureliaClientCodegen.SNAPSHOT, Boolean.FALSE.toString())
+                .put(TypeScriptAureliaClientCodegen.ENRICHED_MAPS, Boolean.FALSE.toString())
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")

@@ -468,14 +468,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isMapSchema(p)) {
-            Schema<?> inner = getSchemaAdditionalProperties(p);
-            String postfix = "";
-            if (Boolean.TRUE.equals(inner.getNullable())) {
-                postfix = " | null";
-            }
-            return "{ [key: string]: " + this.getTypeDeclaration(unaliasSchema(inner)) + postfix + "; }";
-        } else if (ModelUtils.isFileSchema(p)) {
+        if (ModelUtils.isFileSchema(p)) {
             return "HttpFile";
         } else if (ModelUtils.isBinarySchema(p)) {
             return "any";
