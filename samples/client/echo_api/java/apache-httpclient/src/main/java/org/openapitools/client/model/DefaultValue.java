@@ -47,7 +47,7 @@ import java.util.StringJoiner;
   DefaultValue.JSON_PROPERTY_ARRAY_STRING_EXTENSION_NULLABLE,
   DefaultValue.JSON_PROPERTY_STRING_NULLABLE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class DefaultValue {
   public static final String JSON_PROPERTY_ARRAY_STRING_ENUM_REF_DEFAULT = "array_string_enum_ref_default";
   private List<StringEnumRef> arrayStringEnumRefDefault = new ArrayList<>(Arrays.asList(StringEnumRef.SUCCESS, StringEnumRef.FAILURE));
@@ -56,11 +56,11 @@ public class DefaultValue {
    * Gets or Sets arrayStringEnumDefault
    */
   public enum ArrayStringEnumDefaultEnum {
-    SUCCESS("success"),
+    SUCCESS(String.valueOf("success")),
     
-    FAILURE("failure"),
+    FAILURE(String.valueOf("failure")),
     
-    UNCLASSIFIED("unclassified");
+    UNCLASSIFIED(String.valueOf("unclassified"));
 
     private String value;
 

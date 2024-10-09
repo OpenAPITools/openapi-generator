@@ -44,7 +44,7 @@ import jakarta.validation.Valid;
   Pet.JSON_PROPERTY_TAGS,
   Pet.JSON_PROPERTY_STATUS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Pet {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -65,11 +65,11 @@ public class Pet {
    * pet status in the store
    */
   public enum StatusEnum {
-    AVAILABLE("available"),
+    AVAILABLE(String.valueOf("available")),
     
-    PENDING("pending"),
+    PENDING(String.valueOf("pending")),
     
-    SOLD("sold");
+    SOLD(String.valueOf("sold"));
 
     private String value;
 

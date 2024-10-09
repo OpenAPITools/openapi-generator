@@ -120,6 +120,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>if</li>
 <li>inline</li>
 <li>int</li>
+<li>linux</li>
 <li>long</li>
 <li>mutable</li>
 <li>namespace</li>

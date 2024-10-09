@@ -36,7 +36,7 @@ import jakarta.validation.Valid;
   MapTest.JSON_PROPERTY_DIRECT_MAP,
   MapTest.JSON_PROPERTY_INDIRECT_MAP
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class MapTest {
   public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
@@ -45,9 +45,9 @@ public class MapTest {
    * Gets or Sets inner
    */
   public enum InnerEnum {
-    UPPER("UPPER"),
+    UPPER(String.valueOf("UPPER")),
     
-    LOWER("lower");
+    LOWER(String.valueOf("lower"));
 
     private String value;
 

@@ -22,21 +22,18 @@ import upickle.default.*
 
 case class Order(
   id: Option[Long] = None ,
-
-    petId: Option[Long] = None ,
-
-    quantity: Option[Int] = None ,
-
-    shipDate: Option[OffsetDateTime] = None ,
-
-  /* Order Status */
+  petId: Option[Long] = None ,
+  quantity: Option[Int] = None ,
+  shipDate: Option[OffsetDateTime] = None ,
+/* Order Status */
   status: Option[Order.StatusEnum] = None ,
+  complete: Option[Boolean] = None 
 
-    complete: Option[Boolean] = None 
 
-  ) {
+) {
 
-  def asJson: String = asData.asJson
+  def asJsonString: String = asData.asJsonString
+  def asJson: ujson.Value = asData.asJson
 
   def asData : OrderData = {
     OrderData(
@@ -46,16 +43,15 @@ case class Order(
             shipDate = shipDate.getOrElse(null),
             status = status.getOrElse(null),
             complete = complete.getOrElse(false)
+        
     )
   }
-
 }
 
-object Order{
+object Order {
+    given RW[Order] = summon[RW[ujson.Value]].bimap[Order](_.asJson, json => read[OrderData](json).asModel)
 
-    given RW[Order] = OrderData.readWriter.bimap[Order](_.asData, _.asModel)
-
-    enum Fields(fieldName : String) extends Field(fieldName) {
+    enum Fields(val fieldName : String) extends Field(fieldName) {
             case id extends Fields("id")
             case petId extends Fields("petId")
             case quantity extends Fields("quantity")

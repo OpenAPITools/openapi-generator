@@ -322,12 +322,18 @@ class DeserializationTests(unittest.TestCase):
 
         deserialized = self.deserialize(response, "str", 'text/plain')
         self.assertTrue(isinstance(deserialized, str))
-        
+
+        deserialized = self.deserialize(response, "str", 'text/csv')
+        self.assertTrue(isinstance(deserialized, str))
+
         deserialized = self.deserialize(response, "Dict[str, str]", 'APPLICATION/JSON')
         self.assertTrue(isinstance(deserialized, dict))
-        
+
         with self.assertRaises(petstore_api.ApiException) as cm:
-            deserialized = self.deserialize(response, "str", 'text/html')
+            deserialized = self.deserialize(response, "str", 'text')
+
+        with self.assertRaises(petstore_api.ApiException) as cm:
+            deserialized = self.deserialize(response, "str", 'text/n0t-exist!ng')
 
         with self.assertRaises(petstore_api.ApiException) as cm:
             deserialized = self.deserialize(response, "Dict[str, str]", 'application/jsonnnnn')
