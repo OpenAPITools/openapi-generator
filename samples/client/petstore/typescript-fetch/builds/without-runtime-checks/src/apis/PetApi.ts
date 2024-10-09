@@ -83,8 +83,11 @@ export class PetApi extends runtime.BaseAPI {
             headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
         }
 
+
+        let urlPath = `/pet`;
+
         const response = await this.request({
-            path: `/pet`,
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -125,8 +128,12 @@ export class PetApi extends runtime.BaseAPI {
             headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
         }
 
+
+        let urlPath = `/pet/{petId}`;
+        urlPath = urlPath.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId'])));
+
         const response = await this.request({
-            path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId']))),
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -167,8 +174,11 @@ export class PetApi extends runtime.BaseAPI {
             headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
         }
 
+
+        let urlPath = `/pet/findByStatus`;
+
         const response = await this.request({
-            path: `/pet/findByStatus`,
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -212,8 +222,11 @@ export class PetApi extends runtime.BaseAPI {
             headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
         }
 
+
+        let urlPath = `/pet/findByTags`;
+
         const response = await this.request({
-            path: `/pet/findByTags`,
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -252,8 +265,12 @@ export class PetApi extends runtime.BaseAPI {
             headerParameters["api_key"] = await this.configuration.apiKey("api_key"); // api_key authentication
         }
 
+
+        let urlPath = `/pet/{petId}`;
+        urlPath = urlPath.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId'])));
+
         const response = await this.request({
-            path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId']))),
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -293,8 +310,11 @@ export class PetApi extends runtime.BaseAPI {
             headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
         }
 
+
+        let urlPath = `/pet`;
+
         const response = await this.request({
-            path: `/pet`,
+            path: urlPath,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
@@ -353,8 +373,12 @@ export class PetApi extends runtime.BaseAPI {
             formParams.append('status', requestParameters['status'] as any);
         }
 
+
+        let urlPath = `/pet/{petId}`;
+        urlPath = urlPath.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId'])));
+
         const response = await this.request({
-            path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId']))),
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -415,8 +439,12 @@ export class PetApi extends runtime.BaseAPI {
             formParams.append('file', requestParameters['file'] as any);
         }
 
+
+        let urlPath = `/pet/{petId}/uploadImage`;
+        urlPath = urlPath.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId'])));
+
         const response = await this.request({
-            path: `/pet/{petId}/uploadImage`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId']))),
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
