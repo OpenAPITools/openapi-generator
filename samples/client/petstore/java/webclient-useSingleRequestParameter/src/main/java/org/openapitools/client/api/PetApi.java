@@ -149,7 +149,7 @@ public class PetApi {
        * @throws WebClientResponseException if an error occurs while attempting to invoke the API
     */
     public Mono<Void> deletePet(DeletePetRequest requestParameters) throws WebClientResponseException {
-      this.deletePet(requestParameters.petId(), requestParameters.apiKey());
+    return this.deletePet(requestParameters.petId(), requestParameters.apiKey());
     }
 
     /**
@@ -610,7 +610,7 @@ public class PetApi {
        * @throws WebClientResponseException if an error occurs while attempting to invoke the API
     */
     public Mono<Void> updatePetWithForm(UpdatePetWithFormRequest requestParameters) throws WebClientResponseException {
-      this.updatePetWithForm(requestParameters.petId(), requestParameters.name(), requestParameters.status());
+    return this.updatePetWithForm(requestParameters.petId(), requestParameters.name(), requestParameters.status());
     }
 
     /**
@@ -758,7 +758,7 @@ public class PetApi {
        * @throws WebClientResponseException if an error occurs while attempting to invoke the API
     */
     public Mono<ModelApiResponse> uploadFile(UploadFileRequest requestParameters) throws WebClientResponseException {
-      return this.uploadFile(requestParameters.petId(), requestParameters.additionalMetadata(), requestParameters._file());
+    return this.uploadFile(requestParameters.petId(), requestParameters.additionalMetadata(), requestParameters._file());
     }
 
     /**
@@ -906,7 +906,7 @@ public class PetApi {
        * @throws WebClientResponseException if an error occurs while attempting to invoke the API
     */
     public Mono<ModelApiResponse> uploadFileWithRequiredFile(UploadFileWithRequiredFileRequest requestParameters) throws WebClientResponseException {
-      return this.uploadFileWithRequiredFile(requestParameters.petId(), requestParameters.requiredFile(), requestParameters.additionalMetadata());
+    return this.uploadFileWithRequiredFile(requestParameters.petId(), requestParameters.requiredFile(), requestParameters.additionalMetadata());
     }
 
     /**

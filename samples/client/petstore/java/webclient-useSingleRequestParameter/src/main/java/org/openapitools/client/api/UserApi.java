@@ -437,7 +437,7 @@ public class UserApi {
        * @throws WebClientResponseException if an error occurs while attempting to invoke the API
     */
     public Mono<String> loginUser(LoginUserRequest requestParameters) throws WebClientResponseException {
-      return this.loginUser(requestParameters.username(), requestParameters.password());
+    return this.loginUser(requestParameters.username(), requestParameters.password());
     }
 
     /**
@@ -639,7 +639,7 @@ public class UserApi {
        * @throws WebClientResponseException if an error occurs while attempting to invoke the API
     */
     public Mono<Void> updateUser(UpdateUserRequest requestParameters) throws WebClientResponseException {
-      this.updateUser(requestParameters.username(), requestParameters.user());
+    return this.updateUser(requestParameters.username(), requestParameters.user());
     }
 
     /**
