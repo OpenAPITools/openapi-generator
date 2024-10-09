@@ -17,7 +17,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
 from pydantic import Field, StrictInt, StrictStr
-from typing import Dict
+from typing import Any, Dict
 from typing_extensions import Annotated
 from petstore_api.models.order import Order
 

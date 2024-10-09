@@ -1945,6 +1945,8 @@ test error responses with model
 
 ```python
 import petstore_api
+from petstore_api.models.test_error_responses_with_model400_response import TestErrorResponsesWithModel400Response
+from petstore_api.models.test_error_responses_with_model404_response import TestErrorResponsesWithModel404Response
 from petstore_api.rest import ApiException
 from pprint import pprint
 
