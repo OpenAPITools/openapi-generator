@@ -49,7 +49,7 @@ import io.github.threetenjaxb.core.*;
   EnumTest.JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE
 })
 @JsonTypeName("Enum_Test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 @XmlRootElement(name = "EnumTest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "EnumTest")
@@ -61,13 +61,13 @@ public class EnumTest {
   @XmlEnum(String.class)
   public enum EnumStringEnum {
     @XmlEnumValue("UPPER")
-    UPPER("UPPER"),
+    UPPER(String.valueOf("UPPER")),
     
     @XmlEnumValue("lower")
-    LOWER("lower"),
+    LOWER(String.valueOf("lower")),
     
     @XmlEnumValue("")
-    EMPTY("");
+    EMPTY(String.valueOf(""));
 
     private String value;
 
@@ -107,13 +107,13 @@ public class EnumTest {
   @XmlEnum(String.class)
   public enum EnumStringRequiredEnum {
     @XmlEnumValue("UPPER")
-    UPPER("UPPER"),
+    UPPER(String.valueOf("UPPER")),
     
     @XmlEnumValue("lower")
-    LOWER("lower"),
+    LOWER(String.valueOf("lower")),
     
     @XmlEnumValue("")
-    EMPTY("");
+    EMPTY(String.valueOf(""));
 
     private String value;
 
@@ -153,10 +153,10 @@ public class EnumTest {
   @XmlEnum(Integer.class)
   public enum EnumIntegerEnum {
     @XmlEnumValue("1")
-    NUMBER_1(1),
+    NUMBER_1(Integer.valueOf(1)),
     
     @XmlEnumValue("-1")
-    NUMBER_MINUS_1(-1);
+    NUMBER_MINUS_1(Integer.valueOf(-1));
 
     private Integer value;
 
@@ -196,10 +196,10 @@ public class EnumTest {
   @XmlEnum(Double.class)
   public enum EnumNumberEnum {
     @XmlEnumValue("1.1")
-    NUMBER_1_DOT_1(1.1),
+    NUMBER_1_DOT_1(Double.valueOf(1.1)),
     
     @XmlEnumValue("-1.2")
-    NUMBER_MINUS_1_DOT_2(-1.2);
+    NUMBER_MINUS_1_DOT_2(Double.valueOf(-1.2));
 
     private Double value;
 

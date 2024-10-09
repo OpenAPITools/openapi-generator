@@ -25,7 +25,7 @@ import UniformTypeIdentifiers
 }
 
 // Protocol allowing implementations to alter what is returned or to test their implementations.
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} protocol URLSessionProtocol {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} protocol URLSessionProtocol: Sendable {
     // Task which performs the network fetch. Expected to be from URLSession.dataTask(with:completionHandler:) such that a network request
     // is sent off when `.resume()` is called.
     func dataTaskFromProtocol(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, URLResponse?, (any Error)?) -> Void) -> URLSessionDataTaskProtocol
@@ -40,12 +40,14 @@ extension URLSession: URLSessionProtocol {
 
 extension URLSessionDataTask: URLSessionDataTaskProtocol {}
 
-class URLSessionRequestBuilderFactory: RequestBuilderFactory {
-    func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} class URLSessionRequestBuilderFactory: RequestBuilderFactory {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init() {}
+
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
         return URLSessionRequestBuilder<T>.self
     }
 
-    func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type {
         return URLSessionDecodableRequestBuilder<T>.self
     }
 }
@@ -79,8 +81,8 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
      */
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var taskDidReceiveChallenge: {{projectName}}APIChallengeHandler?
 
-    required {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool) {
-        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication)
+    required {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, openAPIClient: OpenAPIClient = OpenAPIClient.shared) {
+        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication, openAPIClient: openAPIClient)
     }
 
     /**
@@ -126,7 +128,7 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
     }
 
     @discardableResult
-    override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ apiResponseQueue: DispatchQueue = {{projectName}}API.shared.apiResponseQueue, _ completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+    override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         let urlSession = createURLSession()
 
         guard let xMethod = HTTPMethod(rawValue: method) else {
@@ -158,23 +160,48 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
         do {
             let request = try createURLRequest(urlSession: urlSession, method: xMethod, encoding: encoding, headers: headers)
 
-            let dataTask = urlSession.dataTaskFromProtocol(with: request) { data, response, error in
-                apiResponseQueue.async {
-                    self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
+            openAPIClient.interceptor.intercept(urlRequest: request, urlSession: urlSession, openAPIClient: openAPIClient) { result in
+
+                switch result {
+                case .success(let modifiedRequest):
+                    let dataTask = urlSession.dataTaskFromProtocol(with: modifiedRequest) { data, response, error in
                     self.cleanupRequest()
+                        if let response, let error {
+                            self.openAPIClient.interceptor.retry(urlRequest: modifiedRequest, urlSession: urlSession, openAPIClient: self.openAPIClient, data: data, response: response, error: error) { retry in
+                                switch retry {
+                                case .retry:
+                                    self.execute(completion: completion)
+
+                                case .dontRetry:
+                                    self.openAPIClient.apiResponseQueue.async {
+                                        self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
+                                    }
+                                }
+                            }
+                        } else {
+                            self.openAPIClient.apiResponseQueue.async {
+                                self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
+                            }
+                        }
+                    }
+
+                    self.onProgressReady?(dataTask.progress)
+
+                    URLSessionRequestBuilderConfiguration.shared.challengeHandlerStore[dataTask.taskIdentifier] = self.taskDidReceiveChallenge
+                    URLSessionRequestBuilderConfiguration.shared.credentialStore[dataTask.taskIdentifier] = self.credential
+
+                    self.requestTask.set(task: dataTask)
+
+                    dataTask.resume()
+
+                case .failure(let error):
+                    self.openAPIClient.apiResponseQueue.async {
+                        completion(.failure(ErrorResponse.error(415, nil, nil, error)))
+                    }
                 }
             }
-
-            onProgressReady?(dataTask.progress)
-
-            URLSessionRequestBuilderConfiguration.shared.challengeHandlerStore[dataTask.taskIdentifier] = taskDidReceiveChallenge
-            URLSessionRequestBuilderConfiguration.shared.credentialStore[dataTask.taskIdentifier] = credential
-
-            requestTask.set(task: dataTask)
-
-            dataTask.resume()
         } catch {
-            apiResponseQueue.async {
+            self.openAPIClient.apiResponseQueue.async {
                 completion(.failure(ErrorResponse.error(415, nil, nil, error)))
             }
         }
@@ -201,7 +228,7 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
             return
         }
 
-        guard httpResponse.isStatusCodeSuccessful else {
+        guard openAPIClient.successfulStatusCodeRange.contains(httpResponse.statusCode) else {
             completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode)))
             return
         }
@@ -219,7 +246,7 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func buildHeaders() -> [String: String] {
         var httpHeaders: [String: String] = [:]
-        for (key, value) in {{projectName}}API.shared.customHeaders {
+        for (key, value) in openAPIClient.customHeaders {
             httpHeaders[key] = value
         }
         for (key, value) in headers {
@@ -294,7 +321,7 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
             return
         }
 
-        guard httpResponse.isStatusCodeSuccessful else {
+        guard openAPIClient.successfulStatusCodeRange.contains(httpResponse.statusCode) else {
             completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode)))
             return
         }
@@ -362,7 +389,7 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
                 return
             }
 
-            let decodeResult = CodableHelper.shared.decode(T.self, from: unwrappedData)
+            let decodeResult = openAPIClient.codableHelper.decode(T.self, from: unwrappedData)
 
             switch decodeResult {
             case let .success(decodableObj):
@@ -674,3 +701,26 @@ private extension Optional where Wrapped == Data {
 }
 
 extension JSONDataEncoding: ParameterEncoding {}
+
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum OpenAPIInterceptorRetry {
+    case retry
+    case dontRetry
+}
+
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} protocol OpenAPIInterceptor {
+    func intercept(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, completion: @escaping (Result<URLRequest, Error>) -> Void)
+
+    func retry(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, data: Data?, response: URLResponse, error: Error, completion: @escaping (OpenAPIInterceptorRetry) -> Void)
+}
+
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} class DefaultOpenAPIInterceptor: OpenAPIInterceptor {
+    public init() {}
+    
+    public func intercept(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, completion: @escaping (Result<URLRequest, any Error>) -> Void) {
+        completion(.success(urlRequest))
+    }
+    
+    public func retry(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, data: Data?, response: URLResponse, error: Error, completion: @escaping (OpenAPIInterceptorRetry) -> Void) {
+        completion(.dontRetry)
+    }
+}

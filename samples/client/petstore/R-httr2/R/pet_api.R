@@ -664,7 +664,7 @@ PetApi <- R6::R6Class(
       # explore
       for (query_item in `status`) {
         # validate enum values
-        if (!(query_item %in% c("available", "pending", "sold"))) {
+        if (!is.null(query_item) && !(query_item %in% c("available", "pending", "sold"))) {
           rlang::abort(message = "Invalid value for `status` when calling PetApi$find_pets_by_status. Must be [available, pending, sold].",
                        .subclass = "ApiException",
                        ApiException = ApiException$new(status = 0,

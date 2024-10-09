@@ -37,7 +37,7 @@ import io.github.threetenjaxb.core.*;
   EnumArrays.JSON_PROPERTY_JUST_SYMBOL,
   EnumArrays.JSON_PROPERTY_ARRAY_ENUM
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 @XmlRootElement(name = "EnumArrays")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "EnumArrays")
@@ -49,10 +49,10 @@ public class EnumArrays {
   @XmlEnum(String.class)
   public enum JustSymbolEnum {
     @XmlEnumValue(">=")
-    GREATER_THAN_OR_EQUAL_TO(">="),
+    GREATER_THAN_OR_EQUAL_TO(String.valueOf(">=")),
     
     @XmlEnumValue("$")
-    DOLLAR("$");
+    DOLLAR(String.valueOf("$"));
 
     private String value;
 
@@ -92,10 +92,10 @@ public class EnumArrays {
   @XmlEnum(String.class)
   public enum ArrayEnumEnum {
     @XmlEnumValue("fish")
-    FISH("fish"),
+    FISH(String.valueOf("fish")),
     
     @XmlEnumValue("crab")
-    CRAB("crab");
+    CRAB(String.valueOf("crab"));
 
     private String value;
 

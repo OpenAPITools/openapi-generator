@@ -32,7 +32,6 @@ public class Swift6ClientCodegenOptionsProvider implements OptionsProvider {
     public static final String RESPONSE_AS_VALUE = "test";
     public static final String NON_PUBLIC_API_REQUIRED_VALUE = "false";
     public static final String OBJC_COMPATIBLE_VALUE = "false";
-    public static final String LENIENT_TYPE_CAST_VALUE = "false";
     public static final String POD_SOURCE_VALUE = "{ :git => 'git@github.com:swagger-api/swagger-mustache.git'," +
             " :tag => 'v1.0.0-SNAPSHOT' }";
     public static final String POD_VERSION_VALUE = "v1.0.0-SNAPSHOT";
@@ -74,7 +73,6 @@ public class Swift6ClientCodegenOptionsProvider implements OptionsProvider {
                 .put(Swift6ClientCodegen.RESPONSE_AS, RESPONSE_AS_VALUE)
                 .put(CodegenConstants.NON_PUBLIC_API, NON_PUBLIC_API_REQUIRED_VALUE)
                 .put(Swift6ClientCodegen.OBJC_COMPATIBLE, OBJC_COMPATIBLE_VALUE)
-                .put(Swift6ClientCodegen.LENIENT_TYPE_CAST, LENIENT_TYPE_CAST_VALUE)
                 .put(Swift6ClientCodegen.POD_SOURCE, POD_SOURCE_VALUE)
                 .put(CodegenConstants.POD_VERSION, POD_VERSION_VALUE)
                 .put(Swift6ClientCodegen.POD_AUTHORS, POD_AUTHORS_VALUE)
@@ -104,6 +102,7 @@ public class Swift6ClientCodegenOptionsProvider implements OptionsProvider {
                 .put(Swift6ClientCodegen.MAP_FILE_BINARY_TO_DATA, "false")
                 .put(Swift6ClientCodegen.USE_CUSTOM_DATE_WITHOUT_TIME, "false")
                 .put(Swift6ClientCodegen.VALIDATABLE, "true")
+                .put(Swift6ClientCodegen.ONE_OF_UNKNOWN_DEFAULT_CASE, "false")
                 .put(Swift6ClientCodegen.USE_CLASSES, "false")
                 .put(Swift6ClientCodegen.API_STATIC_METHOD, 
                         API_STATIC_METHOD_VALUE)

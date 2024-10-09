@@ -47,7 +47,7 @@ merge_paths(FullPaths, OperationID, Method, Handler, Acc) ->
 
 get_operations() ->
     #{ {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
-       '{{operationId}}' => #{
+       '{{operationIdOriginal}}' => #{
             servers => [{{#servers}}"{{{url}}}"{{^-last}},{{/-last}}{{/servers}}],
             base_path => "{{{basePathWithoutHost}}}",
             path => "{{{path}}}",

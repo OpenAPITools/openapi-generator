@@ -43,7 +43,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.file.Path;
 import java.util.*;
@@ -275,6 +274,8 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                     " 'export RUST_POST_PROCESS_FILE=\"/usr/local/bin/rustfmt\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` " +
                     " (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'RUST_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (!Boolean.TRUE.equals(ModelUtils.isGenerateAliasAsModel())) {
@@ -840,6 +841,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -858,18 +860,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
 
         // only process files with .rs extension
         if ("rs".equals(FilenameUtils.getExtension(fileName))) {
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({} {}). Exit code: {}", cmd, file, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {} {}", cmd, file);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({} {}). Exception: {}", cmd, file, e.getMessage());
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(command);
         }
     }
 

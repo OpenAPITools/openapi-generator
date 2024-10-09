@@ -47,140 +47,140 @@ merge_paths(FullPaths, OperationID, Method, Handler, Acc) ->
 
 get_operations() ->
     #{ 
-       'AddPet' => #{
+       'addPet' => #{
             servers => [],
             base_path => "/v2",
             path => "/pet",
             method => <<"POST">>,
             handler => 'openapi_pet_handler'
         },
-       'DeletePet' => #{
+       'deletePet' => #{
             servers => [],
             base_path => "/v2",
             path => "/pet/:petId",
             method => <<"DELETE">>,
             handler => 'openapi_pet_handler'
         },
-       'FindPetsByStatus' => #{
+       'findPetsByStatus' => #{
             servers => [],
             base_path => "/v2",
             path => "/pet/findByStatus",
             method => <<"GET">>,
             handler => 'openapi_pet_handler'
         },
-       'FindPetsByTags' => #{
+       'findPetsByTags' => #{
             servers => [],
             base_path => "/v2",
             path => "/pet/findByTags",
             method => <<"GET">>,
             handler => 'openapi_pet_handler'
         },
-       'GetPetById' => #{
+       'getPetById' => #{
             servers => [],
             base_path => "/v2",
             path => "/pet/:petId",
             method => <<"GET">>,
             handler => 'openapi_pet_handler'
         },
-       'UpdatePet' => #{
+       'updatePet' => #{
             servers => [],
             base_path => "/v2",
             path => "/pet",
             method => <<"PUT">>,
             handler => 'openapi_pet_handler'
         },
-       'UpdatePetWithForm' => #{
+       'updatePetWithForm' => #{
             servers => [],
             base_path => "/v2",
             path => "/pet/:petId",
             method => <<"POST">>,
             handler => 'openapi_pet_handler'
         },
-       'UploadFile' => #{
+       'uploadFile' => #{
             servers => [],
             base_path => "/v2",
             path => "/pet/:petId/uploadImage",
             method => <<"POST">>,
             handler => 'openapi_pet_handler'
         },
-       'DeleteOrder' => #{
+       'deleteOrder' => #{
             servers => [],
             base_path => "/v2",
             path => "/store/order/:orderId",
             method => <<"DELETE">>,
             handler => 'openapi_store_handler'
         },
-       'GetInventory' => #{
+       'getInventory' => #{
             servers => [],
             base_path => "/v2",
             path => "/store/inventory",
             method => <<"GET">>,
             handler => 'openapi_store_handler'
         },
-       'GetOrderById' => #{
+       'getOrderById' => #{
             servers => [],
             base_path => "/v2",
             path => "/store/order/:orderId",
             method => <<"GET">>,
             handler => 'openapi_store_handler'
         },
-       'PlaceOrder' => #{
+       'placeOrder' => #{
             servers => [],
             base_path => "/v2",
             path => "/store/order",
             method => <<"POST">>,
             handler => 'openapi_store_handler'
         },
-       'CreateUser' => #{
+       'createUser' => #{
             servers => [],
             base_path => "/v2",
             path => "/user",
             method => <<"POST">>,
             handler => 'openapi_user_handler'
         },
-       'CreateUsersWithArrayInput' => #{
+       'createUsersWithArrayInput' => #{
             servers => [],
             base_path => "/v2",
             path => "/user/createWithArray",
             method => <<"POST">>,
             handler => 'openapi_user_handler'
         },
-       'CreateUsersWithListInput' => #{
+       'createUsersWithListInput' => #{
             servers => [],
             base_path => "/v2",
             path => "/user/createWithList",
             method => <<"POST">>,
             handler => 'openapi_user_handler'
         },
-       'DeleteUser' => #{
+       'deleteUser' => #{
             servers => [],
             base_path => "/v2",
             path => "/user/:username",
             method => <<"DELETE">>,
             handler => 'openapi_user_handler'
         },
-       'GetUserByName' => #{
+       'getUserByName' => #{
             servers => [],
             base_path => "/v2",
             path => "/user/:username",
             method => <<"GET">>,
             handler => 'openapi_user_handler'
         },
-       'LoginUser' => #{
+       'loginUser' => #{
             servers => [],
             base_path => "/v2",
             path => "/user/login",
             method => <<"GET">>,
             handler => 'openapi_user_handler'
         },
-       'LogoutUser' => #{
+       'logoutUser' => #{
             servers => [],
             base_path => "/v2",
             path => "/user/logout",
             method => <<"GET">>,
             handler => 'openapi_user_handler'
         },
-       'UpdateUser' => #{
+       'updateUser' => #{
             servers => [],
             base_path => "/v2",
             path => "/user/:username",

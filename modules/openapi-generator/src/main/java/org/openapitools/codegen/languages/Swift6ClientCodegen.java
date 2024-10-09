@@ -36,7 +36,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.time.OffsetDateTime;
 import java.time.Instant;
@@ -64,9 +63,9 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String READONLY_PROPERTIES = "readonlyProperties";
     public static final String SWIFT_USE_API_NAMESPACE = "swiftUseApiNamespace";
     public static final String DEFAULT_POD_AUTHORS = "OpenAPI Generator";
-    public static final String LENIENT_TYPE_CAST = "lenientTypeCast";
     public static final String USE_SPM_FILE_STRUCTURE = "useSPMFileStructure";
     public static final String SWIFT_PACKAGE_PATH = "swiftPackagePath";
+    public static final String ONE_OF_UNKNOWN_DEFAULT_CASE = "oneOfUnknownDefaultCase";
     public static final String USE_CLASSES = "useClasses";
     public static final String USE_BACKTICK_ESCAPES = "useBacktickEscapes";
     public static final String GENERATE_MODEL_ADDITIONAL_PROPERTIES = "generateModelAdditionalProperties";
@@ -85,8 +84,8 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected static final String RESPONSE_LIBRARY_RESULT = "Result";
     protected static final String RESPONSE_LIBRARY_COMBINE = "Combine";
     protected static final String RESPONSE_LIBRARY_ASYNC_AWAIT = "AsyncAwait";
-    protected static final String[] RESPONSE_LIBRARIES = { RESPONSE_LIBRARY_PROMISE_KIT, RESPONSE_LIBRARY_RX_SWIFT,
-            RESPONSE_LIBRARY_RESULT, RESPONSE_LIBRARY_COMBINE, RESPONSE_LIBRARY_ASYNC_AWAIT };
+    protected static final String RESPONSE_LIBRARY_OBJC_BLOCK = "ObjcBlock";
+    protected static final String[] RESPONSE_LIBRARIES = { RESPONSE_LIBRARY_ASYNC_AWAIT, RESPONSE_LIBRARY_COMBINE, RESPONSE_LIBRARY_RESULT, RESPONSE_LIBRARY_RX_SWIFT, RESPONSE_LIBRARY_OBJC_BLOCK, RESPONSE_LIBRARY_PROMISE_KIT };
     @Setter
     protected String projectName = "OpenAPIClient";
     @Setter
@@ -94,15 +93,15 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     @Setter
     protected boolean objcCompatible = false;
     @Setter
-    protected boolean lenientTypeCast = false;
-    @Setter
     protected boolean readonlyProperties = false;
     @Setter
     protected boolean swiftUseApiNamespace = false;
     @Setter
-    protected boolean useSPMFileStructure = false;
+    protected boolean useSPMFileStructure = true;
     @Setter
-    protected String swiftPackagePath = "Classes" + File.separator + "OpenAPIs";
+    protected String swiftPackagePath = "Sources" + File.separator + projectName;
+    @Setter
+    protected boolean oneOfUnknownDefaultCase = false;
     @Setter
     protected boolean useClasses = false;
     @Setter
@@ -125,7 +124,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     @Setter
     protected boolean combineDeferred = true;
     @Setter
-    protected String[] responseAs = new String[0];
+    protected String[] responseAs = { RESPONSE_LIBRARY_ASYNC_AWAIT };
     protected String sourceFolder = swiftPackagePath;
     protected HashSet objcReservedWords;
     protected String apiDocPath = "docs/";
@@ -170,7 +169,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                         "AnyObject",
                         "Any",
                         "Decimal",
-                        "AnyCodable") // from AnyCodable dependency
+                        "JSONValue")
         );
         defaultIncludes = new HashSet<>(
                 Arrays.asList(
@@ -276,8 +275,8 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("UUID", "UUID");
         typeMapping.put("URI", "String");
         typeMapping.put("decimal", "Decimal");
-        typeMapping.put("object", "AnyCodable");
-        typeMapping.put("AnyType", "AnyCodable");
+        typeMapping.put("object", "JSONValue");
+        typeMapping.put("AnyType", "JSONValue");
 
         importMapping = new HashMap<>();
 
@@ -311,22 +310,21 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
                 CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(new CliOption(LENIENT_TYPE_CAST,
-                "Accept and cast values for simple types (string->bool, "
-                        + "string->int, int->string)")
-                .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(USE_BACKTICK_ESCAPES,
                 "Escape reserved words using backticks (default: false)")
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(GENERATE_MODEL_ADDITIONAL_PROPERTIES,
                 "Generate model additional properties (default: true)")
                 .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(ONE_OF_UNKNOWN_DEFAULT_CASE,
+                "Add unknownDefault case to oneOf enum (default: false)")
+                .defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(new CliOption(CodegenConstants.API_NAME_PREFIX, CodegenConstants.API_NAME_PREFIX_DESC));
         cliOptions.add(new CliOption(USE_SPM_FILE_STRUCTURE, "Use SPM file structure"
-                + " and set the source path to Sources" + File.separator + "{{projectName}} (default: false)."));
+                + " and set the source path to Sources" + File.separator + "{{projectName}} (default: true)."));
         cliOptions.add(new CliOption(SWIFT_PACKAGE_PATH, "Set a custom source path instead of "
-                + projectName + File.separator + "Classes" + File.separator + "OpenAPIs" + "."));
+                + "Sources" + File.separator + "{{projectName}}" + "."));
         cliOptions.add(new CliOption(USE_CLASSES, "Use final classes for models instead of structs (default: false)")
                 .defaultValue(Boolean.FALSE.toString()));
 
@@ -339,7 +337,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                 .defaultValue(Boolean.TRUE.toString()));
 
         cliOptions.add(new CliOption(MAP_FILE_BINARY_TO_DATA,
-                "[WARNING] This option will be removed and enabled by default in the future once we've enhanced the code to work with `Data` in all the different situations. Map File and Binary to Data (default: false)")
+                "Map File and Binary to Data (default: false)")
                 .defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(new CliOption(USE_CUSTOM_DATE_WITHOUT_TIME,
@@ -451,6 +449,8 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                     "Environment variable SWIFT_POST_PROCESS_FILE not defined so the Swift code may not be properly formatted. To define it, try 'export SWIFT_POST_PROCESS_FILE=/usr/local/bin/swiftformat' (Linux/Mac)");
             LOGGER.info(
                     "NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'SWIFT_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         // Setup project name
@@ -459,7 +459,6 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         } else {
             additionalProperties.put(PROJECT_NAME, projectName);
         }
-        sourceFolder = projectName + File.separator + sourceFolder;
 
         // Setup nonPublicApi option, which generates code with reduced access
         // modifiers; allows embedding elsewhere without exposing non-public API calls
@@ -505,6 +504,9 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (ArrayUtils.contains(responseAs, RESPONSE_LIBRARY_ASYNC_AWAIT)) {
             additionalProperties.put("useAsyncAwait", true);
         }
+        if (ArrayUtils.contains(responseAs, RESPONSE_LIBRARY_OBJC_BLOCK)) {
+            additionalProperties.put("useObjcBlock", true);
+        }
 
         // Setup readonlyProperties option, which declares properties so they can only
         // be set at initialization
@@ -518,6 +520,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (additionalProperties.containsKey(SWIFT_USE_API_NAMESPACE)) {
             setSwiftUseApiNamespace(convertPropertyToBooleanAndWriteBack(SWIFT_USE_API_NAMESPACE));
         }
+        additionalProperties.put(SWIFT_USE_API_NAMESPACE, swiftUseApiNamespace);
 
         if (!additionalProperties.containsKey(POD_AUTHORS)) {
             additionalProperties.put(POD_AUTHORS, DEFAULT_POD_AUTHORS);
@@ -525,7 +528,12 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         if (additionalProperties.containsKey(USE_SPM_FILE_STRUCTURE)) {
             setUseSPMFileStructure(convertPropertyToBooleanAndWriteBack(USE_SPM_FILE_STRUCTURE));
+        }
+        additionalProperties.put(USE_SPM_FILE_STRUCTURE, useSPMFileStructure);
+        if (useSPMFileStructure) {
             sourceFolder = "Sources" + File.separator + projectName;
+        } else {
+            sourceFolder = projectName + File.separator + "Classes" + File.separator + "OpenAPIs";
         }
 
         if (additionalProperties.containsKey(SWIFT_PACKAGE_PATH)
@@ -573,6 +581,11 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
             typeMapping.put("date", "Date");
         }
 
+        if (additionalProperties.containsKey(ONE_OF_UNKNOWN_DEFAULT_CASE)) {
+            setOneOfUnknownDefaultCase(convertPropertyToBooleanAndWriteBack(ONE_OF_UNKNOWN_DEFAULT_CASE));
+        }
+        additionalProperties.put(ONE_OF_UNKNOWN_DEFAULT_CASE, oneOfUnknownDefaultCase);
+
         if (additionalProperties.containsKey(USE_CLASSES)) {
             setUseClasses(convertPropertyToBooleanAndWriteBack(USE_CLASSES));
         }
@@ -593,7 +606,8 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
         additionalProperties.put(COMBINE_DEFERRED, combineDeferred);
 
-        setLenientTypeCast(convertPropertyToBooleanAndWriteBack(LENIENT_TYPE_CAST));
+        // infrastructure destination folder
+        final String infrastructureFolder = sourceFolder + File.separator + "Infrastructure";
 
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
@@ -607,50 +621,53 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                     "",
                     "Cartfile"));
             supportingFiles.add(new SupportingFile("CodableHelper.mustache",
-                    sourceFolder,
+                    infrastructureFolder,
                     "CodableHelper.swift"));
             supportingFiles.add(new SupportingFile("JSONDataEncoding.mustache",
-                    sourceFolder,
+                    infrastructureFolder,
                     "JSONDataEncoding.swift"));
             supportingFiles.add(new SupportingFile("JSONEncodingHelper.mustache",
-                    sourceFolder,
+                    infrastructureFolder,
                     "JSONEncodingHelper.swift"));
             supportingFiles.add(new SupportingFile("git_push.sh.mustache",
                     "",
                     "git_push.sh"));
             supportingFiles.add(new SupportingFile("SynchronizedDictionary.mustache",
-                    sourceFolder,
+                    infrastructureFolder,
                     "SynchronizedDictionary.swift"));
             supportingFiles.add(new SupportingFile("XcodeGen.mustache",
                     "",
                     "project.yml"));
             supportingFiles.add(new SupportingFile("APIHelper.mustache",
-                    sourceFolder,
+                    infrastructureFolder,
                     "APIHelper.swift"));
             supportingFiles.add(new SupportingFile("Models.mustache",
-                    sourceFolder,
+                    infrastructureFolder,
                     "Models.swift"));
         }
         supportingFiles.add(new SupportingFile("Package.swift.mustache",
                 "",
                 "Package.swift"));
         supportingFiles.add(new SupportingFile("Extensions.mustache",
-                sourceFolder,
+                infrastructureFolder,
                 "Extensions.swift"));
         supportingFiles.add(new SupportingFile("OpenISO8601DateFormatter.mustache",
-                sourceFolder,
+                infrastructureFolder,
                 "OpenISO8601DateFormatter.swift"));
+        supportingFiles.add(new SupportingFile("JSONValue.mustache",
+                infrastructureFolder,
+                "JSONValue.swift"));
         if (useCustomDateWithoutTime) {
             supportingFiles.add(new SupportingFile("OpenAPIDateWithoutTime.mustache",
-                    sourceFolder,
+                    infrastructureFolder,
                     "OpenAPIDateWithoutTime.swift"));
         }
         supportingFiles.add(new SupportingFile("APIs.mustache",
-                sourceFolder,
+                infrastructureFolder,
                 "APIs.swift"));
         if (validatable) {
             supportingFiles.add(new SupportingFile("Validation.mustache",
-                    sourceFolder,
+                    infrastructureFolder,
                     "Validation.swift"));
         }
         supportingFiles.add(new SupportingFile("gitignore.mustache",
@@ -667,13 +684,13 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
             case LIBRARY_ALAMOFIRE:
                 additionalProperties.put("useAlamofire", true);
                 supportingFiles.add(new SupportingFile("AlamofireImplementations.mustache",
-                        sourceFolder,
+                        infrastructureFolder,
                         "AlamofireImplementations.swift"));
                 break;
             case LIBRARY_URLSESSION:
                 additionalProperties.put("useURLSession", true);
                 supportingFiles.add(new SupportingFile("URLSessionImplementations.mustache",
-                        sourceFolder,
+                        infrastructureFolder,
                         "URLSessionImplementations.swift"));
                 break;
             case LIBRARY_VAPOR:
@@ -1213,6 +1230,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -1222,20 +1240,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
         // only process files with swift extension
         if ("swift".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = swiftPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[] {swiftPostProcessFile, file.toString()});
         }
     }
 

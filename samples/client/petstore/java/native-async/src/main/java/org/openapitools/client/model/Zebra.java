@@ -42,17 +42,17 @@ import org.openapitools.client.ApiClient;
   Zebra.JSON_PROPERTY_TYPE,
   Zebra.JSON_PROPERTY_CLASS_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Zebra extends HashMap<String, Object> {
   /**
    * Gets or Sets type
    */
   public enum TypeEnum {
-    PLAINS("plains"),
+    PLAINS(String.valueOf("plains")),
     
-    MOUNTAIN("mountain"),
+    MOUNTAIN(String.valueOf("mountain")),
     
-    GREVYS("grevys");
+    GREVYS(String.valueOf("grevys"));
 
     private String value;
 

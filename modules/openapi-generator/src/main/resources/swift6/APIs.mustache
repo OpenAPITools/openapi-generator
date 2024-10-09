@@ -10,55 +10,100 @@ import FoundationNetworking
 #endif{{#useVapor}}
 import Vapor{{/useVapor}}{{#useAlamofire}}
 import Alamofire{{/useAlamofire}}
+{{#swiftUseApiNamespace}}
 
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class {{projectName}}API: @unchecked Sendable {
-    private init() {}
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static let shared = {{projectName}}API()
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum {{projectName}}API {}
+{{/swiftUseApiNamespace}}
 
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var basePath = "{{{basePath}}}"{{#useVapor}}
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var customHeaders: HTTPHeaders = [:]
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var apiClient: Vapor.Client? = nil
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var apiWrapper: (inout Vapor.ClientRequest) throws -> () = { _ in }
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var contentConfiguration = ContentConfiguration.default(){{/useVapor}}{{^useVapor}}{{/useVapor}}{{^useVapor}}
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var customHeaders: [String: String] = [:]
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var credential: URLCredential?{{#useAlamofire}}
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory(){{/useAlamofire}}{{#useURLSession}}
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var requestBuilderFactory: RequestBuilderFactory = URLSessionRequestBuilderFactory(){{/useURLSession}}
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var apiResponseQueue: DispatchQueue = .main
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class OpenAPIClient: @unchecked Sendable {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var basePath: String{{#useVapor}}
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var customHeaders: HTTPHeaders
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var apiClient: Vapor.Client?
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var apiWrapper: (inout Vapor.ClientRequest) throws -> ()
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var contentConfiguration{{/useVapor}}{{^useVapor}}
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var customHeaders: [String: String]
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var credential: URLCredential?
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var requestBuilderFactory: RequestBuilderFactory
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var apiResponseQueue: DispatchQueue
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var codableHelper: CodableHelper
+
     /// Configures the range of HTTP status codes that will result in a successful response
     ///
     /// If a HTTP status code is outside of this range the response will be interpreted as failed.
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var successfulStatusCodeRange: Range = 200..<300{{/useVapor}}{{#useAlamofire}}
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var successfulStatusCodeRange: Range<Int>{{#useURLSession}}
+
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var interceptor: OpenAPIInterceptor{{/useURLSession}}{{#useAlamofire}}
+
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var interceptor: RequestInterceptor?
+
     /// ResponseSerializer that will be used by the generator for `Data` responses
     ///
     /// If unchanged, Alamofires default `DataResponseSerializer` will be used. 
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var dataResponseSerializer: AnyResponseSerializer<Data> = AnyResponseSerializer(DataResponseSerializer())
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var dataResponseSerializer: AnyResponseSerializer<Data>
     /// ResponseSerializer that will be used by the generator for `String` responses
     ///
     /// If unchanged, Alamofires default `StringResponseSerializer` will be used. 
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var stringResponseSerializer: AnyResponseSerializer<String> = AnyResponseSerializer(StringResponseSerializer()){{/useAlamofire}}
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var stringResponseSerializer: AnyResponseSerializer<String>{{/useAlamofire}}{{/useVapor}}
+
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(
+        basePath: String = "{{{basePath}}}",{{#useVapor}}
+        customHeaders: HTTPHeaders = [:],
+        apiClient: Vapor.Client? = nil,
+        apiWrapper: (inout Vapor.ClientRequest) throws -> () = { _ in },
+        contentConfiguration = ContentConfiguration.default(){{/useVapor}}{{^useVapor}}
+        customHeaders: [String: String] = [:],
+        credential: URLCredential? = nil,
+        requestBuilderFactory: RequestBuilderFactory = {{#useAlamofire}}AlamofireRequestBuilderFactory(){{/useAlamofire}}{{#useURLSession}}URLSessionRequestBuilderFactory(){{/useURLSession}},
+        apiResponseQueue: DispatchQueue = .main,
+        codableHelper: CodableHelper = CodableHelper(),
+        successfulStatusCodeRange: Range<Int> = 200..<300{{#useURLSession}},
+        interceptor: OpenAPIInterceptor = DefaultOpenAPIInterceptor(){{/useURLSession}}{{#useAlamofire}},
+        interceptor: RequestInterceptor? = nil,
+        dataResponseSerializer: AnyResponseSerializer<Data> = AnyResponseSerializer(DataResponseSerializer()),
+        stringResponseSerializer: AnyResponseSerializer<String> = AnyResponseSerializer(StringResponseSerializer()){{/useAlamofire}}{{/useVapor}}
+    ) {
+        self.basePath = basePath{{#useVapor}}
+        customHeaders = customHeaders
+        apiClient = apiClient
+        apiWrapper = apiWrapper
+        contentConfiguration = contentConfiguration{{/useVapor}}{{^useVapor}}
+        self.customHeaders = customHeaders
+        self.credential = credential
+        self.requestBuilderFactory = requestBuilderFactory
+        self.apiResponseQueue = apiResponseQueue
+        self.codableHelper = codableHelper
+        self.successfulStatusCodeRange = successfulStatusCodeRange{{#useURLSession}}
+        self.interceptor = interceptor{{/useURLSession}}{{#useAlamofire}}
+        self.interceptor = interceptor
+        self.dataResponseSerializer = dataResponseSerializer
+        self.stringResponseSerializer = stringResponseSerializer{{/useAlamofire}}{{/useVapor}}
+    }
+
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static let shared = OpenAPIClient()
 }{{^useVapor}}
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class RequestBuilder<T>: @unchecked Sendable {
-    var credential: URLCredential?
-    var headers: [String: String]
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var credential: URLCredential?
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var headers: [String: String]
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let parameters: [String: Any]?
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let method: String
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let URLString: String
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let requestTask: RequestTask = RequestTask()
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let requiresAuthentication: Bool
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let openAPIClient: OpenAPIClient
 
     /// Optional block to obtain a reference to the request's progress instance when available.
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var onProgressReady: ((Progress) -> Void)?
 
-    required {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool) {
+    required {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, openAPIClient: OpenAPIClient = OpenAPIClient.shared) {
         self.method = method
         self.URLString = URLString
         self.parameters = parameters
         self.headers = headers
         self.requiresAuthentication = requiresAuthentication
+        self.openAPIClient = openAPIClient
 
-        addHeaders({{projectName}}API.shared.customHeaders)
+        addHeaders(openAPIClient.customHeaders)
     }
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func addHeaders(_ aHeaders: [String: String]) {
@@ -68,7 +113,7 @@ import Alamofire{{/useAlamofire}}
     }
 
     @discardableResult
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ apiResponseQueue: DispatchQueue = {{projectName}}API.shared.apiResponseQueue, _ completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         return requestTask
     }
 
@@ -117,7 +162,7 @@ import Alamofire{{/useAlamofire}}
     }
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func addCredential() -> Self {
-        credential = {{projectName}}API.shared.credential
+        credential = openAPIClient.credential
         return self
     }
 }

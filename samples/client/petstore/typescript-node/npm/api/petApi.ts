@@ -304,6 +304,8 @@ export class PetApi {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @summary Finds Pets by tags
      * @param tags Tags to filter by
+     *
+     * @deprecated
      */
     public async findPetsByTags (tags: Array<string>, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Array<Pet>;  }> {
         const localVarPath = this.basePath + '/pet/findByTags';

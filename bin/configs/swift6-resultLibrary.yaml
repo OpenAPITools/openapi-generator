@@ -5,6 +5,7 @@ templateDir: modules/openapi-generator/src/main/resources/swift6
 generateAliasAsModel: true
 additionalProperties:
   responseAs: Result
+  useSPMFileStructure: false
   podAuthors: ""
   podSummary: PetstoreClient
   sortParamsByRequiredFlag: false

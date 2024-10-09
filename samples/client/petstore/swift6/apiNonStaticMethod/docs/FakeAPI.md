@@ -357,8 +357,8 @@ No authorization required
 
 # **testEndpointParameters**
 ```swift
-    open class func testEndpointParameters( number: Double,  double: Double,  patternWithoutDelimiter: String,  byte: Data,  integer: Int? = nil,  int32: Int? = nil,  int64: Int64? = nil,  float: Float? = nil,  string: String? = nil,  binary: URL? = nil,  date: Date? = nil,  dateTime: Date? = nil,  password: String? = nil,  callback: String? = nil) -> Promise<Void>
-    open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> Observable<Void>
+    open class func testEndpointParameters( number: Double,  double: Double,  patternWithoutDelimiter: String,  byte: Data,  integer: Int? = nil,  int32: Int? = nil,  int64: Int64? = nil,  float: Float? = nil,  string: String? = nil,  binary: Data? = nil,  date: Date? = nil,  dateTime: Date? = nil,  password: String? = nil,  callback: String? = nil) -> Promise<Void>
+    open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: Data? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> Observable<Void>
 ```
 
 Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -379,7 +379,7 @@ let int32 = 987 // Int | None (optional)
 let int64 = 987 // Int64 | None (optional)
 let float = 987 // Float | None (optional)
 let string = "string_example" // String | None (optional)
-let binary = URL(string: "https://example.com")! // URL | None (optional)
+let binary = Data([9, 8, 7]) // Data | None (optional)
 let date = Date() // Date | None (optional)
 let dateTime = Date() // Date | None (optional)
 let password = "password_example" // String | None (optional)
@@ -409,7 +409,7 @@ Name | Type | Description  | Notes
  **int64** | **Int64** | None | [optional] 
  **float** | **Float** | None | [optional] 
  **string** | **String** | None | [optional] 
- **binary** | **URL** | None | [optional] 
+ **binary** | **Data** | None | [optional] 
  **date** | **Date** | None | [optional] 
  **dateTime** | **Date** | None | [optional] 
  **password** | **String** | None | [optional] 

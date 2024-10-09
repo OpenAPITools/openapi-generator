@@ -600,7 +600,9 @@ public class ModelUtils {
         Schema<?> items = schema.getItems();
         if (items == null) {
             if (schema instanceof JsonSchema) { // 3.1 spec
-                // do nothing as the schema may contain prefixItems only
+                // set the items to a new schema (any type)
+                items = new Schema<>();
+                schema.setItems(items);
             } else { // 3.0 spec, default to string
                 LOGGER.error("Undefined array inner type for `{}`. Default to String.", schema.getName());
                 items = new StringSchema().description("TODO default missing array inner type to string");

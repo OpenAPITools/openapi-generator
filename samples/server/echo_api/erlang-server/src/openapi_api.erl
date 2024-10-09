@@ -8,29 +8,32 @@ and `validate_response/4` respectively.
 
 For example, the user-defined `Module:accept_callback/4` can be implemented as follows:
 ```
--spec accept_callback(atom(), openapi_api:operation_id(), cowboy_req:req(), context()) ->
-    {cowboy:http_status(), cowboy:http_headers(), json:encode_value()}.
-accept_callback(Class, OperationID, Req, Context) ->
+-spec accept_callback(
+        Class :: openapi_api:class(),
+        OperationID :: openapi_api:operation_id(),
+        Req :: cowboy_req:req(),
+        Context :: openapi_logic_handler:context()) ->
+    {openapi_logic_handler:accept_callback_return(),
+     cowboy_req:req(),
+     openapi_logic_handler:context()}.
+accept_callback(Class, OperationID, Req0, Context0) ->
     ValidatorState = openapi_api:prepare_validator(),
     case openapi_api:populate_request(OperationID, Req0, ValidatorState) of
-        {ok, Populated, Req1} ->
-            {Code, Headers, Body} = openapi_logic_handler:handle_request(
-                LogicHandler,
-                OperationID,
-                Req1,
-                maps:merge(State#state.context, Populated)
-            ),
-            _ = openapi_api:validate_response(
-                OperationID,
-                Code,
-                Body,
-                ValidatorState
-            ),
-            PreparedBody = prepare_body(Code, Body),
-            Response = {ok, {Code, Headers, PreparedBody}},
-            process_response(Response, Req1, State);
+        {ok, Model, Req1} ->
+            Context1 = maps:merge(Context0, Model),
+            case do_accept_callback(Class, OperationID, Req1, Context1) of
+                {false, Req2, Context2} ->
+                    {false, Req2, Context2};
+                {{true, Code, Body}, Req2, Context2} ->
+                    case validate_response(OperationID, Code, Body, ValidatorState) of
+                        ok ->
+                            process_response({ok, Code, Body}, Req2, Context2);
+                        {error, Reason} ->
+                            process_response({error, Reason}, Req2, Context2)
+                    end
+            end;
         {error, Reason, Req1} ->
-            process_response({error, Reason}, Req1, State)
+            process_response({error, Reason}, Req1, Context0)
     end.
 ```
 """.
@@ -41,15 +44,54 @@ accept_callback(Class, OperationID, Req, Context) ->
 -ignore_xref([populate_request/3, validate_response/4]).
 -ignore_xref([prepare_validator/0, prepare_validator/1, prepare_validator/2]).
 
--type operation_id() :: atom().
+-type class() ::
+    'auth'
+    | 'body'
+    | 'form'
+    | 'header'
+    | 'path'
+    | 'query'.
+
+
+-type operation_id() ::
+    'test/auth/http/basic' | %% To test HTTP basic authentication
+    'test/auth/http/bearer' | %% To test HTTP bearer authentication
+    'test/binary/gif' | %% Test binary (gif) response body
+    'test/body/application/octetstream/binary' | %% Test body parameter(s)
+    'test/body/multipart/formdata/array_of_binary' | %% Test array of binary in multipart mime
+    'test/body/multipart/formdata/single_binary' | %% Test single binary in multipart mime
+    'test/echo/body/allOf/Pet' | %% Test body parameter(s)
+    'test/echo/body/FreeFormObject/response_string' | %% Test free form object
+    'test/echo/body/Pet' | %% Test body parameter(s)
+    'test/echo/body/Pet/response_string' | %% Test empty response body
+    'test/echo/body/string_enum' | %% Test string enum response body
+    'test/echo/body/Tag/response_string' | %% Test empty json (request body)
+    'test/form/integer/boolean/string' | %% Test form parameter(s)
+    'test/form/object/multipart' | %% Test form parameter(s) for multipart schema
+    'test/form/oneof' | %% Test form parameter(s) for oneOf schema
+    'test/header/integer/boolean/string/enums' | %% Test header parameter(s)
+    'tests/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}' | %% Test path parameter(s)
+    'test/enum_ref_string' | %% Test query parameter(s)
+    'test/query/datetime/date/string' | %% Test query parameter(s)
+    'test/query/integer/boolean/string' | %% Test query parameter(s)
+    'test/query/style_deepObject/explode_true/object' | %% Test query parameter(s)
+    'test/query/style_deepObject/explode_true/object/allOf' | %% Test query parameter(s)
+    'test/query/style_form/explode_false/array_integer' | %% Test query parameter(s)
+    'test/query/style_form/explode_false/array_string' | %% Test query parameter(s)
+    'test/query/style_form/explode_true/array_string' | %% Test query parameter(s)
+    'test/query/style_form/explode_true/object' | %% Test query parameter(s)
+    'test/query/style_form/explode_true/object/allOf' | %% Test query parameter(s)
+    {error, unknown_operation}.
+
 -type request_param() :: atom().
 
--export_type([operation_id/0]).
+-export_type([class/0, operation_id/0]).
 
--dialyzer({nowarn_function, [to_binary/1, validate_response_body/4]}).
+-dialyzer({nowarn_function, [validate_response_body/4]}).
 
 -type rule() ::
     {type, binary} |
+    {type, byte} |
     {type, integer} |
     {type, float} |
     {type, boolean} |
@@ -63,6 +105,7 @@ accept_callback(Class, OperationID, Req, Context) ->
     {max_length, MaxLength :: integer()} |
     {min_length, MaxLength :: integer()} |
     {pattern, Pattern :: string()} |
+    {schema, object | list, binary()} |
     schema |
     required |
     not_required.
@@ -110,121 +153,121 @@ for the `OperationID` operation.
         Body :: jesse:json_term(),
         ValidatorState :: jesse_state:state()) ->
     ok | {ok, term()} | [ok | {ok, term()}] | no_return().
-validate_response('TestAuthHttpBasic', 200, Body, ValidatorState) ->
+validate_response('test/auth/http/basic', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
-validate_response('TestAuthHttpBearer', 200, Body, ValidatorState) ->
+validate_response('test/auth/http/bearer', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
-validate_response('TestBinaryGif', 200, Body, ValidatorState) ->
+validate_response('test/binary/gif', 200, Body, ValidatorState) ->
     validate_response_body('file', 'file', Body, ValidatorState);
-validate_response('TestBodyApplicationOctetstreamBinary', 200, Body, ValidatorState) ->
+validate_response('test/body/application/octetstream/binary', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
-validate_response('TestBodyMultipartFormdataArrayOfBinary', 200, Body, ValidatorState) ->
+validate_response('test/body/multipart/formdata/array_of_binary', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
-validate_response('TestBodyMultipartFormdataSingleBinary', 200, Body, ValidatorState) ->
+validate_response('test/body/multipart/formdata/single_binary', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
-validate_response('TestEchoBodyAllOfPet', 200, Body, ValidatorState) ->
+validate_response('test/echo/body/allOf/Pet', 200, Body, ValidatorState) ->
     validate_response_body('Pet', 'Pet', Body, ValidatorState);
-validate_response('TestEchoBodyFreeFormObjectResponseString', 200, Body, ValidatorState) ->
+validate_response('test/echo/body/FreeFormObject/response_string', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
-validate_response('TestEchoBodyPet', 200, Body, ValidatorState) ->
+validate_response('test/echo/body/Pet', 200, Body, ValidatorState) ->
     validate_response_body('Pet', 'Pet', Body, ValidatorState);
-validate_response('TestEchoBodyPetResponseString', 200, Body, ValidatorState) ->
+validate_response('test/echo/body/Pet/response_string', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
-validate_response('TestEchoBodyStringEnum', 200, Body, ValidatorState) ->
+validate_response('test/echo/body/string_enum', 200, Body, ValidatorState) ->
     validate_response_body('StringEnumRef', 'StringEnumRef', Body, ValidatorState);
-validate_response('TestEchoBodyTagResponseString', 200, Body, ValidatorState) ->
+validate_response('test/echo/body/Tag/response_string', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
-validate_response('TestFormIntegerBooleanString', 200, Body, ValidatorState) ->
+validate_response('test/form/integer/boolean/string', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
-validate_response('TestFormObjectMultipart', 200, Body, ValidatorState) ->
+validate_response('test/form/object/multipart', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
-validate_response('TestFormOneof', 200, Body, ValidatorState) ->
+validate_response('test/form/oneof', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
-validate_response('TestHeaderIntegerBooleanStringEnums', 200, Body, ValidatorState) ->
+validate_response('test/header/integer/boolean/string/enums', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
-validate_response('TestsPathString{pathString}Integer{pathInteger}{enumNonrefStringPath}{enumRefStringPath}', 200, Body, ValidatorState) ->
+validate_response('tests/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
-validate_response('TestEnumRefString', 200, Body, ValidatorState) ->
+validate_response('test/enum_ref_string', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
-validate_response('TestQueryDatetimeDateString', 200, Body, ValidatorState) ->
+validate_response('test/query/datetime/date/string', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
-validate_response('TestQueryIntegerBooleanString', 200, Body, ValidatorState) ->
+validate_response('test/query/integer/boolean/string', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
-validate_response('TestQueryStyleDeepObjectExplodeTrueObject', 200, Body, ValidatorState) ->
+validate_response('test/query/style_deepObject/explode_true/object', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
-validate_response('TestQueryStyleDeepObjectExplodeTrueObjectAllOf', 200, Body, ValidatorState) ->
+validate_response('test/query/style_deepObject/explode_true/object/allOf', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
-validate_response('TestQueryStyleFormExplodeFalseArrayInteger', 200, Body, ValidatorState) ->
+validate_response('test/query/style_form/explode_false/array_integer', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
-validate_response('TestQueryStyleFormExplodeFalseArrayString', 200, Body, ValidatorState) ->
+validate_response('test/query/style_form/explode_false/array_string', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
-validate_response('TestQueryStyleFormExplodeTrueArrayString', 200, Body, ValidatorState) ->
+validate_response('test/query/style_form/explode_true/array_string', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
-validate_response('TestQueryStyleFormExplodeTrueObject', 200, Body, ValidatorState) ->
+validate_response('test/query/style_form/explode_true/object', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
-validate_response('TestQueryStyleFormExplodeTrueObjectAllOf', 200, Body, ValidatorState) ->
+validate_response('test/query/style_form/explode_true/object/allOf', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
 validate_response(_OperationID, _Code, _Body, _ValidatorState) ->
     ok.
 
 %%%
 -spec request_params(OperationID :: operation_id()) -> [Param :: request_param()].
-request_params('TestAuthHttpBasic') ->
+request_params('test/auth/http/basic') ->
     [
     ];
-request_params('TestAuthHttpBearer') ->
+request_params('test/auth/http/bearer') ->
     [
     ];
-request_params('TestBinaryGif') ->
+request_params('test/binary/gif') ->
     [
     ];
-request_params('TestBodyApplicationOctetstreamBinary') ->
+request_params('test/body/application/octetstream/binary') ->
     [
         'file'
     ];
-request_params('TestBodyMultipartFormdataArrayOfBinary') ->
+request_params('test/body/multipart/formdata/array_of_binary') ->
     [
         'files'
     ];
-request_params('TestBodyMultipartFormdataSingleBinary') ->
+request_params('test/body/multipart/formdata/single_binary') ->
     [
         'my-file'
     ];
-request_params('TestEchoBodyAllOfPet') ->
+request_params('test/echo/body/allOf/Pet') ->
     [
         'Pet'
     ];
-request_params('TestEchoBodyFreeFormObjectResponseString') ->
+request_params('test/echo/body/FreeFormObject/response_string') ->
     [
         'object'
     ];
-request_params('TestEchoBodyPet') ->
+request_params('test/echo/body/Pet') ->
     [
         'Pet'
     ];
-request_params('TestEchoBodyPetResponseString') ->
+request_params('test/echo/body/Pet/response_string') ->
     [
         'Pet'
     ];
-request_params('TestEchoBodyStringEnum') ->
+request_params('test/echo/body/string_enum') ->
     [
-        'binary'
+        'StringEnumRef'
     ];
-request_params('TestEchoBodyTagResponseString') ->
+request_params('test/echo/body/Tag/response_string') ->
     [
         'Tag'
     ];
-request_params('TestFormIntegerBooleanString') ->
+request_params('test/form/integer/boolean/string') ->
     [
         'integer_form',
         'boolean_form',
         'string_form'
     ];
-request_params('TestFormObjectMultipart') ->
+request_params('test/form/object/multipart') ->
     [
         'marker'
     ];
-request_params('TestFormOneof') ->
+request_params('test/form/oneof') ->
     [
         'form1',
         'form2',
@@ -233,7 +276,7 @@ request_params('TestFormOneof') ->
         'id',
         'name'
     ];
-request_params('TestHeaderIntegerBooleanStringEnums') ->
+request_params('test/header/integer/boolean/string/enums') ->
     [
         'integer_header',
         'boolean_header',
@@ -241,55 +284,55 @@ request_params('TestHeaderIntegerBooleanStringEnums') ->
         'enum_nonref_string_header',
         'enum_ref_string_header'
     ];
-request_params('TestsPathString{pathString}Integer{pathInteger}{enumNonrefStringPath}{enumRefStringPath}') ->
+request_params('tests/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}') ->
     [
         'path_string',
         'path_integer',
         'enum_nonref_string_path',
         'enum_ref_string_path'
     ];
-request_params('TestEnumRefString') ->
+request_params('test/enum_ref_string') ->
     [
         'enum_nonref_string_query',
         'enum_ref_string_query'
     ];
-request_params('TestQueryDatetimeDateString') ->
+request_params('test/query/datetime/date/string') ->
     [
         'datetime_query',
         'date_query',
         'string_query'
     ];
-request_params('TestQueryIntegerBooleanString') ->
+request_params('test/query/integer/boolean/string') ->
     [
         'integer_query',
         'boolean_query',
         'string_query'
     ];
-request_params('TestQueryStyleDeepObjectExplodeTrueObject') ->
+request_params('test/query/style_deepObject/explode_true/object') ->
     [
         'query_object'
     ];
-request_params('TestQueryStyleDeepObjectExplodeTrueObjectAllOf') ->
+request_params('test/query/style_deepObject/explode_true/object/allOf') ->
     [
         'query_object'
     ];
-request_params('TestQueryStyleFormExplodeFalseArrayInteger') ->
+request_params('test/query/style_form/explode_false/array_integer') ->
     [
         'query_object'
     ];
-request_params('TestQueryStyleFormExplodeFalseArrayString') ->
+request_params('test/query/style_form/explode_false/array_string') ->
     [
         'query_object'
     ];
-request_params('TestQueryStyleFormExplodeTrueArrayString') ->
+request_params('test/query/style_form/explode_true/array_string') ->
     [
         'query_object'
     ];
-request_params('TestQueryStyleFormExplodeTrueObject') ->
+request_params('test/query/style_form/explode_true/object') ->
     [
         'query_object'
     ];
-request_params('TestQueryStyleFormExplodeTrueObjectAllOf') ->
+request_params('test/query/style_form/explode_true/object/allOf') ->
     [
         'query_object'
     ];
@@ -298,23 +341,22 @@ request_params(_) ->
 
 -spec request_param_info(OperationID :: operation_id(), Name :: request_param()) ->
     #{source => qs_val | binding | header | body, rules => [rule()]}.
-request_param_info('TestBodyApplicationOctetstreamBinary', 'file') ->
+request_param_info('test/body/application/octetstream/binary', 'file') ->
     #{
         source => body,
         rules => [
             {type, binary},
-            schema,
             not_required
         ]
     };
-request_param_info('TestBodyMultipartFormdataArrayOfBinary', 'files') ->
+request_param_info('test/body/multipart/formdata/array_of_binary', 'files') ->
     #{
         source => body,
         rules => [
             required
         ]
     };
-request_param_info('TestBodyMultipartFormdataSingleBinary', 'my-file') ->
+request_param_info('test/body/multipart/formdata/single_binary', 'my-file') ->
     #{
         source => body,
         rules => [
@@ -322,55 +364,54 @@ request_param_info('TestBodyMultipartFormdataSingleBinary', 'my-file') ->
             not_required
         ]
     };
-request_param_info('TestEchoBodyAllOfPet', 'Pet') ->
+request_param_info('test/echo/body/allOf/Pet', 'Pet') ->
     #{
         source => body,
         rules => [
-            schema,
+            {schema, object, <<"#/components/schemas/Pet">>},
             not_required
         ]
     };
-request_param_info('TestEchoBodyFreeFormObjectResponseString', 'object') ->
+request_param_info('test/echo/body/FreeFormObject/response_string', 'object') ->
     #{
         source => body,
         rules => [
-            schema,
             not_required
         ]
     };
-request_param_info('TestEchoBodyPet', 'Pet') ->
+request_param_info('test/echo/body/Pet', 'Pet') ->
     #{
         source => body,
         rules => [
-            schema,
+            {schema, object, <<"#/components/schemas/Pet">>},
             not_required
         ]
     };
-request_param_info('TestEchoBodyPetResponseString', 'Pet') ->
+request_param_info('test/echo/body/Pet/response_string', 'Pet') ->
     #{
         source => body,
         rules => [
-            schema,
+            {schema, object, <<"#/components/schemas/Pet">>},
             not_required
         ]
     };
-request_param_info('TestEchoBodyStringEnum', 'binary') ->
+request_param_info('test/echo/body/string_enum', 'StringEnumRef') ->
     #{
         source => body,
         rules => [
-            schema,
+            {schema, object, <<"#/components/schemas/StringEnumRef">>},
             not_required
         ]
     };
-request_param_info('TestEchoBodyTagResponseString', 'Tag') ->
+request_param_info('test/echo/body/Tag/response_string', 'Tag') ->
     #{
         source => body,
         rules => [
-            schema,
+            {schema, object, <<"#/components/schemas/Tag">>},
             not_required
         ]
     };
-request_param_info('TestFormIntegerBooleanString', 'integer_form') ->
+request_param_info('test/form/integer/boolean/string', 'integer_form') ->
     #{
         source => body,
         rules => [
@@ -378,7 +419,7 @@ request_param_info('TestFormIntegerBooleanString', 'integer_form') ->
             not_required
         ]
     };
-request_param_info('TestFormIntegerBooleanString', 'boolean_form') ->
+request_param_info('test/form/integer/boolean/string', 'boolean_form') ->
     #{
         source => body,
         rules => [
@@ -386,7 +427,7 @@ request_param_info('TestFormIntegerBooleanString', 'boolean_form') ->
             not_required
         ]
     };
-request_param_info('TestFormIntegerBooleanString', 'string_form') ->
+request_param_info('test/form/integer/boolean/string', 'string_form') ->
     #{
         source => body,
         rules => [
@@ -394,14 +435,14 @@ request_param_info('TestFormIntegerBooleanString', 'string_form') ->
             not_required
         ]
     };
-request_param_info('TestFormObjectMultipart', 'marker') ->
+request_param_info('test/form/object/multipart', 'marker') ->
     #{
         source => body,
         rules => [
             required
         ]
     };
-request_param_info('TestFormOneof', 'form1') ->
+request_param_info('test/form/oneof', 'form1') ->
     #{
         source => body,
         rules => [
@@ -409,7 +450,7 @@ request_param_info('TestFormOneof', 'form1') ->
             not_required
         ]
     };
-request_param_info('TestFormOneof', 'form2') ->
+request_param_info('test/form/oneof', 'form2') ->
     #{
         source => body,
         rules => [
@@ -417,7 +458,7 @@ request_param_info('TestFormOneof', 'form2') ->
             not_required
         ]
     };
-request_param_info('TestFormOneof', 'form3') ->
+request_param_info('test/form/oneof', 'form3') ->
     #{
         source => body,
         rules => [
@@ -425,7 +466,7 @@ request_param_info('TestFormOneof', 'form3') ->
             not_required
         ]
     };
-request_param_info('TestFormOneof', 'form4') ->
+request_param_info('test/form/oneof', 'form4') ->
     #{
         source => body,
         rules => [
@@ -433,7 +474,7 @@ request_param_info('TestFormOneof', 'form4') ->
             not_required
         ]
     };
-request_param_info('TestFormOneof', 'id') ->
+request_param_info('test/form/oneof', 'id') ->
     #{
         source => body,
         rules => [
@@ -441,7 +482,7 @@ request_param_info('TestFormOneof', 'id') ->
             not_required
         ]
     };
-request_param_info('TestFormOneof', 'name') ->
+request_param_info('test/form/oneof', 'name') ->
     #{
         source => body,
         rules => [
@@ -449,7 +490,7 @@ request_param_info('TestFormOneof', 'name') ->
             not_required
         ]
     };
-request_param_info('TestHeaderIntegerBooleanStringEnums', 'integer_header') ->
+request_param_info('test/header/integer/boolean/string/enums', 'integer_header') ->
     #{
         source => header,
         rules => [
@@ -457,7 +498,7 @@ request_param_info('TestHeaderIntegerBooleanStringEnums', 'integer_header') ->
             not_required
         ]
     };
-request_param_info('TestHeaderIntegerBooleanStringEnums', 'boolean_header') ->
+request_param_info('test/header/integer/boolean/string/enums', 'boolean_header') ->
     #{
         source => header,
         rules => [
@@ -465,7 +506,7 @@ request_param_info('TestHeaderIntegerBooleanStringEnums', 'boolean_header') ->
             not_required
         ]
     };
-request_param_info('TestHeaderIntegerBooleanStringEnums', 'string_header') ->
+request_param_info('test/header/integer/boolean/string/enums', 'string_header') ->
     #{
         source => header,
         rules => [
@@ -473,7 +514,7 @@ request_param_info('TestHeaderIntegerBooleanStringEnums', 'string_header') ->
             not_required
         ]
     };
-request_param_info('TestHeaderIntegerBooleanStringEnums', 'enum_nonref_string_header') ->
+request_param_info('test/header/integer/boolean/string/enums', 'enum_nonref_string_header') ->
     #{
         source => header,
         rules => [
@@ -482,14 +523,14 @@ request_param_info('TestHeaderIntegerBooleanStringEnums', 'enum_nonref_string_he
             not_required
         ]
     };
-request_param_info('TestHeaderIntegerBooleanStringEnums', 'enum_ref_string_header') ->
+request_param_info('test/header/integer/boolean/string/enums', 'enum_ref_string_header') ->
     #{
         source => header,
         rules => [
             not_required
         ]
     };
-request_param_info('TestsPathString{pathString}Integer{pathInteger}{enumNonrefStringPath}{enumRefStringPath}', 'path_string') ->
+request_param_info('tests/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}', 'path_string') ->
     #{
         source => binding,
         rules => [
@@ -497,7 +538,7 @@ request_param_info('TestsPathString{pathString}Integer{pathInteger}{enumNonrefSt
             required
         ]
     };
-request_param_info('TestsPathString{pathString}Integer{pathInteger}{enumNonrefStringPath}{enumRefStringPath}', 'path_integer') ->
+request_param_info('tests/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}', 'path_integer') ->
     #{
         source => binding,
         rules => [
@@ -505,7 +546,7 @@ request_param_info('TestsPathString{pathString}Integer{pathInteger}{enumNonrefSt
             required
         ]
     };
-request_param_info('TestsPathString{pathString}Integer{pathInteger}{enumNonrefStringPath}{enumRefStringPath}', 'enum_nonref_string_path') ->
+request_param_info('tests/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}', 'enum_nonref_string_path') ->
     #{
         source => binding,
         rules => [
@@ -514,14 +555,14 @@ request_param_info('TestsPathString{pathString}Integer{pathInteger}{enumNonrefSt
             required
         ]
     };
-request_param_info('TestsPathString{pathString}Integer{pathInteger}{enumNonrefStringPath}{enumRefStringPath}', 'enum_ref_string_path') ->
+request_param_info('tests/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}', 'enum_ref_string_path') ->
     #{
         source => binding,
         rules => [
             required
         ]
     };
-request_param_info('TestEnumRefString', 'enum_nonref_string_query') ->
+request_param_info('test/enum_ref_string', 'enum_nonref_string_query') ->
     #{
         source => qs_val,
         rules => [
@@ -530,14 +571,14 @@ request_param_info('TestEnumRefString', 'enum_nonref_string_query') ->
             not_required
         ]
     };
-request_param_info('TestEnumRefString', 'enum_ref_string_query') ->
+request_param_info('test/enum_ref_string', 'enum_ref_string_query') ->
     #{
         source => qs_val,
         rules => [
             not_required
         ]
     };
-request_param_info('TestQueryDatetimeDateString', 'datetime_query') ->
+request_param_info('test/query/datetime/date/string', 'datetime_query') ->
     #{
         source => qs_val,
         rules => [
@@ -545,7 +586,7 @@ request_param_info('TestQueryDatetimeDateString', 'datetime_query') ->
             not_required
         ]
     };
-request_param_info('TestQueryDatetimeDateString', 'date_query') ->
+request_param_info('test/query/datetime/date/string', 'date_query') ->
     #{
         source => qs_val,
         rules => [
@@ -553,7 +594,7 @@ request_param_info('TestQueryDatetimeDateString', 'date_query') ->
             not_required
         ]
     };
-request_param_info('TestQueryDatetimeDateString', 'string_query') ->
+request_param_info('test/query/datetime/date/string', 'string_query') ->
     #{
         source => qs_val,
         rules => [
@@ -561,7 +602,7 @@ request_param_info('TestQueryDatetimeDateString', 'string_query') ->
             not_required
         ]
     };
-request_param_info('TestQueryIntegerBooleanString', 'integer_query') ->
+request_param_info('test/query/integer/boolean/string', 'integer_query') ->
     #{
         source => qs_val,
         rules => [
@@ -569,7 +610,7 @@ request_param_info('TestQueryIntegerBooleanString', 'integer_query') ->
             not_required
         ]
     };
-request_param_info('TestQueryIntegerBooleanString', 'boolean_query') ->
+request_param_info('test/query/integer/boolean/string', 'boolean_query') ->
     #{
         source => qs_val,
         rules => [
@@ -577,7 +618,7 @@ request_param_info('TestQueryIntegerBooleanString', 'boolean_query') ->
             not_required
         ]
     };
-request_param_info('TestQueryIntegerBooleanString', 'string_query') ->
+request_param_info('test/query/integer/boolean/string', 'string_query') ->
     #{
         source => qs_val,
         rules => [
@@ -585,49 +626,49 @@ request_param_info('TestQueryIntegerBooleanString', 'string_query') ->
             not_required
         ]
     };
-request_param_info('TestQueryStyleDeepObjectExplodeTrueObject', 'query_object') ->
+request_param_info('test/query/style_deepObject/explode_true/object', 'query_object') ->
     #{
         source => qs_val,
         rules => [
             not_required
         ]
     };
-request_param_info('TestQueryStyleDeepObjectExplodeTrueObjectAllOf', 'query_object') ->
+request_param_info('test/query/style_deepObject/explode_true/object/allOf', 'query_object') ->
     #{
         source => qs_val,
         rules => [
             not_required
         ]
     };
-request_param_info('TestQueryStyleFormExplodeFalseArrayInteger', 'query_object') ->
+request_param_info('test/query/style_form/explode_false/array_integer', 'query_object') ->
     #{
         source => qs_val,
         rules => [
             not_required
         ]
     };
-request_param_info('TestQueryStyleFormExplodeFalseArrayString', 'query_object') ->
+request_param_info('test/query/style_form/explode_false/array_string', 'query_object') ->
     #{
         source => qs_val,
         rules => [
             not_required
         ]
     };
-request_param_info('TestQueryStyleFormExplodeTrueArrayString', 'query_object') ->
+request_param_info('test/query/style_form/explode_true/array_string', 'query_object') ->
     #{
         source => qs_val,
         rules => [
             not_required
         ]
     };
-request_param_info('TestQueryStyleFormExplodeTrueObject', 'query_object') ->
+request_param_info('test/query/style_form/explode_true/object', 'query_object') ->
     #{
         source => qs_val,
         rules => [
             not_required
         ]
     };
-request_param_info('TestQueryStyleFormExplodeTrueObjectAllOf', 'query_object') ->
+request_param_info('test/query/style_form/explode_true/object/allOf', 'query_object') ->
     #{
         source => qs_val,
         rules => [
@@ -667,8 +708,6 @@ populate_request_param(OperationID, ReqParamName, Req0, ValidatorState) ->
             end
     end.
 
--include_lib("kernel/include/logger.hrl").
-
 validate_response_body(list, ReturnBaseType, Body, ValidatorState) ->
     [
         validate(schema, Item, ReturnBaseType, ValidatorState)
@@ -681,38 +720,53 @@ validate_response_body(_, ReturnBaseType, Body, ValidatorState) ->
     ok | {ok, term()}.
 validate(required, undefined, ReqParamName, _) ->
     validation_error(required, ReqParamName, undefined);
-validate(required, _Value, _ReqParamName, _) ->
+validate(required, _Value, _, _) ->
     ok;
-validate(not_required, _Value, _ReqParamName, _) ->
+validate(not_required, _Value, _, _) ->
     ok;
-validate(_, undefined, _ReqParamName, _) ->
+validate(_, undefined, _, _) ->
     ok;
-validate({type, boolean}, Value, _ReqParamName, _) when is_boolean(Value) ->
-    {ok, Value};
-validate({type, integer}, Value, _ReqParamName, _) when is_integer(Value) ->
+validate({type, boolean}, Value, _, _) when is_boolean(Value) ->
     ok;
-validate({type, float}, Value, _ReqParamName, _) when is_float(Value) ->
+validate({type, integer}, Value, _, _) when is_integer(Value) ->
     ok;
-validate({type, binary}, Value, _ReqParamName, _) when is_binary(Value) ->
+validate({type, float}, Value, _, _) when is_float(Value) ->
     ok;
-validate(Rule = {type, binary}, Value, ReqParamName, _) ->
-    validation_error(Rule, ReqParamName, Value);
-validate(Rule = {type, boolean}, Value, ReqParamName, _) ->
-    case binary_to_lower(Value) of
+validate({type, binary}, Value, _, _) when is_binary(Value) ->
+    ok;
+validate({max, Max}, Value, _, _) when Value =< Max ->
+    ok;
+validate({min, Min}, Value, _, _) when Min =< Value ->
+    ok;
+validate({exclusive_max, Max}, Value, _, _) when Value < Max ->
+    ok;
+validate({exclusive_min, Min}, Value, _, _) when Min < Value ->
+    ok;
+validate({max_length, MaxLength}, Value, _, _) when is_binary(Value), byte_size(Value) =< MaxLength ->
+    ok;
+validate({min_length, MinLength}, Value, _, _) when is_binary(Value), MinLength =< byte_size(Value) ->
+    ok;
+validate(Rule = {type, byte}, Value, ReqParamName, _) when is_binary(Value) ->
+    try base64:decode(Value) of
+        Decoded -> {ok, Decoded}
+    catch error:_Error -> validation_error(Rule, ReqParamName, Value)
+    end;
+validate(Rule = {type, boolean}, Value, ReqParamName, _) when is_binary(Value) ->
+    case to_binary(string:lowercase(Value)) of
         <<"true">> -> {ok, true};
         <<"false">> -> {ok, false};
         _ -> validation_error(Rule, ReqParamName, Value)
     end;
-validate(Rule = {type, integer}, Value, ReqParamName, _) ->
+validate(Rule = {type, integer}, Value, ReqParamName, _) when is_binary(Value) ->
     try
-        {ok, to_int(Value)}
+        {ok, binary_to_integer(Value)}
     catch
         error:badarg ->
             validation_error(Rule, ReqParamName, Value)
     end;
-validate(Rule = {type, float}, Value, ReqParamName, _) ->
+validate(Rule = {type, float}, Value, ReqParamName, _) when is_binary(Value) ->
     try
-        {ok, to_float(Value)}
+        {ok, binary_to_float(Value)}
     catch
         error:badarg ->
             validation_error(Rule, ReqParamName, Value)
@@ -723,9 +777,9 @@ validate(Rule = {type, date}, Value, ReqParamName, _) ->
         false -> validation_error(Rule, ReqParamName, Value)
     end;
 validate(Rule = {type, datetime}, Value, ReqParamName, _) ->
-    case is_binary(Value) of
-        true -> ok;
-        false -> validation_error(Rule, ReqParamName, Value)
+    try calendar:rfc3339_to_system_time(binary_to_list(Value)) of
+        _ -> ok
+    catch error:_Error -> validation_error(Rule, ReqParamName, Value)
     end;
 validate(Rule = {enum, Values}, Value, ReqParamName, _) ->
     try
@@ -738,44 +792,21 @@ validate(Rule = {enum, Values}, Value, ReqParamName, _) ->
         error:badarg ->
             validation_error(Rule, ReqParamName, Value)
     end;
-validate(Rule = {max, Max}, Value, ReqParamName, _) ->
-    case Value =< Max of
-        true -> ok;
-        false -> validation_error(Rule, ReqParamName, Value)
-    end;
-validate(Rule = {exclusive_max, ExclusiveMax}, Value, ReqParamName, _) ->
-    case Value > ExclusiveMax of
-        true -> ok;
-        false -> validation_error(Rule, ReqParamName, Value)
-    end;
-validate(Rule = {min, Min}, Value, ReqParamName, _) ->
-    case Value >= Min of
-        true -> ok;
-        false -> validation_error(Rule, ReqParamName, Value)
-    end;
-validate(Rule = {exclusive_min, ExclusiveMin}, Value, ReqParamName, _) ->
-    case Value =< ExclusiveMin of
-        true -> ok;
-        false -> validation_error(Rule, ReqParamName, Value)
-    end;
-validate(Rule = {max_length, MaxLength}, Value, ReqParamName, _) ->
-    case size(Value) =< MaxLength of
-        true -> ok;
-        false -> validation_error(Rule, ReqParamName, Value)
-    end;
-validate(Rule = {min_length, MinLength}, Value, ReqParamName, _) ->
-    case size(Value) >= MinLength of
-        true -> ok;
-        false -> validation_error(Rule, ReqParamName, Value)
-    end;
 validate(Rule = {pattern, Pattern}, Value, ReqParamName, _) ->
     {ok, MP} = re:compile(Pattern),
     case re:run(Value, MP) of
         {match, _} -> ok;
         _ -> validation_error(Rule, ReqParamName, Value)
     end;
-validate(Rule = schema, Value, ReqParamName, ValidatorState) ->
-    Definition = iolist_to_binary(["#/components/schemas/", atom_to_binary(ReqParamName)]),
+validate(schema, Value, ReqParamName, ValidatorState) ->
+    Definition = iolist_to_binary(["#/components/schemas/", atom_to_binary(ReqParamName, utf8)]),
+    validate({schema, object, Definition}, Value, ReqParamName, ValidatorState);
+validate({schema, list, Definition}, Value, ReqParamName, ValidatorState) ->
+    lists:foreach(
+      fun(Item) ->
+              validate({schema, object, Definition}, Item, ReqParamName, ValidatorState)
+      end, Value);
+validate(Rule = {schema, object, Definition}, Value, ReqParamName, ValidatorState) ->
     try
         _ = validate_with_schema(Value, Definition, ValidatorState),
         ok
@@ -795,9 +826,8 @@ validate(Rule = schema, Value, ReqParamName, ValidatorState) ->
             },
             validation_error(Rule, ReqParamName, Value, Info)
     end;
-validate(Rule, _Value, ReqParamName, _) ->
-    ?LOG_INFO(#{what => "Cannot validate rule", name => ReqParamName, rule => Rule}),
-    error({unknown_validation_rule, Rule}).
+validate(Rule, Value, ReqParamName, _) ->
+    validation_error(Rule, ReqParamName, Value).
 
 -spec validation_error(rule(), request_param(), term()) -> no_return().
 validation_error(ViolatedRule, Name, Value) ->
@@ -824,7 +854,7 @@ get_value(qs_val, Name, Req) ->
     {Value, Req};
 get_value(header, Name, Req) ->
     Headers = cowboy_req:headers(Req),
-    Value =  maps:get(to_header(Name), Headers, undefined),
+    Value = maps:get(to_header(Name), Headers, undefined),
     {Value, Req};
 get_value(binding, Name, Req) ->
     Value = cowboy_req:binding(Name, Req),
@@ -877,31 +907,13 @@ prepare_param(Rules, ReqParamName, Value, ValidatorState) ->
             {error, Reason}
     end.
 
--spec to_binary(iodata() | atom() | number()) -> binary().
+-spec to_binary(iodata()) -> binary().
 to_binary(V) when is_binary(V)  -> V;
-to_binary(V) when is_list(V)    -> iolist_to_binary(V);
-to_binary(V) when is_atom(V)    -> atom_to_binary(V, utf8);
-to_binary(V) when is_integer(V) -> integer_to_binary(V);
-to_binary(V) when is_float(V)   -> float_to_binary(V).
-
--spec to_float(binary() | list()) -> integer().
-to_float(Data) when is_binary(Data) ->
-    binary_to_float(Data);
-to_float(Data) when is_list(Data) ->
-    list_to_float(Data).
-
--spec to_int(binary() | list()) -> integer().
-to_int(Data) when is_binary(Data) ->
-    binary_to_integer(Data);
-to_int(Data) when is_list(Data) ->
-    list_to_integer(Data).
+to_binary(V) when is_list(V)    -> iolist_to_binary(V).
 
 -spec to_header(request_param()) -> binary().
 to_header(Name) ->
     to_binary(string:lowercase(atom_to_binary(Name, utf8))).
-
-binary_to_lower(V) when is_binary(V) ->
-    string:lowercase(V).
 
 -spec to_qs(request_param()) -> binary().
 to_qs(Name) ->

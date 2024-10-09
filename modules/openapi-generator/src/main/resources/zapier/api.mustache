@@ -104,7 +104,7 @@ module.exports = {
                 }
                 return z.request(utils.requestOptionsMiddleware(z, bundle, options)).then((response) => {
                     response.throwForStatus();
-                    const results = response.json;
+                    const results = utils.responseOptionsMiddleware(z, bundle, '{{operationId}}', response.json);
                     return {{#returnType}}{{#returnTypeIsPrimitive}}{ data: results }{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}results{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}results{{/returnType}};
                 })
             },

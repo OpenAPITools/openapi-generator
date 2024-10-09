@@ -11,7 +11,11 @@ using System.Text.Json.Serialization;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using {{packageName}}.{{apiPackage}};
+{{#models}}
+{{#-first}}
 using {{packageName}}.{{modelPackage}};
+{{/-first}}
+{{/models}}
 
 namespace {{packageName}}.{{clientPackage}}
 {

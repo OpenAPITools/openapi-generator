@@ -6,6 +6,7 @@ templateDir: modules/openapi-generator/src/main/resources/swift6
 generateAliasAsModel: true
 useCustomDateWithoutTime: true
 additionalProperties:
+  responseAs: ObjcBlock
   podAuthors: ""
   podSummary: PetstoreClient
   projectName: PetstoreClient

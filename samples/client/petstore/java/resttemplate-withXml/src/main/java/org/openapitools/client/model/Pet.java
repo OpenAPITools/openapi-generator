@@ -46,7 +46,7 @@ import io.github.threetenjaxb.core.*;
   Pet.JSON_PROPERTY_TAGS,
   Pet.JSON_PROPERTY_STATUS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 @XmlRootElement(name = "Pet")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Pet")
@@ -80,13 +80,13 @@ public class Pet {
   @XmlEnum(String.class)
   public enum StatusEnum {
     @XmlEnumValue("available")
-    AVAILABLE("available"),
+    AVAILABLE(String.valueOf("available")),
     
     @XmlEnumValue("pending")
-    PENDING("pending"),
+    PENDING(String.valueOf("pending")),
     
     @XmlEnumValue("sold")
-    SOLD("sold");
+    SOLD(String.valueOf("sold"));
 
     private String value;
 

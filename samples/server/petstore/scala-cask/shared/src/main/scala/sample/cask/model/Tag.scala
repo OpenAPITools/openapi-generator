@@ -21,27 +21,27 @@ import upickle.default.*
 
 case class Tag(
   id: Option[Long] = None ,
+  name: Option[String] = None 
 
-    name: Option[String] = None 
 
-  ) {
+) {
 
-  def asJson: String = asData.asJson
+  def asJsonString: String = asData.asJsonString
+  def asJson: ujson.Value = asData.asJson
 
   def asData : TagData = {
     TagData(
             id = id.getOrElse(0),
             name = name.getOrElse("")
+        
     )
   }
-
 }
 
-object Tag{
+object Tag {
+    given RW[Tag] = summon[RW[ujson.Value]].bimap[Tag](_.asJson, json => read[TagData](json).asModel)
 
-    given RW[Tag] = TagData.readWriter.bimap[Tag](_.asData, _.asModel)
-
-    enum Fields(fieldName : String) extends Field(fieldName) {
+    enum Fields(val fieldName : String) extends Field(fieldName) {
             case id extends Fields("id")
             case name extends Fields("name")
     }

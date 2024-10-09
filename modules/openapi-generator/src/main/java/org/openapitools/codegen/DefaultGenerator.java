@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.Paths;
+import io.swagger.v3.oas.models.SpecVersion;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
@@ -31,7 +32,7 @@ import io.swagger.v3.oas.models.security.*;
 import io.swagger.v3.oas.models.tags.Tag;
 import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.comparator.PathFileComparator;
+import org.apache.commons.io.IOCase;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.api.TemplateDefinition;
@@ -341,6 +342,12 @@ public class DefaultGenerator implements Generator {
             config.additionalProperties().put("appDescription", config.escapeText(info.getDescription()));
             config.additionalProperties().put("appDescriptionWithNewLines", config.escapeTextWhileAllowingNewLines(info.getDescription()));
             config.additionalProperties().put("unescapedAppDescription", info.getDescription());
+        }
+
+        if (this.openAPI.getSpecVersion().equals(SpecVersion.V31) && !StringUtils.isEmpty(info.getSummary())) {
+            config.additionalProperties().put("appSummary", config.escapeText(info.getSummary()));
+            config.additionalProperties().put("appSummaryWithNewLines", config.escapeTextWhileAllowingNewLines(info.getSummary()));
+            config.additionalProperties().put("unescapedAppSummary", info.getSummary());
         }
 
         if (info.getContact() != null) {
@@ -1434,6 +1441,8 @@ public class DefaultGenerator implements Generator {
         return processTemplateToFile(templateData, templateName, outputFilename, shouldGenerate, skippedByOption, this.config.getOutputDir());
     }
 
+    private final Set<String> seenFiles = new HashSet<>();
+
     private File processTemplateToFile(Map<String, Object> templateData, String templateName, String outputFilename, boolean shouldGenerate, String skippedByOption, String intendedOutputDir) throws IOException {
         String adjustedOutputFilename = outputFilename.replaceAll("//", "/").replace('/', File.separatorChar);
         File target = new File(adjustedOutputFilename);
@@ -1444,6 +1453,11 @@ public class DefaultGenerator implements Generator {
                 if (!absoluteTarget.startsWith(outDir)) {
                     throw new RuntimeException(String.format(Locale.ROOT, "Target files must be generated within the output directory; absoluteTarget=%s outDir=%s", absoluteTarget, outDir));
                 }
+
+                if (seenFiles.stream().filter(f -> f.toLowerCase(Locale.ROOT).equals(absoluteTarget.toString().toLowerCase(Locale.ROOT))).findAny().isPresent()) {
+                    LOGGER.warn("Duplicate file path detected. Not all operating systems can handle case sensitive file paths. path={}", absoluteTarget.toString());
+                }
+                seenFiles.add(absoluteTarget.toString());
                 return this.templateProcessor.write(templateData, templateName, target);
             } else {
                 this.templateProcessor.skip(target.toPath(), String.format(Locale.ROOT, "Skipped by %s options supplied by user.", skippedByOption));
@@ -1981,7 +1995,8 @@ public class DefaultGenerator implements Generator {
                 // NOTE: Don't use File.separator here as we write linux-style paths to FILES, and File.separator will
                 // result in incorrect match on Windows machines.
                 String relativeMeta = METADATA_DIR + "/VERSION";
-                filesToSort.sort(PathFileComparator.PATH_COMPARATOR);
+
+                final List<String> relativePaths = new ArrayList<>(filesToSort.size());
                 filesToSort.forEach(f -> {
                     // some Java implementations don't honor .relativize documentation fully.
                     // When outDir is /a/b and the input is /a/b/c/d, the result should be c/d.
@@ -1994,8 +2009,13 @@ public class DefaultGenerator implements Generator {
                         relativePath = relativePath.replace(File.separator, "/");
                     }
                     if (!relativePath.equals(relativeMeta)) {
-                        sb.append(relativePath).append(System.lineSeparator());
+                        relativePaths.add(relativePath);
                     }
+                });
+
+                Collections.sort(relativePaths, (a, b) -> IOCase.SENSITIVE.checkCompareTo(a,b));
+                relativePaths.forEach(relativePath -> {
+                    sb.append(relativePath).append(System.lineSeparator());
                 });
 
                 String targetFile = config.outputFolder() + File.separator + METADATA_DIR + File.separator + config.getFilesMetadataFilename();

@@ -38,7 +38,7 @@ import java.util.StringJoiner;
   Order.JSON_PROPERTY_STATUS,
   Order.JSON_PROPERTY_COMPLETE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Order {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -56,11 +56,11 @@ public class Order {
    * Order Status
    */
   public enum StatusEnum {
-    PLACED("placed"),
+    PLACED(String.valueOf("placed")),
     
-    APPROVED("approved"),
+    APPROVED(String.valueOf("approved")),
     
-    DELIVERED("delivered");
+    DELIVERED(String.valueOf("delivered"));
 
     private String value;
 

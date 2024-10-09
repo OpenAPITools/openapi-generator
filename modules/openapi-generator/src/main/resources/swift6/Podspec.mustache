@@ -26,7 +26,6 @@ Pod::Spec.new do |s|
   s.documentation_url = '{{.}}'
   {{/podDocumentationURL}}
   s.source_files = '{{swiftPackagePath}}{{^swiftPackagePath}}{{#useSPMFileStructure}}Sources/{{projectName}}{{/useSPMFileStructure}}{{^useSPMFileStructure}}{{projectName}}/Classes{{/useSPMFileStructure}}{{/swiftPackagePath}}/**/*.swift'
-  s.dependency 'AnyCodable-FlightSchool', '~> 0.6'
   {{#useAlamofire}}
   s.dependency 'Alamofire', '~> 5.9'
   {{/useAlamofire}}

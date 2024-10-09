@@ -25,69 +25,37 @@ import upickle.default.*
   */
 case class ApiResponseData(
   code: Int = 0 ,
+  `type`: String = "" ,
+  message: String = "" 
+  
 
-    `type`: String = "" ,
+) derives RW {
 
-    message: String = "" 
+  def asJsonString: String = asJson.toString()
 
-  ) {
-
-  def asJson: String = write(this)
+  def asJson : ujson.Value = {
+    val jason = writeJs(this)
+    jason
+  }
 
   def validationErrors(path : Seq[Field], failFast : Boolean) : Seq[ValidationError] = {
     val errors = scala.collection.mutable.ListBuffer[ValidationError]()
-        // ==================
-        // code
-
-
-
-
-
-
+        // ================== code validation ==================
+        
+        
+        
         
 
-
-
-
-
-
-
+        // ================== `type` validation ==================
+        
+        
+        
         
 
-        // ==================
-        // `type`
-
-
-
-
-
-
+        // ================== message validation ==================
         
-
-
-
-
-
-
-
         
-
-        // ==================
-        // message
-
-
-
-
-
-
         
-
-
-
-
-
-
-
         
 
     errors.toSeq
@@ -115,19 +83,28 @@ case class ApiResponseData(
         message
         )
         
+    
     )
   }
 }
 
 object ApiResponseData {
 
-  given readWriter : RW[ApiResponseData] = macroRW
+  def fromJson(jason : ujson.Value) : ApiResponseData = try {
+        val data = read[ApiResponseData](jason)
+        data
+    } catch {
+      case NonFatal(e) => sys.error(s"Error creating ApiResponseData from json '$jason': $e")
+  }
 
-  def fromJsonString(jason : String) : ApiResponseData = try {
-        read[ApiResponseData](jason)
-     } catch {
+  def fromJsonString(jason : String) : ApiResponseData = {
+        val parsed = try {
+           read[ujson.Value](jason)
+        } catch {
           case NonFatal(e) => sys.error(s"Error parsing json '$jason': $e")
-     }
+        }
+        fromJson(parsed)
+  }
 
   def manyFromJsonString(jason : String) : Seq[ApiResponseData] = try {
         read[List[ApiResponseData]](jason)

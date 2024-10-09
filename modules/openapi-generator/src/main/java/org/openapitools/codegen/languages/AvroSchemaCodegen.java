@@ -16,6 +16,8 @@
 
 package org.openapitools.codegen.languages;
 
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -132,6 +134,14 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("AVRO_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable AVRO_POST_PROCESS_FILE not defined so the Avro schemas may not be properly formatted. To define it, try `export AVRO_POST_PROCESS_FILE=\"/usr/local/bin/prettier -w\"` (Linux/Mac)");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'AVRO_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             packageName = (String) additionalProperties.get(CodegenConstants.PACKAGE_NAME);
 
@@ -178,6 +188,22 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
+        if (file == null) {
+            return;
+        }
+        String avroPostProcessFile = System.getenv("AVRO_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(avroPostProcessFile)) {
+            return; // skip if AVRO_POST_PROCESS_FILE env variable is not defined
+        }
+        // only process files with avsc extension
+        if ("avsc".equals(FilenameUtils.getExtension(file.toString()))) {
+            this.executePostProcessor(new String[] {avroPostProcessFile, file.toString()});
+        }
+    }    
+
+    @Override
     protected void setNonArrayMapProperty(CodegenProperty property, String type) {
         super.setNonArrayMapProperty(property, type);
         if (property.isModel) {
@@ -199,8 +225,11 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     protected List<Map<String, Object>> buildEnumVars(List<Object> values, String dataType) {
-        List<Object> sanitizedValues = values.stream().map(Object::toString).map(this::sanitizeEnumValue)
-                .collect(Collectors.toList());
+        List<Object> sanitizedValues = values.stream()
+            .filter(x -> x != null)
+            .map(Object::toString)
+            .map(this::sanitizeEnumValue)
+            .collect(Collectors.toList());
         removeEnumValueCollisions(sanitizedValues);
         return super.buildEnumVars(sanitizedValues, dataType);
     }

@@ -7,9 +7,6 @@
 
 import Foundation
 @preconcurrency import RxSwift
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class FakeClassnameTags123API {
 
@@ -17,12 +14,12 @@ open class FakeClassnameTags123API {
      To test class name in snake case
      
      - parameter body: (body) client model 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: Observable<Client>
      */
-    open class func testClassname(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.shared.apiResponseQueue) -> Observable<Client> {
+    open class func testClassname(body: Client, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> Observable<Client> {
         return Observable.create { observer -> Disposable in
-            let requestTask = self.testClassnameWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+            let requestTask = self.testClassnameWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body)
@@ -46,12 +43,14 @@ open class FakeClassnameTags123API {
        - type: apiKey api_key_query (QUERY)
        - name: api_key_query
      - parameter body: (body) client model 
+     
+     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Client> 
      */
-    open class func testClassnameWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
+    open class func testClassnameWithRequestBuilder(body: Client, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Client> {
         let localVariablePath = "/fake_classname_test"
-        let localVariableURLString = PetstoreClientAPI.shared.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let localVariableURLString = openAPIClient.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -61,8 +60,8 @@ open class FakeClassnameTags123API {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.shared.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Client>.Type = openAPIClient.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, openAPIClient: openAPIClient)
     }
 }

@@ -11,7 +11,7 @@ import FoundationNetworking
 import Alamofire{{/useAlamofire}}
 
 protocol JSONEncodable {
-    func encodeToJSON() -> Any
+    func encodeToJSON(codableHelper: CodableHelper) -> Any
 }
 
 /// An enum where the last case value can be used as a default catch-all.
@@ -127,7 +127,7 @@ extension NullEncodable: Codable where Wrapped: Codable {
     }
 }{{/useAlamofire}}
 
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} final class RequestTask{{#useAsyncAwait}}: @unchecked Sendable{{/useAsyncAwait}} {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} final class RequestTask: @unchecked Sendable {
     private let lock = NSRecursiveLock()
 {{#useAlamofire}}
     private var request: Request?

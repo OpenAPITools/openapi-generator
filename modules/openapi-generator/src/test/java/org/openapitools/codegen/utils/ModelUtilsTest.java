@@ -461,4 +461,12 @@ public class ModelUtilsTest {
         Assert.assertEquals(deepCopy, schema);
         Assert.assertNotSame(deepCopy, schema);
     }
+
+    @Test
+    public void testGetSchemaItemsWith31Spec() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_18291.yaml");
+        Schema arrayWithPrefixItems = ModelUtils.getSchema(openAPI, "ArrayWithPrefixItems");
+        Assert.assertNotNull(ModelUtils.getSchemaItems((Schema) arrayWithPrefixItems.getProperties().get("with_prefixitems")));
+        Assert.assertNotNull(ModelUtils.getSchemaItems((Schema) arrayWithPrefixItems.getProperties().get("without_items")));
+    }
 }
