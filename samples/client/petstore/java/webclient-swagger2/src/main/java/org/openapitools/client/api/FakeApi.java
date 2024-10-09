@@ -44,20 +44,20 @@ public class FakeApi {
     private ApiClient apiClient;
 
     public FakeApi() {
-        this(new ApiClient());
+      this(new ApiClient());
     }
 
     @Autowired
     public FakeApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
+      this.apiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-        return apiClient;
+      return apiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+      this.apiClient = apiClient;
     }
 
     /**

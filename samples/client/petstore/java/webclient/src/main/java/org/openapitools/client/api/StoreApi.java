@@ -30,20 +30,20 @@ public class StoreApi {
     private ApiClient apiClient;
 
     public StoreApi() {
-        this(new ApiClient());
+      this(new ApiClient());
     }
 
     @Autowired
     public StoreApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
+      this.apiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-        return apiClient;
+      return apiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+      this.apiClient = apiClient;
     }
 
     /**

@@ -44,10 +44,6 @@ public class AnotherFakeApi {
         this.apiClient = apiClient;
     }
 
-// It has a single param!
-/*
-* client
-*/
     /**
      * To test special tags
      * To test special tags and operation ID starting with number
