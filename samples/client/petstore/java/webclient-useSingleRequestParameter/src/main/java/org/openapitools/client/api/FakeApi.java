@@ -219,7 +219,7 @@ public class FakeApi {
        * @throws WebClientResponseException if an error occurs while attempting to invoke the API
     */
     public Mono<Void> fakeHttpSignatureTest(FakeHttpSignatureTestRequest requestParameters) throws WebClientResponseException {
-      this.fakeHttpSignatureTest(requestParameters.pet(), requestParameters.query1(), requestParameters.header1());
+    return this.fakeHttpSignatureTest(requestParameters.pet(), requestParameters.query1(), requestParameters.header1());
     }
 
     /**
@@ -914,7 +914,7 @@ public class FakeApi {
        * @throws WebClientResponseException if an error occurs while attempting to invoke the API
     */
     public Mono<Void> testBodyWithQueryParams(TestBodyWithQueryParamsRequest requestParameters) throws WebClientResponseException {
-      this.testBodyWithQueryParams(requestParameters.query(), requestParameters.user());
+    return this.testBodyWithQueryParams(requestParameters.query(), requestParameters.user());
     }
 
     /**
@@ -1180,7 +1180,7 @@ public class FakeApi {
        * @throws WebClientResponseException if an error occurs while attempting to invoke the API
     */
     public Mono<Void> testEndpointParameters(TestEndpointParametersRequest requestParameters) throws WebClientResponseException {
-      this.testEndpointParameters(requestParameters.number(), requestParameters._double(), requestParameters.patternWithoutDelimiter(), requestParameters._byte(), requestParameters.integer(), requestParameters.int32(), requestParameters.int64(), requestParameters._float(), requestParameters.string(), requestParameters.binary(), requestParameters.date(), requestParameters.dateTime(), requestParameters.password(), requestParameters.paramCallback());
+    return this.testEndpointParameters(requestParameters.number(), requestParameters._double(), requestParameters.patternWithoutDelimiter(), requestParameters._byte(), requestParameters.integer(), requestParameters.int32(), requestParameters.int64(), requestParameters._float(), requestParameters.string(), requestParameters.binary(), requestParameters.date(), requestParameters.dateTime(), requestParameters.password(), requestParameters.paramCallback());
     }
 
     /**
@@ -1436,7 +1436,7 @@ public class FakeApi {
        * @throws WebClientResponseException if an error occurs while attempting to invoke the API
     */
     public Mono<Void> testEnumParameters(TestEnumParametersRequest requestParameters) throws WebClientResponseException {
-      this.testEnumParameters(requestParameters.enumHeaderStringArray(), requestParameters.enumHeaderString(), requestParameters.enumQueryStringArray(), requestParameters.enumQueryString(), requestParameters.enumQueryInteger(), requestParameters.enumQueryDouble(), requestParameters.enumQueryModelArray(), requestParameters.enumFormStringArray(), requestParameters.enumFormString());
+    return this.testEnumParameters(requestParameters.enumHeaderStringArray(), requestParameters.enumHeaderString(), requestParameters.enumQueryStringArray(), requestParameters.enumQueryString(), requestParameters.enumQueryInteger(), requestParameters.enumQueryDouble(), requestParameters.enumQueryModelArray(), requestParameters.enumFormStringArray(), requestParameters.enumFormString());
     }
 
     /**
@@ -1627,7 +1627,7 @@ public class FakeApi {
        * @throws WebClientResponseException if an error occurs while attempting to invoke the API
     */
     public Mono<Void> testGroupParameters(TestGroupParametersRequest requestParameters) throws WebClientResponseException {
-      this.testGroupParameters(requestParameters.requiredStringGroup(), requestParameters.requiredBooleanGroup(), requestParameters.requiredInt64Group(), requestParameters.stringGroup(), requestParameters.booleanGroup(), requestParameters.int64Group());
+    return this.testGroupParameters(requestParameters.requiredStringGroup(), requestParameters.requiredBooleanGroup(), requestParameters.requiredInt64Group(), requestParameters.stringGroup(), requestParameters.booleanGroup(), requestParameters.int64Group());
     }
 
     /**
@@ -1922,7 +1922,7 @@ public class FakeApi {
        * @throws WebClientResponseException if an error occurs while attempting to invoke the API
     */
     public Mono<Void> testJsonFormData(TestJsonFormDataRequest requestParameters) throws WebClientResponseException {
-      this.testJsonFormData(requestParameters.param(), requestParameters.param2());
+    return this.testJsonFormData(requestParameters.param(), requestParameters.param2());
     }
 
     /**
@@ -2150,7 +2150,7 @@ public class FakeApi {
        * @throws WebClientResponseException if an error occurs while attempting to invoke the API
     */
     public Mono<Void> testQueryParameterCollectionFormat(TestQueryParameterCollectionFormatRequest requestParameters) throws WebClientResponseException {
-      this.testQueryParameterCollectionFormat(requestParameters.pipe(), requestParameters.ioutil(), requestParameters.http(), requestParameters.url(), requestParameters.context(), requestParameters.allowEmpty(), requestParameters.language());
+    return this.testQueryParameterCollectionFormat(requestParameters.pipe(), requestParameters.ioutil(), requestParameters.http(), requestParameters.url(), requestParameters.context(), requestParameters.allowEmpty(), requestParameters.language());
     }
 
     /**

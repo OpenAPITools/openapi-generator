@@ -5,12 +5,14 @@ on:
     paths:
       - samples/client/petstore/java/resttemplate-jakarta/**
       - samples/client/petstore/java/webclient-jakarta/**
-      - samples/client/petstore/java/restclient-*/** 
+      - samples/client/petstore/java/restclient-*/**
+      - samples/client/petstore/java/webclient-useSingleRequestParameter/**
   pull_request:
     paths:
       - samples/client/petstore/java/resttemplate-jakarta/**
       - samples/client/petstore/java/webclient-jakarta/**
       - samples/client/petstore/java/restclient-*/**
+      - samples/client/petstore/java/webclient-useSingleRequestParameter/**
 jobs:
   build:
     name: Build Java Client JDK17
