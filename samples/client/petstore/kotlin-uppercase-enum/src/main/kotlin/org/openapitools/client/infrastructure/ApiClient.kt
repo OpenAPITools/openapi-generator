@@ -60,6 +60,21 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
     }
 
     /**
+     * Guess Content-Type header from the given byteArray (defaults to "application/octet-stream").
+     *
+     * @param byteArray The given file
+     * @return The guessed Content-Type
+     */
+    protected fun guessContentTypeFromByteArray(byteArray: ByteArray): String {
+        val contentType = try {
+            URLConnection.guessContentTypeFromStream(byteArray.inputStream())
+        } catch (io: IOException) {
+            "application/octet-stream"
+        }
+        return contentType
+    }
+
+    /**
      * Guess Content-Type header from the given file (defaults to "application/octet-stream").
      *
      * @param file The given file
@@ -72,6 +87,7 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
 
     protected inline fun <reified T> requestBody(content: T, mediaType: String?): RequestBody =
         when {
+            content is ByteArray -> content.toRequestBody((mediaType ?: guessContentTypeFromByteArray(content)).toMediaTypeOrNull())
             content is File -> content.asRequestBody((mediaType ?: guessContentTypeFromFile(content)).toMediaTypeOrNull())
             mediaType == FormDataMediaType ->
                 MultipartBody.Builder()

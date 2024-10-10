@@ -93,10 +93,13 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public static final String SUPPORT_ANDROID_API_LEVEL_25_AND_BELLOW = "supportAndroidApiLevel25AndBelow";
 
+    public static final String MAP_FILE_BINARY_TO_BYTE_ARRAY = "mapFileBinaryToByteArray";
+
     public static final String GENERATE_ONEOF_ANYOF_WRAPPERS = "generateOneOfAnyOfWrappers";
 
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
 
+    
     @Setter protected String dateLibrary = DateLibrary.JAVA8.value;
     @Setter protected String requestDateConverter = RequestDateConverter.TO_JSON.value;
     @Setter protected String collectionType = CollectionType.LIST.value;
@@ -108,6 +111,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     protected boolean generateRoomModels = false;
     @Setter protected String roomModelPackage = "";
     @Setter protected boolean omitGradleWrapper = false;
+    @Setter protected boolean mapFileBinaryToByteArray = false;
     @Setter protected boolean generateOneOfAnyOfWrappers = true;
     @Getter @Setter protected boolean failOnUnknownProperties = false;
 
@@ -268,6 +272,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(CliOption.newBoolean(GENERATE_ROOM_MODELS, "Generate Android Room database models in addition to API models (JVM Volley library only)", false));
 
         cliOptions.add(CliOption.newBoolean(SUPPORT_ANDROID_API_LEVEL_25_AND_BELLOW, "[WARNING] This flag will generate code that has a known security vulnerability. It uses `kotlin.io.createTempFile` instead of `java.nio.file.Files.createTempFile` in order to support Android API level 25 and bellow. For more info, please check the following links https://github.com/OpenAPITools/openapi-generator/security/advisories/GHSA-23x4-m842-fmwf, https://github.com/OpenAPITools/openapi-generator/pull/9284"));
+
+        cliOptions.add(new CliOption(MAP_FILE_BINARY_TO_BYTE_ARRAY, "Map File and Binary to ByteArray (default: false)").defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(CliOption.newBoolean(GENERATE_ONEOF_ANYOF_WRAPPERS, "Generate oneOf, anyOf schemas as wrappers."));
 
@@ -435,6 +441,15 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             additionalProperties.put(this.serializationLibrary.name(), true);
         } else {
             additionalProperties.put(this.serializationLibrary.name(), true);
+        }
+
+        if (additionalProperties.containsKey(MAP_FILE_BINARY_TO_BYTE_ARRAY)) {
+            setMapFileBinaryToByteArray(convertPropertyToBooleanAndWriteBack(MAP_FILE_BINARY_TO_BYTE_ARRAY));
+        }
+        additionalProperties.put(MAP_FILE_BINARY_TO_BYTE_ARRAY, mapFileBinaryToByteArray);
+        if (mapFileBinaryToByteArray) {
+            typeMapping.put("file", "kotlin.ByteArray");
+            typeMapping.put("binary", "kotlin.ByteArray");
         }
 
         if (additionalProperties.containsKey(GENERATE_ONEOF_ANYOF_WRAPPERS)) {
