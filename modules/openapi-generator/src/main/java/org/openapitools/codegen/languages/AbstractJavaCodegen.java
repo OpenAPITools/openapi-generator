@@ -166,6 +166,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Getter @Setter
     protected List<String> additionalOneOfTypeAnnotations = new LinkedList<>();
     @Setter protected List<String> additionalEnumTypeAnnotations = new LinkedList<>();
+    @Getter protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.UPPERCASE;
     @Getter @Setter
     protected boolean openApiNullable = true;
     @Setter protected String outputTestFolder = "";
@@ -305,6 +306,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC, this.isHideGenerationTimestamp()));
         cliOptions.add(CliOption.newBoolean(WITH_XML, "whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)"));
         cliOptions.add(CliOption.newBoolean(USE_ONE_OF_INTERFACES, "whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface"));
+
+        CliOption enumPropertyNamingOpt = new CliOption(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_DESC);
+        cliOptions.add(enumPropertyNamingOpt.defaultValue(enumPropertyNaming.name()));
 
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use").defaultValue(this.getDateLibrary());
         Map<String, String> dateOptions = new HashMap<>();
@@ -520,6 +524,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             additionalProperties.put(CodegenConstants.DEVELOPER_ORGANIZATION_URL, developerOrganizationUrl);
         }
 
+        convertPropertyToStringAndWriteBack(CodegenConstants.ENUM_PROPERTY_NAMING, this::setEnumPropertyNaming);
         convertPropertyToStringAndWriteBack(CodegenConstants.MODEL_PACKAGE, this::setModelPackage);
         convertPropertyToStringAndWriteBack(CodegenConstants.API_PACKAGE, this::setApiPackage);
         convertPropertyToStringAndWriteBack(CodegenConstants.GROUP_ID, this::setGroupId);
@@ -1632,6 +1637,23 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
+    /**
+     * Sets the naming convention for Java enum properties
+     *
+     * @param enumPropertyNamingType The string representation of the naming convention, as defined by {@link org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE}
+     */
+    public void setEnumPropertyNaming(final String enumPropertyNamingType) {
+        try {
+            this.enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.valueOf(enumPropertyNamingType);
+        } catch (IllegalArgumentException ex) {
+            StringBuilder sb = new StringBuilder(enumPropertyNamingType + " is an invalid enum property naming option. Please choose from:");
+            for (CodegenConstants.ENUM_PROPERTY_NAMING_TYPE t : CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.values()) {
+                sb.append("\n  ").append(t.name());
+            }
+            throw new RuntimeException(sb.toString());
+        }
+    }
+
     @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
@@ -1985,35 +2007,77 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return enumNameMapping.get(value);
         }
 
-        if (value.length() == 0) {
-            return "EMPTY";
-        }
-
-        // for symbol, e.g. $, #
-        if (getSymbolName(value) != null) {
-            return getSymbolName(value).toUpperCase(Locale.ROOT);
-        }
-
-        if (" ".equals(value)) {
-            return "SPACE";
-        }
-
-        // number
-        if ("Integer".equals(datatype) || "Long".equals(datatype) ||
+        String modified;
+        if (value.isEmpty()) {
+            modified = "EMPTY";
+        } else if (" ".equals(value)) {
+            modified = "SPACE";
+        } else if (getSymbolName(value) != null) {
+            // for symbol, e.g. $, #
+            modified = getSymbolName(value);
+        } else if ("Integer".equals(datatype) || "Long".equals(datatype) ||
                 "Float".equals(datatype) || "Double".equals(datatype) || "BigDecimal".equals(datatype)) {
-            String varName = "NUMBER_" + value;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
-            return varName;
+                // number
+                modified = "NUMBER_" + value;
+                modified = modified.replaceAll("-", "MINUS_")
+                    .replaceAll("\\+", "PLUS_")
+                    .replaceAll("\\.", "_DOT_");
+        } else {
+            modified = value;
         }
 
-        // string
-        String var = underscore(value.replaceAll("\\W+", "_")).toUpperCase(Locale.ROOT);
-        if (var.matches("\\d.*")) {
-            var = "_" + var;
+        switch (getEnumPropertyNaming()) {
+            case original:
+                // NOTE: This is provided as a last-case allowance, but will still result in reserved words being escaped.
+                modified = value;
+                if (modified.matches("^[$A-Za-z_][$A-Za-z0-9_]*$") && !reservedWords.contains(modified)) {
+                    // if it's valid already, skip toVarName
+                    return modified;
+                }
+                break;
+            case camelCase:
+                // NOTE: Removes hyphens and underscores
+                modified = camelize(modified, LOWERCASE_FIRST_LETTER);
+                break;
+            case PascalCase:
+                // NOTE: Removes hyphens and underscores
+                modified = camelize(modified, UPPERCASE_FIRST_CHAR);
+                modified = escapeReservedWord(modified);
+                modified = toVarName(modified);
+                // recamelize if first char is not underscore because toVarName will turn PascalCase into camelCase
+                if (modified.charAt(0) != '_') {
+                    modified = camelize(modified, UPPERCASE_FIRST_CHAR);
+                }
+                return modified;
+            case snake_case:
+                // NOTE: Removes hyphens
+                modified = underscore(modified);
+                if (modified.matches("^[$a-z_][$a-z0-9_]*$") && !reservedWords.contains(modified)) {
+                    // if it's valid already, skip toVarName
+                    return modified;
+                }
+                else {
+                    modified = escapeReservedWord(modified);
+                    modified = toVarName(modified);
+                    // underscore again, because toVarName camelizes
+                    modified = underscore(modified);
+                    return modified;
+                }
+            case UPPERCASE:
+                modified = modified.replaceAll("\\W+", "_");
+                modified = underscore(modified).toUpperCase(Locale.ROOT);
+                break;
         }
-        return this.toVarName(var);
+
+        if (reservedWords.contains(modified)) {
+            modified = escapeReservedWord(modified);
+        }
+
+        if ("".equals(modified)) {
+            modified = "_";
+        }
+
+        return toVarName(modified);
     }
 
     @Override
