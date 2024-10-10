@@ -206,7 +206,7 @@ public class Bar extends Entity implements BarRefOrValue {
     }
 
     protected Builder copyOf(Bar value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       this.instance.setId(value.id);
       this.instance.setBarPropA(value.barPropA);
       this.instance.setFooPropB(value.fooPropB);

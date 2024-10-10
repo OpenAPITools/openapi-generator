@@ -161,7 +161,7 @@ public class Foo extends Entity implements FooRefOrValue {
     }
 
     protected Builder copyOf(Foo value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       this.instance.setFooPropA(value.fooPropA);
       this.instance.setFooPropB(value.fooPropB);
       return this;
