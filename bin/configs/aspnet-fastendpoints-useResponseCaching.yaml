@@ -1,0 +1,17 @@
+generatorName: aspnet-fastendpoints
+outputDir: samples/server/petstore/aspnet/fastendpoints-useResponseCaching
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/aspnet-fastendpoints
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  useProblemDetails: "false"
+  useRecords: "false"
+  useAuthentication: "false"
+  useValidators: "false"
+  useResponseCaching: "true"
+  useApiVersioning: "false"
+  routePrefix: "api"
+  versionPrefix: "v"
+  solutionGuid: "{BC56C2A3-ACC5-4ED0-AD8F-CD1831B8A467}"
+  projectGuid: "{AE2F7B20-13DC-4AE5-8DC8-57C4E59FB1A5}"
+  projectConfigurationGuid: "{5D19ACAB-8830-47FD-BAFA-C0985DF9F5F3}"

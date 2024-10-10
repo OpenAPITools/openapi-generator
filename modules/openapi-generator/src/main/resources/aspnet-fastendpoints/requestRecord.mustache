@@ -1,0 +1,11 @@
+{{#operations}}
+{{#operation}}
+public record {{operationId}}Request({{#requiredParams}}{{#isPathParam}}[property: FastEndpoints.BindFrom("{{baseName}}")] {{&dataType}} {{nameInPascalCase}}{{/isPathParam}}{{#isQueryParam}}[property: FastEndpoints.QueryParam, FastEndpoints.BindFrom("{{baseName}}")] {{&dataType}} {{nameInPascalCase}}{{/isQueryParam}}{{#isBodyParam}}[property: FastEndpoints.FromBody] {{&dataType}} {{paramName}}{{/isBodyParam}}{{#isFormParam}}[property: FastEndpoints.BindFrom("{{baseName}}")]{{&dataType}} {{nameInPascalCase}}{{/isFormParam}}{{#isHeaderParam}}[property: FastEndpoints.FromHeader] {{&dataType}} {{nameInPascalCase}}{{/isHeaderParam}}{{^-last}}{{^isCookieParam}}, {{/isCookieParam}}{{/-last}}{{/requiredParams}})
+{
+{{#optionalParams}}
+    {{#isPathParam}}[FastEndpoints.BindFrom("{{baseName}}")] public {{&dataType}}{{#isNullable}}?{{/isNullable}} {{nameInPascalCase}} {get; init; }{{/isPathParam}}{{#isQueryParam}}[property: FastEndpoints.QueryParam, FastEndpoints.BindFrom("{{baseName}}")] public {{&dataType}}{{#isNullable}}?{{/isNullable}} {{nameInPascalCase}} {get; init; }{{/isQueryParam}}{{#isBodyParam}}[property: FastEndpoints.FromBody] public {{&dataType}}{{#isNullable}}?{{/isNullable}} {{paramName}} {get; init; }{{/isBodyParam}}{{#isFormParam}}[FastEndpoints.BindFrom("{{baseName}}")] public {{&dataType}}{{#isNullable}}?{{/isNullable}} {{nameInPascalCase}} {get; init; }{{/isFormParam}}{{#isHeaderParam}}[property: FastEndpoints.FromHeader] public {{&dataType}}{{#isNullable}}?{{/isNullable}} {{nameInPascalCase}} {get; init; }{{/isHeaderParam}}
+{{/optionalParams}}
+}
+
+{{/operation}}
+{{/operations}}
