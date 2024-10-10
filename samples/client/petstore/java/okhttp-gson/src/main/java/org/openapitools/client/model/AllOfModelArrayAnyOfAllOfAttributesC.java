@@ -214,6 +214,7 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
     public Pet getPet() throws ClassCastException {
         return (Pet)super.getActualInstance();
     }
+
     /**
      * Get the actual instance of `Order`. If the actual instance is not `Order`,
      * the ClassCastException will be thrown.

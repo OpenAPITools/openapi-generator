@@ -215,6 +215,7 @@ public class FruitReq extends AbstractOpenApiSchema {
     public AppleReq getAppleReq() throws ClassCastException {
         return (AppleReq)super.getActualInstance();
     }
+
     /**
      * Get the actual instance of `BananaReq`. If the actual instance is not `BananaReq`,
      * the ClassCastException will be thrown.

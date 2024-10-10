@@ -232,6 +232,7 @@ public class Scalar extends AbstractOpenApiSchema {
     public String getString() throws ClassCastException {
         return (String)super.getActualInstance();
     }
+
     /**
      * Get the actual instance of `BigDecimal`. If the actual instance is not `BigDecimal`,
      * the ClassCastException will be thrown.
@@ -242,6 +243,7 @@ public class Scalar extends AbstractOpenApiSchema {
     public BigDecimal getBigDecimal() throws ClassCastException {
         return (BigDecimal)super.getActualInstance();
     }
+
     /**
      * Get the actual instance of `Boolean`. If the actual instance is not `Boolean`,
      * the ClassCastException will be thrown.
