@@ -57,7 +57,7 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
 
         // Path Params
         const localVarPath = '{{{path}}}'{{#pathParams}}
-            .replace('{' + '{{baseName}}' + '}', encodeURIComponent(String({{paramName}}))){{/pathParams}};
+            .replace('{' + '{{baseName}}' + '}', {{^vendorExtensions.x-do-not-encode-path-param}}encodeURIComponent({{/vendorExtensions.x-do-not-encode-path-param}}String({{paramName}}){{^vendorExtensions.x-do-not-encode-path-param}}){{/vendorExtensions.x-do-not-encode-path-param}}){{/pathParams}};
 
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.{{httpMethod}});
