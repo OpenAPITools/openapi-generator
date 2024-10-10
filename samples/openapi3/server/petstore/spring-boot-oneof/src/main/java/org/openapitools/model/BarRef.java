@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class BarRef extends EntityRef implements BarRefOrValue {
 
   public BarRef() {
@@ -122,7 +122,7 @@ public class BarRef extends EntityRef implements BarRefOrValue {
     }
 
     protected Builder copyOf(BarRef value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       return this;
     }
 

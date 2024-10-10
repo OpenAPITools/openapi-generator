@@ -643,7 +643,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         convertPropertyToBooleanAndWriteBack(CONTAINER_DEFAULT_TO_NULL, this::setContainerDefaultToNull);
 
         additionalProperties.put("sanitizeGeneric", (Mustache.Lambda) (fragment, writer) -> {
-            String content = fragment.execute();
+            String content = removeAnnotations(fragment.execute());
             for (final String s: List.of("<", ">", ",", " ")) {
                 content = content.replace(s, "");
             }
@@ -1780,14 +1780,18 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return;
         }
 
-        // the response data types should not contains a bean validation annotation.
+        // the response data types should not contain a bean validation annotation.
         if (property.dataType.contains("@")) {
-            property.dataType = property.dataType.replaceAll("(?:(?i)@[a-z0-9]*+([(].*[)]|\\s*))*+", "");
+            property.dataType = removeAnnotations(property.dataType);
         }
-        // the response data types should not contains a bean validation annotation.
+        // the response data types should not contain a bean validation annotation.
         if (response.dataType.contains("@")) {
-            response.dataType = response.dataType.replaceAll("(?:(?i)@[a-z0-9]*+([(].*[)]|\\s*))*+", "");
+            response.dataType = removeAnnotations(response.dataType);
         }
+    }
+
+    private String removeAnnotations(String type) {
+        return type.replaceAll("(?:(?i)@[a-z0-9]*+([(].*[)]|\\s*))*+", "");
     }
 
     @Override

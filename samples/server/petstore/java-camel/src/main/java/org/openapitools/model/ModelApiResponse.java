@@ -29,7 +29,7 @@ import javax.annotation.Generated;
 @JacksonXmlRootElement(localName = "ModelApiResponse")
 @XmlRootElement(name = "ModelApiResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ModelApiResponse {
 
   private Integer code;

@@ -30,7 +30,12 @@ import Alamofire{{/useAlamofire}}
     /// Configures the range of HTTP status codes that will result in a successful response
     ///
     /// If a HTTP status code is outside of this range the response will be interpreted as failed.
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var successfulStatusCodeRange: Range<Int>{{#useAlamofire}}
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var successfulStatusCodeRange: Range<Int>{{#useURLSession}}
+
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var interceptor: OpenAPIInterceptor{{/useURLSession}}{{#useAlamofire}}
+
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var interceptor: RequestInterceptor?
+
     /// ResponseSerializer that will be used by the generator for `Data` responses
     ///
     /// If unchanged, Alamofires default `DataResponseSerializer` will be used. 
@@ -51,7 +56,9 @@ import Alamofire{{/useAlamofire}}
         requestBuilderFactory: RequestBuilderFactory = {{#useAlamofire}}AlamofireRequestBuilderFactory(){{/useAlamofire}}{{#useURLSession}}URLSessionRequestBuilderFactory(){{/useURLSession}},
         apiResponseQueue: DispatchQueue = .main,
         codableHelper: CodableHelper = CodableHelper(),
-        successfulStatusCodeRange: Range<Int> = 200..<300{{#useAlamofire}},
+        successfulStatusCodeRange: Range<Int> = 200..<300{{#useURLSession}},
+        interceptor: OpenAPIInterceptor = DefaultOpenAPIInterceptor(){{/useURLSession}}{{#useAlamofire}},
+        interceptor: RequestInterceptor? = nil,
         dataResponseSerializer: AnyResponseSerializer<Data> = AnyResponseSerializer(DataResponseSerializer()),
         stringResponseSerializer: AnyResponseSerializer<String> = AnyResponseSerializer(StringResponseSerializer()){{/useAlamofire}}{{/useVapor}}
     ) {
@@ -65,7 +72,9 @@ import Alamofire{{/useAlamofire}}
         self.requestBuilderFactory = requestBuilderFactory
         self.apiResponseQueue = apiResponseQueue
         self.codableHelper = codableHelper
-        self.successfulStatusCodeRange = successfulStatusCodeRange{{#useAlamofire}}
+        self.successfulStatusCodeRange = successfulStatusCodeRange{{#useURLSession}}
+        self.interceptor = interceptor{{/useURLSession}}{{#useAlamofire}}
+        self.interceptor = interceptor
         self.dataResponseSerializer = dataResponseSerializer
         self.stringResponseSerializer = stringResponseSerializer{{/useAlamofire}}{{/useVapor}}
     }

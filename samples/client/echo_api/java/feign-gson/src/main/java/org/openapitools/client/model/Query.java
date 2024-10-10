@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * Query
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Query {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -39,11 +39,11 @@ public class Query {
    */
   @JsonAdapter(OutcomesEnum.Adapter.class)
   public enum OutcomesEnum {
-    SUCCESS("SUCCESS"),
+    SUCCESS(String.valueOf("SUCCESS")),
     
-    FAILURE("FAILURE"),
+    FAILURE(String.valueOf("FAILURE")),
     
-    SKIPPED("SKIPPED");
+    SKIPPED(String.valueOf("SKIPPED"));
 
     private String value;
 

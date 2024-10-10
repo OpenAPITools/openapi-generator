@@ -36,7 +36,7 @@ import java.util.StringJoiner;
   Query.JSON_PROPERTY_ID,
   Query.JSON_PROPERTY_OUTCOMES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Query {
   public static final String JSON_PROPERTY_ID = "id";
   protected Long id;
@@ -45,11 +45,11 @@ public class Query {
    * Gets or Sets outcomes
    */
   public enum OutcomesEnum {
-    SUCCESS("SUCCESS"),
+    SUCCESS(String.valueOf("SUCCESS")),
     
-    FAILURE("FAILURE"),
+    FAILURE(String.valueOf("FAILURE")),
     
-    SKIPPED("SKIPPED");
+    SKIPPED(String.valueOf("SKIPPED"));
 
     private String value;
 

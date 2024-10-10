@@ -22,6 +22,9 @@ open class OpenAPIClient: @unchecked Sendable {
     ///
     /// If a HTTP status code is outside of this range the response will be interpreted as failed.
     public var successfulStatusCodeRange: Range<Int>
+
+    public var interceptor: RequestInterceptor?
+
     /// ResponseSerializer that will be used by the generator for `Data` responses
     ///
     /// If unchanged, Alamofires default `DataResponseSerializer` will be used. 
@@ -39,6 +42,7 @@ open class OpenAPIClient: @unchecked Sendable {
         apiResponseQueue: DispatchQueue = .main,
         codableHelper: CodableHelper = CodableHelper(),
         successfulStatusCodeRange: Range<Int> = 200..<300,
+        interceptor: RequestInterceptor? = nil,
         dataResponseSerializer: AnyResponseSerializer<Data> = AnyResponseSerializer(DataResponseSerializer()),
         stringResponseSerializer: AnyResponseSerializer<String> = AnyResponseSerializer(StringResponseSerializer())
     ) {
@@ -49,6 +53,7 @@ open class OpenAPIClient: @unchecked Sendable {
         self.apiResponseQueue = apiResponseQueue
         self.codableHelper = codableHelper
         self.successfulStatusCodeRange = successfulStatusCodeRange
+        self.interceptor = interceptor
         self.dataResponseSerializer = dataResponseSerializer
         self.stringResponseSerializer = stringResponseSerializer
     }

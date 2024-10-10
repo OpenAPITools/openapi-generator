@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * MapTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class MapTest {
   public static final String SERIALIZED_NAME_MAP_MAP_OF_STRING = "map_map_of_string";
   @SerializedName(SERIALIZED_NAME_MAP_MAP_OF_STRING)
@@ -38,9 +38,9 @@ public class MapTest {
    */
   @JsonAdapter(InnerEnum.Adapter.class)
   public enum InnerEnum {
-    UPPER("UPPER"),
+    UPPER(String.valueOf("UPPER")),
     
-    LOWER("lower");
+    LOWER(String.valueOf("lower"));
 
     private String value;
 

@@ -44,7 +44,7 @@ class {{classname}}Routes(service : {{classname}}Service) extends cask.Routes {
 
         val result = {{>parseHttpParams}}
 
-        result match {
+        (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
         {{#responses}}
             {{#dataType}}

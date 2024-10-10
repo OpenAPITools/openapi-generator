@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  * ArrayOfArrayOfNumberOnly
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ArrayOfArrayOfNumberOnly {
 
   private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();

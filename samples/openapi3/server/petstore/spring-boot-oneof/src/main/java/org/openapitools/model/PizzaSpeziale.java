@@ -24,7 +24,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class PizzaSpeziale extends Pizza {
 
   private String toppings;
@@ -142,7 +142,7 @@ public class PizzaSpeziale extends Pizza {
     }
 
     protected Builder copyOf(PizzaSpeziale value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       this.instance.setToppings(value.toppings);
       return this;
     }

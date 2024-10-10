@@ -40,17 +40,17 @@ import org.openapitools.client.JSON;
   Zebra.JSON_PROPERTY_CLASS_NAME
 })
 @JsonTypeName("zebra")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Zebra {
   /**
    * Gets or Sets type
    */
   public enum TypeEnum {
-    PLAINS("plains"),
+    PLAINS(String.valueOf("plains")),
     
-    MOUNTAIN("mountain"),
+    MOUNTAIN(String.valueOf("mountain")),
     
-    GREVYS("grevys");
+    GREVYS(String.valueOf("grevys"));
 
     private String value;
 

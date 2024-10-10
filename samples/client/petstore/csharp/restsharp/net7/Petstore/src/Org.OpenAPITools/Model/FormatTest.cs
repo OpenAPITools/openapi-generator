@@ -73,11 +73,6 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("varByte is a required property for FormatTest and cannot be null");
             }
             this.Byte = varByte;
-            // to ensure "date" is required (not null)
-            if (date == null)
-            {
-                throw new ArgumentNullException("date is a required property for FormatTest and cannot be null");
-            }
             this.Date = date;
             // to ensure "password" is required (not null)
             if (password == null)

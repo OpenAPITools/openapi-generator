@@ -51,7 +51,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ArrayAnyOf extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(ArrayAnyOf.class.getName());
 
@@ -213,6 +213,7 @@ public class ArrayAnyOf extends AbstractOpenApiSchema {
     public Integer getInteger() throws ClassCastException {
         return (Integer)super.getActualInstance();
     }
+
     /**
      * Get the actual instance of `List<String>`. If the actual instance is not `List<String>`,
      * the ClassCastException will be thrown.
