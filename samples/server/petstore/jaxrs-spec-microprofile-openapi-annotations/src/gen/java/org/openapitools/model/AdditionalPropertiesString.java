@@ -20,6 +20,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class AdditionalPropertiesString extends HashMap<String, String> implements Serializable {
   private String name;
 
+  public AdditionalPropertiesString() {
+  }
+
   /**
    **/
   public AdditionalPropertiesString name(String name) {

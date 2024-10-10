@@ -21,6 +21,9 @@ public class ReadOnlyFirst  implements Serializable {
   private String bar;
   private String baz;
 
+  public ReadOnlyFirst() {
+  }
+
   /**
    **/
   public ReadOnlyFirst bar(String bar) {

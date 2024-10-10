@@ -21,6 +21,18 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class Cat extends Animal implements Serializable {
   private Boolean declawed;
 
+  public Cat() {
+  }
+
+  @JsonCreator
+  public Cat(
+    @JsonProperty(required = true, value = "className") String className
+  ) {
+    super(
+      className
+    );
+  }
+
   /**
    **/
   public Cat declawed(Boolean declawed) {

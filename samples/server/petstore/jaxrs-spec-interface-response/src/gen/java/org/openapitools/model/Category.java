@@ -21,6 +21,16 @@ public class Category  implements Serializable {
   private Long id;
   private String name = "default-name";
 
+  public Category() {
+  }
+
+  @JsonCreator
+  public Category(
+    @JsonProperty(required = true, value = "name") String name
+  ) {
+    this.name = name;
+  }
+
   /**
    **/
   public Category id(Long id) {
@@ -49,12 +59,12 @@ public class Category  implements Serializable {
 
   
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty("name")
+  @JsonProperty(required = true, value = "name")
   @NotNull public String getName() {
     return name;
   }
 
-  @JsonProperty("name")
+  @JsonProperty(required = true, value = "name")
   public void setName(String name) {
     this.name = name;
   }

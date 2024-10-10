@@ -36,6 +36,13 @@ public class Animal  implements Serializable {
   public Animal() {
   }
 
+  @JsonCreator
+  public Animal(
+    @JsonProperty(required = true, value = "className") String className
+  ) {
+    this.className = className;
+  }
+
   /**
    **/
   public Animal className(String className) {
@@ -45,12 +52,12 @@ public class Animal  implements Serializable {
 
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
-  @JsonProperty("className")
+  @JsonProperty(required = true, value = "className")
   @NotNull public String getClassName() {
     return className;
   }
 
-  @JsonProperty("className")
+  @JsonProperty(required = true, value = "className")
   public void setClassName(String className) {
     this.className = className;
   }

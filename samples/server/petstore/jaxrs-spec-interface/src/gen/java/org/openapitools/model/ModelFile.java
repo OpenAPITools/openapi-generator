@@ -23,6 +23,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class ModelFile  implements Serializable {
   private String sourceURI;
 
+  public ModelFile() {
+  }
+
   /**
    * Test capitalization
    **/

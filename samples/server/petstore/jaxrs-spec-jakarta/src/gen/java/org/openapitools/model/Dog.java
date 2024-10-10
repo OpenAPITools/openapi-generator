@@ -29,6 +29,15 @@ public class Dog extends Animal implements Serializable {
   public Dog() {
   }
 
+  @JsonCreator
+  public Dog(
+    @JsonProperty(required = true, value = "className") String className
+  ) {
+    super(
+      className
+    );
+  }
+
   /**
    **/
   public Dog breed(String breed) {
