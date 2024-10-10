@@ -1266,7 +1266,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             }
 
             // update typing import for operation responses type
-            for (CodegenResponse response : operation.responses) {
+            // only python-fastapi needs this at the moment
+            if (this instanceof PythonFastAPIServerCodegen) {
+                for (CodegenResponse response : operation.responses) {
                     // Not interested in the result, only in the update of the imports
                     getPydanticType(
                             response.returnProperty,
@@ -1277,6 +1279,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                             moduleImports,
                             null
                     );
+                }
             }
 
             // add import for code samples
