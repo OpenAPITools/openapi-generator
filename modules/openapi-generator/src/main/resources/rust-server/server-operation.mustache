@@ -201,12 +201,12 @@
                      Ok(body) => {
   {{^vendorExtensions.x-consumes-multipart-form}}
     {{^vendorExtensions.x-consumes-form}}
-      {{^bodyParam.vendorExtensions.x-consumes-plain-text}}
+      {{^vendorExtensions.x-consumes-plain-text}}
                                 let mut unused_elements : Vec<String> = vec![];
-      {{/bodyParam.vendorExtensions.x-consumes-plain-text}}
+      {{/vendorExtensions.x-consumes-plain-text}}
     {{/vendorExtensions.x-consumes-form}}
   {{/vendorExtensions.x-consumes-multipart-form}}
-{{>server-request-body-instance}}
+{{>server-request-body}}
 {{/vendorExtensions.x-has-request-body}}
                                 let result = api_impl.{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
                                         {{#vendorExtensions}}
@@ -228,14 +228,14 @@
 {{#vendorExtensions.x-has-request-body}}
   {{^vendorExtensions.x-consumes-multipart-form}}
     {{^vendorExtensions.x-consumes-form}}
-      {{^bodyParam.vendorExtensions.x-consumes-plain-text}}
+      {{^vendorExtensions.x-consumes-plain-text}}
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
                                                 HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
                                                     .expect("Unable to create Warning header value"));
                                         }
-      {{/bodyParam.vendorExtensions.x-consumes-plain-text}}
+      {{/vendorExtensions.x-consumes-plain-text}}
     {{/vendorExtensions.x-consumes-form}}
   {{/vendorExtensions.x-consumes-multipart-form}}
 {{/vendorExtensions.x-has-request-body}}
@@ -294,7 +294,7 @@
                                                     }
   {{/required}}
 {{/headers}}
-{{>server-response-body-instance}}
+{{>server-response-body}}
                                                 },
 {{/responses}}
                                             },

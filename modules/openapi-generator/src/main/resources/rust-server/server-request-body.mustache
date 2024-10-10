@@ -1,0 +1,103 @@
+{{#vendorExtensions.x-has-schema-variants}}
+  // Body has multiple variant schemas
+  let param_{{{bodyParam.paramName}}} :
+  {{^bodyParam.required}}
+    Option<
+  {{/bodyParam.required}}
+    {{{bodyParam.dataType}}}
+  {{^bodyParam.required}}
+    >
+  {{/bodyParam.required}}
+    = if body.is_empty() {
+
+    {{#bodyParam.required}}
+          return Ok(Response::builder()
+            .status(StatusCode::BAD_REQUEST)
+            .body(Body::from(format!("Missing body")))
+            .expect("Unable to create Bad Request for missing body"))
+    {{/bodyParam.required}}
+    {{^bodyParam.required}}
+          None
+    {{/bodyParam.required}}
+
+  } else {
+      let content_type = headers.get(CONTENT_TYPE);
+
+      let content_type = if let Some(content_type) = headers.get(CONTENT_TYPE) {
+          content_type.to_str()
+      } else {
+          return Ok(Response::builder()
+            .status(StatusCode::BAD_REQUEST)
+            .body(Body::from(format!("Missing Content-Type header")))
+            .expect("Unable to create Bad Request for missing content type"))
+      };
+
+      let content_type = content_type.map(|s|
+          s.split(';').next().expect("Spliting content type header failed").trim());
+
+{{^bodyParam.required}}
+      Some(
+{{/bodyParam.required}}
+      match content_type {
+  {{#bodyParam.schemaVariants}}
+          Ok("{{contentType}}") => {
+  {{#vendorExtensions.x-consumes-basic}}
+    {{>server-request-body-basic}}
+  {{/vendorExtensions.x-consumes-basic}}
+  {{#vendorExtensions.x-consumes-multipart-form}}
+    {{>server-request-body-multipart-form}}
+  {{/vendorExtensions.x-consumes-multipart-form}}
+  {{#vendorExtensions.x-consumes-form}}
+    {{>server-request-body-form}}
+  {{/vendorExtensions.x-consumes-form}}
+  {{#vendorExtensions.x-consumes-multipart-related}}
+    {{>server-request-body-multipart-related}}
+  {{/vendorExtensions.x-consumes-multipart-related}}
+
+  {{^vendorExtensions.x-consumes-basic}}
+              let param_{{{paramName}}} : {{{dataType}}} = {{{dataType}}} {
+    {{#formParams}}
+                  {{{paramName}}}: param_{{{paramName}}},
+    {{/formParams}}
+              };
+  {{/vendorExtensions.x-consumes-basic}}
+
+              let param_{{{paramName}}} : {{{variantType}}} = {{{variantType}}}::from(param_{{{paramName}}});
+
+              {{{vendorExtensions.x-variant-name}}}(param_{{{paramName}}})
+          },
+  {{/bodyParam.schemaVariants}}
+          _ => {
+              return Ok(Response::builder()
+                  .status(StatusCode::BAD_REQUEST)
+                  .body(Body::from(format!("Incorrect content type")))
+                  .expect("Unable to create Bad Request for incorrect content type"))
+          }
+      }
+{{^bodyParam.required}}
+      )
+{{/bodyParam.required}}
+  };
+{{/vendorExtensions.x-has-schema-variants}}
+{{^vendorExtensions.x-has-schema-variants}}
+{{#vendorExtensions}}
+  {{#x-consumes-multipart}}
+    {{#x-consumes-multipart-related}}
+{{>server-request-body-multipart-related}}
+    {{/x-consumes-multipart-related}}
+    {{^x-consumes-multipart-related}}
+      {{^bodyParams}}
+{{>server-request-body-multipart-form}}
+      {{/bodyParams}}
+    {{/x-consumes-multipart-related}}
+  {{/x-consumes-multipart}}
+  {{^x-consumes-multipart}}
+    {{#bodyParams}}
+{{>server-request-body-basic}}
+    {{/bodyParams}}
+    {{^bodyParams}}
+{{>server-request-body-form}}
+    {{/bodyParams}}
+  {{/x-consumes-multipart}}
+{{/vendorExtensions}}
+{{/vendorExtensions.x-has-schema-variants}}

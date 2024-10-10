@@ -345,6 +345,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+            // application/json
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
@@ -352,6 +353,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
+
 
                                                 },
                                             },
@@ -388,6 +390,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Call123exampleResponse::Success
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
 
                                                 },
                                             },
@@ -447,6 +450,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+            // */*
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("*/*")
@@ -454,6 +458,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
+
 
                                                 },
                                             },
@@ -519,6 +524,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+            // */*
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("*/*")
@@ -526,6 +532,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
+
 
                                                 },
                                             },
@@ -591,6 +598,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+            // */*
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("*/*")
@@ -598,6 +606,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
+
 
                                                 },
                                             },
@@ -663,6 +672,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+            // */*
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("*/*")
@@ -670,6 +680,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
+
 
                                                 },
                                             },
@@ -706,6 +717,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 FakeResponseWithNumericalDescriptionResponse::Status200
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
 
                                                 },
                                             },
@@ -803,6 +815,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
+
                                                 },
                                             },
                                             Err(_) => {
@@ -877,6 +890,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+            // application/json
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
@@ -884,6 +898,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
+
 
                                                 },
                                             },
@@ -982,10 +997,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
 
+
                                                 },
                                                 TestEndpointParametersResponse::UserNotFound
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
+
 
                                                 },
                                             },
@@ -1141,10 +1158,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
 
+
                                                 },
                                                 TestEnumParametersResponse::NotFound
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
+
 
                                                 },
                                             },
@@ -1220,6 +1239,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
+
                                                 },
                                             },
                                             Err(_) => {
@@ -1270,6 +1290,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 TestJsonFormDataResponse::SuccessfulOperation
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
 
                                                 },
                                             },
@@ -1330,6 +1351,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 HyphenParamResponse::Success
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
 
                                                 },
                                             },
@@ -1409,6 +1431,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+            // application/json
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
@@ -1416,6 +1439,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
+
 
                                                 },
                                             },
@@ -1475,7 +1499,64 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 match result {
                      Ok(body) => {
                                 let mut unused_elements : Vec<String> = vec![];
-                                let param_body: Option<models::Pet> = if !body.is_empty() {
+  // Body has multiple variant schemas
+  let param_body :
+    swagger::OneOf2<models::AddPetApplicationSlashJsonRequest,models::AddPetApplicationSlashXmlRequest>
+    = if body.is_empty() {
+
+          return Ok(Response::builder()
+            .status(StatusCode::BAD_REQUEST)
+            .body(Body::from(format!("Missing body")))
+            .expect("Unable to create Bad Request for missing body"))
+
+  } else {
+      let content_type = headers.get(CONTENT_TYPE);
+
+      let content_type = if let Some(content_type) = headers.get(CONTENT_TYPE) {
+          content_type.to_str()
+      } else {
+          return Ok(Response::builder()
+            .status(StatusCode::BAD_REQUEST)
+            .body(Body::from(format!("Missing Content-Type header")))
+            .expect("Unable to create Bad Request for missing content type"))
+      };
+
+      let content_type = content_type.map(|s|
+          s.split(';').next().expect("Spliting content type header failed").trim());
+
+      match content_type {
+          Ok("application/json") => {
+                                    let param_body: Option<models::Pet> = if !body.is_empty() {
+                                    let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
+                                    match serde_ignored::deserialize(deserializer, |path| {
+                                            warn!("Ignoring unknown field in body: {}", path);
+                                            unused_elements.push(path.to_string());
+                                    }) {
+                                        Ok(param_body) => param_body,
+                                        Err(e) => return Ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))
+                                                        .expect("Unable to create Bad Request response for invalid body parameter body due to schema")),
+                                    }
+                                } else {
+                                    None
+                                };
+                                let param_body = match param_body {
+                                    Some(param_body) => param_body,
+                                    None => return Ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from("Missing required body parameter body"))
+                                                        .expect("Unable to create Bad Request response for missing body parameter body")),
+                                };
+
+
+
+              let param_body : models::AddPetApplicationSlashJsonRequest = models::AddPetApplicationSlashJsonRequest::from(param_body);
+
+              swagger::OneOf2::<models::AddPetApplicationSlashJsonRequest, models::AddPetApplicationSlashXmlRequest>::A(param_body)
+          },
+          Ok("application/xml") => {
+                                    let param_body: Option<models::Pet> = if !body.is_empty() {
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
@@ -1499,6 +1580,20 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 };
 
 
+
+              let param_body : models::AddPetApplicationSlashXmlRequest = models::AddPetApplicationSlashXmlRequest::from(param_body);
+
+              swagger::OneOf2::<models::AddPetApplicationSlashJsonRequest, models::AddPetApplicationSlashXmlRequest>::B(param_body)
+          },
+          _ => {
+              return Ok(Response::builder()
+                  .status(StatusCode::BAD_REQUEST)
+                  .body(Body::from(format!("Incorrect content type")))
+                  .expect("Unable to create Bad Request for incorrect content type"))
+          }
+      }
+  };
+
                                 let result = api_impl.add_pet(
                                             param_body,
                                         &context
@@ -1520,6 +1615,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 AddPetResponse::InvalidInput
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(405).expect("Unable to turn 405 into a StatusCode");
+
 
                                                 },
                                             },
@@ -1594,6 +1690,11 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+    let body = match body {
+        swagger::OneOf2::<models::FindPetsByStatus200ApplicationSlashXmlResponse, models::FindPetsByStatus200ApplicationSlashJsonResponse>::A(body) => {
+            let body : Vec<models::Pet> = body.into();
+
+            // application/xml
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/xml")
@@ -1602,10 +1703,27 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
 
+        },
+        swagger::OneOf2::<models::FindPetsByStatus200ApplicationSlashXmlResponse, models::FindPetsByStatus200ApplicationSlashJsonResponse>::B(body) => {
+            let body : Vec<models::Pet> = body.into();
+
+            // application/json
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/json")
+                                                            .expect("Unable to create Content-Type header for application/json"));
+                                                    // JSON Body
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+
+        },
+    };
+
                                                 },
                                                 FindPetsByStatusResponse::InvalidStatusValue
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
+
 
                                                 },
                                             },
@@ -1674,6 +1792,11 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+    let body = match body {
+        swagger::OneOf2::<models::FindPetsByTags200ApplicationSlashXmlResponse, models::FindPetsByTags200ApplicationSlashJsonResponse>::A(body) => {
+            let body : Vec<models::Pet> = body.into();
+
+            // application/xml
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/xml")
@@ -1682,10 +1805,27 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
 
+        },
+        swagger::OneOf2::<models::FindPetsByTags200ApplicationSlashXmlResponse, models::FindPetsByTags200ApplicationSlashJsonResponse>::B(body) => {
+            let body : Vec<models::Pet> = body.into();
+
+            // application/json
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/json")
+                                                            .expect("Unable to create Content-Type header for application/json"));
+                                                    // JSON Body
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+
+        },
+    };
+
                                                 },
                                                 FindPetsByTagsResponse::InvalidTagValue
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
+
 
                                                 },
                                             },
@@ -1739,7 +1879,64 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 match result {
                      Ok(body) => {
                                 let mut unused_elements : Vec<String> = vec![];
-                                let param_body: Option<models::Pet> = if !body.is_empty() {
+  // Body has multiple variant schemas
+  let param_body :
+    swagger::OneOf2<models::UpdatePetApplicationSlashJsonRequest,models::UpdatePetApplicationSlashXmlRequest>
+    = if body.is_empty() {
+
+          return Ok(Response::builder()
+            .status(StatusCode::BAD_REQUEST)
+            .body(Body::from(format!("Missing body")))
+            .expect("Unable to create Bad Request for missing body"))
+
+  } else {
+      let content_type = headers.get(CONTENT_TYPE);
+
+      let content_type = if let Some(content_type) = headers.get(CONTENT_TYPE) {
+          content_type.to_str()
+      } else {
+          return Ok(Response::builder()
+            .status(StatusCode::BAD_REQUEST)
+            .body(Body::from(format!("Missing Content-Type header")))
+            .expect("Unable to create Bad Request for missing content type"))
+      };
+
+      let content_type = content_type.map(|s|
+          s.split(';').next().expect("Spliting content type header failed").trim());
+
+      match content_type {
+          Ok("application/json") => {
+                                    let param_body: Option<models::Pet> = if !body.is_empty() {
+                                    let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
+                                    match serde_ignored::deserialize(deserializer, |path| {
+                                            warn!("Ignoring unknown field in body: {}", path);
+                                            unused_elements.push(path.to_string());
+                                    }) {
+                                        Ok(param_body) => param_body,
+                                        Err(e) => return Ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))
+                                                        .expect("Unable to create Bad Request response for invalid body parameter body due to schema")),
+                                    }
+                                } else {
+                                    None
+                                };
+                                let param_body = match param_body {
+                                    Some(param_body) => param_body,
+                                    None => return Ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from("Missing required body parameter body"))
+                                                        .expect("Unable to create Bad Request response for missing body parameter body")),
+                                };
+
+
+
+              let param_body : models::UpdatePetApplicationSlashJsonRequest = models::UpdatePetApplicationSlashJsonRequest::from(param_body);
+
+              swagger::OneOf2::<models::UpdatePetApplicationSlashJsonRequest, models::UpdatePetApplicationSlashXmlRequest>::A(param_body)
+          },
+          Ok("application/xml") => {
+                                    let param_body: Option<models::Pet> = if !body.is_empty() {
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
@@ -1763,6 +1960,20 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 };
 
 
+
+              let param_body : models::UpdatePetApplicationSlashXmlRequest = models::UpdatePetApplicationSlashXmlRequest::from(param_body);
+
+              swagger::OneOf2::<models::UpdatePetApplicationSlashJsonRequest, models::UpdatePetApplicationSlashXmlRequest>::B(param_body)
+          },
+          _ => {
+              return Ok(Response::builder()
+                  .status(StatusCode::BAD_REQUEST)
+                  .body(Body::from(format!("Incorrect content type")))
+                  .expect("Unable to create Bad Request for incorrect content type"))
+          }
+      }
+  };
+
                                 let result = api_impl.update_pet(
                                             param_body,
                                         &context
@@ -1785,15 +1996,18 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
 
+
                                                 },
                                                 UpdatePetResponse::PetNotFound
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
 
+
                                                 },
                                                 UpdatePetResponse::ValidationException
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(405).expect("Unable to turn 405 into a StatusCode");
+
 
                                                 },
                                             },
@@ -1906,6 +2120,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
 
+
                                                 },
                                             },
                                             Err(_) => {
@@ -1970,6 +2185,11 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+    let body = match body {
+        swagger::OneOf2::<models::GetPetById200ApplicationSlashXmlResponse, models::GetPetById200ApplicationSlashJsonResponse>::A(body) => {
+            let body : models::Pet = body.into();
+
+            // application/xml
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/xml")
@@ -1978,15 +2198,33 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
 
+        },
+        swagger::OneOf2::<models::GetPetById200ApplicationSlashXmlResponse, models::GetPetById200ApplicationSlashJsonResponse>::B(body) => {
+            let body : models::Pet = body.into();
+
+            // application/json
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/json")
+                                                            .expect("Unable to create Content-Type header for application/json"));
+                                                    // JSON Body
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+
+        },
+    };
+
                                                 },
                                                 GetPetByIdResponse::InvalidIDSupplied
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
 
+
                                                 },
                                                 GetPetByIdResponse::PetNotFound
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
+
 
                                                 },
                                             },
@@ -2086,6 +2324,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 UpdatePetWithFormResponse::InvalidInput
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(405).expect("Unable to turn 405 into a StatusCode");
+
 
                                                 },
                                             },
@@ -2285,6 +2524,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+            // application/json
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
@@ -2292,6 +2532,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
+
 
                                                 },
                                             },
@@ -2339,6 +2580,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+            // application/json
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
@@ -2346,6 +2588,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
+
 
                                                 },
                                             },
@@ -2415,6 +2658,11 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+    let body = match body {
+        swagger::OneOf2::<models::PlaceOrder200ApplicationSlashXmlResponse, models::PlaceOrder200ApplicationSlashJsonResponse>::A(body) => {
+            let body : models::Order = body.into();
+
+            // application/xml
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/xml")
@@ -2423,10 +2671,27 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
 
+        },
+        swagger::OneOf2::<models::PlaceOrder200ApplicationSlashXmlResponse, models::PlaceOrder200ApplicationSlashJsonResponse>::B(body) => {
+            let body : models::Order = body.into();
+
+            // application/json
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/json")
+                                                            .expect("Unable to create Content-Type header for application/json"));
+                                                    // JSON Body
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+
+        },
+    };
+
                                                 },
                                                 PlaceOrderResponse::InvalidOrder
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
+
 
                                                 },
                                             },
@@ -2488,10 +2753,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
 
+
                                                 },
                                                 DeleteOrderResponse::OrderNotFound
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
+
 
                                                 },
                                             },
@@ -2547,6 +2814,11 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+    let body = match body {
+        swagger::OneOf2::<models::GetOrderById200ApplicationSlashXmlResponse, models::GetOrderById200ApplicationSlashJsonResponse>::A(body) => {
+            let body : models::Order = body.into();
+
+            // application/xml
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/xml")
@@ -2555,15 +2827,33 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
 
+        },
+        swagger::OneOf2::<models::GetOrderById200ApplicationSlashXmlResponse, models::GetOrderById200ApplicationSlashJsonResponse>::B(body) => {
+            let body : models::Order = body.into();
+
+            // application/json
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/json")
+                                                            .expect("Unable to create Content-Type header for application/json"));
+                                                    // JSON Body
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+
+        },
+    };
+
                                                 },
                                                 GetOrderByIdResponse::InvalidIDSupplied
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
 
+
                                                 },
                                                 GetOrderByIdResponse::OrderNotFound
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
+
 
                                                 },
                                             },
@@ -2632,6 +2922,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 CreateUserResponse::SuccessfulOperation
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(0).expect("Unable to turn 0 into a StatusCode");
+
 
                                                 },
                                             },
@@ -2707,6 +2998,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(0).expect("Unable to turn 0 into a StatusCode");
 
+
                                                 },
                                             },
                                             Err(_) => {
@@ -2780,6 +3072,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 CreateUsersWithListInputResponse::SuccessfulOperation
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(0).expect("Unable to turn 0 into a StatusCode");
+
 
                                                 },
                                             },
@@ -2908,6 +3201,11 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         x_expires_after
                                                     );
                                                     }
+    let body = match body {
+        swagger::OneOf2::<models::LoginUser200ApplicationSlashXmlResponse, models::LoginUser200ApplicationSlashJsonResponse>::A(body) => {
+            let body : String = body.into();
+
+            // application/xml
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/xml")
@@ -2916,10 +3214,27 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
 
+        },
+        swagger::OneOf2::<models::LoginUser200ApplicationSlashXmlResponse, models::LoginUser200ApplicationSlashJsonResponse>::B(body) => {
+            let body : String = body.into();
+
+            // application/json
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/json")
+                                                            .expect("Unable to create Content-Type header for application/json"));
+                                                    // JSON Body
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+
+        },
+    };
+
                                                 },
                                                 LoginUserResponse::InvalidUsername
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
+
 
                                                 },
                                             },
@@ -2950,6 +3265,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 LogoutUserResponse::SuccessfulOperation
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(0).expect("Unable to turn 0 into a StatusCode");
+
 
                                                 },
                                             },
@@ -3005,10 +3321,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
 
+
                                                 },
                                                 DeleteUserResponse::UserNotFound
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
+
 
                                                 },
                                             },
@@ -3064,6 +3382,11 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+    let body = match body {
+        swagger::OneOf2::<models::GetUserByName200ApplicationSlashXmlResponse, models::GetUserByName200ApplicationSlashJsonResponse>::A(body) => {
+            let body : models::User = body.into();
+
+            // application/xml
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/xml")
@@ -3072,15 +3395,33 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
 
+        },
+        swagger::OneOf2::<models::GetUserByName200ApplicationSlashXmlResponse, models::GetUserByName200ApplicationSlashJsonResponse>::B(body) => {
+            let body : models::User = body.into();
+
+            // application/json
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/json")
+                                                            .expect("Unable to create Content-Type header for application/json"));
+                                                    // JSON Body
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+
+        },
+    };
+
                                                 },
                                                 GetUserByNameResponse::InvalidUsernameSupplied
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
 
+
                                                 },
                                                 GetUserByNameResponse::UserNotFound
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
+
 
                                                 },
                                             },
@@ -3174,10 +3515,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
 
+
                                                 },
                                                 UpdateUserResponse::UserNotFound
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
+
 
                                                 },
                                             },
