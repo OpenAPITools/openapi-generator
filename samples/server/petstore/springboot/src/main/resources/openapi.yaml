@@ -1258,6 +1258,44 @@ paths:
       - application/json
       x-tags:
       - tag: pet
+  /fake/{petId}/uploadImageWithOptionalBody:
+    post:
+      description: ""
+      operationId: uploadImageWithOptionalBody
+      parameters:
+      - description: ID of pet to update
+        explode: false
+        in: path
+        name: petId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/uploadImageWithOptionalBody_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+          description: successful operation
+      security:
+      - petstore_auth:
+        - write:pets
+        - read:pets
+      summary: uploads an image (required)
+      tags:
+      - pet
+      x-content-type: multipart/form-data
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: pet
   /fake/{petId}/response-object-different-names:
     get:
       operationId: responseObjectDifferentNames
@@ -2408,6 +2446,16 @@ components:
           type: string
       required:
       - requiredFile
+      type: object
+    uploadImageWithOptionalBody_request:
+      properties:
+        additionalMetadata:
+          description: Additional data to pass to server
+          type: string
+        optionalFile:
+          description: file to upload
+          format: binary
+          type: string
       type: object
   securitySchemes:
     petstore_auth:
