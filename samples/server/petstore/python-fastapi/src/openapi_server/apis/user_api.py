@@ -24,7 +24,7 @@ from fastapi import (  # noqa: F401
 
 from openapi_server.models.extra_models import TokenModel  # noqa: F401
 from pydantic import Field, StrictStr, field_validator
-from typing import Any, List
+from typing import List
 from typing_extensions import Annotated
 from openapi_server.models.user import User
 from openapi_server.security_api import get_token_api_key

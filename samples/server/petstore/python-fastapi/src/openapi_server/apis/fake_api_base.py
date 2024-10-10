@@ -3,7 +3,7 @@
 from typing import ClassVar, Dict, List, Tuple  # noqa: F401
 
 from pydantic import Field, StrictStr
-from typing import Any, Optional
+from typing import Optional
 from typing_extensions import Annotated
 
 

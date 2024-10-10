@@ -3,7 +3,7 @@
 from typing import ClassVar, Dict, List, Tuple  # noqa: F401
 
 from pydantic import Field, StrictInt, StrictStr
-from typing import Any, Dict
+from typing import Dict
 from typing_extensions import Annotated
 from openapi_server.models.order import Order
 from openapi_server.security_api import get_token_api_key

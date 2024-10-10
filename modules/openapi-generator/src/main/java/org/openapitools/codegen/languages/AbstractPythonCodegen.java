@@ -1265,20 +1265,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 );
             }
 
-            // update typing import for operation responses type
-            for (CodegenResponse response : operation.responses) {
-                    // Not interested in the result, only in the update of the imports
-                    getPydanticType(
-                            response.returnProperty,
-                            modelImports,
-                            exampleImports,
-                            postponedModelImports,
-                            postponedExampleImports,
-                            moduleImports,
-                            null
-                    );
-            }
-
             // add import for code samples
             // import models one by one
             if (!exampleImports.isEmpty()) {

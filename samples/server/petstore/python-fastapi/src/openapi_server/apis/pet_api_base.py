@@ -3,7 +3,7 @@
 from typing import ClassVar, Dict, List, Tuple  # noqa: F401
 
 from pydantic import Field, StrictBytes, StrictInt, StrictStr, field_validator
-from typing import Any, List, Optional, Tuple, Union
+from typing import List, Optional, Tuple, Union
 from typing_extensions import Annotated
 from openapi_server.models.api_response import ApiResponse
 from openapi_server.models.pet import Pet

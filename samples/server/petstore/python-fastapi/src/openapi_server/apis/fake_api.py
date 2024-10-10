@@ -24,7 +24,7 @@ from fastapi import (  # noqa: F401
 
 from openapi_server.models.extra_models import TokenModel  # noqa: F401
 from pydantic import Field, StrictStr
-from typing import Any, Optional
+from typing import Optional
 from typing_extensions import Annotated
 
 
