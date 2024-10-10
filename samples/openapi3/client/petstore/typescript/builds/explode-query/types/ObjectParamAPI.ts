@@ -255,7 +255,7 @@ export interface FakeApiTestEndpointParametersRequest {
      * @type number
      * @memberof FakeApitestEndpointParameters
      */
-    _double: number
+    double: number
     /**
      * None
      * Defaults to: undefined
@@ -269,7 +269,7 @@ export interface FakeApiTestEndpointParametersRequest {
      * @type string
      * @memberof FakeApitestEndpointParameters
      */
-    _byte: string
+    byte: string
     /**
      * None
      * Minimum: 10
@@ -741,7 +741,7 @@ export class ObjectFakeApi {
      * @param param the request object
      */
     public testEndpointParametersWithHttpInfo(param: FakeApiTestEndpointParametersRequest, options?: Configuration): Promise<HttpInfo<void>> {
-        return this.api.testEndpointParametersWithHttpInfo(param.number, param._double, param.patternWithoutDelimiter, param._byte, param.integer, param.int32, param.int64, param._float, param.string, param.binary, param.date, param.dateTime, param.password, param.callback,  options).toPromise();
+        return this.api.testEndpointParametersWithHttpInfo(param.number, param.double, param.patternWithoutDelimiter, param.byte, param.integer, param.int32, param.int64, param._float, param.string, param.binary, param.date, param.dateTime, param.password, param.callback,  options).toPromise();
     }
 
     /**
@@ -750,7 +750,7 @@ export class ObjectFakeApi {
      * @param param the request object
      */
     public testEndpointParameters(param: FakeApiTestEndpointParametersRequest, options?: Configuration): Promise<void> {
-        return this.api.testEndpointParameters(param.number, param._double, param.patternWithoutDelimiter, param._byte, param.integer, param.int32, param.int64, param._float, param.string, param.binary, param.date, param.dateTime, param.password, param.callback,  options).toPromise();
+        return this.api.testEndpointParameters(param.number, param.double, param.patternWithoutDelimiter, param.byte, param.integer, param.int32, param.int64, param._float, param.string, param.binary, param.date, param.dateTime, param.password, param.callback,  options).toPromise();
     }
 
     /**

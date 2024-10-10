@@ -714,11 +714,11 @@ const request: FakeApiTestEndpointParametersRequest = {
     // None
   number: 32.1,
     // None
-  _double: 67.8,
+  double: 67.8,
     // None
   patternWithoutDelimiter: "AUR,rZ#UM/?R,Fp^l6$ARjbhJk C>",
     // None
-  _byte: 'YQ==',
+  byte: 'YQ==',
     // None (optional)
   integer: 10,
     // None (optional)
@@ -751,9 +751,9 @@ console.log('API called successfully. Returned data:', data);
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **number** | [**number**] | None | defaults to undefined
- **_double** | [**number**] | None | defaults to undefined
+ **double** | [**number**] | None | defaults to undefined
  **patternWithoutDelimiter** | [**string**] | None | defaults to undefined
- **_byte** | [**string**] | None | defaults to undefined
+ **byte** | [**string**] | None | defaults to undefined
  **integer** | [**number**] | None | (optional) defaults to undefined
  **int32** | [**number**] | None | (optional) defaults to undefined
  **int64** | [**number**] | None | (optional) defaults to undefined

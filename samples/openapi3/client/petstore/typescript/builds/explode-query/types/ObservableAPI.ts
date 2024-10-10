@@ -540,9 +540,9 @@ export class ObservableFakeApi {
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * @param number None
-     * @param _double None
+     * @param double None
      * @param patternWithoutDelimiter None
-     * @param _byte None
+     * @param byte None
      * @param [integer] None
      * @param [int32] None
      * @param [int64] None
@@ -554,8 +554,8 @@ export class ObservableFakeApi {
      * @param [password] None
      * @param [callback] None
      */
-    public testEndpointParametersWithHttpInfo(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: HttpFile, date?: string, dateTime?: Date, password?: string, callback?: string, _options?: Configuration): Observable<HttpInfo<void>> {
-        const requestContextPromise = this.requestFactory.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, _options);
+    public testEndpointParametersWithHttpInfo(number: number, double: number, patternWithoutDelimiter: string, byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: HttpFile, date?: string, dateTime?: Date, password?: string, callback?: string, _options?: Configuration): Observable<HttpInfo<void>> {
+        const requestContextPromise = this.requestFactory.testEndpointParameters(number, double, patternWithoutDelimiter, byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -577,9 +577,9 @@ export class ObservableFakeApi {
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * @param number None
-     * @param _double None
+     * @param double None
      * @param patternWithoutDelimiter None
-     * @param _byte None
+     * @param byte None
      * @param [integer] None
      * @param [int32] None
      * @param [int64] None
@@ -591,8 +591,8 @@ export class ObservableFakeApi {
      * @param [password] None
      * @param [callback] None
      */
-    public testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: HttpFile, date?: string, dateTime?: Date, password?: string, callback?: string, _options?: Configuration): Observable<void> {
-        return this.testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
+    public testEndpointParameters(number: number, double: number, patternWithoutDelimiter: string, byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: HttpFile, date?: string, dateTime?: Date, password?: string, callback?: string, _options?: Configuration): Observable<void> {
+        return this.testEndpointParametersWithHttpInfo(number, double, patternWithoutDelimiter, byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**

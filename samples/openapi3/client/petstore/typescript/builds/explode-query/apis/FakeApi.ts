@@ -497,9 +497,9 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * @param number None
-     * @param _double None
+     * @param double None
      * @param patternWithoutDelimiter None
-     * @param _byte None
+     * @param byte None
      * @param integer None
      * @param int32 None
      * @param int64 None
@@ -511,7 +511,7 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * @param password None
      * @param callback None
      */
-    public async testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: HttpFile, date?: string, dateTime?: Date, password?: string, callback?: string, _options?: Configuration): Promise<RequestContext> {
+    public async testEndpointParameters(number: number, double: number, patternWithoutDelimiter: string, byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: HttpFile, date?: string, dateTime?: Date, password?: string, callback?: string, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'number' is not null or undefined
@@ -520,9 +520,9 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
         }
 
 
-        // verify required parameter '_double' is not null or undefined
-        if (_double === null || _double === undefined) {
-            throw new RequiredError("FakeApi", "testEndpointParameters", "_double");
+        // verify required parameter 'double' is not null or undefined
+        if (double === null || double === undefined) {
+            throw new RequiredError("FakeApi", "testEndpointParameters", "double");
         }
 
 
@@ -532,9 +532,9 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
         }
 
 
-        // verify required parameter '_byte' is not null or undefined
-        if (_byte === null || _byte === undefined) {
-            throw new RequiredError("FakeApi", "testEndpointParameters", "_byte");
+        // verify required parameter 'byte' is not null or undefined
+        if (byte === null || byte === undefined) {
+            throw new RequiredError("FakeApi", "testEndpointParameters", "byte");
         }
 
 
@@ -587,9 +587,9 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
              // TODO: replace .append with .set
              localVarFormParams.append('float', _float as any);
         }
-        if (_double !== undefined) {
+        if (double !== undefined) {
              // TODO: replace .append with .set
-             localVarFormParams.append('double', _double as any);
+             localVarFormParams.append('double', double as any);
         }
         if (string !== undefined) {
              // TODO: replace .append with .set
@@ -599,9 +599,9 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
              // TODO: replace .append with .set
              localVarFormParams.append('pattern_without_delimiter', patternWithoutDelimiter as any);
         }
-        if (_byte !== undefined) {
+        if (byte !== undefined) {
              // TODO: replace .append with .set
-             localVarFormParams.append('byte', _byte as any);
+             localVarFormParams.append('byte', byte as any);
         }
         if (binary !== undefined) {
              // TODO: replace .append with .set

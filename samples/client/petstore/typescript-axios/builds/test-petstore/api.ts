@@ -2328,9 +2328,9 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
          * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
          * @summary Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
          * @param {number} number None
-         * @param {number} _double None
+         * @param {number} double None
          * @param {string} patternWithoutDelimiter None
-         * @param {string} _byte None
+         * @param {string} byte None
          * @param {number} [integer] None
          * @param {number} [int32] None
          * @param {number} [int64] None
@@ -2344,15 +2344,15 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testEndpointParameters: async (number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: File, date?: string, dateTime?: string, password?: string, callback?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        testEndpointParameters: async (number: number, double: number, patternWithoutDelimiter: string, byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: File, date?: string, dateTime?: string, password?: string, callback?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'number' is not null or undefined
             assertParamExists('testEndpointParameters', 'number', number)
-            // verify required parameter '_double' is not null or undefined
-            assertParamExists('testEndpointParameters', '_double', _double)
+            // verify required parameter 'double' is not null or undefined
+            assertParamExists('testEndpointParameters', 'double', double)
             // verify required parameter 'patternWithoutDelimiter' is not null or undefined
             assertParamExists('testEndpointParameters', 'patternWithoutDelimiter', patternWithoutDelimiter)
-            // verify required parameter '_byte' is not null or undefined
-            assertParamExists('testEndpointParameters', '_byte', _byte)
+            // verify required parameter 'byte' is not null or undefined
+            assertParamExists('testEndpointParameters', 'byte', byte)
             const localVarPath = `/fake`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2391,8 +2391,8 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
                 localVarFormParams.set('float', _float as any);
             }
     
-            if (_double !== undefined) { 
-                localVarFormParams.set('double', _double as any);
+            if (double !== undefined) { 
+                localVarFormParams.set('double', double as any);
             }
     
             if (string !== undefined) { 
@@ -2403,8 +2403,8 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
                 localVarFormParams.set('pattern_without_delimiter', patternWithoutDelimiter as any);
             }
     
-            if (_byte !== undefined) { 
-                localVarFormParams.set('byte', _byte as any);
+            if (byte !== undefined) { 
+                localVarFormParams.set('byte', byte as any);
             }
     
             if (binary !== undefined) { 
@@ -2959,9 +2959,9 @@ export const FakeApiFp = function(configuration?: Configuration) {
          * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
          * @summary Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
          * @param {number} number None
-         * @param {number} _double None
+         * @param {number} double None
          * @param {string} patternWithoutDelimiter None
-         * @param {string} _byte None
+         * @param {string} byte None
          * @param {number} [integer] None
          * @param {number} [int32] None
          * @param {number} [int64] None
@@ -2975,8 +2975,8 @@ export const FakeApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: File, date?: string, dateTime?: string, password?: string, callback?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, options);
+        async testEndpointParameters(number: number, double: number, patternWithoutDelimiter: string, byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: File, date?: string, dateTime?: string, password?: string, callback?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.testEndpointParameters(number, double, patternWithoutDelimiter, byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FakeApi.testEndpointParameters']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -3205,9 +3205,9 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
          * @summary Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
          * @param {number} number None
-         * @param {number} _double None
+         * @param {number} double None
          * @param {string} patternWithoutDelimiter None
-         * @param {string} _byte None
+         * @param {string} byte None
          * @param {number} [integer] None
          * @param {number} [int32] None
          * @param {number} [int64] None
@@ -3221,8 +3221,8 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: File, date?: string, dateTime?: string, password?: string, callback?: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, options).then((request) => request(axios, basePath));
+        testEndpointParameters(number: number, double: number, patternWithoutDelimiter: string, byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: File, date?: string, dateTime?: string, password?: string, callback?: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.testEndpointParameters(number, double, patternWithoutDelimiter, byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, options).then((request) => request(axios, basePath));
         },
         /**
          * To test enum parameters
@@ -3449,9 +3449,9 @@ export class FakeApi extends BaseAPI {
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * @summary Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * @param {number} number None
-     * @param {number} _double None
+     * @param {number} double None
      * @param {string} patternWithoutDelimiter None
-     * @param {string} _byte None
+     * @param {string} byte None
      * @param {number} [integer] None
      * @param {number} [int32] None
      * @param {number} [int64] None
@@ -3466,8 +3466,8 @@ export class FakeApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof FakeApi
      */
-    public testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: File, date?: string, dateTime?: string, password?: string, callback?: string, options?: RawAxiosRequestConfig) {
-        return FakeApiFp(this.configuration).testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, options).then((request) => request(this.axios, this.basePath));
+    public testEndpointParameters(number: number, double: number, patternWithoutDelimiter: string, byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: File, date?: string, dateTime?: string, password?: string, callback?: string, options?: RawAxiosRequestConfig) {
+        return FakeApiFp(this.configuration).testEndpointParameters(number, double, patternWithoutDelimiter, byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

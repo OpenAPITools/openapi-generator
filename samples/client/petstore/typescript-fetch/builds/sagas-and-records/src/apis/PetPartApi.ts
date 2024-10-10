@@ -31,9 +31,9 @@ export interface GetFakePetPartTypeRequest {
 
 export interface GetMatchingPartsRequest {
     fakePetPartId: number;
-    _long: boolean;
+    long: boolean;
     smooth: boolean;
-    _short: boolean;
+    short: boolean;
     name?: string;
     connectedPart?: string;
 }
@@ -87,10 +87,10 @@ export class PetPartApi extends runtime.BaseAPI {
             );
         }
 
-        if (requestParameters['_long'] == null) {
+        if (requestParameters['long'] == null) {
             throw new runtime.RequiredError(
-                '_long',
-                'Required parameter "_long" was null or undefined when calling getMatchingParts().'
+                'long',
+                'Required parameter "long" was null or undefined when calling getMatchingParts().'
             );
         }
 
@@ -101,17 +101,17 @@ export class PetPartApi extends runtime.BaseAPI {
             );
         }
 
-        if (requestParameters['_short'] == null) {
+        if (requestParameters['short'] == null) {
             throw new runtime.RequiredError(
-                '_short',
-                'Required parameter "_short" was null or undefined when calling getMatchingParts().'
+                'short',
+                'Required parameter "short" was null or undefined when calling getMatchingParts().'
             );
         }
 
         const queryParameters: any = {};
 
-        if (requestParameters['_long'] != null) {
-            queryParameters['long'] = requestParameters['_long'];
+        if (requestParameters['long'] != null) {
+            queryParameters['long'] = requestParameters['long'];
         }
 
         if (requestParameters['smooth'] != null) {
@@ -126,8 +126,8 @@ export class PetPartApi extends runtime.BaseAPI {
             queryParameters['connected-part'] = requestParameters['connectedPart'];
         }
 
-        if (requestParameters['_short'] != null) {
-            queryParameters['short'] = requestParameters['_short'];
+        if (requestParameters['short'] != null) {
+            queryParameters['short'] = requestParameters['short'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -145,8 +145,8 @@ export class PetPartApi extends runtime.BaseAPI {
     /**
      * Get the matching parts for the given pet part.
      */
-    async getMatchingParts(fakePetPartId: number, _long: boolean, smooth: boolean, _short: boolean, name?: string, connectedPart?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetMatchingPartsResponse> {
-        const response = await this.getMatchingPartsRaw({ fakePetPartId: fakePetPartId, _long: _long, smooth: smooth, _short: _short, name: name, connectedPart: connectedPart }, initOverrides);
+    async getMatchingParts(fakePetPartId: number, long: boolean, smooth: boolean, short: boolean, name?: string, connectedPart?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetMatchingPartsResponse> {
+        const response = await this.getMatchingPartsRaw({ fakePetPartId: fakePetPartId, long: long, smooth: smooth, short: short, name: name, connectedPart: connectedPart }, initOverrides);
         return await response.value();
     }
 
