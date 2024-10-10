@@ -92,7 +92,7 @@ $apiInstance = new OpenAPI\Client\Api\BodyApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$body = "/path/to/file.txt"; // \Psr\Http\Message\StreamInterface
+$body = '/path/to/file.txt'; // \Psr\Http\Message\StreamInterface
 
 try {
     $result = $apiInstance->testBodyApplicationOctetstreamBinary($body);
@@ -148,7 +148,7 @@ $apiInstance = new OpenAPI\Client\Api\BodyApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$files = array("/path/to/file.txt"); // \Psr\Http\Message\StreamInterface[]
+$files = array('/path/to/file.txt'); // \Psr\Http\Message\StreamInterface[]
 
 try {
     $result = $apiInstance->testBodyMultipartFormdataArrayOfBinary($files);
@@ -204,7 +204,7 @@ $apiInstance = new OpenAPI\Client\Api\BodyApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$my_file = "/path/to/file.txt"; // \Psr\Http\Message\StreamInterface
+$my_file = '/path/to/file.txt'; // \Psr\Http\Message\StreamInterface
 
 try {
     $result = $apiInstance->testBodyMultipartFormdataSingleBinary($my_file);
