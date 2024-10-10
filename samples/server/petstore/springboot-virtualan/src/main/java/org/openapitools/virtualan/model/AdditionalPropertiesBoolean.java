@@ -36,7 +36,6 @@ public class AdditionalPropertiesBoolean {
    * Get name
    * @return name
    */
-  
   @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
   public String getName() {
@@ -124,4 +123,3 @@ public class AdditionalPropertiesBoolean {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

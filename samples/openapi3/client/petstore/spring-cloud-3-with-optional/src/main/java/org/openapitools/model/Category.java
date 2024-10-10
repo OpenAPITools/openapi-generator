@@ -24,8 +24,8 @@ public class Category {
 
   private Optional<@Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") String> name = Optional.empty();
 
-  public Category id(Long id) {
-    this.id = Optional.of(id);
+  public Category id(Optional<Long> id) {
+    this.id = id;
     return this;
   }
 
@@ -33,7 +33,6 @@ public class Category {
    * Get id
    * @return id
    */
-  
   @JsonProperty("id")
   public Optional<Long> getId() {
     return id;
@@ -43,8 +42,8 @@ public class Category {
     this.id = id;
   }
 
-  public Category name(String name) {
-    this.name = Optional.of(name);
+  public Category name(Optional<String> name) {
+    this.name = name;
     return this;
   }
 
@@ -52,7 +51,6 @@ public class Category {
    * Get name
    * @return name
    */
-  
   @JsonProperty("name")
   public Optional<@Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") String> getName() {
     return name;
@@ -101,4 +99,3 @@ public class Category {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

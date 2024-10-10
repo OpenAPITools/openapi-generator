@@ -17,12 +17,15 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.ModelUtils.getSchemaItems;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 import java.io.File;
 import java.util.EnumSet;
 import java.util.List;
 
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.ClientModificationFeature;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
@@ -34,9 +37,14 @@ import org.openapitools.codegen.meta.features.WireFormatFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class GroovyClientCodegen extends AbstractJavaCodegen {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(GroovyClientCodegen.class);
 
     public GroovyClientCodegen() {
         super();
@@ -125,6 +133,28 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
         supportingFiles.add(new SupportingFile("ApiUtils.mustache",
                 (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiUtils.groovy"));
 
+    }
+
+    @Override
+    public String getTypeDeclaration(Schema p) {
+        Schema<?> schema = unaliasSchema(p);
+        Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
+        if (ModelUtils.isArraySchema(target)) {
+            Schema<?> items = getSchemaItems(schema);
+            String typeDeclaration = super.getTypeDeclarationForArray(items);
+            return getSchemaType(target) + "<" + typeDeclaration + ">";
+        } else if (ModelUtils.isMapSchema(target)) {
+            // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
+            // additionalproperties: true
+            Schema<?> inner = ModelUtils.getAdditionalProperties(target);
+            if (inner == null) {
+                LOGGER.error("`{}` (map property) does not have a proper inner type defined. Default to type:string", p.getName());
+                inner = new StringSchema().description("TODO default missing map inner type to string");
+                p.setAdditionalProperties(inner);
+            }
+            return getSchemaType(target) + "<String, " + getTypeDeclaration(inner) + ">";
+        }
+        return super.getTypeDeclaration(target);
     }
 
     @Override

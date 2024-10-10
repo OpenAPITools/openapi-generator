@@ -72,8 +72,8 @@ public interface UserApi {
     )
     
     default ResponseEntity<String> loginUser(
-        @NotNull @Parameter(name = "username", description = "The user name for login", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = true) String username,
-        @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "password", required = true) String password,
+        @Parameter(name = "username", description = "The user name for login", required = true, in = ParameterIn.QUERY) @RequestParam(value = "username") @NotNull String username,
+        @Parameter(name = "password", description = "The password for login in clear text", required = true, in = ParameterIn.QUERY) @RequestParam(value = "password") @NotNull String password,
         @Parameter(hidden = true) @Value("${server.port}") String someValue,
         @Parameter(hidden = true) @RequestHeader(value="x-project-id", required = false) String someHeaderValue,
         @Parameter(hidden = true) @RequestHeader final HttpHeaders headers,

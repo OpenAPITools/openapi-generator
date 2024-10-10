@@ -400,4 +400,3 @@ public class FormatTestDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

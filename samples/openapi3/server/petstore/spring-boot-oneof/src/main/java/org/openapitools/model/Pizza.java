@@ -57,7 +57,6 @@ public class Pizza extends Entity {
    * Get pizzaSize
    * @return pizzaSize
    */
-  @Valid 
   @Schema(name = "pizzaSize", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("pizzaSize")
   public BigDecimal getPizzaSize() {
@@ -155,37 +154,31 @@ public class Pizza extends Entity {
       this.instance.pizzaSize(pizzaSize);
       return this;
     }
-    
     @Override
     public Pizza.Builder href(String href) {
       this.instance.href(href);
       return this;
     }
-    
     @Override
     public Pizza.Builder id(String id) {
       this.instance.id(id);
       return this;
     }
-    
     @Override
     public Pizza.Builder atSchemaLocation(String atSchemaLocation) {
       this.instance.atSchemaLocation(atSchemaLocation);
       return this;
     }
-    
     @Override
     public Pizza.Builder atBaseType(String atBaseType) {
       this.instance.atBaseType(atBaseType);
       return this;
     }
-    
     @Override
     public Pizza.Builder atType(String atType) {
       this.instance.atType(atType);
       return this;
     }
-    
     /**
     * returns a built Pizza instance.
     *
@@ -223,4 +216,3 @@ public class Pizza extends Entity {
   }
 
 }
-

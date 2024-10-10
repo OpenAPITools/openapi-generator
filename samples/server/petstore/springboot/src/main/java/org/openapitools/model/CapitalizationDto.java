@@ -45,7 +45,6 @@ public class CapitalizationDto {
    * Get smallCamel
    * @return smallCamel
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("smallCamel")
   public String getSmallCamel() {
@@ -65,7 +64,6 @@ public class CapitalizationDto {
    * Get capitalCamel
    * @return capitalCamel
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("CapitalCamel")
   public String getCapitalCamel() {
@@ -85,7 +83,6 @@ public class CapitalizationDto {
    * Get smallSnake
    * @return smallSnake
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("small_Snake")
   public String getSmallSnake() {
@@ -105,7 +102,6 @@ public class CapitalizationDto {
    * Get capitalSnake
    * @return capitalSnake
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("Capital_Snake")
   public String getCapitalSnake() {
@@ -125,7 +121,6 @@ public class CapitalizationDto {
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("SCA_ETH_Flow_Points")
   public String getScAETHFlowPoints() {
@@ -145,7 +140,6 @@ public class CapitalizationDto {
    * Name of the pet 
    * @return ATT_NAME
    */
-  
   @ApiModelProperty(value = "Name of the pet ")
   @JsonProperty("ATT_NAME")
   public String getATTNAME() {
@@ -203,4 +197,3 @@ public class CapitalizationDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-
