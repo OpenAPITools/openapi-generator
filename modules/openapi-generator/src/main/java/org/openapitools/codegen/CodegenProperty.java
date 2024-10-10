@@ -17,6 +17,10 @@
 
 package org.openapitools.codegen;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -259,6 +263,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     private String format;
     private LinkedHashMap<String, List<String>> dependentRequired;
     private CodegenProperty contains;
+    private final ObjectMapper mapper = new ObjectMapper();
 
     @Override
     public CodegenProperty getContains() {
@@ -614,7 +619,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 cp._enum = new ArrayList<>(this._enum);
             }
             if (this.allowableValues != null) {
-                cp.allowableValues = new HashMap<>(this.allowableValues);
+                cp.allowableValues = mapper.readValue(
+                    mapper.writeValueAsString(this.allowableValues),
+                    new TypeReference<>() {});
             }
             if (this.vars != null) {
                 cp.vars = new ArrayList<>();
@@ -629,7 +636,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 }
             }
             if (this.vendorExtensions != null) {
-                cp.vendorExtensions = new HashMap<>(this.vendorExtensions);
+                cp.vendorExtensions = mapper.readValue(
+                    mapper.writeValueAsString(this.vendorExtensions),
+                    new TypeReference<>() {});
             }
             if (this.items != null) {
                 cp.items = this.items.clone();
@@ -647,7 +656,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 }
             }
             if (this.dependentRequired != null) {
-                cp.dependentRequired = new LinkedHashMap<>(this.dependentRequired);
+                cp.dependentRequired = mapper.readValue(
+                    mapper.writeValueAsString(this.dependentRequired),
+                    new TypeReference<>() {});
             }
             if (this.composedSchemas != null) {
                 cp.composedSchemas = this.composedSchemas.clone();
@@ -764,6 +775,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
             return cp;
         } catch (CloneNotSupportedException e) {
             throw new IllegalStateException(e);
+        } catch (JsonProcessingException e) {
+          throw new RuntimeException(e);
         }
     }
 
