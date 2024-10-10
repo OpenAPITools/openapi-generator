@@ -201,7 +201,7 @@ after_success:
           echo "Pushed to $DOCKER_CODEGEN_CLI_IMAGE_NAME";
       fi;
     fi;
-   publish latest website, variables below are secure environment variables which are unavailable to PRs from forks.
+  ## publish latest website, variables below are secure environment variables which are unavailable to PRs from forks.
   - if [ "$TRAVIS_BRANCH" = "master" ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
       sed -i "s/Vector{UInt8}/Vector\&#123;UInt8\&#125;/g" docs/generators/julia-client.md
       sed -i "s/Vector{UInt8}/Vector\&#123;UInt8\&#125;/g" docs/generators/julia-server.md
