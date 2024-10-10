@@ -38,7 +38,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
             isCookieParam, isBodyParam, isContainer,
             isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, isDeepObject, isMatrix, isAllowEmptyValue;
     public String baseName, paramName, dataType, datatypeWithEnum, dataFormat, contentType,
-            collectionFormat, description, unescapedDescription, baseType, defaultValue, enumDefaultValue, enumName, style;
+            collectionFormat, description, unescapedDescription, unescapedSafeDescription, baseType, defaultValue, enumDefaultValue, enumName, style;
 
     public String nameInLowerCase; // property name in lower case
     public String nameInCamelCase; // property name in camel case (e.g.  modifiedDate)
@@ -156,6 +156,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.isModel = this.isModel;
         output.description = this.description;
         output.unescapedDescription = this.unescapedDescription;
+        output.unescapedSafeDescription = this.unescapedSafeDescription;
         output.baseType = this.baseType;
         output.containerType = this.containerType;
         output.containerTypeMapped = this.containerTypeMapped;
@@ -283,7 +284,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         return Objects.hash(isFormParam, isQueryParam, isPathParam, isHeaderParam, isCookieParam,
                 isBodyParam, isContainer, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, baseName,
                 paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description,
-                unescapedDescription, baseType, containerType, containerTypeMapped, defaultValue,
+                unescapedDescription, unescapedSafeDescription, baseType, containerType, containerTypeMapped, defaultValue,
                 enumDefaultValue, enumName, style, isDeepObject, isMatrix, isAllowEmptyValue, example, examples,
                 jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal,
                 isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isPassword,
@@ -370,6 +371,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 Objects.equals(collectionFormat, that.collectionFormat) &&
                 Objects.equals(description, that.description) &&
                 Objects.equals(unescapedDescription, that.unescapedDescription) &&
+                Objects.equals(unescapedSafeDescription, that.unescapedSafeDescription) &&
                 Objects.equals(baseType, that.baseType) &&
                 Objects.equals(containerType, that.containerType) &&
                 Objects.equals(containerTypeMapped, that.containerTypeMapped) &&
@@ -435,6 +437,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         sb.append(", collectionFormat='").append(collectionFormat).append('\'');
         sb.append(", description='").append(description).append('\'');
         sb.append(", unescapedDescription='").append(unescapedDescription).append('\'');
+        sb.append(", unescapedSafeDescription='").append(unescapedSafeDescription).append('\'');
         sb.append(", baseType='").append(baseType).append('\'');
         sb.append(", containerType='").append(containerType).append('\'');
         sb.append(", containerTypeMapped='").append(containerTypeMapped).append('\'');

@@ -395,6 +395,9 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String escapeUnsafeCharacters(String input) {
+        if (input == null) {
+            return input;
+        }
         // ref: https://clojurebridge.github.io/community-docs/docs/clojure/comment/
         return input.replace("(comment", "(_comment");
     }

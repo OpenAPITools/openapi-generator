@@ -361,6 +361,9 @@ public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String escapeUnsafeCharacters(String input) {
+        if (input == null) {
+            return input;
+        }
         // if a backslash occurs in a property note for instance, Xojo crashes.
         return input.replace("*/", "*_/").replace("/*", "/_*").replace("\\", "");
     }

@@ -291,6 +291,9 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
 
     @Override
     public String escapeUnsafeCharacters(String input) {
+        if (input == null) {
+            return input;
+        }
         // remove multiline comment
         return input.replace("'''", "'_'_'");
     }

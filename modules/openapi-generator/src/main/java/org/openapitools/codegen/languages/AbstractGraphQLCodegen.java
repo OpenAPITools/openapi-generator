@@ -338,6 +338,9 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
 
     @Override
     public String escapeUnsafeCharacters(String input) {
+        if (input == null) {
+            return input;
+        }
         return input.replace("]]", "] ]");
     }
 

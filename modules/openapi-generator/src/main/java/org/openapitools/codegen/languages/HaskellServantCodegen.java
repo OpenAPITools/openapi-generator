@@ -692,6 +692,9 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String escapeUnsafeCharacters(String input) {
+        if (input == null) {
+            return input;
+        }
         return input.replace("{-", "{_-").replace("-}", "-_}");
     }
 

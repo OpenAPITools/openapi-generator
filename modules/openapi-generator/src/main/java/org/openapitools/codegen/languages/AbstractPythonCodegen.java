@@ -347,6 +347,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
     @Override
     public String escapeUnsafeCharacters(String input) {
+        if (input == null) {
+            return input;
+        }
         // remove multiline comment
         return input.replace("'''", "'_'_'");
     }

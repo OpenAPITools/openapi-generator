@@ -578,7 +578,9 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String escapeUnsafeCharacters(String input) {
-
+        if (input == null) {
+            return input;
+        }
         /**
          * Replace backticks with normal single quotes.
          */

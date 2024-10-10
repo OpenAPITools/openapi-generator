@@ -246,6 +246,9 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
 
     @Override
     public String escapeUnsafeCharacters(String input) {
+        if (input == null) {
+            return input;
+        }
         return input.replace("=end", "=_end").replace("=begin", "=_begin").replace("#{", "\\#{");
     }
 

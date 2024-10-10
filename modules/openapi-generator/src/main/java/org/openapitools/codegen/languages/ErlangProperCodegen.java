@@ -431,6 +431,9 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String escapeUnsafeCharacters(String input) {
+        if (input == null) {
+            return input;
+        }
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
@@ -459,6 +462,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
             this.xmlName = cm.xmlName;
             this.classFilename = cm.classFilename;
             this.unescapedDescription = cm.unescapedDescription;
+            this.unescapedSafeDescription = cm.unescapedSafeDescription;
             this.discriminator = cm.discriminator;
             this.defaultValue = cm.defaultValue;
             this.arrayModelType = cm.arrayModelType;

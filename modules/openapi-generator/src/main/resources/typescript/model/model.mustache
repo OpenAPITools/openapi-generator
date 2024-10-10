@@ -6,11 +6,11 @@ import { {{classname}} } from '{{filename}}{{importFileExtension}}';
 {{/tsImports}}
 import { HttpFile } from '../http/http{{importFileExtension}}';
 
-{{#description}}
+{{#unescapedSafeDescription}}
 /**
 * {{{.}}}
 */
-{{/description}}
+{{/unescapedSafeDescription}}
 {{^isEnum}}
 {{#oneOf}}
 {{#-first}}{{>model/modelOneOf}}{{/-first}}
@@ -18,11 +18,11 @@ import { HttpFile } from '../http/http{{importFileExtension}}';
 {{^oneOf}}
 export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{#vars}}
-{{#description}}
+{{#unescapedSafeDescription}}
     /**
     * {{{.}}}
     */
-{{/description}}
+{{/unescapedSafeDescription}}
     '{{name}}'{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}} | null{{/isNullable}};
 {{/vars}}
 
