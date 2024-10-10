@@ -30,22 +30,23 @@ public class StoreApi {
     private ApiClient apiClient;
 
     public StoreApi() {
-      this(new ApiClient());
+        this(new ApiClient());
     }
 
     @Autowired
     public StoreApi(ApiClient apiClient) {
-      this.apiClient = apiClient;
+        this.apiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-      return apiClient;
+       return apiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
-      this.apiClient = apiClient;
+        this.apiClient = apiClient;
     }
 
+    
     /**
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
@@ -119,6 +120,7 @@ public class StoreApi {
     public ResponseSpec deleteOrderWithResponseSpec(String orderId) throws WebClientResponseException {
         return deleteOrderRequestCreation(orderId);
     }
+
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
@@ -183,6 +185,7 @@ public class StoreApi {
     public ResponseSpec getInventoryWithResponseSpec() throws WebClientResponseException {
         return getInventoryRequestCreation();
     }
+
     /**
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
@@ -265,6 +268,7 @@ public class StoreApi {
     public ResponseSpec getOrderByIdWithResponseSpec(Long orderId) throws WebClientResponseException {
         return getOrderByIdRequestCreation(orderId);
     }
+
     /**
      * Place an order for a pet
      * 

@@ -33,22 +33,23 @@ public class PetApi {
     private ApiClient apiClient;
 
     public PetApi() {
-      this(new ApiClient());
+        this(new ApiClient());
     }
 
     @Autowired
     public PetApi(ApiClient apiClient) {
-      this.apiClient = apiClient;
+        this.apiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-      return apiClient;
+       return apiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
-      this.apiClient = apiClient;
+        this.apiClient = apiClient;
     }
 
+    
     /**
      * Add a new pet to the store
      * 
@@ -123,60 +124,62 @@ public class PetApi {
         return addPetRequestCreation(pet);
     }
 
+
     public class DeletePetRequest {
-      private final Long petId;
-      private final String apiKey;
+        private final Long petId;
+        private final String apiKey;
 
-      public DeletePetRequest(Long petId, String apiKey) {
-        this.petId = petId;
-        this.apiKey = apiKey;
+        public DeletePetRequest(Long petId, String apiKey) {
+          this.petId = petId;
+          this.apiKey = apiKey;
       }
 
-      public Long petId() {
-          return this.petId;
+        public Long petId() {
+            return this.petId;
+        }
+        public String apiKey() {
+            return this.apiKey;
+        }
+    }
+
+      /**
+      * Deletes a pet
+      * 
+         * <p><b>200</b> - Successful operation
+         * <p><b>400</b> - Invalid pet value
+         * @param requestParameters The deletePet request parameters as object
+         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+      */
+      public Mono<Void> deletePet(DeletePetRequest requestParameters) throws WebClientResponseException {
+          return this.deletePet(requestParameters.petId(), requestParameters.apiKey());
       }
-      public String apiKey() {
-          return this.apiKey;
+
+      /**
+      * Deletes a pet
+      * 
+         * <p><b>200</b> - Successful operation
+         * <p><b>400</b> - Invalid pet value
+         * @param requestParameters The deletePet request parameters as object
+         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+      */
+      public Mono<ResponseEntity<Void>> deletePetWithHttpInfo(DeletePetRequest requestParameters) throws WebClientResponseException {
+          return this.deletePetWithHttpInfo(requestParameters.petId(), requestParameters.apiKey());
       }
-    }
 
-    /**
-    * Deletes a pet
-    * 
-       * <p><b>200</b> - Successful operation
-       * <p><b>400</b> - Invalid pet value
-       * @param requestParameters The deletePet request parameters as object
-       * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-    */
-    public Mono<Void> deletePet(DeletePetRequest requestParameters) throws WebClientResponseException {
-    return this.deletePet(requestParameters.petId(), requestParameters.apiKey());
-    }
+      /**
+      * Deletes a pet
+      * 
+         * <p><b>200</b> - Successful operation
+         * <p><b>400</b> - Invalid pet value
+         * @param requestParameters The deletePet request parameters as object
+      * @return ResponseSpec
+      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+      */
+      public ResponseSpec deletePetWithResponseSpec(DeletePetRequest requestParameters) throws WebClientResponseException {
+         return this.deletePetWithResponseSpec(requestParameters.petId(), requestParameters.apiKey());
+      }
 
-    /**
-    * Deletes a pet
-    * 
-       * <p><b>200</b> - Successful operation
-       * <p><b>400</b> - Invalid pet value
-       * @param requestParameters The deletePet request parameters as object
-       * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-    */
-    public Mono<ResponseEntity<Void>> deletePetWithHttpInfo(DeletePetRequest requestParameters) throws WebClientResponseException {
-      return this.deletePetWithHttpInfo(requestParameters.petId(), requestParameters.apiKey());
-    }
-
-    /**
-    * Deletes a pet
-    * 
-       * <p><b>200</b> - Successful operation
-       * <p><b>400</b> - Invalid pet value
-       * @param requestParameters The deletePet request parameters as object
-    * @return ResponseSpec
-    * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-    */
-    public ResponseSpec deletePetWithResponseSpec(DeletePetRequest requestParameters) throws WebClientResponseException {
-      return this.deletePetWithResponseSpec(requestParameters.petId(), requestParameters.apiKey());
-    }
-
+          
     /**
      * Deletes a pet
      * 
@@ -257,6 +260,7 @@ public class PetApi {
     public ResponseSpec deletePetWithResponseSpec(Long petId, String apiKey) throws WebClientResponseException {
         return deletePetRequestCreation(petId, apiKey);
     }
+
     /**
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
@@ -335,6 +339,7 @@ public class PetApi {
     public ResponseSpec findPetsByStatusWithResponseSpec(List<String> status) throws WebClientResponseException {
         return findPetsByStatusRequestCreation(status);
     }
+
     /**
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -415,6 +420,7 @@ public class PetApi {
     public ResponseSpec findPetsByTagsWithResponseSpec(Set<String> tags) throws WebClientResponseException {
         return findPetsByTagsRequestCreation(tags);
     }
+
     /**
      * Find pet by ID
      * Returns a single pet
@@ -497,6 +503,7 @@ public class PetApi {
     public ResponseSpec getPetByIdWithResponseSpec(Long petId) throws WebClientResponseException {
         return getPetByIdRequestCreation(petId);
     }
+
     /**
      * Update an existing pet
      * 
@@ -579,65 +586,67 @@ public class PetApi {
         return updatePetRequestCreation(pet);
     }
 
+
     public class UpdatePetWithFormRequest {
-      private final Long petId;
-      private final String name;
-      private final String status;
+        private final Long petId;
+        private final String name;
+        private final String status;
 
-      public UpdatePetWithFormRequest(Long petId, String name, String status) {
-        this.petId = petId;
-        this.name = name;
-        this.status = status;
+        public UpdatePetWithFormRequest(Long petId, String name, String status) {
+          this.petId = petId;
+          this.name = name;
+          this.status = status;
       }
 
-      public Long petId() {
-          return this.petId;
+        public Long petId() {
+            return this.petId;
+        }
+        public String name() {
+            return this.name;
+        }
+        public String status() {
+            return this.status;
+        }
+    }
+
+      /**
+      * Updates a pet in the store with form data
+      * 
+         * <p><b>200</b> - Successful operation
+         * <p><b>405</b> - Invalid input
+         * @param requestParameters The updatePetWithForm request parameters as object
+         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+      */
+      public Mono<Void> updatePetWithForm(UpdatePetWithFormRequest requestParameters) throws WebClientResponseException {
+          return this.updatePetWithForm(requestParameters.petId(), requestParameters.name(), requestParameters.status());
       }
-      public String name() {
-          return this.name;
+
+      /**
+      * Updates a pet in the store with form data
+      * 
+         * <p><b>200</b> - Successful operation
+         * <p><b>405</b> - Invalid input
+         * @param requestParameters The updatePetWithForm request parameters as object
+         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+      */
+      public Mono<ResponseEntity<Void>> updatePetWithFormWithHttpInfo(UpdatePetWithFormRequest requestParameters) throws WebClientResponseException {
+          return this.updatePetWithFormWithHttpInfo(requestParameters.petId(), requestParameters.name(), requestParameters.status());
       }
-      public String status() {
-          return this.status;
+
+      /**
+      * Updates a pet in the store with form data
+      * 
+         * <p><b>200</b> - Successful operation
+         * <p><b>405</b> - Invalid input
+         * @param requestParameters The updatePetWithForm request parameters as object
+      * @return ResponseSpec
+      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+      */
+      public ResponseSpec updatePetWithFormWithResponseSpec(UpdatePetWithFormRequest requestParameters) throws WebClientResponseException {
+         return this.updatePetWithFormWithResponseSpec(requestParameters.petId(), requestParameters.name(), requestParameters.status());
       }
-    }
 
-    /**
-    * Updates a pet in the store with form data
-    * 
-       * <p><b>200</b> - Successful operation
-       * <p><b>405</b> - Invalid input
-       * @param requestParameters The updatePetWithForm request parameters as object
-       * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-    */
-    public Mono<Void> updatePetWithForm(UpdatePetWithFormRequest requestParameters) throws WebClientResponseException {
-    return this.updatePetWithForm(requestParameters.petId(), requestParameters.name(), requestParameters.status());
-    }
-
-    /**
-    * Updates a pet in the store with form data
-    * 
-       * <p><b>200</b> - Successful operation
-       * <p><b>405</b> - Invalid input
-       * @param requestParameters The updatePetWithForm request parameters as object
-       * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-    */
-    public Mono<ResponseEntity<Void>> updatePetWithFormWithHttpInfo(UpdatePetWithFormRequest requestParameters) throws WebClientResponseException {
-      return this.updatePetWithFormWithHttpInfo(requestParameters.petId(), requestParameters.name(), requestParameters.status());
-    }
-
-    /**
-    * Updates a pet in the store with form data
-    * 
-       * <p><b>200</b> - Successful operation
-       * <p><b>405</b> - Invalid input
-       * @param requestParameters The updatePetWithForm request parameters as object
-    * @return ResponseSpec
-    * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-    */
-    public ResponseSpec updatePetWithFormWithResponseSpec(UpdatePetWithFormRequest requestParameters) throws WebClientResponseException {
-      return this.updatePetWithFormWithResponseSpec(requestParameters.petId(), requestParameters.name(), requestParameters.status());
-    }
-
+          
     /**
      * Updates a pet in the store with form data
      * 
@@ -727,64 +736,66 @@ public class PetApi {
         return updatePetWithFormRequestCreation(petId, name, status);
     }
 
+
     public class UploadFileRequest {
-      private final Long petId;
-      private final String additionalMetadata;
-      private final File _file;
+        private final Long petId;
+        private final String additionalMetadata;
+        private final File _file;
 
-      public UploadFileRequest(Long petId, String additionalMetadata, File _file) {
-        this.petId = petId;
-        this.additionalMetadata = additionalMetadata;
-        this._file = _file;
+        public UploadFileRequest(Long petId, String additionalMetadata, File _file) {
+          this.petId = petId;
+          this.additionalMetadata = additionalMetadata;
+          this._file = _file;
       }
 
-      public Long petId() {
-          return this.petId;
+        public Long petId() {
+            return this.petId;
+        }
+        public String additionalMetadata() {
+            return this.additionalMetadata;
+        }
+        public File _file() {
+            return this._file;
+        }
+    }
+
+      /**
+      * uploads an image
+      * 
+         * <p><b>200</b> - successful operation
+         * @param requestParameters The uploadFile request parameters as object
+         * @return ModelApiResponse
+         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+      */
+      public Mono<ModelApiResponse> uploadFile(UploadFileRequest requestParameters) throws WebClientResponseException {
+          return this.uploadFile(requestParameters.petId(), requestParameters.additionalMetadata(), requestParameters._file());
       }
-      public String additionalMetadata() {
-          return this.additionalMetadata;
+
+      /**
+      * uploads an image
+      * 
+         * <p><b>200</b> - successful operation
+         * @param requestParameters The uploadFile request parameters as object
+         * @return ResponseEntity&lt;ModelApiResponse&gt;
+         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+      */
+      public Mono<ResponseEntity<ModelApiResponse>> uploadFileWithHttpInfo(UploadFileRequest requestParameters) throws WebClientResponseException {
+          return this.uploadFileWithHttpInfo(requestParameters.petId(), requestParameters.additionalMetadata(), requestParameters._file());
       }
-      public File _file() {
-          return this._file;
+
+      /**
+      * uploads an image
+      * 
+         * <p><b>200</b> - successful operation
+         * @param requestParameters The uploadFile request parameters as object
+      * @return ResponseSpec
+      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+      */
+      public ResponseSpec uploadFileWithResponseSpec(UploadFileRequest requestParameters) throws WebClientResponseException {
+         return this.uploadFileWithResponseSpec(requestParameters.petId(), requestParameters.additionalMetadata(), requestParameters._file());
       }
-    }
 
-    /**
-    * uploads an image
-    * 
-       * <p><b>200</b> - successful operation
-       * @param requestParameters The uploadFile request parameters as object
-       * @return ModelApiResponse
-       * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-    */
-    public Mono<ModelApiResponse> uploadFile(UploadFileRequest requestParameters) throws WebClientResponseException {
-    return this.uploadFile(requestParameters.petId(), requestParameters.additionalMetadata(), requestParameters._file());
-    }
-
-    /**
-    * uploads an image
-    * 
-       * <p><b>200</b> - successful operation
-       * @param requestParameters The uploadFile request parameters as object
-       * @return ResponseEntity&lt;ModelApiResponse&gt;
-       * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-    */
-    public Mono<ResponseEntity<ModelApiResponse>> uploadFileWithHttpInfo(UploadFileRequest requestParameters) throws WebClientResponseException {
-      return this.uploadFileWithHttpInfo(requestParameters.petId(), requestParameters.additionalMetadata(), requestParameters._file());
-    }
-
-    /**
-    * uploads an image
-    * 
-       * <p><b>200</b> - successful operation
-       * @param requestParameters The uploadFile request parameters as object
-    * @return ResponseSpec
-    * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-    */
-    public ResponseSpec uploadFileWithResponseSpec(UploadFileRequest requestParameters) throws WebClientResponseException {
-      return this.uploadFileWithResponseSpec(requestParameters.petId(), requestParameters.additionalMetadata(), requestParameters._file());
-    }
-
+          
     /**
      * uploads an image
      * 
@@ -875,64 +886,66 @@ public class PetApi {
         return uploadFileRequestCreation(petId, additionalMetadata, _file);
     }
 
+
     public class UploadFileWithRequiredFileRequest {
-      private final Long petId;
-      private final File requiredFile;
-      private final String additionalMetadata;
+        private final Long petId;
+        private final File requiredFile;
+        private final String additionalMetadata;
 
-      public UploadFileWithRequiredFileRequest(Long petId, File requiredFile, String additionalMetadata) {
-        this.petId = petId;
-        this.requiredFile = requiredFile;
-        this.additionalMetadata = additionalMetadata;
+        public UploadFileWithRequiredFileRequest(Long petId, File requiredFile, String additionalMetadata) {
+          this.petId = petId;
+          this.requiredFile = requiredFile;
+          this.additionalMetadata = additionalMetadata;
       }
 
-      public Long petId() {
-          return this.petId;
+        public Long petId() {
+            return this.petId;
+        }
+        public File requiredFile() {
+            return this.requiredFile;
+        }
+        public String additionalMetadata() {
+            return this.additionalMetadata;
+        }
+    }
+
+      /**
+      * uploads an image (required)
+      * 
+         * <p><b>200</b> - successful operation
+         * @param requestParameters The uploadFileWithRequiredFile request parameters as object
+         * @return ModelApiResponse
+         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+      */
+      public Mono<ModelApiResponse> uploadFileWithRequiredFile(UploadFileWithRequiredFileRequest requestParameters) throws WebClientResponseException {
+          return this.uploadFileWithRequiredFile(requestParameters.petId(), requestParameters.requiredFile(), requestParameters.additionalMetadata());
       }
-      public File requiredFile() {
-          return this.requiredFile;
+
+      /**
+      * uploads an image (required)
+      * 
+         * <p><b>200</b> - successful operation
+         * @param requestParameters The uploadFileWithRequiredFile request parameters as object
+         * @return ResponseEntity&lt;ModelApiResponse&gt;
+         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+      */
+      public Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFileWithHttpInfo(UploadFileWithRequiredFileRequest requestParameters) throws WebClientResponseException {
+          return this.uploadFileWithRequiredFileWithHttpInfo(requestParameters.petId(), requestParameters.requiredFile(), requestParameters.additionalMetadata());
       }
-      public String additionalMetadata() {
-          return this.additionalMetadata;
+
+      /**
+      * uploads an image (required)
+      * 
+         * <p><b>200</b> - successful operation
+         * @param requestParameters The uploadFileWithRequiredFile request parameters as object
+      * @return ResponseSpec
+      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+      */
+      public ResponseSpec uploadFileWithRequiredFileWithResponseSpec(UploadFileWithRequiredFileRequest requestParameters) throws WebClientResponseException {
+         return this.uploadFileWithRequiredFileWithResponseSpec(requestParameters.petId(), requestParameters.requiredFile(), requestParameters.additionalMetadata());
       }
-    }
 
-    /**
-    * uploads an image (required)
-    * 
-       * <p><b>200</b> - successful operation
-       * @param requestParameters The uploadFileWithRequiredFile request parameters as object
-       * @return ModelApiResponse
-       * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-    */
-    public Mono<ModelApiResponse> uploadFileWithRequiredFile(UploadFileWithRequiredFileRequest requestParameters) throws WebClientResponseException {
-    return this.uploadFileWithRequiredFile(requestParameters.petId(), requestParameters.requiredFile(), requestParameters.additionalMetadata());
-    }
-
-    /**
-    * uploads an image (required)
-    * 
-       * <p><b>200</b> - successful operation
-       * @param requestParameters The uploadFileWithRequiredFile request parameters as object
-       * @return ResponseEntity&lt;ModelApiResponse&gt;
-       * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-    */
-    public Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFileWithHttpInfo(UploadFileWithRequiredFileRequest requestParameters) throws WebClientResponseException {
-      return this.uploadFileWithRequiredFileWithHttpInfo(requestParameters.petId(), requestParameters.requiredFile(), requestParameters.additionalMetadata());
-    }
-
-    /**
-    * uploads an image (required)
-    * 
-       * <p><b>200</b> - successful operation
-       * @param requestParameters The uploadFileWithRequiredFile request parameters as object
-    * @return ResponseSpec
-    * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-    */
-    public ResponseSpec uploadFileWithRequiredFileWithResponseSpec(UploadFileWithRequiredFileRequest requestParameters) throws WebClientResponseException {
-      return this.uploadFileWithRequiredFileWithResponseSpec(requestParameters.petId(), requestParameters.requiredFile(), requestParameters.additionalMetadata());
-    }
-
+          
     /**
      * uploads an image (required)
      * 
