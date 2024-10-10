@@ -30,22 +30,23 @@ public class AnotherFakeApi {
     private ApiClient apiClient;
 
     public AnotherFakeApi() {
-      this(new ApiClient());
+        this(new ApiClient());
     }
 
     @Autowired
     public AnotherFakeApi(ApiClient apiClient) {
-      this.apiClient = apiClient;
+        this.apiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-      return apiClient;
+       return apiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
-      this.apiClient = apiClient;
+        this.apiClient = apiClient;
     }
 
+    
     /**
      * To test special tags
      * To test special tags and operation ID starting with number

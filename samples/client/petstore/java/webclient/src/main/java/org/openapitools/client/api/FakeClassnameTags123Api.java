@@ -30,22 +30,23 @@ public class FakeClassnameTags123Api {
     private ApiClient apiClient;
 
     public FakeClassnameTags123Api() {
-      this(new ApiClient());
+        this(new ApiClient());
     }
 
     @Autowired
     public FakeClassnameTags123Api(ApiClient apiClient) {
-      this.apiClient = apiClient;
+        this.apiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-      return apiClient;
+       return apiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
-      this.apiClient = apiClient;
+        this.apiClient = apiClient;
     }
 
+    
     /**
      * To test class name in snake case
      * To test class name in snake case
