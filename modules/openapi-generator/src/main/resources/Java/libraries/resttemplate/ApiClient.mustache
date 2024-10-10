@@ -67,6 +67,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
 import java.util.function.Supplier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.Duration;
+import java.util.Locale;
+import java.time.ZoneOffset;
 {{#jsr310}}
 import java.time.OffsetDateTime;
 {{/jsr310}}
@@ -133,6 +143,8 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         this.restTemplate = restTemplate;
         init();
     }
+
+   private static final Logger logger = LoggerFactory.getLogger(ApiClient.class);
 
     protected void init() {
         // Use RFC3339 format for date and datetime.
@@ -781,28 +793,55 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         ResponseEntity<T> responseEntity = null;
         int attempts = 0;
         while (attempts < maxAttemptsForRetry) {
-            try {
-                responseEntity = restTemplate.exchange(requestEntity, returnType);
-                break;
-            } catch (HttpServerErrorException | HttpClientErrorException ex) {
-                if (ex instanceof HttpServerErrorException
-                        || ((HttpClientErrorException) ex)
-                        .getStatusCode()
-                        .equals(HttpStatus.TOO_MANY_REQUESTS)) {
-                    attempts++;
-                    if (attempts < maxAttemptsForRetry) {
-                        try {
-                            Thread.sleep(waitTimeMillis);
-                        } catch (InterruptedException e) {
-                            Thread.currentThread().interrupt();
-                        }
-                    } else {
-                        throw ex;
-                    }
-                } else {
-                    throw ex;
-                }
-            }
+           try {
+              responseEntity = restTemplate.exchange(requestEntity, returnType);
+              break;
+           } catch (HttpServerErrorException | HttpClientErrorException ex) {
+              if (ex.getStatusCode().equals(HttpStatus.TOO_MANY_REQUESTS)) {
+                  HttpHeaders responseHeaders = ex.getResponseHeaders();
+                  String retryAfterHeader = responseHeaders.getFirst("Retry-After");
+                  if (retryAfterHeader == null) {
+                      logger.error("Retry-After header not found in response. Max attempts reached.");
+                      throw ex;
+                  }
+                  long retryAfterSeconds = 0;
+                  try {
+                     ZonedDateTime currentTime = ZonedDateTime.now(ZoneOffset.UTC);
+                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss zzz", Locale.ENGLISH);
+                     ZonedDateTime retryAfterDate = ZonedDateTime.parse(retryAfterHeader, formatter);
+                     Duration duration = Duration.between(currentTime, retryAfterDate);
+                     retryAfterSeconds = duration.getSeconds();
+
+                  } catch (DateTimeParseException e) {
+                      retryAfterSeconds = Long.parseLong(retryAfterHeader);
+                  }
+                  attempts++;
+                  if (attempts < maxAttemptsForRetry) {
+                  logger.info("Attempting to retry after " + retryAfterSeconds + " seconds");
+                     try {
+                        Thread.sleep(retryAfterSeconds * 1000);
+                     } catch (InterruptedException ix) {
+                        Thread.currentThread().interrupt();
+                     }
+                  } else {
+                     throw ex;
+                  }
+              } else if (ex instanceof HttpServerErrorException) {
+                      attempts++;
+                      if (attempts < maxAttemptsForRetry) {
+                          logger.info("Retry Attempt : " + attempts);
+                          try {
+                             Thread.sleep(waitTimeMillis);
+                          } catch (InterruptedException ix) {
+                              Thread.currentThread().interrupt();
+                          }
+                      } else {
+                         throw ex;
+                      }
+              } else {
+                      throw ex;
+              }
+           }
         }
 
         if (responseEntity == null) {
