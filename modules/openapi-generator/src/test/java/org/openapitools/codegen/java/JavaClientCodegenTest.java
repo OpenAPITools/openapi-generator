@@ -2288,6 +2288,34 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testEnumDiscriminatorDefaultValueIsNotString() {
+        final Path output = newTempFolder();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
+                "src/test/resources/3_0/enum_discriminator_inheritance.yaml");
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOutputDir(output.toString());
+
+        Map<String, File> files = new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen))
+                .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
+
+        List<String> entities = List.of(
+                "Cat",
+                "Dog",
+                "Gecko",
+                "Chameleon",
+                "MiniVan",
+                "CargoVan",
+                "SUV",
+                "Truck",
+                "Sedan");
+        for (String entity : entities) {
+            File entityFile = files.get(entity + ".java");
+            assertNotNull(entityFile);
+            assertThat(entityFile).content().doesNotContain("Type = this.getClass().getSimpleName();");
+        }
+    }
+
+    @Test
     public void testRestTemplateHandleURIEnum() {
         String[] expectedInnerEnumLines = new String[] {
             "V1_SCHEMA_JSON(URI.create(\"https://example.com/v1/schema.json\"))",
