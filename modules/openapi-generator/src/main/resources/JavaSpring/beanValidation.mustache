@@ -1,1 +1,1 @@
-{{#required}}{{^isNullable}}{{^isReadOnly}}@NotNull{{#x-not-null-message}}(message = "{{{x-not-null-message}}}"){{/x-not-null-message}} {{/isReadOnly}}{{/isNullable}}{{/required}}{{#isModel}}@Valid {{/isModel}}{{>beanValidationCore}}
+{{#required}}{{^isNullable}}{{^isReadOnly}}@NotNull{{#vendorExtensions.x-not-null-message}}(message = "{{{.}}}"){{/vendorExtensions.x-not-null-message}} {{/isReadOnly}}{{/isNullable}}{{/required}}{{#isModel}}@Valid {{/isModel}}{{>beanValidationCore}}
