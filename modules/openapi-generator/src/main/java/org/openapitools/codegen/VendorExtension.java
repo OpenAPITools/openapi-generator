@@ -25,8 +25,8 @@ import java.util.List;
     X_NOT_NULL("x-not-null-message", Arrays.asList(ExtensionLevel.FIELD, ExtensionLevel.OPERATION_PARAMETER), "Add this property whenever you need to customize the validation error message for required field", null),
     X_PATTERN_MESSAGE("x-pattern-message", Arrays.asList(ExtensionLevel.FIELD, ExtensionLevel.OPERATION_PARAMETER), "Add this property whenever you need to customize the validation error message for the regex pattern of a variable", null),
     X_SIZE_MESSAGE("x-size-message", Arrays.asList(ExtensionLevel.FIELD, ExtensionLevel.OPERATION_PARAMETER), "Add this property whenever you need to customize the validation error message for the size of a variable (can be applied along with `minLength`, `maxLength`, `minItems`, `maxItems`)", null),
-    X_MIN_MESSAGE("x-min-message", Arrays.asList(ExtensionLevel.FIELD, ExtensionLevel.OPERATION_PARAMETER), "Add this property whenever you need to customize the validation error message for the minimum of a number", null),
-    X_MAX_MESSAGE("x-max-message", Arrays.asList(ExtensionLevel.FIELD, ExtensionLevel.OPERATION_PARAMETER), "Add this property whenever you need to customize the validation error message for the maximum of a number", null),
+    X_MINIMUM_MESSAGE("x-minimum-message", Arrays.asList(ExtensionLevel.FIELD, ExtensionLevel.OPERATION_PARAMETER), "Add this property whenever you need to customize the validation error message for the minimum of a number", null),
+    X_MAXIMUM_MESSAGE("x-maximum-message", Arrays.asList(ExtensionLevel.FIELD, ExtensionLevel.OPERATION_PARAMETER), "Add this property whenever you need to customize the validation error message for the maximum of a number", null),
     ;
 
     private final String name;
