@@ -1493,7 +1493,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         MediaType mediaType = content.values().iterator().next();
         if (mediaType.getExample() != null) {
             if (isModel) {
-                LOGGER.warn("Ignoring complex example on request body");
+                once(LOGGER).warn("Ignoring complex example on request body");
             } else {
                 codegenParameter.example = mediaType.getExample().toString();
                 return;
@@ -1504,7 +1504,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             Example example = mediaType.getExamples().values().iterator().next();
             if (example.getValue() != null) {
                 if (isModel) {
-                    LOGGER.warn("Ignoring complex example on request body");
+                    once(LOGGER).warn("Ignoring complex example on request body");
                 } else {
                     codegenParameter.example = example.getValue().toString();
                     return;
