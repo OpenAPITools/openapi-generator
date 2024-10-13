@@ -96,7 +96,7 @@ mvn integration-test
 ### Which Swift generator is still actively maintained?
 
 Please use `swift5` generator because Swift 4.x is deprecated.
-Give a try to `swift6` generator which is currently in beta.
+There is a new `swift6` generator, that is currently in beta, try it and give us your feedback.
 
 ### How do I implement bearer token authentication with URLSession on the Swift 5 API client?
 
