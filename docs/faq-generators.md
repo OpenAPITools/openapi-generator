@@ -96,6 +96,389 @@ mvn integration-test
 ### Which Swift generator is still actively maintained?
 
 Please use `swift5` generator because Swift 4.x is deprecated.
+Give a try to `swift6` generator which is currently in beta.
+
+### How do I implement bearer token authentication with URLSession on the Swift 5 API client?
+
+<details>
+  <summary>First you subclass RequestBuilderFactory</summary>
+
+    class BearerRequestBuilderFactory: RequestBuilderFactory {
+        func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
+            BearerRequestBuilder<T>.self
+        }
+
+        func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type {
+            BearerDecodableRequestBuilder<T>.self
+        }
+    }
+</details>
+
+<details>
+  <summary>Then you subclass URLSessionRequestBuilder and URLSessionDecodableRequestBuilder </summary>
+
+    class BearerRequestBuilder<T>: URLSessionRequestBuilder<T> {
+        @discardableResult
+        override func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+    
+            // Before making the request, we can validate if we have a bearer token to be able to make a request
+            BearerTokenHandler.refreshTokenIfDoesntExist {
+                
+                // Here we make the request
+                super.execute(apiResponseQueue) { result in
+                    
+                    switch result {
+                    case .success:
+                        // If we got a successful response, we send the response to the completion block
+                        completion(result)
+                        
+                    case let .failure(error):
+                        
+                        // If we got a failure response, we will analyse the error to see what we should do with it
+                        if case let ErrorResponse.error(_, data, response, error) = error {
+                            
+                            // If the error is an ErrorResponse.error() we will analyse it to see if it's a 401, and if it's a 401, we will refresh the token and retry the request
+                            BearerTokenHandler.refreshTokenIfUnauthorizedRequestResponse(
+                                data: data,
+                                response: response,
+                                error: error
+                            ) { wasTokenRefreshed in
+                                
+                                if wasTokenRefreshed {
+                                    // If the token was refreshed, it's because it was a 401 error, so we refreshed the token, and we are going to retry the request by calling self.execute()
+                                    self.execute(apiResponseQueue, completion)
+                                } else {
+                                    // If the token was not refreshed, it's because it was not a 401 error, so we send the response to the completion block
+                                    completion(result)
+                                }
+                            }
+                        } else {
+                            // If it's an unknown error, we send the response to the completion block
+                            completion(result)
+                        }
+                        
+                    }
+                }
+            }
+            
+            return requestTask
+        }
+    }
+    
+    class BearerDecodableRequestBuilder<T: Decodable>: URLSessionDecodableRequestBuilder<T> {
+        @discardableResult
+        override func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+            // Before making the request, we can validate if we have a bearer token to be able to make a request
+            BearerTokenHandler.refreshTokenIfDoesntExist {
+                
+                // Here we make the request
+                super.execute(apiResponseQueue) { result in
+                    
+                    switch result {
+                    case .success:
+                        // If we got a successful response, we send the response to the completion block
+                        completion(result)
+                        
+                    case let .failure(error):
+                        
+                        // If we got a failure response, we will analyse the error to see what we should do with it
+                        if case let ErrorResponse.error(_, data, response, error) = error {
+                            
+                            // If the error is an ErrorResponse.error() we will analyse it to see if it's a 401, and if it's a 401, we will refresh the token and retry the request
+                            BearerTokenHandler.refreshTokenIfUnauthorizedRequestResponse(
+                                data: data,
+                                response: response,
+                                error: error
+                            ) { wasTokenRefreshed in
+                                
+                                if wasTokenRefreshed {
+                                    // If the token was refreshed, it's because it was a 401 error, so we refreshed the token, and we are going to retry the request by calling self.execute()
+                                    self.execute(apiResponseQueue, completion)
+                                } else {
+                                    // If the token was not refreshed, it's because it was not a 401 error, so we send the response to the completion block
+                                    completion(result)
+                                }
+                            }
+                        } else {
+                            // If it's an unknown error, we send the response to the completion block
+                            completion(result)
+                        }
+                        
+                    }
+                }
+            }
+            
+            return requestTask
+        }
+    }
+    
+    class BearerTokenHandler {
+        private static var bearerToken: String? = nil
+        
+        static func refreshTokenIfDoesntExist(completionHandler: @escaping () -> Void) {
+            if bearerToken != nil {
+                completionHandler()
+            } else {
+                startRefreshingToken {
+                    completionHandler()
+                }
+            }
+        }
+        
+        static func refreshTokenIfUnauthorizedRequestResponse(data: Data?, response: URLResponse?, error: Error?, completionHandler: @escaping (Bool) -> Void) {
+            if let response = response as? HTTPURLResponse, response.statusCode == 401 {
+                startRefreshingToken {
+                    completionHandler(true)
+                }
+            } else {
+                completionHandler(false)
+            }
+        }
+        
+        private static func startRefreshingToken(completionHandler: @escaping () -> Void) {
+            // Get a bearer token
+            let dummyBearerToken = "..."
+            
+            bearerToken = dummyBearerToken
+            PetstoreClientAPI.customHeaders["Authorization"] = "Bearer \(dummyBearerToken)"
+    
+            completionHandler()
+        }
+    }
+
+</details>
+
+Then you assign the `BearerRequestBuilderFactory` to the property `requestBuilderFactory`.
+
+`PetstoreClientAPI.requestBuilderFactory = BearerRequestBuilderFactory()`
+
+The name `PetstoreClientAPI.requestBuilderFactory` will change depending on your project name.
+
+Here is a working sample that put's together all of this.
+[AppDelegate.swift](https://github.com/OpenAPITools/openapi-generator/blob/master/samples/client/petstore/swift5/urlsessionLibrary/SwaggerClientTests/SwaggerClient/AppDelegate.swift)
+[BearerDecodableRequestBuilder.swift](https://github.com/OpenAPITools/openapi-generator/blob/master/samples/client/petstore/swift5/urlsessionLibrary/SwaggerClientTests/SwaggerClient/BearerDecodableRequestBuilder.swift)
+
+
+### How do I implement bearer token authentication with Alamofire on the Swift 5 API client?
+
+<details>
+  <summary>First you subclass RequestBuilderFactory</summary>
+
+    class BearerRequestBuilderFactory: RequestBuilderFactory {
+        func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
+            BearerRequestBuilder<T>.self
+        }
+        
+        func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type {
+            BearerDecodableRequestBuilder<T>.self
+        }
+    }
+</details>
+
+<details>
+  <summary>Then you subclass AlamofireRequestBuilder and AlamofireDecodableRequestBuilder</summary>
+
+    class BearerRequestBuilder<T>: AlamofireRequestBuilder<T> {
+        override func createSessionManager() -> SessionManager {
+            let sessionManager = super.createSessionManager()
+            
+            let bearerTokenHandler = BearerTokenHandler()
+            sessionManager.adapter = bearerTokenHandler
+            sessionManager.retrier = bearerTokenHandler
+            
+            return sessionManager
+        }
+    }
+
+    class BearerDecodableRequestBuilder<T: Decodable>: AlamofireDecodableRequestBuilder<T> {
+        override func createSessionManager() -> SessionManager {
+            let sessionManager = super.createSessionManager()
+            
+            let bearerTokenHandler = BearerTokenHandler()
+            sessionManager.adapter = bearerTokenHandler
+            sessionManager.retrier = bearerTokenHandler
+            
+            return sessionManager
+        }
+    }
+
+    class BearerTokenHandler: RequestAdapter, RequestRetrier {
+        private static var bearerToken: String? = nil
+        
+        func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
+            if let bearerToken = Self.bearerToken {
+                var urlRequest = urlRequest
+                urlRequest.setValue("Bearer \(bearerToken)", forHTTPHeaderField: "Authorization")
+                return urlRequest
+            }
+            
+            return urlRequest
+        }
+        
+        func should(_: SessionManager, retry request: Request, with _: Error, completion: @escaping RequestRetryCompletion) {
+            if let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401 {
+                Self.startRefreshingToken { isTokenRefreshed in
+                    completion(isTokenRefreshed, 0.0)
+                }
+            } else {
+                completion(false, 0.0)
+            }
+        }
+        
+        private static func startRefreshingToken(completionHandler: @escaping (Bool) -> Void) {
+            // Get a bearer token
+            let dummyBearerToken = "..."
+            
+            bearerToken = dummyBearerToken
+            PetstoreClientAPI.customHeaders["Authorization"] = "Bearer \(dummyBearerToken)"
+            
+            completionHandler(true)
+        }
+    }
+</details>
+
+Then you assign the `BearerRequestBuilderFactory` to the property `requestBuilderFactory`.
+
+`PetstoreClientAPI.requestBuilderFactory = BearerRequestBuilderFactory()`
+
+The name `PetstoreClientAPI.requestBuilderFactory` will change depending on your project name.
+
+Here is a working sample that put's together all of this.
+[AppDelegate.swift](https://github.com/OpenAPITools/openapi-generator/blob/master/samples/client/petstore/swift5/alamofireLibrary/SwaggerClientTests/SwaggerClient/AppDelegate.swift)
+[BearerTokenHandler.swift](https://github.com/OpenAPITools/openapi-generator/blob/master/samples/client/petstore/swift5/alamofireLibrary/SwaggerClientTests/SwaggerClient/BearerDecodableRequestBuilder.swift)
+
+### How do I implement bearer token authentication with URLSession on the Swift 6 API client?
+
+<details>
+  <summary>First you implement the `OpenAPIInterceptor` protocol.</summary>
+public class BearerOpenAPIInterceptor: OpenAPIInterceptor {
+    public init() {}
+    
+    public func intercept(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, completion: @escaping (Result<URLRequest, any Error>) -> Void) {
+        refreshTokenIfDoesntExist { token in
+            
+            // Change the current url request
+            var newUrlRequest = urlRequest
+            newUrlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            
+            // Change the global headers
+            openAPIClient.customHeaders["Authorization"] = "Bearer \(token)"
+            
+            completion(.success(newUrlRequest))
+        }
+    }
+    
+    public func retry(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, data: Data?, response: URLResponse, error: Error, completion: @escaping (OpenAPIInterceptorRetry) -> Void) {
+        // We will analyse the response to see if it's a 401, and if it's a 401, we will refresh the token and retry the request
+        refreshTokenIfUnauthorizedRequestResponse(
+            data: data,
+            response: response,
+            error: error
+        ) { (wasTokenRefreshed, newToken) in
+            
+            if wasTokenRefreshed, let newToken = newToken {
+                
+                // Change the global headers
+                openAPIClient.customHeaders["Authorization"] = "Bearer \(newToken)"
+                
+                completion(.retry)
+            } else {
+                // If the token was not refreshed, it's because it was not a 401 error, so we send the response to the completion block
+                completion(.dontRetry)
+            }
+        }
+    }
+    
+    private var bearerToken: String? = nil
+    
+    func refreshTokenIfDoesntExist(completionHandler: @escaping (String) -> Void) {
+        if let bearerToken = bearerToken {
+            completionHandler(bearerToken)
+        } else {
+            startRefreshingToken { token in
+                completionHandler(token)
+            }
+        }
+    }
+    
+    func refreshTokenIfUnauthorizedRequestResponse(data: Data?, response: URLResponse, error: Error, completionHandler: @escaping (Bool, String?) -> Void) {
+        if let response = response as? HTTPURLResponse, response.statusCode == 401 {
+            startRefreshingToken { token in
+                completionHandler(true, token)
+            }
+        } else {
+            completionHandler(false, nil)
+        }
+    }
+    
+    private func startRefreshingToken(completionHandler: @escaping (String) -> Void) {
+        // Get a bearer token
+        let dummyBearerToken = "..."
+        
+        bearerToken = dummyBearerToken
+
+        completionHandler(dummyBearerToken)
+    }
+}
+</details>
+
+Then you assign the `BearerOpenAPIInterceptor` to the property `OpenAPIClient.shared.interceptor`.
+
+`OpenAPIClient.shared.interceptor = BearerOpenAPIInterceptor()`
+
+Here is a working sample that put's together all of this.
+[AppDelegate.swift](https://github.com/OpenAPITools/openapi-generator/blob/master/samples/client/petstore/swift6/urlsessionLibrary/SwaggerClientTests/SwaggerClient/AppDelegate.swift)
+[BearerTokenHandler.swift](https://github.com/OpenAPITools/openapi-generator/blob/master/samples/client/petstore/swift5/urlsessionLibrary/SwaggerClientTests/SwaggerClient/BearerDecodableRequestBuilder.swift)
+
+### How do I implement bearer token authentication with Alamofire on the Swift 6 API client?
+
+<details>
+  <summary>First implement the `Alamofire` `RequestInterceptor` protocol.</summary>
+class BearerTokenHandler: RequestInterceptor, @unchecked Sendable {
+    private var bearerToken: String? = nil
+    
+    func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
+        if let bearerToken = bearerToken {
+            var urlRequest = urlRequest
+            urlRequest.setValue("Bearer \(bearerToken)", forHTTPHeaderField: "Authorization")
+            
+            completion(.success(urlRequest))
+            return
+        }
+        
+        completion(.success(urlRequest))
+    }
+    
+    func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
+        if let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401 {
+            startRefreshingToken { isTokenRefreshed in
+                completion(.retry)
+            }
+        } else {
+            completion(.doNotRetryWithError(error))
+        }
+    }
+    
+    private func startRefreshingToken(completionHandler: @escaping (Bool) -> Void) {
+        // Get a bearer token
+        let dummyBearerToken = "..."
+        
+        bearerToken = dummyBearerToken
+        OpenAPIClient.shared.customHeaders["Authorization"] = "Bearer \(dummyBearerToken)"
+        
+        completionHandler(true)
+    }
+}
+</details>
+
+Then you assign the `BearerTokenHandler` to the property `OpenAPIClient.shared.interceptor`.
+
+`OpenAPIClient.shared.interceptor = BearerTokenHandler()`
+
+Here is a working sample that put's together all of this.
+[AppDelegate.swift](https://github.com/OpenAPITools/openapi-generator/blob/master/samples/client/petstore/swift6/alamofireLibrary/SwaggerClientTests/SwaggerClient/AppDelegate.swift)
+[BearerTokenHandler.swift](https://github.com/OpenAPITools/openapi-generator/blob/master/samples/client/petstore/swift6/alamofireLibrary/SwaggerClientTests/SwaggerClient/BearerTokenHandler.swift)
+
 
 ## TypeScript
 
