@@ -479,6 +479,16 @@ Here is a working sample that put's together all of this.
 [AppDelegate.swift](https://github.com/OpenAPITools/openapi-generator/blob/master/samples/client/petstore/swift6/alamofireLibrary/SwaggerClientTests/SwaggerClient/AppDelegate.swift)
 [BearerTokenHandler.swift](https://github.com/OpenAPITools/openapi-generator/blob/master/samples/client/petstore/swift6/alamofireLibrary/SwaggerClientTests/SwaggerClient/BearerTokenHandler.swift)
 
+### How do I migrate from the Swift 5 generator to the swift 6 generator?
+
+- The infractures files, were moved inside a new directory called `Infracture`, please delete the old ones.
+- The `AnyCodable` dependecy was removed and it was introduced a new enum `JSONValue` to replace it. This allows you to use this generator without any dependencies.
+- The `Combine` response is now deffered, which means that the request is now lazy by default and will only start when you start listening to it. To restore the old behaviour, set the flag `combineDeferred` as `false`.
+- There is a new configuration `apiStaticMethod` that allows you to use instance methocs instead of class methods for API calls. For more information check the sample project [apiNonStaticMethod](https://github.com/OpenAPITools/openapi-generator/tree/master/samples/client/petstore/swift6/apiNonStaticMethod).
+- The new default response is async await. To restaure the old behaviour, set the flag `responseAs` as `ObjcBlock`.
+- The new default project structure is the SPM structure. To restore the old behaviour, set the flag `useSPMFileStructure` as `false`.
+- The old {{projectName}}API is now called `OpenAPIClient`
+- Now it's possible to set a request interceptor and retrier by setting `OpenAPIClient.shared.interceptor`. This makes authenticate resquests much easier.
 
 ## TypeScript
 
