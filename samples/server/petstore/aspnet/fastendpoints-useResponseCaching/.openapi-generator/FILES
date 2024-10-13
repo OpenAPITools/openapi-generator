@@ -1,5 +1,7 @@
-src/.gitignore
-src/Org.OpenAPITools.sln
+.gitignore
+.openapi-generator-ignore
+Org.OpenAPITools.sln
+README.md
 src/Org.OpenAPITools/Features/PetApiEndpoint.cs
 src/Org.OpenAPITools/Features/PetApiRequest.cs
 src/Org.OpenAPITools/Features/StoreApiEndpoint.cs
@@ -17,4 +19,3 @@ src/Org.OpenAPITools/Program.cs
 src/Org.OpenAPITools/Properties/launchSettings.json
 src/Org.OpenAPITools/appsettings.Development.json
 src/Org.OpenAPITools/appsettings.json
-src/README.md
