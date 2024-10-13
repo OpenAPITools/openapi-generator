@@ -481,14 +481,14 @@ Here is a working sample that put's together all of this.
 
 ### How do I migrate from the Swift 5 generator to the swift 6 generator?
 
-- The infractures files, were moved inside a new directory called `Infracture`, please delete the old ones.
-- The `AnyCodable` dependecy was removed and it was introduced a new enum `JSONValue` to replace it. This allows you to use this generator without any dependencies.
-- The `Combine` response is now deffered, which means that the request is now lazy by default and will only start when you start listening to it. To restore the old behaviour, set the flag `combineDeferred` as `false`.
-- There is a new configuration `apiStaticMethod` that allows you to use instance methocs instead of class methods for API calls. For more information check the sample project [apiNonStaticMethod](https://github.com/OpenAPITools/openapi-generator/tree/master/samples/client/petstore/swift6/apiNonStaticMethod).
-- The new default response is async await. To restaure the old behaviour, set the flag `responseAs` as `ObjcBlock`.
-- The new default project structure is the SPM structure. To restore the old behaviour, set the flag `useSPMFileStructure` as `false`.
-- The old {{projectName}}API is now called `OpenAPIClient`
-- Now it's possible to set a request interceptor and retrier by setting `OpenAPIClient.shared.interceptor`. This makes authenticate resquests much easier.
+- The infrastructure files have been moved to a new directory called `Infrastructure`. Please delete the old ones.
+- The `AnyCodable` dependency has been removed and replaced with a new enum called `JSONValue`, allowing you to use this generator without external dependencies.
+- The `Combine` response is now deferred by default, meaning the request will only start when you begin listening to it. To restore the previous behavior, set the `combineDeferred` flag to `false`.
+- A new configuration, `apiStaticMethod`, allows you to use instance methods instead of class methods for API calls. For more information, check the sample project [apiNonStaticMethod](https://github.com/OpenAPITools/openapi-generator/tree/master/samples/client/petstore/swift6/apiNonStaticMethod).
+- The new default response is based on async/await. To revert to the previous behavior, set the `responseAs` flag to `ObjcBlock`.
+- The default project structure now follows the SPM (Swift Package Manager) structure. To revert to the old structure, set the `useSPMFileStructure` flag to `false`.
+- The former `{{projectName}}API` is now called `OpenAPIClient`.
+- You can now set a request interceptor and retrier by configuring `OpenAPIClient.shared.interceptor`, making authenticated requests easier to manage.
 
 ## TypeScript
 
