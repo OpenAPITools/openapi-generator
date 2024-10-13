@@ -218,6 +218,7 @@ public class RefToRefParameterAnyofRefToAnyofParameter extends AbstractOpenApiSc
     public String getString() throws ClassCastException {
         return (String)super.getActualInstance();
     }
+
     /**
      * Get the actual instance of `List<String>`. If the actual instance is not `List<String>`,
      * the ClassCastException will be thrown.

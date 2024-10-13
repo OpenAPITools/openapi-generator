@@ -493,9 +493,61 @@ public class OpenAPINormalizer {
                     }
                 }
 
+                // auto fix self reference schema to avoid stack overflow
+                fixSelfReferenceSchema(schemaName, schema);
+
                 // normalize the schemas
                 schemas.put(schemaName, normalizeSchema(schema, new HashSet<>()));
             }
+        }
+    }
+
+    /**
+     * Auto fix a self referencing schema using any type to replace the self-referencing sub-item.
+     *
+     * @param name           Schema name
+     * @param schema         Schema
+     */
+    public void fixSelfReferenceSchema(String name, Schema schema) {
+        if (ModelUtils.isArraySchema(schema)) {
+            if (isSelfReference(name, schema.getItems())) {
+                LOGGER.error("Array schema {} has a sub-item referencing itself. Worked around the self-reference schema using any type instead.", name);
+                schema.setItems(new Schema<>());
+            }
+        }
+
+        if (ModelUtils.isOneOf(schema)) {
+            for (int i = 0; i < schema.getOneOf().size(); i++) {
+                if (isSelfReference(name, (Schema) schema.getOneOf().get(i))) {
+                    LOGGER.error("oneOf schema {} has a sub-item referencing itself. Worked around the self-reference schema by removing it.", name);
+                    schema.getOneOf().remove(i);
+                }
+            }
+        }
+
+        if (ModelUtils.isAnyOf(schema)) {
+            for (int i = 0; i < schema.getAnyOf().size(); i++) {
+                if (isSelfReference(name, (Schema) schema.getAnyOf().get(i))) {
+                    LOGGER.error("anyOf schema {} has a sub-item referencing itself. Worked around the self-reference schema by removing it.", name);
+                    schema.getAnyOf().remove(i);
+                }
+            }
+        }
+
+        if (schema.getAdditionalProperties() != null && schema.getAdditionalProperties() instanceof Schema) {
+            if (isSelfReference(name, (Schema) schema.getAdditionalProperties())) {
+                LOGGER.error("Schema {} (with additional properties) has a sub-item referencing itself. Worked around the self-reference schema using any type instead.", name);
+                schema.setAdditionalProperties(new Schema<>());
+            }
+        }
+
+    }
+
+    private boolean isSelfReference(String name, Schema subSchema) {
+        if (subSchema != null && name.equals(ModelUtils.getSimpleRef(subSchema.get$ref()))) {
+            return true;
+        } else {
+            return false;
         }
     }
 

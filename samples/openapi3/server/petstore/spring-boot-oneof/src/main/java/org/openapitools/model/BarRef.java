@@ -122,7 +122,7 @@ public class BarRef extends EntityRef implements BarRefOrValue {
     }
 
     protected Builder copyOf(BarRef value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       return this;
     }
 

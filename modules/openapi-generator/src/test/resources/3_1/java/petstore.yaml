@@ -1066,3 +1066,24 @@ components:
         - $ref: '#/components/schemas/SimpleModelWithArrayProperty'
     myObject:
       type: object
+    SelfReference:
+      type: array
+      items:
+        $ref: "#/components/schemas/SelfReference"
+    SelfReferenceOneOf:
+      oneOf:
+        - type: string
+        - type: boolean
+        - $ref: "#/components/schemas/SelfReferenceOneOf"
+    SelfReferenceAnyOf:
+      anyOf:
+        - type: string
+        - type: boolean
+        - $ref: "#/components/schemas/SelfReferenceAnyOf"
+    SelfReferenceAdditionalProperties:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/SelfReferenceAdditionalProperties"
+      properties:
+        dummy:
+          type: string 

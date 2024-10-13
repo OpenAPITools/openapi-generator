@@ -1160,6 +1160,22 @@ components:
       - $ref: '#/components/schemas/SimpleModelWithArrayProperty'
     myObject:
       type: object
+    SelfReference:
+      items: {}
+      type: array
+    SelfReferenceOneOf:
+      oneOf:
+      - type: string
+      - type: boolean
+    SelfReferenceAnyOf:
+      anyOf:
+      - type: string
+      - type: boolean
+    SelfReferenceAdditionalProperties:
+      additionalProperties: {}
+      properties:
+        dummy:
+          type: string
     updatePetWithForm_request:
       properties:
         name:

@@ -272,13 +272,13 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
-        if (library.equals(Constants.KTOR)) {
+        if (isKtor()) {
             supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
         }
 
         String gradleBuildFile = "build.gradle";
 
-        if (isJavalin()) {
+        if (isJavalin() || isKtor()) {
             gradleBuildFile = "build.gradle.kts";
         }
 
@@ -286,7 +286,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
         supportingFiles.add(new SupportingFile("gradle.properties", "", "gradle.properties"));
 
-        if (library.equals(Constants.KTOR)) {
+        if (isKtor()) {
             supportingFiles.add(new SupportingFile("AppMain.kt.mustache", packageFolder, "AppMain.kt"));
             supportingFiles.add(new SupportingFile("Configuration.kt.mustache", packageFolder, "Configuration.kt"));
 
@@ -300,6 +300,11 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             final String infrastructureFolder = (sourceFolder + File.separator + packageName + File.separator + "infrastructure").replace(".", File.separator);
 
             supportingFiles.add(new SupportingFile("ApiKeyAuth.kt.mustache", infrastructureFolder, "ApiKeyAuth.kt"));
+
+            if (!getOmitGradleWrapper()) {
+                supportingFiles.add(new SupportingFile("gradle-wrapper.properties", "gradle" + File.separator + "wrapper", "gradle-wrapper.properties"));
+            }
+
         } else if (isJavalin()) {
             supportingFiles.add(new SupportingFile("Main.kt.mustache", packageFolder, "Main.kt"));
             apiTemplateFiles.put("service.mustache", "Service.kt");
@@ -411,5 +416,9 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
     private boolean isJavalin() {
         return Constants.JAVALIN5.equals(library) || Constants.JAVALIN6.equals(library);
+    }
+
+    private boolean isKtor() {
+        return Constants.KTOR.equals(library);
     }
 }

@@ -115,6 +115,7 @@ else
   (cd samples/client/petstore/java/jersey2-java8 && mvn integration-test)
   (cd samples/openapi3/client/petstore/java/jersey2-java8 && mvn integration-test)
   (cd samples/client/petstore/java/jersey3 && mvn integration-test)
+  (cd samples/client/petstore/java/jersey3-oneOf && mvn integration-test)
   (cd samples/client/others/java/okhttp-gson-streaming && mvn integration-test)
   (cd samples/client/petstore/java/okhttp-gson && mvn integration-test)
   (cd samples/client/petstore/java/okhttp-gson-3.1 && mvn integration-test)
