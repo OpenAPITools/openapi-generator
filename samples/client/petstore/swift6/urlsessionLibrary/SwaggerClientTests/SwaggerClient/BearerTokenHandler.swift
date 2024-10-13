@@ -13,7 +13,7 @@ public class BearerOpenAPIInterceptor: OpenAPIInterceptor {
     public init() {}
     
     public func intercept(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, completion: @escaping (Result<URLRequest, any Error>) -> Void) {
-        BearerTokenHandler.shared.refreshTokenIfDoesntExist { token in
+        refreshTokenIfDoesntExist { token in
             
             // Change the current url request
             var newUrlRequest = urlRequest
@@ -28,7 +28,7 @@ public class BearerOpenAPIInterceptor: OpenAPIInterceptor {
     
     public func retry(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, data: Data?, response: URLResponse, error: Error, completion: @escaping (OpenAPIInterceptorRetry) -> Void) {
         // We will analyse the response to see if it's a 401, and if it's a 401, we will refresh the token and retry the request
-        BearerTokenHandler.shared.refreshTokenIfUnauthorizedRequestResponse(
+        refreshTokenIfUnauthorizedRequestResponse(
             data: data,
             response: response,
             error: error
@@ -46,12 +46,6 @@ public class BearerOpenAPIInterceptor: OpenAPIInterceptor {
             }
         }
     }
-}
-
-class BearerTokenHandler: @unchecked Sendable {
-    private init() {}
-    static let shared = BearerTokenHandler()
-
     
     private var bearerToken: String? = nil
     
