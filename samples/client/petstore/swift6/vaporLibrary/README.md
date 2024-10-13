@@ -147,6 +147,7 @@ Authentication schemes defined for the API:
 - **Type**: HTTP basic authentication
 
 
+
 ## Author
 
 
