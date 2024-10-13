@@ -3,12 +3,12 @@ name: Samples C# .Net 8 FastEndpoints Server
 on:
   push:
     paths:
-      - samples/server/petstore/aspnetcore-8.0/**
-      - samples/server/petstore/aspnetcore-8.0-*/**
+      - samples/server/petstore/aspnet/fastendpoints/**
+      - samples/server/petstore/aspnet/fastendpoints-*/**
   pull_request:
     paths:
-      - samples/server/petstore/aspnetcore-8.0/**
-      - samples/server/petstore/aspnetcore-8.0-*/**
+      - samples/server/petstore/aspnet/fastendpoints/**
+      - samples/server/petstore/aspnet/fastendpoints-*/**
 jobs:
   build:
     name: Build .Net 8 FastEndpoints servers
