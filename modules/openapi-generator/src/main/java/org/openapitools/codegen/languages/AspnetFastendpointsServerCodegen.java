@@ -112,9 +112,9 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
             supportingFiles.add(new SupportingFile("userLoginEndpoint.mustache", packageFolder + File.separator + apiPackage, "UserLoginEndpoint.cs"));
         }
 
-        supportingFiles.add(new SupportingFile("readme.mustache", sourceFolder, "README.md"));
-        supportingFiles.add(new SupportingFile("gitignore", sourceFolder, ".gitignore"));
-        supportingFiles.add(new SupportingFile("solution.mustache", sourceFolder, packageName + ".sln"));
+        supportingFiles.add(new SupportingFile("readme.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
+        supportingFiles.add(new SupportingFile("solution.mustache", "", packageName + ".sln"));
         supportingFiles.add(new SupportingFile("project.csproj.mustache", packageFolder, packageName + ".csproj"));
         supportingFiles.add(new SupportingFile("Properties" + File.separator + "launchSettings.json", packageFolder + File.separator + "Properties", "launchSettings.json"));
 
