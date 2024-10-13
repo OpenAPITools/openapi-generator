@@ -92,16 +92,10 @@ git clone https://github.com/openapitools/openapi-generator.git
 cd openapi-generator/samples/client/petstore/swift/default/OpenAPIClientTests
 mvn integration-test
 ```
-Besides `default` (folder), there's another folder `promisekit` for Swift API client with [PromiseKit support](https://github.com/mxcl/PromiseKit)
-```
-git clone https://github.com/openapitools/openapi-generator.git
-cd openapi-generator/samples/client/petstore/swift/promisekit/OpenAPIClientTests
-mvn integration-test
-```
 
-### Is Swift (2.x) generator still actively maintained?
+### Which Swift generator is still actively maintained?
 
-No, please use `swift3` or `swift4` generator instead as we want to focus on Swift 3.x, 4.x.
+Please use `swift5` generator because Swift 4.x is deprecated.
 
 ## TypeScript
 
