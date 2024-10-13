@@ -38,7 +38,6 @@ open class FakeAPI {
      - POST /fake/outer/boolean
      - Test serialization of outer boolean types
      - parameter body: (body) Input boolean as post body (optional)
-     
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Bool> 
      */
@@ -88,7 +87,6 @@ open class FakeAPI {
      - POST /fake/outer/composite
      - Test serialization of object with outer number type
      - parameter body: (body) Input composite as post body (optional)
-     
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<OuterComposite> 
      */
@@ -138,7 +136,6 @@ open class FakeAPI {
      - POST /fake/outer/number
      - Test serialization of outer number types
      - parameter body: (body) Input number as post body (optional)
-     
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Double> 
      */
@@ -188,7 +185,6 @@ open class FakeAPI {
      - POST /fake/outer/string
      - Test serialization of outer string types
      - parameter body: (body) Input string as post body (optional)
-     
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<String> 
      */
@@ -238,7 +234,6 @@ open class FakeAPI {
      - PUT /fake/body-with-file-schema
      - For this test, the body for this request much reference a schema named `File`.
      - parameter body: (body)  
-     
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
@@ -288,8 +283,7 @@ open class FakeAPI {
     /**
      - PUT /fake/body-with-query-params
      - parameter query: (query)  
-          - parameter body: (body)  
-     
+     - parameter body: (body)  
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
@@ -344,7 +338,6 @@ open class FakeAPI {
      - PATCH /fake
      - To test \"client\" model
      - parameter body: (body) client model 
-     
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Client> 
      */
@@ -412,20 +405,19 @@ open class FakeAPI {
        - type: http
        - name: http_basic_test
      - parameter number: (form) None 
-          - parameter double: (form) None 
-          - parameter patternWithoutDelimiter: (form) None 
-          - parameter byte: (form) None 
-          - parameter integer: (form) None (optional)
-          - parameter int32: (form) None (optional)
-          - parameter int64: (form) None (optional)
-          - parameter float: (form) None (optional)
-          - parameter string: (form) None (optional)
-          - parameter binary: (form) None (optional)
-          - parameter date: (form) None (optional)
-          - parameter dateTime: (form) None (optional)
-          - parameter password: (form) None (optional)
-          - parameter callback: (form) None (optional)
-     
+     - parameter double: (form) None 
+     - parameter patternWithoutDelimiter: (form) None 
+     - parameter byte: (form) None 
+     - parameter integer: (form) None (optional)
+     - parameter int32: (form) None (optional)
+     - parameter int64: (form) None (optional)
+     - parameter float: (form) None (optional)
+     - parameter string: (form) None (optional)
+     - parameter binary: (form) None (optional)
+     - parameter date: (form) None (optional)
+     - parameter dateTime: (form) None (optional)
+     - parameter password: (form) None (optional)
+     - parameter callback: (form) None (optional)
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
@@ -569,14 +561,13 @@ open class FakeAPI {
      - GET /fake
      - To test enum parameters
      - parameter enumHeaderStringArray: (header) Header parameter enum test (string array) (optional)
-          - parameter enumHeaderString: (header) Header parameter enum test (string) (optional, default to .efg)
-          - parameter enumQueryStringArray: (query) Query parameter enum test (string array) (optional)
-          - parameter enumQueryString: (query) Query parameter enum test (string) (optional, default to .efg)
-          - parameter enumQueryInteger: (query) Query parameter enum test (double) (optional)
-          - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
-          - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to .dollar)
-          - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .efg)
-     
+     - parameter enumHeaderString: (header) Header parameter enum test (string) (optional, default to .efg)
+     - parameter enumQueryStringArray: (query) Query parameter enum test (string array) (optional)
+     - parameter enumQueryString: (query) Query parameter enum test (string) (optional, default to .efg)
+     - parameter enumQueryInteger: (query) Query parameter enum test (double) (optional)
+     - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
+     - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to .dollar)
+     - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .efg)
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
@@ -647,12 +638,11 @@ open class FakeAPI {
      - DELETE /fake
      - Fake endpoint to test group parameters (optional)
      - parameter requiredStringGroup: (query) Required String in group parameters 
-          - parameter requiredBooleanGroup: (header) Required Boolean in group parameters 
-          - parameter requiredInt64Group: (query) Required Integer in group parameters 
-          - parameter stringGroup: (query) String in group parameters (optional)
-          - parameter booleanGroup: (header) Boolean in group parameters (optional)
-          - parameter int64Group: (query) Integer in group parameters (optional)
-     
+     - parameter requiredBooleanGroup: (header) Required Boolean in group parameters 
+     - parameter requiredInt64Group: (query) Required Integer in group parameters 
+     - parameter stringGroup: (query) String in group parameters (optional)
+     - parameter booleanGroup: (header) Boolean in group parameters (optional)
+     - parameter int64Group: (query) Integer in group parameters (optional)
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
@@ -710,7 +700,6 @@ open class FakeAPI {
      test inline additionalProperties
      - POST /fake/inline-additionalProperties
      - parameter param: (body) request body 
-     
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
@@ -762,8 +751,7 @@ open class FakeAPI {
      test json serialization of form data
      - GET /fake/jsonFormData
      - parameter param: (form) field1 
-          - parameter param2: (form) field2 
-     
+     - parameter param2: (form) field2 
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Void> 
      */

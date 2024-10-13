@@ -33,7 +33,6 @@ import Foundation
      - POST /user
      - This can only be done by the logged in user.
      - parameter body: (body) Created user object 
-     
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
@@ -78,7 +77,6 @@ import Foundation
      Creates list of users with given input array
      - POST /user/createWithArray
      - parameter body: (body) List of user object 
-     
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
@@ -123,7 +121,6 @@ import Foundation
      Creates list of users with given input array
      - POST /user/createWithList
      - parameter body: (body) List of user object 
-     
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
@@ -169,7 +166,6 @@ import Foundation
      - DELETE /user/{username}
      - This can only be done by the logged in user.
      - parameter username: (path) The name that needs to be deleted 
-     
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
@@ -217,7 +213,6 @@ import Foundation
      Get user by user name
      - GET /user/{username}
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
-     
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<User> 
      */
@@ -267,8 +262,7 @@ import Foundation
      - GET /user/login
      - responseHeaders: [X-Rate-Limit(Int), X-Expires-After(Date)]
      - parameter username: (query) The user name for login 
-          - parameter password: (query) The password for login in clear text 
-     
+     - parameter password: (query) The password for login in clear text 
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<String> 
      */
@@ -315,7 +309,6 @@ import Foundation
     /**
      Logs out current logged in user session
      - GET /user/logout
-
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
@@ -362,8 +355,7 @@ import Foundation
      - PUT /user/{username}
      - This can only be done by the logged in user.
      - parameter username: (path) name that need to be deleted 
-          - parameter body: (body) Updated user object 
-     
+     - parameter body: (body) Updated user object 
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Void> 
      */

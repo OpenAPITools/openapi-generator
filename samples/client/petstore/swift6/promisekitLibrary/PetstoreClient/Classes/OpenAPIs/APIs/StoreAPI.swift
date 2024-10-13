@@ -35,7 +35,6 @@ open class StoreAPI {
      - DELETE /store/order/{order_id}
      - For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      - parameter orderId: (path) ID of the order that needs to be deleted 
-     
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
@@ -86,7 +85,6 @@ open class StoreAPI {
      - API Key:
        - type: apiKey api_key (HEADER)
        - name: api_key
-
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<[String: Int]> 
      */
@@ -133,7 +131,6 @@ open class StoreAPI {
      - GET /store/order/{order_id}
      - For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
      - parameter orderId: (path) ID of pet that needs to be fetched 
-     
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Order> 
      */
@@ -182,7 +179,6 @@ open class StoreAPI {
      Place an order for a pet
      - POST /store/order
      - parameter body: (body) order placed for purchasing the pet 
-     
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Order> 
      */
