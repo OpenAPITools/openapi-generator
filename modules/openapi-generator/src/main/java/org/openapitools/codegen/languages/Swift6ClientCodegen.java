@@ -138,7 +138,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         this.useOneOfInterfaces = true;
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.EXPERIMENTAL)
+                .stability(Stability.BETA)
                 .build();
 
         outputFolder = "generated-code" + File.separator + "swift";

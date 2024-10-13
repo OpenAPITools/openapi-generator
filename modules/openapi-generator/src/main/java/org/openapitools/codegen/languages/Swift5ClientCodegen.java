@@ -1305,6 +1305,9 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         System.out.println("#                                                                              #");
         System.out.println("# swift5 generator is contributed by Bruno Coelho (https://github.com/4brunu). #");
         System.out.println("# Please support his work directly via https://paypal.com/paypalme/4brunu \uD83D\uDE4F   #");
+        System.out.println("#                                                                              #");
+        System.out.println("# There is a new Swift 6 generator, try it and give us your feedkack.          #");
+        System.out.println("# https://openapi-generator.tech/docs/generators/swift6                        #");
         System.out.println("################################################################################");
     }
 
