@@ -698,7 +698,6 @@ public protocol OpenAPIInterceptor {
 }
 
 public class DefaultOpenAPIInterceptor: OpenAPIInterceptor {
-    
     public init() {}
     
     public func intercept<T>(urlRequest: URLRequest, urlSession: URLSessionProtocol, requestBuilder: RequestBuilder<T>, completion: @escaping (Result<URLRequest, any Error>) -> Void) {
