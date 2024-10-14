@@ -258,7 +258,6 @@ Here is a working sample that put's together all of this.
 [AppDelegate.swift](https://github.com/OpenAPITools/openapi-generator/blob/master/samples/client/petstore/swift5/urlsessionLibrary/SwaggerClientTests/SwaggerClient/AppDelegate.swift)
 [BearerDecodableRequestBuilder.swift](https://github.com/OpenAPITools/openapi-generator/blob/master/samples/client/petstore/swift5/urlsessionLibrary/SwaggerClientTests/SwaggerClient/BearerDecodableRequestBuilder.swift)
 
-
 ### How do I implement bearer token authentication with Alamofire on the Swift 5 API client?
 
 <details>
