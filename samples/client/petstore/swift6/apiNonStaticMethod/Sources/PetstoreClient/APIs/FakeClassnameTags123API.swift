@@ -147,7 +147,6 @@ open class FakeClassnameTags123API {
        - type: apiKey api_key_query (QUERY)
        - name: api_key_query
      - parameter body: (body) client model 
-     
      - returns: RequestBuilder<Client> 
      */
     open func testClassnameWithRequestBuilder(body: Client) -> RequestBuilder<Client> {

@@ -137,7 +137,6 @@ open class FakeAPI {
      - POST /fake/outer/boolean
      - Test serialization of outer boolean types
      - parameter body: (body) Input boolean as post body (optional)
-     
      - returns: RequestBuilder<Bool> 
      */
     open func fakeOuterBooleanSerializeWithRequestBuilder(body: Bool? = nil) -> RequestBuilder<Bool> {
@@ -277,7 +276,6 @@ open class FakeAPI {
      - POST /fake/outer/composite
      - Test serialization of object with outer number type
      - parameter body: (body) Input composite as post body (optional)
-     
      - returns: RequestBuilder<OuterComposite> 
      */
     open func fakeOuterCompositeSerializeWithRequestBuilder(body: OuterComposite? = nil) -> RequestBuilder<OuterComposite> {
@@ -417,7 +415,6 @@ open class FakeAPI {
      - POST /fake/outer/number
      - Test serialization of outer number types
      - parameter body: (body) Input number as post body (optional)
-     
      - returns: RequestBuilder<Double> 
      */
     open func fakeOuterNumberSerializeWithRequestBuilder(body: Double? = nil) -> RequestBuilder<Double> {
@@ -557,7 +554,6 @@ open class FakeAPI {
      - POST /fake/outer/string
      - Test serialization of outer string types
      - parameter body: (body) Input string as post body (optional)
-     
      - returns: RequestBuilder<String> 
      */
     open func fakeOuterStringSerializeWithRequestBuilder(body: String? = nil) -> RequestBuilder<String> {
@@ -697,7 +693,6 @@ open class FakeAPI {
      - PUT /fake/body-with-file-schema
      - For this test, the body for this request much reference a schema named `File`.
      - parameter body: (body)  
-     
      - returns: RequestBuilder<Void> 
      */
     open func testBodyWithFileSchemaWithRequestBuilder(body: FileSchemaTestClass) -> RequestBuilder<Void> {
@@ -842,8 +837,7 @@ open class FakeAPI {
     /**
      - PUT /fake/body-with-query-params
      - parameter query: (query)  
-          - parameter body: (body)  
-     
+     - parameter body: (body)  
      - returns: RequestBuilder<Void> 
      */
     open func testBodyWithQueryParamsWithRequestBuilder(query: String, body: User) -> RequestBuilder<Void> {
@@ -993,7 +987,6 @@ open class FakeAPI {
      - PATCH /fake
      - To test \"client\" model
      - parameter body: (body) client model 
-     
      - returns: RequestBuilder<Client> 
      */
     open func testClientModelWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
@@ -1221,20 +1214,19 @@ open class FakeAPI {
        - type: http
        - name: http_basic_test
      - parameter number: (form) None 
-          - parameter double: (form) None 
-          - parameter patternWithoutDelimiter: (form) None 
-          - parameter byte: (form) None 
-          - parameter integer: (form) None (optional)
-          - parameter int32: (form) None (optional)
-          - parameter int64: (form) None (optional)
-          - parameter float: (form) None (optional)
-          - parameter string: (form) None (optional)
-          - parameter binary: (form) None (optional)
-          - parameter date: (form) None (optional)
-          - parameter dateTime: (form) None (optional)
-          - parameter password: (form) None (optional)
-          - parameter callback: (form) None (optional)
-     
+     - parameter double: (form) None 
+     - parameter patternWithoutDelimiter: (form) None 
+     - parameter byte: (form) None 
+     - parameter integer: (form) None (optional)
+     - parameter int32: (form) None (optional)
+     - parameter int64: (form) None (optional)
+     - parameter float: (form) None (optional)
+     - parameter string: (form) None (optional)
+     - parameter binary: (form) None (optional)
+     - parameter date: (form) None (optional)
+     - parameter dateTime: (form) None (optional)
+     - parameter password: (form) None (optional)
+     - parameter callback: (form) None (optional)
      - returns: RequestBuilder<Void> 
      */
     open func testEndpointParametersWithRequestBuilder(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: Data? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> RequestBuilder<Void> {
@@ -1508,14 +1500,13 @@ open class FakeAPI {
      - GET /fake
      - To test enum parameters
      - parameter enumHeaderStringArray: (header) Header parameter enum test (string array) (optional)
-          - parameter enumHeaderString: (header) Header parameter enum test (string) (optional, default to .efg)
-          - parameter enumQueryStringArray: (query) Query parameter enum test (string array) (optional)
-          - parameter enumQueryString: (query) Query parameter enum test (string) (optional, default to .efg)
-          - parameter enumQueryInteger: (query) Query parameter enum test (double) (optional)
-          - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
-          - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to .dollar)
-          - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .efg)
-     
+     - parameter enumHeaderString: (header) Header parameter enum test (string) (optional, default to .efg)
+     - parameter enumQueryStringArray: (query) Query parameter enum test (string array) (optional)
+     - parameter enumQueryString: (query) Query parameter enum test (string) (optional, default to .efg)
+     - parameter enumQueryInteger: (query) Query parameter enum test (double) (optional)
+     - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
+     - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to .dollar)
+     - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .efg)
      - returns: RequestBuilder<Void> 
      */
     open func testEnumParametersWithRequestBuilder(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) -> RequestBuilder<Void> {
@@ -1706,12 +1697,11 @@ open class FakeAPI {
      - DELETE /fake
      - Fake endpoint to test group parameters (optional)
      - parameter requiredStringGroup: (query) Required String in group parameters 
-          - parameter requiredBooleanGroup: (header) Required Boolean in group parameters 
-          - parameter requiredInt64Group: (query) Required Integer in group parameters 
-          - parameter stringGroup: (query) String in group parameters (optional)
-          - parameter booleanGroup: (header) Boolean in group parameters (optional)
-          - parameter int64Group: (query) Integer in group parameters (optional)
-     
+     - parameter requiredBooleanGroup: (header) Required Boolean in group parameters 
+     - parameter requiredInt64Group: (query) Required Integer in group parameters 
+     - parameter stringGroup: (query) String in group parameters (optional)
+     - parameter booleanGroup: (header) Boolean in group parameters (optional)
+     - parameter int64Group: (query) Integer in group parameters (optional)
      - returns: RequestBuilder<Void> 
      */
     open func testGroupParametersWithRequestBuilder(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil) -> RequestBuilder<Void> {
@@ -1864,7 +1854,6 @@ open class FakeAPI {
      test inline additionalProperties
      - POST /fake/inline-additionalProperties
      - parameter param: (body) request body 
-     
      - returns: RequestBuilder<Void> 
      */
     open func testInlineAdditionalPropertiesWithRequestBuilder(param: [String: String]) -> RequestBuilder<Void> {
@@ -2016,8 +2005,7 @@ open class FakeAPI {
      test json serialization of form data
      - GET /fake/jsonFormData
      - parameter param: (form) field1 
-          - parameter param2: (form) field2 
-     
+     - parameter param2: (form) field2 
      - returns: RequestBuilder<Void> 
      */
     open func testJsonFormDataWithRequestBuilder(param: String, param2: String) -> RequestBuilder<Void> {

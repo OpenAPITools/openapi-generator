@@ -27,8 +27,7 @@ open class AnotherFakeAPI {
      - PATCH /another-fake/dummy
      - To test special tags and operation ID starting with number
      - parameter uuidTest: (header) to test uuid example value 
-          - parameter body: (body) client model 
-     
+     - parameter body: (body) client model 
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Client> 
      */
