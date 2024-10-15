@@ -360,12 +360,12 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
     if (reply != nullptr) {
         reply->setParent(this);
         connect(reply, &QNetworkReply::downloadProgress, this, &PFXHttpRequestWorker::downloadProgress);
-        connect(reply, &QNetworkReply::finished, [this, reply] {
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
             on_reply_finished(reply);
         });
     }
     if (timeOutTimer.interval() > 0) {
-        QObject::connect(&timeOutTimer, &QTimer::timeout, [this, reply] {
+        QObject::connect(&timeOutTimer, &QTimer::timeout, this, [this, reply] {
             on_reply_timeout(reply);
         });
         timeOutTimer.start();
