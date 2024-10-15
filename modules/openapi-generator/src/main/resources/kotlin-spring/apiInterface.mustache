@@ -52,7 +52,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlin.collections.List
 import kotlin.collections.Map
 
+{{^useFeignClient}}
 @RestController
+{{/useFeignClient}}
 {{#useBeanValidation}}
 @Validated
 {{/useBeanValidation}}
