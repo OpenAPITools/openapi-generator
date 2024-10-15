@@ -93,10 +93,10 @@ public class Example {
 
     FakeApi apiInstance = new FakeApi(defaultClient);
     try {
-      Object result = apiInstance.getPetById_0();
+      Object result = apiInstance.getPetById0();
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#getPetById_0");
+      System.err.println("Exception when calling FakeApi#getPetById0");
       System.err.println("Status code: " + e.getCode());
       System.err.println("Reason: " + e.getResponseBody());
       System.err.println("Response headers: " + e.getResponseHeaders());
@@ -113,7 +113,7 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*FakeApi* | [**getPetById_0**](docs/FakeApi.md#getPetById_0) | **GET** /fake/duplicated/operationId | 
+*FakeApi* | [**getPetById0**](docs/FakeApi.md#getPetById0) | **GET** /fake/duplicated/operationId | 
 *PetApi* | [**getPetById**](docs/PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID
 
 

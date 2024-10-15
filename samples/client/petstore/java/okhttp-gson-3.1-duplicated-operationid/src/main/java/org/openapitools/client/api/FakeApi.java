@@ -72,7 +72,7 @@ public class FakeApi {
     }
 
     /**
-     * Build call for getPetById_0
+     * Build call for getPetById0
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -82,7 +82,7 @@ public class FakeApi {
         <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getPetById_0Call(final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getPetById0Call(final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -127,8 +127,8 @@ public class FakeApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getPetById_0ValidateBeforeCall(final ApiCallback _callback) throws ApiException {
-        return getPetById_0Call(_callback);
+    private okhttp3.Call getPetById0ValidateBeforeCall(final ApiCallback _callback) throws ApiException {
+        return getPetById0Call(_callback);
 
     }
 
@@ -143,8 +143,8 @@ public class FakeApi {
         <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
      </table>
      */
-    public Object getPetById_0() throws ApiException {
-        ApiResponse<Object> localVarResp = getPetById_0WithHttpInfo();
+    public Object getPetById0() throws ApiException {
+        ApiResponse<Object> localVarResp = getPetById0WithHttpInfo();
         return localVarResp.getData();
     }
 
@@ -159,8 +159,8 @@ public class FakeApi {
         <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Object> getPetById_0WithHttpInfo() throws ApiException {
-        okhttp3.Call localVarCall = getPetById_0ValidateBeforeCall(null);
+    public ApiResponse<Object> getPetById0WithHttpInfo() throws ApiException {
+        okhttp3.Call localVarCall = getPetById0ValidateBeforeCall(null);
         Type localVarReturnType = new TypeToken<Object>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -177,9 +177,9 @@ public class FakeApi {
         <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getPetById_0Async(final ApiCallback<Object> _callback) throws ApiException {
+    public okhttp3.Call getPetById0Async(final ApiCallback<Object> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = getPetById_0ValidateBeforeCall(_callback);
+        okhttp3.Call localVarCall = getPetById0ValidateBeforeCall(_callback);
         Type localVarReturnType = new TypeToken<Object>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;

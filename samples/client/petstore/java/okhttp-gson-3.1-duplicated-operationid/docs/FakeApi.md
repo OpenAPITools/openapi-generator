@@ -4,12 +4,12 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**getPetById_0**](FakeApi.md#getPetById_0) | **GET** /fake/duplicated/operationId |  |
+| [**getPetById0**](FakeApi.md#getPetById0) | **GET** /fake/duplicated/operationId |  |
 
 
-<a id="getPetById_0"></a>
-# **getPetById_0**
-> Object getPetById_0()
+<a id="getPetById0"></a>
+# **getPetById0**
+> Object getPetById0()
 
 
 
@@ -29,10 +29,10 @@ public class Example {
 
     FakeApi apiInstance = new FakeApi(defaultClient);
     try {
-      Object result = apiInstance.getPetById_0();
+      Object result = apiInstance.getPetById0();
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#getPetById_0");
+      System.err.println("Exception when calling FakeApi#getPetById0");
       System.err.println("Status code: " + e.getCode());
       System.err.println("Reason: " + e.getResponseBody());
       System.err.println("Response headers: " + e.getResponseHeaders());
