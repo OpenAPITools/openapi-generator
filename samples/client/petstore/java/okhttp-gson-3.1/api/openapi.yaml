@@ -821,20 +821,6 @@ paths:
       - fake
       x-accepts:
       - application/json
-  /fake/duplicated/operationId:
-    get:
-      operationId: getPetById_0
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/myObject'
-          description: ""
-      tags:
-      - fake
-      x-accepts:
-      - application/json
 components:
   parameters:
     ref_to_uuid:

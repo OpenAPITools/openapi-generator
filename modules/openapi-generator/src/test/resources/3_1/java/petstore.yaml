@@ -728,20 +728,6 @@ paths:
                     items:
                       "$ref": "#/components/schemas/myObject"
                   - type: 'null'
-  "/fake/duplicated/operationId":
-    get:
-      tags:
-        - fake
-      operationId: getPetById
-      responses:
-        '200':
-          description: ''
-          content:
-            application/json:
-              schema:
-                anyOf:
-                  - type: 'null'
-                  - "$ref": "#/components/schemas/myObject"
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
