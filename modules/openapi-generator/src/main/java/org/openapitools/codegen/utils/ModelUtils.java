@@ -2199,6 +2199,69 @@ public class ModelUtils {
         }
     }
 
+    /**
+     * Check if the schema is of type 'null' or schema itself is pointing to null
+     * <p>
+     * Return true if the schema's type is 'null' or not specified
+     *
+     * @param schema Schema
+     * @param openAPI OpenAPI
+     *
+     * @return true if schema is null type
+     */
+    public static boolean isNullTypeSchema(OpenAPI openAPI, Schema schema) {
+        if (schema == null) {
+            return true;
+        }
+
+        // dereference the schema
+        schema = ModelUtils.getReferencedSchema(openAPI, schema);
+
+        // allOf/anyOf/oneOf
+        if (ModelUtils.hasAllOf(schema) || ModelUtils.hasOneOf(schema) || ModelUtils.hasAnyOf(schema)) {
+            return false;
+        }
+
+        // schema with properties
+        if (schema.getProperties() != null) {
+            return false;
+        }
+
+        // convert referenced enum of null only to `nullable:true`
+        if (schema.getEnum() != null && schema.getEnum().size() == 1) {
+            if ("null".equals(String.valueOf(schema.getEnum().get(0)))) {
+                return true;
+            }
+        }
+
+        if (schema.getTypes() != null && !schema.getTypes().isEmpty()) {
+            // 3.1 spec
+            if (schema.getTypes().size() == 1) { // 1 type only
+                String type = (String) schema.getTypes().iterator().next();
+                return type == null || "null".equals(type);
+            } else { // more than 1 type so must not be just null
+                return false;
+            }
+        }
+
+        if (schema instanceof JsonSchema) { // 3.1 spec
+            if (Boolean.TRUE.equals(schema.getNullable())) {
+                return true;
+            }
+
+            // for `type: null`
+            if (schema.getTypes() == null && schema.get$ref() == null) {
+                return true;
+            }
+        } else { // 3.0.x or 2.x spec
+            if ((schema.getType() == null || schema.getType().equals("null")) && schema.get$ref() == null) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     @FunctionalInterface
     private interface OpenAPISchemaVisitor {
 
