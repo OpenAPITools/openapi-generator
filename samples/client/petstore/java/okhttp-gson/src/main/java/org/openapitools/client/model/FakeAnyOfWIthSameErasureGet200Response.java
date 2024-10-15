@@ -51,7 +51,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class FakeAnyOfWIthSameErasureGet200Response extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(FakeAnyOfWIthSameErasureGet200Response.class.getName());
 
@@ -187,6 +187,17 @@ public class FakeAnyOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
      */
     public List<String> getListString() throws ClassCastException {
         return (List<String>)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `List<Integer>`. If the actual instance is not `List<Integer>`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `List<Integer>`
+     * @throws ClassCastException if the instance is not `List<Integer>`
+     */
+    public List<Integer> getListInteger() throws ClassCastException {
+        return (List<Integer>)super.getActualInstance();
     }
 
     /**

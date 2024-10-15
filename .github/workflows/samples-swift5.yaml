@@ -1,0 +1,44 @@
+name: Samples Swift 5
+
+on:
+  push:
+    paths:
+      - samples/client/petstore/swift5/**
+  pull_request:
+    paths:
+      - samples/client/petstore/swift5/**
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest]
+        sample:
+          - samples/client/petstore/swift5/alamofireLibrary
+          - samples/client/petstore/swift5/asyncAwaitLibrary
+          - samples/client/petstore/swift5/combineLibrary
+          - samples/client/petstore/swift5/default
+          - samples/client/petstore/swift5/objcCompatible
+          - samples/client/petstore/swift5/oneOf
+          - samples/client/petstore/swift5/promisekitLibrary
+          - samples/client/petstore/swift5/resultLibrary
+          - samples/client/petstore/swift5/rxswiftLibrary
+          - samples/client/petstore/swift5/urlsessionLibrary
+          - samples/client/petstore/swift5/validation
+          # NOTE: disabled as vaporLibrary doesnt build when adding this CI config
+          #- samples/client/petstore/swift5/vaporLibrary
+        include:
+        - os: ubuntu-latest
+          sample: samples/client/petstore/swift5/alamofireLibrary
+    name: Build Swift samples
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: swift-actions/setup-swift@v2
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        with:
+          swift-version: '5'
+      - name: Build
+        working-directory: ${{ matrix.sample }}
+        run: swift build

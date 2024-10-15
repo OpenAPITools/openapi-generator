@@ -23,12 +23,14 @@ export interface PetApiAddPetRequest {
 export interface PetApiDeletePetRequest {
     /**
      * Pet id to delete
+     * Defaults to: undefined
      * @type number
      * @memberof PetApideletePet
      */
     petId: number
     /**
      * 
+     * Defaults to: undefined
      * @type string
      * @memberof PetApideletePet
      */
@@ -38,6 +40,7 @@ export interface PetApiDeletePetRequest {
 export interface PetApiFindPetsByStatusRequest {
     /**
      * Status values that need to be considered for filter
+     * Defaults to: undefined
      * @type Array&lt;&#39;available&#39; | &#39;pending&#39; | &#39;sold&#39;&gt;
      * @memberof PetApifindPetsByStatus
      */
@@ -47,6 +50,7 @@ export interface PetApiFindPetsByStatusRequest {
 export interface PetApiFindPetsByTagsRequest {
     /**
      * Tags to filter by
+     * Defaults to: undefined
      * @type Array&lt;string&gt;
      * @memberof PetApifindPetsByTags
      */
@@ -56,6 +60,7 @@ export interface PetApiFindPetsByTagsRequest {
 export interface PetApiGetPetByIdRequest {
     /**
      * ID of pet to return
+     * Defaults to: undefined
      * @type number
      * @memberof PetApigetPetById
      */
@@ -74,18 +79,21 @@ export interface PetApiUpdatePetRequest {
 export interface PetApiUpdatePetWithFormRequest {
     /**
      * ID of pet that needs to be updated
+     * Defaults to: undefined
      * @type number
      * @memberof PetApiupdatePetWithForm
      */
     petId: number
     /**
      * Updated name of the pet
+     * Defaults to: undefined
      * @type string
      * @memberof PetApiupdatePetWithForm
      */
     name?: string
     /**
      * Updated status of the pet
+     * Defaults to: undefined
      * @type string
      * @memberof PetApiupdatePetWithForm
      */
@@ -95,18 +103,21 @@ export interface PetApiUpdatePetWithFormRequest {
 export interface PetApiUploadFileRequest {
     /**
      * ID of pet to update
+     * Defaults to: undefined
      * @type number
      * @memberof PetApiuploadFile
      */
     petId: number
     /**
      * Additional data to pass to server
+     * Defaults to: undefined
      * @type string
      * @memberof PetApiuploadFile
      */
     additionalMetadata?: string
     /**
      * file to upload
+     * Defaults to: undefined
      * @type HttpFile
      * @memberof PetApiuploadFile
      */
@@ -272,6 +283,7 @@ import { StoreApiRequestFactory, StoreApiResponseProcessor} from "../apis/StoreA
 export interface StoreApiDeleteOrderRequest {
     /**
      * ID of the order that needs to be deleted
+     * Defaults to: undefined
      * @type string
      * @memberof StoreApideleteOrder
      */
@@ -284,6 +296,9 @@ export interface StoreApiGetInventoryRequest {
 export interface StoreApiGetOrderByIdRequest {
     /**
      * ID of pet that needs to be fetched
+     * Minimum: 1
+     * Maximum: 5
+     * Defaults to: undefined
      * @type number
      * @memberof StoreApigetOrderById
      */
@@ -413,6 +428,7 @@ export interface UserApiCreateUsersWithListInputRequest {
 export interface UserApiDeleteUserRequest {
     /**
      * The name that needs to be deleted
+     * Defaults to: undefined
      * @type string
      * @memberof UserApideleteUser
      */
@@ -422,6 +438,7 @@ export interface UserApiDeleteUserRequest {
 export interface UserApiGetUserByNameRequest {
     /**
      * The name that needs to be fetched. Use user1 for testing.
+     * Defaults to: undefined
      * @type string
      * @memberof UserApigetUserByName
      */
@@ -431,12 +448,14 @@ export interface UserApiGetUserByNameRequest {
 export interface UserApiLoginUserRequest {
     /**
      * The user name for login
+     * Defaults to: undefined
      * @type string
      * @memberof UserApiloginUser
      */
     username: string
     /**
      * The password for login in clear text
+     * Defaults to: undefined
      * @type string
      * @memberof UserApiloginUser
      */
@@ -449,6 +468,7 @@ export interface UserApiLogoutUserRequest {
 export interface UserApiUpdateUserRequest {
     /**
      * name that need to be deleted
+     * Defaults to: undefined
      * @type string
      * @memberof UserApiupdateUser
      */

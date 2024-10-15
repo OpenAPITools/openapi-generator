@@ -16,9 +16,9 @@ Name | Type | Description | Notes
 **RequiredNotnullableBooleanProp** | **bool** |  | 
 **NotrequiredNullableBooleanProp** | **bool?** |  | [optional] 
 **NotrequiredNotnullableBooleanProp** | **bool** |  | [optional] 
-**RequiredNullableDateProp** | **DateOnly** |  | 
+**RequiredNullableDateProp** | **DateOnly?** |  | 
 **RequiredNotNullableDateProp** | **DateOnly** |  | 
-**NotRequiredNullableDateProp** | **DateOnly** |  | [optional] 
+**NotRequiredNullableDateProp** | **DateOnly?** |  | [optional] 
 **NotRequiredNotnullableDateProp** | **DateOnly** |  | [optional] 
 **RequiredNotnullableDatetimeProp** | **DateTime** |  | 
 **RequiredNullableDatetimeProp** | **DateTime?** |  | 

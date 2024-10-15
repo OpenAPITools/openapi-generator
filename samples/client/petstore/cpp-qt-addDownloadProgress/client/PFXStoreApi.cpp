@@ -242,7 +242,7 @@ void PFXStoreApi::deleteOrder(const QString &order_id) {
     connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXStoreApi::deleteOrderProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::deleteOrderCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             Q_EMIT allPendingRequestsCompleted();
         }
@@ -315,7 +315,7 @@ void PFXStoreApi::getInventory() {
     connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXStoreApi::getInventoryProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getInventoryCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             Q_EMIT allPendingRequestsCompleted();
         }
@@ -408,7 +408,7 @@ void PFXStoreApi::getOrderById(const qint64 &order_id) {
     connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXStoreApi::getOrderByIdProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getOrderByIdCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             Q_EMIT allPendingRequestsCompleted();
         }
@@ -483,7 +483,7 @@ void PFXStoreApi::placeOrder(const PFXOrder &pfx_order) {
     connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXStoreApi::placeOrderProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::placeOrderCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             Q_EMIT allPendingRequestsCompleted();
         }

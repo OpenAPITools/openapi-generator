@@ -3,12 +3,14 @@ name: Samples C# .Net 8 Clients
 on:
   push:
     paths:
+      - samples/client/petstore/csharp/generichost/latest/**
       - samples/client/petstore/csharp/generichost/net8/**
       - samples/client/petstore/csharp/httpclient/net8/**
       - samples/client/petstore/csharp/restsharp/net8/**
       - samples/client/petstore/csharp/unityWebRequest/net8/**
   pull_request:
     paths:
+      - samples/client/petstore/csharp/generichost/latest/**
       - samples/client/petstore/csharp/generichost/net8/**
       - samples/client/petstore/csharp/httpclient/net8/**
       - samples/client/petstore/csharp/restsharp/net8/**
@@ -21,6 +23,7 @@ jobs:
       fail-fast: false
       matrix:
         sample:
+          - samples/client/petstore/csharp/generichost/latest/Tags
           - samples/client/petstore/csharp/generichost/net8/AllOf
           - samples/client/petstore/csharp/generichost/net8/AnyOf
           - samples/client/petstore/csharp/generichost/net8/AnyOfNoCompare

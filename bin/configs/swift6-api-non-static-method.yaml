@@ -1,0 +1,13 @@
+generatorName: swift6
+outputDir: samples/client/petstore/swift6/apiNonStaticMethod
+library: alamofire
+inputSpec: modules/openapi-generator/src/test/resources/2_0/swift/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/swift6
+additionalProperties:
+  responseAs: AsyncAwait,Combine,Result,PromiseKit,RxSwift,ObjcBlock
+  apiStaticMethod: false
+  mapFileBinaryToData: true
+  podAuthors: ""
+  podSummary: PetstoreClient
+  projectName: PetstoreClient
+  podHomepage: https://github.com/openapitools/openapi-generator

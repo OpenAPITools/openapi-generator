@@ -9,6 +9,7 @@ use openapi_v3::{Api, ApiNoContext, Claims, Client, ContextWrapperExt, models,
                       AnyOfGetResponse,
                       CallbackWithHeaderPostResponse,
                       ComplexQueryParamGetResponse,
+                      FormTestResponse,
                       GetWithBooleanParameterResponse,
                       JsonComplexQueryParamGetResponse,
                       MandatoryRequestHeaderGetResponse,
@@ -66,6 +67,7 @@ fn main() {
                 "AnyOfGet",
                 "CallbackWithHeaderPost",
                 "ComplexQueryParamGet",
+                "FormTest",
                 "GetWithBooleanParameter",
                 "JsonComplexQueryParamGet",
                 "MandatoryRequestHeaderGet",
@@ -181,6 +183,12 @@ fn main() {
         },
         Some("ComplexQueryParamGet") => {
             let result = rt.block_on(client.complex_query_param_get(
+                  Some(&Vec::new())
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        Some("FormTest") => {
+            let result = rt.block_on(client.form_test(
                   Some(&Vec::new())
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());

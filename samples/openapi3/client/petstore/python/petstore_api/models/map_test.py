@@ -39,8 +39,9 @@ class MapTest(BaseModel):
         if value is None:
             return value
 
-        if value not in set(['UPPER', 'lower']):
-            raise ValueError("must be one of enum values ('UPPER', 'lower')")
+        for i in value.values():
+            if i not in set(['UPPER', 'lower']):
+                raise ValueError("dict values must be one of enum values ('UPPER', 'lower')")
         return value
 
     model_config = ConfigDict(

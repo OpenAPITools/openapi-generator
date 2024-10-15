@@ -6,79 +6,6 @@
 #' @format An \code{R6Class} generator object
 #' @field api_client Handles the client-server communication.
 #'
-#' @section Methods:
-{{! Adding the below changes for generating documentation for the api methods. }}
-#' \describe{
-{{#operation}}
-#' \strong{ {{operationId}} } \emph{ {{#lambdaRdocEscape}}{{summary}}{{/lambdaRdocEscape}} }
-{{#notes}}
-#' {{#lambdaRdocEscape}}{{{.}}}{{/lambdaRdocEscape}}
-{{/notes}}
-#'
-#' \itemize{
-{{#allParams}}
-{{#isEnum}}
-#' \item \emph{ @param } {{paramName}} Enum < {{#allowableValues}}{{values}}{{/allowableValues}} >
-{{/isEnum}}
-{{^isEnum}}
-{{#isContainer}}
-{{#isArray}}
-{{#items}}
-{{#isPrimitiveType}}
-#' \item \emph{ @param } {{paramName}} list( {{dataType}} )
-{{/isPrimitiveType}}
-{{^isPrimitiveType}}
-#' \item \emph{ @param } {{paramName}} list( \link{{=<% %>=}}{<%dataType%>}<%={{ }}=%> )
-{{/isPrimitiveType}}
-{{/items}}
-{{/isArray}}
-{{#isMap}}
-{{#isPrimitiveType}}
-#' \item \emph{ @param } {{paramName}} named list( {{dataType}} )
-{{/isPrimitiveType}}
-{{^isPrimitiveType}}
-#' \item \emph{ @param } {{paramName}} named list( \link{{=<% %>=}}{<%dataType%>}<%={{ }}=%> )
-{{/isPrimitiveType}}
-{{/isMap}}
-{{/isContainer}}
-{{^isContainer}}
-{{#isPrimitiveType}}
-#' \item \emph{ @param } {{paramName}} {{dataType}}
-{{/isPrimitiveType}}
-{{^isPrimitiveType}}
-#' \item \emph{ @param } {{paramName}} \link{{=<% %>=}}{<%dataType%>}<%={{ }}=%>
-{{/isPrimitiveType}}
-{{/isContainer}}
-{{/isEnum}}
-{{/allParams}}
-{{#returnType}}
-{{^returnTypeIsPrimitive}}
-#' \item \emph{ @returnType } {{#returnContainer}}{{#isArray}}list( {{/isArray}}{{#isMap}}named list( {{/isMap}}{{/returnContainer}}\link{{=<% %>=}}{<%#returnContainer%><%={{ }}=%>{{returnBaseType}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{=<% %>=}}<%/returnContainer%>}<%={{ }}=%>{{#returnContainer}}{{#isArray}} ){{/isArray}}{{#isMap}} ){{/isMap}}{{/returnContainer}} \cr
-{{/returnTypeIsPrimitive}}
-{{/returnType}}
-#'
-{{#useRlangExceptionHandling}}
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
-{{/useRlangExceptionHandling}}
-#'
-{{#responses}}
-#' \item status code : {{code}} | {{{message}}}
-#'
-#'{{#dataType}} \item return type : {{{.}}}{{/dataType}}
-#' \item response headers :
-#'
-#' \tabular{ll}{
-{{#headers}}
-#' {{name}} \tab {{{description}}} \cr
-{{/headers}}
-#' }
-{{/responses}}
-#' }
-#'
-{{/operation}}
-#' }
-#'
-#'
 #' @examples
 #' \dontrun{
 {{#operation}}
@@ -185,13 +112,11 @@
   "{{classname}}",
   public = list(
     api_client = NULL,
-    #' Initialize a new {{{classname}}}.
-    #'
+
     #' @description
     #' Initialize a new {{{classname}}}.
     #'
     #' @param api_client An instance of API client.
-    #' @export
     initialize = function(api_client) {
       if (!missing(api_client)) {
         self$api_client <- api_client
@@ -200,8 +125,7 @@
       }
     },
     {{#operation}}
-    #' {{{summary}}}
-    #'
+
     #' @description
     #' {{{description}}}{{^description}}{{{summary}}}{{/description}}
     #'
@@ -218,8 +142,8 @@
     #' @param data_file (optional) name of the data file to save the result
     {{/returnType}}
     #' @param ... Other optional arguments
+    #'
     #' @return {{{returnType}}}{{^returnType}}void{{/returnType}}
-    #' @export
     {{{operationId}}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}} = {{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}{{#vendorExtensions.x-streaming}}stream_callback = NULL, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file = NULL, {{/returnType}}...) {
       local_var_response <- self${{{operationId}}}{{WithHttpInfo}}({{#allParams}}{{paramName}}, {{/allParams}}{{#vendorExtensions.x-streaming}}stream_callback = stream_callback, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file = data_file, {{/returnType}}...)
       {{#vendorExtensions.x-streaming}}
@@ -238,8 +162,7 @@
         local_var_response
       }
     },
-    #' {{{summary}}}
-    #'
+
     #' @description
     #' {{{description}}}{{^description}}{{{summary}}}{{/description}}
     #'
@@ -256,8 +179,8 @@
     #' @param data_file (optional) name of the data file to save the result
     {{/returnType}}
     #' @param ... Other optional arguments
+    #'
     #' @return API response ({{{returnType}}}{{^returnType}}void{{/returnType}}) with additional information such as HTTP status code, headers
-    #' @export
     {{{operationId}}}{{WithHttpInfo}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}} = {{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}{{#vendorExtensions.x-streaming}}stream_callback = NULL, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file = NULL, {{/returnType}}...) {
       args <- list(...)
       query_params <- list()
@@ -401,7 +324,7 @@
         {{#items}}
         {{#isEnum}}
         # validate enum values
-        if (!(query_item %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+        if (!is.null(query_item) && !(query_item %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
           {{#useDefaultExceptionHandling}}
           stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Must be {{_enum}}.")
           {{/useDefaultExceptionHandling}}
@@ -423,7 +346,7 @@
       {{#isEnum}}
       # validate enum values
       for (query_item in `{{{paramName}}}`) {
-        if (!(query_item %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+        if (!is.null(query_item) && !(query_item %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
           {{#useDefaultExceptionHandling}}
           stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Must be {{_enum}}.")
           {{/useDefaultExceptionHandling}}
@@ -447,7 +370,7 @@
         {{#items}}
         {{#isEnum}}
         # validate enum values
-        if (!(query_item %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+        if (!is.null(query_item) && !(query_item %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
           {{#useDefaultExceptionHandling}}
           stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Must be {{_enum}}.")
           {{/useDefaultExceptionHandling}}
@@ -469,7 +392,7 @@
       {{#isEnum}}
       # validate enum values
       for (query_item in `{{{paramName}}}`) {
-        if (!(query_item %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+        if (!is.null(query_item) && !(query_item %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
           {{#useDefaultExceptionHandling}}
           stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Must be {{_enum}}.")
           {{/useDefaultExceptionHandling}}
@@ -489,7 +412,7 @@
       {{/isArray}}
       {{^isArray}}
       {{#isEnum}}
-      if (!(`{{paramName}}` %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+      if (!is.null(`{{paramName}}`) && !(`{{paramName}}` %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
         {{#useDefaultExceptionHandling}}
         stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Must be {{_enum}}.")
         {{/useDefaultExceptionHandling}}

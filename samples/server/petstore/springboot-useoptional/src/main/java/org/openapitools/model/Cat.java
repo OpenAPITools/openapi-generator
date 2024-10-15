@@ -32,7 +32,7 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = BigCat.class, name = "BigCat")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Cat extends Animal {
 
   private Optional<Boolean> declawed = Optional.empty();
@@ -131,7 +131,7 @@ public class Cat extends Animal {
     }
 
     protected Builder copyOf(Cat value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       this.instance.setDeclawed(value.declawed);
       return this;
     }

@@ -24,7 +24,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Bar extends Entity implements BarRefOrValue {
 
   private String id;
@@ -206,7 +206,7 @@ public class Bar extends Entity implements BarRefOrValue {
     }
 
     protected Builder copyOf(Bar value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       this.instance.setId(value.id);
       this.instance.setBarPropA(value.barPropA);
       this.instance.setFooPropB(value.fooPropB);

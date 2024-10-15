@@ -1,0 +1,12 @@
+.gitignore
+api.ts
+api/advancedApi.ts
+api/apis.ts
+api/basicApi.ts
+api/defaultApi.ts
+git_push.sh
+model/group.ts
+model/models.ts
+model/patchUsersUserIdRequest.ts
+model/postUserRequest.ts
+model/user.ts

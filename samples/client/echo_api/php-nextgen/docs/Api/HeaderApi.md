@@ -34,7 +34,7 @@ $integer_header = 56; // int
 $boolean_header = True; // bool
 $string_header = 'string_header_example'; // string
 $enum_nonref_string_header = 'enum_nonref_string_header_example'; // string
-$enum_ref_string_header = new \OpenAPI\Client\Model\StringEnumRef(); // StringEnumRef
+$enum_ref_string_header = new \OpenAPI\Client\Model\\OpenAPI\Client\Model\StringEnumRef(); // \OpenAPI\Client\Model\StringEnumRef
 
 try {
     $result = $apiInstance->testHeaderIntegerBooleanStringEnums($integer_header, $boolean_header, $string_header, $enum_nonref_string_header, $enum_ref_string_header);
@@ -52,7 +52,7 @@ try {
 | **boolean_header** | **bool**|  | [optional] |
 | **string_header** | **string**|  | [optional] |
 | **enum_nonref_string_header** | **string**|  | [optional] |
-| **enum_ref_string_header** | [**StringEnumRef**](../Model/.md)|  | [optional] |
+| **enum_ref_string_header** | [**\OpenAPI\Client\Model\StringEnumRef**](../Model/.md)|  | [optional] |
 
 ### Return type
 

@@ -51,7 +51,7 @@ import org.openapitools.client.JSON;
 /**
  * AnyTypeTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class AnyTypeTest {
   public static final String SERIALIZED_NAME_ANY_TYPE_PROPERTY = "any_type_property";
   @SerializedName(SERIALIZED_NAME_ANY_TYPE_PROPERTY)
@@ -63,7 +63,7 @@ public class AnyTypeTest {
 
   public static final String SERIALIZED_NAME_REF_ARRAY_PREFIX_ITEMS = "ref_array_prefix_items";
   @SerializedName(SERIALIZED_NAME_REF_ARRAY_PREFIX_ITEMS)
-  private List<String> refArrayPrefixItems = new ArrayList<>();
+  private List<Object> refArrayPrefixItems = new ArrayList<>();
 
   public AnyTypeTest() {
   }
@@ -114,12 +114,12 @@ public class AnyTypeTest {
   }
 
 
-  public AnyTypeTest refArrayPrefixItems(List<String> refArrayPrefixItems) {
+  public AnyTypeTest refArrayPrefixItems(List<Object> refArrayPrefixItems) {
     this.refArrayPrefixItems = refArrayPrefixItems;
     return this;
   }
 
-  public AnyTypeTest addRefArrayPrefixItemsItem(String refArrayPrefixItemsItem) {
+  public AnyTypeTest addRefArrayPrefixItemsItem(Object refArrayPrefixItemsItem) {
     if (this.refArrayPrefixItems == null) {
       this.refArrayPrefixItems = new ArrayList<>();
     }
@@ -132,11 +132,11 @@ public class AnyTypeTest {
    * @return refArrayPrefixItems
    */
   @javax.annotation.Nullable
-  public List<String> getRefArrayPrefixItems() {
+  public List<Object> getRefArrayPrefixItems() {
     return refArrayPrefixItems;
   }
 
-  public void setRefArrayPrefixItems(List<String> refArrayPrefixItems) {
+  public void setRefArrayPrefixItems(List<Object> refArrayPrefixItems) {
     this.refArrayPrefixItems = refArrayPrefixItems;
   }
 

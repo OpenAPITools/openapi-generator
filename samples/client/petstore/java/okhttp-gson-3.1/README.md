@@ -2,7 +2,7 @@
 
 OpenAPI Petstore
 - API version: 1.0.0
-  - Generator version: 7.9.0-SNAPSHOT
+  - Generator version: 7.10.0-SNAPSHOT
 
 This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
 
@@ -83,7 +83,7 @@ Please follow the [installation](#installation) instruction and execute the foll
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.FakeApi;
 
 public class Example {
@@ -166,6 +166,9 @@ Class | Method | HTTP request | Description
  - [Pet](docs/Pet.md)
  - [RefRefToPathLevelParameterOneofRefToOneofParameter](docs/RefRefToPathLevelParameterOneofRefToOneofParameter.md)
  - [RefToRefParameterAnyofRefToAnyofParameter](docs/RefToRefParameterAnyofRefToAnyofParameter.md)
+ - [SelfReferenceAdditionalProperties](docs/SelfReferenceAdditionalProperties.md)
+ - [SelfReferenceAnyOf](docs/SelfReferenceAnyOf.md)
+ - [SelfReferenceOneOf](docs/SelfReferenceOneOf.md)
  - [SimpleModelWithArrayProperty](docs/SimpleModelWithArrayProperty.md)
  - [StringOrInt](docs/StringOrInt.md)
  - [Tag](docs/Tag.md)

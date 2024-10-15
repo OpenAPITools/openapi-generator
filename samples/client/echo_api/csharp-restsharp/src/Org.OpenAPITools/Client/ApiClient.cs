@@ -533,11 +533,11 @@ namespace Org.OpenAPITools.Client
             }
         }
 
-        private RestResponse<T> DeserializeRestResponseFromPolicy<T>(RestClient client, RestRequest request, PolicyResult<RestResponse> policyResult)
+        private async Task<RestResponse<T>> DeserializeRestResponseFromPolicyAsync<T>(RestClient client, RestRequest request, PolicyResult<RestResponse> policyResult, CancellationToken cancellationToken = default)
         {
             if (policyResult.Outcome == OutcomeType.Successful) 
             {
-                return client.Deserialize<T>(policyResult.Result);
+                return await client.Deserialize<T>(policyResult.Result, cancellationToken);
             }
             else
             {
@@ -570,7 +570,7 @@ namespace Org.OpenAPITools.Client
                 {
                     var policy = RetryConfiguration.RetryPolicy;
                     var policyResult = policy.ExecuteAndCapture(() => client.Execute(request));
-                    return Task.FromResult(DeserializeRestResponseFromPolicy<T>(client, request, policyResult));
+                    return DeserializeRestResponseFromPolicyAsync<T>(client, request, policyResult);
                 }
                 else
                 {
@@ -594,7 +594,7 @@ namespace Org.OpenAPITools.Client
                 {
                     var policy = RetryConfiguration.AsyncRetryPolicy;
                     var policyResult = await policy.ExecuteAndCaptureAsync((ct) => client.ExecuteAsync(request, ct), cancellationToken).ConfigureAwait(false);
-                    return DeserializeRestResponseFromPolicy<T>(client, request, policyResult);
+                    return await DeserializeRestResponseFromPolicyAsync<T>(client, request, policyResult, cancellationToken);
                 }
                 else
                 {

@@ -25,7 +25,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class BigCat extends Cat {
 
   /**
@@ -168,7 +168,7 @@ public class BigCat extends Cat {
     }
 
     protected Builder copyOf(BigCat value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       this.instance.setKind(value.kind);
       return this;
     }

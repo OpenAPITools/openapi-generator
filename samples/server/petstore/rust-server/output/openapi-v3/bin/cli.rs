@@ -8,6 +8,7 @@ use openapi_v3::{
     AnyOfGetResponse,
     CallbackWithHeaderPostResponse,
     ComplexQueryParamGetResponse,
+    FormTestResponse,
     GetWithBooleanParameterResponse,
     JsonComplexQueryParamGetResponse,
     MandatoryRequestHeaderGetResponse,
@@ -100,6 +101,11 @@ enum Operation {
     ComplexQueryParamGet {
         #[structopt(parse(try_from_str = parse_json), long)]
         list_of_strings: Option<Vec<models::StringObject>>,
+    },
+    /// Test a Form Post
+    FormTest {
+        #[structopt(parse(try_from_str = parse_json), long)]
+        required_array: Option<Vec<String>>,
     },
     GetWithBooleanParameter {
         /// Let's check apostrophes get encoded properly!
@@ -316,6 +322,22 @@ async fn main() -> Result<()> {
             match result {
                 ComplexQueryParamGetResponse::Success
                 => "Success\n".to_string()
+                    ,
+            }
+        }
+        Operation::FormTest {
+            required_array,
+        } => {
+            info!("Performing a FormTest request");
+
+            let result = client.form_test(
+                required_array.as_ref(),
+            ).await?;
+            debug!("Result: {:?}", result);
+
+            match result {
+                FormTestResponse::OK
+                => "OK\n".to_string()
                     ,
             }
         }

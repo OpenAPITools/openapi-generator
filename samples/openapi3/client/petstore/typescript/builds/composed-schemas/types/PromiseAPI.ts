@@ -23,7 +23,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param filePostRequest 
+     * @param [filePostRequest]
      */
     public filePostWithHttpInfo(filePostRequest?: FilePostRequest, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.filePostWithHttpInfo(filePostRequest, _options);
@@ -31,7 +31,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param filePostRequest 
+     * @param [filePostRequest]
      */
     public filePost(filePostRequest?: FilePostRequest, _options?: Configuration): Promise<void> {
         const result = this.api.filePost(filePostRequest, _options);
@@ -39,7 +39,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param petsFilteredPatchRequest 
+     * @param [petsFilteredPatchRequest]
      */
     public petsFilteredPatchWithHttpInfo(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.petsFilteredPatchWithHttpInfo(petsFilteredPatchRequest, _options);
@@ -47,7 +47,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param petsFilteredPatchRequest 
+     * @param [petsFilteredPatchRequest]
      */
     public petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: Configuration): Promise<void> {
         const result = this.api.petsFilteredPatch(petsFilteredPatchRequest, _options);
@@ -55,7 +55,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param petsPatchRequest 
+     * @param [petsPatchRequest]
      */
     public petsPatchWithHttpInfo(petsPatchRequest?: PetsPatchRequest, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.petsPatchWithHttpInfo(petsPatchRequest, _options);
@@ -63,7 +63,7 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param petsPatchRequest 
+     * @param [petsPatchRequest]
      */
     public petsPatch(petsPatchRequest?: PetsPatchRequest, _options?: Configuration): Promise<void> {
         const result = this.api.petsPatch(petsPatchRequest, _options);

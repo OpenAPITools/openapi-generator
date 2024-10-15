@@ -112,3 +112,29 @@ components:
         - type: integer
         - type: array
           items: {}
+    TypeIntegerWithOneOf:
+      type: integer
+      oneOf:
+        - title: ITEM A
+          description: This permission is for item A.
+          const: 1
+        - title: ITEM B
+          description: This permission is for item B.
+          const: 2
+        - title: ITEM C
+          description: This permission is for item C.
+          const: 4
+      format: int32
+    # need to repeat the issue when it only occurs with the 3rd, 4th, 5th, etc schemas with oneOf(type: null, $ref)
+    OneOfNullAndRef:
+      oneOf:
+        - $ref: '#/components/schemas/Parent'
+        - type: "null"
+    OneOfNullAndRef2:
+      oneOf:
+        - $ref: '#/components/schemas/Parent'
+        - type: "null"
+    OneOfNullAndRef3:
+      oneOf:
+        - $ref: '#/components/schemas/Parent'
+        - type: "null"

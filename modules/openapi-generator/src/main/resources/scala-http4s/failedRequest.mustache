@@ -1,0 +1,33 @@
+{{>licenseInfo}}
+package {{modelPackage}}
+
+import io.circe.*
+import io.circe.Decoder.*
+import io.circe.Encoder.*
+import io.circe.syntax.*
+
+case class _FailedRequest(code: Int, message: String) extends Exception(s"Server return status code: $code; message: $message")
+
+object _FailedRequest {
+
+  given encoderFailedRequest: Encoder[_FailedRequest] = Encoder.instance { t =>
+    Json.fromFields{
+      Seq(
+        "code" -> t.code.asJson,
+        "message" -> t.message.asJson
+      )
+    }
+  }
+
+  given decodeFailedRequest: Decoder[_FailedRequest] = Decoder.instance { c =>
+    for {
+      code <- c.downField("code").as[Int]
+      message <- c.downField("message").as[String]
+    } yield _FailedRequest(
+      code = code,
+      message = message
+    )
+  }
+
+}
+

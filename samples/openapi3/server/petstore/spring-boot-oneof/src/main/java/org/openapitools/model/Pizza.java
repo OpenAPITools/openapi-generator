@@ -32,7 +32,7 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = PizzaSpeziale.class, name = "PizzaSpeziale")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Pizza extends Entity {
 
   private BigDecimal pizzaSize;
@@ -146,7 +146,7 @@ public class Pizza extends Entity {
     }
 
     protected Builder copyOf(Pizza value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       this.instance.setPizzaSize(value.pizzaSize);
       return this;
     }

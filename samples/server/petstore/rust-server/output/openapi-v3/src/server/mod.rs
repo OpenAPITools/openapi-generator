@@ -24,6 +24,7 @@ use crate::{Api,
      AnyOfGetResponse,
      CallbackWithHeaderPostResponse,
      ComplexQueryParamGetResponse,
+     FormTestResponse,
      GetWithBooleanParameterResponse,
      JsonComplexQueryParamGetResponse,
      MandatoryRequestHeaderGetResponse,
@@ -65,6 +66,7 @@ mod paths {
             r"^/callback-with-header$",
             r"^/complex-query-param$",
             r"^/enum_in_path/(?P<path_param>[^/?#]*)$",
+            r"^/form-test$",
             r"^/get-with-bool$",
             r"^/json-complex-query-param$",
             r"^/mandatory-request-header$",
@@ -101,41 +103,42 @@ mod paths {
             regex::Regex::new(r"^/enum_in_path/(?P<path_param>[^/?#]*)$")
                 .expect("Unable to create regex for ENUM_IN_PATH_PATH_PARAM");
     }
-    pub(crate) static ID_GET_WITH_BOOL: usize = 4;
-    pub(crate) static ID_JSON_COMPLEX_QUERY_PARAM: usize = 5;
-    pub(crate) static ID_MANDATORY_REQUEST_HEADER: usize = 6;
-    pub(crate) static ID_MERGE_PATCH_JSON: usize = 7;
-    pub(crate) static ID_MULTIGET: usize = 8;
-    pub(crate) static ID_MULTIPLE_PATH_PARAMS_WITH_VERY_LONG_PATH_TO_TEST_FORMATTING_PATH_PARAM_A_PATH_PARAM_B: usize = 9;
+    pub(crate) static ID_FORM_TEST: usize = 4;
+    pub(crate) static ID_GET_WITH_BOOL: usize = 5;
+    pub(crate) static ID_JSON_COMPLEX_QUERY_PARAM: usize = 6;
+    pub(crate) static ID_MANDATORY_REQUEST_HEADER: usize = 7;
+    pub(crate) static ID_MERGE_PATCH_JSON: usize = 8;
+    pub(crate) static ID_MULTIGET: usize = 9;
+    pub(crate) static ID_MULTIPLE_PATH_PARAMS_WITH_VERY_LONG_PATH_TO_TEST_FORMATTING_PATH_PARAM_A_PATH_PARAM_B: usize = 10;
     lazy_static! {
         pub static ref REGEX_MULTIPLE_PATH_PARAMS_WITH_VERY_LONG_PATH_TO_TEST_FORMATTING_PATH_PARAM_A_PATH_PARAM_B: regex::Regex =
             #[allow(clippy::invalid_regex)]
             regex::Regex::new(r"^/multiple-path-params-with-very-long-path-to-test-formatting/(?P<path_param_a>[^/?#]*)/(?P<path_param_b>[^/?#]*)$")
                 .expect("Unable to create regex for MULTIPLE_PATH_PARAMS_WITH_VERY_LONG_PATH_TO_TEST_FORMATTING_PATH_PARAM_A_PATH_PARAM_B");
     }
-    pub(crate) static ID_MULTIPLE_AUTH_SCHEME: usize = 10;
-    pub(crate) static ID_ONE_OF: usize = 11;
-    pub(crate) static ID_OPERATION_TWO_FIRST_LETTER_HEADERS: usize = 12;
-    pub(crate) static ID_OVERRIDE_SERVER: usize = 13;
-    pub(crate) static ID_PARAMGET: usize = 14;
-    pub(crate) static ID_READONLY_AUTH_SCHEME: usize = 15;
-    pub(crate) static ID_REGISTER_CALLBACK: usize = 16;
-    pub(crate) static ID_REPOS: usize = 17;
-    pub(crate) static ID_REPOS_REPOID: usize = 18;
+    pub(crate) static ID_MULTIPLE_AUTH_SCHEME: usize = 11;
+    pub(crate) static ID_ONE_OF: usize = 12;
+    pub(crate) static ID_OPERATION_TWO_FIRST_LETTER_HEADERS: usize = 13;
+    pub(crate) static ID_OVERRIDE_SERVER: usize = 14;
+    pub(crate) static ID_PARAMGET: usize = 15;
+    pub(crate) static ID_READONLY_AUTH_SCHEME: usize = 16;
+    pub(crate) static ID_REGISTER_CALLBACK: usize = 17;
+    pub(crate) static ID_REPOS: usize = 18;
+    pub(crate) static ID_REPOS_REPOID: usize = 19;
     lazy_static! {
         pub static ref REGEX_REPOS_REPOID: regex::Regex =
             #[allow(clippy::invalid_regex)]
             regex::Regex::new(r"^/repos/(?P<repoId>[^/?#]*)$")
                 .expect("Unable to create regex for REPOS_REPOID");
     }
-    pub(crate) static ID_REQUIRED_OCTET_STREAM: usize = 19;
-    pub(crate) static ID_RESPONSES_WITH_HEADERS: usize = 20;
-    pub(crate) static ID_RFC7807: usize = 21;
-    pub(crate) static ID_UNTYPED_PROPERTY: usize = 22;
-    pub(crate) static ID_UUID: usize = 23;
-    pub(crate) static ID_XML: usize = 24;
-    pub(crate) static ID_XML_EXTRA: usize = 25;
-    pub(crate) static ID_XML_OTHER: usize = 26;
+    pub(crate) static ID_REQUIRED_OCTET_STREAM: usize = 20;
+    pub(crate) static ID_RESPONSES_WITH_HEADERS: usize = 21;
+    pub(crate) static ID_RFC7807: usize = 22;
+    pub(crate) static ID_UNTYPED_PROPERTY: usize = 23;
+    pub(crate) static ID_UUID: usize = 24;
+    pub(crate) static ID_XML: usize = 25;
+    pub(crate) static ID_XML_EXTRA: usize = 26;
+    pub(crate) static ID_XML_OTHER: usize = 27;
 }
 
 
@@ -419,6 +422,54 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         }
 
                                         Ok(response)
+            },
+
+            // FormTest - POST /form-test
+            hyper::Method::POST if path.matched(paths::ID_FORM_TEST) => {
+                // Handle body parameters (note that non-required body parameters will ignore garbage
+                // values, rather than causing a 400 response). Produce warning header and logs for
+                // any unused fields.
+                let result = body.into_raw().await;
+                match result {
+                     Ok(body) => {
+                                // Form parameters
+                                let param_required_array =
+                                    None;
+
+
+                                let result = api_impl.form_test(
+                                            param_required_array.as_ref(),
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                FormTestResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+                            },
+                            Err(e) => Ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(format!("Unable to read body: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body")),
+                        }
             },
 
             // GetWithBooleanParameter - GET /get-with-bool
@@ -2126,6 +2177,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             _ if path.matched(paths::ID_CALLBACK_WITH_HEADER) => method_not_allowed(),
             _ if path.matched(paths::ID_COMPLEX_QUERY_PARAM) => method_not_allowed(),
             _ if path.matched(paths::ID_ENUM_IN_PATH_PATH_PARAM) => method_not_allowed(),
+            _ if path.matched(paths::ID_FORM_TEST) => method_not_allowed(),
             _ if path.matched(paths::ID_GET_WITH_BOOL) => method_not_allowed(),
             _ if path.matched(paths::ID_JSON_COMPLEX_QUERY_PARAM) => method_not_allowed(),
             _ if path.matched(paths::ID_MANDATORY_REQUEST_HEADER) => method_not_allowed(),
@@ -2173,6 +2225,8 @@ impl<T> RequestParser<T> for ApiRequestParser {
             hyper::Method::POST if path.matched(paths::ID_CALLBACK_WITH_HEADER) => Some("CallbackWithHeaderPost"),
             // ComplexQueryParamGet - GET /complex-query-param
             hyper::Method::GET if path.matched(paths::ID_COMPLEX_QUERY_PARAM) => Some("ComplexQueryParamGet"),
+            // FormTest - POST /form-test
+            hyper::Method::POST if path.matched(paths::ID_FORM_TEST) => Some("FormTest"),
             // GetWithBooleanParameter - GET /get-with-bool
             hyper::Method::GET if path.matched(paths::ID_GET_WITH_BOOL) => Some("GetWithBooleanParameter"),
             // JsonComplexQueryParamGet - GET /json-complex-query-param
