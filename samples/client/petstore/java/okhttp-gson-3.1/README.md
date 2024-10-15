@@ -116,6 +116,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeInlineSchemaAnyofPath1Get**](docs/FakeApi.md#fakeInlineSchemaAnyofPath1Get) | **GET** /fake/inline/schema/anyof/path1 | 
 *FakeApi* | [**fakeInlineSchemaAnyofPath2Get**](docs/FakeApi.md#fakeInlineSchemaAnyofPath2Get) | **GET** /fake/inline/schema/anyof/path2 | 
 *FakeApi* | [**fakeInlineSchemaAnyofPath3Get**](docs/FakeApi.md#fakeInlineSchemaAnyofPath3Get) | **GET** /fake/inline/schema/anyof/path3 | 
+*FakeApi* | [**getPetById0**](docs/FakeApi.md#getPetById0) | **GET** /fake/duplicated/operationId | 
 *FakeApi* | [**op1**](docs/FakeApi.md#op1) | **POST** /fake/api/changeowner | op1
 *FakeApi* | [**op2**](docs/FakeApi.md#op2) | **POST** /fake/api/changename | op2
 *FakeApi* | [**op3**](docs/FakeApi.md#op3) | **POST** /fake/api/query/enum | op3
