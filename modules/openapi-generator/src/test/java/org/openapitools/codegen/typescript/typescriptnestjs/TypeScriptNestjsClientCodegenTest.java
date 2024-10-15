@@ -7,9 +7,15 @@ import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.TypeScriptNestjsClientCodegen;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -17,6 +23,7 @@ import org.testng.annotations.Test;
 
 @Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_NESTJS})
 public class TypeScriptNestjsClientCodegenTest {
+
     @Test
     public void testModelFileSuffix() {
         TypeScriptNestjsClientCodegen codegen = new TypeScriptNestjsClientCodegen();
@@ -30,12 +37,15 @@ public class TypeScriptNestjsClientCodegenTest {
     @Test
     public void testOperationIdParser() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
-        Operation operation1 = new Operation().operationId("123_test_@#$%_special_tags").responses(new ApiResponses().addApiResponse("201", new ApiResponse().description("OK")));
+        Operation operation1 = new Operation().operationId("123_test_@#$%_special_tags")
+            .responses(
+                new ApiResponses().addApiResponse("201", new ApiResponse().description("OK")));
         openAPI.path("another-fake/dummy/", new PathItem().get(operation1));
         final TypeScriptNestjsClientCodegen codegen = new TypeScriptNestjsClientCodegen();
         codegen.setOpenAPI(openAPI);
 
-        CodegenOperation co1 = codegen.fromOperation("/another-fake/dummy/", "get", operation1, null);
+        CodegenOperation co1 = codegen.fromOperation("/another-fake/dummy/", "get", operation1,
+            null);
         org.testng.Assert.assertEquals(co1.operationId, "_123testSpecialTags");
 
     }
@@ -132,6 +142,42 @@ public class TypeScriptNestjsClientCodegenTest {
 
         String schemaType = codegen.getSchemaType(composedSchema);
         Assert.assertEquals(schemaType, "SchemaOne | SchemaTwo | SchemaThree");
+    }
+
+    @Test
+    public void testPathPropertyName() {
+        TypeScriptNestjsClientCodegen codegen = new TypeScriptNestjsClientCodegen();
+
+        CodegenOperation codegenOperation = new CodegenOperation();
+
+        CodegenParameter pathParam1 = createPathParam("path-param1", "pathParam1");
+        CodegenParameter pathParam2 = createPathParam("pathParam2", "pathParam2");
+
+        codegenOperation.httpMethod = "GET";
+        codegenOperation.path = "test/{pathParam1}/{pathParam2}";
+        codegenOperation.allParams.addAll(Arrays.asList(pathParam1, pathParam2));
+
+        OperationMap operations = new OperationMap();
+        operations.setOperation(codegenOperation);
+        operations.setClassname("TestService");
+
+        OperationsMap objs = new OperationsMap();
+        objs.setOperation(operations);
+        objs.setImports(List.of());
+
+        var res = codegen.postProcessOperationsWithModels(objs, Collections.emptyList());
+
+        Assert.assertEquals(res.getOperations().getOperation().get(0).path,
+            "test/${encodeURIComponent(String(pathParam1))}/${encodeURIComponent(String(pathParam2))}");
+    }
+
+    private CodegenParameter createPathParam(String paramName, String baseName) {
+        CodegenParameter codegenParameter = new CodegenParameter();
+        codegenParameter.paramName = paramName;
+        codegenParameter.baseName = baseName;
+        codegenParameter.dataType = "String";
+        codegenParameter.isPathParam = true;
+        return codegenParameter;
     }
 
 }
