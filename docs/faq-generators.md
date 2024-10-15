@@ -100,9 +100,9 @@ There is a new `swift6` generator, that is currently in beta, try it and give us
 
 ### How do I implement bearer token authentication with URLSession on the Swift 5 API client?
 
-<details>
-  <summary>First you subclass RequestBuilderFactory</summary>
+First you subclass RequestBuilderFactory
 
+```
     class BearerRequestBuilderFactory: RequestBuilderFactory {
         func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
             BearerRequestBuilder<T>.self
@@ -112,11 +112,10 @@ There is a new `swift6` generator, that is currently in beta, try it and give us
             BearerDecodableRequestBuilder<T>.self
         }
     }
-</details>
+```
 
-<details>
-  <summary>Then you subclass URLSessionRequestBuilder and URLSessionDecodableRequestBuilder </summary>
-
+Then you subclass URLSessionRequestBuilder and URLSessionDecodableRequestBuilder
+```
     class BearerRequestBuilder<T>: URLSessionRequestBuilder<T> {
         @discardableResult
         override func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
@@ -245,8 +244,7 @@ There is a new `swift6` generator, that is currently in beta, try it and give us
             completionHandler()
         }
     }
-
-</details>
+```
 
 Then you assign the `BearerRequestBuilderFactory` to the property `requestBuilderFactory`.
 
@@ -260,9 +258,9 @@ Here is a working sample that put's together all of this.
 
 ### How do I implement bearer token authentication with Alamofire on the Swift 5 API client?
 
-<details>
-  <summary>First you subclass RequestBuilderFactory</summary>
+First you subclass RequestBuilderFactory
 
+```
     class BearerRequestBuilderFactory: RequestBuilderFactory {
         func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
             BearerRequestBuilder<T>.self
@@ -272,11 +270,10 @@ Here is a working sample that put's together all of this.
             BearerDecodableRequestBuilder<T>.self
         }
     }
-</details>
+```
 
-<details>
-  <summary>Then you subclass AlamofireRequestBuilder and AlamofireDecodableRequestBuilder</summary>
-
+Then you subclass AlamofireRequestBuilder and AlamofireDecodableRequestBuilder
+```
     class BearerRequestBuilder<T>: AlamofireRequestBuilder<T> {
         override func createSessionManager() -> SessionManager {
             let sessionManager = super.createSessionManager()
@@ -334,7 +331,7 @@ Here is a working sample that put's together all of this.
             completionHandler(true)
         }
     }
-</details>
+```
 
 Then you assign the `BearerRequestBuilderFactory` to the property `requestBuilderFactory`.
 
@@ -348,8 +345,8 @@ Here is a working sample that put's together all of this.
 
 ### How do I implement bearer token authentication with URLSession on the Swift 6 API client?
 
-<details>
-  <summary>First you implement the `OpenAPIInterceptor` protocol.</summary>
+First you implement the `OpenAPIInterceptor` protocol.
+```
 public class BearerOpenAPIInterceptor: OpenAPIInterceptor {
     public init() {}
     
@@ -419,7 +416,7 @@ public class BearerOpenAPIInterceptor: OpenAPIInterceptor {
         completionHandler(dummyBearerToken)
     }
 }
-</details>
+```
 
 Then you assign the `BearerOpenAPIInterceptor` to the property `OpenAPIClient.shared.interceptor`.
 
@@ -431,8 +428,8 @@ Here is a working sample that put's together all of this.
 
 ### How do I implement bearer token authentication with Alamofire on the Swift 6 API client?
 
-<details>
-  <summary>First implement the `Alamofire` `RequestInterceptor` protocol.</summary>
+First implement the `Alamofire` `RequestInterceptor` protocol.
+```
 class BearerTokenHandler: RequestInterceptor, @unchecked Sendable {
     private var bearerToken: String? = nil
     
@@ -468,7 +465,7 @@ class BearerTokenHandler: RequestInterceptor, @unchecked Sendable {
         completionHandler(true)
     }
 }
-</details>
+```
 
 Then you assign the `BearerTokenHandler` to the property `OpenAPIClient.shared.interceptor`.
 
