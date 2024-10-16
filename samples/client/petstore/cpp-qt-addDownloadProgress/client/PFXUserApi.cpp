@@ -35,6 +35,10 @@ void PFXUserApi::initializeServerConfigs() {
     QUrl("http://petstore.swagger.io/v2"),
     "No description provided",
     QMap<QString, PFXServerVariable>()));
+    defaultConf.append(PFXServerConfiguration(
+    QUrl("http://localhost:8080/v2"),
+    "No description provided",
+    QMap<QString, PFXServerVariable>()));
     _serverConfigs.insert("createUser", defaultConf);
     _serverIndices.insert("createUser", 0);
     _serverConfigs.insert("createUsersWithArrayInput", defaultConf);

@@ -572,6 +572,7 @@ paths:
           description: User not found
 servers:
   - url: http://petstore.swagger.io/v2
+  - url: http://localhost:8080/v2
 components:
   requestBodies:
     UserArray:
