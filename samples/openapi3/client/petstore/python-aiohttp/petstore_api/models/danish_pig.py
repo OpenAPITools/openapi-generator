@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List
+from typing import Any, ClassVar, Dict, List, Literal
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -26,7 +26,7 @@ class DanishPig(BaseModel):
     """
     DanishPig
     """ # noqa: E501
-    class_name: StrictStr = Field(alias="className")
+    class_name: Literal["DanishPig"] = Field(default="DanishPig", alias="className")
     size: StrictInt
     __properties: ClassVar[List[str]] = ["className", "size"]
 
