@@ -138,55 +138,13 @@ Authentication schemes defined for the API:
 - **Type**: HTTP basic authentication
 
 
+# How do I migrate from the Swift 5 generator to the swift 6 generator?
+
+https://openapi-generator.tech/docs/faq-generators#how-do-i-migrate-from-the-swift-5-generator-to-the-swift-6-generator
+
 ### How do I implement bearer token authentication with Alamofire on the Swift 6 API client?
 
-First implement the `Alamofire` `RequestInterceptor` protocol.
-```
-class BearerTokenHandler: RequestInterceptor, @unchecked Sendable {
-    private var bearerToken: String? = nil
-    
-    func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
-        if let bearerToken = bearerToken {
-            var urlRequest = urlRequest
-            urlRequest.setValue("Bearer \(bearerToken)", forHTTPHeaderField: "Authorization")
-            
-            completion(.success(urlRequest))
-            return
-        }
-        
-        completion(.success(urlRequest))
-    }
-    
-    func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
-        if let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401 {
-            startRefreshingToken { isTokenRefreshed in
-                completion(.retry)
-            }
-        } else {
-            completion(.doNotRetryWithError(error))
-        }
-    }
-    
-    private func startRefreshingToken(completionHandler: @escaping (Bool) -> Void) {
-        // Get a bearer token
-        let dummyBearerToken = "..."
-        
-        bearerToken = dummyBearerToken
-        OpenAPIClient.shared.customHeaders["Authorization"] = "Bearer \(dummyBearerToken)"
-        
-        completionHandler(true)
-    }
-}
-
-```
-
-Then you assign the `BearerTokenHandler` to the property `OpenAPIClient.shared.interceptor`.
-
-`OpenAPIClient.shared.interceptor = BearerTokenHandler()`
-
-Here is a working sample that put's together all of this.
-[AppDelegate.swift](https://github.com/OpenAPITools/openapi-generator/blob/master/samples/client/petstore/swift6/alamofireLibrary/SwaggerClientTests/SwaggerClient/AppDelegate.swift)
-[BearerTokenHandler.swift](https://github.com/OpenAPITools/openapi-generator/blob/master/samples/client/petstore/swift6/alamofireLibrary/SwaggerClientTests/SwaggerClient/BearerTokenHandler.swift)
+https://openapi-generator.tech/docs/faq-generators#how-do-i-implement-bearer-token-authentication-with-alamofire-on-the-swift-6-api-client
 
 ## Author
 
