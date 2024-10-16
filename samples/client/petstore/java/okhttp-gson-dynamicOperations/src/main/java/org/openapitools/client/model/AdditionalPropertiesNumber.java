@@ -53,12 +53,13 @@ import org.openapitools.client.JSON;
 public class AdditionalPropertiesNumber {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nullable
   private String name;
 
   public AdditionalPropertiesNumber() {
   }
 
-  public AdditionalPropertiesNumber name(String name) {
+  public AdditionalPropertiesNumber name(@javax.annotation.Nullable String name) {
     this.name = name;
     return this;
   }
@@ -72,7 +73,7 @@ public class AdditionalPropertiesNumber {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
 

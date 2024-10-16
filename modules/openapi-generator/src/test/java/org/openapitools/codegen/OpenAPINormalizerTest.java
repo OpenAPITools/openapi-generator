@@ -108,15 +108,6 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
-    public void isNullTypeSchemaTest() {
-        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyOneOfAnyOf_test.yaml");
-        Map<String, String> options = new HashMap<>();
-        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
-        Schema schema = openAPI.getComponents().getSchemas().get("AnyOfStringArrayOfString");
-        assertFalse(openAPINormalizer.isNullTypeSchema(openAPI, schema));
-    }
-
-    @Test
     public void testOpenAPINormalizerSimplifyOneOfAnyOf() {
         // to test the rule SIMPLIFY_ONEOF_ANYOF
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyOneOfAnyOf_test.yaml");

@@ -34,21 +34,24 @@ import org.openapitools.client.model.Query;
 public class DataQuery extends Query {
   public static final String SERIALIZED_NAME_SUFFIX = "suffix";
   @SerializedName(SERIALIZED_NAME_SUFFIX)
+  @javax.annotation.Nullable
   private String suffix;
 
   public static final String SERIALIZED_NAME_TEXT = "text";
   @SerializedName(SERIALIZED_NAME_TEXT)
+  @javax.annotation.Nullable
   private String text;
 
   public static final String SERIALIZED_NAME_DATE = "date";
   @SerializedName(SERIALIZED_NAME_DATE)
+  @javax.annotation.Nullable
   private OffsetDateTime date;
 
   public DataQuery() {
 
   }
 
-  public DataQuery suffix(String suffix) {
+  public DataQuery suffix(@javax.annotation.Nullable String suffix) {
     
     this.suffix = suffix;
     return this;
@@ -65,12 +68,12 @@ public class DataQuery extends Query {
   }
 
 
-  public void setSuffix(String suffix) {
+  public void setSuffix(@javax.annotation.Nullable String suffix) {
     this.suffix = suffix;
   }
 
 
-  public DataQuery text(String text) {
+  public DataQuery text(@javax.annotation.Nullable String text) {
     
     this.text = text;
     return this;
@@ -87,12 +90,12 @@ public class DataQuery extends Query {
   }
 
 
-  public void setText(String text) {
+  public void setText(@javax.annotation.Nullable String text) {
     this.text = text;
   }
 
 
-  public DataQuery date(OffsetDateTime date) {
+  public DataQuery date(@javax.annotation.Nullable OffsetDateTime date) {
     
     this.date = date;
     return this;
@@ -109,7 +112,7 @@ public class DataQuery extends Query {
   }
 
 
-  public void setDate(OffsetDateTime date) {
+  public void setDate(@javax.annotation.Nullable OffsetDateTime date) {
     this.date = date;
   }
 

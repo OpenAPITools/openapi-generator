@@ -32,18 +32,22 @@ import org.hibernate.validator.constraints.*;
 public class Name {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nonnull
   private Integer name;
 
   public static final String SERIALIZED_NAME_SNAKE_CASE = "snake_case";
   @SerializedName(SERIALIZED_NAME_SNAKE_CASE)
+  @javax.annotation.Nullable
   private Integer snakeCase;
 
   public static final String SERIALIZED_NAME_PROPERTY = "property";
   @SerializedName(SERIALIZED_NAME_PROPERTY)
+  @javax.annotation.Nullable
   private String property;
 
   public static final String SERIALIZED_NAME_123NUMBER = "123Number";
   @SerializedName(SERIALIZED_NAME_123NUMBER)
+  @javax.annotation.Nullable
   private Integer _123number;
 
   public Name() {
@@ -61,7 +65,7 @@ public class Name {
     this._123number = _123number;
   }
 
-  public Name name(Integer name) {
+  public Name name(@javax.annotation.Nonnull Integer name) {
     
     this.name = name;
     return this;
@@ -80,7 +84,7 @@ public class Name {
   }
 
 
-  public void setName(Integer name) {
+  public void setName(@javax.annotation.Nonnull Integer name) {
     this.name = name;
   }
 
@@ -97,7 +101,7 @@ public class Name {
 
 
 
-  public Name property(String property) {
+  public Name property(@javax.annotation.Nullable String property) {
     
     this.property = property;
     return this;
@@ -115,7 +119,7 @@ public class Name {
   }
 
 
-  public void setProperty(String property) {
+  public void setProperty(@javax.annotation.Nullable String property) {
     this.property = property;
   }
 

@@ -138,6 +138,14 @@ Authentication schemes defined for the API:
 - **Type**: HTTP basic authentication
 
 
+# How do I migrate from the Swift 5 generator to the swift 6 generator?
+
+https://openapi-generator.tech/docs/faq-generators#how-do-i-migrate-from-the-swift-5-generator-to-the-swift-6-generator
+
+### How do I implement bearer token authentication with Alamofire on the Swift 6 API client?
+
+https://openapi-generator.tech/docs/faq-generators#how-do-i-implement-bearer-token-authentication-with-alamofire-on-the-swift-6-api-client
+
 ## Author
 
 

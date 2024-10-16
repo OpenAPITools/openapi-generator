@@ -493,9 +493,61 @@ public class OpenAPINormalizer {
                     }
                 }
 
+                // auto fix self reference schema to avoid stack overflow
+                fixSelfReferenceSchema(schemaName, schema);
+
                 // normalize the schemas
                 schemas.put(schemaName, normalizeSchema(schema, new HashSet<>()));
             }
+        }
+    }
+
+    /**
+     * Auto fix a self referencing schema using any type to replace the self-referencing sub-item.
+     *
+     * @param name           Schema name
+     * @param schema         Schema
+     */
+    public void fixSelfReferenceSchema(String name, Schema schema) {
+        if (ModelUtils.isArraySchema(schema)) {
+            if (isSelfReference(name, schema.getItems())) {
+                LOGGER.error("Array schema {} has a sub-item referencing itself. Worked around the self-reference schema using any type instead.", name);
+                schema.setItems(new Schema<>());
+            }
+        }
+
+        if (ModelUtils.isOneOf(schema)) {
+            for (int i = 0; i < schema.getOneOf().size(); i++) {
+                if (isSelfReference(name, (Schema) schema.getOneOf().get(i))) {
+                    LOGGER.error("oneOf schema {} has a sub-item referencing itself. Worked around the self-reference schema by removing it.", name);
+                    schema.getOneOf().remove(i);
+                }
+            }
+        }
+
+        if (ModelUtils.isAnyOf(schema)) {
+            for (int i = 0; i < schema.getAnyOf().size(); i++) {
+                if (isSelfReference(name, (Schema) schema.getAnyOf().get(i))) {
+                    LOGGER.error("anyOf schema {} has a sub-item referencing itself. Worked around the self-reference schema by removing it.", name);
+                    schema.getAnyOf().remove(i);
+                }
+            }
+        }
+
+        if (schema.getAdditionalProperties() != null && schema.getAdditionalProperties() instanceof Schema) {
+            if (isSelfReference(name, (Schema) schema.getAdditionalProperties())) {
+                LOGGER.error("Schema {} (with additional properties) has a sub-item referencing itself. Worked around the self-reference schema using any type instead.", name);
+                schema.setAdditionalProperties(new Schema<>());
+            }
+        }
+
+    }
+
+    private boolean isSelfReference(String name, Schema subSchema) {
+        if (subSchema != null && name.equals(ModelUtils.getSimpleRef(subSchema.get$ref()))) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -899,68 +951,7 @@ public class OpenAPINormalizer {
         return result;
     }
 
-    /**
-     * Check if the schema is of type 'null' or schema itself is pointing to null
-     * <p>
-     * Return true if the schema's type is 'null' or not specified
-     *
-     * @param schema Schema
-     * @param openAPI OpenAPI
-     *
-     * @return true if schema is null type
-     */
-    public boolean isNullTypeSchema(OpenAPI openAPI, Schema schema) {
-        if (schema == null) {
-            return true;
-        }
 
-        // dereference the schema
-        schema = ModelUtils.getReferencedSchema(openAPI, schema);
-
-        // allOf/anyOf/oneOf
-        if (ModelUtils.hasAllOf(schema) || ModelUtils.hasOneOf(schema) || ModelUtils.hasAnyOf(schema)) {
-            return false;
-        }
-
-        // schema with properties
-        if (schema.getProperties() != null) {
-            return false;
-        }
-
-        // convert referenced enum of null only to `nullable:true`
-        if (schema.getEnum() != null && schema.getEnum().size() == 1) {
-            if ("null".equals(String.valueOf(schema.getEnum().get(0)))) {
-                return true;
-            }
-        }
-
-        if (schema.getTypes() != null && !schema.getTypes().isEmpty()) {
-            // 3.1 spec
-            if (schema.getTypes().size() == 1) { // 1 type only
-                String type = (String) schema.getTypes().iterator().next();
-                return type == null || "null".equals(type);
-            } else { // more than 1 type so must not be just null
-                return false;
-            }
-        }
-
-        if (schema instanceof JsonSchema) { // 3.1 spec
-            if (Boolean.TRUE.equals(schema.getNullable())) {
-                return true;
-            }
-
-            // for `type: null`
-            if (schema.getTypes() == null && schema.get$ref() == null) {
-                return true;
-            }
-        } else { // 3.0.x or 2.x spec
-            if ((schema.getType() == null || schema.getType().equals("null")) && schema.get$ref() == null) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 
     /**
      * If the schema is oneOf and the sub-schemas is null, set `nullable: true`
@@ -1004,7 +995,7 @@ public class OpenAPINormalizer {
                 }
             }
 
-            if (oneOfSchemas.removeIf(oneOf -> isNullTypeSchema(openAPI, oneOf))) {
+            if (oneOfSchemas.removeIf(oneOf -> ModelUtils.isNullTypeSchema(openAPI, oneOf))) {
                 schema.setNullable(true);
 
                 // if only one element left, simplify to just the element (schema)
@@ -1140,7 +1131,7 @@ public class OpenAPINormalizer {
                 }
             }
 
-            if (anyOfSchemas.removeIf(anyOf -> isNullTypeSchema(openAPI, anyOf))) {
+            if (anyOfSchemas.removeIf(anyOf -> ModelUtils.isNullTypeSchema(openAPI, anyOf))) {
                 schema.setNullable(true);
             }
 

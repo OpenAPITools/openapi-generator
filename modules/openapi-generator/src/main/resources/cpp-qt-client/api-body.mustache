@@ -23,9 +23,6 @@ void {{classname}}::initializeServerConfigs() {
     //Default server
     QList<{{prefix}}ServerConfiguration> defaultConf = QList<{{prefix}}ServerConfiguration>();
     //varying endpoint server
-    {{#servers}}
-    QList<{{prefix}}ServerConfiguration> serverConf = QList<{{prefix}}ServerConfiguration>();
-    {{/servers}}
 {{#vendorExtensions.x-cpp-global-server-list}}
     defaultConf.append({{prefix}}ServerConfiguration(
     QUrl("{{{url}}}"),
@@ -42,15 +39,18 @@ void {{classname}}::initializeServerConfigs() {
     _serverIndices.insert("{{nickname}}", 0);
     {{/servers}}
     {{#servers}}
-    serverConf.append({{prefix}}ServerConfiguration(
-    QUrl("{{{url}}}"),
-    "{{{description}}}{{^description}}No description provided{{/description}}",
-    {{#variables}}{{#-first}}QMap<QString, {{prefix}}ServerVariable>{ {{/-first}}
-    {"{{{name}}}", {{prefix}}ServerVariable("{{{description}}}{{^description}}No description provided{{/description}}","{{{defaultValue}}}",
-    QSet<QString>{ {{#enumValues}}{"{{{.}}}"}{{#-last}} })}, {{/-last}}{{^-last}},{{/-last}}{{/enumValues}}{{^enumValues}}{"{{defaultValue}}"} })},{{/enumValues}}{{#-last}} }));{{/-last}}
-    {{/variables}}{{^variables}}QMap<QString, {{prefix}}ServerVariable>()));{{/variables}}
-    {{#-last}}_serverConfigs.insert("{{nickname}}", serverConf);
-    _serverIndices.insert("{{nickname}}", 0);{{/-last}}
+    {
+        QList<{{prefix}}ServerConfiguration> serverConf = QList<{{prefix}}ServerConfiguration>();
+        serverConf.append({{prefix}}ServerConfiguration(
+        QUrl("{{{url}}}"),
+        "{{{description}}}{{^description}}No description provided{{/description}}",
+        {{#variables}}{{#-first}}QMap<QString, {{prefix}}ServerVariable>{ {{/-first}}
+        {"{{{name}}}", {{prefix}}ServerVariable("{{{description}}}{{^description}}No description provided{{/description}}","{{{defaultValue}}}",
+        QSet<QString>{ {{#enumValues}}{"{{{.}}}"}{{#-last}} })}, {{/-last}}{{^-last}},{{/-last}}{{/enumValues}}{{^enumValues}}{"{{defaultValue}}"} })},{{/enumValues}}{{#-last}} }));{{/-last}}
+        {{/variables}}{{^variables}}QMap<QString, {{prefix}}ServerVariable>()));{{/variables}}
+        {{#-last}}_serverConfigs.insert("{{nickname}}", serverConf);
+        _serverIndices.insert("{{nickname}}", 0);{{/-last}}
+    }
 {{/servers}}
 {{/operation}}
 {{/operations}}
@@ -664,7 +664,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     connect(worker, &{{prefix}}HttpRequestWorker::downloadProgress, this, &{{classname}}::{{nickname}}Progress);{{/addDownloadProgress}}
     connect(worker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
     connect(this, &{{classname}}::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<{{prefix}}HttpRequestWorker*>().count() == 0) {
             Q_EMIT allPendingRequestsCompleted();
         }
@@ -690,7 +690,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
 
     connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
     connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
-    connect(_latestWorker, &QObject::destroyed, [this](){
+    connect(_latestWorker, &QObject::destroyed, this, [this] {
         if(findChildren<{{prefix}}HttpRequestWorker*>().count() == 0){
             Q_EMIT allPendingRequestsCompleted();
         }
@@ -720,7 +720,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
 
     connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
     connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
-    connect(_latestWorker, &QObject::destroyed, [this](){
+    connect(_latestWorker, &QObject::destroyed, this, [this] {
         if(findChildren<{{prefix}}HttpRequestWorker*>().count() == 0){
             Q_EMIT allPendingRequestsCompleted();
         }
@@ -750,7 +750,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
 
     connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
     connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
-    connect(_latestWorker, &QObject::destroyed, [this](){
+    connect(_latestWorker, &QObject::destroyed, this, [this] {
         if(findChildren<{{prefix}}HttpRequestWorker*>().count() == 0){
             Q_EMIT allPendingRequestsCompleted();
         }
@@ -780,7 +780,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
 
     connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
     connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
-    connect(_latestWorker, &QObject::destroyed, [this](){
+    connect(_latestWorker, &QObject::destroyed, this, [this] {
         if(findChildren<{{prefix}}HttpRequestWorker*>().count() == 0){
             Q_EMIT allPendingRequestsCompleted();
         }

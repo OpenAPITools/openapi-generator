@@ -71,6 +71,7 @@ public class EnumArrays {
   }
 
   public static final String JSON_PROPERTY_JUST_SYMBOL = "just_symbol";
+  @jakarta.annotation.Nullable
   private JustSymbolEnum justSymbol;
 
   /**
@@ -109,12 +110,13 @@ public class EnumArrays {
   }
 
   public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
+  @jakarta.annotation.Nullable
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays() {
   }
 
-  public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
+  public EnumArrays justSymbol(@jakarta.annotation.Nullable JustSymbolEnum justSymbol) {
     
     this.justSymbol = justSymbol;
     return this;
@@ -135,11 +137,11 @@ public class EnumArrays {
 
   @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setJustSymbol(JustSymbolEnum justSymbol) {
+  public void setJustSymbol(@jakarta.annotation.Nullable JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
   }
 
-  public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
+  public EnumArrays arrayEnum(@jakarta.annotation.Nullable List<ArrayEnumEnum> arrayEnum) {
     
     this.arrayEnum = arrayEnum;
     return this;
@@ -168,7 +170,7 @@ public class EnumArrays {
 
   @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
+  public void setArrayEnum(@jakarta.annotation.Nullable List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
 

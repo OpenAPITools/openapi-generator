@@ -29,20 +29,23 @@ import java.io.IOException;
 public class ModelApiResponse {
   public static final String SERIALIZED_NAME_CODE = "code";
   @SerializedName(SERIALIZED_NAME_CODE)
+  @javax.annotation.Nullable
   private Integer code;
 
   public static final String SERIALIZED_NAME_TYPE = "type";
   @SerializedName(SERIALIZED_NAME_TYPE)
+  @javax.annotation.Nullable
   private String type;
 
   public static final String SERIALIZED_NAME_MESSAGE = "message";
   @SerializedName(SERIALIZED_NAME_MESSAGE)
+  @javax.annotation.Nullable
   private String message;
 
   public ModelApiResponse() {
   }
 
-  public ModelApiResponse code(Integer code) {
+  public ModelApiResponse code(@javax.annotation.Nullable Integer code) {
     
     this.code = code;
     return this;
@@ -59,11 +62,11 @@ public class ModelApiResponse {
   }
 
 
-  public void setCode(Integer code) {
+  public void setCode(@javax.annotation.Nullable Integer code) {
     this.code = code;
   }
 
-  public ModelApiResponse type(String type) {
+  public ModelApiResponse type(@javax.annotation.Nullable String type) {
     
     this.type = type;
     return this;
@@ -80,11 +83,11 @@ public class ModelApiResponse {
   }
 
 
-  public void setType(String type) {
+  public void setType(@javax.annotation.Nullable String type) {
     this.type = type;
   }
 
-  public ModelApiResponse message(String message) {
+  public ModelApiResponse message(@javax.annotation.Nullable String message) {
     
     this.message = message;
     return this;
@@ -101,7 +104,7 @@ public class ModelApiResponse {
   }
 
 
-  public void setMessage(String message) {
+  public void setMessage(@javax.annotation.Nullable String message) {
     this.message = message;
   }
 

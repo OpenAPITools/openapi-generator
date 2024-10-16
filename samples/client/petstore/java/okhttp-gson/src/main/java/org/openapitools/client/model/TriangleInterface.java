@@ -52,12 +52,13 @@ import org.openapitools.client.JSON;
 public class TriangleInterface {
   public static final String SERIALIZED_NAME_TRIANGLE_TYPE = "triangleType";
   @SerializedName(SERIALIZED_NAME_TRIANGLE_TYPE)
+  @javax.annotation.Nonnull
   private String triangleType;
 
   public TriangleInterface() {
   }
 
-  public TriangleInterface triangleType(String triangleType) {
+  public TriangleInterface triangleType(@javax.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
     return this;
   }
@@ -71,7 +72,7 @@ public class TriangleInterface {
     return triangleType;
   }
 
-  public void setTriangleType(String triangleType) {
+  public void setTriangleType(@javax.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
   }
 

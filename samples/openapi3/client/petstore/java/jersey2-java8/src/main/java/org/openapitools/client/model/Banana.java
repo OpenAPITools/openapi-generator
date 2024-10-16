@@ -37,12 +37,13 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Banana {
   public static final String JSON_PROPERTY_LENGTH_CM = "lengthCm";
+  @javax.annotation.Nullable
   private BigDecimal lengthCm;
 
   public Banana() { 
   }
 
-  public Banana lengthCm(BigDecimal lengthCm) {
+  public Banana lengthCm(@javax.annotation.Nullable BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
     return this;
   }
@@ -62,7 +63,7 @@ public class Banana {
 
   @JsonProperty(JSON_PROPERTY_LENGTH_CM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setLengthCm(BigDecimal lengthCm) {
+  public void setLengthCm(@javax.annotation.Nullable BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
   }
 

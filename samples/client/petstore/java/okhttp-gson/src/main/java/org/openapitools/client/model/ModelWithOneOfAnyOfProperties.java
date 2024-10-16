@@ -54,16 +54,18 @@ import org.openapitools.client.JSON;
 public class ModelWithOneOfAnyOfProperties {
   public static final String SERIALIZED_NAME_ONEOF_PROP = "oneof_prop";
   @SerializedName(SERIALIZED_NAME_ONEOF_PROP)
+  @javax.annotation.Nullable
   private ArrayOneOf oneofProp;
 
   public static final String SERIALIZED_NAME_ANYOF_PROP = "anyof_prop";
   @SerializedName(SERIALIZED_NAME_ANYOF_PROP)
+  @javax.annotation.Nullable
   private ArrayAnyOf anyofProp;
 
   public ModelWithOneOfAnyOfProperties() {
   }
 
-  public ModelWithOneOfAnyOfProperties oneofProp(ArrayOneOf oneofProp) {
+  public ModelWithOneOfAnyOfProperties oneofProp(@javax.annotation.Nullable ArrayOneOf oneofProp) {
     this.oneofProp = oneofProp;
     return this;
   }
@@ -77,12 +79,12 @@ public class ModelWithOneOfAnyOfProperties {
     return oneofProp;
   }
 
-  public void setOneofProp(ArrayOneOf oneofProp) {
+  public void setOneofProp(@javax.annotation.Nullable ArrayOneOf oneofProp) {
     this.oneofProp = oneofProp;
   }
 
 
-  public ModelWithOneOfAnyOfProperties anyofProp(ArrayAnyOf anyofProp) {
+  public ModelWithOneOfAnyOfProperties anyofProp(@javax.annotation.Nullable ArrayAnyOf anyofProp) {
     this.anyofProp = anyofProp;
     return this;
   }
@@ -96,7 +98,7 @@ public class ModelWithOneOfAnyOfProperties {
     return anyofProp;
   }
 
-  public void setAnyofProp(ArrayAnyOf anyofProp) {
+  public void setAnyofProp(@javax.annotation.Nullable ArrayAnyOf anyofProp) {
     this.anyofProp = anyofProp;
   }
 

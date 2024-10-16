@@ -144,7 +144,6 @@ open class AnotherFakeAPI {
      - PATCH /another-fake/dummy
      - To test special tags and operation ID starting with number
      - parameter body: (body) client model 
-     
      - returns: RequestBuilder<Client> 
      */
     open func call123testSpecialTagsWithRequestBuilder(body: Client) -> RequestBuilder<Client> {

@@ -131,7 +131,7 @@ public class Cat extends Animal {
     }
 
     protected Builder copyOf(Cat value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       this.instance.setDeclawed(value.declawed);
       return this;
     }

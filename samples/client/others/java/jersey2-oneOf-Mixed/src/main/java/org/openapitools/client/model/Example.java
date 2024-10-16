@@ -216,9 +216,9 @@ public class Example extends AbstractOpenApiSchema {
      * @return The actual instance of `List<Integer>`
      * @throws ClassCastException if the instance is not `List<Integer>`
      */
-        public List<Integer> getListInteger() throws ClassCastException {
+    public List<Integer> getListInteger() throws ClassCastException {
         return (List<Integer>)super.getActualInstance();
-        }
+    }
 
 }
 

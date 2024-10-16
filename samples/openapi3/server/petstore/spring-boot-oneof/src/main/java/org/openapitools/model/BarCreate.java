@@ -188,7 +188,7 @@ public class BarCreate extends Entity {
     }
 
     protected Builder copyOf(BarCreate value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       this.instance.setBarPropA(value.barPropA);
       this.instance.setFooPropB(value.fooPropB);
       this.instance.setFoo(value.foo);

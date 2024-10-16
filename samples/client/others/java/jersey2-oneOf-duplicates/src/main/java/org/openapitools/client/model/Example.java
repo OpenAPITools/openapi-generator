@@ -196,9 +196,9 @@ public class Example extends AbstractOpenApiSchema {
      * @return The actual instance of `List<BigDecimal>`
      * @throws ClassCastException if the instance is not `List<BigDecimal>`
      */
-        public List<BigDecimal> getListBigDecimal() throws ClassCastException {
+    public List<BigDecimal> getListBigDecimal() throws ClassCastException {
         return (List<BigDecimal>)super.getActualInstance();
-        }
+    }
 
     /**
      * Get the actual instance of `List<Integer>`. If the actual instance is not `List<Integer>`,
@@ -207,9 +207,9 @@ public class Example extends AbstractOpenApiSchema {
      * @return The actual instance of `List<Integer>`
      * @throws ClassCastException if the instance is not `List<Integer>`
      */
-        public List<Integer> getListInteger() throws ClassCastException {
+    public List<Integer> getListInteger() throws ClassCastException {
         return (List<Integer>)super.getActualInstance();
-        }
+    }
 
 }
 

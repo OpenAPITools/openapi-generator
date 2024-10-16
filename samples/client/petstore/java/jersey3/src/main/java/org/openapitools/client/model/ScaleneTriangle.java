@@ -42,15 +42,17 @@ import org.openapitools.client.JSON;
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ScaleneTriangle {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
+  @jakarta.annotation.Nonnull
   private String shapeType;
 
   public static final String JSON_PROPERTY_TRIANGLE_TYPE = "triangleType";
+  @jakarta.annotation.Nonnull
   private String triangleType;
 
   public ScaleneTriangle() { 
   }
 
-  public ScaleneTriangle shapeType(String shapeType) {
+  public ScaleneTriangle shapeType(@jakarta.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
     return this;
   }
@@ -72,12 +74,12 @@ public class ScaleneTriangle {
 
   @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setShapeType(String shapeType) {
+  public void setShapeType(@jakarta.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
   }
 
 
-  public ScaleneTriangle triangleType(String triangleType) {
+  public ScaleneTriangle triangleType(@jakarta.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
     return this;
   }
@@ -99,7 +101,7 @@ public class ScaleneTriangle {
 
   @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setTriangleType(String triangleType) {
+  public void setTriangleType(@jakarta.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
   }
 

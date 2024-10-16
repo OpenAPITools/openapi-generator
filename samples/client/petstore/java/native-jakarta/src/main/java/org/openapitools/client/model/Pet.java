@@ -47,18 +47,23 @@ import org.openapitools.client.ApiClient;
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Pet {
   public static final String JSON_PROPERTY_ID = "id";
+  @jakarta.annotation.Nullable
   private Long id;
 
   public static final String JSON_PROPERTY_CATEGORY = "category";
+  @jakarta.annotation.Nullable
   private Category category;
 
   public static final String JSON_PROPERTY_NAME = "name";
+  @jakarta.annotation.Nonnull
   private String name;
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
+  @jakarta.annotation.Nonnull
   private List<String> photoUrls = new ArrayList<>();
 
   public static final String JSON_PROPERTY_TAGS = "tags";
+  @jakarta.annotation.Nullable
   private List<Tag> tags = new ArrayList<>();
 
   /**
@@ -99,12 +104,13 @@ public class Pet {
   }
 
   public static final String JSON_PROPERTY_STATUS = "status";
+  @jakarta.annotation.Nullable
   private StatusEnum status;
 
   public Pet() { 
   }
 
-  public Pet id(Long id) {
+  public Pet id(@jakarta.annotation.Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -123,12 +129,12 @@ public class Pet {
 
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setId(Long id) {
+  public void setId(@jakarta.annotation.Nullable Long id) {
     this.id = id;
   }
 
 
-  public Pet category(Category category) {
+  public Pet category(@jakarta.annotation.Nullable Category category) {
     this.category = category;
     return this;
   }
@@ -147,12 +153,12 @@ public class Pet {
 
   @JsonProperty(JSON_PROPERTY_CATEGORY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCategory(Category category) {
+  public void setCategory(@jakarta.annotation.Nullable Category category) {
     this.category = category;
   }
 
 
-  public Pet name(String name) {
+  public Pet name(@jakarta.annotation.Nonnull String name) {
     this.name = name;
     return this;
   }
@@ -171,12 +177,12 @@ public class Pet {
 
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setName(String name) {
+  public void setName(@jakarta.annotation.Nonnull String name) {
     this.name = name;
   }
 
 
-  public Pet photoUrls(List<String> photoUrls) {
+  public Pet photoUrls(@jakarta.annotation.Nonnull List<String> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
@@ -203,12 +209,12 @@ public class Pet {
 
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setPhotoUrls(List<String> photoUrls) {
+  public void setPhotoUrls(@jakarta.annotation.Nonnull List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
 
-  public Pet tags(List<Tag> tags) {
+  public Pet tags(@jakarta.annotation.Nullable List<Tag> tags) {
     this.tags = tags;
     return this;
   }
@@ -235,12 +241,12 @@ public class Pet {
 
   @JsonProperty(JSON_PROPERTY_TAGS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setTags(List<Tag> tags) {
+  public void setTags(@jakarta.annotation.Nullable List<Tag> tags) {
     this.tags = tags;
   }
 
 
-  public Pet status(StatusEnum status) {
+  public Pet status(@jakarta.annotation.Nullable StatusEnum status) {
     this.status = status;
     return this;
   }
@@ -261,7 +267,7 @@ public class Pet {
 
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setStatus(StatusEnum status) {
+  public void setStatus(@jakarta.annotation.Nullable StatusEnum status) {
     this.status = status;
   }
 

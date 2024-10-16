@@ -270,8 +270,10 @@ extension {{projectName}}API {
      {{/externalDocs}}
      {{#allParams}}
      - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
-     {{/allParams}}{{#apiStaticMethod}}
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.{{/apiStaticMethod}}
+     {{/allParams}}
+     {{#apiStaticMethod}}
+     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     {{/apiStaticMethod}}
      - returns: RequestBuilder<{{{returnType}}}{{#returnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{description}}
      */
     {{#isDeprecated}}

@@ -52,13 +52,14 @@ import org.openapitools.client.JSON;
 public class GrandparentAnimal {
   public static final String SERIALIZED_NAME_PET_TYPE = "pet_type";
   @SerializedName(SERIALIZED_NAME_PET_TYPE)
+  @javax.annotation.Nonnull
   protected String petType;
 
   public GrandparentAnimal() {
     this.petType = this.getClass().getSimpleName();
   }
 
-  public GrandparentAnimal petType(String petType) {
+  public GrandparentAnimal petType(@javax.annotation.Nonnull String petType) {
     this.petType = petType;
     return this;
   }
@@ -72,7 +73,7 @@ public class GrandparentAnimal {
     return petType;
   }
 
-  public void setPetType(String petType) {
+  public void setPetType(@javax.annotation.Nonnull String petType) {
     this.petType = petType;
   }
 

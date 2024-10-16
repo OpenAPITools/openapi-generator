@@ -52,8 +52,6 @@ internal class URLSessionRequestBuilderFactory: RequestBuilderFactory {
     }
 }
 
-internal typealias PetstoreClientAPIChallengeHandler = ((URLSession, URLSessionTask, URLAuthenticationChallenge) -> (URLSession.AuthChallengeDisposition, URLCredential?))
-
 fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
     private init() {
         defaultURLSession = URLSession(configuration: .default, delegate: sessionDelegate, delegateQueue: nil)
@@ -67,19 +65,11 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
     // Store the URLSession to retain its reference
     let defaultURLSession: URLSession
 
-    // Store current taskDidReceiveChallenge for every URLSessionTask
-    var challengeHandlerStore = SynchronizedDictionary<Int, PetstoreClientAPIChallengeHandler>()
-
     // Store current URLCredential for every URLSessionTask
     var credentialStore = SynchronizedDictionary<Int, URLCredential>()
 }
 
 internal class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
-
-    /**
-     May be assigned if you want to control the authentication challenges.
-     */
-    internal var taskDidReceiveChallenge: PetstoreClientAPIChallengeHandler?
 
     required internal init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, openAPIClient: OpenAPIClient = OpenAPIClient.shared) {
         super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication, openAPIClient: openAPIClient)
@@ -187,7 +177,6 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendab
 
                     self.onProgressReady?(dataTask.progress)
 
-                    URLSessionRequestBuilderConfiguration.shared.challengeHandlerStore[dataTask.taskIdentifier] = self.taskDidReceiveChallenge
                     URLSessionRequestBuilderConfiguration.shared.credentialStore[dataTask.taskIdentifier] = self.credential
 
                     self.requestTask.set(task: dataTask)
@@ -211,7 +200,6 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendab
 
     private func cleanupRequest() {
         if let task = requestTask.get() {
-            URLSessionRequestBuilderConfiguration.shared.challengeHandlerStore[task.taskIdentifier] = nil
             URLSessionRequestBuilderConfiguration.shared.credentialStore[task.taskIdentifier] = nil
         }
     }
@@ -408,17 +396,13 @@ fileprivate final class SessionDelegate: NSObject, URLSessionTaskDelegate {
 
         var credential: URLCredential?
 
-        if let taskDidReceiveChallenge = URLSessionRequestBuilderConfiguration.shared.challengeHandlerStore[task.taskIdentifier] {
-            (disposition, credential) = taskDidReceiveChallenge(session, task, challenge)
+        if challenge.previousFailureCount > 0 {
+            disposition = .rejectProtectionSpace
         } else {
-            if challenge.previousFailureCount > 0 {
-                disposition = .rejectProtectionSpace
-            } else {
-                credential = URLSessionRequestBuilderConfiguration.shared.credentialStore[task.taskIdentifier] ?? session.configuration.urlCredentialStorage?.defaultCredential(for: challenge.protectionSpace)
+            credential = URLSessionRequestBuilderConfiguration.shared.credentialStore[task.taskIdentifier] ?? session.configuration.urlCredentialStorage?.defaultCredential(for: challenge.protectionSpace)
 
-                if credential != nil {
-                    disposition = .useCredential
-                }
+            if credential != nil {
+                disposition = .useCredential
             }
         }
 

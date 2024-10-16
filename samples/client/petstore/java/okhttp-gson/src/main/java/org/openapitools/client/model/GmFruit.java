@@ -205,6 +205,7 @@ public class GmFruit extends AbstractOpenApiSchema {
     public Apple getApple() throws ClassCastException {
         return (Apple)super.getActualInstance();
     }
+
     /**
      * Get the actual instance of `Banana`. If the actual instance is not `Banana`,
      * the ClassCastException will be thrown.

@@ -36,12 +36,13 @@ import java.util.StringJoiner;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class OuterObjectWithEnumProperty {
   public static final String JSON_PROPERTY_VALUE = "value";
+  @javax.annotation.Nonnull
   private OuterEnumInteger value;
 
   public OuterObjectWithEnumProperty() {
   }
 
-  public OuterObjectWithEnumProperty value(OuterEnumInteger value) {
+  public OuterObjectWithEnumProperty value(@javax.annotation.Nonnull OuterEnumInteger value) {
     
     this.value = value;
     return this;
@@ -62,7 +63,7 @@ public class OuterObjectWithEnumProperty {
 
   @JsonProperty(JSON_PROPERTY_VALUE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setValue(OuterEnumInteger value) {
+  public void setValue(@javax.annotation.Nonnull OuterEnumInteger value) {
     this.value = value;
   }
 

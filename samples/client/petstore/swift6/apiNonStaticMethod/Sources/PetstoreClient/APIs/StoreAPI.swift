@@ -144,7 +144,6 @@ open class StoreAPI {
      - DELETE /store/order/{order_id}
      - For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      - parameter orderId: (path) ID of the order that needs to be deleted 
-     
      - returns: RequestBuilder<Void> 
      */
     open func deleteOrderWithRequestBuilder(orderId: String) -> RequestBuilder<Void> {
@@ -290,7 +289,6 @@ open class StoreAPI {
      - API Key:
        - type: apiKey api_key (HEADER)
        - name: api_key
-
      - returns: RequestBuilder<[String: Int]> 
      */
     open func getInventoryWithRequestBuilder() -> RequestBuilder<[String: Int]> {
@@ -437,7 +435,6 @@ open class StoreAPI {
      - GET /store/order/{order_id}
      - For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
      - parameter orderId: (path) ID of pet that needs to be fetched 
-     
      - returns: RequestBuilder<Order> 
      */
     open func getOrderByIdWithRequestBuilder(orderId: Int64) -> RequestBuilder<Order> {
@@ -586,7 +583,6 @@ open class StoreAPI {
      Place an order for a pet
      - POST /store/order
      - parameter body: (body) order placed for purchasing the pet 
-     
      - returns: RequestBuilder<Order> 
      */
     open func placeOrderWithRequestBuilder(body: Order) -> RequestBuilder<Order> {

@@ -28,7 +28,6 @@ open class DefaultAPI {
 
     /**
      - GET /
-
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Fruit> 
      */

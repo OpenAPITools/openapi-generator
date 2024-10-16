@@ -52,16 +52,18 @@ import org.openapitools.client.JSON;
 public class NewPetCategoryInlineAllofAllOfCategoryTag {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
+  @javax.annotation.Nullable
   private Long id;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nullable
   private String name;
 
   public NewPetCategoryInlineAllofAllOfCategoryTag() {
   }
 
-  public NewPetCategoryInlineAllofAllOfCategoryTag id(Long id) {
+  public NewPetCategoryInlineAllofAllOfCategoryTag id(@javax.annotation.Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -75,12 +77,12 @@ public class NewPetCategoryInlineAllofAllOfCategoryTag {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
 
-  public NewPetCategoryInlineAllofAllOfCategoryTag name(String name) {
+  public NewPetCategoryInlineAllofAllOfCategoryTag name(@javax.annotation.Nullable String name) {
     this.name = name;
     return this;
   }
@@ -94,7 +96,7 @@ public class NewPetCategoryInlineAllofAllOfCategoryTag {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
 

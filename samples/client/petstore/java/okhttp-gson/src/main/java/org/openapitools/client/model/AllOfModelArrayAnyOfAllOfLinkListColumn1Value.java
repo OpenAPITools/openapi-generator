@@ -205,6 +205,7 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenA
     public User getUser() throws ClassCastException {
         return (User)super.getActualInstance();
     }
+
     /**
      * Get the actual instance of `Tag`. If the actual instance is not `Tag`,
      * the ClassCastException will be thrown.

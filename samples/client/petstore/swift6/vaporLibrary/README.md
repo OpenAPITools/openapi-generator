@@ -147,6 +147,10 @@ Authentication schemes defined for the API:
 - **Type**: HTTP basic authentication
 
 
+# How do I migrate from the Swift 5 generator to the swift 6 generator?
+
+https://openapi-generator.tech/docs/faq-generators#how-do-i-migrate-from-the-swift-5-generator-to-the-swift-6-generator
+
 ## Author
 
 
