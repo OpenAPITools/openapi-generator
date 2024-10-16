@@ -36,9 +36,11 @@ import org.hibernate.validator.constraints.*;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ReadOnlyFirst {
   public static final String JSON_PROPERTY_BAR = "bar";
+  @javax.annotation.Nullable
   private String bar;
 
   public static final String JSON_PROPERTY_BAZ = "baz";
+  @javax.annotation.Nullable
   private String baz;
 
   public ReadOnlyFirst() {
@@ -69,7 +71,7 @@ public class ReadOnlyFirst {
 
 
 
-  public ReadOnlyFirst baz(String baz) {
+  public ReadOnlyFirst baz(@javax.annotation.Nullable String baz) {
     
     this.baz = baz;
     return this;
@@ -91,7 +93,7 @@ public class ReadOnlyFirst {
 
   @JsonProperty(JSON_PROPERTY_BAZ)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setBaz(String baz) {
+  public void setBaz(@javax.annotation.Nullable String baz) {
     this.baz = baz;
   }
 

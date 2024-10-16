@@ -57,21 +57,24 @@ import org.openapitools.client.ApiClient;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Drawing extends HashMap<String, Fruit> {
   public static final String JSON_PROPERTY_MAIN_SHAPE = "mainShape";
+  @javax.annotation.Nullable
   private Shape mainShape;
 
   public static final String JSON_PROPERTY_SHAPE_OR_NULL = "shapeOrNull";
+  @javax.annotation.Nullable
   private ShapeOrNull shapeOrNull;
 
   public static final String JSON_PROPERTY_NULLABLE_SHAPE = "nullableShape";
   private JsonNullable<NullableShape> nullableShape = JsonNullable.<NullableShape>undefined();
 
   public static final String JSON_PROPERTY_SHAPES = "shapes";
+  @javax.annotation.Nullable
   private List<Shape> shapes = new ArrayList<>();
 
   public Drawing() { 
   }
 
-  public Drawing mainShape(Shape mainShape) {
+  public Drawing mainShape(@javax.annotation.Nullable Shape mainShape) {
     this.mainShape = mainShape;
     return this;
   }
@@ -90,12 +93,12 @@ public class Drawing extends HashMap<String, Fruit> {
 
   @JsonProperty(JSON_PROPERTY_MAIN_SHAPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMainShape(Shape mainShape) {
+  public void setMainShape(@javax.annotation.Nullable Shape mainShape) {
     this.mainShape = mainShape;
   }
 
 
-  public Drawing shapeOrNull(ShapeOrNull shapeOrNull) {
+  public Drawing shapeOrNull(@javax.annotation.Nullable ShapeOrNull shapeOrNull) {
     this.shapeOrNull = shapeOrNull;
     return this;
   }
@@ -114,12 +117,12 @@ public class Drawing extends HashMap<String, Fruit> {
 
   @JsonProperty(JSON_PROPERTY_SHAPE_OR_NULL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setShapeOrNull(ShapeOrNull shapeOrNull) {
+  public void setShapeOrNull(@javax.annotation.Nullable ShapeOrNull shapeOrNull) {
     this.shapeOrNull = shapeOrNull;
   }
 
 
-  public Drawing nullableShape(NullableShape nullableShape) {
+  public Drawing nullableShape(@javax.annotation.Nullable NullableShape nullableShape) {
     this.nullableShape = JsonNullable.<NullableShape>of(nullableShape);
     return this;
   }
@@ -146,12 +149,12 @@ public class Drawing extends HashMap<String, Fruit> {
     this.nullableShape = nullableShape;
   }
 
-  public void setNullableShape(NullableShape nullableShape) {
+  public void setNullableShape(@javax.annotation.Nullable NullableShape nullableShape) {
     this.nullableShape = JsonNullable.<NullableShape>of(nullableShape);
   }
 
 
-  public Drawing shapes(List<Shape> shapes) {
+  public Drawing shapes(@javax.annotation.Nullable List<Shape> shapes) {
     this.shapes = shapes;
     return this;
   }
@@ -178,7 +181,7 @@ public class Drawing extends HashMap<String, Fruit> {
 
   @JsonProperty(JSON_PROPERTY_SHAPES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setShapes(List<Shape> shapes) {
+  public void setShapes(@javax.annotation.Nullable List<Shape> shapes) {
     this.shapes = shapes;
   }
 

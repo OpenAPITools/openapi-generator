@@ -38,15 +38,17 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class BananaReq {
   public static final String JSON_PROPERTY_LENGTH_CM = "lengthCm";
+  @javax.annotation.Nonnull
   private BigDecimal lengthCm;
 
   public static final String JSON_PROPERTY_SWEET = "sweet";
+  @javax.annotation.Nullable
   private Boolean sweet;
 
   public BananaReq() { 
   }
 
-  public BananaReq lengthCm(BigDecimal lengthCm) {
+  public BananaReq lengthCm(@javax.annotation.Nonnull BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
     return this;
   }
@@ -66,12 +68,12 @@ public class BananaReq {
 
   @JsonProperty(JSON_PROPERTY_LENGTH_CM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setLengthCm(BigDecimal lengthCm) {
+  public void setLengthCm(@javax.annotation.Nonnull BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
   }
 
 
-  public BananaReq sweet(Boolean sweet) {
+  public BananaReq sweet(@javax.annotation.Nullable Boolean sweet) {
     this.sweet = sweet;
     return this;
   }
@@ -91,7 +93,7 @@ public class BananaReq {
 
   @JsonProperty(JSON_PROPERTY_SWEET)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSweet(Boolean sweet) {
+  public void setSweet(@javax.annotation.Nullable Boolean sweet) {
     this.sweet = sweet;
   }
 

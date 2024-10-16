@@ -54,6 +54,7 @@ import org.openapitools.client.JSON;
 public class MapTest {
   public static final String SERIALIZED_NAME_MAP_MAP_OF_STRING = "map_map_of_string";
   @SerializedName(SERIALIZED_NAME_MAP_MAP_OF_STRING)
+  @javax.annotation.Nullable
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
   /**
@@ -110,20 +111,23 @@ public class MapTest {
 
   public static final String SERIALIZED_NAME_MAP_OF_ENUM_STRING = "map_of_enum_string";
   @SerializedName(SERIALIZED_NAME_MAP_OF_ENUM_STRING)
+  @javax.annotation.Nullable
   private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
   public static final String SERIALIZED_NAME_DIRECT_MAP = "direct_map";
   @SerializedName(SERIALIZED_NAME_DIRECT_MAP)
+  @javax.annotation.Nullable
   private Map<String, Boolean> directMap = new HashMap<>();
 
   public static final String SERIALIZED_NAME_INDIRECT_MAP = "indirect_map";
   @SerializedName(SERIALIZED_NAME_INDIRECT_MAP)
+  @javax.annotation.Nullable
   private Map<String, Boolean> indirectMap = new HashMap<>();
 
   public MapTest() {
   }
 
-  public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
+  public MapTest mapMapOfString(@javax.annotation.Nullable Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
     return this;
   }
@@ -145,12 +149,12 @@ public class MapTest {
     return mapMapOfString;
   }
 
-  public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
+  public void setMapMapOfString(@javax.annotation.Nullable Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
   }
 
 
-  public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
+  public MapTest mapOfEnumString(@javax.annotation.Nullable Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
     return this;
   }
@@ -172,12 +176,12 @@ public class MapTest {
     return mapOfEnumString;
   }
 
-  public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
+  public void setMapOfEnumString(@javax.annotation.Nullable Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
   }
 
 
-  public MapTest directMap(Map<String, Boolean> directMap) {
+  public MapTest directMap(@javax.annotation.Nullable Map<String, Boolean> directMap) {
     this.directMap = directMap;
     return this;
   }
@@ -199,12 +203,12 @@ public class MapTest {
     return directMap;
   }
 
-  public void setDirectMap(Map<String, Boolean> directMap) {
+  public void setDirectMap(@javax.annotation.Nullable Map<String, Boolean> directMap) {
     this.directMap = directMap;
   }
 
 
-  public MapTest indirectMap(Map<String, Boolean> indirectMap) {
+  public MapTest indirectMap(@javax.annotation.Nullable Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
     return this;
   }
@@ -226,7 +230,7 @@ public class MapTest {
     return indirectMap;
   }
 
-  public void setIndirectMap(Map<String, Boolean> indirectMap) {
+  public void setIndirectMap(@javax.annotation.Nullable Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
 

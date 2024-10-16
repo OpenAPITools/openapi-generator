@@ -52,12 +52,13 @@ import org.openapitools.client.JSON;
 public class SelfReferenceAdditionalProperties {
   public static final String SERIALIZED_NAME_DUMMY = "dummy";
   @SerializedName(SERIALIZED_NAME_DUMMY)
+  @javax.annotation.Nullable
   private String dummy;
 
   public SelfReferenceAdditionalProperties() {
   }
 
-  public SelfReferenceAdditionalProperties dummy(String dummy) {
+  public SelfReferenceAdditionalProperties dummy(@javax.annotation.Nullable String dummy) {
     this.dummy = dummy;
     return this;
   }
@@ -71,7 +72,7 @@ public class SelfReferenceAdditionalProperties {
     return dummy;
   }
 
-  public void setDummy(String dummy) {
+  public void setDummy(@javax.annotation.Nullable String dummy) {
     this.dummy = dummy;
   }
 

@@ -54,16 +54,18 @@ import org.openapitools.client.JSON;
 public class Model200Response implements Parcelable {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nullable
   private Integer name;
 
   public static final String SERIALIZED_NAME_PROPERTY_CLASS = "class";
   @SerializedName(SERIALIZED_NAME_PROPERTY_CLASS)
+  @javax.annotation.Nullable
   private String propertyClass;
 
   public Model200Response() {
   }
 
-  public Model200Response name(Integer name) {
+  public Model200Response name(@javax.annotation.Nullable Integer name) {
     this.name = name;
     return this;
   }
@@ -77,12 +79,12 @@ public class Model200Response implements Parcelable {
     return name;
   }
 
-  public void setName(Integer name) {
+  public void setName(@javax.annotation.Nullable Integer name) {
     this.name = name;
   }
 
 
-  public Model200Response propertyClass(String propertyClass) {
+  public Model200Response propertyClass(@javax.annotation.Nullable String propertyClass) {
     this.propertyClass = propertyClass;
     return this;
   }
@@ -96,7 +98,7 @@ public class Model200Response implements Parcelable {
     return propertyClass;
   }
 
-  public void setPropertyClass(String propertyClass) {
+  public void setPropertyClass(@javax.annotation.Nullable String propertyClass) {
     this.propertyClass = propertyClass;
   }
 

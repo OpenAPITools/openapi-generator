@@ -39,6 +39,7 @@ import java.util.StringJoiner;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Query {
   public static final String JSON_PROPERTY_ID = "id";
+  @javax.annotation.Nullable
   protected Long id;
 
   /**
@@ -79,12 +80,13 @@ public class Query {
   }
 
   public static final String JSON_PROPERTY_OUTCOMES = "outcomes";
+  @javax.annotation.Nullable
   protected List<OutcomesEnum> outcomes = new ArrayList<>(Arrays.asList(OutcomesEnum.SUCCESS, OutcomesEnum.FAILURE));
 
   public Query() {
   }
 
-  public Query id(Long id) {
+  public Query id(@javax.annotation.Nullable Long id) {
     
     this.id = id;
     return this;
@@ -105,11 +107,11 @@ public class Query {
 
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setId(Long id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
-  public Query outcomes(List<OutcomesEnum> outcomes) {
+  public Query outcomes(@javax.annotation.Nullable List<OutcomesEnum> outcomes) {
     
     this.outcomes = outcomes;
     return this;
@@ -138,7 +140,7 @@ public class Query {
 
   @JsonProperty(JSON_PROPERTY_OUTCOMES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setOutcomes(List<OutcomesEnum> outcomes) {
+  public void setOutcomes(@javax.annotation.Nullable List<OutcomesEnum> outcomes) {
     this.outcomes = outcomes;
   }
 
