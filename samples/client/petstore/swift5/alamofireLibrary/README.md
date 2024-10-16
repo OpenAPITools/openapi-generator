@@ -140,91 +140,13 @@ Authentication schemes defined for the API:
 - **Type**: HTTP basic authentication
 
 
+# How do I migrate from the Swift 5 generator to the swift 6 generator?
+
+https://openapi-generator.tech/docs/faq-generators#how-do-i-migrate-from-the-swift-5-generator-to-the-swift-6-generator
+
 ### How do I implement bearer token authentication with Alamofire on the Swift 5 API client?
 
-First you subclass RequestBuilderFactory
-```
-class BearerRequestBuilderFactory: RequestBuilderFactory {
-    func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
-        BearerRequestBuilder<T>.self
-    }
-    
-    func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type {
-        BearerDecodableRequestBuilder<T>.self
-    }
-}
-```
-
-Then you subclass AlamofireRequestBuilder and AlamofireDecodableRequestBuilder
-```
-class BearerRequestBuilder<T>: AlamofireRequestBuilder<T> {
-    override func createSessionManager() -> SessionManager {
-        let sessionManager = super.createSessionManager()
-        
-        let bearerTokenHandler = BearerTokenHandler()
-        sessionManager.adapter = bearerTokenHandler
-        sessionManager.retrier = bearerTokenHandler
-        
-        return sessionManager
-    }
-}
-
-class BearerDecodableRequestBuilder<T: Decodable>: AlamofireDecodableRequestBuilder<T> {
-    override func createSessionManager() -> SessionManager {
-        let sessionManager = super.createSessionManager()
-        
-        let bearerTokenHandler = BearerTokenHandler()
-        sessionManager.adapter = bearerTokenHandler
-        sessionManager.retrier = bearerTokenHandler
-        
-        return sessionManager
-    }
-}
-
-class BearerTokenHandler: RequestAdapter, RequestRetrier {
-    private static var bearerToken: String? = nil
-    
-    func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
-        if let bearerToken = Self.bearerToken {
-            var urlRequest = urlRequest
-            urlRequest.setValue("Bearer \(bearerToken)", forHTTPHeaderField: "Authorization")
-            return urlRequest
-        }
-        
-        return urlRequest
-    }
-    
-    func should(_: SessionManager, retry request: Request, with _: Error, completion: @escaping RequestRetryCompletion) {
-        if let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401 {
-            Self.startRefreshingToken { isTokenRefreshed in
-                completion(isTokenRefreshed, 0.0)
-            }
-        } else {
-            completion(false, 0.0)
-        }
-    }
-    
-    private static func startRefreshingToken(completionHandler: @escaping (Bool) -> Void) {
-        // Get a bearer token
-        let dummyBearerToken = "..."
-        
-        bearerToken = dummyBearerToken
-        PetstoreClientAPI.customHeaders["Authorization"] = "Bearer \(dummyBearerToken)"
-        
-        completionHandler(true)
-    }
-}
-```
-
-Then you assign the `BearerRequestBuilderFactory` to the property `requestBuilderFactory`.
-
-`PetstoreClientAPI.requestBuilderFactory = BearerRequestBuilderFactory()`
-
-The name `PetstoreClientAPI.requestBuilderFactory` will change depending on your project name.
-
-Here is a working sample that put's together all of this.
-[AppDelegate.swift](https://github.com/OpenAPITools/openapi-generator/blob/master/samples/client/petstore/swift5/alamofireLibrary/SwaggerClientTests/SwaggerClient/AppDelegate.swift)
-[BearerTokenHandler.swift](https://github.com/OpenAPITools/openapi-generator/blob/master/samples/client/petstore/swift5/alamofireLibrary/SwaggerClientTests/SwaggerClient/BearerDecodableRequestBuilder.swift)
+https://openapi-generator.tech/docs/faq-generators#how-do-i-implement-bearer-token-authentication-with-alamofire-on-the-swift-5-api-client
 
 ## Author
 

@@ -477,6 +477,8 @@ Here is a working sample that put's together all of this.
 
 ### How do I migrate from the Swift 5 generator to the swift 6 generator?
 
+- Change the generator to the new `swift6` generator, e.g. `openapi-generator generate -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g swift6 -o /tmp/test/`
+- Check the `swift6` [URLSession](https://github.com/OpenAPITools/openapi-generator/tree/master/samples/client/petstore/swift6/urlsessionLibrary) and [Alamofire](https://github.com/OpenAPITools/openapi-generator/tree/master/samples/client/petstore/swift6/alamofireLibrary) samples.
 - The infrastructure files have been moved to a new directory called `Infrastructure`. Please delete the old ones.
 - The `AnyCodable` dependency has been removed and replaced with a new enum called `JSONValue`, allowing you to use this generator without external dependencies.
 - The `Combine` response is now deferred by default, meaning the request will only start when you begin listening to it. To restore the previous behavior, set the `combineDeferred` flag to `false`.
