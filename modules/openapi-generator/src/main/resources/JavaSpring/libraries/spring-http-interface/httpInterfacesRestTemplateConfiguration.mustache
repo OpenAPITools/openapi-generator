@@ -28,7 +28,7 @@ public abstract class HttpInterfacesAbstractConfigurator {
 {{#apis}}
     @Bean(name = "{{configPackage}}.HttpInterfacesAbstractConfigurator.{{classVarName}}")
     {{classname}} {{classVarName}}HttpProxy() {
-        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(RestTemplateAdapter.create(restTemplate)).build();
+        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builder(RestTemplateAdapter.create(restTemplate)).build();
         return factory.createClient({{classname}}.class);
     }
 
