@@ -84,13 +84,14 @@ public class BigCat extends Cat {
   }
 
   public static final String JSON_PROPERTY_KIND = "kind";
+  @javax.annotation.Nullable
   private KindEnum kind;
 
   public BigCat() {
 
   }
 
-  public BigCat kind(KindEnum kind) {
+  public BigCat kind(@javax.annotation.Nullable KindEnum kind) {
     
     this.kind = kind;
     return this;
@@ -112,18 +113,18 @@ public class BigCat extends Cat {
 
   @JsonProperty(JSON_PROPERTY_KIND)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setKind(KindEnum kind) {
+  public void setKind(@javax.annotation.Nullable KindEnum kind) {
     this.kind = kind;
   }
 
   @Override
-  public BigCat className(String className) {
+  public BigCat className(@javax.annotation.Nonnull String className) {
     this.setClassName(className);
     return this;
   }
 
   @Override
-  public BigCat color(String color) {
+  public BigCat color(@javax.annotation.Nullable String color) {
     this.setColor(color);
     return this;
   }

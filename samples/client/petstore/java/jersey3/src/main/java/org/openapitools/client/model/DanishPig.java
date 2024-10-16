@@ -37,12 +37,13 @@ import org.openapitools.client.JSON;
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class DanishPig {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
+  @jakarta.annotation.Nonnull
   private String className;
 
   public DanishPig() { 
   }
 
-  public DanishPig className(String className) {
+  public DanishPig className(@jakarta.annotation.Nonnull String className) {
     this.className = className;
     return this;
   }
@@ -64,7 +65,7 @@ public class DanishPig {
 
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setClassName(String className) {
+  public void setClassName(@jakarta.annotation.Nonnull String className) {
     this.className = className;
   }
 

@@ -42,27 +42,33 @@ import org.openapitools.client.JSON;
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Capitalization {
   public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";
+  @jakarta.annotation.Nullable
   private String smallCamel;
 
   public static final String JSON_PROPERTY_CAPITAL_CAMEL = "CapitalCamel";
+  @jakarta.annotation.Nullable
   private String capitalCamel;
 
   public static final String JSON_PROPERTY_SMALL_SNAKE = "small_Snake";
+  @jakarta.annotation.Nullable
   private String smallSnake;
 
   public static final String JSON_PROPERTY_CAPITAL_SNAKE = "Capital_Snake";
+  @jakarta.annotation.Nullable
   private String capitalSnake;
 
   public static final String JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS = "SCA_ETH_Flow_Points";
+  @jakarta.annotation.Nullable
   private String scAETHFlowPoints;
 
   public static final String JSON_PROPERTY_A_T_T_N_A_M_E = "ATT_NAME";
+  @jakarta.annotation.Nullable
   private String ATT_NAME;
 
   public Capitalization() { 
   }
 
-  public Capitalization smallCamel(String smallCamel) {
+  public Capitalization smallCamel(@jakarta.annotation.Nullable String smallCamel) {
     this.smallCamel = smallCamel;
     return this;
   }
@@ -83,12 +89,12 @@ public class Capitalization {
 
   @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSmallCamel(String smallCamel) {
+  public void setSmallCamel(@jakarta.annotation.Nullable String smallCamel) {
     this.smallCamel = smallCamel;
   }
 
 
-  public Capitalization capitalCamel(String capitalCamel) {
+  public Capitalization capitalCamel(@jakarta.annotation.Nullable String capitalCamel) {
     this.capitalCamel = capitalCamel;
     return this;
   }
@@ -109,12 +115,12 @@ public class Capitalization {
 
   @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCapitalCamel(String capitalCamel) {
+  public void setCapitalCamel(@jakarta.annotation.Nullable String capitalCamel) {
     this.capitalCamel = capitalCamel;
   }
 
 
-  public Capitalization smallSnake(String smallSnake) {
+  public Capitalization smallSnake(@jakarta.annotation.Nullable String smallSnake) {
     this.smallSnake = smallSnake;
     return this;
   }
@@ -135,12 +141,12 @@ public class Capitalization {
 
   @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSmallSnake(String smallSnake) {
+  public void setSmallSnake(@jakarta.annotation.Nullable String smallSnake) {
     this.smallSnake = smallSnake;
   }
 
 
-  public Capitalization capitalSnake(String capitalSnake) {
+  public Capitalization capitalSnake(@jakarta.annotation.Nullable String capitalSnake) {
     this.capitalSnake = capitalSnake;
     return this;
   }
@@ -161,12 +167,12 @@ public class Capitalization {
 
   @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCapitalSnake(String capitalSnake) {
+  public void setCapitalSnake(@jakarta.annotation.Nullable String capitalSnake) {
     this.capitalSnake = capitalSnake;
   }
 
 
-  public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
+  public Capitalization scAETHFlowPoints(@jakarta.annotation.Nullable String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
     return this;
   }
@@ -187,12 +193,12 @@ public class Capitalization {
 
   @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setScAETHFlowPoints(String scAETHFlowPoints) {
+  public void setScAETHFlowPoints(@jakarta.annotation.Nullable String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
 
 
-  public Capitalization ATT_NAME(String ATT_NAME) {
+  public Capitalization ATT_NAME(@jakarta.annotation.Nullable String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
     return this;
   }
@@ -213,7 +219,7 @@ public class Capitalization {
 
   @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setATTNAME(String ATT_NAME) {
+  public void setATTNAME(@jakarta.annotation.Nullable String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
 

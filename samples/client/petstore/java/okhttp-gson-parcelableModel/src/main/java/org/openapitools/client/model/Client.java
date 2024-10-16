@@ -54,12 +54,13 @@ import org.openapitools.client.JSON;
 public class Client implements Parcelable {
   public static final String SERIALIZED_NAME_CLIENT = "client";
   @SerializedName(SERIALIZED_NAME_CLIENT)
+  @javax.annotation.Nullable
   private String client;
 
   public Client() {
   }
 
-  public Client client(String client) {
+  public Client client(@javax.annotation.Nullable String client) {
     this.client = client;
     return this;
   }
@@ -73,7 +74,7 @@ public class Client implements Parcelable {
     return client;
   }
 
-  public void setClient(String client) {
+  public void setClient(@javax.annotation.Nullable String client) {
     this.client = client;
   }
 

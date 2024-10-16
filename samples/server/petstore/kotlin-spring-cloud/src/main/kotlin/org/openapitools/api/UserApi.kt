@@ -28,7 +28,6 @@ import javax.validation.Valid
 import kotlin.collections.List
 import kotlin.collections.Map
 
-@RestController
 @Validated
 interface UserApi {
 

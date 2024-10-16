@@ -46,13 +46,14 @@ import java.util.StringJoiner;
 
 public class ChildWithNullable extends ParentWithNullable {
   public static final String JSON_PROPERTY_OTHER_PROPERTY = "otherProperty";
+  @javax.annotation.Nullable
   private String otherProperty;
 
   public ChildWithNullable() {
 
   }
 
-  public ChildWithNullable otherProperty(String otherProperty) {
+  public ChildWithNullable otherProperty(@javax.annotation.Nullable String otherProperty) {
     
     this.otherProperty = otherProperty;
     return this;
@@ -73,18 +74,18 @@ public class ChildWithNullable extends ParentWithNullable {
 
   @JsonProperty(JSON_PROPERTY_OTHER_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setOtherProperty(String otherProperty) {
+  public void setOtherProperty(@javax.annotation.Nullable String otherProperty) {
     this.otherProperty = otherProperty;
   }
 
   @Override
-  public ChildWithNullable type(TypeEnum type) {
+  public ChildWithNullable type(@javax.annotation.Nullable TypeEnum type) {
     this.setType(type);
     return this;
   }
 
   @Override
-  public ChildWithNullable nullableProperty(String nullableProperty) {
+  public ChildWithNullable nullableProperty(@javax.annotation.Nullable String nullableProperty) {
     this.setNullableProperty(nullableProperty);
     return this;
   }

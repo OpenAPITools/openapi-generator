@@ -31,13 +31,14 @@ import java.util.Map;
 public class AdditionalPropertiesString extends HashMap<String, String> {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nullable
   private String name;
 
   public AdditionalPropertiesString() {
 
   }
 
-  public AdditionalPropertiesString name(String name) {
+  public AdditionalPropertiesString name(@javax.annotation.Nullable String name) {
     
     this.name = name;
     return this;
@@ -54,7 +55,7 @@ public class AdditionalPropertiesString extends HashMap<String, String> {
   }
 
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
 

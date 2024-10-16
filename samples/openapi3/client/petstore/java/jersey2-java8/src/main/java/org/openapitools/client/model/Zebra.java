@@ -78,15 +78,17 @@ public class Zebra {
   }
 
   public static final String JSON_PROPERTY_TYPE = "type";
+  @javax.annotation.Nullable
   private TypeEnum type;
 
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
+  @javax.annotation.Nonnull
   private String className;
 
   public Zebra() { 
   }
 
-  public Zebra type(TypeEnum type) {
+  public Zebra type(@javax.annotation.Nullable TypeEnum type) {
     this.type = type;
     return this;
   }
@@ -106,12 +108,12 @@ public class Zebra {
 
   @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setType(TypeEnum type) {
+  public void setType(@javax.annotation.Nullable TypeEnum type) {
     this.type = type;
   }
 
 
-  public Zebra className(String className) {
+  public Zebra className(@javax.annotation.Nonnull String className) {
     this.className = className;
     return this;
   }
@@ -131,7 +133,7 @@ public class Zebra {
 
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setClassName(String className) {
+  public void setClassName(@javax.annotation.Nonnull String className) {
     this.className = className;
   }
 

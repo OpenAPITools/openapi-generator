@@ -42,12 +42,13 @@ import io.github.threetenjaxb.core.*;
 public class DeprecatedObject {
   public static final String JSON_PROPERTY_NAME = "name";
   @XmlElement(name = "name")
+  @javax.annotation.Nullable
   private String name;
 
   public DeprecatedObject() {
   }
 
-  public DeprecatedObject name(String name) {
+  public DeprecatedObject name(@javax.annotation.Nullable String name) {
     
     this.name = name;
     return this;
@@ -70,7 +71,7 @@ public class DeprecatedObject {
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "name")
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
 

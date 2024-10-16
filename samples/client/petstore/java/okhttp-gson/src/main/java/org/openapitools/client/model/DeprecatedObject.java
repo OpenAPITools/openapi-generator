@@ -54,12 +54,13 @@ import org.openapitools.client.JSON;
 public class DeprecatedObject {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nullable
   private String name;
 
   public DeprecatedObject() {
   }
 
-  public DeprecatedObject name(String name) {
+  public DeprecatedObject name(@javax.annotation.Nullable String name) {
     this.name = name;
     return this;
   }
@@ -73,7 +74,7 @@ public class DeprecatedObject {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
 

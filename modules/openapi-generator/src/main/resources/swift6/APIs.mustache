@@ -104,6 +104,7 @@ import Alamofire{{/useAlamofire}}
         self.openAPIClient = openAPIClient
 
         addHeaders(openAPIClient.customHeaders)
+        addCredential()
     }
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func addHeaders(_ aHeaders: [String: String]) {
@@ -161,9 +162,8 @@ import Alamofire{{/useAlamofire}}
         return self
     }
 
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func addCredential() -> Self {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func addCredential() {
         credential = openAPIClient.credential
-        return self
     }
 }
 

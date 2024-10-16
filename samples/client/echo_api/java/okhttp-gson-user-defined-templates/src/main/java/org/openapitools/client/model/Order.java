@@ -53,18 +53,22 @@ import org.openapitools.client.JSON;
 public class Order {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
+  @javax.annotation.Nullable
   private Long id;
 
   public static final String SERIALIZED_NAME_PET_ID = "petId";
   @SerializedName(SERIALIZED_NAME_PET_ID)
+  @javax.annotation.Nullable
   private Long petId;
 
   public static final String SERIALIZED_NAME_QUANTITY = "quantity";
   @SerializedName(SERIALIZED_NAME_QUANTITY)
+  @javax.annotation.Nullable
   private Integer quantity;
 
   public static final String SERIALIZED_NAME_SHIP_DATE = "shipDate";
   @SerializedName(SERIALIZED_NAME_SHIP_DATE)
+  @javax.annotation.Nullable
   private OffsetDateTime shipDate;
 
   /**
@@ -123,16 +127,18 @@ public class Order {
 
   public static final String SERIALIZED_NAME_STATUS = "status";
   @SerializedName(SERIALIZED_NAME_STATUS)
+  @javax.annotation.Nullable
   private StatusEnum status;
 
   public static final String SERIALIZED_NAME_COMPLETE = "complete";
   @SerializedName(SERIALIZED_NAME_COMPLETE)
+  @javax.annotation.Nullable
   private Boolean complete = false;
 
   public Order() {
   }
 
-  public Order id(Long id) {
+  public Order id(@javax.annotation.Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -146,12 +152,12 @@ public class Order {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
 
-  public Order petId(Long petId) {
+  public Order petId(@javax.annotation.Nullable Long petId) {
     this.petId = petId;
     return this;
   }
@@ -165,12 +171,12 @@ public class Order {
     return petId;
   }
 
-  public void setPetId(Long petId) {
+  public void setPetId(@javax.annotation.Nullable Long petId) {
     this.petId = petId;
   }
 
 
-  public Order quantity(Integer quantity) {
+  public Order quantity(@javax.annotation.Nullable Integer quantity) {
     this.quantity = quantity;
     return this;
   }
@@ -184,12 +190,12 @@ public class Order {
     return quantity;
   }
 
-  public void setQuantity(Integer quantity) {
+  public void setQuantity(@javax.annotation.Nullable Integer quantity) {
     this.quantity = quantity;
   }
 
 
-  public Order shipDate(OffsetDateTime shipDate) {
+  public Order shipDate(@javax.annotation.Nullable OffsetDateTime shipDate) {
     this.shipDate = shipDate;
     return this;
   }
@@ -203,12 +209,12 @@ public class Order {
     return shipDate;
   }
 
-  public void setShipDate(OffsetDateTime shipDate) {
+  public void setShipDate(@javax.annotation.Nullable OffsetDateTime shipDate) {
     this.shipDate = shipDate;
   }
 
 
-  public Order status(StatusEnum status) {
+  public Order status(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
     return this;
   }
@@ -222,12 +228,12 @@ public class Order {
     return status;
   }
 
-  public void setStatus(StatusEnum status) {
+  public void setStatus(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
   }
 
 
-  public Order complete(Boolean complete) {
+  public Order complete(@javax.annotation.Nullable Boolean complete) {
     this.complete = complete;
     return this;
   }
@@ -241,7 +247,7 @@ public class Order {
     return complete;
   }
 
-  public void setComplete(Boolean complete) {
+  public void setComplete(@javax.annotation.Nullable Boolean complete) {
     this.complete = complete;
   }
 

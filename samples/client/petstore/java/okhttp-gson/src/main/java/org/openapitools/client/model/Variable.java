@@ -53,16 +53,18 @@ import org.openapitools.client.JSON;
 public class Variable {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nonnull
   private String name;
 
   public static final String SERIALIZED_NAME_VALUE = "value";
   @SerializedName(SERIALIZED_NAME_VALUE)
+  @javax.annotation.Nonnull
   private Value value;
 
   public Variable() {
   }
 
-  public Variable name(String name) {
+  public Variable name(@javax.annotation.Nonnull String name) {
     this.name = name;
     return this;
   }
@@ -76,12 +78,12 @@ public class Variable {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nonnull String name) {
     this.name = name;
   }
 
 
-  public Variable value(Value value) {
+  public Variable value(@javax.annotation.Nonnull Value value) {
     this.value = value;
     return this;
   }
@@ -95,7 +97,7 @@ public class Variable {
     return value;
   }
 
-  public void setValue(Value value) {
+  public void setValue(@javax.annotation.Nonnull Value value) {
     this.value = value;
   }
 

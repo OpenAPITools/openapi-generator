@@ -55,32 +55,38 @@ import org.openapitools.client.JSON;
 public class TypeHolderExample {
   public static final String SERIALIZED_NAME_STRING_ITEM = "string_item";
   @SerializedName(SERIALIZED_NAME_STRING_ITEM)
+  @javax.annotation.Nonnull
   private String stringItem;
 
   public static final String SERIALIZED_NAME_NUMBER_ITEM = "number_item";
   @SerializedName(SERIALIZED_NAME_NUMBER_ITEM)
+  @javax.annotation.Nonnull
   private BigDecimal numberItem;
 
   public static final String SERIALIZED_NAME_FLOAT_ITEM = "float_item";
   @SerializedName(SERIALIZED_NAME_FLOAT_ITEM)
+  @javax.annotation.Nonnull
   private Float floatItem;
 
   public static final String SERIALIZED_NAME_INTEGER_ITEM = "integer_item";
   @SerializedName(SERIALIZED_NAME_INTEGER_ITEM)
+  @javax.annotation.Nonnull
   private Integer integerItem;
 
   public static final String SERIALIZED_NAME_BOOL_ITEM = "bool_item";
   @SerializedName(SERIALIZED_NAME_BOOL_ITEM)
+  @javax.annotation.Nonnull
   private Boolean boolItem;
 
   public static final String SERIALIZED_NAME_ARRAY_ITEM = "array_item";
   @SerializedName(SERIALIZED_NAME_ARRAY_ITEM)
+  @javax.annotation.Nonnull
   private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderExample() {
   }
 
-  public TypeHolderExample stringItem(String stringItem) {
+  public TypeHolderExample stringItem(@javax.annotation.Nonnull String stringItem) {
     this.stringItem = stringItem;
     return this;
   }
@@ -94,12 +100,12 @@ public class TypeHolderExample {
     return stringItem;
   }
 
-  public void setStringItem(String stringItem) {
+  public void setStringItem(@javax.annotation.Nonnull String stringItem) {
     this.stringItem = stringItem;
   }
 
 
-  public TypeHolderExample numberItem(BigDecimal numberItem) {
+  public TypeHolderExample numberItem(@javax.annotation.Nonnull BigDecimal numberItem) {
     this.numberItem = numberItem;
     return this;
   }
@@ -113,12 +119,12 @@ public class TypeHolderExample {
     return numberItem;
   }
 
-  public void setNumberItem(BigDecimal numberItem) {
+  public void setNumberItem(@javax.annotation.Nonnull BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
 
 
-  public TypeHolderExample floatItem(Float floatItem) {
+  public TypeHolderExample floatItem(@javax.annotation.Nonnull Float floatItem) {
     this.floatItem = floatItem;
     return this;
   }
@@ -132,12 +138,12 @@ public class TypeHolderExample {
     return floatItem;
   }
 
-  public void setFloatItem(Float floatItem) {
+  public void setFloatItem(@javax.annotation.Nonnull Float floatItem) {
     this.floatItem = floatItem;
   }
 
 
-  public TypeHolderExample integerItem(Integer integerItem) {
+  public TypeHolderExample integerItem(@javax.annotation.Nonnull Integer integerItem) {
     this.integerItem = integerItem;
     return this;
   }
@@ -151,12 +157,12 @@ public class TypeHolderExample {
     return integerItem;
   }
 
-  public void setIntegerItem(Integer integerItem) {
+  public void setIntegerItem(@javax.annotation.Nonnull Integer integerItem) {
     this.integerItem = integerItem;
   }
 
 
-  public TypeHolderExample boolItem(Boolean boolItem) {
+  public TypeHolderExample boolItem(@javax.annotation.Nonnull Boolean boolItem) {
     this.boolItem = boolItem;
     return this;
   }
@@ -170,12 +176,12 @@ public class TypeHolderExample {
     return boolItem;
   }
 
-  public void setBoolItem(Boolean boolItem) {
+  public void setBoolItem(@javax.annotation.Nonnull Boolean boolItem) {
     this.boolItem = boolItem;
   }
 
 
-  public TypeHolderExample arrayItem(List<Integer> arrayItem) {
+  public TypeHolderExample arrayItem(@javax.annotation.Nonnull List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
     return this;
   }
@@ -197,7 +203,7 @@ public class TypeHolderExample {
     return arrayItem;
   }
 
-  public void setArrayItem(List<Integer> arrayItem) {
+  public void setArrayItem(@javax.annotation.Nonnull List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
 
