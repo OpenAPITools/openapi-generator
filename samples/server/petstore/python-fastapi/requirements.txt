@@ -7,7 +7,7 @@ chardet==4.0.0
 click==7.1.2
 dnspython==2.6.1
 email-validator==2.0.0
-fastapi==0.109.2
+fastapi==0.115.2
 graphene==2.1.8
 graphql-core==2.3.2
 graphql-relay==2.0.1
@@ -26,7 +26,7 @@ python-multipart==0.0.7
 PyYAML>=5.4.1,<6.1.0
 requests==2.32.0
 Rx==1.6.1
-starlette==0.36.3
+starlette==0.40.0
 typing-extensions==4.8.0
 ujson==4.0.2
 urllib3==1.26.19
