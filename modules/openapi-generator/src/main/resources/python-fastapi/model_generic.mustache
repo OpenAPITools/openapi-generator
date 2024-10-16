@@ -86,6 +86,13 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 {{/isAdditionalPropertiesTrue}}
     }
 
+    def __init__(self, *a, **kw):
+        super().__init__(*a, **kw)
+        {{#vars}}
+        {{#isDiscriminator}}
+        self.{{name}} = self.{{name}}
+        {{/isDiscriminator}}
+        {{/vars}}
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
