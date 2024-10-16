@@ -69,6 +69,7 @@ open class RequestBuilder<T>: @unchecked Sendable {
         self.openAPIClient = openAPIClient
 
         addHeaders(openAPIClient.customHeaders)
+        addCredential()
     }
 
     open func addHeaders(_ aHeaders: [String: String]) {
@@ -124,9 +125,8 @@ open class RequestBuilder<T>: @unchecked Sendable {
         return self
     }
 
-    open func addCredential() -> Self {
+    open func addCredential() {
         credential = openAPIClient.credential
-        return self
     }
 }
 
