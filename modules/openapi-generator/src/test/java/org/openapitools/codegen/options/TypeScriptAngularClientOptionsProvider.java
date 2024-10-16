@@ -87,6 +87,7 @@ public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
                 .put(TypeScriptAngularClientCodegen.SERVICE_FILE_SUFFIX, SERVICE_FILE_SUFFIX)
                 .put(TypeScriptAngularClientCodegen.MODEL_SUFFIX, MODEL_SUFFIX)
                 .put(TypeScriptAngularClientCodegen.MODEL_FILE_SUFFIX, MODEL_FILE_SUFFIX)
+                .put(TypeScriptAngularClientCodegen.ENRICHED_MAPS, Boolean.FALSE.toString())
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
                 .put(TypeScriptAngularClientCodegen.FILE_NAMING, FILE_NAMING_VALUE)

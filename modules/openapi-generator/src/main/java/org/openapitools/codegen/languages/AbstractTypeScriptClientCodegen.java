@@ -41,11 +41,13 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.BiPredicate;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.util.function.Predicate.not;
 import static org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen.ParameterExpander.ParamStyle.form;
 import static org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen.ParameterExpander.ParamStyle.simple;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -236,6 +238,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public static final String NULL_SAFE_ADDITIONAL_PROPS = "nullSafeAdditionalProps";
     public static final String NULL_SAFE_ADDITIONAL_PROPS_DESC = "Set to make additional properties types declare that their indexer may return undefined";
 
+    public static final String ENRICHED_MAPS = "enrichedMaps";
+    public static final String ENRICHED_MAPS_DESC = "Set to ensure that generated maps explicitly include properties defined via the 'propertyNames' and 'required' properties.";
+
     // NOTE: SimpleDateFormat is not thread-safe and may not be static unless it is thread-local
     @SuppressWarnings("squid:S5164")
     protected static final ThreadLocal<SimpleDateFormat> SNAPSHOT_SUFFIX_FORMAT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT));
@@ -257,6 +262,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     protected String enumSuffix = "Enum";
 
     protected String classEnumSeparator = ".";
+    @Getter @Setter
+    protected Boolean enrichedMaps = false;
 
     public AbstractTypeScriptClientCodegen() {
         super();
@@ -368,6 +375,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         this.cliOptions.add(CliOption.newBoolean(SNAPSHOT,
                 "When setting this property to true, the version will be suffixed with -SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.get().toPattern(),
                 false));
+        this.cliOptions.add(CliOption.newBoolean(ENRICHED_MAPS, ENRICHED_MAPS_DESC, enrichedMaps));
         this.cliOptions.add(new CliOption(NULL_SAFE_ADDITIONAL_PROPS, NULL_SAFE_ADDITIONAL_PROPS_DESC).defaultValue(String.valueOf(this.getNullSafeAdditionalProps())));
         this.cliOptions.add(CliOption.newBoolean(ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR, ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR_DESC, false));
     }
@@ -415,6 +423,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
         if (additionalProperties.containsKey(NPM_NAME)) {
             this.setNpmName(additionalProperties.get(NPM_NAME).toString());
+        }
+
+        if (additionalProperties.containsKey(ENRICHED_MAPS)) {
+            enrichedMaps = Boolean.valueOf(additionalProperties.get(ENRICHED_MAPS).toString());
         }
     }
 
@@ -640,7 +652,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             if (Boolean.TRUE.equals(inner.getNullable())) {
                 nullSafeSuffix += " | null";
             }
-            return "{ [key: string]: " + getTypeDeclaration(unaliasSchema(inner)) + nullSafeSuffix + "; }";
+            return getMapTypeWithExplicitlyDefinedProperties(p, getTypeDeclaration(unaliasSchema(inner)), nullSafeSuffix);
         } else if (ModelUtils.isFileSchema(p)) {
             return "File";
         } else if (ModelUtils.isBinarySchema(p)) {
@@ -659,7 +671,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return this.getSchemaType(p) + "<" + this.getParameterDataType(parameter, inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             inner = ModelUtils.getAdditionalProperties(p);
-            return "{ [key: string]: " + this.getParameterDataType(parameter, inner) + "; }";
+            return getMapTypeWithExplicitlyDefinedProperties(p, this.getParameterDataType(parameter, inner), "");
         } else if (ModelUtils.isStringSchema(p)) {
             // Handle string enums
             if (p.getEnum() != null) {
@@ -691,6 +703,56 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             }
         }*/
         return this.getTypeDeclaration(p);
+    }
+
+    /**
+     * Converts a map schema to an object respecting propertyNames and required properties if defined.
+     *
+     * @param outer         map schema
+     * @param innerDataType type of the values of the map
+     * @param suffix        e.g. " | undefined" or " | null"
+     * @return an object containing all explicitly defined properties as well as the index signature for string
+     */
+    private String getMapTypeWithExplicitlyDefinedProperties(Schema<?> outer, String innerDataType, String suffix) {
+        String suffixOrEmpty = Optional.ofNullable(suffix)
+                .filter(not(String::isBlank))
+                .orElse("");
+
+        if (!enrichedMaps) {
+            return "{ [key: string]: " + innerDataType + suffixOrEmpty + "; }";
+        }
+
+        List<String> requiredProperties = Optional.ofNullable(outer.getRequired()).orElse(List.of());
+        List<String> propertyNames = Optional.ofNullable(ModelUtils.getPropertyNames(outer))
+                .map(Schema::getEnum)
+                .stream()
+                .flatMap(Collection::stream)
+                .filter(not(requiredProperties::contains))
+                .collect(Collectors.toList());
+
+        // Property names are assumed to be optional, so if we have any we need to make sure that the type of the index
+        // signature includes undefined
+        String undefinedSuffix = !propertyNames.isEmpty() && !suffixOrEmpty.contains("undefined") ? " | undefined" : "";
+        StringBuilder sb = new StringBuilder()
+                .append("{ [key: string]: ")
+                .append(innerDataType)
+                .append(suffixOrEmpty)
+                .append(undefinedSuffix)
+                .append(";");
+
+        requiredProperties.forEach(appendProperty(sb, innerDataType + suffixOrEmpty, true));
+        propertyNames.forEach(appendProperty(sb, innerDataType + suffixOrEmpty, false));
+
+        return sb.append(" }").toString();
+    }
+
+    private Consumer<String> appendProperty(StringBuilder sb, String type, boolean required) {
+        return (String propertyName) -> sb.append(" ")
+                .append(propertyName)
+                .append(required ? "" : "?")
+                .append(": ")
+                .append(type)
+                .append(";");
     }
 
     /**
