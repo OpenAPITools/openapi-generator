@@ -82,6 +82,7 @@ public class HealthCheckResult {
     this.nullableMessage = JsonNullable.<String>of(nullableMessage);
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
