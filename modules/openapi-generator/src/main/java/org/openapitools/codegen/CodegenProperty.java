@@ -82,9 +82,17 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
 
     /**
      * The 'description' string without escape characters needed by some programming languages/targets
+     * Read: property has escapeText() applied
      */
     @Getter @Setter
     public String unescapedDescription;
+
+    /**
+     * The 'description' string without escape characters but with safe escaping for use in comment blocks, etc.
+     * Read: property has escapeUnsafeCharacters() applied
+     */
+    @Getter @Setter
+    public String unescapedSafeDescription;
 
     /**
      * maxLength validation for strings, see http://json-schema.org/latest/json-schema-validation.html#rfc.section.5.2.1
@@ -983,6 +991,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", containerTypeMapped='").append(containerTypeMapped).append('\'');
         sb.append(", title='").append(title).append('\'');
         sb.append(", unescapedDescription='").append(unescapedDescription).append('\'');
+        sb.append(", unescapedSafeDescription='").append(unescapedSafeDescription).append('\'');
         sb.append(", maxLength=").append(maxLength);
         sb.append(", minLength=").append(minLength);
         sb.append(", pattern='").append(pattern).append('\'');
@@ -1172,6 +1181,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(containerTypeMapped, that.containerTypeMapped) &&
                 Objects.equals(title, that.title) &&
                 Objects.equals(unescapedDescription, that.unescapedDescription) &&
+                Objects.equals(unescapedSafeDescription, that.unescapedSafeDescription) &&
                 Objects.equals(maxLength, that.maxLength) &&
                 Objects.equals(minLength, that.minLength) &&
                 Objects.equals(pattern, that.pattern) &&
@@ -1206,7 +1216,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         return Objects.hash(openApiType, baseName, complexType, getter, setter, description,
                 dataType, datatypeWithEnum, dataFormat, name, min, max, defaultValue,
                 defaultValueWithParam, baseType, containerType, containerTypeMapped, title, unescapedDescription,
-                maxLength, minLength, pattern, example, jsonSchema, minimum, maximum,
+                unescapedSafeDescription, maxLength, minLength, pattern, example, jsonSchema, minimum, maximum,
                 exclusiveMinimum, exclusiveMaximum, required, deprecated,
                 hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric,
                 isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isFile,

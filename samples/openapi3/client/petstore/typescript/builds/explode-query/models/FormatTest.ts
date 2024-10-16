@@ -33,7 +33,7 @@ export class FormatTest {
     */
     'patternWithDigits'?: string;
     /**
-    * A string starting with \'image_\' (case insensitive) and one to three digits following i.e. Image_01.
+    * A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
     */
     'patternWithDigitsAndDelimiter'?: string;
 
