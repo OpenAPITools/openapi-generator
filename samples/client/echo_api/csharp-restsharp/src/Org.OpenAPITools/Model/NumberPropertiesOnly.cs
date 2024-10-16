@@ -144,18 +144,18 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             // Double (double) maximum
             if (this.Double > (double)50.2)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Double, must be a value less than or equal to 50.2.", new [] { "Double" });
+                yield return new ValidationResult("Invalid value for Double, must be a value less than or equal to 50.2.", new [] { "Double" });
             }
 
             // Double (double) minimum
             if (this.Double < (double)0.8)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Double, must be a value greater than or equal to 0.8.", new [] { "Double" });
+                yield return new ValidationResult("Invalid value for Double, must be a value greater than or equal to 0.8.", new [] { "Double" });
             }
 
             yield break;

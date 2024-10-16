@@ -29,31 +29,32 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   Foo.JSON_PROPERTY_BAR
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Foo {
   public static final String JSON_PROPERTY_BAR = "bar";
+  @javax.annotation.Nullable
   private String bar = "bar";
 
   public Foo() {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public Foo(@JsonProperty(JSON_PROPERTY_BAR) String bar) {
     this.bar = bar;
   }
 
-  public Foo bar(String bar) {
+  public Foo bar(@javax.annotation.Nullable String bar) {
     
     this.bar = bar;
     return this;
   }
 
-   /**
+  /**
    * Get bar
    * @return bar
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -65,7 +66,7 @@ public class Foo {
 
   @JsonProperty(JSON_PROPERTY_BAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setBar(String bar) {
+  public void setBar(@javax.annotation.Nullable String bar) {
     this.bar = bar;
   }
 
@@ -105,6 +106,60 @@ public class Foo {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  public static class Builder {
+
+    private Foo instance;
+
+    public Builder() {
+      this(new Foo());
+    }
+
+    protected Builder(Foo instance) {
+      this.instance = instance;
+    }
+
+    public Foo.Builder bar(String bar) {
+      this.instance.bar = bar;
+      return this;
+    }
+
+
+    /**
+    * returns a built Foo instance.
+    *
+    * The builder is not reusable.
+    */
+    public Foo build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static Foo.Builder builder() {
+    return new Foo.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Foo.Builder toBuilder() {
+    return new Foo.Builder()
+      .bar(getBar());
+  }
+
 
 }
 

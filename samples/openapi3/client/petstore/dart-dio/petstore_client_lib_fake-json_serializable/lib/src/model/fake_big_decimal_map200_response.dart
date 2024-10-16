@@ -27,7 +27,7 @@ class FakeBigDecimalMap200Response {
     
     name: r'someId',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -39,7 +39,7 @@ class FakeBigDecimalMap200Response {
     
     name: r'someMap',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -47,15 +47,17 @@ class FakeBigDecimalMap200Response {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is FakeBigDecimalMap200Response &&
-     other.someId == someId &&
-     other.someMap == someMap;
 
-  @override
-  int get hashCode =>
-    someId.hashCode +
-    someMap.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is FakeBigDecimalMap200Response &&
+      other.someId == someId &&
+      other.someMap == someMap;
+
+    @override
+    int get hashCode =>
+        someId.hashCode +
+        someMap.hashCode;
 
   factory FakeBigDecimalMap200Response.fromJson(Map<String, dynamic> json) => _$FakeBigDecimalMap200ResponseFromJson(json);
 

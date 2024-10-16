@@ -70,7 +70,10 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     /** std:map (for map) */
     private static final String STD_MAP = "std::map";
 
-    /** std:vector (for array, set) */
+    /** std:set (for set) */
+    private static final String STD_SET = "std::set";
+
+    /** std:vector (for array) */
     private static final String STD_VECTOR = "std::vector";
 
     @Override
@@ -148,7 +151,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         typeMapping.put("boolean", "bool");
         typeMapping.put("array", STD_VECTOR);
         typeMapping.put("map", STD_MAP);
-        typeMapping.put("set", STD_VECTOR);
+        typeMapping.put("set", STD_SET);
         typeMapping.put("file", STD_STRING);
         typeMapping.put("object", NLOHMANN_JSON);
         typeMapping.put("binary", STD_STRING);
@@ -161,6 +164,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         super.importMapping = new HashMap<>();
         importMapping.put(STD_VECTOR, "#include <vector>");
         importMapping.put(STD_MAP, "#include <map>");
+        importMapping.put(STD_SET, "#include <set>");
         importMapping.put(STD_STRING, "#include <string>");
         importMapping.put(NLOHMANN_JSON, "#include <nlohmann/json.hpp>");
 
@@ -352,13 +356,17 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
      * data types for Header and Query parameters.
      * @param param CodegenParameter to be modified.
      */
-    private static void postProcessSingleParam(CodegenParameter param) {
+    private void postProcessSingleParam(CodegenParameter param) {
         //TODO: This changes the info about the real type but it is needed to parse the header params
         if (param.isHeaderParam) {
             param.dataType = "std::optional<Pistache::Http::Header::Raw>";
             param.baseType = "std::optional<Pistache::Http::Header::Raw>";
         } else if (param.isQueryParam) {
-            param.dataType = "std::optional<" + param.dataType + ">";
+            String dataTypeWithNamespace = param.isPrimitiveType ? param.dataType : prefixWithNameSpaceIfNeeded(param.dataType);
+
+            param.dataType = "std::optional<" + dataTypeWithNamespace + ">";
+            param.isOptional = true;
+
             if (!param.isPrimitiveType) {
                 param.baseType = "std::optional<" + param.baseType + ">";
             }
@@ -430,8 +438,17 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             return toModelName(openAPIType);
         }
 
+        return prefixWithNameSpaceIfNeeded(openAPIType);
+    }
+
+    /**
+     * Prefix an open API type with a namespace or not, depending of its current type and if it is on a list to avoid it.
+     * @param openAPIType Open API Type.
+     * @return type prefixed with the namespace or not.
+     */
+    private String prefixWithNameSpaceIfNeeded(String openAPIType) {
         // Some types might not support namespace
-        if (this.openAPITypesWithoutModelNamespace.contains(openAPIType)) {
+        if (this.openAPITypesWithoutModelNamespace.contains(openAPIType) || openAPIType.startsWith("std::")) {
             return openAPIType;
         }
         else {

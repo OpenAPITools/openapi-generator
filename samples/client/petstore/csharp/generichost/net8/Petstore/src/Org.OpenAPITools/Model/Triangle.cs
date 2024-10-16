@@ -33,11 +33,9 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
         /// <param name="equilateralTriangle"></param>
-        /// <param name="triangleType">triangleType</param>
-        public Triangle(EquilateralTriangle equilateralTriangle, string triangleType)
+        public Triangle(EquilateralTriangle equilateralTriangle)
         {
             EquilateralTriangle = equilateralTriangle;
-            TriangleType = triangleType;
             OnCreated();
         }
 
@@ -45,11 +43,9 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
         /// <param name="isoscelesTriangle"></param>
-        /// <param name="triangleType">triangleType</param>
-        public Triangle(IsoscelesTriangle isoscelesTriangle, string triangleType)
+        public Triangle(IsoscelesTriangle isoscelesTriangle)
         {
             IsoscelesTriangle = isoscelesTriangle;
-            TriangleType = triangleType;
             OnCreated();
         }
 
@@ -57,11 +53,9 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
         /// <param name="scaleneTriangle"></param>
-        /// <param name="triangleType">triangleType</param>
-        public Triangle(ScaleneTriangle scaleneTriangle, string triangleType)
+        public Triangle(ScaleneTriangle scaleneTriangle)
         {
             ScaleneTriangle = scaleneTriangle;
-            TriangleType = triangleType;
             OnCreated();
         }
 
@@ -83,12 +77,6 @@ namespace Org.OpenAPITools.Model
         public ScaleneTriangle ScaleneTriangle { get; set; }
 
         /// <summary>
-        /// Gets or Sets TriangleType
-        /// </summary>
-        [JsonPropertyName("triangleType")]
-        public string TriangleType { get; set; }
-
-        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -102,7 +90,6 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Triangle {\n");
-            sb.Append("  TriangleType: ").Append(TriangleType).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -113,7 +100,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -123,7 +110,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -223,13 +210,13 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class Triangle.");
 
             if (equilateralTriangle != null)
-                return new Triangle(equilateralTriangle, triangleType.Value);
+                return new Triangle(equilateralTriangle);
 
             if (isoscelesTriangle != null)
-                return new Triangle(isoscelesTriangle, triangleType.Value);
+                return new Triangle(isoscelesTriangle);
 
             if (scaleneTriangle != null)
-                return new Triangle(scaleneTriangle, triangleType.Value);
+                return new Triangle(scaleneTriangle);
 
             throw new JsonException();
         }
@@ -245,22 +232,25 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            if (triangle.EquilateralTriangle != null) {
+            if (triangle.EquilateralTriangle != null)
+            {
                 EquilateralTriangleJsonConverter equilateralTriangleJsonConverter = (EquilateralTriangleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(triangle.EquilateralTriangle.GetType()));
-                equilateralTriangleJsonConverter.WriteProperties(ref writer, triangle.EquilateralTriangle, jsonSerializerOptions);
+                equilateralTriangleJsonConverter.WriteProperties(writer, triangle.EquilateralTriangle, jsonSerializerOptions);
             }
 
-            if (triangle.IsoscelesTriangle != null) {
+            if (triangle.IsoscelesTriangle != null)
+            {
                 IsoscelesTriangleJsonConverter isoscelesTriangleJsonConverter = (IsoscelesTriangleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(triangle.IsoscelesTriangle.GetType()));
-                isoscelesTriangleJsonConverter.WriteProperties(ref writer, triangle.IsoscelesTriangle, jsonSerializerOptions);
+                isoscelesTriangleJsonConverter.WriteProperties(writer, triangle.IsoscelesTriangle, jsonSerializerOptions);
             }
 
-            if (triangle.ScaleneTriangle != null) {
+            if (triangle.ScaleneTriangle != null)
+            {
                 ScaleneTriangleJsonConverter scaleneTriangleJsonConverter = (ScaleneTriangleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(triangle.ScaleneTriangle.GetType()));
-                scaleneTriangleJsonConverter.WriteProperties(ref writer, triangle.ScaleneTriangle, jsonSerializerOptions);
+                scaleneTriangleJsonConverter.WriteProperties(writer, triangle.ScaleneTriangle, jsonSerializerOptions);
             }
 
-            WriteProperties(ref writer, triangle, jsonSerializerOptions);
+            WriteProperties(writer, triangle, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -271,12 +261,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="triangle"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Triangle triangle, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Triangle triangle, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (triangle.TriangleType == null)
-                throw new ArgumentNullException(nameof(triangle.TriangleType), "Property is required for class Triangle.");
 
-            writer.WriteString("triangleType", triangle.TriangleType);
         }
     }
 }

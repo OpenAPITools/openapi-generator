@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Mealy
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<bool?> MealyOption { get; private set; }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -164,7 +164,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, appleReq, jsonSerializerOptions);
+            WriteProperties(writer, appleReq, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -175,7 +175,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="appleReq"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, AppleReq appleReq, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, AppleReq appleReq, JsonSerializerOptions jsonSerializerOptions)
         {
             if (appleReq.Cultivar == null)
                 throw new ArgumentNullException(nameof(appleReq.Cultivar), "Property is required for class AppleReq.");

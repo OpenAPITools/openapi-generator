@@ -18,6 +18,7 @@ import {
     ItemIdFromJSON,
     ItemIdFromJSONTyped,
     ItemIdToJSON,
+    ItemIdToJSONTyped,
 } from './ItemId';
 
 /**
@@ -55,8 +56,8 @@ export interface ModelError {
 /**
  * Check if a given object implements the ModelError interface.
  */
-export function instanceOfModelError(value: object): boolean {
-    if (!('type' in value)) return false;
+export function instanceOfModelError(value: object): value is ModelError {
+    if (!('type' in value) || value['type'] === undefined) return false;
     return true;
 }
 
@@ -77,10 +78,15 @@ export function ModelErrorFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     };
 }
 
-export function ModelErrorToJSON(value?: ModelError | null): any {
+  export function ModelErrorToJSON(json: any): ModelError {
+      return ModelErrorToJSONTyped(json, false);
+  }
+
+  export function ModelErrorToJSONTyped(value?: ModelError | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'type': value['type'],

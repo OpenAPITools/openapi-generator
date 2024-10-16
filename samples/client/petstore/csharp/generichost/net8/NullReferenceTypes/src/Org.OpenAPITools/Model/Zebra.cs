@@ -130,7 +130,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Type
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<TypeEnum?> TypeOption { get; private set; }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -254,7 +254,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, zebra, jsonSerializerOptions);
+            WriteProperties(writer, zebra, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -265,7 +265,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="zebra"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Zebra zebra, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Zebra zebra, JsonSerializerOptions jsonSerializerOptions)
         {
             if (zebra.ClassName == null)
                 throw new ArgumentNullException(nameof(zebra.ClassName), "Property is required for class Zebra.");

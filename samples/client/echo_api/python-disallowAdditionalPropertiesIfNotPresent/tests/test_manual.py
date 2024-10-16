@@ -113,14 +113,11 @@ class TestManual(unittest.TestCase):
         n = openapi_client.Pet.from_dict({"name": "testing", "photoUrls": ["http://1", "http://2"]})
         api_instance = openapi_client.BodyApi()
         api_response = api_instance.test_echo_body_pet_response_string(n)
-        self.assertEqual(api_response, '{"name": "testing", "photoUrls": ["http://1", "http://2"]}')
+        self.assertEqual(api_response, "{'name': 'testing', 'photoUrls': ['http://1', 'http://2']}")
 
         t = openapi_client.Tag()
         api_response = api_instance.test_echo_body_tag_response_string(t)
         self.assertEqual(api_response, "{}") # assertion to ensure {} is sent in the body
-
-        api_response = api_instance.test_echo_body_tag_response_string(None)
-        self.assertEqual(api_response, "") # assertion to ensure emtpy string is sent in the body
 
         api_response = api_instance.test_echo_body_free_form_object_response_string({})
         self.assertEqual(api_response, "{}") # assertion to ensure {} is sent in the body

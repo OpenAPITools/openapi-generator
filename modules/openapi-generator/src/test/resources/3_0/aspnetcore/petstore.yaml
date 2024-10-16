@@ -594,6 +594,20 @@ paths:
       responses:
         default:
           description: successful operation
+  /fake/nullable_example_test:
+    get:
+      tags:
+        - fake
+      summary: Fake endpoint to test nullable example (object)
+      description: ''
+      operationId: fake_nullable_example_test
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestNullable'
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
@@ -637,6 +651,14 @@ components:
       enum:
         - A
         - B
+    TestNullable:
+      type: object
+      properties:
+        name:
+          type: string
+        nullableName:
+          type: string
+          nullable: true
     Order:
       title: Pet Order
       description: An order for a pets from the pet store

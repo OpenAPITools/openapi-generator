@@ -120,7 +120,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of DirectMap
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, bool>?> DirectMapOption { get; private set; }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of IndirectMap
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, bool>?> IndirectMapOption { get; private set; }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of MapMapOfString
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, Dictionary<string, string>>?> MapMapOfStringOption { get; private set; }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of MapOfEnumString
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, MapTest.InnerEnum>?> MapOfEnumStringOption { get; private set; }
 
         /// <summary>
@@ -196,7 +196,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -292,7 +292,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, mapTest, jsonSerializerOptions);
+            WriteProperties(writer, mapTest, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -303,7 +303,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapTest"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, MapTest mapTest, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, MapTest mapTest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (mapTest.DirectMapOption.IsSet && mapTest.DirectMap == null)
                 throw new ArgumentNullException(nameof(mapTest.DirectMap), "Property is required for class MapTest.");

@@ -3,6 +3,7 @@
 Cargo.toml
 README.md
 api/openapi.yaml
+bin/cli.rs
 docs/ANullableContainer.md
 docs/AdditionalPropertiesObject.md
 docs/AllOfObject.md
@@ -13,14 +14,18 @@ docs/ObjectOfObjects.md
 docs/ObjectOfObjectsInner.md
 docs/default_api.md
 examples/ca.pem
+examples/client/client_auth.rs
 examples/client/main.rs
 examples/server-chain.pem
 examples/server-key.pem
 examples/server/main.rs
 examples/server/server.rs
+examples/server/server_auth.rs
+src/auth.rs
 src/client/mod.rs
 src/context.rs
 src/header.rs
 src/lib.rs
 src/models.rs
 src/server/mod.rs
+src/server/server_auth.rs

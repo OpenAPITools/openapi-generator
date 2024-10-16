@@ -12,7 +12,7 @@ Accept: application/json
 
 ### Get Octocat
 ## Get Octocat
-GET https://api.github.com/octocat
+GET https://api.github.com/octocat?s={{s}}
 Accept: application/octocat-stream
 
 ### Get the Zen of GitHub

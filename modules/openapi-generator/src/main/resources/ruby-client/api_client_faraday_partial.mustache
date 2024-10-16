@@ -117,35 +117,41 @@
       request.options.on_data = Proc.new do |chunk, overall_received_bytes|
         stream << chunk
       end
+
       stream
     end
 
     def deserialize_file(response, stream)
-      body = response.body
-      if @config.return_binary_data == true
-        # return byte stream
-        encoding = body.encoding
-        stream.join.force_encoding(encoding)
+      body     = response.body
+      encoding = body.encoding
+
+      # reconstruct content
+      content = stream.join
+      content = content.unpack('m').join if response.headers['Content-Transfer-Encoding'] == 'binary'
+      content = content.force_encoding(encoding)
+
+      # return byte stream
+      return content if @config.return_binary_data == true
+
+      # return file instead of binary data
+      content_disposition = response.headers['Content-Disposition']
+      if content_disposition && content_disposition =~ /filename=/i
+        filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
+        prefix = sanitize_filename(filename)
       else
-        # return file instead of binary data
-        content_disposition = response.headers['Content-Disposition']
-        if content_disposition && content_disposition =~ /filename=/i
-          filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
-          prefix = sanitize_filename(filename)
-        else
-          prefix = 'download-'
-        end
-        prefix = prefix + '-' unless prefix.end_with?('-')
-        encoding = body.encoding
-        tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
-        tempfile.write(stream.join.force_encoding(encoding))
-        tempfile.close
-        config.logger.info "Temp file written to #{tempfile.path}, please copy the file to a proper folder "\
-                            "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
-                            "will be deleted automatically with GC. It's also recommended to delete the temp file "\
-                            "explicitly with `tempfile.delete`"
-        tempfile
+        prefix = 'download-'
       end
+      prefix = prefix + '-' unless prefix.end_with?('-')
+
+      tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
+      tempfile.write(content)
+      tempfile.close
+
+      config.logger.info "Temp file written to #{tempfile.path}, please copy the file to a proper folder "\
+                          "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
+                          "will be deleted automatically with GC. It's also recommended to delete the temp file "\
+                          "explicitly with `tempfile.delete`"
+      tempfile
     end
 
     def connection(opts)

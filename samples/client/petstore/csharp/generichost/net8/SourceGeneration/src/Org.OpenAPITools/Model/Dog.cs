@@ -35,11 +35,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Dog" /> class.
         /// </summary>
-        /// <param name="className">className</param>
         /// <param name="breed">breed</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
         [JsonConstructor]
-        public Dog(string className, Option<string?> breed = default, Option<string?> color = default) : base(className, color)
+        public Dog(Option<string?> breed = default, Option<string?> color = default) : base(color)
         {
             BreedOption = breed;
             OnCreated();
@@ -48,10 +47,17 @@ namespace Org.OpenAPITools.Model
         partial void OnCreated();
 
         /// <summary>
+        /// The discriminator
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public new string ClassName { get; } = "Dog";
+
+        /// <summary>
         /// Used to track the state of Breed
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> BreedOption { get; private set; }
 
         /// <summary>
@@ -143,7 +149,7 @@ namespace Org.OpenAPITools.Model
             if (color.IsSet && color.Value == null)
                 throw new ArgumentNullException(nameof(color), "Property is not nullable for class Dog.");
 
-            return new Dog(className.Value!, breed, color);
+            return new Dog(breed, color);
         }
 
         /// <summary>
@@ -157,7 +163,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, dog, jsonSerializerOptions);
+            WriteProperties(writer, dog, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -168,11 +174,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="dog"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Dog dog, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Dog dog, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (dog.ClassName == null)
-                throw new ArgumentNullException(nameof(dog.ClassName), "Property is required for class Dog.");
-
             if (dog.BreedOption.IsSet && dog.Breed == null)
                 throw new ArgumentNullException(nameof(dog.Breed), "Property is required for class Dog.");
 

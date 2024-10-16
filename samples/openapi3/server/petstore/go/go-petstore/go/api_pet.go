@@ -36,7 +36,7 @@ func WithPetAPIErrorHandler(h ErrorHandler) PetAPIOption {
 }
 
 // NewPetAPIController creates a default api controller
-func NewPetAPIController(s PetAPIServicer, opts ...PetAPIOption) Router {
+func NewPetAPIController(s PetAPIServicer, opts ...PetAPIOption) *PetAPIController {
 	controller := &PetAPIController{
 		service:      s,
 		errorHandler: DefaultErrorHandler,
@@ -52,15 +52,15 @@ func NewPetAPIController(s PetAPIServicer, opts ...PetAPIOption) Router {
 // Routes returns all the api routes for the PetAPIController
 func (c *PetAPIController) Routes() Routes {
 	return Routes{
+		"UpdatePet": Route{
+			strings.ToUpper("Put"),
+			"/v2/pet",
+			c.UpdatePet,
+		},
 		"AddPet": Route{
 			strings.ToUpper("Post"),
 			"/v2/pet",
 			c.AddPet,
-		},
-		"DeletePet": Route{
-			strings.ToUpper("Delete"),
-			"/v2/pet/{petId}",
-			c.DeletePet,
 		},
 		"FindPetsByStatus": Route{
 			strings.ToUpper("Get"),
@@ -77,15 +77,15 @@ func (c *PetAPIController) Routes() Routes {
 			"/v2/pet/{petId}",
 			c.GetPetById,
 		},
-		"UpdatePet": Route{
-			strings.ToUpper("Put"),
-			"/v2/pet",
-			c.UpdatePet,
-		},
 		"UpdatePetWithForm": Route{
 			strings.ToUpper("Post"),
 			"/v2/pet/{petId}",
 			c.UpdatePetWithForm,
+		},
+		"DeletePet": Route{
+			strings.ToUpper("Delete"),
+			"/v2/pet/{petId}",
+			c.DeletePet,
 		},
 		"UploadFile": Route{
 			strings.ToUpper("Post"),
@@ -93,117 +93,6 @@ func (c *PetAPIController) Routes() Routes {
 			c.UploadFile,
 		},
 	}
-}
-
-// AddPet - Add a new pet to the store
-func (c *PetAPIController) AddPet(w http.ResponseWriter, r *http.Request) {
-	petParam := Pet{}
-	d := json.NewDecoder(r.Body)
-	d.DisallowUnknownFields()
-	if err := d.Decode(&petParam); err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-		return
-	}
-	if err := AssertPetRequired(petParam); err != nil {
-		c.errorHandler(w, r, err, nil)
-		return
-	}
-	if err := AssertPetConstraints(petParam); err != nil {
-		c.errorHandler(w, r, err, nil)
-		return
-	}
-	result, err := c.service.AddPet(r.Context(), petParam)
-	// If an error occurred, encode the error with the status code
-	if err != nil {
-		c.errorHandler(w, r, err, &result)
-		return
-	}
-	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-}
-
-// DeletePet - Deletes a pet
-func (c *PetAPIController) DeletePet(w http.ResponseWriter, r *http.Request) {
-	petIdParam, err := parseNumericParameter[int64](
-		chi.URLParam(r, "petId"),
-		WithRequire[int64](parseInt64),
-	)
-	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Param: "petId", Err: err}, nil)
-		return
-	}
-	apiKeyParam := r.Header.Get("api_key")
-	result, err := c.service.DeletePet(r.Context(), petIdParam, apiKeyParam)
-	// If an error occurred, encode the error with the status code
-	if err != nil {
-		c.errorHandler(w, r, err, &result)
-		return
-	}
-	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-}
-
-// FindPetsByStatus - Finds Pets by status
-func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Request) {
-	query, err := parseQuery(r.URL.RawQuery)
-	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-		return
-	}
-	var statusParam []string
-	if query.Has("status") {
-		statusParam = strings.Split(query.Get("status"), ",")
-	}
-	result, err := c.service.FindPetsByStatus(r.Context(), statusParam)
-	// If an error occurred, encode the error with the status code
-	if err != nil {
-		c.errorHandler(w, r, err, &result)
-		return
-	}
-	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-}
-
-// FindPetsByTags - Finds Pets by tags
-// Deprecated
-func (c *PetAPIController) FindPetsByTags(w http.ResponseWriter, r *http.Request) {
-	query, err := parseQuery(r.URL.RawQuery)
-	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-		return
-	}
-	var tagsParam []string
-	if query.Has("tags") {
-		tagsParam = strings.Split(query.Get("tags"), ",")
-	}
-	result, err := c.service.FindPetsByTags(r.Context(), tagsParam)
-	// If an error occurred, encode the error with the status code
-	if err != nil {
-		c.errorHandler(w, r, err, &result)
-		return
-	}
-	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-}
-
-// GetPetById - Find pet by ID
-func (c *PetAPIController) GetPetById(w http.ResponseWriter, r *http.Request) {
-	petIdParam, err := parseNumericParameter[int64](
-		chi.URLParam(r, "petId"),
-		WithRequire[int64](parseInt64),
-	)
-	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Param: "petId", Err: err}, nil)
-		return
-	}
-	result, err := c.service.GetPetById(r.Context(), petIdParam)
-	// If an error occurred, encode the error with the status code
-	if err != nil {
-		c.errorHandler(w, r, err, &result)
-		return
-	}
-	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
 
 // UpdatePet - Update an existing pet
@@ -230,7 +119,97 @@ func (c *PetAPIController) UpdatePet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+}
+
+// AddPet - Add a new pet to the store
+func (c *PetAPIController) AddPet(w http.ResponseWriter, r *http.Request) {
+	petParam := Pet{}
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&petParam); err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	if err := AssertPetRequired(petParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	if err := AssertPetConstraints(petParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	result, err := c.service.AddPet(r.Context(), petParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+}
+
+// FindPetsByStatus - Finds Pets by status
+func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Request) {
+	query, err := parseQuery(r.URL.RawQuery)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	var statusParam []string
+	if query.Has("status") {
+		statusParam = strings.Split(query.Get("status"), ",")
+	}
+	result, err := c.service.FindPetsByStatus(r.Context(), statusParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+}
+
+// FindPetsByTags - Finds Pets by tags
+// Deprecated
+func (c *PetAPIController) FindPetsByTags(w http.ResponseWriter, r *http.Request) {
+	query, err := parseQuery(r.URL.RawQuery)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	var tagsParam []string
+	if query.Has("tags") {
+		tagsParam = strings.Split(query.Get("tags"), ",")
+	}
+	result, err := c.service.FindPetsByTags(r.Context(), tagsParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+}
+
+// GetPetById - Find pet by ID
+func (c *PetAPIController) GetPetById(w http.ResponseWriter, r *http.Request) {
+	petIdParam, err := parseNumericParameter[int64](
+		chi.URLParam(r, "petId"),
+		WithRequire[int64](parseInt64),
+	)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Param: "petId", Err: err}, nil)
+		return
+	}
+	result, err := c.service.GetPetById(r.Context(), petIdParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
 
 // UpdatePetWithForm - Updates a pet in the store with form data
@@ -260,7 +239,28 @@ func (c *PetAPIController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+}
+
+// DeletePet - Deletes a pet
+func (c *PetAPIController) DeletePet(w http.ResponseWriter, r *http.Request) {
+	petIdParam, err := parseNumericParameter[int64](
+		chi.URLParam(r, "petId"),
+		WithRequire[int64](parseInt64),
+	)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Param: "petId", Err: err}, nil)
+		return
+	}
+	apiKeyParam := r.Header.Get("api_key")
+	result, err := c.service.DeletePet(r.Context(), petIdParam, apiKeyParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
 
 // UploadFile - uploads an image
@@ -299,5 +299,5 @@ func (c *PetAPIController) UploadFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }

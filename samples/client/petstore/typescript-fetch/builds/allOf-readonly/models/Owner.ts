@@ -30,7 +30,7 @@ export interface Owner {
 /**
  * Check if a given object implements the Owner interface.
  */
-export function instanceOfOwner(value: object): boolean {
+export function instanceOfOwner(value: object): value is Owner {
     return true;
 }
 
@@ -48,10 +48,15 @@ export function OwnerFromJSONTyped(json: any, ignoreDiscriminator: boolean): Own
     };
 }
 
-export function OwnerToJSON(value?: Owner | null): any {
+  export function OwnerToJSON(json: any): Owner {
+      return OwnerToJSONTyped(json, false);
+  }
+
+  export function OwnerToJSONTyped(value?: Owner | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'name': value['name'],

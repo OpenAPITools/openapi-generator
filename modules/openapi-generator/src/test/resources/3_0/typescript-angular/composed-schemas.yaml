@@ -26,6 +26,11 @@ paths:
 
 components:
   schemas:
+    Dummy:
+      type: object
+      properties:
+        property.name:
+          type: string
     DogBreed:
       type: string
       enum: [Dingo, Husky]

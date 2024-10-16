@@ -30,7 +30,7 @@ export interface Foo {
 /**
  * Check if a given object implements the Foo interface.
  */
-export function instanceOfFoo(value: object): boolean {
+export function instanceOfFoo(value: object): value is Foo {
     return true;
 }
 
@@ -48,10 +48,15 @@ export function FooFromJSONTyped(json: any, ignoreDiscriminator: boolean): Foo {
     };
 }
 
-export function FooToJSON(value?: Foo | null): any {
+  export function FooToJSON(json: any): Foo {
+      return FooToJSONTyped(json, false);
+  }
+
+  export function FooToJSONTyped(value?: Foo | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'bar': value['bar'],

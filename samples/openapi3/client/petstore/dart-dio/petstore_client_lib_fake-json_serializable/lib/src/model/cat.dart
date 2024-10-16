@@ -32,7 +32,7 @@ class Cat {
     
     name: r'className',
     required: true,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -44,7 +44,7 @@ class Cat {
     defaultValue: 'red',
     name: r'color',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -56,7 +56,7 @@ class Cat {
     
     name: r'declawed',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -64,17 +64,19 @@ class Cat {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is Cat &&
-     other.className == className &&
-     other.color == color &&
-     other.declawed == declawed;
 
-  @override
-  int get hashCode =>
-    className.hashCode +
-    color.hashCode +
-    declawed.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is Cat &&
+      other.className == className &&
+      other.color == color &&
+      other.declawed == declawed;
+
+    @override
+    int get hashCode =>
+        className.hashCode +
+        color.hashCode +
+        declawed.hashCode;
 
   factory Cat.fromJson(Map<String, dynamic> json) => _$CatFromJson(json);
 

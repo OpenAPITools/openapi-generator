@@ -32,23 +32,24 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   DanishPig.JSON_PROPERTY_CLASS_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class DanishPig {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
+  @javax.annotation.Nonnull
   private String className;
 
   public DanishPig() { 
   }
 
-  public DanishPig className(String className) {
+  public DanishPig className(@javax.annotation.Nonnull String className) {
     this.className = className;
     return this;
   }
 
-   /**
+  /**
    * Get className
    * @return className
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -60,7 +61,7 @@ public class DanishPig {
 
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setClassName(String className) {
+  public void setClassName(@javax.annotation.Nonnull String className) {
     this.className = className;
   }
 

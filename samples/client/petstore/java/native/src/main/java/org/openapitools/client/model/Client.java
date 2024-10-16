@@ -28,33 +28,34 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * Client
  */
 @JsonPropertyOrder({
   Client.JSON_PROPERTY_CLIENT
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Client {
   public static final String JSON_PROPERTY_CLIENT = "client";
+  @javax.annotation.Nullable
   private String client;
 
   public Client() { 
   }
 
-  public Client client(String client) {
+  public Client client(@javax.annotation.Nullable String client) {
     this.client = client;
     return this;
   }
 
-   /**
+  /**
    * Get client
    * @return client
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CLIENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getClient() {
     return client;
   }
@@ -62,7 +63,7 @@ public class Client {
 
   @JsonProperty(JSON_PROPERTY_CLIENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setClient(String client) {
+  public void setClient(@javax.annotation.Nullable String client) {
     this.client = client;
   }
 
@@ -141,10 +142,64 @@ public class Client {
 
     // add `client` to the URL query string
     if (getClient() != null) {
-      joiner.add(String.format("%sclient%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getClient()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sclient%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getClient()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private Client instance;
+
+    public Builder() {
+      this(new Client());
+    }
+
+    protected Builder(Client instance) {
+      this.instance = instance;
+    }
+
+    public Client.Builder client(String client) {
+      this.instance.client = client;
+      return this;
+    }
+
+
+    /**
+    * returns a built Client instance.
+    *
+    * The builder is not reusable.
+    */
+    public Client build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static Client.Builder builder() {
+    return new Client.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Client.Builder toBuilder() {
+    return new Client.Builder()
+      .client(getClient());
+  }
+
 }
 

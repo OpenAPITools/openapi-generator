@@ -33,11 +33,9 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Shape" /> class.
         /// </summary>
         /// <param name="triangle"></param>
-        /// <param name="shapeType">shapeType</param>
-        public Shape(Triangle triangle, string shapeType)
+        public Shape(Triangle triangle)
         {
             Triangle = triangle;
-            ShapeType = shapeType;
             OnCreated();
         }
 
@@ -45,11 +43,9 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Shape" /> class.
         /// </summary>
         /// <param name="quadrilateral"></param>
-        /// <param name="shapeType">shapeType</param>
-        public Shape(Quadrilateral quadrilateral, string shapeType)
+        public Shape(Quadrilateral quadrilateral)
         {
             Quadrilateral = quadrilateral;
-            ShapeType = shapeType;
             OnCreated();
         }
 
@@ -66,12 +62,6 @@ namespace Org.OpenAPITools.Model
         public Quadrilateral Quadrilateral { get; set; }
 
         /// <summary>
-        /// Gets or Sets ShapeType
-        /// </summary>
-        [JsonPropertyName("shapeType")]
-        public string ShapeType { get; set; }
-
-        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -85,7 +75,6 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Shape {\n");
-            sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -96,7 +85,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -106,7 +95,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -200,10 +189,10 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class Shape.");
 
             if (quadrilateral != null)
-                return new Shape(quadrilateral, shapeType.Value);
+                return new Shape(quadrilateral);
 
             if (triangle != null)
-                return new Shape(triangle, shapeType.Value);
+                return new Shape(triangle);
 
             throw new JsonException();
         }
@@ -219,17 +208,19 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            if (shape.Triangle != null) {
+            if (shape.Triangle != null)
+            {
                 TriangleJsonConverter triangleJsonConverter = (TriangleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(shape.Triangle.GetType()));
-                triangleJsonConverter.WriteProperties(ref writer, shape.Triangle, jsonSerializerOptions);
+                triangleJsonConverter.WriteProperties(writer, shape.Triangle, jsonSerializerOptions);
             }
 
-            if (shape.Quadrilateral != null) {
+            if (shape.Quadrilateral != null)
+            {
                 QuadrilateralJsonConverter quadrilateralJsonConverter = (QuadrilateralJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(shape.Quadrilateral.GetType()));
-                quadrilateralJsonConverter.WriteProperties(ref writer, shape.Quadrilateral, jsonSerializerOptions);
+                quadrilateralJsonConverter.WriteProperties(writer, shape.Quadrilateral, jsonSerializerOptions);
             }
 
-            WriteProperties(ref writer, shape, jsonSerializerOptions);
+            WriteProperties(writer, shape, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -240,12 +231,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="shape"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Shape shape, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Shape shape, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (shape.ShapeType == null)
-                throw new ArgumentNullException(nameof(shape.ShapeType), "Property is required for class Shape.");
 
-            writer.WriteString("shapeType", shape.ShapeType);
         }
     }
 }

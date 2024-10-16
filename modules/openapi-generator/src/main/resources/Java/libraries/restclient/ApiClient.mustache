@@ -1,5 +1,11 @@
+{{>licenseInfo}}
+
 package {{invokerPackage}};
 
+{{#withXml}}
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
+{{/withXml}}
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -12,8 +18,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.InvalidMediaTypeException;
 import org.springframework.http.MediaType;
-  import org.springframework.http.converter.HttpMessageConverter;
-  import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 {{#withXml}}
   import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
 {{/withXml}}
@@ -81,29 +87,26 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
 
     public ApiClient() {
-        this.dateFormat = createDefaultDateFormat();
-        this.objectMapper = createDefaultObjectMapper(this.dateFormat);
-        this.restClient = buildRestClient(this.objectMapper);
-        this.init();
+        this(null);
     }
 
     public ApiClient(RestClient restClient) {
-        this(Optional.ofNullable(restClient).orElseGet(ApiClient::buildRestClient), createDefaultDateFormat());
+        this(restClient, createDefaultDateFormat());
     }
 
     public ApiClient(ObjectMapper mapper, DateFormat format) {
-        this(buildRestClient(mapper.copy()), format);
+        this(null, mapper, format);
     }
 
     public ApiClient(RestClient restClient, ObjectMapper mapper, DateFormat format) {
-        this(Optional.ofNullable(restClient).orElseGet(() -> buildRestClient(mapper.copy())), format);
+        this.objectMapper = mapper.copy();
+        this.restClient = Optional.ofNullable(restClient).orElseGet(() -> buildRestClient(this.objectMapper));
+        this.dateFormat = format;
+        this.init();
     }
 
     private ApiClient(RestClient restClient, DateFormat format) {
-        this.restClient = restClient;
-        this.dateFormat = format;
-        this.objectMapper = createDefaultObjectMapper(format);
-        this.init();
+        this(restClient, createDefaultObjectMapper(format), format);
     }
 
     public static DateFormat createDefaultDateFormat() {
@@ -119,7 +122,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setDateFormat(dateFormat);
         mapper.registerModule(new JavaTimeModule());
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, {{failOnUnknownProperties}});
         {{#openApiNullable}}
         JsonNullableModule jnm = new JsonNullableModule();
         mapper.registerModule(jnm);

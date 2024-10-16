@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class StoreApi extends BaseApi {
 
   public StoreApi() {
@@ -69,7 +69,7 @@ public class StoreApi extends BaseApi {
     
     // create path and map variables
     String localVarPath = "/store/order/{order_id}"
-      .replaceAll("\\{" + "order_id" + "\\}", apiClient.escapeString(orderId.toString()));
+      .replaceAll("\\{" + "order_id" + "\\}", apiClient.escapeString(apiClient.parameterToString(orderId)));
 
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
@@ -210,7 +210,7 @@ public class StoreApi extends BaseApi {
     
     // create path and map variables
     String localVarPath = "/store/order/{order_id}"
-      .replaceAll("\\{" + "order_id" + "\\}", apiClient.escapeString(orderId.toString()));
+      .replaceAll("\\{" + "order_id" + "\\}", apiClient.escapeString(apiClient.parameterToString(orderId)));
 
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;

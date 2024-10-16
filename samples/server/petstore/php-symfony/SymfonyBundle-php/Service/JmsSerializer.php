@@ -101,12 +101,16 @@ class JmsSerializer implements SerializerInterface
             case '\DateTime':
                 return is_null($data) ? null :new DateTime($data);
             default:
+                if (is_null($data)) {
+                    return null;
+                }
+
                 if (!class_exists($type)) {
                     throw new RuntimeException(sprintf("Type %s is unsupported", $type));
                 }
 
                 $reflectionClass = new \ReflectionClass($type);
-                if (!$reflectionClass->implementsInterface('\BackedENum')) {
+                if (!$reflectionClass->implementsInterface('\BackedEnum')) {
                     throw new RuntimeException(sprintf("Type %s is unsupported", $type));
                 }
 

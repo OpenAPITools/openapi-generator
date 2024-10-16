@@ -3,10 +3,10 @@ name: Samples cpp qt client
 on:
   push:
     branches:
-      - 'samples/client/petstore/cpp-qt/**'
+      - "samples/client/petstore/cpp-qt*/**"
   pull_request:
     paths:
-      - 'samples/client/petstore/cpp-qt/**'
+      - "samples/client/petstore/cpp-qt*/**"
 
 env:
   GRADLE_VERSION: 6.9
@@ -16,9 +16,9 @@ jobs:
     name: Build cpp qt client
     strategy:
       matrix:
-        qt-version:
-          - '5.15.2'
-          - '6.5.3'
+        sample:
+          - samples/client/petstore/cpp-qt
+          - samples/client/petstore/cpp-qt-addDownloadProgress
         os:
           - ubuntu-latest
           - macOS-latest
@@ -27,10 +27,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Qt
-        uses: jurplel/install-qt-action@v3
+        uses: jurplel/install-qt-action@v4
         with:
-          version: ${{ matrix.qt-version }}
-          tools: ${{ matrix.tools }}
+          version: "6.7.1"
+          target: "desktop"
       - name: Build
-        working-directory: "samples/client/petstore/cpp-qt"
-        run: cmake . && cmake --build .
+        working-directory: ${{ matrix.sample }}
+        run: cmake . && cmake --build . --verbose

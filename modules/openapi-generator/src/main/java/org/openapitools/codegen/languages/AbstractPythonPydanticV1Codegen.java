@@ -18,9 +18,9 @@ package org.openapitools.codegen.languages;
 
 import com.github.curiousoddman.rgxgen.RgxGen;
 import io.swagger.v3.oas.models.examples.Example;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -34,7 +34,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -48,8 +47,8 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
     public static final String MAP_NUMBER_TO = "mapNumberTo";
 
     protected String packageName = "openapi_client";
-    protected String packageVersion = "1.0.0";
-    protected String projectName; // for setup.py, e.g. petstore-api
+    @Setter protected String packageVersion = "1.0.0";
+    @Setter protected String projectName; // for setup.py, e.g. petstore-api
     protected boolean hasModelsToImport = Boolean.FALSE;
     protected String mapNumberTo = "Union[StrictFloat, StrictInt]";
     protected Map<Character, String> regexModifiers;
@@ -142,6 +141,8 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
         if (StringUtils.isEmpty(System.getenv("PYTHON_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable PYTHON_POST_PROCESS_FILE not defined so the Python code may not be properly formatted. To define it, try 'export PYTHON_POST_PROCESS_FILE=\"/usr/local/bin/yapf -i\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'PYTHON_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
     }
 
@@ -296,6 +297,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -306,20 +308,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
 
         // only process files with py extension
         if ("py".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = pythonPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[] {pythonPostProcessFile, file.toString()});
         }
     }
 
@@ -640,14 +629,6 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
     public void setPackageName(String packageName) {
         this.packageName = packageName;
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, this.packageName);
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
     }
 
     @Override

@@ -1,3 +1,5 @@
+{{>licenseInfo}}
+
 package {{invokerPackage}};
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -43,7 +45,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
@@ -142,7 +143,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setDateFormat(dateFormat);
         mapper.registerModule(new JavaTimeModule());
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, {{failOnUnknownProperties}});
         {{#openApiNullable}}
         JsonNullableModule jnm = new JsonNullableModule();
         mapper.registerModule(jnm);

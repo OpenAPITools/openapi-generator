@@ -22,7 +22,7 @@ import javax.annotation.Generated;
  * MapTest
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class MapTest {
 
   @Valid
@@ -72,9 +72,13 @@ public class MapTest {
   @Valid
   private Map<String, Boolean> indirectMap = new HashMap<>();
 
+  public MapTest() {
+    super();
+  }
+
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public MapTest(Map<String, Map<String, String>> mapMapOfString, Map<String, InnerEnum> mapOfEnumString, Map<String, Boolean> directMap, Map<String, Boolean> indirectMap) {
       this.mapMapOfString = mapMapOfString;
       this.mapOfEnumString = mapOfEnumString;
@@ -98,7 +102,7 @@ public class MapTest {
   /**
    * Get mapMapOfString
    * @return mapMapOfString
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("map_map_of_string")
@@ -126,7 +130,7 @@ public class MapTest {
   /**
    * Get mapOfEnumString
    * @return mapOfEnumString
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("map_of_enum_string")
@@ -154,7 +158,7 @@ public class MapTest {
   /**
    * Get directMap
    * @return directMap
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("direct_map")
@@ -182,7 +186,7 @@ public class MapTest {
   /**
    * Get indirectMap
    * @return indirectMap
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("indirect_map")

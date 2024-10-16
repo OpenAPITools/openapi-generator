@@ -68,7 +68,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ArrayAndItemsNullableProp
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<Object>> ArrayAndItemsNullablePropOption { get; private set; }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ArrayItemsNullable
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<Object>> ArrayItemsNullableOption { get; private set; }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ArrayNullableProp
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<Object>> ArrayNullablePropOption { get; private set; }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of BooleanProp
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<bool?> BooleanPropOption { get; private set; }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of DateProp
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<DateOnly?> DatePropOption { get; private set; }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of DatetimeProp
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<DateTime?> DatetimePropOption { get; private set; }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of IntegerProp
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> IntegerPropOption { get; private set; }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of NumberProp
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<decimal?> NumberPropOption { get; private set; }
 
         /// <summary>
@@ -172,7 +172,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ObjectAndItemsNullableProp
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, Object>> ObjectAndItemsNullablePropOption { get; private set; }
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ObjectItemsNullable
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, Object>> ObjectItemsNullableOption { get; private set; }
 
         /// <summary>
@@ -198,7 +198,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ObjectNullableProp
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, Object>> ObjectNullablePropOption { get; private set; }
 
         /// <summary>
@@ -211,7 +211,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of StringProp
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> StringPropOption { get; private set; }
 
         /// <summary>
@@ -256,7 +256,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -395,7 +395,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, nullableClass, jsonSerializerOptions);
+            WriteProperties(writer, nullableClass, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -406,7 +406,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="nullableClass"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, NullableClass nullableClass, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, NullableClass nullableClass, JsonSerializerOptions jsonSerializerOptions)
         {
             if (nullableClass.ArrayItemsNullableOption.IsSet && nullableClass.ArrayItemsNullable == null)
                 throw new ArgumentNullException(nameof(nullableClass.ArrayItemsNullable), "Property is required for class NullableClass.");

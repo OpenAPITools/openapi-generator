@@ -1,0 +1,88 @@
+swagger: '2.0'
+info:
+  description: "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\"
+  version: 1.0.0
+  title: OpenAPI Petstore
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+basePath: /v2
+schemes:
+  - http
+paths:
+  /:
+    get:
+      operationId: addPet
+      responses:
+        '200':
+          description: successful operation
+definitions:
+  FormatTest:
+    type: object
+    required:
+      - number
+      - byte
+      - date
+      - password
+    properties:
+      integer:
+        type: integer
+        maximum: 100
+        minimum: 10
+      int32:
+        type: integer
+        format: int32
+        maximum: 200
+        minimum: 20
+      int64:
+        type: integer
+        format: int64
+      number:
+        maximum: 543.2
+        minimum: 32.1
+        type: number
+      float:
+        type: number
+        format: float
+        maximum: 987.6
+        minimum: 54.3
+      double:
+        type: number
+        format: double
+        maximum: 123.4
+        minimum: 67.8
+      string:
+        type: string
+        pattern: /[a-z]/i
+      byte:
+        type: string
+        format: byte
+      binary:
+        type: string
+        format: binary
+      date:
+        type: string
+        format: date
+      dateTime:
+        type: string
+        format: date-time
+      uuid:
+        type: string
+        format: uuid
+        example: 72f98069-206d-4f12-9f12-3d1e525a8e84
+      password:
+        type: string
+        format: password
+        maxLength: 64
+        minLength: 10
+      BigDecimal:
+        type: string
+        format: number
+      enumContainer:
+        type: array
+        uniqueItems: true
+        items:
+          enum:
+            - placed
+            - approved
+            - delivered

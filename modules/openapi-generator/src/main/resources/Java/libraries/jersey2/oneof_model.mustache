@@ -112,7 +112,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     attemptParsing |= (token == JsonToken.VALUE_NUMBER_FLOAT);
                     {{/isDecimal}}
                     {{#isBoolean}}
-                    attemptParsing |= (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                    attemptParsing |= (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE);
                     {{/isBoolean}}
                     {{#isNullable}}
                     attemptParsing |= (token == JsonToken.VALUE_NULL);
@@ -120,7 +120,13 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                 }
                 {{/isPrimitiveType}}
                 if (attemptParsing) {
+                    {{#isMap}}
+                    final TypeReference<{{{dataType}}}> ref = new TypeReference<{{{dataType}}}>(){};
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(ref);
+                    {{/isMap}}
+                    {{^isMap}}
                     deserialized = tree.traverse(jp.getCodec()).readValueAs({{{dataType}}}.class);
+                    {{/isMap}}
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -169,7 +175,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<>();
+    public static final Map<String, GenericType<?>> schemas = new HashMap<>();
 
     public {{classname}}() {
         super("oneOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
@@ -218,7 +224,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     }
 
     @Override
-    public Map<String, GenericType> getSchemas() {
+    public Map<String, GenericType<?>> getSchemas() {
         return {{classname}}.schemas;
     }
 
@@ -266,6 +272,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
     {{#composedSchemas}}
     {{#oneOf}}
+    {{^vendorExtensions.x-duplicated-data-type-ignoring-erasure}}
     /**
      * Get the actual instance of `{{{dataType}}}`. If the actual instance is not `{{{dataType}}}`,
      * the ClassCastException will be thrown.
@@ -273,17 +280,11 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
      * @return The actual instance of `{{{dataType}}}`
      * @throws ClassCastException if the instance is not `{{{dataType}}}`
      */
-    {{^isArray}}
-    public {{{dataType}}} get{{{dataType}}}() throws ClassCastException {
+    public {{{dataType}}} get{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}() throws ClassCastException {
         return ({{{dataType}}})super.getActualInstance();
     }
-    {{/isArray}}
-    {{#isArray}}
-        public {{{dataType}}} get{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}() throws ClassCastException {
-        return ({{{dataType}}})super.getActualInstance();
-        }
-    {{/isArray}}
 
+    {{/vendorExtensions.x-duplicated-data-type-ignoring-erasure}}
     {{/oneOf}}
     {{/composedSchemas}}
 }

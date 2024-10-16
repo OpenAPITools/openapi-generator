@@ -33,11 +33,9 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
         /// <param name="whale"></param>
-        /// <param name="className">className</param>
-        public Mammal(Whale whale, string className)
+        public Mammal(Whale whale)
         {
             Whale = whale;
-            ClassName = className;
             OnCreated();
         }
 
@@ -45,11 +43,9 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
         /// <param name="zebra"></param>
-        /// <param name="className">className</param>
-        public Mammal(Zebra zebra, string className)
+        public Mammal(Zebra zebra)
         {
             Zebra = zebra;
-            ClassName = className;
             OnCreated();
         }
 
@@ -57,11 +53,9 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
         /// <param name="pig"></param>
-        /// <param name="className">className</param>
-        public Mammal(Pig pig, string className)
+        public Mammal(Pig pig)
         {
             Pig = pig;
-            ClassName = className;
             OnCreated();
         }
 
@@ -83,12 +77,6 @@ namespace Org.OpenAPITools.Model
         public Pig Pig { get; set; }
 
         /// <summary>
-        /// Gets or Sets ClassName
-        /// </summary>
-        [JsonPropertyName("className")]
-        public string ClassName { get; set; }
-
-        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -102,7 +90,6 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Mammal {\n");
-            sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -113,7 +100,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -123,7 +110,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -223,13 +210,13 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(className), "Property is not nullable for class Mammal.");
 
             if (pig != null)
-                return new Mammal(pig, className.Value);
+                return new Mammal(pig);
 
             if (whale != null)
-                return new Mammal(whale, className.Value);
+                return new Mammal(whale);
 
             if (zebra != null)
-                return new Mammal(zebra, className.Value);
+                return new Mammal(zebra);
 
             throw new JsonException();
         }
@@ -245,22 +232,25 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            if (mammal.Whale != null) {
+            if (mammal.Whale != null)
+            {
                 WhaleJsonConverter whaleJsonConverter = (WhaleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(mammal.Whale.GetType()));
-                whaleJsonConverter.WriteProperties(ref writer, mammal.Whale, jsonSerializerOptions);
+                whaleJsonConverter.WriteProperties(writer, mammal.Whale, jsonSerializerOptions);
             }
 
-            if (mammal.Zebra != null) {
+            if (mammal.Zebra != null)
+            {
                 ZebraJsonConverter zebraJsonConverter = (ZebraJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(mammal.Zebra.GetType()));
-                zebraJsonConverter.WriteProperties(ref writer, mammal.Zebra, jsonSerializerOptions);
+                zebraJsonConverter.WriteProperties(writer, mammal.Zebra, jsonSerializerOptions);
             }
 
-            if (mammal.Pig != null) {
+            if (mammal.Pig != null)
+            {
                 PigJsonConverter pigJsonConverter = (PigJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(mammal.Pig.GetType()));
-                pigJsonConverter.WriteProperties(ref writer, mammal.Pig, jsonSerializerOptions);
+                pigJsonConverter.WriteProperties(writer, mammal.Pig, jsonSerializerOptions);
             }
 
-            WriteProperties(ref writer, mammal, jsonSerializerOptions);
+            WriteProperties(writer, mammal, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -271,12 +261,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="mammal"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Mammal mammal, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Mammal mammal, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (mammal.ClassName == null)
-                throw new ArgumentNullException(nameof(mammal.ClassName), "Property is required for class Mammal.");
 
-            writer.WriteString("className", mammal.ClassName);
         }
     }
 }

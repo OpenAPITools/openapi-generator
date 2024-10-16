@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class UserApi extends BaseApi {
 
   public UserApi() {
@@ -283,7 +283,7 @@ public class UserApi extends BaseApi {
     
     // create path and map variables
     String localVarPath = "/user/{username}"
-      .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
+      .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(apiClient.parameterToString(username)));
 
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
@@ -357,7 +357,7 @@ public class UserApi extends BaseApi {
     
     // create path and map variables
     String localVarPath = "/user/{username}"
-      .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
+      .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(apiClient.parameterToString(username)));
 
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
@@ -584,7 +584,7 @@ public class UserApi extends BaseApi {
     
     // create path and map variables
     String localVarPath = "/user/{username}"
-      .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
+      .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(apiClient.parameterToString(username)));
 
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;

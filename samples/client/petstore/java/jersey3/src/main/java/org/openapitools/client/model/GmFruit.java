@@ -54,7 +54,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 @JsonDeserialize(using=GmFruit.GmFruitDeserializer.class)
 @JsonSerialize(using = GmFruit.GmFruitSerializer.class)
 public class GmFruit extends AbstractOpenApiSchema {
@@ -89,7 +89,7 @@ public class GmFruit extends AbstractOpenApiSchema {
             JsonNode tree = jp.readValueAsTree();
 
             Object deserialized = null;
-            // deserialize Apple
+            // deserialize Apple (nullable)
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Apple.class);
                 GmFruit ret = new GmFruit();
@@ -124,14 +124,14 @@ public class GmFruit extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in anyOf
-    public static final Map<String, GenericType> schemas = new HashMap<>();
+    public static final Map<String, GenericType<?>> schemas = new HashMap<>();
 
     public GmFruit() {
         super("anyOf", Boolean.FALSE);
     }
 
     public GmFruit(Apple o) {
-        super("anyOf", Boolean.FALSE);
+        super("anyOf", Boolean.TRUE);
         setActualInstance(o);
     }
 
@@ -149,7 +149,7 @@ public class GmFruit extends AbstractOpenApiSchema {
     }
 
     @Override
-    public Map<String, GenericType> getSchemas() {
+    public Map<String, GenericType<?>> getSchemas() {
         return GmFruit.schemas;
     }
 

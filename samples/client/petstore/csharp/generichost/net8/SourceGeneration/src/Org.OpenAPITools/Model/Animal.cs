@@ -35,12 +35,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Animal" /> class.
         /// </summary>
-        /// <param name="className">className</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
         [JsonConstructor]
-        public Animal(string className, Option<string?> color = default)
+        public Animal(Option<string?> color = default)
         {
-            ClassName = className;
             ColorOption = color;
             OnCreated();
         }
@@ -48,16 +46,17 @@ namespace Org.OpenAPITools.Model
         partial void OnCreated();
 
         /// <summary>
-        /// Gets or Sets ClassName
+        /// The discriminator
         /// </summary>
-        [JsonPropertyName("className")]
-        public string ClassName { get; set; }
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public string ClassName { get; } = "Animal";
 
         /// <summary>
         /// Used to track the state of Color
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> ColorOption { get; private set; }
 
         /// <summary>
@@ -80,7 +79,6 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Animal {\n");
-            sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  Color: ").Append(Color).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
@@ -92,7 +90,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -102,7 +100,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -132,6 +130,14 @@ namespace Org.OpenAPITools.Model
 
             Option<string?> className = default;
             Option<string?> color = default;
+
+            string? discriminator = ClientUtils.GetDiscriminator(utf8JsonReader, "className");
+
+            if (discriminator != null && discriminator.Equals("Cat"))
+                return JsonSerializer.Deserialize<Cat>(ref utf8JsonReader, jsonSerializerOptions) ?? throw new JsonException("The result was an unexpected value.");
+
+            if (discriminator != null && discriminator.Equals("Dog"))
+                return JsonSerializer.Deserialize<Dog>(ref utf8JsonReader, jsonSerializerOptions) ?? throw new JsonException("The result was an unexpected value.");
 
             while (utf8JsonReader.Read())
             {
@@ -169,7 +175,7 @@ namespace Org.OpenAPITools.Model
             if (color.IsSet && color.Value == null)
                 throw new ArgumentNullException(nameof(color), "Property is not nullable for class Animal.");
 
-            return new Animal(className.Value!, color);
+            return new Animal(color);
         }
 
         /// <summary>
@@ -181,9 +187,19 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Animal animal, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (animal is Cat cat){
+                JsonSerializer.Serialize<Cat>(writer, cat, jsonSerializerOptions);
+                return;
+            }
+
+            if (animal is Dog dog){
+                JsonSerializer.Serialize<Dog>(writer, dog, jsonSerializerOptions);
+                return;
+            }
+
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, animal, jsonSerializerOptions);
+            WriteProperties(writer, animal, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -194,11 +210,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="animal"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Animal animal, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Animal animal, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (animal.ClassName == null)
-                throw new ArgumentNullException(nameof(animal.ClassName), "Property is required for class Animal.");
-
             if (animal.ColorOption.IsSet && animal.Color == null)
                 throw new ArgumentNullException(nameof(animal.Color), "Property is required for class Animal.");
 

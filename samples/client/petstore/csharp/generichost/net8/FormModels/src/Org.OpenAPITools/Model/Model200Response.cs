@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Class
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> ClassOption { get; private set; }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Name
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> NameOption { get; private set; }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -175,7 +175,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, model200Response, jsonSerializerOptions);
+            WriteProperties(writer, model200Response, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -186,7 +186,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="model200Response"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Model200Response model200Response, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Model200Response model200Response, JsonSerializerOptions jsonSerializerOptions)
         {
             if (model200Response.ClassOption.IsSet && model200Response.Class == null)
                 throw new ArgumentNullException(nameof(model200Response.Class), "Property is required for class Model200Response.");

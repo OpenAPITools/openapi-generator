@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ColorCode
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> ColorCodeOption { get; private set; }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Cultivar
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> CultivarOption { get; private set; }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Origin
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> OriginOption { get; private set; }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             if (this.ColorCodeOption.Value != null) {
                 // ColorCode (string) pattern
@@ -227,7 +227,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, apple, jsonSerializerOptions);
+            WriteProperties(writer, apple, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -238,7 +238,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="apple"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Apple apple, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Apple apple, JsonSerializerOptions jsonSerializerOptions)
         {
             if (apple.ColorCodeOption.IsSet && apple.ColorCode == null)
                 throw new ArgumentNullException(nameof(apple.ColorCode), "Property is required for class Apple.");

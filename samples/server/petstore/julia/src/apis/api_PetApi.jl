@@ -63,7 +63,7 @@ function find_pets_by_status_read(handler)
     function find_pets_by_status_read_handler(req::HTTP.Request)
         openapi_params = Dict{String,Any}()
         query_params = HTTP.queryparams(URIs.URI(req.target))
-        openapi_params["status"] = OpenAPI.Servers.to_param(Vector{String}, query_params, "status", required=true, )
+        openapi_params["status"] = OpenAPI.Servers.to_param(Vector{String}, query_params, "status", required=true, style="form", is_explode=false)
         req.context[:openapi_params] = openapi_params
 
         return handler(req)
@@ -91,7 +91,7 @@ function find_pets_by_tags_read(handler)
     function find_pets_by_tags_read_handler(req::HTTP.Request)
         openapi_params = Dict{String,Any}()
         query_params = HTTP.queryparams(URIs.URI(req.target))
-        openapi_params["tags"] = OpenAPI.Servers.to_param(Vector{String}, query_params, "tags", required=true, )
+        openapi_params["tags"] = OpenAPI.Servers.to_param(Vector{String}, query_params, "tags", required=true, style="form", is_explode=false)
         req.context[:openapi_params] = openapi_params
 
         return handler(req)

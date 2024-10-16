@@ -16,8 +16,8 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -33,11 +33,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
@@ -50,17 +46,17 @@ public class CrystalClientCodegen extends DefaultCodegen {
     private static final String NUMERIC_ENUM_PREFIX = "N";
     protected static int emptyMethodNameCounter = 0;
 
-    protected String shardName = "openapi_client";
-    protected String moduleName = "OpenAPIClient";
-    protected String shardVersion = "1.0.0";
+    @Setter protected String shardName = "openapi_client";
+    @Setter protected String moduleName = "OpenAPIClient";
+    @Setter protected String shardVersion = "1.0.0";
     protected String specFolder = "spec";
     protected String srcFolder = "src";
-    protected String shardLicense = "unlicense";
-    protected String shardHomepage = "https://openapitools.org";
-    protected String shardSummary = "A Crystal SDK for the REST API";
-    protected String shardDescription = "This shard maps to a REST API";
-    protected String shardAuthor = "";
-    protected String shardAuthorEmail = "";
+    @Setter protected String shardLicense = "unlicense";
+    @Setter protected String shardHomepage = "https://openapitools.org";
+    @Setter protected String shardSummary = "A Crystal SDK for the REST API";
+    @Setter protected String shardDescription = "This shard maps to a REST API";
+    @Setter protected String shardAuthor = "";
+    @Setter protected String shardAuthorEmail = "";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected List<String> primitiveTypes = new ArrayList<String>();
@@ -219,6 +215,8 @@ public class CrystalClientCodegen extends DefaultCodegen {
         if (StringUtils.isEmpty(System.getenv("CRYSTAL_POST_PROCESS_FILE"))) {
             LOGGER.info(
                     "Hint: Environment variable 'CRYSTAL_POST_PROCESS_FILE' (optional) not defined. E.g. to format the source code, please try 'export CRYSTAL_POST_PROCESS_FILE=\"/usr/local/bin/crystal tool format\"' (Linux/Mac)");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'CRYSTAL_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(SHARD_NAME)) {
@@ -545,42 +543,6 @@ public class CrystalClientCodegen extends DefaultCodegen {
     @Override
     public String toApiImport(String name) {
         return shardName + "/" + apiPackage() + "/" + toApiFilename(name);
-    }
-
-    public void setShardName(String shardName) {
-        this.shardName = shardName;
-    }
-
-    public void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
-    }
-
-    public void setShardVersion(String shardVersion) {
-        this.shardVersion = shardVersion;
-    }
-
-    public void setShardDescription(String shardDescription) {
-        this.shardDescription = shardDescription;
-    }
-
-    public void setShardSummary(String shardSummary) {
-        this.shardSummary = shardSummary;
-    }
-
-    public void setShardLicense(String shardLicense) {
-        this.shardLicense = shardLicense;
-    }
-
-    public void setShardHomepage(String shardHomepage) {
-        this.shardHomepage = shardHomepage;
-    }
-
-    public void setShardAuthor(String shardAuthor) {
-        this.shardAuthor = shardAuthor;
-    }
-
-    public void setShardAuthorEmail(String shardAuthorEmail) {
-        this.shardAuthorEmail = shardAuthorEmail;
     }
 
     @Override
@@ -926,6 +888,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -935,30 +898,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         }
         // only process files with cr extension
         if ("cr".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = crystalPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    try (InputStreamReader inputStreamReader = new InputStreamReader(p.getErrorStream(),
-                            StandardCharsets.UTF_8);
-                            BufferedReader br = new BufferedReader(inputStreamReader)) {
-                        StringBuilder sb = new StringBuilder();
-                        String line;
-                        while ((line = br.readLine()) != null) {
-                            sb.append(line);
-                        }
-                        LOGGER.error("Error running the command ({}). Exit value: {}, Error output: {}", command,
-                                exitValue, sb);
-                    }
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[] {crystalPostProcessFile, file.toString()});
         }
     }
 

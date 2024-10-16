@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Code
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> CodeOption { get; private set; }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Message
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> MessageOption { get; private set; }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Type
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> TypeOption { get; private set; }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -201,7 +201,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, apiResponse, jsonSerializerOptions);
+            WriteProperties(writer, apiResponse, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -212,7 +212,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="apiResponse"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, ApiResponse apiResponse, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, ApiResponse apiResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (apiResponse.MessageOption.IsSet && apiResponse.Message == null)
                 throw new ArgumentNullException(nameof(apiResponse.Message), "Property is required for class ApiResponse.");

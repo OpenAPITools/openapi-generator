@@ -44,6 +44,13 @@ paths:
       tags:
         - basic
       parameters:
+        - description: Page length
+          name: page
+          in: query
+          required: false
+          schema:
+            type: string
+            example: 50
         - description: Query Id.
           name: pUserId
           in: query

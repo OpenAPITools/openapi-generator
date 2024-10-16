@@ -125,8 +125,7 @@ ApiClient <- R6::R6Class(
         self$max_retry_attempts <- max_retry_attempts
       }
     },
-    #' Prepare to make an API call with the retry logic.
-    #'
+
     #' @description
     #' Prepare to make an API call with the retry logic.
     #'
@@ -141,8 +140,8 @@ ApiClient <- R6::R6Class(
     #' @param body The HTTP request body.
     #' @param stream_callback Callback function to process the data stream
     #' @param ... Other optional arguments.
+    #'
     #' @return HTTP response
-    #' @export
     CallApi = function(url, method, query_params, header_params, form_params,
                        file_params, accepts, content_types,
                        body, stream_callback = NULL, ...) {
@@ -172,8 +171,7 @@ ApiClient <- R6::R6Class(
 
       resp
     },
-    #' Make an API call
-    #'
+
     #' @description
     #' Make an API call
     #'
@@ -188,8 +186,8 @@ ApiClient <- R6::R6Class(
     #' @param body The HTTP request body.
     #' @param stream_callback Callback function to process data stream
     #' @param ... Other optional arguments.
+    #'
     #' @return HTTP response
-    #' @export
     Execute = function(url, method, query_params, header_params,
                        form_params, file_params,
                        accepts, content_types,
@@ -268,7 +266,7 @@ ApiClient <- R6::R6Class(
 
         # return ApiResponse
         api_response <- ApiResponse$new()
-        api_response$status_code <- httr::status_code(httr_response) 
+        api_response$status_code <- httr::status_code(httr_response)
         api_response$status_code_desc <- httr::http_status(httr_response)$reason
         api_response$response <- httr::content(httr_response, "raw")
         api_response$headers <- httr::headers(httr_response)
@@ -276,32 +274,31 @@ ApiClient <- R6::R6Class(
         api_response
       }
     },
-    #' Deserialize the content of API response to the given type.
-    #'
+
     #' @description
     #' Deserialize the content of API response to the given type.
     #'
     #' @param raw_response Raw response.
     #' @param return_type R return type.
     #' @param pkg_env Package environment.
+    #'
     #' @return Deserialized object.
-    #' @export
     deserialize = function(raw_response, return_type, pkg_env) {
       resp_obj <- jsonlite::fromJSON(raw_response)
       self$deserializeObj(resp_obj, return_type, pkg_env)
     },
-    #' Deserialize the response from jsonlite object based on the given type
-    #'
+
     #' @description
     #' Deserialize the response from jsonlite object based on the given type
     #' by handling complex and nested types by iterating recursively
-    #' Example return_types will be like "array[integer]", "map(Pet)", "array[map(Tag)]", etc.,
+    #' Example return_types will be like "array[integer]", "map(Pet)",
+    #' "array[map(Tag)]", etc.,
     #'
     #' @param obj Response object.
     #' @param return_type R return type.
     #' @param pkg_env Package environment.
+    #'
     #' @return Deserialized object.
-    #' @export
     deserializeObj = function(obj, return_type, pkg_env) {
       return_obj <- NULL
       primitive_types <- c("character", "numeric", "integer", "logical", "complex")
@@ -363,15 +360,14 @@ ApiClient <- R6::R6Class(
       }
       return_obj
     },
-    #' Return a property header (for accept or content-type).
-    #'
+
     #' @description
     #' Return a property header (for accept or content-type). If JSON-related MIME is found,
     #' return it. Otherwise, return the first one, if any.
     #'
     #' @param headers A list of headers
+    #'
     #' @return A header (e.g. 'application/json')
-    #' @export
     select_header = function(headers) {
       if (length(headers) == 0) {
         return(invisible(NULL))

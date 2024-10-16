@@ -8,3 +8,5 @@ additionalProperties:
   packageGuid: '{2E60EF87-DB0B-4D01-A36E-F5E90F7EC757}'
   useDateTimeForDate: true
   targetFramework: net8.0
+  modelPropertySorting: alphabetical
+  operationParameterSorting: alphabetical

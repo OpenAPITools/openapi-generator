@@ -35,23 +35,24 @@ import org.openapitools.client.JSON;
   ModelList.JSON_PROPERTY_123LIST
 })
 @JsonTypeName("List")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ModelList {
   public static final String JSON_PROPERTY_123LIST = "123-list";
+  @jakarta.annotation.Nullable
   private String _123list;
 
   public ModelList() { 
   }
 
-  public ModelList _123list(String _123list) {
+  public ModelList _123list(@jakarta.annotation.Nullable String _123list) {
     this._123list = _123list;
     return this;
   }
 
-   /**
+  /**
    * Get _123list
    * @return _123list
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_123LIST)
@@ -64,7 +65,7 @@ public class ModelList {
 
   @JsonProperty(JSON_PROPERTY_123LIST)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void set123list(String _123list) {
+  public void set123list(@jakarta.annotation.Nullable String _123list) {
     this._123list = _123list;
   }
 

@@ -98,15 +98,15 @@ if(hasProperty('target') && target == 'android') {
 
 ext {
     oltu_version = "1.0.1"
-    retrofit_version = "2.3.0"
-    jackson_databind_version = "2.15.2"
-    jackson_version = "2.15.2"
+    retrofit_version = "2.11.0"
+    jackson_version = "2.17.1"
+    jackson_databind_version = "2.17.1"
     javax_ws_rs_api_version = "2.1.1"
     jackson_databind_nullable_version = "0.2.6"
     play_version = "2.6.7"
     jakarta_annotation_version = "1.3.5"
     swagger_annotations_version = "1.5.22"
-    junit_version = "4.13.2"
+    junit_version = "5.10.3"
     json_fire_version = "1.9.0"
 }
 
@@ -125,10 +125,10 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-jackson:$retrofit_version"
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     implementation "javax.ws.rs:javax.ws.rs-api:$javax_ws_rs_api_version"
     implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
-    implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
-    testImplementation "junit:junit:$junit_version"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
 }

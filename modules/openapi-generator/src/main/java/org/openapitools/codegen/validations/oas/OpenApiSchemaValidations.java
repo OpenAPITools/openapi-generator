@@ -1,6 +1,5 @@
 package org.openapitools.codegen.validations.oas;
 
-import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 
 import org.openapitools.codegen.utils.ModelUtils;

@@ -37,9 +37,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="children">children</param>
         /// <param name="firstName">firstName</param>
         /// <param name="lastName">lastName</param>
-        /// <param name="type">type</param>
         [JsonConstructor]
-        public Adult(Option<List<Child>?> children = default, Option<string?> firstName = default, Option<string?> lastName = default, Option<string?> type = default) : base(firstName, lastName, type)
+        public Adult(Option<List<Child>?> children = default, Option<string?> firstName = default, Option<string?> lastName = default) : base(firstName, lastName)
         {
             ChildrenOption = children;
             OnCreated();
@@ -51,7 +50,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Children
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<Child>?> ChildrenOption { get; private set; }
 
         /// <summary>
@@ -59,6 +58,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("children")]
         public List<Child>? Children { get { return this.ChildrenOption; } set { this.ChildrenOption = new(value); } }
+
+        /// <summary>
+        /// The discriminator
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public new string Type { get; } = "Adult";
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -148,7 +154,7 @@ namespace Org.OpenAPITools.Model
             if (type.IsSet && type.Value == null)
                 throw new ArgumentNullException(nameof(type), "Property is not nullable for class Adult.");
 
-            return new Adult(children, firstName, lastName, type);
+            return new Adult(children, firstName, lastName);
         }
 
         /// <summary>
@@ -162,7 +168,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, adult, jsonSerializerOptions);
+            WriteProperties(writer, adult, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -173,7 +179,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="adult"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Adult adult, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Adult adult, JsonSerializerOptions jsonSerializerOptions)
         {
             if (adult.ChildrenOption.IsSet && adult.Children == null)
                 throw new ArgumentNullException(nameof(adult.Children), "Property is required for class Adult.");
@@ -183,9 +189,6 @@ namespace Org.OpenAPITools.Model
 
             if (adult.LastNameOption.IsSet && adult.LastName == null)
                 throw new ArgumentNullException(nameof(adult.LastName), "Property is required for class Adult.");
-
-            if (adult.TypeOption.IsSet && adult.Type == null)
-                throw new ArgumentNullException(nameof(adult.Type), "Property is required for class Adult.");
 
             if (adult.ChildrenOption.IsSet)
             {
@@ -198,8 +201,7 @@ namespace Org.OpenAPITools.Model
             if (adult.LastNameOption.IsSet)
                 writer.WriteString("lastName", adult.LastName);
 
-            if (adult.TypeOption.IsSet)
-                writer.WriteString("$_type", adult.Type);
+            writer.WriteString("$_type", adult.Type);
         }
     }
 }

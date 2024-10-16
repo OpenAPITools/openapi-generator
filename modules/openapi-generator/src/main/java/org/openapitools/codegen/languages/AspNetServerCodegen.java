@@ -21,6 +21,7 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -64,7 +65,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     public static final String USE_DEFAULT_ROUTING = "useDefaultRouting";
     public static final String NEWTONSOFT_VERSION = "newtonsoftVersion";
 
-    private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
+    @Setter private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     private String userSecretsGuid = randomUUID().toString();
 
     protected final Logger LOGGER = LoggerFactory.getLogger(AspNetServerCodegen.class);
@@ -185,7 +186,9 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         aspnetCoreVersion.addEnum("3.1", "ASP.NET Core 3.1");
         aspnetCoreVersion.addEnum("5.0", "ASP.NET Core 5.0");
         aspnetCoreVersion.addEnum("6.0", "ASP.NET Core 6.0");
-        aspnetCoreVersion.setDefault("3.1");
+        aspnetCoreVersion.addEnum("7.0", "ASP.NET Core 7.0");
+        aspnetCoreVersion.addEnum("8.0", "ASP.NET Core 8.0");
+        aspnetCoreVersion.setDefault("8.0");
         aspnetCoreVersion.setOptValue(aspnetCoreVersion.getDefault());
         cliOptions.add(aspnetCoreVersion);
 
@@ -193,7 +196,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         swashbuckleVersion.addEnum("4.0.0", "Swashbuckle 4.0.0");
         swashbuckleVersion.addEnum("5.0.0", "Swashbuckle 5.0.0");
         swashbuckleVersion.addEnum("6.4.0", "Swashbuckle 6.4.0");
-        swashbuckleVersion.setDefault("3.0.0");
+        swashbuckleVersion.setDefault("6.4.0");
         swashbuckleVersion.setOptValue(swashbuckleVersion.getDefault());
         cliOptions.add(swashbuckleVersion);
 
@@ -305,11 +308,6 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     protected Set<String> getNullableTypes() {
         return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double",
             "DateTime", "DateOnly", "DateTimeOffset", "Guid"));
-    }
-
-    @Override
-    protected Set<String> getValueTypes() {
-        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double"));
     }
 
     @Override
@@ -431,7 +429,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
             supportingFiles.add(new SupportingFile("typeConverter.mustache", packageFolder + File.separator + "Converters", "CustomEnumConverter.cs"));
         }
 
-        if (aspnetCoreVersion.getOptValue().startsWith("3.") || aspnetCoreVersion.getOptValue().startsWith("5.0") || aspnetCoreVersion.getOptValue().startsWith("6.")) {
+        if (!aspnetCoreVersion.getOptValue().startsWith("2.")) {
             supportingFiles.add(new SupportingFile("OpenApi" + File.separator + "TypeExtensions.mustache", packageFolder + File.separator + "OpenApi", "TypeExtensions.cs"));
         }
 
@@ -470,10 +468,6 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     @Override
     protected boolean useNet60OrLater() {
         return additionalProperties.containsKey(NET_60_OR_LATER);
-    }
-
-    public void setPackageGuid(String packageGuid) {
-        this.packageGuid = packageGuid;
     }
 
     @Override
@@ -689,7 +683,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     private void setAspnetCoreVersion(String packageFolder) {
         setCliOption(aspnetCoreVersion);
 
-        if (aspnetCoreVersion.getOptValue().startsWith("3.") || aspnetCoreVersion.getOptValue().startsWith("5.0") || aspnetCoreVersion.getOptValue().startsWith("6.")) {
+        if (!aspnetCoreVersion.getOptValue().startsWith("2.")) {
             compatibilityVersion = null;
         } else if ("2.0".equals(aspnetCoreVersion.getOptValue())) {
             compatibilityVersion = null;
@@ -706,6 +700,8 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
 
     private String determineTemplateVersion(String frameworkVersion) {
         switch (frameworkVersion) {
+            case "8.0":
+            case "7.0":
             case "6.0":
             case "5.0":
             case "3.1":

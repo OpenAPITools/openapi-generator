@@ -58,9 +58,9 @@ func NewSpeciesFromValue(v string) (Species, error) {
 	ev := Species(v)
 	if ev.IsValid() {
 		return ev, nil
-	} else {
-		return "", fmt.Errorf("invalid value '%v' for Species: valid values are %v", v, AllowedSpeciesEnumValues)
 	}
+
+	return "", fmt.Errorf("invalid value '%v' for Species: valid values are %v", v, AllowedSpeciesEnumValues)
 }
 
 

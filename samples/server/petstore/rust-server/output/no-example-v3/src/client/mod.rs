@@ -414,10 +414,10 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
+        // Consumes basic body
         // Body parameter
         let body = serde_json::to_string(&param_op_get_request).expect("impossible to fail to serialize");
-
-                *request.body_mut() = Body::from(body);
+        *request.body_mut() = Body::from(body);
 
         let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {

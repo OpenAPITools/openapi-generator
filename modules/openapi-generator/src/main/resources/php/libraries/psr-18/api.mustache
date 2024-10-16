@@ -613,7 +613,7 @@ use function sprintf;
         // for model (json/xml)
         {{#bodyParams}}
         if (isset(${{paramName}})) {
-            if ($headers['Content-Type'] === 'application/json') {
+            if ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
                 $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization(${{paramName}}));
             } else {
                 $httpBody = ${{paramName}};
@@ -637,7 +637,7 @@ use function sprintf;
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {

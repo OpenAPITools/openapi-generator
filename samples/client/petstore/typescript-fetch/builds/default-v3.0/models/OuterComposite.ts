@@ -42,7 +42,7 @@ export interface OuterComposite {
 /**
  * Check if a given object implements the OuterComposite interface.
  */
-export function instanceOfOuterComposite(value: object): boolean {
+export function instanceOfOuterComposite(value: object): value is OuterComposite {
     return true;
 }
 
@@ -62,10 +62,15 @@ export function OuterCompositeFromJSONTyped(json: any, ignoreDiscriminator: bool
     };
 }
 
-export function OuterCompositeToJSON(value?: OuterComposite | null): any {
+  export function OuterCompositeToJSON(json: any): OuterComposite {
+      return OuterCompositeToJSONTyped(json, false);
+  }
+
+  export function OuterCompositeToJSONTyped(value?: OuterComposite | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'my_number': value['myNumber'],

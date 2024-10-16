@@ -34,23 +34,24 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   Foo.JSON_PROPERTY_BAR
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Foo {
   public static final String JSON_PROPERTY_BAR = "bar";
+  @jakarta.annotation.Nullable
   private String bar = "bar";
 
   public Foo() { 
   }
 
-  public Foo bar(String bar) {
+  public Foo bar(@jakarta.annotation.Nullable String bar) {
     this.bar = bar;
     return this;
   }
 
-   /**
+  /**
    * Get bar
    * @return bar
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_BAR)
@@ -63,7 +64,7 @@ public class Foo {
 
   @JsonProperty(JSON_PROPERTY_BAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setBar(String bar) {
+  public void setBar(@jakarta.annotation.Nullable String bar) {
     this.bar = bar;
   }
 

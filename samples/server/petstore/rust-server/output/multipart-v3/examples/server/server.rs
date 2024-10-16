@@ -56,6 +56,7 @@ pub async fn create(addr: &str, https: bool) {
             let tls_acceptor = ssl.build();
             let tcp_listener = TcpListener::bind(&addr).await.unwrap();
 
+            info!("Starting a server (with https)");
             loop {
                 if let Ok((tcp, _)) = tcp_listener.accept().await {
                     let ssl = Ssl::new(tls_acceptor.context()).unwrap();
@@ -75,6 +76,7 @@ pub async fn create(addr: &str, https: bool) {
             }
         }
     } else {
+        info!("Starting a server (over http, so no TLS)");
         // Using HTTP
         hyper::server::Server::bind(&addr).serve(service).await.unwrap()
     }
@@ -90,6 +92,12 @@ impl<C> Server<C> {
         Server{marker: PhantomData}
     }
 }
+
+
+use jsonwebtoken::{decode, encode, errors::Error as JwtError, Algorithm, DecodingKey, EncodingKey, Header, TokenData, Validation};
+use serde::{Deserialize, Serialize};
+use swagger::auth::Authorization;
+use crate::server_auth;
 
 
 use multipart_v3::{
@@ -113,7 +121,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<MultipartRelatedRequestPostResponse, ApiError>
     {
         info!("multipart_related_request_post({:?}, {:?}, {:?}) - X-Span-ID: {:?}", required_binary_field, object_field, optional_binary_field, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn multipart_request_post(
@@ -125,7 +133,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<MultipartRequestPostResponse, ApiError>
     {
         info!("multipart_request_post(\"{}\", {:?}, {:?}, {:?}) - X-Span-ID: {:?}", string_field, binary_field, optional_string_field, object_field, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn multiple_identical_mime_types_post(
@@ -135,7 +143,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<MultipleIdenticalMimeTypesPostResponse, ApiError>
     {
         info!("multiple_identical_mime_types_post({:?}, {:?}) - X-Span-ID: {:?}", binary1, binary2, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
 }

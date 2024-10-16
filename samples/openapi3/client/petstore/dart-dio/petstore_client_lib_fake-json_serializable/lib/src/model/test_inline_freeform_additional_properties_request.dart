@@ -25,7 +25,7 @@ class TestInlineFreeformAdditionalPropertiesRequest {
     
     name: r'someProperty',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -33,13 +33,15 @@ class TestInlineFreeformAdditionalPropertiesRequest {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is TestInlineFreeformAdditionalPropertiesRequest &&
-     other.someProperty == someProperty;
 
-  @override
-  int get hashCode =>
-    someProperty.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is TestInlineFreeformAdditionalPropertiesRequest &&
+      other.someProperty == someProperty;
+
+    @override
+    int get hashCode =>
+        someProperty.hashCode;
 
   factory TestInlineFreeformAdditionalPropertiesRequest.fromJson(Map<String, dynamic> json) => _$TestInlineFreeformAdditionalPropertiesRequestFromJson(json);
 

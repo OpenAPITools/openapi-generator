@@ -36,26 +36,28 @@ import org.openapitools.client.JSON;
   Apple.JSON_PROPERTY_ORIGIN
 })
 @JsonTypeName("apple")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Apple {
   public static final String JSON_PROPERTY_CULTIVAR = "cultivar";
+  @jakarta.annotation.Nullable
   private String cultivar;
 
   public static final String JSON_PROPERTY_ORIGIN = "origin";
+  @jakarta.annotation.Nullable
   private String origin;
 
   public Apple() { 
   }
 
-  public Apple cultivar(String cultivar) {
+  public Apple cultivar(@jakarta.annotation.Nullable String cultivar) {
     this.cultivar = cultivar;
     return this;
   }
 
-   /**
+  /**
    * Get cultivar
    * @return cultivar
-  **/
+   */
   @jakarta.annotation.Nullable
  @Pattern(regexp="^[a-zA-Z\\s]*$")
   @JsonProperty(JSON_PROPERTY_CULTIVAR)
@@ -68,20 +70,20 @@ public class Apple {
 
   @JsonProperty(JSON_PROPERTY_CULTIVAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCultivar(String cultivar) {
+  public void setCultivar(@jakarta.annotation.Nullable String cultivar) {
     this.cultivar = cultivar;
   }
 
 
-  public Apple origin(String origin) {
+  public Apple origin(@jakarta.annotation.Nullable String origin) {
     this.origin = origin;
     return this;
   }
 
-   /**
+  /**
    * Get origin
    * @return origin
-  **/
+   */
   @jakarta.annotation.Nullable
  @Pattern(regexp="/^[A-Z\\s]*$/i")
   @JsonProperty(JSON_PROPERTY_ORIGIN)
@@ -94,7 +96,7 @@ public class Apple {
 
   @JsonProperty(JSON_PROPERTY_ORIGIN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setOrigin(String origin) {
+  public void setOrigin(@jakarta.annotation.Nullable String origin) {
     this.origin = origin;
   }
 

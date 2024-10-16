@@ -11,13 +11,12 @@ A Maven plugin to support the OpenAPI generator project
 
 Add to your `build->plugins` section (default phase is `generate-sources` phase)
 
+<!-- RELEASE_VERSION -->
 ```xml
 <plugin>
     <groupId>org.openapitools</groupId>
     <artifactId>openapi-generator-maven-plugin</artifactId>
-    <!-- RELEASE_VERSION -->
-    <version>6.6.0</version>
-    <!-- /RELEASE_VERSION -->
+    <version>7.9.0</version>
     <executions>
         <execution>
             <goals>
@@ -34,6 +33,7 @@ Add to your `build->plugins` section (default phase is `generate-sources` phase)
     </executions>
 </plugin>
 ```
+<!-- /RELEASE_VERSION -->
 
 Followed by:
 

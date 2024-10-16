@@ -73,11 +73,11 @@ namespace Org.OpenAPITools.Model
             }
             set
             {
-                if (value.GetType() == typeof(ComplexQuadrilateral))
+                if (value.GetType() == typeof(ComplexQuadrilateral) || value is ComplexQuadrilateral)
                 {
                     this._actualInstance = value;
                 }
-                else if (value.GetType() == typeof(SimpleQuadrilateral))
+                else if (value.GetType() == typeof(SimpleQuadrilateral) || value is SimpleQuadrilateral)
                 {
                     this._actualInstance = value;
                 }

@@ -16,9 +16,11 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -31,7 +33,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -48,15 +49,17 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     public static final String VARIABLE_NAMING_CONVENTION = "variableNamingConvention";
     public static final String PACKAGE_NAME = "packageName";
     public static final String SRC_BASE_PATH = "srcBasePath";
+    @Getter @Setter
     protected String invokerPackage = "php";
+    @Getter @Setter
     protected String packageName = "php-base";
-    protected String artifactVersion = null;
-    protected String artifactUrl = "https://openapi-generator.tech";
-    protected String licenseName = "unlicense";
-    protected String developerOrganization = "OpenAPI";
-    protected String developerOrganizationUrl = "https://openapi-generator.tech";
-    protected String srcBasePath = "lib";
-    protected String testBasePath = "test";
+    @Setter protected String artifactVersion = null;
+    @Setter protected String artifactUrl = "https://openapi-generator.tech";
+    @Setter protected String licenseName = "unlicense";
+    @Setter protected String developerOrganization = "OpenAPI";
+    @Setter protected String developerOrganizationUrl = "https://openapi-generator.tech";
+    @Setter protected String srcBasePath = "lib";
+    @Setter protected String testBasePath = "test";
     protected String docsBasePath = "docs";
     protected String apiDirName = "Api";
     protected String modelDirName = "Model";
@@ -165,6 +168,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         if (StringUtils.isEmpty(System.getenv("PHP_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable PHP_POST_PROCESS_FILE not defined so the PHP code may not be properly formatted. To define it, try 'export PHP_POST_PROCESS_FILE=\"/usr/local/bin/prettier --write\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'PHP_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(PACKAGE_NAME)) {
@@ -282,10 +287,6 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
     }
 
-    public String getPackageName() {
-        return packageName;
-    }
-
     public String toSrcPath(final String packageName, final String basePath) {
         String modifiedPackageName = packageName.replace(invokerPackage, "");
         String modifiedBasePath = basePath;
@@ -386,6 +387,11 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
+    protected String getParameterDataType(Parameter parameter, Schema schema) {
+        return getTypeDeclaration(schema);
+    }
+
+    @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
         String type = null;
@@ -415,46 +421,6 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         }
 
         return toModelName(type);
-    }
-
-    public String getInvokerPackage() {
-        return invokerPackage;
-    }
-
-    public void setInvokerPackage(String invokerPackage) {
-        this.invokerPackage = invokerPackage;
-    }
-
-    public void setArtifactVersion(String artifactVersion) {
-        this.artifactVersion = artifactVersion;
-    }
-
-    public void setArtifactUrl(String artifactUrl) {
-        this.artifactUrl = artifactUrl;
-    }
-
-    public void setLicenseName(String licenseName) {
-        this.licenseName = licenseName;
-    }
-
-    public void setDeveloperOrganization(String developerOrganization) {
-        this.developerOrganization = developerOrganization;
-    }
-
-    public void setDeveloperOrganizationUrl(String developerOrganizationUrl) {
-        this.developerOrganizationUrl = developerOrganizationUrl;
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public void setSrcBasePath(String srcBasePath) {
-        this.srcBasePath = srcBasePath;
-    }
-
-    public void setTestBasePath(String testBasePath) {
-        this.testBasePath = testBasePath;
     }
 
     public void setParameterNamingConvention(String variableNamingConvention) {
@@ -726,6 +692,28 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
+    protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {
+        if (vendorExtensions != null) {
+            if (vendorExtensions.containsKey("x-enum-varnames")) {
+                List<String> values = (List<String>) vendorExtensions.get("x-enum-varnames");
+                int size = Math.min(enumVars.size(), values.size());
+
+                for (int i = 0; i < size; i++) {
+                    enumVars.get(i).put("name", toEnumVarName(values.get(i), dataType));
+                }
+            }
+
+            if (vendorExtensions.containsKey("x-enum-descriptions")) {
+                List<String> values = (List<String>) vendorExtensions.get("x-enum-descriptions");
+                int size = Math.min(enumVars.size(), values.size());
+                for (int i = 0; i < size; i++) {
+                    enumVars.get(i).put("enumDescription", values.get(i));
+                }
+            }
+        }
+    }
+
+    @Override
     public String toEnumValue(String value, String datatype) {
         if ("int".equals(datatype) || "float".equals(datatype)) {
             return value;
@@ -745,11 +733,11 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             return enumNameMapping.get(name);
         }
 
-        if (name.length() == 0) {
+        if (name.isEmpty()) {
             return "EMPTY";
         }
 
-        if (name.trim().length() == 0) {
+        if (name.trim().isEmpty()) {
             return "SPACE_" + name.length();
         }
 
@@ -760,11 +748,12 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         // number
         if ("int".equals(datatype) || "float".equals(datatype)) {
-            String varName = name;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
-            return varName;
+            if (name.matches("\\d.*")) { // starts with number
+                name = "NUMBER_" + name;
+            }
+            name = name.replaceAll("-", "MINUS_");
+            name = name.replaceAll("\\+", "PLUS_");
+            name = name.replaceAll("\\.", "_DOT_");
         }
 
         // string
@@ -868,6 +857,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -877,21 +867,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         }
         // only process files with php extension
         if ("php".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = phpPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                p.waitFor();
-                int exitValue = p.exitValue();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[] {phpPostProcessFile, file.toString()});
         }
     }
 

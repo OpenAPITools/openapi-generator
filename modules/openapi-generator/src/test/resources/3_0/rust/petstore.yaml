@@ -959,6 +959,14 @@ components:
           nullable: true
         just_string:
           type: string
+    NumericEnumTesting:
+      description: testing that numeric enums are converted correctly
+      enum:
+        - 0
+        - 1
+        - 2
+        - 3
+      type: integer
     ref:
       description: using reserved word as model name
       type: object

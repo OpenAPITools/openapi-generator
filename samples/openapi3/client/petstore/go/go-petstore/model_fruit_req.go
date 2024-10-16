@@ -12,6 +12,7 @@ package petstore
 
 import (
 	"encoding/json"
+	"gopkg.in/validator.v2"
 	"fmt"
 )
 
@@ -47,7 +48,11 @@ func (dst *FruitReq) UnmarshalJSON(data []byte) error {
 		if string(jsonAppleReq) == "{}" { // empty struct
 			dst.AppleReq = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.AppleReq); err != nil {
+				dst.AppleReq = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.AppleReq = nil
@@ -60,7 +65,11 @@ func (dst *FruitReq) UnmarshalJSON(data []byte) error {
 		if string(jsonBananaReq) == "{}" { // empty struct
 			dst.BananaReq = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.BananaReq); err != nil {
+				dst.BananaReq = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.BananaReq = nil

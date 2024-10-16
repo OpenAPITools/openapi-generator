@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("MixedPropertiesAndAdditionalPropertiesClass")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
   private UUID uuid;
   private LocalDateTime dateTime;
@@ -44,7 +44,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("uuid")
-  @Valid public UUID getUuid() {
+  public UUID getUuid() {
     return uuid;
   }
 
@@ -63,7 +63,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("dateTime")
-  @Valid public LocalDateTime getDateTime() {
+  public LocalDateTime getDateTime() {
     return dateTime;
   }
 
@@ -100,9 +100,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
     return this;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass removeMapItem(Animal mapItem) {
-    if (mapItem != null && this.map != null) {
-      this.map.remove(mapItem);
+  public MixedPropertiesAndAdditionalPropertiesClass removeMapItem(String key) {
+    if (this.map != null) {
+      this.map.remove(key);
     }
 
     return this;
@@ -155,7 +155,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
     return new MixedPropertiesAndAdditionalPropertiesClassBuilderImpl();
   }
 
-  private static final class MixedPropertiesAndAdditionalPropertiesClassBuilderImpl extends MixedPropertiesAndAdditionalPropertiesClassBuilder<MixedPropertiesAndAdditionalPropertiesClass, MixedPropertiesAndAdditionalPropertiesClassBuilderImpl> {
+  private static class MixedPropertiesAndAdditionalPropertiesClassBuilderImpl extends MixedPropertiesAndAdditionalPropertiesClassBuilder<MixedPropertiesAndAdditionalPropertiesClass, MixedPropertiesAndAdditionalPropertiesClassBuilderImpl> {
 
     @Override
     protected MixedPropertiesAndAdditionalPropertiesClassBuilderImpl self() {

@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of JustSymbol
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<EnumArraysJustSymbol?> JustSymbolOption { get; private set; }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ArrayEnum
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<EnumArraysArrayEnumInner>> ArrayEnumOption { get; private set; }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -177,7 +177,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, enumArrays, jsonSerializerOptions);
+            WriteProperties(writer, enumArrays, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -188,7 +188,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="enumArrays"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, EnumArrays enumArrays, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, EnumArrays enumArrays, JsonSerializerOptions jsonSerializerOptions)
         {
             if (enumArrays.ArrayEnumOption.IsSet && enumArrays.ArrayEnum == null)
                 throw new ArgumentNullException(nameof(enumArrays.ArrayEnum), "Property is required for class EnumArrays.");

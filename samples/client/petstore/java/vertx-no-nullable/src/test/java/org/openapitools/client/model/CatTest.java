@@ -13,6 +13,7 @@
 
 package org.openapitools.client.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -20,27 +21,22 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.Animal;
-import org.openapitools.client.model.BigCat;
-import org.openapitools.client.model.CatAllOf;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for Cat
  */
-public class CatTest {
+class CatTest {
     private final Cat model = new Cat();
 
     /**
      * Model tests for Cat
      */
     @Test
-    public void testCat() {
+    void testCat() {
         // TODO: test Cat
     }
 
@@ -48,7 +44,7 @@ public class CatTest {
      * Test the property 'className'
      */
     @Test
-    public void classNameTest() {
+    void classNameTest() {
         // TODO: test className
     }
 
@@ -56,7 +52,7 @@ public class CatTest {
      * Test the property 'color'
      */
     @Test
-    public void colorTest() {
+    void colorTest() {
         // TODO: test color
     }
 
@@ -64,7 +60,7 @@ public class CatTest {
      * Test the property 'declawed'
      */
     @Test
-    public void declawedTest() {
+    void declawedTest() {
         // TODO: test declawed
     }
 

@@ -19,7 +19,7 @@ import javax.annotation.Generated;
  * User
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class User {
 
   private Long id;
@@ -38,9 +38,13 @@ public class User {
 
   private Integer userStatus;
 
+  public User() {
+    super();
+  }
+
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public User(Long id, String username, String firstName, String lastName, String email, String password, String phone, Integer userStatus) {
       this.id = id;
       this.username = username;
@@ -60,7 +64,7 @@ public class User {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
@@ -80,7 +84,7 @@ public class User {
   /**
    * Get username
    * @return username
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("username")
@@ -100,7 +104,7 @@ public class User {
   /**
    * Get firstName
    * @return firstName
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("firstName")
@@ -120,7 +124,7 @@ public class User {
   /**
    * Get lastName
    * @return lastName
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("lastName")
@@ -140,7 +144,7 @@ public class User {
   /**
    * Get email
    * @return email
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("email")
@@ -160,7 +164,7 @@ public class User {
   /**
    * Get password
    * @return password
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("password")
@@ -180,7 +184,7 @@ public class User {
   /**
    * Get phone
    * @return phone
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("phone")
@@ -200,7 +204,7 @@ public class User {
   /**
    * User Status
    * @return userStatus
-  */
+   */
   
   @ApiModelProperty(value = "User Status")
   @JsonProperty("userStatus")

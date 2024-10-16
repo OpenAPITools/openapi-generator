@@ -51,7 +51,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ScalarAnyOf extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(ScalarAnyOf.class.getName());
 
@@ -163,17 +163,7 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
         super("anyOf", Boolean.FALSE);
     }
 
-    public ScalarAnyOf(BigDecimal o) {
-        super("anyOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public ScalarAnyOf(Boolean o) {
-        super("anyOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public ScalarAnyOf(String o) {
+    public ScalarAnyOf(Object o) {
         super("anyOf", Boolean.FALSE);
         setActualInstance(o);
     }
@@ -238,6 +228,7 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
     public String getString() throws ClassCastException {
         return (String)super.getActualInstance();
     }
+
     /**
      * Get the actual instance of `BigDecimal`. If the actual instance is not `BigDecimal`,
      * the ClassCastException will be thrown.
@@ -248,6 +239,7 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
     public BigDecimal getBigDecimal() throws ClassCastException {
         return (BigDecimal)super.getActualInstance();
     }
+
     /**
      * Get the actual instance of `Boolean`. If the actual instance is not `Boolean`,
      * the ClassCastException will be thrown.

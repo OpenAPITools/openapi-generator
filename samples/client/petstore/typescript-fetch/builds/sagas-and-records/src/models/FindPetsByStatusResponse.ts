@@ -18,12 +18,14 @@ import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
+    ResponseMetaToJSONTyped,
 } from './ResponseMeta';
 import type { Pet } from './Pet';
 import {
     PetFromJSON,
     PetFromJSONTyped,
     PetToJSON,
+    PetToJSONTyped,
 } from './Pet';
 
 /**
@@ -49,8 +51,8 @@ export interface FindPetsByStatusResponse {
 /**
  * Check if a given object implements the FindPetsByStatusResponse interface.
  */
-export function instanceOfFindPetsByStatusResponse(value: object): boolean {
-    if (!('meta' in value)) return false;
+export function instanceOfFindPetsByStatusResponse(value: object): value is FindPetsByStatusResponse {
+    if (!('meta' in value) || value['meta'] === undefined) return false;
     return true;
 }
 
@@ -69,10 +71,15 @@ export function FindPetsByStatusResponseFromJSONTyped(json: any, ignoreDiscrimin
     };
 }
 
-export function FindPetsByStatusResponseToJSON(value?: FindPetsByStatusResponse | null): any {
+  export function FindPetsByStatusResponseToJSON(json: any): FindPetsByStatusResponse {
+      return FindPetsByStatusResponseToJSONTyped(json, false);
+  }
+
+  export function FindPetsByStatusResponseToJSONTyped(value?: FindPetsByStatusResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'meta': ResponseMetaToJSON(value['meta']),

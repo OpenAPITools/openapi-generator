@@ -16,8 +16,8 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -35,7 +35,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 import static java.util.UUID.randomUUID;
@@ -43,29 +42,29 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class PowerShellClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(PowerShellClientCodegen.class);
-    private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
+    @Setter private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
 
 
-    protected String sourceFolder = "src";
+    @Setter protected String sourceFolder = "src";
     protected String packageName = "PSOpenAPITools";
-    protected String packageVersion = "0.1.2";
+    @Setter protected String packageVersion = "0.1.2";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected String apiTestPath = "tests/Api";
     protected String modelTestPath = "tests/Model";
     protected HashSet nullablePrimitives;
-    protected String powershellGalleryUrl;
+    @Setter protected String powershellGalleryUrl;
     protected HashSet powershellVerbs;
     protected Map<String, String> commonVerbs; // verbs not in the official ps verb list but can be mapped to one of the verbs
     protected HashSet methodNames; // store a list of method names to detect duplicates
-    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
-    protected boolean discardReadOnly = false; // Discard the readonly property in initialize cmdlet
-    protected boolean skipVerbParsing = false; // Attempt to parse cmdlets from operation names
-    protected String projectUri;
-    protected String licenseUri;
-    protected String releaseNotes;
-    protected String tags;
-    protected String iconUri;
+    @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+    @Setter protected boolean discardReadOnly = false; // Discard the readonly property in initialize cmdlet
+    @Setter protected boolean skipVerbParsing = false; // Attempt to parse cmdlets from operation names
+    @Setter protected String projectUri;
+    @Setter protected String licenseUri;
+    @Setter protected String releaseNotes;
+    @Setter protected String tags;
+    @Setter protected String iconUri;
     protected Set<String> paramNameReservedWords;
     protected String modelsCmdletVerb = "Initialize";
     protected boolean useClassNameInModelsExamples = true;
@@ -577,14 +576,17 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         additionalProperties.put("psData", null);
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "powershell";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a PowerShell API client (beta)";
     }
@@ -595,59 +597,13 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         this.modelPackage = packageName + File.separator + "Model";
     }
 
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
-    }
-
-    public void setSourceFolder(String sourceFolder) {
-        this.sourceFolder = sourceFolder;
-    }
-
-    public void setPackageGuid(String packageGuid) {
-        this.packageGuid = packageGuid;
-    }
-
-    public void setPowershellGalleryUrl(String powershellGalleryUrl) {
-        this.powershellGalleryUrl = powershellGalleryUrl;
-    }
-
-    public void setUseOneOfDiscriminatorLookup(boolean useOneOfDiscriminatorLookup) {
-        this.useOneOfDiscriminatorLookup = useOneOfDiscriminatorLookup;
-    }
-
     public boolean getUseOneOfDiscriminatorLookup() {
         return this.useOneOfDiscriminatorLookup;
-    }
-
-    public void setDiscardReadOnly(boolean discardReadOnly) {
-        this.discardReadOnly = discardReadOnly;
     }
 
     public boolean getDiscardReadOnly() {
         return this.discardReadOnly;
     }
-
-    public void setTags(String tags){
-         this.tags = tags;
-    }
-
-    public void setLicenseUri(String licenseUri){
-        this.licenseUri = licenseUri;
-   }
-
-   public void setProjectUri(String projectUri){
-    this.projectUri = projectUri;
-   }
-
-   public void setReleaseNotes(String releaseNotes){
-       this.releaseNotes = releaseNotes;
-   }
-
-   public void setIconUri(String iconUri){
-       this.iconUri = iconUri;
-   }
-
-   public void setSkipVerbParsing(boolean skipVerbParsing) { this.skipVerbParsing = skipVerbParsing; }
 
    public void SetModelsCmdletVerb(String modelsCmdletVerb) { this.modelsCmdletVerb = modelsCmdletVerb; }
 
@@ -661,6 +617,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         if (StringUtils.isEmpty(System.getenv("POWERSHELL_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable POWERSHELL_POST_PROCESS_FILE not defined so the PowerShell code may not be properly formatted. To define it, try 'export POWERSHELL_POST_PROCESS_FILE=\"Edit-DTWBeautifyScript\"'");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'POWERSHELL_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey("powershellGalleryUrl")) {
@@ -1499,6 +1457,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -1509,20 +1468,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
         // only process files with ps extension
         if ("ps".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = powershellPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[] {powershellPostProcessFile, file.toString()});
         }
 
     }

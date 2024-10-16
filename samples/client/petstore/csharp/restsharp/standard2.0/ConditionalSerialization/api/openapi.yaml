@@ -138,6 +138,8 @@ paths:
           type: array
         style: form
       responses:
+        "2XX":
+          description: Anything within 200-299
         "200":
           content:
             application/xml:
@@ -153,6 +155,8 @@ paths:
           description: successful operation
         "400":
           description: Invalid status value
+        "4XX":
+          description: Anything within 400-499
       security:
       - http_signature_test: []
       - petstore_auth:
@@ -1213,6 +1217,32 @@ paths:
       summary: Array of Enums
       tags:
       - fake
+  /fake/mixed/anyOf:
+    get:
+      operationId: getMixedAnyOf
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MixedAnyOf'
+          description: Got mixed anyOf
+      summary: Test mixed type anyOf deserialization
+      tags:
+      - fake
+  /fake/mixed/oneOf:
+    get:
+      operationId: getMixedOneOf
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MixedOneOf'
+          description: Got mixed oneOf
+      summary: Test mixed type oneOf deserialization
+      tags:
+      - fake
   /country:
     post:
       operationId: getCountry
@@ -1586,6 +1616,24 @@ components:
           format: int32
           maximum: 200
           minimum: 20
+          type: integer
+        int32Range:
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+        int64Positive:
+          minimum: 2147483648
+          type: integer
+        int64Negative:
+          maximum: -2147483649
+          type: integer
+        int64PositiveExclusive:
+          exclusiveMinimum: true
+          minimum: 2147483647
+          type: integer
+        int64NegativeExclusive:
+          exclusiveMaximum: true
+          maximum: -2147483648
           type: integer
         unsigned_integer:
           format: int32
@@ -2706,6 +2754,124 @@ components:
       - a_objVariableobject
       - pkiNotificationtestID
       type: object
+    MixedOneOf:
+      example:
+        content: MixedOneOf_content
+      properties:
+        content:
+          $ref: '#/components/schemas/MixedOneOf_content'
+    MixedAnyOf:
+      example:
+        content: MixedAnyOf_content
+      properties:
+        content:
+          $ref: '#/components/schemas/MixedAnyOf_content'
+    MixedSubId:
+      properties:
+        id:
+          type: string
+    MixLog:
+      properties:
+        id:
+          format: uuid
+          type: string
+        description:
+          type: string
+        mixDate:
+          format: date-time
+          type: string
+        shopId:
+          format: uuid
+          type: string
+        totalPrice:
+          format: float
+          nullable: true
+          type: number
+        totalRecalculations:
+          format: int32
+          type: integer
+        totalOverPoors:
+          format: int32
+          type: integer
+        totalSkips:
+          format: int32
+          type: integer
+        totalUnderPours:
+          format: int32
+          type: integer
+        formulaVersionDate:
+          format: date-time
+          type: string
+        someCode:
+          description: SomeCode is only required for color mixes
+          nullable: true
+          type: string
+        batchNumber:
+          type: string
+        brandCode:
+          description: BrandCode is only required for non-color mixes
+          type: string
+        brandId:
+          description: BrandId is only required for color mixes
+          type: string
+        brandName:
+          description: BrandName is only required for color mixes
+          type: string
+        categoryCode:
+          description: CategoryCode is not used anymore
+          type: string
+        color:
+          description: Color is only required for color mixes
+          type: string
+        colorDescription:
+          type: string
+        comment:
+          type: string
+        commercialProductCode:
+          type: string
+        productLineCode:
+          description: ProductLineCode is only required for color mixes
+          type: string
+        country:
+          type: string
+        createdBy:
+          type: string
+        createdByFirstName:
+          type: string
+        createdByLastName:
+          type: string
+        deltaECalculationRepaired:
+          type: string
+        deltaECalculationSprayout:
+          type: string
+        ownColorVariantNumber:
+          format: int32
+          nullable: true
+          type: integer
+        primerProductId:
+          type: string
+        productId:
+          description: ProductId is only required for color mixes
+          type: string
+        productName:
+          description: ProductName is only required for color mixes
+          type: string
+        selectedVersionIndex:
+          format: int32
+          type: integer
+      required:
+      - description
+      - formulaVersionDate
+      - id
+      - mixDate
+      - totalOverPoors
+      - totalRecalculations
+      - totalSkips
+      - totalUnderPours
+      type: object
+    uuid:
+      format: uuid
+      type: string
     _foo_get_default_response:
       example:
         string:
@@ -2872,6 +3038,26 @@ components:
         name:
           type: string
       type: object
+    MixedOneOf_content:
+      description: Mixed oneOf types for testing
+      oneOf:
+      - type: string
+      - type: boolean
+      - format: uint8
+        type: integer
+      - format: float32
+        type: number
+      - $ref: '#/components/schemas/MixedSubId'
+    MixedAnyOf_content:
+      anyOf:
+      - type: string
+      - type: boolean
+      - format: uint8
+        type: integer
+      - format: float32
+        type: number
+      - $ref: '#/components/schemas/MixedSubId'
+      description: Mixed anyOf types for testing
   securitySchemes:
     petstore_auth:
       flows:
@@ -2883,7 +3069,7 @@ components:
       type: oauth2
     api_key:
       in: header
-      name: api_key
+      name: api-key
       type: apiKey
     api_key_query:
       in: query

@@ -82,7 +82,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -166,7 +166,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, scaleneTriangle, jsonSerializerOptions);
+            WriteProperties(writer, scaleneTriangle, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -177,7 +177,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="scaleneTriangle"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, ScaleneTriangle scaleneTriangle, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, ScaleneTriangle scaleneTriangle, JsonSerializerOptions jsonSerializerOptions)
         {
             if (scaleneTriangle.ShapeType == null)
                 throw new ArgumentNullException(nameof(scaleneTriangle.ShapeType), "Property is required for class ScaleneTriangle.");

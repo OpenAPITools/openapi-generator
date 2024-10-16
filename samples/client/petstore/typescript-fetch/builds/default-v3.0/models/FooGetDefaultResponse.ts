@@ -18,6 +18,7 @@ import {
     FooFromJSON,
     FooFromJSONTyped,
     FooToJSON,
+    FooToJSONTyped,
 } from './Foo';
 
 /**
@@ -37,7 +38,7 @@ export interface FooGetDefaultResponse {
 /**
  * Check if a given object implements the FooGetDefaultResponse interface.
  */
-export function instanceOfFooGetDefaultResponse(value: object): boolean {
+export function instanceOfFooGetDefaultResponse(value: object): value is FooGetDefaultResponse {
     return true;
 }
 
@@ -55,10 +56,15 @@ export function FooGetDefaultResponseFromJSONTyped(json: any, ignoreDiscriminato
     };
 }
 
-export function FooGetDefaultResponseToJSON(value?: FooGetDefaultResponse | null): any {
+  export function FooGetDefaultResponseToJSON(json: any): FooGetDefaultResponse {
+      return FooGetDefaultResponseToJSONTyped(json, false);
+  }
+
+  export function FooGetDefaultResponseToJSONTyped(value?: FooGetDefaultResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'string': FooToJSON(value['string']),

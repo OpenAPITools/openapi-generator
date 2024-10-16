@@ -24,13 +24,13 @@ export interface HealthCheckResult {
      * @type {string}
      * @memberof HealthCheckResult
      */
-    nullableMessage?: string;
+    nullableMessage?: string | null;
 }
 
 /**
  * Check if a given object implements the HealthCheckResult interface.
  */
-export function instanceOfHealthCheckResult(value: object): boolean {
+export function instanceOfHealthCheckResult(value: object): value is HealthCheckResult {
     return true;
 }
 
@@ -48,10 +48,15 @@ export function HealthCheckResultFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function HealthCheckResultToJSON(value?: HealthCheckResult | null): any {
+  export function HealthCheckResultToJSON(json: any): HealthCheckResult {
+      return HealthCheckResultToJSONTyped(json, false);
+  }
+
+  export function HealthCheckResultToJSONTyped(value?: HealthCheckResult | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'NullableMessage': value['nullableMessage'],

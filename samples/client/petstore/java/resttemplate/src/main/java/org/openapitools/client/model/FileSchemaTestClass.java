@@ -34,35 +34,37 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FileSchemaTestClass.JSON_PROPERTY_FILE,
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class FileSchemaTestClass {
   public static final String JSON_PROPERTY_FILE = "file";
+  @javax.annotation.Nullable
   private ModelFile _file;
 
   public static final String JSON_PROPERTY_FILES = "files";
+  @javax.annotation.Nullable
   private List<ModelFile> files;
 
   public FileSchemaTestClass() {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public FileSchemaTestClass(@JsonProperty(JSON_PROPERTY_FILE) ModelFile _file, @JsonProperty(JSON_PROPERTY_FILES) List<ModelFile> files) {
     this._file = _file;
     this.files = files;
   }
 
-  public FileSchemaTestClass _file(ModelFile _file) {
+  public FileSchemaTestClass _file(@javax.annotation.Nullable ModelFile _file) {
     
     this._file = _file;
     return this;
   }
 
-   /**
+  /**
    * Get _file
    * @return _file
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FILE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -74,11 +76,11 @@ public class FileSchemaTestClass {
 
   @JsonProperty(JSON_PROPERTY_FILE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setFile(ModelFile _file) {
+  public void setFile(@javax.annotation.Nullable ModelFile _file) {
     this._file = _file;
   }
 
-  public FileSchemaTestClass files(List<ModelFile> files) {
+  public FileSchemaTestClass files(@javax.annotation.Nullable List<ModelFile> files) {
     
     this.files = files;
     return this;
@@ -92,10 +94,10 @@ public class FileSchemaTestClass {
     return this;
   }
 
-   /**
+  /**
    * Get files
    * @return files
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FILES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -107,7 +109,7 @@ public class FileSchemaTestClass {
 
   @JsonProperty(JSON_PROPERTY_FILES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setFiles(List<ModelFile> files) {
+  public void setFiles(@javax.annotation.Nullable List<ModelFile> files) {
     this.files = files;
   }
 
@@ -149,6 +151,65 @@ public class FileSchemaTestClass {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  public static class Builder {
+
+    private FileSchemaTestClass instance;
+
+    public Builder() {
+      this(new FileSchemaTestClass());
+    }
+
+    protected Builder(FileSchemaTestClass instance) {
+      this.instance = instance;
+    }
+
+    public FileSchemaTestClass.Builder _file(ModelFile _file) {
+      this.instance._file = _file;
+      return this;
+    }
+    public FileSchemaTestClass.Builder files(List<ModelFile> files) {
+      this.instance.files = files;
+      return this;
+    }
+
+
+    /**
+    * returns a built FileSchemaTestClass instance.
+    *
+    * The builder is not reusable.
+    */
+    public FileSchemaTestClass build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static FileSchemaTestClass.Builder builder() {
+    return new FileSchemaTestClass.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public FileSchemaTestClass.Builder toBuilder() {
+    return new FileSchemaTestClass.Builder()
+      ._file(getFile())
+      .files(getFiles());
+  }
+
 
 }
 

@@ -39,16 +39,23 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
 
+    // this is our opinionated json type - ujson.Value - which is a first-class
+    // citizen of cask
+    private static final String AdditionalPropertiesType = "Value";
+
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaCaskServerCodegen.class);
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "scala-cask";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a scala-cask server.";
     }
@@ -112,9 +119,13 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
         typeMapping.put("integer", "Int");
         typeMapping.put("long", "Long");
+        typeMapping.put("AnyType", AdditionalPropertiesType);
+
         //TODO binary should be mapped to byte array
         // mapped to String as a workaround
         typeMapping.put("binary", "String");
+
+        typeMapping.put("object", "Value");
 
         cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC));
@@ -129,8 +140,20 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         if (ModelUtils.isMapSchema(p)) {
             String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "Map[String, " + inner + "]() ";
+        } else if (ModelUtils.isFreeFormObject(p, openAPI)) {
+            // We're opinionated in this template to use ujson
+            return "ujson.Null";
         }
         return super.toDefaultValue(p);
+    }
+
+    @Override
+    public String getSchemaType(Schema p) {
+        if (ModelUtils.isFreeFormObject(p, openAPI)) {
+            // We're opinionated in this template to use ujson
+            return "Value";
+        }
+        return super.getSchemaType(p);
     }
 
     @Override
@@ -138,6 +161,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         return "jvm/src/test/scala";
     }
 
+    @Override
     public String toModelTestFilename(String name) {
         String n = super.toModelTestFilename(name);
         return (modelPackage + "." + n).replace('.', '/');
@@ -222,6 +246,8 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         importMapping.put("LocalDate", "java.time.LocalDate");
         importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
         importMapping.put("LocalTime", "java.time.LocalTime");
+        importMapping.put("Value", "ujson.Value");
+        importMapping.put(AdditionalPropertiesType, "ujson.Value");
     }
 
     static boolean consumesMimetype(CodegenOperation op, String mimetype) {
@@ -267,23 +293,40 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
     @Override
     public String apiFilename(String templateName, String tag) {
-        String suffix = apiTemplateFiles().get(templateName);
-        String fn = toApiFilename(tag);
+
+        final String suffix = apiTemplateFiles().get(templateName);
+        final String fn = toApiFilename(tag);
         if (templateName.equals(ApiServiceTemplate)) {
-            return apiFileFolder() + '/' + fn + suffix;
+            return apiInterfaceFileFolder() + '/' + fn + suffix;
+        }
+        return apiFileFolder() + '/' + fn + "Routes" + suffix;
+    }
+    @Override
+    public String modelFilename(String templateName, String modelName) {
+        final String defaultFilename = super.modelFilename(templateName, modelName);
+        if (templateName.equals(ApiServiceTemplate)) {
+            final String suffix = apiTemplateFiles().get(templateName);
+            final String fn = toApiFilename(modelName);
+            final String path = modelFileFolder() + '/' + fn + suffix;
+            return path;
         } else {
-            return apiFileFolder() + '/' + fn + "Routes" + suffix;
+            return defaultFilename;
         }
     }
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + "/jvm/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
+        final String folder = outputFolder + "/jvm/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
+        return folder;
     }
 
     @Override
     public String modelFileFolder() {
         return outputFolder + "/shared/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
+    }
+
+    public String apiInterfaceFileFolder() {
+        return outputFolder + "/shared/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
     }
 
     static String capitalise(String p) {
@@ -578,7 +621,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
             if (p.getIsEnumOrRef()) {
                 p.defaultValue = "null";
             } else {
-                p.defaultValue = defaultValueNonOption(p);
+                p.defaultValue = defaultValueNonOption(p, "null");
             }
         } else if (p.defaultValue.contains("Seq.empty")) {
             p.defaultValue = "Nil";
@@ -731,6 +774,23 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         return defaultValueNonOption(p, fallbackDefaultValue);
     }
 
+    /**
+     * the subtypes of IJsonSchemaValidationProperties have an 'isNumeric', but that's not a method on IJsonSchemaValidationProperties.
+     *
+     * This helper method tries to isolate that noisy logic in a safe way so we can ask 'is this IJsonSchemaValidationProperties numeric'?
+     * @param p the property
+     * @return true if the property is numeric
+     */
+    private static boolean isNumeric(IJsonSchemaValidationProperties p) {
+        if (p instanceof CodegenParameter) {
+            return ((CodegenParameter)p).isNumeric;
+        } else if (p instanceof CodegenProperty) {
+            return ((CodegenProperty)p).isNumeric;
+        } else {
+            return p.getIsNumber() || p.getIsFloat() || p.getIsDecimal() || p.getIsDouble() || p.getIsInteger()  || p.getIsLong() || p.getIsUnboundedInteger();
+        }
+    }
+
     private static String defaultValueNonOption(IJsonSchemaValidationProperties p, String fallbackDefaultValue) {
         if (p.getIsArray()) {
             if (p.getUniqueItems()) {
@@ -741,7 +801,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         if (p.getIsMap()) {
             return "Map.empty";
         }
-        if (p.getIsNumber()) {
+        if (isNumeric(p)) {
             return "0";
         }
         if (p.getIsEnum()) {
@@ -756,35 +816,41 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         if (p.getIsString()) {
             return "\"\"";
         }
-        return fallbackDefaultValue;
+        if (fallbackDefaultValue != null && !fallbackDefaultValue.trim().isEmpty()) {
+            return fallbackDefaultValue;
+        }
+
+        return "null";
     }
 
-    private static String defaultValueNonOption(CodegenProperty p) {
-        if (p.getIsArray()) {
-            return "Nil";
+    @Override
+    public CodegenProperty fromProperty(String name, Schema schema) {
+        CodegenProperty property = super.fromProperty(name, schema);
+
+        // Customize type for freeform objects
+        if (ModelUtils.isFreeFormObject(schema, openAPI)) {
+            property.dataType = "Value";
+            property.baseType = "Value";
         }
-        if (p.getIsMap()) {
-            return "Map.empty";
+
+        return property;
+    }
+
+    @Override
+    public String getTypeDeclaration(Schema schema) {
+        if (ModelUtils.isFreeFormObject(schema, openAPI)) {
+            return "Value";
         }
-        if (p.isNumber || p.isNumeric) {
-            return "0";
+        return super.getTypeDeclaration(schema);
+    }
+
+    @Override
+    public String toModelImport(String name) {
+        String result = super.toModelImport(name);
+        if (importMapping.containsKey(name)) {
+            result = importMapping.get(name);
         }
-        if (p.isBoolean) {
-            return "false";
-        }
-        if (p.isUuid) {
-            return "java.util.UUID.randomUUID()";
-        }
-        if (p.isModel) {
-            return "null";
-        }
-        if (p.isDate || p.isDateTime) {
-            return "null";
-        }
-        if (p.isString) {
-            return "\"\"";
-        }
-        return p.defaultValue;
+        return result;
     }
 
     private static String queryArgs(final CodegenOperation op) {

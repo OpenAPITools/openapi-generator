@@ -23,21 +23,18 @@ import upickle.default.*
 
 case class Pet(
   id: Option[Long] = None ,
-
-    category: Option[Category] = None ,
-
-    name: String,
-
-    photoUrls: Seq[String],
-
-    tags: Seq[Tag] = Nil ,
-
-  /* pet status in the store */
+  category: Option[Category] = None ,
+  name: String,
+  photoUrls: Seq[String],
+  tags: Seq[Tag] = Nil ,
+/* pet status in the store */
   status: Option[Pet.StatusEnum] = None 
 
-  ) {
 
-  def asJson: String = asData.asJson
+) {
+
+  def asJsonString: String = asData.asJsonString
+  def asJson: ujson.Value = asData.asJson
 
   def asData : PetData = {
     PetData(
@@ -47,16 +44,15 @@ case class Pet(
             photoUrls = photoUrls,
             tags = tags.map(_.asData),
             status = status.getOrElse(null)
+        
     )
   }
-
 }
 
-object Pet{
+object Pet {
+    given RW[Pet] = summon[RW[ujson.Value]].bimap[Pet](_.asJson, json => read[PetData](json).asModel)
 
-    given RW[Pet] = PetData.readWriter.bimap[Pet](_.asData, _.asModel)
-
-    enum Fields(fieldName : String) extends Field(fieldName) {
+    enum Fields(val fieldName : String) extends Field(fieldName) {
             case id extends Fields("id")
             case category extends Fields("category")
             case name extends Fields("name")

@@ -18,11 +18,13 @@
 #ifndef Helpers_H_
 #define Helpers_H_
 
+#include <cstdint>
 #include <ctime>
-#include <string>
-#include <sstream>
-#include <vector>
 #include <map>
+#include <set>
+#include <sstream>
+#include <string>
+#include <vector>
 
 namespace org::openapitools::server::helpers
 {
@@ -89,6 +91,15 @@ namespace org::openapitools::server::helpers
                 }
             }
         }
+        return true;
+    }
+
+    /// <summary>
+    /// Determine if the given set<T> only has unique elements.
+    /// </summary>
+    template <typename T>
+    bool hasOnlyUniqueItems(const std::set<T>&)
+    {
         return true;
     }
 

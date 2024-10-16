@@ -14,6 +14,7 @@ from fastapi import (  # noqa: F401
     Depends,
     Form,
     Header,
+    HTTPException,
     Path,
     Query,
     Response,
@@ -65,7 +66,9 @@ async def {{operationId}}(
     {{/hasAuthMethods}}
 ) -> {{returnType}}{{^returnType}}None{{/returnType}}:
     {{#notes}}"""{{.}}"""
-    return Base{{classname}}.subclasses[0]().{{operationId}}({{#allParams}}{{>impl_argument}}{{^-last}}, {{/-last}}{{/allParams}}){{/notes}}{{^notes}}...{{/notes}}
+    {{/notes}}if not Base{{classname}}.subclasses:
+        raise HTTPException(status_code=500, detail="Not implemented")
+    return await Base{{classname}}.subclasses[0]().{{operationId}}({{#allParams}}{{>impl_argument}}{{^-last}}, {{/-last}}{{/allParams}})
 {{^-last}}
 
 

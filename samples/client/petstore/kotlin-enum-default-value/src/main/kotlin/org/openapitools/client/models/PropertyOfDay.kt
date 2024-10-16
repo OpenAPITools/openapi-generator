@@ -131,5 +131,6 @@ data class PropertyOfDay (
         @Json(name = "BOXING_DAY") BOXING_DAY("BOXING_DAY"),
         @Json(name = "11184809") unknown_default_open_api("11184809");
     }
+
 }
 

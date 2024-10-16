@@ -25,7 +25,7 @@ class ModelClient {
     
     name: r'client',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -33,13 +33,15 @@ class ModelClient {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is ModelClient &&
-     other.client == client;
 
-  @override
-  int get hashCode =>
-    client.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is ModelClient &&
+      other.client == client;
+
+    @override
+    int get hashCode =>
+        client.hashCode;
 
   factory ModelClient.fromJson(Map<String, dynamic> json) => _$ModelClientFromJson(json);
 

@@ -23,22 +23,21 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for ByteArrayObject
  */
-public class ByteArrayObjectTest {
+class ByteArrayObjectTest {
     private final ByteArrayObject model = new ByteArrayObject();
 
     /**
      * Model tests for ByteArrayObject
      */
     @Test
-    public void testByteArrayObject() {
+    void testByteArrayObject() {
         // TODO: test ByteArrayObject
     }
 
@@ -46,7 +45,7 @@ public class ByteArrayObjectTest {
      * Test the property 'nullableArray'
      */
     @Test
-    public void nullableArrayTest() {
+    void nullableArrayTest() {
         // TODO: test nullableArray
     }
 
@@ -54,7 +53,7 @@ public class ByteArrayObjectTest {
      * Test the property 'normalArray'
      */
     @Test
-    public void normalArrayTest() {
+    void normalArrayTest() {
         // TODO: test normalArray
     }
 
@@ -62,7 +61,7 @@ public class ByteArrayObjectTest {
      * Test the property 'nullableString'
      */
     @Test
-    public void nullableStringTest() {
+    void nullableStringTest() {
         // TODO: test nullableString
     }
 
@@ -70,7 +69,7 @@ public class ByteArrayObjectTest {
      * Test the property 'stringField'
      */
     @Test
-    public void stringFieldTest() {
+    void stringFieldTest() {
         // TODO: test stringField
     }
 
@@ -78,7 +77,7 @@ public class ByteArrayObjectTest {
      * Test the property 'intField'
      */
     @Test
-    public void intFieldTest() {
+    void intFieldTest() {
         // TODO: test intField
     }
 

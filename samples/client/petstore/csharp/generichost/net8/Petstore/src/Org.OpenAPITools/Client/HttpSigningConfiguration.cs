@@ -86,7 +86,7 @@ namespace Org.OpenAPITools.Client
         /// <param name="request"></param>
         /// <param name="requestBody"></param>
         /// <param name="cancellationToken"></param>
-        internal Dictionary<string, string> GetHttpSignedHeader(System.Net.Http.HttpRequestMessage request, string requestBody, System.Threading.CancellationToken cancellationToken = default)
+        internal Dictionary<string, string> GetHttpSignedHeader(global::System.Net.Http.HttpRequestMessage request, string requestBody, System.Threading.CancellationToken cancellationToken = default)
         {
             if (request.RequestUri == null)
                 throw new NullReferenceException("The request URI was null");
@@ -412,7 +412,7 @@ namespace Org.OpenAPITools.Client
                 binkey = Convert.FromBase64String(pvkstr);
                 return binkey;
             }
-            catch (System.FormatException)
+            catch (global::System.FormatException)
             {
                 StringReader str = new StringReader(pvkstr);
 
@@ -439,7 +439,7 @@ namespace Org.OpenAPITools.Client
                 {   //should have b64 encrypted RSA key now
                     binkey = Convert.FromBase64String(encryptedstr);
                 }
-                catch (System.FormatException)
+                catch (global::System.FormatException)
                 {   //data is not in base64 format
                     return null;
                 }

@@ -33,6 +33,8 @@ import java.util.TreeSet;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
@@ -63,16 +65,16 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
 
     private static final String X_HELIDON_REQUIRED_IMPL_IMPORTS = "x-helidon-requiredImplImports";
     private static final String X_HELIDON_IMPL_IMPORTS = "x-helidon-implImports";
+    private static final String X_CLIENT_STYLE_V3 = "x-helidon-client-style-v3";
     public static final String CONFIG_KEY = "configKey";
 
-    protected String configKey = null;
-    protected boolean useBeanValidation = false;
-    protected boolean performBeanValidation = false;
-    protected boolean useGzipFeature = false;
+    @Setter protected String configKey = null;
+    @Setter protected boolean performBeanValidation = false;
+    @Setter protected boolean useGzipFeature = false;
     protected boolean caseInsensitiveResponseHeaders = false;
     protected Path invokerFolder;
     protected Path apiFolder;
-    protected String serializationLibrary = null;
+    @Getter protected String serializationLibrary = null;
 
     /**
      * Constructor for this generator. Uses the embedded template dir to find common templates
@@ -172,13 +174,11 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(SERIALIZATION_LIBRARY)) {
-            setSerializationLibrary(additionalProperties.get(SERIALIZATION_LIBRARY).toString());
-        }
+        // Not intended for users to set; we compute this based on the major version.
+        additionalProperties.put(X_CLIENT_STYLE_V3, helidonMajorVersion == 3);
+        convertPropertyToStringAndWriteBack(SERIALIZATION_LIBRARY, this::setSerializationLibrary);
 
-        if (additionalProperties.containsKey(CONFIG_KEY)) {
-            setConfigKey(additionalProperties.get(CONFIG_KEY).toString());
-        }
+        convertPropertyToStringAndWriteBack(CONFIG_KEY, this::setConfigKey);
 
         String invokerPath = invokerPackage.replace('.', File.separatorChar);
         invokerFolder = Paths.get(sourceFolder, invokerPath);
@@ -202,7 +202,12 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
         } else if (isLibrary(HELIDON_SE)) {
             apiTemplateFiles.put("api_impl.mustache", ".java");
             importMapping.put("StringJoiner", "java.util.StringJoiner");
-            importMapping.put("WebClientRequestHeaders", "io.helidon.webclient.WebClientRequestHeaders");
+            if (helidonMajorVersion == 3) {
+                importMapping.put("WebClientRequestHeaders", "io.helidon.webclient.WebClientRequestHeaders");
+            } else {
+                importMapping.put("ClientRequestHeaders", "io.helidon.http.ClientRequestHeaders");
+                importMapping.put("HeaderNames", "io.helidon.http.HeaderNames");
+            }
             importMapping.put("Pair", invokerPackage + ".Pair");
 
 
@@ -312,7 +317,10 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
             requiredImplImports.add("Pair");
         }
         if (op.getHasHeaderParams()) {
-            requiredImplImports.add("WebClientRequestHeaders");
+            requiredImplImports.add(helidonMajorVersion == 3 ? "WebClientRequestHeaders" : "ClientRequestHeaders");
+            if (helidonMajorVersion > 3) {
+                requiredImplImports.add("HeaderNames");
+            }
         }
         if (op.getHasFormParams()) {
             requiredImplImports.add("StringJoiner");
@@ -363,14 +371,10 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
         if (HELIDON_MP.equals(getLibrary())) {
             model.imports.remove("ApiModelProperty");
             model.imports.remove("ApiModel");
-            model.imports.remove("JsonSerialize");
-            model.imports.remove("ToStringSerializer");
         } else if (HELIDON_SE.equals(getLibrary())) {
             // TODO check for SE-specifics
             model.imports.remove("ApiModelProperty");
             model.imports.remove("ApiModel");
-            model.imports.remove("JsonSerialize");
-            model.imports.remove("ToStringSerializer");
         }
 
         if ("set".equals(property.containerType) && !JACKSON.equals(serializationLibrary)) {
@@ -460,35 +464,17 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
         return objs;
     }
 
-    public void setConfigKey(String configKey) {
-        this.configKey = configKey;
-    }
-
-    public void setUseBeanValidation(boolean useBeanValidation) {
-        this.useBeanValidation = useBeanValidation;
-    }
-
-    public void setPerformBeanValidation(boolean performBeanValidation) {
-        this.performBeanValidation = performBeanValidation;
-    }
-
-    public void setUseGzipFeature(boolean useGzipFeature) {
-        this.useGzipFeature = useGzipFeature;
-    }
-
     public void setCaseInsensitiveResponseHeaders(final Boolean caseInsensitiveResponseHeaders) {
         this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
-    }
-
-    public String getSerializationLibrary() {
-        return serializationLibrary;
     }
 
     public void setSerializationLibrary(String serializationLibrary) {
         if (SERIALIZATION_LIBRARY_JACKSON.equalsIgnoreCase(serializationLibrary)) {
             this.serializationLibrary = SERIALIZATION_LIBRARY_JACKSON;
+            this.jackson = true;
         } else if (SERIALIZATION_LIBRARY_JSONB.equalsIgnoreCase(serializationLibrary)) {
             this.serializationLibrary = SERIALIZATION_LIBRARY_JSONB;
+            this.jackson = false;
         } else {
             throw new IllegalArgumentException("Unexpected serializationLibrary value: " + serializationLibrary);
         }

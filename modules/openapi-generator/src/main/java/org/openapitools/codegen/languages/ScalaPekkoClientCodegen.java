@@ -17,9 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.lang3.StringUtils;
@@ -33,12 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.util.*;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ScalaPekkoClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     protected String mainPackage = "org.openapitools.client";

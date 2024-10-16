@@ -58,7 +58,7 @@ export class Observable{{classname}} {
      * {{&summary}}
      {{/summary}}
      {{#allParams}}
-     * @param {{paramName}} {{description}}
+     * @param {{#required}}{{paramName}}{{/required}}{{^required}}[{{paramName}}]{{/required}}{{#description}} {{description}}{{/description}}
      {{/allParams}}
      */
     public {{nickname}}WithHttpInfo({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration): Observable<HttpInfo<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
@@ -66,14 +66,14 @@ export class Observable{{classname}} {
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (let middleware of this.configuration.middleware) {
+        for (const middleware of this.configuration.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (let middleware of this.configuration.middleware) {
+                for (const middleware of this.configuration.middleware) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.{{nickname}}WithHttpInfo(rsp)));
@@ -88,7 +88,7 @@ export class Observable{{classname}} {
      * {{&summary}}
      {{/summary}}
      {{#allParams}}
-     * @param {{paramName}} {{description}}
+     * @param {{#required}}{{paramName}}{{/required}}{{^required}}[{{paramName}}]{{/required}}{{#description}} {{description}}{{/description}}
      {{/allParams}}
      */
     public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration): Observable<{{{returnType}}}{{^returnType}}void{{/returnType}}> {

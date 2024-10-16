@@ -29,7 +29,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -256,7 +255,11 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
                         // VC++ reserved keywords
                         "stdin",
                         "stdout",
-                        "stderr")
+                        "stderr",
+
+                        // gcc predefined macros
+                        "linux"
+                        )
         );
 
         instantiationTypes.clear();
@@ -320,6 +323,8 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
         if (StringUtils.isEmpty(System.getenv("C_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable C_POST_PROCESS_FILE not defined so the C code may not be properly formatted by uncrustify (0.66 or later) or other code formatter. To define it, try `export C_POST_PROCESS_FILE=\"/usr/local/bin/uncrustify --no-backup\" && export UNCRUSTIFY_CONFIG=/path/to/uncrustify-rules.cfg` (Linux/Mac). Note: replace /path/to with the location of uncrustify-rules.cfg");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'C_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(USE_JSON_UNFORMATTED)) {
@@ -898,6 +903,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -922,20 +928,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // only process files with .c or .h extension
         if ("c".equals(FilenameUtils.getExtension(file.toString())) ||
                 "h".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = cPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[] {cPostProcessFile, file.toString()});
         }
     }
 

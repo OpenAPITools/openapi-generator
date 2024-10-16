@@ -48,15 +48,21 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             {{#composedSchemas}}
             {{#oneOf}}
             {{^isArray}}
+            {{^isMap}}
             {{^vendorExtensions.x-duplicated-data-type}}
             final TypeAdapter<{{{dataType}}}> adapter{{{dataType}}} = gson.getDelegateAdapter(this, TypeToken.get({{{dataType}}}.class));
             {{/vendorExtensions.x-duplicated-data-type}}
+            {{/isMap}}
             {{/isArray}}
             {{#isArray}}
 
-            final Type typeInstance = new TypeToken<{{{dataType}}}>(){}.getType();
-            final TypeAdapter<{{{dataType}}}> adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}} = (TypeAdapter<{{{dataType}}}>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance));
+            final Type typeInstance{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}} = new TypeToken<{{{dataType}}}>(){}.getType();
+            final TypeAdapter<{{{dataType}}}> adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}} = (TypeAdapter<{{{dataType}}}>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}));
             {{/isArray}}
+            {{#isMap}}
+            final Type typeInstance{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}} = new TypeToken<{{{dataType}}}>(){}.getType();
+            final TypeAdapter<{{{dataType}}}> adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}} = (TypeAdapter<{{{dataType}}}>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}));
+            {{/isMap}}
             {{/oneOf}}
             {{/composedSchemas}}
 
@@ -72,11 +78,18 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     {{#oneOf}}
                     {{^vendorExtensions.x-duplicated-data-type}}
                     // check if the actual instance is of the type `{{{dataType}}}`
-                    if (value.getActualInstance() instanceof {{#isArray}}List<?>{{/isArray}}{{^isArray}}{{{dataType}}}{{/isArray}}) {
+                    if (value.getActualInstance() instanceof {{#isArray}}List<?>{{/isArray}}{{#isMap}}Map<?, ?>{{/isMap}}{{^isMap}}{{^isArray}}{{{dataType}}}{{/isArray}}{{/isMap}}) {
                     {{#isPrimitiveType}}
+                    {{^isMap}}
                         JsonPrimitive primitive = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}.toJsonTree(({{{dataType}}})value.getActualInstance()).getAsJsonPrimitive();
                         elementAdapter.write(out, primitive);
                         return;
+                    {{/isMap}}
+                    {{#isMap}}
+                        JsonObject object = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}.toJsonTree(({{{dataType}}})value.getActualInstance()).getAsJsonObject();
+                        elementAdapter.write(out, object);
+                        return;
+                    {{/isMap}}
                     {{/isPrimitiveType}}
                     {{^isPrimitiveType}}
                     {{#isArray}}
@@ -88,6 +101,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                         }
                     {{/isArray}}
                     {{/isPrimitiveType}}
+                    {{^isMap}}
                     {{^isArray}}
                     {{^isPrimitiveType}}
                         JsonElement element = adapter{{{dataType}}}.toJsonTree(({{{dataType}}})value.getActualInstance());
@@ -95,6 +109,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                         return;
                     {{/isPrimitiveType}}
                     {{/isArray}}
+                    {{/isMap}}
                     }
                     {{/vendorExtensions.x-duplicated-data-type}}
                     {{/oneOf}}
@@ -143,6 +158,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     try {
                         // validate the JSON object to see if any exception is thrown
                     {{^isArray}}
+                    {{^isMap}}
                     {{#isNumber}}
                         if (!jsonElement.getAsJsonPrimitive().isNumber()) {
                             throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
@@ -163,6 +179,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                         actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}};
                     {{/isPrimitiveType}}
                     {{/isNumber}}
+                    {{/isMap}}
                     {{/isArray}}
                     {{#isArray}}
                         if (!jsonElement.isJsonArray()) {
@@ -194,6 +211,38 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                         }
                         actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}};
                     {{/isArray}}
+                    {{#isMap}}
+                        if (!jsonElement.isJsonObject()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be a object type in the JSON string but got `%s`", jsonElement.toString()));
+                        }
+
+                        {{^isFreeFormObject}}
+                        Map<String, JsonElement> map = jsonElement.getAsJsonObject().asMap();
+                        // validate map items
+                        for(JsonElement element : map.values()) {
+                        {{#items}}
+                        {{#isNumber}}
+                            if (!jsonElement.getAsJsonPrimitive().isNumber()) {
+                                throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+                            }
+                        {{/isNumber}}
+                        {{^isNumber}}
+                        {{#isPrimitiveType}}
+                            if (!element.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
+                                throw new IllegalArgumentException(String.format("Expected array items to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
+                            }
+                        {{/isPrimitiveType}}
+                        {{/isNumber}}
+                        {{^isNumber}}
+                        {{^isPrimitiveType}}
+                            {{{dataType}}}.validateJsonElement(element);
+                        {{/isPrimitiveType}}
+                        {{/isNumber}}
+                        {{/items}}
+                        }
+                        {{/isFreeFormObject}}
+                        actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}};
+                    {{/isMap}}
                         match++;
                         log.log(Level.FINER, "Input data matches schema '{{{dataType}}}'");
                     } catch (Exception e) {
@@ -239,13 +288,11 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         super("oneOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
     }
 
-    {{#oneOf}}
-    public {{classname}}({{{.}}} o) {
+    public {{classname}}(Object o) {
         super("oneOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
         setActualInstance(o);
     }
 
-    {{/oneOf}}
     static {
         {{#composedSchemas}}
         {{#oneOf}}
@@ -280,7 +327,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         {{#composedSchemas}}
         {{#oneOf}}
         {{^vendorExtensions.x-duplicated-data-type}}
-        if (instance instanceof {{#isArray}}List<?>{{/isArray}}{{^isArray}}{{{dataType}}}{{/isArray}}) {
+        if (instance instanceof {{#isArray}}List<?>{{/isArray}}{{#isMap}}Map<?, ?>{{/isMap}}{{^isMap}}{{^isArray}}{{{dataType}}}{{/isArray}}{{/isMap}}) {
         {{#isArray}}
             List<?> list = (List<?>) instance;
             if (list.get(0) instanceof {{{items.dataType}}}) {
@@ -314,7 +361,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
     {{#composedSchemas}}
     {{#oneOf}}
-    {{^vendorExtensions.x-duplicated-data-type}}
+    {{^vendorExtensions.x-duplicated-data-type-ignoring-erasure}}
     /**
      * Get the actual instance of `{{{dataType}}}`. If the actual instance is not `{{{dataType}}}`,
      * the ClassCastException will be thrown.
@@ -322,13 +369,13 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
      * @return The actual instance of `{{{dataType}}}`
      * @throws ClassCastException if the instance is not `{{{dataType}}}`
      */
-    public {{{dataType}}} get{{#isArray}}{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}{{/isArray}}{{^isArray}}{{{dataType}}}{{/isArray}}() throws ClassCastException {
+    public {{{dataType}}} get{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}() throws ClassCastException {
         return ({{{dataType}}})super.getActualInstance();
     }
-    {{/vendorExtensions.x-duplicated-data-type}}
+
+    {{/vendorExtensions.x-duplicated-data-type-ignoring-erasure}}
     {{/oneOf}}
     {{/composedSchemas}}
-
     /**
      * Validates the JSON Element and throws an exception if issues found
      *
@@ -345,6 +392,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         // validate the json string with {{{dataType}}}
         try {
         {{^hasVars}}
+        {{^isMap}}
         {{^isArray}}
         {{#isNumber}}
             if (!jsonElement.getAsJsonPrimitive().isNumber()) {
@@ -364,6 +412,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         {{/isPrimitiveType}}
         {{/isNumber}}
         {{/isArray}}
+        {{/isMap}}
         {{#isArray}}
             if (!jsonElement.isJsonArray()) {
                 throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
@@ -392,6 +441,37 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             {{/items}}
             }
         {{/isArray}}
+        {{#isMap}}
+            if (!jsonElement.isJsonObject()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be a object type in the JSON string but got `%s`", jsonElement.toString()));
+            }
+
+            {{^isFreeFormObject}}
+            Map<String, JsonElement> map = jsonElement.getAsJsonObject().asMap();
+            // validate map items
+            for(JsonElement element : map.values()) {
+            {{#items}}
+            {{#isNumber}}
+                if (!jsonElement.getAsJsonPrimitive().isNumber()) {
+                    throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+                }
+            {{/isNumber}}
+            {{^isNumber}}
+            {{#isPrimitiveType}}
+                if (!element.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
+                    throw new IllegalArgumentException(String.format("Expected array items to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
+                }
+            {{/isPrimitiveType}}
+            {{/isNumber}}
+            {{^isNumber}}
+            {{^isPrimitiveType}}
+                {{{dataType}}}.validateJsonElement(element);
+            {{/isPrimitiveType}}
+            {{/isNumber}}
+            {{/items}}
+            }
+            {{/isFreeFormObject}}
+        {{/isMap}}
         {{/hasVars}}
         {{#hasVars}}
             {{{.}}}.validateJsonElement(jsonElement);

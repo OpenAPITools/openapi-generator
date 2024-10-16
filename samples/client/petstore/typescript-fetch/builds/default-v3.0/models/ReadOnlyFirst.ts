@@ -36,7 +36,7 @@ export interface ReadOnlyFirst {
 /**
  * Check if a given object implements the ReadOnlyFirst interface.
  */
-export function instanceOfReadOnlyFirst(value: object): boolean {
+export function instanceOfReadOnlyFirst(value: object): value is ReadOnlyFirst {
     return true;
 }
 
@@ -55,10 +55,15 @@ export function ReadOnlyFirstFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function ReadOnlyFirstToJSON(value?: Omit<ReadOnlyFirst, 'bar'> | null): any {
+  export function ReadOnlyFirstToJSON(json: any): ReadOnlyFirst {
+      return ReadOnlyFirstToJSONTyped(json, false);
+  }
+
+  export function ReadOnlyFirstToJSONTyped(value?: Omit<ReadOnlyFirst, 'bar'> | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'baz': value['baz'],

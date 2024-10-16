@@ -34,6 +34,7 @@ import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenResponse;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -202,11 +203,14 @@ public class PhpFlightServerCodegen extends AbstractPhpCodegen {
         List<CodegenOperation> operationList = operations.getOperation();
         operationList.forEach(operation -> {
             operation.vendorExtensions.put("x-path", mapToFlightPath(operation.path));
-            String returnType = operation.responses.stream().filter(r -> r.is2xx && r.dataType != null).map(r -> this.getTypeHint(r.dataType, false, false)).filter(t -> !t.isEmpty()).map(t -> t + "|null").findFirst().orElse("void");
+            CodegenResponse defaultResponse = operation.responses.stream().filter(r -> r.is2xx && r.dataType != null && !this.getTypeHint(r.dataType, false, false).isEmpty()).findFirst().orElse(null);
+            String returnType = defaultResponse != null ? this.getTypeHint(defaultResponse.dataType, false, false) + "|null" : "void";
             operation.vendorExtensions.put("x-return-type", returnType);
             operation.vendorExtensions.put("x-return-type-is-void", returnType.equals("void"));
-            operation.vendorExtensions.put("x-return-type-comment",
-                    operation.responses.stream().filter(r -> r.is2xx && r.dataType != null).map(r -> this.getTypeHint(r.dataType, true, false)).filter(t -> !t.isEmpty()).map(t -> t + "|null").findFirst().orElse("void"));
+            operation.vendorExtensions.put("x-return-type-comment", defaultResponse != null ? this.getTypeHint(defaultResponse.dataType, true, false) + "|null" : "void");
+            operation.vendorExtensions.put("x-default-media-type", defaultResponse != null ? (
+                defaultResponse.getContent().containsKey("application/json") ? "application/json" : defaultResponse.getContent().keySet().stream().findFirst().orElse(null)) : null);
+            operation.vendorExtensions.put("x-default-status-code", defaultResponse != null ? defaultResponse.code : operation.responses.stream().filter(r -> !r.isDefault).findFirst().map(r -> r.code).orElse("200"));
             operation.vendorExtensions.put("x-nonFormParams", operation.allParams.stream().filter(p -> !p.isFormParam).toArray());
 
             operation.allParams.forEach(param -> {

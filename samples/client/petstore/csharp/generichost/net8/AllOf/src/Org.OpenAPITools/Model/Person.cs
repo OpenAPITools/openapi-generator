@@ -36,13 +36,11 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="firstName">firstName</param>
         /// <param name="lastName">lastName</param>
-        /// <param name="type">type</param>
         [JsonConstructor]
-        public Person(Option<string?> firstName = default, Option<string?> lastName = default, Option<string?> type = default)
+        public Person(Option<string?> firstName = default, Option<string?> lastName = default)
         {
             FirstNameOption = firstName;
             LastNameOption = lastName;
-            TypeOption = type;
             OnCreated();
         }
 
@@ -52,7 +50,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of FirstName
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> FirstNameOption { get; private set; }
 
         /// <summary>
@@ -65,7 +63,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of LastName
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> LastNameOption { get; private set; }
 
         /// <summary>
@@ -75,17 +73,11 @@ namespace Org.OpenAPITools.Model
         public string? LastName { get { return this.LastNameOption; } set { this.LastNameOption = new(value); } }
 
         /// <summary>
-        /// Used to track the state of Type
+        /// The discriminator
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string?> TypeOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets Type
-        /// </summary>
-        [JsonPropertyName("$_type")]
-        public string? Type { get { return this.TypeOption; } set { this.TypeOption = new(value); } }
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public string Type { get; } = "Person";
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -103,7 +95,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("class Person {\n");
             sb.Append("  FirstName: ").Append(FirstName).Append("\n");
             sb.Append("  LastName: ").Append(LastName).Append("\n");
-            sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -114,7 +105,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -124,7 +115,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -155,6 +146,14 @@ namespace Org.OpenAPITools.Model
             Option<string?> firstName = default;
             Option<string?> lastName = default;
             Option<string?> type = default;
+
+            string? discriminator = ClientUtils.GetDiscriminator(utf8JsonReader, "$_type");
+
+            if (discriminator != null && discriminator.Equals("Adult"))
+                return JsonSerializer.Deserialize<Adult>(ref utf8JsonReader, jsonSerializerOptions) ?? throw new JsonException("The result was an unexpected value.");
+
+            if (discriminator != null && discriminator.Equals("Child"))
+                return JsonSerializer.Deserialize<Child>(ref utf8JsonReader, jsonSerializerOptions) ?? throw new JsonException("The result was an unexpected value.");
 
             while (utf8JsonReader.Read())
             {
@@ -195,7 +194,7 @@ namespace Org.OpenAPITools.Model
             if (type.IsSet && type.Value == null)
                 throw new ArgumentNullException(nameof(type), "Property is not nullable for class Person.");
 
-            return new Person(firstName, lastName, type);
+            return new Person(firstName, lastName);
         }
 
         /// <summary>
@@ -207,9 +206,19 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Person person, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (person is Adult adult){
+                JsonSerializer.Serialize<Adult>(writer, adult, jsonSerializerOptions);
+                return;
+            }
+
+            if (person is Child child){
+                JsonSerializer.Serialize<Child>(writer, child, jsonSerializerOptions);
+                return;
+            }
+
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, person, jsonSerializerOptions);
+            WriteProperties(writer, person, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -220,7 +229,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="person"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Person person, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Person person, JsonSerializerOptions jsonSerializerOptions)
         {
             if (person.FirstNameOption.IsSet && person.FirstName == null)
                 throw new ArgumentNullException(nameof(person.FirstName), "Property is required for class Person.");
@@ -228,17 +237,13 @@ namespace Org.OpenAPITools.Model
             if (person.LastNameOption.IsSet && person.LastName == null)
                 throw new ArgumentNullException(nameof(person.LastName), "Property is required for class Person.");
 
-            if (person.TypeOption.IsSet && person.Type == null)
-                throw new ArgumentNullException(nameof(person.Type), "Property is required for class Person.");
-
             if (person.FirstNameOption.IsSet)
                 writer.WriteString("firstName", person.FirstName);
 
             if (person.LastNameOption.IsSet)
                 writer.WriteString("lastName", person.LastName);
 
-            if (person.TypeOption.IsSet)
-                writer.WriteString("$_type", person.Type);
+            writer.WriteString("$_type", person.Type);
         }
     }
 }

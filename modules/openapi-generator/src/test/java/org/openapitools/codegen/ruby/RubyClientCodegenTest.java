@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.ruby;
 
-import com.google.common.collect.ImmutableMap;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;

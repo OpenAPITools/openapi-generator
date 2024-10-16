@@ -25,7 +25,7 @@ import javax.annotation.Generated;
  * MixedPropertiesAndAdditionalPropertiesClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass {
 
   private UUID uuid;
@@ -36,9 +36,13 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @Valid
   private Map<String, Animal> map = new HashMap<>();
 
+  public MixedPropertiesAndAdditionalPropertiesClass() {
+    super();
+  }
+
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public MixedPropertiesAndAdditionalPropertiesClass(UUID uuid, OffsetDateTime dateTime, Map<String, Animal> map) {
       this.uuid = uuid;
       this.dateTime = dateTime;
@@ -53,7 +57,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   /**
    * Get uuid
    * @return uuid
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("uuid")
@@ -73,7 +77,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   /**
    * Get dateTime
    * @return dateTime
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
@@ -101,7 +105,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   /**
    * Get map
    * @return map
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("map")

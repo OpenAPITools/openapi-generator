@@ -25,6 +25,7 @@ public class CodegenConstants {
     // NOTE: We may want to move these to a separate class to avoid confusion or modification.
     public static final String APIS = "apis";
     public static final String MODELS = "models";
+    public static final String GENERATE_RECURSIVE_DEPENDENT_MODELS = "generateRecursiveDependentModels";
     public static final String SUPPORTING_FILES = "supportingFiles";
     public static final String MODEL_TESTS = "modelTests";
     public static final String MODEL_DOCS = "modelDocs";
@@ -32,7 +33,6 @@ public class CodegenConstants {
     public static final String API_TESTS = "apiTests";
     public static final String API_DOCS = "apiDocs";
 
-    public static final String WITH_XML = "withXml";
     public static final String SKIP_FORM_MODEL = "skipFormModel";
     /* /end System Properties */
 
@@ -232,6 +232,8 @@ public class CodegenConstants {
     public static final String TEMPLATING_ENGINE = "templatingEngine";
     public static final String TEMPLATING_ENGINE_DESC = "The templating engine plugin to use: \"mustache\" (default) or \"handlebars\" (beta)";
 
+    public static final String MUSTACHE_PARENT_CONTEXT = "MUSTACHE_PARENT_CONTEXT";
+
     public static enum PARAM_NAMING_TYPE {camelCase, PascalCase, snake_case, original}
 
     public static enum MODEL_PROPERTY_NAMING_TYPE {camelCase, PascalCase, snake_case, original}
@@ -408,7 +410,7 @@ public class CodegenConstants {
 
     public static final String UNSUPPORTED_V310_SPEC_MSG =
                     "Generation using 3.1.0 specs is in development and is not officially supported yet. " +
-                    "If you would like to expedite development, please consider woking on the open issues in the 3.1.0 project: https://github.com/orgs/OpenAPITools/projects/4/views/1 " +
+                    "If you would like to expedite development, please consider working on the open issues in the 3.1.0 project: https://github.com/orgs/OpenAPITools/projects/4/views/1 " +
                     "and reach out to our team on Slack at https://join.slack.com/t/openapi-generator/shared_invite/zt-12jxxd7p2-XUeQM~4pzsU9x~eGLQqX2g";
 
     public static final String ENUM_UNKNOWN_DEFAULT_CASE = "enumUnknownDefaultCase";
@@ -437,6 +439,8 @@ public class CodegenConstants {
 
     public static final String FASTAPI_IMPLEMENTATION_PACKAGE = "fastapiImplementationPackage";
 
+    public static final String WITH_XML = "withXml";
+    
     public static final String WITH_GO_MOD = "withGoMod";
 
     public static final String GENERATE_MARSHAL_JSON = "generateMarshalJSON";
@@ -447,4 +451,6 @@ public class CodegenConstants {
     public static final String MAX_ATTEMPTS_FOR_RETRY = "maxAttemptsForRetry";
 
     public static final String WAIT_TIME_OF_THREAD = "waitTimeMillis";
+
+    public static final String USE_DEFAULT_VALUES_FOR_REQUIRED_VARS = "useDefaultValuesForRequiredVars";
 }

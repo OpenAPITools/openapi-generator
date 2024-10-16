@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Client
         /// <param name="options"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryDeserialize<T>(string json, JsonSerializerOptions options, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T? result)
+        public static bool TryDeserialize<T>(string json, JsonSerializerOptions options, [global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T? result)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace Org.OpenAPITools.Client
         /// <param name="options"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryDeserialize<T>(ref Utf8JsonReader reader, JsonSerializerOptions options, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T? result)
+        public static bool TryDeserialize<T>(ref Utf8JsonReader reader, JsonSerializerOptions options, [global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T? result)
         {
             try
             {
@@ -116,6 +116,8 @@ namespace Org.OpenAPITools.Client
                 // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
                 // For example: 2009-06-15T13:45:30.0000000
                 return dateTimeOffset.ToString(format);
+            if (obj is DateOnly dateOnly)
+                return dateOnly.ToString(format);
             if (obj is bool boolean)
                 return boolean
                     ? "true"
@@ -173,7 +175,7 @@ namespace Org.OpenAPITools.Client
         /// <returns>Encoded string.</returns>
         public static string Base64Encode(string text)
         {
-            return Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(text));
+            return Convert.ToBase64String(global::System.Text.Encoding.UTF8.GetBytes(text));
         }
 
         /// <summary>
@@ -249,6 +251,43 @@ namespace Org.OpenAPITools.Client
             if (string.IsNullOrWhiteSpace(mime)) return false;
 
             return JsonRegex.IsMatch(mime) || mime.Equals("application/json-patch+json");
+        }
+
+        /// <summary>
+        /// Get the discriminator
+        /// </summary>
+        /// <param name="utf8JsonReader"></param>
+        /// <param name="discriminator"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public static string? GetDiscriminator(Utf8JsonReader utf8JsonReader, string discriminator)
+        {
+            int currentDepth = utf8JsonReader.CurrentDepth;
+
+            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
+                throw new JsonException();
+
+            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+
+            while (utf8JsonReader.Read())
+            {
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
+                {
+                    string? localVarJsonPropertyName = utf8JsonReader.GetString();
+                    utf8JsonReader.Read();
+
+                    if (localVarJsonPropertyName != null && localVarJsonPropertyName.Equals(discriminator))
+                        return utf8JsonReader.GetString();
+                }
+            }
+
+            throw new JsonException("The specified discriminator was not found.");
         }
 
         /// <summary>

@@ -992,6 +992,30 @@ paths:
       x-content-type: application/json
       x-accepts:
       - application/json
+  /fake/oneOfWIthSameErasure:
+    get:
+      description: "Test route, this shouldn't cause a compiler error"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_fake_oneOfWIthSameErasure_get_200_response'
+          description: successful response
+      x-accepts:
+      - application/json
+  /fake/anyOfWIthSameErasure:
+    get:
+      description: "Test route, this shouldn't cause a compiler error"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_fake_anyOfWIthSameErasure_get_200_response'
+          description: successful response
+      x-accepts:
+      - application/json
   /fake/stringMap-reference:
     post:
       description: ""
@@ -1115,6 +1139,42 @@ paths:
       tags:
       - fake
       x-content-type: application/json
+      x-accepts:
+      - application/json
+  /fake/get-free-form-object:
+    get:
+      description: Get a free form object or Json string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FreeFormObjectTestClass'
+          description: Success
+      tags:
+      - fake
+      x-accepts:
+      - application/json
+  /fake/free-form-query-parameters:
+    get:
+      parameters:
+      - explode: true
+        in: query
+        name: fixed
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: free-form
+        required: false
+        schema:
+          type: object
+        style: form
+      responses:
+        "200":
+          description: OK
       x-accepts:
       - application/json
   /fake/test-query-parameters:
@@ -1399,10 +1459,31 @@ paths:
       - petstore_auth:
         - write:pets
         - read:pets
-      summary: fake uploads an image with ref request bodies
+      summary: fake reference parameter
       tags:
       - fake
       x-content-type: multipart/form-data
+      x-accepts:
+      - application/json
+  /fake/pet/{petId}/reference/parameter:
+    post:
+      description: ""
+      operationId: fake-ref-parameter
+      parameters:
+      - description: to test oneOf in parameter $ref
+        explode: false
+        in: path
+        name: petId
+        required: true
+        schema:
+          $ref: '#/components/schemas/fake_ref_parameter_petId_parameter'
+        style: simple
+      responses:
+        "200":
+          description: successful operation
+      summary: fake reference parameter
+      tags:
+      - fake
       x-accepts:
       - application/json
   /values:
@@ -1442,6 +1523,16 @@ paths:
       x-accepts:
       - application/json
 components:
+  parameters:
+    pet_id:
+      description: to test oneOf in parameter $ref
+      explode: false
+      in: path
+      name: petId
+      required: true
+      schema:
+        $ref: '#/components/schemas/fake_ref_parameter_petId_parameter'
+      style: simple
   requestBodies:
     upload_body:
       content:
@@ -2134,6 +2225,16 @@ components:
             $ref: '#/components/schemas/File'
           type: array
       type: object
+    FreeFormObjectTestClass:
+      example:
+        name: name
+        properties: FreeFormObjectTestClass_properties
+      properties:
+        name:
+          type: string
+        properties:
+          $ref: '#/components/schemas/FreeFormObjectTestClass_properties'
+      type: object
     File:
       description: Must be named `File` for test.
       example:
@@ -2250,6 +2351,13 @@ components:
       - $ref: '#/components/schemas/whale'
       - $ref: '#/components/schemas/zebra'
       - $ref: '#/components/schemas/Pig'
+    mammal_anyof:
+      anyOf:
+      - $ref: '#/components/schemas/whale'
+      - $ref: '#/components/schemas/zebra'
+      - $ref: '#/components/schemas/Pig'
+      discriminator:
+        propertyName: className
     whale:
       properties:
         hasBaleen:
@@ -2592,6 +2700,17 @@ components:
         category_allOf_ref:
           allOf:
           - $ref: '#/components/schemas/Category'
+        category_allOf_ref_description:
+          allOf:
+          - $ref: '#/components/schemas/Category'
+          description: |
+            Adding description to property using allOf
+        category_allOf_ref_description_readonly:
+          allOf:
+          - $ref: '#/components/schemas/Category'
+          description: |
+            Adding description to readonly property using allOf
+          readOnly: true
         name:
           example: doggie
           type: string
@@ -2863,6 +2982,22 @@ components:
       - param
       - param2
       type: object
+    _fake_oneOfWIthSameErasure_get_200_response:
+      oneOf:
+      - items:
+          type: string
+        type: array
+      - items:
+          type: integer
+        type: array
+    _fake_anyOfWIthSameErasure_get_200_response:
+      anyOf:
+      - items:
+          type: string
+        type: array
+      - items:
+          type: integer
+        type: array
     testInlineFreeformAdditionalProperties_request:
       additionalProperties: true
       properties:
@@ -2881,6 +3016,15 @@ components:
       required:
       - requiredFile
       type: object
+    fake_ref_parameter_petId_parameter:
+      oneOf:
+      - type: string
+      - type: integer
+    FreeFormObjectTestClass_properties:
+      oneOf:
+      - type: string
+      - additionalProperties: true
+        type: object
     ArrayOfInlineAllOf_array_allof_dog_property_inner:
       allOf:
       - properties:

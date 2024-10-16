@@ -86,6 +86,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>except</li>
 <li>exec</li>
 <li>false</li>
+<li>field</li>
 <li>finally</li>
 <li>float</li>
 <li>for</li>

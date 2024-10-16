@@ -2,7 +2,7 @@ group "{{groupId}}"
 version "{{artifactVersion}}"
 
 wrapper {
-    gradleVersion = '6.9'
+    gradleVersion = '7.3'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
@@ -20,7 +20,7 @@ buildscript {
 {{#useMutiny}}
     ext.mutiny_version = "2.2.0"
 {{/useMutiny}}
-    ext.jackson_version = "2.9.9"
+    ext.jackson_version = "2.17.1"
 {{#useBeanValidation}}
     ext.beanvalidation_version = "2.0.2"
 {{/useBeanValidation}}

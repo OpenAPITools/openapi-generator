@@ -21,10 +21,10 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -38,7 +38,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -62,24 +61,25 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     public static final String LIBRARY_JAVASCRIPT = "javascript";
     public static final String LIBRARY_APOLLO = "apollo";
 
-    protected String projectName;
-    protected String moduleName;
-    protected String projectDescription;
-    protected String projectVersion;
-    protected String licenseName;
+    @Setter protected String projectName;
+    @Setter protected String moduleName;
+    @Setter protected String projectDescription;
+    @Setter protected String projectVersion;
+    @Setter protected String licenseName;
 
+    @Getter @Setter
     protected String invokerPackage;
-    protected String sourceFolder = "src";
-    protected boolean usePromises;
-    protected boolean emitModelMethods;
-    protected boolean emitJSDoc = true;
+    @Setter protected String sourceFolder = "src";
+    @Setter protected boolean usePromises;
+    @Setter protected boolean emitModelMethods;
+    @Setter protected boolean emitJSDoc = true;
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected String apiTestPath = "api/";
     protected String modelTestPath = "model/";
     protected boolean useES6 = true; // default is ES6
-    protected String npmRepository = null;
-    private String modelPropertyNaming = "camelCase";
+    @Setter protected String npmRepository = null;
+    @Getter private String modelPropertyNaming = "camelCase";
 
     public JavascriptClientCodegen() {
         super();
@@ -221,6 +221,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (StringUtils.isEmpty(System.getenv("JS_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable JS_POST_PROCESS_FILE not defined so the JS code may not be properly formatted. To define it, try 'export JS_POST_PROCESS_FILE=\"/usr/local/bin/js-beautify -r -f\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'JS_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(PROJECT_NAME)) {
@@ -403,57 +405,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         return createPath(outputFolder, sourceFolder, invokerPackage, modelPackage());
     }
 
-    public String getInvokerPackage() {
-        return invokerPackage;
-    }
-
-    public void setInvokerPackage(String invokerPackage) {
-        this.invokerPackage = invokerPackage;
-    }
-
-    public void setSourceFolder(String sourceFolder) {
-        this.sourceFolder = sourceFolder;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
-    public void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
-    }
-
-    public void setProjectDescription(String projectDescription) {
-        this.projectDescription = projectDescription;
-    }
-
-    public void setProjectVersion(String projectVersion) {
-        this.projectVersion = projectVersion;
-    }
-
-    public void setLicenseName(String licenseName) {
-        this.licenseName = licenseName;
-    }
-
-    public void setUsePromises(boolean usePromises) {
-        this.usePromises = usePromises;
-    }
-
-    public void setNpmRepository(String npmRepository) {
-        this.npmRepository = npmRepository;
-    }
-
     public void setUseInheritance(boolean useInheritance) {
         this.supportsInheritance = useInheritance;
         this.supportsMixins = useInheritance;
-    }
-
-    public void setEmitModelMethods(boolean emitModelMethods) {
-        this.emitModelMethods = emitModelMethods;
-    }
-
-    public void setEmitJSDoc(boolean emitJSDoc) {
-        this.emitJSDoc = emitJSDoc;
     }
 
     @Override
@@ -484,10 +438,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public String toModelTestFilename(String name) {
         return toModelName(name) + ".spec";
-    }
-
-    public String getModelPropertyNaming() {
-        return this.modelPropertyNaming;
     }
 
     private String getNameUsingModelPropertyNaming(String name) {
@@ -1214,6 +1164,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -1225,20 +1176,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         // only process files with js extension
         if ("js".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = jsPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                p.waitFor();
-                int exitValue = p.exitValue();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
-                }
-                LOGGER.info("Successfully executed: {}", command);
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[] {jsPostProcessFile, file.toString()});
         }
     }
 

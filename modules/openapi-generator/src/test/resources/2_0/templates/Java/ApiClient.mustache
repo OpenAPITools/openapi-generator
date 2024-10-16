@@ -19,7 +19,12 @@ import java.time.OffsetDateTime;
 {{#threetenbp}}
 import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
 {{/threetenbp}}
+{{#useJakartaEe}}
+import com.fasterxml.jackson.jakarta.rs.json.JacksonJsonProvider;
+{{/useJakartaEe}}
+{{^useJakartaEe}}
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+{{/useJakartaEe}}
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;

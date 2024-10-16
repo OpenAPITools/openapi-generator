@@ -57,7 +57,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
             Object deserialized = null;
             {{#discriminator}}
-            Class<?> cls = JSON.getClassForElement(tree, {{classname}}.class);
+            Class<?> cls = JSON.getClassForElement(tree, new {{classname}}().getClass());
             if (cls != null) {
                 // When the OAS schema includes a discriminator, use the discriminator value to
                 // discriminate the anyOf schemas.
@@ -68,10 +68,23 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                 return ret;
             }
             {{/discriminator}}
+            {{#composedSchemas}}
             {{#anyOf}}
-            // deserialize {{{.}}}
+            // deserialize {{{dataType}}}{{#isNullable}} (nullable){{/isNullable}}
             try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs({{{.}}}.class);
+                {{^isArray}}
+                {{^isMap}}
+                deserialized = tree.traverse(jp.getCodec()).readValueAs({{{dataType}}}.class);
+                {{/isMap}}
+                {{/isArray}}
+                {{#isArray}}
+                final TypeReference<{{{dataType}}}> ref = new TypeReference<{{{dataType}}}>(){};
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(ref);
+                {{/isArray}}
+                {{#isMap}}
+                final TypeReference<{{{dataType}}}> ref = new TypeReference<{{{dataType}}}>(){};
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(ref);
+                {{/isMap}}
                 {{classname}} ret = new {{classname}}();
                 ret.setActualInstance(deserialized);
                 return ret;
@@ -81,6 +94,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             }
 
             {{/anyOf}}
+            {{/composedSchemas}}
             throw new IOException(String.format("Failed deserialization for {{classname}}: no match found"));
         }
 
@@ -99,7 +113,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     }
 
     // store a list of schema names defined in anyOf
-    public static final Map<String, GenericType> schemas = new HashMap<>();
+    public static final Map<String, GenericType<?>> schemas = new HashMap<>();
 
     public {{classname}}() {
         super("anyOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
@@ -119,13 +133,17 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         return Objects.hash(getActualInstance(), isNullable(), getSchemaType(), additionalProperties);
     }
     {{/additionalPropertiesType}}
+    {{#composedSchemas}}
     {{#anyOf}}
-    public {{classname}}({{{.}}} o) {
+    {{^vendorExtensions.x-duplicated-data-type}}
+    public {{classname}}({{{baseType}}} o) {
         super("anyOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
         setActualInstance(o);
     }
 
+    {{/vendorExtensions.x-duplicated-data-type}}
     {{/anyOf}}
+    {{/composedSchemas}}
     static {
         {{#anyOf}}
         schemas.put("{{{.}}}", new GenericType<{{{.}}}>() {
@@ -144,7 +162,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     }
 
     @Override
-    public Map<String, GenericType> getSchemas() {
+    public Map<String, GenericType<?>> getSchemas() {
         return {{classname}}.schemas;
     }
 
@@ -165,13 +183,17 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         }
 
         {{/isNullable}}
+        {{#composedSchemas}}
         {{#anyOf}}
-        if (JSON.isInstanceOf({{{.}}}.class, instance, new HashSet<>())) {
+        {{^vendorExtensions.x-duplicated-data-type}}
+        if (JSON.isInstanceOf({{{baseType}}}.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
 
+        {{/vendorExtensions.x-duplicated-data-type}}
         {{/anyOf}}
+        {{/composedSchemas}}
         throw new RuntimeException("Invalid instance type. Must be {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}");
     }
 
@@ -186,17 +208,21 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         return super.getActualInstance();
     }
 
+    {{#composedSchemas}}
     {{#anyOf}}
+    {{^vendorExtensions.x-duplicated-data-type-ignoring-erasure}}
     /**
-     * Get the actual instance of `{{{.}}}`. If the actual instance is not `{{{.}}}`,
+     * Get the actual instance of `{{{dataType}}}`. If the actual instance is not `{{{dataType}}}`,
      * the ClassCastException will be thrown.
      *
-     * @return The actual instance of `{{{.}}}`
-     * @throws ClassCastException if the instance is not `{{{.}}}`
+     * @return The actual instance of `{{{dataType}}}`
+     * @throws ClassCastException if the instance is not `{{{dataType}}}`
      */
-    public {{{.}}} get{{{.}}}() throws ClassCastException {
-        return ({{{.}}})super.getActualInstance();
+    public {{{dataType}}} get{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}() throws ClassCastException {
+        return ({{{dataType}}})super.getActualInstance();
     }
 
+    {{/vendorExtensions.x-duplicated-data-type-ignoring-erasure}}
     {{/anyOf}}
+    {{/composedSchemas}}
 }

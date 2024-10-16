@@ -120,6 +120,8 @@ paths:
                 - sold
               default: available
       responses:
+        '2XX':
+          description: Anything within 200-299
         '200':
           description: successful operation
           content:
@@ -135,6 +137,8 @@ paths:
                   $ref: '#/components/schemas/Pet'
         '400':
           description: Invalid status value
+        '4XX':
+          description: Anything within 400-499
       security:
         - http_signature_test: []
         - petstore_auth:
@@ -1250,6 +1254,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArrayOfEnums'
+  /fake/mixed/anyOf:
+    get:
+      tags:
+        - fake
+      summary: Test mixed type anyOf deserialization
+      operationId: getMixedAnyOf
+      responses:
+        200:
+          description: Got mixed anyOf
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MixedAnyOf'
+  /fake/mixed/oneOf:
+    get:
+      tags:
+        - fake
+      summary: Test mixed type oneOf deserialization
+      operationId: getMixedOneOf
+      responses:
+        200:
+          description: Got mixed oneOf
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MixedOneOf'
   /country:
     post:
       operationId: getCountry
@@ -1349,7 +1379,7 @@ components:
             'read:pets': read your pets
     api_key:
       type: apiKey
-      name: api_key
+      name: api-key
       in: header
     api_key_query:
       type: apiKey
@@ -1654,6 +1684,24 @@ components:
           format: int32
           maximum: 200
           minimum: 20
+        int32Range:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        int64Positive:
+          type: integer
+          minimum: 2147483648 # int.MaxValue + 1
+        int64Negative:
+          type: integer
+          maximum: -2147483649 # int.MinValue - 1
+        int64PositiveExclusive:
+          type: integer
+          minimum: 2147483647
+          exclusiveMinimum: true
+        int64NegativeExclusive:
+          type: integer
+          maximum: -2147483648
+          exclusiveMaximum: true
         unsigned_integer:
           type: integer
           format: int32
@@ -2753,3 +2801,140 @@ components:
                 type: array
                 items:
                     $ref: '#/components/schemas/Custom-Variableobject-Response'
+    MixedOneOf:
+      properties:
+        content:
+          oneOf:
+            - type: string
+            - type: boolean
+            # JsonReader will give back C# System.Int64 regardless of format.
+            - type: integer
+              format: uint8
+            # JsonReader will give back C# System.Double regardless of format.
+            - type: number
+              format: float32
+            - type: object
+              $ref: '#/components/schemas/MixedSubId'
+          description: Mixed oneOf types for testing
+    MixedAnyOf:
+      properties:
+        content:
+          anyOf:
+            - type: string
+            - type: boolean
+            # JsonReader will give back C# System.Int64 regardless of format.
+            - type: integer
+              format: uint8
+            # JsonReader will give back C# System.Double regardless of format.
+            - type: number
+              format: float32
+            - type: object
+              $ref: '#/components/schemas/MixedSubId'
+              
+          description:  Mixed anyOf types for testing
+    MixedSubId:
+      properties:
+        id:
+          type: string
+    # this class ensures that the CodegenProperties are sorted correctly
+    # https://github.com/OpenAPITools/openapi-generator/issues/18607
+    MixLog:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/uuid'
+        description:
+          type: string
+        mixDate:
+          type: string
+          format: date-time
+        shopId:
+          $ref: '#/components/schemas/uuid'
+        totalPrice:
+          type: number
+          format: float
+          nullable: true
+        totalRecalculations:
+          type: integer
+          format: int32
+        totalOverPoors:
+          type: integer
+          format: int32
+        totalSkips:
+          type: integer
+          format: int32
+        totalUnderPours:
+          type: integer
+          format: int32
+        formulaVersionDate:
+          type: string
+          format: date-time
+        someCode:
+          type: string
+          nullable: true
+          description: SomeCode is only required for color mixes
+        batchNumber:
+          type: string
+        brandCode:
+          type: string
+          description: BrandCode is only required for non-color mixes
+        brandId:
+          type: string
+          description: BrandId is only required for color mixes
+        brandName:
+          type: string
+          description: BrandName is only required for color mixes
+        categoryCode:
+          type: string
+          description: CategoryCode is not used anymore
+        color:
+          type: string
+          description: Color is only required for color mixes
+        colorDescription:
+          type: string
+        comment:
+          type: string
+        commercialProductCode:
+          type: string
+        productLineCode:
+          type: string
+          description: ProductLineCode is only required for color mixes
+        country:
+          type: string
+        createdBy:
+          type: string
+        createdByFirstName:
+          type: string
+        createdByLastName:
+          type: string
+        deltaECalculationRepaired:
+          type: string
+        deltaECalculationSprayout:
+          type: string
+        ownColorVariantNumber:
+          nullable: true
+          type: integer
+          format: int32
+        primerProductId:
+          type: string
+        productId:
+          type: string
+          description: ProductId is only required for color mixes
+        productName:
+          type: string
+          description: ProductName is only required for color mixes
+        selectedVersionIndex:
+          type: integer
+          format: int32
+      required:
+        - id
+        - description
+        - mixDate
+        - totalRecalculations
+        - totalOverPoors
+        - totalSkips
+        - totalUnderPours
+        - formulaVersionDate
+    uuid:
+      type: string
+      format: uuid

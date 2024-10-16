@@ -20,8 +20,8 @@ dependencies {
     implementation("io.javalin:javalin:5.6.3")
     implementation("io.javalin.community.routing:routing-core:5.6.2-RC.1")
     implementation("io.javalin.community.routing:routing-dsl:5.6.2-RC.1")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.16.1")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.1")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.17.1")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.1")
     implementation("org.slf4j:slf4j-simple:2.0.7")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test")

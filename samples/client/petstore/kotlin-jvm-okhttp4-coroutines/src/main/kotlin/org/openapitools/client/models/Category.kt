@@ -40,5 +40,6 @@ data class Category (
         private const val serialVersionUID: Long = 123
     }
 
+
 }
 

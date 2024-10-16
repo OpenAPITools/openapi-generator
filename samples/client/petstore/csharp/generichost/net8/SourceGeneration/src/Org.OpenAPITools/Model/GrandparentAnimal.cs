@@ -35,21 +35,20 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="GrandparentAnimal" /> class.
         /// </summary>
-        /// <param name="petType">petType</param>
         [JsonConstructor]
-        public GrandparentAnimal(string petType)
+        public GrandparentAnimal()
         {
-            PetType = petType;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Gets or Sets PetType
+        /// The discriminator
         /// </summary>
-        [JsonPropertyName("pet_type")]
-        public string PetType { get; set; }
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public string PetType { get; } = "GrandparentAnimal";
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -65,7 +64,6 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class GrandparentAnimal {\n");
-            sb.Append("  PetType: ").Append(PetType).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -76,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -86,7 +84,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -115,6 +113,14 @@ namespace Org.OpenAPITools.Model
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             Option<string?> petType = default;
+
+            string? discriminator = ClientUtils.GetDiscriminator(utf8JsonReader, "pet_type");
+
+            if (discriminator != null && discriminator.Equals("ChildCat"))
+                return JsonSerializer.Deserialize<ChildCat>(ref utf8JsonReader, jsonSerializerOptions) ?? throw new JsonException("The result was an unexpected value.");
+
+            if (discriminator != null && discriminator.Equals("ParentPet"))
+                return JsonSerializer.Deserialize<ParentPet>(ref utf8JsonReader, jsonSerializerOptions) ?? throw new JsonException("The result was an unexpected value.");
 
             while (utf8JsonReader.Read())
             {
@@ -146,7 +152,7 @@ namespace Org.OpenAPITools.Model
             if (petType.IsSet && petType.Value == null)
                 throw new ArgumentNullException(nameof(petType), "Property is not nullable for class GrandparentAnimal.");
 
-            return new GrandparentAnimal(petType.Value!);
+            return new GrandparentAnimal();
         }
 
         /// <summary>
@@ -158,9 +164,19 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GrandparentAnimal grandparentAnimal, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (grandparentAnimal is ChildCat childCat){
+                JsonSerializer.Serialize<ChildCat>(writer, childCat, jsonSerializerOptions);
+                return;
+            }
+
+            if (grandparentAnimal is ParentPet parentPet){
+                JsonSerializer.Serialize<ParentPet>(writer, parentPet, jsonSerializerOptions);
+                return;
+            }
+
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, grandparentAnimal, jsonSerializerOptions);
+            WriteProperties(writer, grandparentAnimal, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -171,11 +187,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="grandparentAnimal"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, GrandparentAnimal grandparentAnimal, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, GrandparentAnimal grandparentAnimal, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (grandparentAnimal.PetType == null)
-                throw new ArgumentNullException(nameof(grandparentAnimal.PetType), "Property is required for class GrandparentAnimal.");
-
             writer.WriteString("pet_type", grandparentAnimal.PetType);
         }
     }

@@ -73,7 +73,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M7</version>
+                <version>3.2.5</version>
                 <configuration>
                     <systemPropertyVariables>
                         <property>
@@ -84,7 +84,6 @@
                     <argLine>-Xms512m -Xmx1500m</argLine>
                     <parallel>methods</parallel>
                     <threadCount>10</threadCount>
-                    <forkMode>pertest</forkMode>
                 </configuration>
             </plugin>
             <plugin>
@@ -244,11 +243,11 @@
             <artifactId>jackson-jaxrs-json-provider</artifactId>
             <version>${jackson-version}</version>
         </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.datatype</groupId>
-                <artifactId>jackson-datatype-jsr310</artifactId>
-                <version>${jackson-version}</version>
-            </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
@@ -262,8 +261,8 @@
         </dependency>
         <!-- test dependencies -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
             <version>${junit-version}</version>
             <scope>test</scope>
         </dependency>
@@ -271,10 +270,11 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <httpclient-version>5.2.1</httpclient-version>
-        <jackson-version>2.15.2</jackson-version>
-        <jackson-databind-version>2.15.2</jackson-databind-version>
+        <jackson-version>2.17.1</jackson-version>
+        <jackson-databind-version>2.17.1</jackson-databind-version>
         <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
-        <junit-version>4.13.2</junit-version>
+        <beanvalidation-version>2.0.2</beanvalidation-version>
+        <junit-version>5.10.2</junit-version>
     </properties>
 </project>

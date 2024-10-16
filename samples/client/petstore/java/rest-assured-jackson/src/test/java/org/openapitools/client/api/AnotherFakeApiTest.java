@@ -14,18 +14,25 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.model.Client;
+import java.util.UUID;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.api.AnotherFakeApi;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.ErrorLoggingFilter;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+
 import static io.restassured.config.ObjectMapperConfig.objectMapperConfig;
 import static io.restassured.config.RestAssuredConfig.config;
 import static org.openapitools.client.JacksonObjectMapper.jackson;
@@ -33,12 +40,12 @@ import static org.openapitools.client.JacksonObjectMapper.jackson;
 /**
  * API tests for AnotherFakeApi
  */
-@Ignore
+@Disabled
 public class AnotherFakeApiTest {
 
     private AnotherFakeApi api;
 
-    @Before
+    @BeforeEach
     public void createApi() {
         api = ApiClient.api(ApiClient.Config.apiConfig().reqSpecSupplier(
                 () -> new RequestSpecBuilder()
@@ -52,8 +59,10 @@ public class AnotherFakeApiTest {
      */
     @Test
     public void shouldSee200AfterCall123testSpecialTags() {
+        String uuidTest = null;
         Client body = null;
         api.call123testSpecialTags()
+                .uuidTestHeader(uuidTest)
                 .body(body).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
