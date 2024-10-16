@@ -34,8 +34,8 @@ public class FakeApiTest {
      * @throws ApiException if the Api call fails
      */
     @Test
-    public void getPetById_0Test() throws ApiException {
-        Object response = api.getPetById_0();
+    public void getPetById0Test() throws ApiException {
+        Object response = api.getPetById0();
         // TODO: test validations
     }
 
