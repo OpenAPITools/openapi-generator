@@ -62,7 +62,7 @@ export interface FormatTest {
      * @type {number}
      * @memberof FormatTest
      */
-    _double?: number;
+    double?: number;
     /**
      * 
      * @type {Decimal}
@@ -80,7 +80,7 @@ export interface FormatTest {
      * @type {string}
      * @memberof FormatTest
      */
-    _byte: string;
+    byte: string;
     /**
      * 
      * @type {Blob}
@@ -130,7 +130,7 @@ export interface FormatTest {
  */
 export function instanceOfFormatTest(value: object): value is FormatTest {
     if (!('number' in value) || value['number'] === undefined) return false;
-    if (!('_byte' in value) || value['_byte'] === undefined) return false;
+    if (!('byte' in value) || value['byte'] === undefined) return false;
     if (!('date' in value) || value['date'] === undefined) return false;
     if (!('password' in value) || value['password'] === undefined) return false;
     return true;
@@ -151,10 +151,10 @@ export function FormatTestFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'int64': json['int64'] == null ? undefined : json['int64'],
         'number': json['number'],
         '_float': json['float'] == null ? undefined : json['float'],
-        '_double': json['double'] == null ? undefined : json['double'],
+        'double': json['double'] == null ? undefined : json['double'],
         'decimal': json['decimal'] == null ? undefined : DecimalFromJSON(json['decimal']),
         'string': json['string'] == null ? undefined : json['string'],
-        '_byte': json['byte'],
+        'byte': json['byte'],
         'binary': json['binary'] == null ? undefined : json['binary'],
         'date': (new Date(json['date'])),
         'dateTime': json['dateTime'] == null ? undefined : (new Date(json['dateTime'])),
@@ -181,10 +181,10 @@ export function FormatTestFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'int64': value['int64'],
         'number': value['number'],
         'float': value['_float'],
-        'double': value['_double'],
+        'double': value['double'],
         'decimal': DecimalToJSON(value['decimal']),
         'string': value['string'],
-        'byte': value['_byte'],
+        'byte': value['byte'],
         'binary': value['binary'],
         'date': ((value['date']).toISOString().substring(0,10)),
         'dateTime': value['dateTime'] == null ? undefined : ((value['dateTime']).toISOString()),

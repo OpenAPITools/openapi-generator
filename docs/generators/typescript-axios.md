@@ -87,14 +87,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## RESERVED WORDS
 
 <ul class="column-ul">
-<li>abstract</li>
-<li>await</li>
-<li>boolean</li>
+<li>as</li>
 <li>break</li>
-<li>byte</li>
 <li>case</li>
 <li>catch</li>
-<li>char</li>
 <li>class</li>
 <li>const</li>
 <li>continue</li>
@@ -102,30 +98,24 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>default</li>
 <li>delete</li>
 <li>do</li>
-<li>double</li>
 <li>else</li>
 <li>enum</li>
 <li>export</li>
 <li>extends</li>
 <li>false</li>
-<li>final</li>
 <li>finally</li>
 <li>float</li>
 <li>for</li>
 <li>formParams</li>
 <li>function</li>
-<li>goto</li>
 <li>headerParams</li>
 <li>if</li>
 <li>implements</li>
 <li>import</li>
 <li>in</li>
 <li>instanceof</li>
-<li>int</li>
 <li>interface</li>
 <li>let</li>
-<li>long</li>
-<li>native</li>
 <li>new</li>
 <li>null</li>
 <li>options</li>
@@ -136,14 +126,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>queryParameters</li>
 <li>requestOptions</li>
 <li>return</li>
-<li>short</li>
 <li>static</li>
 <li>super</li>
 <li>switch</li>
-<li>synchronized</li>
 <li>this</li>
 <li>throw</li>
-<li>transient</li>
 <li>true</li>
 <li>try</li>
 <li>typeof</li>
@@ -152,7 +139,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>varLocalDeferred</li>
 <li>varLocalPath</li>
 <li>void</li>
-<li>volatile</li>
 <li>while</li>
 <li>with</li>
 <li>yield</li>
