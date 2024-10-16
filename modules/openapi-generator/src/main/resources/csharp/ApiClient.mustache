@@ -2,11 +2,13 @@
 
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters;
@@ -166,18 +168,18 @@ namespace {{packageName}}.Client
     /// Represents a factory for creating and caching instances of HttpClient.
     /// </summary>
     internal class HttpClientFactory {
-        private ConcurrentDictionary<string, HttpClient> Clients { get; } = new();
+        private ConcurrentDictionary<Uri, HttpClient> Clients { get; } = new ConcurrentDictionary<Uri, HttpClient>();
 
         /// <summary>
-        /// Creates an HttpClient instance with the specified base URL and options. Caches clients by base URL.
+        /// Creates an HttpClient instance with the specified base URL and options. Caches clients by
+        /// <see cref="RestClientOptions.BaseUrl"/>.
         /// </summary>
-        /// <param name="baseUrl">The base URL for the HttpClient.</param>
         /// <param name="options">The RestClientOptions to configure the HttpClient.</param>
-        /// <returns>An instance of HttpClient configured with the provided base URL and options.</returns>
-        public HttpClient CreateHttpClient(string baseUrl, RestClientOptions options) {
-            return Clients.GetOrAdd(baseUrl, _ => GetClient());
+        /// <returns>An instance of HttpClient configured with the provided options.</returns>
+        public HttpClient CreateHttpClient(RestClientOptions options) {
+            return Clients.GetOrAdd(options.BaseUrl, GetClient);
 
-            HttpClient GetClient() {
+            HttpClient GetClient(Uri _) {
                 var messageHandler = CreateMessageHandler(options);
 
                 var client = new HttpClient(messageHandler) {
@@ -227,7 +229,7 @@ namespace {{packageName}}.Client
     {{>visibility}} partial class ApiClient : ISynchronousClient{{#supportsAsync}}, IAsynchronousClient{{/supportsAsync}}
     {
         private readonly string _baseUrl;
-        private readonly HttpClientFactory _httpClientFactory = new();
+        private readonly HttpClientFactory _httpClientFactory = new HttpClientFactory();
 
         /// <summary>
         /// Specifies the settings on a <see cref="JsonSerializer" /> object.
@@ -539,9 +541,7 @@ namespace {{packageName}}.Client
             }
 
             {{/hasOAuthMethods}}
-            var httpClient = _httpClientFactory.CreateHttpClient(baseUrl, clientOptions);
-
-            using (RestClient client = new RestClient(httpClient, clientOptions,
+            using (RestClient client = new RestClient(_httpClientFactory.CreateHttpClient(clientOptions), clientOptions,
                 configureSerialization: serializerConfig => serializerConfig.UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration))))
             {
                 InterceptRequest(request);
