@@ -90,6 +90,7 @@ public class TypeScriptNestjsClientOptionsProvider implements OptionsProvider {
                 .put(TypeScriptNestjsClientCodegen.FILE_NAMING, FILE_NAMING_VALUE)
                 .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
                 .put(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, USE_SINGLE_REQUEST_PARAMETER)
+                .put(CodegenConstants.LICENSE_NAME, AbstractTypeScriptClientCodegen.LICENSE_NAME_DEFAULT_VALUE)
                 .build();
     }
 

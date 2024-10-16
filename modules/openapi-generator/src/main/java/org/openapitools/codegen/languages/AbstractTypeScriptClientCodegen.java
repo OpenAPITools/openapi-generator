@@ -37,7 +37,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.BiPredicate;
@@ -236,6 +235,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public static final String NULL_SAFE_ADDITIONAL_PROPS = "nullSafeAdditionalProps";
     public static final String NULL_SAFE_ADDITIONAL_PROPS_DESC = "Set to make additional properties types declare that their indexer may return undefined";
 
+    public static final String LICENSE_NAME_DEFAULT_VALUE = "Unlicense";
+
     // NOTE: SimpleDateFormat is not thread-safe and may not be static unless it is thread-local
     @SuppressWarnings("squid:S5164")
     protected static final ThreadLocal<SimpleDateFormat> SNAPSHOT_SUFFIX_FORMAT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT));
@@ -257,6 +258,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     protected String enumSuffix = "Enum";
 
     protected String classEnumSeparator = ".";
+
+    @Getter() @Setter
+    protected String licenseName = getLicenseNameDefaultValue();
 
     public AbstractTypeScriptClientCodegen() {
         super();
@@ -370,6 +374,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 false));
         this.cliOptions.add(new CliOption(NULL_SAFE_ADDITIONAL_PROPS, NULL_SAFE_ADDITIONAL_PROPS_DESC).defaultValue(String.valueOf(this.getNullSafeAdditionalProps())));
         this.cliOptions.add(CliOption.newBoolean(ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR, ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR_DESC, false));
+        cliOptions.add(new CliOption(CodegenConstants.LICENSE_NAME, CodegenConstants.LICENSE_NAME_DESC).defaultValue(this.licenseName));
     }
 
     protected void supportModelPropertyNaming(MODEL_PROPERTY_NAMING_TYPE defaultModelPropertyNaming) {
@@ -415,6 +420,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
         if (additionalProperties.containsKey(NPM_NAME)) {
             this.setNpmName(additionalProperties.get(NPM_NAME).toString());
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.LICENSE_NAME)) {
+            this.setLicenseName(additionalProperties.get(CodegenConstants.LICENSE_NAME).toString());
         }
     }
 
@@ -489,6 +498,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
         }
 
+        additionalProperties.put(CodegenConstants.LICENSE_NAME, licenseName);
     }
 
     @Override
@@ -1142,5 +1152,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     @Override
     public GeneratorLanguage generatorLanguage() {
         return GeneratorLanguage.TYPESCRIPT;
+    }
+
+    protected String getLicenseNameDefaultValue() {
+        return LICENSE_NAME_DEFAULT_VALUE;
     }
 }

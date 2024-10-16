@@ -168,4 +168,18 @@ public class TypeScriptClientCodegenTest {
             .get("foo");
         Assert.assertEquals(codegen.getTypeDeclaration(schema), "Array<string | null>");
     }
+
+    @Test
+    public void testAdditionalPropertiesPutForConfigValues() throws Exception {
+        String licenseName = "Apache 2.0";
+
+        TypeScriptClientCodegen codegen = new TypeScriptClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.LICENSE_NAME, licenseName);
+        codegen.processOpts();
+
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        codegen.preprocessOpenAPI(openAPI);
+
+        Assert.assertEquals(codegen.getLicenseName(), licenseName);
+    }
 }
