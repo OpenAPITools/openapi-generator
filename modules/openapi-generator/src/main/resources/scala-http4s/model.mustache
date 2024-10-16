@@ -23,17 +23,18 @@ enum {{classname}}(val value: String) {
   case {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} extends {{classname}}("{{.}}")
   {{/values}}
   {{/allowableValues}}
+  override def toString: String = value
 }
 
 object {{classname}} {
 
+  def withValueOpt(value: String): Option[{{classname}}] = {{classname}}.values.find(_.value == value)
   def withValue(value: String): {{classname}} =
-    {{classname}}.values.find(_.value == value).getOrElse(throw java.lang.IllegalArgumentException(s"{{classname}} enum case not found: $value"))
+    withValueOpt(value).getOrElse(throw java.lang.IllegalArgumentException(s"{{classname}} enum case not found: $value"))
 
-  given decoder{{classname}}: Decoder[{{classname}}] = Decoder.decodeString.map(str => withValue(str))
+  given decoder{{classname}}: Decoder[{{classname}}] = Decoder.decodeString.map(withValue)
+  given encoder{{classname}}: Encoder[{{classname}}] = Encoder.encodeString.contramap[{{classname}}](_.value)
 
-  given encoder{{classname}}: Encoder[{{classname}}] =
-    Encoder.encodeString.contramap[{{classname}}](_.value)
 }
 {{/isEnum}}
 {{^isEnum}}
