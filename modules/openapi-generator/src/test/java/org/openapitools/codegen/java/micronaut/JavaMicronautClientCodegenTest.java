@@ -7,10 +7,10 @@ import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.JavaMicronautClientCodegen;
 import org.openapitools.codegen.testutils.ConfigAssert;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -20,7 +20,6 @@ import java.util.Map;
 import static java.util.stream.Collectors.groupingBy;
 import static org.openapitools.codegen.TestUtils.newTempFolder;
 import static org.testng.Assert.assertEquals;
-
 
 public class JavaMicronautClientCodegenTest extends AbstractMicronautCodegenTest {
     @Test
@@ -323,7 +322,8 @@ public class JavaMicronautClientCodegenTest extends AbstractMicronautCodegenTest
      * Includes regression tests for:
      * - <a href="https://github.com/OpenAPITools/openapi-generator/issues/2417">Correct Jackson annotation when `wrapped: false`</a>
      */
-    @Test public void shouldGenerateCorrectXmlAnnotations() {
+    @Test
+    public void shouldGenerateCorrectXmlAnnotations() {
         // Arrange
         final CodegenConfigurator config = new CodegenConfigurator()
             .addAdditionalProperty(CodegenConstants.WITH_XML, true)
@@ -333,7 +333,7 @@ public class JavaMicronautClientCodegenTest extends AbstractMicronautCodegenTest
             .setGeneratorName(JavaMicronautClientCodegen.NAME)
             .setInputSpec("src/test/resources/3_0/java/xml-annotations-test.yaml")
             .setOutputDir(newTempFolder().toString());
-        
+
         // Act
         final List<File> files = new DefaultGenerator().opts(config.toClientOptInput()).generate();
 
@@ -456,5 +456,34 @@ public class JavaMicronautClientCodegenTest extends AbstractMicronautCodegenTest
             .assertMethod("getActivities")
             .hasAnnotation("JacksonXmlProperty", Map.of("localName", "\"item\""))
             .hasAnnotation("JacksonXmlElementWrapper", Map.of("localName", "\"activities-array\""));
+    }
+
+    @Test
+    public void testMultipleContentTypesToPath() {
+
+        GlobalSettings.setProperty(CodegenConstants.DIVIDE_OPERATIONS_BY_CONTENT_TYPE, "true");
+
+        var codegen = new JavaMicronautClientCodegen();
+        String outputPath = generateFiles(codegen, "src/test/resources/3_0/java/multiple-content-types.yaml", CodegenConstants.APIS, CodegenConstants.MODELS);
+
+        // Micronaut declarative http client should use the provided path separator
+        assertFileContains(outputPath + "/src/main/java/org/openapitools/api/DefaultApi.java",
+            "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Produces({\"application/json\", \"application/xml\"})\n" +
+                "    Mono<Void> myOp(\n" +
+                "        @Body @Nullable @Valid Coordinates coordinates\n" +
+                "    );\n",
+            "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Produces({\"multipart/form-data\"})\n" +
+                "    Mono<Void> myOp_1(\n" +
+                "        @Nullable @Valid Coordinates coordinates, \n" +
+                "        @Nullable File _file\n" +
+                "    );",
+            "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Produces({\"application/yaml\", \"text/json\"})\n" +
+                "    Mono<Void> myOp_2(\n" +
+                "        @Body @Nullable @Valid MySchema mySchema\n" +
+                "    );"
+        );
     }
 }

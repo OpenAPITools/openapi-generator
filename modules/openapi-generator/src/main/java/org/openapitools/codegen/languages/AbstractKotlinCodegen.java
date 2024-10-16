@@ -27,6 +27,7 @@ import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.templating.mustache.EscapeChar;
@@ -88,6 +89,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public AbstractKotlinCodegen() {
         super();
 
+        GlobalSettings.setProperty(CodegenConstants.DIVIDE_OPERATIONS_BY_CONTENT_TYPE, "true");
         supportsInheritance = true;
         setSortModelPropertiesByRequiredFlag(true);
 

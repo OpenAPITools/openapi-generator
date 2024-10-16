@@ -453,4 +453,6 @@ public class CodegenConstants {
     public static final String WAIT_TIME_OF_THREAD = "waitTimeMillis";
 
     public static final String USE_DEFAULT_VALUES_FOR_REQUIRED_VARS = "useDefaultValuesForRequiredVars";
+
+    public static final String DIVIDE_OPERATIONS_BY_CONTENT_TYPE = "divideOperationsByContentType";
 }

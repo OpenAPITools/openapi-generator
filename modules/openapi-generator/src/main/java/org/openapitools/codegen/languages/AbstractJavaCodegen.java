@@ -38,6 +38,7 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.openapitools.codegen.meta.features.*;
@@ -192,6 +193,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public AbstractJavaCodegen() {
         super();
+
+        GlobalSettings.setProperty(CodegenConstants.DIVIDE_OPERATIONS_BY_CONTENT_TYPE, "true");
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
