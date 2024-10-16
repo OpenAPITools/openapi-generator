@@ -553,6 +553,8 @@ paths:
         "404":
           description: User not found
     delete:
+      servers:
+        - url: http://user.petstore.swagger.io/v2
       tags:
         - user
       summary: Delete user

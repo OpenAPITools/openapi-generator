@@ -45,7 +45,11 @@ void PFXUserApi::initializeServerConfigs() {
     _serverIndices.insert("createUsersWithArrayInput", 0);
     _serverConfigs.insert("createUsersWithListInput", defaultConf);
     _serverIndices.insert("createUsersWithListInput", 0);
-    _serverConfigs.insert("deleteUser", defaultConf);
+    serverConf.append(PFXServerConfiguration(
+    QUrl("http://user.petstore.swagger.io/v2"),
+    "No description provided",
+    QMap<QString, PFXServerVariable>()));
+    _serverConfigs.insert("deleteUser", serverConf);
     _serverIndices.insert("deleteUser", 0);
     _serverConfigs.insert("getUserByName", defaultConf);
     _serverIndices.insert("getUserByName", 0);
