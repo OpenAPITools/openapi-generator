@@ -56,6 +56,8 @@ class Order(BaseModel):
         "protected_namespaces": (),
     }
 
+    def __init__(self, *a, **kw):
+        super().__init__(*a, **kw)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
