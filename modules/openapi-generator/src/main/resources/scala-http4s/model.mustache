@@ -23,7 +23,6 @@ enum {{classname}}(val value: String) {
   case {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} extends {{classname}}("{{.}}")
   {{/values}}
   {{/allowableValues}}
-  override def toString: String = value
 }
 
 object {{classname}} {
