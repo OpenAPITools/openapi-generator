@@ -1,4 +1,4 @@
-import { HttpService } from '@nestjs/axios';
+import type { HttpService } from '@nestjs/axios';
 import { ModuleMetadata, Type } from '@nestjs/common/interfaces';
 
 export interface ConfigurationParameters {
