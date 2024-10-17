@@ -24,12 +24,13 @@ enum PetStatus(val value: String) {
 }
 
 object PetStatus {
-  given decoderPetStatus: Decoder[PetStatus] =
-    Decoder.decodeString.map(str => PetStatus.values.find(_.value == str)
-      .getOrElse(throw java.lang.IllegalArgumentException(s"PetStatus enum case not found: $str"))
-    )
 
-  given encoderPetStatus: Encoder[PetStatus] =
-    Encoder.encodeString.contramap[PetStatus](_.value)
+  def withValueOpt(value: String): Option[PetStatus] = PetStatus.values.find(_.value == value)
+  def withValue(value: String): PetStatus =
+    withValueOpt(value).getOrElse(throw java.lang.IllegalArgumentException(s"PetStatus enum case not found: $value"))
+
+  given decoderPetStatus: Decoder[PetStatus] = Decoder.decodeString.map(withValue)
+  given encoderPetStatus: Encoder[PetStatus] = Encoder.encodeString.contramap[PetStatus](_.value)
+
 }
 
