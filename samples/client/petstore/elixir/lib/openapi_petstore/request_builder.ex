@@ -86,7 +86,7 @@ defmodule OpenapiPetstore.RequestBuilder do
 
   Map
   """
-  @spec add_param(map(), atom(), atom(), any()) :: map()
+  @spec add_param(map(), atom(), atom() | binary(), any()) :: map()
   def add_param(request, :body, :body, value), do: Map.put(request, :body, value)
 
   def add_param(request, :body, key, value) do
@@ -106,7 +106,7 @@ defmodule OpenapiPetstore.RequestBuilder do
     headers =
       request
       |> Map.get(:headers, [])
-      |> List.keystore(key, 0, {key, value})
+      |> List.keystore(key, 0, {key, to_string(value)})
 
     Map.put(request, :headers, headers)
   end
