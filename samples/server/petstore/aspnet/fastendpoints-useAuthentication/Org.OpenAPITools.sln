@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{75DA1204-38A7-49E6-8A74-66DC5B345C35}") = "Org.OpenAPITools", "src\Org.OpenAPITools\Org.OpenAPITools.csproj", "{3FA19D58-AE7C-45E5-B00E-7482026D1816}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Org.OpenAPITools", "src\Org.OpenAPITools\Org.OpenAPITools.csproj", "{3FA19D58-AE7C-45E5-B00E-7482026D1816}"
 EndProject
 Global
     GlobalSection(SolutionConfigurationPlatforms) = preSolution
