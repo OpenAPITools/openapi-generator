@@ -23,7 +23,6 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
     public static final String VERSIONING_PREFIX = "versioningPrefix";
     public static final String API_VERSION = "apiVersion";
     public static final String SOLUTION_GUID = "solutionGuid";
-    public static final String PROJECT_GUID = "projectGuid";
     public static final String PROJECT_CONFIGURATION_GUID = "projectConfigurationGuid";
 
     private final Logger LOGGER = LoggerFactory.getLogger(AspnetFastendpointsServerCodegen.class);
@@ -38,7 +37,6 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
     private String versioningPrefix = "v";
     private String apiVersion = "1";
     private String solutionGuid = null;
-    private String projectGuid = null;
     private String projectConfigurationGuid = null;
 
 
@@ -75,7 +73,6 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
         addOption(VERSIONING_PREFIX, "The versioning prefix for the API. Used only if useApiVersioning is true", versioningPrefix);
         addOption(API_VERSION, "The version of the API. Used only if useApiVersioning is true", apiVersion);
         addOption(SOLUTION_GUID, "The solution GUID to be used in the solution file (auto generated if not provided)", solutionGuid);
-        addOption(PROJECT_GUID, "The project GUID to be used in the solution file (auto generated if not provided)", projectGuid);
         addOption(PROJECT_CONFIGURATION_GUID, "The project configuration GUID to be used in the solution file (auto generated if not provided)", projectConfigurationGuid);
     }
 
@@ -94,7 +91,6 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
         setVersioningPrefix();
         setApiVersion();
         setSolutionGuid();
-        setProjectGuid();
         setProjectConfigurationGuid();
 
         super.processOpts();
@@ -210,15 +206,6 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
         } else {
             solutionGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
             additionalProperties.put(SOLUTION_GUID, solutionGuid);
-        }
-    }
-
-    private void setProjectGuid() {
-        if (additionalProperties.containsKey(PROJECT_GUID)) {
-            projectGuid = (String) additionalProperties.get(PROJECT_GUID);
-        } else {
-            projectGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
-            additionalProperties.put(PROJECT_GUID, projectGuid);
         }
     }
 
