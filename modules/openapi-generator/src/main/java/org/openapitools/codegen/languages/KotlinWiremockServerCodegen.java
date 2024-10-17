@@ -128,8 +128,8 @@ public class KotlinWiremockServerCodegen extends AbstractKotlinCodegen {
     }
 
     @Override
-    public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
-        var r = super.fromResponse(responseCode, response);
+    public CodegenResponse fromResponse(String opId, String responseCode, ApiResponse response) {
+        var r = super.fromResponse(opId, responseCode, response);
 
         var isRange = List.of("1xx", "2xx", "3xx", "4xx", "5xx").contains(responseCode.toLowerCase(Locale.ROOT));
         r.vendorExtensions.put(VENDOR_EXTENSION_IS_RANGE_RESPONSE_CODE, isRange);
