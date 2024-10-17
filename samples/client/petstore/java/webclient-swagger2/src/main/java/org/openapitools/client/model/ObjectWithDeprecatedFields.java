@@ -177,6 +177,7 @@ public class ObjectWithDeprecatedFields {
     this.bars = bars;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
