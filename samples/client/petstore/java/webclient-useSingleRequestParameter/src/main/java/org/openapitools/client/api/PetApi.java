@@ -42,7 +42,7 @@ public class PetApi {
     }
 
     public ApiClient getApiClient() {
-       return apiClient;
+        return apiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
@@ -123,7 +123,6 @@ public class PetApi {
     public ResponseSpec addPetWithResponseSpec(Pet pet) throws WebClientResponseException {
         return addPetRequestCreation(pet);
     }
-
 
     public class DeletePetRequest {
         private final Long petId;
@@ -586,7 +585,6 @@ public class PetApi {
         return updatePetRequestCreation(pet);
     }
 
-
     public class UpdatePetWithFormRequest {
         private final Long petId;
         private final String name;
@@ -736,7 +734,6 @@ public class PetApi {
         return updatePetWithFormRequestCreation(petId, name, status);
     }
 
-
     public class UploadFileRequest {
         private final Long petId;
         private final String additionalMetadata;
@@ -885,7 +882,6 @@ public class PetApi {
     public ResponseSpec uploadFileWithResponseSpec(Long petId, String additionalMetadata, File _file) throws WebClientResponseException {
         return uploadFileRequestCreation(petId, additionalMetadata, _file);
     }
-
 
     public class UploadFileWithRequiredFileRequest {
         private final Long petId;

@@ -53,7 +53,7 @@ public class FakeApi {
     }
 
     public ApiClient getApiClient() {
-       return apiClient;
+        return apiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
@@ -190,7 +190,6 @@ public class FakeApi {
     public ResponseSpec fakeHealthGetWithResponseSpec() throws WebClientResponseException {
         return fakeHealthGetRequestCreation();
     }
-
 
     public class FakeHttpSignatureTestRequest {
         private final Pet pet;
@@ -901,7 +900,6 @@ public class FakeApi {
         return testBodyWithFileSchemaRequestCreation(fileSchemaTestClass);
     }
 
-
     public class TestBodyWithQueryParamsRequest {
         private final String query;
         private final User user;
@@ -1108,7 +1106,6 @@ public class FakeApi {
     public ResponseSpec testClientModelWithResponseSpec(Client client) throws WebClientResponseException {
         return testClientModelRequestCreation(client);
     }
-
 
     public class TestEndpointParametersRequest {
         private final BigDecimal number;
@@ -1392,7 +1389,6 @@ public class FakeApi {
         return testEndpointParametersRequestCreation(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
     }
 
-
     public class TestEnumParametersRequest {
         private final List<String> enumHeaderStringArray;
         private final String enumHeaderString;
@@ -1600,7 +1596,6 @@ public class FakeApi {
     public ResponseSpec testEnumParametersWithResponseSpec(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString) throws WebClientResponseException {
         return testEnumParametersRequestCreation(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
     }
-
 
     public class TestGroupParametersRequest {
         private final Integer requiredStringGroup;
@@ -1920,7 +1915,6 @@ public class FakeApi {
         return testInlineFreeformAdditionalPropertiesRequestCreation(testInlineFreeformAdditionalPropertiesRequest);
     }
 
-
     public class TestJsonFormDataRequest {
         private final String param;
         private final String param2;
@@ -2125,7 +2119,6 @@ public class FakeApi {
     public ResponseSpec testNullableWithResponseSpec(ChildWithNullable childWithNullable) throws WebClientResponseException {
         return testNullableRequestCreation(childWithNullable);
     }
-
 
     public class TestQueryParameterCollectionFormatRequest {
         private final List<String> pipe;

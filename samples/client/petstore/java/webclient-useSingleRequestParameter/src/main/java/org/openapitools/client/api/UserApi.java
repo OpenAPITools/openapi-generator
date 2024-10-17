@@ -40,7 +40,7 @@ public class UserApi {
     }
 
     public ApiClient getApiClient() {
-       return apiClient;
+        return apiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
@@ -415,7 +415,6 @@ public class UserApi {
         return getUserByNameRequestCreation(username);
     }
 
-
     public class LoginUserRequest {
         private final String username;
         private final String password;
@@ -620,7 +619,6 @@ public class UserApi {
     public ResponseSpec logoutUserWithResponseSpec() throws WebClientResponseException {
         return logoutUserRequestCreation();
     }
-
 
     public class UpdateUserRequest {
         private final String username;
