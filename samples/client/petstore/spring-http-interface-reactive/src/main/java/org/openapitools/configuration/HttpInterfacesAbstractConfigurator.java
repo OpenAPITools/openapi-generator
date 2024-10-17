@@ -8,6 +8,7 @@ package org.openapitools.configuration;
 import org.openapitools.api.AnotherFakeApi;
 import org.openapitools.api.FakeApi;
 import org.openapitools.api.FakeClassnameTags123Api;
+import org.openapitools.api.PerkPersonApi;
 import org.openapitools.api.PetApi;
 import org.openapitools.api.StoreApi;
 import org.openapitools.api.UserApi;
@@ -41,6 +42,12 @@ public abstract class HttpInterfacesAbstractConfigurator {
     FakeClassnameTags123Api fakeClassnameTags123HttpProxy() {
         HttpServiceProxyFactory factory = HttpServiceProxyFactory.builder(WebClientAdapter.forClient(webClient)).build();
         return factory.createClient(FakeClassnameTags123Api.class);
+    }
+
+    @Bean(name = "org.openapitools.configuration.HttpInterfacesAbstractConfigurator.perkPerson")
+    PerkPersonApi perkPersonHttpProxy() {
+        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builder(WebClientAdapter.forClient(webClient)).build();
+        return factory.createClient(PerkPersonApi.class);
     }
 
     @Bean(name = "org.openapitools.configuration.HttpInterfacesAbstractConfigurator.pet")
