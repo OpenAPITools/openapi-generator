@@ -1,0 +1,51 @@
+part of 'models.dart';
+
+/// {{{description}}}{{^description}}{{classname}}{{/description}}
+{{#hasVars}}
+    ///
+    /// Properties:
+    {{#allVars}}
+        /// * [{{{name}}}] {{#description}}- {{{.}}}{{/description}}
+    {{/allVars}}
+{{/hasVars}}
+
+@freezed
+class {{classname}} with _${{classname}} {
+const {{classname}}._();
+
+
+{{>serialization/freezed/class_factory}}
+
+{{>serialization/freezed/class_from_json}}
+
+{{>serialization/freezed/class_to_json}}
+
+
+}
+
+{{!
+extension for collection primitives in union
+}}
+{{>serialization/freezed/class_primitive_union_extensions}}
+
+{{!
+    Generate an enum for any variables that are declared as inline enums
+    isEnum is only true for inline variables that are enums.
+    If an enum is declared as a definition, isEnum is false and the enum is generated from the
+    enum.mustache template.
+}}
+{{#vars}}
+    {{^isModel}}
+        {{#enumName}}
+        {{^isContainer}}
+            {{>serialization/freezed/enum_inline}}
+        {{/isContainer}}
+        {{#isContainer}}
+            {{#mostInnerItems}}
+
+                {{>serialization/freezed/enum_inline}}
+            {{/mostInnerItems}}
+        {{/isContainer}}
+    {{/enumName}}
+    {{/isModel}}
+{{/vars}}
