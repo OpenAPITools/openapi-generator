@@ -23,6 +23,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class ModelReturn  implements Serializable {
   private Integer _return;
 
+  public ModelReturn() {
+  }
+
   /**
    **/
   public ModelReturn _return(Integer _return) {

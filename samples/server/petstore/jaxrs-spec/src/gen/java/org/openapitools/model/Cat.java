@@ -29,6 +29,15 @@ public class Cat extends Animal implements Serializable {
   public Cat() {
   }
 
+  @JsonCreator
+  public Cat(
+    @JsonProperty(required = true, value = "className") String className
+  ) {
+    super(
+      className
+    );
+  }
+
   /**
    **/
   public Cat declawed(Boolean declawed) {

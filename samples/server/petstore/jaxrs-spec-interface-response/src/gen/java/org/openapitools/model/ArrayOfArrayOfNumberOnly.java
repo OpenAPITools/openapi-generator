@@ -24,6 +24,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class ArrayOfArrayOfNumberOnly  implements Serializable {
   private @Valid List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
 
+  public ArrayOfArrayOfNumberOnly() {
+  }
+
   /**
    **/
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {

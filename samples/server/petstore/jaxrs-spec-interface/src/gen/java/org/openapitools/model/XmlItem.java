@@ -52,6 +52,9 @@ public class XmlItem  implements Serializable {
   private @Valid List<Integer> prefixNsArray = new ArrayList<>();
   private @Valid List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
+  public XmlItem() {
+  }
+
   /**
    **/
   public XmlItem attributeString(String attributeString) {

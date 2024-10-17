@@ -118,6 +118,9 @@ public class EnumArrays  implements Serializable {
 
   private @Valid List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
+  public EnumArrays() {
+  }
+
   /**
    **/
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
