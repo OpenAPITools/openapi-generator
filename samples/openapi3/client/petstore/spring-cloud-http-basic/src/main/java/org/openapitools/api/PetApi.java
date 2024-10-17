@@ -37,6 +37,7 @@ import javax.annotation.Generated;
 @Tag(name = "pet", description = "Everything about your Pets")
 public interface PetApi {
 
+    public static final String PATH_ADD_PET = "/pet";
     /**
      * POST /pet : Add a new pet to the store
      * 
@@ -63,7 +64,7 @@ public interface PetApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/pet",
+        value = PetApi.PATH_ADD_PET,
         produces = { "application/json", "application/xml" },
         consumes = "application/json"
     )
