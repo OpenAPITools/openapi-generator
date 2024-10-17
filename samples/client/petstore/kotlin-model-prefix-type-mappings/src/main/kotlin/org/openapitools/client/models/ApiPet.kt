@@ -105,7 +105,7 @@ data class ApiPet (
     companion object {
         var openapiFields = HashSet<String>()
         var openapiRequiredFields = HashSet<String>()
-      
+
         init {
             // a set of all properties/fields (JSON key names)
             openapiFields.add("name")
@@ -119,7 +119,7 @@ data class ApiPet (
             openapiRequiredFields.add("name")
             openapiRequiredFields.add("photoUrls")
         }
-      
+
        /**
         * Validates the JSON Element and throws an exception if issues found
         *
@@ -133,7 +133,7 @@ data class ApiPet (
                 String.format("The required field(s) %s in ApiPet is not found in the empty JSON string", ApiPet.openapiRequiredFields.toString())
               }
             }
-      
+
             // check to make sure all required properties/fields are present in the JSON string
             for (requiredField in openapiRequiredFields) {
               requireNotNull(jsonElement!!.getAsJsonObject()[requiredField]) {
@@ -161,7 +161,7 @@ data class ApiPet (
                 require(jsonObj["tags"].isJsonArray) {
                   String.format("Expected the field `tags` to be an array in the JSON string but got `%s`", jsonObj["tags"].toString())
                 }
-      
+
                 // validate the optional field `tags` (array)
                 for (i in 0 until jsonObj.getAsJsonArray("tags").size()) {
                   ApiTag.validateJsonElement(jsonObj.getAsJsonArray("tags").get(i))
