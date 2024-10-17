@@ -22,7 +22,7 @@ import org.openapitools.codegen.languages.TypeScriptNestjsClientCodegen;
 
 import java.util.Map;
 
-public class TypeScriptNestjsClientOptionsProvider implements TypescriptSharedClientOptionsProvider {
+public class TypeScriptNestjsClientOptionsProvider implements TypeScriptSharedClientOptionsProvider {
     public static final String STRING_ENUMS_VALUE = "false";
     private static final String NPM_REPOSITORY = "https://registry.npmjs.org";
     public static final String NEST_VERSION = "6";
@@ -41,7 +41,7 @@ public class TypeScriptNestjsClientOptionsProvider implements TypescriptSharedCl
     @Override
     public Map<String, String> createOptions() {
         return ImmutableMap.<String, String>builder()
-                .putAll(TypescriptSharedClientOptionsProvider.super.createOptions())
+                .putAll(TypeScriptSharedClientOptionsProvider.super.createOptions())
                 .put(TypeScriptNestjsClientCodegen.STRING_ENUMS, STRING_ENUMS_VALUE)
                 .put(TypeScriptNestjsClientCodegen.WITH_INTERFACES, Boolean.FALSE.toString())
                 .put(TypeScriptNestjsClientCodegen.TAGGED_UNIONS, Boolean.FALSE.toString())

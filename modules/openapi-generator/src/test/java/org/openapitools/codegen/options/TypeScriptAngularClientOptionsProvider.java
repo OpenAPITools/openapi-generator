@@ -22,7 +22,7 @@ import org.openapitools.codegen.languages.TypeScriptAngularClientCodegen;
 
 import java.util.Map;
 
-public class TypeScriptAngularClientOptionsProvider implements TypescriptSharedClientOptionsProvider {
+public class TypeScriptAngularClientOptionsProvider implements TypeScriptSharedClientOptionsProvider {
     public static final String STRING_ENUMS_VALUE = "false";
     private static final String NPM_REPOSITORY = "https://registry.npmjs.org";
     public static final String NG_VERSION = "12";
@@ -44,7 +44,7 @@ public class TypeScriptAngularClientOptionsProvider implements TypescriptSharedC
     @Override
     public Map<String, String> createOptions() {
         return ImmutableMap.<String, String>builder()
-                .putAll(TypescriptSharedClientOptionsProvider.super.createOptions())
+                .putAll(TypeScriptSharedClientOptionsProvider.super.createOptions())
                 .put(TypeScriptAngularClientCodegen.STRING_ENUMS, STRING_ENUMS_VALUE)
                 .put(TypeScriptAngularClientCodegen.WITH_INTERFACES, Boolean.FALSE.toString())
                 .put(TypeScriptAngularClientCodegen.USE_SINGLE_REQUEST_PARAMETER, Boolean.FALSE.toString())

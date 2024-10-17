@@ -7,7 +7,7 @@ import java.util.Map;
 
 import static java.util.Map.entry;
 
-public interface TypescriptSharedClientOptionsProvider extends OptionsProvider {
+public interface TypeScriptSharedClientOptionsProvider extends OptionsProvider {
     String NPM_NAME_VALUE = "npmName";
     String NPM_VERSION_VALUE = "1.1.2";
     String SUPPORTS_ES6_VALUE = "false";

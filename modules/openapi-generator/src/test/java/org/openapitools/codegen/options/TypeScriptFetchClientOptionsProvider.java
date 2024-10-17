@@ -24,14 +24,14 @@ import java.util.Map;
 
 import static org.openapitools.codegen.languages.TypeScriptFetchClientCodegen.PASCAL_CASE;
 
-public class TypeScriptFetchClientOptionsProvider implements TypescriptSharedClientOptionsProvider {
+public class TypeScriptFetchClientOptionsProvider implements TypeScriptSharedClientOptionsProvider {
     public static final String IMPORT_FILE_EXTENSION_VALUE = "";
     public static final String WITHOUT_RUNTIME_CHECKS = "true";
+    private static final String NPM_REPOSITORY = "https://registry.npmjs.org";
     public static final String SAGAS_AND_RECORDS = "false";
     public static final String STRING_ENUMS = "false";
     public static final String FILE_NAMING_VALUE = PASCAL_CASE;
 
-    private static final String NPM_REPOSITORY = "https://registry.npmjs.org";
 
     @Override
     public String getLanguage() {
@@ -41,7 +41,7 @@ public class TypeScriptFetchClientOptionsProvider implements TypescriptSharedCli
     @Override
     public Map<String, String> createOptions() {
         return ImmutableMap.<String, String>builder()
-                .putAll(TypescriptSharedClientOptionsProvider.super.createOptions())
+                .putAll(TypeScriptSharedClientOptionsProvider.super.createOptions())
                 .put(TypeScriptFetchClientCodegen.NPM_REPOSITORY, NPM_REPOSITORY)
                 .put(TypeScriptFetchClientCodegen.WITH_INTERFACES, Boolean.FALSE.toString())
                 .put(TypeScriptFetchClientCodegen.USE_SINGLE_REQUEST_PARAMETER, Boolean.FALSE.toString())

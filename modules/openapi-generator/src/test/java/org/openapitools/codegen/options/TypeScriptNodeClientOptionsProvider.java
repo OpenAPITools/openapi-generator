@@ -23,7 +23,7 @@ import org.openapitools.codegen.languages.TypeScriptNodeClientCodegen;
 import java.util.Map;
 
 
-public class TypeScriptNodeClientOptionsProvider implements TypescriptSharedClientOptionsProvider {
+public class TypeScriptNodeClientOptionsProvider implements TypeScriptSharedClientOptionsProvider {
     private static final String NPM_REPOSITORY = "https://registry.npmjs.org";
 
     @Override
@@ -34,7 +34,7 @@ public class TypeScriptNodeClientOptionsProvider implements TypescriptSharedClie
     @Override
     public Map<String, String> createOptions() {
         return ImmutableMap.<String, String>builder()
-                .putAll(TypescriptSharedClientOptionsProvider.super.createOptions())
+                .putAll(TypeScriptSharedClientOptionsProvider.super.createOptions())
                 .put(TypeScriptNodeClientCodegen.NPM_REPOSITORY, NPM_REPOSITORY)
                 .build();
     }

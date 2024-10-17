@@ -21,7 +21,7 @@ import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
 
-public class TypeScriptAureliaClientOptionsProvider implements TypescriptSharedClientOptionsProvider {
+public class TypeScriptAureliaClientOptionsProvider implements TypeScriptSharedClientOptionsProvider {
 
     @Override
     public String getLanguage() {
@@ -31,7 +31,7 @@ public class TypeScriptAureliaClientOptionsProvider implements TypescriptSharedC
     @Override
     public Map<String, String> createOptions() {
         return ImmutableMap.<String, String>builder()
-                .putAll(TypescriptSharedClientOptionsProvider.super.createOptions())
+                .putAll(TypeScriptSharedClientOptionsProvider.super.createOptions())
                 .build();
     }
 }
