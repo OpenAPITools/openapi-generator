@@ -39,7 +39,7 @@ public class DefaultApi {
     }
 
     public ApiClient getApiClient() {
-       return apiClient;
+        return apiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {

@@ -53,7 +53,7 @@ public class FakeApi {
     }
 
     public ApiClient getApiClient() {
-       return apiClient;
+        return apiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {

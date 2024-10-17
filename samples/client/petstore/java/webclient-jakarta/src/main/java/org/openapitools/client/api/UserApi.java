@@ -40,7 +40,7 @@ public class UserApi {
     }
 
     public ApiClient getApiClient() {
-       return apiClient;
+        return apiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
