@@ -34,8 +34,7 @@ public class XmlItem {
 
   private Optional<Boolean> attributeBoolean = Optional.empty();
 
-  @Valid
-  private List<Integer> wrappedArray = new ArrayList<>();
+  private List<Optional<Integer>> wrappedArray = new ArrayList<>();
 
   private Optional<String> nameString = Optional.empty();
 
@@ -45,11 +44,9 @@ public class XmlItem {
 
   private Optional<Boolean> nameBoolean = Optional.empty();
 
-  @Valid
-  private List<Integer> nameArray = new ArrayList<>();
+  private List<Optional<Integer>> nameArray = new ArrayList<>();
 
-  @Valid
-  private List<Integer> nameWrappedArray = new ArrayList<>();
+  private List<Optional<Integer>> nameWrappedArray = new ArrayList<>();
 
   private Optional<String> prefixString = Optional.empty();
 
@@ -59,11 +56,9 @@ public class XmlItem {
 
   private Optional<Boolean> prefixBoolean = Optional.empty();
 
-  @Valid
-  private List<Integer> prefixArray = new ArrayList<>();
+  private List<Optional<Integer>> prefixArray = new ArrayList<>();
 
-  @Valid
-  private List<Integer> prefixWrappedArray = new ArrayList<>();
+  private List<Optional<Integer>> prefixWrappedArray = new ArrayList<>();
 
   private Optional<String> namespaceString = Optional.empty();
 
@@ -73,11 +68,9 @@ public class XmlItem {
 
   private Optional<Boolean> namespaceBoolean = Optional.empty();
 
-  @Valid
-  private List<Integer> namespaceArray = new ArrayList<>();
+  private List<Optional<Integer>> namespaceArray = new ArrayList<>();
 
-  @Valid
-  private List<Integer> namespaceWrappedArray = new ArrayList<>();
+  private List<Optional<Integer>> namespaceWrappedArray = new ArrayList<>();
 
   private Optional<String> prefixNsString = Optional.empty();
 
@@ -87,14 +80,12 @@ public class XmlItem {
 
   private Optional<Boolean> prefixNsBoolean = Optional.empty();
 
-  @Valid
-  private List<Integer> prefixNsArray = new ArrayList<>();
+  private List<Optional<Integer>> prefixNsArray = new ArrayList<>();
 
-  @Valid
-  private List<Integer> prefixNsWrappedArray = new ArrayList<>();
+  private List<Optional<Integer>> prefixNsWrappedArray = new ArrayList<>();
 
-  public XmlItem attributeString(String attributeString) {
-    this.attributeString = Optional.of(attributeString);
+  public XmlItem attributeString(Optional<String> attributeString) {
+    this.attributeString = attributeString;
     return this;
   }
 
@@ -102,7 +93,6 @@ public class XmlItem {
    * Get attributeString
    * @return attributeString
    */
-  
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("attribute_string")
   public Optional<String> getAttributeString() {
@@ -113,8 +103,8 @@ public class XmlItem {
     this.attributeString = attributeString;
   }
 
-  public XmlItem attributeNumber(BigDecimal attributeNumber) {
-    this.attributeNumber = Optional.of(attributeNumber);
+  public XmlItem attributeNumber(Optional<BigDecimal> attributeNumber) {
+    this.attributeNumber = attributeNumber;
     return this;
   }
 
@@ -122,7 +112,6 @@ public class XmlItem {
    * Get attributeNumber
    * @return attributeNumber
    */
-  @Valid 
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("attribute_number")
   public Optional<BigDecimal> getAttributeNumber() {
@@ -133,8 +122,8 @@ public class XmlItem {
     this.attributeNumber = attributeNumber;
   }
 
-  public XmlItem attributeInteger(Integer attributeInteger) {
-    this.attributeInteger = Optional.of(attributeInteger);
+  public XmlItem attributeInteger(Optional<Integer> attributeInteger) {
+    this.attributeInteger = attributeInteger;
     return this;
   }
 
@@ -142,7 +131,6 @@ public class XmlItem {
    * Get attributeInteger
    * @return attributeInteger
    */
-  
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("attribute_integer")
   public Optional<Integer> getAttributeInteger() {
@@ -153,8 +141,8 @@ public class XmlItem {
     this.attributeInteger = attributeInteger;
   }
 
-  public XmlItem attributeBoolean(Boolean attributeBoolean) {
-    this.attributeBoolean = Optional.of(attributeBoolean);
+  public XmlItem attributeBoolean(Optional<Boolean> attributeBoolean) {
+    this.attributeBoolean = attributeBoolean;
     return this;
   }
 
@@ -162,7 +150,6 @@ public class XmlItem {
    * Get attributeBoolean
    * @return attributeBoolean
    */
-  
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("attribute_boolean")
   public Optional<Boolean> getAttributeBoolean() {
@@ -173,12 +160,12 @@ public class XmlItem {
     this.attributeBoolean = attributeBoolean;
   }
 
-  public XmlItem wrappedArray(List<Integer> wrappedArray) {
+  public XmlItem wrappedArray(List<Optional<Integer>> wrappedArray) {
     this.wrappedArray = wrappedArray;
     return this;
   }
 
-  public XmlItem addWrappedArrayItem(Integer wrappedArrayItem) {
+  public XmlItem addWrappedArrayItem(Optional<Integer> wrappedArrayItem) {
     if (this.wrappedArray == null) {
       this.wrappedArray = new ArrayList<>();
     }
@@ -190,19 +177,18 @@ public class XmlItem {
    * Get wrappedArray
    * @return wrappedArray
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("wrapped_array")
-  public List<Integer> getWrappedArray() {
+  public List<Optional<Integer>> getWrappedArray() {
     return wrappedArray;
   }
 
-  public void setWrappedArray(List<Integer> wrappedArray) {
+  public void setWrappedArray(List<Optional<Integer>> wrappedArray) {
     this.wrappedArray = wrappedArray;
   }
 
-  public XmlItem nameString(String nameString) {
-    this.nameString = Optional.of(nameString);
+  public XmlItem nameString(Optional<String> nameString) {
+    this.nameString = nameString;
     return this;
   }
 
@@ -210,7 +196,6 @@ public class XmlItem {
    * Get nameString
    * @return nameString
    */
-  
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("name_string")
   public Optional<String> getNameString() {
@@ -221,8 +206,8 @@ public class XmlItem {
     this.nameString = nameString;
   }
 
-  public XmlItem nameNumber(BigDecimal nameNumber) {
-    this.nameNumber = Optional.of(nameNumber);
+  public XmlItem nameNumber(Optional<BigDecimal> nameNumber) {
+    this.nameNumber = nameNumber;
     return this;
   }
 
@@ -230,7 +215,6 @@ public class XmlItem {
    * Get nameNumber
    * @return nameNumber
    */
-  @Valid 
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("name_number")
   public Optional<BigDecimal> getNameNumber() {
@@ -241,8 +225,8 @@ public class XmlItem {
     this.nameNumber = nameNumber;
   }
 
-  public XmlItem nameInteger(Integer nameInteger) {
-    this.nameInteger = Optional.of(nameInteger);
+  public XmlItem nameInteger(Optional<Integer> nameInteger) {
+    this.nameInteger = nameInteger;
     return this;
   }
 
@@ -250,7 +234,6 @@ public class XmlItem {
    * Get nameInteger
    * @return nameInteger
    */
-  
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("name_integer")
   public Optional<Integer> getNameInteger() {
@@ -261,8 +244,8 @@ public class XmlItem {
     this.nameInteger = nameInteger;
   }
 
-  public XmlItem nameBoolean(Boolean nameBoolean) {
-    this.nameBoolean = Optional.of(nameBoolean);
+  public XmlItem nameBoolean(Optional<Boolean> nameBoolean) {
+    this.nameBoolean = nameBoolean;
     return this;
   }
 
@@ -270,7 +253,6 @@ public class XmlItem {
    * Get nameBoolean
    * @return nameBoolean
    */
-  
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("name_boolean")
   public Optional<Boolean> getNameBoolean() {
@@ -281,12 +263,12 @@ public class XmlItem {
     this.nameBoolean = nameBoolean;
   }
 
-  public XmlItem nameArray(List<Integer> nameArray) {
+  public XmlItem nameArray(List<Optional<Integer>> nameArray) {
     this.nameArray = nameArray;
     return this;
   }
 
-  public XmlItem addNameArrayItem(Integer nameArrayItem) {
+  public XmlItem addNameArrayItem(Optional<Integer> nameArrayItem) {
     if (this.nameArray == null) {
       this.nameArray = new ArrayList<>();
     }
@@ -298,23 +280,22 @@ public class XmlItem {
    * Get nameArray
    * @return nameArray
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("name_array")
-  public List<Integer> getNameArray() {
+  public List<Optional<Integer>> getNameArray() {
     return nameArray;
   }
 
-  public void setNameArray(List<Integer> nameArray) {
+  public void setNameArray(List<Optional<Integer>> nameArray) {
     this.nameArray = nameArray;
   }
 
-  public XmlItem nameWrappedArray(List<Integer> nameWrappedArray) {
+  public XmlItem nameWrappedArray(List<Optional<Integer>> nameWrappedArray) {
     this.nameWrappedArray = nameWrappedArray;
     return this;
   }
 
-  public XmlItem addNameWrappedArrayItem(Integer nameWrappedArrayItem) {
+  public XmlItem addNameWrappedArrayItem(Optional<Integer> nameWrappedArrayItem) {
     if (this.nameWrappedArray == null) {
       this.nameWrappedArray = new ArrayList<>();
     }
@@ -326,19 +307,18 @@ public class XmlItem {
    * Get nameWrappedArray
    * @return nameWrappedArray
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("name_wrapped_array")
-  public List<Integer> getNameWrappedArray() {
+  public List<Optional<Integer>> getNameWrappedArray() {
     return nameWrappedArray;
   }
 
-  public void setNameWrappedArray(List<Integer> nameWrappedArray) {
+  public void setNameWrappedArray(List<Optional<Integer>> nameWrappedArray) {
     this.nameWrappedArray = nameWrappedArray;
   }
 
-  public XmlItem prefixString(String prefixString) {
-    this.prefixString = Optional.of(prefixString);
+  public XmlItem prefixString(Optional<String> prefixString) {
+    this.prefixString = prefixString;
     return this;
   }
 
@@ -346,7 +326,6 @@ public class XmlItem {
    * Get prefixString
    * @return prefixString
    */
-  
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("prefix_string")
   public Optional<String> getPrefixString() {
@@ -357,8 +336,8 @@ public class XmlItem {
     this.prefixString = prefixString;
   }
 
-  public XmlItem prefixNumber(BigDecimal prefixNumber) {
-    this.prefixNumber = Optional.of(prefixNumber);
+  public XmlItem prefixNumber(Optional<BigDecimal> prefixNumber) {
+    this.prefixNumber = prefixNumber;
     return this;
   }
 
@@ -366,7 +345,6 @@ public class XmlItem {
    * Get prefixNumber
    * @return prefixNumber
    */
-  @Valid 
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("prefix_number")
   public Optional<BigDecimal> getPrefixNumber() {
@@ -377,8 +355,8 @@ public class XmlItem {
     this.prefixNumber = prefixNumber;
   }
 
-  public XmlItem prefixInteger(Integer prefixInteger) {
-    this.prefixInteger = Optional.of(prefixInteger);
+  public XmlItem prefixInteger(Optional<Integer> prefixInteger) {
+    this.prefixInteger = prefixInteger;
     return this;
   }
 
@@ -386,7 +364,6 @@ public class XmlItem {
    * Get prefixInteger
    * @return prefixInteger
    */
-  
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("prefix_integer")
   public Optional<Integer> getPrefixInteger() {
@@ -397,8 +374,8 @@ public class XmlItem {
     this.prefixInteger = prefixInteger;
   }
 
-  public XmlItem prefixBoolean(Boolean prefixBoolean) {
-    this.prefixBoolean = Optional.of(prefixBoolean);
+  public XmlItem prefixBoolean(Optional<Boolean> prefixBoolean) {
+    this.prefixBoolean = prefixBoolean;
     return this;
   }
 
@@ -406,7 +383,6 @@ public class XmlItem {
    * Get prefixBoolean
    * @return prefixBoolean
    */
-  
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("prefix_boolean")
   public Optional<Boolean> getPrefixBoolean() {
@@ -417,12 +393,12 @@ public class XmlItem {
     this.prefixBoolean = prefixBoolean;
   }
 
-  public XmlItem prefixArray(List<Integer> prefixArray) {
+  public XmlItem prefixArray(List<Optional<Integer>> prefixArray) {
     this.prefixArray = prefixArray;
     return this;
   }
 
-  public XmlItem addPrefixArrayItem(Integer prefixArrayItem) {
+  public XmlItem addPrefixArrayItem(Optional<Integer> prefixArrayItem) {
     if (this.prefixArray == null) {
       this.prefixArray = new ArrayList<>();
     }
@@ -434,23 +410,22 @@ public class XmlItem {
    * Get prefixArray
    * @return prefixArray
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("prefix_array")
-  public List<Integer> getPrefixArray() {
+  public List<Optional<Integer>> getPrefixArray() {
     return prefixArray;
   }
 
-  public void setPrefixArray(List<Integer> prefixArray) {
+  public void setPrefixArray(List<Optional<Integer>> prefixArray) {
     this.prefixArray = prefixArray;
   }
 
-  public XmlItem prefixWrappedArray(List<Integer> prefixWrappedArray) {
+  public XmlItem prefixWrappedArray(List<Optional<Integer>> prefixWrappedArray) {
     this.prefixWrappedArray = prefixWrappedArray;
     return this;
   }
 
-  public XmlItem addPrefixWrappedArrayItem(Integer prefixWrappedArrayItem) {
+  public XmlItem addPrefixWrappedArrayItem(Optional<Integer> prefixWrappedArrayItem) {
     if (this.prefixWrappedArray == null) {
       this.prefixWrappedArray = new ArrayList<>();
     }
@@ -462,19 +437,18 @@ public class XmlItem {
    * Get prefixWrappedArray
    * @return prefixWrappedArray
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("prefix_wrapped_array")
-  public List<Integer> getPrefixWrappedArray() {
+  public List<Optional<Integer>> getPrefixWrappedArray() {
     return prefixWrappedArray;
   }
 
-  public void setPrefixWrappedArray(List<Integer> prefixWrappedArray) {
+  public void setPrefixWrappedArray(List<Optional<Integer>> prefixWrappedArray) {
     this.prefixWrappedArray = prefixWrappedArray;
   }
 
-  public XmlItem namespaceString(String namespaceString) {
-    this.namespaceString = Optional.of(namespaceString);
+  public XmlItem namespaceString(Optional<String> namespaceString) {
+    this.namespaceString = namespaceString;
     return this;
   }
 
@@ -482,7 +456,6 @@ public class XmlItem {
    * Get namespaceString
    * @return namespaceString
    */
-  
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("namespace_string")
   public Optional<String> getNamespaceString() {
@@ -493,8 +466,8 @@ public class XmlItem {
     this.namespaceString = namespaceString;
   }
 
-  public XmlItem namespaceNumber(BigDecimal namespaceNumber) {
-    this.namespaceNumber = Optional.of(namespaceNumber);
+  public XmlItem namespaceNumber(Optional<BigDecimal> namespaceNumber) {
+    this.namespaceNumber = namespaceNumber;
     return this;
   }
 
@@ -502,7 +475,6 @@ public class XmlItem {
    * Get namespaceNumber
    * @return namespaceNumber
    */
-  @Valid 
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("namespace_number")
   public Optional<BigDecimal> getNamespaceNumber() {
@@ -513,8 +485,8 @@ public class XmlItem {
     this.namespaceNumber = namespaceNumber;
   }
 
-  public XmlItem namespaceInteger(Integer namespaceInteger) {
-    this.namespaceInteger = Optional.of(namespaceInteger);
+  public XmlItem namespaceInteger(Optional<Integer> namespaceInteger) {
+    this.namespaceInteger = namespaceInteger;
     return this;
   }
 
@@ -522,7 +494,6 @@ public class XmlItem {
    * Get namespaceInteger
    * @return namespaceInteger
    */
-  
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("namespace_integer")
   public Optional<Integer> getNamespaceInteger() {
@@ -533,8 +504,8 @@ public class XmlItem {
     this.namespaceInteger = namespaceInteger;
   }
 
-  public XmlItem namespaceBoolean(Boolean namespaceBoolean) {
-    this.namespaceBoolean = Optional.of(namespaceBoolean);
+  public XmlItem namespaceBoolean(Optional<Boolean> namespaceBoolean) {
+    this.namespaceBoolean = namespaceBoolean;
     return this;
   }
 
@@ -542,7 +513,6 @@ public class XmlItem {
    * Get namespaceBoolean
    * @return namespaceBoolean
    */
-  
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("namespace_boolean")
   public Optional<Boolean> getNamespaceBoolean() {
@@ -553,12 +523,12 @@ public class XmlItem {
     this.namespaceBoolean = namespaceBoolean;
   }
 
-  public XmlItem namespaceArray(List<Integer> namespaceArray) {
+  public XmlItem namespaceArray(List<Optional<Integer>> namespaceArray) {
     this.namespaceArray = namespaceArray;
     return this;
   }
 
-  public XmlItem addNamespaceArrayItem(Integer namespaceArrayItem) {
+  public XmlItem addNamespaceArrayItem(Optional<Integer> namespaceArrayItem) {
     if (this.namespaceArray == null) {
       this.namespaceArray = new ArrayList<>();
     }
@@ -570,23 +540,22 @@ public class XmlItem {
    * Get namespaceArray
    * @return namespaceArray
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("namespace_array")
-  public List<Integer> getNamespaceArray() {
+  public List<Optional<Integer>> getNamespaceArray() {
     return namespaceArray;
   }
 
-  public void setNamespaceArray(List<Integer> namespaceArray) {
+  public void setNamespaceArray(List<Optional<Integer>> namespaceArray) {
     this.namespaceArray = namespaceArray;
   }
 
-  public XmlItem namespaceWrappedArray(List<Integer> namespaceWrappedArray) {
+  public XmlItem namespaceWrappedArray(List<Optional<Integer>> namespaceWrappedArray) {
     this.namespaceWrappedArray = namespaceWrappedArray;
     return this;
   }
 
-  public XmlItem addNamespaceWrappedArrayItem(Integer namespaceWrappedArrayItem) {
+  public XmlItem addNamespaceWrappedArrayItem(Optional<Integer> namespaceWrappedArrayItem) {
     if (this.namespaceWrappedArray == null) {
       this.namespaceWrappedArray = new ArrayList<>();
     }
@@ -598,19 +567,18 @@ public class XmlItem {
    * Get namespaceWrappedArray
    * @return namespaceWrappedArray
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("namespace_wrapped_array")
-  public List<Integer> getNamespaceWrappedArray() {
+  public List<Optional<Integer>> getNamespaceWrappedArray() {
     return namespaceWrappedArray;
   }
 
-  public void setNamespaceWrappedArray(List<Integer> namespaceWrappedArray) {
+  public void setNamespaceWrappedArray(List<Optional<Integer>> namespaceWrappedArray) {
     this.namespaceWrappedArray = namespaceWrappedArray;
   }
 
-  public XmlItem prefixNsString(String prefixNsString) {
-    this.prefixNsString = Optional.of(prefixNsString);
+  public XmlItem prefixNsString(Optional<String> prefixNsString) {
+    this.prefixNsString = prefixNsString;
     return this;
   }
 
@@ -618,7 +586,6 @@ public class XmlItem {
    * Get prefixNsString
    * @return prefixNsString
    */
-  
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("prefix_ns_string")
   public Optional<String> getPrefixNsString() {
@@ -629,8 +596,8 @@ public class XmlItem {
     this.prefixNsString = prefixNsString;
   }
 
-  public XmlItem prefixNsNumber(BigDecimal prefixNsNumber) {
-    this.prefixNsNumber = Optional.of(prefixNsNumber);
+  public XmlItem prefixNsNumber(Optional<BigDecimal> prefixNsNumber) {
+    this.prefixNsNumber = prefixNsNumber;
     return this;
   }
 
@@ -638,7 +605,6 @@ public class XmlItem {
    * Get prefixNsNumber
    * @return prefixNsNumber
    */
-  @Valid 
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("prefix_ns_number")
   public Optional<BigDecimal> getPrefixNsNumber() {
@@ -649,8 +615,8 @@ public class XmlItem {
     this.prefixNsNumber = prefixNsNumber;
   }
 
-  public XmlItem prefixNsInteger(Integer prefixNsInteger) {
-    this.prefixNsInteger = Optional.of(prefixNsInteger);
+  public XmlItem prefixNsInteger(Optional<Integer> prefixNsInteger) {
+    this.prefixNsInteger = prefixNsInteger;
     return this;
   }
 
@@ -658,7 +624,6 @@ public class XmlItem {
    * Get prefixNsInteger
    * @return prefixNsInteger
    */
-  
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("prefix_ns_integer")
   public Optional<Integer> getPrefixNsInteger() {
@@ -669,8 +634,8 @@ public class XmlItem {
     this.prefixNsInteger = prefixNsInteger;
   }
 
-  public XmlItem prefixNsBoolean(Boolean prefixNsBoolean) {
-    this.prefixNsBoolean = Optional.of(prefixNsBoolean);
+  public XmlItem prefixNsBoolean(Optional<Boolean> prefixNsBoolean) {
+    this.prefixNsBoolean = prefixNsBoolean;
     return this;
   }
 
@@ -678,7 +643,6 @@ public class XmlItem {
    * Get prefixNsBoolean
    * @return prefixNsBoolean
    */
-  
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("prefix_ns_boolean")
   public Optional<Boolean> getPrefixNsBoolean() {
@@ -689,12 +653,12 @@ public class XmlItem {
     this.prefixNsBoolean = prefixNsBoolean;
   }
 
-  public XmlItem prefixNsArray(List<Integer> prefixNsArray) {
+  public XmlItem prefixNsArray(List<Optional<Integer>> prefixNsArray) {
     this.prefixNsArray = prefixNsArray;
     return this;
   }
 
-  public XmlItem addPrefixNsArrayItem(Integer prefixNsArrayItem) {
+  public XmlItem addPrefixNsArrayItem(Optional<Integer> prefixNsArrayItem) {
     if (this.prefixNsArray == null) {
       this.prefixNsArray = new ArrayList<>();
     }
@@ -706,23 +670,22 @@ public class XmlItem {
    * Get prefixNsArray
    * @return prefixNsArray
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("prefix_ns_array")
-  public List<Integer> getPrefixNsArray() {
+  public List<Optional<Integer>> getPrefixNsArray() {
     return prefixNsArray;
   }
 
-  public void setPrefixNsArray(List<Integer> prefixNsArray) {
+  public void setPrefixNsArray(List<Optional<Integer>> prefixNsArray) {
     this.prefixNsArray = prefixNsArray;
   }
 
-  public XmlItem prefixNsWrappedArray(List<Integer> prefixNsWrappedArray) {
+  public XmlItem prefixNsWrappedArray(List<Optional<Integer>> prefixNsWrappedArray) {
     this.prefixNsWrappedArray = prefixNsWrappedArray;
     return this;
   }
 
-  public XmlItem addPrefixNsWrappedArrayItem(Integer prefixNsWrappedArrayItem) {
+  public XmlItem addPrefixNsWrappedArrayItem(Optional<Integer> prefixNsWrappedArrayItem) {
     if (this.prefixNsWrappedArray == null) {
       this.prefixNsWrappedArray = new ArrayList<>();
     }
@@ -734,14 +697,13 @@ public class XmlItem {
    * Get prefixNsWrappedArray
    * @return prefixNsWrappedArray
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("prefix_ns_wrapped_array")
-  public List<Integer> getPrefixNsWrappedArray() {
+  public List<Optional<Integer>> getPrefixNsWrappedArray() {
     return prefixNsWrappedArray;
   }
 
-  public void setPrefixNsWrappedArray(List<Integer> prefixNsWrappedArray) {
+  public void setPrefixNsWrappedArray(List<Optional<Integer>> prefixNsWrappedArray) {
     this.prefixNsWrappedArray = prefixNsWrappedArray;
   }
 
@@ -883,151 +845,122 @@ public class XmlItem {
       return this;
     }
 
-    public XmlItem.Builder attributeString(String attributeString) {
+    public XmlItem.Builder attributeString(Optional<String> attributeString) {
       this.instance.attributeString(attributeString);
       return this;
     }
-    
-    public XmlItem.Builder attributeNumber(BigDecimal attributeNumber) {
+    public XmlItem.Builder attributeNumber(Optional<BigDecimal> attributeNumber) {
       this.instance.attributeNumber(attributeNumber);
       return this;
     }
-    
-    public XmlItem.Builder attributeInteger(Integer attributeInteger) {
+    public XmlItem.Builder attributeInteger(Optional<Integer> attributeInteger) {
       this.instance.attributeInteger(attributeInteger);
       return this;
     }
-    
-    public XmlItem.Builder attributeBoolean(Boolean attributeBoolean) {
+    public XmlItem.Builder attributeBoolean(Optional<Boolean> attributeBoolean) {
       this.instance.attributeBoolean(attributeBoolean);
       return this;
     }
-    
-    public XmlItem.Builder wrappedArray(List<Integer> wrappedArray) {
+    public XmlItem.Builder wrappedArray(List<Optional<Integer>> wrappedArray) {
       this.instance.wrappedArray(wrappedArray);
       return this;
     }
-    
-    public XmlItem.Builder nameString(String nameString) {
+    public XmlItem.Builder nameString(Optional<String> nameString) {
       this.instance.nameString(nameString);
       return this;
     }
-    
-    public XmlItem.Builder nameNumber(BigDecimal nameNumber) {
+    public XmlItem.Builder nameNumber(Optional<BigDecimal> nameNumber) {
       this.instance.nameNumber(nameNumber);
       return this;
     }
-    
-    public XmlItem.Builder nameInteger(Integer nameInteger) {
+    public XmlItem.Builder nameInteger(Optional<Integer> nameInteger) {
       this.instance.nameInteger(nameInteger);
       return this;
     }
-    
-    public XmlItem.Builder nameBoolean(Boolean nameBoolean) {
+    public XmlItem.Builder nameBoolean(Optional<Boolean> nameBoolean) {
       this.instance.nameBoolean(nameBoolean);
       return this;
     }
-    
-    public XmlItem.Builder nameArray(List<Integer> nameArray) {
+    public XmlItem.Builder nameArray(List<Optional<Integer>> nameArray) {
       this.instance.nameArray(nameArray);
       return this;
     }
-    
-    public XmlItem.Builder nameWrappedArray(List<Integer> nameWrappedArray) {
+    public XmlItem.Builder nameWrappedArray(List<Optional<Integer>> nameWrappedArray) {
       this.instance.nameWrappedArray(nameWrappedArray);
       return this;
     }
-    
-    public XmlItem.Builder prefixString(String prefixString) {
+    public XmlItem.Builder prefixString(Optional<String> prefixString) {
       this.instance.prefixString(prefixString);
       return this;
     }
-    
-    public XmlItem.Builder prefixNumber(BigDecimal prefixNumber) {
+    public XmlItem.Builder prefixNumber(Optional<BigDecimal> prefixNumber) {
       this.instance.prefixNumber(prefixNumber);
       return this;
     }
-    
-    public XmlItem.Builder prefixInteger(Integer prefixInteger) {
+    public XmlItem.Builder prefixInteger(Optional<Integer> prefixInteger) {
       this.instance.prefixInteger(prefixInteger);
       return this;
     }
-    
-    public XmlItem.Builder prefixBoolean(Boolean prefixBoolean) {
+    public XmlItem.Builder prefixBoolean(Optional<Boolean> prefixBoolean) {
       this.instance.prefixBoolean(prefixBoolean);
       return this;
     }
-    
-    public XmlItem.Builder prefixArray(List<Integer> prefixArray) {
+    public XmlItem.Builder prefixArray(List<Optional<Integer>> prefixArray) {
       this.instance.prefixArray(prefixArray);
       return this;
     }
-    
-    public XmlItem.Builder prefixWrappedArray(List<Integer> prefixWrappedArray) {
+    public XmlItem.Builder prefixWrappedArray(List<Optional<Integer>> prefixWrappedArray) {
       this.instance.prefixWrappedArray(prefixWrappedArray);
       return this;
     }
-    
-    public XmlItem.Builder namespaceString(String namespaceString) {
+    public XmlItem.Builder namespaceString(Optional<String> namespaceString) {
       this.instance.namespaceString(namespaceString);
       return this;
     }
-    
-    public XmlItem.Builder namespaceNumber(BigDecimal namespaceNumber) {
+    public XmlItem.Builder namespaceNumber(Optional<BigDecimal> namespaceNumber) {
       this.instance.namespaceNumber(namespaceNumber);
       return this;
     }
-    
-    public XmlItem.Builder namespaceInteger(Integer namespaceInteger) {
+    public XmlItem.Builder namespaceInteger(Optional<Integer> namespaceInteger) {
       this.instance.namespaceInteger(namespaceInteger);
       return this;
     }
-    
-    public XmlItem.Builder namespaceBoolean(Boolean namespaceBoolean) {
+    public XmlItem.Builder namespaceBoolean(Optional<Boolean> namespaceBoolean) {
       this.instance.namespaceBoolean(namespaceBoolean);
       return this;
     }
-    
-    public XmlItem.Builder namespaceArray(List<Integer> namespaceArray) {
+    public XmlItem.Builder namespaceArray(List<Optional<Integer>> namespaceArray) {
       this.instance.namespaceArray(namespaceArray);
       return this;
     }
-    
-    public XmlItem.Builder namespaceWrappedArray(List<Integer> namespaceWrappedArray) {
+    public XmlItem.Builder namespaceWrappedArray(List<Optional<Integer>> namespaceWrappedArray) {
       this.instance.namespaceWrappedArray(namespaceWrappedArray);
       return this;
     }
-    
-    public XmlItem.Builder prefixNsString(String prefixNsString) {
+    public XmlItem.Builder prefixNsString(Optional<String> prefixNsString) {
       this.instance.prefixNsString(prefixNsString);
       return this;
     }
-    
-    public XmlItem.Builder prefixNsNumber(BigDecimal prefixNsNumber) {
+    public XmlItem.Builder prefixNsNumber(Optional<BigDecimal> prefixNsNumber) {
       this.instance.prefixNsNumber(prefixNsNumber);
       return this;
     }
-    
-    public XmlItem.Builder prefixNsInteger(Integer prefixNsInteger) {
+    public XmlItem.Builder prefixNsInteger(Optional<Integer> prefixNsInteger) {
       this.instance.prefixNsInteger(prefixNsInteger);
       return this;
     }
-    
-    public XmlItem.Builder prefixNsBoolean(Boolean prefixNsBoolean) {
+    public XmlItem.Builder prefixNsBoolean(Optional<Boolean> prefixNsBoolean) {
       this.instance.prefixNsBoolean(prefixNsBoolean);
       return this;
     }
-    
-    public XmlItem.Builder prefixNsArray(List<Integer> prefixNsArray) {
+    public XmlItem.Builder prefixNsArray(List<Optional<Integer>> prefixNsArray) {
       this.instance.prefixNsArray(prefixNsArray);
       return this;
     }
-    
-    public XmlItem.Builder prefixNsWrappedArray(List<Integer> prefixNsWrappedArray) {
+    public XmlItem.Builder prefixNsWrappedArray(List<Optional<Integer>> prefixNsWrappedArray) {
       this.instance.prefixNsWrappedArray(prefixNsWrappedArray);
       return this;
     }
-    
     /**
     * returns a built XmlItem instance.
     *
@@ -1064,4 +997,3 @@ public class XmlItem {
   }
 
 }
-

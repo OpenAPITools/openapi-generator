@@ -124,7 +124,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-operation-extra-annotation|List of custom annotations to be added to operation|OPERATION|null
 |x-spring-paginated|Add org.springframework.data.domain.Pageable to controller method. Can be used to handle page & size query parameters|OPERATION|false
 |x-version-param|Marker property that tells that this parameter would be used for endpoint versioning. Applicable for headers & query params. true/false|OPERATION_PARAMETER|null
-|x-pattern-message|Add this property whenever you need to customize the invalidation error message for the regex pattern of a variable|FIELD, OPERATION_PARAMETER|null
+|x-not-null-message|Add this property whenever you need to customize the validation error message for required field|FIELD, OPERATION_PARAMETER|null
+|x-pattern-message|Add this property whenever you need to customize the validation error message for the regex pattern of a variable|FIELD, OPERATION_PARAMETER|null
+|x-size-message|Add this property whenever you need to customize the validation error message for the size of a variable (can be applied along with `minLength`, `maxLength`, `minItems`, `maxItems`)|FIELD, OPERATION_PARAMETER|null
+|x-minimum-message|Add this property whenever you need to customize the validation error message for the minimum of a number|FIELD, OPERATION_PARAMETER|null
+|x-maximum-message|Add this property whenever you need to customize the validation error message for the maximum of a number|FIELD, OPERATION_PARAMETER|null
 
 
 ## IMPORT MAPPING

@@ -65,7 +65,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-content-type|Specify custom value for 'Content-Type' header for operation|OPERATION|null
 |x-discriminator-value|Used with model inheritance to specify value for discriminator that identifies current model|MODEL|
 |x-field-extra-annotation|List of custom annotations to be added to property|FIELD, OPERATION_PARAMETER|null
-|x-pattern-message|Add this property whenever you need to customize the invalidation error message for the regex pattern of a variable|FIELD, OPERATION_PARAMETER|null
+|x-not-null-message|Add this property whenever you need to customize the validation error message for required field|FIELD, OPERATION_PARAMETER|null
+|x-pattern-message|Add this property whenever you need to customize the validation error message for the regex pattern of a variable|FIELD, OPERATION_PARAMETER|null
+|x-size-message|Add this property whenever you need to customize the validation error message for the size of a variable (can be applied along with `minLength`, `maxLength`, `minItems`, `maxItems`)|FIELD, OPERATION_PARAMETER|null
+|x-minimum-message|Add this property whenever you need to customize the validation error message for the minimum of a number|FIELD, OPERATION_PARAMETER|null
+|x-maximum-message|Add this property whenever you need to customize the validation error message for the maximum of a number|FIELD, OPERATION_PARAMETER|null
 
 
 ## IMPORT MAPPING

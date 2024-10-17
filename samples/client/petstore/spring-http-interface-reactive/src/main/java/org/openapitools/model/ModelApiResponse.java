@@ -125,4 +125,3 @@ public class ModelApiResponse {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

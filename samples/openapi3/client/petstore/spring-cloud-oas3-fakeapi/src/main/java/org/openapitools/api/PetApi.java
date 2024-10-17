@@ -68,7 +68,7 @@ public interface PetApi {
     )
     
     ResponseEntity<Void> addPet(
-        @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
+        @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @RequestBody @NotNull @Valid Pet pet
     );
 
 
@@ -100,7 +100,7 @@ public interface PetApi {
     )
     
     ResponseEntity<Void> deletePet(
-        @Parameter(name = "petId", description = "Pet id to delete", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
+        @Parameter(name = "petId", description = "Pet id to delete", required = true, in = ParameterIn.PATH) @PathVariable("petId") @NotNull Long petId,
         @Parameter(name = "api_key", description = "", in = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) String apiKey
     );
 
@@ -136,7 +136,7 @@ public interface PetApi {
     )
     
     ResponseEntity<List<Pet>> findPetsByStatus(
-        @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "status", required = true) List<String> status
+        @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @RequestParam(value = "status") @NotNull List<String> status
     );
 
 
@@ -174,7 +174,7 @@ public interface PetApi {
     )
     
     ResponseEntity<Set<Pet>> findPetsByTags(
-        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "tags", required = true) Set<String> tags
+        @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @RequestParam(value = "tags") @NotNull Set<String> tags
     );
 
 
@@ -211,7 +211,7 @@ public interface PetApi {
     )
     
     ResponseEntity<Pet> getPetById(
-        @Parameter(name = "petId", description = "ID of pet to return", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
+        @Parameter(name = "petId", description = "ID of pet to return", required = true, in = ParameterIn.PATH) @PathVariable("petId") @NotNull Long petId
     );
 
 
@@ -237,7 +237,7 @@ public interface PetApi {
     )
     
     ResponseEntity<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(
-        @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
+        @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") @NotNull Long petId
     );
 
 
@@ -273,7 +273,7 @@ public interface PetApi {
     )
     
     ResponseEntity<Void> updatePet(
-        @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
+        @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @RequestBody @NotNull @Valid Pet pet
     );
 
 
@@ -305,9 +305,9 @@ public interface PetApi {
     )
     
     ResponseEntity<Void> updatePetWithForm(
-        @Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
-        @Parameter(name = "name", description = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) String name,
-        @Parameter(name = "status", description = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) String status
+        @Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true, in = ParameterIn.PATH) @PathVariable("petId") @NotNull Long petId,
+        @Parameter(name = "name", description = "Updated name of the pet") @RequestParam(value = "name", required = false) String name,
+        @Parameter(name = "status", description = "Updated status of the pet") @RequestParam(value = "status", required = false) String status
     );
 
 
@@ -342,8 +342,8 @@ public interface PetApi {
     )
     
     ResponseEntity<ModelApiResponse> uploadFile(
-        @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
-        @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
+        @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") @NotNull Long petId,
+        @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
         @Parameter(name = "file", description = "file to upload") @RequestPart(value = "file", required = false) MultipartFile file
     );
 
@@ -379,9 +379,9 @@ public interface PetApi {
     )
     
     ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(
-        @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
-        @Parameter(name = "requiredFile", description = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
-        @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
+        @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") @NotNull Long petId,
+        @Parameter(name = "requiredFile", description = "file to upload", required = true) @RequestPart(value = "requiredFile") MultipartFile requiredFile,
+        @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
     );
 
 }

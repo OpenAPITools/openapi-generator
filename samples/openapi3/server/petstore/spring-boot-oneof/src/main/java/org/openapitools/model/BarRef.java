@@ -131,43 +131,36 @@ public class BarRef extends EntityRef implements BarRefOrValue {
       this.instance.name(name);
       return this;
     }
-    
     @Override
     public BarRef.Builder atReferredType(String atReferredType) {
       this.instance.atReferredType(atReferredType);
       return this;
     }
-    
     @Override
     public BarRef.Builder href(String href) {
       this.instance.href(href);
       return this;
     }
-    
     @Override
     public BarRef.Builder id(String id) {
       this.instance.id(id);
       return this;
     }
-    
     @Override
     public BarRef.Builder atSchemaLocation(String atSchemaLocation) {
       this.instance.atSchemaLocation(atSchemaLocation);
       return this;
     }
-    
     @Override
     public BarRef.Builder atBaseType(String atBaseType) {
       this.instance.atBaseType(atBaseType);
       return this;
     }
-    
     @Override
     public BarRef.Builder atType(String atType) {
       this.instance.atType(atType);
       return this;
     }
-    
     /**
     * returns a built BarRef instance.
     *
@@ -205,4 +198,3 @@ public class BarRef extends EntityRef implements BarRefOrValue {
   }
 
 }
-

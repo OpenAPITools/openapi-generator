@@ -52,8 +52,8 @@ public interface DefaultApi {
     )
     
     ResponseEntity<Void> get(
-        @ApiParam(value = "A date path parameter", required = true, defaultValue = "1972-01-01") @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-        @NotNull @ApiParam(value = "A date-time query parameter", required = true, defaultValue = "1973-12-19T03:39:57-08:00") @Valid @RequestParam(value = "dateTime", required = true, defaultValue = "1973-12-19T03:39:57-08:00") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
+        @ApiParam(value = "A date path parameter", required = true, defaultValue = "1972-01-01") @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @NotNull LocalDate date,
+        @ApiParam(value = "A date-time query parameter", required = true, defaultValue = "1973-12-19T03:39:57-08:00") @RequestParam(value = "dateTime", defaultValue = "1973-12-19T03:39:57-08:00") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @NotNull OffsetDateTime dateTime,
         @NotNull @ApiParam(value = "A date header parameter", required = true, defaultValue = "1974-01-01") @RequestHeader(value = "X-Order-Date", required = true, defaultValue = "1974-01-01") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate xOrderDate,
         @ApiParam(value = "A date cookie parameter", defaultValue = "1975-01-01") @CookieValue(name = "loginDate", required = false, defaultValue = "1975-01-01") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate loginDate
     );
@@ -82,8 +82,8 @@ public interface DefaultApi {
     )
     
     ResponseEntity<Void> updatePetWithForm(
-        @ApiParam(value = "A date path parameter", required = true, defaultValue = "1970-01-01") @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-        @ApiParam(value = "Updated last visit timestamp", defaultValue = "1971-12-19T03:39:57-08:00") @Valid @RequestParam(value = "visitDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime visitDate
+        @ApiParam(value = "A date path parameter", required = true, defaultValue = "1970-01-01") @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @NotNull LocalDate date,
+        @ApiParam(value = "Updated last visit timestamp", defaultValue = "1971-12-19T03:39:57-08:00") @RequestParam(value = "visitDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime visitDate
     );
 
 }

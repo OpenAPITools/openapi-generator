@@ -36,7 +36,6 @@ public class NumberOnlyDto {
    * Get justNumber
    * @return justNumber
    */
-  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("JustNumber")
   public BigDecimal getJustNumber() {
@@ -84,4 +83,3 @@ public class NumberOnlyDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

@@ -79,4 +79,3 @@ public class ClientDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

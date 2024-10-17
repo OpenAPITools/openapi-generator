@@ -37,7 +37,6 @@ public class AdditionalPropertiesInteger {
    * Get name
    * @return name
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public String getName() {
@@ -125,4 +124,3 @@ public class AdditionalPropertiesInteger {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

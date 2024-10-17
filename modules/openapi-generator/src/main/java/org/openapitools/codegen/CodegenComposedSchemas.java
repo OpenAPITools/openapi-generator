@@ -22,7 +22,7 @@ import lombok.Setter;
 import java.util.*;
 
 @Getter @Setter
-public class CodegenComposedSchemas {
+public class CodegenComposedSchemas implements Cloneable {
     private List<CodegenProperty> allOf;
     private List<CodegenProperty> oneOf;
     private List<CodegenProperty> anyOf;
@@ -58,5 +58,36 @@ public class CodegenComposedSchemas {
     @Override
     public int hashCode() {
         return Objects.hash(oneOf, anyOf, allOf, not);
+    }
+
+    @Override
+    public CodegenComposedSchemas clone() {
+        try {
+            CodegenComposedSchemas ccs = (CodegenComposedSchemas) super.clone();
+            if (allOf != null) {
+                ccs.allOf = new ArrayList<>();
+                for (CodegenProperty prop : this.allOf) {
+                    ccs.allOf.add(prop.clone());
+                }
+            }
+            if (oneOf != null) {
+              ccs.oneOf = new ArrayList<>();
+              for (CodegenProperty prop : this.oneOf) {
+                ccs.oneOf.add(prop.clone());
+              }
+            }
+            if (anyOf != null) {
+                ccs.anyOf = new ArrayList<>();
+                for (CodegenProperty prop : this.anyOf) {
+                    ccs.anyOf.add(prop.clone());
+                }
+            }
+            if (not != null) {
+                ccs.not = this.not.clone();
+            }
+            return ccs;
+        } catch (CloneNotSupportedException e) {
+            throw new IllegalStateException(e);
+        }
     }
 }

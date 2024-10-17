@@ -25,7 +25,6 @@ public class FileSchemaTestClass {
 
   private File file;
 
-  
   private List<File> files = new ArrayList<>();
 
   public FileSchemaTestClass file(File file) {
@@ -113,4 +112,3 @@ public class FileSchemaTestClass {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

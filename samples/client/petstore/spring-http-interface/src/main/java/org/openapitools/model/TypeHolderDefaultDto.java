@@ -33,7 +33,6 @@ public class TypeHolderDefaultDto {
 
   private Boolean boolItem = true;
 
-  
   private List<Integer> arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
 
   public TypeHolderDefaultDto() {
@@ -188,4 +187,3 @@ public class TypeHolderDefaultDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-
