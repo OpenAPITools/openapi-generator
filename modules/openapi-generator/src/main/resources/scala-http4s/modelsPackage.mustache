@@ -1,32 +1,34 @@
 {{>licenseInfo}}
 package {{packageName}}
 
-import io.circe.{Decoder, Encoder}
+import io.circe.{Decoder, Encoder, Json}
+import java.time.{Instant, LocalDate, OffsetDateTime}
+import java.util.UUID
 
 package object models {
 
-  given decodeUUID: Decoder[_root_.java.util.UUID] =
-    Decoder.decodeString.map(str => _root_.java.util.UUID.fromString(str))
+  given decodeUUID: Decoder[UUID] =
+    Decoder.decodeString.map(str => UUID.fromString(str))
 
-  given encodeUUID: Encoder[_root_.java.util.UUID] =
-    Encoder.encodeString.contramap[_root_.java.util.UUID](uuid => uuid.toString)
+  given encodeUUID: Encoder[UUID] =
+    Encoder.encodeString.contramap[UUID](uuid => uuid.toString)
 
-  given decodeInstant: Decoder[_root_.java.time.Instant] =
-    Decoder.decodeString.map(str => _root_.java.time.OffsetDateTime.parse(str).toInstant)
+  given decodeInstant: Decoder[Instant] =
+    Decoder.decodeString.map(str => OffsetDateTime.parse(str).toInstant)
 
-  given encodeInstant: Encoder[_root_.java.time.Instant] =
-    Encoder.encodeString.contramap[_root_.java.time.Instant](_.toString)
+  given encodeInstant: Encoder[Instant] =
+    Encoder.encodeString.contramap[Instant](_.toString)
 
-  given decodeLocalDate: Decoder[_root_.java.time.LocalDate] =
-    Decoder.decodeString.map(str => _root_.java.time.LocalDate.parse(str))
+  given decodeLocalDate: Decoder[LocalDate] =
+    Decoder.decodeString.map(str => LocalDate.parse(str))
 
-  given encodeLocalDate: Encoder[_root_.java.time.LocalDate] =
-    Encoder.encodeString.contramap[_root_.java.time.LocalDate](_.toString)
+  given encodeLocalDate: Encoder[LocalDate] =
+    Encoder.encodeString.contramap[LocalDate](_.toString)
 
-  given decodeJson: Decoder[io.circe.Json] =
-    Decoder.decodeString.map(str => io.circe.Json.fromString(str))
+  given decodeJson: Decoder[Json] =
+    Decoder.decodeString.map(str => Json.fromString(str))
 
-  given encodeJson: Encoder[io.circe.Json] =
-    Encoder.encodeString.contramap[io.circe.Json](_.toString)
+  given encodeJson: Encoder[Json] =
+    Encoder.encodeString.contramap[Json](_.toString)
 
 }

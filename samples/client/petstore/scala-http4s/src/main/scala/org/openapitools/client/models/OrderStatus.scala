@@ -24,12 +24,13 @@ enum OrderStatus(val value: String) {
 }
 
 object OrderStatus {
-  given decoderOrderStatus: Decoder[OrderStatus] =
-    Decoder.decodeString.map(str => OrderStatus.values.find(_.value == str)
-      .getOrElse(throw java.lang.IllegalArgumentException(s"OrderStatus enum case not found: $str"))
-    )
 
-  given encoderOrderStatus: Encoder[OrderStatus] =
-    Encoder.encodeString.contramap[OrderStatus](_.value)
+  def withValueOpt(value: String): Option[OrderStatus] = OrderStatus.values.find(_.value == value)
+  def withValue(value: String): OrderStatus =
+    withValueOpt(value).getOrElse(throw java.lang.IllegalArgumentException(s"OrderStatus enum case not found: $value"))
+
+  given decoderOrderStatus: Decoder[OrderStatus] = Decoder.decodeString.map(withValue)
+  given encoderOrderStatus: Encoder[OrderStatus] = Encoder.encodeString.contramap[OrderStatus](_.value)
+
 }
 
