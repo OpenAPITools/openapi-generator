@@ -317,9 +317,9 @@ export function wrapHttpLibrary(promiseHttpLibrary: PromiseHttpLibrary): HttpLib
 
 export class HttpInfo<T> extends ResponseContext {
     public constructor(
-        public httpStatusCode: number,
-        public headers: Headers,
-        public body: ResponseBody,
+        httpStatusCode: number,
+        headers: Headers,
+        body: ResponseBody,
         public data: T,
     ) {
         super(httpStatusCode, headers, body);
