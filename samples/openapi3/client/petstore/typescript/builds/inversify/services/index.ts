@@ -67,7 +67,7 @@ export class ApiServiceBinder {
     public bindServerConfigurationToPredefined(idx: number) {
         if (!servers[idx]) {
             throw new Error(`Server ${idx} is not available.`);
-        }        
+        }
         this.bindServerConfiguration.toConstantValue(servers[idx]);
         return servers[idx];
     }
