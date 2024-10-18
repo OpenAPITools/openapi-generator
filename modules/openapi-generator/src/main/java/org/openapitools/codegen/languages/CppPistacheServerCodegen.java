@@ -281,7 +281,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             ApiResponse apiResponse = findMethodResponse(operation.getResponses());
 
             if (apiResponse != null) {
-                Schema response = ModelUtils.getSchemaFromResponse(openAPI, apiResponse);
+                Schema response = ModelUtils.getFirstSchemaFromResponse(openAPI, apiResponse);
                 if (response != null) {
                     CodegenProperty cm = fromProperty("response", response, false);
                     op.vendorExtensions.put("x-codegen-response", cm);

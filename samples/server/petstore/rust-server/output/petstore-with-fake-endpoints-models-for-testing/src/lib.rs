@@ -37,7 +37,7 @@ pub enum Call123exampleResponse {
 pub enum FakeOuterBooleanSerializeResponse {
     /// Output boolean
     OutputBoolean
-    (bool)
+    (models::OuterBoolean)
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -51,14 +51,14 @@ pub enum FakeOuterCompositeSerializeResponse {
 pub enum FakeOuterNumberSerializeResponse {
     /// Output number
     OutputNumber
-    (f64)
+    (models::OuterNumber)
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum FakeOuterStringSerializeResponse {
     /// Output string
     OutputString
-    (String)
+    (models::OuterString)
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -136,7 +136,7 @@ pub enum AddPetResponse {
 pub enum FindPetsByStatusResponse {
     /// successful operation
     SuccessfulOperation
-    (Vec<models::Pet>)
+    (swagger::OneOf2<models::FindPetsByStatus200ApplicationSlashXmlResponse,models::FindPetsByStatus200ApplicationSlashJsonResponse>)
     ,
     /// Invalid status value
     InvalidStatusValue
@@ -147,7 +147,7 @@ pub enum FindPetsByStatusResponse {
 pub enum FindPetsByTagsResponse {
     /// successful operation
     SuccessfulOperation
-    (Vec<models::Pet>)
+    (swagger::OneOf2<models::FindPetsByTags200ApplicationSlashXmlResponse,models::FindPetsByTags200ApplicationSlashJsonResponse>)
     ,
     /// Invalid tag value
     InvalidTagValue
@@ -177,7 +177,7 @@ pub enum DeletePetResponse {
 pub enum GetPetByIdResponse {
     /// successful operation
     SuccessfulOperation
-    (models::Pet)
+    (swagger::OneOf2<models::GetPetById200ApplicationSlashXmlResponse,models::GetPetById200ApplicationSlashJsonResponse>)
     ,
     /// Invalid ID supplied
     InvalidIDSupplied
@@ -211,7 +211,7 @@ pub enum GetInventoryResponse {
 pub enum PlaceOrderResponse {
     /// successful operation
     SuccessfulOperation
-    (models::Order)
+    (swagger::OneOf2<models::PlaceOrder200ApplicationSlashXmlResponse,models::PlaceOrder200ApplicationSlashJsonResponse>)
     ,
     /// Invalid Order
     InvalidOrder
@@ -232,7 +232,7 @@ pub enum DeleteOrderResponse {
 pub enum GetOrderByIdResponse {
     /// successful operation
     SuccessfulOperation
-    (models::Order)
+    (swagger::OneOf2<models::GetOrderById200ApplicationSlashXmlResponse,models::GetOrderById200ApplicationSlashJsonResponse>)
     ,
     /// Invalid ID supplied
     InvalidIDSupplied
@@ -265,7 +265,7 @@ pub enum LoginUserResponse {
     /// successful operation
     SuccessfulOperation
     {
-        body: String,
+        body: swagger::OneOf2<models::LoginUser200ApplicationSlashXmlResponse,models::LoginUser200ApplicationSlashJsonResponse>,
         x_rate_limit:
         Option<
         i32
@@ -302,7 +302,7 @@ pub enum DeleteUserResponse {
 pub enum GetUserByNameResponse {
     /// successful operation
     SuccessfulOperation
-    (models::User)
+    (swagger::OneOf2<models::GetUserByName200ApplicationSlashXmlResponse,models::GetUserByName200ApplicationSlashJsonResponse>)
     ,
     /// Invalid username supplied
     InvalidUsernameSupplied
@@ -433,7 +433,7 @@ pub trait Api<C: Send + Sync> {
     /// Add a new pet to the store
     async fn add_pet(
         &self,
-        body: models::Pet,
+        body: swagger::OneOf2<models::AddPetApplicationSlashJsonRequest,models::AddPetApplicationSlashXmlRequest>,
         context: &C) -> Result<AddPetResponse, ApiError>;
 
     /// Finds Pets by status
@@ -451,7 +451,7 @@ pub trait Api<C: Send + Sync> {
     /// Update an existing pet
     async fn update_pet(
         &self,
-        body: models::Pet,
+        body: swagger::OneOf2<models::UpdatePetApplicationSlashJsonRequest,models::UpdatePetApplicationSlashXmlRequest>,
         context: &C) -> Result<UpdatePetResponse, ApiError>;
 
     /// Deletes a pet
@@ -670,7 +670,7 @@ pub trait ApiNoContext<C: Send + Sync> {
     /// Add a new pet to the store
     async fn add_pet(
         &self,
-        body: models::Pet,
+        body: swagger::OneOf2<models::AddPetApplicationSlashJsonRequest,models::AddPetApplicationSlashXmlRequest>,
         ) -> Result<AddPetResponse, ApiError>;
 
     /// Finds Pets by status
@@ -688,7 +688,7 @@ pub trait ApiNoContext<C: Send + Sync> {
     /// Update an existing pet
     async fn update_pet(
         &self,
-        body: models::Pet,
+        body: swagger::OneOf2<models::UpdatePetApplicationSlashJsonRequest,models::UpdatePetApplicationSlashXmlRequest>,
         ) -> Result<UpdatePetResponse, ApiError>;
 
     /// Deletes a pet
@@ -981,7 +981,7 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     /// Add a new pet to the store
     async fn add_pet(
         &self,
-        body: models::Pet,
+        body: swagger::OneOf2<models::AddPetApplicationSlashJsonRequest,models::AddPetApplicationSlashXmlRequest>,
         ) -> Result<AddPetResponse, ApiError>
     {
         let context = self.context().clone();
@@ -1011,7 +1011,7 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     /// Update an existing pet
     async fn update_pet(
         &self,
-        body: models::Pet,
+        body: swagger::OneOf2<models::UpdatePetApplicationSlashJsonRequest,models::UpdatePetApplicationSlashXmlRequest>,
         ) -> Result<UpdatePetResponse, ApiError>
     {
         let context = self.context().clone();
