@@ -3527,15 +3527,6 @@ public class DefaultCodegen implements CodegenConfig {
                         .orElseGet(() -> typeMapping.get("string"));
         discriminator.setPropertyType(propertyType);
 
-        // check to see if the discriminator property is an enum string
-        if (schema.getProperties() != null &&
-                schema.getProperties().get(discriminatorPropertyName) instanceof StringSchema) {
-            StringSchema s = (StringSchema) schema.getProperties().get(discriminatorPropertyName);
-            if (s.getEnum() != null && !s.getEnum().isEmpty()) { // it's an enum string
-                discriminator.setIsEnum(true);
-            }
-        }
-
         discriminator.setMapping(sourceDiscriminator.getMapping());
         List<MappedModel> uniqueDescendants = new ArrayList<>();
         if (sourceDiscriminator.getMapping() != null && !sourceDiscriminator.getMapping().isEmpty()) {
@@ -3586,6 +3577,26 @@ public class DefaultCodegen implements CodegenConfig {
             Collections.sort(uniqueDescendants);
         }
         discriminator.getMappedModels().addAll(uniqueDescendants);
+
+        // check current schema, all parents and descendants to see if the discriminator property is an enum string
+        Stream<Schema> schemasToCheckForEnumDiscriminator = Stream.concat(
+                Stream.of(schema),
+                Stream.concat(
+                        ModelUtils.isComposedSchema(schema)
+                                ? ModelUtils.getAllParentsName(schema, openAPI.getComponents().getSchemas(), true).stream()
+                                : Stream.of(),
+                        uniqueDescendants.stream().map(MappedModel::getModelName)
+                ).flatMap(s -> Optional.ofNullable(ModelUtils.getSchema(openAPI, s)).stream())
+        );
+
+        boolean isEnum = schemasToCheckForEnumDiscriminator.anyMatch(s -> Optional
+                .ofNullable(s.getProperties())
+                .map(p -> (Schema) p.get(discriminatorPropertyName))
+                .map(s1 -> ModelUtils.getReferencedSchema(openAPI, s1))
+                .filter(s1 -> s1 instanceof StringSchema && s1.getEnum() != null && !s1.getEnum().isEmpty())
+                .isPresent()
+        );
+        discriminator.setIsEnum(isEnum);
 
         return discriminator;
     }

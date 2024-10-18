@@ -140,4 +140,46 @@ public class CSharpClientCodegenTest {
         assertFileContains(modelFile.toPath(),
                 " Dictionary<string, ResponseResultsValue> results = default(Dictionary<string, ResponseResultsValue>");
     }
+
+    @Test
+    public void testEnumDiscriminatorDefaultValueIsNotString() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
+                "src/test/resources/3_0/enum_discriminator_inheritance.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        cSharpClientCodegen.setAutosetConstants(true);
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        Map<String, String> expectedContents = Map.of(
+                "Cat", "PetTypeEnum petType = PetTypeEnum.Catty",
+                "Dog", "PetTypeEnum petType = PetTypeEnum.Dog",
+                "Gecko", "PetTypeEnum petType = PetTypeEnum.Gecko",
+                "Chameleon", "PetTypeEnum petType = PetTypeEnum.Camo",
+                "MiniVan", "CarType carType = CarType.MiniVan",
+                "CargoVan", "CarType carType = CarType.CargoVan",
+                "SUV", "CarType carType = CarType.SUV",
+                "Truck", "CarType carType = CarType.Truck",
+                "Sedan", "CarType carType = CarType.Sedan"
+
+        );
+        for (Map.Entry<String, String> e : expectedContents.entrySet()) {
+            String modelName = e.getKey();
+            String expectedContent = e.getValue();
+            File file = files.get(Paths
+                    .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", modelName + ".cs")
+                    .toString()
+            );
+            assertNotNull(file, "Could not find file for model: " + modelName);
+            assertFileContains(file.toPath(), expectedContent);
+        }
+    }
 }
