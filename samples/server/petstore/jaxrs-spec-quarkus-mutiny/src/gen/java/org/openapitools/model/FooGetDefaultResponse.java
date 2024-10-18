@@ -90,7 +90,7 @@ public class FooGetDefaultResponse  implements Serializable {
     return new FooGetDefaultResponseBuilderImpl();
   }
 
-  private static class FooGetDefaultResponseBuilderImpl extends FooGetDefaultResponseBuilder<FooGetDefaultResponse, FooGetDefaultResponseBuilderImpl> {
+  private static final class FooGetDefaultResponseBuilderImpl extends FooGetDefaultResponseBuilder<FooGetDefaultResponse, FooGetDefaultResponseBuilderImpl> {
 
     @Override
     protected FooGetDefaultResponseBuilderImpl self() {
