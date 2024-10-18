@@ -36,7 +36,6 @@ public class AdditionalPropertiesBoolean {
    * Get name
    * @return name
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public String getName() {
@@ -124,4 +123,3 @@ public class AdditionalPropertiesBoolean {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

@@ -35,14 +35,12 @@ public class Pet {
 
   private Long id;
 
-  private Category category;
+  private @Valid Category category;
 
-  private String name;
+  private @NotNull String name;
 
-  @Valid
-  private List<String> photoUrls = new ArrayList<>();
+  private @NotNull List<String> photoUrls = new ArrayList<>();
 
-  @Valid
   private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
@@ -129,7 +127,7 @@ public class Pet {
   }
 
 
-  public Pet tags(List<@Valid Tag> tags) {
+  public Pet tags(List<Tag> tags) {
     this.tags = tags;
     return this;
   }
@@ -151,4 +149,3 @@ public class Pet {
 
 
 }
-

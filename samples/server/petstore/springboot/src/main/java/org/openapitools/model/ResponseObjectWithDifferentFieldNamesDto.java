@@ -41,7 +41,6 @@ public class ResponseObjectWithDifferentFieldNamesDto {
    * Get normalPropertyName
    * @return normalPropertyName
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("normalPropertyName")
   public String getNormalPropertyName() {
@@ -61,7 +60,6 @@ public class ResponseObjectWithDifferentFieldNamesDto {
    * Get UPPER_CASE_PROPERTY_SNAKE
    * @return UPPER_CASE_PROPERTY_SNAKE
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("UPPER_CASE_PROPERTY_SNAKE")
   public String getUPPERCASEPROPERTYSNAKE() {
@@ -81,7 +79,6 @@ public class ResponseObjectWithDifferentFieldNamesDto {
    * Get lowerCasePropertyDashes
    * @return lowerCasePropertyDashes
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("lower-case-property-dashes")
   public String getLowerCasePropertyDashes() {
@@ -101,7 +98,6 @@ public class ResponseObjectWithDifferentFieldNamesDto {
    * Get propertyNameWithSpaces
    * @return propertyNameWithSpaces
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("property name with spaces")
   public String getPropertyNameWithSpaces() {
@@ -155,4 +151,3 @@ public class ResponseObjectWithDifferentFieldNamesDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

@@ -990,7 +990,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         extensions.add(VendorExtension.X_CONTENT_TYPE);
         extensions.add(VendorExtension.X_DISCRIMINATOR_VALUE);
         extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
+        extensions.add(VendorExtension.X_NOT_NULL);
         extensions.add(VendorExtension.X_PATTERN_MESSAGE);
+        extensions.add(VendorExtension.X_SIZE_MESSAGE);
+        extensions.add(VendorExtension.X_MINIMUM_MESSAGE);
+        extensions.add(VendorExtension.X_MAXIMUM_MESSAGE);
         return extensions;
     }
 

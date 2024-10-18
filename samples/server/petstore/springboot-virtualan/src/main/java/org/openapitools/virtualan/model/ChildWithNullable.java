@@ -40,7 +40,6 @@ public class ChildWithNullable extends ParentWithNullable {
    * Get otherProperty
    * @return otherProperty
    */
-  
   @Schema(name = "otherProperty", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("otherProperty")
   public String getOtherProperty() {
@@ -57,7 +56,7 @@ public class ChildWithNullable extends ParentWithNullable {
     return this;
   }
 
-  public ChildWithNullable nullableProperty(String nullableProperty) {
+  public ChildWithNullable nullableProperty(JsonNullable<String> nullableProperty) {
     super.nullableProperty(nullableProperty);
     return this;
   }
@@ -111,4 +110,3 @@ public class ChildWithNullable extends ParentWithNullable {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

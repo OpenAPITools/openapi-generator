@@ -29,8 +29,8 @@ public class Model200Response {
 
   private Optional<String> propertyClass = Optional.empty();
 
-  public Model200Response name(Integer name) {
-    this.name = Optional.of(name);
+  public Model200Response name(Optional<Integer> name) {
+    this.name = name;
     return this;
   }
 
@@ -38,7 +38,6 @@ public class Model200Response {
    * Get name
    * @return name
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public Optional<Integer> getName() {
@@ -49,8 +48,8 @@ public class Model200Response {
     this.name = name;
   }
 
-  public Model200Response propertyClass(String propertyClass) {
-    this.propertyClass = Optional.of(propertyClass);
+  public Model200Response propertyClass(Optional<String> propertyClass) {
+    this.propertyClass = propertyClass;
     return this;
   }
 
@@ -58,7 +57,6 @@ public class Model200Response {
    * Get propertyClass
    * @return propertyClass
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("class")
   public Optional<String> getPropertyClass() {
@@ -126,16 +124,14 @@ public class Model200Response {
       return this;
     }
 
-    public Model200Response.Builder name(Integer name) {
+    public Model200Response.Builder name(Optional<Integer> name) {
       this.instance.name(name);
       return this;
     }
-    
-    public Model200Response.Builder propertyClass(String propertyClass) {
+    public Model200Response.Builder propertyClass(Optional<String> propertyClass) {
       this.instance.propertyClass(propertyClass);
       return this;
     }
-    
     /**
     * returns a built Model200Response instance.
     *
@@ -172,4 +168,3 @@ public class Model200Response {
   }
 
 }
-

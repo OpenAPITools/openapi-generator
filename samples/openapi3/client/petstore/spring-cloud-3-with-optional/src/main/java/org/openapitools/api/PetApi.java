@@ -42,7 +42,7 @@ public interface PetApi {
     )
     
     ResponseEntity<Pet> addPet(
-         @Valid @RequestBody Pet pet
+         @RequestBody @NotNull @Valid Pet pet
     );
 
 
@@ -60,7 +60,7 @@ public interface PetApi {
     )
     
     ResponseEntity<Void> deletePet(
-         @PathVariable("petId") Long petId,
+         @PathVariable("petId") @NotNull Long petId,
          @RequestHeader(value = "api_key", required = false) Optional<String> apiKey
     );
 
@@ -80,7 +80,7 @@ public interface PetApi {
     )
     
     ResponseEntity<List<Pet>> findPetsByStatus(
-        @NotNull  @Valid @RequestParam(value = "status", required = true) @Deprecated List<String> status
+         @RequestParam(value = "status") @Deprecated @NotNull List<Optional<String>> status
     );
 
 
@@ -101,7 +101,7 @@ public interface PetApi {
     )
     
     ResponseEntity<List<Pet>> findPetsByTags(
-        @NotNull  @Valid @RequestParam(value = "tags", required = true) List<String> tags
+         @RequestParam(value = "tags") @NotNull List<Optional<String>> tags
     );
 
 
@@ -121,7 +121,7 @@ public interface PetApi {
     )
     
     ResponseEntity<Pet> getPetById(
-         @PathVariable("petId") Long petId
+         @PathVariable("petId") @NotNull Long petId
     );
 
 
@@ -145,7 +145,7 @@ public interface PetApi {
     )
     
     ResponseEntity<Pet> updatePet(
-         @Valid @RequestBody Pet pet
+         @RequestBody @NotNull @Valid Pet pet
     );
 
 
@@ -165,9 +165,9 @@ public interface PetApi {
     )
     
     ResponseEntity<Void> updatePetWithForm(
-         @PathVariable("petId") Long petId,
-         @Valid @RequestParam(value = "name", required = false) String name,
-         @Valid @RequestParam(value = "status", required = false) String status
+         @PathVariable("petId") @NotNull Long petId,
+         @RequestParam(value = "name", required = false) Optional<String> name,
+         @RequestParam(value = "status", required = false) Optional<String> status
     );
 
 
@@ -188,8 +188,8 @@ public interface PetApi {
     )
     
     ResponseEntity<ModelApiResponse> uploadFile(
-         @PathVariable("petId") Long petId,
-         @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
+         @PathVariable("petId") @NotNull Long petId,
+         @RequestParam(value = "additionalMetadata", required = false) Optional<String> additionalMetadata,
          @RequestPart(value = "file", required = false) MultipartFile file
     );
 

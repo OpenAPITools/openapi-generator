@@ -26,8 +26,8 @@ public class Tag {
 
   private Optional<String> name = Optional.empty();
 
-  public Tag id(Long id) {
-    this.id = Optional.of(id);
+  public Tag id(Optional<Long> id) {
+    this.id = id;
     return this;
   }
 
@@ -35,7 +35,6 @@ public class Tag {
    * Get id
    * @return id
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Optional<Long> getId() {
@@ -46,8 +45,8 @@ public class Tag {
     this.id = id;
   }
 
-  public Tag name(String name) {
-    this.name = Optional.of(name);
+  public Tag name(Optional<String> name) {
+    this.name = name;
     return this;
   }
 
@@ -55,7 +54,6 @@ public class Tag {
    * Get name
    * @return name
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public Optional<String> getName() {
@@ -123,16 +121,14 @@ public class Tag {
       return this;
     }
 
-    public Tag.Builder id(Long id) {
+    public Tag.Builder id(Optional<Long> id) {
       this.instance.id(id);
       return this;
     }
-    
-    public Tag.Builder name(String name) {
+    public Tag.Builder name(Optional<String> name) {
       this.instance.name(name);
       return this;
     }
-    
     /**
     * returns a built Tag instance.
     *
@@ -169,4 +165,3 @@ public class Tag {
   }
 
 }
-

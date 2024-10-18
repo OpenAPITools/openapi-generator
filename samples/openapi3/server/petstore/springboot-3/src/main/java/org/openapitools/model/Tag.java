@@ -41,8 +41,8 @@ public class Tag {
    * Constructor with all args parameters
    */
   public Tag(Long id, String name) {
-      this.id = id;
-      this.name = name;
+    this.id = id;
+    this.name = name;
   }
 
   public Tag id(Long id) {
@@ -54,7 +54,6 @@ public class Tag {
    * Get id
    * @return id
    */
-  
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
@@ -76,7 +75,6 @@ public class Tag {
    * Get name
    * @return name
    */
-  
   @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
   @JacksonXmlProperty(localName = "name")
@@ -150,12 +148,10 @@ public class Tag {
       this.instance.id(id);
       return this;
     }
-    
     public Tag.Builder name(String name) {
       this.instance.name(name);
       return this;
     }
-    
     /**
     * returns a built Tag instance.
     *
@@ -192,4 +188,3 @@ public class Tag {
   }
 
 }
-

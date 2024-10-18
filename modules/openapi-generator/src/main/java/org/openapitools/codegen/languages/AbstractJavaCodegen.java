@@ -40,6 +40,7 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
+import org.openapitools.codegen.languages.features.OptionalFeatures;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -62,12 +63,11 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import static org.openapitools.codegen.utils.CamelizeOption.*;
-import static org.openapitools.codegen.utils.ModelUtils.getSchemaItems;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractJavaCodegen extends DefaultCodegen implements CodegenConfig,
-        DocumentationProviderFeatures {
+        DocumentationProviderFeatures, OptionalFeatures {
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaCodegen.class);
     private static final String ARTIFACT_VERSION_DEFAULT_VALUE = "1.0.0";
@@ -174,6 +174,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Setter protected boolean implicitHeaders = false;
     @Setter protected String implicitHeadersRegex = null;
     @Setter protected boolean camelCaseDollarSign = false;
+    protected boolean useOptional = false;
     @Setter protected boolean useJakartaEe = false;
     @Setter protected boolean containerDefaultToNull = false;
     @Getter @Setter
@@ -1005,29 +1006,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return toModelName(name);
     }
 
-    @Override
-    public String getTypeDeclaration(Schema p) {
-        Schema<?> schema = unaliasSchema(p);
-        Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
-        if (ModelUtils.isArraySchema(target)) {
-            Schema<?> items = getSchemaItems(schema);
-            String typeDeclaration = getTypeDeclarationForArray(items);
-            return getSchemaType(target) + "<" + typeDeclaration + ">";
-        } else if (ModelUtils.isMapSchema(target)) {
-            // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
-            // additionalproperties: true
-            Schema<?> inner = ModelUtils.getAdditionalProperties(target);
-            if (inner == null) {
-                LOGGER.error("`{}` (map property) does not have a proper inner type defined. Default to type:string", p.getName());
-                inner = new StringSchema().description("TODO default missing map inner type to string");
-                p.setAdditionalProperties(inner);
-            }
-            return getSchemaType(target) + "<String, " + getTypeDeclaration(inner) + ">";
-        }
-        return super.getTypeDeclaration(target);
-    }
-
-    private String getTypeDeclarationForArray(Schema<?> items) {
+    protected String getTypeDeclarationForArray(Schema<?> items) {
         String typeDeclaration = getTypeDeclaration(items);
 
         String beanValidation = getBeanValidation(items);
@@ -1234,19 +1213,19 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     _values = java.util.Collections.singletonList(String.valueOf(schema.getDefault()));
                 }
 
-                String defaultValue = "";
+                List<String> processedValues;
 
                 if (cp.items.getIsEnumOrRef()) { // inline or ref enum
-                    List<String> defaultValues = new ArrayList<>();
-                    for (String _value : _values) {
-                        defaultValues.add(cp.items.datatypeWithEnum + "." + toEnumVarName(_value, cp.items.dataType));
-                    }
-                    defaultValue = StringUtils.join(defaultValues, ", ");
+                    processedValues = _values.stream()
+                        .map(v -> cp.items.datatypeWithEnum + "." + toEnumVarName(v, cp.items.dataType))
+                        .collect(Collectors.toList());
                 } else if (_values.size() > 0) {
                     if (cp.items.isString) { // array item is string
-                        defaultValue = String.format(Locale.ROOT, "\"%s\"", StringUtils.join(_values, "\", \""));
+                        processedValues = _values.stream()
+                            .map(v -> String.format(Locale.ROOT, "\"%s\"", v))
+                            .collect(Collectors.toList());
                     } else if (cp.items.isNumeric) {
-                        defaultValue = _values.stream()
+                        processedValues = _values.stream()
                                 .map(v -> {
                                     if ("BigInteger".equals(cp.items.dataType)) {
                                         return "new BigInteger(\"" + v + "\")";
@@ -1257,14 +1236,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                                     } else {
                                         return v;
                                     }
-                                })
-                                .collect(Collectors.joining(", "));
+                                }).collect(Collectors.toList());
                     } else { // array item is non-string, e.g. integer
-                        defaultValue = StringUtils.join(_values, ", ");
+                        processedValues = _values;
                     }
                 } else {
                     return getDefaultCollectionType(schema);
                 }
+
+                CodegenProperty cpItems = cp.items;
+                if (useOptional && !cpItems.required && !cpItems.isNullable && !cpItems.isContainer) {
+                    processedValues = processedValues.stream()
+                        .map(v -> String.format(Locale.ROOT, "Optional.of(%s)", v))
+                        .collect(Collectors.toList());
+                }
+
+                String defaultValue = StringUtils.join(processedValues, ", ");
 
                 return getDefaultCollectionType(schema, defaultValue);
             }
@@ -2143,6 +2130,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
+    @Override
+    public void setUseOptional(boolean useOptional) {
+        this.useOptional = useOptional;
+    }
+
+    @Override
+    public boolean getUseOptional() {
+        return this.useOptional;
     }
 
     /*

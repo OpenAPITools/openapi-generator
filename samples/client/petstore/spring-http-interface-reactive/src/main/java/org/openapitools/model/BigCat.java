@@ -150,4 +150,3 @@ public class BigCat extends Cat {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

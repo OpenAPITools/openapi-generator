@@ -72,7 +72,7 @@ public interface FakeApi {
     )
     
     ResponseEntity<Void> createXmlItem(
-        @Parameter(name = "XmlItem", description = "XmlItem Body", required = true) @Valid @RequestBody XmlItem xmlItem
+        @Parameter(name = "XmlItem", description = "XmlItem Body", required = true) @RequestBody @NotNull @Valid XmlItem xmlItem
     ) throws Exception;
 
 
@@ -101,7 +101,7 @@ public interface FakeApi {
     )
     
     ResponseEntity<Boolean> fakeOuterBooleanSerialize(
-        @Parameter(name = "body", description = "Input boolean as post body") @Valid @RequestBody(required = false) Boolean body
+        @Parameter(name = "body", description = "Input boolean as post body") @RequestBody(required = false) Boolean body
     ) throws Exception;
 
 
@@ -130,7 +130,7 @@ public interface FakeApi {
     )
     
     ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(
-        @Parameter(name = "OuterComposite", description = "Input composite as post body") @Valid @RequestBody(required = false) OuterComposite outerComposite
+        @Parameter(name = "OuterComposite", description = "Input composite as post body") @RequestBody(required = false) @Valid OuterComposite outerComposite
     ) throws Exception;
 
 
@@ -159,7 +159,7 @@ public interface FakeApi {
     )
     
     ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
-        @Parameter(name = "body", description = "Input number as post body") @Valid @RequestBody(required = false) BigDecimal body
+        @Parameter(name = "body", description = "Input number as post body") @RequestBody(required = false) BigDecimal body
     ) throws Exception;
 
 
@@ -188,7 +188,7 @@ public interface FakeApi {
     )
     
     ResponseEntity<String> fakeOuterStringSerialize(
-        @Parameter(name = "body", description = "Input string as post body") @Valid @RequestBody(required = false) String body
+        @Parameter(name = "body", description = "Input string as post body") @RequestBody(required = false) String body
     ) throws Exception;
 
 
@@ -214,7 +214,7 @@ public interface FakeApi {
     )
     
     ResponseEntity<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(
-        @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
+        @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") @NotNull Long petId
     ) throws Exception;
 
 
@@ -240,7 +240,7 @@ public interface FakeApi {
     )
     
     ResponseEntity<Void> testBodyWithFileSchema(
-        @Parameter(name = "FileSchemaTestClass", description = "", required = true) @Valid @RequestBody FileSchemaTestClass fileSchemaTestClass
+        @Parameter(name = "FileSchemaTestClass", description = "", required = true) @RequestBody @NotNull @Valid FileSchemaTestClass fileSchemaTestClass
     ) throws Exception;
 
 
@@ -265,8 +265,8 @@ public interface FakeApi {
     )
     
     ResponseEntity<Void> testBodyWithQueryParams(
-        @NotNull @Parameter(name = "query", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "query", required = true) String query,
-        @Parameter(name = "User", description = "", required = true) @Valid @RequestBody User user
+        @Parameter(name = "query", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "query") @NotNull String query,
+        @Parameter(name = "User", description = "", required = true) @RequestBody @NotNull @Valid User user
     ) throws Exception;
 
 
@@ -296,7 +296,7 @@ public interface FakeApi {
     )
     
     ResponseEntity<Client> testClientModel(
-        @Parameter(name = "Client", description = "client model", required = true) @Valid @RequestBody Client client
+        @Parameter(name = "Client", description = "client model", required = true) @RequestBody @NotNull @Valid Client client
     ) throws Exception;
 
 
@@ -341,20 +341,20 @@ public interface FakeApi {
     )
     
     ResponseEntity<Void> testEndpointParameters(
-        @Parameter(name = "number", description = "None", required = true) @Valid @RequestParam(value = "number", required = true) BigDecimal number,
-        @Parameter(name = "double", description = "None", required = true) @Valid @RequestParam(value = "double", required = true) Double _double,
-        @Parameter(name = "pattern_without_delimiter", description = "None", required = true) @Valid @RequestParam(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
-        @Parameter(name = "byte", description = "None", required = true) @Valid @RequestParam(value = "byte", required = true) byte[] _byte,
-        @Parameter(name = "integer", description = "None") @Valid @RequestParam(value = "integer", required = false) Integer integer,
-        @Parameter(name = "int32", description = "None") @Valid @RequestParam(value = "int32", required = false) Integer int32,
-        @Parameter(name = "int64", description = "None") @Valid @RequestParam(value = "int64", required = false) Long int64,
-        @Parameter(name = "float", description = "None") @Valid @RequestParam(value = "float", required = false) Float _float,
-        @Parameter(name = "string", description = "None") @Valid @RequestParam(value = "string", required = false) String string,
+        @Parameter(name = "number", description = "None", required = true) @RequestParam(value = "number") @NotNull @DecimalMin("32.1") @DecimalMax("543.2") BigDecimal number,
+        @Parameter(name = "double", description = "None", required = true) @RequestParam(value = "double") @NotNull @DecimalMin("67.8") @DecimalMax("123.4") Double _double,
+        @Parameter(name = "pattern_without_delimiter", description = "None", required = true) @RequestParam(value = "pattern_without_delimiter") @NotNull @Pattern(regexp = "^[A-Z].*") String patternWithoutDelimiter,
+        @Parameter(name = "byte", description = "None", required = true) @RequestParam(value = "byte") @NotNull byte[] _byte,
+        @Parameter(name = "integer", description = "None") @RequestParam(value = "integer", required = false) @Min(10) @Max(100) Integer integer,
+        @Parameter(name = "int32", description = "None") @RequestParam(value = "int32", required = false) @Min(20) @Max(200) Integer int32,
+        @Parameter(name = "int64", description = "None") @RequestParam(value = "int64", required = false) Long int64,
+        @Parameter(name = "float", description = "None") @RequestParam(value = "float", required = false) @DecimalMax("987.6") Float _float,
+        @Parameter(name = "string", description = "None") @RequestParam(value = "string", required = false) @Pattern(regexp = "/[a-z]/i") String string,
         @Parameter(name = "binary", description = "None") @RequestPart(value = "binary", required = false) MultipartFile binary,
-        @Parameter(name = "date", description = "None") @Valid @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-        @Parameter(name = "dateTime", description = "None") @Valid @RequestParam(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
-        @Parameter(name = "password", description = "None") @Valid @RequestParam(value = "password", required = false) String password,
-        @Parameter(name = "callback", description = "None") @Valid @RequestParam(value = "callback", required = false) String paramCallback
+        @Parameter(name = "date", description = "None") @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+        @Parameter(name = "dateTime", description = "None") @RequestParam(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
+        @Parameter(name = "password", description = "None") @RequestParam(value = "password", required = false) @Size(min = 10, max = 64) String password,
+        @Parameter(name = "callback", description = "None") @RequestParam(value = "callback", required = false) String paramCallback
     ) throws Exception;
 
 
@@ -390,14 +390,14 @@ public interface FakeApi {
     )
     
     ResponseEntity<Void> testEnumParameters(
-        @Parameter(name = "enum_header_string_array", description = "Header parameter enum test (string array)", in = ParameterIn.HEADER) @RequestHeader(value = "enum_header_string_array", required = false) List<String> enumHeaderStringArray,
+        @Parameter(name = "enum_header_string_array", description = "Header parameter enum test (string array)", in = ParameterIn.HEADER) @RequestHeader(value = "enum_header_string_array", required = false) List enumHeaderStringArray,
         @Parameter(name = "enum_header_string", description = "Header parameter enum test (string)", in = ParameterIn.HEADER) @RequestHeader(value = "enum_header_string", required = false, defaultValue = "-efg") String enumHeaderString,
-        @Parameter(name = "enum_query_string_array", description = "Query parameter enum test (string array)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,
-        @Parameter(name = "enum_query_string", description = "Query parameter enum test (string)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
-        @Parameter(name = "enum_query_integer", description = "Query parameter enum test (double)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,
-        @Parameter(name = "enum_query_double", description = "Query parameter enum test (double)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble,
-        @Parameter(name = "enum_form_string_array", description = "Form parameter enum test (string array)") @Valid @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
-        @Parameter(name = "enum_form_string", description = "Form parameter enum test (string)") @Valid @RequestParam(value = "enum_form_string", required = false) String enumFormString
+        @Parameter(name = "enum_query_string_array", description = "Query parameter enum test (string array)", in = ParameterIn.QUERY) @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,
+        @Parameter(name = "enum_query_string", description = "Query parameter enum test (string)", in = ParameterIn.QUERY) @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
+        @Parameter(name = "enum_query_integer", description = "Query parameter enum test (double)", in = ParameterIn.QUERY) @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,
+        @Parameter(name = "enum_query_double", description = "Query parameter enum test (double)", in = ParameterIn.QUERY) @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble,
+        @Parameter(name = "enum_form_string_array", description = "Form parameter enum test (string array)") @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
+        @Parameter(name = "enum_form_string", description = "Form parameter enum test (string)") @RequestParam(value = "enum_form_string", required = false) String enumFormString
     ) throws Exception;
 
 
@@ -428,12 +428,12 @@ public interface FakeApi {
     )
     
     ResponseEntity<Void> testGroupParameters(
-        @NotNull @Parameter(name = "required_string_group", description = "Required String in group parameters", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,
+        @Parameter(name = "required_string_group", description = "Required String in group parameters", required = true, in = ParameterIn.QUERY) @RequestParam(value = "required_string_group") @NotNull Integer requiredStringGroup,
         @NotNull @Parameter(name = "required_boolean_group", description = "Required Boolean in group parameters", required = true, in = ParameterIn.HEADER) @RequestHeader(value = "required_boolean_group", required = true) Boolean requiredBooleanGroup,
-        @NotNull @Parameter(name = "required_int64_group", description = "Required Integer in group parameters", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,
-        @Parameter(name = "string_group", description = "String in group parameters", in = ParameterIn.QUERY) @Valid @RequestParam(value = "string_group", required = false) Integer stringGroup,
+        @Parameter(name = "required_int64_group", description = "Required Integer in group parameters", required = true, in = ParameterIn.QUERY) @RequestParam(value = "required_int64_group") @NotNull Long requiredInt64Group,
+        @Parameter(name = "string_group", description = "String in group parameters", in = ParameterIn.QUERY) @RequestParam(value = "string_group", required = false) Integer stringGroup,
         @Parameter(name = "boolean_group", description = "Boolean in group parameters", in = ParameterIn.HEADER) @RequestHeader(value = "boolean_group", required = false) Boolean booleanGroup,
-        @Parameter(name = "int64_group", description = "Integer in group parameters", in = ParameterIn.QUERY) @Valid @RequestParam(value = "int64_group", required = false) Long int64Group
+        @Parameter(name = "int64_group", description = "Integer in group parameters", in = ParameterIn.QUERY) @RequestParam(value = "int64_group", required = false) Long int64Group
     ) throws Exception;
 
 
@@ -460,7 +460,7 @@ public interface FakeApi {
     )
     
     ResponseEntity<Void> testInlineAdditionalProperties(
-        @Parameter(name = "request_body", description = "request body", required = true) @Valid @RequestBody Map<String, String> requestBody
+        @Parameter(name = "request_body", description = "request body", required = true) @RequestBody @NotNull Map<String, String> requestBody
     ) throws Exception;
 
 
@@ -488,8 +488,8 @@ public interface FakeApi {
     )
     
     ResponseEntity<Void> testJsonFormData(
-        @Parameter(name = "param", description = "field1", required = true) @Valid @RequestParam(value = "param", required = true) String param,
-        @Parameter(name = "param2", description = "field2", required = true) @Valid @RequestParam(value = "param2", required = true) String param2
+        @Parameter(name = "param", description = "field1", required = true) @RequestParam(value = "param") @NotNull String param,
+        @Parameter(name = "param2", description = "field2", required = true) @RequestParam(value = "param2") @NotNull String param2
     ) throws Exception;
 
 
@@ -516,7 +516,7 @@ public interface FakeApi {
     )
     
     ResponseEntity<Void> testNullable(
-        @Parameter(name = "ChildWithNullable", description = "request body", required = true) @Valid @RequestBody ChildWithNullable childWithNullable
+        @Parameter(name = "ChildWithNullable", description = "request body", required = true) @RequestBody @NotNull @Valid ChildWithNullable childWithNullable
     ) throws Exception;
 
 
@@ -544,10 +544,10 @@ public interface FakeApi {
     )
     
     ResponseEntity<Void> testQueryParameterCollectionFormat(
-        @NotNull @Parameter(name = "pipe", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,
-        @NotNull @Parameter(name = "http", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "http", required = true) List<String> http,
-        @NotNull @Parameter(name = "url", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "url", required = true) List<String> url,
-        @NotNull @Parameter(name = "context", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "context", required = true) List<String> context
+        @Parameter(name = "pipe", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "pipe") @NotNull List<String> pipe,
+        @Parameter(name = "http", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "http") @NotNull List<String> http,
+        @Parameter(name = "url", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "url") @NotNull List<String> url,
+        @Parameter(name = "context", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "context") @NotNull List<String> context
     ) throws Exception;
 
 
@@ -609,9 +609,9 @@ public interface FakeApi {
     )
     
     ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(
-        @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
-        @Parameter(name = "requiredFile", description = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
-        @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
+        @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") @NotNull Long petId,
+        @Parameter(name = "requiredFile", description = "file to upload", required = true) @RequestPart(value = "requiredFile") MultipartFile requiredFile,
+        @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
     ) throws Exception;
 
 }

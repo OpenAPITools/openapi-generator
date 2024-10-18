@@ -31,7 +31,7 @@ public class Category {
 
   private Long id;
 
-  private String name;
+  private @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") String name;
 
   public Category() {
     super();
@@ -41,8 +41,8 @@ public class Category {
    * Constructor with all args parameters
    */
   public Category(Long id, String name) {
-      this.id = id;
-      this.name = name;
+    this.id = id;
+    this.name = name;
   }
 
   public Category id(Long id) {
@@ -54,7 +54,6 @@ public class Category {
    * Get id
    * @return id
    */
-  
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
@@ -76,12 +75,11 @@ public class Category {
    * Get name
    * @return name
    */
-  @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
   @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
   @JacksonXmlProperty(localName = "name")
   @XmlElement(name = "name")
-  public String getName() {
+  public @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") String getName() {
     return name;
   }
 
@@ -150,12 +148,10 @@ public class Category {
       this.instance.id(id);
       return this;
     }
-    
     public Category.Builder name(String name) {
       this.instance.name(name);
       return this;
     }
-    
     /**
     * returns a built Category instance.
     *
@@ -192,4 +188,3 @@ public class Category {
   }
 
 }
-
