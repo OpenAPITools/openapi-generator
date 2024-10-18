@@ -175,7 +175,6 @@ void {{classname}}::setValue({{classname}}::e{{classname}} const value)
 }
 
 {{/isEnum}}
-
 {{^isEnum}}
 
 {{classname}}::{{classname}}()
@@ -183,6 +182,7 @@ void {{classname}}::setValue({{classname}}::e{{classname}} const value)
     {{#vars}}
     {{^isInherited}}
     {{^isContainer}}
+    {{^isEnum}}
     {{#isPrimitiveType}}
     m_{{name}} = {{{defaultValue}}};
     {{/isPrimitiveType}}
@@ -194,6 +194,7 @@ void {{classname}}::setValue({{classname}}::e{{classname}} const value)
     m_{{name}} = {{{defaultValue}}};
     {{/isDateTime}}
     {{/isPrimitiveType}}
+    {{/isEnum}}
     {{/isContainer}}
     m_{{name}}IsSet = false;
     {{/isInherited}}
@@ -212,15 +213,27 @@ void {{classname}}::validate()
 web::json::value {{classname}}::toJson() const
 {
     {{#parent}}
-    web::json::value val = this->{{{.}}}::toJson();{{/parent}}
+    web::json::value val = this->{{{.}}}::toJson();
+    {{/parent}}
     {{^parent}}
     web::json::value val = web::json::value::object();
     {{/parent}}
     {{#vars}}{{^isInherited}}
     if(m_{{name}}IsSet)
-    {
+    {   
+        {{#isEnum}}{{#isContainer}}{{#isArray}}
+        {{{dataType}}} refVal = from{{{enumName}}}(m_{{name}});
+        {{/isArray}}{{#isMap}}
         val[utility::conversions::to_string_t(U("{{baseName}}"))] = ModelBase::toJson(m_{{name}});
-    }{{/isInherited}}{{/vars}}
+        {{/isMap}}{{/isContainer}}{{^isContainer}}
+        utility::string_t refVal = from{{{datatypeWithEnum}}}(m_{{name}});
+        {{/isContainer}}{{^isMap}}val[utility::conversions::to_string_t(U("{{baseName}}"))] = ModelBase::toJson(refVal);
+        {{/isMap}}{{/isEnum}}
+        {{^isEnum}}
+        val[utility::conversions::to_string_t(U("{{baseName}}"))] = ModelBase::toJson(m_{{name}});
+        {{/isEnum}}
+    }
+    {{/isInherited}}{{/vars}}
 
     return val;
 }
@@ -239,7 +252,16 @@ bool {{classname}}::fromJson(const web::json::value& val)
         {
             {{{dataType}}} refVal_{{setter}};
             ok &= ModelBase::fromJson(fieldValue, refVal_{{setter}});
+            {{^isEnum}}
             {{setter}}(refVal_{{setter}});
+            {{/isEnum}}
+            {{#isEnum}}{{#isContainer}}{{#isArray}}
+            {{setter}}(to{{{enumName}}}(refVal_{{setter}}));
+            {{/isArray}}{{#isMap}}
+            {{setter}}(refVal_{{setter}});
+            {{/isMap}}{{/isContainer}}{{^isContainer}}
+            {{setter}}(to{{{datatypeWithEnum}}}(refVal_{{setter}}));
+            {{/isContainer}}{{/isEnum}}
         }
     }{{/isInherited}}{{/vars}}
     return ok;
@@ -255,7 +277,16 @@ void {{classname}}::toMultipart(std::shared_ptr<MultipartFormData> multipart, co
     {{#vars}}
     if(m_{{name}}IsSet)
     {
+        {{^isEnum}}
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("{{baseName}}")), m_{{name}}));
+        {{/isEnum}}
+        {{#isEnum}}{{#isContainer}}{{#isArray}}
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("{{baseName}}")), from{{{enumName}}}(m_{{name}})));
+        {{/isArray}}{{#isMap}}
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("{{baseName}}")), m_{{name}}));
+        {{/isMap}}{{/isContainer}}{{^isContainer}}
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("{{baseName}}")), from{{{datatypeWithEnum}}}(m_{{name}})));
+        {{/isContainer}}{{/isEnum}}
     }
     {{/vars}}
 }
@@ -274,33 +305,93 @@ bool {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
     {
         {{{dataType}}} refVal_{{setter}};
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("{{baseName}}"))), refVal_{{setter}} );
+        {{^isEnum}}
         {{setter}}(refVal_{{setter}});
+        {{/isEnum}}
+        {{#isEnum}}{{#isContainer}}{{#isArray}}
+        {{setter}}(to{{{enumName}}}(refVal_{{setter}}));
+        {{/isArray}}{{#isMap}}
+        {{setter}}(refVal_{{setter}});
+        {{/isMap}}{{/isContainer}}{{^isContainer}}
+        {{setter}}(to{{{datatypeWithEnum}}}(refVal_{{setter}}));
+        {{/isContainer}}{{/isEnum}}
     }
     {{/vars}}
     return ok;
 }
 
-{{#vars}}
-{{^isInherited}}
-{{#isContainer}}
-{{{dataType}}}& {{classname}}::{{getter}}()
-{
-    return m_{{name}};
-}
+{{#vars}}{{^isInherited}}{{#isEnum}}{{#isContainer}}
+{{classname}}::{{{enumName}}} {{classname}}::to{{{enumName}}}(const utility::string_t& value) const
+{{/isContainer}}{{^isContainer}}
+{{classname}}::{{{datatypeWithEnum}}} {{classname}}::to{{{datatypeWithEnum}}}(const {{dataType}}& value) const
 {{/isContainer}}
-{{^isContainer}}
+{
+    {{#allowableValues}}{{#enumVars}}
+    if (value == utility::conversions::to_string_t("{{value}}")) {
+        return {{#isContainer}}{{{enumName}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}::{{value}};
+    }
+    {{/enumVars}}{{/allowableValues}}
+    throw std::invalid_argument("Invalid value for conversion to {{{datatypeWithEnum}}}");
+}
+
+{{#isContainer}}
+const utility::string_t {{classname}}::from{{{enumName}}}(const {{{enumName}}} value) const
+{{/isContainer}}{{^isContainer}}
+const {{dataType}} {{classname}}::from{{{datatypeWithEnum}}}(const {{{datatypeWithEnum}}} value) const
+{{/isContainer}}
+{
+    switch(value)
+    {
+        {{#allowableValues}}{{#enumVars}}
+        case {{#isContainer}}{{{enumName}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}::{{value}}: return utility::conversions::to_string_t("{{value}}");
+        {{/enumVars}}{{/allowableValues}}
+    }
+}
+
+{{#isContainer}}{{#isArray}}
+{{{dataType}}} {{{classname}}}::from{{{enumName}}}(const {{{datatypeWithEnum}}}& value) const
+{
+    {{{dataType}}} ret;
+    for (auto it = value.begin(); it != value.end(); it++) {
+        ret.push_back(from{{{enumName}}}(*it));
+    }
+    return ret;
+}
+
+{{{baseType}}}<{{classname}}::{{{enumName}}}> {{{classname}}}::to{{{enumName}}}(const {{{dataType}}}& value) const
+{
+    {{{datatypeWithEnum}}} ret;
+    for (auto it = value.begin(); it != value.end(); it++) {
+        ret.push_back(to{{{enumName}}}(*it));
+    }
+    return ret;
+}
+{{/isArray}}{{/isContainer}}{{/isEnum}}{{/isInherited}}{{/vars}}
+
+{{#vars}}{{^isInherited}}{{#isContainer}}{{^isEnum}}
 {{{dataType}}} {{classname}}::{{getter}}() const
 {
     return m_{{name}};
 }
-{{/isContainer}}
+{{/isEnum}}{{/isContainer}}{{^isContainer}}{{^isEnum}}
+{{{dataType}}} {{classname}}::{{getter}}() const
+{
+    return m_{{name}};
+}
+{{/isEnum}}{{/isContainer}}{{#isEnum}}
+{{^isMap}}{{#isArray}}{{{baseType}}}<{{/isArray}}{{{classname}}}::{{{enumName}}}{{#isArray}}>{{/isArray}}{{/isMap}}{{#isMap}}{{{dataType}}}{{/isMap}} {{classname}}::{{getter}}() const
+{
+    return m_{{name}};
+}
+{{/isEnum}}
 
 {{#isPrimitiveType}}
 void {{classname}}::{{setter}}({{{dataType}}} value)
-{{/isPrimitiveType}}
-{{^isPrimitiveType}}
+{{/isPrimitiveType}}{{^isPrimitiveType}}{{^isEnum}}
 void {{classname}}::{{setter}}(const {{{dataType}}}& value)
-{{/isPrimitiveType}}
+{{/isEnum}}{{/isPrimitiveType}}{{#isEnum}}
+void {{classname}}::{{setter}}(const {{^isMap}}{{{datatypeWithEnum}}}{{/isMap}}{{#isMap}}{{{dataType}}}{{/isMap}} value)
+{{/isEnum}}
 {
     m_{{name}} = value;
     m_{{name}}IsSet = true;
@@ -315,8 +406,7 @@ void {{classname}}::unset{{name}}()
 {
     m_{{name}}IsSet = false;
 }
-{{/isInherited}}
-{{/vars}}
+{{/isInherited}}{{/vars}}
 {{/isEnum}}
 {{/oneOf}}
 {{#modelNamespaceDeclarations}}

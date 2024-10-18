@@ -18,6 +18,7 @@
 #ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_Order_H_
 #define ORG_OPENAPITOOLS_CLIENT_MODEL_Order_H_
 
+#include <stdexcept>
 
 #include "CppRestPetstoreClient/ModelBase.h"
 
@@ -51,75 +52,113 @@ public:
     void toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) const override;
     bool fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
 
+
     /////////////////////////////////////////////
     /// Order members
 
+    
+    enum class StatusEnum
+    {
+        placed,
+        approved,
+        delivered,
+        
+    };
+    /// <summary>
+    /// Order Status
+    /// </summary>
+    
+    StatusEnum toStatusEnum(const utility::string_t& value) const;
+    const utility::string_t fromStatusEnum(const StatusEnum value) const;
+    
+
+    
     /// <summary>
     /// 
     /// </summary>
+    
     int64_t getId() const;
+    
+    
     bool idIsSet() const;
     void unsetId();
-
     void setId(int64_t value);
-
+    
     /// <summary>
     /// 
     /// </summary>
+    
     int64_t getPetId() const;
+    
+    
     bool petIdIsSet() const;
     void unsetPetId();
-
     void setPetId(int64_t value);
-
+    
     /// <summary>
     /// 
     /// </summary>
+    
     int32_t getQuantity() const;
+    
+    
     bool quantityIsSet() const;
     void unsetQuantity();
-
     void setQuantity(int32_t value);
-
+    
     /// <summary>
     /// 
     /// </summary>
+    
     utility::datetime getShipDate() const;
+    
+    
     bool shipDateIsSet() const;
     void unsetShipDate();
 
     void setShipDate(const utility::datetime& value);
-
+    
     /// <summary>
     /// Order Status
     /// </summary>
-    utility::string_t getStatus() const;
+    
+    
+    StatusEnum getStatus() const;
+    
     bool statusIsSet() const;
     void unsetStatus();
 
-    void setStatus(const utility::string_t& value);
-
+    void setStatus(const StatusEnum value);
+    
     /// <summary>
     /// 
     /// </summary>
+    
     bool isComplete() const;
+    
+    
     bool completeIsSet() const;
     void unsetComplete();
-
     void setComplete(bool value);
-
+    
 
 protected:
+    
     int64_t m_Id;
     bool m_IdIsSet;
+    
     int64_t m_PetId;
     bool m_PetIdIsSet;
+    
     int32_t m_Quantity;
     bool m_QuantityIsSet;
+    
     utility::datetime m_ShipDate;
     bool m_ShipDateIsSet;
-    utility::string_t m_Status;
+    
+    StatusEnum m_Status;
     bool m_StatusIsSet;
+    
     bool m_Complete;
     bool m_CompleteIsSet;
 };
