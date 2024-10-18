@@ -6,6 +6,7 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.AbstractKotlinCodegen;
 import org.openapitools.codegen.languages.KotlinClientCodegen;
 import org.openapitools.codegen.languages.KotlinServerCodegen;
@@ -109,5 +110,62 @@ public class KotlinModelCodegenTest {
 
         assertFileContains(Paths.get(outputPath + "/src/main/kotlin/models/UniqueArray.kt"),
                 "var array: kotlin.collections.MutableSet<kotlin.String>");
+    }
+
+
+    private String generateModelsWIP(String inputFile) throws IOException {
+        KotlinClientCodegen codegen = new KotlinClientCodegen();
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        codegen.setOutputDir(output.getAbsolutePath());
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setOutputDir(output.getAbsolutePath())
+                .setInputSpec(inputFile)
+                .addInlineSchemaOption("RESOLVE_INLINE_ENUMS", "true");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "models");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(configurator.toClientOptInput()).generate();
+        return outputPath;
+    }
+
+    @Test
+    public void dataClassGenerationNotWorkingWithAllOfInSchema() throws IOException {
+        String outputPath = generateModelsWIP("src/test/resources/3_1/issue_wip.yaml");
+
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/client/models/GetStuffFromPath200ResponseInner.kt"),
+                "val aBooleanCheck: kotlin.Boolean? = null,",
+                "val condition: kotlin.String? = null,",
+                "val purpose: kotlin.collections.List<GetStuffFromPath200ResponseInnerPurposeInner>? = null"
+        );
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/client/models/GetStuffFromPath200ResponseInnerPurposeInner.kt"),
+                "FIRST(\"FIRST\"),",
+                "SECOND(\"SECOND\"),",
+                "THIRD(\"THIRD\");"
+        );
+    }
+
+    @Test
+    public void dataClassGenerationWorkingWithoutAllOfInSchema() throws IOException {
+
+       String outputPath = generateModelsWIP("src/test/resources/3_1/issue_wip_working_without_all_of.yaml");
+
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/client/models/GetStuffFromPath200ResponseInner.kt"),
+                "val aBooleanCheck: kotlin.Boolean? = null,",
+                "val condition: kotlin.String? = null,",
+                "val purpose: kotlin.collections.List<GetStuffFromPath200ResponseInnerPurposeInner>? = null"
+        );
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/client/models/GetStuffFromPath200ResponseInnerPurposeInner.kt"),
+                "FIRST(\"FIRST\"),",
+                "SECOND(\"SECOND\"),",
+                "THIRD(\"THIRD\");"
+        );
     }
 }
