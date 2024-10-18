@@ -96,6 +96,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     public static final String AVOID_BOXED_MODELS = "avoidBoxedModels";
     public static final String TOP_LEVEL_API_CLIENT = "topLevelApiClient";
     public static final String MOCKALL = "mockall";
+    public static final String BON_BUILDER = "useBonBuilder";
 
     @Setter protected String packageName = "openapi";
     @Setter protected String packageVersion = "1.0.0";
@@ -238,6 +239,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         cliOptions.add(new CliOption(MOCKALL, "Adds `#[automock]` from the mockall crate to api traits. This option is for 'reqwest-trait' library only", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(TOP_LEVEL_API_CLIENT, "Creates a top level `Api` trait and `ApiClient` struct that contain all Apis. This option is for 'reqwest-trait' library only", SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(BON_BUILDER, "Use the bon crate for building parameter types. This option is for the 'reqwest-trait' library only", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put(HYPER_LIBRARY, "HTTP client: Hyper (v1.x).");

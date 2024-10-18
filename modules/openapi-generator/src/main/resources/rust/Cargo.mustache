@@ -91,9 +91,14 @@ google-cloud-token = "^0.1"
 {{#mockall}}
 mockall = { version = "^0.13", optional = true}
 {{/mockall}}
-{{/reqwestTrait}}
-
+{{#useBonBuilder}}
+bon = { version = "2.3", optional = true }
+{{/useBonBuilder}}
 [features]
 {{#mockall}}
 mockall = ["dep:mockall"]
 {{/mockall}}
+{{#useBonBuilder}}
+bon = ["dep:bon"]
+{{/useBonBuilder}}
+{{/reqwestTrait}}
