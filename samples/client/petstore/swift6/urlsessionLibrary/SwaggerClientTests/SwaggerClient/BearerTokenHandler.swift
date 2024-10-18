@@ -12,7 +12,14 @@ import PetstoreClient
 public class BearerOpenAPIInterceptor: OpenAPIInterceptor {
     public init() {}
     
-    public func intercept(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, completion: @escaping (Result<URLRequest, any Error>) -> Void) {
+    public func intercept<T>(urlRequest: URLRequest, urlSession: URLSessionProtocol, requestBuilder: RequestBuilder<T>, completion: @escaping (Result<URLRequest, any Error>) -> Void) {
+
+        guard requestBuilder.requiresAuthentication else {
+            // no authentication required
+            completion(.success(newUrlRequest))
+            return
+        }
+
         BearerTokenHandler.shared.refreshTokenIfDoesntExist { token in
             
             // Change the current url request
@@ -26,7 +33,7 @@ public class BearerOpenAPIInterceptor: OpenAPIInterceptor {
         }
     }
     
-    public func retry(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, data: Data?, response: URLResponse, error: Error, completion: @escaping (OpenAPIInterceptorRetry) -> Void) {
+    public func retry<T>(urlRequest: URLRequest, urlSession: URLSessionProtocol, requestBuilder: RequestBuilder<T>, data: Data?, response: URLResponse, error: Error, completion: @escaping (OpenAPIInterceptorRetry) -> Void) {
         // We will analyse the response to see if it's a 401, and if it's a 401, we will refresh the token and retry the request
         BearerTokenHandler.shared.refreshTokenIfUnauthorizedRequestResponse(
             data: data,
