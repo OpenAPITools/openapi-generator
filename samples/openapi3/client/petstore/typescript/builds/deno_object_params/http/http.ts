@@ -167,9 +167,12 @@ export class ResponseContext {
             return result;
         }
 
-        const parameters = this.headers[headerName].split(";");
+        const parameters = this.headers[headerName]!.split(";");
         for (const parameter of parameters) {
             let [key, value] = parameter.split("=", 2);
+            if (!key) {
+                continue;
+            }
             key = key.toLowerCase().trim();
             if (value === undefined) {
                 result[""] = key;

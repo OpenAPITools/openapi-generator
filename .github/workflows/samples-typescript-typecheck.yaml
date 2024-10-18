@@ -1,0 +1,26 @@
+name: TypeScript clients type checks
+
+on:
+  pull_request:
+    paths:
+      - samples/**
+      - bin/ts-typecheck-all.sh
+      - .github/workflows/samples-typescript-typecheck.yaml
+jobs:
+  build:
+    name: Typecheck TypeScript samples
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version:
+          - 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Run type checker
+        run: ./bin/ts-typecheck-all.sh
