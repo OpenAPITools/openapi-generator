@@ -18,7 +18,12 @@ use super::{Error, configuration};
 pub trait {{{classname}}}: Send + Sync {
 {{#operations}}
 {{#operation}}
+{{#vendorExtensions.x-group-parameters}}
+    async fn {{{operationId}}}(&self, {{#allParams}}{{#-first}} params: {{{operationIdCamelCase}}}Params {{/-first}}{{/allParams}}) -> Result<{{#supportMultipleResponses}}ResponseContent<{{{operationIdCamelCase}}}Success>{{/supportMultipleResponses}}{{^supportMultipleResponses}}{{^returnType}}(){{/returnType}}{{{returnType}}}{{/supportMultipleResponses}}, Error<{{{operationIdCamelCase}}}Error>>;
+{{/vendorExtensions.x-group-parameters}}
+{{^vendorExtensions.x-group-parameters}}
     async fn {{{operationId}}}<{{#allParams}}'{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}>(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}{{#isArray}}Vec<{{/isArray}}{{^isUuid}}&'{{{paramName}}} str{{/isUuid}}{{#isArray}}>{{/isArray}}{{/isString}}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}&str{{#isArray}}>{{/isArray}}{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> Result<{{#supportMultipleResponses}}ResponseContent<{{{operationIdCamelCase}}}Success>{{/supportMultipleResponses}}{{^supportMultipleResponses}}{{^returnType}}(){{/returnType}}{{{returnType}}}{{/supportMultipleResponses}}, Error<{{{operationIdCamelCase}}}Error>>;
+{{/vendorExtensions.x-group-parameters}}
 {{/operation}}
 {{/operations}}
 }
@@ -33,6 +38,32 @@ impl {{classname}}Client {
     }
 }
 
+
+{{#operations}}
+{{#operation}}
+{{#vendorExtensions.x-group-parameters}}
+{{#allParams}}
+{{#-first}}
+/// struct for passing parameters to the method [`{{operationId}}`]
+#[derive(Clone, Debug)]
+{{#useBonBuilder}}
+#[cfg_attr(feature = "bon", derive(::bon::Builder))]
+{{/useBonBuilder}}
+pub struct {{{operationIdCamelCase}}}Params {
+{{/-first}}
+    {{#description}}
+    /// {{{.}}}
+    {{/description}}
+    pub {{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^isUuid}}{{#isString}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isString}}{{/isUuid}}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}},{{/-last}}
+{{#-last}}
+}
+
+{{/-last}}
+{{/allParams}}
+{{/vendorExtensions.x-group-parameters}}
+{{/operation}}
+{{/operations}}
+
 #[async_trait]
 impl {{classname}} for {{classname}}Client {
     {{#operations}}
@@ -43,7 +74,20 @@ impl {{classname}} for {{classname}}Client {
     {{#notes}}
     /// {{{.}}}
     {{/notes}}
+    {{#vendorExtensions.x-group-parameters}}
+    async fn {{{operationId}}}(&self, {{#allParams}}{{#-first}} params: {{{operationIdCamelCase}}}Params {{/-first}}{{/allParams}}) -> Result<{{#supportMultipleResponses}}ResponseContent<{{{operationIdCamelCase}}}Success>{{/supportMultipleResponses}}{{^supportMultipleResponses}}{{^returnType}}(){{/returnType}}{{{returnType}}}{{/supportMultipleResponses}}, Error<{{{operationIdCamelCase}}}Error>> {
+        {{#allParams}}{{#-first}}
+        let {{{operationIdCamelCase}}}Params {
+            {{#allParams}}
+            {{{paramName}}},
+            {{/allParams}}
+        } = params;
+        {{/-first}}{{/allParams}}
+
+    {{/vendorExtensions.x-group-parameters}}
+    {{^vendorExtensions.x-group-parameters}}
     async fn {{{operationId}}}<{{#allParams}}'{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}>(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}{{#isArray}}Vec<{{/isArray}}{{^isUuid}}&'{{{paramName}}} str{{/isUuid}}{{#isArray}}>{{/isArray}}{{/isString}}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}&str{{#isArray}}>{{/isArray}}{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> Result<{{#supportMultipleResponses}}ResponseContent<{{{operationIdCamelCase}}}Success>{{/supportMultipleResponses}}{{^supportMultipleResponses}}{{^returnType}}(){{/returnType}}{{{returnType}}}{{/supportMultipleResponses}}, Error<{{{operationIdCamelCase}}}Error>> {
+    {{/vendorExtensions.x-group-parameters}}
         let local_var_configuration = &self.configuration;
 
         let local_var_client = &local_var_configuration.client;
@@ -312,29 +356,6 @@ impl {{classname}} for {{classname}}Client {
     {{/operation}}
     {{/operations}}
 }
-
-
-{{#operations}}
-{{#operation}}
-{{#vendorExtensions.x-group-parameters}}
-{{#allParams}}
-{{#-first}}
-/// struct for passing parameters to the method [`{{operationId}}`]
-#[derive(Clone, Debug)]
-pub struct {{{operationIdCamelCase}}}Params {
-{{/-first}}
-    {{#description}}
-    /// {{{.}}}
-    {{/description}}
-    pub {{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^isUuid}}{{#isString}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isString}}{{/isUuid}}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}},{{/-last}}
-{{#-last}}
-}
-
-{{/-last}}
-{{/allParams}}
-{{/vendorExtensions.x-group-parameters}}
-{{/operation}}
-{{/operations}}
 
 {{#supportMultipleResponses}}
 {{#operations}}
