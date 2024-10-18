@@ -51,7 +51,7 @@ public interface DefaultApi {
     @Operation(
         operationId = "get",
         responses = {
-            @ApiResponse(responseCode = "200", description = "OK")
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content)
         }
     )
     @RequestMapping(
@@ -79,7 +79,7 @@ public interface DefaultApi {
         operationId = "updatePetWithForm",
         description = "update with form data",
         responses = {
-            @ApiResponse(responseCode = "405", description = "Invalid input")
+            @ApiResponse(responseCode = "405", description = "Invalid input", content = @Content)
         }
     )
     @RequestMapping(
