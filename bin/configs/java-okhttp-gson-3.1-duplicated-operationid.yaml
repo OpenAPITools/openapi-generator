@@ -1,0 +1,12 @@
+generatorName: java
+outputDir: samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid
+library: okhttp-gson
+inputSpec: modules/openapi-generator/src/test/resources/3_1/java/duplicated_operationid.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+validateSpec: false
+additionalProperties:
+  artifactId: petstore-okhttp-gson-31-do
+  hideGenerationTimestamp: "true"
+  disallowAdditionalPropertiesIfNotPresent: false
+openapiNormalizer:
+  FIX_DUPLICATED_OPERATIONID: true
