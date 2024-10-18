@@ -11,12 +11,19 @@
      "noUnusedParameters": false,            /* Report errors on unused parameters. */ // TODO: set to true again
      "noImplicitReturns": true,             /* Report error when not all code paths in function return a value. */
      "noFallthroughCasesInSwitch": true,    /* Report errors for fallthrough cases in switch statement. */
+     "noImplicitOverride": true,
+     "noPropertyAccessFromIndexSignature": true,
+     "noUncheckedIndexedAccess": true,
 
     "removeComments": true,
     "sourceMap": true,
     "outDir": "./dist",
     "noLib": false,
-    "lib": [ "es6" ],
+    "lib": [
+      "es6"
+      ,"ES2017.Object"
+      ,"ES2021.String"
+    ],
   },
   "exclude": [
     "dist",

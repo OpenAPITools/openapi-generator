@@ -338,6 +338,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         typeMapping.put("Array", "Array");
         typeMapping.put("array", "Array");
         typeMapping.put("boolean", "boolean");
+        typeMapping.put("decimal", "string");
         typeMapping.put("string", "string");
         typeMapping.put("int", "number");
         typeMapping.put("float", "number");
@@ -742,6 +743,11 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     @Override
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isBooleanSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+            return UNDEFINED_VALUE;
+        } else if (ModelUtils.isDecimalSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }

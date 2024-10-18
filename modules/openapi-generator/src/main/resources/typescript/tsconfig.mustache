@@ -17,18 +17,25 @@
      "noUnusedParameters": false,            /* Report errors on unused parameters. */ // TODO: set to true again
      "noImplicitReturns": true,             /* Report error when not all code paths in function return a value. */
      "noFallthroughCasesInSwitch": true,    /* Report errors for fallthrough cases in switch statement. */
+     "noImplicitOverride": true,
+     "noPropertyAccessFromIndexSignature": true,
+     "noUncheckedIndexedAccess": true,
 
     "removeComments": true,
     "sourceMap": true,
     "outDir": "./dist",
     "noLib": false,
     {{#platforms}}
+    "lib": [
+      "es6"
+      ,"ES2017.Object"
+      ,"ES2021.String"
     {{#node}}
-    "lib": [ "es6" ],
     {{/node}}
     {{#browser}}
-    "lib": [ "es6", "dom" ],
+      ,"dom"
     {{/browser}}
+    ],
     {{/platforms}}
     {{#useInversify}}
     "experimentalDecorators": true,
