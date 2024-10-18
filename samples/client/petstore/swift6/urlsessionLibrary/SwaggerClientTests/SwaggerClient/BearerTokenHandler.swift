@@ -16,7 +16,7 @@ public class BearerOpenAPIInterceptor: OpenAPIInterceptor {
 
         guard requestBuilder.requiresAuthentication else {
             // no authentication required
-            completion(.success(newUrlRequest))
+            completion(.success(urlRequest))
             return
         }
 
