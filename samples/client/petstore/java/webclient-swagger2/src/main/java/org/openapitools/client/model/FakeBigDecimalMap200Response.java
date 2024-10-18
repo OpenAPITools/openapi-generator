@@ -108,6 +108,7 @@ public class FakeBigDecimalMap200Response {
     this.someMap = someMap;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
