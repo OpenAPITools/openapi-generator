@@ -49,12 +49,13 @@ import org.openapitools.client.JSON;
 
 public class ChildSchema extends Parent {
   public static final String JSON_PROPERTY_PROP1 = "prop1";
+  @javax.annotation.Nullable
   private String prop1;
 
   public ChildSchema() { 
   }
 
-  public ChildSchema prop1(String prop1) {
+  public ChildSchema prop1(@javax.annotation.Nullable String prop1) {
     this.prop1 = prop1;
     return this;
   }
@@ -74,7 +75,7 @@ public class ChildSchema extends Parent {
 
   @JsonProperty(JSON_PROPERTY_PROP1)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setProp1(String prop1) {
+  public void setProp1(@javax.annotation.Nullable String prop1) {
     this.prop1 = prop1;
   }
 

@@ -50,12 +50,13 @@ import org.openapitools.client.JSON;
 
 public class GrandparentAnimal {
   public static final String JSON_PROPERTY_PET_TYPE = "pet_type";
+  @jakarta.annotation.Nonnull
   private String petType;
 
   public GrandparentAnimal() { 
   }
 
-  public GrandparentAnimal petType(String petType) {
+  public GrandparentAnimal petType(@jakarta.annotation.Nonnull String petType) {
     this.petType = petType;
     return this;
   }
@@ -77,7 +78,7 @@ public class GrandparentAnimal {
 
   @JsonProperty(JSON_PROPERTY_PET_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setPetType(String petType) {
+  public void setPetType(@jakarta.annotation.Nonnull String petType) {
     this.petType = petType;
   }
 

@@ -41,12 +41,13 @@ import io.github.threetenjaxb.core.*;
 public class ModelFile {
   public static final String JSON_PROPERTY_SOURCE_U_R_I = "sourceURI";
   @XmlElement(name = "sourceURI")
+  @javax.annotation.Nullable
   private String sourceURI;
 
   public ModelFile() {
   }
 
-  public ModelFile sourceURI(String sourceURI) {
+  public ModelFile sourceURI(@javax.annotation.Nullable String sourceURI) {
     
     this.sourceURI = sourceURI;
     return this;
@@ -69,7 +70,7 @@ public class ModelFile {
   @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "sourceURI")
-  public void setSourceURI(String sourceURI) {
+  public void setSourceURI(@javax.annotation.Nullable String sourceURI) {
     this.sourceURI = sourceURI;
   }
 

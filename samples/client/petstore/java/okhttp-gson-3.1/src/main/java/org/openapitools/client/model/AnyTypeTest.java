@@ -55,20 +55,23 @@ import org.openapitools.client.JSON;
 public class AnyTypeTest {
   public static final String SERIALIZED_NAME_ANY_TYPE_PROPERTY = "any_type_property";
   @SerializedName(SERIALIZED_NAME_ANY_TYPE_PROPERTY)
+  @javax.annotation.Nullable
   private Object anyTypeProperty = null;
 
   public static final String SERIALIZED_NAME_ARRAY_PROP = "array_prop";
   @SerializedName(SERIALIZED_NAME_ARRAY_PROP)
+  @javax.annotation.Nullable
   private List<String> arrayProp = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_REF_ARRAY_PREFIX_ITEMS = "ref_array_prefix_items";
   @SerializedName(SERIALIZED_NAME_REF_ARRAY_PREFIX_ITEMS)
+  @javax.annotation.Nullable
   private List<Object> refArrayPrefixItems = new ArrayList<>();
 
   public AnyTypeTest() {
   }
 
-  public AnyTypeTest anyTypeProperty(Object anyTypeProperty) {
+  public AnyTypeTest anyTypeProperty(@javax.annotation.Nullable Object anyTypeProperty) {
     this.anyTypeProperty = anyTypeProperty;
     return this;
   }
@@ -82,12 +85,12 @@ public class AnyTypeTest {
     return anyTypeProperty;
   }
 
-  public void setAnyTypeProperty(Object anyTypeProperty) {
+  public void setAnyTypeProperty(@javax.annotation.Nullable Object anyTypeProperty) {
     this.anyTypeProperty = anyTypeProperty;
   }
 
 
-  public AnyTypeTest arrayProp(List<String> arrayProp) {
+  public AnyTypeTest arrayProp(@javax.annotation.Nullable List<String> arrayProp) {
     this.arrayProp = arrayProp;
     return this;
   }
@@ -109,12 +112,12 @@ public class AnyTypeTest {
     return arrayProp;
   }
 
-  public void setArrayProp(List<String> arrayProp) {
+  public void setArrayProp(@javax.annotation.Nullable List<String> arrayProp) {
     this.arrayProp = arrayProp;
   }
 
 
-  public AnyTypeTest refArrayPrefixItems(List<Object> refArrayPrefixItems) {
+  public AnyTypeTest refArrayPrefixItems(@javax.annotation.Nullable List<Object> refArrayPrefixItems) {
     this.refArrayPrefixItems = refArrayPrefixItems;
     return this;
   }
@@ -136,7 +139,7 @@ public class AnyTypeTest {
     return refArrayPrefixItems;
   }
 
-  public void setRefArrayPrefixItems(List<Object> refArrayPrefixItems) {
+  public void setRefArrayPrefixItems(@javax.annotation.Nullable List<Object> refArrayPrefixItems) {
     this.refArrayPrefixItems = refArrayPrefixItems;
   }
 

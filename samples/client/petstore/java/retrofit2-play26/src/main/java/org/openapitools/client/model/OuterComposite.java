@@ -37,18 +37,21 @@ import jakarta.validation.Valid;
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class OuterComposite {
   public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
+  @jakarta.annotation.Nullable
   private BigDecimal myNumber;
 
   public static final String JSON_PROPERTY_MY_STRING = "my_string";
+  @jakarta.annotation.Nullable
   private String myString;
 
   public static final String JSON_PROPERTY_MY_BOOLEAN = "my_boolean";
+  @jakarta.annotation.Nullable
   private Boolean myBoolean;
 
   public OuterComposite() {
   }
 
-  public OuterComposite myNumber(BigDecimal myNumber) {
+  public OuterComposite myNumber(@jakarta.annotation.Nullable BigDecimal myNumber) {
     
     this.myNumber = myNumber;
     return this;
@@ -71,11 +74,11 @@ public class OuterComposite {
 
   @JsonProperty(JSON_PROPERTY_MY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMyNumber(BigDecimal myNumber) {
+  public void setMyNumber(@jakarta.annotation.Nullable BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
 
-  public OuterComposite myString(String myString) {
+  public OuterComposite myString(@jakarta.annotation.Nullable String myString) {
     
     this.myString = myString;
     return this;
@@ -97,11 +100,11 @@ public class OuterComposite {
 
   @JsonProperty(JSON_PROPERTY_MY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMyString(String myString) {
+  public void setMyString(@jakarta.annotation.Nullable String myString) {
     this.myString = myString;
   }
 
-  public OuterComposite myBoolean(Boolean myBoolean) {
+  public OuterComposite myBoolean(@jakarta.annotation.Nullable Boolean myBoolean) {
     
     this.myBoolean = myBoolean;
     return this;
@@ -123,7 +126,7 @@ public class OuterComposite {
 
   @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMyBoolean(Boolean myBoolean) {
+  public void setMyBoolean(@jakarta.annotation.Nullable Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
 

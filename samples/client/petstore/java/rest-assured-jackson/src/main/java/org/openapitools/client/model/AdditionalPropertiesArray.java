@@ -38,13 +38,14 @@ import org.hibernate.validator.constraints.*;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class AdditionalPropertiesArray extends HashMap<String, List> {
   public static final String JSON_PROPERTY_NAME = "name";
+  @javax.annotation.Nullable
   private String name;
 
   public AdditionalPropertiesArray() {
 
   }
 
-  public AdditionalPropertiesArray name(String name) {
+  public AdditionalPropertiesArray name(@javax.annotation.Nullable String name) {
     
     this.name = name;
     return this;
@@ -66,7 +67,7 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
 
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
 

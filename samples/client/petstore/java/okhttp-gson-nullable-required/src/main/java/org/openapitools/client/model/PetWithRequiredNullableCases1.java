@@ -57,22 +57,27 @@ import org.openapitools.client.JSON;
 public class PetWithRequiredNullableCases1 {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
+  @javax.annotation.Nullable
   private Long id;
 
   public static final String SERIALIZED_NAME_CATEGORY = "category";
   @SerializedName(SERIALIZED_NAME_CATEGORY)
+  @javax.annotation.Nullable
   private Category category;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nullable
   private String name;
 
   public static final String SERIALIZED_NAME_PHOTO_URLS = "photoUrls";
   @SerializedName(SERIALIZED_NAME_PHOTO_URLS)
+  @javax.annotation.Nullable
   private List<String> photoUrls;
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
+  @javax.annotation.Nullable
   private List<Tag> tags;
 
   /**
@@ -132,12 +137,13 @@ public class PetWithRequiredNullableCases1 {
   public static final String SERIALIZED_NAME_STATUS = "status";
   @Deprecated
   @SerializedName(SERIALIZED_NAME_STATUS)
+  @javax.annotation.Nullable
   private StatusEnum status;
 
   public PetWithRequiredNullableCases1() {
   }
 
-  public PetWithRequiredNullableCases1 id(Long id) {
+  public PetWithRequiredNullableCases1 id(@javax.annotation.Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -151,12 +157,12 @@ public class PetWithRequiredNullableCases1 {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
 
-  public PetWithRequiredNullableCases1 category(Category category) {
+  public PetWithRequiredNullableCases1 category(@javax.annotation.Nullable Category category) {
     this.category = category;
     return this;
   }
@@ -170,12 +176,12 @@ public class PetWithRequiredNullableCases1 {
     return category;
   }
 
-  public void setCategory(Category category) {
+  public void setCategory(@javax.annotation.Nullable Category category) {
     this.category = category;
   }
 
 
-  public PetWithRequiredNullableCases1 name(String name) {
+  public PetWithRequiredNullableCases1 name(@javax.annotation.Nullable String name) {
     this.name = name;
     return this;
   }
@@ -189,12 +195,12 @@ public class PetWithRequiredNullableCases1 {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
 
 
-  public PetWithRequiredNullableCases1 photoUrls(List<String> photoUrls) {
+  public PetWithRequiredNullableCases1 photoUrls(@javax.annotation.Nullable List<String> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
@@ -216,12 +222,12 @@ public class PetWithRequiredNullableCases1 {
     return photoUrls;
   }
 
-  public void setPhotoUrls(List<String> photoUrls) {
+  public void setPhotoUrls(@javax.annotation.Nullable List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
 
-  public PetWithRequiredNullableCases1 tags(List<Tag> tags) {
+  public PetWithRequiredNullableCases1 tags(@javax.annotation.Nullable List<Tag> tags) {
     this.tags = tags;
     return this;
   }
@@ -243,13 +249,13 @@ public class PetWithRequiredNullableCases1 {
     return tags;
   }
 
-  public void setTags(List<Tag> tags) {
+  public void setTags(@javax.annotation.Nullable List<Tag> tags) {
     this.tags = tags;
   }
 
 
   @Deprecated
-  public PetWithRequiredNullableCases1 status(StatusEnum status) {
+  public PetWithRequiredNullableCases1 status(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
     return this;
   }
@@ -266,7 +272,7 @@ public class PetWithRequiredNullableCases1 {
   }
 
   @Deprecated
-  public void setStatus(StatusEnum status) {
+  public void setStatus(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
   }
 

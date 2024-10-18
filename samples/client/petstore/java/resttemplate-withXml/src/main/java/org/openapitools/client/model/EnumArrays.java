@@ -83,6 +83,7 @@ public class EnumArrays {
 
   public static final String JSON_PROPERTY_JUST_SYMBOL = "just_symbol";
   @XmlElement(name = "just_symbol")
+  @javax.annotation.Nullable
   private JustSymbolEnum justSymbol;
 
   /**
@@ -126,12 +127,13 @@ public class EnumArrays {
 
   public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
   @XmlElement(name = "array_enum")
+  @javax.annotation.Nullable
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays() {
   }
 
-  public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
+  public EnumArrays justSymbol(@javax.annotation.Nullable JustSymbolEnum justSymbol) {
     
     this.justSymbol = justSymbol;
     return this;
@@ -154,11 +156,11 @@ public class EnumArrays {
   @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "just_symbol")
-  public void setJustSymbol(JustSymbolEnum justSymbol) {
+  public void setJustSymbol(@javax.annotation.Nullable JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
   }
 
-  public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
+  public EnumArrays arrayEnum(@javax.annotation.Nullable List<ArrayEnumEnum> arrayEnum) {
     
     this.arrayEnum = arrayEnum;
     return this;
@@ -191,7 +193,7 @@ public class EnumArrays {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "array_enum")
   @JacksonXmlElementWrapper(useWrapping = false)
-  public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
+  public void setArrayEnum(@javax.annotation.Nullable List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
 

@@ -53,12 +53,13 @@ import org.openapitools.client.JSON;
 public class NumberOnly {
   public static final String SERIALIZED_NAME_JUST_NUMBER = "JustNumber";
   @SerializedName(SERIALIZED_NAME_JUST_NUMBER)
+  @javax.annotation.Nullable
   private BigDecimal justNumber;
 
   public NumberOnly() {
   }
 
-  public NumberOnly justNumber(BigDecimal justNumber) {
+  public NumberOnly justNumber(@javax.annotation.Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;
     return this;
   }
@@ -72,7 +73,7 @@ public class NumberOnly {
     return justNumber;
   }
 
-  public void setJustNumber(BigDecimal justNumber) {
+  public void setJustNumber(@javax.annotation.Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
 

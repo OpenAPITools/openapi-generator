@@ -41,7 +41,6 @@ open class PetAPI {
        - type: apiKey api_key_query (QUERY)
        - name: api_key_query
      - parameter body: (body) Pet object that needs to be added to the store 
-     
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
@@ -90,8 +89,7 @@ open class PetAPI {
        - type: oauth2
        - name: petstore_auth
      - parameter petId: (path) Pet id to delete 
-          - parameter apiKey: (header)  (optional)
-     
+     - parameter apiKey: (header)  (optional)
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
@@ -152,7 +150,6 @@ open class PetAPI {
        - type: oauth2
        - name: petstore_auth
      - parameter status: (query) Status values that need to be considered for filter 
-     
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<[Pet]> 
      */
@@ -205,7 +202,6 @@ open class PetAPI {
        - type: oauth2
        - name: petstore_auth
      - parameter tags: (query) Tags to filter by 
-     
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<[Pet]> 
      */
@@ -258,7 +254,6 @@ open class PetAPI {
        - type: apiKey api_key (HEADER)
        - name: api_key
      - parameter petId: (path) ID of pet to return 
-     
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Pet> 
      */
@@ -309,7 +304,6 @@ open class PetAPI {
        - type: oauth2
        - name: petstore_auth
      - parameter body: (body) Pet object that needs to be added to the store 
-     
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
@@ -359,9 +353,8 @@ open class PetAPI {
        - type: oauth2
        - name: petstore_auth
      - parameter petId: (path) ID of pet that needs to be updated 
-          - parameter name: (form) Updated name of the pet (optional)
-          - parameter status: (form) Updated status of the pet (optional)
-     
+     - parameter name: (form) Updated name of the pet (optional)
+     - parameter status: (form) Updated status of the pet (optional)
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
@@ -420,9 +413,8 @@ open class PetAPI {
        - type: oauth2
        - name: petstore_auth
      - parameter petId: (path) ID of pet to update 
-          - parameter additionalMetadata: (form) Additional data to pass to server (optional)
-          - parameter file: (form) file to upload (optional)
-     
+     - parameter additionalMetadata: (form) Additional data to pass to server (optional)
+     - parameter file: (form) file to upload (optional)
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<ApiResponse> 
      */
@@ -481,9 +473,8 @@ open class PetAPI {
        - type: oauth2
        - name: petstore_auth
      - parameter petId: (path) ID of pet to update 
-          - parameter requiredFile: (form) file to upload 
-          - parameter additionalMetadata: (form) Additional data to pass to server (optional)
-     
+     - parameter requiredFile: (form) file to upload 
+     - parameter additionalMetadata: (form) Additional data to pass to server (optional)
      - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
      - returns: RequestBuilder<ApiResponse> 
      */

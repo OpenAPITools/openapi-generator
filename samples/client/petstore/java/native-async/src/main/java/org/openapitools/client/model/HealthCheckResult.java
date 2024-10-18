@@ -47,7 +47,7 @@ public class HealthCheckResult {
   public HealthCheckResult() { 
   }
 
-  public HealthCheckResult nullableMessage(String nullableMessage) {
+  public HealthCheckResult nullableMessage(@javax.annotation.Nullable String nullableMessage) {
     this.nullableMessage = JsonNullable.<String>of(nullableMessage);
     return this;
   }
@@ -74,7 +74,7 @@ public class HealthCheckResult {
     this.nullableMessage = nullableMessage;
   }
 
-  public void setNullableMessage(String nullableMessage) {
+  public void setNullableMessage(@javax.annotation.Nullable String nullableMessage) {
     this.nullableMessage = JsonNullable.<String>of(nullableMessage);
   }
 
