@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - samples/**
+      - bin/ts-typecheck-all.sh
       - .github/workflows/samples-typescript-typecheck.yaml
 jobs:
   build:
