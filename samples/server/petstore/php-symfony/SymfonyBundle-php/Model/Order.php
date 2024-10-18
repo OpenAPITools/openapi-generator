@@ -84,7 +84,7 @@ class Order
      * @SerializedName("status")
      * @Type("string")
     */
-    #[Assert\Choice(["placed", "approved", "delivered"])]
+    #[Assert\Choice(['placed', 'approved', 'delivered'])]
     #[Assert\Type("string")]
     protected ?string $status = null;
 
