@@ -86,7 +86,7 @@ export class StoreApi {
         (this.authentications as any)[StoreApiApiKeys[key]].apiKey = value;
     }
 
-    set accessToken(token: string) {
+    set accessTokenpetstore_auth(token: string) {
         this.authentications.petstore_auth.accessToken = token;
     }
 
