@@ -21,16 +21,28 @@ case class {{classname}}Data(
 /* {{{description}}} */
   {{/description}}
   {{name}}: {{#isEnum}}{{classname}}.{{datatypeWithEnum}}{{/isEnum}}{{^isEnum}}{{{vendorExtensions.x-datatype-data}}}{{/isEnum}}{{^required}} = {{{vendorExtensions.x-defaultValue-data}}} {{/required}}{{^-last}},{{/-last}}
+  {{/vars}}
+  {{#isAdditionalPropertiesTrue}}, additionalProperties : ujson.Value =  ujson.Null{{/isAdditionalPropertiesTrue}}
 
-  {{/vars}}) {
+) derives RW {
 
-  def asJson: String = write(this)
+  def asJsonString: String = asJson.toString()
+
+  def asJson : ujson.Value = {
+    val jason = writeJs(this)
+    {{#isAdditionalPropertiesTrue}}
+    jason.obj.remove("additionalProperties")
+    jason.mergeWith(additionalProperties)
+    {{/isAdditionalPropertiesTrue}}
+    {{^isAdditionalPropertiesTrue}}
+    jason
+    {{/isAdditionalPropertiesTrue}}
+  }
 
   def validationErrors(path : Seq[Field], failFast : Boolean) : Seq[ValidationError] = {
     val errors = scala.collection.mutable.ListBuffer[ValidationError]()
     {{#vars}}
-        // ==================
-        // {{name}}
+        // ================== {{name}} validation ==================
         {{#pattern}}
         // validate against pattern '{{{pattern}}}'
         if (errors.isEmpty || !failFast) {
@@ -39,7 +51,6 @@ case class {{classname}}Data(
               errors += ValidationError(path :+ {{classname}}.Fields.{{name}}, s"value '${{name}}' doesn't match pattern $regex")
         }
         {{/pattern}}
-
         {{#minimum}}
         // validate against {{#exclusiveMinimum}}exclusive {{/exclusiveMinimum}}minimum {{minimum}}
         if (errors.isEmpty || !failFast) {
@@ -47,7 +58,6 @@ case class {{classname}}Data(
             errors += ValidationError(path :+ {{classname}}.Fields.{{name}}, s"value '${{name}}' is not greater than the {{#exclusiveMinimum}}exclusive {{/exclusiveMinimum}}minimum value {{minimum}}")
         }
         {{/minimum}}
-
         {{#maximum}}
         // validate against {{#exclusiveMaximum}}exclusive {{/exclusiveMaximum}}maximum {{maximum}}
         if (errors.isEmpty || !failFast) {
@@ -55,7 +65,6 @@ case class {{classname}}Data(
             errors += ValidationError(path :+ {{classname}}.Fields.{{name}}, s"value '${{name}}' is not greater than the {{#exclusiveMaximum}}exclusive {{/exclusiveMaximum}}maximum value {{maximum}}")
         }
         {{/maximum}}
-
         {{#minLength}}
         // validate min length {{minLength}}
         if (errors.isEmpty || !failFast)  {
@@ -65,7 +74,6 @@ case class {{classname}}Data(
             }
         }
         {{/minLength}}
-
         {{#maxLength}}
         // validate max length {{maxLength}}
         if (errors.isEmpty || !failFast)  {
@@ -75,7 +83,6 @@ case class {{classname}}Data(
             }
         }
         {{/maxLength}}
-
         {{#isEmail}}
         // validate {{name}} is a valid email address
         if (errors.isEmpty || !failFast) {
@@ -86,7 +93,6 @@ case class {{classname}}Data(
             }
         }
         {{/isEmail}}
-
         {{#required}}{{^isPrimitiveType}}
         if (errors.isEmpty || !failFast) {
             if ({{name}} == null) {
@@ -94,7 +100,6 @@ case class {{classname}}Data(
             }
         }
         {{/isPrimitiveType}}{{/required}}
-
         {{#uniqueItems}}
           // validate {{name}} has unique items
           if (errors.isEmpty || !failFast) {
@@ -111,7 +116,6 @@ case class {{classname}}Data(
               }
           }
         {{/uniqueItems}}
-
         {{#multipleOf}}
         if (errors.isEmpty || !failFast) {
           // validate {{name}} multiple of {{multipleOf}}
@@ -123,7 +127,6 @@ case class {{classname}}Data(
           }
         }
         {{/multipleOf}}
-
         {{#minItems}}
         // validate min items {{minItems}}
         if (errors.isEmpty || !failFast) {
@@ -133,7 +136,6 @@ case class {{classname}}Data(
             }
         }
         {{/minItems}}
-
         {{#maxItems}}
         // validate min items {{maxItems}}
         if (errors.isEmpty || !failFast) {
@@ -143,15 +145,8 @@ case class {{classname}}Data(
             }
         }
         {{/maxItems}}
-
-        {{#minProperties}}
-           TODO - minProperties
-        {{/minProperties}}
-
-        {{#maxProperties}}
-           TODO - maxProperties
-        {{/maxProperties}}
-
+        {{#minProperties}} TODO - minProperties {{/minProperties}}
+        {{#maxProperties}} TODO - maxProperties {{/maxProperties}}
         {{#items}}{{#isModel}}
         if (errors.isEmpty || !failFast) {
             if ({{name}} != null) {
@@ -192,19 +187,35 @@ case class {{classname}}Data(
         {{#vendorExtensions.x-wrap-in-optional}}){{/vendorExtensions.x-wrap-in-optional}}
         {{#vendorExtensions.x-map-asModel}}.map(_.asModel){{/vendorExtensions.x-map-asModel}}{{^-last}},{{/-last}}
     {{/vars}}
+    {{#isAdditionalPropertiesTrue}}, additionalProperties{{/isAdditionalPropertiesTrue}}
     )
   }
 }
 
 object {{classname}}Data {
 
-  given readWriter : RW[{{classname}}Data] = macroRW
+  def fromJson(jason : ujson.Value) : {{classname}}Data = try {
+        val data = read[{{classname}}Data](jason)
+        {{^isAdditionalPropertiesTrue}}
+        data
+        {{/isAdditionalPropertiesTrue}}
+        {{#isAdditionalPropertiesTrue}}
+        val obj = jason.obj
+        {{classname}}.Fields.values.foreach(v => obj.value.subtractOne(v.fieldName))
+        data.copy(additionalProperties = obj)
+        {{/isAdditionalPropertiesTrue}}
+    } catch {
+      case NonFatal(e) => sys.error(s"Error creating {{classname}}Data from json '$jason': $e")
+  }
 
-  def fromJsonString(jason : String) : {{classname}}Data = try {
-        read[{{classname}}Data](jason)
-     } catch {
+  def fromJsonString(jason : String) : {{classname}}Data = {
+        val parsed = try {
+           read[ujson.Value](jason)
+        } catch {
           case NonFatal(e) => sys.error(s"Error parsing json '$jason': $e")
-     }
+        }
+        fromJson(parsed)
+  }
 
   def manyFromJsonString(jason : String) : Seq[{{classname}}Data] = try {
         read[List[{{classname}}Data]](jason)

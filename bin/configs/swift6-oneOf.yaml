@@ -4,6 +4,8 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/oneOf.yaml
 templateDir: modules/openapi-generator/src/main/resources/swift6
 generateAliasAsModel: true
 additionalProperties:
+  responseAs: ObjcBlock
+  useSPMFileStructure: false
   podAuthors: ""
   podSummary: PetstoreClient
   projectName: PetstoreClient

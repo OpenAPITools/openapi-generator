@@ -19,7 +19,6 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/Flight-School/AnyCodable", .upToNextMajor(from: "0.6.7")),
         .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.9.1")),
         .package(url: "https://github.com/mxcl/PromiseKit", .upToNextMajor(from: "8.1.2")),
         .package(url: "https://github.com/ReactiveX/RxSwift", .upToNextMajor(from: "6.7.1")),
@@ -29,8 +28,8 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "PetstoreClient",
-            dependencies: ["AnyCodable", "Alamofire", "PromiseKit", "RxSwift"],
-            path: "PetstoreClient/Classes"
+            dependencies: ["Alamofire", "PromiseKit", "RxSwift"],
+            path: "Sources/PetstoreClient"
         ),
     ],
     swiftLanguageModes: [.v6]

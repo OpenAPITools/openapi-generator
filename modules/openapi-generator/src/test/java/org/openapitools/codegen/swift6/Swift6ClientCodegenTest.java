@@ -168,8 +168,8 @@ public class Swift6ClientCodegenTest {
         final DefaultCodegen codegen = new Swift6ClientCodegen();
         codegen.setModelNamePrefix("API");
 
-        final String result = codegen.toModelName("AnyCodable");
-        Assert.assertEquals(result, "AnyCodable");
+        final String result = codegen.toModelName("JSONValue");
+        Assert.assertEquals(result, "JSONValue");
     }
 
     @Test(description = "type from languageSpecificPrimitives should not be suffixed", enabled = true)
@@ -177,8 +177,8 @@ public class Swift6ClientCodegenTest {
         final DefaultCodegen codegen = new Swift6ClientCodegen();
         codegen.setModelNameSuffix("API");
 
-        final String result = codegen.toModelName("AnyCodable");
-        Assert.assertEquals(result, "AnyCodable");
+        final String result = codegen.toModelName("JSONValue");
+        Assert.assertEquals(result, "JSONValue");
     }
 
     @Test(description = "Other types should be prefixed", enabled = true)

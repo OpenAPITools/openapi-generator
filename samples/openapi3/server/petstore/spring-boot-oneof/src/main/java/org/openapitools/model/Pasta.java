@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Pasta extends Entity {
 
   private String vendor;
@@ -137,7 +137,7 @@ public class Pasta extends Entity {
     }
 
     protected Builder copyOf(Pasta value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       this.instance.setVendor(value.vendor);
       return this;
     }

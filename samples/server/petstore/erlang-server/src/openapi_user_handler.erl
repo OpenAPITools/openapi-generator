@@ -1,5 +1,40 @@
-%% basic handler
 -module(openapi_user_handler).
+-moduledoc """
+Exposes the following operation IDs:
+
+- `POST` to `/user`, OperationId: `createUser`:
+Create user.
+This can only be done by the logged in user.
+
+- `POST` to `/user/createWithArray`, OperationId: `createUsersWithArrayInput`:
+Creates list of users with given input array.
+
+
+- `POST` to `/user/createWithList`, OperationId: `createUsersWithListInput`:
+Creates list of users with given input array.
+
+
+- `DELETE` to `/user/:username`, OperationId: `deleteUser`:
+Delete user.
+This can only be done by the logged in user.
+
+- `GET` to `/user/:username`, OperationId: `getUserByName`:
+Get user by user name.
+
+
+- `GET` to `/user/login`, OperationId: `loginUser`:
+Logs user into the system.
+
+
+- `GET` to `/user/logout`, OperationId: `logoutUser`:
+Logs out current logged in user session.
+
+
+- `PUT` to `/user/:username`, OperationId: `updateUser`:
+Updated user.
+This can only be done by the logged in user.
+
+""".
 
 -behaviour(cowboy_rest).
 
@@ -17,8 +52,23 @@
 
 -ignore_xref([handle_type_accepted/2, handle_type_provided/2]).
 
+-export_type([class/0, operation_id/0]).
+
+-type class() :: 'user'.
+
+-type operation_id() ::
+    'createUser' %% Create user
+    | 'createUsersWithArrayInput' %% Creates list of users with given input array
+    | 'createUsersWithListInput' %% Creates list of users with given input array
+    | 'deleteUser' %% Delete user
+    | 'getUserByName' %% Get user by user name
+    | 'loginUser' %% Logs user into the system
+    | 'logoutUser' %% Logs out current logged in user session
+    | 'updateUser'. %% Updated user
+
+
 -record(state,
-        {operation_id :: openapi_api:operation_id(),
+        {operation_id :: operation_id(),
          accept_callback :: openapi_logic_handler:accept_callback(),
          provide_callback :: openapi_logic_handler:provide_callback(),
          api_key_handler :: openapi_logic_handler:api_key_callback(),
@@ -42,21 +92,21 @@ init(Req, {Operations, Module}) ->
 
 -spec allowed_methods(cowboy_req:req(), state()) ->
     {[binary()], cowboy_req:req(), state()}.
-allowed_methods(Req, #state{operation_id = 'CreateUser'} = State) ->
+allowed_methods(Req, #state{operation_id = 'createUser'} = State) ->
     {[<<"POST">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'CreateUsersWithArrayInput'} = State) ->
+allowed_methods(Req, #state{operation_id = 'createUsersWithArrayInput'} = State) ->
     {[<<"POST">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'CreateUsersWithListInput'} = State) ->
+allowed_methods(Req, #state{operation_id = 'createUsersWithListInput'} = State) ->
     {[<<"POST">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'DeleteUser'} = State) ->
+allowed_methods(Req, #state{operation_id = 'deleteUser'} = State) ->
     {[<<"DELETE">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'GetUserByName'} = State) ->
+allowed_methods(Req, #state{operation_id = 'getUserByName'} = State) ->
     {[<<"GET">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'LoginUser'} = State) ->
+allowed_methods(Req, #state{operation_id = 'loginUser'} = State) ->
     {[<<"GET">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'LogoutUser'} = State) ->
+allowed_methods(Req, #state{operation_id = 'logoutUser'} = State) ->
     {[<<"GET">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'UpdateUser'} = State) ->
+allowed_methods(Req, #state{operation_id = 'updateUser'} = State) ->
     {[<<"PUT">>], Req, State};
 allowed_methods(Req, State) ->
     {[], Req, State}.
@@ -64,7 +114,7 @@ allowed_methods(Req, State) ->
 -spec is_authorized(cowboy_req:req(), state()) ->
     {true | {false, iodata()}, cowboy_req:req(), state()}.
 is_authorized(Req0,
-              #state{operation_id = 'CreateUser' = OperationID,
+              #state{operation_id = 'createUser' = OperationID,
                      api_key_handler = Handler} = State) ->
     case openapi_auth:authorize_api_key(Handler, OperationID, header, "authorization", Req0) of
         {true, Context, Req} ->
@@ -73,7 +123,7 @@ is_authorized(Req0,
             {{false, AuthHeader}, Req, State}
     end;
 is_authorized(Req0,
-              #state{operation_id = 'CreateUsersWithArrayInput' = OperationID,
+              #state{operation_id = 'createUsersWithArrayInput' = OperationID,
                      api_key_handler = Handler} = State) ->
     case openapi_auth:authorize_api_key(Handler, OperationID, header, "authorization", Req0) of
         {true, Context, Req} ->
@@ -82,7 +132,7 @@ is_authorized(Req0,
             {{false, AuthHeader}, Req, State}
     end;
 is_authorized(Req0,
-              #state{operation_id = 'CreateUsersWithListInput' = OperationID,
+              #state{operation_id = 'createUsersWithListInput' = OperationID,
                      api_key_handler = Handler} = State) ->
     case openapi_auth:authorize_api_key(Handler, OperationID, header, "authorization", Req0) of
         {true, Context, Req} ->
@@ -91,7 +141,7 @@ is_authorized(Req0,
             {{false, AuthHeader}, Req, State}
     end;
 is_authorized(Req0,
-              #state{operation_id = 'DeleteUser' = OperationID,
+              #state{operation_id = 'deleteUser' = OperationID,
                      api_key_handler = Handler} = State) ->
     case openapi_auth:authorize_api_key(Handler, OperationID, header, "authorization", Req0) of
         {true, Context, Req} ->
@@ -100,7 +150,7 @@ is_authorized(Req0,
             {{false, AuthHeader}, Req, State}
     end;
 is_authorized(Req0,
-              #state{operation_id = 'LogoutUser' = OperationID,
+              #state{operation_id = 'logoutUser' = OperationID,
                      api_key_handler = Handler} = State) ->
     case openapi_auth:authorize_api_key(Handler, OperationID, header, "authorization", Req0) of
         {true, Context, Req} ->
@@ -109,7 +159,7 @@ is_authorized(Req0,
             {{false, AuthHeader}, Req, State}
     end;
 is_authorized(Req0,
-              #state{operation_id = 'UpdateUser' = OperationID,
+              #state{operation_id = 'updateUser' = OperationID,
                      api_key_handler = Handler} = State) ->
     case openapi_auth:authorize_api_key(Handler, OperationID, header, "authorization", Req0) of
         {true, Context, Req} ->
@@ -122,27 +172,27 @@ is_authorized(Req, State) ->
 
 -spec content_types_accepted(cowboy_req:req(), state()) ->
     {[{binary(), atom()}], cowboy_req:req(), state()}.
-content_types_accepted(Req, #state{operation_id = 'CreateUser'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'createUser'} = State) ->
     {[
       {<<"application/json">>, handle_type_accepted}
      ], Req, State};
-content_types_accepted(Req, #state{operation_id = 'CreateUsersWithArrayInput'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'createUsersWithArrayInput'} = State) ->
     {[
       {<<"application/json">>, handle_type_accepted}
      ], Req, State};
-content_types_accepted(Req, #state{operation_id = 'CreateUsersWithListInput'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'createUsersWithListInput'} = State) ->
     {[
       {<<"application/json">>, handle_type_accepted}
      ], Req, State};
-content_types_accepted(Req, #state{operation_id = 'DeleteUser'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'deleteUser'} = State) ->
     {[], Req, State};
-content_types_accepted(Req, #state{operation_id = 'GetUserByName'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'getUserByName'} = State) ->
     {[], Req, State};
-content_types_accepted(Req, #state{operation_id = 'LoginUser'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'loginUser'} = State) ->
     {[], Req, State};
-content_types_accepted(Req, #state{operation_id = 'LogoutUser'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'logoutUser'} = State) ->
     {[], Req, State};
-content_types_accepted(Req, #state{operation_id = 'UpdateUser'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'updateUser'} = State) ->
     {[
       {<<"application/json">>, handle_type_accepted}
      ], Req, State};
@@ -151,48 +201,48 @@ content_types_accepted(Req, State) ->
 
 -spec valid_content_headers(cowboy_req:req(), state()) ->
     {boolean(), cowboy_req:req(), state()}.
-valid_content_headers(Req, #state{operation_id = 'CreateUser'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'createUser'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'CreateUsersWithArrayInput'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'createUsersWithArrayInput'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'CreateUsersWithListInput'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'createUsersWithListInput'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'DeleteUser'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'deleteUser'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'GetUserByName'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'getUserByName'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'LoginUser'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'loginUser'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'LogoutUser'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'logoutUser'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'UpdateUser'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'updateUser'} = State) ->
     {true, Req, State};
 valid_content_headers(Req, State) ->
     {false, Req, State}.
 
 -spec content_types_provided(cowboy_req:req(), state()) ->
     {[{binary(), atom()}], cowboy_req:req(), state()}.
-content_types_provided(Req, #state{operation_id = 'CreateUser'} = State) ->
+content_types_provided(Req, #state{operation_id = 'createUser'} = State) ->
     {[], Req, State};
-content_types_provided(Req, #state{operation_id = 'CreateUsersWithArrayInput'} = State) ->
+content_types_provided(Req, #state{operation_id = 'createUsersWithArrayInput'} = State) ->
     {[], Req, State};
-content_types_provided(Req, #state{operation_id = 'CreateUsersWithListInput'} = State) ->
+content_types_provided(Req, #state{operation_id = 'createUsersWithListInput'} = State) ->
     {[], Req, State};
-content_types_provided(Req, #state{operation_id = 'DeleteUser'} = State) ->
+content_types_provided(Req, #state{operation_id = 'deleteUser'} = State) ->
     {[], Req, State};
-content_types_provided(Req, #state{operation_id = 'GetUserByName'} = State) ->
+content_types_provided(Req, #state{operation_id = 'getUserByName'} = State) ->
     {[
       {<<"application/xml">>, handle_type_provided},
       {<<"application/json">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'LoginUser'} = State) ->
+content_types_provided(Req, #state{operation_id = 'loginUser'} = State) ->
     {[
       {<<"application/xml">>, handle_type_provided},
       {<<"application/json">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'LogoutUser'} = State) ->
+content_types_provided(Req, #state{operation_id = 'logoutUser'} = State) ->
     {[], Req, State};
-content_types_provided(Req, #state{operation_id = 'UpdateUser'} = State) ->
+content_types_provided(Req, #state{operation_id = 'updateUser'} = State) ->
     {[], Req, State};
 content_types_provided(Req, State) ->
     {[], Req, State}.
@@ -200,8 +250,8 @@ content_types_provided(Req, State) ->
 -spec delete_resource(cowboy_req:req(), state()) ->
     {boolean(), cowboy_req:req(), state()}.
 delete_resource(Req, State) ->
-    {Res, Req1, State} = handle_type_accepted(Req, State),
-    {true =:= Res, Req1, State}.
+    {Res, Req1, State1} = handle_type_accepted(Req, State),
+    {true =:= Res, Req1, State1}.
 
 -spec handle_type_accepted(cowboy_req:req(), state()) ->
     { openapi_logic_handler:accept_callback_return(), cowboy_req:req(), state()}.

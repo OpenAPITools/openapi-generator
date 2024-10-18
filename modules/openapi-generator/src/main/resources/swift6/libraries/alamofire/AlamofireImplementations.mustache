@@ -7,12 +7,14 @@
 import Foundation
 import Alamofire
 
-class AlamofireRequestBuilderFactory: RequestBuilderFactory {
-    func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} class AlamofireRequestBuilderFactory: RequestBuilderFactory {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init() {}
+
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
         return AlamofireRequestBuilder<T>.self
     }
 
-    func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type {
         return AlamofireDecodableRequestBuilder<T>.self
     }
 }
@@ -26,19 +28,19 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
 }
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class AlamofireRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
-    required {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool) {
-        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication)
+    required {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, openAPIClient: OpenAPIClient = OpenAPIClient.shared) {
+        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication, openAPIClient: openAPIClient)
     }
 
     /**
      May be overridden by a subclass if you want to control the session
      configuration.
      */
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func createAlamofireSession(interceptor: RequestInterceptor? = nil) -> Alamofire.Session {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func createAlamofireSession() -> Alamofire.Session {
         let configuration = URLSessionConfiguration.default
         configuration.httpAdditionalHeaders = buildHeaders()
         return Alamofire.Session(configuration: configuration,
-                                 interceptor: interceptor)
+                                 interceptor: openAPIClient.interceptor)
     }
 
     /**
@@ -84,7 +86,7 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
     }
 
     @discardableResult
-    override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ apiResponseQueue: DispatchQueue = {{projectName}}API.shared.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+    override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         let managerId = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let manager = createAlamofireSession()
@@ -138,7 +140,7 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
 
                 requestTask.set(request: upload)
 
-                self.processRequest(request: upload, managerId, apiResponseQueue, completion)
+                self.processRequest(request: upload, managerId: managerId, completion: completion)
             } else if contentType.hasPrefix("application/x-www-form-urlencoded") {
                 encoding = URLEncoding(destination: .httpBody)
             } else {
@@ -154,14 +156,14 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
             if let onProgressReady = self.onProgressReady {
                 onProgressReady(request.uploadProgress)
             }
-            processRequest(request: request, managerId, apiResponseQueue, completion)
+            processRequest(request: request, managerId: managerId, completion: completion)
             requestTask.set(request: request)
         }
 
         return requestTask
     }
 
-    fileprivate func processRequest(request: DataRequest, _ managerId: String, _ apiResponseQueue: DispatchQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
+    fileprivate func processRequest(request: DataRequest, managerId: String, completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
         if let credential = self.credential {
             request.authenticate(with: credential)
         }
@@ -170,12 +172,12 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
             AlamofireRequestBuilderConfiguration.shared.managerStore[managerId] = nil
         }
 
-        let validatedRequest = request.validate(statusCode: {{projectName}}API.shared.successfulStatusCodeRange)
+        let validatedRequest = request.validate(statusCode: openAPIClient.successfulStatusCodeRange)
 
         switch T.self {
         case is Void.Type:
-            validatedRequest.response(queue: apiResponseQueue,
-                          responseSerializer: {{projectName}}API.shared.dataResponseSerializer,
+            validatedRequest.response(queue: openAPIClient.apiResponseQueue,
+                          responseSerializer: openAPIClient.dataResponseSerializer,
                           completionHandler: { voidResponse in
                 cleanupRequest()
 
@@ -255,7 +257,7 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuilder<T>, @unchecked Sendable {
 
-    override fileprivate func processRequest(request: DataRequest, _ managerId: String, _ apiResponseQueue: DispatchQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
+    override fileprivate func processRequest(request: DataRequest, managerId: String, completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
         if let credential = self.credential {
             request.authenticate(with: credential)
         }
@@ -264,12 +266,12 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
             AlamofireRequestBuilderConfiguration.shared.managerStore[managerId] = nil
         }
 
-        let validatedRequest = request.validate(statusCode: {{projectName}}API.shared.successfulStatusCodeRange)
+        let validatedRequest = request.validate(statusCode: openAPIClient.successfulStatusCodeRange)
 
         switch T.self {
         case is String.Type:
-            validatedRequest.response(queue: apiResponseQueue,
-                          responseSerializer: {{projectName}}API.shared.stringResponseSerializer,
+            validatedRequest.response(queue: openAPIClient.apiResponseQueue,
+                          responseSerializer: openAPIClient.stringResponseSerializer,
                           completionHandler: { stringResponse in
                 cleanupRequest()
 
@@ -282,8 +284,8 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
 
             })
         case is URL.Type:
-            validatedRequest.response(queue: apiResponseQueue,
-                          responseSerializer: {{projectName}}API.shared.dataResponseSerializer,
+            validatedRequest.response(queue: openAPIClient.apiResponseQueue,
+                          responseSerializer: openAPIClient.dataResponseSerializer,
                           completionHandler: { dataResponse in
                 cleanupRequest()
 
@@ -330,8 +332,8 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
                 return
             })
         case is Void.Type:
-            validatedRequest.response(queue: apiResponseQueue,
-                          responseSerializer: {{projectName}}API.shared.dataResponseSerializer,
+            validatedRequest.response(queue: openAPIClient.apiResponseQueue,
+                          responseSerializer: openAPIClient.dataResponseSerializer,
                           completionHandler: { voidResponse in
                 cleanupRequest()
 
@@ -344,8 +346,8 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
 
             })
         case is Data.Type:
-            validatedRequest.response(queue: apiResponseQueue,
-                          responseSerializer: {{projectName}}API.shared.dataResponseSerializer,
+            validatedRequest.response(queue: openAPIClient.apiResponseQueue,
+                          responseSerializer: openAPIClient.dataResponseSerializer,
                           completionHandler: { dataResponse in
                 cleanupRequest()
 
@@ -358,8 +360,8 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
 
             })
         default:
-            validatedRequest.response(queue: apiResponseQueue,
-                          responseSerializer: {{projectName}}API.shared.dataResponseSerializer,
+            validatedRequest.response(queue: openAPIClient.apiResponseQueue,
+                          responseSerializer: openAPIClient.dataResponseSerializer,
                           completionHandler: { dataResponse in
                 cleanupRequest()
 
@@ -382,7 +384,7 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
                     return
                 }
 
-                let decodeResult = CodableHelper.shared.decode(T.self, from: unwrappedData)
+                let decodeResult = self.openAPIClient.codableHelper.decode(T.self, from: unwrappedData)
 
                 switch decodeResult {
                 case let .success(decodableObj):

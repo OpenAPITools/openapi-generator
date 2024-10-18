@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class FooRef extends EntityRef implements FooRefOrValue {
 
   private String foorefPropA;
@@ -147,7 +147,7 @@ public class FooRef extends EntityRef implements FooRefOrValue {
     }
 
     protected Builder copyOf(FooRef value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       this.instance.setFoorefPropA(value.foorefPropA);
       return this;
     }

@@ -6,6 +6,7 @@ generateAliasAsModel: true
 additionalProperties:
   responseAs: Combine
   combineDeferred: false
+  swiftPackagePath: "Sources/CombineLibrary"
   podAuthors: ""
   podSummary: PetstoreClient
   projectName: PetstoreClient

@@ -26,130 +26,59 @@ import upickle.default.*
   */
 case class OrderData(
   id: Long = 0 ,
-
-    petId: Long = 0 ,
-
-    quantity: Int = 0 ,
-
-    shipDate: OffsetDateTime = null ,
-
-  /* Order Status */
+  petId: Long = 0 ,
+  quantity: Int = 0 ,
+  shipDate: OffsetDateTime = null ,
+/* Order Status */
   status: Order.StatusEnum = null ,
+  complete: Boolean = false 
+  
 
-    complete: Boolean = false 
+) derives RW {
 
-  ) {
+  def asJsonString: String = asJson.toString()
 
-  def asJson: String = write(this)
+  def asJson : ujson.Value = {
+    val jason = writeJs(this)
+    jason
+  }
 
   def validationErrors(path : Seq[Field], failFast : Boolean) : Seq[ValidationError] = {
     val errors = scala.collection.mutable.ListBuffer[ValidationError]()
-        // ==================
-        // id
-
-
-
-
-
-
+        // ================== id validation ==================
+        
+        
+        
         
 
-
-
-
-
-
-
+        // ================== petId validation ==================
+        
+        
+        
         
 
-        // ==================
-        // petId
-
-
-
-
-
-
+        // ================== quantity validation ==================
+        
+        
+        
         
 
-
-
-
-
-
-
+        // ================== shipDate validation ==================
+        
+        
+        
         
 
-        // ==================
-        // quantity
-
-
-
-
-
-
+        // ================== status validation ==================
+        
+        
+        
         
 
-
-
-
-
-
-
+        // ================== complete validation ==================
         
-
-        // ==================
-        // shipDate
-
-
-
-
-
-
         
-
-
-
-
-
-
-
         
-
-        // ==================
-        // status
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-
-        // ==================
-        // complete
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
         
 
     errors.toSeq
@@ -189,19 +118,28 @@ case class OrderData(
         complete
         )
         
+    
     )
   }
 }
 
 object OrderData {
 
-  given readWriter : RW[OrderData] = macroRW
+  def fromJson(jason : ujson.Value) : OrderData = try {
+        val data = read[OrderData](jason)
+        data
+    } catch {
+      case NonFatal(e) => sys.error(s"Error creating OrderData from json '$jason': $e")
+  }
 
-  def fromJsonString(jason : String) : OrderData = try {
-        read[OrderData](jason)
-     } catch {
+  def fromJsonString(jason : String) : OrderData = {
+        val parsed = try {
+           read[ujson.Value](jason)
+        } catch {
           case NonFatal(e) => sys.error(s"Error parsing json '$jason': $e")
-     }
+        }
+        fromJson(parsed)
+  }
 
   def manyFromJsonString(jason : String) : Seq[OrderData] = try {
         read[List[OrderData]](jason)

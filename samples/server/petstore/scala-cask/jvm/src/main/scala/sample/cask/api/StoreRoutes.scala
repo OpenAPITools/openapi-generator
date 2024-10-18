@@ -41,7 +41,7 @@ class StoreRoutes(service : StoreService) extends cask.Routes {
             result <- Parsed.eval(service.deleteOrder(orderId))
         } yield result
 
-        result match {
+        (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
           case Right(other) => cask.Response(s"$other", 200)
         }
@@ -59,7 +59,7 @@ class StoreRoutes(service : StoreService) extends cask.Routes {
             result <- Parsed.eval(service.getInventory())
         } yield result
 
-        result match {
+        (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
           case Right(value : Map[String, Int]) => cask.Response(data = write(value), 200, headers = Seq("Content-Type" -> "application/json"))
           case Right(other) => cask.Response(s"$other", 200)
@@ -78,7 +78,7 @@ class StoreRoutes(service : StoreService) extends cask.Routes {
             result <- Parsed.eval(service.getOrderById(orderId))
         } yield result
 
-        result match {
+        (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
           case Right(value : Order) => cask.Response(data = write(value), 200, headers = Seq("Content-Type" -> "application/json"))
           case Right(other) => cask.Response(s"$other", 200)
@@ -93,12 +93,13 @@ class StoreRoutes(service : StoreService) extends cask.Routes {
         def failFast = request.queryParams.keySet.contains("failFast")
 
         val result =         for {
-              orderData <- Parsed.eval(OrderData.fromJsonString(request.bodyAsString)).mapError(e => s"Error parsing json as Order from >${request.bodyAsString}< : ${e}") /* not array or map */
+              orderJson <- Parsed.fromTry(request.bodyAsJson)
+              orderData <- Parsed.eval(OrderData.fromJson(orderJson)) /* not array or map */
               order <- Parsed.fromTry(orderData.validated(failFast))
             result <- Parsed.eval(service.placeOrder(order))
         } yield result
 
-        result match {
+        (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
           case Right(value : Order) => cask.Response(data = write(value), 200, headers = Seq("Content-Type" -> "application/json"))
           case Right(other) => cask.Response(s"$other", 200)

@@ -223,7 +223,7 @@ QueryApi <- R6::R6Class(
 
 
 
-      if (!(`enum_nonref_string_query` %in% c("success", "failure", "unclassified"))) {
+      if (!is.null(`enum_nonref_string_query`) && !(`enum_nonref_string_query` %in% c("success", "failure", "unclassified"))) {
         stop("Invalid value for enum_nonref_string_query when calling QueryApi$TestEnumRefString. Must be [success, failure, unclassified].")
       }
       query_params[["enum_nonref_string_query"]] <- `enum_nonref_string_query`

@@ -7,13 +7,12 @@
 //
 
 import PetstoreClient
+import Combine
 import XCTest
 @testable import SwaggerClient
 
-@MainActor
+@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 class UserAPITests: XCTestCase {
-
-    let testTimeout = 10.0
 
     override func setUp() {
         super.setUp()
@@ -25,44 +24,39 @@ class UserAPITests: XCTestCase {
         super.tearDown()
     }
 
-    func testLogin() {
-        let expectation = self.expectation(description: "testLogin")
-
-        UserAPI.loginUser(username: "swiftTester", password: "swift") { (_, error) in
-            guard error == nil else {
-                XCTFail("error logging in")
-                return
+    func testLogin() async throws {
+        do {
+            let _ = try await UserAPI.loginUser(username: "swiftTester", password: "swift")
+        } catch let errorType {
+            // The server gives us no data back so alamofire parsing fails - at least
+            // verify that is the error we get here
+            // Error Domain=com.alamofire.error Code=-6006 "JSON could not be serialized. Input data was nil or zero
+            // length." UserInfo={NSLocalizedFailureReason=JSON could not be serialized. Input data was nil or zero
+            // length.}
+            let error = errorType as NSError
+            if error.code == -6006 {
+                // Everything ok!
+            } else {
+                XCTFail("error deleting order")
             }
-
-            expectation.fulfill()
         }
-
-        self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 
-    func testLogout() {
-        let expectation = self.expectation(description: "testLogout")
-
-        UserAPI.logoutUser { (_, error) in
-            guard error == nil else {
-                XCTFail("error logging out")
-                return
+    func testLogout() async throws {
+        do {
+            try await UserAPI.logoutUser()
+        } catch let errorType {
+            // The server gives us no data back so alamofire parsing fails - at least
+            // verify that is the error we get here
+            // Error Domain=com.alamofire.error Code=-6006 "JSON could not be serialized. Input data was nil or zero
+            // length." UserInfo={NSLocalizedFailureReason=JSON could not be serialized. Input data was nil or zero
+            // length.}
+            let error = errorType as NSError
+            if error.code == -6006 {
+                // Everything ok!
+            } else {
+                XCTFail("error deleting order")
             }
-
-            expectation.fulfill()
         }
-
-        self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-
-    func testPathParamsAreEscaped() {
-        // The path for this operation is /user/{userId}. In order to make a usable path,
-        // then we must make sure that {userId} is percent-escaped when it is substituted
-        // into the path. So we intentionally introduce a path with spaces.
-        let userRequestBuilder = UserAPI.getUserByNameWithRequestBuilder(username: "User Name With Spaces")
-        let urlContainsSpace = userRequestBuilder.URLString.contains(" ")
-
-        XCTAssert(!urlContainsSpace, "Expected URL to be escaped, but it was not.")
-    }
-
 }

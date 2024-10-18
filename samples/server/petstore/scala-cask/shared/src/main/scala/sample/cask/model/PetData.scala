@@ -27,116 +27,57 @@ import upickle.default.*
   */
 case class PetData(
   id: Long = 0 ,
-
-    category: CategoryData = null ,
-
-    name: String,
-
-    photoUrls: Seq[String],
-
-    tags: Seq[TagData] = Nil ,
-
-  /* pet status in the store */
+  category: CategoryData = null ,
+  name: String,
+  photoUrls: Seq[String],
+  tags: Seq[TagData] = Nil ,
+/* pet status in the store */
   status: Pet.StatusEnum = null 
+  
 
-  ) {
+) derives RW {
 
-  def asJson: String = write(this)
+  def asJsonString: String = asJson.toString()
+
+  def asJson : ujson.Value = {
+    val jason = writeJs(this)
+    jason
+  }
 
   def validationErrors(path : Seq[Field], failFast : Boolean) : Seq[ValidationError] = {
     val errors = scala.collection.mutable.ListBuffer[ValidationError]()
-        // ==================
-        // id
-
-
-
-
-
-
+        // ================== id validation ==================
+        
+        
+        
         
 
-
-
-
-
-
-
+        // ================== category validation ==================
         
-
-        // ==================
-        // category
-
-
-
-
-
-
         
-
-
-
-
-
-
-
+        
         
         // validating category
         if (errors.isEmpty || !failFast) {
             if category != null then errors ++= category.validationErrors(path :+ Pet.Fields.category, failFast)
         }
 
-        // ==================
-        // name
-
-
-
-
-
-
+        // ================== name validation ==================
+        
+        
+        
         
 
-
-
-
-
-
-
+        // ================== photoUrls validation ==================
+        
+        
+        
         
 
-        // ==================
-        // photoUrls
-
-
-
-
-
-
+        // ================== tags validation ==================
         
-
-
-
-
-
-
-
         
-
-        // ==================
-        // tags
-
-
-
-
-
-
         
-
-
-
-
-
-
-
         
         if (errors.isEmpty || !failFast) {
             if (tags != null) {
@@ -151,22 +92,10 @@ case class PetData(
         }
         
 
-        // ==================
-        // status
-
-
-
-
-
-
+        // ================== status validation ==================
         
-
-
-
-
-
-
-
+        
+        
         
 
     errors.toSeq
@@ -206,19 +135,28 @@ case class PetData(
         status
         )
         
+    
     )
   }
 }
 
 object PetData {
 
-  given readWriter : RW[PetData] = macroRW
+  def fromJson(jason : ujson.Value) : PetData = try {
+        val data = read[PetData](jason)
+        data
+    } catch {
+      case NonFatal(e) => sys.error(s"Error creating PetData from json '$jason': $e")
+  }
 
-  def fromJsonString(jason : String) : PetData = try {
-        read[PetData](jason)
-     } catch {
+  def fromJsonString(jason : String) : PetData = {
+        val parsed = try {
+           read[ujson.Value](jason)
+        } catch {
           case NonFatal(e) => sys.error(s"Error parsing json '$jason': $e")
-     }
+        }
+        fromJson(parsed)
+  }
 
   def manyFromJsonString(jason : String) : Seq[PetData] = try {
         read[List[PetData]](jason)

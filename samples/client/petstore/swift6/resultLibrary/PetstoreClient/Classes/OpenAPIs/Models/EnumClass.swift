@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 internal enum EnumClass: String, Codable, CaseIterable, CaseIterableDefaultsLast {
     case abc = "_abc"

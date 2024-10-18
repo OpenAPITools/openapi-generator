@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 import Vapor
 
 public final class AdditionalPropertiesAnyType: Content, Hashable {
@@ -23,9 +20,9 @@ public final class AdditionalPropertiesAnyType: Content, Hashable {
         case name
     }
 
-    public var additionalProperties: [String: AnyCodable] = [:]
+    public var additionalProperties: [String: JSONValue] = [:]
 
-    public subscript(key: String) -> AnyCodable? {
+    public subscript(key: String) -> JSONValue? {
         get {
             if let value = additionalProperties[key] {
                 return value
@@ -56,7 +53,7 @@ public final class AdditionalPropertiesAnyType: Content, Hashable {
         var nonAdditionalPropertyKeys = Set<String>()
         nonAdditionalPropertyKeys.insert("name")
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
-        additionalProperties = try additionalPropertiesContainer.decodeMap(AnyCodable.self, excludedKeys: nonAdditionalPropertyKeys)
+        additionalProperties = try additionalPropertiesContainer.decodeMap(JSONValue.self, excludedKeys: nonAdditionalPropertyKeys)
     }
 
     public static func == (lhs: AdditionalPropertiesAnyType, rhs: AdditionalPropertiesAnyType) -> Bool {

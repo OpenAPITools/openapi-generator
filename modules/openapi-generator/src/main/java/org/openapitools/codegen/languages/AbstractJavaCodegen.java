@@ -51,7 +51,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
@@ -409,6 +408,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (StringUtils.isEmpty(System.getenv("JAVA_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable JAVA_POST_PROCESS_FILE not defined so the Java code may not be properly formatted. To define it, try 'export JAVA_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'JAVA_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         convertPropertyToBooleanAndWriteBack(BeanValidationFeatures.USE_BEANVALIDATION, this::setUseBeanValidation);
@@ -641,7 +642,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         convertPropertyToBooleanAndWriteBack(CONTAINER_DEFAULT_TO_NULL, this::setContainerDefaultToNull);
 
         additionalProperties.put("sanitizeGeneric", (Mustache.Lambda) (fragment, writer) -> {
-            String content = fragment.execute();
+            String content = removeBeanValidationAnnotations(fragment.execute());
             for (final String s: List.of("<", ">", ",", " ")) {
                 content = content.replace(s, "");
             }
@@ -1492,7 +1493,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         MediaType mediaType = content.values().iterator().next();
         if (mediaType.getExample() != null) {
             if (isModel) {
-                LOGGER.warn("Ignoring complex example on request body");
+                once(LOGGER).warn("Ignoring complex example on request body");
             } else {
                 codegenParameter.example = mediaType.getExample().toString();
                 return;
@@ -1503,7 +1504,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             Example example = mediaType.getExamples().values().iterator().next();
             if (example.getValue() != null) {
                 if (isModel) {
-                    LOGGER.warn("Ignoring complex example on request body");
+                    once(LOGGER).warn("Ignoring complex example on request body");
                 } else {
                     codegenParameter.example = example.getValue().toString();
                     return;
@@ -2234,6 +2235,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -2245,21 +2247,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         // only process files with java extension
         if ("java".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = javaPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                p.waitFor();
-                int exitValue = p.exitValue();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[] {javaPostProcessFile, file.toString()});
         }
     }
 

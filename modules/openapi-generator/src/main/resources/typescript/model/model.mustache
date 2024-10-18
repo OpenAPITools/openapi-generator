@@ -27,14 +27,14 @@ export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{/vars}}
 
     {{#discriminator}}
-    static readonly discriminator: string | undefined = "{{discriminatorName}}";
+    static {{#parent}}override {{/parent}}readonly discriminator: string | undefined = "{{discriminatorName}}";
     {{/discriminator}}
     {{^discriminator}}
-    static readonly discriminator: string | undefined = undefined;
+    static {{#parent}}override {{/parent}}readonly discriminator: string | undefined = undefined;
     {{/discriminator}}
     {{#hasDiscriminatorWithNonEmptyMapping}}
 
-    static readonly mapping: {[index: string]: string} | undefined = {
+    static {{#parent}}override {{/parent}}readonly mapping: {[index: string]: string} | undefined = {
     {{#discriminator.mappedModels}}
         "{{mappingName}}": "{{modelName}}",
     {{/discriminator.mappedModels}}
@@ -42,11 +42,11 @@ export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
     {{/hasDiscriminatorWithNonEmptyMapping}}
     {{^hasDiscriminatorWithNonEmptyMapping}}
 
-    static readonly mapping: {[index: string]: string} | undefined = undefined;
+    static {{#parent}}override {{/parent}}readonly mapping: {[index: string]: string} | undefined = undefined;
     {{/hasDiscriminatorWithNonEmptyMapping}}
 
     {{^isArray}}
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static {{#parent}}override {{/parent}}readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {{#vars}}
         {
             "name": "{{name}}",
@@ -58,7 +58,7 @@ export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
         {{/vars}}
     ];
 
-    static getAttributeTypeMap() {
+    static {{#parent}}override {{/parent}}getAttributeTypeMap() {
         {{#parent}}
         return super.getAttributeTypeMap().concat({{classname}}.attributeTypeMap);
         {{/parent}}

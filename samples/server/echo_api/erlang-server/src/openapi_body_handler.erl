@@ -1,5 +1,48 @@
-%% basic handler
 -module(openapi_body_handler).
+-moduledoc """
+Exposes the following operation IDs:
+
+- `POST` to `/binary/gif`, OperationId: `test/binary/gif`:
+Test binary (gif) response body.
+Test binary (gif) response body
+
+- `POST` to `/body/application/octetstream/binary`, OperationId: `test/body/application/octetstream/binary`:
+Test body parameter(s).
+Test body parameter(s)
+
+- `POST` to `/body/application/octetstream/array_of_binary`, OperationId: `test/body/multipart/formdata/array_of_binary`:
+Test array of binary in multipart mime.
+Test array of binary in multipart mime
+
+- `POST` to `/body/application/octetstream/single_binary`, OperationId: `test/body/multipart/formdata/single_binary`:
+Test single binary in multipart mime.
+Test single binary in multipart mime
+
+- `POST` to `/echo/body/allOf/Pet`, OperationId: `test/echo/body/allOf/Pet`:
+Test body parameter(s).
+Test body parameter(s)
+
+- `POST` to `/echo/body/FreeFormObject/response_string`, OperationId: `test/echo/body/FreeFormObject/response_string`:
+Test free form object.
+Test free form object
+
+- `POST` to `/echo/body/Pet`, OperationId: `test/echo/body/Pet`:
+Test body parameter(s).
+Test body parameter(s)
+
+- `POST` to `/echo/body/Pet/response_string`, OperationId: `test/echo/body/Pet/response_string`:
+Test empty response body.
+Test empty response body
+
+- `POST` to `/echo/body/string_enum`, OperationId: `test/echo/body/string_enum`:
+Test string enum response body.
+Test string enum response body
+
+- `POST` to `/echo/body/Tag/response_string`, OperationId: `test/echo/body/Tag/response_string`:
+Test empty json (request body).
+Test empty json (request body)
+
+""".
 
 -behaviour(cowboy_rest).
 
@@ -17,8 +60,25 @@
 
 -ignore_xref([handle_type_accepted/2, handle_type_provided/2]).
 
+-export_type([class/0, operation_id/0]).
+
+-type class() :: 'body'.
+
+-type operation_id() ::
+    'test/binary/gif' %% Test binary (gif) response body
+    | 'test/body/application/octetstream/binary' %% Test body parameter(s)
+    | 'test/body/multipart/formdata/array_of_binary' %% Test array of binary in multipart mime
+    | 'test/body/multipart/formdata/single_binary' %% Test single binary in multipart mime
+    | 'test/echo/body/allOf/Pet' %% Test body parameter(s)
+    | 'test/echo/body/FreeFormObject/response_string' %% Test free form object
+    | 'test/echo/body/Pet' %% Test body parameter(s)
+    | 'test/echo/body/Pet/response_string' %% Test empty response body
+    | 'test/echo/body/string_enum' %% Test string enum response body
+    | 'test/echo/body/Tag/response_string'. %% Test empty json (request body)
+
+
 -record(state,
-        {operation_id :: openapi_api:operation_id(),
+        {operation_id :: operation_id(),
          accept_callback :: openapi_logic_handler:accept_callback(),
          provide_callback :: openapi_logic_handler:provide_callback(),
          api_key_handler :: openapi_logic_handler:api_key_callback(),
@@ -42,25 +102,25 @@ init(Req, {Operations, Module}) ->
 
 -spec allowed_methods(cowboy_req:req(), state()) ->
     {[binary()], cowboy_req:req(), state()}.
-allowed_methods(Req, #state{operation_id = 'TestBinaryGif'} = State) ->
+allowed_methods(Req, #state{operation_id = 'test/binary/gif'} = State) ->
     {[<<"POST">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'TestBodyApplicationOctetstreamBinary'} = State) ->
+allowed_methods(Req, #state{operation_id = 'test/body/application/octetstream/binary'} = State) ->
     {[<<"POST">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'TestBodyMultipartFormdataArrayOfBinary'} = State) ->
+allowed_methods(Req, #state{operation_id = 'test/body/multipart/formdata/array_of_binary'} = State) ->
     {[<<"POST">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'TestBodyMultipartFormdataSingleBinary'} = State) ->
+allowed_methods(Req, #state{operation_id = 'test/body/multipart/formdata/single_binary'} = State) ->
     {[<<"POST">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'TestEchoBodyAllOfPet'} = State) ->
+allowed_methods(Req, #state{operation_id = 'test/echo/body/allOf/Pet'} = State) ->
     {[<<"POST">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'TestEchoBodyFreeFormObjectResponseString'} = State) ->
+allowed_methods(Req, #state{operation_id = 'test/echo/body/FreeFormObject/response_string'} = State) ->
     {[<<"POST">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'TestEchoBodyPet'} = State) ->
+allowed_methods(Req, #state{operation_id = 'test/echo/body/Pet'} = State) ->
     {[<<"POST">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'TestEchoBodyPetResponseString'} = State) ->
+allowed_methods(Req, #state{operation_id = 'test/echo/body/Pet/response_string'} = State) ->
     {[<<"POST">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'TestEchoBodyStringEnum'} = State) ->
+allowed_methods(Req, #state{operation_id = 'test/echo/body/string_enum'} = State) ->
     {[<<"POST">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'TestEchoBodyTagResponseString'} = State) ->
+allowed_methods(Req, #state{operation_id = 'test/echo/body/Tag/response_string'} = State) ->
     {[<<"POST">>], Req, State};
 allowed_methods(Req, State) ->
     {[], Req, State}.
@@ -72,41 +132,41 @@ is_authorized(Req, State) ->
 
 -spec content_types_accepted(cowboy_req:req(), state()) ->
     {[{binary(), atom()}], cowboy_req:req(), state()}.
-content_types_accepted(Req, #state{operation_id = 'TestBinaryGif'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'test/binary/gif'} = State) ->
     {[], Req, State};
-content_types_accepted(Req, #state{operation_id = 'TestBodyApplicationOctetstreamBinary'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'test/body/application/octetstream/binary'} = State) ->
     {[
       {<<"application/octet-stream">>, handle_type_accepted}
      ], Req, State};
-content_types_accepted(Req, #state{operation_id = 'TestBodyMultipartFormdataArrayOfBinary'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'test/body/multipart/formdata/array_of_binary'} = State) ->
     {[
       {<<"multipart/form-data">>, handle_type_accepted}
      ], Req, State};
-content_types_accepted(Req, #state{operation_id = 'TestBodyMultipartFormdataSingleBinary'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'test/body/multipart/formdata/single_binary'} = State) ->
     {[
       {<<"multipart/form-data">>, handle_type_accepted}
      ], Req, State};
-content_types_accepted(Req, #state{operation_id = 'TestEchoBodyAllOfPet'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'test/echo/body/allOf/Pet'} = State) ->
     {[
       {<<"application/json">>, handle_type_accepted}
      ], Req, State};
-content_types_accepted(Req, #state{operation_id = 'TestEchoBodyFreeFormObjectResponseString'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'test/echo/body/FreeFormObject/response_string'} = State) ->
     {[
       {<<"application/json">>, handle_type_accepted}
      ], Req, State};
-content_types_accepted(Req, #state{operation_id = 'TestEchoBodyPet'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'test/echo/body/Pet'} = State) ->
     {[
       {<<"application/json">>, handle_type_accepted}
      ], Req, State};
-content_types_accepted(Req, #state{operation_id = 'TestEchoBodyPetResponseString'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'test/echo/body/Pet/response_string'} = State) ->
     {[
       {<<"application/json">>, handle_type_accepted}
      ], Req, State};
-content_types_accepted(Req, #state{operation_id = 'TestEchoBodyStringEnum'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'test/echo/body/string_enum'} = State) ->
     {[
       {<<"application/json">>, handle_type_accepted}
      ], Req, State};
-content_types_accepted(Req, #state{operation_id = 'TestEchoBodyTagResponseString'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'test/echo/body/Tag/response_string'} = State) ->
     {[
       {<<"application/json">>, handle_type_accepted}
      ], Req, State};
@@ -115,68 +175,68 @@ content_types_accepted(Req, State) ->
 
 -spec valid_content_headers(cowboy_req:req(), state()) ->
     {boolean(), cowboy_req:req(), state()}.
-valid_content_headers(Req, #state{operation_id = 'TestBinaryGif'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'test/binary/gif'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'TestBodyApplicationOctetstreamBinary'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'test/body/application/octetstream/binary'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'TestBodyMultipartFormdataArrayOfBinary'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'test/body/multipart/formdata/array_of_binary'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'TestBodyMultipartFormdataSingleBinary'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'test/body/multipart/formdata/single_binary'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'TestEchoBodyAllOfPet'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'test/echo/body/allOf/Pet'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'TestEchoBodyFreeFormObjectResponseString'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'test/echo/body/FreeFormObject/response_string'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'TestEchoBodyPet'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'test/echo/body/Pet'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'TestEchoBodyPetResponseString'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'test/echo/body/Pet/response_string'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'TestEchoBodyStringEnum'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'test/echo/body/string_enum'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'TestEchoBodyTagResponseString'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'test/echo/body/Tag/response_string'} = State) ->
     {true, Req, State};
 valid_content_headers(Req, State) ->
     {false, Req, State}.
 
 -spec content_types_provided(cowboy_req:req(), state()) ->
     {[{binary(), atom()}], cowboy_req:req(), state()}.
-content_types_provided(Req, #state{operation_id = 'TestBinaryGif'} = State) ->
+content_types_provided(Req, #state{operation_id = 'test/binary/gif'} = State) ->
     {[
       {<<"image/gif">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'TestBodyApplicationOctetstreamBinary'} = State) ->
+content_types_provided(Req, #state{operation_id = 'test/body/application/octetstream/binary'} = State) ->
     {[
       {<<"text/plain">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'TestBodyMultipartFormdataArrayOfBinary'} = State) ->
+content_types_provided(Req, #state{operation_id = 'test/body/multipart/formdata/array_of_binary'} = State) ->
     {[
       {<<"text/plain">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'TestBodyMultipartFormdataSingleBinary'} = State) ->
+content_types_provided(Req, #state{operation_id = 'test/body/multipart/formdata/single_binary'} = State) ->
     {[
       {<<"text/plain">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'TestEchoBodyAllOfPet'} = State) ->
+content_types_provided(Req, #state{operation_id = 'test/echo/body/allOf/Pet'} = State) ->
     {[
       {<<"application/json">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'TestEchoBodyFreeFormObjectResponseString'} = State) ->
+content_types_provided(Req, #state{operation_id = 'test/echo/body/FreeFormObject/response_string'} = State) ->
     {[
       {<<"text/plain">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'TestEchoBodyPet'} = State) ->
+content_types_provided(Req, #state{operation_id = 'test/echo/body/Pet'} = State) ->
     {[
       {<<"application/json">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'TestEchoBodyPetResponseString'} = State) ->
+content_types_provided(Req, #state{operation_id = 'test/echo/body/Pet/response_string'} = State) ->
     {[
       {<<"text/plain">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'TestEchoBodyStringEnum'} = State) ->
+content_types_provided(Req, #state{operation_id = 'test/echo/body/string_enum'} = State) ->
     {[
       {<<"application/json">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'TestEchoBodyTagResponseString'} = State) ->
+content_types_provided(Req, #state{operation_id = 'test/echo/body/Tag/response_string'} = State) ->
     {[
       {<<"text/plain">>, handle_type_provided}
      ], Req, State};
@@ -186,8 +246,8 @@ content_types_provided(Req, State) ->
 -spec delete_resource(cowboy_req:req(), state()) ->
     {boolean(), cowboy_req:req(), state()}.
 delete_resource(Req, State) ->
-    {Res, Req1, State} = handle_type_accepted(Req, State),
-    {true =:= Res, Req1, State}.
+    {Res, Req1, State1} = handle_type_accepted(Req, State),
+    {true =:= Res, Req1, State1}.
 
 -spec handle_type_accepted(cowboy_req:req(), state()) ->
     { openapi_logic_handler:accept_callback_return(), cowboy_req:req(), state()}.

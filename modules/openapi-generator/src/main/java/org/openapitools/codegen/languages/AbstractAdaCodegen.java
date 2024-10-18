@@ -42,7 +42,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -1065,20 +1064,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
             if (StringUtils.isEmpty(commandPrefix)) {
                 commandPrefix = "gnatpp";
             }
-
-            try {
-                Process p = Runtime.getRuntime().exec(new String[]{commandPrefix, "--no-compact", "--quiet", file.toString()});
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({} {}). Exit code: {}", commandPrefix, file, exitValue);
-                } else {
-                    LOGGER.debug("Successfully executed: {} {}", commandPrefix, file);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({} {}). Exception: {}", commandPrefix, file, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            String[] commandArr = new String[]{commandPrefix, "--no-compact", "--quiet", file.toString()};
+            this.executePostProcessor(commandArr);
         }
     }
 

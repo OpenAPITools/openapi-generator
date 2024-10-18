@@ -29,6 +29,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |supportAsync|If set, generate async function call instead. This option is for 'reqwest' library only| |true|
 |supportMiddleware|If set, add support for reqwest-middleware. This option is for 'reqwest' library only| |false|
 |supportMultipleResponses|If set, return type wraps an enum of all possible 2xx schemas. This option is for 'reqwest' library only| |false|
+|supportTokenSource|If set, add support for google-cloud-token. This option is for 'reqwest' library only and requires the 'supportAsync' option| |false|
 |useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |false|
 |withAWSV4Signature|whether to include AWS v4 signature support| |false|
 

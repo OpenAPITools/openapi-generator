@@ -19,7 +19,6 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/Flight-School/AnyCodable", .upToNextMajor(from: "0.6.7")),
         .package(url: "https://github.com/mxcl/PromiseKit", .upToNextMajor(from: "8.1.2")),
     ],
     targets: [
@@ -27,7 +26,7 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "PetstoreClient",
-            dependencies: ["AnyCodable", "PromiseKit", ],
+            dependencies: ["PromiseKit", ],
             path: "PetstoreClient/Classes"
         ),
     ],

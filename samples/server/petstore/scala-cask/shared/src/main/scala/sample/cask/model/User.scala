@@ -21,25 +21,20 @@ import upickle.default.*
 
 case class User(
   id: Option[Long] = None ,
-
-    username: Option[String] = None ,
-
-    firstName: Option[String] = None ,
-
-    lastName: Option[String] = None ,
-
-    email: Option[String] = None ,
-
-    password: Option[String] = None ,
-
-    phone: Option[String] = None ,
-
-  /* User Status */
+  username: Option[String] = None ,
+  firstName: Option[String] = None ,
+  lastName: Option[String] = None ,
+  email: Option[String] = None ,
+  password: Option[String] = None ,
+  phone: Option[String] = None ,
+/* User Status */
   userStatus: Option[Int] = None 
 
-  ) {
 
-  def asJson: String = asData.asJson
+) {
+
+  def asJsonString: String = asData.asJsonString
+  def asJson: ujson.Value = asData.asJson
 
   def asData : UserData = {
     UserData(
@@ -51,16 +46,15 @@ case class User(
             password = password.getOrElse(""),
             phone = phone.getOrElse(""),
             userStatus = userStatus.getOrElse(0)
+        
     )
   }
-
 }
 
-object User{
+object User {
+    given RW[User] = summon[RW[ujson.Value]].bimap[User](_.asJson, json => read[UserData](json).asModel)
 
-    given RW[User] = UserData.readWriter.bimap[User](_.asData, _.asModel)
-
-    enum Fields(fieldName : String) extends Field(fieldName) {
+    enum Fields(val fieldName : String) extends Field(fieldName) {
             case id extends Fields("id")
             case username extends Fields("username")
             case firstName extends Fields("firstName")

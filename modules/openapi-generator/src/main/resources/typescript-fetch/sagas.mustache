@@ -89,7 +89,7 @@ export function *{{nickname}}Saga() {
     yield takeLatest({{nickname}}, {{nickname}}SagaImp);
 }
 
-export function *{{nickname}}SagaImp(_action_: Action<Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}>) {
+export function *{{nickname}}SagaImp(_action_: Action<Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}>){{^returnType}}: any{{/returnType}} {
     const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
 {{#returnTypeSupportsEntities}}
@@ -233,7 +233,7 @@ export function *{{nickname}}SagaImp(_action_: Action<Payload{{#lambda.titlecase
 {{^returnType}}
         return undefined;
 {{/returnType}}
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put({{nickname}}Failure({error, requestPayload: _action_.payload}));
         return error;

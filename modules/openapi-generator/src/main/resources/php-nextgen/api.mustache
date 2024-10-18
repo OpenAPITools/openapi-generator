@@ -82,7 +82,7 @@ use {{invokerPackage}}\ObjectSerializer;
         int $hostIndex = 0
     ) {
         $this->client = $client ?: new Client();
-        $this->config = $config ?: new Configuration();
+        $this->config = $config ?: Configuration::getDefaultConfiguration();
         $this->headerSelector = $selector ?: new HeaderSelector();
         $this->hostIndex = $hostIndex;
     }
@@ -286,18 +286,6 @@ use {{invokerPackage}}\ObjectSerializer;
 
             $statusCode = $response->getStatusCode();
 
-            if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(
-                    sprintf(
-                        '[%d] Error connecting to the API (%s)',
-                        $statusCode,
-                        (string) $request->getUri()
-                    ),
-                    $statusCode,
-                    $response->getHeaders(),
-                    (string) $response->getBody()
-                );
-            }
             {{#returnType}}
             {{#responses}}
             {{#-first}}
@@ -337,6 +325,19 @@ use {{invokerPackage}}\ObjectSerializer;
             }
             {{/-last}}
             {{/responses}}
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
 
             $returnType = '{{{returnType}}}';
             if (in_array($returnType, ['\SplFileObject', '\Psr\Http\Message\StreamInterface'])) {

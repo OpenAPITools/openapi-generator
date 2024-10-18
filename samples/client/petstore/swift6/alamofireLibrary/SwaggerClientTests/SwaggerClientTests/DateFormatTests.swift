@@ -47,7 +47,7 @@ class DateFormatTests: XCTestCase {
 			return
 		}
 
-		var encodedDate = utcDate.encodeToJSON() as! String
+		var encodedDate = utcDate.encodeToJSON(codableHelper: OpenAPIClient.shared.codableHelper) as! String
 		XCTAssert(encodedDate.hasSuffix("Z"))
 
 		// test with a positive timzone offset from UTC
@@ -59,7 +59,7 @@ class DateFormatTests: XCTestCase {
 			return
 		}
 
-		encodedDate = nonUTCDate1.encodeToJSON() as! String
+		encodedDate = nonUTCDate1.encodeToJSON(codableHelper: OpenAPIClient.shared.codableHelper) as! String
 		XCTAssert(encodedDate.hasSuffix("Z"))
 
 		// test with a negative timzone offset from UTC
@@ -71,14 +71,14 @@ class DateFormatTests: XCTestCase {
 			return
 		}
 
-		encodedDate = nonUTCDate2.encodeToJSON() as! String
+		encodedDate = nonUTCDate2.encodeToJSON(codableHelper: OpenAPIClient.shared.codableHelper) as! String
 		XCTAssert(encodedDate.hasSuffix("Z"))
 	}
 
 	func testCodableAlwaysResultsInUTCEncodedDate() throws {
-        CodableHelper.shared.jsonEncoder.outputFormatting.remove(.prettyPrinted)
+        OpenAPIClient.shared.codableHelper.jsonEncoder.outputFormatting.remove(.prettyPrinted)
 		let jsonData = "{\"date\":\"1970-01-01T00:00:00.000Z\"}".data(using: .utf8)!
-        let decodeResult = CodableHelper.shared.decode(DateTest.self, from: jsonData)
+        let decodeResult = OpenAPIClient.shared.codableHelper.decode(DateTest.self, from: jsonData)
         _ = try decodeResult.get()
 
 		var dateComponents = DateComponents()
@@ -100,7 +100,7 @@ class DateFormatTests: XCTestCase {
 		}
 
 		let dateTest = DateTest(date: date)
-        let encodeResult = CodableHelper.shared.encode(dateTest)
+        let encodeResult = OpenAPIClient.shared.codableHelper.encode(dateTest)
         let data = try encodeResult.get()
 		guard let jsonString = String(data: data, encoding: .utf8) else {
 			XCTFail("Unable to convert encoded data to string.")

@@ -16,9 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
-        // Customize requestBuilderFactory
-        PetstoreClientAPI.shared.requestBuilderFactory = BearerRequestBuilderFactory()
+                
+        OpenAPIClient.shared.interceptor = BearerTokenHandler()
         
         return true
     }
