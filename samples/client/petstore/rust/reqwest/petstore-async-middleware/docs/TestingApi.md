@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## tests_file_response_get
 
-> std::path::PathBuf tests_file_response_get()
+> reqwest::Body tests_file_response_get()
 Returns an image file
 
 ### Parameters
@@ -20,7 +20,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**std::path::PathBuf**](std::path::PathBuf.md)
+[**reqwest::Body**](reqwest::Body.md)
 
 ### Authorization
 
