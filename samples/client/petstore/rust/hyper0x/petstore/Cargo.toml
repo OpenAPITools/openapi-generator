@@ -18,3 +18,5 @@ hyper-tls = "~0.5"
 http = "~0.2"
 base64 = "~0.7.0"
 futures = "^0.3"
+
+[features]
