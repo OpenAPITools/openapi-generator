@@ -1274,6 +1274,34 @@ public class JavaClientCodegenTest {
     }
 
     /**
+     * see https://github.com/OpenAPITools/openapi-generator/issues/19895
+     */
+    @Test public void testCharsetInContentTypeCorrectlyEncodedForFeignApi_issue19895() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(FEIGN)
+                .setInputSpec("src/test/resources/3_0/issue_19895.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        validateJavaSourceFiles(files);
+        var defaultApiFile = output.resolve("src/main/java/org/openapitools/client/api/DefaultApi.java");
+        assertThat(files).contains(defaultApiFile.toFile());
+        assertThat(defaultApiFile).content()
+                .doesNotContain(
+                        "Content-Type: application/json;charset&#x3D;utf-8",
+                        "Accept: application/json;charset&#x3D;utf-8")
+                .contains(
+                        "Content-Type: application/json;charset=utf-8",
+                        "Accept: application/json;charset=utf-8"
+                );
+    }
+
+    /**
      * See https://github.com/OpenAPITools/openapi-generator/issues/6715
      * <p>
      * UPDATE: the following test has been ignored due to https://github.com/OpenAPITools/openapi-generator/pull/11081/
