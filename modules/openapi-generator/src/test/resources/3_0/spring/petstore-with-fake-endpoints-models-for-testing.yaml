@@ -1142,6 +1142,27 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseObjectWithDifferentFieldNames"
+  /fake/one-of-within-one-of-park-persons:
+    post:
+      tags:
+        - PerkPerson
+      summary: Create a Park Person
+      operationId: createParkPerson
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/CreateParkAnimalCarerPerson'
+                - $ref: '#/components/schemas/CreateParkVisitorPerson'
+      responses:
+        201:
+          description: Park Person created
+          content:
+            'application/json':
+              schema:
+                type: string
 servers:
   - url: http://petstore.swagger.io:80/v2
 components:
@@ -2096,3 +2117,50 @@ components:
           type: object
           additionalProperties:
             type: string
+    OneOfWithinOneOfAbstractAnimal:
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          CAT: '#/components/schemas/OneOfWithinOneOfCat'
+          DOG: '#/components/schemas/OneOfWithinOneOfDog'
+      required:
+        - type
+      properties:
+        type:
+          type: string
+    OneOfWithinOneOfCat:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/OneOfWithinOneOfAbstractAnimal'
+    AbstractCreateParkPerson:
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          VISITOR: '#/components/schemas/CreateParkVisitorPerson'
+          ANIMAL_CARER: '#/components/schemas/CreateParkAnimalCarerPerson'
+      required:
+        - type
+      properties:
+        type:
+          type: string
+    CreateParkAnimalCarerPerson:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/AbstractCreateParkPerson'
+      required:
+        - responsibleFor
+      properties:
+        responsibleFor:
+          oneOf:
+            - $ref: '#/components/schemas/OneOfWithinOneOfDog'
+            - $ref: '#/components/schemas/OneOfWithinOneOfCat'
+    CreateParkVisitorPerson:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/AbstractCreateParkPerson'
+    OneOfWithinOneOfDog:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/OneOfWithinOneOfAbstractAnimal'
