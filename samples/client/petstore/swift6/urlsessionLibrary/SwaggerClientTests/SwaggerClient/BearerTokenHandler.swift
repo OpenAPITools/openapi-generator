@@ -20,7 +20,7 @@ public class BearerOpenAPIInterceptor: OpenAPIInterceptor {
             return
         }
 
-        BearerTokenHandler.shared.refreshTokenIfDoesntExist { token in
+        refreshTokenIfDoesntExist { token in
             
             // Change the current url request
             var newUrlRequest = urlRequest
