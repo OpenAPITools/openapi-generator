@@ -8,29 +8,32 @@ and `validate_response/4` respectively.
 
 For example, the user-defined `Module:accept_callback/4` can be implemented as follows:
 ```
--spec accept_callback(atom(), openapi_api:operation_id(), cowboy_req:req(), context()) ->
-    {cowboy:http_status(), cowboy:http_headers(), json:encode_value()}.
-accept_callback(Class, OperationID, Req, Context) ->
+-spec accept_callback(
+        Class :: openapi_api:class(),
+        OperationID :: openapi_api:operation_id(),
+        Req :: cowboy_req:req(),
+        Context :: openapi_logic_handler:context()) ->
+    {openapi_logic_handler:accept_callback_return(),
+     cowboy_req:req(),
+     openapi_logic_handler:context()}.
+accept_callback(Class, OperationID, Req0, Context0) ->
     ValidatorState = openapi_api:prepare_validator(),
     case openapi_api:populate_request(OperationID, Req0, ValidatorState) of
-        {ok, Populated, Req1} ->
-            {Code, Headers, Body} = openapi_logic_handler:handle_request(
-                LogicHandler,
-                OperationID,
-                Req1,
-                maps:merge(State#state.context, Populated)
-            ),
-            _ = openapi_api:validate_response(
-                OperationID,
-                Code,
-                Body,
-                ValidatorState
-            ),
-            PreparedBody = prepare_body(Code, Body),
-            Response = {ok, {Code, Headers, PreparedBody}},
-            process_response(Response, Req1, State);
+        {ok, Model, Req1} ->
+            Context1 = maps:merge(Context0, Model),
+            case do_accept_callback(Class, OperationID, Req1, Context1) of
+                {false, Req2, Context2} ->
+                    {false, Req2, Context2};
+                {{true, Code, Body}, Req2, Context2} ->
+                    case validate_response(OperationID, Code, Body, ValidatorState) of
+                        ok ->
+                            process_response({ok, Code, Body}, Req2, Context2);
+                        {error, Reason} ->
+                            process_response({error, Reason}, Req2, Context2)
+                    end
+            end;
         {error, Reason, Req1} ->
-            process_response({error, Reason}, Req1, State)
+            process_response({error, Reason}, Req1, Context0)
     end.
 ```
 """.
@@ -41,15 +44,44 @@ accept_callback(Class, OperationID, Req, Context) ->
 -ignore_xref([populate_request/3, validate_response/4]).
 -ignore_xref([prepare_validator/0, prepare_validator/1, prepare_validator/2]).
 
--type operation_id() :: atom().
+-type class() ::
+    'pet'
+    | 'store'
+    | 'user'.
+
+
+-type operation_id() ::
+    'addPet' | %% Add a new pet to the store
+    'deletePet' | %% Deletes a pet
+    'findPetsByStatus' | %% Finds Pets by status
+    'findPetsByTags' | %% Finds Pets by tags
+    'getPetById' | %% Find pet by ID
+    'updatePet' | %% Update an existing pet
+    'updatePetWithForm' | %% Updates a pet in the store with form data
+    'uploadFile' | %% uploads an image
+    'deleteOrder' | %% Delete purchase order by ID
+    'getInventory' | %% Returns pet inventories by status
+    'getOrderById' | %% Find purchase order by ID
+    'placeOrder' | %% Place an order for a pet
+    'createUser' | %% Create user
+    'createUsersWithArrayInput' | %% Creates list of users with given input array
+    'createUsersWithListInput' | %% Creates list of users with given input array
+    'deleteUser' | %% Delete user
+    'getUserByName' | %% Get user by user name
+    'loginUser' | %% Logs user into the system
+    'logoutUser' | %% Logs out current logged in user session
+    'updateUser' | %% Updated user
+    {error, unknown_operation}.
+
 -type request_param() :: atom().
 
--export_type([operation_id/0]).
+-export_type([class/0, operation_id/0]).
 
--dialyzer({nowarn_function, [to_binary/1, to_list/1, validate_response_body/4]}).
+-dialyzer({nowarn_function, [validate_response_body/4]}).
 
 -type rule() ::
     {type, binary} |
+    {type, byte} |
     {type, integer} |
     {type, float} |
     {type, boolean} |
@@ -63,6 +95,7 @@ accept_callback(Class, OperationID, Req, Context) ->
     {max_length, MaxLength :: integer()} |
     {min_length, MaxLength :: integer()} |
     {pattern, Pattern :: string()} |
+    {schema, object | list, binary()} |
     schema |
     required |
     not_required.
@@ -110,166 +143,166 @@ for the `OperationID` operation.
         Body :: jesse:json_term(),
         ValidatorState :: jesse_state:state()) ->
     ok | {ok, term()} | [ok | {ok, term()}] | no_return().
-validate_response('AddPet', 200, Body, ValidatorState) ->
+validate_response('addPet', 200, Body, ValidatorState) ->
     validate_response_body('Pet', 'Pet', Body, ValidatorState);
-validate_response('AddPet', 405, Body, ValidatorState) ->
+validate_response('addPet', 405, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('DeletePet', 400, Body, ValidatorState) ->
+validate_response('deletePet', 400, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('FindPetsByStatus', 200, Body, ValidatorState) ->
+validate_response('findPetsByStatus', 200, Body, ValidatorState) ->
     validate_response_body('list', 'Pet', Body, ValidatorState);
-validate_response('FindPetsByStatus', 400, Body, ValidatorState) ->
+validate_response('findPetsByStatus', 400, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('FindPetsByTags', 200, Body, ValidatorState) ->
+validate_response('findPetsByTags', 200, Body, ValidatorState) ->
     validate_response_body('list', 'Pet', Body, ValidatorState);
-validate_response('FindPetsByTags', 400, Body, ValidatorState) ->
+validate_response('findPetsByTags', 400, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('GetPetById', 200, Body, ValidatorState) ->
+validate_response('getPetById', 200, Body, ValidatorState) ->
     validate_response_body('Pet', 'Pet', Body, ValidatorState);
-validate_response('GetPetById', 400, Body, ValidatorState) ->
+validate_response('getPetById', 400, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('GetPetById', 404, Body, ValidatorState) ->
+validate_response('getPetById', 404, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('UpdatePet', 200, Body, ValidatorState) ->
+validate_response('updatePet', 200, Body, ValidatorState) ->
     validate_response_body('Pet', 'Pet', Body, ValidatorState);
-validate_response('UpdatePet', 400, Body, ValidatorState) ->
+validate_response('updatePet', 400, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('UpdatePet', 404, Body, ValidatorState) ->
+validate_response('updatePet', 404, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('UpdatePet', 405, Body, ValidatorState) ->
+validate_response('updatePet', 405, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('UpdatePetWithForm', 405, Body, ValidatorState) ->
+validate_response('updatePetWithForm', 405, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('UploadFile', 200, Body, ValidatorState) ->
+validate_response('uploadFile', 200, Body, ValidatorState) ->
     validate_response_body('ApiResponse', 'ApiResponse', Body, ValidatorState);
-validate_response('DeleteOrder', 400, Body, ValidatorState) ->
+validate_response('deleteOrder', 400, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('DeleteOrder', 404, Body, ValidatorState) ->
+validate_response('deleteOrder', 404, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('GetInventory', 200, Body, ValidatorState) ->
+validate_response('getInventory', 200, Body, ValidatorState) ->
     validate_response_body('map', 'integer', Body, ValidatorState);
-validate_response('GetOrderById', 200, Body, ValidatorState) ->
+validate_response('getOrderById', 200, Body, ValidatorState) ->
     validate_response_body('Order', 'Order', Body, ValidatorState);
-validate_response('GetOrderById', 400, Body, ValidatorState) ->
+validate_response('getOrderById', 400, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('GetOrderById', 404, Body, ValidatorState) ->
+validate_response('getOrderById', 404, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('PlaceOrder', 200, Body, ValidatorState) ->
+validate_response('placeOrder', 200, Body, ValidatorState) ->
     validate_response_body('Order', 'Order', Body, ValidatorState);
-validate_response('PlaceOrder', 400, Body, ValidatorState) ->
+validate_response('placeOrder', 400, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('CreateUser', 0, Body, ValidatorState) ->
+validate_response('createUser', 0, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('CreateUsersWithArrayInput', 0, Body, ValidatorState) ->
+validate_response('createUsersWithArrayInput', 0, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('CreateUsersWithListInput', 0, Body, ValidatorState) ->
+validate_response('createUsersWithListInput', 0, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('DeleteUser', 400, Body, ValidatorState) ->
+validate_response('deleteUser', 400, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('DeleteUser', 404, Body, ValidatorState) ->
+validate_response('deleteUser', 404, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('GetUserByName', 200, Body, ValidatorState) ->
+validate_response('getUserByName', 200, Body, ValidatorState) ->
     validate_response_body('User', 'User', Body, ValidatorState);
-validate_response('GetUserByName', 400, Body, ValidatorState) ->
+validate_response('getUserByName', 400, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('GetUserByName', 404, Body, ValidatorState) ->
+validate_response('getUserByName', 404, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('LoginUser', 200, Body, ValidatorState) ->
+validate_response('loginUser', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
-validate_response('LoginUser', 400, Body, ValidatorState) ->
+validate_response('loginUser', 400, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('LogoutUser', 0, Body, ValidatorState) ->
+validate_response('logoutUser', 0, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('UpdateUser', 400, Body, ValidatorState) ->
+validate_response('updateUser', 400, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
-validate_response('UpdateUser', 404, Body, ValidatorState) ->
+validate_response('updateUser', 404, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
 validate_response(_OperationID, _Code, _Body, _ValidatorState) ->
     ok.
 
 %%%
 -spec request_params(OperationID :: operation_id()) -> [Param :: request_param()].
-request_params('AddPet') ->
+request_params('addPet') ->
     [
         'Pet'
     ];
-request_params('DeletePet') ->
+request_params('deletePet') ->
     [
         'petId',
         'api_key'
     ];
-request_params('FindPetsByStatus') ->
+request_params('findPetsByStatus') ->
     [
         'status'
     ];
-request_params('FindPetsByTags') ->
+request_params('findPetsByTags') ->
     [
         'tags'
     ];
-request_params('GetPetById') ->
+request_params('getPetById') ->
     [
         'petId'
     ];
-request_params('UpdatePet') ->
+request_params('updatePet') ->
     [
         'Pet'
     ];
-request_params('UpdatePetWithForm') ->
+request_params('updatePetWithForm') ->
     [
         'petId',
         'name',
         'status'
     ];
-request_params('UploadFile') ->
+request_params('uploadFile') ->
     [
         'petId',
         'additionalMetadata',
         'file'
     ];
-request_params('DeleteOrder') ->
+request_params('deleteOrder') ->
     [
         'orderId'
     ];
-request_params('GetInventory') ->
+request_params('getInventory') ->
     [
     ];
-request_params('GetOrderById') ->
+request_params('getOrderById') ->
     [
         'orderId'
     ];
-request_params('PlaceOrder') ->
+request_params('placeOrder') ->
     [
         'Order'
     ];
-request_params('CreateUser') ->
+request_params('createUser') ->
     [
         'User'
     ];
-request_params('CreateUsersWithArrayInput') ->
+request_params('createUsersWithArrayInput') ->
     [
-        'list'
+        'array'
     ];
-request_params('CreateUsersWithListInput') ->
+request_params('createUsersWithListInput') ->
     [
-        'list'
+        'array'
     ];
-request_params('DeleteUser') ->
-    [
-        'username'
-    ];
-request_params('GetUserByName') ->
+request_params('deleteUser') ->
     [
         'username'
     ];
-request_params('LoginUser') ->
+request_params('getUserByName') ->
+    [
+        'username'
+    ];
+request_params('loginUser') ->
     [
         'username',
         'password'
     ];
-request_params('LogoutUser') ->
+request_params('logoutUser') ->
     [
     ];
-request_params('UpdateUser') ->
+request_params('updateUser') ->
     [
         'username',
         'User'
@@ -279,15 +312,15 @@ request_params(_) ->
 
 -spec request_param_info(OperationID :: operation_id(), Name :: request_param()) ->
     #{source => qs_val | binding | header | body, rules => [rule()]}.
-request_param_info('AddPet', 'Pet') ->
+request_param_info('addPet', 'Pet') ->
     #{
         source => body,
         rules => [
-            schema,
+            {schema, object, <<"#/components/schemas/Pet">>},
             required
         ]
     };
-request_param_info('DeletePet', 'petId') ->
+request_param_info('deletePet', 'petId') ->
     #{
         source => binding,
         rules => [
@@ -295,7 +328,7 @@ request_param_info('DeletePet', 'petId') ->
             required
         ]
     };
-request_param_info('DeletePet', 'api_key') ->
+request_param_info('deletePet', 'api_key') ->
     #{
         source => header,
         rules => [
@@ -303,7 +336,7 @@ request_param_info('DeletePet', 'api_key') ->
             not_required
         ]
     };
-request_param_info('FindPetsByStatus', 'status') ->
+request_param_info('findPetsByStatus', 'status') ->
     #{
         source => qs_val,
         rules => [
@@ -311,14 +344,14 @@ request_param_info('FindPetsByStatus', 'status') ->
             required
         ]
     };
-request_param_info('FindPetsByTags', 'tags') ->
+request_param_info('findPetsByTags', 'tags') ->
     #{
         source => qs_val,
         rules => [
             required
         ]
     };
-request_param_info('GetPetById', 'petId') ->
+request_param_info('getPetById', 'petId') ->
     #{
         source => binding,
         rules => [
@@ -326,15 +359,15 @@ request_param_info('GetPetById', 'petId') ->
             required
         ]
     };
-request_param_info('UpdatePet', 'Pet') ->
+request_param_info('updatePet', 'Pet') ->
     #{
         source => body,
         rules => [
-            schema,
+            {schema, object, <<"#/components/schemas/Pet">>},
             required
         ]
     };
-request_param_info('UpdatePetWithForm', 'petId') ->
+request_param_info('updatePetWithForm', 'petId') ->
     #{
         source => binding,
         rules => [
@@ -342,7 +375,7 @@ request_param_info('UpdatePetWithForm', 'petId') ->
             required
         ]
     };
-request_param_info('UpdatePetWithForm', 'name') ->
+request_param_info('updatePetWithForm', 'name') ->
     #{
         source => body,
         rules => [
@@ -350,7 +383,7 @@ request_param_info('UpdatePetWithForm', 'name') ->
             not_required
         ]
     };
-request_param_info('UpdatePetWithForm', 'status') ->
+request_param_info('updatePetWithForm', 'status') ->
     #{
         source => body,
         rules => [
@@ -358,7 +391,7 @@ request_param_info('UpdatePetWithForm', 'status') ->
             not_required
         ]
     };
-request_param_info('UploadFile', 'petId') ->
+request_param_info('uploadFile', 'petId') ->
     #{
         source => binding,
         rules => [
@@ -366,7 +399,7 @@ request_param_info('UploadFile', 'petId') ->
             required
         ]
     };
-request_param_info('UploadFile', 'additionalMetadata') ->
+request_param_info('uploadFile', 'additionalMetadata') ->
     #{
         source => body,
         rules => [
@@ -374,7 +407,7 @@ request_param_info('UploadFile', 'additionalMetadata') ->
             not_required
         ]
     };
-request_param_info('UploadFile', 'file') ->
+request_param_info('uploadFile', 'file') ->
     #{
         source => body,
         rules => [
@@ -382,7 +415,7 @@ request_param_info('UploadFile', 'file') ->
             not_required
         ]
     };
-request_param_info('DeleteOrder', 'orderId') ->
+request_param_info('deleteOrder', 'orderId') ->
     #{
         source => binding,
         rules => [
@@ -390,7 +423,7 @@ request_param_info('DeleteOrder', 'orderId') ->
             required
         ]
     };
-request_param_info('GetOrderById', 'orderId') ->
+request_param_info('getOrderById', 'orderId') ->
     #{
         source => binding,
         rules => [
@@ -400,39 +433,39 @@ request_param_info('GetOrderById', 'orderId') ->
             required
         ]
     };
-request_param_info('PlaceOrder', 'Order') ->
+request_param_info('placeOrder', 'Order') ->
     #{
         source => body,
         rules => [
-            schema,
+            {schema, object, <<"#/components/schemas/Order">>},
             required
         ]
     };
-request_param_info('CreateUser', 'User') ->
+request_param_info('createUser', 'User') ->
     #{
         source => body,
         rules => [
-            schema,
+            {schema, object, <<"#/components/schemas/User">>},
             required
         ]
     };
-request_param_info('CreateUsersWithArrayInput', 'list') ->
+request_param_info('createUsersWithArrayInput', 'array') ->
     #{
         source => body,
         rules => [
-            schema,
+            {schema, list, <<"#/components/schemas/User">>},
             required
         ]
     };
-request_param_info('CreateUsersWithListInput', 'list') ->
+request_param_info('createUsersWithListInput', 'array') ->
     #{
         source => body,
         rules => [
-            schema,
+            {schema, list, <<"#/components/schemas/User">>},
             required
         ]
     };
-request_param_info('DeleteUser', 'username') ->
+request_param_info('deleteUser', 'username') ->
     #{
         source => binding,
         rules => [
@@ -440,7 +473,7 @@ request_param_info('DeleteUser', 'username') ->
             required
         ]
     };
-request_param_info('GetUserByName', 'username') ->
+request_param_info('getUserByName', 'username') ->
     #{
         source => binding,
         rules => [
@@ -448,7 +481,7 @@ request_param_info('GetUserByName', 'username') ->
             required
         ]
     };
-request_param_info('LoginUser', 'username') ->
+request_param_info('loginUser', 'username') ->
     #{
         source => qs_val,
         rules => [
@@ -457,7 +490,7 @@ request_param_info('LoginUser', 'username') ->
             required
         ]
     };
-request_param_info('LoginUser', 'password') ->
+request_param_info('loginUser', 'password') ->
     #{
         source => qs_val,
         rules => [
@@ -465,7 +498,7 @@ request_param_info('LoginUser', 'password') ->
             required
         ]
     };
-request_param_info('UpdateUser', 'username') ->
+request_param_info('updateUser', 'username') ->
     #{
         source => binding,
         rules => [
@@ -473,150 +506,146 @@ request_param_info('UpdateUser', 'username') ->
             required
         ]
     };
-request_param_info('UpdateUser', 'User') ->
+request_param_info('updateUser', 'User') ->
     #{
         source => body,
         rules => [
-            schema,
+            {schema, object, <<"#/components/schemas/User">>},
             required
         ]
     };
 request_param_info(OperationID, Name) ->
     error({unknown_param, OperationID, Name}).
 
+-spec populate_request_params(
+        operation_id(), [request_param()], cowboy_req:req(), jesse_state:state(), map()) ->
+    {ok, map(), cowboy_req:req()} | {error, _, cowboy_req:req()}.
 populate_request_params(_, [], Req, _, Model) ->
     {ok, Model, Req};
-populate_request_params(OperationID, [FieldParams | T], Req0, ValidatorState, Model) ->
-    case populate_request_param(OperationID, FieldParams, Req0, ValidatorState) of
-        {ok, K, V, Req} ->
-            populate_request_params(OperationID, T, Req, ValidatorState, maps:put(K, V, Model));
+populate_request_params(OperationID, [ReqParamName | T], Req0, ValidatorState, Model0) ->
+    case populate_request_param(OperationID, ReqParamName, Req0, ValidatorState) of
+        {ok, V, Req} ->
+            Model = maps:put(ReqParamName, V, Model0),
+            populate_request_params(OperationID, T, Req, ValidatorState, Model);
         Error ->
             Error
     end.
 
-populate_request_param(OperationID, Name, Req0, ValidatorState) ->
-    #{rules := Rules, source := Source} = request_param_info(OperationID, Name),
-    case get_value(Source, Name, Req0) of
+-spec populate_request_param(
+        operation_id(), request_param(), cowboy_req:req(), jesse_state:state()) ->
+    {ok, term(), cowboy_req:req()} | {error, term(), cowboy_req:req()}.
+populate_request_param(OperationID, ReqParamName, Req0, ValidatorState) ->
+    #{rules := Rules, source := Source} = request_param_info(OperationID, ReqParamName),
+    case get_value(Source, ReqParamName, Req0) of
         {error, Reason, Req} ->
             {error, Reason, Req};
         {Value, Req} ->
-            case prepare_param(Rules, Name, Value, ValidatorState) of
-                {ok, Result} -> {ok, Name, Result, Req};
+            case prepare_param(Rules, ReqParamName, Value, ValidatorState) of
+                {ok, Result} -> {ok, Result, Req};
                 {error, Reason} ->
                     {error, Reason, Req}
             end
     end.
 
--include_lib("kernel/include/logger.hrl").
-
 validate_response_body(list, ReturnBaseType, Body, ValidatorState) ->
     [
-        validate(schema, ReturnBaseType, Item, ValidatorState)
+        validate(schema, Item, ReturnBaseType, ValidatorState)
     || Item <- Body];
 
 validate_response_body(_, ReturnBaseType, Body, ValidatorState) ->
-    validate(schema, ReturnBaseType, Body, ValidatorState).
+    validate(schema, Body, ReturnBaseType, ValidatorState).
 
-validate(Rule = required, Name, Value, _ValidatorState) ->
-    case Value of
-        undefined -> validation_error(Rule, Name);
+-spec validate(rule(), term(), request_param(), jesse_state:state()) ->
+    ok | {ok, term()}.
+validate(required, undefined, ReqParamName, _) ->
+    validation_error(required, ReqParamName, undefined);
+validate(required, _Value, _, _) ->
+    ok;
+validate(not_required, _Value, _, _) ->
+    ok;
+validate(_, undefined, _, _) ->
+    ok;
+validate({type, boolean}, Value, _, _) when is_boolean(Value) ->
+    ok;
+validate({type, integer}, Value, _, _) when is_integer(Value) ->
+    ok;
+validate({type, float}, Value, _, _) when is_float(Value) ->
+    ok;
+validate({type, binary}, Value, _, _) when is_binary(Value) ->
+    ok;
+validate({max, Max}, Value, _, _) when Value =< Max ->
+    ok;
+validate({min, Min}, Value, _, _) when Min =< Value ->
+    ok;
+validate({exclusive_max, Max}, Value, _, _) when Value < Max ->
+    ok;
+validate({exclusive_min, Min}, Value, _, _) when Min < Value ->
+    ok;
+validate({max_length, MaxLength}, Value, _, _) when is_binary(Value), byte_size(Value) =< MaxLength ->
+    ok;
+validate({min_length, MinLength}, Value, _, _) when is_binary(Value), MinLength =< byte_size(Value) ->
+    ok;
+validate(Rule = {type, byte}, Value, ReqParamName, _) when is_binary(Value) ->
+    try base64:decode(Value) of
+        Decoded -> {ok, Decoded}
+    catch error:_Error -> validation_error(Rule, ReqParamName, Value)
+    end;
+validate(Rule = {type, boolean}, Value, ReqParamName, _) when is_binary(Value) ->
+    case to_binary(string:lowercase(Value)) of
+        <<"true">> -> {ok, true};
+        <<"false">> -> {ok, false};
+        _ -> validation_error(Rule, ReqParamName, Value)
+    end;
+validate(Rule = {type, integer}, Value, ReqParamName, _) when is_binary(Value) ->
+    try
+        {ok, binary_to_integer(Value)}
+    catch
+        error:badarg ->
+            validation_error(Rule, ReqParamName, Value)
+    end;
+validate(Rule = {type, float}, Value, ReqParamName, _) when is_binary(Value) ->
+    try
+        {ok, binary_to_float(Value)}
+    catch
+        error:badarg ->
+            validation_error(Rule, ReqParamName, Value)
+    end;
+validate(Rule = {type, date}, Value, ReqParamName, _) ->
+    case is_binary(Value) of
+        true -> ok;
+        false -> validation_error(Rule, ReqParamName, Value)
+    end;
+validate(Rule = {type, datetime}, Value, ReqParamName, _) ->
+    try calendar:rfc3339_to_system_time(binary_to_list(Value)) of
         _ -> ok
+    catch error:_Error -> validation_error(Rule, ReqParamName, Value)
     end;
-validate(not_required, _Name, _Value, _ValidatorState) ->
-    ok;
-validate(_, _Name, undefined, _ValidatorState) ->
-    ok;
-validate(Rule = {type, integer}, Name, Value, _ValidatorState) ->
-    try
-        {ok, to_int(Value)}
-    catch
-        error:badarg ->
-            validation_error(Rule, Name)
-    end;
-validate(Rule = {type, float}, Name, Value, _ValidatorState) ->
-    try
-        {ok, to_float(Value)}
-    catch
-        error:badarg ->
-            validation_error(Rule, Name)
-    end;
-validate(Rule = {type, binary}, Name, Value, _ValidatorState) ->
-    case is_binary(Value) of
-        true -> ok;
-        false -> validation_error(Rule, Name)
-    end;
-validate(_Rule = {type, boolean}, _Name, Value, _ValidatorState) when is_boolean(Value) ->
-    {ok, Value};
-validate(Rule = {type, boolean}, Name, Value, _ValidatorState) ->
-    V = binary_to_lower(Value),
-    try
-        case binary_to_existing_atom(V, utf8) of
-            B when is_boolean(B) -> {ok, B};
-            _ -> validation_error(Rule, Name)
-        end
-    catch
-        error:badarg ->
-            validation_error(Rule, Name)
-    end;
-validate(Rule = {type, date}, Name, Value, _ValidatorState) ->
-    case is_binary(Value) of
-        true -> ok;
-        false -> validation_error(Rule, Name)
-    end;
-validate(Rule = {type, datetime}, Name, Value, _ValidatorState) ->
-    case is_binary(Value) of
-        true -> ok;
-        false -> validation_error(Rule, Name)
-    end;
-validate(Rule = {enum, Values}, Name, Value, _ValidatorState) ->
+validate(Rule = {enum, Values}, Value, ReqParamName, _) ->
     try
         FormattedValue = erlang:binary_to_existing_atom(Value, utf8),
         case lists:member(FormattedValue, Values) of
             true -> {ok, FormattedValue};
-            false -> validation_error(Rule, Name)
+            false -> validation_error(Rule, ReqParamName, Value)
         end
     catch
         error:badarg ->
-            validation_error(Rule, Name)
+            validation_error(Rule, ReqParamName, Value)
     end;
-validate(Rule = {max, Max}, Name, Value, _ValidatorState) ->
-    case Value =< Max of
-        true -> ok;
-        false -> validation_error(Rule, Name)
-    end;
-validate(Rule = {exclusive_max, ExclusiveMax}, Name, Value, _ValidatorState) ->
-    case Value > ExclusiveMax of
-        true -> ok;
-        false -> validation_error(Rule, Name)
-    end;
-validate(Rule = {min, Min}, Name, Value, _ValidatorState) ->
-    case Value >= Min of
-        true -> ok;
-        false -> validation_error(Rule, Name)
-    end;
-validate(Rule = {exclusive_min, ExclusiveMin}, Name, Value, _ValidatorState) ->
-    case Value =< ExclusiveMin of
-        true -> ok;
-        false -> validation_error(Rule, Name)
-    end;
-validate(Rule = {max_length, MaxLength}, Name, Value, _ValidatorState) ->
-    case size(Value) =< MaxLength of
-        true -> ok;
-        false -> validation_error(Rule, Name)
-    end;
-validate(Rule = {min_length, MinLength}, Name, Value, _ValidatorState) ->
-    case size(Value) >= MinLength of
-        true -> ok;
-        false -> validation_error(Rule, Name)
-    end;
-validate(Rule = {pattern, Pattern}, Name, Value, _ValidatorState) ->
+validate(Rule = {pattern, Pattern}, Value, ReqParamName, _) ->
     {ok, MP} = re:compile(Pattern),
     case re:run(Value, MP) of
         {match, _} -> ok;
-        _ -> validation_error(Rule, Name)
+        _ -> validation_error(Rule, ReqParamName, Value)
     end;
-validate(Rule = schema, Name, Value, ValidatorState) ->
-    Definition =  list_to_binary("#/components/schemas/" ++ to_list(Name)),
+validate(schema, Value, ReqParamName, ValidatorState) ->
+    Definition = iolist_to_binary(["#/components/schemas/", atom_to_binary(ReqParamName, utf8)]),
+    validate({schema, object, Definition}, Value, ReqParamName, ValidatorState);
+validate({schema, list, Definition}, Value, ReqParamName, ValidatorState) ->
+    lists:foreach(
+      fun(Item) ->
+              validate({schema, object, Definition}, Item, ReqParamName, ValidatorState)
+      end, Value);
+validate(Rule = {schema, object, Definition}, Value, ReqParamName, ValidatorState) ->
     try
         _ = validate_with_schema(Value, Definition, ValidatorState),
         ok
@@ -626,7 +655,7 @@ validate(Rule = schema, Name, Value, ValidatorState) ->
                 type => schema_invalid,
                 error => Error
             },
-            validation_error(Rule, Name, Info);
+            validation_error(Rule, ReqParamName, Value, Info);
         throw:[{data_invalid, Schema, Error, _, Path} | _] ->
             Info = #{
                 type => data_invalid,
@@ -634,25 +663,24 @@ validate(Rule = schema, Name, Value, ValidatorState) ->
                 schema => Schema,
                 path => Path
             },
-            validation_error(Rule, Name, Info)
+            validation_error(Rule, ReqParamName, Value, Info)
     end;
-validate(Rule, Name, _Value, _ValidatorState) ->
-    ?LOG_INFO(#{what => "Cannot validate rule", name => Name, rule => Rule}),
-    error({unknown_validation_rule, Rule}).
+validate(Rule, Value, ReqParamName, _) ->
+    validation_error(Rule, ReqParamName, Value).
 
--spec validation_error(Rule :: any(), Name :: any()) -> no_return().
-validation_error(ViolatedRule, Name) ->
-    validation_error(ViolatedRule, Name, #{}).
+-spec validation_error(rule(), request_param(), term()) -> no_return().
+validation_error(ViolatedRule, Name, Value) ->
+    validation_error(ViolatedRule, Name, Value, #{}).
 
--spec validation_error(Rule :: any(), Name :: any(), Info :: #{_ := _}) -> no_return().
-validation_error(ViolatedRule, Name, Info) ->
-    throw({wrong_param, Name, ViolatedRule, Info}).
+-spec validation_error(rule(), request_param(), term(), Info :: #{_ := _}) -> no_return().
+validation_error(ViolatedRule, Name, Value, Info) ->
+    throw({wrong_param, Name, Value, ViolatedRule, Info}).
 
--spec get_value(body | qs_val | header | binding, Name :: any(), Req0 :: cowboy_req:req()) ->
-    {Value :: any(), Req :: cowboy_req:req()} |
-    {error, Reason :: any(), Req :: cowboy_req:req()}.
+-spec get_value(body | qs_val | header | binding, request_param(), cowboy_req:req()) ->
+    {any(), cowboy_req:req()} |
+    {error, any(), cowboy_req:req()}.
 get_value(body, _Name, Req0) ->
-    {ok, Body, Req} = cowboy_req:read_body(Req0),
+    {ok, Body, Req} = read_entire_body(Req0),
     case prepare_body(Body) of
         {error, Reason} ->
             {error, Reason, Req};
@@ -665,11 +693,24 @@ get_value(qs_val, Name, Req) ->
     {Value, Req};
 get_value(header, Name, Req) ->
     Headers = cowboy_req:headers(Req),
-    Value =  maps:get(to_header(Name), Headers, undefined),
+    Value = maps:get(to_header(Name), Headers, undefined),
     {Value, Req};
 get_value(binding, Name, Req) ->
-    Value = cowboy_req:binding(to_binding(Name), Req),
+    Value = cowboy_req:binding(Name, Req),
     {Value, Req}.
+
+-spec read_entire_body(cowboy_req:req()) -> {ok, binary(), cowboy_req:req()}.
+read_entire_body(Req) ->
+    read_entire_body(Req, []).
+
+-spec read_entire_body(cowboy_req:req(), iodata()) -> {ok, binary(), cowboy_req:req()}.
+read_entire_body(Request, Acc) -> % {
+    case cowboy_req:read_body(Request) of
+        {ok, Data, NewRequest} ->
+            {ok, iolist_to_binary(lists:reverse([Data | Acc])), NewRequest};
+        {more, Data, NewRequest} ->
+            read_entire_body(NewRequest, [Data | Acc])
+    end.
 
 prepare_body(<<>>) ->
     <<>>;
@@ -677,8 +718,8 @@ prepare_body(Body) ->
     try
         json:decode(Body)
     catch
-        error:_ ->
-            {error, {invalid_body, not_json, Body}}
+        error:Error ->
+            {error, {invalid_json, Body, Error}}
     end.
 
 validate_with_schema(Body, Definition, ValidatorState) ->
@@ -688,65 +729,34 @@ validate_with_schema(Body, Definition, ValidatorState) ->
         ValidatorState
     ).
 
-prepare_param(Rules, Name, Value, ValidatorState) ->
+-spec prepare_param([rule()], request_param(), term(), jesse_state:state()) ->
+    {ok, term()} | {error, Reason :: any()}.
+prepare_param(Rules, ReqParamName, Value, ValidatorState) ->
+    Fun = fun(Rule, Acc) ->
+        case validate(Rule, Acc, ReqParamName, ValidatorState) of
+            ok -> Acc;
+            {ok, Prepared} -> Prepared
+        end
+    end,
     try
-        Result = lists:foldl(
-            fun(Rule, Acc) ->
-                case validate(Rule, Name, Acc, ValidatorState) of
-                    ok -> Acc;
-                    {ok, Prepared} -> Prepared
-                end
-            end,
-            Value,
-            Rules
-        ),
+        Result = lists:foldl(Fun, Value, Rules),
         {ok, Result}
     catch
         throw:Reason ->
             {error, Reason}
     end.
 
--spec to_binary(iodata() | atom() | number()) -> binary().
+-spec to_binary(iodata()) -> binary().
 to_binary(V) when is_binary(V)  -> V;
-to_binary(V) when is_list(V)    -> iolist_to_binary(V);
-to_binary(V) when is_atom(V)    -> atom_to_binary(V, utf8);
-to_binary(V) when is_integer(V) -> integer_to_binary(V);
-to_binary(V) when is_float(V)   -> float_to_binary(V).
+to_binary(V) when is_list(V)    -> iolist_to_binary(V).
 
--spec to_list(iodata() | atom() | number()) -> binary().
-to_list(V) when is_list(V)    -> V;
-to_list(V) when is_binary(V)  -> binary_to_list(V);
-to_list(V) when is_atom(V)    -> atom_to_list(V);
-to_list(V) when is_integer(V) -> integer_to_list(V);
-to_list(V) when is_float(V)   -> float_to_list(V).
-
--spec to_float(iodata()) -> float().
-to_float(V) ->
-    binary_to_float(iolist_to_binary([V])).
-
--spec to_int(integer() | binary() | list()) -> integer().
-to_int(Data) when is_integer(Data) ->
-    Data;
-to_int(Data) when is_binary(Data) ->
-    binary_to_integer(Data);
-to_int(Data) when is_list(Data) ->
-    list_to_integer(Data).
-
--spec to_header(iodata() | atom() | number()) -> binary().
+-spec to_header(request_param()) -> binary().
 to_header(Name) ->
-    to_binary(string:lowercase(to_binary(Name))).
+    to_binary(string:lowercase(atom_to_binary(Name, utf8))).
 
-binary_to_lower(V) when is_binary(V) ->
-    string:lowercase(V).
-
--spec to_qs(iodata() | atom() | number()) -> binary().
+-spec to_qs(request_param()) -> binary().
 to_qs(Name) ->
-    to_binary(Name).
-
--spec to_binding(iodata() | atom() | number()) -> atom().
-to_binding(Name) ->
-    Prepared = to_binary(Name),
-    binary_to_existing_atom(Prepared, utf8).
+    atom_to_binary(Name, utf8).
 
 -spec get_opt(any(), []) -> any().
 get_opt(Key, Opts) ->

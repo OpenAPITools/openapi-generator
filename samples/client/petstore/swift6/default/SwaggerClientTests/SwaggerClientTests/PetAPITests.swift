@@ -10,10 +10,8 @@ import PetstoreClient
 import XCTest
 @testable import SwaggerClient
 
-@MainActor
+@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 class PetAPITests: XCTestCase {
-
-    let testTimeout = 10.0
 
     override func setUp() {
         super.setUp()
@@ -25,47 +23,32 @@ class PetAPITests: XCTestCase {
         super.tearDown()
     }
 
-    func test1CreatePet() {
-        let expectation = self.expectation(description: "testCreatePet")
+    func test1CreatePet() async throws {
         let category = Category(id: 1234, name: "eyeColor")
         let tags = [Tag(id: 1234, name: "New York"), Tag(id: 124321, name: "Jose")]
         let newPet = Pet(id: 1000, category: category, name: "Fluffy", photoUrls: ["https://petstore.com/sample/photo1.jpg", "https://petstore.com/sample/photo2.jpg"], tags: tags, status: .available)
 
-        PetAPI.addPet(body: newPet) { (_, error) in
-            guard error == nil else {
-                XCTFail("error creating pet")
-                return
-            }
-
-            expectation.fulfill()
-        }
-
-        self.waitForExpectations(timeout: testTimeout, handler: nil)
+        try await PetAPI.addPet(body: newPet)
     }
 
-    func test2GetPet() {
-        let expectation = self.expectation(description: "testGetPet")
-
-        PetAPI.getPetById(petId: 1000) { (pet, error) in
-            guard error == nil else {
-                XCTFail("error retrieving pet")
-                return
-            }
-
-            if let pet = pet {
-                XCTAssert(pet.id == 1000, "invalid id")
-                XCTAssert(pet.name == "Fluffy", "invalid name")
-
-                expectation.fulfill()
-            }
-        }
-
-        self.waitForExpectations(timeout: testTimeout, handler: nil)
+    func test2GetPet() async throws {
+        let pet = try await PetAPI.getPetById(petId: 1000)
+        
+        XCTAssert(pet.id == 1000, "invalid id")
+        XCTAssert(pet.name == "Fluffy", "invalid name")
+        XCTAssert(pet.category!.id == 1234, "invalid category id")
+        XCTAssert(pet.category!.name == "eyeColor", "invalid category name")
+        
+        let tag1 = pet.tags![0]
+        XCTAssert(tag1.id == 1234, "invalid tag id")
+        XCTAssert(tag1.name == "New York", "invalid tag name")
+        
+        let tag2 = pet.tags![1]
+        XCTAssert(tag2.id == 124321, "invalid tag id")
+        XCTAssert(tag2.name == "Jose", "invalid tag name")        
     }
 
-    func test3UploadFile() {
-        let expectation = self.expectation(description: "testUploadFile")
-
+    func test3UploadFile() async throws {
         let imageName = UUID().uuidString + ".png"
 
         guard
@@ -75,33 +58,31 @@ class PetAPITests: XCTestCase {
             fatalError()
         }
 
-        PetAPI.uploadFile(petId: 1000, additionalMetadata: "additionalMetadata", file: imageURL) { (_, error) in
-            guard error == nil else {
-                FileUtils.deleteFile(fileURL: imageURL)
-                XCTFail("error uploading file")
-                return
-            }
-
+        do {
+            let _ = try await PetAPI.uploadFile(petId: 1000, additionalMetadata: "additionalMetadata", file: imageURL)
+            
             FileUtils.deleteFile(fileURL: imageURL)
-            expectation.fulfill()
+        } catch {
+            FileUtils.deleteFile(fileURL: imageURL)
+            XCTFail("error uploading file")
         }
-
-        self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 
-    func test4DeletePet() {
-        let expectation = self.expectation(description: "testDeletePet")
-
-        PetAPI.deletePet(petId: 1000) { (_, error) in
-            guard error == nil else {
+    func test4DeletePet() async throws {
+        do {
+            try await PetAPI.deletePet(petId: 1000)
+        } catch let errorType {
+            // The server gives us no data back so alamofire parsing fails - at least
+            // verify that is the error we get here
+            // Error Domain=com.alamofire.error Code=-6006 "JSON could not be serialized. Input data was nil or zero
+            // length." UserInfo={NSLocalizedFailureReason=JSON could not be serialized. Input data was nil or zero
+            // length.}
+            let error = errorType as NSError
+            if error.code == -6006 {
+                // Everything ok!
+            } else {
                 XCTFail("error deleting pet")
-                return
             }
-
-            expectation.fulfill()
         }
-
-        self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-
 }

@@ -725,10 +725,10 @@ export interface FormatTest {
     'double'?: number;
     /**
      * 
-     * @type {Decimal}
+     * @type {string}
      * @memberof FormatTest
      */
-    'decimal'?: Decimal;
+    'decimal'?: string;
     /**
      * 
      * @type {string}

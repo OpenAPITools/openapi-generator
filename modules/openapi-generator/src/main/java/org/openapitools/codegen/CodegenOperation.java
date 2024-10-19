@@ -30,7 +30,7 @@ public class CodegenOperation {
             hasVersionHeaders = false, hasVersionQueryParams = false,
             isResponseBinary = false, isResponseFile = false, isResponseOptional = false, hasReference = false, defaultReturnType = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
-            isRestful, isDeprecated, isCallbackRequest, uniqueItems, hasDefaultResponse = false, hasConstantParams = false,
+            isRestful, isDeprecated, isCallbackRequest, uniqueItems, hasDefaultResponse = false, hasOnlyDefaultResponse = false, hasConstantParams = false,
             hasErrorResponseObject, // if 4xx, 5xx responses have at least one error object defined
             hasSingleParam = false; // if the operation has only one parameter;
     public CodegenProperty returnProperty;
@@ -215,6 +215,13 @@ public class CodegenOperation {
         return responses.stream().anyMatch(response -> response.isDefault);
     }
 
+    /**
+     * Check if the responses contain only 1 entry and it's default
+     *
+     * @return true if responses contain only 1 entry and it's a default response, false otherwise
+     */
+    public boolean getHasOnlyDefaultResponse() { return responses.size() == 1 && getHasDefaultResponse(); }
+
     public boolean getAllResponsesAreErrors() {
         return responses.stream().allMatch(response -> response.is4xx || response.is5xx);
     }
@@ -351,6 +358,7 @@ public class CodegenOperation {
         sb.append(", isResponseOptional=").append(isResponseOptional);
         sb.append(", hasReference=").append(hasReference);
         sb.append(", hasDefaultResponse=").append(hasDefaultResponse);
+        sb.append(", hasOnlyDefaultResponse=").append(hasOnlyDefaultResponse);
         sb.append(", hasErrorResponseObject=").append(hasErrorResponseObject);
         sb.append(", hasSingleParam=").append(hasSingleParam);
         sb.append(", isRestfulIndex=").append(isRestfulIndex);
@@ -432,6 +440,7 @@ public class CodegenOperation {
                 isResponseOptional == that.isResponseOptional &&
                 hasReference == that.hasReference &&
                 hasDefaultResponse == that.hasDefaultResponse &&
+                hasOnlyDefaultResponse == that.hasOnlyDefaultResponse &&
                 hasErrorResponseObject == that.hasErrorResponseObject &&
                 hasSingleParam == that.hasSingleParam &&
                 isRestfulIndex == that.isRestfulIndex &&
@@ -496,7 +505,7 @@ public class CodegenOperation {
         return Objects.hash(responseHeaders, hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams,
                 hasRequiredParams, returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
                 isArray, isMultipart, isVoid, isResponseBinary, isResponseFile, isResponseOptional, hasReference,
-                hasDefaultResponse, isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
+                hasDefaultResponse, hasOnlyDefaultResponse, isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
                 isRestful, isDeprecated, isCallbackRequest, uniqueItems, path, operationId, returnType, httpMethod,
                 returnBaseType, returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse,
                 discriminator, consumes, produces, prioritizedContentTypes, servers, bodyParam, allParams, bodyParams,

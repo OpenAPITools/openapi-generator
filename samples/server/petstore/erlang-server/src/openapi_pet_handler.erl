@@ -1,5 +1,40 @@
-%% basic handler
 -module(openapi_pet_handler).
+-moduledoc """
+Exposes the following operation IDs:
+
+- `POST` to `/pet`, OperationId: `addPet`:
+Add a new pet to the store.
+
+
+- `DELETE` to `/pet/:petId`, OperationId: `deletePet`:
+Deletes a pet.
+
+
+- `GET` to `/pet/findByStatus`, OperationId: `findPetsByStatus`:
+Finds Pets by status.
+Multiple status values can be provided with comma separated strings
+
+- `GET` to `/pet/findByTags`, OperationId: `findPetsByTags`:
+Finds Pets by tags.
+Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+
+- `GET` to `/pet/:petId`, OperationId: `getPetById`:
+Find pet by ID.
+Returns a single pet
+
+- `PUT` to `/pet`, OperationId: `updatePet`:
+Update an existing pet.
+
+
+- `POST` to `/pet/:petId`, OperationId: `updatePetWithForm`:
+Updates a pet in the store with form data.
+
+
+- `POST` to `/pet/:petId/uploadImage`, OperationId: `uploadFile`:
+uploads an image.
+
+
+""".
 
 -behaviour(cowboy_rest).
 
@@ -17,8 +52,23 @@
 
 -ignore_xref([handle_type_accepted/2, handle_type_provided/2]).
 
+-export_type([class/0, operation_id/0]).
+
+-type class() :: 'pet'.
+
+-type operation_id() ::
+    'addPet' %% Add a new pet to the store
+    | 'deletePet' %% Deletes a pet
+    | 'findPetsByStatus' %% Finds Pets by status
+    | 'findPetsByTags' %% Finds Pets by tags
+    | 'getPetById' %% Find pet by ID
+    | 'updatePet' %% Update an existing pet
+    | 'updatePetWithForm' %% Updates a pet in the store with form data
+    | 'uploadFile'. %% uploads an image
+
+
 -record(state,
-        {operation_id :: openapi_api:operation_id(),
+        {operation_id :: operation_id(),
          accept_callback :: openapi_logic_handler:accept_callback(),
          provide_callback :: openapi_logic_handler:provide_callback(),
          api_key_handler :: openapi_logic_handler:api_key_callback(),
@@ -42,21 +92,21 @@ init(Req, {Operations, Module}) ->
 
 -spec allowed_methods(cowboy_req:req(), state()) ->
     {[binary()], cowboy_req:req(), state()}.
-allowed_methods(Req, #state{operation_id = 'AddPet'} = State) ->
+allowed_methods(Req, #state{operation_id = 'addPet'} = State) ->
     {[<<"POST">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'DeletePet'} = State) ->
+allowed_methods(Req, #state{operation_id = 'deletePet'} = State) ->
     {[<<"DELETE">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'FindPetsByStatus'} = State) ->
+allowed_methods(Req, #state{operation_id = 'findPetsByStatus'} = State) ->
     {[<<"GET">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'FindPetsByTags'} = State) ->
+allowed_methods(Req, #state{operation_id = 'findPetsByTags'} = State) ->
     {[<<"GET">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'GetPetById'} = State) ->
+allowed_methods(Req, #state{operation_id = 'getPetById'} = State) ->
     {[<<"GET">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'UpdatePet'} = State) ->
+allowed_methods(Req, #state{operation_id = 'updatePet'} = State) ->
     {[<<"PUT">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'UpdatePetWithForm'} = State) ->
+allowed_methods(Req, #state{operation_id = 'updatePetWithForm'} = State) ->
     {[<<"POST">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'UploadFile'} = State) ->
+allowed_methods(Req, #state{operation_id = 'uploadFile'} = State) ->
     {[<<"POST">>], Req, State};
 allowed_methods(Req, State) ->
     {[], Req, State}.
@@ -64,7 +114,7 @@ allowed_methods(Req, State) ->
 -spec is_authorized(cowboy_req:req(), state()) ->
     {true | {false, iodata()}, cowboy_req:req(), state()}.
 is_authorized(Req0,
-              #state{operation_id = 'AddPet' = OperationID,
+              #state{operation_id = 'addPet' = OperationID,
                      api_key_handler = Handler} = State) ->
     case openapi_auth:authorize_api_key(Handler, OperationID, header, "authorization", Req0) of
         {true, Context, Req} ->
@@ -73,7 +123,7 @@ is_authorized(Req0,
             {{false, AuthHeader}, Req, State}
     end;
 is_authorized(Req0,
-              #state{operation_id = 'DeletePet' = OperationID,
+              #state{operation_id = 'deletePet' = OperationID,
                      api_key_handler = Handler} = State) ->
     case openapi_auth:authorize_api_key(Handler, OperationID, header, "authorization", Req0) of
         {true, Context, Req} ->
@@ -82,7 +132,7 @@ is_authorized(Req0,
             {{false, AuthHeader}, Req, State}
     end;
 is_authorized(Req0,
-              #state{operation_id = 'FindPetsByStatus' = OperationID,
+              #state{operation_id = 'findPetsByStatus' = OperationID,
                      api_key_handler = Handler} = State) ->
     case openapi_auth:authorize_api_key(Handler, OperationID, header, "authorization", Req0) of
         {true, Context, Req} ->
@@ -91,7 +141,7 @@ is_authorized(Req0,
             {{false, AuthHeader}, Req, State}
     end;
 is_authorized(Req0,
-              #state{operation_id = 'FindPetsByTags' = OperationID,
+              #state{operation_id = 'findPetsByTags' = OperationID,
                      api_key_handler = Handler} = State) ->
     case openapi_auth:authorize_api_key(Handler, OperationID, header, "authorization", Req0) of
         {true, Context, Req} ->
@@ -100,7 +150,7 @@ is_authorized(Req0,
             {{false, AuthHeader}, Req, State}
     end;
 is_authorized(Req0,
-              #state{operation_id = 'GetPetById' = OperationID,
+              #state{operation_id = 'getPetById' = OperationID,
                      api_key_handler = Handler} = State) ->
     case openapi_auth:authorize_api_key(Handler, OperationID, header, "authorization", Req0) of
         {true, Context, Req} ->
@@ -109,7 +159,7 @@ is_authorized(Req0,
             {{false, AuthHeader}, Req, State}
     end;
 is_authorized(Req0,
-              #state{operation_id = 'UpdatePet' = OperationID,
+              #state{operation_id = 'updatePet' = OperationID,
                      api_key_handler = Handler} = State) ->
     case openapi_auth:authorize_api_key(Handler, OperationID, header, "authorization", Req0) of
         {true, Context, Req} ->
@@ -118,7 +168,7 @@ is_authorized(Req0,
             {{false, AuthHeader}, Req, State}
     end;
 is_authorized(Req0,
-              #state{operation_id = 'UpdatePetWithForm' = OperationID,
+              #state{operation_id = 'updatePetWithForm' = OperationID,
                      api_key_handler = Handler} = State) ->
     case openapi_auth:authorize_api_key(Handler, OperationID, header, "authorization", Req0) of
         {true, Context, Req} ->
@@ -127,7 +177,7 @@ is_authorized(Req0,
             {{false, AuthHeader}, Req, State}
     end;
 is_authorized(Req0,
-              #state{operation_id = 'UploadFile' = OperationID,
+              #state{operation_id = 'uploadFile' = OperationID,
                      api_key_handler = Handler} = State) ->
     case openapi_auth:authorize_api_key(Handler, OperationID, header, "authorization", Req0) of
         {true, Context, Req} ->
@@ -140,29 +190,29 @@ is_authorized(Req, State) ->
 
 -spec content_types_accepted(cowboy_req:req(), state()) ->
     {[{binary(), atom()}], cowboy_req:req(), state()}.
-content_types_accepted(Req, #state{operation_id = 'AddPet'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'addPet'} = State) ->
     {[
       {<<"application/json">>, handle_type_accepted},
       {<<"application/xml">>, handle_type_accepted}
      ], Req, State};
-content_types_accepted(Req, #state{operation_id = 'DeletePet'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'deletePet'} = State) ->
     {[], Req, State};
-content_types_accepted(Req, #state{operation_id = 'FindPetsByStatus'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'findPetsByStatus'} = State) ->
     {[], Req, State};
-content_types_accepted(Req, #state{operation_id = 'FindPetsByTags'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'findPetsByTags'} = State) ->
     {[], Req, State};
-content_types_accepted(Req, #state{operation_id = 'GetPetById'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'getPetById'} = State) ->
     {[], Req, State};
-content_types_accepted(Req, #state{operation_id = 'UpdatePet'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'updatePet'} = State) ->
     {[
       {<<"application/json">>, handle_type_accepted},
       {<<"application/xml">>, handle_type_accepted}
      ], Req, State};
-content_types_accepted(Req, #state{operation_id = 'UpdatePetWithForm'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'updatePetWithForm'} = State) ->
     {[
       {<<"application/x-www-form-urlencoded">>, handle_type_accepted}
      ], Req, State};
-content_types_accepted(Req, #state{operation_id = 'UploadFile'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'uploadFile'} = State) ->
     {[
       {<<"multipart/form-data">>, handle_type_accepted}
      ], Req, State};
@@ -171,57 +221,57 @@ content_types_accepted(Req, State) ->
 
 -spec valid_content_headers(cowboy_req:req(), state()) ->
     {boolean(), cowboy_req:req(), state()}.
-valid_content_headers(Req, #state{operation_id = 'AddPet'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'addPet'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'DeletePet'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'deletePet'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'FindPetsByStatus'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'findPetsByStatus'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'FindPetsByTags'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'findPetsByTags'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'GetPetById'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'getPetById'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'UpdatePet'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'updatePet'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'UpdatePetWithForm'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'updatePetWithForm'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'UploadFile'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'uploadFile'} = State) ->
     {true, Req, State};
 valid_content_headers(Req, State) ->
     {false, Req, State}.
 
 -spec content_types_provided(cowboy_req:req(), state()) ->
     {[{binary(), atom()}], cowboy_req:req(), state()}.
-content_types_provided(Req, #state{operation_id = 'AddPet'} = State) ->
+content_types_provided(Req, #state{operation_id = 'addPet'} = State) ->
     {[
       {<<"application/xml">>, handle_type_provided},
       {<<"application/json">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'DeletePet'} = State) ->
+content_types_provided(Req, #state{operation_id = 'deletePet'} = State) ->
     {[], Req, State};
-content_types_provided(Req, #state{operation_id = 'FindPetsByStatus'} = State) ->
+content_types_provided(Req, #state{operation_id = 'findPetsByStatus'} = State) ->
     {[
       {<<"application/xml">>, handle_type_provided},
       {<<"application/json">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'FindPetsByTags'} = State) ->
+content_types_provided(Req, #state{operation_id = 'findPetsByTags'} = State) ->
     {[
       {<<"application/xml">>, handle_type_provided},
       {<<"application/json">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'GetPetById'} = State) ->
+content_types_provided(Req, #state{operation_id = 'getPetById'} = State) ->
     {[
       {<<"application/xml">>, handle_type_provided},
       {<<"application/json">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'UpdatePet'} = State) ->
+content_types_provided(Req, #state{operation_id = 'updatePet'} = State) ->
     {[
       {<<"application/xml">>, handle_type_provided},
       {<<"application/json">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'UpdatePetWithForm'} = State) ->
+content_types_provided(Req, #state{operation_id = 'updatePetWithForm'} = State) ->
     {[], Req, State};
-content_types_provided(Req, #state{operation_id = 'UploadFile'} = State) ->
+content_types_provided(Req, #state{operation_id = 'uploadFile'} = State) ->
     {[
       {<<"application/json">>, handle_type_provided}
      ], Req, State};
@@ -231,8 +281,8 @@ content_types_provided(Req, State) ->
 -spec delete_resource(cowboy_req:req(), state()) ->
     {boolean(), cowboy_req:req(), state()}.
 delete_resource(Req, State) ->
-    {Res, Req1, State} = handle_type_accepted(Req, State),
-    {true =:= Res, Req1, State}.
+    {Res, Req1, State1} = handle_type_accepted(Req, State),
+    {true =:= Res, Req1, State1}.
 
 -spec handle_type_accepted(cowboy_req:req(), state()) ->
     { openapi_logic_handler:accept_callback_return(), cowboy_req:req(), state()}.

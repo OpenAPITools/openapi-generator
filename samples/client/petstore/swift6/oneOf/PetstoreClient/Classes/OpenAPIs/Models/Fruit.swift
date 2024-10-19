@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 public enum Fruit: Codable, JSONEncodable, Hashable {
     case typeApple(Apple)

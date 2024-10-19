@@ -26,15 +26,21 @@ This python library package is generated without supporting files like setup.py 
 
 To be able to use it, you will need these dependencies in your own package that uses this library:
 
-* urllib3 >= 1.25.3
-* python-dateutil
+* urllib3 >= 1.25.3, < 3.0.0
+* python-dateutil >= 2.8.2
 {{#asyncio}}
-* aiohttp
+* aiohttp >= 3.8.4
+* aiohttp-retry >= 2.8.3
 {{/asyncio}}
 {{#tornado}}
-* tornado>=4.2,<5
+* tornado >= 4.2, < 5
 {{/tornado}}
-* pydantic
+{{#hasHttpSignatureMethods}}
+* pem >= 19.3.0
+* pycryptodome >= 3.9.0
+{{/hasHttpSignatureMethods}}
+* pydantic >= 2
+* typing-extensions >= 4.7.1
 
 ## Getting Started
 

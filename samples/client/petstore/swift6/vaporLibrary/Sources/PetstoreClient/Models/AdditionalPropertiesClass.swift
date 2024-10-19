@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 import Vapor
 
 public final class AdditionalPropertiesClass: Content, Hashable {
@@ -18,14 +15,14 @@ public final class AdditionalPropertiesClass: Content, Hashable {
     public var mapInteger: [String: Int]?
     public var mapBoolean: [String: Bool]?
     public var mapArrayInteger: [String: [Int]]?
-    public var mapArrayAnytype: [String: [AnyCodable]]?
+    public var mapArrayAnytype: [String: [JSONValue]]?
     public var mapMapString: [String: [String: String]]?
-    public var mapMapAnytype: [String: [String: AnyCodable]]?
-    public var anytype1: AnyCodable?
-    public var anytype2: AnyCodable?
-    public var anytype3: AnyCodable?
+    public var mapMapAnytype: [String: [String: JSONValue]]?
+    public var anytype1: JSONValue?
+    public var anytype2: JSONValue?
+    public var anytype3: JSONValue?
 
-    public init(mapString: [String: String]? = nil, mapNumber: [String: Double]? = nil, mapInteger: [String: Int]? = nil, mapBoolean: [String: Bool]? = nil, mapArrayInteger: [String: [Int]]? = nil, mapArrayAnytype: [String: [AnyCodable]]? = nil, mapMapString: [String: [String: String]]? = nil, mapMapAnytype: [String: [String: AnyCodable]]? = nil, anytype1: AnyCodable? = nil, anytype2: AnyCodable? = nil, anytype3: AnyCodable? = nil) {
+    public init(mapString: [String: String]? = nil, mapNumber: [String: Double]? = nil, mapInteger: [String: Int]? = nil, mapBoolean: [String: Bool]? = nil, mapArrayInteger: [String: [Int]]? = nil, mapArrayAnytype: [String: [JSONValue]]? = nil, mapMapString: [String: [String: String]]? = nil, mapMapAnytype: [String: [String: JSONValue]]? = nil, anytype1: JSONValue? = nil, anytype2: JSONValue? = nil, anytype3: JSONValue? = nil) {
         self.mapString = mapString
         self.mapNumber = mapNumber
         self.mapInteger = mapInteger

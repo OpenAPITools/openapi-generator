@@ -1,5 +1,12 @@
-%% basic handler
 -module({{classname}}).
+-moduledoc """
+Exposes the following operation IDs:
+{{#operations}}{{#operation}}
+- `{{httpMethod}}` to `{{path}}`, OperationId: `{{operationIdOriginal}}`:
+{{summary}}.
+{{notes}}
+{{/operation}}{{/operations}}
+""".
 
 -behaviour(cowboy_rest).
 
@@ -17,8 +24,16 @@
 
 -ignore_xref([handle_type_accepted/2, handle_type_provided/2]).
 
+-export_type([class/0, operation_id/0]).
+
+-type class() :: '{{operations.pathPrefix}}'.
+
+-type operation_id() ::
+{{#operations}}{{#operation}}    {{^-first}}| {{/-first}}'{{operationIdOriginal}}'{{#-last}}.{{/-last}} %% {{summary}}
+{{/operation}}{{/operations}}
+
 -record(state,
-        {operation_id :: {{packageName}}_api:operation_id(),
+        {operation_id :: operation_id(),
          accept_callback :: {{packageName}}_logic_handler:accept_callback(),
          provide_callback :: {{packageName}}_logic_handler:provide_callback(),
          api_key_handler :: {{packageName}}_logic_handler:api_key_callback(),
@@ -42,7 +57,7 @@ init(Req, {Operations, Module}) ->
 
 -spec allowed_methods(cowboy_req:req(), state()) ->
     {[binary()], cowboy_req:req(), state()}.
-{{#operations}}{{#operation}}allowed_methods(Req, #state{operation_id = '{{operationId}}'} = State) ->
+{{#operations}}{{#operation}}allowed_methods(Req, #state{operation_id = '{{operationIdOriginal}}'} = State) ->
     {[<<"{{httpMethod}}">>], Req, State};
 {{/operation}}{{/operations}}allowed_methods(Req, State) ->
     {[], Req, State}.
@@ -53,7 +68,7 @@ init(Req, {Operations, Module}) ->
 {{#operation}}
 {{#authMethods.size}}
 is_authorized(Req0,
-              #state{operation_id = '{{operationId}}' = OperationID,
+              #state{operation_id = '{{operationIdOriginal}}' = OperationID,
                      api_key_handler = Handler} = State) ->
     case {{packageName}}_auth:authorize_api_key(Handler, OperationID, {{#isApiKey.isKeyInQuery}}qs_val, {{/isApiKey.isKeyInQuery}}{{^isApiKey.isKeyInQuery}}header, {{/isApiKey.isKeyInQuery}}{{#isApiKey}}"{{keyParamName}}", {{/isApiKey}}{{^isApiKey}}"authorization", {{/isApiKey}}Req0) of
         {true, Context, Req} ->
@@ -69,7 +84,7 @@ is_authorized(Req, State) ->
 
 -spec content_types_accepted(cowboy_req:req(), state()) ->
     {[{binary(), atom()}], cowboy_req:req(), state()}.
-{{#operations}}{{#operation}}content_types_accepted(Req, #state{operation_id = '{{operationId}}'} = State) ->
+{{#operations}}{{#operation}}content_types_accepted(Req, #state{operation_id = '{{operationIdOriginal}}'} = State) ->
     {{^consumes.size}}
     {[], Req, State};
     {{/consumes.size}}
@@ -85,14 +100,14 @@ is_authorized(Req, State) ->
 
 -spec valid_content_headers(cowboy_req:req(), state()) ->
     {boolean(), cowboy_req:req(), state()}.
-{{#operations}}{{#operation}}valid_content_headers(Req, #state{operation_id = '{{operationId}}'} = State) ->
+{{#operations}}{{#operation}}valid_content_headers(Req, #state{operation_id = '{{operationIdOriginal}}'} = State) ->
     {true, Req, State};
 {{/operation}}{{/operations}}valid_content_headers(Req, State) ->
     {false, Req, State}.
 
 -spec content_types_provided(cowboy_req:req(), state()) ->
     {[{binary(), atom()}], cowboy_req:req(), state()}.
-{{#operations}}{{#operation}}content_types_provided(Req, #state{operation_id = '{{operationId}}'} = State) ->
+{{#operations}}{{#operation}}content_types_provided(Req, #state{operation_id = '{{operationIdOriginal}}'} = State) ->
     {{^produces.size}}
     {[], Req, State};
     {{/produces.size}}
@@ -109,8 +124,8 @@ is_authorized(Req, State) ->
 -spec delete_resource(cowboy_req:req(), state()) ->
     {boolean(), cowboy_req:req(), state()}.
 delete_resource(Req, State) ->
-    {Res, Req1, State} = handle_type_accepted(Req, State),
-    {true =:= Res, Req1, State}.
+    {Res, Req1, State1} = handle_type_accepted(Req, State),
+    {true =:= Res, Req1, State1}.
 
 -spec handle_type_accepted(cowboy_req:req(), state()) ->
     { {{packageName}}_logic_handler:accept_callback_return(), cowboy_req:req(), state()}.

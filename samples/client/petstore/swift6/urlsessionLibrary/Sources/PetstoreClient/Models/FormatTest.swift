@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 @available(*, deprecated, renamed: "PetstoreClientAPI.FormatTest")
 public typealias FormatTest = PetstoreClientAPI.FormatTest
@@ -32,13 +29,13 @@ public final class FormatTest: Codable, JSONEncodable, Hashable {
     public var double: Double?
     public var string: String?
     public var byte: Data
-    public var binary: URL?
+    public var binary: Data?
     public var date: Date
     public var dateTime: Date?
     public var uuid: UUID?
     public var password: String
 
-    public init(integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, number: Double, float: Float? = nil, double: Double? = nil, string: String? = nil, byte: Data, binary: URL? = nil, date: Date, dateTime: Date? = nil, uuid: UUID? = nil, password: String) {
+    public init(integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, number: Double, float: Float? = nil, double: Double? = nil, string: String? = nil, byte: Data, binary: Data? = nil, date: Date, dateTime: Date? = nil, uuid: UUID? = nil, password: String) {
         self.integer = integer
         self.int32 = int32
         self.int64 = int64

@@ -49,16 +49,17 @@ import org.openapitools.client.JSON;
 /**
  * Banana
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Banana {
   public static final String SERIALIZED_NAME_LENGTH_CM = "lengthCm";
   @SerializedName(SERIALIZED_NAME_LENGTH_CM)
+  @javax.annotation.Nullable
   private BigDecimal lengthCm;
 
   public Banana() {
   }
 
-  public Banana lengthCm(BigDecimal lengthCm) {
+  public Banana lengthCm(@javax.annotation.Nullable BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
     return this;
   }
@@ -72,7 +73,7 @@ public class Banana {
     return lengthCm;
   }
 
-  public void setLengthCm(BigDecimal lengthCm) {
+  public void setLengthCm(@javax.annotation.Nullable BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
   }
 

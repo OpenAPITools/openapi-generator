@@ -65,7 +65,7 @@ export function *createUserSaga() {
     yield takeLatest(createUser, createUserSagaImp);
 }
 
-export function *createUserSagaImp(_action_: Action<PayloadCreateUser>) {
+export function *createUserSagaImp(_action_: Action<PayloadCreateUser>): any {
     const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
         const {
@@ -81,7 +81,7 @@ export function *createUserSagaImp(_action_: Action<PayloadCreateUser>) {
             yield put(createUserSuccess());
 
         return undefined;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(createUserFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -107,7 +107,7 @@ export function *createUsersWithArrayInputSaga() {
     yield takeLatest(createUsersWithArrayInput, createUsersWithArrayInputSagaImp);
 }
 
-export function *createUsersWithArrayInputSagaImp(_action_: Action<PayloadCreateUsersWithArrayInput>) {
+export function *createUsersWithArrayInputSagaImp(_action_: Action<PayloadCreateUsersWithArrayInput>): any {
     const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
         const {
@@ -123,7 +123,7 @@ export function *createUsersWithArrayInputSagaImp(_action_: Action<PayloadCreate
             yield put(createUsersWithArrayInputSuccess());
 
         return undefined;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(createUsersWithArrayInputFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -149,7 +149,7 @@ export function *createUsersWithListInputSaga() {
     yield takeLatest(createUsersWithListInput, createUsersWithListInputSagaImp);
 }
 
-export function *createUsersWithListInputSagaImp(_action_: Action<PayloadCreateUsersWithListInput>) {
+export function *createUsersWithListInputSagaImp(_action_: Action<PayloadCreateUsersWithListInput>): any {
     const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
         const {
@@ -165,7 +165,7 @@ export function *createUsersWithListInputSagaImp(_action_: Action<PayloadCreateU
             yield put(createUsersWithListInputSuccess());
 
         return undefined;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(createUsersWithListInputFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -191,7 +191,7 @@ export function *deleteUserSaga() {
     yield takeLatest(deleteUser, deleteUserSagaImp);
 }
 
-export function *deleteUserSagaImp(_action_: Action<PayloadDeleteUser>) {
+export function *deleteUserSagaImp(_action_: Action<PayloadDeleteUser>): any {
     const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
         const {
@@ -207,7 +207,7 @@ export function *deleteUserSagaImp(_action_: Action<PayloadDeleteUser>) {
             yield put(deleteUserSuccess());
 
         return undefined;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(deleteUserFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -260,7 +260,7 @@ export function *getUserByNameSagaImp(_action_: Action<PayloadGetUserByName>) {
         }
 
         return successReturnValue;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(getUserByNameFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -306,7 +306,7 @@ export function *loginUserSagaImp(_action_: Action<PayloadLoginUser>) {
             yield put(loginUserSuccess(response));
 
         return response;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(loginUserFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -329,7 +329,7 @@ export function *logoutUserSaga() {
     yield takeLatest(logoutUser, logoutUserSagaImp);
 }
 
-export function *logoutUserSagaImp(_action_: Action<PayloadLogoutUser>) {
+export function *logoutUserSagaImp(_action_: Action<PayloadLogoutUser>): any {
     const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
 
@@ -341,7 +341,7 @@ export function *logoutUserSagaImp(_action_: Action<PayloadLogoutUser>) {
             yield put(logoutUserSuccess());
 
         return undefined;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(logoutUserFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -386,7 +386,7 @@ export function *updateUserSagaImp(_action_: Action<PayloadUpdateUser>) {
             yield put(updateUserSuccess());
 
         return undefined;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(updateUserFailure({error, requestPayload: _action_.payload}));
         return error;

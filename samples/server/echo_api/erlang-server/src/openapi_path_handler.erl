@@ -1,5 +1,12 @@
-%% basic handler
 -module(openapi_path_handler).
+-moduledoc """
+Exposes the following operation IDs:
+
+- `GET` to `/path/string/:path_string/integer/:path_integer/:enum_nonref_string_path/:enum_ref_string_path`, OperationId: `tests/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}`:
+Test path parameter(s).
+Test path parameter(s)
+
+""".
 
 -behaviour(cowboy_rest).
 
@@ -17,8 +24,16 @@
 
 -ignore_xref([handle_type_accepted/2, handle_type_provided/2]).
 
+-export_type([class/0, operation_id/0]).
+
+-type class() :: 'path'.
+
+-type operation_id() ::
+    'tests/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}'. %% Test path parameter(s)
+
+
 -record(state,
-        {operation_id :: openapi_api:operation_id(),
+        {operation_id :: operation_id(),
          accept_callback :: openapi_logic_handler:accept_callback(),
          provide_callback :: openapi_logic_handler:provide_callback(),
          api_key_handler :: openapi_logic_handler:api_key_callback(),
@@ -42,7 +57,7 @@ init(Req, {Operations, Module}) ->
 
 -spec allowed_methods(cowboy_req:req(), state()) ->
     {[binary()], cowboy_req:req(), state()}.
-allowed_methods(Req, #state{operation_id = 'TestsPathString{pathString}Integer{pathInteger}{enumNonrefStringPath}{enumRefStringPath}'} = State) ->
+allowed_methods(Req, #state{operation_id = 'tests/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}'} = State) ->
     {[<<"GET">>], Req, State};
 allowed_methods(Req, State) ->
     {[], Req, State}.
@@ -54,21 +69,21 @@ is_authorized(Req, State) ->
 
 -spec content_types_accepted(cowboy_req:req(), state()) ->
     {[{binary(), atom()}], cowboy_req:req(), state()}.
-content_types_accepted(Req, #state{operation_id = 'TestsPathString{pathString}Integer{pathInteger}{enumNonrefStringPath}{enumRefStringPath}'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'tests/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}'} = State) ->
     {[], Req, State};
 content_types_accepted(Req, State) ->
     {[], Req, State}.
 
 -spec valid_content_headers(cowboy_req:req(), state()) ->
     {boolean(), cowboy_req:req(), state()}.
-valid_content_headers(Req, #state{operation_id = 'TestsPathString{pathString}Integer{pathInteger}{enumNonrefStringPath}{enumRefStringPath}'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'tests/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}'} = State) ->
     {true, Req, State};
 valid_content_headers(Req, State) ->
     {false, Req, State}.
 
 -spec content_types_provided(cowboy_req:req(), state()) ->
     {[{binary(), atom()}], cowboy_req:req(), state()}.
-content_types_provided(Req, #state{operation_id = 'TestsPathString{pathString}Integer{pathInteger}{enumNonrefStringPath}{enumRefStringPath}'} = State) ->
+content_types_provided(Req, #state{operation_id = 'tests/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}'} = State) ->
     {[
       {<<"text/plain">>, handle_type_provided}
      ], Req, State};
@@ -78,8 +93,8 @@ content_types_provided(Req, State) ->
 -spec delete_resource(cowboy_req:req(), state()) ->
     {boolean(), cowboy_req:req(), state()}.
 delete_resource(Req, State) ->
-    {Res, Req1, State} = handle_type_accepted(Req, State),
-    {true =:= Res, Req1, State}.
+    {Res, Req1, State1} = handle_type_accepted(Req, State),
+    {true =:= Res, Req1, State1}.
 
 -spec handle_type_accepted(cowboy_req:req(), state()) ->
     { openapi_logic_handler:accept_callback_return(), cowboy_req:req(), state()}.

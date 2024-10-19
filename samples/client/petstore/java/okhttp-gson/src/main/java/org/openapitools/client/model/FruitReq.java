@@ -60,7 +60,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class FruitReq extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(FruitReq.class.getName());
 
@@ -215,6 +215,7 @@ public class FruitReq extends AbstractOpenApiSchema {
     public AppleReq getAppleReq() throws ClassCastException {
         return (AppleReq)super.getActualInstance();
     }
+
     /**
      * Get the actual instance of `BananaReq`. If the actual instance is not `BananaReq`,
      * the ClassCastException will be thrown.

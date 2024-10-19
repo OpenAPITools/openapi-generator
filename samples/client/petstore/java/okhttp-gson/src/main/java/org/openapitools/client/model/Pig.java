@@ -59,7 +59,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Pig extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(Pig.class.getName());
 
@@ -231,6 +231,7 @@ public class Pig extends AbstractOpenApiSchema {
     public BasquePig getBasquePig() throws ClassCastException {
         return (BasquePig)super.getActualInstance();
     }
+
     /**
      * Get the actual instance of `DanishPig`. If the actual instance is not `DanishPig`,
      * the ClassCastException will be thrown.

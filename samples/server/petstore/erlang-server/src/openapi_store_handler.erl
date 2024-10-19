@@ -1,5 +1,24 @@
-%% basic handler
 -module(openapi_store_handler).
+-moduledoc """
+Exposes the following operation IDs:
+
+- `DELETE` to `/store/order/:orderId`, OperationId: `deleteOrder`:
+Delete purchase order by ID.
+For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+
+- `GET` to `/store/inventory`, OperationId: `getInventory`:
+Returns pet inventories by status.
+Returns a map of status codes to quantities
+
+- `GET` to `/store/order/:orderId`, OperationId: `getOrderById`:
+Find purchase order by ID.
+For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
+
+- `POST` to `/store/order`, OperationId: `placeOrder`:
+Place an order for a pet.
+
+
+""".
 
 -behaviour(cowboy_rest).
 
@@ -17,8 +36,19 @@
 
 -ignore_xref([handle_type_accepted/2, handle_type_provided/2]).
 
+-export_type([class/0, operation_id/0]).
+
+-type class() :: 'store'.
+
+-type operation_id() ::
+    'deleteOrder' %% Delete purchase order by ID
+    | 'getInventory' %% Returns pet inventories by status
+    | 'getOrderById' %% Find purchase order by ID
+    | 'placeOrder'. %% Place an order for a pet
+
+
 -record(state,
-        {operation_id :: openapi_api:operation_id(),
+        {operation_id :: operation_id(),
          accept_callback :: openapi_logic_handler:accept_callback(),
          provide_callback :: openapi_logic_handler:provide_callback(),
          api_key_handler :: openapi_logic_handler:api_key_callback(),
@@ -42,13 +72,13 @@ init(Req, {Operations, Module}) ->
 
 -spec allowed_methods(cowboy_req:req(), state()) ->
     {[binary()], cowboy_req:req(), state()}.
-allowed_methods(Req, #state{operation_id = 'DeleteOrder'} = State) ->
+allowed_methods(Req, #state{operation_id = 'deleteOrder'} = State) ->
     {[<<"DELETE">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'GetInventory'} = State) ->
+allowed_methods(Req, #state{operation_id = 'getInventory'} = State) ->
     {[<<"GET">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'GetOrderById'} = State) ->
+allowed_methods(Req, #state{operation_id = 'getOrderById'} = State) ->
     {[<<"GET">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'PlaceOrder'} = State) ->
+allowed_methods(Req, #state{operation_id = 'placeOrder'} = State) ->
     {[<<"POST">>], Req, State};
 allowed_methods(Req, State) ->
     {[], Req, State}.
@@ -56,7 +86,7 @@ allowed_methods(Req, State) ->
 -spec is_authorized(cowboy_req:req(), state()) ->
     {true | {false, iodata()}, cowboy_req:req(), state()}.
 is_authorized(Req0,
-              #state{operation_id = 'GetInventory' = OperationID,
+              #state{operation_id = 'getInventory' = OperationID,
                      api_key_handler = Handler} = State) ->
     case openapi_auth:authorize_api_key(Handler, OperationID, header, "authorization", Req0) of
         {true, Context, Req} ->
@@ -69,13 +99,13 @@ is_authorized(Req, State) ->
 
 -spec content_types_accepted(cowboy_req:req(), state()) ->
     {[{binary(), atom()}], cowboy_req:req(), state()}.
-content_types_accepted(Req, #state{operation_id = 'DeleteOrder'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'deleteOrder'} = State) ->
     {[], Req, State};
-content_types_accepted(Req, #state{operation_id = 'GetInventory'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'getInventory'} = State) ->
     {[], Req, State};
-content_types_accepted(Req, #state{operation_id = 'GetOrderById'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'getOrderById'} = State) ->
     {[], Req, State};
-content_types_accepted(Req, #state{operation_id = 'PlaceOrder'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'placeOrder'} = State) ->
     {[
       {<<"application/json">>, handle_type_accepted}
      ], Req, State};
@@ -84,31 +114,31 @@ content_types_accepted(Req, State) ->
 
 -spec valid_content_headers(cowboy_req:req(), state()) ->
     {boolean(), cowboy_req:req(), state()}.
-valid_content_headers(Req, #state{operation_id = 'DeleteOrder'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'deleteOrder'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'GetInventory'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'getInventory'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'GetOrderById'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'getOrderById'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'PlaceOrder'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'placeOrder'} = State) ->
     {true, Req, State};
 valid_content_headers(Req, State) ->
     {false, Req, State}.
 
 -spec content_types_provided(cowboy_req:req(), state()) ->
     {[{binary(), atom()}], cowboy_req:req(), state()}.
-content_types_provided(Req, #state{operation_id = 'DeleteOrder'} = State) ->
+content_types_provided(Req, #state{operation_id = 'deleteOrder'} = State) ->
     {[], Req, State};
-content_types_provided(Req, #state{operation_id = 'GetInventory'} = State) ->
+content_types_provided(Req, #state{operation_id = 'getInventory'} = State) ->
     {[
       {<<"application/json">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'GetOrderById'} = State) ->
+content_types_provided(Req, #state{operation_id = 'getOrderById'} = State) ->
     {[
       {<<"application/xml">>, handle_type_provided},
       {<<"application/json">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'PlaceOrder'} = State) ->
+content_types_provided(Req, #state{operation_id = 'placeOrder'} = State) ->
     {[
       {<<"application/xml">>, handle_type_provided},
       {<<"application/json">>, handle_type_provided}
@@ -119,8 +149,8 @@ content_types_provided(Req, State) ->
 -spec delete_resource(cowboy_req:req(), state()) ->
     {boolean(), cowboy_req:req(), state()}.
 delete_resource(Req, State) ->
-    {Res, Req1, State} = handle_type_accepted(Req, State),
-    {true =:= Res, Req1, State}.
+    {Res, Req1, State1} = handle_type_accepted(Req, State),
+    {true =:= Res, Req1, State1}.
 
 -spec handle_type_accepted(cowboy_req:req(), state()) ->
     { openapi_logic_handler:accept_callback_return(), cowboy_req:req(), state()}.

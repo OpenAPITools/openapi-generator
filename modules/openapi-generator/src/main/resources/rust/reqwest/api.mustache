@@ -211,6 +211,14 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{/hasHeaderParams}}
     {{#hasAuthMethods}}
     {{#authMethods}}
+    {{#supportTokenSource}}
+    // Obtain a token from source provider.
+    // Tokens can be Id or access tokens depending on the provider type and configuration.
+    let token = local_var_configuration.token_source.token().await.map_err(Error::TokenSource)?;
+    // The token format is the responsibility of the provider, thus we just set the authorization header with whatever is given.
+    local_var_req_builder = local_var_req_builder.header(reqwest::header::AUTHORIZATION, token);
+    {{/supportTokenSource}}
+    {{^supportTokenSource}}
     {{#isApiKey}}
     {{#isKeyInHeader}}
     if let Some(ref local_var_apikey) = local_var_configuration.api_key {
@@ -240,6 +248,7 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
     {{/isOAuth}}
+    {{/supportTokenSource}}
     {{/authMethods}}
     {{/hasAuthMethods}}
     {{#isMultipart}}

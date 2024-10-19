@@ -37,7 +37,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -315,6 +314,8 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         if (StringUtils.isEmpty(System.getenv("CPP_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable CPP_POST_PROCESS_FILE not defined so the C++ code may not be properly formatted. To define it, try 'export CPP_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'CPP_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(RESERVED_WORD_PREFIX_OPTION)) {
@@ -337,6 +338,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -346,21 +348,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         }
         // only process files with cpp extension
         if ("cpp".equals(FilenameUtils.getExtension(file.toString())) || "h".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = cppPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                p.waitFor();
-                int exitValue = p.exitValue();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[] {cppPostProcessFile, file.toString()});
         }
     }
 

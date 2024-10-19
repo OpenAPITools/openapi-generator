@@ -1,0 +1,6 @@
+generatorName: scala-http4s
+outputDir: samples/client/petstore/scala-http4s
+inputSpec: modules/openapi-generator/src/test/resources/3_0/scala-http4s/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/scala-http4s
+additionalProperties:
+  artifactId: scala-http4s-client

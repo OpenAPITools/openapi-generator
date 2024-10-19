@@ -1,4 +1,7 @@
 -module(openapi_server).
+-moduledoc """
+Echo Server API
+""".
 
 -define(DEFAULT_LOGIC_HANDLER, openapi_logic_handler).
 

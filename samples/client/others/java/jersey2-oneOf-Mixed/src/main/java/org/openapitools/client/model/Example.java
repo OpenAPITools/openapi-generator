@@ -48,7 +48,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 @JsonDeserialize(using = Example.ExampleDeserializer.class)
 @JsonSerialize(using = Example.ExampleSerializer.class)
 public class Example extends AbstractOpenApiSchema {
@@ -216,9 +216,9 @@ public class Example extends AbstractOpenApiSchema {
      * @return The actual instance of `List<Integer>`
      * @throws ClassCastException if the instance is not `List<Integer>`
      */
-        public List<Integer> getListInteger() throws ClassCastException {
+    public List<Integer> getListInteger() throws ClassCastException {
         return (List<Integer>)super.getActualInstance();
-        }
+    }
 
 }
 

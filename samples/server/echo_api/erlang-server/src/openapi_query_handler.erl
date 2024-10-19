@@ -1,5 +1,48 @@
-%% basic handler
 -module(openapi_query_handler).
+-moduledoc """
+Exposes the following operation IDs:
+
+- `GET` to `/query/enum_ref_string`, OperationId: `test/enum_ref_string`:
+Test query parameter(s).
+Test query parameter(s)
+
+- `GET` to `/query/datetime/date/string`, OperationId: `test/query/datetime/date/string`:
+Test query parameter(s).
+Test query parameter(s)
+
+- `GET` to `/query/integer/boolean/string`, OperationId: `test/query/integer/boolean/string`:
+Test query parameter(s).
+Test query parameter(s)
+
+- `GET` to `/query/style_deepObject/explode_true/object`, OperationId: `test/query/style_deepObject/explode_true/object`:
+Test query parameter(s).
+Test query parameter(s)
+
+- `GET` to `/query/style_deepObject/explode_true/object/allOf`, OperationId: `test/query/style_deepObject/explode_true/object/allOf`:
+Test query parameter(s).
+Test query parameter(s)
+
+- `GET` to `/query/style_form/explode_false/array_integer`, OperationId: `test/query/style_form/explode_false/array_integer`:
+Test query parameter(s).
+Test query parameter(s)
+
+- `GET` to `/query/style_form/explode_false/array_string`, OperationId: `test/query/style_form/explode_false/array_string`:
+Test query parameter(s).
+Test query parameter(s)
+
+- `GET` to `/query/style_form/explode_true/array_string`, OperationId: `test/query/style_form/explode_true/array_string`:
+Test query parameter(s).
+Test query parameter(s)
+
+- `GET` to `/query/style_form/explode_true/object`, OperationId: `test/query/style_form/explode_true/object`:
+Test query parameter(s).
+Test query parameter(s)
+
+- `GET` to `/query/style_form/explode_true/object/allOf`, OperationId: `test/query/style_form/explode_true/object/allOf`:
+Test query parameter(s).
+Test query parameter(s)
+
+""".
 
 -behaviour(cowboy_rest).
 
@@ -17,8 +60,25 @@
 
 -ignore_xref([handle_type_accepted/2, handle_type_provided/2]).
 
+-export_type([class/0, operation_id/0]).
+
+-type class() :: 'query'.
+
+-type operation_id() ::
+    'test/enum_ref_string' %% Test query parameter(s)
+    | 'test/query/datetime/date/string' %% Test query parameter(s)
+    | 'test/query/integer/boolean/string' %% Test query parameter(s)
+    | 'test/query/style_deepObject/explode_true/object' %% Test query parameter(s)
+    | 'test/query/style_deepObject/explode_true/object/allOf' %% Test query parameter(s)
+    | 'test/query/style_form/explode_false/array_integer' %% Test query parameter(s)
+    | 'test/query/style_form/explode_false/array_string' %% Test query parameter(s)
+    | 'test/query/style_form/explode_true/array_string' %% Test query parameter(s)
+    | 'test/query/style_form/explode_true/object' %% Test query parameter(s)
+    | 'test/query/style_form/explode_true/object/allOf'. %% Test query parameter(s)
+
+
 -record(state,
-        {operation_id :: openapi_api:operation_id(),
+        {operation_id :: operation_id(),
          accept_callback :: openapi_logic_handler:accept_callback(),
          provide_callback :: openapi_logic_handler:provide_callback(),
          api_key_handler :: openapi_logic_handler:api_key_callback(),
@@ -42,25 +102,25 @@ init(Req, {Operations, Module}) ->
 
 -spec allowed_methods(cowboy_req:req(), state()) ->
     {[binary()], cowboy_req:req(), state()}.
-allowed_methods(Req, #state{operation_id = 'TestEnumRefString'} = State) ->
+allowed_methods(Req, #state{operation_id = 'test/enum_ref_string'} = State) ->
     {[<<"GET">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'TestQueryDatetimeDateString'} = State) ->
+allowed_methods(Req, #state{operation_id = 'test/query/datetime/date/string'} = State) ->
     {[<<"GET">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'TestQueryIntegerBooleanString'} = State) ->
+allowed_methods(Req, #state{operation_id = 'test/query/integer/boolean/string'} = State) ->
     {[<<"GET">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'TestQueryStyleDeepObjectExplodeTrueObject'} = State) ->
+allowed_methods(Req, #state{operation_id = 'test/query/style_deepObject/explode_true/object'} = State) ->
     {[<<"GET">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'TestQueryStyleDeepObjectExplodeTrueObjectAllOf'} = State) ->
+allowed_methods(Req, #state{operation_id = 'test/query/style_deepObject/explode_true/object/allOf'} = State) ->
     {[<<"GET">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'TestQueryStyleFormExplodeFalseArrayInteger'} = State) ->
+allowed_methods(Req, #state{operation_id = 'test/query/style_form/explode_false/array_integer'} = State) ->
     {[<<"GET">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'TestQueryStyleFormExplodeFalseArrayString'} = State) ->
+allowed_methods(Req, #state{operation_id = 'test/query/style_form/explode_false/array_string'} = State) ->
     {[<<"GET">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'TestQueryStyleFormExplodeTrueArrayString'} = State) ->
+allowed_methods(Req, #state{operation_id = 'test/query/style_form/explode_true/array_string'} = State) ->
     {[<<"GET">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'TestQueryStyleFormExplodeTrueObject'} = State) ->
+allowed_methods(Req, #state{operation_id = 'test/query/style_form/explode_true/object'} = State) ->
     {[<<"GET">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'TestQueryStyleFormExplodeTrueObjectAllOf'} = State) ->
+allowed_methods(Req, #state{operation_id = 'test/query/style_form/explode_true/object/allOf'} = State) ->
     {[<<"GET">>], Req, State};
 allowed_methods(Req, State) ->
     {[], Req, State}.
@@ -72,93 +132,93 @@ is_authorized(Req, State) ->
 
 -spec content_types_accepted(cowboy_req:req(), state()) ->
     {[{binary(), atom()}], cowboy_req:req(), state()}.
-content_types_accepted(Req, #state{operation_id = 'TestEnumRefString'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'test/enum_ref_string'} = State) ->
     {[], Req, State};
-content_types_accepted(Req, #state{operation_id = 'TestQueryDatetimeDateString'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'test/query/datetime/date/string'} = State) ->
     {[], Req, State};
-content_types_accepted(Req, #state{operation_id = 'TestQueryIntegerBooleanString'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'test/query/integer/boolean/string'} = State) ->
     {[], Req, State};
-content_types_accepted(Req, #state{operation_id = 'TestQueryStyleDeepObjectExplodeTrueObject'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'test/query/style_deepObject/explode_true/object'} = State) ->
     {[], Req, State};
-content_types_accepted(Req, #state{operation_id = 'TestQueryStyleDeepObjectExplodeTrueObjectAllOf'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'test/query/style_deepObject/explode_true/object/allOf'} = State) ->
     {[], Req, State};
-content_types_accepted(Req, #state{operation_id = 'TestQueryStyleFormExplodeFalseArrayInteger'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'test/query/style_form/explode_false/array_integer'} = State) ->
     {[], Req, State};
-content_types_accepted(Req, #state{operation_id = 'TestQueryStyleFormExplodeFalseArrayString'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'test/query/style_form/explode_false/array_string'} = State) ->
     {[], Req, State};
-content_types_accepted(Req, #state{operation_id = 'TestQueryStyleFormExplodeTrueArrayString'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'test/query/style_form/explode_true/array_string'} = State) ->
     {[], Req, State};
-content_types_accepted(Req, #state{operation_id = 'TestQueryStyleFormExplodeTrueObject'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'test/query/style_form/explode_true/object'} = State) ->
     {[], Req, State};
-content_types_accepted(Req, #state{operation_id = 'TestQueryStyleFormExplodeTrueObjectAllOf'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'test/query/style_form/explode_true/object/allOf'} = State) ->
     {[], Req, State};
 content_types_accepted(Req, State) ->
     {[], Req, State}.
 
 -spec valid_content_headers(cowboy_req:req(), state()) ->
     {boolean(), cowboy_req:req(), state()}.
-valid_content_headers(Req, #state{operation_id = 'TestEnumRefString'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'test/enum_ref_string'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'TestQueryDatetimeDateString'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'test/query/datetime/date/string'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'TestQueryIntegerBooleanString'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'test/query/integer/boolean/string'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'TestQueryStyleDeepObjectExplodeTrueObject'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'test/query/style_deepObject/explode_true/object'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'TestQueryStyleDeepObjectExplodeTrueObjectAllOf'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'test/query/style_deepObject/explode_true/object/allOf'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'TestQueryStyleFormExplodeFalseArrayInteger'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'test/query/style_form/explode_false/array_integer'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'TestQueryStyleFormExplodeFalseArrayString'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'test/query/style_form/explode_false/array_string'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'TestQueryStyleFormExplodeTrueArrayString'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'test/query/style_form/explode_true/array_string'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'TestQueryStyleFormExplodeTrueObject'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'test/query/style_form/explode_true/object'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'TestQueryStyleFormExplodeTrueObjectAllOf'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'test/query/style_form/explode_true/object/allOf'} = State) ->
     {true, Req, State};
 valid_content_headers(Req, State) ->
     {false, Req, State}.
 
 -spec content_types_provided(cowboy_req:req(), state()) ->
     {[{binary(), atom()}], cowboy_req:req(), state()}.
-content_types_provided(Req, #state{operation_id = 'TestEnumRefString'} = State) ->
+content_types_provided(Req, #state{operation_id = 'test/enum_ref_string'} = State) ->
     {[
       {<<"text/plain">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'TestQueryDatetimeDateString'} = State) ->
+content_types_provided(Req, #state{operation_id = 'test/query/datetime/date/string'} = State) ->
     {[
       {<<"text/plain">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'TestQueryIntegerBooleanString'} = State) ->
+content_types_provided(Req, #state{operation_id = 'test/query/integer/boolean/string'} = State) ->
     {[
       {<<"text/plain">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'TestQueryStyleDeepObjectExplodeTrueObject'} = State) ->
+content_types_provided(Req, #state{operation_id = 'test/query/style_deepObject/explode_true/object'} = State) ->
     {[
       {<<"text/plain">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'TestQueryStyleDeepObjectExplodeTrueObjectAllOf'} = State) ->
+content_types_provided(Req, #state{operation_id = 'test/query/style_deepObject/explode_true/object/allOf'} = State) ->
     {[
       {<<"text/plain">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'TestQueryStyleFormExplodeFalseArrayInteger'} = State) ->
+content_types_provided(Req, #state{operation_id = 'test/query/style_form/explode_false/array_integer'} = State) ->
     {[
       {<<"text/plain">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'TestQueryStyleFormExplodeFalseArrayString'} = State) ->
+content_types_provided(Req, #state{operation_id = 'test/query/style_form/explode_false/array_string'} = State) ->
     {[
       {<<"text/plain">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'TestQueryStyleFormExplodeTrueArrayString'} = State) ->
+content_types_provided(Req, #state{operation_id = 'test/query/style_form/explode_true/array_string'} = State) ->
     {[
       {<<"text/plain">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'TestQueryStyleFormExplodeTrueObject'} = State) ->
+content_types_provided(Req, #state{operation_id = 'test/query/style_form/explode_true/object'} = State) ->
     {[
       {<<"text/plain">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'TestQueryStyleFormExplodeTrueObjectAllOf'} = State) ->
+content_types_provided(Req, #state{operation_id = 'test/query/style_form/explode_true/object/allOf'} = State) ->
     {[
       {<<"text/plain">>, handle_type_provided}
      ], Req, State};
@@ -168,8 +228,8 @@ content_types_provided(Req, State) ->
 -spec delete_resource(cowboy_req:req(), state()) ->
     {boolean(), cowboy_req:req(), state()}.
 delete_resource(Req, State) ->
-    {Res, Req1, State} = handle_type_accepted(Req, State),
-    {true =:= Res, Req1, State}.
+    {Res, Req1, State1} = handle_type_accepted(Req, State),
+    {true =:= Res, Req1, State1}.
 
 -spec handle_type_accepted(cowboy_req:req(), state()) ->
     { openapi_logic_handler:accept_callback_return(), cowboy_req:req(), state()}.

@@ -493,9 +493,61 @@ public class OpenAPINormalizer {
                     }
                 }
 
+                // auto fix self reference schema to avoid stack overflow
+                fixSelfReferenceSchema(schemaName, schema);
+
                 // normalize the schemas
                 schemas.put(schemaName, normalizeSchema(schema, new HashSet<>()));
             }
+        }
+    }
+
+    /**
+     * Auto fix a self referencing schema using any type to replace the self-referencing sub-item.
+     *
+     * @param name           Schema name
+     * @param schema         Schema
+     */
+    public void fixSelfReferenceSchema(String name, Schema schema) {
+        if (ModelUtils.isArraySchema(schema)) {
+            if (isSelfReference(name, schema.getItems())) {
+                LOGGER.error("Array schema {} has a sub-item referencing itself. Worked around the self-reference schema using any type instead.", name);
+                schema.setItems(new Schema<>());
+            }
+        }
+
+        if (ModelUtils.isOneOf(schema)) {
+            for (int i = 0; i < schema.getOneOf().size(); i++) {
+                if (isSelfReference(name, (Schema) schema.getOneOf().get(i))) {
+                    LOGGER.error("oneOf schema {} has a sub-item referencing itself. Worked around the self-reference schema by removing it.", name);
+                    schema.getOneOf().remove(i);
+                }
+            }
+        }
+
+        if (ModelUtils.isAnyOf(schema)) {
+            for (int i = 0; i < schema.getAnyOf().size(); i++) {
+                if (isSelfReference(name, (Schema) schema.getAnyOf().get(i))) {
+                    LOGGER.error("anyOf schema {} has a sub-item referencing itself. Worked around the self-reference schema by removing it.", name);
+                    schema.getAnyOf().remove(i);
+                }
+            }
+        }
+
+        if (schema.getAdditionalProperties() != null && schema.getAdditionalProperties() instanceof Schema) {
+            if (isSelfReference(name, (Schema) schema.getAdditionalProperties())) {
+                LOGGER.error("Schema {} (with additional properties) has a sub-item referencing itself. Worked around the self-reference schema using any type instead.", name);
+                schema.setAdditionalProperties(new Schema<>());
+            }
+        }
+
+    }
+
+    private boolean isSelfReference(String name, Schema subSchema) {
+        if (subSchema != null && name.equals(ModelUtils.getSimpleRef(subSchema.get$ref()))) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -516,7 +568,7 @@ public class OpenAPINormalizer {
             return schema;
         }
 
-        if ((visitedSchemas.contains(schema))) {
+        if (visitedSchemas.contains(schema)) {
             return schema; // skip due to circular reference
         } else {
             visitedSchemas.add(schema);
@@ -535,7 +587,6 @@ public class OpenAPINormalizer {
             return normalizeAnyOf(schema, visitedSchemas);
         } else if (ModelUtils.isAllOfWithProperties(schema)) { // allOf with properties
             schema = normalizeAllOfWithProperties(schema, visitedSchemas);
-            normalizeSchema(schema, visitedSchemas);
         } else if (ModelUtils.isAllOf(schema)) { // allOf
             return normalizeAllOf(schema, visitedSchemas);
         } else if (ModelUtils.isComposedSchema(schema)) { // composed schema
@@ -643,24 +694,38 @@ public class OpenAPINormalizer {
     }
 
     private Schema normalizeOneOf(Schema schema, Set<Schema> visitedSchemas) {
-        for (Object item : schema.getOneOf()) {
-            if (item == null) {
-                continue;
-            }
-            if (!(item instanceof Schema)) {
-                throw new RuntimeException("Error! oneOf schema is not of the type Schema: " + item);
-            }
-            // normalize oenOf sub schemas one by one
-            normalizeSchema((Schema) item, visitedSchemas);
-        }
-        // process rules here
+        // simplify first as the schema may no longer be a oneOf after processing the rule below
         schema = processSimplifyOneOf(schema);
+
+        // if it's still a oneOf, loop through the sub-schemas
+        if (schema.getOneOf() != null) {
+            for (int i = 0; i < schema.getOneOf().size(); i++) {
+                // normalize oneOf sub schemas one by one
+                Object item = schema.getOneOf().get(i);
+
+                if (item == null) {
+                    continue;
+                }
+                if (!(item instanceof Schema)) {
+                    throw new RuntimeException("Error! oneOf schema is not of the type Schema: " + item);
+                }
+
+                // update sub-schema with the updated schema
+                schema.getOneOf().set(i, normalizeSchema((Schema) item, visitedSchemas));
+            }
+        } else {
+            // normalize it as it's no longer an oneOf
+            schema = normalizeSchema(schema, visitedSchemas);
+        }
 
         return schema;
     }
 
     private Schema normalizeAnyOf(Schema schema, Set<Schema> visitedSchemas) {
-        for (Object item : schema.getAnyOf()) {
+        for (int i = 0; i < schema.getAnyOf().size(); i++) {
+            // normalize anyOf sub schemas one by one
+            Object item = schema.getAnyOf().get(i);
+
             if (item == null) {
                 continue;
             }
@@ -668,15 +733,16 @@ public class OpenAPINormalizer {
             if (!(item instanceof Schema)) {
                 throw new RuntimeException("Error! anyOf schema is not of the type Schema: " + item);
             }
-            // normalize anyOf sub schemas one by one
-            normalizeSchema((Schema) item, visitedSchemas);
+
+            // update sub-schema with the updated schema
+            schema.getAnyOf().set(i, normalizeSchema((Schema) item, visitedSchemas));
         }
 
         // process rules here
         schema = processSimplifyAnyOf(schema);
 
         // last rule to process as the schema may become String schema (not "anyOf") after the completion
-        return processSimplifyAnyOfStringAndEnumString(schema);
+        return normalizeSchema(processSimplifyAnyOfStringAndEnumString(schema), visitedSchemas);
     }
 
     private Schema normalizeComplexComposedSchema(Schema schema, Set<Schema> visitedSchemas) {
@@ -687,7 +753,7 @@ public class OpenAPINormalizer {
 
         processRemoveAnyOfOneOfAndKeepPropertiesOnly(schema);
 
-        return schema;
+        return normalizeSchema(schema, visitedSchemas);
     }
 
     // ===================== a list of rules =====================
@@ -885,57 +951,7 @@ public class OpenAPINormalizer {
         return result;
     }
 
-    /**
-     * Check if the schema is of type 'null'
-     * <p>
-     * Return true if the schema's type is 'null' or not specified
-     *
-     * @param schema Schema
-     */
-    public boolean isNullTypeSchema(Schema schema) {
-        if (schema == null) {
-            return true;
-        }
 
-        if (ModelUtils.hasAllOf(schema) || ModelUtils.hasOneOf(schema) || ModelUtils.hasAnyOf(schema)) {
-            return false;
-        }
-
-        if (schema.getTypes() != null && !schema.getTypes().isEmpty()) {
-            // 3.1 spec
-            if (schema.getTypes().size() == 1) { // 1 type only
-                String type = (String) schema.getTypes().iterator().next();
-                return type == null || "null".equals(type);
-            } else { // more than 1 type so must not be just null
-                return false;
-            }
-        }
-
-        if (schema instanceof JsonSchema) { // 3.1 spec
-            if (Boolean.TRUE.equals(schema.getNullable())) {
-                return true;
-            }
-
-            // for `type: null`
-            if (schema.getTypes() == null && schema.get$ref() == null) {
-                return true;
-            }
-        } else { // 3.0.x or 2.x spec
-            if ((schema.getType() == null || schema.getType().equals("null")) && schema.get$ref() == null) {
-                return true;
-            }
-        }
-
-        // convert referenced enum of null only to `nullable:true`
-        Schema referencedSchema = ModelUtils.getReferencedSchema(openAPI, schema);
-        if (referencedSchema.getEnum() != null && referencedSchema.getEnum().size() == 1) {
-            if ("null".equals(String.valueOf(referencedSchema.getEnum().get(0)))) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 
     /**
      * If the schema is oneOf and the sub-schemas is null, set `nullable: true`
@@ -979,7 +995,7 @@ public class OpenAPINormalizer {
                 }
             }
 
-            if (oneOfSchemas.removeIf(oneOf -> isNullTypeSchema(oneOf))) {
+            if (oneOfSchemas.removeIf(oneOf -> ModelUtils.isNullTypeSchema(openAPI, oneOf))) {
                 schema.setNullable(true);
 
                 // if only one element left, simplify to just the element (schema)
@@ -989,6 +1005,11 @@ public class OpenAPINormalizer {
                     }
                     return (Schema) oneOfSchemas.get(0);
                 }
+            }
+
+            if (ModelUtils.isIntegerSchema(schema) || ModelUtils.isNumberSchema(schema) || ModelUtils.isStringSchema(schema)) {
+                // TODO convert oneOf const to enum
+                schema.setOneOf(null);
             }
         }
 
@@ -1110,7 +1131,7 @@ public class OpenAPINormalizer {
                 }
             }
 
-            if (anyOfSchemas.removeIf(anyOf -> isNullTypeSchema(anyOf))) {
+            if (anyOfSchemas.removeIf(anyOf -> ModelUtils.isNullTypeSchema(openAPI, anyOf))) {
                 schema.setNullable(true);
             }
 
@@ -1251,6 +1272,12 @@ public class OpenAPINormalizer {
             schema.getTypes().remove("null");
         }
 
+        // process const
+        if (schema.getConst() != null) {
+            schema.setEnum(Arrays.asList(schema.getConst()));
+            schema.setConst(null);
+        }
+
         // only one item (type) left
         if (schema.getTypes().size() == 1) {
             String type = String.valueOf(schema.getTypes().iterator().next());
@@ -1280,6 +1307,9 @@ public class OpenAPINormalizer {
                         Schema updatedItems = normalizeSchema(schema.getItems(), visitedSchemas);
                         as.setItems(updatedItems);
                     }
+                } else {
+                    // when items is not defined, default to any type
+                    as.setItems(new Schema());
                 }
 
                 return as;

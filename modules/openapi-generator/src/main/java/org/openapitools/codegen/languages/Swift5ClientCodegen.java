@@ -36,7 +36,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.time.OffsetDateTime;
 import java.time.Instant;
@@ -64,9 +63,9 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String READONLY_PROPERTIES = "readonlyProperties";
     public static final String SWIFT_USE_API_NAMESPACE = "swiftUseApiNamespace";
     public static final String DEFAULT_POD_AUTHORS = "OpenAPI Generator";
-    public static final String LENIENT_TYPE_CAST = "lenientTypeCast";
     public static final String USE_SPM_FILE_STRUCTURE = "useSPMFileStructure";
     public static final String SWIFT_PACKAGE_PATH = "swiftPackagePath";
+    public static final String ONE_OF_UNKNOWN_DEFAULT_CASE = "oneOfUnknownDefaultCase";
     public static final String USE_CLASSES = "useClasses";
     public static final String USE_BACKTICK_ESCAPES = "useBacktickEscapes";
     public static final String GENERATE_MODEL_ADDITIONAL_PROPERTIES = "generateModelAdditionalProperties";
@@ -87,11 +86,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     @Setter protected String projectName = "OpenAPIClient";
     @Setter protected boolean nonPublicApi = false;
     @Setter protected boolean objcCompatible = false;
-    @Setter protected boolean lenientTypeCast = false;
     @Setter protected boolean readonlyProperties = false;
     @Setter protected boolean swiftUseApiNamespace = false;
     @Setter protected boolean useSPMFileStructure = false;
     @Setter protected String swiftPackagePath = "Classes" + File.separator + "OpenAPIs";
+    @Setter protected boolean oneOfUnknownDefaultCase = false;
     @Setter protected boolean useClasses = false;
     @Setter protected boolean useBacktickEscapes = false;
     @Setter protected boolean generateModelAdditionalProperties = true;
@@ -282,16 +281,15 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
                 CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(new CliOption(LENIENT_TYPE_CAST,
-                "Accept and cast values for simple types (string->bool, "
-                        + "string->int, int->string)")
-                .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(USE_BACKTICK_ESCAPES,
                 "Escape reserved words using backticks (default: false)")
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(GENERATE_MODEL_ADDITIONAL_PROPERTIES,
                 "Generate model additional properties (default: true)")
                 .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(ONE_OF_UNKNOWN_DEFAULT_CASE,
+                "Add unknownDefault case to oneOf enum (default: false)")
+                .defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(new CliOption(CodegenConstants.API_NAME_PREFIX, CodegenConstants.API_NAME_PREFIX_DESC));
         cliOptions.add(new CliOption(USE_SPM_FILE_STRUCTURE, "Use SPM file structure"
@@ -368,7 +366,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             codegenModel.vars = codegenProperties;
         }
 
-
         return codegenModel;
     }
 
@@ -412,6 +409,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (StringUtils.isEmpty(System.getenv("SWIFT_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable SWIFT_POST_PROCESS_FILE not defined so the Swift code may not be properly formatted. To define it, try 'export SWIFT_POST_PROCESS_FILE=/usr/local/bin/swiftformat' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'SWIFT_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         // Setup project name
@@ -532,6 +531,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             typeMapping.put("date", "Date");
         }
 
+        if (additionalProperties.containsKey(ONE_OF_UNKNOWN_DEFAULT_CASE)) {
+            setOneOfUnknownDefaultCase(convertPropertyToBooleanAndWriteBack(ONE_OF_UNKNOWN_DEFAULT_CASE));
+        }
+        additionalProperties.put(ONE_OF_UNKNOWN_DEFAULT_CASE, oneOfUnknownDefaultCase);
+
         if (additionalProperties.containsKey(USE_CLASSES)) {
             setUseClasses(convertPropertyToBooleanAndWriteBack(USE_CLASSES));
         }
@@ -541,8 +545,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             setValidatable(convertPropertyToBooleanAndWriteBack(VALIDATABLE));
         }
         additionalProperties.put(VALIDATABLE, validatable);
-
-        setLenientTypeCast(convertPropertyToBooleanAndWriteBack(LENIENT_TYPE_CAST));
 
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
@@ -843,7 +845,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId), LOWERCASE_FIRST_LETTER));
             operationId = camelize(sanitizeName("call_" + operationId), LOWERCASE_FIRST_LETTER);
         }
-
 
         return operationId;
     }
@@ -1158,6 +1159,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -1167,20 +1169,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
         // only process files with swift extension
         if ("swift".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = swiftPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[] {swiftPostProcessFile, file.toString()});
         }
     }
 
@@ -1314,6 +1303,13 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         System.out.println("#                                                                              #");
         System.out.println("# swift5 generator is contributed by Bruno Coelho (https://github.com/4brunu). #");
         System.out.println("# Please support his work directly via https://paypal.com/paypalme/4brunu \uD83D\uDE4F   #");
+        System.out.println("#                                                                              #");
+        System.out.println("# There is a new swift6 generator, that is currently in beta.                #");
+        System.out.println("# Try it and give us your feedback.                                            #");
+        System.out.println("# https://openapi-generator.tech/docs/generators/swift6                        #");
+        System.out.println("#                                                                              #");
+        System.out.println("# If you need help migrating from the swift5 to the swift6 generator, check the following url.#");
+        System.out.println("# https://openapi-generator.tech/docs/faq-generators/#how-do-i-migrate-from-the-swift-5-generator-to-the-swift-6-generator");
         System.out.println("################################################################################");
     }
 

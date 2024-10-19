@@ -20,59 +20,89 @@ where
 {
     // build our application with a route
     Router::new()
-        .route("/any-of", get(any_of_get::<I, A>))
-        .route(
-            "/callback-with-header",
-            post(callback_with_header_post::<I, A>),
+        .route("/any-of",
+            get(any_of_get::<I, A>)
         )
-        .route("/complex-query-param", get(complex_query_param_get::<I, A>))
-        .route(
-            "/enum_in_path/:path_param",
-            get(enum_in_path_path_param_get::<I, A>),
+        .route("/callback-with-header",
+            post(callback_with_header_post::<I, A>)
         )
-        .route(
-            "/json-complex-query-param",
-            get(json_complex_query_param_get::<I, A>),
+        .route("/complex-query-param",
+            get(complex_query_param_get::<I, A>)
         )
-        .route(
-            "/mandatory-request-header",
-            get(mandatory_request_header_get::<I, A>),
+        .route("/enum_in_path/:path_param",
+            get(enum_in_path_path_param_get::<I, A>)
         )
-        .route("/merge-patch-json", get(merge_patch_json_get::<I, A>))
-        .route("/multiget", get(multiget_get::<I, A>))
-        .route(
-            "/multiple_auth_scheme",
-            get(multiple_auth_scheme_get::<I, A>),
+        .route("/form-test",
+            post(form_test::<I, A>)
         )
-        .route("/one-of", get(one_of_get::<I, A>))
-        .route("/override-server", get(override_server_get::<I, A>))
-        .route("/paramget", get(paramget_get::<I, A>))
-        .route(
-            "/readonly_auth_scheme",
-            get(readonly_auth_scheme_get::<I, A>),
+        .route("/get-with-bool",
+            get(get_with_boolean_parameter::<I, A>)
         )
-        .route("/register-callback", post(register_callback_post::<I, A>))
-        .route("/repos", post(create_repo::<I, A>))
-        .route(
-            "/repos/:repo_id",
-            get(get_repo_info::<I, A>).get(get_repo_info::<I, A>),
+        .route("/json-complex-query-param",
+            get(json_complex_query_param_get::<I, A>)
         )
-        .route(
-            "/required_octet_stream",
-            put(required_octet_stream_put::<I, A>),
+        .route("/mandatory-request-header",
+            get(mandatory_request_header_get::<I, A>)
         )
-        .route(
-            "/responses_with_headers",
-            get(responses_with_headers_get::<I, A>),
+        .route("/merge-patch-json",
+            get(merge_patch_json_get::<I, A>)
         )
-        .route("/rfc7807", get(rfc7807_get::<I, A>))
-        .route("/untyped_property", get(untyped_property_get::<I, A>))
-        .route("/uuid", get(uuid_get::<I, A>))
-        .route("/xml", post(xml_post::<I, A>).put(xml_put::<I, A>))
-        .route("/xml_extra", post(xml_extra_post::<I, A>))
-        .route(
-            "/xml_other",
-            post(xml_other_post::<I, A>).put(xml_other_put::<I, A>),
+        .route("/multiget",
+            get(multiget_get::<I, A>)
+        )
+        .route("/multiple-path-params-with-very-long-path-to-test-formatting/:path_param_a/:path_param_b",
+            get(multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get::<I, A>)
+        )
+        .route("/multiple_auth_scheme",
+            get(multiple_auth_scheme_get::<I, A>)
+        )
+        .route("/one-of",
+            get(one_of_get::<I, A>)
+        )
+        .route("/operation-two-first-letter-headers",
+            post(two_first_letter_headers::<I, A>)
+        )
+        .route("/override-server",
+            get(override_server_get::<I, A>)
+        )
+        .route("/paramget",
+            get(paramget_get::<I, A>)
+        )
+        .route("/readonly_auth_scheme",
+            get(readonly_auth_scheme_get::<I, A>)
+        )
+        .route("/register-callback",
+            post(register_callback_post::<I, A>)
+        )
+        .route("/repos",
+            post(create_repo::<I, A>)
+        )
+        .route("/repos/:repo_id",
+            get(get_repo_info::<I, A>).get(get_repo_info::<I, A>)
+        )
+        .route("/required_octet_stream",
+            put(required_octet_stream_put::<I, A>)
+        )
+        .route("/responses_with_headers",
+            get(responses_with_headers_get::<I, A>)
+        )
+        .route("/rfc7807",
+            get(rfc7807_get::<I, A>)
+        )
+        .route("/untyped_property",
+            get(untyped_property_get::<I, A>)
+        )
+        .route("/uuid",
+            get(uuid_get::<I, A>)
+        )
+        .route("/xml",
+            post(xml_post::<I, A>).put(xml_put::<I, A>)
+        )
+        .route("/xml_extra",
+            post(xml_extra_post::<I, A>)
+        )
+        .route("/xml_other",
+            post(xml_other_post::<I, A>).put(xml_other_put::<I, A>)
         )
         .with_state(api_impl)
 }
@@ -353,6 +383,128 @@ where
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::EnumInPathPathParamGetResponse::Status200_Success => {
+                let mut response = response.status(200);
+                response.body(Body::empty())
+            }
+        },
+        Err(_) => {
+            // Application code returned an error. This should not happen, as the implementation should
+            // return a valid response.
+            response.status(500).body(Body::empty())
+        }
+    };
+
+    resp.map_err(|e| {
+        error!(error = ?e);
+        StatusCode::INTERNAL_SERVER_ERROR
+    })
+}
+
+#[derive(validator::Validate)]
+#[allow(dead_code)]
+struct FormTestBodyValidator<'a> {
+    #[validate(nested)]
+    body: &'a models::FormTestRequest,
+}
+
+#[tracing::instrument(skip_all)]
+fn form_test_validation(
+    body: models::FormTestRequest,
+) -> std::result::Result<(models::FormTestRequest,), ValidationErrors> {
+    let b = FormTestBodyValidator { body: &body };
+    b.validate()?;
+
+    Ok((body,))
+}
+/// FormTest - POST /form-test
+#[tracing::instrument(skip_all)]
+async fn form_test<I, A>(
+    method: Method,
+    host: Host,
+    cookies: CookieJar,
+    State(api_impl): State<I>,
+    Form(body): Form<models::FormTestRequest>,
+) -> Result<Response, StatusCode>
+where
+    I: AsRef<A> + Send + Sync,
+    A: apis::default::Default,
+{
+    let validation = form_test_validation(body);
+
+    let Ok((body,)) = validation else {
+        return Response::builder()
+            .status(StatusCode::BAD_REQUEST)
+            .body(Body::from(validation.unwrap_err().to_string()))
+            .map_err(|_| StatusCode::BAD_REQUEST);
+    };
+
+    let result = api_impl
+        .as_ref()
+        .form_test(method, host, cookies, body)
+        .await;
+
+    let mut response = Response::builder();
+
+    let resp = match result {
+        Ok(rsp) => match rsp {
+            apis::default::FormTestResponse::Status200_OK => {
+                let mut response = response.status(200);
+                response.body(Body::empty())
+            }
+        },
+        Err(_) => {
+            // Application code returned an error. This should not happen, as the implementation should
+            // return a valid response.
+            response.status(500).body(Body::empty())
+        }
+    };
+
+    resp.map_err(|e| {
+        error!(error = ?e);
+        StatusCode::INTERNAL_SERVER_ERROR
+    })
+}
+
+#[tracing::instrument(skip_all)]
+fn get_with_boolean_parameter_validation(
+    query_params: models::GetWithBooleanParameterQueryParams,
+) -> std::result::Result<(models::GetWithBooleanParameterQueryParams,), ValidationErrors> {
+    query_params.validate()?;
+
+    Ok((query_params,))
+}
+/// GetWithBooleanParameter - GET /get-with-bool
+#[tracing::instrument(skip_all)]
+async fn get_with_boolean_parameter<I, A>(
+    method: Method,
+    host: Host,
+    cookies: CookieJar,
+    Query(query_params): Query<models::GetWithBooleanParameterQueryParams>,
+    State(api_impl): State<I>,
+) -> Result<Response, StatusCode>
+where
+    I: AsRef<A> + Send + Sync,
+    A: apis::default::Default,
+{
+    let validation = get_with_boolean_parameter_validation(query_params);
+
+    let Ok((query_params,)) = validation else {
+        return Response::builder()
+            .status(StatusCode::BAD_REQUEST)
+            .body(Body::from(validation.unwrap_err().to_string()))
+            .map_err(|_| StatusCode::BAD_REQUEST);
+    };
+
+    let result = api_impl
+        .as_ref()
+        .get_with_boolean_parameter(method, host, cookies, query_params)
+        .await;
+
+    let mut response = Response::builder();
+
+    let resp = match result {
+        Ok(rsp) => match rsp {
+            apis::default::GetWithBooleanParameterResponse::Status200_OK => {
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -808,6 +960,81 @@ where
     let resp = match result {
                                             Ok(rsp) => match rsp {
                                                 apis::default::MultipleAuthSchemeGetResponse::Status200_CheckThatLimitingToMultipleRequiredAuthSchemesWorks
+                                                => {
+                                                  let mut response = response.status(200);
+                                                  response.body(Body::empty())
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                response.status(500).body(Body::empty())
+                                            },
+                                        };
+
+    resp.map_err(|e| {
+        error!(error = ?e);
+        StatusCode::INTERNAL_SERVER_ERROR
+    })
+}
+
+#[tracing::instrument(skip_all)]
+fn multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get_validation(
+    path_params: models::MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetPathParams,
+) -> std::result::Result<
+    (models::MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetPathParams,),
+    ValidationErrors,
+> {
+    path_params.validate()?;
+
+    Ok((path_params,))
+}
+/// MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGet - GET /multiple-path-params-with-very-long-path-to-test-formatting/{path_param_a}/{path_param_b}
+#[tracing::instrument(skip_all)]
+async fn multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get<
+    I,
+    A,
+>(
+    method: Method,
+    host: Host,
+    cookies: CookieJar,
+    Path(path_params): Path<
+        models::MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetPathParams,
+    >,
+    State(api_impl): State<I>,
+) -> Result<Response, StatusCode>
+where
+    I: AsRef<A> + Send + Sync,
+    A: apis::default::Default,
+{
+    let validation =
+    multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get_validation(
+        path_params,
+    )
+  ;
+
+    let Ok((path_params,)) = validation else {
+        return Response::builder()
+            .status(StatusCode::BAD_REQUEST)
+            .body(Body::from(validation.unwrap_err().to_string()))
+            .map_err(|_| StatusCode::BAD_REQUEST);
+    };
+
+    let result = api_impl
+        .as_ref()
+        .multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get(
+            method,
+            host,
+            cookies,
+            path_params,
+        )
+        .await;
+
+    let mut response = Response::builder();
+
+    let resp = match result {
+                                            Ok(rsp) => match rsp {
+                                                apis::default::MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse::Status200_Success
                                                 => {
                                                   let mut response = response.status(200);
                                                   response.body(Body::empty())
@@ -1441,6 +1668,106 @@ where
 
                 let body_content = body;
                 response.body(Body::from(body_content))
+            }
+        },
+        Err(_) => {
+            // Application code returned an error. This should not happen, as the implementation should
+            // return a valid response.
+            response.status(500).body(Body::empty())
+        }
+    };
+
+    resp.map_err(|e| {
+        error!(error = ?e);
+        StatusCode::INTERNAL_SERVER_ERROR
+    })
+}
+
+#[tracing::instrument(skip_all)]
+fn two_first_letter_headers_validation(
+    header_params: models::TwoFirstLetterHeadersHeaderParams,
+) -> std::result::Result<(models::TwoFirstLetterHeadersHeaderParams,), ValidationErrors> {
+    header_params.validate()?;
+
+    Ok((header_params,))
+}
+/// TwoFirstLetterHeaders - POST /operation-two-first-letter-headers
+#[tracing::instrument(skip_all)]
+async fn two_first_letter_headers<I, A>(
+    method: Method,
+    host: Host,
+    cookies: CookieJar,
+    headers: HeaderMap,
+    State(api_impl): State<I>,
+) -> Result<Response, StatusCode>
+where
+    I: AsRef<A> + Send + Sync,
+    A: apis::default::Default,
+{
+    // Header parameters
+    let header_params = {
+        let header_x_header_one = headers.get(HeaderName::from_static("x_header_one"));
+
+        let header_x_header_one = match header_x_header_one {
+            Some(v) => match header::IntoHeaderValue::<bool>::try_from((*v).clone()) {
+                Ok(result) => Some(result.0),
+                Err(err) => {
+                    return Response::builder()
+                        .status(StatusCode::BAD_REQUEST)
+                        .body(Body::from(format!("Invalid header x-header-one - {}", err)))
+                        .map_err(|e| {
+                            error!(error = ?e);
+                            StatusCode::INTERNAL_SERVER_ERROR
+                        });
+                }
+            },
+            None => None,
+        };
+        let header_x_header_two = headers.get(HeaderName::from_static("x_header_two"));
+
+        let header_x_header_two = match header_x_header_two {
+            Some(v) => match header::IntoHeaderValue::<bool>::try_from((*v).clone()) {
+                Ok(result) => Some(result.0),
+                Err(err) => {
+                    return Response::builder()
+                        .status(StatusCode::BAD_REQUEST)
+                        .body(Body::from(format!("Invalid header x-header-two - {}", err)))
+                        .map_err(|e| {
+                            error!(error = ?e);
+                            StatusCode::INTERNAL_SERVER_ERROR
+                        });
+                }
+            },
+            None => None,
+        };
+
+        models::TwoFirstLetterHeadersHeaderParams {
+            x_header_one: header_x_header_one,
+            x_header_two: header_x_header_two,
+        }
+    };
+
+    let validation = two_first_letter_headers_validation(header_params);
+
+    let Ok((header_params,)) = validation else {
+        return Response::builder()
+            .status(StatusCode::BAD_REQUEST)
+            .body(Body::from(validation.unwrap_err().to_string()))
+            .map_err(|_| StatusCode::BAD_REQUEST);
+    };
+
+    let result = api_impl
+        .as_ref()
+        .two_first_letter_headers(method, host, cookies, header_params)
+        .await;
+
+    let mut response = Response::builder();
+
+    let resp = match result {
+        Ok(rsp) => match rsp {
+            apis::default::TwoFirstLetterHeadersResponse::Status200_OK => {
+                let mut response = response.status(200);
+                response.body(Body::empty())
             }
         },
         Err(_) => {

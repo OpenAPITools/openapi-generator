@@ -71,6 +71,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentSkipListSet;
@@ -3154,7 +3158,7 @@ public class DefaultCodegen implements CodegenConfig {
                 additionalPropertiesIsAnyType = true;
             }
         } else {
-            // if additioanl properties is set (e.g. free form object, any type, string, etc)
+            // if additional properties is set (e.g. free form object, any type, string, etc)
             addPropProp = fromProperty(getAdditionalPropertiesName(), (Schema) schema.getAdditionalProperties(), false);
             additionalPropertiesIsAnyType = true;
         }
@@ -5674,6 +5678,8 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    private final Map<String, Integer> seenOperationIds = new HashMap<String, Integer>();
+
     /**
      * Add operation to group
      *
@@ -5694,13 +5700,18 @@ public class DefaultCodegen implements CodegenConfig {
         }
         // check for operationId uniqueness
         String uniqueName = co.operationId;
-        int counter = 0;
+        int counter = seenOperationIds.getOrDefault(uniqueName, 0);
+        while(seenOperationIds.containsKey(uniqueName)) {
+            uniqueName = co.operationId + "_" + counter;
+            counter++;
+        }
         for (CodegenOperation op : opList) {
             if (uniqueName.equals(op.operationId)) {
                 uniqueName = co.operationId + "_" + counter;
                 counter++;
             }
         }
+        seenOperationIds.put(co.operationId, counter);
         if (!co.operationId.equals(uniqueName)) {
             LOGGER.warn("generated unique operationId `{}`", uniqueName);
         }
@@ -6690,7 +6701,7 @@ public class DefaultCodegen implements CodegenConfig {
         for (Object value : values) {
             if (value == null) {
                 // raw null values in enums are unions for nullable
-                // atttributes, not actual enum values, so we remove them here
+                // attributes, not actual enum values, so we remove them here
                 continue;
             }
             Map<String, Object> enumVar = new HashMap<>();
@@ -8131,6 +8142,43 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Executes an external command for file post processing.
+     *
+     * @param commandArr an array of commands and arguments. They will be concatenated with space and tokenized again.
+     * @return Whether the execution passed (true) or failed (false)
+     */
+    protected boolean executePostProcessor(String[] commandArr) {
+        final String command = String.join(" ", commandArr);
+        try {
+            // we don't use the array variant here, because the command passed in by the user is often not only a single binary
+            // but a combination of binary + parameters, e.g. `/etc/bin prettier -w`, which would then not be found, as the
+            // first array item would be expected to be the binary only. The exec method is tokenizing the command for us.
+            Process p = Runtime.getRuntime().exec(command);
+            p.waitFor();
+            int exitValue = p.exitValue();
+            if (exitValue != 0) {
+                try (InputStreamReader inputStreamReader = new InputStreamReader(p.getErrorStream(), StandardCharsets.UTF_8);
+                    BufferedReader br = new BufferedReader(inputStreamReader)) {
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line);
+                    }
+                    LOGGER.error("Error running the command ({}). Exit value: {}, Error output: {}", command, exitValue, sb);
+                }
+            } else {
+                LOGGER.info("Successfully executed: {}", command);
+                return true;
+            }
+        } catch (InterruptedException | IOException e) {
+            LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            // Restore interrupted state
+            Thread.currentThread().interrupt();
+        }
+        return false;
+    }
+
+    /**
      * Boolean value indicating the state of the option for post-processing file using environment variables.
      *
      * @return true if the option is enabled
@@ -8396,6 +8444,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         List<CodegenProperty> xOf = new ArrayList<>();
         Set<String> dataTypeSet = new HashSet<>(); // to keep track of dataType
+        Set<String> dataTypeSetIgnoringErasure = new HashSet<>();
         int i = 0;
         for (Schema xOfSchema : xOfCollection) {
             CodegenProperty cp = fromProperty(collectionName + "_" + i, xOfSchema, false);
@@ -8404,7 +8453,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             if (dataTypeSet.contains(cp.dataType)
                     || (isTypeErasedGenerics() && dataTypeSet.contains(cp.baseType))) {
-                // add "x-duplicated-data-type" to indicate if the dataType already occurs before
+                // add "x-duplicated-data-type" to indicate if the (base) dataType already occurs before
                 // in other sub-schemas of allOf/anyOf/oneOf
                 cp.vendorExtensions.putIfAbsent("x-duplicated-data-type", true);
             } else {
@@ -8413,6 +8462,13 @@ public class DefaultCodegen implements CodegenConfig {
                 } else {
                     dataTypeSet.add(cp.dataType);
                 }
+            }
+            if (dataTypeSetIgnoringErasure.contains(cp.dataType)) {
+                // add "x-duplicated-data-type-ignoring-erasure" to indicate if the dataType already occurs before
+                // in other sub-schemas of allOf/anyOf/oneOf
+                cp.vendorExtensions.putIfAbsent("x-duplicated-data-type-ignoring-erasure", true);
+            } else {
+                dataTypeSetIgnoringErasure.add(cp.dataType);
             }
         }
         return xOf;
