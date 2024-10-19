@@ -38,18 +38,21 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Whale {
   public static final String JSON_PROPERTY_HAS_BALEEN = "hasBaleen";
+  @javax.annotation.Nullable
   private Boolean hasBaleen;
 
   public static final String JSON_PROPERTY_HAS_TEETH = "hasTeeth";
+  @javax.annotation.Nullable
   private Boolean hasTeeth;
 
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
+  @javax.annotation.Nonnull
   private String className;
 
   public Whale() { 
   }
 
-  public Whale hasBaleen(Boolean hasBaleen) {
+  public Whale hasBaleen(@javax.annotation.Nullable Boolean hasBaleen) {
     this.hasBaleen = hasBaleen;
     return this;
   }
@@ -69,12 +72,12 @@ public class Whale {
 
   @JsonProperty(JSON_PROPERTY_HAS_BALEEN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setHasBaleen(Boolean hasBaleen) {
+  public void setHasBaleen(@javax.annotation.Nullable Boolean hasBaleen) {
     this.hasBaleen = hasBaleen;
   }
 
 
-  public Whale hasTeeth(Boolean hasTeeth) {
+  public Whale hasTeeth(@javax.annotation.Nullable Boolean hasTeeth) {
     this.hasTeeth = hasTeeth;
     return this;
   }
@@ -94,12 +97,12 @@ public class Whale {
 
   @JsonProperty(JSON_PROPERTY_HAS_TEETH)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setHasTeeth(Boolean hasTeeth) {
+  public void setHasTeeth(@javax.annotation.Nullable Boolean hasTeeth) {
     this.hasTeeth = hasTeeth;
   }
 
 
-  public Whale className(String className) {
+  public Whale className(@javax.annotation.Nonnull String className) {
     this.className = className;
     return this;
   }
@@ -119,7 +122,7 @@ public class Whale {
 
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setClassName(String className) {
+  public void setClassName(@javax.annotation.Nonnull String className) {
     this.className = className;
   }
 

@@ -37,12 +37,13 @@ import org.openapitools.client.JSON;
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class TriangleInterface {
   public static final String JSON_PROPERTY_TRIANGLE_TYPE = "triangleType";
+  @jakarta.annotation.Nonnull
   private String triangleType;
 
   public TriangleInterface() { 
   }
 
-  public TriangleInterface triangleType(String triangleType) {
+  public TriangleInterface triangleType(@jakarta.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
     return this;
   }
@@ -64,7 +65,7 @@ public class TriangleInterface {
 
   @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setTriangleType(String triangleType) {
+  public void setTriangleType(@jakarta.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
   }
 

@@ -4,10 +4,7 @@ import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.*;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.TypeScriptClientCodegen;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -167,5 +164,19 @@ public class TypeScriptClientCodegenTest {
             .getProperties()
             .get("foo");
         Assert.assertEquals(codegen.getTypeDeclaration(schema), "Array<string | null>");
+    }
+
+    @Test
+    public void testAdditionalPropertiesPutForConfigValues() throws Exception {
+        String licenseName = "Apache 2.0";
+
+        TypeScriptClientCodegen codegen = new TypeScriptClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.LICENSE_NAME, licenseName);
+        codegen.processOpts();
+
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        codegen.preprocessOpenAPI(openAPI);
+
+        Assert.assertEquals(codegen.getLicenseName(), licenseName);
     }
 }

@@ -29,12 +29,13 @@ import java.io.IOException;
 public class TestFormObjectMultipartRequestMarker {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nullable
   private String name;
 
   public TestFormObjectMultipartRequestMarker() {
   }
 
-  public TestFormObjectMultipartRequestMarker name(String name) {
+  public TestFormObjectMultipartRequestMarker name(@javax.annotation.Nullable String name) {
     
     this.name = name;
     return this;
@@ -51,7 +52,7 @@ public class TestFormObjectMultipartRequestMarker {
   }
 
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
 

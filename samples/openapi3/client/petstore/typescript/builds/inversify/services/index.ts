@@ -1,7 +1,7 @@
 import { inject, injectable, multiInject, optional, interfaces } from "inversify";
 
 import { Configuration } from "../configuration";
-import { ServerConfiguration, servers } from "../servers";
+import { ServerConfiguration, servers, server1 } from "../servers";
 import { HttpLibrary, wrapHttpLibrary } from "../http/http";
 import { Middleware, PromiseMiddlewareWrapper } from "../middleware";
 import { authMethodServices, AuthMethods } from "../auth/auth";
@@ -23,7 +23,7 @@ class InjectableConfiguration implements AbstractConfiguration {
     public authMethods: AuthMethods = {};
 
     constructor(
-        @inject(AbstractServerConfiguration) @optional() public baseServer: AbstractServerConfiguration = servers[0],
+        @inject(AbstractServerConfiguration) @optional() public baseServer: AbstractServerConfiguration = server1,
         @inject(AbstractHttpLibrary) @optional() httpApi: AbstractHttpLibrary,
         @multiInject(AbstractMiddleware) @optional() middleware: AbstractMiddleware[] = [],
         @multiInject(AbstractAuthMethod) @optional() securityConfiguration: AbstractAuthMethod[] = []
@@ -65,6 +65,9 @@ export class ApiServiceBinder {
      * return value;
      */
     public bindServerConfigurationToPredefined(idx: number) {
+        if (!servers[idx]) {
+            throw new Error(`Server ${idx} is not available.`);
+        }
         this.bindServerConfiguration.toConstantValue(servers[idx]);
         return servers[idx];
     }

@@ -54,12 +54,13 @@ import org.openapitools.client.JSON;
 public class OneOf1 {
   public static final String SERIALIZED_NAME_MESSAGE1 = "message1";
   @SerializedName(SERIALIZED_NAME_MESSAGE1)
+  @javax.annotation.Nullable
   private String message1;
 
   public OneOf1() {
   }
 
-  public OneOf1 message1(String message1) {
+  public OneOf1 message1(@javax.annotation.Nullable String message1) {
     this.message1 = message1;
     return this;
   }
@@ -74,7 +75,7 @@ public class OneOf1 {
     return message1;
   }
 
-  public void setMessage1(String message1) {
+  public void setMessage1(@javax.annotation.Nullable String message1) {
     this.message1 = message1;
   }
 

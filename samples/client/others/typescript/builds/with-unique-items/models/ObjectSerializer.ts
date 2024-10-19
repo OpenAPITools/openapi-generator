@@ -37,7 +37,7 @@ type MimeTypeDescriptor = {
  * the payload.
  */
 const parseMimeType = (mimeType: string): MimeTypeDescriptor => {
-    const [type, subtype] = mimeType.split('/');
+    const [type = '', subtype = ''] = mimeType.split('/');
     return {
         type,
         subtype,
@@ -244,7 +244,7 @@ export class ObjectSerializer {
         if (mediaType === undefined) {
             return undefined;
         }
-        return mediaType.split(";")[0].trim().toLowerCase();
+        return (mediaType.split(";")[0] ?? '').trim().toLowerCase();
     }
 
     /**

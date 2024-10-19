@@ -150,14 +150,14 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
         do {
             let request = try createURLRequest(urlSession: urlSession, method: xMethod, encoding: encoding, headers: headers)
 
-            openAPIClient.interceptor.intercept(urlRequest: request, urlSession: urlSession, openAPIClient: openAPIClient) { result in
+            openAPIClient.interceptor.intercept(urlRequest: request, urlSession: urlSession, requestBuilder: self) { result in
 
                 switch result {
                 case .success(let modifiedRequest):
                     let dataTask = urlSession.dataTaskFromProtocol(with: modifiedRequest) { data, response, error in
                     self.cleanupRequest()
                         if let response, let error {
-                            self.openAPIClient.interceptor.retry(urlRequest: modifiedRequest, urlSession: urlSession, openAPIClient: self.openAPIClient, data: data, response: response, error: error) { retry in
+                            self.openAPIClient.interceptor.retry(urlRequest: modifiedRequest, urlSession: urlSession, requestBuilder: self, data: data, response: response, error: error) { retry in
                                 switch retry {
                                 case .retry:
                                     self.execute(completion: completion)
@@ -692,19 +692,19 @@ public enum OpenAPIInterceptorRetry {
 }
 
 public protocol OpenAPIInterceptor {
-    func intercept(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, completion: @escaping (Result<URLRequest, Error>) -> Void)
+    func intercept<T>(urlRequest: URLRequest, urlSession: URLSessionProtocol, requestBuilder: RequestBuilder<T>, completion: @escaping (Result<URLRequest, Error>) -> Void)
 
-    func retry(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, data: Data?, response: URLResponse, error: Error, completion: @escaping (OpenAPIInterceptorRetry) -> Void)
+    func retry<T>(urlRequest: URLRequest, urlSession: URLSessionProtocol, requestBuilder: RequestBuilder<T>, data: Data?, response: URLResponse, error: Error, completion: @escaping (OpenAPIInterceptorRetry) -> Void)
 }
 
 public class DefaultOpenAPIInterceptor: OpenAPIInterceptor {
     public init() {}
     
-    public func intercept(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, completion: @escaping (Result<URLRequest, any Error>) -> Void) {
+    public func intercept<T>(urlRequest: URLRequest, urlSession: URLSessionProtocol, requestBuilder: RequestBuilder<T>, completion: @escaping (Result<URLRequest, any Error>) -> Void) {
         completion(.success(urlRequest))
     }
     
-    public func retry(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, data: Data?, response: URLResponse, error: Error, completion: @escaping (OpenAPIInterceptorRetry) -> Void) {
+    public func retry<T>(urlRequest: URLRequest, urlSession: URLSessionProtocol, requestBuilder: RequestBuilder<T>, data: Data?, response: URLResponse, error: Error, completion: @escaping (OpenAPIInterceptorRetry) -> Void) {
         completion(.dontRetry)
     }
 }

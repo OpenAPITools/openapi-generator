@@ -1605,4 +1605,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             return sb.toString();
         }
     }
+
+    @Override
+    protected String getLicenseNameDefaultValue() {
+        return null;
+    }
 }

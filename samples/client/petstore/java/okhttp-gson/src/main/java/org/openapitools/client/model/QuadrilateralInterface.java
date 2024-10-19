@@ -52,12 +52,13 @@ import org.openapitools.client.JSON;
 public class QuadrilateralInterface {
   public static final String SERIALIZED_NAME_QUADRILATERAL_TYPE = "quadrilateralType";
   @SerializedName(SERIALIZED_NAME_QUADRILATERAL_TYPE)
+  @javax.annotation.Nonnull
   private String quadrilateralType;
 
   public QuadrilateralInterface() {
   }
 
-  public QuadrilateralInterface quadrilateralType(String quadrilateralType) {
+  public QuadrilateralInterface quadrilateralType(@javax.annotation.Nonnull String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;
     return this;
   }
@@ -71,7 +72,7 @@ public class QuadrilateralInterface {
     return quadrilateralType;
   }
 
-  public void setQuadrilateralType(String quadrilateralType) {
+  public void setQuadrilateralType(@javax.annotation.Nonnull String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;
   }
 

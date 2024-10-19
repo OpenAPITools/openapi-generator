@@ -35,12 +35,13 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class BasquePig {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
+  @javax.annotation.Nonnull
   private String className;
 
   public BasquePig() { 
   }
 
-  public BasquePig className(String className) {
+  public BasquePig className(@javax.annotation.Nonnull String className) {
     this.className = className;
     return this;
   }
@@ -60,7 +61,7 @@ public class BasquePig {
 
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setClassName(String className) {
+  public void setClassName(@javax.annotation.Nonnull String className) {
     this.className = className;
   }
 

@@ -86,45 +86,25 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected static final String RESPONSE_LIBRARY_ASYNC_AWAIT = "AsyncAwait";
     protected static final String RESPONSE_LIBRARY_OBJC_BLOCK = "ObjcBlock";
     protected static final String[] RESPONSE_LIBRARIES = { RESPONSE_LIBRARY_ASYNC_AWAIT, RESPONSE_LIBRARY_COMBINE, RESPONSE_LIBRARY_RESULT, RESPONSE_LIBRARY_RX_SWIFT, RESPONSE_LIBRARY_OBJC_BLOCK, RESPONSE_LIBRARY_PROMISE_KIT };
-    @Setter
-    protected String projectName = "OpenAPIClient";
-    @Setter
-    protected boolean nonPublicApi = false;
-    @Setter
-    protected boolean objcCompatible = false;
-    @Setter
-    protected boolean readonlyProperties = false;
-    @Setter
-    protected boolean swiftUseApiNamespace = false;
-    @Setter
-    protected boolean useSPMFileStructure = true;
-    @Setter
-    protected String swiftPackagePath = "Sources" + File.separator + projectName;
-    @Setter
-    protected boolean oneOfUnknownDefaultCase = false;
-    @Setter
-    protected boolean useClasses = false;
-    @Setter
-    protected boolean useBacktickEscapes = false;
-    @Setter
-    protected boolean generateModelAdditionalProperties = true;
-    @Setter
-    protected boolean hashableModels = true;
-    @Setter
-    protected boolean useJsonEncodable = true;
-    @Getter
-    @Setter
-    protected boolean mapFileBinaryToData = false;
-    @Setter
-    protected boolean useCustomDateWithoutTime = false;
-    @Setter
-    protected boolean validatable = true;
-    @Setter
-    protected boolean apiStaticMethod = true;
-    @Setter
-    protected boolean combineDeferred = true;
-    @Setter
-    protected String[] responseAs = { RESPONSE_LIBRARY_ASYNC_AWAIT };
+    @Setter protected String projectName = "OpenAPIClient";
+    @Setter protected boolean nonPublicApi = false;
+    @Setter protected boolean objcCompatible = false;
+    @Setter protected boolean readonlyProperties = false;
+    @Setter protected boolean swiftUseApiNamespace = false;
+    @Setter protected boolean useSPMFileStructure = true;
+    @Setter protected String swiftPackagePath = "Sources" + File.separator + projectName;
+    @Setter protected boolean oneOfUnknownDefaultCase = false;
+    @Setter protected boolean useClasses = false;
+    @Setter protected boolean useBacktickEscapes = false;
+    @Setter protected boolean generateModelAdditionalProperties = true;
+    @Setter protected boolean hashableModels = true;
+    @Setter protected boolean useJsonEncodable = true;
+    @Getter @Setter protected boolean mapFileBinaryToData = false;
+    @Setter protected boolean useCustomDateWithoutTime = false;
+    @Setter protected boolean validatable = true;
+    @Setter protected boolean apiStaticMethod = true;
+    @Setter protected boolean combineDeferred = true;
+    @Setter protected String[] responseAs = { RESPONSE_LIBRARY_ASYNC_AWAIT };
     protected String sourceFolder = swiftPackagePath;
     protected HashSet objcReservedWords;
     protected String apiDocPath = "docs/";
@@ -138,7 +118,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         this.useOneOfInterfaces = true;
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.EXPERIMENTAL)
+                .stability(Stability.BETA)
                 .build();
 
         outputFolder = "generated-code" + File.separator + "swift";
@@ -184,19 +164,20 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                         "Empty",
                         "AnyObject",
                         "Any",
-                        "Decimal"));
+                        "Decimal")
+        );
 
         objcReservedWords = new HashSet<>(
                 Arrays.asList(
                         // Added for Objective-C compatibility
-                        "id", "description", "NSArray", "NSURL", "CGFloat", "NSSet", "NSString", "NSInteger",
-                        "NSUInteger",
+                        "id", "description", "NSArray", "NSURL", "CGFloat", "NSSet", "NSString", "NSInteger", "NSUInteger",
                         "NSError", "NSDictionary",
-                        // 'Property 'hash' with type 'String' cannot override a property with type
-                        // 'Int' (when objcCompatible=true)
+                        // 'Property 'hash' with type 'String' cannot override a property with type 'Int' (when objcCompatible=true)
                         "hash",
                         // Cannot override with a stored property 'className'
-                        "className"));
+                        "className"
+                )
+        );
 
         reservedWords = new HashSet<>(
                 Arrays.asList(
@@ -207,29 +188,22 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                         // https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/LexicalStructure.html#//apple_ref/doc/uid/TP40014097-CH30-ID410
                         //
                         // Keywords used in declarations
-                        "associatedtype", "class", "deinit", "enum", "extension", "fileprivate", "func", "import",
-                        "init",
-                        "inout", "internal", "let", "open", "operator", "private", "protocol", "public", "static",
-                        "struct",
+                        "associatedtype", "class", "deinit", "enum", "extension", "fileprivate", "func", "import", "init",
+                        "inout", "internal", "let", "open", "operator", "private", "protocol", "public", "static", "struct",
                         "subscript", "typealias", "var",
                         // Keywords uses in statements
-                        "break", "case", "continue", "default", "defer", "do", "else", "fallthrough", "for", "guard",
-                        "if",
+                        "break", "case", "continue", "default", "defer", "do", "else", "fallthrough", "for", "guard", "if",
                         "in", "repeat", "return", "switch", "where", "while",
                         // Keywords used in expressions and types
-                        "as", "Any", "catch", "false", "is", "nil", "rethrows", "super", "self", "Self", "throw",
-                        "throws", "true", "try",
+                        "as", "Any", "catch", "false", "is", "nil", "rethrows", "super", "self", "Self", "throw", "throws", "true", "try",
                         // Keywords used in patterns
                         "_",
                         // Keywords that begin with a number sign
-                        "#available", "#colorLiteral", "#column", "#else", "#elseif", "#endif", "#file", "#fileLiteral",
-                        "#function", "#if",
+                        "#available", "#colorLiteral", "#column", "#else", "#elseif", "#endif", "#file", "#fileLiteral", "#function", "#if",
                         "#imageLiteral", "#line", "#selector", "#sourceLocation",
                         // Keywords reserved in particular contexts
-                        "associativity", "convenience", "dynamic", "didSet", "final", "get", "infix", "indirect",
-                        "lazy", "left",
-                        "mutating", "none", "nonmutating", "optional", "override", "postfix", "precedence", "prefix",
-                        "Protocol",
+                        "associativity", "convenience", "dynamic", "didSet", "final", "get", "infix", "indirect", "lazy", "left",
+                        "mutating", "none", "nonmutating", "optional", "override", "postfix", "precedence", "prefix", "Protocol",
                         "required", "right", "set", "Type", "unowned", "weak", "willSet",
 
                         //
@@ -239,8 +213,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                         // Numbers and Basic Values
                         "Bool", "Int", "Double", "Float", "Range", "ClosedRange", "Error", "Optional",
                         // Special-Use Numeric Types
-                        "UInt", "UInt8", "UInt16", "UInt32", "UInt64", "Int8", "Int16", "Int32", "Int64", "Float80",
-                        "Float32", "Float64",
+                        "UInt", "UInt8", "UInt16", "UInt32", "UInt64", "Int8", "Int16", "Int32", "Int64", "Float80", "Float32", "Float64",
                         // Strings and Text
                         "String", "Character", "Unicode", "StaticString",
                         // Collections
@@ -250,7 +223,9 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                         "URL", "Data", "Codable", "Encodable", "Decodable",
 
                         // The following are other words we want to reserve
-                        "Void", "AnyObject", "Class", "dynamicType", "COLUMN", "FILE", "FUNCTION", "LINE"));
+                        "Void", "AnyObject", "Class", "dynamicType", "COLUMN", "FILE", "FUNCTION", "LINE"
+                )
+        );
 
         typeMapping = new HashMap<>();
         typeMapping.put("array", "Array");
@@ -368,7 +343,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     private static CodegenModel reconcileProperties(CodegenModel codegenModel,
-            CodegenModel parentCodegenModel) {
+                                                    CodegenModel parentCodegenModel) {
         // To support inheritance in this generator, we will analyze
         // the parent and child models, look for properties that match, and remove
         // them from the child models and leave them in the parent.
@@ -423,7 +398,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel,
-            Schema schema) {
+                                                       Schema schema) {
 
         final Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
 
@@ -435,8 +410,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                 inner = ModelUtils.getAdditionalProperties(schema);
             }
 
-            codegenModel.additionalPropertiesType = inner != null ? getTypeDeclaration(inner)
-                    : getSchemaType(additionalProperties);
+            codegenModel.additionalPropertiesType = inner != null ? getTypeDeclaration(inner) : getSchemaType(additionalProperties);
         }
     }
 
@@ -445,10 +419,8 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("SWIFT_POST_PROCESS_FILE"))) {
-            LOGGER.info(
-                    "Environment variable SWIFT_POST_PROCESS_FILE not defined so the Swift code may not be properly formatted. To define it, try 'export SWIFT_POST_PROCESS_FILE=/usr/local/bin/swiftformat' (Linux/Mac)");
-            LOGGER.info(
-                    "NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+            LOGGER.info("Environment variable SWIFT_POST_PROCESS_FILE not defined so the Swift code may not be properly formatted. To define it, try 'export SWIFT_POST_PROCESS_FILE=/usr/local/bin/swiftformat' (Linux/Mac)");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         } else if (!this.isEnablePostProcessFile()) {
             LOGGER.info("Warning: Environment variable 'SWIFT_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
@@ -536,8 +508,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
             sourceFolder = projectName + File.separator + "Classes" + File.separator + "OpenAPIs";
         }
 
-        if (additionalProperties.containsKey(SWIFT_PACKAGE_PATH)
-                && ((String) additionalProperties.get(SWIFT_PACKAGE_PATH)).length() > 0) {
+        if (additionalProperties.containsKey(SWIFT_PACKAGE_PATH) && ((String) additionalProperties.get(SWIFT_PACKAGE_PATH)).length() > 0) {
             setSwiftPackagePath((String) additionalProperties.get(SWIFT_PACKAGE_PATH));
             sourceFolder = swiftPackagePath;
         }
@@ -547,8 +518,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         if (additionalProperties.containsKey(GENERATE_MODEL_ADDITIONAL_PROPERTIES)) {
-            setGenerateModelAdditionalProperties(
-                    convertPropertyToBooleanAndWriteBack(GENERATE_MODEL_ADDITIONAL_PROPERTIES));
+            setGenerateModelAdditionalProperties(convertPropertyToBooleanAndWriteBack(GENERATE_MODEL_ADDITIONAL_PROPERTIES));
         }
         additionalProperties.put(GENERATE_MODEL_ADDITIONAL_PROPERTIES, generateModelAdditionalProperties);
 
@@ -704,7 +674,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     protected boolean isReservedWord(String word) {
-        return word != null && reservedWords.contains(word); // don't lowercase as super does
+        return word != null && reservedWords.contains(word); //don't lowercase as super does
     }
 
     @Override
@@ -731,8 +701,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
             Schema inner = ModelUtils.getSchemaItems(p);
-            return ModelUtils.isSet(p) ? "Set<" + getTypeDeclaration(inner) + ">"
-                    : "[" + getTypeDeclaration(inner) + "]";
+            return ModelUtils.isSet(p) ? "Set<" + getTypeDeclaration(inner) + ">" : "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
             return "[String: " + getTypeDeclaration(inner) + "]";
@@ -835,13 +804,10 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
             if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
                 return p.getDefault().toString();
             } else if (ModelUtils.isDateTimeSchema(p)) {
-                // Datetime time stamps in Swift are expressed as Seconds with Microsecond
-                // precision.
-                // In Java, we need to be creative to get the Timestamp in Microseconds as a
-                // long.
+                // Datetime time stamps in Swift are expressed as Seconds with Microsecond precision.
+                // In Java, we need to be creative to get the Timestamp in Microseconds as a long.
                 Instant instant = ((OffsetDateTime) p.getDefault()).toInstant();
-                long epochMicro = TimeUnit.SECONDS.toMicros(instant.getEpochSecond())
-                        + (instant.get(ChronoField.MICRO_OF_SECOND));
+                long epochMicro = TimeUnit.SECONDS.toMicros(instant.getEpochSecond()) + (instant.get(ChronoField.MICRO_OF_SECOND));
                 return "Date(timeIntervalSince1970: " + epochMicro + ".0 / 1_000_000)";
             } else if (ModelUtils.isStringSchema(p)) {
                 return "\"" + escapeText(String.valueOf(p.getDefault())) + "\"";
@@ -909,8 +875,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId,
-                    camelize(sanitizeName("call_" + operationId), LOWERCASE_FIRST_LETTER));
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId), LOWERCASE_FIRST_LETTER));
             operationId = camelize(sanitizeName("call_" + operationId), LOWERCASE_FIRST_LETTER);
         }
 
@@ -1055,8 +1020,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
-            return camelize(WordUtils.capitalizeFully(getSymbolName(name).toUpperCase(Locale.ROOT)),
-                    LOWERCASE_FIRST_LETTER);
+            return camelize(WordUtils.capitalizeFully(getSymbolName(name).toUpperCase(Locale.ROOT)), LOWERCASE_FIRST_LETTER);
         }
 
         // Camelize only when we have a structure defined below
@@ -1079,9 +1043,9 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
             return replaceSpecialCharacters(name);
         }
 
-        char[] separators = { '-', '_', ' ', ':', '(', ')' };
+        char[] separators = {'-', '_', ' ', ':', '(', ')'};
         return camelize(replaceSpecialCharacters(WordUtils.capitalizeFully(StringUtils.lowerCase(name), separators)
-                .replaceAll("[-_ :\\(\\)]", "")),
+                        .replaceAll("[-_ :\\(\\)]", "")),
                 LOWERCASE_FIRST_LETTER);
     }
 
@@ -1169,8 +1133,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         //
         // CodegenProperty.vendorExtensions["x-codegen-escaped-property-name"] = true
         //
-        // Also, if any property in the model has x-codegen-escaped-property-name=true,
-        // then we mark:
+        // Also, if any property in the model has x-codegen-escaped-property-name=true, then we mark:
         //
         // CodegenModel.vendorExtensions["x-codegen-has-escaped-property-names"] = true
         //
@@ -1188,8 +1151,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                         if (prop.defaultValue == null || prop.defaultValue.equals("null")) {
                             prop.vendorExtensions.put("x-null-encodable-default-value", ".encodeNull");
                         } else {
-                            prop.vendorExtensions.put("x-null-encodable-default-value",
-                                    ".encodeValue(" + prop.defaultValue + ")");
+                            prop.vendorExtensions.put("x-null-encodable-default-value", ".encodeValue(" + prop.defaultValue + ")");
                         }
                     }
                 }
@@ -1259,8 +1221,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         return objs;
     }
 
-    public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps,
-            Set<String> visitedModels) {
+    public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, Set<String> visitedModels) {
         if (codegenParameter.isArray) { // array
             return "[" + constructExampleCode(codegenParameter.items, modelMaps, visitedModels) + "]";
         } else if (codegenParameter.isMap) { // TODO: map, file type
@@ -1302,15 +1263,13 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                     return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps, visitedModels);
                 }
             } else {
-                // LOGGER.error("Error in constructing examples. Failed to look up the model " +
-                // codegenParameter.dataType);
+                //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenParameter.dataType);
                 return "TODO";
             }
         }
     }
 
-    public String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps,
-            Set<String> visitedModels) {
+    public String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, Set<String> visitedModels) {
         if (codegenProperty.isArray) { // array
             return "[" + constructExampleCode(codegenProperty.items, modelMaps, visitedModels) + "]";
         } else if (codegenProperty.isMap) { // TODO: map, file type
@@ -1350,21 +1309,18 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                     return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps, visitedModels);
                 }
             } else {
-                // LOGGER.error("Error in constructing examples. Failed to look up the model " +
-                // codegenProperty.dataType);
+                //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenProperty.dataType);
                 return "\"TODO\"";
             }
         }
     }
 
-    public String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps,
-            Set<String> visitedModels) {
+    public String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps, Set<String> visitedModels) {
         String example;
         example = codegenModel.name + "(";
         List<String> propertyExamples = new ArrayList<>();
         for (CodegenProperty codegenProperty : codegenModel.vars) {
-            propertyExamples
-                    .add(codegenProperty.name + ": " + constructExampleCode(codegenProperty, modelMaps, visitedModels));
+            propertyExamples.add(codegenProperty.name + ": " + constructExampleCode(codegenProperty, modelMaps, visitedModels));
         }
         example += StringUtils.join(propertyExamples, ", ");
         example += ")";
@@ -1375,13 +1331,14 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     public void postProcess() {
         System.out.println("################################################################################");
         System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out
-                .println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
         System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
         System.out.println("#                                                                              #");
         System.out.println("# swift6 generator is contributed by Bruno Coelho (https://github.com/4brunu). #");
-        System.out
-                .println("# Please support his work directly via https://paypal.com/paypalme/4brunu \uD83D\uDE4F   #");
+        System.out.println("# Please support his work directly via https://paypal.com/paypalme/4brunu \uD83D\uDE4F   #");
+        System.out.println("#                                                                              #");
+        System.out.println("# If you need help migrating from the swift5 to the swift6 generator, check the following url.#");
+        System.out.println("# https://openapi-generator.tech/docs/faq-generators/#how-do-i-migrate-from-the-swift-5-generator-to-the-swift-6-generator");
         System.out.println("################################################################################");
     }
 

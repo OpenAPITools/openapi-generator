@@ -51,15 +51,17 @@ import org.openapitools.client.JSON;
 
 public class Animal {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
+  @jakarta.annotation.Nonnull
   private String className;
 
   public static final String JSON_PROPERTY_COLOR = "color";
+  @jakarta.annotation.Nullable
   private String color = "red";
 
   public Animal() { 
   }
 
-  public Animal className(String className) {
+  public Animal className(@jakarta.annotation.Nonnull String className) {
     this.className = className;
     return this;
   }
@@ -81,12 +83,12 @@ public class Animal {
 
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setClassName(String className) {
+  public void setClassName(@jakarta.annotation.Nonnull String className) {
     this.className = className;
   }
 
 
-  public Animal color(String color) {
+  public Animal color(@jakarta.annotation.Nullable String color) {
     this.color = color;
     return this;
   }
@@ -107,7 +109,7 @@ public class Animal {
 
   @JsonProperty(JSON_PROPERTY_COLOR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setColor(String color) {
+  public void setColor(@jakarta.annotation.Nullable String color) {
     this.color = color;
   }
 

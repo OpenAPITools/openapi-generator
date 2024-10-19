@@ -36,12 +36,13 @@ import java.util.StringJoiner;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ModelReturn {
   public static final String JSON_PROPERTY_RETURN = "return";
+  @javax.annotation.Nullable
   private Integer _return;
 
   public ModelReturn() {
   }
 
-  public ModelReturn _return(Integer _return) {
+  public ModelReturn _return(@javax.annotation.Nullable Integer _return) {
     
     this._return = _return;
     return this;
@@ -62,7 +63,7 @@ public class ModelReturn {
 
   @JsonProperty(JSON_PROPERTY_RETURN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setReturn(Integer _return) {
+  public void setReturn(@javax.annotation.Nullable Integer _return) {
     this._return = _return;
   }
 

@@ -53,16 +53,18 @@ import org.openapitools.client.JSON;
 public class FreeFormObjectTestClass {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nullable
   private String name;
 
   public static final String SERIALIZED_NAME_PROPERTIES = "properties";
   @SerializedName(SERIALIZED_NAME_PROPERTIES)
+  @javax.annotation.Nullable
   private FreeFormObjectTestClassProperties properties;
 
   public FreeFormObjectTestClass() {
   }
 
-  public FreeFormObjectTestClass name(String name) {
+  public FreeFormObjectTestClass name(@javax.annotation.Nullable String name) {
     this.name = name;
     return this;
   }
@@ -76,12 +78,12 @@ public class FreeFormObjectTestClass {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
 
 
-  public FreeFormObjectTestClass properties(FreeFormObjectTestClassProperties properties) {
+  public FreeFormObjectTestClass properties(@javax.annotation.Nullable FreeFormObjectTestClassProperties properties) {
     this.properties = properties;
     return this;
   }
@@ -95,7 +97,7 @@ public class FreeFormObjectTestClass {
     return properties;
   }
 
-  public void setProperties(FreeFormObjectTestClassProperties properties) {
+  public void setProperties(@javax.annotation.Nullable FreeFormObjectTestClassProperties properties) {
     this.properties = properties;
   }
 
