@@ -252,7 +252,7 @@ public class User  implements Serializable {
     return new UserBuilderImpl();
   }
 
-  private static class UserBuilderImpl extends UserBuilder<User, UserBuilderImpl> {
+  private static final class UserBuilderImpl extends UserBuilder<User, UserBuilderImpl> {
 
     @Override
     protected UserBuilderImpl self() {

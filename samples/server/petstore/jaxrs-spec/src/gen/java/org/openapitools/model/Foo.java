@@ -90,7 +90,7 @@ public class Foo  implements Serializable {
     return new FooBuilderImpl();
   }
 
-  private static class FooBuilderImpl extends FooBuilder<Foo, FooBuilderImpl> {
+  private static final class FooBuilderImpl extends FooBuilder<Foo, FooBuilderImpl> {
 
     @Override
     protected FooBuilderImpl self() {
