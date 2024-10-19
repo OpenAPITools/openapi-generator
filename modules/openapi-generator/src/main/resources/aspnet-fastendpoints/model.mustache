@@ -1,0 +1,10 @@
+{{#models}}
+    {{#model}}
+namespace {{packageName}}.{{modelPackage}};
+{{#isEnum}}{{>enumClass}}{{/isEnum}}{{^isEnum}}
+{{#useRecords}}{{>modelRecord}}{{/useRecords}}
+{{^useRecords}}{{>modelClass}}{{/useRecords}}
+
+{{/isEnum}}
+    {{/model}}
+{{/models}}

@@ -1,0 +1,16 @@
+/// <summary>
+/// {{description}}
+/// </summary>
+public class {{classname}} {{#parent}}: {{{.}}}{{/parent}}
+{
+{{#vars}}
+    {{#isEnum}}{{^complexType}}{{>enumClass}}{{/complexType}}
+{{/isEnum}}
+{{#isEnum}}
+    public {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{name}} { get; set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
+{{/isEnum}}
+{{^isEnum}}
+public {{{dataType}}}{{#nullableReferenceTypes}}{{^isContainer}}{{^required}}{{^isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableReferenceTypes}} {{name}} { get; set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
+{{/isEnum}}
+{{/vars}}
+}
