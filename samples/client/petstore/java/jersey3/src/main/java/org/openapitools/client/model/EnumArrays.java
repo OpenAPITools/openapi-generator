@@ -133,7 +133,6 @@ public class EnumArrays {
 
   @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
@@ -167,7 +166,6 @@ public class EnumArrays {
 
   @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }
@@ -178,7 +176,6 @@ public class EnumArrays {
   public void setArrayEnum(@jakarta.annotation.Nullable List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
-
 
   /**
    * Return true if this EnumArrays object is equal to o.

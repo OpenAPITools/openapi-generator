@@ -66,7 +66,6 @@ public class ComplexQuadrilateral {
 
   @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public String getShapeType() {
     return shapeType;
   }
@@ -93,7 +92,6 @@ public class ComplexQuadrilateral {
 
   @JsonProperty(JSON_PROPERTY_QUADRILATERAL_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public String getQuadrilateralType() {
     return quadrilateralType;
   }
@@ -142,7 +140,6 @@ public class ComplexQuadrilateral {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this ComplexQuadrilateral object is equal to o.
    */

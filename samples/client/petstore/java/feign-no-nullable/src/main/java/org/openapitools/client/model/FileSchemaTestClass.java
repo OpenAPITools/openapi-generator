@@ -36,14 +36,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 @javax.annotation.concurrent.Immutable
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class FileSchemaTestClass {
   public static final String JSON_PROPERTY_FILE = "file";
-  @javax.annotation.Nullable
-  private File file;
+  @javax.annotation.Nullable  private File file;
 
   public static final String JSON_PROPERTY_FILES = "files";
-  @javax.annotation.Nullable
-  private List<File> files = new ArrayList<>();
+  @javax.annotation.Nullable  private List<File> files = new ArrayList<>();
 
   public FileSchemaTestClass() {
   }
@@ -58,8 +57,7 @@ public class FileSchemaTestClass {
    * Get file
    * @return file
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_FILE)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_FILE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public File getFile() {
@@ -92,8 +90,7 @@ public class FileSchemaTestClass {
    * Get files
    * @return files
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_FILES)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_FILES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<File> getFiles() {
@@ -106,7 +103,6 @@ public class FileSchemaTestClass {
   public void setFiles(@javax.annotation.Nullable List<File> files) {
     this.files = files;
   }
-
 
   @Override
   public boolean equals(Object o) {

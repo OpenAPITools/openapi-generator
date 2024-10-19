@@ -36,10 +36,10 @@ import org.openapitools.client.ApiClient;
   DanishPig.JSON_PROPERTY_CLASS_NAME
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class DanishPig {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
-  @javax.annotation.Nonnull
-  private String className;
+  @javax.annotation.Nonnull  private String className;
 
   public DanishPig() { 
   }
@@ -53,8 +53,7 @@ public class DanishPig {
    * Get className
    * @return className
    */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @javax.annotation.Nonnull  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public String getClassName() {
     return className;
@@ -66,7 +65,6 @@ public class DanishPig {
   public void setClassName(@javax.annotation.Nonnull String className) {
     this.className = className;
   }
-
 
   /**
    * Return true if this DanishPig object is equal to o.

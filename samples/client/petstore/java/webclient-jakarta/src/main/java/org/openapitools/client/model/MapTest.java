@@ -35,10 +35,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   MapTest.JSON_PROPERTY_INDIRECT_MAP
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class MapTest {
   public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
-  @jakarta.annotation.Nullable
-  private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
+  @jakarta.annotation.Nullable  private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
   /**
    * Gets or Sets inner
@@ -74,18 +74,14 @@ public class MapTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_MAP_OF_ENUM_STRING = "map_of_enum_string";
-  @jakarta.annotation.Nullable
-  private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
+  @jakarta.annotation.Nullable  private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
   public static final String JSON_PROPERTY_DIRECT_MAP = "direct_map";
-  @jakarta.annotation.Nullable
-  private Map<String, Boolean> directMap = new HashMap<>();
+  @jakarta.annotation.Nullable  private Map<String, Boolean> directMap = new HashMap<>();
 
   public static final String JSON_PROPERTY_INDIRECT_MAP = "indirect_map";
-  @jakarta.annotation.Nullable
-  private Map<String, Boolean> indirectMap = new HashMap<>();
+  @jakarta.annotation.Nullable  private Map<String, Boolean> indirectMap = new HashMap<>();
 
   public MapTest() {
   }
@@ -108,8 +104,7 @@ public class MapTest {
    * Get mapMapOfString
    * @return mapMapOfString
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Map<String, String>> getMapMapOfString() {
@@ -141,8 +136,7 @@ public class MapTest {
    * Get mapOfEnumString
    * @return mapOfEnumString
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, InnerEnum> getMapOfEnumString() {
@@ -174,8 +168,7 @@ public class MapTest {
    * Get directMap
    * @return directMap
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Boolean> getDirectMap() {
@@ -207,8 +200,7 @@ public class MapTest {
    * Get indirectMap
    * @return indirectMap
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Boolean> getIndirectMap() {

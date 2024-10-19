@@ -13,7 +13,6 @@
  */
 
 
-
 /**
  * A category for a pet
  * @export

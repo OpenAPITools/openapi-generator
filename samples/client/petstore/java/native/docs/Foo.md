@@ -10,4 +10,3 @@
 |**bar** | **String** |  |  [optional] |
 
 
-

@@ -66,7 +66,6 @@ public class NumberOnly {
     this.justNumber = justNumber;
   }
 
-
   /**
    * Return true if this NumberOnly object is equal to o.
    */

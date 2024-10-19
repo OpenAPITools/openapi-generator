@@ -11,4 +11,3 @@
 |**baz** | **String** |  |  [optional] |
 
 
-

@@ -47,7 +47,6 @@ import org.openapitools.client.JSON;
   @JsonSubTypes.Type(value = ChildCat.class, name = "ChildCat"),
   @JsonSubTypes.Type(value = ParentPet.class, name = "ParentPet"),
 })
-
 public class GrandparentAnimal {
   public static final String JSON_PROPERTY_PET_TYPE = "pet_type";
   @jakarta.annotation.Nonnull
@@ -70,7 +69,6 @@ public class GrandparentAnimal {
 
   @JsonProperty(JSON_PROPERTY_PET_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public String getPetType() {
     return petType;
   }
@@ -81,7 +79,6 @@ public class GrandparentAnimal {
   public void setPetType(@jakarta.annotation.Nonnull String petType) {
     this.petType = petType;
   }
-
 
   /**
    * Return true if this GrandparentAnimal object is equal to o.

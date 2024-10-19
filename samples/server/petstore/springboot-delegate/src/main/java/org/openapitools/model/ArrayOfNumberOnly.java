@@ -22,7 +22,6 @@ import javax.annotation.Generated;
 /**
  * ArrayOfNumberOnly
  */
-
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ArrayOfNumberOnly {
 
@@ -57,8 +56,7 @@ public class ArrayOfNumberOnly {
    * Get arrayNumber
    * @return arrayNumber
    */
-  @Valid 
-  @ApiModelProperty(value = "")
+  @Valid   @ApiModelProperty(value = "")
   @JsonProperty("ArrayNumber")
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
@@ -67,7 +65,6 @@ public class ArrayOfNumberOnly {
   public void setArrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

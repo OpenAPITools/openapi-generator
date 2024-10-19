@@ -46,7 +46,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonSubTypes({
   @JsonSubTypes.Type(value = ChildWithNullable.class, name = "ChildWithNullable"),
 })
-
 public class ParentWithNullable {
   /**
    * Gets or Sets type
@@ -136,7 +135,6 @@ public class ParentWithNullable {
 
   @JsonProperty(JSON_PROPERTY_NULLABLE_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<String> getNullableProperty_JsonNullable() {
     return nullableProperty;
   }
@@ -149,7 +147,6 @@ public class ParentWithNullable {
   public void setNullableProperty(@javax.annotation.Nullable String nullableProperty) {
     this.nullableProperty = JsonNullable.<String>of(nullableProperty);
   }
-
 
   @Override
   public boolean equals(Object o) {

@@ -95,7 +95,6 @@ public class Order {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_STATUS = "status";
   @javax.annotation.Nullable
   private StatusEnum status;
@@ -261,7 +260,6 @@ public class Order {
   public void setComplete(@javax.annotation.Nullable Boolean complete) {
     this.complete = complete;
   }
-
 
   /**
    * Return true if this Order object is equal to o.

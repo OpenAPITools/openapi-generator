@@ -49,11 +49,11 @@ import org.openapitools.client.JSON;
  * AdditionalPropertiesBoolean
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class AdditionalPropertiesBoolean {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
-  @javax.annotation.Nullable
-  private String name;
+  @javax.annotation.Nullable  private String name;
 
   public AdditionalPropertiesBoolean() {
   }
@@ -67,8 +67,7 @@ public class AdditionalPropertiesBoolean {
    * Get name
    * @return name
    */
-  @javax.annotation.Nullable
-  public String getName() {
+  @javax.annotation.Nullable  public String getName() {
     return name;
   }
 
@@ -120,7 +119,6 @@ public class AdditionalPropertiesBoolean {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

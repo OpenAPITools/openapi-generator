@@ -11,7 +11,6 @@
  * Do not edit the class manually.
  */
 
-
 import { HttpMethods, QueryConfig, ResponseBody, ResponseText } from 'redux-query';
 import * as runtime from '../runtime';
 import {

@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { BranchDto } from './BranchDto';
 import {
@@ -48,7 +47,6 @@ export interface AbstractUserDto {
      */
     type?: string;
 }
-
 /**
  * Check if a given object implements the AbstractUserDto interface.
  */
@@ -107,4 +105,3 @@ export function AbstractUserDtoFromJSONTyped(json: any, ignoreDiscriminator: boo
         'type': value['type'],
     };
 }
-

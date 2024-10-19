@@ -17,8 +17,7 @@ internal struct Order: Codable, JSONEncodable {
         case approved = "approved"
         case delivered = "delivered"
         case unknownDefaultOpenApi = "unknown_default_open_api"
-    }
-    internal private(set) var id: Int64?
+    }    internal private(set) var id: Int64?
     internal private(set) var petId: Int64?
     internal private(set) var quantity: Int?
     internal private(set) var shipDate: Date?

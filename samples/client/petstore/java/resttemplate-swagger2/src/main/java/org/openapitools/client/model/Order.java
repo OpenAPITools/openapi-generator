@@ -38,22 +38,19 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Order.JSON_PROPERTY_COMPLETE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Order {
   public static final String JSON_PROPERTY_ID = "id";
-  @javax.annotation.Nullable
-  private Long id;
+  @javax.annotation.Nullable  private Long id;
 
   public static final String JSON_PROPERTY_PET_ID = "petId";
-  @javax.annotation.Nullable
-  private Long petId;
+  @javax.annotation.Nullable  private Long petId;
 
   public static final String JSON_PROPERTY_QUANTITY = "quantity";
-  @javax.annotation.Nullable
-  private Integer quantity;
+  @javax.annotation.Nullable  private Integer quantity;
 
   public static final String JSON_PROPERTY_SHIP_DATE = "shipDate";
-  @javax.annotation.Nullable
-  private OffsetDateTime shipDate;
+  @javax.annotation.Nullable  private OffsetDateTime shipDate;
 
   /**
    * Order Status
@@ -91,14 +88,11 @@ public class Order {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_STATUS = "status";
-  @javax.annotation.Nullable
-  private StatusEnum status;
+  @javax.annotation.Nullable  private StatusEnum status;
 
   public static final String JSON_PROPERTY_COMPLETE = "complete";
-  @javax.annotation.Nullable
-  private Boolean complete = false;
+  @javax.annotation.Nullable  private Boolean complete = false;
 
   public Order() {
   }
@@ -113,8 +107,7 @@ public class Order {
    * Get id
    * @return id
    */
-  @javax.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @javax.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -139,8 +132,7 @@ public class Order {
    * Get petId
    * @return petId
    */
-  @javax.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @javax.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_PET_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -165,8 +157,7 @@ public class Order {
    * Get quantity
    * @return quantity
    */
-  @javax.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @javax.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_QUANTITY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -191,8 +182,7 @@ public class Order {
    * Get shipDate
    * @return shipDate
    */
-  @javax.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @javax.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_SHIP_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -217,8 +207,7 @@ public class Order {
    * Order Status
    * @return status
    */
-  @javax.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "Order Status")
+  @javax.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "Order Status")
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -243,8 +232,7 @@ public class Order {
    * Get complete
    * @return complete
    */
-  @javax.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @javax.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_COMPLETE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

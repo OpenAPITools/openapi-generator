@@ -50,7 +50,6 @@ extension ParentWithNullableBuilderDiscriminatorExt on ParentWithNullableBuilder
         return null;
     }
 }
-
 class _$ParentWithNullableSerializer implements PrimitiveSerializer<ParentWithNullable> {
   @override
   final Iterable<Type> types = const [ParentWithNullable];
@@ -209,4 +208,3 @@ class ParentWithNullableTypeEnum extends EnumClass {
   static BuiltSet<ParentWithNullableTypeEnum> get values => _$parentWithNullableTypeEnumValues;
   static ParentWithNullableTypeEnum valueOf(String name) => _$parentWithNullableTypeEnumValueOf(name);
 }
-

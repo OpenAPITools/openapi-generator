@@ -42,12 +42,10 @@ import org.openapitools.client.ApiClient;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class FakeBigDecimalMap200Response {
   public static final String JSON_PROPERTY_SOME_ID = "someId";
-  @javax.annotation.Nullable
-  private BigDecimal someId;
+  @javax.annotation.Nullable  private BigDecimal someId;
 
   public static final String JSON_PROPERTY_SOME_MAP = "someMap";
-  @javax.annotation.Nullable
-  private Map<String, BigDecimal> someMap = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, BigDecimal> someMap = new HashMap<>();
 
   public FakeBigDecimalMap200Response() { 
   }
@@ -61,8 +59,7 @@ public class FakeBigDecimalMap200Response {
    * Get someId
    * @return someId
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SOME_ID)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_SOME_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public BigDecimal getSomeId() {
     return someId;
@@ -93,8 +90,7 @@ public class FakeBigDecimalMap200Response {
    * Get someMap
    * @return someMap
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SOME_MAP)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_SOME_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Map<String, BigDecimal> getSomeMap() {
     return someMap;
@@ -106,7 +102,6 @@ public class FakeBigDecimalMap200Response {
   public void setSomeMap(@javax.annotation.Nullable Map<String, BigDecimal> someMap) {
     this.someMap = someMap;
   }
-
 
   /**
    * Return true if this fakeBigDecimalMap_200_response object is equal to o.
@@ -256,6 +251,5 @@ public class FakeBigDecimalMap200Response {
       .someId(getSomeId())
       .someMap(getSomeMap());
   }
-
 }
 

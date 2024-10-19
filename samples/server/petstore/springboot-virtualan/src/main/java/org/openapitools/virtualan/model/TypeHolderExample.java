@@ -21,7 +21,6 @@ import javax.annotation.Generated;
 /**
  * TypeHolderExample
  */
-
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class TypeHolderExample {
 
@@ -63,8 +62,7 @@ public class TypeHolderExample {
    * Get stringItem
    * @return stringItem
    */
-  @NotNull 
-  @Schema(name = "string_item", example = "what", requiredMode = Schema.RequiredMode.REQUIRED)
+  @NotNull   @Schema(name = "string_item", example = "what", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("string_item")
   public String getStringItem() {
     return stringItem;
@@ -83,8 +81,7 @@ public class TypeHolderExample {
    * Get numberItem
    * @return numberItem
    */
-  @NotNull @Valid 
-  @Schema(name = "number_item", example = "1.234", requiredMode = Schema.RequiredMode.REQUIRED)
+  @NotNull @Valid   @Schema(name = "number_item", example = "1.234", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("number_item")
   public BigDecimal getNumberItem() {
     return numberItem;
@@ -103,8 +100,7 @@ public class TypeHolderExample {
    * Get floatItem
    * @return floatItem
    */
-  @NotNull 
-  @Schema(name = "float_item", example = "1.234", requiredMode = Schema.RequiredMode.REQUIRED)
+  @NotNull   @Schema(name = "float_item", example = "1.234", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("float_item")
   public Float getFloatItem() {
     return floatItem;
@@ -123,8 +119,7 @@ public class TypeHolderExample {
    * Get integerItem
    * @return integerItem
    */
-  @NotNull 
-  @Schema(name = "integer_item", example = "-2", requiredMode = Schema.RequiredMode.REQUIRED)
+  @NotNull   @Schema(name = "integer_item", example = "-2", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("integer_item")
   public Integer getIntegerItem() {
     return integerItem;
@@ -143,8 +138,7 @@ public class TypeHolderExample {
    * Get boolItem
    * @return boolItem
    */
-  @NotNull 
-  @Schema(name = "bool_item", example = "true", requiredMode = Schema.RequiredMode.REQUIRED)
+  @NotNull   @Schema(name = "bool_item", example = "true", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("bool_item")
   public Boolean getBoolItem() {
     return boolItem;
@@ -171,8 +165,7 @@ public class TypeHolderExample {
    * Get arrayItem
    * @return arrayItem
    */
-  @NotNull 
-  @Schema(name = "array_item", example = "[0,1,2,3]", requiredMode = Schema.RequiredMode.REQUIRED)
+  @NotNull   @Schema(name = "array_item", example = "[0,1,2,3]", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("array_item")
   public List<Integer> getArrayItem() {
     return arrayItem;
@@ -181,7 +174,6 @@ public class TypeHolderExample {
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -27,7 +27,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @param double 
  */
 
-
 data class NumberPropertiesOnly (
 
     @get:JsonProperty("number")

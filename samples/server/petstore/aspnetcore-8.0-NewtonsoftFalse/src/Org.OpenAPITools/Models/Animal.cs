@@ -21,7 +21,7 @@ using Swashbuckle.AspNetCore.Annotations;
 using Org.OpenAPITools.Converters;
 
 namespace Org.OpenAPITools.Models
-{ 
+{
     /// <summary>
     /// 
     /// </summary>

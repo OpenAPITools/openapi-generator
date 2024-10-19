@@ -51,6 +51,7 @@ import org.openapitools.client.JSON;
  * EnumArrays
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class EnumArrays {
   /**
    * Gets or Sets justSymbol
@@ -103,11 +104,9 @@ public class EnumArrays {
       JustSymbolEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_JUST_SYMBOL = "just_symbol";
   @SerializedName(SERIALIZED_NAME_JUST_SYMBOL)
-  @javax.annotation.Nullable
-  private JustSymbolEnum justSymbol;
+  @javax.annotation.Nullable  private JustSymbolEnum justSymbol;
 
   /**
    * Gets or Sets arrayEnum
@@ -160,11 +159,9 @@ public class EnumArrays {
       ArrayEnumEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_ARRAY_ENUM = "array_enum";
   @SerializedName(SERIALIZED_NAME_ARRAY_ENUM)
-  @javax.annotation.Nullable
-  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
+  @javax.annotation.Nullable  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays() {
   }
@@ -178,8 +175,7 @@ public class EnumArrays {
    * Get justSymbol
    * @return justSymbol
    */
-  @javax.annotation.Nullable
-  public JustSymbolEnum getJustSymbol() {
+  @javax.annotation.Nullable  public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
 
@@ -205,15 +201,13 @@ public class EnumArrays {
    * Get arrayEnum
    * @return arrayEnum
    */
-  @javax.annotation.Nullable
-  public List<ArrayEnumEnum> getArrayEnum() {
+  @javax.annotation.Nullable  public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }
 
   public void setArrayEnum(@javax.annotation.Nullable List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
-
 
 
   @Override

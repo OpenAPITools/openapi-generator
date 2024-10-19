@@ -49,21 +49,19 @@ import org.openapitools.client.JSON;
  * PropertyNameCollision
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class PropertyNameCollision {
   public static final String SERIALIZED_NAME_UNDERSCORE_TYPE = "_type";
   @SerializedName(SERIALIZED_NAME_UNDERSCORE_TYPE)
-  @javax.annotation.Nullable
-  private String underscoreType;
+  @javax.annotation.Nullable  private String underscoreType;
 
   public static final String SERIALIZED_NAME_TYPE = "type";
   @SerializedName(SERIALIZED_NAME_TYPE)
-  @javax.annotation.Nullable
-  private String type;
+  @javax.annotation.Nullable  private String type;
 
   public static final String SERIALIZED_NAME_TYPE_WITH_UNDERSCORE = "type_";
   @SerializedName(SERIALIZED_NAME_TYPE_WITH_UNDERSCORE)
-  @javax.annotation.Nullable
-  private String typeWithUnderscore;
+  @javax.annotation.Nullable  private String typeWithUnderscore;
 
   public PropertyNameCollision() {
   }
@@ -77,8 +75,7 @@ public class PropertyNameCollision {
    * Get underscoreType
    * @return underscoreType
    */
-  @javax.annotation.Nullable
-  public String getUnderscoreType() {
+  @javax.annotation.Nullable  public String getUnderscoreType() {
     return underscoreType;
   }
 
@@ -96,8 +93,7 @@ public class PropertyNameCollision {
    * Get type
    * @return type
    */
-  @javax.annotation.Nullable
-  public String getType() {
+  @javax.annotation.Nullable  public String getType() {
     return type;
   }
 
@@ -115,8 +111,7 @@ public class PropertyNameCollision {
    * Get typeWithUnderscore
    * @return typeWithUnderscore
    */
-  @javax.annotation.Nullable
-  public String getTypeWithUnderscore() {
+  @javax.annotation.Nullable  public String getTypeWithUnderscore() {
     return typeWithUnderscore;
   }
 
@@ -168,7 +163,6 @@ public class PropertyNameCollision {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

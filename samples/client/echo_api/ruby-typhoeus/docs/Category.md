@@ -17,4 +17,3 @@ instance = OpenapiClient::Category.new(
   name: Dogs
 )
 ```
-

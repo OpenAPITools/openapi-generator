@@ -24,7 +24,6 @@ interface StoreApiDelegate {
      */
     fun deleteOrder(orderId: kotlin.String): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-
     }
 
 
@@ -33,7 +32,6 @@ interface StoreApiDelegate {
      */
     fun getInventory(): ResponseEntity<Map<String, kotlin.Int>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-
     }
 
 
@@ -54,7 +52,6 @@ interface StoreApiDelegate {
             }
         }
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-
     }
 
 
@@ -75,7 +72,6 @@ interface StoreApiDelegate {
             }
         }
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-
     }
 
 }

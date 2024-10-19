@@ -12,4 +12,3 @@ A tag for a pet
 |**name** | **String** |  |  [optional] |
 
 
-

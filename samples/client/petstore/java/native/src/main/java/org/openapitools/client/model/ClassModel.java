@@ -38,8 +38,7 @@ import org.openapitools.client.ApiClient;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ClassModel {
   public static final String JSON_PROPERTY_PROPERTY_CLASS = "_class";
-  @javax.annotation.Nullable
-  private String propertyClass;
+  @javax.annotation.Nullable  private String propertyClass;
 
   public ClassModel() { 
   }
@@ -53,8 +52,7 @@ public class ClassModel {
    * Get propertyClass
    * @return propertyClass
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getPropertyClass() {
     return propertyClass;
@@ -66,7 +64,6 @@ public class ClassModel {
   public void setPropertyClass(@javax.annotation.Nullable String propertyClass) {
     this.propertyClass = propertyClass;
   }
-
 
   /**
    * Return true if this ClassModel object is equal to o.
@@ -200,6 +197,5 @@ public class ClassModel {
     return new ClassModel.Builder()
       .propertyClass(getPropertyClass());
   }
-
 }
 

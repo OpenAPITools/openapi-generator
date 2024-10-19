@@ -152,6 +152,4 @@ Order['StatusEnum'] = {
 };
 
 
-
 export default Order;
-

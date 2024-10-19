@@ -51,16 +51,15 @@ import org.openapitools.client.JSON;
  * Category
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Category implements Parcelable {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
-  @javax.annotation.Nullable
-  private Long id;
+  @javax.annotation.Nullable  private Long id;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
-  @javax.annotation.Nonnull
-  private String name = "default-name";
+  @javax.annotation.Nonnull  private String name = "default-name";
 
   public Category() {
   }
@@ -74,8 +73,7 @@ public class Category implements Parcelable {
    * Get id
    * @return id
    */
-  @javax.annotation.Nullable
-  public Long getId() {
+  @javax.annotation.Nullable  public Long getId() {
     return id;
   }
 
@@ -93,15 +91,13 @@ public class Category implements Parcelable {
    * Get name
    * @return name
    */
-  @javax.annotation.Nonnull
-  public String getName() {
+  @javax.annotation.Nonnull  public String getName() {
     return name;
   }
 
   public void setName(@javax.annotation.Nonnull String name) {
     this.name = name;
   }
-
 
 
   @Override

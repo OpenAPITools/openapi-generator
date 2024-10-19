@@ -37,18 +37,16 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   DataQuery.JSON_PROPERTY_DATE
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class DataQuery extends Query {
   public static final String JSON_PROPERTY_SUFFIX = "suffix";
-  @jakarta.annotation.Nullable
-  private String suffix;
+  @jakarta.annotation.Nullable  private String suffix;
 
   public static final String JSON_PROPERTY_TEXT = "text";
-  @jakarta.annotation.Nullable
-  private String text;
+  @jakarta.annotation.Nullable  private String text;
 
   public static final String JSON_PROPERTY_DATE = "date";
-  @jakarta.annotation.Nullable
-  private Instant date;
+  @jakarta.annotation.Nullable  private Instant date;
 
   public DataQuery() {
 
@@ -64,8 +62,7 @@ public class DataQuery extends Query {
    * test suffix
    * @return suffix
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SUFFIX)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_SUFFIX)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getSuffix() {
@@ -89,8 +86,7 @@ public class DataQuery extends Query {
    * Some text containing white spaces
    * @return text
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_TEXT)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_TEXT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getText() {
@@ -114,8 +110,7 @@ public class DataQuery extends Query {
    * A date
    * @return date
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DATE)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Instant getDate() {

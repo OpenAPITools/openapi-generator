@@ -115,4 +115,3 @@ class FooGetDefaultResponse {
   static const requiredKeys = <String>{
   };
 }
-

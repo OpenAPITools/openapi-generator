@@ -122,4 +122,3 @@ class FakeBigDecimalMap200Response {
   static const requiredKeys = <String>{
   };
 }
-

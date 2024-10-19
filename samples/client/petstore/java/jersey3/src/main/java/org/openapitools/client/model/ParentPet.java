@@ -50,7 +50,6 @@ import org.openapitools.client.JSON;
 @JsonSubTypes({
   @JsonSubTypes.Type(value = ChildCat.class, name = "ChildCat"),
 })
-
 public class ParentPet extends GrandparentAnimal {
   public ParentPet() { 
   }
@@ -91,7 +90,6 @@ public class ParentPet extends GrandparentAnimal {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this ParentPet object is equal to o.
    */

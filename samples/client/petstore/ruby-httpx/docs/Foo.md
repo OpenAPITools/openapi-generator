@@ -15,4 +15,3 @@ instance = Petstore::Foo.new(
   bar: null
 )
 ```
-

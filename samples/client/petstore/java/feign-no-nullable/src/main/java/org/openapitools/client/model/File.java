@@ -31,10 +31,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 @javax.annotation.concurrent.Immutable
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class File {
   public static final String JSON_PROPERTY_SOURCE_U_R_I = "sourceURI";
-  @javax.annotation.Nullable
-  private String sourceURI;
+  @javax.annotation.Nullable  private String sourceURI;
 
   public File() {
   }
@@ -49,8 +49,7 @@ public class File {
    * Test capitalization
    * @return sourceURI
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getSourceURI() {
@@ -63,7 +62,6 @@ public class File {
   public void setSourceURI(@javax.annotation.Nullable String sourceURI) {
     this.sourceURI = sourceURI;
   }
-
 
   @Override
   public boolean equals(Object o) {

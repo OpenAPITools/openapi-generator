@@ -37,19 +37,19 @@ import io.github.threetenjaxb.core.*;
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_OF_MAP_PROPERTY
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 @XmlRootElement(name = "AdditionalPropertiesClass")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "AdditionalPropertiesClass")
+
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
   @XmlElement(name = "map_property")
-  @javax.annotation.Nullable
-  private Map<String, String> mapProperty = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, String> mapProperty = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_OF_MAP_PROPERTY = "map_of_map_property";
   @XmlElement(name = "map_of_map_property")
-  @javax.annotation.Nullable
-  private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
 
   public AdditionalPropertiesClass() {
   }
@@ -72,8 +72,7 @@ public class AdditionalPropertiesClass {
    * Get mapProperty
    * @return mapProperty
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "map_property")
   @JacksonXmlElementWrapper(useWrapping = false)
@@ -109,8 +108,7 @@ public class AdditionalPropertiesClass {
    * Get mapOfMapProperty
    * @return mapOfMapProperty
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "map_of_map_property")
   @JacksonXmlElementWrapper(useWrapping = false)

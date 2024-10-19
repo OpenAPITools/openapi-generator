@@ -49,21 +49,19 @@ import org.openapitools.client.JSON;
  * Whale
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Whale {
   public static final String SERIALIZED_NAME_HAS_BALEEN = "hasBaleen";
   @SerializedName(SERIALIZED_NAME_HAS_BALEEN)
-  @javax.annotation.Nullable
-  private Boolean hasBaleen;
+  @javax.annotation.Nullable  private Boolean hasBaleen;
 
   public static final String SERIALIZED_NAME_HAS_TEETH = "hasTeeth";
   @SerializedName(SERIALIZED_NAME_HAS_TEETH)
-  @javax.annotation.Nullable
-  private Boolean hasTeeth;
+  @javax.annotation.Nullable  private Boolean hasTeeth;
 
   public static final String SERIALIZED_NAME_CLASS_NAME = "className";
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
-  @javax.annotation.Nonnull
-  private String className;
+  @javax.annotation.Nonnull  private String className;
 
   public Whale() {
   }
@@ -77,8 +75,7 @@ public class Whale {
    * Get hasBaleen
    * @return hasBaleen
    */
-  @javax.annotation.Nullable
-  public Boolean getHasBaleen() {
+  @javax.annotation.Nullable  public Boolean getHasBaleen() {
     return hasBaleen;
   }
 
@@ -96,8 +93,7 @@ public class Whale {
    * Get hasTeeth
    * @return hasTeeth
    */
-  @javax.annotation.Nullable
-  public Boolean getHasTeeth() {
+  @javax.annotation.Nullable  public Boolean getHasTeeth() {
     return hasTeeth;
   }
 
@@ -115,8 +111,7 @@ public class Whale {
    * Get className
    * @return className
    */
-  @javax.annotation.Nonnull
-  public String getClassName() {
+  @javax.annotation.Nonnull  public String getClassName() {
     return className;
   }
 
@@ -168,7 +163,6 @@ public class Whale {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

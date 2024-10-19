@@ -20,7 +20,7 @@ using JsonSubTypes;
 using Org.OpenAPITools.Converters;
 
 namespace Org.OpenAPITools.Models
-{ 
+{
     /// <summary>
     /// 
     /// </summary>

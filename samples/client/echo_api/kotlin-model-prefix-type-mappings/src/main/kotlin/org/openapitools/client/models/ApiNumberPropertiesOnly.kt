@@ -26,7 +26,6 @@ import com.google.gson.annotations.SerializedName
  * @param double 
  */
 
-
 data class ApiNumberPropertiesOnly (
 
     @SerializedName("number")

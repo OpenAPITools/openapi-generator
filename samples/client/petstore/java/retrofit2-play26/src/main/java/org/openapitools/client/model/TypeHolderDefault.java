@@ -40,26 +40,22 @@ import jakarta.validation.Valid;
   TypeHolderDefault.JSON_PROPERTY_ARRAY_ITEM
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class TypeHolderDefault {
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
-  @jakarta.annotation.Nonnull
-  private String stringItem = "what";
+  @jakarta.annotation.Nonnull  private String stringItem = "what";
 
   public static final String JSON_PROPERTY_NUMBER_ITEM = "number_item";
-  @jakarta.annotation.Nonnull
-  private BigDecimal numberItem;
+  @jakarta.annotation.Nonnull  private BigDecimal numberItem;
 
   public static final String JSON_PROPERTY_INTEGER_ITEM = "integer_item";
-  @jakarta.annotation.Nonnull
-  private Integer integerItem;
+  @jakarta.annotation.Nonnull  private Integer integerItem;
 
   public static final String JSON_PROPERTY_BOOL_ITEM = "bool_item";
-  @jakarta.annotation.Nonnull
-  private Boolean boolItem = true;
+  @jakarta.annotation.Nonnull  private Boolean boolItem = true;
 
   public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
-  @jakarta.annotation.Nonnull
-  private List<Integer> arrayItem = new ArrayList<>();
+  @jakarta.annotation.Nonnull  private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderDefault() {
   }
@@ -74,9 +70,7 @@ public class TypeHolderDefault {
    * Get stringItem
    * @return stringItem
    */
-  @jakarta.annotation.Nonnull
-  @NotNull
-
+  @jakarta.annotation.Nonnull  @NotNull
   @JsonProperty(JSON_PROPERTY_STRING_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -101,10 +95,8 @@ public class TypeHolderDefault {
    * Get numberItem
    * @return numberItem
    */
-  @jakarta.annotation.Nonnull
-  @NotNull
+  @jakarta.annotation.Nonnull  @NotNull
   @Valid
-
   @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -129,9 +121,7 @@ public class TypeHolderDefault {
    * Get integerItem
    * @return integerItem
    */
-  @jakarta.annotation.Nonnull
-  @NotNull
-
+  @jakarta.annotation.Nonnull  @NotNull
   @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -156,9 +146,7 @@ public class TypeHolderDefault {
    * Get boolItem
    * @return boolItem
    */
-  @jakarta.annotation.Nonnull
-  @NotNull
-
+  @jakarta.annotation.Nonnull  @NotNull
   @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -191,9 +179,7 @@ public class TypeHolderDefault {
    * Get arrayItem
    * @return arrayItem
    */
-  @jakarta.annotation.Nonnull
-  @NotNull
-
+  @jakarta.annotation.Nonnull  @NotNull
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 

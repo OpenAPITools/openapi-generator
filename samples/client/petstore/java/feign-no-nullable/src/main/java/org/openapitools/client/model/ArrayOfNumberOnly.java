@@ -35,10 +35,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 @javax.annotation.concurrent.Immutable
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class ArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
-  @javax.annotation.Nullable
-  private List<BigDecimal> arrayNumber = new ArrayList<>();
+  @javax.annotation.Nullable  private List<BigDecimal> arrayNumber = new ArrayList<>();
 
   public ArrayOfNumberOnly() {
   }
@@ -61,8 +61,7 @@ public class ArrayOfNumberOnly {
    * Get arrayNumber
    * @return arrayNumber
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<BigDecimal> getArrayNumber() {
@@ -75,7 +74,6 @@ public class ArrayOfNumberOnly {
   public void setArrayNumber(@javax.annotation.Nullable List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
-
 
   @Override
   public boolean equals(Object o) {

@@ -11,7 +11,6 @@
     Do not edit the class manually.
 """  # noqa: E501
 
-
 import json
 import pprint
 import re  # noqa: F401
@@ -44,5 +43,4 @@ class SpecialCharacterEnum(str, Enum):
     def from_json(cls, json_str: str) -> SpecialCharacterEnum:
         """Create an instance of SpecialCharacterEnum from a JSON string"""
         return SpecialCharacterEnum(json.loads(json_str))
-
 

@@ -50,7 +50,6 @@ public interface PetApiDelegate {
             }
         });
         throw new IllegalArgumentException("Not implemented");
-
     }
 
     /**
@@ -64,8 +63,7 @@ public interface PetApiDelegate {
      */
     default void deletePet(Long petId,
         String apiKey) {
-        throw new IllegalArgumentException("Not implemented");
-
+throw new IllegalArgumentException("Not implemented");
     }
 
     /**
@@ -93,7 +91,6 @@ public interface PetApiDelegate {
             }
         });
         throw new IllegalArgumentException("Not implemented");
-
     }
 
     /**
@@ -123,7 +120,6 @@ public interface PetApiDelegate {
             }
         });
         throw new IllegalArgumentException("Not implemented");
-
     }
 
     /**
@@ -152,7 +148,6 @@ public interface PetApiDelegate {
             }
         });
         throw new IllegalArgumentException("Not implemented");
-
     }
 
     /**
@@ -184,7 +179,6 @@ public interface PetApiDelegate {
             }
         });
         throw new IllegalArgumentException("Not implemented");
-
     }
 
     /**
@@ -200,8 +194,7 @@ public interface PetApiDelegate {
     default void updatePetWithForm(Long petId,
         String name,
         String status) {
-        throw new IllegalArgumentException("Not implemented");
-
+throw new IllegalArgumentException("Not implemented");
     }
 
     /**
@@ -227,7 +220,6 @@ public interface PetApiDelegate {
             }
         });
         throw new IllegalArgumentException("Not implemented");
-
     }
 
 }

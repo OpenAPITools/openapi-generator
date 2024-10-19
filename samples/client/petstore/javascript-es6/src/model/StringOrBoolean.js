@@ -116,4 +116,3 @@ class StringOrBoolean {
 StringOrBoolean.OneOf = ["Boolean", "String"];
 
 export default StringOrBoolean;
-

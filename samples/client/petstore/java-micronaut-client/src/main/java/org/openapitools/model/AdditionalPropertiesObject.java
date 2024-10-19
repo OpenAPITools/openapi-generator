@@ -101,4 +101,3 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
     }
 
 }
-

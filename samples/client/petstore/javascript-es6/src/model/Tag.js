@@ -92,4 +92,3 @@ Tag.prototype['name'] = undefined;
 
 
 export default Tag;
-

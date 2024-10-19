@@ -45,50 +45,40 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 @javax.annotation.concurrent.Immutable
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_STRING = "map_string";
-  @javax.annotation.Nullable
-  private Map<String, String> mapString = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, String> mapString = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_NUMBER = "map_number";
-  @javax.annotation.Nullable
-  private Map<String, BigDecimal> mapNumber = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, BigDecimal> mapNumber = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_INTEGER = "map_integer";
-  @javax.annotation.Nullable
-  private Map<String, Integer> mapInteger = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, Integer> mapInteger = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_BOOLEAN = "map_boolean";
-  @javax.annotation.Nullable
-  private Map<String, Boolean> mapBoolean = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, Boolean> mapBoolean = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_ARRAY_INTEGER = "map_array_integer";
-  @javax.annotation.Nullable
-  private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_ARRAY_ANYTYPE = "map_array_anytype";
-  @javax.annotation.Nullable
-  private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_MAP_STRING = "map_map_string";
-  @javax.annotation.Nullable
-  private Map<String, Map<String, String>> mapMapString = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, Map<String, String>> mapMapString = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_MAP_ANYTYPE = "map_map_anytype";
-  @javax.annotation.Nullable
-  private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
   public static final String JSON_PROPERTY_ANYTYPE1 = "anytype_1";
-  @javax.annotation.Nullable
-  private Object anytype1;
+  @javax.annotation.Nullable  private Object anytype1;
 
   public static final String JSON_PROPERTY_ANYTYPE2 = "anytype_2";
-  @javax.annotation.Nullable
-  private Object anytype2;
+  @javax.annotation.Nullable  private Object anytype2;
 
   public static final String JSON_PROPERTY_ANYTYPE3 = "anytype_3";
-  @javax.annotation.Nullable
-  private Object anytype3;
+  @javax.annotation.Nullable  private Object anytype3;
 
   public AdditionalPropertiesClass() {
   }
@@ -111,8 +101,7 @@ public class AdditionalPropertiesClass {
    * Get mapString
    * @return mapString
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP_STRING)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_MAP_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, String> getMapString() {
@@ -145,8 +134,7 @@ public class AdditionalPropertiesClass {
    * Get mapNumber
    * @return mapNumber
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP_NUMBER)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_MAP_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, BigDecimal> getMapNumber() {
@@ -179,8 +167,7 @@ public class AdditionalPropertiesClass {
    * Get mapInteger
    * @return mapInteger
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP_INTEGER)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_MAP_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Integer> getMapInteger() {
@@ -213,8 +200,7 @@ public class AdditionalPropertiesClass {
    * Get mapBoolean
    * @return mapBoolean
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP_BOOLEAN)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_MAP_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Boolean> getMapBoolean() {
@@ -247,8 +233,7 @@ public class AdditionalPropertiesClass {
    * Get mapArrayInteger
    * @return mapArrayInteger
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP_ARRAY_INTEGER)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_MAP_ARRAY_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, List<Integer>> getMapArrayInteger() {
@@ -281,8 +266,7 @@ public class AdditionalPropertiesClass {
    * Get mapArrayAnytype
    * @return mapArrayAnytype
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP_ARRAY_ANYTYPE)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_MAP_ARRAY_ANYTYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, List<Object>> getMapArrayAnytype() {
@@ -315,8 +299,7 @@ public class AdditionalPropertiesClass {
    * Get mapMapString
    * @return mapMapString
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP_MAP_STRING)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_MAP_MAP_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Map<String, String>> getMapMapString() {
@@ -349,8 +332,7 @@ public class AdditionalPropertiesClass {
    * Get mapMapAnytype
    * @return mapMapAnytype
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP_MAP_ANYTYPE)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_MAP_MAP_ANYTYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Map<String, Object>> getMapMapAnytype() {
@@ -375,8 +357,7 @@ public class AdditionalPropertiesClass {
    * Get anytype1
    * @return anytype1
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ANYTYPE1)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ANYTYPE1)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Object getAnytype1() {
@@ -401,8 +382,7 @@ public class AdditionalPropertiesClass {
    * Get anytype2
    * @return anytype2
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ANYTYPE2)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ANYTYPE2)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Object getAnytype2() {
@@ -427,8 +407,7 @@ public class AdditionalPropertiesClass {
    * Get anytype3
    * @return anytype3
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ANYTYPE3)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ANYTYPE3)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Object getAnytype3() {
@@ -441,7 +420,6 @@ public class AdditionalPropertiesClass {
   public void setAnytype3(@javax.annotation.Nullable Object anytype3) {
     this.anytype3 = anytype3;
   }
-
 
   @Override
   public boolean equals(Object o) {

@@ -12,7 +12,6 @@
     Do not edit the class manually.
 """  # noqa: E501
 
-
 from setuptools import setup, find_packages  # noqa: H301
 
 # To install the library, run the following

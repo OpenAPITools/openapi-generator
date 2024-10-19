@@ -21,4 +21,3 @@ Allowed values: [available, pending, sold]
 
 
 
-

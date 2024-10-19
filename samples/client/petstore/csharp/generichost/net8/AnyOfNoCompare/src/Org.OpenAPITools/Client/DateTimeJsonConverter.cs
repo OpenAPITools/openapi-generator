@@ -40,7 +40,6 @@ namespace Org.OpenAPITools.Client
             "yyyyMMddTHHmmss.ffK",
             "yyyyMMddTHHmmss.fK",
             "yyyyMMddTHHmmssK",
-
         };
 
         /// <summary>

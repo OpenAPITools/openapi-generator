@@ -13,7 +13,6 @@
 * Do not edit the class manually.
 */
 
-
 @interface JSONValueTransformer (ISO8601)
 
 @end

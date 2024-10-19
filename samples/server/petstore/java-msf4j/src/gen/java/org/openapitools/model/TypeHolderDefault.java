@@ -172,4 +172,3 @@ public class TypeHolderDefault   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

@@ -219,4 +219,3 @@ class PetStatusEnum extends EnumClass {
   static BuiltSet<PetStatusEnum> get values => _$petStatusEnumValues;
   static PetStatusEnum valueOf(String name) => _$petStatusEnumValueOf(name);
 }
-

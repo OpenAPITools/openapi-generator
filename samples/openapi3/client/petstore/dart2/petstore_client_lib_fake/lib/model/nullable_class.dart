@@ -224,4 +224,3 @@ class NullableClass {
   static const requiredKeys = <String>{
   };
 }
-

@@ -30,10 +30,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Client.JSON_PROPERTY_CLIENT
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Client {
   public static final String JSON_PROPERTY_CLIENT = "client";
-  @javax.annotation.Nullable
-  private String client;
+  @javax.annotation.Nullable  private String client;
 
   public Client() {
   }
@@ -55,8 +55,7 @@ public class Client {
    * Get client
    * @return client
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_CLIENT)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_CLIENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getClient() {
@@ -108,58 +107,57 @@ public class Client {
   }
 
   public static class Builder {
-
-    private Client instance;
-
-    public Builder() {
-      this(new Client());
-    }
-
-    protected Builder(Client instance) {
-      this.instance = instance;
-    }
-
-    public Client.Builder client(String client) {
-      this.instance.client = client;
-      return this;
-    }
-
-
-    /**
-    * returns a built Client instance.
-    *
-    * The builder is not reusable.
-    */
-    public Client build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+  
+      private Client instance;
+  
+      public Builder() {
+        this(new Client());
+      }
+  
+      protected Builder(Client instance) {
+        this.instance = instance;
+      }
+  
+      public Client.Builder client(String client) {
+          this.instance.client = client;
+        return this;
+      }
+    
+  
+      /**
+      * returns a built Client instance.
+      *
+      * The builder is not reusable.
+      */
+      public Client build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field.
+    */
+    public static Client.Builder builder() {
+      return new Client.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static Client.Builder builder() {
-    return new Client.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public Client.Builder toBuilder() {
-    return new Client.Builder()
-      .client(getClient());
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public Client.Builder toBuilder() {
+      return new Client.Builder()
+        .client(getClient());
+    }
 
 }
 

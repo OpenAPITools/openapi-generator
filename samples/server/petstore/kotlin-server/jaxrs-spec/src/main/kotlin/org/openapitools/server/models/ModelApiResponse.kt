@@ -20,7 +20,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @param message 
  */
 
-
 data class ModelApiResponse (
 
 

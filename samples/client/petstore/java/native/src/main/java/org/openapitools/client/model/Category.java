@@ -39,12 +39,10 @@ import org.openapitools.client.ApiClient;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Category {
   public static final String JSON_PROPERTY_ID = "id";
-  @javax.annotation.Nullable
-  private Long id;
+  @javax.annotation.Nullable  private Long id;
 
   public static final String JSON_PROPERTY_NAME = "name";
-  @javax.annotation.Nonnull
-  private String name = "default-name";
+  @javax.annotation.Nonnull  private String name = "default-name";
 
   public Category() { 
   }
@@ -58,8 +56,7 @@ public class Category {
    * Get id
    * @return id
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ID)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Long getId() {
     return id;
@@ -82,8 +79,7 @@ public class Category {
    * Get name
    * @return name
    */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @javax.annotation.Nonnull  @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public String getName() {
     return name;
@@ -95,7 +91,6 @@ public class Category {
   public void setName(@javax.annotation.Nonnull String name) {
     this.name = name;
   }
-
 
   /**
    * Return true if this Category object is equal to o.
@@ -241,6 +236,5 @@ public class Category {
       .id(getId())
       .name(getName());
   }
-
 }
 

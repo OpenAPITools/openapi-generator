@@ -245,4 +245,3 @@ public class TypeHolderExample {
     }
 
 }
-

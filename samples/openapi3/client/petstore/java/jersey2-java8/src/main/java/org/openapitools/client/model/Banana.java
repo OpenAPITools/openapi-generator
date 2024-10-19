@@ -67,7 +67,6 @@ public class Banana {
     this.lengthCm = lengthCm;
   }
 
-
   /**
    * Return true if this banana object is equal to o.
    */

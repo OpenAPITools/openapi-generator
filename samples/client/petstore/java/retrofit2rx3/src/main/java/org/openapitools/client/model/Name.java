@@ -26,26 +26,23 @@ import java.io.IOException;
  * Model for testing model name same as property name
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Name {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
-  @javax.annotation.Nonnull
-  private Integer name;
+  @javax.annotation.Nonnull  private Integer name;
 
   public static final String SERIALIZED_NAME_SNAKE_CASE = "snake_case";
   @SerializedName(SERIALIZED_NAME_SNAKE_CASE)
-  @javax.annotation.Nullable
-  private Integer snakeCase;
+  @javax.annotation.Nullable  private Integer snakeCase;
 
   public static final String SERIALIZED_NAME_PROPERTY = "property";
   @SerializedName(SERIALIZED_NAME_PROPERTY)
-  @javax.annotation.Nullable
-  private String property;
+  @javax.annotation.Nullable  private String property;
 
   public static final String SERIALIZED_NAME_123NUMBER = "123Number";
   @SerializedName(SERIALIZED_NAME_123NUMBER)
-  @javax.annotation.Nullable
-  private Integer _123number;
+  @javax.annotation.Nullable  private Integer _123number;
 
   public Name() {
   }
@@ -73,7 +70,6 @@ public class Name {
    * @return name
    */
   @javax.annotation.Nonnull
-
   public Integer getName() {
     return name;
   }
@@ -88,7 +84,6 @@ public class Name {
    * @return snakeCase
    */
   @javax.annotation.Nullable
-
   public Integer getSnakeCase() {
     return snakeCase;
   }
@@ -106,7 +101,6 @@ public class Name {
    * @return property
    */
   @javax.annotation.Nullable
-
   public String getProperty() {
     return property;
   }
@@ -121,7 +115,6 @@ public class Name {
    * @return _123number
    */
   @javax.annotation.Nullable
-
   public Integer get123number() {
     return _123number;
   }

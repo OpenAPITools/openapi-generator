@@ -30,6 +30,7 @@ import org.hibernate.validator.constraints.*;
  * BigCat
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class BigCat extends Cat {
   /**
    * Gets or Sets kind
@@ -81,11 +82,9 @@ public class BigCat extends Cat {
       }
     }
   }
-
   public static final String SERIALIZED_NAME_KIND = "kind";
   @SerializedName(SERIALIZED_NAME_KIND)
-  @javax.annotation.Nullable
-  private KindEnum kind;
+  @javax.annotation.Nullable  private KindEnum kind;
 
   public BigCat() {
 
@@ -102,8 +101,6 @@ public class BigCat extends Cat {
    * @return kind
    */
   @javax.annotation.Nullable
-
-
   public KindEnum getKind() {
     return kind;
   }

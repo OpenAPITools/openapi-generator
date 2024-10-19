@@ -58,7 +58,6 @@ public class NumberOnly {
 
   @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public BigDecimal getJustNumber() {
     return justNumber;
   }
@@ -69,7 +68,6 @@ public class NumberOnly {
   public void setJustNumber(@jakarta.annotation.Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
-
 
   /**
    * Return true if this NumberOnly object is equal to o.

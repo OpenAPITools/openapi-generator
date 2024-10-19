@@ -15,4 +15,3 @@ instance = Petstore::Cat.new(
   declawed: null
 )
 ```
-

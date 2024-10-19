@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { ParentWithNullable } from './ParentWithNullable';
 import {
@@ -34,7 +33,6 @@ export interface ChildWithNullable extends ParentWithNullable {
      */
     otherProperty?: string;
 }
-
 
 
 /**
@@ -72,4 +70,3 @@ export function ChildWithNullableFromJSONTyped(json: any, ignoreDiscriminator: b
         'otherProperty': value['otherProperty'],
     };
 }
-

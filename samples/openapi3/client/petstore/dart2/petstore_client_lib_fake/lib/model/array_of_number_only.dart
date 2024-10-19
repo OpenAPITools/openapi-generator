@@ -107,4 +107,3 @@ class ArrayOfNumberOnly {
   static const requiredKeys = <String>{
   };
 }
-

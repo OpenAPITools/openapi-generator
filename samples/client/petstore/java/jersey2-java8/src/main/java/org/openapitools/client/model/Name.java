@@ -145,7 +145,6 @@ public class Name {
 
 
 
-
   /**
    * Return true if this Name object is equal to o.
    */

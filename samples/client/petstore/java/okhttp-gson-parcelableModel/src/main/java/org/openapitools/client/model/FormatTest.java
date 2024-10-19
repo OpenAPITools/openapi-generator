@@ -56,76 +56,63 @@ import org.openapitools.client.JSON;
  * FormatTest
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class FormatTest implements Parcelable {
   public static final String SERIALIZED_NAME_INTEGER = "integer";
   @SerializedName(SERIALIZED_NAME_INTEGER)
-  @javax.annotation.Nullable
-  private Integer integer;
+  @javax.annotation.Nullable  private Integer integer;
 
   public static final String SERIALIZED_NAME_INT32 = "int32";
   @SerializedName(SERIALIZED_NAME_INT32)
-  @javax.annotation.Nullable
-  private Integer int32;
+  @javax.annotation.Nullable  private Integer int32;
 
   public static final String SERIALIZED_NAME_INT64 = "int64";
   @SerializedName(SERIALIZED_NAME_INT64)
-  @javax.annotation.Nullable
-  private Long int64;
+  @javax.annotation.Nullable  private Long int64;
 
   public static final String SERIALIZED_NAME_NUMBER = "number";
   @SerializedName(SERIALIZED_NAME_NUMBER)
-  @javax.annotation.Nonnull
-  private BigDecimal number;
+  @javax.annotation.Nonnull  private BigDecimal number;
 
   public static final String SERIALIZED_NAME_FLOAT = "float";
   @SerializedName(SERIALIZED_NAME_FLOAT)
-  @javax.annotation.Nullable
-  private Float _float;
+  @javax.annotation.Nullable  private Float _float;
 
   public static final String SERIALIZED_NAME_DOUBLE = "double";
   @SerializedName(SERIALIZED_NAME_DOUBLE)
-  @javax.annotation.Nullable
-  private Double _double;
+  @javax.annotation.Nullable  private Double _double;
 
   public static final String SERIALIZED_NAME_STRING = "string";
   @SerializedName(SERIALIZED_NAME_STRING)
-  @javax.annotation.Nullable
-  private String string;
+  @javax.annotation.Nullable  private String string;
 
   public static final String SERIALIZED_NAME_BYTE = "byte";
   @SerializedName(SERIALIZED_NAME_BYTE)
-  @javax.annotation.Nonnull
-  private byte[] _byte;
+  @javax.annotation.Nonnull  private byte[] _byte;
 
   public static final String SERIALIZED_NAME_BINARY = "binary";
   @SerializedName(SERIALIZED_NAME_BINARY)
-  @javax.annotation.Nullable
-  private File binary;
+  @javax.annotation.Nullable  private File binary;
 
   public static final String SERIALIZED_NAME_DATE = "date";
   @SerializedName(SERIALIZED_NAME_DATE)
-  @javax.annotation.Nonnull
-  private LocalDate date;
+  @javax.annotation.Nonnull  private LocalDate date;
 
   public static final String SERIALIZED_NAME_DATE_TIME = "dateTime";
   @SerializedName(SERIALIZED_NAME_DATE_TIME)
-  @javax.annotation.Nullable
-  private OffsetDateTime dateTime;
+  @javax.annotation.Nullable  private OffsetDateTime dateTime;
 
   public static final String SERIALIZED_NAME_UUID = "uuid";
   @SerializedName(SERIALIZED_NAME_UUID)
-  @javax.annotation.Nullable
-  private UUID uuid;
+  @javax.annotation.Nullable  private UUID uuid;
 
   public static final String SERIALIZED_NAME_PASSWORD = "password";
   @SerializedName(SERIALIZED_NAME_PASSWORD)
-  @javax.annotation.Nonnull
-  private String password;
+  @javax.annotation.Nonnull  private String password;
 
   public static final String SERIALIZED_NAME_BIG_DECIMAL = "BigDecimal";
   @SerializedName(SERIALIZED_NAME_BIG_DECIMAL)
-  @javax.annotation.Nullable
-  private BigDecimal bigDecimal;
+  @javax.annotation.Nullable  private BigDecimal bigDecimal;
 
   public FormatTest() {
   }
@@ -141,8 +128,7 @@ public class FormatTest implements Parcelable {
    * maximum: 100
    * @return integer
    */
-  @javax.annotation.Nullable
-  public Integer getInteger() {
+  @javax.annotation.Nullable  public Integer getInteger() {
     return integer;
   }
 
@@ -162,8 +148,7 @@ public class FormatTest implements Parcelable {
    * maximum: 200
    * @return int32
    */
-  @javax.annotation.Nullable
-  public Integer getInt32() {
+  @javax.annotation.Nullable  public Integer getInt32() {
     return int32;
   }
 
@@ -181,8 +166,7 @@ public class FormatTest implements Parcelable {
    * Get int64
    * @return int64
    */
-  @javax.annotation.Nullable
-  public Long getInt64() {
+  @javax.annotation.Nullable  public Long getInt64() {
     return int64;
   }
 
@@ -202,8 +186,7 @@ public class FormatTest implements Parcelable {
    * maximum: 543.2
    * @return number
    */
-  @javax.annotation.Nonnull
-  public BigDecimal getNumber() {
+  @javax.annotation.Nonnull  public BigDecimal getNumber() {
     return number;
   }
 
@@ -223,8 +206,7 @@ public class FormatTest implements Parcelable {
    * maximum: 987.6
    * @return _float
    */
-  @javax.annotation.Nullable
-  public Float getFloat() {
+  @javax.annotation.Nullable  public Float getFloat() {
     return _float;
   }
 
@@ -244,8 +226,7 @@ public class FormatTest implements Parcelable {
    * maximum: 123.4
    * @return _double
    */
-  @javax.annotation.Nullable
-  public Double getDouble() {
+  @javax.annotation.Nullable  public Double getDouble() {
     return _double;
   }
 
@@ -263,8 +244,7 @@ public class FormatTest implements Parcelable {
    * Get string
    * @return string
    */
-  @javax.annotation.Nullable
-  public String getString() {
+  @javax.annotation.Nullable  public String getString() {
     return string;
   }
 
@@ -282,8 +262,7 @@ public class FormatTest implements Parcelable {
    * Get _byte
    * @return _byte
    */
-  @javax.annotation.Nonnull
-  public byte[] getByte() {
+  @javax.annotation.Nonnull  public byte[] getByte() {
     return _byte;
   }
 
@@ -301,8 +280,7 @@ public class FormatTest implements Parcelable {
    * Get binary
    * @return binary
    */
-  @javax.annotation.Nullable
-  public File getBinary() {
+  @javax.annotation.Nullable  public File getBinary() {
     return binary;
   }
 
@@ -320,8 +298,7 @@ public class FormatTest implements Parcelable {
    * Get date
    * @return date
    */
-  @javax.annotation.Nonnull
-  public LocalDate getDate() {
+  @javax.annotation.Nonnull  public LocalDate getDate() {
     return date;
   }
 
@@ -339,8 +316,7 @@ public class FormatTest implements Parcelable {
    * Get dateTime
    * @return dateTime
    */
-  @javax.annotation.Nullable
-  public OffsetDateTime getDateTime() {
+  @javax.annotation.Nullable  public OffsetDateTime getDateTime() {
     return dateTime;
   }
 
@@ -358,8 +334,7 @@ public class FormatTest implements Parcelable {
    * Get uuid
    * @return uuid
    */
-  @javax.annotation.Nullable
-  public UUID getUuid() {
+  @javax.annotation.Nullable  public UUID getUuid() {
     return uuid;
   }
 
@@ -377,8 +352,7 @@ public class FormatTest implements Parcelable {
    * Get password
    * @return password
    */
-  @javax.annotation.Nonnull
-  public String getPassword() {
+  @javax.annotation.Nonnull  public String getPassword() {
     return password;
   }
 
@@ -396,15 +370,13 @@ public class FormatTest implements Parcelable {
    * Get bigDecimal
    * @return bigDecimal
    */
-  @javax.annotation.Nullable
-  public BigDecimal getBigDecimal() {
+  @javax.annotation.Nullable  public BigDecimal getBigDecimal() {
     return bigDecimal;
   }
 
   public void setBigDecimal(@javax.annotation.Nullable BigDecimal bigDecimal) {
     this.bigDecimal = bigDecimal;
   }
-
 
 
   @Override

@@ -126,7 +126,6 @@ public class Whale {
     this.className = className;
   }
 
-
   /**
    * Return true if this whale object is equal to o.
    */

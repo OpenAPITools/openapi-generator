@@ -199,4 +199,3 @@ public class TypeHolderExample  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

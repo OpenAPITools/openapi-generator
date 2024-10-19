@@ -49,7 +49,6 @@ namespace Org.OpenAPITools.Model
             NotUnknown
         }
 
-
         /// <summary>
         /// Gets or Sets ZeroBasedEnum
         /// </summary>

@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * An order for a pets from the pet store
@@ -68,7 +67,6 @@ export const OrderStatusEnum = {
     Delivered: 'delivered'
 } as const;
 export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
-
 
 /**
  * Check if a given object implements the Order interface.
@@ -139,4 +137,3 @@ export const OrderAdditionalPropertiesValidationAttributes: { maxProperties?: nu
     maxProperties: 10,
     minProperties: 2,
 }
-

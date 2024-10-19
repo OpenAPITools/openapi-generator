@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * 
@@ -26,7 +25,6 @@ export interface List {
      */
     _123list?: string;
 }
-
 /**
  * Check if a given object implements the List interface.
  */
@@ -62,4 +60,3 @@ export function ListFromJSONTyped(json: any, ignoreDiscriminator: boolean): List
         '123-list': value['_123list'],
     };
 }
-

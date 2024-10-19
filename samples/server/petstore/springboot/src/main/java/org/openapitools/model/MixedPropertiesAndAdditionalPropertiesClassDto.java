@@ -25,7 +25,6 @@ import javax.annotation.Generated;
 /**
  * MixedPropertiesAndAdditionalPropertiesClassDto
  */
-
 @JsonTypeName("MixedPropertiesAndAdditionalPropertiesClass")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClassDto {
@@ -47,8 +46,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
    * Get uuid
    * @return uuid
    */
-  @Valid 
-  @ApiModelProperty(value = "")
+  @Valid   @ApiModelProperty(value = "")
   @JsonProperty("uuid")
   public UUID getUuid() {
     return uuid;
@@ -67,8 +65,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
    * Get dateTime
    * @return dateTime
    */
-  @Valid 
-  @ApiModelProperty(value = "")
+  @Valid   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
   public OffsetDateTime getDateTime() {
     return dateTime;
@@ -95,8 +92,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
    * Get map
    * @return map
    */
-  @Valid 
-  @ApiModelProperty(value = "")
+  @Valid   @ApiModelProperty(value = "")
   @JsonProperty("map")
   public Map<String, AnimalDto> getMap() {
     return map;
@@ -105,7 +101,6 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
   public void setMap(Map<String, AnimalDto> map) {
     this.map = map;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -33,14 +33,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_OF_MAP_PROPERTY
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
-  @javax.annotation.Nullable
-  private Map<String, String> mapProperty;
+  @javax.annotation.Nullable  private Map<String, String> mapProperty;
 
   public static final String JSON_PROPERTY_MAP_OF_MAP_PROPERTY = "map_of_map_property";
-  @javax.annotation.Nullable
-  private Map<String, Map<String, String>> mapOfMapProperty;
+  @javax.annotation.Nullable  private Map<String, Map<String, String>> mapOfMapProperty;
 
   public AdditionalPropertiesClass() {
   }
@@ -71,8 +70,7 @@ public class AdditionalPropertiesClass {
    * Get mapProperty
    * @return mapProperty
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, String> getMapProperty() {
@@ -104,8 +102,7 @@ public class AdditionalPropertiesClass {
    * Get mapOfMapProperty
    * @return mapOfMapProperty
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Map<String, String>> getMapOfMapProperty() {
@@ -159,63 +156,62 @@ public class AdditionalPropertiesClass {
   }
 
   public static class Builder {
-
-    private AdditionalPropertiesClass instance;
-
-    public Builder() {
-      this(new AdditionalPropertiesClass());
-    }
-
-    protected Builder(AdditionalPropertiesClass instance) {
-      this.instance = instance;
-    }
-
-    public AdditionalPropertiesClass.Builder mapProperty(Map<String, String> mapProperty) {
-      this.instance.mapProperty = mapProperty;
-      return this;
-    }
-    public AdditionalPropertiesClass.Builder mapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
-      this.instance.mapOfMapProperty = mapOfMapProperty;
-      return this;
-    }
-
-
-    /**
-    * returns a built AdditionalPropertiesClass instance.
-    *
-    * The builder is not reusable.
-    */
-    public AdditionalPropertiesClass build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+  
+      private AdditionalPropertiesClass instance;
+  
+      public Builder() {
+        this(new AdditionalPropertiesClass());
+      }
+  
+      protected Builder(AdditionalPropertiesClass instance) {
+        this.instance = instance;
+      }
+  
+      public AdditionalPropertiesClass.Builder mapProperty(Map<String, String> mapProperty) {
+          this.instance.mapProperty = mapProperty;
+        return this;
+      }
+        public AdditionalPropertiesClass.Builder mapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
+          this.instance.mapOfMapProperty = mapOfMapProperty;
+        return this;
+      }
+    
+  
+      /**
+      * returns a built AdditionalPropertiesClass instance.
+      *
+      * The builder is not reusable.
+      */
+      public AdditionalPropertiesClass build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field.
+    */
+    public static AdditionalPropertiesClass.Builder builder() {
+      return new AdditionalPropertiesClass.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static AdditionalPropertiesClass.Builder builder() {
-    return new AdditionalPropertiesClass.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public AdditionalPropertiesClass.Builder toBuilder() {
-    return new AdditionalPropertiesClass.Builder()
-      .mapProperty(getMapProperty())
-      .mapOfMapProperty(getMapOfMapProperty());
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public AdditionalPropertiesClass.Builder toBuilder() {
+      return new AdditionalPropertiesClass.Builder()
+        .mapProperty(getMapProperty())
+        .mapOfMapProperty(getMapOfMapProperty());
+    }
 
 }
 

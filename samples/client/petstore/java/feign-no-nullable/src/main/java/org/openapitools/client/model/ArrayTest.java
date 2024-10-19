@@ -37,18 +37,16 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 @javax.annotation.concurrent.Immutable
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class ArrayTest {
   public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
-  @javax.annotation.Nullable
-  private List<String> arrayOfString = new ArrayList<>();
+  @javax.annotation.Nullable  private List<String> arrayOfString = new ArrayList<>();
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
-  @javax.annotation.Nullable
-  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
+  @javax.annotation.Nullable  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
-  @javax.annotation.Nullable
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
+  @javax.annotation.Nullable  private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
   public ArrayTest() {
   }
@@ -71,8 +69,7 @@ public class ArrayTest {
    * Get arrayOfString
    * @return arrayOfString
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<String> getArrayOfString() {
@@ -105,8 +102,7 @@ public class ArrayTest {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<List<Long>> getArrayArrayOfInteger() {
@@ -139,8 +135,7 @@ public class ArrayTest {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
@@ -153,7 +148,6 @@ public class ArrayTest {
   public void setArrayArrayOfModel(@javax.annotation.Nullable List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
-
 
   @Override
   public boolean equals(Object o) {

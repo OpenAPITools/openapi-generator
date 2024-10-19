@@ -19,4 +19,3 @@ instance = Petstore::MixedPropertiesAndAdditionalPropertiesClass.new(
   map: null
 )
 ```
-

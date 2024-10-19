@@ -88,4 +88,3 @@ TestInlineFreeformAdditionalPropertiesRequest.prototype['someProperty'] = undefi
 
 
 export default TestInlineFreeformAdditionalPropertiesRequest;
-

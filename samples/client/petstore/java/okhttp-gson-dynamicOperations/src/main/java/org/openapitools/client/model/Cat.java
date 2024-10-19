@@ -50,11 +50,11 @@ import org.openapitools.client.JSON;
  * Cat
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Cat extends Animal {
   public static final String SERIALIZED_NAME_DECLAWED = "declawed";
   @SerializedName(SERIALIZED_NAME_DECLAWED)
-  @javax.annotation.Nullable
-  private Boolean declawed;
+  @javax.annotation.Nullable  private Boolean declawed;
 
   public Cat() {
     this.className = this.getClass().getSimpleName();
@@ -69,15 +69,13 @@ public class Cat extends Animal {
    * Get declawed
    * @return declawed
    */
-  @javax.annotation.Nullable
-  public Boolean getDeclawed() {
+  @javax.annotation.Nullable  public Boolean getDeclawed() {
     return declawed;
   }
 
   public void setDeclawed(@javax.annotation.Nullable Boolean declawed) {
     this.declawed = declawed;
   }
-
 
 
   @Override

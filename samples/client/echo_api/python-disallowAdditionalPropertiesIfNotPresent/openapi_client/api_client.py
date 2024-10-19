@@ -12,7 +12,6 @@
     Do not edit the class manually.
 """  # noqa: E501
 
-
 import datetime
 from dateutil.parser import parse
 from enum import Enum

@@ -45,7 +45,6 @@ public interface FakeApiDelegate {
      */
     default ResponseEntity<Void> createXmlItem(XmlItem xmlItem) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
     /**
@@ -58,7 +57,6 @@ public interface FakeApiDelegate {
      */
     default ResponseEntity<Boolean> fakeOuterBooleanSerialize(Boolean body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
     /**
@@ -80,7 +78,6 @@ public interface FakeApiDelegate {
             }
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
     /**
@@ -93,7 +90,6 @@ public interface FakeApiDelegate {
      */
     default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(BigDecimal body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
     /**
@@ -106,7 +102,6 @@ public interface FakeApiDelegate {
      */
     default ResponseEntity<String> fakeOuterStringSerialize(String body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
     /**
@@ -119,7 +114,6 @@ public interface FakeApiDelegate {
      */
     default ResponseEntity<Void> testBodyWithFileSchema(FileSchemaTestClass body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
     /**
@@ -133,7 +127,6 @@ public interface FakeApiDelegate {
     default ResponseEntity<Void> testBodyWithQueryParams(String query,
         User body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
     /**
@@ -155,7 +148,6 @@ public interface FakeApiDelegate {
             }
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
     /**
@@ -195,7 +187,6 @@ public interface FakeApiDelegate {
         String password,
         String paramCallback) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
     /**
@@ -223,7 +214,6 @@ public interface FakeApiDelegate {
         List<String> enumFormStringArray,
         String enumFormString) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
     /**
@@ -246,7 +236,6 @@ public interface FakeApiDelegate {
         Boolean booleanGroup,
         Long int64Group) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
     /**
@@ -258,7 +247,6 @@ public interface FakeApiDelegate {
      */
     default ResponseEntity<Void> testInlineAdditionalProperties(Map<String, String> param) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
     /**
@@ -272,7 +260,6 @@ public interface FakeApiDelegate {
     default ResponseEntity<Void> testJsonFormData(String param,
         String param2) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
     /**
@@ -293,7 +280,6 @@ public interface FakeApiDelegate {
         List<String> url,
         List<String> context) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
     /**
@@ -318,7 +304,6 @@ public interface FakeApiDelegate {
             }
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
 }

@@ -49,11 +49,11 @@ import org.openapitools.client.JSON;
  * Model for testing model with \&quot;_class\&quot; property
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class ClassModel {
   public static final String SERIALIZED_NAME_PROPERTY_CLASS = "_class";
   @SerializedName(SERIALIZED_NAME_PROPERTY_CLASS)
-  @javax.annotation.Nullable
-  private String propertyClass;
+  @javax.annotation.Nullable  private String propertyClass;
 
   public ClassModel() {
   }
@@ -67,8 +67,7 @@ public class ClassModel {
    * Get propertyClass
    * @return propertyClass
    */
-  @javax.annotation.Nullable
-  public String getPropertyClass() {
+  @javax.annotation.Nullable  public String getPropertyClass() {
     return propertyClass;
   }
 
@@ -120,7 +119,6 @@ public class ClassModel {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

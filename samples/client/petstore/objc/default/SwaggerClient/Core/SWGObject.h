@@ -13,7 +13,6 @@
 * Do not edit the class manually.
 */
 
-
 @interface SWGObject : JSONModel
 
 @end

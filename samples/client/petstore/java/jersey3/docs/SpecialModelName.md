@@ -11,4 +11,3 @@
 |**specialModelName** | **String** |  |  [optional] |
 
 
-

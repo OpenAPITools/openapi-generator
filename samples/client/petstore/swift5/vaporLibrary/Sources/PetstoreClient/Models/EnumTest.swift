@@ -17,21 +17,17 @@ public final class EnumTest: Content, Hashable {
         case upper = "UPPER"
         case lower = "lower"
         case empty = ""
-    }
-    public enum EnumStringRequired: String, Content, Hashable, CaseIterable {
+    }    public enum EnumStringRequired: String, Content, Hashable, CaseIterable {
         case upper = "UPPER"
         case lower = "lower"
         case empty = ""
-    }
-    public enum EnumInteger: Int, Content, Hashable, CaseIterable {
+    }    public enum EnumInteger: Int, Content, Hashable, CaseIterable {
         case _1 = 1
         case number1 = -1
-    }
-    public enum EnumNumber: Double, Content, Hashable, CaseIterable {
+    }    public enum EnumNumber: Double, Content, Hashable, CaseIterable {
         case _11 = 1.1
         case number12 = -1.2
-    }
-    public var enumString: EnumString?
+    }    public var enumString: EnumString?
     public var enumStringRequired: EnumStringRequired
     public var enumInteger: EnumInteger?
     public var enumNumber: EnumNumber?

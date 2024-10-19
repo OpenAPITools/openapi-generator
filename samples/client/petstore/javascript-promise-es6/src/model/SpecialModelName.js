@@ -80,4 +80,3 @@ SpecialModelName.prototype['$special[property.name]'] = undefined;
 
 
 export default SpecialModelName;
-

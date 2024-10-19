@@ -41,7 +41,6 @@ public abstract class UserApiControllerImpInterface {
         return ok();
     });
     return result;
-
     }
 
     public abstract void createUser(Http.Request request, User body) throws Exception;
@@ -56,7 +55,6 @@ public abstract class UserApiControllerImpInterface {
         return ok();
     });
     return result;
-
     }
 
     public abstract void createUsersWithArrayInput(Http.Request request, List<@Valid User> body) throws Exception;
@@ -71,7 +69,6 @@ public abstract class UserApiControllerImpInterface {
         return ok();
     });
     return result;
-
     }
 
     public abstract void createUsersWithListInput(Http.Request request, List<@Valid User> body) throws Exception;
@@ -86,7 +83,6 @@ public abstract class UserApiControllerImpInterface {
         return ok();
     });
     return result;
-
     }
 
     public abstract void deleteUser(Http.Request request, String username) throws Exception;
@@ -105,7 +101,6 @@ return stage.thenApply(obj -> {
 
             return ok(result);
     });
-
     }
 
     public abstract CompletionStage<User> getUserByName(Http.Request request, String username) throws Exception;
@@ -119,7 +114,6 @@ return stage.thenApply(obj -> {
 
             return ok(result);
     });
-
     }
 
     public abstract CompletionStage<String> loginUser(Http.Request request, @NotNull String username, @NotNull String password) throws Exception;
@@ -134,7 +128,6 @@ return stage.thenApply(obj -> {
         return ok();
     });
     return result;
-
     }
 
     public abstract void logoutUser(Http.Request request) throws Exception;
@@ -149,7 +142,6 @@ return stage.thenApply(obj -> {
         return ok();
     });
     return result;
-
     }
 
     public abstract void updateUser(Http.Request request, String username, User body) throws Exception;

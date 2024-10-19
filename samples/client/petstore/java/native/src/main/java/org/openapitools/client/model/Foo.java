@@ -38,8 +38,7 @@ import org.openapitools.client.ApiClient;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Foo {
   public static final String JSON_PROPERTY_BAR = "bar";
-  @javax.annotation.Nullable
-  private String bar = "bar";
+  @javax.annotation.Nullable  private String bar = "bar";
 
   public Foo() { 
   }
@@ -53,8 +52,7 @@ public class Foo {
    * Get bar
    * @return bar
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_BAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getBar() {
     return bar;
@@ -66,7 +64,6 @@ public class Foo {
   public void setBar(@javax.annotation.Nullable String bar) {
     this.bar = bar;
   }
-
 
   /**
    * Return true if this Foo object is equal to o.
@@ -200,6 +197,5 @@ public class Foo {
     return new Foo.Builder()
       .bar(getBar());
   }
-
 }
 

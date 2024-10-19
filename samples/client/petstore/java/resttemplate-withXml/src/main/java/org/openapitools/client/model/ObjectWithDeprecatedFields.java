@@ -42,29 +42,27 @@ import io.github.threetenjaxb.core.*;
   ObjectWithDeprecatedFields.JSON_PROPERTY_BARS
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 @XmlRootElement(name = "ObjectWithDeprecatedFields")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ObjectWithDeprecatedFields")
+
 public class ObjectWithDeprecatedFields {
   public static final String JSON_PROPERTY_UUID = "uuid";
   @XmlElement(name = "uuid")
-  @javax.annotation.Nullable
-  private String uuid;
+  @javax.annotation.Nullable  private String uuid;
 
   public static final String JSON_PROPERTY_ID = "id";
   @XmlElement(name = "id")
-  @javax.annotation.Nullable
-  private BigDecimal id;
+  @javax.annotation.Nullable  private BigDecimal id;
 
   public static final String JSON_PROPERTY_DEPRECATED_REF = "deprecatedRef";
   @XmlElement(name = "deprecatedRef")
-  @javax.annotation.Nullable
-  private DeprecatedObject deprecatedRef;
+  @javax.annotation.Nullable  private DeprecatedObject deprecatedRef;
 
   public static final String JSON_PROPERTY_BARS = "bars";
   @XmlElement(name = "bars")
-  @javax.annotation.Nullable
-  private List<String> bars = new ArrayList<>();
+  @javax.annotation.Nullable  private List<String> bars = new ArrayList<>();
 
   public ObjectWithDeprecatedFields() {
   }
@@ -79,8 +77,7 @@ public class ObjectWithDeprecatedFields {
    * Get uuid
    * @return uuid
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_UUID)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "uuid")
 
@@ -108,8 +105,7 @@ public class ObjectWithDeprecatedFields {
    * @deprecated
    */
   @Deprecated
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ID)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "id")
 
@@ -137,8 +133,7 @@ public class ObjectWithDeprecatedFields {
    * @deprecated
    */
   @Deprecated
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DEPRECATED_REF)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_DEPRECATED_REF)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "deprecatedRef")
 
@@ -174,8 +169,7 @@ public class ObjectWithDeprecatedFields {
    * @deprecated
    */
   @Deprecated
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BARS)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_BARS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "bars")
   @JacksonXmlElementWrapper(useWrapping = false)

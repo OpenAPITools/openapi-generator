@@ -180,7 +180,6 @@ EnumTest['EnumStringEnum'] = {
     "empty": ""
 };
 
-
 /**
  * Allowed values for the <code>enum_string_required</code> property.
  * @enum {String}
@@ -207,7 +206,6 @@ EnumTest['EnumStringRequiredEnum'] = {
     "empty": ""
 };
 
-
 /**
  * Allowed values for the <code>enum_integer</code> property.
  * @enum {Number}
@@ -227,7 +225,6 @@ EnumTest['EnumIntegerEnum'] = {
      */
     "-1": -1
 };
-
 
 /**
  * Allowed values for the <code>enum_number</code> property.
@@ -250,6 +247,4 @@ EnumTest['EnumNumberEnum'] = {
 };
 
 
-
 export default EnumTest;
-

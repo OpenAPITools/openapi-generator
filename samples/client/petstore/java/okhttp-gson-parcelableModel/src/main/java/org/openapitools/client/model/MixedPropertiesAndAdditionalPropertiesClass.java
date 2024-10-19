@@ -56,21 +56,19 @@ import org.openapitools.client.JSON;
  * MixedPropertiesAndAdditionalPropertiesClass
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
   public static final String SERIALIZED_NAME_UUID = "uuid";
   @SerializedName(SERIALIZED_NAME_UUID)
-  @javax.annotation.Nullable
-  private UUID uuid;
+  @javax.annotation.Nullable  private UUID uuid;
 
   public static final String SERIALIZED_NAME_DATE_TIME = "dateTime";
   @SerializedName(SERIALIZED_NAME_DATE_TIME)
-  @javax.annotation.Nullable
-  private OffsetDateTime dateTime;
+  @javax.annotation.Nullable  private OffsetDateTime dateTime;
 
   public static final String SERIALIZED_NAME_MAP = "map";
   @SerializedName(SERIALIZED_NAME_MAP)
-  @javax.annotation.Nullable
-  private Map<String, Animal> map = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, Animal> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClass() {
   }
@@ -84,8 +82,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
    * Get uuid
    * @return uuid
    */
-  @javax.annotation.Nullable
-  public UUID getUuid() {
+  @javax.annotation.Nullable  public UUID getUuid() {
     return uuid;
   }
 
@@ -103,8 +100,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
    * Get dateTime
    * @return dateTime
    */
-  @javax.annotation.Nullable
-  public OffsetDateTime getDateTime() {
+  @javax.annotation.Nullable  public OffsetDateTime getDateTime() {
     return dateTime;
   }
 
@@ -130,15 +126,13 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
    * Get map
    * @return map
    */
-  @javax.annotation.Nullable
-  public Map<String, Animal> getMap() {
+  @javax.annotation.Nullable  public Map<String, Animal> getMap() {
     return map;
   }
 
   public void setMap(@javax.annotation.Nullable Map<String, Animal> map) {
     this.map = map;
   }
-
 
 
   @Override

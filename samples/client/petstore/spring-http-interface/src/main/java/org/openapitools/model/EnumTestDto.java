@@ -18,7 +18,6 @@ import jakarta.annotation.Generated;
 /**
  * EnumTestDto
  */
-
 @JsonTypeName("Enum_Test")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class EnumTestDto {
@@ -59,7 +58,6 @@ public class EnumTestDto {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   private EnumStringEnum enumString;
 
   /**
@@ -98,7 +96,6 @@ public class EnumTestDto {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   private EnumStringRequiredEnum enumStringRequired;
 
   /**
@@ -135,7 +132,6 @@ public class EnumTestDto {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   private EnumIntegerEnum enumInteger;
 
   /**
@@ -172,7 +168,6 @@ public class EnumTestDto {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   private EnumNumberEnum enumNumber;
 
   private OuterEnumDto outerEnum;
@@ -275,7 +270,6 @@ public class EnumTestDto {
   public void setOuterEnum(OuterEnumDto outerEnum) {
     this.outerEnum = outerEnum;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

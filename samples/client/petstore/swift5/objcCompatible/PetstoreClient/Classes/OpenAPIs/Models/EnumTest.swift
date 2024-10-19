@@ -16,21 +16,17 @@ import AnyCodable
         case upper = "UPPER"
         case lower = "lower"
         case empty = ""
-    }
-    public enum EnumStringRequired: String, Codable, CaseIterable {
+    }    public enum EnumStringRequired: String, Codable, CaseIterable {
         case upper = "UPPER"
         case lower = "lower"
         case empty = ""
-    }
-    public enum EnumInteger: Int, Codable, CaseIterable {
+    }    public enum EnumInteger: Int, Codable, CaseIterable {
         case _1 = 1
         case number1 = -1
-    }
-    public enum EnumNumber: Double, Codable, CaseIterable {
+    }    public enum EnumNumber: Double, Codable, CaseIterable {
         case _11 = 1.1
         case number12 = -1.2
-    }
-    public var enumString: EnumString?
+    }    public var enumString: EnumString?
     public var enumStringRequired: EnumStringRequired
     public var enumInteger: EnumInteger?
     public var enumNumber: EnumNumber?

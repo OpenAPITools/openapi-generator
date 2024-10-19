@@ -10,7 +10,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 /**
  * Describes the result of uploading an image resource
  * @export

@@ -169,7 +169,6 @@ open class PetApi : ApiClient {
             override fun deserialize(decoder: Decoder) = FindPetsByStatusResponse(serializer.deserialize(decoder))
         }
     }
-
     /**
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -212,7 +211,6 @@ open class PetApi : ApiClient {
             override fun deserialize(decoder: Decoder) = FindPetsByTagsResponse(serializer.deserialize(decoder))
         }
     }
-
     /**
      * Find pet by ID
      * Returns a single pet

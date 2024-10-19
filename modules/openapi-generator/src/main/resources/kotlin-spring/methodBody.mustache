@@ -2,8 +2,8 @@
 {{#examples}}
     {{#-first}}
         {{#async}}
-return CompletableFuture.supplyAsync(()-> {
-        {{/async}}getRequest().ifPresent { request ->
+        return CompletableFuture.supplyAsync(()-> {
+        {{/async}}        getRequest().ifPresent { request ->
 {{#async}}    {{/async}}            for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
     {{/-first}}
 {{#async}}        {{/async}}{{^async}}    {{/async}}            if (mediaType.isCompatibleWith(MediaType.valueOf("{{{contentType}}}"))) {
@@ -20,9 +20,9 @@ return CompletableFuture.supplyAsync(()-> {
     {{/-last}}
 {{/examples}}
 {{^examples}}
-return {{#async}}CompletableFuture.completedFuture({{/async}}ResponseEntity({{#returnSuccessCode}}HttpStatus.OK{{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}})
+        return {{#async}}CompletableFuture.completedFuture({{/async}}ResponseEntity({{#returnSuccessCode}}HttpStatus.OK{{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}})
 {{/examples}}
 {{/reactive}}
 {{#reactive}}
-return ResponseEntity({{#returnSuccessCode}}HttpStatus.OK{{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}})
+        return ResponseEntity({{#returnSuccessCode}}HttpStatus.OK{{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}})
 {{/reactive}}

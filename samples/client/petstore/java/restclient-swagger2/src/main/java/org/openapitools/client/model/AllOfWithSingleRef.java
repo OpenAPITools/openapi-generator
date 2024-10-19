@@ -33,14 +33,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   AllOfWithSingleRef.JSON_PROPERTY_SINGLE_REF_TYPE
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class AllOfWithSingleRef {
   public static final String JSON_PROPERTY_USERNAME = "username";
-  @jakarta.annotation.Nullable
-  private String username;
+  @jakarta.annotation.Nullable  private String username;
 
   public static final String JSON_PROPERTY_SINGLE_REF_TYPE = "SingleRefType";
-  @jakarta.annotation.Nullable
-  private SingleRefType singleRefType;
+  @jakarta.annotation.Nullable  private SingleRefType singleRefType;
 
   public AllOfWithSingleRef() {
   }
@@ -55,8 +54,7 @@ public class AllOfWithSingleRef {
    * Get username
    * @return username
    */
-  @jakarta.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @jakarta.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_USERNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -81,8 +79,7 @@ public class AllOfWithSingleRef {
    * Get singleRefType
    * @return singleRefType
    */
-  @jakarta.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @jakarta.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_SINGLE_REF_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

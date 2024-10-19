@@ -25,7 +25,12 @@
 {{/hasDiscriminatorWithNonEmptyMapping}}
 {{/isClassnameSanitized}}
 {{/jackson}}
-{{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
+{{>additionalModelTypeAnnotations}}
+{{>generatedAnnotation}}
+{{#discriminator}}
+{{>typeInfoAnnotation}}
+{{/discriminator}}
+{{>xmlAnnotation}}
 {{#vendorExtensions.x-class-extra-annotation}}
 {{{vendorExtensions.x-class-extra-annotation}}}
 {{/vendorExtensions.x-class-extra-annotation}}
@@ -44,6 +49,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 {{>modelInnerEnum}}
     {{/mostInnerItems}}
     {{/isContainer}}
+
     {{/isEnum}}
   {{#gson}}
   public static final String SERIALIZED_NAME_{{nameInSnakeCase}} = "{{baseName}}";
@@ -66,6 +72,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   @SerializedName(SERIALIZED_NAME_{{nameInSnakeCase}})
   {{/gson}}
   {{>nullable_var_annotations}}
+
   {{#vendorExtensions.x-field-extra-annotation}}
   {{{vendorExtensions.x-field-extra-annotation}}}
   {{/vendorExtensions.x-field-extra-annotation}}
@@ -212,6 +219,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   @Deprecated
 {{/deprecated}}
   {{>nullable_var_annotations}}
+
 {{#jsonb}}
   @JsonbProperty("{{baseName}}")
 {{/jsonb}}

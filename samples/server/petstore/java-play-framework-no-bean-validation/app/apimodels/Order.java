@@ -12,15 +12,19 @@ import java.util.Objects;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Order   {
   @JsonProperty("id")
+  
   private Long id;
 
   @JsonProperty("petId")
+  
   private Long petId;
 
   @JsonProperty("quantity")
+  
   private Integer quantity;
 
   @JsonProperty("shipDate")
+  
   private OffsetDateTime shipDate;
 
   /**
@@ -57,9 +61,11 @@ public class Order   {
   }
 
   @JsonProperty("status")
+  
   private StatusEnum status;
 
   @JsonProperty("complete")
+  
   private Boolean complete = false;
 
   public Order id(Long id) {
@@ -214,4 +220,3 @@ public class Order   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

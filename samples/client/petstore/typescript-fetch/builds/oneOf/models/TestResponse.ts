@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import type { TestA } from './TestA';
 import {
     instanceOfTestA,
@@ -33,7 +32,6 @@ import {
  * @export
  */
 export type TestResponse = TestA | TestB;
-
 export function TestResponseFromJSON(json: any): TestResponse {
     return TestResponseFromJSONTyped(json, false);
 }
@@ -66,4 +64,3 @@ export function TestResponseToJSON(value?: TestResponse | null): any {
 
     return {};
 }
-

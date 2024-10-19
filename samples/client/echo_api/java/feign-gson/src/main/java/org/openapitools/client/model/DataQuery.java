@@ -31,21 +31,19 @@ import org.openapitools.client.model.Query;
  * DataQuery
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class DataQuery extends Query {
   public static final String SERIALIZED_NAME_SUFFIX = "suffix";
   @SerializedName(SERIALIZED_NAME_SUFFIX)
-  @javax.annotation.Nullable
-  private String suffix;
+  @javax.annotation.Nullable  private String suffix;
 
   public static final String SERIALIZED_NAME_TEXT = "text";
   @SerializedName(SERIALIZED_NAME_TEXT)
-  @javax.annotation.Nullable
-  private String text;
+  @javax.annotation.Nullable  private String text;
 
   public static final String SERIALIZED_NAME_DATE = "date";
   @SerializedName(SERIALIZED_NAME_DATE)
-  @javax.annotation.Nullable
-  private OffsetDateTime date;
+  @javax.annotation.Nullable  private OffsetDateTime date;
 
   public DataQuery() {
 
@@ -62,7 +60,6 @@ public class DataQuery extends Query {
    * @return suffix
    */
   @javax.annotation.Nullable
-
   public String getSuffix() {
     return suffix;
   }
@@ -84,7 +81,6 @@ public class DataQuery extends Query {
    * @return text
    */
   @javax.annotation.Nullable
-
   public String getText() {
     return text;
   }
@@ -106,7 +102,6 @@ public class DataQuery extends Query {
    * @return date
    */
   @javax.annotation.Nullable
-
   public OffsetDateTime getDate() {
     return date;
   }
@@ -115,7 +110,6 @@ public class DataQuery extends Query {
   public void setDate(@javax.annotation.Nullable OffsetDateTime date) {
     this.date = date;
   }
-
 
   @Override
   public boolean equals(Object o) {

@@ -64,7 +64,6 @@ public class OuterObjectWithEnumProperty {
     this.value = value;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

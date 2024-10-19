@@ -115,4 +115,3 @@ class ModelList {
   static const requiredKeys = <String>{
   };
 }
-

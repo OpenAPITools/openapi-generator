@@ -52,21 +52,19 @@ import org.openapitools.client.JSON;
  * AnyTypeTest
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class AnyTypeTest {
   public static final String SERIALIZED_NAME_ANY_TYPE_PROPERTY = "any_type_property";
   @SerializedName(SERIALIZED_NAME_ANY_TYPE_PROPERTY)
-  @javax.annotation.Nullable
-  private Object anyTypeProperty = null;
+  @javax.annotation.Nullable  private Object anyTypeProperty = null;
 
   public static final String SERIALIZED_NAME_ARRAY_PROP = "array_prop";
   @SerializedName(SERIALIZED_NAME_ARRAY_PROP)
-  @javax.annotation.Nullable
-  private List<String> arrayProp = new ArrayList<>();
+  @javax.annotation.Nullable  private List<String> arrayProp = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_REF_ARRAY_PREFIX_ITEMS = "ref_array_prefix_items";
   @SerializedName(SERIALIZED_NAME_REF_ARRAY_PREFIX_ITEMS)
-  @javax.annotation.Nullable
-  private List<Object> refArrayPrefixItems = new ArrayList<>();
+  @javax.annotation.Nullable  private List<Object> refArrayPrefixItems = new ArrayList<>();
 
   public AnyTypeTest() {
   }
@@ -80,8 +78,7 @@ public class AnyTypeTest {
    * Get anyTypeProperty
    * @return anyTypeProperty
    */
-  @javax.annotation.Nullable
-  public Object getAnyTypeProperty() {
+  @javax.annotation.Nullable  public Object getAnyTypeProperty() {
     return anyTypeProperty;
   }
 
@@ -107,8 +104,7 @@ public class AnyTypeTest {
    * test array in 3.1 spec
    * @return arrayProp
    */
-  @javax.annotation.Nullable
-  public List<String> getArrayProp() {
+  @javax.annotation.Nullable  public List<String> getArrayProp() {
     return arrayProp;
   }
 
@@ -134,8 +130,7 @@ public class AnyTypeTest {
    * An item that was added to the queue. 
    * @return refArrayPrefixItems
    */
-  @javax.annotation.Nullable
-  public List<Object> getRefArrayPrefixItems() {
+  @javax.annotation.Nullable  public List<Object> getRefArrayPrefixItems() {
     return refArrayPrefixItems;
   }
 
@@ -187,7 +182,6 @@ public class AnyTypeTest {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

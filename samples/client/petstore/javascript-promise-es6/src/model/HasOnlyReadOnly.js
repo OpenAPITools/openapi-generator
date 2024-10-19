@@ -96,4 +96,3 @@ HasOnlyReadOnly.prototype['foo'] = undefined;
 
 
 export default HasOnlyReadOnly;
-

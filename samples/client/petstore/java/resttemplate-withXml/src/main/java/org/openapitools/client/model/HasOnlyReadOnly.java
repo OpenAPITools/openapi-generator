@@ -36,19 +36,19 @@ import io.github.threetenjaxb.core.*;
 })
 @JsonTypeName("hasOnlyReadOnly")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 @XmlRootElement(name = "HasOnlyReadOnly")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "HasOnlyReadOnly")
+
 public class HasOnlyReadOnly {
   public static final String JSON_PROPERTY_BAR = "bar";
   @XmlElement(name = "bar")
-  @javax.annotation.Nullable
-  private String bar;
+  @javax.annotation.Nullable  private String bar;
 
   public static final String JSON_PROPERTY_FOO = "foo";
   @XmlElement(name = "foo")
-  @javax.annotation.Nullable
-  private String foo;
+  @javax.annotation.Nullable  private String foo;
 
   public HasOnlyReadOnly() {
   }
@@ -57,8 +57,7 @@ public class HasOnlyReadOnly {
    * Get bar
    * @return bar
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_BAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "bar")
 
@@ -72,8 +71,7 @@ public class HasOnlyReadOnly {
    * Get foo
    * @return foo
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_FOO)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_FOO)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "foo")
 

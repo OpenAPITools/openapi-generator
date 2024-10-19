@@ -58,7 +58,6 @@ namespace Org.OpenAPITools.Model
             Delivered = 3
         }
 
-
         /// <summary>
         /// Order Status
         /// </summary>
@@ -194,7 +193,6 @@ namespace Org.OpenAPITools.Model
         IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
-        }
-    }
+        }    }
 
 }

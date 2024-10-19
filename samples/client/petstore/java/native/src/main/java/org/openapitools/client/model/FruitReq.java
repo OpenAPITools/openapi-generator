@@ -55,6 +55,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 @JsonDeserialize(using = FruitReq.FruitReqDeserializer.class)
 @JsonSerialize(using = FruitReq.FruitReqSerializer.class)
 public class FruitReq extends AbstractOpenApiSchema {
@@ -166,7 +167,6 @@ public class FruitReq extends AbstractOpenApiSchema {
     public FruitReq() {
         super("oneOf", Boolean.FALSE);
     }
-
     public FruitReq(AppleReq o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);

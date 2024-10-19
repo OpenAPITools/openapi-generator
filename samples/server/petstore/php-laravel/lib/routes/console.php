@@ -17,7 +17,6 @@
  * > https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/main/resources/php-laravel/
  */
 
-
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 

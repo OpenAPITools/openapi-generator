@@ -162,4 +162,3 @@ func (v *NullableHealthCheckResult) UnmarshalJSON(src []byte) error {
 	return json.Unmarshal(src, &v.value)
 }
 
-

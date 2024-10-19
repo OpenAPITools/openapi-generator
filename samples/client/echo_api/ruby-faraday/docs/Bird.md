@@ -17,4 +17,3 @@ instance = OpenapiClient::Bird.new(
   color: null
 )
 ```
-

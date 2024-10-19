@@ -65,6 +65,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 @JsonDeserialize(using = Triangle.TriangleDeserializer.class)
 @JsonSerialize(using = Triangle.TriangleSerializer.class)
 public class Triangle extends AbstractOpenApiSchema {
@@ -229,7 +230,6 @@ public class Triangle extends AbstractOpenApiSchema {
     }
     return this.additionalProperties.get(key);
   }
-
     /**
      * Return true if this Triangle object is equal to o.
      */

@@ -85,4 +85,3 @@ ClassModel.prototype['_class'] = undefined;
 
 
 export default ClassModel;
-

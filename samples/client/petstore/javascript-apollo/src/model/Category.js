@@ -101,4 +101,3 @@ Category.prototype['name'] = 'default-name';
 
 
 export default Category;
-

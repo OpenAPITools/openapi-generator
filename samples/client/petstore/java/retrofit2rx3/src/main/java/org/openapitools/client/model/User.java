@@ -26,46 +26,39 @@ import java.io.IOException;
  * User
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class User {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
-  @javax.annotation.Nullable
-  private Long id;
+  @javax.annotation.Nullable  private Long id;
 
   public static final String SERIALIZED_NAME_USERNAME = "username";
   @SerializedName(SERIALIZED_NAME_USERNAME)
-  @javax.annotation.Nullable
-  private String username;
+  @javax.annotation.Nullable  private String username;
 
   public static final String SERIALIZED_NAME_FIRST_NAME = "firstName";
   @SerializedName(SERIALIZED_NAME_FIRST_NAME)
-  @javax.annotation.Nullable
-  private String firstName;
+  @javax.annotation.Nullable  private String firstName;
 
   public static final String SERIALIZED_NAME_LAST_NAME = "lastName";
   @SerializedName(SERIALIZED_NAME_LAST_NAME)
-  @javax.annotation.Nullable
-  private String lastName;
+  @javax.annotation.Nullable  private String lastName;
 
   public static final String SERIALIZED_NAME_EMAIL = "email";
   @SerializedName(SERIALIZED_NAME_EMAIL)
-  @javax.annotation.Nullable
-  private String email;
+  @javax.annotation.Nullable  private String email;
 
   public static final String SERIALIZED_NAME_PASSWORD = "password";
   @SerializedName(SERIALIZED_NAME_PASSWORD)
-  @javax.annotation.Nullable
-  private String password;
+  @javax.annotation.Nullable  private String password;
 
   public static final String SERIALIZED_NAME_PHONE = "phone";
   @SerializedName(SERIALIZED_NAME_PHONE)
-  @javax.annotation.Nullable
-  private String phone;
+  @javax.annotation.Nullable  private String phone;
 
   public static final String SERIALIZED_NAME_USER_STATUS = "userStatus";
   @SerializedName(SERIALIZED_NAME_USER_STATUS)
-  @javax.annotation.Nullable
-  private Integer userStatus;
+  @javax.annotation.Nullable  private Integer userStatus;
 
   public User() {
   }
@@ -81,7 +74,6 @@ public class User {
    * @return id
    */
   @javax.annotation.Nullable
-
   public Long getId() {
     return id;
   }
@@ -102,7 +94,6 @@ public class User {
    * @return username
    */
   @javax.annotation.Nullable
-
   public String getUsername() {
     return username;
   }
@@ -123,7 +114,6 @@ public class User {
    * @return firstName
    */
   @javax.annotation.Nullable
-
   public String getFirstName() {
     return firstName;
   }
@@ -144,7 +134,6 @@ public class User {
    * @return lastName
    */
   @javax.annotation.Nullable
-
   public String getLastName() {
     return lastName;
   }
@@ -165,7 +154,6 @@ public class User {
    * @return email
    */
   @javax.annotation.Nullable
-
   public String getEmail() {
     return email;
   }
@@ -186,7 +174,6 @@ public class User {
    * @return password
    */
   @javax.annotation.Nullable
-
   public String getPassword() {
     return password;
   }
@@ -207,7 +194,6 @@ public class User {
    * @return phone
    */
   @javax.annotation.Nullable
-
   public String getPhone() {
     return phone;
   }
@@ -228,7 +214,6 @@ public class User {
    * @return userStatus
    */
   @javax.annotation.Nullable
-
   public Integer getUserStatus() {
     return userStatus;
   }

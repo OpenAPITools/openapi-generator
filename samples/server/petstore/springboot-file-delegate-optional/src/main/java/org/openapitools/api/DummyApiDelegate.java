@@ -34,7 +34,6 @@ public interface DummyApiDelegate {
      */
     default ResponseEntity<Void> uploadFile(Optional<org.springframework.core.io.Resource> body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
 }

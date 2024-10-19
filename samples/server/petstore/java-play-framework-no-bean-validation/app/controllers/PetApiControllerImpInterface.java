@@ -33,7 +33,6 @@ public abstract class PetApiControllerImpInterface {
 
         addPet(request, body);
         return ok();
-
     }
 
     public abstract void addPet(Http.Request request, Pet body) throws Exception;
@@ -45,7 +44,6 @@ public abstract class PetApiControllerImpInterface {
 
         deletePet(request, petId, apiKey);
         return ok();
-
     }
 
     public abstract void deletePet(Http.Request request, Long petId, String apiKey) throws Exception;
@@ -59,7 +57,6 @@ public abstract class PetApiControllerImpInterface {
         JsonNode result = mapper.valueToTree(obj);
 
         return ok(result);
-
     }
 
     public abstract List<Pet> findPetsByStatus(Http.Request request, List<String> status) throws Exception;
@@ -73,7 +70,6 @@ public abstract class PetApiControllerImpInterface {
         JsonNode result = mapper.valueToTree(obj);
 
         return ok(result);
-
     }
 
     public abstract List<Pet> findPetsByTags(Http.Request request, List<String> tags) throws Exception;
@@ -83,7 +79,6 @@ public abstract class PetApiControllerImpInterface {
         JsonNode result = mapper.valueToTree(obj);
 
         return ok(result);
-
     }
 
     public abstract Pet getPetById(Http.Request request, Long petId) throws Exception;
@@ -95,7 +90,6 @@ public abstract class PetApiControllerImpInterface {
 
         updatePet(request, body);
         return ok();
-
     }
 
     public abstract void updatePet(Http.Request request, Pet body) throws Exception;
@@ -107,7 +101,6 @@ public abstract class PetApiControllerImpInterface {
 
         updatePetWithForm(request, petId, name, status);
         return ok();
-
     }
 
     public abstract void updatePetWithForm(Http.Request request, Long petId, String name, String status) throws Exception;
@@ -121,7 +114,6 @@ public abstract class PetApiControllerImpInterface {
         JsonNode result = mapper.valueToTree(obj);
 
         return ok(result);
-
     }
 
     public abstract ModelApiResponse uploadFile(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> _file) throws Exception;

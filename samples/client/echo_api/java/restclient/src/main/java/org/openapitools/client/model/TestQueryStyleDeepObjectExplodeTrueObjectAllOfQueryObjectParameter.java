@@ -34,22 +34,19 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 @JsonTypeName("test_query_style_deepObject_explode_true_object_allOf_query_object_parameter")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter {
   public static final String JSON_PROPERTY_SIZE = "size";
-  @jakarta.annotation.Nullable
-  private String size;
+  @jakarta.annotation.Nullable  private String size;
 
   public static final String JSON_PROPERTY_COLOR = "color";
-  @jakarta.annotation.Nullable
-  private String color;
+  @jakarta.annotation.Nullable  private String color;
 
   public static final String JSON_PROPERTY_ID = "id";
-  @jakarta.annotation.Nullable
-  private Long id;
+  @jakarta.annotation.Nullable  private Long id;
 
   public static final String JSON_PROPERTY_NAME = "name";
-  @jakarta.annotation.Nullable
-  private String name;
+  @jakarta.annotation.Nullable  private String name;
 
   public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter() {
   }
@@ -64,8 +61,7 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
    * Get size
    * @return size
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SIZE)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_SIZE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getSize() {
@@ -89,8 +85,7 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
    * Get color
    * @return color
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COLOR)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_COLOR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getColor() {
@@ -114,8 +109,7 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
    * Get id
    * @return id
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ID)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getId() {
@@ -139,8 +133,7 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
    * Get name
    * @return name
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getName() {

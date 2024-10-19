@@ -19,7 +19,7 @@ using System.Text.Json;
 using Org.OpenAPITools.Converters;
 
 namespace Org.OpenAPITools.Models
-{ 
+{
     /// <summary>
     /// A tag for a pet
     /// </summary>

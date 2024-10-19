@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { Foo } from './Foo';
 import {
@@ -34,7 +33,6 @@ export interface FooGetDefaultResponse {
      */
     string?: Foo;
 }
-
 /**
  * Check if a given object implements the FooGetDefaultResponse interface.
  */
@@ -70,4 +68,3 @@ export function FooGetDefaultResponseFromJSONTyped(json: any, ignoreDiscriminato
         'string': FooToJSON(value['string']),
     };
 }
-

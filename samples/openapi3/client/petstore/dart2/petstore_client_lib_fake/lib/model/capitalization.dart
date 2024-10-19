@@ -201,4 +201,3 @@ class Capitalization {
   static const requiredKeys = <String>{
   };
 }
-

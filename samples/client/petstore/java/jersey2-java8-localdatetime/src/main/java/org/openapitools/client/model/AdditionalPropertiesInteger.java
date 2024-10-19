@@ -106,7 +106,6 @@ public class AdditionalPropertiesInteger {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this AdditionalPropertiesInteger object is equal to o.
    */

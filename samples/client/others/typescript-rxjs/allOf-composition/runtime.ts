@@ -10,7 +10,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { of } from 'rxjs';
 import type { Observable } from 'rxjs';
 import { ajax } from 'rxjs/ajax';

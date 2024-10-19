@@ -12,4 +12,3 @@
 |**myBoolean** | **Boolean** |  |  [optional] |
 
 
-

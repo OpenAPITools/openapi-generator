@@ -39,8 +39,7 @@ import org.openapitools.client.ApiClient;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class NumberOnly {
   public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";
-  @javax.annotation.Nullable
-  private BigDecimal justNumber;
+  @javax.annotation.Nullable  private BigDecimal justNumber;
 
   public NumberOnly() { 
   }
@@ -54,8 +53,7 @@ public class NumberOnly {
    * Get justNumber
    * @return justNumber
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public BigDecimal getJustNumber() {
     return justNumber;
@@ -67,7 +65,6 @@ public class NumberOnly {
   public void setJustNumber(@javax.annotation.Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
-
 
   /**
    * Return true if this NumberOnly object is equal to o.
@@ -201,6 +198,5 @@ public class NumberOnly {
     return new NumberOnly.Builder()
       .justNumber(getJustNumber());
   }
-
 }
 

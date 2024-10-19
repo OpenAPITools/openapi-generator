@@ -39,30 +39,25 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   TypeHolderExample.JSON_PROPERTY_ARRAY_ITEM
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class TypeHolderExample {
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
-  @javax.annotation.Nonnull
-  private String stringItem;
+  @javax.annotation.Nonnull  private String stringItem;
 
   public static final String JSON_PROPERTY_NUMBER_ITEM = "number_item";
-  @javax.annotation.Nonnull
-  private BigDecimal numberItem;
+  @javax.annotation.Nonnull  private BigDecimal numberItem;
 
   public static final String JSON_PROPERTY_FLOAT_ITEM = "float_item";
-  @javax.annotation.Nonnull
-  private Float floatItem;
+  @javax.annotation.Nonnull  private Float floatItem;
 
   public static final String JSON_PROPERTY_INTEGER_ITEM = "integer_item";
-  @javax.annotation.Nonnull
-  private Integer integerItem;
+  @javax.annotation.Nonnull  private Integer integerItem;
 
   public static final String JSON_PROPERTY_BOOL_ITEM = "bool_item";
-  @javax.annotation.Nonnull
-  private Boolean boolItem;
+  @javax.annotation.Nonnull  private Boolean boolItem;
 
   public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
-  @javax.annotation.Nonnull
-  private List<Integer> arrayItem = new ArrayList<>();
+  @javax.annotation.Nonnull  private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderExample() {
   }
@@ -77,8 +72,7 @@ public class TypeHolderExample {
    * Get stringItem
    * @return stringItem
    */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_STRING_ITEM)
+  @javax.annotation.Nonnull  @JsonProperty(JSON_PROPERTY_STRING_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getStringItem() {
@@ -102,8 +96,7 @@ public class TypeHolderExample {
    * Get numberItem
    * @return numberItem
    */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
+  @javax.annotation.Nonnull  @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public BigDecimal getNumberItem() {
@@ -127,8 +120,7 @@ public class TypeHolderExample {
    * Get floatItem
    * @return floatItem
    */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_FLOAT_ITEM)
+  @javax.annotation.Nonnull  @JsonProperty(JSON_PROPERTY_FLOAT_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Float getFloatItem() {
@@ -152,8 +144,7 @@ public class TypeHolderExample {
    * Get integerItem
    * @return integerItem
    */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
+  @javax.annotation.Nonnull  @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Integer getIntegerItem() {
@@ -177,8 +168,7 @@ public class TypeHolderExample {
    * Get boolItem
    * @return boolItem
    */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
+  @javax.annotation.Nonnull  @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Boolean getBoolItem() {
@@ -210,8 +200,7 @@ public class TypeHolderExample {
    * Get arrayItem
    * @return arrayItem
    */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
+  @javax.annotation.Nonnull  @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public List<Integer> getArrayItem() {

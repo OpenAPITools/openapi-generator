@@ -110,4 +110,3 @@ public class FileSchemaTestClass   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

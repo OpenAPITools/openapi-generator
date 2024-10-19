@@ -42,18 +42,16 @@ import org.openapitools.client.ApiClient;
   DataQuery.JSON_PROPERTY_DATE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class DataQuery extends Query {
   public static final String JSON_PROPERTY_SUFFIX = "suffix";
-  @javax.annotation.Nullable
-  private String suffix;
+  @javax.annotation.Nullable  private String suffix;
 
   public static final String JSON_PROPERTY_TEXT = "text";
-  @javax.annotation.Nullable
-  private String text;
+  @javax.annotation.Nullable  private String text;
 
   public static final String JSON_PROPERTY_DATE = "date";
-  @javax.annotation.Nullable
-  private Instant date;
+  @javax.annotation.Nullable  private Instant date;
 
   public DataQuery() { 
   }
@@ -67,8 +65,7 @@ public class DataQuery extends Query {
    * test suffix
    * @return suffix
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SUFFIX)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_SUFFIX)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getSuffix() {
     return suffix;
@@ -91,8 +88,7 @@ public class DataQuery extends Query {
    * Some text containing white spaces
    * @return text
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_TEXT)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_TEXT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getText() {
     return text;
@@ -115,8 +111,7 @@ public class DataQuery extends Query {
    * A date
    * @return date
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DATE)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Instant getDate() {
     return date;
@@ -128,7 +123,6 @@ public class DataQuery extends Query {
   public void setDate(@javax.annotation.Nullable Instant date) {
     this.date = date;
   }
-
 
   @Override
   public DataQuery id(@javax.annotation.Nullable Long id) {

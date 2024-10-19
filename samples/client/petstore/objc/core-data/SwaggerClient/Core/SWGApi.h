@@ -14,7 +14,6 @@
 * Do not edit the class manually.
 */
 
-
 @protocol SWGApi <NSObject>
 
 @property(readonly, nonatomic, strong) SWGApiClient *apiClient;

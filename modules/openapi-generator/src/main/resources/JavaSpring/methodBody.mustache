@@ -2,8 +2,8 @@
 {{#examples}}
     {{#-first}}
             {{#async}}
-return CompletableFuture.supplyAsync(()-> {
-            {{/async}}getRequest().ifPresent(request -> {
+            return CompletableFuture.supplyAsync(()-> {
+            {{/async}}        getRequest().ifPresent(request -> {
 {{#async}}    {{/async}}            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
     {{/-first}}
 {{#async}}        {{/async}}{{^async}}    {{/async}}            if (mediaType.isCompatibleWith(MediaType.valueOf("{{{contentType}}}"))) {
@@ -24,7 +24,7 @@ return CompletableFuture.supplyAsync(()-> {
     {{/-last}}
 {{/examples}}
 {{^examples}}
-{{#useResponseEntity}}return {{#async}}CompletableFuture.completedFuture({{/async}}new ResponseEntity<>({{#returnSuccessCode}}HttpStatus.OK{{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}}){{#async}}){{/async}};
+{{#useResponseEntity}}        return {{#async}}CompletableFuture.completedFuture({{/async}}new ResponseEntity<>({{#returnSuccessCode}}HttpStatus.OK{{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}}){{#async}}){{/async}};
 {{/useResponseEntity}}
 {{^useResponseEntity}}throw new IllegalArgumentException("Not implemented");
 {{/useResponseEntity}}

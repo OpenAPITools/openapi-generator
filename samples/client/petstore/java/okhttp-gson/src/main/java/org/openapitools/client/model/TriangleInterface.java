@@ -49,11 +49,11 @@ import org.openapitools.client.JSON;
  * TriangleInterface
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class TriangleInterface {
   public static final String SERIALIZED_NAME_TRIANGLE_TYPE = "triangleType";
   @SerializedName(SERIALIZED_NAME_TRIANGLE_TYPE)
-  @javax.annotation.Nonnull
-  private String triangleType;
+  @javax.annotation.Nonnull  private String triangleType;
 
   public TriangleInterface() {
   }
@@ -67,8 +67,7 @@ public class TriangleInterface {
    * Get triangleType
    * @return triangleType
    */
-  @javax.annotation.Nonnull
-  public String getTriangleType() {
+  @javax.annotation.Nonnull  public String getTriangleType() {
     return triangleType;
   }
 
@@ -120,7 +119,6 @@ public class TriangleInterface {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

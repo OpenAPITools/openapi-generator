@@ -191,7 +191,6 @@ class EnumArraysJustSymbolEnumTypeTransformer {
 }
 
 
-
 class EnumArraysArrayEnumEnum {
   /// Instantiate a new enum with the provided [value].
   const EnumArraysArrayEnumEnum._(this.value);
@@ -263,5 +262,3 @@ class EnumArraysArrayEnumEnumTypeTransformer {
   /// Singleton [EnumArraysArrayEnumEnumTypeTransformer] instance.
   static EnumArraysArrayEnumEnumTypeTransformer? _instance;
 }
-
-

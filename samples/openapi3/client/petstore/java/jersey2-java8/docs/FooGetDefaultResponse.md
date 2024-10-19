@@ -10,4 +10,3 @@
 |**string** | [**Foo**](Foo.md) |  |  [optional] |
 
 
-

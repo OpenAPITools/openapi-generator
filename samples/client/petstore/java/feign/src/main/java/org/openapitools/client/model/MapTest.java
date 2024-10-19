@@ -225,7 +225,6 @@ public class MapTest {
     this.indirectMap = indirectMap;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

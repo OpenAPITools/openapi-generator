@@ -33,7 +33,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @param stringNullable 
  */
 
-
 data class DefaultValue (
 
     @get:JsonProperty("array_string_enum_ref_default")

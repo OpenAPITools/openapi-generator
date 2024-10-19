@@ -65,7 +65,6 @@ public class BananaReq {
 
   @JsonProperty(JSON_PROPERTY_LENGTH_CM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public BigDecimal getLengthCm() {
     return lengthCm;
   }
@@ -91,7 +90,6 @@ public class BananaReq {
 
   @JsonProperty(JSON_PROPERTY_SWEET)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Boolean getSweet() {
     return sweet;
   }
@@ -102,7 +100,6 @@ public class BananaReq {
   public void setSweet(@jakarta.annotation.Nullable Boolean sweet) {
     this.sweet = sweet;
   }
-
 
   /**
    * Return true if this bananaReq object is equal to o.

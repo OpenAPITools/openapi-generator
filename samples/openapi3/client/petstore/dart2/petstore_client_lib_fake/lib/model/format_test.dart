@@ -346,4 +346,3 @@ class FormatTest {
     'password',
   };
 }
-

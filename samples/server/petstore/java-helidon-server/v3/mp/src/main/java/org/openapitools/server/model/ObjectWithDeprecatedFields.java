@@ -25,7 +25,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
 public class ObjectWithDeprecatedFields  {
   
   private String uuid;
@@ -155,4 +154,3 @@ public class ObjectWithDeprecatedFields  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

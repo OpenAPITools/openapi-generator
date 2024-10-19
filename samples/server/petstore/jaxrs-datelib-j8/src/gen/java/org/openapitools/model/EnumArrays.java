@@ -66,7 +66,6 @@ public class EnumArrays  implements Serializable {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_JUST_SYMBOL = "just_symbol";
   @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
   private JustSymbolEnum justSymbol;
@@ -101,7 +100,6 @@ public class EnumArrays  implements Serializable {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
   @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();

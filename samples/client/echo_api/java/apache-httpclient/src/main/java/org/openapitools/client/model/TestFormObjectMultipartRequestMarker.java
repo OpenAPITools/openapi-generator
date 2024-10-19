@@ -34,10 +34,10 @@ import java.util.StringJoiner;
 })
 @JsonTypeName("test_form_object_multipart_request_marker")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class TestFormObjectMultipartRequestMarker {
   public static final String JSON_PROPERTY_NAME = "name";
-  @javax.annotation.Nullable
-  private String name;
+  @javax.annotation.Nullable  private String name;
 
   public TestFormObjectMultipartRequestMarker() {
   }
@@ -52,8 +52,7 @@ public class TestFormObjectMultipartRequestMarker {
    * Get name
    * @return name
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getName() {

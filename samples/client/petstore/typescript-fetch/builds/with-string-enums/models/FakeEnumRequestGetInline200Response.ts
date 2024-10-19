@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * 
@@ -82,7 +81,6 @@ export enum FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum {
     NUMBER_3 = 3
 }
 
-
 /**
  * Check if a given object implements the FakeEnumRequestGetInline200Response interface.
  */
@@ -124,4 +122,3 @@ export function FakeEnumRequestGetInline200ResponseFromJSONTyped(json: any, igno
         'nullable-number-enum': value['nullableNumberEnum'],
     };
 }
-

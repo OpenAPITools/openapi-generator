@@ -37,18 +37,16 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   DataQuery.JSON_PROPERTY_DATE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class DataQuery extends Query {
   public static final String JSON_PROPERTY_SUFFIX = "suffix";
-  @javax.annotation.Nullable
-  private String suffix;
+  @javax.annotation.Nullable  private String suffix;
 
   public static final String JSON_PROPERTY_TEXT = "text";
-  @javax.annotation.Nullable
-  private String text;
+  @javax.annotation.Nullable  private String text;
 
   public static final String JSON_PROPERTY_DATE = "date";
-  @javax.annotation.Nullable
-  private OffsetDateTime date;
+  @javax.annotation.Nullable  private OffsetDateTime date;
 
   public DataQuery() {
 
@@ -64,8 +62,7 @@ public class DataQuery extends Query {
    * test suffix
    * @return suffix
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SUFFIX)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_SUFFIX)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getSuffix() {
@@ -89,8 +86,7 @@ public class DataQuery extends Query {
    * Some text containing white spaces
    * @return text
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_TEXT)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_TEXT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getText() {
@@ -114,8 +110,7 @@ public class DataQuery extends Query {
    * A date
    * @return date
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DATE)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public OffsetDateTime getDate() {

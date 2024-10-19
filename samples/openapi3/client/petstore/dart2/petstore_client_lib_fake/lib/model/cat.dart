@@ -130,4 +130,3 @@ class Cat {
     'className',
   };
 }
-

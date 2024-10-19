@@ -17,7 +17,6 @@ import jakarta.annotation.Generated;
 /**
  * OuterCompositeDto
  */
-
 @JsonTypeName("OuterComposite")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class OuterCompositeDto {
@@ -84,7 +83,6 @@ public class OuterCompositeDto {
   public void setMyBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

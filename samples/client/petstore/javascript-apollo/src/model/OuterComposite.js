@@ -100,4 +100,3 @@ OuterComposite.prototype['my_boolean'] = undefined;
 
 
 export default OuterComposite;
-

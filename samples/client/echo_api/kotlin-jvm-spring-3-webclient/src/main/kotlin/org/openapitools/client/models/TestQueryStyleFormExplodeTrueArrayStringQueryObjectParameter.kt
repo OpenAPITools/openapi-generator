@@ -25,7 +25,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @param propertyValues 
  */
 
-
 data class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter (
 
     @get:JsonProperty("values")

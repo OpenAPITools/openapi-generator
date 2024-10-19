@@ -33,7 +33,6 @@ import org.openapitools.client.infrastructure.ITransformForStorage
  * @param status pet status in the store
  */
 
-
 data class Pet (
 
     @SerializedName("name")

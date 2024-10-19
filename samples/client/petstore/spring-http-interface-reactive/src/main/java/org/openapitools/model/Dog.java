@@ -19,8 +19,6 @@ import jakarta.annotation.Generated;
 /**
  * Dog
  */
-
-
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Dog extends Animal {
 
@@ -55,7 +53,6 @@ public class Dog extends Animal {
   public void setBreed(String breed) {
     this.breed = breed;
   }
-
 
   public Dog className(String className) {
     super.className(className);

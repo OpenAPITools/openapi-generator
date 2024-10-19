@@ -12,7 +12,6 @@
  * Do not edit the class manually.
  */
 
-
 export interface ConfigurationParameters {
     apiKey?: string | Promise<string> | ((name: string) => string) | ((name: string) => Promise<string>);
     username?: string;

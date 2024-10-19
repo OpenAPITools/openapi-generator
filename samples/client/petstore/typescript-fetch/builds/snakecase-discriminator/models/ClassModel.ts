@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * Model for testing model with "_class" property
@@ -26,7 +25,6 @@ export interface ClassModel {
      */
     _class?: string;
 }
-
 /**
  * Check if a given object implements the ClassModel interface.
  */
@@ -62,4 +60,3 @@ export function ClassModelFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         '_class': value['_class'],
     };
 }
-

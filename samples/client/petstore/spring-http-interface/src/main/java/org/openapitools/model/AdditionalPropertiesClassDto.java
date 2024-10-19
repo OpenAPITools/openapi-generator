@@ -23,7 +23,6 @@ import jakarta.annotation.Generated;
 /**
  * AdditionalPropertiesClassDto
  */
-
 @JsonTypeName("AdditionalPropertiesClass")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class AdditionalPropertiesClassDto {
@@ -330,7 +329,6 @@ public class AdditionalPropertiesClassDto {
   public void setAnytype3(Object anytype3) {
     this.anytype3 = anytype3;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

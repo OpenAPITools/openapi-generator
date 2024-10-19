@@ -20,7 +20,6 @@ import jakarta.annotation.Generated;
 /**
  * ArrayTestDto
  */
-
 @JsonTypeName("ArrayTest")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ArrayTestDto {
@@ -114,7 +113,6 @@ public class ArrayTestDto {
   public void setArrayArrayOfModel(List<List<ReadOnlyFirstDto>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

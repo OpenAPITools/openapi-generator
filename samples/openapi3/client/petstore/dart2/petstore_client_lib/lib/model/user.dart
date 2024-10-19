@@ -235,4 +235,3 @@ class User {
   static const requiredKeys = <String>{
   };
 }
-

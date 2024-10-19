@@ -53,31 +53,27 @@ import org.openapitools.client.JSON;
  * PetWithRequiredTags
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class PetWithRequiredTags {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
-  @javax.annotation.Nullable
-  private Long id;
+  @javax.annotation.Nullable  private Long id;
 
   public static final String SERIALIZED_NAME_CATEGORY = "category";
   @SerializedName(SERIALIZED_NAME_CATEGORY)
-  @javax.annotation.Nullable
-  private Category category;
+  @javax.annotation.Nullable  private Category category;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
-  @javax.annotation.Nonnull
-  private String name;
+  @javax.annotation.Nonnull  private String name;
 
   public static final String SERIALIZED_NAME_PHOTO_URLS = "photoUrls";
   @SerializedName(SERIALIZED_NAME_PHOTO_URLS)
-  @javax.annotation.Nonnull
-  private List<String> photoUrls = new ArrayList<>();
+  @javax.annotation.Nonnull  private List<String> photoUrls = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
-  @javax.annotation.Nonnull
-  private List<Tag> tags = new ArrayList<>();
+  @javax.annotation.Nonnull  private List<Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -132,11 +128,9 @@ public class PetWithRequiredTags {
       StatusEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_STATUS = "status";
   @SerializedName(SERIALIZED_NAME_STATUS)
-  @javax.annotation.Nullable
-  private StatusEnum status;
+  @javax.annotation.Nullable  private StatusEnum status;
 
   public PetWithRequiredTags() {
   }
@@ -150,8 +144,7 @@ public class PetWithRequiredTags {
    * Get id
    * @return id
    */
-  @javax.annotation.Nullable
-  public Long getId() {
+  @javax.annotation.Nullable  public Long getId() {
     return id;
   }
 
@@ -169,8 +162,7 @@ public class PetWithRequiredTags {
    * Get category
    * @return category
    */
-  @javax.annotation.Nullable
-  public Category getCategory() {
+  @javax.annotation.Nullable  public Category getCategory() {
     return category;
   }
 
@@ -188,8 +180,7 @@ public class PetWithRequiredTags {
    * Get name
    * @return name
    */
-  @javax.annotation.Nonnull
-  public String getName() {
+  @javax.annotation.Nonnull  public String getName() {
     return name;
   }
 
@@ -215,8 +206,7 @@ public class PetWithRequiredTags {
    * Get photoUrls
    * @return photoUrls
    */
-  @javax.annotation.Nonnull
-  public List<String> getPhotoUrls() {
+  @javax.annotation.Nonnull  public List<String> getPhotoUrls() {
     return photoUrls;
   }
 
@@ -242,8 +232,7 @@ public class PetWithRequiredTags {
    * Get tags
    * @return tags
    */
-  @javax.annotation.Nonnull
-  public List<Tag> getTags() {
+  @javax.annotation.Nonnull  public List<Tag> getTags() {
     return tags;
   }
 
@@ -261,8 +250,7 @@ public class PetWithRequiredTags {
    * pet status in the store
    * @return status
    */
-  @javax.annotation.Nullable
-  public StatusEnum getStatus() {
+  @javax.annotation.Nullable  public StatusEnum getStatus() {
     return status;
   }
 
@@ -314,7 +302,6 @@ public class PetWithRequiredTags {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

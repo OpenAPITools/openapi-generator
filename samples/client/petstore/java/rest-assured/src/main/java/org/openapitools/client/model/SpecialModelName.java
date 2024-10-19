@@ -29,11 +29,11 @@ import org.hibernate.validator.constraints.*;
  * SpecialModelName
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class SpecialModelName {
   public static final String SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   @SerializedName(SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME)
-  @javax.annotation.Nullable
-  private Long $specialPropertyName;
+  @javax.annotation.Nullable  private Long $specialPropertyName;
 
   public SpecialModelName() {
   }
@@ -49,8 +49,6 @@ public class SpecialModelName {
    * @return $specialPropertyName
    */
   @javax.annotation.Nullable
-
-
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }

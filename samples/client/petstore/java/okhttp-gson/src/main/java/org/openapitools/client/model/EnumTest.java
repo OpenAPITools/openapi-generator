@@ -54,6 +54,7 @@ import org.openapitools.client.JSON;
  * EnumTest
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class EnumTest {
   /**
    * Gets or Sets enumString
@@ -108,11 +109,9 @@ public class EnumTest {
       EnumStringEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_ENUM_STRING = "enum_string";
   @SerializedName(SERIALIZED_NAME_ENUM_STRING)
-  @javax.annotation.Nullable
-  private EnumStringEnum enumString;
+  @javax.annotation.Nullable  private EnumStringEnum enumString;
 
   /**
    * Gets or Sets enumStringRequired
@@ -167,11 +166,9 @@ public class EnumTest {
       EnumStringRequiredEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_ENUM_STRING_REQUIRED = "enum_string_required";
   @SerializedName(SERIALIZED_NAME_ENUM_STRING_REQUIRED)
-  @javax.annotation.Nonnull
-  private EnumStringRequiredEnum enumStringRequired;
+  @javax.annotation.Nonnull  private EnumStringRequiredEnum enumStringRequired;
 
   /**
    * Gets or Sets enumInteger
@@ -224,11 +221,9 @@ public class EnumTest {
       EnumIntegerEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_ENUM_INTEGER = "enum_integer";
   @SerializedName(SERIALIZED_NAME_ENUM_INTEGER)
-  @javax.annotation.Nullable
-  private EnumIntegerEnum enumInteger;
+  @javax.annotation.Nullable  private EnumIntegerEnum enumInteger;
 
   /**
    * Gets or Sets enumIntegerOnly
@@ -281,11 +276,9 @@ public class EnumTest {
       EnumIntegerOnlyEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_ENUM_INTEGER_ONLY = "enum_integer_only";
   @SerializedName(SERIALIZED_NAME_ENUM_INTEGER_ONLY)
-  @javax.annotation.Nullable
-  private EnumIntegerOnlyEnum enumIntegerOnly;
+  @javax.annotation.Nullable  private EnumIntegerOnlyEnum enumIntegerOnly;
 
   /**
    * Gets or Sets enumNumber
@@ -338,31 +331,25 @@ public class EnumTest {
       EnumNumberEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_ENUM_NUMBER = "enum_number";
   @SerializedName(SERIALIZED_NAME_ENUM_NUMBER)
-  @javax.annotation.Nullable
-  private EnumNumberEnum enumNumber;
+  @javax.annotation.Nullable  private EnumNumberEnum enumNumber;
 
   public static final String SERIALIZED_NAME_OUTER_ENUM = "outerEnum";
   @SerializedName(SERIALIZED_NAME_OUTER_ENUM)
-  @javax.annotation.Nullable
-  private OuterEnum outerEnum;
+  @javax.annotation.Nullable  private OuterEnum outerEnum;
 
   public static final String SERIALIZED_NAME_OUTER_ENUM_INTEGER = "outerEnumInteger";
   @SerializedName(SERIALIZED_NAME_OUTER_ENUM_INTEGER)
-  @javax.annotation.Nullable
-  private OuterEnumInteger outerEnumInteger;
+  @javax.annotation.Nullable  private OuterEnumInteger outerEnumInteger;
 
   public static final String SERIALIZED_NAME_OUTER_ENUM_DEFAULT_VALUE = "outerEnumDefaultValue";
   @SerializedName(SERIALIZED_NAME_OUTER_ENUM_DEFAULT_VALUE)
-  @javax.annotation.Nullable
-  private OuterEnumDefaultValue outerEnumDefaultValue = OuterEnumDefaultValue.PLACED;
+  @javax.annotation.Nullable  private OuterEnumDefaultValue outerEnumDefaultValue = OuterEnumDefaultValue.PLACED;
 
   public static final String SERIALIZED_NAME_OUTER_ENUM_INTEGER_DEFAULT_VALUE = "outerEnumIntegerDefaultValue";
   @SerializedName(SERIALIZED_NAME_OUTER_ENUM_INTEGER_DEFAULT_VALUE)
-  @javax.annotation.Nullable
-  private OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue.NUMBER_0;
+  @javax.annotation.Nullable  private OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue.NUMBER_0;
 
   public EnumTest() {
   }
@@ -376,8 +363,7 @@ public class EnumTest {
    * Get enumString
    * @return enumString
    */
-  @javax.annotation.Nullable
-  public EnumStringEnum getEnumString() {
+  @javax.annotation.Nullable  public EnumStringEnum getEnumString() {
     return enumString;
   }
 
@@ -395,8 +381,7 @@ public class EnumTest {
    * Get enumStringRequired
    * @return enumStringRequired
    */
-  @javax.annotation.Nonnull
-  public EnumStringRequiredEnum getEnumStringRequired() {
+  @javax.annotation.Nonnull  public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
 
@@ -414,8 +399,7 @@ public class EnumTest {
    * Get enumInteger
    * @return enumInteger
    */
-  @javax.annotation.Nullable
-  public EnumIntegerEnum getEnumInteger() {
+  @javax.annotation.Nullable  public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
 
@@ -433,8 +417,7 @@ public class EnumTest {
    * Get enumIntegerOnly
    * @return enumIntegerOnly
    */
-  @javax.annotation.Nullable
-  public EnumIntegerOnlyEnum getEnumIntegerOnly() {
+  @javax.annotation.Nullable  public EnumIntegerOnlyEnum getEnumIntegerOnly() {
     return enumIntegerOnly;
   }
 
@@ -452,8 +435,7 @@ public class EnumTest {
    * Get enumNumber
    * @return enumNumber
    */
-  @javax.annotation.Nullable
-  public EnumNumberEnum getEnumNumber() {
+  @javax.annotation.Nullable  public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
 
@@ -471,8 +453,7 @@ public class EnumTest {
    * Get outerEnum
    * @return outerEnum
    */
-  @javax.annotation.Nullable
-  public OuterEnum getOuterEnum() {
+  @javax.annotation.Nullable  public OuterEnum getOuterEnum() {
     return outerEnum;
   }
 
@@ -490,8 +471,7 @@ public class EnumTest {
    * Get outerEnumInteger
    * @return outerEnumInteger
    */
-  @javax.annotation.Nullable
-  public OuterEnumInteger getOuterEnumInteger() {
+  @javax.annotation.Nullable  public OuterEnumInteger getOuterEnumInteger() {
     return outerEnumInteger;
   }
 
@@ -509,8 +489,7 @@ public class EnumTest {
    * Get outerEnumDefaultValue
    * @return outerEnumDefaultValue
    */
-  @javax.annotation.Nullable
-  public OuterEnumDefaultValue getOuterEnumDefaultValue() {
+  @javax.annotation.Nullable  public OuterEnumDefaultValue getOuterEnumDefaultValue() {
     return outerEnumDefaultValue;
   }
 
@@ -528,8 +507,7 @@ public class EnumTest {
    * Get outerEnumIntegerDefaultValue
    * @return outerEnumIntegerDefaultValue
    */
-  @javax.annotation.Nullable
-  public OuterEnumIntegerDefaultValue getOuterEnumIntegerDefaultValue() {
+  @javax.annotation.Nullable  public OuterEnumIntegerDefaultValue getOuterEnumIntegerDefaultValue() {
     return outerEnumIntegerDefaultValue;
   }
 
@@ -581,7 +559,6 @@ public class EnumTest {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

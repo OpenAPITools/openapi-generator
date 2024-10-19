@@ -54,91 +54,75 @@ import org.openapitools.client.JSON;
  * FormatTest
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class FormatTest {
   public static final String SERIALIZED_NAME_INTEGER = "integer";
   @SerializedName(SERIALIZED_NAME_INTEGER)
-  @javax.annotation.Nullable
-  private Integer integer;
+  @javax.annotation.Nullable  private Integer integer;
 
   public static final String SERIALIZED_NAME_INT32 = "int32";
   @SerializedName(SERIALIZED_NAME_INT32)
-  @javax.annotation.Nullable
-  private Integer int32;
+  @javax.annotation.Nullable  private Integer int32;
 
   public static final String SERIALIZED_NAME_INT64 = "int64";
   @SerializedName(SERIALIZED_NAME_INT64)
-  @javax.annotation.Nullable
-  private Long int64;
+  @javax.annotation.Nullable  private Long int64;
 
   public static final String SERIALIZED_NAME_NUMBER = "number";
   @SerializedName(SERIALIZED_NAME_NUMBER)
-  @javax.annotation.Nonnull
-  private BigDecimal number;
+  @javax.annotation.Nonnull  private BigDecimal number;
 
   public static final String SERIALIZED_NAME_FLOAT = "float";
   @SerializedName(SERIALIZED_NAME_FLOAT)
-  @javax.annotation.Nullable
-  private Float _float;
+  @javax.annotation.Nullable  private Float _float;
 
   public static final String SERIALIZED_NAME_DOUBLE = "double";
   @SerializedName(SERIALIZED_NAME_DOUBLE)
-  @javax.annotation.Nullable
-  private Double _double;
+  @javax.annotation.Nullable  private Double _double;
 
   public static final String SERIALIZED_NAME_DECIMAL = "decimal";
   @SerializedName(SERIALIZED_NAME_DECIMAL)
-  @javax.annotation.Nullable
-  private BigDecimal decimal;
+  @javax.annotation.Nullable  private BigDecimal decimal;
 
   public static final String SERIALIZED_NAME_STRING = "string";
   @SerializedName(SERIALIZED_NAME_STRING)
-  @javax.annotation.Nullable
-  private String string;
+  @javax.annotation.Nullable  private String string;
 
   public static final String SERIALIZED_NAME_BYTE = "byte";
   @SerializedName(SERIALIZED_NAME_BYTE)
-  @javax.annotation.Nonnull
-  private byte[] _byte;
+  @javax.annotation.Nonnull  private byte[] _byte;
 
   public static final String SERIALIZED_NAME_BINARY = "binary";
   @SerializedName(SERIALIZED_NAME_BINARY)
-  @javax.annotation.Nullable
-  private File binary;
+  @javax.annotation.Nullable  private File binary;
 
   public static final String SERIALIZED_NAME_DATE = "date";
   @SerializedName(SERIALIZED_NAME_DATE)
-  @javax.annotation.Nonnull
-  private LocalDate date;
+  @javax.annotation.Nonnull  private LocalDate date;
 
   public static final String SERIALIZED_NAME_DATE_TIME = "dateTime";
   @SerializedName(SERIALIZED_NAME_DATE_TIME)
-  @javax.annotation.Nullable
-  private OffsetDateTime dateTime;
+  @javax.annotation.Nullable  private OffsetDateTime dateTime;
 
   public static final String SERIALIZED_NAME_UUID = "uuid";
   @SerializedName(SERIALIZED_NAME_UUID)
-  @javax.annotation.Nullable
-  private UUID uuid;
+  @javax.annotation.Nullable  private UUID uuid;
 
   public static final String SERIALIZED_NAME_UUID_WITH_DEFAULT = "uuid_with_default";
   @SerializedName(SERIALIZED_NAME_UUID_WITH_DEFAULT)
-  @javax.annotation.Nullable
-  private UUID uuidWithDefault = UUID.fromString("11111111-206d-4f12-9f12-3d1e525a8e84");
+  @javax.annotation.Nullable  private UUID uuidWithDefault = UUID.fromString("11111111-206d-4f12-9f12-3d1e525a8e84");
 
   public static final String SERIALIZED_NAME_PASSWORD = "password";
   @SerializedName(SERIALIZED_NAME_PASSWORD)
-  @javax.annotation.Nonnull
-  private String password;
+  @javax.annotation.Nonnull  private String password;
 
   public static final String SERIALIZED_NAME_PATTERN_WITH_DIGITS = "pattern_with_digits";
   @SerializedName(SERIALIZED_NAME_PATTERN_WITH_DIGITS)
-  @javax.annotation.Nullable
-  private String patternWithDigits;
+  @javax.annotation.Nullable  private String patternWithDigits;
 
   public static final String SERIALIZED_NAME_PATTERN_WITH_DIGITS_AND_DELIMITER = "pattern_with_digits_and_delimiter";
   @SerializedName(SERIALIZED_NAME_PATTERN_WITH_DIGITS_AND_DELIMITER)
-  @javax.annotation.Nullable
-  private String patternWithDigitsAndDelimiter;
+  @javax.annotation.Nullable  private String patternWithDigitsAndDelimiter;
 
   public FormatTest() {
   }
@@ -154,8 +138,7 @@ public class FormatTest {
    * maximum: 100
    * @return integer
    */
-  @javax.annotation.Nullable
-  public Integer getInteger() {
+  @javax.annotation.Nullable  public Integer getInteger() {
     return integer;
   }
 
@@ -175,8 +158,7 @@ public class FormatTest {
    * maximum: 200
    * @return int32
    */
-  @javax.annotation.Nullable
-  public Integer getInt32() {
+  @javax.annotation.Nullable  public Integer getInt32() {
     return int32;
   }
 
@@ -194,8 +176,7 @@ public class FormatTest {
    * Get int64
    * @return int64
    */
-  @javax.annotation.Nullable
-  public Long getInt64() {
+  @javax.annotation.Nullable  public Long getInt64() {
     return int64;
   }
 
@@ -215,8 +196,7 @@ public class FormatTest {
    * maximum: 543.2
    * @return number
    */
-  @javax.annotation.Nonnull
-  public BigDecimal getNumber() {
+  @javax.annotation.Nonnull  public BigDecimal getNumber() {
     return number;
   }
 
@@ -236,8 +216,7 @@ public class FormatTest {
    * maximum: 987.6
    * @return _float
    */
-  @javax.annotation.Nullable
-  public Float getFloat() {
+  @javax.annotation.Nullable  public Float getFloat() {
     return _float;
   }
 
@@ -257,8 +236,7 @@ public class FormatTest {
    * maximum: 123.4
    * @return _double
    */
-  @javax.annotation.Nullable
-  public Double getDouble() {
+  @javax.annotation.Nullable  public Double getDouble() {
     return _double;
   }
 
@@ -276,8 +254,7 @@ public class FormatTest {
    * Get decimal
    * @return decimal
    */
-  @javax.annotation.Nullable
-  public BigDecimal getDecimal() {
+  @javax.annotation.Nullable  public BigDecimal getDecimal() {
     return decimal;
   }
 
@@ -295,8 +272,7 @@ public class FormatTest {
    * Get string
    * @return string
    */
-  @javax.annotation.Nullable
-  public String getString() {
+  @javax.annotation.Nullable  public String getString() {
     return string;
   }
 
@@ -314,8 +290,7 @@ public class FormatTest {
    * Get _byte
    * @return _byte
    */
-  @javax.annotation.Nonnull
-  public byte[] getByte() {
+  @javax.annotation.Nonnull  public byte[] getByte() {
     return _byte;
   }
 
@@ -333,8 +308,7 @@ public class FormatTest {
    * Get binary
    * @return binary
    */
-  @javax.annotation.Nullable
-  public File getBinary() {
+  @javax.annotation.Nullable  public File getBinary() {
     return binary;
   }
 
@@ -352,8 +326,7 @@ public class FormatTest {
    * Get date
    * @return date
    */
-  @javax.annotation.Nonnull
-  public LocalDate getDate() {
+  @javax.annotation.Nonnull  public LocalDate getDate() {
     return date;
   }
 
@@ -371,8 +344,7 @@ public class FormatTest {
    * Get dateTime
    * @return dateTime
    */
-  @javax.annotation.Nullable
-  public OffsetDateTime getDateTime() {
+  @javax.annotation.Nullable  public OffsetDateTime getDateTime() {
     return dateTime;
   }
 
@@ -390,8 +362,7 @@ public class FormatTest {
    * Get uuid
    * @return uuid
    */
-  @javax.annotation.Nullable
-  public UUID getUuid() {
+  @javax.annotation.Nullable  public UUID getUuid() {
     return uuid;
   }
 
@@ -409,8 +380,7 @@ public class FormatTest {
    * Get uuidWithDefault
    * @return uuidWithDefault
    */
-  @javax.annotation.Nullable
-  public UUID getUuidWithDefault() {
+  @javax.annotation.Nullable  public UUID getUuidWithDefault() {
     return uuidWithDefault;
   }
 
@@ -428,8 +398,7 @@ public class FormatTest {
    * Get password
    * @return password
    */
-  @javax.annotation.Nonnull
-  public String getPassword() {
+  @javax.annotation.Nonnull  public String getPassword() {
     return password;
   }
 
@@ -447,8 +416,7 @@ public class FormatTest {
    * A string that is a 10 digit number. Can have leading zeros.
    * @return patternWithDigits
    */
-  @javax.annotation.Nullable
-  public String getPatternWithDigits() {
+  @javax.annotation.Nullable  public String getPatternWithDigits() {
     return patternWithDigits;
   }
 
@@ -466,8 +434,7 @@ public class FormatTest {
    * A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
    * @return patternWithDigitsAndDelimiter
    */
-  @javax.annotation.Nullable
-  public String getPatternWithDigitsAndDelimiter() {
+  @javax.annotation.Nullable  public String getPatternWithDigitsAndDelimiter() {
     return patternWithDigitsAndDelimiter;
   }
 
@@ -519,7 +486,6 @@ public class FormatTest {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

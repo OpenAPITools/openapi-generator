@@ -188,4 +188,3 @@ NullableClass.prototype['object_items_nullable'] = undefined;
 
 
 export default NullableClass;
-

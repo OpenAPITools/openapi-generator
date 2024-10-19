@@ -61,7 +61,6 @@ public class Tag {
 
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Long getId() {
     return id;
   }
@@ -87,7 +86,6 @@ public class Tag {
 
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getName() {
     return name;
   }
@@ -98,7 +96,6 @@ public class Tag {
   public void setName(@jakarta.annotation.Nullable String name) {
     this.name = name;
   }
-
 
   /**
    * Return true if this Tag object is equal to o.

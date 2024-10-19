@@ -30,7 +30,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
 public class Pet  {
   
   private Long id;
@@ -89,6 +88,7 @@ public enum StatusEnum {
         throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
+
 
  /**
    * pet status in the store
@@ -258,4 +258,3 @@ public enum StatusEnum {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

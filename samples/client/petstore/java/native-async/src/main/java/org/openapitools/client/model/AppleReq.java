@@ -37,14 +37,13 @@ import org.openapitools.client.ApiClient;
   AppleReq.JSON_PROPERTY_MEALY
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class AppleReq {
   public static final String JSON_PROPERTY_CULTIVAR = "cultivar";
-  @javax.annotation.Nonnull
-  private String cultivar;
+  @javax.annotation.Nonnull  private String cultivar;
 
   public static final String JSON_PROPERTY_MEALY = "mealy";
-  @javax.annotation.Nullable
-  private Boolean mealy;
+  @javax.annotation.Nullable  private Boolean mealy;
 
   public AppleReq() { 
   }
@@ -58,8 +57,7 @@ public class AppleReq {
    * Get cultivar
    * @return cultivar
    */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_CULTIVAR)
+  @javax.annotation.Nonnull  @JsonProperty(JSON_PROPERTY_CULTIVAR)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public String getCultivar() {
     return cultivar;
@@ -82,8 +80,7 @@ public class AppleReq {
    * Get mealy
    * @return mealy
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MEALY)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_MEALY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Boolean getMealy() {
     return mealy;
@@ -95,7 +92,6 @@ public class AppleReq {
   public void setMealy(@javax.annotation.Nullable Boolean mealy) {
     this.mealy = mealy;
   }
-
 
   /**
    * Return true if this appleReq object is equal to o.

@@ -93,4 +93,3 @@ NestedColor.prototype['nested'] = undefined;
 
 
 export default NestedColor;
-

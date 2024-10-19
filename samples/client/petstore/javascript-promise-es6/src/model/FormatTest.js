@@ -236,4 +236,3 @@ FormatTest.prototype['pattern_with_digits_and_delimiter'] = undefined;
 
 
 export default FormatTest;
-

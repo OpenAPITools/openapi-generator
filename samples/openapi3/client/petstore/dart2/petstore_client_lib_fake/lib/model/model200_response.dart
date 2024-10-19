@@ -132,4 +132,3 @@ class Model200Response {
   static const requiredKeys = <String>{
   };
 }
-

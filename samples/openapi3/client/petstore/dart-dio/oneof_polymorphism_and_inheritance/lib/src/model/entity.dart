@@ -87,7 +87,6 @@ extension EntityBuilderDiscriminatorExt on EntityBuilder {
         return null;
     }
 }
-
 class _$EntitySerializer implements PrimitiveSerializer<Entity> {
   @override
   final Iterable<Type> types = const [Entity];

@@ -56,4 +56,3 @@ public enum OuterEnum {
   }
 }
 
-

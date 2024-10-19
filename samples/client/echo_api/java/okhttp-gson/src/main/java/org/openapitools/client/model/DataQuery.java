@@ -53,21 +53,19 @@ import org.openapitools.client.JSON;
  * DataQuery
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class DataQuery extends Query {
   public static final String SERIALIZED_NAME_SUFFIX = "suffix";
   @SerializedName(SERIALIZED_NAME_SUFFIX)
-  @javax.annotation.Nullable
-  private String suffix;
+  @javax.annotation.Nullable  private String suffix;
 
   public static final String SERIALIZED_NAME_TEXT = "text";
   @SerializedName(SERIALIZED_NAME_TEXT)
-  @javax.annotation.Nullable
-  private String text;
+  @javax.annotation.Nullable  private String text;
 
   public static final String SERIALIZED_NAME_DATE = "date";
   @SerializedName(SERIALIZED_NAME_DATE)
-  @javax.annotation.Nullable
-  private OffsetDateTime date;
+  @javax.annotation.Nullable  private OffsetDateTime date;
 
   public DataQuery() {
   }
@@ -81,8 +79,7 @@ public class DataQuery extends Query {
    * test suffix
    * @return suffix
    */
-  @javax.annotation.Nullable
-  public String getSuffix() {
+  @javax.annotation.Nullable  public String getSuffix() {
     return suffix;
   }
 
@@ -100,8 +97,7 @@ public class DataQuery extends Query {
    * Some text containing white spaces
    * @return text
    */
-  @javax.annotation.Nullable
-  public String getText() {
+  @javax.annotation.Nullable  public String getText() {
     return text;
   }
 
@@ -119,15 +115,13 @@ public class DataQuery extends Query {
    * A date
    * @return date
    */
-  @javax.annotation.Nullable
-  public OffsetDateTime getDate() {
+  @javax.annotation.Nullable  public OffsetDateTime getDate() {
     return date;
   }
 
   public void setDate(@javax.annotation.Nullable OffsetDateTime date) {
     this.date = date;
   }
-
 
 
   @Override

@@ -50,6 +50,7 @@ import org.openapitools.client.JSON;
  * SomeObj
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class SomeObj implements Serializable {
   private static final long serialVersionUID = 1L;
 
@@ -102,31 +103,25 @@ public class SomeObj implements Serializable {
       TypeEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_$_TYPE = "$_type";
   @SerializedName(SERIALIZED_NAME_$_TYPE)
-  @javax.annotation.Nullable
-  private TypeEnum $type = TypeEnum.SOME_OBJ_IDENTIFIER;
+  @javax.annotation.Nullable  private TypeEnum $type = TypeEnum.SOME_OBJ_IDENTIFIER;
 
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
-  @javax.annotation.Nullable
-  private Long id;
+  @javax.annotation.Nullable  private Long id;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
-  @javax.annotation.Nullable
-  private String name;
+  @javax.annotation.Nullable  private String name;
 
   public static final String SERIALIZED_NAME_ACTIVE = "active";
   @SerializedName(SERIALIZED_NAME_ACTIVE)
-  @javax.annotation.Nullable
-  private Boolean active;
+  @javax.annotation.Nullable  private Boolean active;
 
   public static final String SERIALIZED_NAME_TYPE = "type";
   @SerializedName(SERIALIZED_NAME_TYPE)
-  @javax.annotation.Nullable
-  private String type;
+  @javax.annotation.Nullable  private String type;
 
   public SomeObj() {
   }
@@ -140,8 +135,7 @@ public class SomeObj implements Serializable {
    * Get $type
    * @return $type
    */
-  @javax.annotation.Nullable
-  public TypeEnum get$Type() {
+  @javax.annotation.Nullable  public TypeEnum get$Type() {
     return $type;
   }
 
@@ -159,8 +153,7 @@ public class SomeObj implements Serializable {
    * Get id
    * @return id
    */
-  @javax.annotation.Nullable
-  public Long getId() {
+  @javax.annotation.Nullable  public Long getId() {
     return id;
   }
 
@@ -178,8 +171,7 @@ public class SomeObj implements Serializable {
    * Get name
    * @return name
    */
-  @javax.annotation.Nullable
-  public String getName() {
+  @javax.annotation.Nullable  public String getName() {
     return name;
   }
 
@@ -197,8 +189,7 @@ public class SomeObj implements Serializable {
    * Get active
    * @return active
    */
-  @javax.annotation.Nullable
-  public Boolean getActive() {
+  @javax.annotation.Nullable  public Boolean getActive() {
     return active;
   }
 
@@ -216,15 +207,13 @@ public class SomeObj implements Serializable {
    * Get type
    * @return type
    */
-  @javax.annotation.Nullable
-  public String getType() {
+  @javax.annotation.Nullable  public String getType() {
     return type;
   }
 
   public void setType(@javax.annotation.Nullable String type) {
     this.type = type;
   }
-
 
 
   @Override

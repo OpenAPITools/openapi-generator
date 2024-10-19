@@ -115,4 +115,3 @@ class ClassModel {
   static const requiredKeys = <String>{
   };
 }
-

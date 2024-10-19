@@ -24,8 +24,6 @@ import javax.annotation.Generated;
 /**
  * BigCatDto
  */
-
-
 @JsonTypeName("BigCat")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class BigCatDto extends CatDto {
@@ -68,7 +66,6 @@ public class BigCatDto extends CatDto {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   private KindEnum kind;
 
   public BigCatDto() {
@@ -91,8 +88,7 @@ public class BigCatDto extends CatDto {
    * Get kind
    * @return kind
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("kind")
   public KindEnum getKind() {
     return kind;
@@ -101,7 +97,6 @@ public class BigCatDto extends CatDto {
   public void setKind(KindEnum kind) {
     this.kind = kind;
   }
-
 
   public BigCatDto declawed(Boolean declawed) {
     super.declawed(declawed);

@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { ErrorCode } from './ErrorCode';
 import {
@@ -96,7 +95,6 @@ export const ResponseMetaCodeEnum = {
 } as const;
 export type ResponseMetaCodeEnum = typeof ResponseMetaCodeEnum[keyof typeof ResponseMetaCodeEnum];
 
-
 /**
  * Check if a given object implements the ResponseMeta interface.
  */
@@ -143,4 +141,3 @@ export function ResponseMetaFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'errors': value['errors'],
     };
 }
-

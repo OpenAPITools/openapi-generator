@@ -10,4 +10,3 @@
 |**justNumber** | **BigDecimal** |  |  [optional] |
 
 
-

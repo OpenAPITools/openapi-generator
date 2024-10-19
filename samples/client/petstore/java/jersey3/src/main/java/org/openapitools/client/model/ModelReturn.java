@@ -57,7 +57,6 @@ public class ModelReturn {
 
   @JsonProperty(JSON_PROPERTY_RETURN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Integer getReturn() {
     return _return;
   }
@@ -68,7 +67,6 @@ public class ModelReturn {
   public void setReturn(@jakarta.annotation.Nullable Integer _return) {
     this._return = _return;
   }
-
 
   /**
    * Return true if this Return object is equal to o.

@@ -136,7 +136,6 @@ public class EquilateralTriangle {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this EquilateralTriangle object is equal to o.
    */

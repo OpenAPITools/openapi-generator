@@ -15,4 +15,3 @@ instance = Petstore::SpecialModelName.new(
   special_property_name: null
 )
 ```
-

@@ -36,22 +36,19 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Order.JSON_PROPERTY_COMPLETE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Order {
   public static final String JSON_PROPERTY_ID = "id";
-  @javax.annotation.Nullable
-  private Long id;
+  @javax.annotation.Nullable  private Long id;
 
   public static final String JSON_PROPERTY_PET_ID = "petId";
-  @javax.annotation.Nullable
-  private Long petId;
+  @javax.annotation.Nullable  private Long petId;
 
   public static final String JSON_PROPERTY_QUANTITY = "quantity";
-  @javax.annotation.Nullable
-  private Integer quantity;
+  @javax.annotation.Nullable  private Integer quantity;
 
   public static final String JSON_PROPERTY_SHIP_DATE = "shipDate";
-  @javax.annotation.Nullable
-  private OffsetDateTime shipDate;
+  @javax.annotation.Nullable  private OffsetDateTime shipDate;
 
   /**
    * Order Status
@@ -89,14 +86,11 @@ public class Order {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_STATUS = "status";
-  @javax.annotation.Nullable
-  private StatusEnum status;
+  @javax.annotation.Nullable  private StatusEnum status;
 
   public static final String JSON_PROPERTY_COMPLETE = "complete";
-  @javax.annotation.Nullable
-  private Boolean complete = false;
+  @javax.annotation.Nullable  private Boolean complete = false;
 
   public Order() {
   }
@@ -123,8 +117,7 @@ public class Order {
    * Get id
    * @return id
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ID)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getId() {
@@ -148,8 +141,7 @@ public class Order {
    * Get petId
    * @return petId
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PET_ID)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_PET_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getPetId() {
@@ -173,8 +165,7 @@ public class Order {
    * Get quantity
    * @return quantity
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_QUANTITY)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_QUANTITY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getQuantity() {
@@ -198,8 +189,7 @@ public class Order {
    * Get shipDate
    * @return shipDate
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SHIP_DATE)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_SHIP_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public OffsetDateTime getShipDate() {
@@ -223,8 +213,7 @@ public class Order {
    * Order Status
    * @return status
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_STATUS)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public StatusEnum getStatus() {
@@ -248,8 +237,7 @@ public class Order {
    * Get complete
    * @return complete
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COMPLETE)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_COMPLETE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Boolean getComplete() {
@@ -311,83 +299,82 @@ public class Order {
   }
 
   public static class Builder {
-
-    private Order instance;
-
-    public Builder() {
-      this(new Order());
-    }
-
-    protected Builder(Order instance) {
-      this.instance = instance;
-    }
-
-    public Order.Builder id(Long id) {
-      this.instance.id = id;
-      return this;
-    }
-    public Order.Builder petId(Long petId) {
-      this.instance.petId = petId;
-      return this;
-    }
-    public Order.Builder quantity(Integer quantity) {
-      this.instance.quantity = quantity;
-      return this;
-    }
-    public Order.Builder shipDate(OffsetDateTime shipDate) {
-      this.instance.shipDate = shipDate;
-      return this;
-    }
-    public Order.Builder status(StatusEnum status) {
-      this.instance.status = status;
-      return this;
-    }
-    public Order.Builder complete(Boolean complete) {
-      this.instance.complete = complete;
-      return this;
-    }
-
-
-    /**
-    * returns a built Order instance.
-    *
-    * The builder is not reusable.
-    */
-    public Order build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+  
+      private Order instance;
+  
+      public Builder() {
+        this(new Order());
+      }
+  
+      protected Builder(Order instance) {
+        this.instance = instance;
+      }
+  
+      public Order.Builder id(Long id) {
+          this.instance.id = id;
+        return this;
+      }
+        public Order.Builder petId(Long petId) {
+          this.instance.petId = petId;
+        return this;
+      }
+        public Order.Builder quantity(Integer quantity) {
+          this.instance.quantity = quantity;
+        return this;
+      }
+        public Order.Builder shipDate(OffsetDateTime shipDate) {
+          this.instance.shipDate = shipDate;
+        return this;
+      }
+        public Order.Builder status(StatusEnum status) {
+          this.instance.status = status;
+        return this;
+      }
+        public Order.Builder complete(Boolean complete) {
+          this.instance.complete = complete;
+        return this;
+      }
+    
+  
+      /**
+      * returns a built Order instance.
+      *
+      * The builder is not reusable.
+      */
+      public Order build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field.
+    */
+    public static Order.Builder builder() {
+      return new Order.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static Order.Builder builder() {
-    return new Order.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public Order.Builder toBuilder() {
-    return new Order.Builder()
-      .id(getId())
-      .petId(getPetId())
-      .quantity(getQuantity())
-      .shipDate(getShipDate())
-      .status(getStatus())
-      .complete(getComplete());
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public Order.Builder toBuilder() {
+      return new Order.Builder()
+        .id(getId())
+        .petId(getPetId())
+        .quantity(getQuantity())
+        .shipDate(getShipDate())
+        .status(getStatus())
+        .complete(getComplete());
+    }
 
 }
 

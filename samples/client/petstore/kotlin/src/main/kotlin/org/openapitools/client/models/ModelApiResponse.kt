@@ -28,7 +28,6 @@ import java.io.Serializable
  * @param message 
  */
 
-
 data class ModelApiResponse (
 
     @Json(name = "code")

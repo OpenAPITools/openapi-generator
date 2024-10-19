@@ -376,4 +376,3 @@ public class AdditionalPropertiesClass   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

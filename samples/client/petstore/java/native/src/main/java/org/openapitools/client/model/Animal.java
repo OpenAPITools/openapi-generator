@@ -50,15 +50,12 @@ import org.openapitools.client.ApiClient;
   @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
   @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
 })
-
 public class Animal {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
-  @javax.annotation.Nonnull
-  private String className;
+  @javax.annotation.Nonnull  private String className;
 
   public static final String JSON_PROPERTY_COLOR = "color";
-  @javax.annotation.Nullable
-  private String color = "red";
+  @javax.annotation.Nullable  private String color = "red";
 
   public Animal() { 
   }
@@ -72,8 +69,7 @@ public class Animal {
    * Get className
    * @return className
    */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @javax.annotation.Nonnull  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public String getClassName() {
     return className;
@@ -96,8 +92,7 @@ public class Animal {
    * Get color
    * @return color
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COLOR)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_COLOR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getColor() {
     return color;
@@ -109,7 +104,6 @@ public class Animal {
   public void setColor(@javax.annotation.Nullable String color) {
     this.color = color;
   }
-
 
   /**
    * Return true if this Animal object is equal to o.
@@ -263,6 +257,5 @@ static {
       .className(getClassName())
       .color(getColor());
   }
-
 }
 

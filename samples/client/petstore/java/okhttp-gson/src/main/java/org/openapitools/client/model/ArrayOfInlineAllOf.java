@@ -52,21 +52,19 @@ import org.openapitools.client.JSON;
  * ArrayOfInlineAllOf
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class ArrayOfInlineAllOf {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
-  @javax.annotation.Nullable
-  private Long id;
+  @javax.annotation.Nullable  private Long id;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
-  @javax.annotation.Nonnull
-  private String name;
+  @javax.annotation.Nonnull  private String name;
 
   public static final String SERIALIZED_NAME_ARRAY_ALLOF_DOG_PROPERTY = "array_allof_dog_property";
   @SerializedName(SERIALIZED_NAME_ARRAY_ALLOF_DOG_PROPERTY)
-  @javax.annotation.Nullable
-  private List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> arrayAllofDogProperty = new ArrayList<>();
+  @javax.annotation.Nullable  private List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> arrayAllofDogProperty = new ArrayList<>();
 
   public ArrayOfInlineAllOf() {
   }
@@ -80,8 +78,7 @@ public class ArrayOfInlineAllOf {
    * Get id
    * @return id
    */
-  @javax.annotation.Nullable
-  public Long getId() {
+  @javax.annotation.Nullable  public Long getId() {
     return id;
   }
 
@@ -99,8 +96,7 @@ public class ArrayOfInlineAllOf {
    * Get name
    * @return name
    */
-  @javax.annotation.Nonnull
-  public String getName() {
+  @javax.annotation.Nonnull  public String getName() {
     return name;
   }
 
@@ -126,8 +122,7 @@ public class ArrayOfInlineAllOf {
    * Get arrayAllofDogProperty
    * @return arrayAllofDogProperty
    */
-  @javax.annotation.Nullable
-  public List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> getArrayAllofDogProperty() {
+  @javax.annotation.Nullable  public List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> getArrayAllofDogProperty() {
     return arrayAllofDogProperty;
   }
 
@@ -179,7 +174,6 @@ public class ArrayOfInlineAllOf {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

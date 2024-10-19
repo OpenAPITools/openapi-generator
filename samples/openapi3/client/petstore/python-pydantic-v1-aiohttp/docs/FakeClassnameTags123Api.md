@@ -41,7 +41,6 @@ configuration.api_key['api_key_query'] = os.environ["API_KEY"]
 
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['api_key_query'] = 'Bearer'
-
 # Enter a context with an instance of the API client
 async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -56,7 +55,6 @@ async with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeClassnameTags123Api->test_classname: %s\n" % e)
 ```
-
 
 
 ### Parameters

@@ -17,4 +17,3 @@
 |**userStatus** | **Integer** | User Status |  [optional] |
 
 
-

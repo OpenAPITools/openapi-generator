@@ -194,7 +194,6 @@ void FakeBigDecimalMapResource::handler_GET_internal(const std::shared_ptr<restb
     }
     defaultSessionClose(session, status_code, result);
     
-    
 }
 
 
@@ -306,7 +305,6 @@ void FakeHealthResource::handler_GET_internal(const std::shared_ptr<restbed::Ses
         return;
     }
     defaultSessionClose(session, status_code, result);
-    
     
 }
 
@@ -426,7 +424,6 @@ void FakeHttp_signature_testResource::handler_GET_internal(const std::shared_ptr
     }
     defaultSessionClose(session, status_code, result);
     
-    
 }
 
 
@@ -541,7 +538,6 @@ void FakeOuterBooleanResource::handler_POST_internal(const std::shared_ptr<restb
         return;
     }
     defaultSessionClose(session, status_code, result);
-    
     
 }
 
@@ -659,7 +655,6 @@ void FakeOuterCompositeResource::handler_POST_internal(const std::shared_ptr<res
     }
     defaultSessionClose(session, status_code, result);
     
-    
 }
 
 
@@ -774,7 +769,6 @@ void FakeOuterNumberResource::handler_POST_internal(const std::shared_ptr<restbe
         return;
     }
     defaultSessionClose(session, status_code, result);
-    
     
 }
 
@@ -892,7 +886,6 @@ void FakeOuterStringResource::handler_POST_internal(const std::shared_ptr<restbe
     }
     defaultSessionClose(session, status_code, result);
     
-    
 }
 
 
@@ -1009,7 +1002,6 @@ void FakePropertyEnum_intResource::handler_POST_internal(const std::shared_ptr<r
     }
     defaultSessionClose(session, status_code, result);
     
-    
 }
 
 
@@ -1123,7 +1115,6 @@ void FakeAdditionalProperties_referenceResource::handler_POST_internal(const std
         return;
     }
     defaultSessionClose(session, status_code, result);
-    
     
 }
 
@@ -1239,7 +1230,6 @@ void FakeBody_with_binaryResource::handler_PUT_internal(const std::shared_ptr<re
     }
     defaultSessionClose(session, status_code, result);
     
-    
 }
 
 
@@ -1353,7 +1343,6 @@ void FakeBody_with_file_schemaResource::handler_PUT_internal(const std::shared_p
         return;
     }
     defaultSessionClose(session, status_code, result);
-    
     
 }
 
@@ -1470,7 +1459,6 @@ void FakeBody_with_query_paramsResource::handler_PUT_internal(const std::shared_
         return;
     }
     defaultSessionClose(session, status_code, result);
-    
     
 }
 
@@ -1597,7 +1585,6 @@ void FakeResource::handler_PATCH_internal(const std::shared_ptr<restbed::Session
     }
     defaultSessionClose(session, status_code, result);
     
-    
 }
 
 // x-extension
@@ -1658,7 +1645,6 @@ void FakeResource::handler_POST_internal(const std::shared_ptr<restbed::Session>
         return;
     }
     defaultSessionClose(session, status_code, result);
-    
     
 }
 // x-extension
@@ -1729,7 +1715,6 @@ void FakeResource::handler_GET_internal(const std::shared_ptr<restbed::Session> 
     }
     defaultSessionClose(session, status_code, result);
     
-    
 }
 // x-extension
 void FakeResource::handler_DELETE_internal(const std::shared_ptr<restbed::Session> session) {
@@ -1775,7 +1760,6 @@ void FakeResource::handler_DELETE_internal(const std::shared_ptr<restbed::Sessio
         return;
     }
     defaultSessionClose(session, status_code, result);
-    
     
 }
 
@@ -1905,7 +1889,6 @@ void FakeInline_additionalPropertiesResource::handler_POST_internal(const std::s
     }
     defaultSessionClose(session, status_code, result);
     
-    
 }
 
 
@@ -2020,7 +2003,6 @@ void FakeInline_freeform_additionalPropertiesResource::handler_POST_internal(con
     }
     defaultSessionClose(session, status_code, result);
     
-    
 }
 
 
@@ -2133,7 +2115,6 @@ void FakeJsonFormDataResource::handler_GET_internal(const std::shared_ptr<restbe
         return;
     }
     defaultSessionClose(session, status_code, result);
-    
     
 }
 
@@ -2248,7 +2229,6 @@ void FakeNullableResource::handler_POST_internal(const std::shared_ptr<restbed::
         return;
     }
     defaultSessionClose(session, status_code, result);
-    
     
 }
 
@@ -2394,7 +2374,6 @@ void FakeTest_query_parametersResource::handler_PUT_internal(const std::shared_p
     }
     defaultSessionClose(session, status_code, result);
     
-    
 }
 
 
@@ -2508,7 +2487,6 @@ void FakeStringMap_referenceResource::handler_POST_internal(const std::shared_pt
         return;
     }
     defaultSessionClose(session, status_code, result);
-    
     
 }
 

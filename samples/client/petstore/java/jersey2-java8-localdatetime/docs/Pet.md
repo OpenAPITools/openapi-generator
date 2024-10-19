@@ -25,4 +25,3 @@
 | SOLD | &quot;sold&quot; |
 
 
-

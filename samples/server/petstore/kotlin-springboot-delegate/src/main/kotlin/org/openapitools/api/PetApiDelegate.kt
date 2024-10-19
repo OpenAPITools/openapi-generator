@@ -37,7 +37,6 @@ interface PetApiDelegate {
             }
         }
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-
     }
 
 
@@ -47,7 +46,6 @@ interface PetApiDelegate {
     fun deletePet(petId: kotlin.Long,
         apiKey: kotlin.String?): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-
     }
 
 
@@ -68,7 +66,6 @@ interface PetApiDelegate {
             }
         }
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-
     }
 
 
@@ -89,7 +86,6 @@ interface PetApiDelegate {
             }
         }
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-
     }
 
 
@@ -110,7 +106,6 @@ interface PetApiDelegate {
             }
         }
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-
     }
 
 
@@ -131,7 +126,6 @@ interface PetApiDelegate {
             }
         }
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-
     }
 
 
@@ -142,7 +136,6 @@ interface PetApiDelegate {
         name: kotlin.String?,
         status: kotlin.String?): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-
     }
 
 
@@ -161,7 +154,6 @@ interface PetApiDelegate {
             }
         }
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-
     }
 
 }

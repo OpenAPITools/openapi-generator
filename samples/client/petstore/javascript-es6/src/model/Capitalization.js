@@ -145,4 +145,3 @@ Capitalization.prototype['ATT_NAME'] = undefined;
 
 
 export default Capitalization;
-

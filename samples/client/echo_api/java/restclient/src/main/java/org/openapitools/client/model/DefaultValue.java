@@ -45,10 +45,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   DefaultValue.JSON_PROPERTY_STRING_NULLABLE
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class DefaultValue {
   public static final String JSON_PROPERTY_ARRAY_STRING_ENUM_REF_DEFAULT = "array_string_enum_ref_default";
-  @jakarta.annotation.Nullable
-  private List<StringEnumRef> arrayStringEnumRefDefault = new ArrayList<>(Arrays.asList(StringEnumRef.SUCCESS, StringEnumRef.FAILURE));
+  @jakarta.annotation.Nullable  private List<StringEnumRef> arrayStringEnumRefDefault = new ArrayList<>(Arrays.asList(StringEnumRef.SUCCESS, StringEnumRef.FAILURE));
 
   /**
    * Gets or Sets arrayStringEnumDefault
@@ -86,34 +86,26 @@ public class DefaultValue {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_ARRAY_STRING_ENUM_DEFAULT = "array_string_enum_default";
-  @jakarta.annotation.Nullable
-  private List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault = new ArrayList<>(Arrays.asList(ArrayStringEnumDefaultEnum.SUCCESS, ArrayStringEnumDefaultEnum.FAILURE));
+  @jakarta.annotation.Nullable  private List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault = new ArrayList<>(Arrays.asList(ArrayStringEnumDefaultEnum.SUCCESS, ArrayStringEnumDefaultEnum.FAILURE));
 
   public static final String JSON_PROPERTY_ARRAY_STRING_DEFAULT = "array_string_default";
-  @jakarta.annotation.Nullable
-  private List<String> arrayStringDefault = new ArrayList<>(Arrays.asList("failure", "skipped"));
+  @jakarta.annotation.Nullable  private List<String> arrayStringDefault = new ArrayList<>(Arrays.asList("failure", "skipped"));
 
   public static final String JSON_PROPERTY_ARRAY_INTEGER_DEFAULT = "array_integer_default";
-  @jakarta.annotation.Nullable
-  private List<Integer> arrayIntegerDefault = new ArrayList<>(Arrays.asList(1, 3));
+  @jakarta.annotation.Nullable  private List<Integer> arrayIntegerDefault = new ArrayList<>(Arrays.asList(1, 3));
 
   public static final String JSON_PROPERTY_ARRAY_STRING = "array_string";
-  @jakarta.annotation.Nullable
-  private List<String> arrayString = new ArrayList<>();
+  @jakarta.annotation.Nullable  private List<String> arrayString = new ArrayList<>();
 
   public static final String JSON_PROPERTY_ARRAY_STRING_NULLABLE = "array_string_nullable";
-  @jakarta.annotation.Nullable
-  private JsonNullable<List<String>> arrayStringNullable = JsonNullable.<List<String>>undefined();
+  @jakarta.annotation.Nullable  private JsonNullable<List<String>> arrayStringNullable = JsonNullable.<List<String>>undefined();
 
   public static final String JSON_PROPERTY_ARRAY_STRING_EXTENSION_NULLABLE = "array_string_extension_nullable";
-  @jakarta.annotation.Nullable
-  private JsonNullable<List<String>> arrayStringExtensionNullable = JsonNullable.<List<String>>undefined();
+  @jakarta.annotation.Nullable  private JsonNullable<List<String>> arrayStringExtensionNullable = JsonNullable.<List<String>>undefined();
 
   public static final String JSON_PROPERTY_STRING_NULLABLE = "string_nullable";
-  @jakarta.annotation.Nullable
-  private JsonNullable<String> stringNullable = JsonNullable.<String>undefined();
+  @jakarta.annotation.Nullable  private JsonNullable<String> stringNullable = JsonNullable.<String>undefined();
 
   public DefaultValue() {
   }
@@ -136,8 +128,7 @@ public class DefaultValue {
    * Get arrayStringEnumRefDefault
    * @return arrayStringEnumRefDefault
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_STRING_ENUM_REF_DEFAULT)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ARRAY_STRING_ENUM_REF_DEFAULT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<StringEnumRef> getArrayStringEnumRefDefault() {
@@ -169,8 +160,7 @@ public class DefaultValue {
    * Get arrayStringEnumDefault
    * @return arrayStringEnumDefault
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_STRING_ENUM_DEFAULT)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ARRAY_STRING_ENUM_DEFAULT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<ArrayStringEnumDefaultEnum> getArrayStringEnumDefault() {
@@ -202,8 +192,7 @@ public class DefaultValue {
    * Get arrayStringDefault
    * @return arrayStringDefault
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_STRING_DEFAULT)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ARRAY_STRING_DEFAULT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<String> getArrayStringDefault() {
@@ -235,8 +224,7 @@ public class DefaultValue {
    * Get arrayIntegerDefault
    * @return arrayIntegerDefault
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_INTEGER_DEFAULT)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ARRAY_INTEGER_DEFAULT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<Integer> getArrayIntegerDefault() {
@@ -268,8 +256,7 @@ public class DefaultValue {
    * Get arrayString
    * @return arrayString
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_STRING)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ARRAY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<String> getArrayString() {
@@ -305,8 +292,7 @@ public class DefaultValue {
    * Get arrayStringNullable
    * @return arrayStringNullable
    */
-  @jakarta.annotation.Nullable
-  @JsonIgnore
+  @jakarta.annotation.Nullable  @JsonIgnore
 
   public List<String> getArrayStringNullable() {
         return arrayStringNullable.orElse(null);
@@ -314,7 +300,6 @@ public class DefaultValue {
 
   @JsonProperty(JSON_PROPERTY_ARRAY_STRING_NULLABLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<List<String>> getArrayStringNullable_JsonNullable() {
     return arrayStringNullable;
   }
@@ -350,8 +335,7 @@ public class DefaultValue {
    * Get arrayStringExtensionNullable
    * @return arrayStringExtensionNullable
    */
-  @jakarta.annotation.Nullable
-  @JsonIgnore
+  @jakarta.annotation.Nullable  @JsonIgnore
 
   public List<String> getArrayStringExtensionNullable() {
         return arrayStringExtensionNullable.orElse(null);
@@ -359,7 +343,6 @@ public class DefaultValue {
 
   @JsonProperty(JSON_PROPERTY_ARRAY_STRING_EXTENSION_NULLABLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<List<String>> getArrayStringExtensionNullable_JsonNullable() {
     return arrayStringExtensionNullable;
   }
@@ -383,8 +366,7 @@ public class DefaultValue {
    * Get stringNullable
    * @return stringNullable
    */
-  @jakarta.annotation.Nullable
-  @JsonIgnore
+  @jakarta.annotation.Nullable  @JsonIgnore
 
   public String getStringNullable() {
         return stringNullable.orElse(null);
@@ -392,7 +374,6 @@ public class DefaultValue {
 
   @JsonProperty(JSON_PROPERTY_STRING_NULLABLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<String> getStringNullable_JsonNullable() {
     return stringNullable;
   }

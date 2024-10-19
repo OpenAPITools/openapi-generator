@@ -38,8 +38,7 @@ import org.openapitools.client.ApiClient;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ModelFile {
   public static final String JSON_PROPERTY_SOURCE_U_R_I = "sourceURI";
-  @javax.annotation.Nullable
-  private String sourceURI;
+  @javax.annotation.Nullable  private String sourceURI;
 
   public ModelFile() { 
   }
@@ -53,8 +52,7 @@ public class ModelFile {
    * Test capitalization
    * @return sourceURI
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getSourceURI() {
     return sourceURI;
@@ -66,7 +64,6 @@ public class ModelFile {
   public void setSourceURI(@javax.annotation.Nullable String sourceURI) {
     this.sourceURI = sourceURI;
   }
-
 
   /**
    * Return true if this File object is equal to o.
@@ -200,6 +197,5 @@ public class ModelFile {
     return new ModelFile.Builder()
       .sourceURI(getSourceURI());
   }
-
 }
 

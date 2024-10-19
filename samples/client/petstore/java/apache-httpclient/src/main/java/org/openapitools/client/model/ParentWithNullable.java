@@ -49,7 +49,6 @@ import java.util.StringJoiner;
 @JsonSubTypes({
   @JsonSubTypes.Type(value = ChildWithNullable.class, name = "ChildWithNullable"),
 })
-
 public class ParentWithNullable {
   /**
    * Gets or Sets type
@@ -139,7 +138,6 @@ public class ParentWithNullable {
 
   @JsonProperty(JSON_PROPERTY_NULLABLE_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<String> getNullableProperty_JsonNullable() {
     return nullableProperty;
   }

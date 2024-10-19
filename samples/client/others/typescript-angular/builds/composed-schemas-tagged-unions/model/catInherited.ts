@@ -14,4 +14,3 @@ export interface CatInheritedModel {
     hunts?: boolean;
 }
 
-

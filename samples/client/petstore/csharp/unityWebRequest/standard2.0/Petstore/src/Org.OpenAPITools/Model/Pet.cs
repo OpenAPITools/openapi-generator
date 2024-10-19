@@ -56,7 +56,6 @@ namespace Org.OpenAPITools.Model
             Sold = 3
         }
 
-
         /// <summary>
         /// pet status in the store
         /// </summary>

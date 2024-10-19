@@ -19,7 +19,6 @@ import jakarta.annotation.Generated;
 /**
  * TypeHolderExample
  */
-
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class TypeHolderExample {
 
@@ -173,7 +172,6 @@ public class TypeHolderExample {
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

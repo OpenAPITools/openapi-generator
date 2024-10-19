@@ -38,18 +38,16 @@ import jakarta.validation.Valid;
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class ArrayTest {
   public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
-  @jakarta.annotation.Nullable
-  private List<String> arrayOfString = new ArrayList<>();
+  @jakarta.annotation.Nullable  private List<String> arrayOfString = new ArrayList<>();
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
-  @jakarta.annotation.Nullable
-  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
+  @jakarta.annotation.Nullable  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
-  @jakarta.annotation.Nullable
-  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
+  @jakarta.annotation.Nullable  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
   public ArrayTest() {
   }
@@ -72,9 +70,7 @@ public class ArrayTest {
    * Get arrayOfString
    * @return arrayOfString
    */
-  @jakarta.annotation.Nullable
-
-  @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<String> getArrayOfString() {
@@ -106,9 +102,7 @@ public class ArrayTest {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
    */
-  @jakarta.annotation.Nullable
-  @Valid
-
+  @jakarta.annotation.Nullable  @Valid
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -141,9 +135,7 @@ public class ArrayTest {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
    */
-  @jakarta.annotation.Nullable
-  @Valid
-
+  @jakarta.annotation.Nullable  @Valid
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

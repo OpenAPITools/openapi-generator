@@ -40,24 +40,23 @@ import io.github.threetenjaxb.core.*;
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 @XmlRootElement(name = "ArrayTest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ArrayTest")
+
 public class ArrayTest {
   public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
   @XmlElement(name = "array_of_string")
-  @javax.annotation.Nullable
-  private List<String> arrayOfString = new ArrayList<>();
+  @javax.annotation.Nullable  private List<String> arrayOfString = new ArrayList<>();
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
   @XmlElement(name = "array_array_of_integer")
-  @javax.annotation.Nullable
-  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
+  @javax.annotation.Nullable  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
   @XmlElement(name = "array_array_of_model")
-  @javax.annotation.Nullable
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
+  @javax.annotation.Nullable  private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
   public ArrayTest() {
   }
@@ -80,8 +79,7 @@ public class ArrayTest {
    * Get arrayOfString
    * @return arrayOfString
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "array_of_string")
   @JacksonXmlElementWrapper(useWrapping = false)
@@ -117,8 +115,7 @@ public class ArrayTest {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "array_array_of_integer")
   @JacksonXmlElementWrapper(useWrapping = false)
@@ -154,8 +151,7 @@ public class ArrayTest {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "array_array_of_model")
   @JacksonXmlElementWrapper(useWrapping = false)

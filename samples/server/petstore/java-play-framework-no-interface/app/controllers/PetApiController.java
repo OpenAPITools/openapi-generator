@@ -54,14 +54,13 @@ public class PetApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-                if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
-            return unauthorized();
-        }
-
-        imp.addPet(request, body);
-        return ok();
-
-    }
+                                if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
+                    return unauthorized();
+                }
+        
+                                                imp.addPet(request, body);
+                                                return ok();
+                                            }
 
     @ApiAction
     public Result deletePet(Http.Request request, Long petId) throws Exception {
@@ -72,14 +71,13 @@ public class PetApiController extends Controller {
         } else {
             apiKey = null;
         }
-                if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
-            return unauthorized();
-        }
-
-        imp.deletePet(request, petId, apiKey);
-        return ok();
-
-    }
+                                if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
+                    return unauthorized();
+                }
+        
+                                                imp.deletePet(request, petId, apiKey);
+                                                return ok();
+                                            }
 
     @ApiAction
     public Result findPetsByStatus(Http.Request request) throws Exception {
@@ -95,23 +93,22 @@ public class PetApiController extends Controller {
                 status.add(curParam);
             }
         }
-                if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
-            return unauthorized();
-        }
-
-        List<Pet> obj = imp.findPetsByStatus(request, status);
-
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            for (Pet curItem : obj) {
-                OpenAPIUtils.validate(curItem);
-            }
-        }
-
-        JsonNode result = mapper.valueToTree(obj);
-
-        return ok(result);
-
-    }
+                                if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
+                    return unauthorized();
+                }
+        
+                                List<Pet> obj = imp.findPetsByStatus(request, status);
+                                
+                if (configuration.getBoolean("useOutputBeanValidation")) {
+                    for (Pet curItem : obj) {
+                        OpenAPIUtils.validate(curItem);
+                    }
+                                }
+        
+                                                                        JsonNode result = mapper.valueToTree(obj);
+        
+                return ok(result);
+                                                                            }
 
     @ApiAction
     public Result findPetsByTags(Http.Request request) throws Exception {
@@ -127,37 +124,35 @@ public class PetApiController extends Controller {
                 tags.add(curParam);
             }
         }
-                if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
-            return unauthorized();
-        }
-
-        List<Pet> obj = imp.findPetsByTags(request, tags);
-
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            for (Pet curItem : obj) {
-                OpenAPIUtils.validate(curItem);
-            }
-        }
-
-        JsonNode result = mapper.valueToTree(obj);
-
-        return ok(result);
-
-    }
+                                if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
+                    return unauthorized();
+                }
+        
+                                List<Pet> obj = imp.findPetsByTags(request, tags);
+                                
+                if (configuration.getBoolean("useOutputBeanValidation")) {
+                    for (Pet curItem : obj) {
+                        OpenAPIUtils.validate(curItem);
+                    }
+                                }
+        
+                                                                        JsonNode result = mapper.valueToTree(obj);
+        
+                return ok(result);
+                                                                            }
 
     @ApiAction
     public Result getPetById(Http.Request request, Long petId) throws Exception {
-                Pet obj = imp.getPetById(request, petId);
-
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            OpenAPIUtils.validate(obj);
-        }
-
-        JsonNode result = mapper.valueToTree(obj);
-
-        return ok(result);
-
-    }
+                                                Pet obj = imp.getPetById(request, petId);
+                                
+                if (configuration.getBoolean("useOutputBeanValidation")) {
+                                    OpenAPIUtils.validate(obj);
+                }
+        
+                                                                        JsonNode result = mapper.valueToTree(obj);
+        
+                return ok(result);
+                                                                            }
 
     @ApiAction
     public Result updatePet(Http.Request request) throws Exception {
@@ -171,14 +166,13 @@ public class PetApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-                if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
-            return unauthorized();
-        }
-
-        imp.updatePet(request, body);
-        return ok();
-
-    }
+                                if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
+                    return unauthorized();
+                }
+        
+                                                imp.updatePet(request, body);
+                                                return ok();
+                                            }
 
     @ApiAction
     public Result updatePetWithForm(Http.Request request, Long petId) throws Exception {
@@ -196,14 +190,13 @@ public class PetApiController extends Controller {
         } else {
             status = null;
         }
-                if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
-            return unauthorized();
-        }
-
-        imp.updatePetWithForm(request, petId, name, status);
-        return ok();
-
-    }
+                                if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
+                    return unauthorized();
+                }
+        
+                                                imp.updatePetWithForm(request, petId, name, status);
+                                                return ok();
+                                            }
 
     @ApiAction
     public Result uploadFile(Http.Request request, Long petId) throws Exception {
@@ -216,20 +209,19 @@ public class PetApiController extends Controller {
         }
         Http.MultipartFormData<TemporaryFile> body_file = request.body().asMultipartFormData();
         Http.MultipartFormData.FilePart<TemporaryFile> _file = body_file.getFile("file");
-                if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
-            return unauthorized();
-        }
-
-        ModelApiResponse obj = imp.uploadFile(request, petId, additionalMetadata, _file);
-
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            OpenAPIUtils.validate(obj);
-        }
-
-        JsonNode result = mapper.valueToTree(obj);
-
-        return ok(result);
-
-    }
+                                if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
+                    return unauthorized();
+                }
+        
+                                ModelApiResponse obj = imp.uploadFile(request, petId, additionalMetadata, _file);
+                                
+                if (configuration.getBoolean("useOutputBeanValidation")) {
+                                    OpenAPIUtils.validate(obj);
+                }
+        
+                                                                        JsonNode result = mapper.valueToTree(obj);
+        
+                return ok(result);
+                                                                            }
 
 }

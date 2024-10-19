@@ -11,9 +11,11 @@ import java.util.Objects;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Category   {
   @JsonProperty("id")
+  
   private Long id;
 
   @JsonProperty("name")
+  
   private String name;
 
   public Category id(Long id) {
@@ -92,4 +94,3 @@ public class Category   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

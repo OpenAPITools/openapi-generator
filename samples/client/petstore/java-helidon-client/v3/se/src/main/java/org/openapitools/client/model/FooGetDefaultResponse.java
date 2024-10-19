@@ -21,7 +21,6 @@ import org.openapitools.client.model.Foo;
 
 
 
-
 public class FooGetDefaultResponse  {
   
   private Foo string;
@@ -71,4 +70,3 @@ public class FooGetDefaultResponse  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

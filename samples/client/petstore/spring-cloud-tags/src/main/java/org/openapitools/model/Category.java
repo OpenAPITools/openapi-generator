@@ -18,7 +18,6 @@ import javax.annotation.Generated;
 /**
  * A category for a pet
  */
-
 @ApiModel(description = "A category for a pet")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Category {
@@ -36,8 +35,7 @@ public class Category {
    * Get id
    * @return id
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
@@ -56,8 +54,7 @@ public class Category {
    * Get name
    * @return name
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("name")
   public String getName() {
     return name;
@@ -66,7 +63,6 @@ public class Category {
   public void setName(String name) {
     this.name = name;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

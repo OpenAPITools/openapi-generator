@@ -70,4 +70,3 @@ public class Dog extends Animal {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

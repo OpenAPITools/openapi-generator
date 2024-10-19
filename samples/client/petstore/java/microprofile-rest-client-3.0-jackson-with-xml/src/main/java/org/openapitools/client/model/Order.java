@@ -43,7 +43,6 @@ import jakarta.xml.bind.annotation.adapters.*;
 /**
   * An order for a pets from the pet store
   */
-
 public class Order  {
   
   public static final String JSON_PROPERTY_ID = "id";
@@ -295,4 +294,3 @@ public class Order  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

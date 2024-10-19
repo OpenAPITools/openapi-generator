@@ -38,7 +38,6 @@ import jakarta.xml.bind.annotation.adapters.*;
 /**
   * A tag for a pet
   */
-
 public class Tag  {
   
   public static final String JSON_PROPERTY_ID = "id";
@@ -127,4 +126,3 @@ public class Tag  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

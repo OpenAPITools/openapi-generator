@@ -12,7 +12,6 @@
  * Do not edit the class manually.
  */
 
-
 import {Api} from './index';
 import {List} from 'immutable';
 import {all, fork, put, takeLatest} from "redux-saga/effects";

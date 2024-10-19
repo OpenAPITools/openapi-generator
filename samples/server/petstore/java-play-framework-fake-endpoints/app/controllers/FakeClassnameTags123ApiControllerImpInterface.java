@@ -37,7 +37,6 @@ public abstract class FakeClassnameTags123ApiControllerImpInterface {
         JsonNode result = mapper.valueToTree(obj);
 
         return ok(result);
-
     }
 
     public abstract Client testClassname(Http.Request request, Client body) throws Exception;

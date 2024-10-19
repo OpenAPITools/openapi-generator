@@ -168,4 +168,3 @@ FISH(String.valueOf("fish")), CRAB(String.valueOf("crab"));
     return o.toString().replace("\n", "\n    ");
   }
 }
-

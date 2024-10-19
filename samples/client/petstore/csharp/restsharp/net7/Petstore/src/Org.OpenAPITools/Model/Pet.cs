@@ -58,7 +58,6 @@ namespace Org.OpenAPITools.Model
             Sold = 3
         }
 
-
         /// <summary>
         /// pet status in the store
         /// </summary>
@@ -218,7 +217,6 @@ namespace Org.OpenAPITools.Model
         IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
-        }
-    }
+        }    }
 
 }

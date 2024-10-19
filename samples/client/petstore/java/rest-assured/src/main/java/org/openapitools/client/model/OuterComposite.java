@@ -30,21 +30,19 @@ import org.hibernate.validator.constraints.*;
  * OuterComposite
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class OuterComposite {
   public static final String SERIALIZED_NAME_MY_NUMBER = "my_number";
   @SerializedName(SERIALIZED_NAME_MY_NUMBER)
-  @javax.annotation.Nullable
-  private BigDecimal myNumber;
+  @javax.annotation.Nullable  private BigDecimal myNumber;
 
   public static final String SERIALIZED_NAME_MY_STRING = "my_string";
   @SerializedName(SERIALIZED_NAME_MY_STRING)
-  @javax.annotation.Nullable
-  private String myString;
+  @javax.annotation.Nullable  private String myString;
 
   public static final String SERIALIZED_NAME_MY_BOOLEAN = "my_boolean";
   @SerializedName(SERIALIZED_NAME_MY_BOOLEAN)
-  @javax.annotation.Nullable
-  private Boolean myBoolean;
+  @javax.annotation.Nullable  private Boolean myBoolean;
 
   public OuterComposite() {
   }
@@ -59,9 +57,7 @@ public class OuterComposite {
    * Get myNumber
    * @return myNumber
    */
-  @javax.annotation.Nullable
-  @Valid
-
+  @javax.annotation.Nullable  @Valid
 
   public BigDecimal getMyNumber() {
     return myNumber;
@@ -83,8 +79,6 @@ public class OuterComposite {
    * @return myString
    */
   @javax.annotation.Nullable
-
-
   public String getMyString() {
     return myString;
   }
@@ -105,8 +99,6 @@ public class OuterComposite {
    * @return myBoolean
    */
   @javax.annotation.Nullable
-
-
   public Boolean isMyBoolean() {
     return myBoolean;
   }

@@ -67,7 +67,6 @@ public class HasOnlyReadOnly {
 
   @JsonProperty(JSON_PROPERTY_BAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getBar() {
     return bar;
   }
@@ -83,11 +82,9 @@ public class HasOnlyReadOnly {
 
   @JsonProperty(JSON_PROPERTY_FOO)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getFoo() {
     return foo;
   }
-
 
 
 

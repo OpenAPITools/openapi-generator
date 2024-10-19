@@ -10,4 +10,3 @@
 |**someProperty** | **String** |  |  [optional] |
 
 
-

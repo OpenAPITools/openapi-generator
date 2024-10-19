@@ -222,4 +222,3 @@ class OrderStatusEnum extends EnumClass {
   static BuiltSet<OrderStatusEnum> get values => _$orderStatusEnumValues;
   static OrderStatusEnum valueOf(String name) => _$orderStatusEnumValueOf(name);
 }
-

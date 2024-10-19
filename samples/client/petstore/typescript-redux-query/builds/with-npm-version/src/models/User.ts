@@ -10,7 +10,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { exists, mapValues } from '../runtime';
 /**
  * A User who is purchasing from the pet store
@@ -96,5 +95,4 @@ export function UserToJSON(value?: User): any {
         'userStatus': value.userStatus,
     };
 }
-
 

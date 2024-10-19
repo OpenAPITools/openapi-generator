@@ -190,5 +190,3 @@ class ParentWithNullableTypeEnumTypeTransformer {
   /// Singleton [ParentWithNullableTypeEnumTypeTransformer] instance.
   static ParentWithNullableTypeEnumTypeTransformer? _instance;
 }
-
-

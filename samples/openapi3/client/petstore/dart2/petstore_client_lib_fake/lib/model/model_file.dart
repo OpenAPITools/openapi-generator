@@ -116,4 +116,3 @@ class ModelFile {
   static const requiredKeys = <String>{
   };
 }
-

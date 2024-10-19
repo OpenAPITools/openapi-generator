@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * Contains all the info about a pet part
@@ -32,7 +31,6 @@ export interface Part {
      */
     name: string;
 }
-
 /**
  * Check if a given object implements the Part interface.
  */
@@ -72,4 +70,3 @@ export function PartFromJSONTyped(json: any, ignoreDiscriminator: boolean): Part
         'name': value['name'],
     };
 }
-

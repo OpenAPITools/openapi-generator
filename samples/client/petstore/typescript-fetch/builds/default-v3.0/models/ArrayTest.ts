@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { ReadOnlyFirst } from './ReadOnlyFirst';
 import {
@@ -46,7 +45,6 @@ export interface ArrayTest {
      */
     arrayArrayOfModel?: Array<Array<ReadOnlyFirst>>;
 }
-
 /**
  * Check if a given object implements the ArrayTest interface.
  */
@@ -86,4 +84,3 @@ export function ArrayTestFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'array_array_of_model': value['arrayArrayOfModel'],
     };
 }
-

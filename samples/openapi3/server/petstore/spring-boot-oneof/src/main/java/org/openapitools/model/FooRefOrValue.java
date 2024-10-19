@@ -29,7 +29,6 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = Foo.class, name = "Foo"),
   @JsonSubTypes.Type(value = FooRef.class, name = "FooRef")
 })
-
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public interface FooRefOrValue {
     public String getAtType();

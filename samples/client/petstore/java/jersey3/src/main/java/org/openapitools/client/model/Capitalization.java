@@ -81,7 +81,6 @@ public class Capitalization {
 
   @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getSmallCamel() {
     return smallCamel;
   }
@@ -107,7 +106,6 @@ public class Capitalization {
 
   @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getCapitalCamel() {
     return capitalCamel;
   }
@@ -133,7 +131,6 @@ public class Capitalization {
 
   @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getSmallSnake() {
     return smallSnake;
   }
@@ -159,7 +156,6 @@ public class Capitalization {
 
   @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getCapitalSnake() {
     return capitalSnake;
   }
@@ -185,7 +181,6 @@ public class Capitalization {
 
   @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
   }
@@ -211,7 +206,6 @@ public class Capitalization {
 
   @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getATTNAME() {
     return ATT_NAME;
   }
@@ -222,7 +216,6 @@ public class Capitalization {
   public void setATTNAME(@jakarta.annotation.Nullable String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
-
 
   /**
    * Return true if this Capitalization object is equal to o.

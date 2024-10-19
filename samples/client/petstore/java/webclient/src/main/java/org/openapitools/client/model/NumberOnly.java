@@ -31,10 +31,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   NumberOnly.JSON_PROPERTY_JUST_NUMBER
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class NumberOnly {
   public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";
-  @javax.annotation.Nullable
-  private BigDecimal justNumber;
+  @javax.annotation.Nullable  private BigDecimal justNumber;
 
   public NumberOnly() {
   }
@@ -49,8 +49,7 @@ public class NumberOnly {
    * Get justNumber
    * @return justNumber
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public BigDecimal getJustNumber() {

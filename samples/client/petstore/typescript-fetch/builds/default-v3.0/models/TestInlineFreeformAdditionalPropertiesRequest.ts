@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * 
@@ -27,7 +26,6 @@ export interface TestInlineFreeformAdditionalPropertiesRequest {
      */
     someProperty?: string;
 }
-
 /**
  * Check if a given object implements the TestInlineFreeformAdditionalPropertiesRequest interface.
  */
@@ -65,4 +63,3 @@ export function TestInlineFreeformAdditionalPropertiesRequestFromJSONTyped(json:
         'someProperty': value['someProperty'],
     };
 }
-

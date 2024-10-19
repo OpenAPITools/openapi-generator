@@ -25,7 +25,6 @@ import com.google.gson.annotations.SerializedName
  * @param color 
  */
 
-
 data class ApiBird (
 
     @SerializedName("size")

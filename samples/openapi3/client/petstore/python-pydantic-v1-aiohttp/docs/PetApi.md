@@ -108,7 +108,6 @@ configuration = petstore_api.Configuration(
         signature_max_validity = datetime.timedelta(minutes=5)
     )
 )
-
 # Enter a context with an instance of the API client
 async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -121,7 +120,6 @@ async with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling PetApi->add_pet: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -180,7 +178,6 @@ configuration = petstore_api.Configuration(
 # satisfies your auth use case.
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
-
 # Enter a context with an instance of the API client
 async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -194,7 +191,6 @@ async with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling PetApi->delete_pet: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -318,7 +314,6 @@ configuration = petstore_api.Configuration(
         signature_max_validity = datetime.timedelta(minutes=5)
     )
 )
-
 # Enter a context with an instance of the API client
 async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -333,7 +328,6 @@ async with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling PetApi->find_pets_by_status: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -456,7 +450,6 @@ configuration = petstore_api.Configuration(
         signature_max_validity = datetime.timedelta(minutes=5)
     )
 )
-
 # Enter a context with an instance of the API client
 async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -471,7 +464,6 @@ async with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling PetApi->find_pets_by_tags: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -535,7 +527,6 @@ configuration.api_key['api_key'] = os.environ["API_KEY"]
 
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['api_key'] = 'Bearer'
-
 # Enter a context with an instance of the API client
 async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -550,7 +541,6 @@ async with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling PetApi->get_pet_by_id: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -674,7 +664,6 @@ configuration = petstore_api.Configuration(
         signature_max_validity = datetime.timedelta(minutes=5)
     )
 )
-
 # Enter a context with an instance of the API client
 async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -687,7 +676,6 @@ async with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling PetApi->update_pet: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -748,7 +736,6 @@ configuration = petstore_api.Configuration(
 # satisfies your auth use case.
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
-
 # Enter a context with an instance of the API client
 async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -763,7 +750,6 @@ async with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling PetApi->update_pet_with_form: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -825,7 +811,6 @@ configuration = petstore_api.Configuration(
 # satisfies your auth use case.
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
-
 # Enter a context with an instance of the API client
 async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -842,7 +827,6 @@ async with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling PetApi->upload_file: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -903,7 +887,6 @@ configuration = petstore_api.Configuration(
 # satisfies your auth use case.
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
-
 # Enter a context with an instance of the API client
 async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -920,7 +903,6 @@ async with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling PetApi->upload_file_with_required_file: %s\n" % e)
 ```
-
 
 
 ### Parameters

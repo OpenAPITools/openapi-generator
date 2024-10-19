@@ -109,4 +109,3 @@ ArrayTest.prototype['array_array_of_model'] = undefined;
 
 
 export default ArrayTest;
-

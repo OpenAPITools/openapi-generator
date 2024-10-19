@@ -33,18 +33,16 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   OuterComposite.JSON_PROPERTY_MY_BOOLEAN
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class OuterComposite {
   public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
-  @javax.annotation.Nullable
-  private BigDecimal myNumber;
+  @javax.annotation.Nullable  private BigDecimal myNumber;
 
   public static final String JSON_PROPERTY_MY_STRING = "my_string";
-  @javax.annotation.Nullable
-  private String myString;
+  @javax.annotation.Nullable  private String myString;
 
   public static final String JSON_PROPERTY_MY_BOOLEAN = "my_boolean";
-  @javax.annotation.Nullable
-  private Boolean myBoolean;
+  @javax.annotation.Nullable  private Boolean myBoolean;
 
   public OuterComposite() {
   }
@@ -59,8 +57,7 @@ public class OuterComposite {
    * Get myNumber
    * @return myNumber
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MY_NUMBER)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_MY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public BigDecimal getMyNumber() {
@@ -84,8 +81,7 @@ public class OuterComposite {
    * Get myString
    * @return myString
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MY_STRING)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_MY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getMyString() {
@@ -109,8 +105,7 @@ public class OuterComposite {
    * Get myBoolean
    * @return myBoolean
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Boolean getMyBoolean() {

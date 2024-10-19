@@ -24,7 +24,6 @@ import com.google.gson.annotations.SerializedName
  * @param propertyValues 
  */
 
-
 data class ApiTestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter (
 
     @SerializedName("values")

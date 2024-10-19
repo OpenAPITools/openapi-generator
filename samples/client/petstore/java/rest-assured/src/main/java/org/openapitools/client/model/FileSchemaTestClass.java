@@ -33,16 +33,15 @@ import org.hibernate.validator.constraints.*;
  * FileSchemaTestClass
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class FileSchemaTestClass {
   public static final String SERIALIZED_NAME_FILE = "file";
   @SerializedName(SERIALIZED_NAME_FILE)
-  @javax.annotation.Nullable
-  private ModelFile _file;
+  @javax.annotation.Nullable  private ModelFile _file;
 
   public static final String SERIALIZED_NAME_FILES = "files";
   @SerializedName(SERIALIZED_NAME_FILES)
-  @javax.annotation.Nullable
-  private List<@Valid ModelFile> files = new ArrayList<>();
+  @javax.annotation.Nullable  private List<@Valid ModelFile> files = new ArrayList<>();
 
   public FileSchemaTestClass() {
   }
@@ -57,9 +56,7 @@ public class FileSchemaTestClass {
    * Get _file
    * @return _file
    */
-  @javax.annotation.Nullable
-  @Valid
-
+  @javax.annotation.Nullable  @Valid
 
   public ModelFile getFile() {
     return _file;
@@ -88,9 +85,7 @@ public class FileSchemaTestClass {
    * Get files
    * @return files
    */
-  @javax.annotation.Nullable
-  @Valid
-
+  @javax.annotation.Nullable  @Valid
 
   public List<@Valid ModelFile> getFiles() {
     return files;

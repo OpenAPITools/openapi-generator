@@ -15,7 +15,6 @@ import jakarta.annotation.Generated;
 /**
  * Client
  */
-
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Client {
 
@@ -39,7 +38,6 @@ public class Client {
   public void setClient(String client) {
     this.client = client;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

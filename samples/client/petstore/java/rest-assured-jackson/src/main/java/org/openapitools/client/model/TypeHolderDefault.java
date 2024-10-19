@@ -41,26 +41,22 @@ import org.hibernate.validator.constraints.*;
   TypeHolderDefault.JSON_PROPERTY_ARRAY_ITEM
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class TypeHolderDefault {
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
-  @javax.annotation.Nonnull
-  private String stringItem = "what";
+  @javax.annotation.Nonnull  private String stringItem = "what";
 
   public static final String JSON_PROPERTY_NUMBER_ITEM = "number_item";
-  @javax.annotation.Nonnull
-  private BigDecimal numberItem;
+  @javax.annotation.Nonnull  private BigDecimal numberItem;
 
   public static final String JSON_PROPERTY_INTEGER_ITEM = "integer_item";
-  @javax.annotation.Nonnull
-  private Integer integerItem;
+  @javax.annotation.Nonnull  private Integer integerItem;
 
   public static final String JSON_PROPERTY_BOOL_ITEM = "bool_item";
-  @javax.annotation.Nonnull
-  private Boolean boolItem = true;
+  @javax.annotation.Nonnull  private Boolean boolItem = true;
 
   public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
-  @javax.annotation.Nonnull
-  private List<Integer> arrayItem = new ArrayList<>();
+  @javax.annotation.Nonnull  private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderDefault() {
   }
@@ -75,9 +71,7 @@ public class TypeHolderDefault {
    * Get stringItem
    * @return stringItem
    */
-  @javax.annotation.Nonnull
-  @NotNull
-
+  @javax.annotation.Nonnull  @NotNull
   @JsonProperty(JSON_PROPERTY_STRING_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -102,10 +96,8 @@ public class TypeHolderDefault {
    * Get numberItem
    * @return numberItem
    */
-  @javax.annotation.Nonnull
-  @NotNull
+  @javax.annotation.Nonnull  @NotNull
   @Valid
-
   @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -130,9 +122,7 @@ public class TypeHolderDefault {
    * Get integerItem
    * @return integerItem
    */
-  @javax.annotation.Nonnull
-  @NotNull
-
+  @javax.annotation.Nonnull  @NotNull
   @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -157,9 +147,7 @@ public class TypeHolderDefault {
    * Get boolItem
    * @return boolItem
    */
-  @javax.annotation.Nonnull
-  @NotNull
-
+  @javax.annotation.Nonnull  @NotNull
   @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -192,9 +180,7 @@ public class TypeHolderDefault {
    * Get arrayItem
    * @return arrayItem
    */
-  @javax.annotation.Nonnull
-  @NotNull
-
+  @javax.annotation.Nonnull  @NotNull
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 

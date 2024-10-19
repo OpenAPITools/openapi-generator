@@ -57,7 +57,6 @@ public class ModelFile {
 
   @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getSourceURI() {
     return sourceURI;
   }
@@ -68,7 +67,6 @@ public class ModelFile {
   public void setSourceURI(@jakarta.annotation.Nullable String sourceURI) {
     this.sourceURI = sourceURI;
   }
-
 
   /**
    * Return true if this File object is equal to o.

@@ -57,6 +57,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 @JsonDeserialize(using = Shape.ShapeDeserializer.class)
 @JsonSerialize(using = Shape.ShapeSerializer.class)
 public class Shape extends AbstractOpenApiSchema {
@@ -168,7 +169,6 @@ public class Shape extends AbstractOpenApiSchema {
     public Shape() {
         super("oneOf", Boolean.FALSE);
     }
-
     public Shape(Quadrilateral o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);

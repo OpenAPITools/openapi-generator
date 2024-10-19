@@ -12,7 +12,6 @@
 * Do not edit the class manually.
 */
 
-
 extern NSString * SWGPercentEscapedStringFromString(NSString *string);
 
 extern NSString * const kSWGApplicationJSONType;

@@ -31,11 +31,11 @@ import org.hibernate.validator.constraints.*;
  * MapTest
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class MapTest {
   public static final String SERIALIZED_NAME_MAP_MAP_OF_STRING = "map_map_of_string";
   @SerializedName(SERIALIZED_NAME_MAP_MAP_OF_STRING)
-  @javax.annotation.Nullable
-  private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
   /**
    * Gets or Sets inner
@@ -83,21 +83,17 @@ public class MapTest {
       }
     }
   }
-
   public static final String SERIALIZED_NAME_MAP_OF_ENUM_STRING = "map_of_enum_string";
   @SerializedName(SERIALIZED_NAME_MAP_OF_ENUM_STRING)
-  @javax.annotation.Nullable
-  private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
   public static final String SERIALIZED_NAME_DIRECT_MAP = "direct_map";
   @SerializedName(SERIALIZED_NAME_DIRECT_MAP)
-  @javax.annotation.Nullable
-  private Map<String, Boolean> directMap = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, Boolean> directMap = new HashMap<>();
 
   public static final String SERIALIZED_NAME_INDIRECT_MAP = "indirect_map";
   @SerializedName(SERIALIZED_NAME_INDIRECT_MAP)
-  @javax.annotation.Nullable
-  private Map<String, Boolean> indirectMap = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, Boolean> indirectMap = new HashMap<>();
 
   public MapTest() {
   }
@@ -120,9 +116,7 @@ public class MapTest {
    * Get mapMapOfString
    * @return mapMapOfString
    */
-  @javax.annotation.Nullable
-  @Valid
-
+  @javax.annotation.Nullable  @Valid
 
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
@@ -152,8 +146,6 @@ public class MapTest {
    * @return mapOfEnumString
    */
   @javax.annotation.Nullable
-
-
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }
@@ -182,8 +174,6 @@ public class MapTest {
    * @return directMap
    */
   @javax.annotation.Nullable
-
-
   public Map<String, Boolean> getDirectMap() {
     return directMap;
   }
@@ -212,8 +202,6 @@ public class MapTest {
    * @return indirectMap
    */
   @javax.annotation.Nullable
-
-
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }

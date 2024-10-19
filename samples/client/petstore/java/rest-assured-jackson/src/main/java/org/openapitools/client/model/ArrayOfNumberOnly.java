@@ -37,10 +37,10 @@ import org.hibernate.validator.constraints.*;
   ArrayOfNumberOnly.JSON_PROPERTY_ARRAY_NUMBER
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class ArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
-  @javax.annotation.Nullable
-  private List<BigDecimal> arrayNumber = new ArrayList<>();
+  @javax.annotation.Nullable  private List<BigDecimal> arrayNumber = new ArrayList<>();
 
   public ArrayOfNumberOnly() {
   }
@@ -63,9 +63,7 @@ public class ArrayOfNumberOnly {
    * Get arrayNumber
    * @return arrayNumber
    */
-  @javax.annotation.Nullable
-  @Valid
-
+  @javax.annotation.Nullable  @Valid
   @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

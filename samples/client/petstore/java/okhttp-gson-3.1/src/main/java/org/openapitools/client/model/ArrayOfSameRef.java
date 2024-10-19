@@ -52,21 +52,19 @@ import org.openapitools.client.JSON;
  * ArrayOfSameRef
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class ArrayOfSameRef {
   public static final String SERIALIZED_NAME_ARRAY_FOO_ONE = "arrayFooOne";
   @SerializedName(SERIALIZED_NAME_ARRAY_FOO_ONE)
-  @javax.annotation.Nullable
-  private List<Tag> arrayFooOne = new ArrayList<>();
+  @javax.annotation.Nullable  private List<Tag> arrayFooOne = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_ARRAY_FOO_TWO = "arrayFooTwo";
   @SerializedName(SERIALIZED_NAME_ARRAY_FOO_TWO)
-  @javax.annotation.Nullable
-  private List<Tag> arrayFooTwo = new ArrayList<>();
+  @javax.annotation.Nullable  private List<Tag> arrayFooTwo = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_ARRAY_FOO_THREE = "arrayFooThree";
   @SerializedName(SERIALIZED_NAME_ARRAY_FOO_THREE)
-  @javax.annotation.Nullable
-  private List<Tag> arrayFooThree = new ArrayList<>();
+  @javax.annotation.Nullable  private List<Tag> arrayFooThree = new ArrayList<>();
 
   public ArrayOfSameRef() {
   }
@@ -88,8 +86,7 @@ public class ArrayOfSameRef {
    * Get arrayFooOne
    * @return arrayFooOne
    */
-  @javax.annotation.Nullable
-  public List<Tag> getArrayFooOne() {
+  @javax.annotation.Nullable  public List<Tag> getArrayFooOne() {
     return arrayFooOne;
   }
 
@@ -115,8 +112,7 @@ public class ArrayOfSameRef {
    * Get arrayFooTwo
    * @return arrayFooTwo
    */
-  @javax.annotation.Nullable
-  public List<Tag> getArrayFooTwo() {
+  @javax.annotation.Nullable  public List<Tag> getArrayFooTwo() {
     return arrayFooTwo;
   }
 
@@ -142,8 +138,7 @@ public class ArrayOfSameRef {
    * Get arrayFooThree
    * @return arrayFooThree
    */
-  @javax.annotation.Nullable
-  public List<Tag> getArrayFooThree() {
+  @javax.annotation.Nullable  public List<Tag> getArrayFooThree() {
     return arrayFooThree;
   }
 
@@ -195,7 +190,6 @@ public class ArrayOfSameRef {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

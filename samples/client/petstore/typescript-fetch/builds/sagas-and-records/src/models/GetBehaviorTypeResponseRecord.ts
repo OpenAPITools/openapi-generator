@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import {ApiRecordUtils, knownRecordFactories, appFromJS, NormalizedRecordEntities} from "../runtimeSagasAndRecords";
 import {getApiEntitiesState} from "../ApiEntitiesSelectors"
 import {List, Record, RecordOf, Map} from 'immutable';
@@ -71,5 +70,4 @@ class GetBehaviorTypeResponseRecordUtils extends ApiRecordUtils<GetBehaviorTypeR
 }
 
 export const getBehaviorTypeResponseRecordUtils = new GetBehaviorTypeResponseRecordUtils();
-
 

@@ -19,4 +19,3 @@ instance = Petstore::Whale.new(
   classname: null
 )
 ```
-

@@ -20,7 +20,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-
 public class ReadOnlyFirst  {
   
   private String bar;
@@ -82,4 +81,3 @@ public class ReadOnlyFirst  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

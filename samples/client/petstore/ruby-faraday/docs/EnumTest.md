@@ -29,4 +29,3 @@ instance = Petstore::EnumTest.new(
   outer_enum_integer_default_value: null
 )
 ```
-

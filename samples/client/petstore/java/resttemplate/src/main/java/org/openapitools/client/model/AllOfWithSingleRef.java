@@ -32,14 +32,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   AllOfWithSingleRef.JSON_PROPERTY_SINGLE_REF_TYPE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class AllOfWithSingleRef {
   public static final String JSON_PROPERTY_USERNAME = "username";
-  @javax.annotation.Nullable
-  private String username;
+  @javax.annotation.Nullable  private String username;
 
   public static final String JSON_PROPERTY_SINGLE_REF_TYPE = "SingleRefType";
-  @javax.annotation.Nullable
-  private SingleRefType singleRefType;
+  @javax.annotation.Nullable  private SingleRefType singleRefType;
 
   public AllOfWithSingleRef() {
   }
@@ -62,8 +61,7 @@ public class AllOfWithSingleRef {
    * Get username
    * @return username
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_USERNAME)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_USERNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getUsername() {
@@ -87,8 +85,7 @@ public class AllOfWithSingleRef {
    * Get singleRefType
    * @return singleRefType
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SINGLE_REF_TYPE)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_SINGLE_REF_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public SingleRefType getSingleRefType() {
@@ -142,63 +139,62 @@ public class AllOfWithSingleRef {
   }
 
   public static class Builder {
-
-    private AllOfWithSingleRef instance;
-
-    public Builder() {
-      this(new AllOfWithSingleRef());
-    }
-
-    protected Builder(AllOfWithSingleRef instance) {
-      this.instance = instance;
-    }
-
-    public AllOfWithSingleRef.Builder username(String username) {
-      this.instance.username = username;
-      return this;
-    }
-    public AllOfWithSingleRef.Builder singleRefType(SingleRefType singleRefType) {
-      this.instance.singleRefType = singleRefType;
-      return this;
-    }
-
-
-    /**
-    * returns a built AllOfWithSingleRef instance.
-    *
-    * The builder is not reusable.
-    */
-    public AllOfWithSingleRef build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+  
+      private AllOfWithSingleRef instance;
+  
+      public Builder() {
+        this(new AllOfWithSingleRef());
+      }
+  
+      protected Builder(AllOfWithSingleRef instance) {
+        this.instance = instance;
+      }
+  
+      public AllOfWithSingleRef.Builder username(String username) {
+          this.instance.username = username;
+        return this;
+      }
+        public AllOfWithSingleRef.Builder singleRefType(SingleRefType singleRefType) {
+          this.instance.singleRefType = singleRefType;
+        return this;
+      }
+    
+  
+      /**
+      * returns a built AllOfWithSingleRef instance.
+      *
+      * The builder is not reusable.
+      */
+      public AllOfWithSingleRef build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field.
+    */
+    public static AllOfWithSingleRef.Builder builder() {
+      return new AllOfWithSingleRef.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static AllOfWithSingleRef.Builder builder() {
-    return new AllOfWithSingleRef.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public AllOfWithSingleRef.Builder toBuilder() {
-    return new AllOfWithSingleRef.Builder()
-      .username(getUsername())
-      .singleRefType(getSingleRefType());
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public AllOfWithSingleRef.Builder toBuilder() {
+      return new AllOfWithSingleRef.Builder()
+        .username(getUsername())
+        .singleRefType(getSingleRefType());
+    }
 
 }
 

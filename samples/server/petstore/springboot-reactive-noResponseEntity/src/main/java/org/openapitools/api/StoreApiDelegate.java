@@ -41,10 +41,9 @@ public interface StoreApiDelegate {
      */
     default Mono<Void> deleteOrder(String orderId,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
+Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         return result.then(Mono.empty());
-
     }
 
     /**
@@ -55,10 +54,9 @@ public interface StoreApiDelegate {
      * @see StoreApi#getInventory
      */
     default Mono<Map<String, Integer>> getInventory(ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
+Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         return result.then(Mono.empty());
-
     }
 
     /**
@@ -73,7 +71,7 @@ public interface StoreApiDelegate {
      */
     default Mono<Order> getOrderById(Long orderId,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
+Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -88,7 +86,6 @@ public interface StoreApiDelegate {
             }
         }
         return result.then(Mono.empty());
-
     }
 
     /**
@@ -102,7 +99,7 @@ public interface StoreApiDelegate {
      */
     default Mono<Order> placeOrder(Mono<Order> order,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
+Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -117,7 +114,6 @@ public interface StoreApiDelegate {
             }
         }
         return result.then(order).then(Mono.empty());
-
     }
 
 }

@@ -49,16 +49,15 @@ import org.openapitools.client.JSON;
  * IsoscelesTriangle
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class IsoscelesTriangle {
   public static final String SERIALIZED_NAME_SHAPE_TYPE = "shapeType";
   @SerializedName(SERIALIZED_NAME_SHAPE_TYPE)
-  @javax.annotation.Nonnull
-  private String shapeType;
+  @javax.annotation.Nonnull  private String shapeType;
 
   public static final String SERIALIZED_NAME_TRIANGLE_TYPE = "triangleType";
   @SerializedName(SERIALIZED_NAME_TRIANGLE_TYPE)
-  @javax.annotation.Nonnull
-  private String triangleType;
+  @javax.annotation.Nonnull  private String triangleType;
 
   public IsoscelesTriangle() {
   }
@@ -72,8 +71,7 @@ public class IsoscelesTriangle {
    * Get shapeType
    * @return shapeType
    */
-  @javax.annotation.Nonnull
-  public String getShapeType() {
+  @javax.annotation.Nonnull  public String getShapeType() {
     return shapeType;
   }
 
@@ -91,15 +89,13 @@ public class IsoscelesTriangle {
    * Get triangleType
    * @return triangleType
    */
-  @javax.annotation.Nonnull
-  public String getTriangleType() {
+  @javax.annotation.Nonnull  public String getTriangleType() {
     return triangleType;
   }
 
   public void setTriangleType(@javax.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
   }
-
 
 
   @Override

@@ -52,11 +52,11 @@ import org.openapitools.client.JSON;
  * AllOfModelArrayAnyOfAllOfLinkListColumn1
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
   public static final String SERIALIZED_NAME_VALUE = "value";
   @SerializedName(SERIALIZED_NAME_VALUE)
-  @javax.annotation.Nonnull
-  private List<AllOfModelArrayAnyOfAllOfLinkListColumn1Value> value = new ArrayList<>();
+  @javax.annotation.Nonnull  private List<AllOfModelArrayAnyOfAllOfLinkListColumn1Value> value = new ArrayList<>();
 
   public AllOfModelArrayAnyOfAllOfLinkListColumn1() {
   }
@@ -78,8 +78,7 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
    * Get value
    * @return value
    */
-  @javax.annotation.Nonnull
-  public List<AllOfModelArrayAnyOfAllOfLinkListColumn1Value> getValue() {
+  @javax.annotation.Nonnull  public List<AllOfModelArrayAnyOfAllOfLinkListColumn1Value> getValue() {
     return value;
   }
 
@@ -131,7 +130,6 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

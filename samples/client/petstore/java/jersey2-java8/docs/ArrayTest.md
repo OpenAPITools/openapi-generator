@@ -12,4 +12,3 @@
 |**arrayArrayOfModel** | **List&lt;List&lt;ReadOnlyFirst&gt;&gt;** |  |  [optional] |
 
 
-

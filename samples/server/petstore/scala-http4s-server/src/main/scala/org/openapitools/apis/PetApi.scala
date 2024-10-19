@@ -29,11 +29,9 @@ final case class PetApiRoutes[
       case (req @ POST -> Root / "pet") as auth =>
       req.contentType match {
         case Some(`Content-Type`(MediaType.application.json, _)) =>
-            delegate.addPet.handle_petstore_auth(auth, req, req.asJsonDecode[Pet] , responses)
-
+          delegate.addPet.handle_petstore_auth(auth, req, req.asJsonDecode[Pet] , responses)
         case _ =>
           delegate.addPet.handle_petstore_auth(auth, req, responses)
-
       }
     }
 
@@ -50,7 +48,6 @@ final case class PetApiRoutes[
     val routepetstore_auth = AuthedRoutes.of[petstore_auth, F] {
       case (req @ DELETE -> Root / "pet" / LongVarr(petId)) as auth =>
         delegate.deletePet.handle_petstore_auth(auth, req, petId, responses)
-
     }
 
     val responses: deletePetResponses[F] = new deletePetResponses[F] {
@@ -65,7 +62,6 @@ final case class PetApiRoutes[
     val routepetstore_auth = AuthedRoutes.of[petstore_auth, F] {
       case (req @ GET -> Root / "pet" / "findByStatus" :? statusQueryParam(status)) as auth =>
         delegate.findPetsByStatus.handle_petstore_auth(auth, req, status, responses)
-
     }
 
     val responses: findPetsByStatusResponses[F] = new findPetsByStatusResponses[F] {
@@ -82,7 +78,6 @@ final case class PetApiRoutes[
     val routepetstore_auth = AuthedRoutes.of[petstore_auth, F] {
       case (req @ GET -> Root / "pet" / "findByTags" :? tagsQueryParam(tags)) as auth =>
         delegate.findPetsByTags.handle_petstore_auth(auth, req, tags, responses)
-
     }
 
     val responses: findPetsByTagsResponses[F] = new findPetsByTagsResponses[F] {
@@ -98,7 +93,6 @@ final case class PetApiRoutes[
     val routeapi_key = AuthedRoutes.of[api_key, F] {
       case (req @ GET -> Root / "pet" / LongVarr(petId)) as auth =>
         delegate.getPetById.handle_api_key(auth, req, petId, responses)
-
     }
 
     val responses: getPetByIdResponses[F] = new getPetByIdResponses[F] {
@@ -116,11 +110,9 @@ final case class PetApiRoutes[
       case (req @ PUT -> Root / "pet") as auth =>
       req.contentType match {
         case Some(`Content-Type`(MediaType.application.json, _)) =>
-            delegate.updatePet.handle_petstore_auth(auth, req, req.asJsonDecode[Pet] , responses)
-
+          delegate.updatePet.handle_petstore_auth(auth, req, req.asJsonDecode[Pet] , responses)
         case _ =>
           delegate.updatePet.handle_petstore_auth(auth, req, responses)
-
       }
     }
 
@@ -139,7 +131,6 @@ final case class PetApiRoutes[
     val routepetstore_auth = AuthedRoutes.of[petstore_auth, F] {
       case (req @ POST -> Root / "pet" / LongVarr(petId)) as auth =>
         delegate.updatePetWithForm.handle_petstore_auth(auth, req, petId, responses)
-
     }
 
     val responses: updatePetWithFormResponses[F] = new updatePetWithFormResponses[F] {
@@ -153,7 +144,6 @@ final case class PetApiRoutes[
     val routepetstore_auth = AuthedRoutes.of[petstore_auth, F] {
       case (req @ POST -> Root / "pet" / LongVarr(petId) / "uploadImage") as auth =>
         delegate.uploadFile.handle_petstore_auth(auth, req, petId, responses)
-
     }
 
     val responses: uploadFileResponses[F] = new uploadFileResponses[F] {

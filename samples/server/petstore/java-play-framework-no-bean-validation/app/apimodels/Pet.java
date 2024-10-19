@@ -16,18 +16,23 @@ import java.util.Objects;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Pet   {
   @JsonProperty("id")
+  
   private Long id;
 
   @JsonProperty("category")
+  
   private Category category;
 
   @JsonProperty("name")
+  
   private String name;
 
   @JsonProperty("photoUrls")
+  
   private List<String> photoUrls = new ArrayList<>();
 
   @JsonProperty("tags")
+  
   private List<Tag> tags = null;
 
   /**
@@ -64,6 +69,7 @@ public class Pet   {
   }
 
   @JsonProperty("status")
+  
   private StatusEnum status;
 
   public Pet id(Long id) {
@@ -234,4 +240,3 @@ public class Pet   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

@@ -84,4 +84,3 @@ List.prototype['123-list'] = undefined;
 
 
 export default List;
-

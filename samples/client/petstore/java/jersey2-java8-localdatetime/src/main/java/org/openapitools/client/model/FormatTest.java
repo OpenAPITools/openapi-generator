@@ -471,7 +471,6 @@ public class FormatTest {
     this.bigDecimal = bigDecimal;
   }
 
-
   /**
    * Return true if this format_test object is equal to o.
    */

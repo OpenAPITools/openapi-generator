@@ -16,7 +16,6 @@ import jakarta.annotation.Generated;
 /**
  * ReadOnlyFirstDto
  */
-
 @JsonTypeName("ReadOnlyFirst")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ReadOnlyFirstDto {
@@ -62,7 +61,6 @@ public class ReadOnlyFirstDto {
   public void setBaz(String baz) {
     this.baz = baz;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

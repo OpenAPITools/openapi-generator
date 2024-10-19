@@ -17,4 +17,3 @@ instance = Petstore::ReadOnlyFirst.new(
   baz: null
 )
 ```
-

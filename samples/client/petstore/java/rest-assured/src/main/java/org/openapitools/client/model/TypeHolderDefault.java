@@ -33,31 +33,27 @@ import org.hibernate.validator.constraints.*;
  * TypeHolderDefault
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class TypeHolderDefault {
   public static final String SERIALIZED_NAME_STRING_ITEM = "string_item";
   @SerializedName(SERIALIZED_NAME_STRING_ITEM)
-  @javax.annotation.Nonnull
-  private String stringItem = "what";
+  @javax.annotation.Nonnull  private String stringItem = "what";
 
   public static final String SERIALIZED_NAME_NUMBER_ITEM = "number_item";
   @SerializedName(SERIALIZED_NAME_NUMBER_ITEM)
-  @javax.annotation.Nonnull
-  private BigDecimal numberItem;
+  @javax.annotation.Nonnull  private BigDecimal numberItem;
 
   public static final String SERIALIZED_NAME_INTEGER_ITEM = "integer_item";
   @SerializedName(SERIALIZED_NAME_INTEGER_ITEM)
-  @javax.annotation.Nonnull
-  private Integer integerItem;
+  @javax.annotation.Nonnull  private Integer integerItem;
 
   public static final String SERIALIZED_NAME_BOOL_ITEM = "bool_item";
   @SerializedName(SERIALIZED_NAME_BOOL_ITEM)
-  @javax.annotation.Nonnull
-  private Boolean boolItem = true;
+  @javax.annotation.Nonnull  private Boolean boolItem = true;
 
   public static final String SERIALIZED_NAME_ARRAY_ITEM = "array_item";
   @SerializedName(SERIALIZED_NAME_ARRAY_ITEM)
-  @javax.annotation.Nonnull
-  private List<Integer> arrayItem = new ArrayList<>();
+  @javax.annotation.Nonnull  private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderDefault() {
   }
@@ -72,9 +68,7 @@ public class TypeHolderDefault {
    * Get stringItem
    * @return stringItem
    */
-  @javax.annotation.Nonnull
-  @NotNull
-
+  @javax.annotation.Nonnull  @NotNull
 
   public String getStringItem() {
     return stringItem;
@@ -95,10 +89,8 @@ public class TypeHolderDefault {
    * Get numberItem
    * @return numberItem
    */
-  @javax.annotation.Nonnull
-  @NotNull
+  @javax.annotation.Nonnull  @NotNull
   @Valid
-
 
   public BigDecimal getNumberItem() {
     return numberItem;
@@ -119,9 +111,7 @@ public class TypeHolderDefault {
    * Get integerItem
    * @return integerItem
    */
-  @javax.annotation.Nonnull
-  @NotNull
-
+  @javax.annotation.Nonnull  @NotNull
 
   public Integer getIntegerItem() {
     return integerItem;
@@ -142,9 +132,7 @@ public class TypeHolderDefault {
    * Get boolItem
    * @return boolItem
    */
-  @javax.annotation.Nonnull
-  @NotNull
-
+  @javax.annotation.Nonnull  @NotNull
 
   public Boolean isBoolItem() {
     return boolItem;
@@ -173,9 +161,7 @@ public class TypeHolderDefault {
    * Get arrayItem
    * @return arrayItem
    */
-  @javax.annotation.Nonnull
-  @NotNull
-
+  @javax.annotation.Nonnull  @NotNull
 
   public List<Integer> getArrayItem() {
     return arrayItem;

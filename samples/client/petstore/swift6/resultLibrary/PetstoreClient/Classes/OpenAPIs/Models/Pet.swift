@@ -14,8 +14,7 @@ internal struct Pet: Codable, JSONEncodable, Hashable {
         case pending = "pending"
         case sold = "sold"
         case unknownDefaultOpenApi = "unknown_default_open_api"
-    }
-    internal private(set) var id: Int64?
+    }    internal private(set) var id: Int64?
     internal private(set) var category: Category?
     internal private(set) var name: String
     internal private(set) var photoUrls: [String]

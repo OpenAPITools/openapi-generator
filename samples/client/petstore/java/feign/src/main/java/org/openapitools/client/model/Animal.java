@@ -43,7 +43,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   @JsonSubTypes.Type(value = Cat.class, name = "CAT"),
   @JsonSubTypes.Type(value = Dog.class, name = "DOG"),
 })
-
 public class Animal {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
   @javax.annotation.Nonnull
@@ -106,7 +105,6 @@ public class Animal {
   public void setColor(@javax.annotation.Nullable String color) {
     this.color = color;
   }
-
 
   @Override
   public boolean equals(Object o) {

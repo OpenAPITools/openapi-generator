@@ -18,7 +18,6 @@ import jakarta.annotation.Generated;
 /**
  * MapTest
  */
-
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class MapTest {
 
@@ -59,7 +58,6 @@ public class MapTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   
   private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
@@ -176,7 +174,6 @@ public class MapTest {
   public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

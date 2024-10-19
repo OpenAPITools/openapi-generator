@@ -25,7 +25,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
 public class EnumArrays  {
   
 public enum JustSymbolEnum {
@@ -75,6 +74,7 @@ public enum JustSymbolEnum {
     }
 }
 
+
   private JustSymbolEnum justSymbol;
 
 public enum ArrayEnumEnum {
@@ -123,6 +123,7 @@ public enum ArrayEnumEnum {
         throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
+
 
   private List<ArrayEnumEnum> arrayEnum = null;
 
@@ -197,4 +198,3 @@ public enum ArrayEnumEnum {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

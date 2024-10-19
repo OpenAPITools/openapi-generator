@@ -19,7 +19,6 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 /**
  * AdditionalPropertiesString
  */
-
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class AdditionalPropertiesString {
 
@@ -80,7 +79,6 @@ public class AdditionalPropertiesString {
         }
         return this.additionalProperties.get(key);
     }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

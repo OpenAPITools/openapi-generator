@@ -97,4 +97,3 @@ public class Animal   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

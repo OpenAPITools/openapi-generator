@@ -27,7 +27,6 @@ import javax.annotation.Generated;
 /**
  * ObjectWithUniqueItems
  */
-
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ObjectWithUniqueItems {
 
@@ -66,8 +65,7 @@ public class ObjectWithUniqueItems {
    * Get nullSet
    * @return nullSet
    */
-  
-  @Schema(name = "nullSet", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "nullSet", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("nullSet")
   public JsonNullable<Set<String>> getNullSet() {
     return nullSet;
@@ -94,8 +92,7 @@ public class ObjectWithUniqueItems {
    * Get notNullSet
    * @return notNullSet
    */
-  
-  @Schema(name = "notNullSet", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "notNullSet", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("notNullSet")
   public Set<String> getNotNullSet() {
     return notNullSet;
@@ -123,8 +120,7 @@ public class ObjectWithUniqueItems {
    * Get nullList
    * @return nullList
    */
-  
-  @Schema(name = "nullList", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "nullList", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("nullList")
   public JsonNullable<List<String>> getNullList() {
     return nullList;
@@ -151,8 +147,7 @@ public class ObjectWithUniqueItems {
    * Get notNullList
    * @return notNullList
    */
-  
-  @Schema(name = "notNullList", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "notNullList", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("notNullList")
   public List<String> getNotNullList() {
     return notNullList;
@@ -171,8 +166,7 @@ public class ObjectWithUniqueItems {
    * Get notNullDateField
    * @return notNullDateField
    */
-  @Valid 
-  @Schema(name = "notNullDateField", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Valid   @Schema(name = "notNullDateField", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("notNullDateField")
   public OffsetDateTime getNotNullDateField() {
     return notNullDateField;
@@ -191,8 +185,7 @@ public class ObjectWithUniqueItems {
    * Get nullDateField
    * @return nullDateField
    */
-  @Valid 
-  @Schema(name = "nullDateField", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Valid   @Schema(name = "nullDateField", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("nullDateField")
   public OffsetDateTime getNullDateField() {
     return nullDateField;
@@ -201,7 +194,6 @@ public class ObjectWithUniqueItems {
   public void setNullDateField(OffsetDateTime nullDateField) {
     this.nullDateField = nullDateField;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

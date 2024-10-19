@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * Model for testing reserved words
@@ -26,7 +25,6 @@ export interface Return {
      */
     _return?: number;
 }
-
 /**
  * Check if a given object implements the Return interface.
  */
@@ -62,4 +60,3 @@ export function ReturnFromJSONTyped(json: any, ignoreDiscriminator: boolean): Re
         'return': value['_return'],
     };
 }
-

@@ -26,7 +26,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @param color 
  */
 
-
 data class Bird (
 
     @get:JsonProperty("size")

@@ -15,4 +15,3 @@ instance = Petstore::List.new(
   _123_list: null
 )
 ```
-

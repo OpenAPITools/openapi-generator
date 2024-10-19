@@ -46,7 +46,6 @@ import java.util.StringJoiner;
   @JsonSubTypes.Type(value = Cat.class, name = "CAT"),
   @JsonSubTypes.Type(value = Dog.class, name = "DOG"),
 })
-
 public class Animal {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
   @javax.annotation.Nonnull

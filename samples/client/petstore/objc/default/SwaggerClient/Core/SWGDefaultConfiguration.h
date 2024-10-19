@@ -13,7 +13,6 @@
 * Do not edit the class manually.
 */
 
-
 @class SWGApiClient;
 
 @interface SWGDefaultConfiguration : NSObject <SWGConfiguration>

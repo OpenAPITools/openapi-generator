@@ -17,7 +17,6 @@ import javax.annotation.Generated;
 /**
  * Capitalization
  */
-
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Capitalization {
 
@@ -42,8 +41,7 @@ public class Capitalization {
    * Get smallCamel
    * @return smallCamel
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("smallCamel")
   public String getSmallCamel() {
     return smallCamel;
@@ -62,8 +60,7 @@ public class Capitalization {
    * Get capitalCamel
    * @return capitalCamel
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("CapitalCamel")
   public String getCapitalCamel() {
     return capitalCamel;
@@ -82,8 +79,7 @@ public class Capitalization {
    * Get smallSnake
    * @return smallSnake
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("small_Snake")
   public String getSmallSnake() {
     return smallSnake;
@@ -102,8 +98,7 @@ public class Capitalization {
    * Get capitalSnake
    * @return capitalSnake
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("Capital_Snake")
   public String getCapitalSnake() {
     return capitalSnake;
@@ -122,8 +117,7 @@ public class Capitalization {
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("SCA_ETH_Flow_Points")
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
@@ -142,8 +136,7 @@ public class Capitalization {
    * Name of the pet 
    * @return ATT_NAME
    */
-  
-  @ApiModelProperty(value = "Name of the pet ")
+    @ApiModelProperty(value = "Name of the pet ")
   @JsonProperty("ATT_NAME")
   public String getATTNAME() {
     return ATT_NAME;
@@ -152,7 +145,6 @@ public class Capitalization {
   public void setATTNAME(String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

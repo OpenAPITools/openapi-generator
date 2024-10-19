@@ -49,16 +49,15 @@ import org.openapitools.client.JSON;
  * EquilateralTriangle
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class EquilateralTriangle {
   public static final String SERIALIZED_NAME_SHAPE_TYPE = "shapeType";
   @SerializedName(SERIALIZED_NAME_SHAPE_TYPE)
-  @javax.annotation.Nonnull
-  private String shapeType;
+  @javax.annotation.Nonnull  private String shapeType;
 
   public static final String SERIALIZED_NAME_TRIANGLE_TYPE = "triangleType";
   @SerializedName(SERIALIZED_NAME_TRIANGLE_TYPE)
-  @javax.annotation.Nonnull
-  private String triangleType;
+  @javax.annotation.Nonnull  private String triangleType;
 
   public EquilateralTriangle() {
   }
@@ -72,8 +71,7 @@ public class EquilateralTriangle {
    * Get shapeType
    * @return shapeType
    */
-  @javax.annotation.Nonnull
-  public String getShapeType() {
+  @javax.annotation.Nonnull  public String getShapeType() {
     return shapeType;
   }
 
@@ -91,8 +89,7 @@ public class EquilateralTriangle {
    * Get triangleType
    * @return triangleType
    */
-  @javax.annotation.Nonnull
-  public String getTriangleType() {
+  @javax.annotation.Nonnull  public String getTriangleType() {
     return triangleType;
   }
 
@@ -144,7 +141,6 @@ public class EquilateralTriangle {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

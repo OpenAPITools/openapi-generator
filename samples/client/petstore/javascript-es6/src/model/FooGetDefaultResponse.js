@@ -85,4 +85,3 @@ FooGetDefaultResponse.prototype['string'] = undefined;
 
 
 export default FooGetDefaultResponse;
-

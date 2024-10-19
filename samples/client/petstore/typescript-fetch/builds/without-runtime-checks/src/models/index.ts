@@ -18,8 +18,7 @@ export interface Category {
      * @memberof Category
      */
     name?: string;
-}
-/**
+}/**
  * Describes the result of uploading an image resource
  * @export
  * @interface ModelApiResponse
@@ -43,8 +42,7 @@ export interface ModelApiResponse {
      * @memberof ModelApiResponse
      */
     message?: string;
-}
-/**
+}/**
  * An order for a pets from the pet store
  * @export
  * @interface Order
@@ -98,7 +96,6 @@ export const OrderStatusEnum = {
     Delivered: 'delivered'
 } as const;
 export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
-
 /**
  * A pet for sale in the pet store
  * @export
@@ -153,7 +150,6 @@ export const PetStatusEnum = {
     Sold: 'sold'
 } as const;
 export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
-
 /**
  * A tag for a pet
  * @export
@@ -172,8 +168,7 @@ export interface Tag {
      * @memberof Tag
      */
     name?: string;
-}
-/**
+}/**
  * A User who is purchasing from the pet store
  * @export
  * @interface User

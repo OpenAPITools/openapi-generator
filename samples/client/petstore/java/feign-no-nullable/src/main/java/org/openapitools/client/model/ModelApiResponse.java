@@ -34,18 +34,16 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("ApiResponse")
 @javax.annotation.concurrent.Immutable
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class ModelApiResponse {
   public static final String JSON_PROPERTY_CODE = "code";
-  @javax.annotation.Nullable
-  private Integer code;
+  @javax.annotation.Nullable  private Integer code;
 
   public static final String JSON_PROPERTY_TYPE = "type";
-  @javax.annotation.Nullable
-  private String type;
+  @javax.annotation.Nullable  private String type;
 
   public static final String JSON_PROPERTY_MESSAGE = "message";
-  @javax.annotation.Nullable
-  private String message;
+  @javax.annotation.Nullable  private String message;
 
   public ModelApiResponse() {
   }
@@ -60,8 +58,7 @@ public class ModelApiResponse {
    * Get code
    * @return code
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_CODE)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_CODE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getCode() {
@@ -86,8 +83,7 @@ public class ModelApiResponse {
    * Get type
    * @return type
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_TYPE)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getType() {
@@ -112,8 +108,7 @@ public class ModelApiResponse {
    * Get message
    * @return message
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MESSAGE)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_MESSAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getMessage() {
@@ -126,7 +121,6 @@ public class ModelApiResponse {
   public void setMessage(@javax.annotation.Nullable String message) {
     this.message = message;
   }
-
 
   @Override
   public boolean equals(Object o) {

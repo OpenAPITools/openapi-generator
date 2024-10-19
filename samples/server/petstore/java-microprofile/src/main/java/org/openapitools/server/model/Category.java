@@ -27,7 +27,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 /**
   * A category for a pet
   */
-
 public class Category  {
   
   public static final String JSON_PROPERTY_ID = "id";
@@ -112,4 +111,3 @@ public class Category  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

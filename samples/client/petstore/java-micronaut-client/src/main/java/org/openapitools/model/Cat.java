@@ -104,4 +104,3 @@ public class Cat extends Animal {
         return visitor.visitCat(this);
     }
 }
-

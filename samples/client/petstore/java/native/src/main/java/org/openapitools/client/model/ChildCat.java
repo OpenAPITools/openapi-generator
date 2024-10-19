@@ -49,15 +49,13 @@ import org.openapitools.client.ApiClient;
   allowSetters = true // allows the pet_type to be set during deserialization
 )
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "pet_type", visible = true)
-
 public class ChildCat extends ParentPet {
   public static final String JSON_PROPERTY_NAME = "name";
-  @javax.annotation.Nullable
-  private String name;
+  @javax.annotation.Nullable  private String name;
+
 
   public static final String JSON_PROPERTY_PET_TYPE = "pet_type";
-  @javax.annotation.Nullable
-  private String petType = "ChildCat";
+  @javax.annotation.Nullable  private String petType = "ChildCat";
 
   public ChildCat() { 
   }
@@ -71,8 +69,7 @@ public class ChildCat extends ParentPet {
    * Get name
    * @return name
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getName() {
     return name;
@@ -103,8 +100,7 @@ public class ChildCat extends ParentPet {
    * Get petType
    * @return petType
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PET_TYPE)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_PET_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getPetType() {
     return petType;
@@ -120,7 +116,6 @@ public class ChildCat extends ParentPet {
 
     this.petType = petType;
   }
-
 
   /**
    * Return true if this ChildCat object is equal to o.
@@ -276,6 +271,5 @@ static {
       .petType(getPetType())
       .name(getName());
   }
-
 }
 

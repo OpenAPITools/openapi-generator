@@ -196,7 +196,6 @@ public class TypeHolderDefault {
     this.arrayItem = arrayItem;
   }
 
-
   /**
    * Return true if this TypeHolderDefault object is equal to o.
    */

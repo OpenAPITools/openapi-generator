@@ -21,7 +21,6 @@ import javax.annotation.Generated;
 /**
  * FileSchemaTestClass
  */
-
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class FileSchemaTestClass {
 
@@ -39,8 +38,7 @@ public class FileSchemaTestClass {
    * Get file
    * @return file
    */
-  @Valid 
-  @Schema(name = "file", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Valid   @Schema(name = "file", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("file")
   public File getFile() {
     return file;
@@ -67,8 +65,7 @@ public class FileSchemaTestClass {
    * Get files
    * @return files
    */
-  @Valid 
-  @Schema(name = "files", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Valid   @Schema(name = "files", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("files")
   public List<@Valid File> getFiles() {
     return files;
@@ -77,7 +74,6 @@ public class FileSchemaTestClass {
   public void setFiles(List<@Valid File> files) {
     this.files = files;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

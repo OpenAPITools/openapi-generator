@@ -14,4 +14,3 @@ Model for testing model name same as property name
 |**_123number** | **Integer** |  |  [optional] [readonly] |
 
 
-

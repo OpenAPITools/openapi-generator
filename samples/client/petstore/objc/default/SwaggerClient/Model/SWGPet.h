@@ -13,7 +13,6 @@
 * Do not edit the class manually.
 */
 
-
 #import "SWGCategory.h"
 #import "SWGTag.h"
 @protocol SWGCategory;

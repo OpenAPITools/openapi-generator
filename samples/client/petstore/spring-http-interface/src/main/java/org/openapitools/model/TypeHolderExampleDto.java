@@ -20,7 +20,6 @@ import jakarta.annotation.Generated;
 /**
  * TypeHolderExampleDto
  */
-
 @JsonTypeName("TypeHolderExample")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class TypeHolderExampleDto {
@@ -163,7 +162,6 @@ public class TypeHolderExampleDto {
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

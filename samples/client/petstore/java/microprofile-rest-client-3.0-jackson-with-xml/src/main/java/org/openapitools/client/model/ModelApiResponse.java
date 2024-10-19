@@ -40,7 +40,6 @@ import jakarta.xml.bind.annotation.adapters.*;
 /**
   * Describes the result of uploading an image resource
   */
-
 public class ModelApiResponse  {
   
   public static final String JSON_PROPERTY_CODE = "code";
@@ -160,4 +159,3 @@ public class ModelApiResponse  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

@@ -54,31 +54,27 @@ import org.openapitools.client.JSON;
  * A pet for sale in the pet store
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class PetWithRequiredNullableCases1 {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
-  @javax.annotation.Nullable
-  private Long id;
+  @javax.annotation.Nullable  private Long id;
 
   public static final String SERIALIZED_NAME_CATEGORY = "category";
   @SerializedName(SERIALIZED_NAME_CATEGORY)
-  @javax.annotation.Nullable
-  private Category category;
+  @javax.annotation.Nullable  private Category category;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
-  @javax.annotation.Nullable
-  private String name;
+  @javax.annotation.Nullable  private String name;
 
   public static final String SERIALIZED_NAME_PHOTO_URLS = "photoUrls";
   @SerializedName(SERIALIZED_NAME_PHOTO_URLS)
-  @javax.annotation.Nullable
-  private List<String> photoUrls;
+  @javax.annotation.Nullable  private List<String> photoUrls;
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
-  @javax.annotation.Nullable
-  private List<Tag> tags;
+  @javax.annotation.Nullable  private List<Tag> tags;
 
   /**
    * pet status in the store
@@ -133,12 +129,10 @@ public class PetWithRequiredNullableCases1 {
       StatusEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_STATUS = "status";
   @Deprecated
   @SerializedName(SERIALIZED_NAME_STATUS)
-  @javax.annotation.Nullable
-  private StatusEnum status;
+  @javax.annotation.Nullable  private StatusEnum status;
 
   public PetWithRequiredNullableCases1() {
   }
@@ -152,8 +146,7 @@ public class PetWithRequiredNullableCases1 {
    * Get id
    * @return id
    */
-  @javax.annotation.Nullable
-  public Long getId() {
+  @javax.annotation.Nullable  public Long getId() {
     return id;
   }
 
@@ -171,8 +164,7 @@ public class PetWithRequiredNullableCases1 {
    * Get category
    * @return category
    */
-  @javax.annotation.Nullable
-  public Category getCategory() {
+  @javax.annotation.Nullable  public Category getCategory() {
     return category;
   }
 
@@ -190,8 +182,7 @@ public class PetWithRequiredNullableCases1 {
    * Get name
    * @return name
    */
-  @javax.annotation.Nullable
-  public String getName() {
+  @javax.annotation.Nullable  public String getName() {
     return name;
   }
 
@@ -217,8 +208,7 @@ public class PetWithRequiredNullableCases1 {
    * Get photoUrls
    * @return photoUrls
    */
-  @javax.annotation.Nullable
-  public List<String> getPhotoUrls() {
+  @javax.annotation.Nullable  public List<String> getPhotoUrls() {
     return photoUrls;
   }
 
@@ -244,8 +234,7 @@ public class PetWithRequiredNullableCases1 {
    * Get tags
    * @return tags
    */
-  @javax.annotation.Nullable
-  public List<Tag> getTags() {
+  @javax.annotation.Nullable  public List<Tag> getTags() {
     return tags;
   }
 
@@ -266,8 +255,7 @@ public class PetWithRequiredNullableCases1 {
    * @deprecated
    */
   @Deprecated
-  @javax.annotation.Nullable
-  public StatusEnum getStatus() {
+  @javax.annotation.Nullable  public StatusEnum getStatus() {
     return status;
   }
 
@@ -320,7 +308,6 @@ public class PetWithRequiredNullableCases1 {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

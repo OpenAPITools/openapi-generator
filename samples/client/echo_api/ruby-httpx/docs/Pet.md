@@ -25,4 +25,3 @@ instance = OpenapiClient::Pet.new(
   status: null
 )
 ```
-

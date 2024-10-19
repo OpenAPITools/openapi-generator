@@ -43,7 +43,6 @@ public interface VersioningApiDelegate {
             }
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
     /**
@@ -68,7 +67,6 @@ public interface VersioningApiDelegate {
             }
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
     /**
@@ -93,7 +91,6 @@ public interface VersioningApiDelegate {
             }
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
 }

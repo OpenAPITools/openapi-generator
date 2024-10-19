@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { BranchDto } from './BranchDto';
 import {
@@ -35,7 +34,6 @@ import {
  */
 export interface RemoteAuthenticatedUserDto extends AbstractUserDto {
 }
-
 /**
  * Check if a given object implements the RemoteAuthenticatedUserDto interface.
  */
@@ -58,4 +56,3 @@ export function RemoteAuthenticatedUserDtoFromJSONTyped(json: any, ignoreDiscrim
   export function RemoteAuthenticatedUserDtoToJSONTyped(value?: RemoteAuthenticatedUserDto | null, ignoreDiscriminator: boolean = false): any {
     return value;
 }
-

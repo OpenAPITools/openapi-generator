@@ -33,7 +33,6 @@ import com.google.gson.annotations.SerializedName
  * @param id 
  */
 
-
 data class ApiAnnotation (
 
     @SerializedName("id")

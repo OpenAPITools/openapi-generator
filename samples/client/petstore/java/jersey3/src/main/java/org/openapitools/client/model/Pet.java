@@ -122,7 +122,6 @@ public class Pet {
 
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Long getId() {
     return id;
   }
@@ -149,7 +148,6 @@ public class Pet {
 
   @JsonProperty(JSON_PROPERTY_CATEGORY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Category getCategory() {
     return category;
   }
@@ -176,7 +174,6 @@ public class Pet {
 
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public String getName() {
     return name;
   }
@@ -211,7 +208,6 @@ public class Pet {
 
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -246,7 +242,6 @@ public class Pet {
 
   @JsonProperty(JSON_PROPERTY_TAGS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public List<@Valid Tag> getTags() {
     return tags;
   }
@@ -272,7 +267,6 @@ public class Pet {
 
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public StatusEnum getStatus() {
     return status;
   }
@@ -283,7 +277,6 @@ public class Pet {
   public void setStatus(@jakarta.annotation.Nullable StatusEnum status) {
     this.status = status;
   }
-
 
   /**
    * Return true if this Pet object is equal to o.

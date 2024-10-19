@@ -52,21 +52,19 @@ import org.openapitools.client.JSON;
  */
 @ApiModel(description = "Describes the result of uploading an image resource")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class ModelApiResponse {
   public static final String SERIALIZED_NAME_CODE = "code";
   @SerializedName(SERIALIZED_NAME_CODE)
-  @javax.annotation.Nullable
-  private Integer code;
+  @javax.annotation.Nullable  private Integer code;
 
   public static final String SERIALIZED_NAME_TYPE = "type";
   @SerializedName(SERIALIZED_NAME_TYPE)
-  @javax.annotation.Nullable
-  private String type;
+  @javax.annotation.Nullable  private String type;
 
   public static final String SERIALIZED_NAME_MESSAGE = "message";
   @SerializedName(SERIALIZED_NAME_MESSAGE)
-  @javax.annotation.Nullable
-  private String message;
+  @javax.annotation.Nullable  private String message;
 
   public ModelApiResponse() {
   }
@@ -80,8 +78,7 @@ public class ModelApiResponse {
    * Get code
    * @return code
    */
-  @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @javax.annotation.Nullable  @ApiModelProperty(value = "")
   public Integer getCode() {
     return code;
   }
@@ -100,8 +97,7 @@ public class ModelApiResponse {
    * Get type
    * @return type
    */
-  @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @javax.annotation.Nullable  @ApiModelProperty(value = "")
   public String getType() {
     return type;
   }
@@ -120,8 +116,7 @@ public class ModelApiResponse {
    * Get message
    * @return message
    */
-  @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @javax.annotation.Nullable  @ApiModelProperty(value = "")
   public String getMessage() {
     return message;
   }
@@ -174,7 +169,6 @@ public class ModelApiResponse {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

@@ -19,7 +19,7 @@ using Newtonsoft.Json;
 using Org.OpenAPITools.Converters;
 
 namespace Org.OpenAPITools.Models
-{ 
+{
     /// <summary>
     /// A category for a pet
     /// </summary>

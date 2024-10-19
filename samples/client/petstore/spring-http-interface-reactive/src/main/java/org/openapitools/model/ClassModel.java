@@ -15,7 +15,6 @@ import jakarta.annotation.Generated;
 /**
  * Model for testing model with \&quot;_class\&quot; property
  */
-
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ClassModel {
 
@@ -39,7 +38,6 @@ public class ClassModel {
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

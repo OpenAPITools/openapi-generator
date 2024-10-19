@@ -19,7 +19,6 @@ import javax.annotation.Generated;
 /**
  * Model for testing model with \&quot;_class\&quot; property
  */
-
 @ApiModel(description = "Model for testing model with \"_class\" property")
 @JsonTypeName("ClassModel")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
@@ -36,8 +35,7 @@ public class ClassModelDto {
    * Get propertyClass
    * @return propertyClass
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("_class")
   public String getPropertyClass() {
     return propertyClass;
@@ -46,7 +44,6 @@ public class ClassModelDto {
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

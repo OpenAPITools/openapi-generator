@@ -17,4 +17,3 @@ instance = Petstore::FakeBigDecimalMap200Response.new(
   some_map: null
 )
 ```
-

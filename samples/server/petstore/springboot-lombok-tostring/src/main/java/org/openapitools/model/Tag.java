@@ -22,7 +22,6 @@ import jakarta.annotation.Generated;
 @lombok.Setter
 @lombok.ToString
 @lombok.EqualsAndHashCode
-
 @Schema(name = "Tag", description = "A tag for a pet")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Tag {
@@ -41,7 +40,6 @@ public class Tag {
     this.name = name;
     return this;
   }
-
 
 
 }

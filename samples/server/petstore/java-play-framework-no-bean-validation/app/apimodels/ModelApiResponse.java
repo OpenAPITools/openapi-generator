@@ -12,12 +12,15 @@ import java.util.Objects;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ModelApiResponse   {
   @JsonProperty("code")
+  
   private Integer code;
 
   @JsonProperty("type")
+  
   private String type;
 
   @JsonProperty("message")
+  
   private String message;
 
   public ModelApiResponse code(Integer code) {
@@ -115,4 +118,3 @@ public class ModelApiResponse   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

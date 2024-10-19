@@ -39,19 +39,19 @@ import io.github.threetenjaxb.core.*;
 })
 @JsonTypeName("fakeBigDecimalMap_200_response")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 @XmlRootElement(name = "FakeBigDecimalMap200Response")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "FakeBigDecimalMap200Response")
+
 public class FakeBigDecimalMap200Response {
   public static final String JSON_PROPERTY_SOME_ID = "someId";
   @XmlElement(name = "someId")
-  @javax.annotation.Nullable
-  private BigDecimal someId;
+  @javax.annotation.Nullable  private BigDecimal someId;
 
   public static final String JSON_PROPERTY_SOME_MAP = "someMap";
   @XmlElement(name = "someMap")
-  @javax.annotation.Nullable
-  private Map<String, BigDecimal> someMap = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, BigDecimal> someMap = new HashMap<>();
 
   public FakeBigDecimalMap200Response() {
   }
@@ -66,8 +66,7 @@ public class FakeBigDecimalMap200Response {
    * Get someId
    * @return someId
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SOME_ID)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_SOME_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "someId")
 
@@ -101,8 +100,7 @@ public class FakeBigDecimalMap200Response {
    * Get someMap
    * @return someMap
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SOME_MAP)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_SOME_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "someMap")
   @JacksonXmlElementWrapper(useWrapping = false)

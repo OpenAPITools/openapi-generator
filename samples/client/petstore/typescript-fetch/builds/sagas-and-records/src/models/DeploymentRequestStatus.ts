@@ -12,7 +12,6 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * Status of the deployment request
  * @export
@@ -60,4 +59,3 @@ export function DeploymentRequestStatusToJSON(value?: DeploymentRequestStatus | 
 export function DeploymentRequestStatusToJSONTyped(value: any, ignoreDiscriminator: boolean): DeploymentRequestStatus {
     return value as DeploymentRequestStatus;
 }
-

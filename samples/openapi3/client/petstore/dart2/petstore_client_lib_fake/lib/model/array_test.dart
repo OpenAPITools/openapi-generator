@@ -129,4 +129,3 @@ class ArrayTest {
   static const requiredKeys = <String>{
   };
 }
-

@@ -14,7 +14,6 @@
  * https://openapi-generator.tech
  */
 
-
 // this file was generated from app.mustache
 package cask.groupId.server
 

@@ -102,4 +102,3 @@ FileSchemaTestClass.prototype['files'] = undefined;
 
 
 export default FileSchemaTestClass;
-

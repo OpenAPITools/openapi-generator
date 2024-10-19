@@ -26,7 +26,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -40,7 +39,6 @@ async with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling ImportTestDatetimeApi->import_test_return_datetime: %s\n" % e)
 ```
-
 
 
 ### Parameters

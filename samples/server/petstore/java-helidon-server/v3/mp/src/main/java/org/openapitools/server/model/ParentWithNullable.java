@@ -26,7 +26,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
 public class ParentWithNullable  {
   
 public enum TypeEnum {
@@ -75,6 +74,7 @@ public enum TypeEnum {
         throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
+
 
   private TypeEnum type;
 
@@ -146,4 +146,3 @@ public enum TypeEnum {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

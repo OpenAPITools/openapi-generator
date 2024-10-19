@@ -12,7 +12,6 @@
     Do not edit the class manually.
 """  # noqa: E501
 
-
 # import models into model package
 from petstore_api.models.additional_properties_any_type import AdditionalPropertiesAnyType
 from petstore_api.models.additional_properties_class import AdditionalPropertiesClass

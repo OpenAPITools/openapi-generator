@@ -39,7 +39,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   allowSetters = true // allows the className to be set during deserialization
 )
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
-
 public class Cat extends Animal {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";
   @javax.annotation.Nullable
@@ -73,7 +72,6 @@ public class Cat extends Animal {
   public void setDeclawed(@javax.annotation.Nullable Boolean declawed) {
     this.declawed = declawed;
   }
-
 
   @Override
   public boolean equals(Object o) {

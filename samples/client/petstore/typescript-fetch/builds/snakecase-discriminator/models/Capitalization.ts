@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * 
@@ -57,7 +56,6 @@ export interface Capitalization {
      */
     aTTNAME?: string;
 }
-
 /**
  * Check if a given object implements the Capitalization interface.
  */
@@ -103,4 +101,3 @@ export function CapitalizationFromJSONTyped(json: any, ignoreDiscriminator: bool
         'ATT_NAME': value['aTTNAME'],
     };
 }
-

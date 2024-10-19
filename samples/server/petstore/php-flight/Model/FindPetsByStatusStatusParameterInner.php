@@ -21,7 +21,6 @@
  *
  */
 
-
 namespace OpenAPIServer\Model;
 
 /**

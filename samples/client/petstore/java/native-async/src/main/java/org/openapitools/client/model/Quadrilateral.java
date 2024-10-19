@@ -57,6 +57,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 @JsonDeserialize(using = Quadrilateral.QuadrilateralDeserializer.class)
 @JsonSerialize(using = Quadrilateral.QuadrilateralSerializer.class)
 public class Quadrilateral extends AbstractOpenApiSchema {
@@ -168,7 +169,6 @@ public class Quadrilateral extends AbstractOpenApiSchema {
     public Quadrilateral() {
         super("oneOf", Boolean.FALSE);
     }
-
     public Quadrilateral(ComplexQuadrilateral o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);

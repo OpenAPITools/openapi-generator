@@ -149,4 +149,3 @@ class ApiResponse {
   static const requiredKeys = <String>{
   };
 }
-

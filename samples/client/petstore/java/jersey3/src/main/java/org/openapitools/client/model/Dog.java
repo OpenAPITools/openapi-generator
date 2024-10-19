@@ -48,7 +48,6 @@ import org.openapitools.client.JSON;
   allowSetters = true // allows the className to be set during deserialization
 )
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
-
 public class Dog extends Animal {
   public static final String JSON_PROPERTY_BREED = "breed";
   @jakarta.annotation.Nullable
@@ -70,7 +69,6 @@ public class Dog extends Animal {
 
   @JsonProperty(JSON_PROPERTY_BREED)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getBreed() {
     return breed;
   }
@@ -119,7 +117,6 @@ public class Dog extends Animal {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this Dog object is equal to o.
    */

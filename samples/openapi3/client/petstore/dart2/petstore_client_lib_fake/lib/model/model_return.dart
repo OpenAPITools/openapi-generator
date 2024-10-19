@@ -115,4 +115,3 @@ class ModelReturn {
   static const requiredKeys = <String>{
   };
 }
-

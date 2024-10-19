@@ -55,6 +55,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 @JsonDeserialize(using = PostRequest.PostRequestDeserializer.class)
 @JsonSerialize(using = PostRequest.PostRequestSerializer.class)
 public class PostRequest extends AbstractOpenApiSchema {
@@ -150,7 +151,6 @@ public class PostRequest extends AbstractOpenApiSchema {
     public PostRequest() {
         super("oneOf", Boolean.FALSE);
     }
-
     public PostRequest(SchemaA o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);

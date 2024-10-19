@@ -31,7 +31,6 @@ public abstract class StoreApiControllerImpInterface {
     public Result deleteOrderHttp(Http.Request request, String orderId)  {
         deleteOrder(request, orderId);
         return ok();
-
     }
 
     public abstract void deleteOrder(Http.Request request, String orderId) ;
@@ -41,7 +40,6 @@ public abstract class StoreApiControllerImpInterface {
         JsonNode result = mapper.valueToTree(obj);
 
         return ok(result);
-
     }
 
     public abstract Map<String, Integer> getInventory(Http.Request request) ;
@@ -56,7 +54,6 @@ public abstract class StoreApiControllerImpInterface {
         JsonNode result = mapper.valueToTree(obj);
 
         return ok(result);
-
     }
 
     public abstract Order getOrderById(Http.Request request,  @Min(1) @Max(5)Long orderId) ;
@@ -71,7 +68,6 @@ public abstract class StoreApiControllerImpInterface {
         JsonNode result = mapper.valueToTree(obj);
 
         return ok(result);
-
     }
 
     public abstract Order placeOrder(Http.Request request, Order body) ;

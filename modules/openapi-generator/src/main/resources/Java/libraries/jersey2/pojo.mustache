@@ -23,7 +23,12 @@
 @JsonTypeName("{{name}}")
 {{/isClassnameSanitized}}
 {{/jackson}}
-{{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
+{{>additionalModelTypeAnnotations}}
+{{>generatedAnnotation}}
+{{#discriminator}}
+{{>typeInfoAnnotation}}
+{{/discriminator}}
+{{>xmlAnnotation}}
 {{#vendorExtensions.x-class-extra-annotation}}
 {{{vendorExtensions.x-class-extra-annotation}}}
 {{/vendorExtensions.x-class-extra-annotation}}
@@ -82,6 +87,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   @Deprecated
   {{/deprecated}}
   {{>nullable_var_annotations}}
+
   private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
@@ -199,6 +205,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   @Deprecated
 {{/deprecated}}
   {{>nullable_var_annotations}}
+
 {{#useBeanValidation}}
 {{>beanValidation}}
 {{/useBeanValidation}}
@@ -235,7 +242,8 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   public JsonNullable<{{{datatypeWithEnum}}}> {{getter}}_JsonNullable() {
     return {{name}};
   }
-  {{/vendorExtensions.x-is-jackson-optional-nullable}}{{#vendorExtensions.x-is-jackson-optional-nullable}}
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
+  {{#vendorExtensions.x-is-jackson-optional-nullable}}
   @JsonProperty(JSON_PROPERTY_{{nameInSnakeCase}})
   {{#isReadOnly}}private{{/isReadOnly}}{{^isReadOnly}}public{{/isReadOnly}} void {{setter}}_JsonNullable(JsonNullable<{{{datatypeWithEnum}}}> {{name}}) {
     {{! For getters/setters that have name differing from attribute name, we must include setter (albeit private) for jackson to be able to set the attribute}}

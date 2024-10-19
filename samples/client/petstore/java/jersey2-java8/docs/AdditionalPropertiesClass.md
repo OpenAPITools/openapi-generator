@@ -20,4 +20,3 @@
 |**anytype3** | **Object** |  |  [optional] |
 
 
-

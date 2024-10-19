@@ -23,7 +23,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
 public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<String, Object> {
   
   private String someProperty;
@@ -73,4 +72,3 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
     return o.toString().replace("\n", "\n    ");
   }
 }
-

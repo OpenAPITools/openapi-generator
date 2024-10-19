@@ -139,4 +139,3 @@ class MixedPropertiesAndAdditionalPropertiesClass {
   static const requiredKeys = <String>{
   };
 }
-

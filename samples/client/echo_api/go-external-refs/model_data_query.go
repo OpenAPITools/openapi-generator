@@ -209,4 +209,3 @@ func (v *NullableDataQuery) UnmarshalJSON(src []byte) error {
 	return json.Unmarshal(src, &v.value)
 }
 
-

@@ -33,7 +33,6 @@ import kotlinx.serialization.encoding.*
  * @param status pet status in the store
  */
 @Serializable
-
 data class Pet (
 
     @SerialName(value = "name") @Required val name: kotlin.String,

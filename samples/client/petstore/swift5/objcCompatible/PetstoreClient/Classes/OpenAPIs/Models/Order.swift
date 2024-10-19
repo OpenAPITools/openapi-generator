@@ -16,8 +16,7 @@ import AnyCodable
         case placed = "placed"
         case approved = "approved"
         case delivered = "delivered"
-    }
-    public var _id: Int64?
+    }    public var _id: Int64?
     public var _idNum: NSNumber? {
         get {
             return _id as NSNumber?

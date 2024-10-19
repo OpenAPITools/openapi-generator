@@ -11,7 +11,6 @@
     Do not edit the class manually.
 """  # noqa: E501
 
-
 import json
 import pprint
 import re  # noqa: F401
@@ -37,5 +36,4 @@ class OuterEnumInteger(int, Enum):
     def from_json(cls, json_str: str) -> OuterEnumInteger:
         """Create an instance of OuterEnumInteger from a JSON string"""
         return OuterEnumInteger(json.loads(json_str))
-
 

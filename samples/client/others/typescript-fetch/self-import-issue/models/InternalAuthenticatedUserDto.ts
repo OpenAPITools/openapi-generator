@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { BranchDto } from './BranchDto';
 import {
@@ -35,7 +34,6 @@ import {
  */
 export interface InternalAuthenticatedUserDto extends AbstractUserDto {
 }
-
 /**
  * Check if a given object implements the InternalAuthenticatedUserDto interface.
  */
@@ -58,4 +56,3 @@ export function InternalAuthenticatedUserDtoFromJSONTyped(json: any, ignoreDiscr
   export function InternalAuthenticatedUserDtoToJSONTyped(value?: InternalAuthenticatedUserDto | null, ignoreDiscriminator: boolean = false): any {
     return value;
 }
-

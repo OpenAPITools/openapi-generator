@@ -12,4 +12,3 @@ require 'openapi_client'
 
 instance = OpenapiClient::StringEnumRef.new()
 ```
-

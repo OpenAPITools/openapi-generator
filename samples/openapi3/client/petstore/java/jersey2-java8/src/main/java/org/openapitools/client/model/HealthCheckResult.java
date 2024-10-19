@@ -62,11 +62,9 @@ public class HealthCheckResult {
 
   @JsonProperty(JSON_PROPERTY_NULLABLE_MESSAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<String> getNullableMessage_JsonNullable() {
     return nullableMessage;
   }
-  
   @JsonProperty(JSON_PROPERTY_NULLABLE_MESSAGE)
   public void setNullableMessage_JsonNullable(JsonNullable<String> nullableMessage) {
     this.nullableMessage = nullableMessage;
@@ -75,7 +73,6 @@ public class HealthCheckResult {
   public void setNullableMessage(@javax.annotation.Nullable String nullableMessage) {
     this.nullableMessage = JsonNullable.<String>of(nullableMessage);
   }
-
 
   /**
    * Return true if this HealthCheckResult object is equal to o.

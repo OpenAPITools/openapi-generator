@@ -38,18 +38,16 @@ import org.openapitools.client.ApiClient;
   ModelApiResponse.JSON_PROPERTY_MESSAGE
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class ModelApiResponse {
   public static final String JSON_PROPERTY_CODE = "code";
-  @jakarta.annotation.Nullable
-  private Integer code;
+  @jakarta.annotation.Nullable  private Integer code;
 
   public static final String JSON_PROPERTY_TYPE = "type";
-  @jakarta.annotation.Nullable
-  private String type;
+  @jakarta.annotation.Nullable  private String type;
 
   public static final String JSON_PROPERTY_MESSAGE = "message";
-  @jakarta.annotation.Nullable
-  private String message;
+  @jakarta.annotation.Nullable  private String message;
 
   public ModelApiResponse() { 
   }
@@ -63,8 +61,7 @@ public class ModelApiResponse {
    * Get code
    * @return code
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_CODE)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_CODE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Integer getCode() {
     return code;
@@ -87,8 +84,7 @@ public class ModelApiResponse {
    * Get type
    * @return type
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_TYPE)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getType() {
     return type;
@@ -111,8 +107,7 @@ public class ModelApiResponse {
    * Get message
    * @return message
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MESSAGE)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_MESSAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getMessage() {
     return message;
@@ -124,7 +119,6 @@ public class ModelApiResponse {
   public void setMessage(@jakarta.annotation.Nullable String message) {
     this.message = message;
   }
-
 
   /**
    * Return true if this ApiResponse object is equal to o.

@@ -113,4 +113,3 @@ class Animal {
     'className',
   };
 }
-

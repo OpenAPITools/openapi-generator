@@ -11,7 +11,6 @@
     Do not edit the class manually.
 """  # noqa: E501
 
-
 import json
 import pprint
 import re  # noqa: F401
@@ -38,5 +37,4 @@ class TestEnum(str, Enum):
     def from_json(cls, json_str: str) -> TestEnum:
         """Create an instance of TestEnum from a JSON string"""
         return TestEnum(json.loads(json_str))
-
 

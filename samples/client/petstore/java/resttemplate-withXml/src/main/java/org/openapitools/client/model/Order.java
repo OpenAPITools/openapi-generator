@@ -40,30 +40,28 @@ import io.github.threetenjaxb.core.*;
   Order.JSON_PROPERTY_COMPLETE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 @XmlRootElement(name = "Order")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Order")
+
 public class Order {
   public static final String JSON_PROPERTY_ID = "id";
   @XmlElement(name = "id")
-  @javax.annotation.Nullable
-  private Long id;
+  @javax.annotation.Nullable  private Long id;
 
   public static final String JSON_PROPERTY_PET_ID = "petId";
   @XmlElement(name = "petId")
-  @javax.annotation.Nullable
-  private Long petId;
+  @javax.annotation.Nullable  private Long petId;
 
   public static final String JSON_PROPERTY_QUANTITY = "quantity";
   @XmlElement(name = "quantity")
-  @javax.annotation.Nullable
-  private Integer quantity;
+  @javax.annotation.Nullable  private Integer quantity;
 
   public static final String JSON_PROPERTY_SHIP_DATE = "shipDate";
   @XmlElement(name = "shipDate")
   @XmlJavaTypeAdapter(OffsetDateTimeXmlAdapter.class)
-  @javax.annotation.Nullable
-  private OffsetDateTime shipDate;
+  @javax.annotation.Nullable  private OffsetDateTime shipDate;
 
   /**
    * Order Status
@@ -106,16 +104,13 @@ public class Order {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_STATUS = "status";
   @XmlElement(name = "status")
-  @javax.annotation.Nullable
-  private StatusEnum status;
+  @javax.annotation.Nullable  private StatusEnum status;
 
   public static final String JSON_PROPERTY_COMPLETE = "complete";
   @XmlElement(name = "complete")
-  @javax.annotation.Nullable
-  private Boolean complete = false;
+  @javax.annotation.Nullable  private Boolean complete = false;
 
   public Order() {
   }
@@ -130,8 +125,7 @@ public class Order {
    * Get id
    * @return id
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ID)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "id")
 
@@ -157,8 +151,7 @@ public class Order {
    * Get petId
    * @return petId
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PET_ID)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_PET_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "petId")
 
@@ -184,8 +177,7 @@ public class Order {
    * Get quantity
    * @return quantity
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_QUANTITY)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_QUANTITY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "quantity")
 
@@ -211,8 +203,7 @@ public class Order {
    * Get shipDate
    * @return shipDate
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SHIP_DATE)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_SHIP_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "shipDate")
 
@@ -238,8 +229,7 @@ public class Order {
    * Order Status
    * @return status
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_STATUS)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "status")
 
@@ -265,8 +255,7 @@ public class Order {
    * Get complete
    * @return complete
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COMPLETE)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_COMPLETE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "complete")
 

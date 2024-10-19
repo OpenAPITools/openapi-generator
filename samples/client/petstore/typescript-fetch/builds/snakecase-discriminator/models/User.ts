@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * 
@@ -68,7 +67,6 @@ export interface User {
      */
     userStatus?: number;
 }
-
 /**
  * Check if a given object implements the User interface.
  */
@@ -118,4 +116,3 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
         'userStatus': value['userStatus'],
     };
 }
-

@@ -40,6 +40,7 @@ import org.openapitools.client.ApiClient;
   HealthCheckResult.JSON_PROPERTY_NULLABLE_MESSAGE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class HealthCheckResult {
   public static final String JSON_PROPERTY_NULLABLE_MESSAGE = "NullableMessage";
   private JsonNullable<String> nullableMessage = JsonNullable.<String>undefined();
@@ -56,15 +57,13 @@ public class HealthCheckResult {
    * Get nullableMessage
    * @return nullableMessage
    */
-  @javax.annotation.Nullable
-  @JsonIgnore
+  @javax.annotation.Nullable  @JsonIgnore
   public String getNullableMessage() {
         return nullableMessage.orElse(null);
   }
 
   @JsonProperty(JSON_PROPERTY_NULLABLE_MESSAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<String> getNullableMessage_JsonNullable() {
     return nullableMessage;
   }
@@ -77,7 +76,6 @@ public class HealthCheckResult {
   public void setNullableMessage(@javax.annotation.Nullable String nullableMessage) {
     this.nullableMessage = JsonNullable.<String>of(nullableMessage);
   }
-
 
   /**
    * Return true if this HealthCheckResult object is equal to o.

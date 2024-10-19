@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { ResponseMeta } from './ResponseMeta';
 import {
@@ -47,7 +46,6 @@ export interface GetMatchingPartsResponse {
      */
     data?: MatchingParts;
 }
-
 /**
  * Check if a given object implements the GetMatchingPartsResponse interface.
  */
@@ -86,4 +84,3 @@ export function GetMatchingPartsResponseFromJSONTyped(json: any, ignoreDiscrimin
         'data': MatchingPartsToJSON(value['data']),
     };
 }
-

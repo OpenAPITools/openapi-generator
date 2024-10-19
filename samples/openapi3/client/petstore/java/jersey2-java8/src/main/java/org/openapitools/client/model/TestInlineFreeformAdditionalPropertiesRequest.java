@@ -107,7 +107,6 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this testInlineFreeformAdditionalProperties_request object is equal to o.
    */

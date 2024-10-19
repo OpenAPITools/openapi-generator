@@ -80,9 +80,8 @@ public interface UserApi {
         @Parameter(hidden = true) Principal principal,
         @Parameter(hidden = true) @Qualifier("jacksonObjectMapper") ObjectMapper mapper
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                                return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
 
     /**
@@ -110,8 +109,7 @@ public interface UserApi {
         @Parameter(hidden = true) Principal principal,
         @Parameter(hidden = true) @Qualifier("jacksonObjectMapper") ObjectMapper mapper
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                                return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
 }

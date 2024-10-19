@@ -33,10 +33,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   DeprecatedObject.JSON_PROPERTY_NAME
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class DeprecatedObject {
   public static final String JSON_PROPERTY_NAME = "name";
-  @jakarta.annotation.Nullable
-  private String name;
+  @jakarta.annotation.Nullable  private String name;
 
   public DeprecatedObject() {
   }
@@ -51,8 +51,7 @@ public class DeprecatedObject {
    * Get name
    * @return name
    */
-  @jakarta.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @jakarta.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

@@ -161,4 +161,3 @@ User.prototype['userStatus'] = undefined;
 
 
 export default User;
-

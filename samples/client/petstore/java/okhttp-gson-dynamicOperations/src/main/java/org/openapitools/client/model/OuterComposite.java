@@ -50,21 +50,19 @@ import org.openapitools.client.JSON;
  * OuterComposite
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class OuterComposite {
   public static final String SERIALIZED_NAME_MY_NUMBER = "my_number";
   @SerializedName(SERIALIZED_NAME_MY_NUMBER)
-  @javax.annotation.Nullable
-  private BigDecimal myNumber;
+  @javax.annotation.Nullable  private BigDecimal myNumber;
 
   public static final String SERIALIZED_NAME_MY_STRING = "my_string";
   @SerializedName(SERIALIZED_NAME_MY_STRING)
-  @javax.annotation.Nullable
-  private String myString;
+  @javax.annotation.Nullable  private String myString;
 
   public static final String SERIALIZED_NAME_MY_BOOLEAN = "my_boolean";
   @SerializedName(SERIALIZED_NAME_MY_BOOLEAN)
-  @javax.annotation.Nullable
-  private Boolean myBoolean;
+  @javax.annotation.Nullable  private Boolean myBoolean;
 
   public OuterComposite() {
   }
@@ -78,8 +76,7 @@ public class OuterComposite {
    * Get myNumber
    * @return myNumber
    */
-  @javax.annotation.Nullable
-  public BigDecimal getMyNumber() {
+  @javax.annotation.Nullable  public BigDecimal getMyNumber() {
     return myNumber;
   }
 
@@ -97,8 +94,7 @@ public class OuterComposite {
    * Get myString
    * @return myString
    */
-  @javax.annotation.Nullable
-  public String getMyString() {
+  @javax.annotation.Nullable  public String getMyString() {
     return myString;
   }
 
@@ -116,15 +112,13 @@ public class OuterComposite {
    * Get myBoolean
    * @return myBoolean
    */
-  @javax.annotation.Nullable
-  public Boolean getMyBoolean() {
+  @javax.annotation.Nullable  public Boolean getMyBoolean() {
     return myBoolean;
   }
 
   public void setMyBoolean(@javax.annotation.Nullable Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
-
 
 
   @Override

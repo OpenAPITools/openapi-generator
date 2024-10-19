@@ -37,14 +37,13 @@ import jakarta.validation.Valid;
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class FileSchemaTestClass {
   public static final String JSON_PROPERTY_FILE = "file";
-  @jakarta.annotation.Nullable
-  private ModelFile _file;
+  @jakarta.annotation.Nullable  private ModelFile _file;
 
   public static final String JSON_PROPERTY_FILES = "files";
-  @jakarta.annotation.Nullable
-  private List<@Valid ModelFile> files = new ArrayList<>();
+  @jakarta.annotation.Nullable  private List<@Valid ModelFile> files = new ArrayList<>();
 
   public FileSchemaTestClass() {
   }
@@ -59,9 +58,7 @@ public class FileSchemaTestClass {
    * Get _file
    * @return _file
    */
-  @jakarta.annotation.Nullable
-  @Valid
-
+  @jakarta.annotation.Nullable  @Valid
   @JsonProperty(JSON_PROPERTY_FILE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -94,9 +91,7 @@ public class FileSchemaTestClass {
    * Get files
    * @return files
    */
-  @jakarta.annotation.Nullable
-  @Valid
-
+  @jakarta.annotation.Nullable  @Valid
   @JsonProperty(JSON_PROPERTY_FILES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

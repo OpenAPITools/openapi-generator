@@ -798,4 +798,3 @@ public class XmlItem   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

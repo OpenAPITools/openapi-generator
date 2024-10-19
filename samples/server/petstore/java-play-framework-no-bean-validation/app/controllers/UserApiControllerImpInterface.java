@@ -28,7 +28,6 @@ public abstract class UserApiControllerImpInterface {
     public Result createUserHttp(Http.Request request, User body) throws Exception {
         createUser(request, body);
         return ok();
-
     }
 
     public abstract void createUser(Http.Request request, User body) throws Exception;
@@ -36,7 +35,6 @@ public abstract class UserApiControllerImpInterface {
     public Result createUsersWithArrayInputHttp(Http.Request request, List<User> body) throws Exception {
         createUsersWithArrayInput(request, body);
         return ok();
-
     }
 
     public abstract void createUsersWithArrayInput(Http.Request request, List<User> body) throws Exception;
@@ -44,7 +42,6 @@ public abstract class UserApiControllerImpInterface {
     public Result createUsersWithListInputHttp(Http.Request request, List<User> body) throws Exception {
         createUsersWithListInput(request, body);
         return ok();
-
     }
 
     public abstract void createUsersWithListInput(Http.Request request, List<User> body) throws Exception;
@@ -52,7 +49,6 @@ public abstract class UserApiControllerImpInterface {
     public Result deleteUserHttp(Http.Request request, String username) throws Exception {
         deleteUser(request, username);
         return ok();
-
     }
 
     public abstract void deleteUser(Http.Request request, String username) throws Exception;
@@ -62,7 +58,6 @@ public abstract class UserApiControllerImpInterface {
         JsonNode result = mapper.valueToTree(obj);
 
         return ok(result);
-
     }
 
     public abstract User getUserByName(Http.Request request, String username) throws Exception;
@@ -72,7 +67,6 @@ public abstract class UserApiControllerImpInterface {
         JsonNode result = mapper.valueToTree(obj);
 
         return ok(result);
-
     }
 
     public abstract String loginUser(Http.Request request, String username, String password) throws Exception;
@@ -80,7 +74,6 @@ public abstract class UserApiControllerImpInterface {
     public Result logoutUserHttp(Http.Request request) throws Exception {
         logoutUser(request);
         return ok();
-
     }
 
     public abstract void logoutUser(Http.Request request) throws Exception;
@@ -88,7 +81,6 @@ public abstract class UserApiControllerImpInterface {
     public Result updateUserHttp(Http.Request request, String username, User body) throws Exception {
         updateUser(request, username, body);
         return ok();
-
     }
 
     public abstract void updateUser(Http.Request request, String username, User body) throws Exception;

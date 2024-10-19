@@ -20,7 +20,6 @@ import jakarta.annotation.Generated;
 /**
  * ContainerDefaultValue
  */
-
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ContainerDefaultValue {
 
@@ -155,7 +154,6 @@ public class ContainerDefaultValue {
   public void setNullableArrayWithDefault(JsonNullable<List<String>> nullableArrayWithDefault) {
     this.nullableArrayWithDefault = nullableArrayWithDefault;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

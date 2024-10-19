@@ -33,10 +33,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 @JsonTypeName("File")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class ModelFile {
   public static final String JSON_PROPERTY_SOURCE_U_R_I = "sourceURI";
-  @jakarta.annotation.Nullable
-  private String sourceURI;
+  @jakarta.annotation.Nullable  private String sourceURI;
 
   public ModelFile() {
   }
@@ -51,8 +51,7 @@ public class ModelFile {
    * Test capitalization
    * @return sourceURI
    */
-  @jakarta.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "Test capitalization")
+  @jakarta.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "Test capitalization")
   @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

@@ -51,16 +51,15 @@ import org.openapitools.client.JSON;
  * ModelWithOneOfAnyOfProperties
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class ModelWithOneOfAnyOfProperties {
   public static final String SERIALIZED_NAME_ONEOF_PROP = "oneof_prop";
   @SerializedName(SERIALIZED_NAME_ONEOF_PROP)
-  @javax.annotation.Nullable
-  private ArrayOneOf oneofProp;
+  @javax.annotation.Nullable  private ArrayOneOf oneofProp;
 
   public static final String SERIALIZED_NAME_ANYOF_PROP = "anyof_prop";
   @SerializedName(SERIALIZED_NAME_ANYOF_PROP)
-  @javax.annotation.Nullable
-  private ArrayAnyOf anyofProp;
+  @javax.annotation.Nullable  private ArrayAnyOf anyofProp;
 
   public ModelWithOneOfAnyOfProperties() {
   }
@@ -74,8 +73,7 @@ public class ModelWithOneOfAnyOfProperties {
    * Get oneofProp
    * @return oneofProp
    */
-  @javax.annotation.Nullable
-  public ArrayOneOf getOneofProp() {
+  @javax.annotation.Nullable  public ArrayOneOf getOneofProp() {
     return oneofProp;
   }
 
@@ -93,8 +91,7 @@ public class ModelWithOneOfAnyOfProperties {
    * Get anyofProp
    * @return anyofProp
    */
-  @javax.annotation.Nullable
-  public ArrayAnyOf getAnyofProp() {
+  @javax.annotation.Nullable  public ArrayAnyOf getAnyofProp() {
     return anyofProp;
   }
 
@@ -146,7 +143,6 @@ public class ModelWithOneOfAnyOfProperties {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

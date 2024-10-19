@@ -23,7 +23,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
 public class AllOfWithSingleRef  {
   
   private String username;
@@ -96,4 +95,3 @@ public class AllOfWithSingleRef  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

@@ -103,7 +103,6 @@ public class Zebra {
 
   @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public TypeEnum getType() {
     return type;
   }
@@ -130,7 +129,6 @@ public class Zebra {
 
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public String getClassName() {
     return className;
   }
@@ -179,7 +177,6 @@ public class Zebra {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this zebra object is equal to o.
    */

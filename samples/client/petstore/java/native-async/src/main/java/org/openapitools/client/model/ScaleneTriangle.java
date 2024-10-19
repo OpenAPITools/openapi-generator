@@ -37,14 +37,13 @@ import org.openapitools.client.ApiClient;
   ScaleneTriangle.JSON_PROPERTY_TRIANGLE_TYPE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class ScaleneTriangle {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
-  @javax.annotation.Nonnull
-  private String shapeType;
+  @javax.annotation.Nonnull  private String shapeType;
 
   public static final String JSON_PROPERTY_TRIANGLE_TYPE = "triangleType";
-  @javax.annotation.Nonnull
-  private String triangleType;
+  @javax.annotation.Nonnull  private String triangleType;
 
   public ScaleneTriangle() { 
   }
@@ -58,8 +57,7 @@ public class ScaleneTriangle {
    * Get shapeType
    * @return shapeType
    */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
+  @javax.annotation.Nonnull  @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public String getShapeType() {
     return shapeType;
@@ -82,8 +80,7 @@ public class ScaleneTriangle {
    * Get triangleType
    * @return triangleType
    */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
+  @javax.annotation.Nonnull  @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public String getTriangleType() {
     return triangleType;
@@ -95,7 +92,6 @@ public class ScaleneTriangle {
   public void setTriangleType(@javax.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
   }
-
 
   /**
    * Return true if this ScaleneTriangle object is equal to o.

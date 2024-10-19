@@ -21,4 +21,3 @@ instance = Petstore::PropertyNameMapping.new(
   type_with_underscore: null
 )
 ```
-

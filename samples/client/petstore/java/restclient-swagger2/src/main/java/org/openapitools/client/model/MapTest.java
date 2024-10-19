@@ -36,10 +36,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   MapTest.JSON_PROPERTY_INDIRECT_MAP
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class MapTest {
   public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
-  @jakarta.annotation.Nullable
-  private Map<String, Map<String, String>> mapMapOfString;
+  @jakarta.annotation.Nullable  private Map<String, Map<String, String>> mapMapOfString;
 
   /**
    * Gets or Sets inner
@@ -75,18 +75,14 @@ public class MapTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_MAP_OF_ENUM_STRING = "map_of_enum_string";
-  @jakarta.annotation.Nullable
-  private Map<String, InnerEnum> mapOfEnumString;
+  @jakarta.annotation.Nullable  private Map<String, InnerEnum> mapOfEnumString;
 
   public static final String JSON_PROPERTY_DIRECT_MAP = "direct_map";
-  @jakarta.annotation.Nullable
-  private Map<String, Boolean> directMap;
+  @jakarta.annotation.Nullable  private Map<String, Boolean> directMap;
 
   public static final String JSON_PROPERTY_INDIRECT_MAP = "indirect_map";
-  @jakarta.annotation.Nullable
-  private Map<String, Boolean> indirectMap;
+  @jakarta.annotation.Nullable  private Map<String, Boolean> indirectMap;
 
   public MapTest() {
   }
@@ -109,8 +105,7 @@ public class MapTest {
    * Get mapMapOfString
    * @return mapMapOfString
    */
-  @jakarta.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @jakarta.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -143,8 +138,7 @@ public class MapTest {
    * Get mapOfEnumString
    * @return mapOfEnumString
    */
-  @jakarta.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @jakarta.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -177,8 +171,7 @@ public class MapTest {
    * Get directMap
    * @return directMap
    */
-  @jakarta.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @jakarta.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -211,8 +204,7 @@ public class MapTest {
    * Get indirectMap
    * @return indirectMap
    */
-  @jakarta.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @jakarta.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

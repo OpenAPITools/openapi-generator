@@ -39,12 +39,10 @@ import org.openapitools.client.ApiClient;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ComplexQuadrilateral {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
-  @javax.annotation.Nonnull
-  private String shapeType;
+  @javax.annotation.Nonnull  private String shapeType;
 
   public static final String JSON_PROPERTY_QUADRILATERAL_TYPE = "quadrilateralType";
-  @javax.annotation.Nonnull
-  private String quadrilateralType;
+  @javax.annotation.Nonnull  private String quadrilateralType;
 
   public ComplexQuadrilateral() { 
   }
@@ -58,8 +56,7 @@ public class ComplexQuadrilateral {
    * Get shapeType
    * @return shapeType
    */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
+  @javax.annotation.Nonnull  @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public String getShapeType() {
     return shapeType;
@@ -82,8 +79,7 @@ public class ComplexQuadrilateral {
    * Get quadrilateralType
    * @return quadrilateralType
    */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_QUADRILATERAL_TYPE)
+  @javax.annotation.Nonnull  @JsonProperty(JSON_PROPERTY_QUADRILATERAL_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public String getQuadrilateralType() {
     return quadrilateralType;
@@ -95,7 +91,6 @@ public class ComplexQuadrilateral {
   public void setQuadrilateralType(@javax.annotation.Nonnull String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;
   }
-
 
   /**
    * Return true if this ComplexQuadrilateral object is equal to o.
@@ -241,6 +236,5 @@ public class ComplexQuadrilateral {
       .shapeType(getShapeType())
       .quadrilateralType(getQuadrilateralType());
   }
-
 }
 

@@ -37,22 +37,19 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 @javax.annotation.concurrent.Immutable
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Order {
   public static final String JSON_PROPERTY_ID = "id";
-  @javax.annotation.Nullable
-  private Long id;
+  @javax.annotation.Nullable  private Long id;
 
   public static final String JSON_PROPERTY_PET_ID = "petId";
-  @javax.annotation.Nullable
-  private Long petId;
+  @javax.annotation.Nullable  private Long petId;
 
   public static final String JSON_PROPERTY_QUANTITY = "quantity";
-  @javax.annotation.Nullable
-  private Integer quantity;
+  @javax.annotation.Nullable  private Integer quantity;
 
   public static final String JSON_PROPERTY_SHIP_DATE = "shipDate";
-  @javax.annotation.Nullable
-  private OffsetDateTime shipDate;
+  @javax.annotation.Nullable  private OffsetDateTime shipDate;
 
   /**
    * Order Status
@@ -90,14 +87,11 @@ public class Order {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_STATUS = "status";
-  @javax.annotation.Nullable
-  private StatusEnum status;
+  @javax.annotation.Nullable  private StatusEnum status;
 
   public static final String JSON_PROPERTY_COMPLETE = "complete";
-  @javax.annotation.Nullable
-  private Boolean complete = false;
+  @javax.annotation.Nullable  private Boolean complete = false;
 
   public Order() {
   }
@@ -112,8 +106,7 @@ public class Order {
    * Get id
    * @return id
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ID)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getId() {
@@ -138,8 +131,7 @@ public class Order {
    * Get petId
    * @return petId
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PET_ID)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_PET_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getPetId() {
@@ -164,8 +156,7 @@ public class Order {
    * Get quantity
    * @return quantity
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_QUANTITY)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_QUANTITY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getQuantity() {
@@ -190,8 +181,7 @@ public class Order {
    * Get shipDate
    * @return shipDate
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SHIP_DATE)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_SHIP_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public OffsetDateTime getShipDate() {
@@ -216,8 +206,7 @@ public class Order {
    * Order Status
    * @return status
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_STATUS)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public StatusEnum getStatus() {
@@ -242,8 +231,7 @@ public class Order {
    * Get complete
    * @return complete
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COMPLETE)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_COMPLETE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Boolean isComplete() {
@@ -256,7 +244,6 @@ public class Order {
   public void setComplete(@javax.annotation.Nullable Boolean complete) {
     this.complete = complete;
   }
-
 
   @Override
   public boolean equals(Object o) {

@@ -178,4 +178,3 @@ class MapTestMapOfEnumStringEnum extends EnumClass {
   static BuiltSet<MapTestMapOfEnumStringEnum> get values => _$mapTestMapOfEnumStringEnumValues;
   static MapTestMapOfEnumStringEnum valueOf(String name) => _$mapTestMapOfEnumStringEnumValueOf(name);
 }
-

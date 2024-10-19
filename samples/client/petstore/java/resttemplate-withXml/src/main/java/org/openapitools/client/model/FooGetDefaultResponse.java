@@ -36,14 +36,15 @@ import io.github.threetenjaxb.core.*;
 })
 @JsonTypeName("_foo_get_default_response")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 @XmlRootElement(name = "FooGetDefaultResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "FooGetDefaultResponse")
+
 public class FooGetDefaultResponse {
   public static final String JSON_PROPERTY_STRING = "string";
   @XmlElement(name = "string")
-  @javax.annotation.Nullable
-  private Foo string;
+  @javax.annotation.Nullable  private Foo string;
 
   public FooGetDefaultResponse() {
   }
@@ -58,8 +59,7 @@ public class FooGetDefaultResponse {
    * Get string
    * @return string
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_STRING)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "string")
 

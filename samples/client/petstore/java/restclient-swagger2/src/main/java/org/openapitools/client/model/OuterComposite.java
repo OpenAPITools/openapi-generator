@@ -34,18 +34,16 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   OuterComposite.JSON_PROPERTY_MY_BOOLEAN
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class OuterComposite {
   public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
-  @jakarta.annotation.Nullable
-  private BigDecimal myNumber;
+  @jakarta.annotation.Nullable  private BigDecimal myNumber;
 
   public static final String JSON_PROPERTY_MY_STRING = "my_string";
-  @jakarta.annotation.Nullable
-  private String myString;
+  @jakarta.annotation.Nullable  private String myString;
 
   public static final String JSON_PROPERTY_MY_BOOLEAN = "my_boolean";
-  @jakarta.annotation.Nullable
-  private Boolean myBoolean;
+  @jakarta.annotation.Nullable  private Boolean myBoolean;
 
   public OuterComposite() {
   }
@@ -60,8 +58,7 @@ public class OuterComposite {
    * Get myNumber
    * @return myNumber
    */
-  @jakarta.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @jakarta.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_MY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -86,8 +83,7 @@ public class OuterComposite {
    * Get myString
    * @return myString
    */
-  @jakarta.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @jakarta.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_MY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -112,8 +108,7 @@ public class OuterComposite {
    * Get myBoolean
    * @return myBoolean
    */
-  @jakarta.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @jakarta.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

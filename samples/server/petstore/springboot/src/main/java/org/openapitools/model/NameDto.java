@@ -19,7 +19,6 @@ import javax.annotation.Generated;
 /**
  * Model for testing model name same as property name
  */
-
 @ApiModel(description = "Model for testing model name same as property name")
 @JsonTypeName("Name")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
@@ -53,8 +52,7 @@ public class NameDto {
    * Get name
    * @return name
    */
-  @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @NotNull   @ApiModelProperty(required = true, value = "")
   @JsonProperty("name")
   public Integer getName() {
     return name;
@@ -73,8 +71,7 @@ public class NameDto {
    * Get snakeCase
    * @return snakeCase
    */
-  
-  @ApiModelProperty(readOnly = true, value = "")
+    @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("snake_case")
   public Integer getSnakeCase() {
     return snakeCase;
@@ -93,8 +90,7 @@ public class NameDto {
    * Get property
    * @return property
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("property")
   public String getProperty() {
     return property;
@@ -113,8 +109,7 @@ public class NameDto {
    * Get _123Number
    * @return _123Number
    */
-  
-  @ApiModelProperty(readOnly = true, value = "")
+    @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("123Number")
   public Integer get123Number() {
     return _123Number;
@@ -123,7 +118,6 @@ public class NameDto {
   public void set123Number(Integer _123Number) {
     this._123Number = _123Number;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

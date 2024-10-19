@@ -46,7 +46,6 @@ statusVariants =
     , StatusSold
     ]
 
-
 stringFromStatus : Status -> String
 stringFromStatus model =
     case model of
@@ -58,7 +57,6 @@ stringFromStatus model =
 
         StatusSold ->
             "sold"
-
 
 
 addPet : Api.Data.Pet -> Api.Request Api.Data.Pet

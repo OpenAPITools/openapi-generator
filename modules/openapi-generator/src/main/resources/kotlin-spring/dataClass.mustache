@@ -19,12 +19,12 @@
 {{/-last}}{{/optionalVars}}
     ) {{/discriminator}}{{#parent}}: {{{.}}}{{#serializableModel}}, Serializable{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}: Serializable{{/serializableModel}}{{/parent}}{
 {{#discriminator}}
-    {{#requiredVars}}
-        {{>interfaceReqVar}}
-    {{/requiredVars}}
-    {{#optionalVars}}
-        {{>interfaceOptVar}}
-    {{/optionalVars}}
+{{#requiredVars}}
+{{>interfaceReqVar}}
+{{/requiredVars}}
+{{#optionalVars}}
+{{>interfaceOptVar}}
+{{/optionalVars}}
 {{/discriminator}}
 {{#hasEnums}}{{#vars}}{{#isEnum}}
     /**

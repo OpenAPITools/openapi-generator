@@ -11,4 +11,3 @@ Just a string to inform instance is up and running. Make it nullable in hope to 
 |**nullableMessage** | **String** |  |  [optional] |
 
 
-

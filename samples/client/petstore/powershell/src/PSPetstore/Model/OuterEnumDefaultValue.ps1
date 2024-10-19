@@ -23,4 +23,3 @@ enum OuterEnumDefaultValue {
     # enum value: "delivered"
     delivered
 }
-

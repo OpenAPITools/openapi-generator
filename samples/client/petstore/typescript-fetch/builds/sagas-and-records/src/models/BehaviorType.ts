@@ -12,7 +12,6 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * Behavior type of a pet
  * @export
@@ -51,4 +50,3 @@ export function BehaviorTypeToJSON(value?: BehaviorType | null): any {
 export function BehaviorTypeToJSONTyped(value: any, ignoreDiscriminator: boolean): BehaviorType {
     return value as BehaviorType;
 }
-

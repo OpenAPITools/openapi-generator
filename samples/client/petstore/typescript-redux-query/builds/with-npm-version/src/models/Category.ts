@@ -10,7 +10,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { exists, mapValues } from '../runtime';
 /**
  * A category for a pet
@@ -48,5 +47,4 @@ export function CategoryToJSON(value?: Category): any {
         'name': value.name,
     };
 }
-
 

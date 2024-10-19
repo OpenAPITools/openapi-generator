@@ -28,7 +28,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
 public class EnumTest  {
   
 public enum EnumStringEnum {
@@ -77,6 +76,7 @@ public enum EnumStringEnum {
         throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
+
 
   private EnumStringEnum enumString;
 
@@ -127,6 +127,7 @@ public enum EnumStringRequiredEnum {
     }
 }
 
+
   private EnumStringRequiredEnum enumStringRequired;
 
 public enum EnumIntegerEnum {
@@ -176,6 +177,7 @@ public enum EnumIntegerEnum {
     }
 }
 
+
   private EnumIntegerEnum enumInteger;
 
 public enum EnumNumberEnum {
@@ -224,6 +226,7 @@ public enum EnumNumberEnum {
         throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
+
 
   private EnumNumberEnum enumNumber;
 
@@ -428,4 +431,3 @@ public enum EnumNumberEnum {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

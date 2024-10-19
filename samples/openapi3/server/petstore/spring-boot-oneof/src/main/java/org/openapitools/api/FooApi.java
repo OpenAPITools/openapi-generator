@@ -68,18 +68,17 @@ public interface FooApi {
     default ResponseEntity<FooRefOrValue> createFoo(
         @Parameter(name = "Foo", description = "The Foo to be created") @Valid @RequestBody(required = false) Foo foo
     ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"fooPropA\" : \"fooPropA\", \"fooPropB\" : \"fooPropB\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                                getRequest().ifPresent(request -> {
+                    for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                        if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                            String exampleString = "{ \"fooPropA\" : \"fooPropA\", \"fooPropB\" : \"fooPropB\" }";
+                            ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                            break;
+                        }
+                    }
+                });
+                return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                                            }
 
 
     /**
@@ -106,17 +105,16 @@ public interface FooApi {
     default ResponseEntity<List<FooRefOrValue>> getAllFoos(
         
     ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json;charset=utf-8"))) {
-                    String exampleString = "[ { \"fooPropA\" : \"fooPropA\", \"fooPropB\" : \"fooPropB\" }, { \"fooPropA\" : \"fooPropA\", \"fooPropB\" : \"fooPropB\" } ]";
-                    ApiUtil.setExampleResponse(request, "application/json;charset=utf-8", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                                getRequest().ifPresent(request -> {
+                    for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                        if (mediaType.isCompatibleWith(MediaType.valueOf("application/json;charset=utf-8"))) {
+                            String exampleString = "[ { \"fooPropA\" : \"fooPropA\", \"fooPropB\" : \"fooPropB\" }, { \"fooPropA\" : \"fooPropA\", \"fooPropB\" : \"fooPropB\" } ]";
+                            ApiUtil.setExampleResponse(request, "application/json;charset=utf-8", exampleString);
+                            break;
+                        }
+                    }
+                });
+                return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                                            }
 
 }

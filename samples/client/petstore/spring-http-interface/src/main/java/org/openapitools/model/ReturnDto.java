@@ -16,7 +16,6 @@ import jakarta.annotation.Generated;
 /**
  * Model for testing reserved words
  */
-
 @JsonTypeName("Return")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ReturnDto {
@@ -41,7 +40,6 @@ public class ReturnDto {
   public void setReturn(Integer _return) {
     this._return = _return;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

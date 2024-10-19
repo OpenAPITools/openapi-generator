@@ -38,8 +38,7 @@ import org.openapitools.client.ApiClient;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ModelList {
   public static final String JSON_PROPERTY_123LIST = "123-list";
-  @javax.annotation.Nullable
-  private String _123list;
+  @javax.annotation.Nullable  private String _123list;
 
   public ModelList() { 
   }
@@ -53,8 +52,7 @@ public class ModelList {
    * Get _123list
    * @return _123list
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_123LIST)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_123LIST)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String get123list() {
     return _123list;
@@ -66,7 +64,6 @@ public class ModelList {
   public void set123list(@javax.annotation.Nullable String _123list) {
     this._123list = _123list;
   }
-
 
   /**
    * Return true if this List object is equal to o.
@@ -200,6 +197,5 @@ public class ModelList {
     return new ModelList.Builder()
       ._123list(get123list());
   }
-
 }
 

@@ -38,8 +38,7 @@ import org.openapitools.client.ApiClient;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ModelReturn {
   public static final String JSON_PROPERTY_RETURN = "return";
-  @javax.annotation.Nullable
-  private Integer _return;
+  @javax.annotation.Nullable  private Integer _return;
 
   public ModelReturn() { 
   }
@@ -53,8 +52,7 @@ public class ModelReturn {
    * Get _return
    * @return _return
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_RETURN)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_RETURN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Integer getReturn() {
     return _return;
@@ -66,7 +64,6 @@ public class ModelReturn {
   public void setReturn(@javax.annotation.Nullable Integer _return) {
     this._return = _return;
   }
-
 
   /**
    * Return true if this Return object is equal to o.
@@ -200,6 +197,5 @@ public class ModelReturn {
     return new ModelReturn.Builder()
       ._return(getReturn());
   }
-
 }
 

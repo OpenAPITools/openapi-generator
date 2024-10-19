@@ -49,16 +49,15 @@ import org.openapitools.client.JSON;
  * SimpleQuadrilateral
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class SimpleQuadrilateral {
   public static final String SERIALIZED_NAME_SHAPE_TYPE = "shapeType";
   @SerializedName(SERIALIZED_NAME_SHAPE_TYPE)
-  @javax.annotation.Nonnull
-  private String shapeType;
+  @javax.annotation.Nonnull  private String shapeType;
 
   public static final String SERIALIZED_NAME_QUADRILATERAL_TYPE = "quadrilateralType";
   @SerializedName(SERIALIZED_NAME_QUADRILATERAL_TYPE)
-  @javax.annotation.Nonnull
-  private String quadrilateralType;
+  @javax.annotation.Nonnull  private String quadrilateralType;
 
   public SimpleQuadrilateral() {
   }
@@ -72,8 +71,7 @@ public class SimpleQuadrilateral {
    * Get shapeType
    * @return shapeType
    */
-  @javax.annotation.Nonnull
-  public String getShapeType() {
+  @javax.annotation.Nonnull  public String getShapeType() {
     return shapeType;
   }
 
@@ -91,8 +89,7 @@ public class SimpleQuadrilateral {
    * Get quadrilateralType
    * @return quadrilateralType
    */
-  @javax.annotation.Nonnull
-  public String getQuadrilateralType() {
+  @javax.annotation.Nonnull  public String getQuadrilateralType() {
     return quadrilateralType;
   }
 
@@ -144,7 +141,6 @@ public class SimpleQuadrilateral {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

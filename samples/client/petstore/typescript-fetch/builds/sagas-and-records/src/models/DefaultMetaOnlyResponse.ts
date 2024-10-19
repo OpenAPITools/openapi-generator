@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { ResponseMeta } from './ResponseMeta';
 import {
@@ -34,7 +33,6 @@ export interface DefaultMetaOnlyResponse {
      */
     meta: ResponseMeta;
 }
-
 /**
  * Check if a given object implements the DefaultMetaOnlyResponse interface.
  */
@@ -71,4 +69,3 @@ export function DefaultMetaOnlyResponseFromJSONTyped(json: any, ignoreDiscrimina
         'meta': ResponseMetaToJSON(value['meta']),
     };
 }
-

@@ -35,7 +35,6 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 @Serializable
-
 data class Category (
 
     @SerialName(value = "id")

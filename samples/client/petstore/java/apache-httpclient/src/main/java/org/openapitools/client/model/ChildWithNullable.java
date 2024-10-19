@@ -43,7 +43,6 @@ import java.util.StringJoiner;
   allowSetters = true // allows the type to be set during deserialization
 )
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true)
-
 public class ChildWithNullable extends ParentWithNullable {
   public static final String JSON_PROPERTY_OTHER_PROPERTY = "otherProperty";
   @javax.annotation.Nullable

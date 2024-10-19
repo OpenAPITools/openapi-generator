@@ -26,7 +26,12 @@ import {{invokerPackage}}.ApiClient;
 {{/vars}}
 })
 {{/jackson}}
-{{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
+{{>additionalModelTypeAnnotations}}
+{{>generatedAnnotation}}
+{{#discriminator}}
+{{>typeInfoAnnotation}}
+{{/discriminator}}
+{{>xmlAnnotation}}
 {{#vendorExtensions.x-class-extra-annotation}}
 {{{vendorExtensions.x-class-extra-annotation}}}
 {{/vendorExtensions.x-class-extra-annotation}}
@@ -47,6 +52,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 {{>modelInnerEnum}}
     {{/mostInnerItems}}
     {{/isContainer}}
+
     {{/isEnum}}
   {{#gson}}
   public static final String SERIALIZED_NAME_{{nameInSnakeCase}} = "{{baseName}}";
@@ -573,6 +579,6 @@ static {
 {{/discriminator}}
 {{#generateBuilders}}
 
-    {{>javaBuilder}}
+{{>javaBuilder}}
 {{/generateBuilders}}
 }

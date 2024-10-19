@@ -19,7 +19,6 @@ import javax.annotation.Generated;
 /**
  * ClientDto
  */
-
 @JsonTypeName("Client")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ClientDto {
@@ -35,8 +34,7 @@ public class ClientDto {
    * Get client
    * @return client
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("client")
   public String getClient() {
     return client;
@@ -45,7 +43,6 @@ public class ClientDto {
   public void setClient(String client) {
     this.client = client;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

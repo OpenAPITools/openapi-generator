@@ -348,7 +348,6 @@ public class EnumTest {
 
   @JsonProperty(JSON_PROPERTY_OUTER_ENUM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<OuterEnum> getOuterEnum_JsonNullable() {
     return outerEnum;
   }

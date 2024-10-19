@@ -13,4 +13,3 @@ export interface PetWithoutDiscriminatorModel {
     petType: string;
 }
 
-

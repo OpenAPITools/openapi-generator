@@ -115,4 +115,3 @@ class ModelClient {
   static const requiredKeys = <String>{
   };
 }
-

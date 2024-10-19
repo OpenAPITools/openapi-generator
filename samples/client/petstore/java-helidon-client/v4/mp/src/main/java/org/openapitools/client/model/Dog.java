@@ -24,7 +24,6 @@ import org.openapitools.client.model.Animal;
 
 
 
-
 public class Dog extends Animal {
   
   private String breed;
@@ -74,4 +73,3 @@ public class Dog extends Animal {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

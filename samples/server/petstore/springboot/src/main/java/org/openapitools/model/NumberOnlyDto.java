@@ -20,7 +20,6 @@ import javax.annotation.Generated;
 /**
  * NumberOnlyDto
  */
-
 @JsonTypeName("NumberOnly")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class NumberOnlyDto {
@@ -36,8 +35,7 @@ public class NumberOnlyDto {
    * Get justNumber
    * @return justNumber
    */
-  @Valid 
-  @ApiModelProperty(value = "")
+  @Valid   @ApiModelProperty(value = "")
   @JsonProperty("JustNumber")
   public BigDecimal getJustNumber() {
     return justNumber;
@@ -46,7 +44,6 @@ public class NumberOnlyDto {
   public void setJustNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

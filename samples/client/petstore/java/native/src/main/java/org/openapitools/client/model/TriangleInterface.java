@@ -38,8 +38,7 @@ import org.openapitools.client.ApiClient;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class TriangleInterface {
   public static final String JSON_PROPERTY_TRIANGLE_TYPE = "triangleType";
-  @javax.annotation.Nonnull
-  private String triangleType;
+  @javax.annotation.Nonnull  private String triangleType;
 
   public TriangleInterface() { 
   }
@@ -53,8 +52,7 @@ public class TriangleInterface {
    * Get triangleType
    * @return triangleType
    */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
+  @javax.annotation.Nonnull  @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public String getTriangleType() {
     return triangleType;
@@ -66,7 +64,6 @@ public class TriangleInterface {
   public void setTriangleType(@javax.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
   }
-
 
   /**
    * Return true if this TriangleInterface object is equal to o.
@@ -200,6 +197,5 @@ public class TriangleInterface {
     return new TriangleInterface.Builder()
       .triangleType(getTriangleType());
   }
-
 }
 

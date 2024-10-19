@@ -44,26 +44,22 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Pet.JSON_PROPERTY_STATUS
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Pet {
   public static final String JSON_PROPERTY_ID = "id";
-  @jakarta.annotation.Nullable
-  private Long id;
+  @jakarta.annotation.Nullable  private Long id;
 
   public static final String JSON_PROPERTY_CATEGORY = "category";
-  @jakarta.annotation.Nullable
-  private Category category;
+  @jakarta.annotation.Nullable  private Category category;
 
   public static final String JSON_PROPERTY_NAME = "name";
-  @jakarta.annotation.Nonnull
-  private String name;
+  @jakarta.annotation.Nonnull  private String name;
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
-  @jakarta.annotation.Nonnull
-  private Set<String> photoUrls;
+  @jakarta.annotation.Nonnull  private Set<String> photoUrls;
 
   public static final String JSON_PROPERTY_TAGS = "tags";
-  @jakarta.annotation.Nullable
-  private List<Tag> tags;
+  @jakarta.annotation.Nullable  private List<Tag> tags;
 
   /**
    * pet status in the store
@@ -101,10 +97,8 @@ public class Pet {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_STATUS = "status";
-  @jakarta.annotation.Nullable
-  private StatusEnum status;
+  @jakarta.annotation.Nullable  private StatusEnum status;
 
   public Pet() {
   }
@@ -119,8 +113,7 @@ public class Pet {
    * Get id
    * @return id
    */
-  @jakarta.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @jakarta.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -145,8 +138,7 @@ public class Pet {
    * Get category
    * @return category
    */
-  @jakarta.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @jakarta.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_CATEGORY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -171,8 +163,7 @@ public class Pet {
    * Get name
    * @return name
    */
-  @jakarta.annotation.Nonnull
-  @Schema(example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED, description = "")
+  @jakarta.annotation.Nonnull  @Schema(example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -205,8 +196,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
    */
-  @jakarta.annotation.Nonnull
-  @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
+  @jakarta.annotation.Nonnull  @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -240,8 +230,7 @@ public class Pet {
    * Get tags
    * @return tags
    */
-  @jakarta.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @jakarta.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_TAGS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -266,8 +255,7 @@ public class Pet {
    * pet status in the store
    * @return status
    */
-  @jakarta.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "pet status in the store")
+  @jakarta.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "pet status in the store")
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

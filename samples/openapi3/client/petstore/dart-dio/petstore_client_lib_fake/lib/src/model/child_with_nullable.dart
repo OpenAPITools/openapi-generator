@@ -153,4 +153,3 @@ class ChildWithNullableTypeEnum extends EnumClass {
   static BuiltSet<ChildWithNullableTypeEnum> get values => _$childWithNullableTypeEnumValues;
   static ChildWithNullableTypeEnum valueOf(String name) => _$childWithNullableTypeEnumValueOf(name);
 }
-

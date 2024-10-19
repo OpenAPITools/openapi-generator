@@ -24,7 +24,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
   * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
  **/
-
 public class HealthCheckResult  {
   
   private String nullableMessage;
@@ -74,4 +73,3 @@ public class HealthCheckResult  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

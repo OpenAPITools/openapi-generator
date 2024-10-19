@@ -56,7 +56,6 @@ public class Client {
 
   @JsonProperty(JSON_PROPERTY_CLIENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getClient() {
     return client;
   }
@@ -67,7 +66,6 @@ public class Client {
   public void setClient(@jakarta.annotation.Nullable String client) {
     this.client = client;
   }
-
 
   /**
    * Return true if this Client object is equal to o.

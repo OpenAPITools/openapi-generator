@@ -132,4 +132,3 @@ class Tag {
   static const requiredKeys = <String>{
   };
 }
-

@@ -12,4 +12,3 @@
 |**_double** | **Double** |  |  [optional] |
 
 
-

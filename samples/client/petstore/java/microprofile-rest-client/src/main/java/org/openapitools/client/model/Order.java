@@ -27,7 +27,6 @@ import javax.json.bind.annotation.JsonbProperty;
 /**
   * An order for a pets from the pet store
   */
-
 public class Order  {
   
   @JsonbProperty("id")
@@ -243,4 +242,3 @@ public class Order  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

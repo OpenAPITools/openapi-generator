@@ -43,38 +43,31 @@ import org.openapitools.client.ApiClient;
   User.JSON_PROPERTY_USER_STATUS
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class User {
   public static final String JSON_PROPERTY_ID = "id";
-  @jakarta.annotation.Nullable
-  private Long id;
+  @jakarta.annotation.Nullable  private Long id;
 
   public static final String JSON_PROPERTY_USERNAME = "username";
-  @jakarta.annotation.Nullable
-  private String username;
+  @jakarta.annotation.Nullable  private String username;
 
   public static final String JSON_PROPERTY_FIRST_NAME = "firstName";
-  @jakarta.annotation.Nullable
-  private String firstName;
+  @jakarta.annotation.Nullable  private String firstName;
 
   public static final String JSON_PROPERTY_LAST_NAME = "lastName";
-  @jakarta.annotation.Nullable
-  private String lastName;
+  @jakarta.annotation.Nullable  private String lastName;
 
   public static final String JSON_PROPERTY_EMAIL = "email";
-  @jakarta.annotation.Nullable
-  private String email;
+  @jakarta.annotation.Nullable  private String email;
 
   public static final String JSON_PROPERTY_PASSWORD = "password";
-  @jakarta.annotation.Nullable
-  private String password;
+  @jakarta.annotation.Nullable  private String password;
 
   public static final String JSON_PROPERTY_PHONE = "phone";
-  @jakarta.annotation.Nullable
-  private String phone;
+  @jakarta.annotation.Nullable  private String phone;
 
   public static final String JSON_PROPERTY_USER_STATUS = "userStatus";
-  @jakarta.annotation.Nullable
-  private Integer userStatus;
+  @jakarta.annotation.Nullable  private Integer userStatus;
 
   public User() { 
   }
@@ -88,8 +81,7 @@ public class User {
    * Get id
    * @return id
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ID)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Long getId() {
     return id;
@@ -112,8 +104,7 @@ public class User {
    * Get username
    * @return username
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_USERNAME)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_USERNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getUsername() {
     return username;
@@ -136,8 +127,7 @@ public class User {
    * Get firstName
    * @return firstName
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_FIRST_NAME)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_FIRST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getFirstName() {
     return firstName;
@@ -160,8 +150,7 @@ public class User {
    * Get lastName
    * @return lastName
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_LAST_NAME)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_LAST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getLastName() {
     return lastName;
@@ -184,8 +173,7 @@ public class User {
    * Get email
    * @return email
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_EMAIL)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_EMAIL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getEmail() {
     return email;
@@ -208,8 +196,7 @@ public class User {
    * Get password
    * @return password
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PASSWORD)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getPassword() {
     return password;
@@ -232,8 +219,7 @@ public class User {
    * Get phone
    * @return phone
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PHONE)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_PHONE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getPhone() {
     return phone;
@@ -256,8 +242,7 @@ public class User {
    * User Status
    * @return userStatus
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_USER_STATUS)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_USER_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Integer getUserStatus() {
     return userStatus;
@@ -269,7 +254,6 @@ public class User {
   public void setUserStatus(@jakarta.annotation.Nullable Integer userStatus) {
     this.userStatus = userStatus;
   }
-
 
   /**
    * Return true if this User object is equal to o.

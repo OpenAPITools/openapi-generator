@@ -27,7 +27,6 @@ namespace Org.OpenAPITools.Client
         public static string[] Formats { get; } = {
             "yyyy'-'MM'-'dd",
             "yyyyMMdd"
-
         };
 
         /// <summary>

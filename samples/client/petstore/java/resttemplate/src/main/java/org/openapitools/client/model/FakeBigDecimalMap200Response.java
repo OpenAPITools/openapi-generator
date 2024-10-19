@@ -35,14 +35,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 @JsonTypeName("fakeBigDecimalMap_200_response")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class FakeBigDecimalMap200Response {
   public static final String JSON_PROPERTY_SOME_ID = "someId";
-  @javax.annotation.Nullable
-  private BigDecimal someId;
+  @javax.annotation.Nullable  private BigDecimal someId;
 
   public static final String JSON_PROPERTY_SOME_MAP = "someMap";
-  @javax.annotation.Nullable
-  private Map<String, BigDecimal> someMap;
+  @javax.annotation.Nullable  private Map<String, BigDecimal> someMap;
 
   public FakeBigDecimalMap200Response() {
   }
@@ -65,8 +64,7 @@ public class FakeBigDecimalMap200Response {
    * Get someId
    * @return someId
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SOME_ID)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_SOME_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public BigDecimal getSomeId() {
@@ -98,8 +96,7 @@ public class FakeBigDecimalMap200Response {
    * Get someMap
    * @return someMap
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SOME_MAP)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_SOME_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, BigDecimal> getSomeMap() {
@@ -153,63 +150,62 @@ public class FakeBigDecimalMap200Response {
   }
 
   public static class Builder {
-
-    private FakeBigDecimalMap200Response instance;
-
-    public Builder() {
-      this(new FakeBigDecimalMap200Response());
-    }
-
-    protected Builder(FakeBigDecimalMap200Response instance) {
-      this.instance = instance;
-    }
-
-    public FakeBigDecimalMap200Response.Builder someId(BigDecimal someId) {
-      this.instance.someId = someId;
-      return this;
-    }
-    public FakeBigDecimalMap200Response.Builder someMap(Map<String, BigDecimal> someMap) {
-      this.instance.someMap = someMap;
-      return this;
-    }
-
-
-    /**
-    * returns a built FakeBigDecimalMap200Response instance.
-    *
-    * The builder is not reusable.
-    */
-    public FakeBigDecimalMap200Response build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+  
+      private FakeBigDecimalMap200Response instance;
+  
+      public Builder() {
+        this(new FakeBigDecimalMap200Response());
+      }
+  
+      protected Builder(FakeBigDecimalMap200Response instance) {
+        this.instance = instance;
+      }
+  
+      public FakeBigDecimalMap200Response.Builder someId(BigDecimal someId) {
+          this.instance.someId = someId;
+        return this;
+      }
+        public FakeBigDecimalMap200Response.Builder someMap(Map<String, BigDecimal> someMap) {
+          this.instance.someMap = someMap;
+        return this;
+      }
+    
+  
+      /**
+      * returns a built FakeBigDecimalMap200Response instance.
+      *
+      * The builder is not reusable.
+      */
+      public FakeBigDecimalMap200Response build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field.
+    */
+    public static FakeBigDecimalMap200Response.Builder builder() {
+      return new FakeBigDecimalMap200Response.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static FakeBigDecimalMap200Response.Builder builder() {
-    return new FakeBigDecimalMap200Response.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public FakeBigDecimalMap200Response.Builder toBuilder() {
-    return new FakeBigDecimalMap200Response.Builder()
-      .someId(getSomeId())
-      .someMap(getSomeMap());
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public FakeBigDecimalMap200Response.Builder toBuilder() {
+      return new FakeBigDecimalMap200Response.Builder()
+        .someId(getSomeId())
+        .someMap(getSomeMap());
+    }
 
 }
 

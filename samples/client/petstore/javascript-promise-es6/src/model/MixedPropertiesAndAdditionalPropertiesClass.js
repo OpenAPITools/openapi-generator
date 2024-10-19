@@ -101,4 +101,3 @@ MixedPropertiesAndAdditionalPropertiesClass.prototype['map'] = undefined;
 
 
 export default MixedPropertiesAndAdditionalPropertiesClass;
-

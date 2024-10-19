@@ -23,7 +23,12 @@
 {{#additionalModelTypeAnnotations}}
 {{{.}}}
 {{/additionalModelTypeAnnotations}}
-{{>common/generatedAnnotation}}{{#discriminator}}{{>common/model/typeInfoAnnotation}}{{/discriminator}}{{>common/model/xmlAnnotation}}{{#useBeanValidation}}
+{{>common/generatedAnnotation}}
+{{#discriminator}}
+{{>common/model/typeInfoAnnotation}}
+{{/discriminator}}
+{{>common/model/xmlAnnotation}}
+{{#useBeanValidation}}
 @Introspected
 {{/useBeanValidation}}
 {{#vendorExtensions.x-class-extra-annotation}}

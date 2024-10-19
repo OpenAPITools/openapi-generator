@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import { ChildWithNullable, ChildWithNullableFromJSONTyped, ChildWithNullableToJSON, ChildWithNullableToJSONTyped } from './ChildWithNullable';
 /**
@@ -42,7 +41,6 @@ export const ParentWithNullableTypeEnum = {
     ChildWithNullable: 'ChildWithNullable'
 } as const;
 export type ParentWithNullableTypeEnum = typeof ParentWithNullableTypeEnum[keyof typeof ParentWithNullableTypeEnum];
-
 
 /**
  * Check if a given object implements the ParentWithNullable interface.
@@ -95,4 +93,3 @@ export function ParentWithNullableFromJSONTyped(json: any, ignoreDiscriminator: 
         'nullableProperty': value['nullableProperty'],
     };
 }
-

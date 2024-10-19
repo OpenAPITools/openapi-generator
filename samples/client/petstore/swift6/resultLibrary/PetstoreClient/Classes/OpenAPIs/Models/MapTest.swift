@@ -13,8 +13,7 @@ internal struct MapTest: Codable, JSONEncodable {
         case upper = "UPPER"
         case lower = "lower"
         case unknownDefaultOpenApi = "unknown_default_open_api"
-    }
-    internal private(set) var mapMapOfString: [String: [String: String]]?
+    }    internal private(set) var mapMapOfString: [String: [String: String]]?
     internal private(set) var mapOfEnumString: [String: String]?
     internal private(set) var directMap: [String: Bool]?
     internal private(set) var indirectMap: StringBooleanMap?

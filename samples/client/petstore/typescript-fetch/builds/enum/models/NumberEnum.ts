@@ -12,7 +12,6 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * 
  * @export
@@ -51,4 +50,3 @@ export function NumberEnumToJSON(value?: NumberEnum | null): any {
 export function NumberEnumToJSONTyped(value: any, ignoreDiscriminator: boolean): NumberEnum {
     return value as NumberEnum;
 }
-

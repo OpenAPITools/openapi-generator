@@ -11,4 +11,3 @@
 |**color** | **String** |  |  [optional] |
 
 
-

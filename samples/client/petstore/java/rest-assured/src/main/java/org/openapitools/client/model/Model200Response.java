@@ -29,16 +29,15 @@ import org.hibernate.validator.constraints.*;
  * Model for testing model name starting with number
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Model200Response {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
-  @javax.annotation.Nullable
-  private Integer name;
+  @javax.annotation.Nullable  private Integer name;
 
   public static final String SERIALIZED_NAME_PROPERTY_CLASS = "class";
   @SerializedName(SERIALIZED_NAME_PROPERTY_CLASS)
-  @javax.annotation.Nullable
-  private String propertyClass;
+  @javax.annotation.Nullable  private String propertyClass;
 
   public Model200Response() {
   }
@@ -54,8 +53,6 @@ public class Model200Response {
    * @return name
    */
   @javax.annotation.Nullable
-
-
   public Integer getName() {
     return name;
   }
@@ -76,8 +73,6 @@ public class Model200Response {
    * @return propertyClass
    */
   @javax.annotation.Nullable
-
-
   public String getPropertyClass() {
     return propertyClass;
   }

@@ -25,7 +25,6 @@ import jakarta.annotation.Generated;
 /**
  * PetDto
  */
-
 @JsonTypeName("Pet")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class PetDto {
@@ -78,7 +77,6 @@ public class PetDto {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   @Deprecated
   private StatusEnum status;
 
@@ -222,7 +220,6 @@ public class PetDto {
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

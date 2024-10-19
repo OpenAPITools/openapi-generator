@@ -16,7 +16,6 @@ import jakarta.annotation.Generated;
 /**
  * ModelList
  */
-
 @JsonTypeName("List")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ModelList {
@@ -41,7 +40,6 @@ public class ModelList {
   public void set123list(String _123list) {
     this._123list = _123list;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

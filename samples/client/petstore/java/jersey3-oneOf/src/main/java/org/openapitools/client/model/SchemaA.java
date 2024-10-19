@@ -34,10 +34,10 @@ import org.openapitools.client.JSON;
 })
 @JsonTypeName("schemaA")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class SchemaA {
   public static final String JSON_PROPERTY_PROP_A = "propA";
-  @jakarta.annotation.Nullable
-  private String propA;
+  @jakarta.annotation.Nullable  private String propA;
 
   public SchemaA() { 
   }
@@ -51,8 +51,7 @@ public class SchemaA {
    * Get propA
    * @return propA
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PROP_A)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_PROP_A)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getPropA() {
@@ -65,7 +64,6 @@ public class SchemaA {
   public void setPropA(@jakarta.annotation.Nullable String propA) {
     this.propA = propA;
   }
-
 
   /**
    * Return true if this schemaA object is equal to o.

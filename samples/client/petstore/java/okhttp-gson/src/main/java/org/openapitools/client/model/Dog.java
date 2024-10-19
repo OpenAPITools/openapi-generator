@@ -50,11 +50,11 @@ import org.openapitools.client.JSON;
  * Dog
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Dog extends Animal {
   public static final String SERIALIZED_NAME_BREED = "breed";
   @SerializedName(SERIALIZED_NAME_BREED)
-  @javax.annotation.Nullable
-  private String breed;
+  @javax.annotation.Nullable  private String breed;
 
   public Dog() {
     this.className = this.getClass().getSimpleName();
@@ -69,8 +69,7 @@ public class Dog extends Animal {
    * Get breed
    * @return breed
    */
-  @javax.annotation.Nullable
-  public String getBreed() {
+  @javax.annotation.Nullable  public String getBreed() {
     return breed;
   }
 
@@ -122,7 +121,6 @@ public class Dog extends Animal {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

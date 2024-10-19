@@ -112,4 +112,3 @@ class AdditionalPropertiesClass {
   static const requiredKeys = <String>{
   };
 }
-

@@ -63,7 +63,6 @@ configuration = petstore_api.Configuration(
 )
 
 
-
 # Enter a context with an instance of the API client
 async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -305,7 +304,6 @@ Authentication schemes defined for the API:
 
 
 ## Author
-
 
 
 

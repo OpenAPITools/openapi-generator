@@ -16,8 +16,7 @@ public final class MapTest: Content, Hashable {
     public enum MapOfEnumString: String, Content, Hashable, CaseIterable {
         case upper = "UPPER"
         case lower = "lower"
-    }
-    public var mapMapOfString: [String: [String: String]]?
+    }    public var mapMapOfString: [String: [String: String]]?
     public var mapOfEnumString: [String: String]?
     public var directMap: [String: Bool]?
     public var indirectMap: StringBooleanMap?

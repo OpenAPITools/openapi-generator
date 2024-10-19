@@ -71,4 +71,3 @@ public enum Status {
     throw new IllegalArgumentException("Unexpected value '" + text + "'");
   }
 }
-

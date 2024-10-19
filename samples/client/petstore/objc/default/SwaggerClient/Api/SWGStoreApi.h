@@ -15,7 +15,6 @@
 */
 
 
-
 @interface SWGStoreApi: NSObject <SWGApi>
 
 extern NSString* kSWGStoreApiErrorDomain;

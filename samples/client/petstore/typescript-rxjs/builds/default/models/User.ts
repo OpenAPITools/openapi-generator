@@ -10,7 +10,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 /**
  * A User who is purchasing from the pet store
  * @export

@@ -12,4 +12,3 @@ Model for testing model name starting with number
 |**propertyClass** | **String** |  |  [optional] |
 
 
-

@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * 
@@ -32,7 +31,6 @@ export interface HasOnlyReadOnly {
      */
     readonly foo?: string;
 }
-
 /**
  * Check if a given object implements the HasOnlyReadOnly interface.
  */
@@ -68,4 +66,3 @@ export function HasOnlyReadOnlyFromJSONTyped(json: any, ignoreDiscriminator: boo
         
     };
 }
-

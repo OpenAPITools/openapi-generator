@@ -261,5 +261,3 @@ class OrderStatusEnumTypeTransformer {
   /// Singleton [OrderStatusEnumTypeTransformer] instance.
   static OrderStatusEnumTypeTransformer? _instance;
 }
-
-

@@ -45,4 +45,3 @@ instance = Petstore::FormatTest.new(
   pattern_with_digits_and_delimiter: null
 )
 ```
-

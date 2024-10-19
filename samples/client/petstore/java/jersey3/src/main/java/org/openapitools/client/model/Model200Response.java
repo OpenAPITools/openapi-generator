@@ -62,7 +62,6 @@ public class Model200Response {
 
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Integer getName() {
     return name;
   }
@@ -88,7 +87,6 @@ public class Model200Response {
 
   @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getPropertyClass() {
     return propertyClass;
   }
@@ -99,7 +97,6 @@ public class Model200Response {
   public void setPropertyClass(@jakarta.annotation.Nullable String propertyClass) {
     this.propertyClass = propertyClass;
   }
-
 
   /**
    * Return true if this 200_response object is equal to o.

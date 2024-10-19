@@ -15,4 +15,3 @@ instance = Petstore::File.new(
   source_uri: null
 )
 ```
-

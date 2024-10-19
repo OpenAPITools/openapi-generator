@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
 import {getApiEntitiesState} from "../ApiEntitiesSelectors"
 import {List, Record, RecordOf, Map} from 'immutable';
@@ -103,4 +102,3 @@ export const categoryRecordUtils = new CategoryRecordUtils();
 
 export const apiEntitiesCategorySelector = (state: any) => getApiEntitiesState(state).category as Map<string, CategoryRecordEntity>;
 export const apiEntityCategorySelector = (state: any, {id}: {id?: string | null}) => id ? apiEntitiesCategorySelector(state).get(id) : undefined;
-

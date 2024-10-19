@@ -62,6 +62,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 @JsonDeserialize(using = NullableShape.NullableShapeDeserializer.class)
 @JsonSerialize(using = NullableShape.NullableShapeSerializer.class)
 public class NullableShape extends AbstractOpenApiSchema {
@@ -206,7 +207,6 @@ public class NullableShape extends AbstractOpenApiSchema {
     }
     return this.additionalProperties.get(key);
   }
-
     /**
      * Return true if this NullableShape object is equal to o.
      */

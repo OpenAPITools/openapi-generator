@@ -477,7 +477,6 @@ open class PetAPI {
 					multipartData.append(additionalMetadata.data(using: .utf8) ?? Data())
 					multipartData.append("\r\n".data(using: .utf8) ?? Data())
 				}
-
 				if let file = file {
 					let fileHeader = "--\(multipartBoundary)\r\n"
 					    .appending("Content-Disposition:form-data; name=\"file\"; filename=\"file\"\r\n")
@@ -485,7 +484,6 @@ open class PetAPI {
 					multipartData.append(fileHeader.data(using: .utf8) ?? Data())
 					multipartData.append(file)
 				}
-
                 multipartData.append("\r\n--\(multipartBoundary)--\r\n".data(using: .utf8) ?? Data())
                 request.httpBody = multipartData
                 request.setValue("\(multipartData.count)", forHTTPHeaderField: "Content-Length")

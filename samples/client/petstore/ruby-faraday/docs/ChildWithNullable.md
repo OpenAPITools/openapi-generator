@@ -15,4 +15,3 @@ instance = Petstore::ChildWithNullable.new(
   other_property: null
 )
 ```
-

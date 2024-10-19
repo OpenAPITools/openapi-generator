@@ -50,11 +50,11 @@ import org.openapitools.client.JSON;
  * AdditionalPropertiesNumber
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class AdditionalPropertiesNumber {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
-  @javax.annotation.Nullable
-  private String name;
+  @javax.annotation.Nullable  private String name;
 
   public AdditionalPropertiesNumber() {
   }
@@ -68,8 +68,7 @@ public class AdditionalPropertiesNumber {
    * Get name
    * @return name
    */
-  @javax.annotation.Nullable
-  public String getName() {
+  @javax.annotation.Nullable  public String getName() {
     return name;
   }
 
@@ -121,7 +120,6 @@ public class AdditionalPropertiesNumber {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

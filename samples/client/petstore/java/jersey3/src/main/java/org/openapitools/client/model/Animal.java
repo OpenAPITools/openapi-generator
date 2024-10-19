@@ -48,7 +48,6 @@ import org.openapitools.client.JSON;
   @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
   @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
 })
-
 public class Animal {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
   @jakarta.annotation.Nonnull
@@ -75,7 +74,6 @@ public class Animal {
 
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public String getClassName() {
     return className;
   }
@@ -101,7 +99,6 @@ public class Animal {
 
   @JsonProperty(JSON_PROPERTY_COLOR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getColor() {
     return color;
   }
@@ -112,7 +109,6 @@ public class Animal {
   public void setColor(@jakarta.annotation.Nullable String color) {
     this.color = color;
   }
-
 
   /**
    * Return true if this Animal object is equal to o.

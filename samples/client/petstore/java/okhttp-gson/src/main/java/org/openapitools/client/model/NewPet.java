@@ -54,46 +54,39 @@ import org.openapitools.client.JSON;
  * NewPet
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class NewPet {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
-  @javax.annotation.Nullable
-  private Long id;
+  @javax.annotation.Nullable  private Long id;
 
   public static final String SERIALIZED_NAME_CATEGORY_INLINE_ALLOF = "category_inline_allof";
   @SerializedName(SERIALIZED_NAME_CATEGORY_INLINE_ALLOF)
-  @javax.annotation.Nullable
-  private NewPetCategoryInlineAllof categoryInlineAllof;
+  @javax.annotation.Nullable  private NewPetCategoryInlineAllof categoryInlineAllof;
 
   public static final String SERIALIZED_NAME_CATEGORY_ALL_OF_REF = "category_allOf_ref";
   @SerializedName(SERIALIZED_NAME_CATEGORY_ALL_OF_REF)
-  @javax.annotation.Nullable
-  private Category categoryAllOfRef;
+  @javax.annotation.Nullable  private Category categoryAllOfRef;
 
   public static final String SERIALIZED_NAME_CATEGORY_ALL_OF_REF_DESCRIPTION = "category_allOf_ref_description";
   @SerializedName(SERIALIZED_NAME_CATEGORY_ALL_OF_REF_DESCRIPTION)
-  @javax.annotation.Nullable
-  private Category categoryAllOfRefDescription;
+  @javax.annotation.Nullable  private Category categoryAllOfRefDescription;
 
   public static final String SERIALIZED_NAME_CATEGORY_ALL_OF_REF_DESCRIPTION_READONLY = "category_allOf_ref_description_readonly";
   @SerializedName(SERIALIZED_NAME_CATEGORY_ALL_OF_REF_DESCRIPTION_READONLY)
-  @javax.annotation.Nullable
-  private Category categoryAllOfRefDescriptionReadonly;
+  @javax.annotation.Nullable  private Category categoryAllOfRefDescriptionReadonly;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
-  @javax.annotation.Nonnull
-  private String name;
+  @javax.annotation.Nonnull  private String name;
 
   public static final String SERIALIZED_NAME_PHOTO_URLS = "photoUrls";
   @SerializedName(SERIALIZED_NAME_PHOTO_URLS)
-  @javax.annotation.Nonnull
-  private List<String> photoUrls = new ArrayList<>();
+  @javax.annotation.Nonnull  private List<String> photoUrls = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
-  @javax.annotation.Nullable
-  private List<Tag> tags = new ArrayList<>();
+  @javax.annotation.Nullable  private List<Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -148,11 +141,9 @@ public class NewPet {
       StatusEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_STATUS = "status";
   @SerializedName(SERIALIZED_NAME_STATUS)
-  @javax.annotation.Nullable
-  private StatusEnum status;
+  @javax.annotation.Nullable  private StatusEnum status;
 
   public NewPet() {
   }
@@ -173,8 +164,7 @@ public class NewPet {
    * Get id
    * @return id
    */
-  @javax.annotation.Nullable
-  public Long getId() {
+  @javax.annotation.Nullable  public Long getId() {
     return id;
   }
 
@@ -192,8 +182,7 @@ public class NewPet {
    * Get categoryInlineAllof
    * @return categoryInlineAllof
    */
-  @javax.annotation.Nullable
-  public NewPetCategoryInlineAllof getCategoryInlineAllof() {
+  @javax.annotation.Nullable  public NewPetCategoryInlineAllof getCategoryInlineAllof() {
     return categoryInlineAllof;
   }
 
@@ -211,8 +200,7 @@ public class NewPet {
    * Get categoryAllOfRef
    * @return categoryAllOfRef
    */
-  @javax.annotation.Nullable
-  public Category getCategoryAllOfRef() {
+  @javax.annotation.Nullable  public Category getCategoryAllOfRef() {
     return categoryAllOfRef;
   }
 
@@ -230,8 +218,7 @@ public class NewPet {
    * Adding description to property using allOf 
    * @return categoryAllOfRefDescription
    */
-  @javax.annotation.Nullable
-  public Category getCategoryAllOfRefDescription() {
+  @javax.annotation.Nullable  public Category getCategoryAllOfRefDescription() {
     return categoryAllOfRefDescription;
   }
 
@@ -244,8 +231,7 @@ public class NewPet {
    * Adding description to readonly property using allOf 
    * @return categoryAllOfRefDescriptionReadonly
    */
-  @javax.annotation.Nullable
-  public Category getCategoryAllOfRefDescriptionReadonly() {
+  @javax.annotation.Nullable  public Category getCategoryAllOfRefDescriptionReadonly() {
     return categoryAllOfRefDescriptionReadonly;
   }
 
@@ -260,8 +246,7 @@ public class NewPet {
    * Get name
    * @return name
    */
-  @javax.annotation.Nonnull
-  public String getName() {
+  @javax.annotation.Nonnull  public String getName() {
     return name;
   }
 
@@ -287,8 +272,7 @@ public class NewPet {
    * Get photoUrls
    * @return photoUrls
    */
-  @javax.annotation.Nonnull
-  public List<String> getPhotoUrls() {
+  @javax.annotation.Nonnull  public List<String> getPhotoUrls() {
     return photoUrls;
   }
 
@@ -314,8 +298,7 @@ public class NewPet {
    * Get tags
    * @return tags
    */
-  @javax.annotation.Nullable
-  public List<Tag> getTags() {
+  @javax.annotation.Nullable  public List<Tag> getTags() {
     return tags;
   }
 
@@ -333,8 +316,7 @@ public class NewPet {
    * pet status in the store
    * @return status
    */
-  @javax.annotation.Nullable
-  public StatusEnum getStatus() {
+  @javax.annotation.Nullable  public StatusEnum getStatus() {
     return status;
   }
 
@@ -386,7 +368,6 @@ public class NewPet {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

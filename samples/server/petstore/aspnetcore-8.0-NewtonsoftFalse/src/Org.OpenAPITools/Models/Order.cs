@@ -19,7 +19,7 @@ using System.Text.Json;
 using Org.OpenAPITools.Converters;
 
 namespace Org.OpenAPITools.Models
-{ 
+{
     /// <summary>
     /// An order for a pets from the pet store
     /// </summary>
@@ -77,7 +77,6 @@ namespace Org.OpenAPITools.Models
             [EnumMember(Value = "delivered")]
             DeliveredEnum = 3
         }
-
         /// <summary>
         /// Order Status
         /// </summary>

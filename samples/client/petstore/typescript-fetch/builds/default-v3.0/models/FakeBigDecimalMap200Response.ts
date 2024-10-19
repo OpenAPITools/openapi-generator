@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * 
@@ -32,7 +31,6 @@ export interface FakeBigDecimalMap200Response {
      */
     someMap?: { [key: string]: number; };
 }
-
 /**
  * Check if a given object implements the FakeBigDecimalMap200Response interface.
  */
@@ -70,4 +68,3 @@ export function FakeBigDecimalMap200ResponseFromJSONTyped(json: any, ignoreDiscr
         'someMap': value['someMap'],
     };
 }
-

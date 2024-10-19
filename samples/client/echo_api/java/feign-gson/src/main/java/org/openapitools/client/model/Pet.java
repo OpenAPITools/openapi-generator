@@ -31,31 +31,27 @@ import org.openapitools.client.model.Tag;
  * Pet
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Pet {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
-  @javax.annotation.Nullable
-  private Long id;
+  @javax.annotation.Nullable  private Long id;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
-  @javax.annotation.Nonnull
-  private String name;
+  @javax.annotation.Nonnull  private String name;
 
   public static final String SERIALIZED_NAME_CATEGORY = "category";
   @SerializedName(SERIALIZED_NAME_CATEGORY)
-  @javax.annotation.Nullable
-  private Category category;
+  @javax.annotation.Nullable  private Category category;
 
   public static final String SERIALIZED_NAME_PHOTO_URLS = "photoUrls";
   @SerializedName(SERIALIZED_NAME_PHOTO_URLS)
-  @javax.annotation.Nonnull
-  private List<String> photoUrls = new ArrayList<>();
+  @javax.annotation.Nonnull  private List<String> photoUrls = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
-  @javax.annotation.Nullable
-  private List<Tag> tags = new ArrayList<>();
+  @javax.annotation.Nullable  private List<Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -105,11 +101,9 @@ public class Pet {
       }
     }
   }
-
   public static final String SERIALIZED_NAME_STATUS = "status";
   @SerializedName(SERIALIZED_NAME_STATUS)
-  @javax.annotation.Nullable
-  private StatusEnum status;
+  @javax.annotation.Nullable  private StatusEnum status;
 
   public Pet() {
   }
@@ -125,7 +119,6 @@ public class Pet {
    * @return id
    */
   @javax.annotation.Nullable
-
   public Long getId() {
     return id;
   }
@@ -147,7 +140,6 @@ public class Pet {
    * @return name
    */
   @javax.annotation.Nonnull
-
   public String getName() {
     return name;
   }
@@ -169,7 +161,6 @@ public class Pet {
    * @return category
    */
   @javax.annotation.Nullable
-
   public Category getCategory() {
     return category;
   }
@@ -199,7 +190,6 @@ public class Pet {
    * @return photoUrls
    */
   @javax.annotation.Nonnull
-
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -229,7 +219,6 @@ public class Pet {
    * @return tags
    */
   @javax.annotation.Nullable
-
   public List<Tag> getTags() {
     return tags;
   }
@@ -251,7 +240,6 @@ public class Pet {
    * @return status
    */
   @javax.annotation.Nullable
-
   public StatusEnum getStatus() {
     return status;
   }
@@ -260,7 +248,6 @@ public class Pet {
   public void setStatus(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
   }
-
 
   @Override
   public boolean equals(Object o) {

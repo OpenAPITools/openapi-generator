@@ -39,7 +39,6 @@ configuration = openapi_client.Configuration(
     host = "http://localhost:3000"
 )
 
-
 # Enter a context with an instance of the API client
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -55,7 +54,6 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling QueryApi->test_enum_ref_string: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -107,7 +105,6 @@ configuration = openapi_client.Configuration(
     host = "http://localhost:3000"
 )
 
-
 # Enter a context with an instance of the API client
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -124,7 +121,6 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling QueryApi->test_query_datetime_date_string: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -177,7 +173,6 @@ configuration = openapi_client.Configuration(
     host = "http://localhost:3000"
 )
 
-
 # Enter a context with an instance of the API client
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -194,7 +189,6 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling QueryApi->test_query_integer_boolean_string: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -248,7 +242,6 @@ configuration = openapi_client.Configuration(
     host = "http://localhost:3000"
 )
 
-
 # Enter a context with an instance of the API client
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -263,7 +256,6 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling QueryApi->test_query_style_deep_object_explode_true_object: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -314,7 +306,6 @@ configuration = openapi_client.Configuration(
     host = "http://localhost:3000"
 )
 
-
 # Enter a context with an instance of the API client
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -329,7 +320,6 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling QueryApi->test_query_style_deep_object_explode_true_object_all_of: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -380,7 +370,6 @@ configuration = openapi_client.Configuration(
     host = "http://localhost:3000"
 )
 
-
 # Enter a context with an instance of the API client
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -395,7 +384,6 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling QueryApi->test_query_style_form_explode_false_array_integer: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -446,7 +434,6 @@ configuration = openapi_client.Configuration(
     host = "http://localhost:3000"
 )
 
-
 # Enter a context with an instance of the API client
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -461,7 +448,6 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling QueryApi->test_query_style_form_explode_false_array_string: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -513,7 +499,6 @@ configuration = openapi_client.Configuration(
     host = "http://localhost:3000"
 )
 
-
 # Enter a context with an instance of the API client
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -528,7 +513,6 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling QueryApi->test_query_style_form_explode_true_array_string: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -580,7 +564,6 @@ configuration = openapi_client.Configuration(
     host = "http://localhost:3000"
 )
 
-
 # Enter a context with an instance of the API client
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -595,7 +578,6 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling QueryApi->test_query_style_form_explode_true_object: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -646,7 +628,6 @@ configuration = openapi_client.Configuration(
     host = "http://localhost:3000"
 )
 
-
 # Enter a context with an instance of the API client
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -661,7 +642,6 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling QueryApi->test_query_style_form_explode_true_object_all_of: %s\n" % e)
 ```
-
 
 
 ### Parameters

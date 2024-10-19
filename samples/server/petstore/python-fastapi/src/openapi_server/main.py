@@ -11,7 +11,6 @@
     Do not edit the class manually.
 """  # noqa: E501
 
-
 from fastapi import FastAPI
 
 from openapi_server.apis.fake_api import router as FakeApiRouter

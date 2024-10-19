@@ -32,10 +32,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 @JsonTypeName("_foo_get_default_response")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class FooGetDefaultResponse {
   public static final String JSON_PROPERTY_STRING = "string";
-  @jakarta.annotation.Nullable
-  private Foo string;
+  @jakarta.annotation.Nullable  private Foo string;
 
   public FooGetDefaultResponse() {
   }
@@ -50,8 +50,7 @@ public class FooGetDefaultResponse {
    * Get string
    * @return string
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_STRING)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Foo getString() {

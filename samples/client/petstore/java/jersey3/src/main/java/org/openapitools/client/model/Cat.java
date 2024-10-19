@@ -49,7 +49,6 @@ import org.openapitools.client.JSON;
   allowSetters = true // allows the className to be set during deserialization
 )
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
-
 public class Cat extends Animal {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";
   @jakarta.annotation.Nullable
@@ -71,7 +70,6 @@ public class Cat extends Animal {
 
   @JsonProperty(JSON_PROPERTY_DECLAWED)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Boolean getDeclawed() {
     return declawed;
   }
@@ -120,7 +118,6 @@ public class Cat extends Animal {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this Cat object is equal to o.
    */

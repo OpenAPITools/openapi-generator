@@ -58,9 +58,8 @@ class PetApiEndpointsImpl[F[*]: Concurrent](
       requestHeaders = requestHeaders,
       auth = None) {
         
-        case r if r.status.code == 200 => parseJson[F, Pet]("Pet", r)
-        case r if r.status.code == 405 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
-    }
+                case r if r.status.code == 200 => parseJson[F, Pet]("Pet", r)
+                case r if r.status.code == 405 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))    }
   }
 
   override def deletePet(petId: Long, apiKey: Option[String] = None): F[Unit] = {
@@ -78,8 +77,7 @@ class PetApiEndpointsImpl[F[*]: Concurrent](
       requestHeaders = requestHeaders,
       auth = None) {
         
-        case r if r.status.code == 400 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
-    }
+                case r if r.status.code == 400 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))    }
   }
 
   override def findPetsByStatus(status: Seq[FindPetsByStatusStatusParameterInner]): F[Seq[Pet]] = {
@@ -99,9 +97,8 @@ class PetApiEndpointsImpl[F[*]: Concurrent](
       requestHeaders = requestHeaders,
       auth = None) {
         
-        case r if r.status.code == 200 => parseJson[F, Seq[Pet]]("Seq[Pet]", r)
-        case r if r.status.code == 400 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
-    }
+                case r if r.status.code == 200 => parseJson[F, Seq[Pet]]("Seq[Pet]", r)
+                case r if r.status.code == 400 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))    }
   }
 
   override def findPetsByTags(tags: Seq[String]): F[Seq[Pet]] = {
@@ -121,9 +118,8 @@ class PetApiEndpointsImpl[F[*]: Concurrent](
       requestHeaders = requestHeaders,
       auth = None) {
         
-        case r if r.status.code == 200 => parseJson[F, Seq[Pet]]("Seq[Pet]", r)
-        case r if r.status.code == 400 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
-    }
+                case r if r.status.code == 200 => parseJson[F, Seq[Pet]]("Seq[Pet]", r)
+                case r if r.status.code == 400 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))    }
   }
 
   override def getPetById(petId: Long)(implicit auth: _Authorization.ApiKey): F[Pet] = {
@@ -140,10 +136,9 @@ class PetApiEndpointsImpl[F[*]: Concurrent](
       requestHeaders = requestHeaders,
       auth = Some(auth)) {
         
-        case r if r.status.code == 200 => parseJson[F, Pet]("Pet", r)
-        case r if r.status.code == 400 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
-        case r if r.status.code == 404 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
-    }
+                case r if r.status.code == 200 => parseJson[F, Pet]("Pet", r)
+                case r if r.status.code == 400 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
+                case r if r.status.code == 404 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))    }
   }
 
   override def updatePet(pet: Pet): F[Pet] = {
@@ -160,11 +155,10 @@ class PetApiEndpointsImpl[F[*]: Concurrent](
       requestHeaders = requestHeaders,
       auth = None) {
         
-        case r if r.status.code == 200 => parseJson[F, Pet]("Pet", r)
-        case r if r.status.code == 400 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
-        case r if r.status.code == 404 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
-        case r if r.status.code == 405 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
-    }
+                case r if r.status.code == 200 => parseJson[F, Pet]("Pet", r)
+                case r if r.status.code == 400 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
+                case r if r.status.code == 404 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
+                case r if r.status.code == 405 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))    }
   }
 
   override def updatePetWithForm(petId: Long, name: Option[String] = None, status: Option[String] = None): F[Unit] = {
@@ -185,9 +179,8 @@ class PetApiEndpointsImpl[F[*]: Concurrent](
       requestHeaders = requestHeaders,
       auth = None) {
         
-        case r if r.status.code == 200 => Concurrent[F].pure(())
-        case r if r.status.code == 405 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
-    }
+                case r if r.status.code == 200 => Concurrent[F].pure(())
+                case r if r.status.code == 405 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))    }
   }
 
   override def uploadFile(petId: Long, additionalMetadata: Option[String] = None, file: Option[File] = None): F[ApiResponse] = {
@@ -208,8 +201,7 @@ class PetApiEndpointsImpl[F[*]: Concurrent](
       requestHeaders = requestHeaders,
       auth = None) {
         
-        case r if r.status.code == 200 => parseJson[F, ApiResponse]("ApiResponse", r)
-    }
+                case r if r.status.code == 200 => parseJson[F, ApiResponse]("ApiResponse", r)    }
   }
 
 }

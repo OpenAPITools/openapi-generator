@@ -132,4 +132,3 @@ class AllOfWithSingleRef {
   static const requiredKeys = <String>{
   };
 }
-

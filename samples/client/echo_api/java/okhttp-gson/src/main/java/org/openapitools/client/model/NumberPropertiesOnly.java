@@ -50,21 +50,19 @@ import org.openapitools.client.JSON;
  * NumberPropertiesOnly
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class NumberPropertiesOnly {
   public static final String SERIALIZED_NAME_NUMBER = "number";
   @SerializedName(SERIALIZED_NAME_NUMBER)
-  @javax.annotation.Nullable
-  private BigDecimal number;
+  @javax.annotation.Nullable  private BigDecimal number;
 
   public static final String SERIALIZED_NAME_FLOAT = "float";
   @SerializedName(SERIALIZED_NAME_FLOAT)
-  @javax.annotation.Nullable
-  private Float _float;
+  @javax.annotation.Nullable  private Float _float;
 
   public static final String SERIALIZED_NAME_DOUBLE = "double";
   @SerializedName(SERIALIZED_NAME_DOUBLE)
-  @javax.annotation.Nullable
-  private Double _double;
+  @javax.annotation.Nullable  private Double _double;
 
   public NumberPropertiesOnly() {
   }
@@ -78,8 +76,7 @@ public class NumberPropertiesOnly {
    * Get number
    * @return number
    */
-  @javax.annotation.Nullable
-  public BigDecimal getNumber() {
+  @javax.annotation.Nullable  public BigDecimal getNumber() {
     return number;
   }
 
@@ -97,8 +94,7 @@ public class NumberPropertiesOnly {
    * Get _float
    * @return _float
    */
-  @javax.annotation.Nullable
-  public Float getFloat() {
+  @javax.annotation.Nullable  public Float getFloat() {
     return _float;
   }
 
@@ -118,15 +114,13 @@ public class NumberPropertiesOnly {
    * maximum: 50.2
    * @return _double
    */
-  @javax.annotation.Nullable
-  public Double getDouble() {
+  @javax.annotation.Nullable  public Double getDouble() {
     return _double;
   }
 
   public void setDouble(@javax.annotation.Nullable Double _double) {
     this._double = _double;
   }
-
 
 
   @Override

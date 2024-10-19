@@ -51,16 +51,15 @@ import org.openapitools.client.JSON;
  * ArrayDefault
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class ArrayDefault {
   public static final String SERIALIZED_NAME_WITH_DEFAULT_EMPTY_BRACKET = "WithDefaultEmptyBracket";
   @SerializedName(SERIALIZED_NAME_WITH_DEFAULT_EMPTY_BRACKET)
-  @javax.annotation.Nullable
-  private List<String> withDefaultEmptyBracket = new ArrayList<>();
+  @javax.annotation.Nullable  private List<String> withDefaultEmptyBracket = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_WITHOUT_DEFAULT = "WithoutDefault";
   @SerializedName(SERIALIZED_NAME_WITHOUT_DEFAULT)
-  @javax.annotation.Nullable
-  private List<String> withoutDefault = new ArrayList<>();
+  @javax.annotation.Nullable  private List<String> withoutDefault = new ArrayList<>();
 
   public ArrayDefault() {
   }
@@ -82,8 +81,7 @@ public class ArrayDefault {
    * Get withDefaultEmptyBracket
    * @return withDefaultEmptyBracket
    */
-  @javax.annotation.Nullable
-  public List<String> getWithDefaultEmptyBracket() {
+  @javax.annotation.Nullable  public List<String> getWithDefaultEmptyBracket() {
     return withDefaultEmptyBracket;
   }
 
@@ -109,8 +107,7 @@ public class ArrayDefault {
    * Get withoutDefault
    * @return withoutDefault
    */
-  @javax.annotation.Nullable
-  public List<String> getWithoutDefault() {
+  @javax.annotation.Nullable  public List<String> getWithoutDefault() {
     return withoutDefault;
   }
 
@@ -162,7 +159,6 @@ public class ArrayDefault {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

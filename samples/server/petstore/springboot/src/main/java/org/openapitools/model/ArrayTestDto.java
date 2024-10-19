@@ -23,7 +23,6 @@ import javax.annotation.Generated;
 /**
  * ArrayTestDto
  */
-
 @JsonTypeName("ArrayTest")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ArrayTestDto {
@@ -54,8 +53,7 @@ public class ArrayTestDto {
    * Get arrayOfString
    * @return arrayOfString
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("array_of_string")
   public List<String> getArrayOfString() {
     return arrayOfString;
@@ -82,8 +80,7 @@ public class ArrayTestDto {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
    */
-  @Valid 
-  @ApiModelProperty(value = "")
+  @Valid   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_integer")
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
@@ -110,8 +107,7 @@ public class ArrayTestDto {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
    */
-  @Valid 
-  @ApiModelProperty(value = "")
+  @Valid   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_model")
   public List<List<@Valid ReadOnlyFirstDto>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
@@ -120,7 +116,6 @@ public class ArrayTestDto {
   public void setArrayArrayOfModel(List<List<@Valid ReadOnlyFirstDto>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

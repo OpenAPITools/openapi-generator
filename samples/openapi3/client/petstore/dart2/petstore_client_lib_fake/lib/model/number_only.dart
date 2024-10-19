@@ -115,4 +115,3 @@ class NumberOnly {
   static const requiredKeys = <String>{
   };
 }
-

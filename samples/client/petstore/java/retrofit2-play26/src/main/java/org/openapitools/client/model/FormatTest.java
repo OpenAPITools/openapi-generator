@@ -51,62 +51,49 @@ import jakarta.validation.Valid;
 })
 @JsonTypeName("format_test")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class FormatTest {
   public static final String JSON_PROPERTY_INTEGER = "integer";
-  @jakarta.annotation.Nullable
-  private Integer integer;
+  @jakarta.annotation.Nullable  private Integer integer;
 
   public static final String JSON_PROPERTY_INT32 = "int32";
-  @jakarta.annotation.Nullable
-  private Integer int32;
+  @jakarta.annotation.Nullable  private Integer int32;
 
   public static final String JSON_PROPERTY_INT64 = "int64";
-  @jakarta.annotation.Nullable
-  private Long int64;
+  @jakarta.annotation.Nullable  private Long int64;
 
   public static final String JSON_PROPERTY_NUMBER = "number";
-  @jakarta.annotation.Nonnull
-  private BigDecimal number;
+  @jakarta.annotation.Nonnull  private BigDecimal number;
 
   public static final String JSON_PROPERTY_FLOAT = "float";
-  @jakarta.annotation.Nullable
-  private Float _float;
+  @jakarta.annotation.Nullable  private Float _float;
 
   public static final String JSON_PROPERTY_DOUBLE = "double";
-  @jakarta.annotation.Nullable
-  private Double _double;
+  @jakarta.annotation.Nullable  private Double _double;
 
   public static final String JSON_PROPERTY_STRING = "string";
-  @jakarta.annotation.Nullable
-  private String string;
+  @jakarta.annotation.Nullable  private String string;
 
   public static final String JSON_PROPERTY_BYTE = "byte";
-  @jakarta.annotation.Nonnull
-  private byte[] _byte;
+  @jakarta.annotation.Nonnull  private byte[] _byte;
 
   public static final String JSON_PROPERTY_BINARY = "binary";
-  @jakarta.annotation.Nullable
-  private File binary;
+  @jakarta.annotation.Nullable  private File binary;
 
   public static final String JSON_PROPERTY_DATE = "date";
-  @jakarta.annotation.Nonnull
-  private LocalDate date;
+  @jakarta.annotation.Nonnull  private LocalDate date;
 
   public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
-  @jakarta.annotation.Nullable
-  private OffsetDateTime dateTime;
+  @jakarta.annotation.Nullable  private OffsetDateTime dateTime;
 
   public static final String JSON_PROPERTY_UUID = "uuid";
-  @jakarta.annotation.Nullable
-  private UUID uuid;
+  @jakarta.annotation.Nullable  private UUID uuid;
 
   public static final String JSON_PROPERTY_PASSWORD = "password";
-  @jakarta.annotation.Nonnull
-  private String password;
+  @jakarta.annotation.Nonnull  private String password;
 
   public static final String JSON_PROPERTY_BIG_DECIMAL = "BigDecimal";
-  @jakarta.annotation.Nullable
-  private BigDecimal bigDecimal;
+  @jakarta.annotation.Nullable  private BigDecimal bigDecimal;
 
   public FormatTest() {
   }
@@ -123,9 +110,7 @@ public class FormatTest {
    * maximum: 100
    * @return integer
    */
-  @jakarta.annotation.Nullable
- @Min(10) @Max(100)
-  @JsonProperty(JSON_PROPERTY_INTEGER)
+  @jakarta.annotation.Nullable @Min(10) @Max(100)  @JsonProperty(JSON_PROPERTY_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getInteger() {
@@ -151,9 +136,7 @@ public class FormatTest {
    * maximum: 200
    * @return int32
    */
-  @jakarta.annotation.Nullable
- @Min(20) @Max(200)
-  @JsonProperty(JSON_PROPERTY_INT32)
+  @jakarta.annotation.Nullable @Min(20) @Max(200)  @JsonProperty(JSON_PROPERTY_INT32)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getInt32() {
@@ -177,9 +160,7 @@ public class FormatTest {
    * Get int64
    * @return int64
    */
-  @jakarta.annotation.Nullable
-
-  @JsonProperty(JSON_PROPERTY_INT64)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_INT64)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getInt64() {
@@ -205,11 +186,9 @@ public class FormatTest {
    * maximum: 543.2
    * @return number
    */
-  @jakarta.annotation.Nonnull
-  @NotNull
+  @jakarta.annotation.Nonnull  @NotNull
   @Valid
- @DecimalMin("32.1") @DecimalMax("543.2")
-  @JsonProperty(JSON_PROPERTY_NUMBER)
+ @DecimalMin("32.1") @DecimalMax("543.2")  @JsonProperty(JSON_PROPERTY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public BigDecimal getNumber() {
@@ -235,9 +214,7 @@ public class FormatTest {
    * maximum: 987.6
    * @return _float
    */
-  @jakarta.annotation.Nullable
- @DecimalMin("54.3") @DecimalMax("987.6")
-  @JsonProperty(JSON_PROPERTY_FLOAT)
+  @jakarta.annotation.Nullable @DecimalMin("54.3") @DecimalMax("987.6")  @JsonProperty(JSON_PROPERTY_FLOAT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Float getFloat() {
@@ -263,9 +240,7 @@ public class FormatTest {
    * maximum: 123.4
    * @return _double
    */
-  @jakarta.annotation.Nullable
- @DecimalMin("67.8") @DecimalMax("123.4")
-  @JsonProperty(JSON_PROPERTY_DOUBLE)
+  @jakarta.annotation.Nullable @DecimalMin("67.8") @DecimalMax("123.4")  @JsonProperty(JSON_PROPERTY_DOUBLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Double getDouble() {
@@ -289,9 +264,7 @@ public class FormatTest {
    * Get string
    * @return string
    */
-  @jakarta.annotation.Nullable
- @Pattern(regexp="/[a-z]/i")
-  @JsonProperty(JSON_PROPERTY_STRING)
+  @jakarta.annotation.Nullable @Pattern(regexp="/[a-z]/i")  @JsonProperty(JSON_PROPERTY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getString() {
@@ -315,9 +288,7 @@ public class FormatTest {
    * Get _byte
    * @return _byte
    */
-  @jakarta.annotation.Nonnull
-  @NotNull
-
+  @jakarta.annotation.Nonnull  @NotNull
   @JsonProperty(JSON_PROPERTY_BYTE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -342,9 +313,7 @@ public class FormatTest {
    * Get binary
    * @return binary
    */
-  @jakarta.annotation.Nullable
-  @Valid
-
+  @jakarta.annotation.Nullable  @Valid
   @JsonProperty(JSON_PROPERTY_BINARY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -369,10 +338,8 @@ public class FormatTest {
    * Get date
    * @return date
    */
-  @jakarta.annotation.Nonnull
-  @NotNull
+  @jakarta.annotation.Nonnull  @NotNull
   @Valid
-
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -397,9 +364,7 @@ public class FormatTest {
    * Get dateTime
    * @return dateTime
    */
-  @jakarta.annotation.Nullable
-  @Valid
-
+  @jakarta.annotation.Nullable  @Valid
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -424,9 +389,7 @@ public class FormatTest {
    * Get uuid
    * @return uuid
    */
-  @jakarta.annotation.Nullable
-  @Valid
-
+  @jakarta.annotation.Nullable  @Valid
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -451,10 +414,8 @@ public class FormatTest {
    * Get password
    * @return password
    */
-  @jakarta.annotation.Nonnull
-  @NotNull
- @Size(min=10,max=64)
-  @JsonProperty(JSON_PROPERTY_PASSWORD)
+  @jakarta.annotation.Nonnull  @NotNull
+ @Size(min=10,max=64)  @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getPassword() {
@@ -478,9 +439,7 @@ public class FormatTest {
    * Get bigDecimal
    * @return bigDecimal
    */
-  @jakarta.annotation.Nullable
-  @Valid
-
+  @jakarta.annotation.Nullable  @Valid
   @JsonProperty(JSON_PROPERTY_BIG_DECIMAL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

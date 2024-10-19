@@ -15,7 +15,6 @@ import jakarta.annotation.Generated;
 /**
  * Model for testing model name same as property name
  */
-
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Name {
 
@@ -113,7 +112,6 @@ public class Name {
   public void set123number(Integer _123number) {
     this._123number = _123number;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

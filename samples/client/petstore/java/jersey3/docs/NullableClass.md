@@ -21,4 +21,3 @@
 |**objectItemsNullable** | **Map&lt;String, Object&gt;** |  |  [optional] |
 
 
-

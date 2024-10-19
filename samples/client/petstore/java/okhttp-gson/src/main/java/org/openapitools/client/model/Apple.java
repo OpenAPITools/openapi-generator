@@ -49,16 +49,15 @@ import org.openapitools.client.JSON;
  * Apple
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Apple {
   public static final String SERIALIZED_NAME_CULTIVAR = "cultivar";
   @SerializedName(SERIALIZED_NAME_CULTIVAR)
-  @javax.annotation.Nullable
-  private String cultivar;
+  @javax.annotation.Nullable  private String cultivar;
 
   public static final String SERIALIZED_NAME_ORIGIN = "origin";
   @SerializedName(SERIALIZED_NAME_ORIGIN)
-  @javax.annotation.Nullable
-  private String origin;
+  @javax.annotation.Nullable  private String origin;
 
   public Apple() {
   }
@@ -72,8 +71,7 @@ public class Apple {
    * Get cultivar
    * @return cultivar
    */
-  @javax.annotation.Nullable
-  public String getCultivar() {
+  @javax.annotation.Nullable  public String getCultivar() {
     return cultivar;
   }
 
@@ -91,8 +89,7 @@ public class Apple {
    * Get origin
    * @return origin
    */
-  @javax.annotation.Nullable
-  public String getOrigin() {
+  @javax.annotation.Nullable  public String getOrigin() {
     return origin;
   }
 
@@ -144,7 +141,6 @@ public class Apple {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

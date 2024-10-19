@@ -17,4 +17,3 @@ instance = Petstore::FileSchemaTestClass.new(
   files: null
 )
 ```
-

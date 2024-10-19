@@ -50,11 +50,11 @@ import org.openapitools.client.JSON;
  * CircularReference3
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class CircularReference3 {
   public static final String SERIALIZED_NAME_PROP1 = "prop1";
   @SerializedName(SERIALIZED_NAME_PROP1)
-  @javax.annotation.Nullable
-  private CircularReference1 prop1;
+  @javax.annotation.Nullable  private CircularReference1 prop1;
 
   public CircularReference3() {
   }
@@ -68,8 +68,7 @@ public class CircularReference3 {
    * Get prop1
    * @return prop1
    */
-  @javax.annotation.Nullable
-  public CircularReference1 getProp1() {
+  @javax.annotation.Nullable  public CircularReference1 getProp1() {
     return prop1;
   }
 
@@ -121,7 +120,6 @@ public class CircularReference3 {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

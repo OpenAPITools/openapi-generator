@@ -26,16 +26,15 @@ import java.io.IOException;
  * ReadOnlyFirst
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class ReadOnlyFirst {
   public static final String SERIALIZED_NAME_BAR = "bar";
   @SerializedName(SERIALIZED_NAME_BAR)
-  @javax.annotation.Nullable
-  private String bar;
+  @javax.annotation.Nullable  private String bar;
 
   public static final String SERIALIZED_NAME_BAZ = "baz";
   @SerializedName(SERIALIZED_NAME_BAZ)
-  @javax.annotation.Nullable
-  private String baz;
+  @javax.annotation.Nullable  private String baz;
 
   public ReadOnlyFirst() {
   }
@@ -55,7 +54,6 @@ public class ReadOnlyFirst {
    * @return bar
    */
   @javax.annotation.Nullable
-
   public String getBar() {
     return bar;
   }
@@ -73,7 +71,6 @@ public class ReadOnlyFirst {
    * @return baz
    */
   @javax.annotation.Nullable
-
   public String getBaz() {
     return baz;
   }

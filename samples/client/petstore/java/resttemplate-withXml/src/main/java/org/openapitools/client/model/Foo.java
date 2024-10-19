@@ -34,14 +34,15 @@ import io.github.threetenjaxb.core.*;
   Foo.JSON_PROPERTY_BAR
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 @XmlRootElement(name = "Foo")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Foo")
+
 public class Foo {
   public static final String JSON_PROPERTY_BAR = "bar";
   @XmlElement(name = "bar")
-  @javax.annotation.Nullable
-  private String bar = "bar";
+  @javax.annotation.Nullable  private String bar = "bar";
 
   public Foo() {
   }
@@ -56,8 +57,7 @@ public class Foo {
    * Get bar
    * @return bar
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_BAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "bar")
 

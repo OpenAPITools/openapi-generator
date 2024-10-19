@@ -20,7 +20,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-
 public class User  {
   
   private Long id;
@@ -234,4 +233,3 @@ public class User  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

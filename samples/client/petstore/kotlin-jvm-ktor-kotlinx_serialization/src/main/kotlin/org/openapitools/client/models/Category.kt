@@ -27,7 +27,6 @@ import kotlinx.serialization.Contextual
  * @param name 
  */
 @Serializable
-
 data class Category (
 
     @SerialName(value = "id")

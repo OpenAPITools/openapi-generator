@@ -6,7 +6,8 @@ import {{javaxPackage}}.validation.Valid;
 /**
  * {{description}}{{^description}}{{classname}}{{/description}}
  */
-{{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}
+{{>additionalModelTypeAnnotations}}
+{{>generatedAnnotation}}
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 {{#vendorExtensions.x-class-extra-annotation}}
 {{{vendorExtensions.x-class-extra-annotation}}}
@@ -33,15 +34,11 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
   {{{vendorExtensions.x-field-extra-annotation}}}
   {{/vendorExtensions.x-field-extra-annotation}}
   {{#isContainer}}
-  {{#useBeanValidation}}
-  {{>beanValidation}}
-  {{/useBeanValidation}}
+  {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}
   private {{{datatypeWithEnum}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}} = null{{/required}};
   {{/isContainer}}
   {{^isContainer}}
-  {{#useBeanValidation}}
-  {{>beanValidation}}
-  {{/useBeanValidation}}
+  {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}
   private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
   {{/isContainer}}
 

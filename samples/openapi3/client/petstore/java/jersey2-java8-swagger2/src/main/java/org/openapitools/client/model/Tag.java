@@ -99,7 +99,6 @@ public class Tag {
     this.name = name;
   }
 
-
   /**
    * Return true if this Tag object is equal to o.
    */

@@ -42,10 +42,9 @@ public interface PetApiDelegate {
      */
     default Mono<Void> addPet(Mono<Pet> pet,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
+Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         return result.then(pet).then(Mono.empty());
-
     }
 
     /**
@@ -61,10 +60,9 @@ public interface PetApiDelegate {
     default Mono<Void> deletePet(Long petId,
         String apiKey,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
+Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         return result.then(Mono.empty());
-
     }
 
     /**
@@ -78,7 +76,7 @@ public interface PetApiDelegate {
      */
     default Flux<Pet> findPetsByStatus(List<String> status,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
+Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -93,7 +91,6 @@ public interface PetApiDelegate {
             }
         }
         return result.thenMany(Flux.empty());
-
     }
 
     /**
@@ -109,7 +106,7 @@ public interface PetApiDelegate {
     @Deprecated
     default Flux<Pet> findPetsByTags(Set<String> tags,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
+Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -124,7 +121,6 @@ public interface PetApiDelegate {
             }
         }
         return result.thenMany(Flux.empty());
-
     }
 
     /**
@@ -139,7 +135,7 @@ public interface PetApiDelegate {
      */
     default Mono<Pet> getPetById(Long petId,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
+Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -154,7 +150,6 @@ public interface PetApiDelegate {
             }
         }
         return result.then(Mono.empty());
-
     }
 
     /**
@@ -170,10 +165,9 @@ public interface PetApiDelegate {
      */
     default Mono<Void> updatePet(Mono<Pet> pet,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
+Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         return result.then(pet).then(Mono.empty());
-
     }
 
     /**
@@ -190,10 +184,9 @@ public interface PetApiDelegate {
         String name,
         String status,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
+Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         return result.then(Mono.empty());
-
     }
 
     /**
@@ -210,7 +203,7 @@ public interface PetApiDelegate {
         String additionalMetadata,
         Flux<Part> file,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
+Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -220,7 +213,6 @@ public interface PetApiDelegate {
             }
         }
         return result.then(Mono.empty());
-
     }
 
 }

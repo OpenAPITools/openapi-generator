@@ -17,4 +17,3 @@ instance = Petstore::AllOfWithSingleRef.new(
   single_ref_type: null
 )
 ```
-

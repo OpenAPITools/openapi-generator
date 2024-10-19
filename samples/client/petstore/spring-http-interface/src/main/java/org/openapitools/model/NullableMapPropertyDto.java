@@ -21,7 +21,6 @@ import jakarta.annotation.Generated;
 /**
  * NullableMapPropertyDto
  */
-
 @JsonTypeName("NullableMapProperty")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class NullableMapPropertyDto {
@@ -55,7 +54,6 @@ public class NullableMapPropertyDto {
   public void setLanguageValues(JsonNullable<Map<String, String>> languageValues) {
     this.languageValues = languageValues;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

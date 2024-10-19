@@ -51,26 +51,23 @@ import org.openapitools.client.JSON;
  * AllOfModelArrayAnyOf
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class AllOfModelArrayAnyOf {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
-  @javax.annotation.Nullable
-  private Long id;
+  @javax.annotation.Nullable  private Long id;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
-  @javax.annotation.Nonnull
-  private String name = "default-name";
+  @javax.annotation.Nonnull  private String name = "default-name";
 
   public static final String SERIALIZED_NAME_LINK_LIST_COLUMN1 = "linkListColumn1";
   @SerializedName(SERIALIZED_NAME_LINK_LIST_COLUMN1)
-  @javax.annotation.Nullable
-  private AllOfModelArrayAnyOfAllOfLinkListColumn1 linkListColumn1;
+  @javax.annotation.Nullable  private AllOfModelArrayAnyOfAllOfLinkListColumn1 linkListColumn1;
 
   public static final String SERIALIZED_NAME_ATTRIBUTES = "attributes";
   @SerializedName(SERIALIZED_NAME_ATTRIBUTES)
-  @javax.annotation.Nullable
-  private AllOfModelArrayAnyOfAllOfAttributes attributes;
+  @javax.annotation.Nullable  private AllOfModelArrayAnyOfAllOfAttributes attributes;
 
   public AllOfModelArrayAnyOf() {
   }
@@ -84,8 +81,7 @@ public class AllOfModelArrayAnyOf {
    * Get id
    * @return id
    */
-  @javax.annotation.Nullable
-  public Long getId() {
+  @javax.annotation.Nullable  public Long getId() {
     return id;
   }
 
@@ -103,8 +99,7 @@ public class AllOfModelArrayAnyOf {
    * Get name
    * @return name
    */
-  @javax.annotation.Nonnull
-  public String getName() {
+  @javax.annotation.Nonnull  public String getName() {
     return name;
   }
 
@@ -122,8 +117,7 @@ public class AllOfModelArrayAnyOf {
    * Get linkListColumn1
    * @return linkListColumn1
    */
-  @javax.annotation.Nullable
-  public AllOfModelArrayAnyOfAllOfLinkListColumn1 getLinkListColumn1() {
+  @javax.annotation.Nullable  public AllOfModelArrayAnyOfAllOfLinkListColumn1 getLinkListColumn1() {
     return linkListColumn1;
   }
 
@@ -141,8 +135,7 @@ public class AllOfModelArrayAnyOf {
    * Get attributes
    * @return attributes
    */
-  @javax.annotation.Nullable
-  public AllOfModelArrayAnyOfAllOfAttributes getAttributes() {
+  @javax.annotation.Nullable  public AllOfModelArrayAnyOfAllOfAttributes getAttributes() {
     return attributes;
   }
 
@@ -194,7 +187,6 @@ public class AllOfModelArrayAnyOf {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

@@ -36,18 +36,16 @@ import java.util.StringJoiner;
   NumberPropertiesOnly.JSON_PROPERTY_DOUBLE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class NumberPropertiesOnly {
   public static final String JSON_PROPERTY_NUMBER = "number";
-  @javax.annotation.Nullable
-  private BigDecimal number;
+  @javax.annotation.Nullable  private BigDecimal number;
 
   public static final String JSON_PROPERTY_FLOAT = "float";
-  @javax.annotation.Nullable
-  private Float _float;
+  @javax.annotation.Nullable  private Float _float;
 
   public static final String JSON_PROPERTY_DOUBLE = "double";
-  @javax.annotation.Nullable
-  private Double _double;
+  @javax.annotation.Nullable  private Double _double;
 
   public NumberPropertiesOnly() {
   }
@@ -62,8 +60,7 @@ public class NumberPropertiesOnly {
    * Get number
    * @return number
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_NUMBER)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public BigDecimal getNumber() {
@@ -87,8 +84,7 @@ public class NumberPropertiesOnly {
    * Get _float
    * @return _float
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_FLOAT)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_FLOAT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Float getFloat() {
@@ -114,8 +110,7 @@ public class NumberPropertiesOnly {
    * maximum: 50.2
    * @return _double
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DOUBLE)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_DOUBLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Double getDouble() {

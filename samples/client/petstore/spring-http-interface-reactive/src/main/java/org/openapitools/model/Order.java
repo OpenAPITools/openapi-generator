@@ -18,7 +18,6 @@ import jakarta.annotation.Generated;
 /**
  * Order
  */
-
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Order {
 
@@ -67,7 +66,6 @@ public class Order {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   private StatusEnum status;
 
   private Boolean complete = false;
@@ -185,7 +183,6 @@ public class Order {
   public void setComplete(Boolean complete) {
     this.complete = complete;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

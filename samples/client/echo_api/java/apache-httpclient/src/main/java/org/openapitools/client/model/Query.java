@@ -37,10 +37,10 @@ import java.util.StringJoiner;
   Query.JSON_PROPERTY_OUTCOMES
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Query {
   public static final String JSON_PROPERTY_ID = "id";
-  @javax.annotation.Nullable
-  protected Long id;
+  @javax.annotation.Nullable  protected Long id;
 
   /**
    * Gets or Sets outcomes
@@ -78,10 +78,8 @@ public class Query {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_OUTCOMES = "outcomes";
-  @javax.annotation.Nullable
-  protected List<OutcomesEnum> outcomes = new ArrayList<>(Arrays.asList(OutcomesEnum.SUCCESS, OutcomesEnum.FAILURE));
+  @javax.annotation.Nullable  protected List<OutcomesEnum> outcomes = new ArrayList<>(Arrays.asList(OutcomesEnum.SUCCESS, OutcomesEnum.FAILURE));
 
   public Query() {
   }
@@ -96,8 +94,7 @@ public class Query {
    * Query
    * @return id
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ID)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getId() {
@@ -129,8 +126,7 @@ public class Query {
    * Get outcomes
    * @return outcomes
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_OUTCOMES)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_OUTCOMES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<OutcomesEnum> getOutcomes() {

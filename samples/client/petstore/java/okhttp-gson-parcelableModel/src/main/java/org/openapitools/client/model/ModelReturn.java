@@ -51,11 +51,11 @@ import org.openapitools.client.JSON;
  * Model for testing reserved words
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class ModelReturn implements Parcelable {
   public static final String SERIALIZED_NAME_RETURN = "return";
   @SerializedName(SERIALIZED_NAME_RETURN)
-  @javax.annotation.Nullable
-  private Integer _return;
+  @javax.annotation.Nullable  private Integer _return;
 
   public ModelReturn() {
   }
@@ -69,15 +69,13 @@ public class ModelReturn implements Parcelable {
    * Get _return
    * @return _return
    */
-  @javax.annotation.Nullable
-  public Integer getReturn() {
+  @javax.annotation.Nullable  public Integer getReturn() {
     return _return;
   }
 
   public void setReturn(@javax.annotation.Nullable Integer _return) {
     this._return = _return;
   }
-
 
 
   @Override

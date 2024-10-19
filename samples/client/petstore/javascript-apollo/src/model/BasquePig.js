@@ -106,4 +106,3 @@ BasquePig.prototype['color'] = undefined;
 
 
 export default BasquePig;
-

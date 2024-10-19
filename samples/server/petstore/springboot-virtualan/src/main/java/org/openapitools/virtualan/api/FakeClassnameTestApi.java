@@ -76,17 +76,16 @@ public interface FakeClassnameTestApi {
     default ResponseEntity<Client> testClassname(
         @Parameter(name = "Client", description = "client model", required = true) @Valid @RequestBody Client client
     ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"client\" : \"client\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                                getRequest().ifPresent(request -> {
+                    for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                        if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                            String exampleString = "{ \"client\" : \"client\" }";
+                            ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                            break;
+                        }
+                    }
+                });
+                return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                                            }
 
 }

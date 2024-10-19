@@ -76,4 +76,3 @@ public class AdditionalPropertiesString extends HashMap<String, String>  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

@@ -95,7 +95,6 @@ public class AllOfWithSingleRef {
     this.singleRefType = singleRefType;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

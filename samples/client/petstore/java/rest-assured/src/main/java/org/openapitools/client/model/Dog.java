@@ -30,11 +30,11 @@ import org.hibernate.validator.constraints.*;
  * Dog
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Dog extends Animal {
   public static final String SERIALIZED_NAME_BREED = "breed";
   @SerializedName(SERIALIZED_NAME_BREED)
-  @javax.annotation.Nullable
-  private String breed;
+  @javax.annotation.Nullable  private String breed;
 
   public Dog() {
 
@@ -51,8 +51,6 @@ public class Dog extends Animal {
    * @return breed
    */
   @javax.annotation.Nullable
-
-
   public String getBreed() {
     return breed;
   }

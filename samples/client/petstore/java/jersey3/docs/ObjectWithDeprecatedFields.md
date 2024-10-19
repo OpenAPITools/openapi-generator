@@ -13,4 +13,3 @@
 |**bars** | **List&lt;String&gt;** |  |  [optional] |
 
 
-

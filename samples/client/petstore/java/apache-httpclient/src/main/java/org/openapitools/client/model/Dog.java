@@ -42,7 +42,6 @@ import java.util.StringJoiner;
   allowSetters = true // allows the className to be set during deserialization
 )
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
-
 public class Dog extends Animal {
   public static final String JSON_PROPERTY_BREED = "breed";
   @javax.annotation.Nullable

@@ -49,6 +49,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 @JsonDeserialize(using = Example.ExampleDeserializer.class)
 @JsonSerialize(using = Example.ExampleSerializer.class)
 public class Example extends AbstractOpenApiSchema {
@@ -140,7 +141,6 @@ public class Example extends AbstractOpenApiSchema {
     public Example() {
         super("oneOf", Boolean.FALSE);
     }
-
     public Example(List o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);

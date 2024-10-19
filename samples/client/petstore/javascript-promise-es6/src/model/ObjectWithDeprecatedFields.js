@@ -117,4 +117,3 @@ ObjectWithDeprecatedFields.prototype['bars'] = undefined;
 
 
 export default ObjectWithDeprecatedFields;
-

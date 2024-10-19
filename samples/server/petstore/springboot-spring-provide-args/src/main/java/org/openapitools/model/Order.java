@@ -20,7 +20,6 @@ import javax.annotation.Generated;
 /**
  * Order
  */
-
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Order {
 
@@ -69,7 +68,6 @@ public class Order {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   private StatusEnum status;
 
   private Boolean complete;
@@ -83,8 +81,7 @@ public class Order {
    * Get id
    * @return id
    */
-  
-  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public Long getId() {
     return id;
@@ -103,8 +100,7 @@ public class Order {
    * Get petId
    * @return petId
    */
-  
-  @Schema(name = "petId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "petId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("petId")
   public Long getPetId() {
     return petId;
@@ -123,8 +119,7 @@ public class Order {
    * Get quantity
    * @return quantity
    */
-  
-  @Schema(name = "quantity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "quantity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("quantity")
   public Integer getQuantity() {
     return quantity;
@@ -143,8 +138,7 @@ public class Order {
    * Get shipDate
    * @return shipDate
    */
-  @Valid 
-  @Schema(name = "shipDate", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Valid   @Schema(name = "shipDate", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("shipDate")
   public OffsetDateTime getShipDate() {
     return shipDate;
@@ -163,8 +157,7 @@ public class Order {
    * Order Status
    * @return status
    */
-  
-  @Schema(name = "status", description = "Order Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "status", description = "Order Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
@@ -183,8 +176,7 @@ public class Order {
    * Get complete
    * @return complete
    */
-  
-  @Schema(name = "complete", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "complete", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("complete")
   public Boolean getComplete() {
     return complete;
@@ -193,7 +185,6 @@ public class Order {
   public void setComplete(Boolean complete) {
     this.complete = complete;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

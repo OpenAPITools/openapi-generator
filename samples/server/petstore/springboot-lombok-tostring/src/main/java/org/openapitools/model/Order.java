@@ -25,7 +25,6 @@ import jakarta.annotation.Generated;
 @lombok.Setter
 @lombok.ToString
 @lombok.EqualsAndHashCode
-
 @Schema(name = "Order", description = "An order for a pets from the pet store")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Order {
@@ -75,7 +74,6 @@ public class Order {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   private StatusEnum status;
 
   private Boolean complete = false;
@@ -114,7 +112,6 @@ public class Order {
     this.complete = complete;
     return this;
   }
-
 
 
 }

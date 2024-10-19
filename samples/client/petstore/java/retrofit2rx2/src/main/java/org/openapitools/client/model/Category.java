@@ -26,16 +26,15 @@ import java.io.IOException;
  * Category
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Category {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
-  @javax.annotation.Nullable
-  private Long id;
+  @javax.annotation.Nullable  private Long id;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
-  @javax.annotation.Nonnull
-  private String name = "default-name";
+  @javax.annotation.Nonnull  private String name = "default-name";
 
   public Category() {
   }
@@ -51,7 +50,6 @@ public class Category {
    * @return id
    */
   @javax.annotation.Nullable
-
   public Long getId() {
     return id;
   }
@@ -72,7 +70,6 @@ public class Category {
    * @return name
    */
   @javax.annotation.Nonnull
-
   public String getName() {
     return name;
   }

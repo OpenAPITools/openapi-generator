@@ -36,14 +36,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 @JsonTypeName("fakeBigDecimalMap_200_response")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class FakeBigDecimalMap200Response {
   public static final String JSON_PROPERTY_SOME_ID = "someId";
-  @jakarta.annotation.Nullable
-  private BigDecimal someId;
+  @jakarta.annotation.Nullable  private BigDecimal someId;
 
   public static final String JSON_PROPERTY_SOME_MAP = "someMap";
-  @jakarta.annotation.Nullable
-  private Map<String, BigDecimal> someMap;
+  @jakarta.annotation.Nullable  private Map<String, BigDecimal> someMap;
 
   public FakeBigDecimalMap200Response() {
   }
@@ -58,8 +57,7 @@ public class FakeBigDecimalMap200Response {
    * Get someId
    * @return someId
    */
-  @jakarta.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @jakarta.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_SOME_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -92,8 +90,7 @@ public class FakeBigDecimalMap200Response {
    * Get someMap
    * @return someMap
    */
-  @jakarta.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @jakarta.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_SOME_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

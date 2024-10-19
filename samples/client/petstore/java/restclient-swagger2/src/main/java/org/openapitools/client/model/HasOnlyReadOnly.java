@@ -33,14 +33,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 @JsonTypeName("hasOnlyReadOnly")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class HasOnlyReadOnly {
   public static final String JSON_PROPERTY_BAR = "bar";
-  @jakarta.annotation.Nullable
-  private String bar;
+  @jakarta.annotation.Nullable  private String bar;
 
   public static final String JSON_PROPERTY_FOO = "foo";
-  @jakarta.annotation.Nullable
-  private String foo;
+  @jakarta.annotation.Nullable  private String foo;
 
   public HasOnlyReadOnly() {
   }
@@ -61,8 +60,7 @@ public class HasOnlyReadOnly {
    * Get bar
    * @return bar
    */
-  @jakarta.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @jakarta.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_BAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -76,8 +74,7 @@ public class HasOnlyReadOnly {
    * Get foo
    * @return foo
    */
-  @jakarta.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @jakarta.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_FOO)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

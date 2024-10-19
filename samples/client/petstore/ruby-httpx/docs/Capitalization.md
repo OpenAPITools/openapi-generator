@@ -25,4 +25,3 @@ instance = Petstore::Capitalization.new(
   att_name: null
 )
 ```
-

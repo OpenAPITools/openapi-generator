@@ -49,11 +49,11 @@ import org.openapitools.client.JSON;
  * DanishPig
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class DanishPig {
   public static final String SERIALIZED_NAME_CLASS_NAME = "className";
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
-  @javax.annotation.Nonnull
-  private String className;
+  @javax.annotation.Nonnull  private String className;
 
   public DanishPig() {
   }
@@ -67,8 +67,7 @@ public class DanishPig {
    * Get className
    * @return className
    */
-  @javax.annotation.Nonnull
-  public String getClassName() {
+  @javax.annotation.Nonnull  public String getClassName() {
     return className;
   }
 
@@ -120,7 +119,6 @@ public class DanishPig {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

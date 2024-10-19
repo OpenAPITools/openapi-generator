@@ -62,7 +62,6 @@ public class SpecialModelName {
 
   @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }
@@ -88,7 +87,6 @@ public class SpecialModelName {
 
   @JsonProperty(JSON_PROPERTY_SPECIAL_MODEL_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getSpecialModelName() {
     return specialModelName;
   }
@@ -99,7 +97,6 @@ public class SpecialModelName {
   public void setSpecialModelName(@jakarta.annotation.Nullable String specialModelName) {
     this.specialModelName = specialModelName;
   }
-
 
   /**
    * Return true if this _special_model.name_ object is equal to o.

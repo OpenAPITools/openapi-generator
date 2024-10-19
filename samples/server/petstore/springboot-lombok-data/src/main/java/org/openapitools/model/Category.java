@@ -21,7 +21,6 @@ import javax.annotation.Generated;
 @lombok.Builder
 @lombok.NoArgsConstructor
 @lombok.AllArgsConstructor
-
 @Schema(name = "Category", description = "A category for a pet")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Category {
@@ -29,6 +28,5 @@ public class Category {
   private Long id;
 
   private String name;
-
 }
 

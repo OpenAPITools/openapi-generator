@@ -65,7 +65,6 @@ public class TriangleInterface {
     this.triangleType = triangleType;
   }
 
-
   /**
    * Return true if this TriangleInterface object is equal to o.
    */

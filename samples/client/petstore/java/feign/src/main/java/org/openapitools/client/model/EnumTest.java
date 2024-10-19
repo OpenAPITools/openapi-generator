@@ -348,7 +348,6 @@ public class EnumTest {
 
   @JsonProperty(JSON_PROPERTY_OUTER_ENUM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<OuterEnum> getOuterEnum_JsonNullable() {
     return outerEnum;
   }
@@ -439,7 +438,6 @@ public class EnumTest {
   public void setOuterEnumIntegerDefaultValue(@javax.annotation.Nullable OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
     this.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
   }
-
 
   @Override
   public boolean equals(Object o) {

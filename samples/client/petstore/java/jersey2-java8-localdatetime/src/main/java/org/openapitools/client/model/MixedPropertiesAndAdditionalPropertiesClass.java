@@ -138,7 +138,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     this.map = map;
   }
 
-
   /**
    * Return true if this MixedPropertiesAndAdditionalPropertiesClass object is equal to o.
    */

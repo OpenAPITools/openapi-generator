@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { Category } from './Category';
 import {
@@ -83,7 +82,6 @@ export const PetStatusEnum = {
 } as const;
 export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 
-
 /**
  * Check if a given object implements the Pet interface.
  */
@@ -131,4 +129,3 @@ export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
         'status': value['status'],
     };
 }
-

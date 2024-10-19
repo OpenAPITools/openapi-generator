@@ -38,10 +38,10 @@ import org.hibernate.validator.constraints.*;
   MapTest.JSON_PROPERTY_INDIRECT_MAP
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class MapTest {
   public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
-  @javax.annotation.Nullable
-  private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
   /**
    * Gets or Sets inner
@@ -77,18 +77,14 @@ public class MapTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_MAP_OF_ENUM_STRING = "map_of_enum_string";
-  @javax.annotation.Nullable
-  private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
   public static final String JSON_PROPERTY_DIRECT_MAP = "direct_map";
-  @javax.annotation.Nullable
-  private Map<String, Boolean> directMap = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, Boolean> directMap = new HashMap<>();
 
   public static final String JSON_PROPERTY_INDIRECT_MAP = "indirect_map";
-  @javax.annotation.Nullable
-  private Map<String, Boolean> indirectMap = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, Boolean> indirectMap = new HashMap<>();
 
   public MapTest() {
   }
@@ -111,9 +107,7 @@ public class MapTest {
    * Get mapMapOfString
    * @return mapMapOfString
    */
-  @javax.annotation.Nullable
-  @Valid
-
+  @javax.annotation.Nullable  @Valid
   @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -146,9 +140,7 @@ public class MapTest {
    * Get mapOfEnumString
    * @return mapOfEnumString
    */
-  @javax.annotation.Nullable
-
-  @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, InnerEnum> getMapOfEnumString() {
@@ -180,9 +172,7 @@ public class MapTest {
    * Get directMap
    * @return directMap
    */
-  @javax.annotation.Nullable
-
-  @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Boolean> getDirectMap() {
@@ -214,9 +204,7 @@ public class MapTest {
    * Get indirectMap
    * @return indirectMap
    */
-  @javax.annotation.Nullable
-
-  @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Boolean> getIndirectMap() {

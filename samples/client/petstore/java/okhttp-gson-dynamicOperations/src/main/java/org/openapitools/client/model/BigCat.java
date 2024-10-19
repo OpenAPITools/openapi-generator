@@ -50,6 +50,7 @@ import org.openapitools.client.JSON;
  * BigCat
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class BigCat extends Cat {
   /**
    * Gets or Sets kind
@@ -106,11 +107,9 @@ public class BigCat extends Cat {
       KindEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_KIND = "kind";
   @SerializedName(SERIALIZED_NAME_KIND)
-  @javax.annotation.Nullable
-  private KindEnum kind;
+  @javax.annotation.Nullable  private KindEnum kind;
 
   public BigCat() {
     this.className = this.getClass().getSimpleName();
@@ -125,15 +124,13 @@ public class BigCat extends Cat {
    * Get kind
    * @return kind
    */
-  @javax.annotation.Nullable
-  public KindEnum getKind() {
+  @javax.annotation.Nullable  public KindEnum getKind() {
     return kind;
   }
 
   public void setKind(@javax.annotation.Nullable KindEnum kind) {
     this.kind = kind;
   }
-
 
 
   @Override

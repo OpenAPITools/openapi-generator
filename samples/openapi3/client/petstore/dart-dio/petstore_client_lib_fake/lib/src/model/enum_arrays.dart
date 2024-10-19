@@ -143,7 +143,6 @@ class EnumArraysJustSymbolEnum extends EnumClass {
   static BuiltSet<EnumArraysJustSymbolEnum> get values => _$enumArraysJustSymbolEnumValues;
   static EnumArraysJustSymbolEnum valueOf(String name) => _$enumArraysJustSymbolEnumValueOf(name);
 }
-
 class EnumArraysArrayEnumEnum extends EnumClass {
 
   @BuiltValueEnumConst(wireName: r'fish')
@@ -160,4 +159,3 @@ class EnumArraysArrayEnumEnum extends EnumClass {
   static BuiltSet<EnumArraysArrayEnumEnum> get values => _$enumArraysArrayEnumEnumValues;
   static EnumArraysArrayEnumEnum valueOf(String name) => _$enumArraysArrayEnumEnumValueOf(name);
 }
-

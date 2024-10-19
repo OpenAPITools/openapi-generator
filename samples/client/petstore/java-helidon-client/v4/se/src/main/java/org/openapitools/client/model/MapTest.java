@@ -22,7 +22,6 @@ import java.util.Map;
 
 
 
-
 public class MapTest  {
   
   private Map<String, Map<String, String>> mapMapOfString = null;
@@ -182,4 +181,3 @@ public enum InnerEnum {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

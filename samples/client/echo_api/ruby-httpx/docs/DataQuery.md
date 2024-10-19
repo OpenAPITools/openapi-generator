@@ -19,4 +19,3 @@ instance = OpenapiClient::DataQuery.new(
   date: null
 )
 ```
-

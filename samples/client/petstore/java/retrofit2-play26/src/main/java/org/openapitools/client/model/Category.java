@@ -33,14 +33,13 @@ import jakarta.validation.Valid;
   Category.JSON_PROPERTY_NAME
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Category {
   public static final String JSON_PROPERTY_ID = "id";
-  @jakarta.annotation.Nullable
-  private Long id;
+  @jakarta.annotation.Nullable  private Long id;
 
   public static final String JSON_PROPERTY_NAME = "name";
-  @jakarta.annotation.Nonnull
-  private String name = "default-name";
+  @jakarta.annotation.Nonnull  private String name = "default-name";
 
   public Category() {
   }
@@ -55,9 +54,7 @@ public class Category {
    * Get id
    * @return id
    */
-  @jakarta.annotation.Nullable
-
-  @JsonProperty(JSON_PROPERTY_ID)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getId() {
@@ -81,9 +78,7 @@ public class Category {
    * Get name
    * @return name
    */
-  @jakarta.annotation.Nonnull
-  @NotNull
-
+  @jakarta.annotation.Nonnull  @NotNull
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 

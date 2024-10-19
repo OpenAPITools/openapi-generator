@@ -58,6 +58,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 @JsonDeserialize(using = Fruit.FruitDeserializer.class)
 @JsonSerialize(using = Fruit.FruitSerializer.class)
 public class Fruit extends AbstractOpenApiSchema {
@@ -149,7 +150,6 @@ public class Fruit extends AbstractOpenApiSchema {
     public Fruit() {
         super("oneOf", Boolean.FALSE);
     }
-
     public Fruit(Apple o) {
         super("oneOf", Boolean.TRUE);
         setActualInstance(o);

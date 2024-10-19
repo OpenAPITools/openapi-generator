@@ -55,7 +55,7 @@ bool Pet::validate(std::stringstream& msg, const std::string& pathPrefix) const
     /* PhotoUrls */ {
         const std::vector<std::string>& value = m_PhotoUrls;
         const std::string currentValuePath = _pathPrefix + ".photoUrls";
-                
+        
         
         { // Recursive validation of array elements
             const std::string oldValuePath = currentValuePath;
@@ -69,14 +69,13 @@ bool Pet::validate(std::stringstream& msg, const std::string& pathPrefix) const
                 i++;
             }
         }
-
     }
          
     if (tagsIsSet())
     {
         const std::vector<org::openapitools::server::model::Tag>& value = m_Tags;
         const std::string currentValuePath = _pathPrefix + ".tags";
-                
+        
         
         { // Recursive validation of array elements
             const std::string oldValuePath = currentValuePath;
@@ -90,7 +89,6 @@ bool Pet::validate(std::stringstream& msg, const std::string& pathPrefix) const
                 i++;
             }
         }
-
     }
         
     return success;

@@ -12,8 +12,7 @@ import Foundation
     public enum MapOfEnumString: String, Codable, CaseIterable {
         case upper = "UPPER"
         case lower = "lower"
-    }
-    public var mapMapOfString: [String: [String: String]]?
+    }    public var mapMapOfString: [String: [String: String]]?
     public var mapOfEnumString: [String: String]?
     public var directMap: [String: Bool]?
     public var indirectMap: StringBooleanMap?

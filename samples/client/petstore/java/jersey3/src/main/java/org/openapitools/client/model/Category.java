@@ -61,7 +61,6 @@ public class Category {
 
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Long getId() {
     return id;
   }
@@ -88,7 +87,6 @@ public class Category {
 
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public String getName() {
     return name;
   }
@@ -99,7 +97,6 @@ public class Category {
   public void setName(@jakarta.annotation.Nonnull String name) {
     this.name = name;
   }
-
 
   /**
    * Return true if this Category object is equal to o.

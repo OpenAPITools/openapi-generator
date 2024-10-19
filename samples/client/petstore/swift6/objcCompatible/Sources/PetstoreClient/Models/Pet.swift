@@ -13,8 +13,7 @@ import Foundation
         case available = "available"
         case pending = "pending"
         case sold = "sold"
-    }
-    public var _id: Int64?
+    }    public var _id: Int64?
     public var _idNum: NSNumber? {
         get {
             return _id as NSNumber?

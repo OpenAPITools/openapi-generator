@@ -56,26 +56,23 @@ import org.openapitools.client.JSON;
  * Drawing
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Drawing {
   public static final String SERIALIZED_NAME_MAIN_SHAPE = "mainShape";
   @SerializedName(SERIALIZED_NAME_MAIN_SHAPE)
-  @javax.annotation.Nullable
-  private Shape mainShape;
+  @javax.annotation.Nullable  private Shape mainShape;
 
   public static final String SERIALIZED_NAME_SHAPE_OR_NULL = "shapeOrNull";
   @SerializedName(SERIALIZED_NAME_SHAPE_OR_NULL)
-  @javax.annotation.Nullable
-  private ShapeOrNull shapeOrNull;
+  @javax.annotation.Nullable  private ShapeOrNull shapeOrNull;
 
   public static final String SERIALIZED_NAME_NULLABLE_SHAPE = "nullableShape";
   @SerializedName(SERIALIZED_NAME_NULLABLE_SHAPE)
-  @javax.annotation.Nullable
-  private NullableShape nullableShape;
+  @javax.annotation.Nullable  private NullableShape nullableShape;
 
   public static final String SERIALIZED_NAME_SHAPES = "shapes";
   @SerializedName(SERIALIZED_NAME_SHAPES)
-  @javax.annotation.Nullable
-  private List<Shape> shapes = new ArrayList<>();
+  @javax.annotation.Nullable  private List<Shape> shapes = new ArrayList<>();
 
   public Drawing() {
   }
@@ -89,8 +86,7 @@ public class Drawing {
    * Get mainShape
    * @return mainShape
    */
-  @javax.annotation.Nullable
-  public Shape getMainShape() {
+  @javax.annotation.Nullable  public Shape getMainShape() {
     return mainShape;
   }
 
@@ -108,8 +104,7 @@ public class Drawing {
    * Get shapeOrNull
    * @return shapeOrNull
    */
-  @javax.annotation.Nullable
-  public ShapeOrNull getShapeOrNull() {
+  @javax.annotation.Nullable  public ShapeOrNull getShapeOrNull() {
     return shapeOrNull;
   }
 
@@ -127,8 +122,7 @@ public class Drawing {
    * Get nullableShape
    * @return nullableShape
    */
-  @javax.annotation.Nullable
-  public NullableShape getNullableShape() {
+  @javax.annotation.Nullable  public NullableShape getNullableShape() {
     return nullableShape;
   }
 
@@ -154,8 +148,7 @@ public class Drawing {
    * Get shapes
    * @return shapes
    */
-  @javax.annotation.Nullable
-  public List<Shape> getShapes() {
+  @javax.annotation.Nullable  public List<Shape> getShapes() {
     return shapes;
   }
 
@@ -207,7 +200,6 @@ public class Drawing {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

@@ -32,14 +32,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 @JsonTypeName("200_response")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Model200Response {
   public static final String JSON_PROPERTY_NAME = "name";
-  @jakarta.annotation.Nullable
-  private Integer name;
+  @jakarta.annotation.Nullable  private Integer name;
 
   public static final String JSON_PROPERTY_PROPERTY_CLASS = "class";
-  @jakarta.annotation.Nullable
-  private String propertyClass;
+  @jakarta.annotation.Nullable  private String propertyClass;
 
   public Model200Response() {
   }
@@ -54,8 +53,7 @@ public class Model200Response {
    * Get name
    * @return name
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getName() {
@@ -79,8 +77,7 @@ public class Model200Response {
    * Get propertyClass
    * @return propertyClass
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getPropertyClass() {

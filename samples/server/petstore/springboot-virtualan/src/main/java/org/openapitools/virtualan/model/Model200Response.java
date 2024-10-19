@@ -18,7 +18,6 @@ import javax.annotation.Generated;
 /**
  * Model for testing model name starting with number
  */
-
 @Schema(name = "200_response", description = "Model for testing model name starting with number")
 @JsonTypeName("200_response")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
@@ -37,8 +36,7 @@ public class Model200Response {
    * Get name
    * @return name
    */
-  
-  @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
   public Integer getName() {
     return name;
@@ -57,8 +55,7 @@ public class Model200Response {
    * Get propertyClass
    * @return propertyClass
    */
-  
-  @Schema(name = "class", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "class", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("class")
   public String getPropertyClass() {
     return propertyClass;
@@ -67,7 +64,6 @@ public class Model200Response {
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

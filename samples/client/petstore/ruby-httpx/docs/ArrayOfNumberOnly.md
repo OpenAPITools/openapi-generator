@@ -15,4 +15,3 @@ instance = Petstore::ArrayOfNumberOnly.new(
   array_number: null
 )
 ```
-

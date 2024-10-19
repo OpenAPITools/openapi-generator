@@ -44,8 +44,7 @@ import org.openapitools.client.ApiClient;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<String, Object> {
   public static final String JSON_PROPERTY_SOME_PROPERTY = "someProperty";
-  @javax.annotation.Nullable
-  private String someProperty;
+  @javax.annotation.Nullable  private String someProperty;
 
   public TestInlineFreeformAdditionalPropertiesRequest() { 
   }
@@ -59,8 +58,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
    * Get someProperty
    * @return someProperty
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SOME_PROPERTY)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_SOME_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getSomeProperty() {
     return someProperty;
@@ -116,7 +114,6 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this testInlineFreeformAdditionalProperties_request object is equal to o.
    */
@@ -253,6 +250,5 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
     return new TestInlineFreeformAdditionalPropertiesRequest.Builder()
       .someProperty(getSomeProperty());
   }
-
 }
 

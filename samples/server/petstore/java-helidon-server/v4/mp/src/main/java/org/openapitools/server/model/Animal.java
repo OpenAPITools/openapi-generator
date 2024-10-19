@@ -23,7 +23,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
 public class Animal  {
   
   private String className;
@@ -97,4 +96,3 @@ public class Animal  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

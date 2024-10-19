@@ -48,11 +48,9 @@ import org.openapitools.client.ApiClient;
 @JsonSubTypes({
   @JsonSubTypes.Type(value = ChildCat.class, name = "ChildCat"),
 })
-
 public class ParentPet extends GrandparentAnimal {
   public ParentPet() { 
   }
-
   @Override
   public ParentPet petType(@javax.annotation.Nonnull String petType) {
     this.setPetType(petType);
@@ -200,6 +198,5 @@ static {
     return new ParentPet.Builder()
       .petType(getPetType());
   }
-
 }
 

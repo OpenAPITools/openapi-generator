@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { Animal } from './Animal';
 import {
@@ -46,7 +45,6 @@ export interface MixedPropertiesAndAdditionalPropertiesClass {
      */
     map?: { [key: string]: Animal; };
 }
-
 /**
  * Check if a given object implements the MixedPropertiesAndAdditionalPropertiesClass interface.
  */
@@ -86,4 +84,3 @@ export function MixedPropertiesAndAdditionalPropertiesClassFromJSONTyped(json: a
         'map': value['map'] == null ? undefined : (mapValues(value['map'], AnimalToJSON)),
     };
 }
-

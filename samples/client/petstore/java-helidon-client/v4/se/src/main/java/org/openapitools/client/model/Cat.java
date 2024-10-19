@@ -24,7 +24,6 @@ import org.openapitools.client.model.Animal;
 
 
 
-
 public class Cat extends Animal {
   
   private Boolean declawed;
@@ -74,4 +73,3 @@ public class Cat extends Animal {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

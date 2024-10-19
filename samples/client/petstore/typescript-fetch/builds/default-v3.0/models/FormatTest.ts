@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { Decimal } from './Decimal';
 import {
@@ -124,7 +123,6 @@ export interface FormatTest {
      */
     patternWithDigitsAndDelimiter?: string;
 }
-
 /**
  * Check if a given object implements the FormatTest interface.
  */
@@ -194,4 +192,3 @@ export function FormatTestFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'pattern_with_digits_and_delimiter': value['patternWithDigitsAndDelimiter'],
     };
 }
-

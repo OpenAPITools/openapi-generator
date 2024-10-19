@@ -171,7 +171,6 @@ namespace Org.OpenAPITools.Model
         protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
-        }
-    }
+        }    }
 
 }

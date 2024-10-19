@@ -19,7 +19,6 @@ import javax.annotation.Generated;
 /**
  * ListDto
  */
-
 @JsonTypeName("List")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ListDto {
@@ -35,8 +34,7 @@ public class ListDto {
    * Get _123List
    * @return _123List
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("123-list")
   public String get123List() {
     return _123List;
@@ -45,7 +43,6 @@ public class ListDto {
   public void set123List(String _123List) {
     this._123List = _123List;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

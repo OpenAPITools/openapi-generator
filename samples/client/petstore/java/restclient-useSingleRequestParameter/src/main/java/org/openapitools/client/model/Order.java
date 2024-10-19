@@ -36,22 +36,19 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Order.JSON_PROPERTY_COMPLETE
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Order {
   public static final String JSON_PROPERTY_ID = "id";
-  @jakarta.annotation.Nullable
-  private Long id;
+  @jakarta.annotation.Nullable  private Long id;
 
   public static final String JSON_PROPERTY_PET_ID = "petId";
-  @jakarta.annotation.Nullable
-  private Long petId;
+  @jakarta.annotation.Nullable  private Long petId;
 
   public static final String JSON_PROPERTY_QUANTITY = "quantity";
-  @jakarta.annotation.Nullable
-  private Integer quantity;
+  @jakarta.annotation.Nullable  private Integer quantity;
 
   public static final String JSON_PROPERTY_SHIP_DATE = "shipDate";
-  @jakarta.annotation.Nullable
-  private OffsetDateTime shipDate;
+  @jakarta.annotation.Nullable  private OffsetDateTime shipDate;
 
   /**
    * Order Status
@@ -89,14 +86,11 @@ public class Order {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_STATUS = "status";
-  @jakarta.annotation.Nullable
-  private StatusEnum status;
+  @jakarta.annotation.Nullable  private StatusEnum status;
 
   public static final String JSON_PROPERTY_COMPLETE = "complete";
-  @jakarta.annotation.Nullable
-  private Boolean complete = false;
+  @jakarta.annotation.Nullable  private Boolean complete = false;
 
   public Order() {
   }
@@ -111,8 +105,7 @@ public class Order {
    * Get id
    * @return id
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ID)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getId() {
@@ -136,8 +129,7 @@ public class Order {
    * Get petId
    * @return petId
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PET_ID)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_PET_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getPetId() {
@@ -161,8 +153,7 @@ public class Order {
    * Get quantity
    * @return quantity
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_QUANTITY)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_QUANTITY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getQuantity() {
@@ -186,8 +177,7 @@ public class Order {
    * Get shipDate
    * @return shipDate
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SHIP_DATE)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_SHIP_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public OffsetDateTime getShipDate() {
@@ -211,8 +201,7 @@ public class Order {
    * Order Status
    * @return status
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_STATUS)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public StatusEnum getStatus() {
@@ -236,8 +225,7 @@ public class Order {
    * Get complete
    * @return complete
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COMPLETE)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_COMPLETE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Boolean getComplete() {

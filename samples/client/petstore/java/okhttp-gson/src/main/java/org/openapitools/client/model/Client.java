@@ -49,11 +49,11 @@ import org.openapitools.client.JSON;
  * Client
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Client {
   public static final String SERIALIZED_NAME_CLIENT = "client";
   @SerializedName(SERIALIZED_NAME_CLIENT)
-  @javax.annotation.Nullable
-  private String client;
+  @javax.annotation.Nullable  private String client;
 
   public Client() {
   }
@@ -67,8 +67,7 @@ public class Client {
    * Get client
    * @return client
    */
-  @javax.annotation.Nullable
-  public String getClient() {
+  @javax.annotation.Nullable  public String getClient() {
     return client;
   }
 
@@ -120,7 +119,6 @@ public class Client {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

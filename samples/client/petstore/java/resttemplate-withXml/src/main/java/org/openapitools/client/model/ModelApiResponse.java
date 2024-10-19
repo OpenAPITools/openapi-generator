@@ -37,24 +37,23 @@ import io.github.threetenjaxb.core.*;
 })
 @JsonTypeName("ApiResponse")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 @XmlRootElement(name = "ModelApiResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ModelApiResponse")
+
 public class ModelApiResponse {
   public static final String JSON_PROPERTY_CODE = "code";
   @XmlElement(name = "code")
-  @javax.annotation.Nullable
-  private Integer code;
+  @javax.annotation.Nullable  private Integer code;
 
   public static final String JSON_PROPERTY_TYPE = "type";
   @XmlElement(name = "type")
-  @javax.annotation.Nullable
-  private String type;
+  @javax.annotation.Nullable  private String type;
 
   public static final String JSON_PROPERTY_MESSAGE = "message";
   @XmlElement(name = "message")
-  @javax.annotation.Nullable
-  private String message;
+  @javax.annotation.Nullable  private String message;
 
   public ModelApiResponse() {
   }
@@ -69,8 +68,7 @@ public class ModelApiResponse {
    * Get code
    * @return code
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_CODE)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_CODE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "code")
 
@@ -96,8 +94,7 @@ public class ModelApiResponse {
    * Get type
    * @return type
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_TYPE)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "type")
 
@@ -123,8 +120,7 @@ public class ModelApiResponse {
    * Get message
    * @return message
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MESSAGE)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_MESSAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "message")
 

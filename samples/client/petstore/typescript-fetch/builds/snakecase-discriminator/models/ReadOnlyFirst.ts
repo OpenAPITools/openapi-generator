@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * 
@@ -32,7 +31,6 @@ export interface ReadOnlyFirst {
      */
     baz?: string;
 }
-
 /**
  * Check if a given object implements the ReadOnlyFirst interface.
  */
@@ -69,4 +67,3 @@ export function ReadOnlyFirstFromJSONTyped(json: any, ignoreDiscriminator: boole
         'baz': value['baz'],
     };
 }
-

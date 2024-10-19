@@ -54,31 +54,27 @@ import org.openapitools.client.JSON;
  * TypeHolderDefault
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class TypeHolderDefault implements Parcelable {
   public static final String SERIALIZED_NAME_STRING_ITEM = "string_item";
   @SerializedName(SERIALIZED_NAME_STRING_ITEM)
-  @javax.annotation.Nonnull
-  private String stringItem = "what";
+  @javax.annotation.Nonnull  private String stringItem = "what";
 
   public static final String SERIALIZED_NAME_NUMBER_ITEM = "number_item";
   @SerializedName(SERIALIZED_NAME_NUMBER_ITEM)
-  @javax.annotation.Nonnull
-  private BigDecimal numberItem;
+  @javax.annotation.Nonnull  private BigDecimal numberItem;
 
   public static final String SERIALIZED_NAME_INTEGER_ITEM = "integer_item";
   @SerializedName(SERIALIZED_NAME_INTEGER_ITEM)
-  @javax.annotation.Nonnull
-  private Integer integerItem;
+  @javax.annotation.Nonnull  private Integer integerItem;
 
   public static final String SERIALIZED_NAME_BOOL_ITEM = "bool_item";
   @SerializedName(SERIALIZED_NAME_BOOL_ITEM)
-  @javax.annotation.Nonnull
-  private Boolean boolItem = true;
+  @javax.annotation.Nonnull  private Boolean boolItem = true;
 
   public static final String SERIALIZED_NAME_ARRAY_ITEM = "array_item";
   @SerializedName(SERIALIZED_NAME_ARRAY_ITEM)
-  @javax.annotation.Nonnull
-  private List<Integer> arrayItem = new ArrayList<>();
+  @javax.annotation.Nonnull  private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderDefault() {
   }
@@ -92,8 +88,7 @@ public class TypeHolderDefault implements Parcelable {
    * Get stringItem
    * @return stringItem
    */
-  @javax.annotation.Nonnull
-  public String getStringItem() {
+  @javax.annotation.Nonnull  public String getStringItem() {
     return stringItem;
   }
 
@@ -111,8 +106,7 @@ public class TypeHolderDefault implements Parcelable {
    * Get numberItem
    * @return numberItem
    */
-  @javax.annotation.Nonnull
-  public BigDecimal getNumberItem() {
+  @javax.annotation.Nonnull  public BigDecimal getNumberItem() {
     return numberItem;
   }
 
@@ -130,8 +124,7 @@ public class TypeHolderDefault implements Parcelable {
    * Get integerItem
    * @return integerItem
    */
-  @javax.annotation.Nonnull
-  public Integer getIntegerItem() {
+  @javax.annotation.Nonnull  public Integer getIntegerItem() {
     return integerItem;
   }
 
@@ -149,8 +142,7 @@ public class TypeHolderDefault implements Parcelable {
    * Get boolItem
    * @return boolItem
    */
-  @javax.annotation.Nonnull
-  public Boolean getBoolItem() {
+  @javax.annotation.Nonnull  public Boolean getBoolItem() {
     return boolItem;
   }
 
@@ -176,15 +168,13 @@ public class TypeHolderDefault implements Parcelable {
    * Get arrayItem
    * @return arrayItem
    */
-  @javax.annotation.Nonnull
-  public List<Integer> getArrayItem() {
+  @javax.annotation.Nonnull  public List<Integer> getArrayItem() {
     return arrayItem;
   }
 
   public void setArrayItem(@javax.annotation.Nonnull List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
-
 
 
   @Override

@@ -31,11 +31,11 @@ import org.hibernate.validator.constraints.*;
  * AdditionalPropertiesBoolean
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
-  @javax.annotation.Nullable
-  private String name;
+  @javax.annotation.Nullable  private String name;
 
   public AdditionalPropertiesBoolean() {
 
@@ -52,8 +52,6 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
    * @return name
    */
   @javax.annotation.Nullable
-
-
   public String getName() {
     return name;
   }

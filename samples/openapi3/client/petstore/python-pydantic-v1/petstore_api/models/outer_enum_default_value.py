@@ -11,7 +11,6 @@
     Do not edit the class manually.
 """  # noqa: E501
 
-
 import json
 import pprint
 import re  # noqa: F401
@@ -37,5 +36,4 @@ class OuterEnumDefaultValue(str, Enum):
     def from_json(cls, json_str: str) -> OuterEnumDefaultValue:
         """Create an instance of OuterEnumDefaultValue from a JSON string"""
         return OuterEnumDefaultValue(json.loads(json_str))
-
 

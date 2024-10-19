@@ -43,26 +43,22 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Pet.JSON_PROPERTY_STATUS
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Pet {
   public static final String JSON_PROPERTY_ID = "id";
-  @javax.annotation.Nullable
-  private Long id;
+  @javax.annotation.Nullable  private Long id;
 
   public static final String JSON_PROPERTY_CATEGORY = "category";
-  @javax.annotation.Nullable
-  private Category category;
+  @javax.annotation.Nullable  private Category category;
 
   public static final String JSON_PROPERTY_NAME = "name";
-  @javax.annotation.Nonnull
-  private String name;
+  @javax.annotation.Nonnull  private String name;
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
-  @javax.annotation.Nonnull
-  private Set<String> photoUrls;
+  @javax.annotation.Nonnull  private Set<String> photoUrls;
 
   public static final String JSON_PROPERTY_TAGS = "tags";
-  @javax.annotation.Nullable
-  private List<Tag> tags;
+  @javax.annotation.Nullable  private List<Tag> tags;
 
   /**
    * pet status in the store
@@ -100,10 +96,8 @@ public class Pet {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_STATUS = "status";
-  @javax.annotation.Nullable
-  private StatusEnum status;
+  @javax.annotation.Nullable  private StatusEnum status;
 
   public Pet() {
   }
@@ -130,8 +124,7 @@ public class Pet {
    * Get id
    * @return id
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ID)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getId() {
@@ -155,8 +148,7 @@ public class Pet {
    * Get category
    * @return category
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_CATEGORY)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_CATEGORY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Category getCategory() {
@@ -180,8 +172,7 @@ public class Pet {
    * Get name
    * @return name
    */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @javax.annotation.Nonnull  @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getName() {
@@ -213,8 +204,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
    */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
+  @javax.annotation.Nonnull  @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Set<String> getPhotoUrls() {
@@ -247,8 +237,7 @@ public class Pet {
    * Get tags
    * @return tags
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_TAGS)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_TAGS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<Tag> getTags() {
@@ -272,8 +261,7 @@ public class Pet {
    * pet status in the store
    * @return status
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_STATUS)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public StatusEnum getStatus() {
@@ -335,83 +323,82 @@ public class Pet {
   }
 
   public static class Builder {
-
-    private Pet instance;
-
-    public Builder() {
-      this(new Pet());
-    }
-
-    protected Builder(Pet instance) {
-      this.instance = instance;
-    }
-
-    public Pet.Builder id(Long id) {
-      this.instance.id = id;
-      return this;
-    }
-    public Pet.Builder category(Category category) {
-      this.instance.category = category;
-      return this;
-    }
-    public Pet.Builder name(String name) {
-      this.instance.name = name;
-      return this;
-    }
-    public Pet.Builder photoUrls(Set<String> photoUrls) {
-      this.instance.photoUrls = photoUrls;
-      return this;
-    }
-    public Pet.Builder tags(List<Tag> tags) {
-      this.instance.tags = tags;
-      return this;
-    }
-    public Pet.Builder status(StatusEnum status) {
-      this.instance.status = status;
-      return this;
-    }
-
-
-    /**
-    * returns a built Pet instance.
-    *
-    * The builder is not reusable.
-    */
-    public Pet build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+  
+      private Pet instance;
+  
+      public Builder() {
+        this(new Pet());
+      }
+  
+      protected Builder(Pet instance) {
+        this.instance = instance;
+      }
+  
+      public Pet.Builder id(Long id) {
+          this.instance.id = id;
+        return this;
+      }
+        public Pet.Builder category(Category category) {
+          this.instance.category = category;
+        return this;
+      }
+        public Pet.Builder name(String name) {
+          this.instance.name = name;
+        return this;
+      }
+        public Pet.Builder photoUrls(Set<String> photoUrls) {
+          this.instance.photoUrls = photoUrls;
+        return this;
+      }
+        public Pet.Builder tags(List<Tag> tags) {
+          this.instance.tags = tags;
+        return this;
+      }
+        public Pet.Builder status(StatusEnum status) {
+          this.instance.status = status;
+        return this;
+      }
+    
+  
+      /**
+      * returns a built Pet instance.
+      *
+      * The builder is not reusable.
+      */
+      public Pet build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field.
+    */
+    public static Pet.Builder builder() {
+      return new Pet.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static Pet.Builder builder() {
-    return new Pet.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public Pet.Builder toBuilder() {
-    return new Pet.Builder()
-      .id(getId())
-      .category(getCategory())
-      .name(getName())
-      .photoUrls(getPhotoUrls())
-      .tags(getTags())
-      .status(getStatus());
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public Pet.Builder toBuilder() {
+      return new Pet.Builder()
+        .id(getId())
+        .category(getCategory())
+        .name(getName())
+        .photoUrls(getPhotoUrls())
+        .tags(getTags())
+        .status(getStatus());
+    }
 
 }
 

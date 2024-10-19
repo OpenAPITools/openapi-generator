@@ -21,7 +21,6 @@ import javax.annotation.Generated;
 /**
  * Pet
  */
-
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Pet {
 
@@ -59,8 +58,7 @@ public class Pet {
    * Get atType
    * @return atType
    */
-  @NotNull 
-  @Schema(name = "@type", requiredMode = Schema.RequiredMode.REQUIRED)
+  @NotNull   @Schema(name = "@type", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("@type")
   public String getAtType() {
     return atType;
@@ -79,8 +77,7 @@ public class Pet {
    * Get age
    * @return age
    */
-  
-  @Schema(name = "age", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "age", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("age")
   public Integer getAge() {
     return age;
@@ -99,8 +96,7 @@ public class Pet {
    * Get happy
    * @return happy
    */
-  
-  @Schema(name = "happy", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "happy", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("happy")
   public Boolean getHappy() {
     return happy;
@@ -119,8 +115,7 @@ public class Pet {
    * Get price
    * @return price
    */
-  @Valid 
-  @Schema(name = "price", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Valid   @Schema(name = "price", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("price")
   public BigDecimal getPrice() {
     return price;
@@ -139,8 +134,7 @@ public class Pet {
    * Get lastFeed
    * @return lastFeed
    */
-  @Valid 
-  @Schema(name = "lastFeed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Valid   @Schema(name = "lastFeed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("lastFeed")
   public OffsetDateTime getLastFeed() {
     return lastFeed;
@@ -159,8 +153,7 @@ public class Pet {
    * Get dateOfBirth
    * @return dateOfBirth
    */
-  @Valid 
-  @Schema(name = "dateOfBirth", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Valid   @Schema(name = "dateOfBirth", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("dateOfBirth")
   public LocalDate getDateOfBirth() {
     return dateOfBirth;
@@ -169,7 +162,6 @@ public class Pet {
   public void setDateOfBirth(LocalDate dateOfBirth) {
     this.dateOfBirth = dateOfBirth;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

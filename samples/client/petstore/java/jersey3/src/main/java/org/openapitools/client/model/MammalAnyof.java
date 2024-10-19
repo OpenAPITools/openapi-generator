@@ -62,6 +62,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 @JsonDeserialize(using=MammalAnyof.MammalAnyofDeserializer.class)
 @JsonSerialize(using = MammalAnyof.MammalAnyofSerializer.class)
 public class MammalAnyof extends AbstractOpenApiSchema {
@@ -194,7 +195,6 @@ public class MammalAnyof extends AbstractOpenApiSchema {
     }
     return this.additionalProperties.get(key);
   }
-
     /**
      * Return true if this mammal_anyof object is equal to o.
      */

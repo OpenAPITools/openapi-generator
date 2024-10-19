@@ -21,8 +21,7 @@ public final class Pet: Codable, JSONEncodable, Hashable {
         case available = "available"
         case pending = "pending"
         case sold = "sold"
-    }
-    public var id: Int64?
+    }    public var id: Int64?
     public var category: Category?
     public var name: String
     public var photoUrls: [String]

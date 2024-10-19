@@ -31,14 +31,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Bird.JSON_PROPERTY_COLOR
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Bird {
   public static final String JSON_PROPERTY_SIZE = "size";
-  @javax.annotation.Nullable
-  private String size;
+  @javax.annotation.Nullable  private String size;
 
   public static final String JSON_PROPERTY_COLOR = "color";
-  @javax.annotation.Nullable
-  private String color;
+  @javax.annotation.Nullable  private String color;
 
   public Bird() {
   }
@@ -53,8 +52,7 @@ public class Bird {
    * Get size
    * @return size
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SIZE)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_SIZE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getSize() {
@@ -78,8 +76,7 @@ public class Bird {
    * Get color
    * @return color
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COLOR)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_COLOR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getColor() {

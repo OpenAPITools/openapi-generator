@@ -30,7 +30,6 @@ final case class StoreApiRoutes[
     val route = HttpRoutes.of[F] {
       case req @ DELETE -> Root / "store" / "order" / orderId =>
         delegate.deleteOrder.handle(req, orderId, responses)
-
     }
 
 
@@ -46,7 +45,6 @@ final case class StoreApiRoutes[
     val routeapi_key = AuthedRoutes.of[api_key, F] {
       case (req @ GET -> Root / "store" / "inventory") as auth =>
         delegate.getInventory.handle_api_key(auth, req, responses)
-
     }
 
     val responses: getInventoryResponses[F] = new getInventoryResponses[F] {
@@ -61,7 +59,6 @@ final case class StoreApiRoutes[
     val route = HttpRoutes.of[F] {
       case req @ GET -> Root / "store" / "order" / orderIdVarr(orderId) =>
         delegate.getOrderById.handle(req, orderId, responses)
-
     }
 
 
@@ -78,8 +75,7 @@ final case class StoreApiRoutes[
 
     val route = HttpRoutes.of[F] {
       case req @ POST -> Root / "store" / "order" =>
-          delegate.placeOrder.handle(req, req.asJsonDecode[Order] , responses)
-
+        delegate.placeOrder.handle(req, req.asJsonDecode[Order] , responses)
     }
 
 

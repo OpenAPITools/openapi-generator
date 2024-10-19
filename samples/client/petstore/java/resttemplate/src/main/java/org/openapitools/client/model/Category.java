@@ -31,14 +31,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Category.JSON_PROPERTY_NAME
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Category {
   public static final String JSON_PROPERTY_ID = "id";
-  @javax.annotation.Nullable
-  private Long id;
+  @javax.annotation.Nullable  private Long id;
 
   public static final String JSON_PROPERTY_NAME = "name";
-  @javax.annotation.Nonnull
-  private String name = "default-name";
+  @javax.annotation.Nonnull  private String name = "default-name";
 
   public Category() {
   }
@@ -61,8 +60,7 @@ public class Category {
    * Get id
    * @return id
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ID)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getId() {
@@ -86,8 +84,7 @@ public class Category {
    * Get name
    * @return name
    */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @javax.annotation.Nonnull  @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getName() {
@@ -141,63 +138,62 @@ public class Category {
   }
 
   public static class Builder {
-
-    private Category instance;
-
-    public Builder() {
-      this(new Category());
-    }
-
-    protected Builder(Category instance) {
-      this.instance = instance;
-    }
-
-    public Category.Builder id(Long id) {
-      this.instance.id = id;
-      return this;
-    }
-    public Category.Builder name(String name) {
-      this.instance.name = name;
-      return this;
-    }
-
-
-    /**
-    * returns a built Category instance.
-    *
-    * The builder is not reusable.
-    */
-    public Category build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+  
+      private Category instance;
+  
+      public Builder() {
+        this(new Category());
+      }
+  
+      protected Builder(Category instance) {
+        this.instance = instance;
+      }
+  
+      public Category.Builder id(Long id) {
+          this.instance.id = id;
+        return this;
+      }
+        public Category.Builder name(String name) {
+          this.instance.name = name;
+        return this;
+      }
+    
+  
+      /**
+      * returns a built Category instance.
+      *
+      * The builder is not reusable.
+      */
+      public Category build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field.
+    */
+    public static Category.Builder builder() {
+      return new Category.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static Category.Builder builder() {
-    return new Category.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public Category.Builder toBuilder() {
-    return new Category.Builder()
-      .id(getId())
-      .name(getName());
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public Category.Builder toBuilder() {
+      return new Category.Builder()
+        .id(getId())
+        .name(getName());
+    }
 
 }
 

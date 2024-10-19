@@ -102,7 +102,6 @@ public class Pet {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_STATUS = "status";
   @Deprecated
   @javax.annotation.Nullable
@@ -285,7 +284,6 @@ public class Pet {
   public void setStatus(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
   }
-
 
   /**
    * Return true if this Pet object is equal to o.

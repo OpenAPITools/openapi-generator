@@ -23,7 +23,6 @@ import javax.annotation.Generated;
 /**
  * NullableMapProperty
  */
-
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class NullableMapProperty {
 
@@ -47,8 +46,7 @@ public class NullableMapProperty {
    * Get languageValues
    * @return languageValues
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("languageValues")
   public JsonNullable<Map<String, String>> getLanguageValues() {
     return languageValues;
@@ -57,7 +55,6 @@ public class NullableMapProperty {
   public void setLanguageValues(JsonNullable<Map<String, String>> languageValues) {
     this.languageValues = languageValues;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -106,67 +103,66 @@ public class NullableMapProperty {
     return o.toString().replace("\n", "\n    ");
   }
   
-  public static class Builder {
-
-    private NullableMapProperty instance;
-
-    public Builder() {
-      this(new NullableMapProperty());
-    }
-
-    protected Builder(NullableMapProperty instance) {
-      this.instance = instance;
-    }
-
-    protected Builder copyOf(NullableMapProperty value) { 
-      this.instance.setLanguageValues(value.languageValues);
-      return this;
-    }
-
-    public NullableMapProperty.Builder languageValues(Map<String, String> languageValues) {
-      this.instance.languageValues(languageValues);
-      return this;
-    }
-    
-    public NullableMapProperty.Builder languageValues(JsonNullable<Map<String, String>> languageValues) {
-      this.instance.languageValues = languageValues;
-      return this;
-    }
-    
-    /**
-    * returns a built NullableMapProperty instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public NullableMapProperty build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+    public static class Builder {
+  
+      private NullableMapProperty instance;
+  
+      public Builder() {
+        this(new NullableMapProperty());
+      }
+  
+      protected Builder(NullableMapProperty instance) {
+        this.instance = instance;
+      }
+  
+      protected Builder copyOf(NullableMapProperty value) { 
+        this.instance.setLanguageValues(value.languageValues);
+        return this;
+      }
+  
+        public NullableMapProperty.Builder languageValues(Map<String, String> languageValues) {
+        this.instance.languageValues(languageValues);
+        return this;
+      }
+      
+      public NullableMapProperty.Builder languageValues(JsonNullable<Map<String, String>> languageValues) {
+        this.instance.languageValues = languageValues;
+        return this;
+      }
+      
+          /**
+      * returns a built NullableMapProperty instance.
+      *
+      * The builder is not reusable (NullPointerException)
+      */
+      public NullableMapProperty build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field (except for the default values).
+    */
+    public static NullableMapProperty.Builder builder() {
+      return new NullableMapProperty.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field (except for the default values).
-  */
-  public static NullableMapProperty.Builder builder() {
-    return new NullableMapProperty.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public NullableMapProperty.Builder toBuilder() {
-    NullableMapProperty.Builder builder = new NullableMapProperty.Builder();
-    return builder.copyOf(this);
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public NullableMapProperty.Builder toBuilder() {
+      NullableMapProperty.Builder builder = new NullableMapProperty.Builder();
+      return builder.copyOf(this);
+    }
 }
 

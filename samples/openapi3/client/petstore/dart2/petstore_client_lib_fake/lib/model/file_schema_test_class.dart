@@ -122,4 +122,3 @@ class FileSchemaTestClass {
   static const requiredKeys = <String>{
   };
 }
-

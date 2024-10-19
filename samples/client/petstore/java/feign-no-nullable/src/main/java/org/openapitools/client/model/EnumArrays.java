@@ -35,6 +35,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 @javax.annotation.concurrent.Immutable
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class EnumArrays {
   /**
    * Gets or Sets justSymbol
@@ -70,10 +71,8 @@ public class EnumArrays {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_JUST_SYMBOL = "just_symbol";
-  @javax.annotation.Nullable
-  private JustSymbolEnum justSymbol;
+  @javax.annotation.Nullable  private JustSymbolEnum justSymbol;
 
   /**
    * Gets or Sets arrayEnum
@@ -109,10 +108,8 @@ public class EnumArrays {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
-  @javax.annotation.Nullable
-  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
+  @javax.annotation.Nullable  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays() {
   }
@@ -127,8 +124,7 @@ public class EnumArrays {
    * Get justSymbol
    * @return justSymbol
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JustSymbolEnum getJustSymbol() {
@@ -161,8 +157,7 @@ public class EnumArrays {
    * Get arrayEnum
    * @return arrayEnum
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<ArrayEnumEnum> getArrayEnum() {
@@ -175,7 +170,6 @@ public class EnumArrays {
   public void setArrayEnum(@javax.annotation.Nullable List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
-
 
   @Override
   public boolean equals(Object o) {

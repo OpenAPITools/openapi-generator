@@ -32,6 +32,7 @@ import org.hibernate.validator.constraints.*;
  * EnumArrays
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class EnumArrays {
   /**
    * Gets or Sets justSymbol
@@ -79,11 +80,9 @@ public class EnumArrays {
       }
     }
   }
-
   public static final String SERIALIZED_NAME_JUST_SYMBOL = "just_symbol";
   @SerializedName(SERIALIZED_NAME_JUST_SYMBOL)
-  @javax.annotation.Nullable
-  private JustSymbolEnum justSymbol;
+  @javax.annotation.Nullable  private JustSymbolEnum justSymbol;
 
   /**
    * Gets or Sets arrayEnum
@@ -131,11 +130,9 @@ public class EnumArrays {
       }
     }
   }
-
   public static final String SERIALIZED_NAME_ARRAY_ENUM = "array_enum";
   @SerializedName(SERIALIZED_NAME_ARRAY_ENUM)
-  @javax.annotation.Nullable
-  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
+  @javax.annotation.Nullable  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays() {
   }
@@ -151,8 +148,6 @@ public class EnumArrays {
    * @return justSymbol
    */
   @javax.annotation.Nullable
-
-
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
@@ -181,8 +176,6 @@ public class EnumArrays {
    * @return arrayEnum
    */
   @javax.annotation.Nullable
-
-
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }

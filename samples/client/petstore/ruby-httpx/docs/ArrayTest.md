@@ -19,4 +19,3 @@ instance = Petstore::ArrayTest.new(
   array_array_of_model: null
 )
 ```
-

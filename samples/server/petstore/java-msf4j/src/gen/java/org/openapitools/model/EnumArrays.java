@@ -45,7 +45,6 @@ public class EnumArrays   {
       throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
-
   @JsonProperty("just_symbol")
   private JustSymbolEnum justSymbol;
 
@@ -79,7 +78,6 @@ public class EnumArrays   {
       throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
-
   @JsonProperty("array_enum")
   private List<ArrayEnumEnum> arrayEnum = null;
 
@@ -168,4 +166,3 @@ public class EnumArrays   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

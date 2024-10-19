@@ -57,7 +57,6 @@ public class TriangleInterface {
 
   @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public String getTriangleType() {
     return triangleType;
   }
@@ -68,7 +67,6 @@ public class TriangleInterface {
   public void setTriangleType(@jakarta.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
   }
-
 
   /**
    * Return true if this TriangleInterface object is equal to o.

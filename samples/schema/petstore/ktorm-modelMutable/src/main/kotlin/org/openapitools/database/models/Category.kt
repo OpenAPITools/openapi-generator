@@ -49,9 +49,7 @@ object Categorys : BaseTable<Category>("Category") {
     */
     fun AssignmentsBuilder.assignFrom(entity: Category) {
         this.apply {
-            set(Categorys.id, entity.id)
-            set(Categorys.name, entity.name)
-        }
+            set(Categorys.id, entity.id)            set(Categorys.name, entity.name)        }
     }
 
 }

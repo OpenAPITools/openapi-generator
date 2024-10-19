@@ -36,14 +36,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class FileSchemaTestClass {
   public static final String JSON_PROPERTY_FILE = "file";
-  @jakarta.annotation.Nullable
-  private ModelFile _file;
+  @jakarta.annotation.Nullable  private ModelFile _file;
 
   public static final String JSON_PROPERTY_FILES = "files";
-  @jakarta.annotation.Nullable
-  private List<ModelFile> files;
+  @jakarta.annotation.Nullable  private List<ModelFile> files;
 
   public FileSchemaTestClass() {
   }
@@ -58,8 +57,7 @@ public class FileSchemaTestClass {
    * Get _file
    * @return _file
    */
-  @jakarta.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @jakarta.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_FILE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -92,8 +90,7 @@ public class FileSchemaTestClass {
    * Get files
    * @return files
    */
-  @jakarta.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @jakarta.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_FILES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

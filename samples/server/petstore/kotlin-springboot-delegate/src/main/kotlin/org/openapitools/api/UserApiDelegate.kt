@@ -24,7 +24,6 @@ interface UserApiDelegate {
      */
     fun createUser(user: User): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-
     }
 
 
@@ -33,7 +32,6 @@ interface UserApiDelegate {
      */
     fun createUsersWithArrayInput(user: kotlin.collections.List<User>): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-
     }
 
 
@@ -42,7 +40,6 @@ interface UserApiDelegate {
      */
     fun createUsersWithListInput(user: kotlin.collections.List<User>): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-
     }
 
 
@@ -51,7 +48,6 @@ interface UserApiDelegate {
      */
     fun deleteUser(username: kotlin.String): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-
     }
 
 
@@ -72,7 +68,6 @@ interface UserApiDelegate {
             }
         }
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-
     }
 
 
@@ -82,7 +77,6 @@ interface UserApiDelegate {
     fun loginUser(username: kotlin.String,
         password: kotlin.String): ResponseEntity<kotlin.String> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-
     }
 
 
@@ -91,7 +85,6 @@ interface UserApiDelegate {
      */
     fun logoutUser(): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-
     }
 
 
@@ -101,7 +94,6 @@ interface UserApiDelegate {
     fun updateUser(username: kotlin.String,
         user: User): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-
     }
 
 }

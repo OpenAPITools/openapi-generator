@@ -123,6 +123,4 @@ MapTest['InnerEnum'] = {
 };
 
 
-
 export default MapTest;
-

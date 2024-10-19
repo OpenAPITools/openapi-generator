@@ -26,16 +26,15 @@ import java.io.IOException;
  * Bird
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Bird {
   public static final String SERIALIZED_NAME_SIZE = "size";
   @SerializedName(SERIALIZED_NAME_SIZE)
-  @javax.annotation.Nullable
-  private String size;
+  @javax.annotation.Nullable  private String size;
 
   public static final String SERIALIZED_NAME_COLOR = "color";
   @SerializedName(SERIALIZED_NAME_COLOR)
-  @javax.annotation.Nullable
-  private String color;
+  @javax.annotation.Nullable  private String color;
 
   public Bird() {
   }
@@ -51,7 +50,6 @@ public class Bird {
    * @return size
    */
   @javax.annotation.Nullable
-
   public String getSize() {
     return size;
   }
@@ -73,7 +71,6 @@ public class Bird {
    * @return color
    */
   @javax.annotation.Nullable
-
   public String getColor() {
     return color;
   }
@@ -82,7 +79,6 @@ public class Bird {
   public void setColor(@javax.annotation.Nullable String color) {
     this.color = color;
   }
-
 
   @Override
   public boolean equals(Object o) {

@@ -61,7 +61,6 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
 
   @JsonProperty(JSON_PROPERTY_SOME_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getSomeProperty() {
     return someProperty;
   }
@@ -110,7 +109,6 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
     }
     return this.additionalProperties.get(key);
   }
-
   /**
    * Return true if this testInlineFreeformAdditionalProperties_request object is equal to o.
    */

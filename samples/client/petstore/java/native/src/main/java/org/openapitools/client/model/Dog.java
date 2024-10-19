@@ -46,11 +46,9 @@ import org.openapitools.client.ApiClient;
   allowSetters = true // allows the className to be set during deserialization
 )
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
-
 public class Dog extends Animal {
   public static final String JSON_PROPERTY_BREED = "breed";
-  @javax.annotation.Nullable
-  private String breed;
+  @javax.annotation.Nullable  private String breed;
 
   public Dog() { 
   }
@@ -64,8 +62,7 @@ public class Dog extends Animal {
    * Get breed
    * @return breed
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BREED)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_BREED)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getBreed() {
     return breed;
@@ -77,7 +74,6 @@ public class Dog extends Animal {
   public void setBreed(@javax.annotation.Nullable String breed) {
     this.breed = breed;
   }
-
 
   @Override
   public Dog className(@javax.annotation.Nonnull String className) {
@@ -255,6 +251,5 @@ static {
       .color(getColor())
       .breed(getBreed());
   }
-
 }
 

@@ -59,7 +59,7 @@ bool Pet::validate(std::stringstream& msg, const std::string& pathPrefix) const
     /* PhotoUrls */ {
         const std::vector<std::string>& value = m_PhotoUrls;
         const std::string currentValuePath = _pathPrefix + ".photoUrls";
-                
+        
         
         { // Recursive validation of array elements
             const std::string oldValuePath = currentValuePath;
@@ -73,14 +73,13 @@ bool Pet::validate(std::stringstream& msg, const std::string& pathPrefix) const
                 i++;
             }
         }
-
     }
          
     if (tagsIsSet())
     {
         const std::vector<org::openapitools::server::model::Tag>& value = m_Tags;
         const std::string currentValuePath = _pathPrefix + ".tags";
-                
+        
         
         { // Recursive validation of array elements
             const std::string oldValuePath = currentValuePath;
@@ -94,14 +93,13 @@ bool Pet::validate(std::stringstream& msg, const std::string& pathPrefix) const
                 i++;
             }
         }
-
     }
                  
     if (goodiesIsSet())
     {
         const std::vector<nlohmann::json>& value = m_Goodies;
         const std::string currentValuePath = _pathPrefix + ".goodies";
-                
+        
         
         { // Recursive validation of array elements
             const std::string oldValuePath = currentValuePath;
@@ -115,14 +113,13 @@ bool Pet::validate(std::stringstream& msg, const std::string& pathPrefix) const
                 i++;
             }
         }
-
     }
          
     if (certificatesIsSet())
     {
         const std::set<std::string>& value = m_Certificates;
         const std::string currentValuePath = _pathPrefix + ".certificates";
-                
+        
         
         if (!org::openapitools::server::helpers::hasOnlyUniqueItems(value))
         {
@@ -141,7 +138,6 @@ bool Pet::validate(std::stringstream& msg, const std::string& pathPrefix) const
                 i++;
             }
         }
-
     }
         
     return success;

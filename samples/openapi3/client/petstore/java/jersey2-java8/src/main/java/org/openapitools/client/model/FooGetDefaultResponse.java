@@ -67,7 +67,6 @@ public class FooGetDefaultResponse {
     this.string = string;
   }
 
-
   /**
    * Return true if this _foo_get_default_response object is equal to o.
    */

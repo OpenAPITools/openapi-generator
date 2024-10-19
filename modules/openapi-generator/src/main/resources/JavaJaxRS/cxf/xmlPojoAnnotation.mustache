@@ -3,6 +3,10 @@
 {{#hasVars}} @XmlType(name = "{{classname}}", propOrder =
     { {{#vars}}"{{name}}"{{^-last}}, {{/-last}}{{/vars}}
 }){{/hasVars}}
-{{^hasVars}}@XmlType(name = "{{classname}}"){{/hasVars}}
-{{^parent}}@XmlRootElement(name="{{classname}}"){{/parent}}
+{{^hasVars}}
+@XmlType(name = "{{classname}}")
+{{/hasVars}}
+{{^parent}}
+@XmlRootElement(name="{{classname}}")
+{{/parent}}
 {{/withXml}}

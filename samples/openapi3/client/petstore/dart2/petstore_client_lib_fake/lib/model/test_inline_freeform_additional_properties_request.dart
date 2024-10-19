@@ -115,4 +115,3 @@ class TestInlineFreeformAdditionalPropertiesRequest {
   static const requiredKeys = <String>{
   };
 }
-

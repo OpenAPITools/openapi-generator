@@ -85,4 +85,3 @@ HealthCheckStatus.prototype['NullableMessage'] = undefined;
 
 
 export default HealthCheckStatus;
-

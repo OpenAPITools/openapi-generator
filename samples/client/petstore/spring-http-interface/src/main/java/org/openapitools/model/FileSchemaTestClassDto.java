@@ -20,7 +20,6 @@ import jakarta.annotation.Generated;
 /**
  * FileSchemaTestClassDto
  */
-
 @JsonTypeName("FileSchemaTestClass")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class FileSchemaTestClassDto {
@@ -75,7 +74,6 @@ public class FileSchemaTestClassDto {
   public void setFiles(List<FileDto> files) {
     this.files = files;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -143,5 +143,4 @@ public abstract class AbstractOpenApiSchema {
     }
 
 
-
 }

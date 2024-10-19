@@ -33,22 +33,19 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Name.JSON_PROPERTY_123NUMBER
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Name {
   public static final String JSON_PROPERTY_NAME = "name";
-  @jakarta.annotation.Nonnull
-  private Integer name;
+  @jakarta.annotation.Nonnull  private Integer name;
 
   public static final String JSON_PROPERTY_SNAKE_CASE = "snake_case";
-  @jakarta.annotation.Nullable
-  private Integer snakeCase;
+  @jakarta.annotation.Nullable  private Integer snakeCase;
 
   public static final String JSON_PROPERTY_PROPERTY = "property";
-  @jakarta.annotation.Nullable
-  private String property;
+  @jakarta.annotation.Nullable  private String property;
 
   public static final String JSON_PROPERTY_123NUMBER = "123Number";
-  @jakarta.annotation.Nullable
-  private Integer _123number;
+  @jakarta.annotation.Nullable  private Integer _123number;
 
   public Name() {
   }
@@ -75,8 +72,7 @@ public class Name {
    * Get name
    * @return name
    */
-  @jakarta.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @jakarta.annotation.Nonnull  @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Integer getName() {
@@ -94,8 +90,7 @@ public class Name {
    * Get snakeCase
    * @return snakeCase
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SNAKE_CASE)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_SNAKE_CASE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getSnakeCase() {
@@ -114,8 +109,7 @@ public class Name {
    * Get property
    * @return property
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PROPERTY)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getProperty() {
@@ -133,8 +127,7 @@ public class Name {
    * Get _123number
    * @return _123number
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_123NUMBER)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_123NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer get123number() {

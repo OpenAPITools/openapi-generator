@@ -15,7 +15,6 @@
 */
 
 
-
 @interface SWGUserApi: NSObject <SWGApi>
 
 extern NSString* kSWGUserApiErrorDomain;

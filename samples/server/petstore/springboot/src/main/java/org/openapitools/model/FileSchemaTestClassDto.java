@@ -23,7 +23,6 @@ import javax.annotation.Generated;
 /**
  * FileSchemaTestClassDto
  */
-
 @JsonTypeName("FileSchemaTestClass")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class FileSchemaTestClassDto {
@@ -42,8 +41,7 @@ public class FileSchemaTestClassDto {
    * Get file
    * @return file
    */
-  @Valid 
-  @ApiModelProperty(value = "")
+  @Valid   @ApiModelProperty(value = "")
   @JsonProperty("file")
   public FileDto getFile() {
     return file;
@@ -70,8 +68,7 @@ public class FileSchemaTestClassDto {
    * Get files
    * @return files
    */
-  @Valid 
-  @ApiModelProperty(value = "")
+  @Valid   @ApiModelProperty(value = "")
   @JsonProperty("files")
   public List<@Valid FileDto> getFiles() {
     return files;
@@ -80,7 +77,6 @@ public class FileSchemaTestClassDto {
   public void setFiles(List<@Valid FileDto> files) {
     this.files = files;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -37,10 +37,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 @javax.annotation.concurrent.Immutable
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class AdditionalPropertiesObject extends HashMap<String, Map> {
   public static final String JSON_PROPERTY_NAME = "name";
-  @javax.annotation.Nullable
-  private String name;
+  @javax.annotation.Nullable  private String name;
 
   public AdditionalPropertiesObject() {
 
@@ -56,8 +56,7 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
    * Get name
    * @return name
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getName() {
@@ -114,7 +113,6 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
     }
     return this.additionalProperties.get(key);
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

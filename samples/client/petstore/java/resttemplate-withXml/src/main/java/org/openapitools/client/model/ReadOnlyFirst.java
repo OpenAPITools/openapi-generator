@@ -35,19 +35,19 @@ import io.github.threetenjaxb.core.*;
   ReadOnlyFirst.JSON_PROPERTY_BAZ
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 @XmlRootElement(name = "ReadOnlyFirst")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ReadOnlyFirst")
+
 public class ReadOnlyFirst {
   public static final String JSON_PROPERTY_BAR = "bar";
   @XmlElement(name = "bar")
-  @javax.annotation.Nullable
-  private String bar;
+  @javax.annotation.Nullable  private String bar;
 
   public static final String JSON_PROPERTY_BAZ = "baz";
   @XmlElement(name = "baz")
-  @javax.annotation.Nullable
-  private String baz;
+  @javax.annotation.Nullable  private String baz;
 
   public ReadOnlyFirst() {
   }
@@ -56,8 +56,7 @@ public class ReadOnlyFirst {
    * Get bar
    * @return bar
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_BAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "bar")
 
@@ -77,8 +76,7 @@ public class ReadOnlyFirst {
    * Get baz
    * @return baz
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BAZ)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_BAZ)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "baz")
 

@@ -31,7 +31,6 @@ import org.openapitools.client.infrastructure.ITransformForStorage
  * @param complete 
  */
 
-
 data class Order (
 
     @SerializedName("id")

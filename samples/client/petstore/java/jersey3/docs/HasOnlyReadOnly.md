@@ -11,4 +11,3 @@
 |**foo** | **String** |  |  [optional] [readonly] |
 
 
-

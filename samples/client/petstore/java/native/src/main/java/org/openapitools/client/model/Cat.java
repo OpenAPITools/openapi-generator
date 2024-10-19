@@ -47,11 +47,9 @@ import org.openapitools.client.ApiClient;
   allowSetters = true // allows the className to be set during deserialization
 )
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
-
 public class Cat extends Animal {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";
-  @javax.annotation.Nullable
-  private Boolean declawed;
+  @javax.annotation.Nullable  private Boolean declawed;
 
   public Cat() { 
   }
@@ -65,8 +63,7 @@ public class Cat extends Animal {
    * Get declawed
    * @return declawed
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DECLAWED)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_DECLAWED)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Boolean getDeclawed() {
     return declawed;
@@ -78,7 +75,6 @@ public class Cat extends Animal {
   public void setDeclawed(@javax.annotation.Nullable Boolean declawed) {
     this.declawed = declawed;
   }
-
 
   @Override
   public Cat className(@javax.annotation.Nonnull String className) {
@@ -256,6 +252,5 @@ static {
       .color(getColor())
       .declawed(getDeclawed());
   }
-
 }
 

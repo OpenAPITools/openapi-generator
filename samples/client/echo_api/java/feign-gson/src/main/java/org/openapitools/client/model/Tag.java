@@ -26,16 +26,15 @@ import java.io.IOException;
  * Tag
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Tag {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
-  @javax.annotation.Nullable
-  private Long id;
+  @javax.annotation.Nullable  private Long id;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
-  @javax.annotation.Nullable
-  private String name;
+  @javax.annotation.Nullable  private String name;
 
   public Tag() {
   }
@@ -51,7 +50,6 @@ public class Tag {
    * @return id
    */
   @javax.annotation.Nullable
-
   public Long getId() {
     return id;
   }
@@ -73,7 +71,6 @@ public class Tag {
    * @return name
    */
   @javax.annotation.Nullable
-
   public String getName() {
     return name;
   }
@@ -82,7 +79,6 @@ public class Tag {
   public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
-
 
   @Override
   public boolean equals(Object o) {

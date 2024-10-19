@@ -245,5 +245,3 @@ class PetStatusEnumTypeTransformer {
   /// Singleton [PetStatusEnumTypeTransformer] instance.
   static PetStatusEnumTypeTransformer? _instance;
 }
-
-

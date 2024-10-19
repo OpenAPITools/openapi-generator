@@ -34,14 +34,15 @@ import io.github.threetenjaxb.core.*;
   Client.JSON_PROPERTY_CLIENT
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 @XmlRootElement(name = "Client")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Client")
+
 public class Client {
   public static final String JSON_PROPERTY_CLIENT = "client";
   @XmlElement(name = "client")
-  @javax.annotation.Nullable
-  private String client;
+  @javax.annotation.Nullable  private String client;
 
   public Client() {
   }
@@ -56,8 +57,7 @@ public class Client {
    * Get client
    * @return client
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_CLIENT)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_CLIENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "client")
 

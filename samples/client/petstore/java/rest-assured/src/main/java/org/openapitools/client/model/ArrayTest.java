@@ -33,21 +33,19 @@ import org.hibernate.validator.constraints.*;
  * ArrayTest
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class ArrayTest {
   public static final String SERIALIZED_NAME_ARRAY_OF_STRING = "array_of_string";
   @SerializedName(SERIALIZED_NAME_ARRAY_OF_STRING)
-  @javax.annotation.Nullable
-  private List<String> arrayOfString = new ArrayList<>();
+  @javax.annotation.Nullable  private List<String> arrayOfString = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_OF_INTEGER)
-  @javax.annotation.Nullable
-  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
+  @javax.annotation.Nullable  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_OF_MODEL)
-  @javax.annotation.Nullable
-  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
+  @javax.annotation.Nullable  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
   public ArrayTest() {
   }
@@ -71,8 +69,6 @@ public class ArrayTest {
    * @return arrayOfString
    */
   @javax.annotation.Nullable
-
-
   public List<String> getArrayOfString() {
     return arrayOfString;
   }
@@ -100,9 +96,7 @@ public class ArrayTest {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
    */
-  @javax.annotation.Nullable
-  @Valid
-
+  @javax.annotation.Nullable  @Valid
 
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
@@ -131,9 +125,7 @@ public class ArrayTest {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
    */
-  @javax.annotation.Nullable
-  @Valid
-
+  @javax.annotation.Nullable  @Valid
 
   public List<List<@Valid ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;

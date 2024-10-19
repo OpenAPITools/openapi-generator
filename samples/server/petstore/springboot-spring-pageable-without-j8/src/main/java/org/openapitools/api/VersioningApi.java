@@ -61,18 +61,17 @@ public interface VersioningApi {
         @NotNull @ApiParam(value = "", required = true) @RequestHeader(value = "VersionNoDefaultValue", required = true) String versionNoDefaultValue,
         @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
     ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
-                    ApiUtil.setExampleResponse(request, "*/*", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                                getRequest().ifPresent(request -> {
+                    for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                        if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
+                            String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                            ApiUtil.setExampleResponse(request, "*/*", exampleString);
+                            break;
+                        }
+                    }
+                });
+                return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                                            }
 
 
     /**
@@ -110,18 +109,17 @@ public interface VersioningApi {
         @NotNull @ApiParam(value = "", required = true) @RequestHeader(value = "VersionNoDefaultValueHeader", required = true) String versionNoDefaultValueHeader,
         @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
     ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
-                    ApiUtil.setExampleResponse(request, "*/*", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                                getRequest().ifPresent(request -> {
+                    for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                        if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
+                            String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                            ApiUtil.setExampleResponse(request, "*/*", exampleString);
+                            break;
+                        }
+                    }
+                });
+                return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                                            }
 
 
     /**
@@ -154,17 +152,16 @@ public interface VersioningApi {
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "VersionNoDefaultValue", required = true) String versionNoDefaultValue,
         @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
     ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
-                    ApiUtil.setExampleResponse(request, "*/*", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+                                getRequest().ifPresent(request -> {
+                    for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                        if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
+                            String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                            ApiUtil.setExampleResponse(request, "*/*", exampleString);
+                            break;
+                        }
+                    }
+                });
+                return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                                            }
 
 }

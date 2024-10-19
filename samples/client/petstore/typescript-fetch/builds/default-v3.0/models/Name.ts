@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * Model for testing model name same as property name
@@ -44,7 +43,6 @@ export interface Name {
      */
     readonly _123number?: number;
 }
-
 /**
  * Check if a given object implements the Name interface.
  */
@@ -85,4 +83,3 @@ export function NameFromJSONTyped(json: any, ignoreDiscriminator: boolean): Name
         'property': value['property'],
     };
 }
-

@@ -49,16 +49,15 @@ import org.openapitools.client.JSON;
  * AppleReq
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class AppleReq {
   public static final String SERIALIZED_NAME_CULTIVAR = "cultivar";
   @SerializedName(SERIALIZED_NAME_CULTIVAR)
-  @javax.annotation.Nonnull
-  private String cultivar;
+  @javax.annotation.Nonnull  private String cultivar;
 
   public static final String SERIALIZED_NAME_MEALY = "mealy";
   @SerializedName(SERIALIZED_NAME_MEALY)
-  @javax.annotation.Nullable
-  private Boolean mealy;
+  @javax.annotation.Nullable  private Boolean mealy;
 
   public AppleReq() {
   }
@@ -72,8 +71,7 @@ public class AppleReq {
    * Get cultivar
    * @return cultivar
    */
-  @javax.annotation.Nonnull
-  public String getCultivar() {
+  @javax.annotation.Nonnull  public String getCultivar() {
     return cultivar;
   }
 
@@ -91,15 +89,13 @@ public class AppleReq {
    * Get mealy
    * @return mealy
    */
-  @javax.annotation.Nullable
-  public Boolean getMealy() {
+  @javax.annotation.Nullable  public Boolean getMealy() {
     return mealy;
   }
 
   public void setMealy(@javax.annotation.Nullable Boolean mealy) {
     this.mealy = mealy;
   }
-
 
 
   @Override

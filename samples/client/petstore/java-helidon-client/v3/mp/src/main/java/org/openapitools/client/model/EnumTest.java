@@ -27,7 +27,6 @@ import java.util.NoSuchElementException;
 
 
 
-
 public class EnumTest  {
   
 public enum EnumStringEnum {
@@ -322,4 +321,3 @@ public enum EnumNumberEnum {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

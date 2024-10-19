@@ -52,16 +52,15 @@ import org.openapitools.client.JSON;
  * FileSchemaTestClass
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class FileSchemaTestClass {
   public static final String SERIALIZED_NAME_FILE = "file";
   @SerializedName(SERIALIZED_NAME_FILE)
-  @javax.annotation.Nullable
-  private ModelFile _file;
+  @javax.annotation.Nullable  private ModelFile _file;
 
   public static final String SERIALIZED_NAME_FILES = "files";
   @SerializedName(SERIALIZED_NAME_FILES)
-  @javax.annotation.Nullable
-  private List<ModelFile> files = new ArrayList<>();
+  @javax.annotation.Nullable  private List<ModelFile> files = new ArrayList<>();
 
   public FileSchemaTestClass() {
   }
@@ -75,8 +74,7 @@ public class FileSchemaTestClass {
    * Get _file
    * @return _file
    */
-  @javax.annotation.Nullable
-  public ModelFile getFile() {
+  @javax.annotation.Nullable  public ModelFile getFile() {
     return _file;
   }
 
@@ -102,8 +100,7 @@ public class FileSchemaTestClass {
    * Get files
    * @return files
    */
-  @javax.annotation.Nullable
-  public List<ModelFile> getFiles() {
+  @javax.annotation.Nullable  public List<ModelFile> getFiles() {
     return files;
   }
 
@@ -155,7 +152,6 @@ public class FileSchemaTestClass {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

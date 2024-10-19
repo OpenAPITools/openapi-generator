@@ -39,7 +39,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   allowSetters = true // allows the className to be set during deserialization
 )
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
-
 public class Dog extends Animal {
   public static final String JSON_PROPERTY_BREED = "breed";
   @javax.annotation.Nullable
@@ -73,7 +72,6 @@ public class Dog extends Animal {
   public void setBreed(@javax.annotation.Nullable String breed) {
     this.breed = breed;
   }
-
 
   @Override
   public boolean equals(Object o) {

@@ -199,5 +199,3 @@ class MapTestMapOfEnumStringEnumTypeTransformer {
   /// Singleton [MapTestMapOfEnumStringEnumTypeTransformer] instance.
   static MapTestMapOfEnumStringEnumTypeTransformer? _instance;
 }
-
-

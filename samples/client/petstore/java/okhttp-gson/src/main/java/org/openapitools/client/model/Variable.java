@@ -50,16 +50,15 @@ import org.openapitools.client.JSON;
  * Value object
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Variable {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
-  @javax.annotation.Nonnull
-  private String name;
+  @javax.annotation.Nonnull  private String name;
 
   public static final String SERIALIZED_NAME_VALUE = "value";
   @SerializedName(SERIALIZED_NAME_VALUE)
-  @javax.annotation.Nonnull
-  private Value value;
+  @javax.annotation.Nonnull  private Value value;
 
   public Variable() {
   }
@@ -73,8 +72,7 @@ public class Variable {
    * Get name
    * @return name
    */
-  @javax.annotation.Nonnull
-  public String getName() {
+  @javax.annotation.Nonnull  public String getName() {
     return name;
   }
 
@@ -92,8 +90,7 @@ public class Variable {
    * Get value
    * @return value
    */
-  @javax.annotation.Nonnull
-  public Value getValue() {
+  @javax.annotation.Nonnull  public Value getValue() {
     return value;
   }
 
@@ -145,7 +142,6 @@ public class Variable {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

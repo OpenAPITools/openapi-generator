@@ -34,10 +34,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 @JsonTypeName("test_query_style_form_explode_true_array_string_query_object_parameter")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
   public static final String JSON_PROPERTY_VALUES = "values";
-  @jakarta.annotation.Nullable
-  private List<String> values = new ArrayList<>();
+  @jakarta.annotation.Nullable  private List<String> values = new ArrayList<>();
 
   public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter() {
   }
@@ -60,8 +60,7 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
    * Get values
    * @return values
    */
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_VALUES)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_VALUES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<String> getValues() {

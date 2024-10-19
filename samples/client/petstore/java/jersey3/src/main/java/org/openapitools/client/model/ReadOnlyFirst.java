@@ -64,7 +64,6 @@ public class ReadOnlyFirst {
 
   @JsonProperty(JSON_PROPERTY_BAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getBar() {
     return bar;
   }
@@ -85,7 +84,6 @@ public class ReadOnlyFirst {
 
   @JsonProperty(JSON_PROPERTY_BAZ)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getBaz() {
     return baz;
   }
@@ -96,7 +94,6 @@ public class ReadOnlyFirst {
   public void setBaz(@jakarta.annotation.Nullable String baz) {
     this.baz = baz;
   }
-
 
   /**
    * Return true if this ReadOnlyFirst object is equal to o.

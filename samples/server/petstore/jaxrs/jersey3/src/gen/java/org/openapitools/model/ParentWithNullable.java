@@ -32,11 +32,11 @@ import jakarta.validation.Valid;
   ParentWithNullable.JSON_PROPERTY_TYPE,
   ParentWithNullable.JSON_PROPERTY_NULLABLE_PROPERTY
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true)
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true)
 @JsonSubTypes({
   @JsonSubTypes.Type(value = ChildWithNullable.class, name = "ChildWithNullable"),
 })
-
 public class ParentWithNullable   {
   /**
    * Gets or Sets type
@@ -66,7 +66,6 @@ public class ParentWithNullable   {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_TYPE = "type";
   @JsonProperty(JSON_PROPERTY_TYPE)
   private TypeEnum type;

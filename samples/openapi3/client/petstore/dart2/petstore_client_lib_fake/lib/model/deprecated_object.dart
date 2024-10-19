@@ -115,4 +115,3 @@ class DeprecatedObject {
   static const requiredKeys = <String>{
   };
 }
-

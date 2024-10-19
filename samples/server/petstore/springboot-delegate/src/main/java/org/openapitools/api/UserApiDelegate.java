@@ -36,7 +36,6 @@ public interface UserApiDelegate {
      */
     default ResponseEntity<Void> createUser(User user) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
     /**
@@ -49,7 +48,6 @@ public interface UserApiDelegate {
      */
     default ResponseEntity<Void> createUsersWithArrayInput(List<@Valid User> user) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
     /**
@@ -62,7 +60,6 @@ public interface UserApiDelegate {
      */
     default ResponseEntity<Void> createUsersWithListInput(List<@Valid User> user) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
     /**
@@ -76,7 +73,6 @@ public interface UserApiDelegate {
      */
     default ResponseEntity<Void> deleteUser(String username) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
     /**
@@ -105,7 +101,6 @@ public interface UserApiDelegate {
             }
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
     /**
@@ -121,7 +116,6 @@ public interface UserApiDelegate {
     default ResponseEntity<String> loginUser(String username,
         String password) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
     /**
@@ -133,7 +127,6 @@ public interface UserApiDelegate {
      */
     default ResponseEntity<Void> logoutUser() {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
     /**
@@ -149,7 +142,6 @@ public interface UserApiDelegate {
     default ResponseEntity<Void> updateUser(String username,
         User user) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
 }

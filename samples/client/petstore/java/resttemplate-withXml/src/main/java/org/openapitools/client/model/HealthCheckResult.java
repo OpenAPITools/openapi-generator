@@ -38,14 +38,15 @@ import io.github.threetenjaxb.core.*;
   HealthCheckResult.JSON_PROPERTY_NULLABLE_MESSAGE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 @XmlRootElement(name = "HealthCheckResult")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "HealthCheckResult")
+
 public class HealthCheckResult {
   public static final String JSON_PROPERTY_NULLABLE_MESSAGE = "NullableMessage";
   @XmlElement(name = "NullableMessage")
-  @javax.annotation.Nullable
-  private JsonNullable<String> nullableMessage = JsonNullable.<String>undefined();
+  @javax.annotation.Nullable  private JsonNullable<String> nullableMessage = JsonNullable.<String>undefined();
 
   public HealthCheckResult() {
   }
@@ -60,8 +61,7 @@ public class HealthCheckResult {
    * Get nullableMessage
    * @return nullableMessage
    */
-  @javax.annotation.Nullable
-  @JsonIgnore
+  @javax.annotation.Nullable  @JsonIgnore
 
   public String getNullableMessage() {
         return nullableMessage.orElse(null);
@@ -70,7 +70,6 @@ public class HealthCheckResult {
   @JsonProperty(JSON_PROPERTY_NULLABLE_MESSAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "NullableMessage")
-
   public JsonNullable<String> getNullableMessage_JsonNullable() {
     return nullableMessage;
   }

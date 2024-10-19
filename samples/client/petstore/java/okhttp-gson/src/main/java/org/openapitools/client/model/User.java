@@ -50,66 +50,55 @@ import org.openapitools.client.JSON;
  * User
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class User {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
-  @javax.annotation.Nullable
-  private Long id;
+  @javax.annotation.Nullable  private Long id;
 
   public static final String SERIALIZED_NAME_USERNAME = "username";
   @SerializedName(SERIALIZED_NAME_USERNAME)
-  @javax.annotation.Nullable
-  private String username;
+  @javax.annotation.Nullable  private String username;
 
   public static final String SERIALIZED_NAME_FIRST_NAME = "firstName";
   @SerializedName(SERIALIZED_NAME_FIRST_NAME)
-  @javax.annotation.Nullable
-  private String firstName;
+  @javax.annotation.Nullable  private String firstName;
 
   public static final String SERIALIZED_NAME_LAST_NAME = "lastName";
   @SerializedName(SERIALIZED_NAME_LAST_NAME)
-  @javax.annotation.Nullable
-  private String lastName;
+  @javax.annotation.Nullable  private String lastName;
 
   public static final String SERIALIZED_NAME_EMAIL = "email";
   @SerializedName(SERIALIZED_NAME_EMAIL)
-  @javax.annotation.Nullable
-  private String email;
+  @javax.annotation.Nullable  private String email;
 
   public static final String SERIALIZED_NAME_PASSWORD = "password";
   @SerializedName(SERIALIZED_NAME_PASSWORD)
-  @javax.annotation.Nullable
-  private String password;
+  @javax.annotation.Nullable  private String password;
 
   public static final String SERIALIZED_NAME_PHONE = "phone";
   @SerializedName(SERIALIZED_NAME_PHONE)
-  @javax.annotation.Nullable
-  private String phone;
+  @javax.annotation.Nullable  private String phone;
 
   public static final String SERIALIZED_NAME_USER_STATUS = "userStatus";
   @SerializedName(SERIALIZED_NAME_USER_STATUS)
-  @javax.annotation.Nullable
-  private Integer userStatus;
+  @javax.annotation.Nullable  private Integer userStatus;
 
   public static final String SERIALIZED_NAME_OBJECT_WITH_NO_DECLARED_PROPS = "objectWithNoDeclaredProps";
   @SerializedName(SERIALIZED_NAME_OBJECT_WITH_NO_DECLARED_PROPS)
-  @javax.annotation.Nullable
-  private Object objectWithNoDeclaredProps;
+  @javax.annotation.Nullable  private Object objectWithNoDeclaredProps;
 
   public static final String SERIALIZED_NAME_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE = "objectWithNoDeclaredPropsNullable";
   @SerializedName(SERIALIZED_NAME_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE)
-  @javax.annotation.Nullable
-  private Object objectWithNoDeclaredPropsNullable;
+  @javax.annotation.Nullable  private Object objectWithNoDeclaredPropsNullable;
 
   public static final String SERIALIZED_NAME_ANY_TYPE_PROP = "anyTypeProp";
   @SerializedName(SERIALIZED_NAME_ANY_TYPE_PROP)
-  @javax.annotation.Nullable
-  private Object anyTypeProp = null;
+  @javax.annotation.Nullable  private Object anyTypeProp = null;
 
   public static final String SERIALIZED_NAME_ANY_TYPE_PROP_NULLABLE = "anyTypePropNullable";
   @SerializedName(SERIALIZED_NAME_ANY_TYPE_PROP_NULLABLE)
-  @javax.annotation.Nullable
-  private Object anyTypePropNullable = null;
+  @javax.annotation.Nullable  private Object anyTypePropNullable = null;
 
   public User() {
   }
@@ -123,8 +112,7 @@ public class User {
    * Get id
    * @return id
    */
-  @javax.annotation.Nullable
-  public Long getId() {
+  @javax.annotation.Nullable  public Long getId() {
     return id;
   }
 
@@ -142,8 +130,7 @@ public class User {
    * Get username
    * @return username
    */
-  @javax.annotation.Nullable
-  public String getUsername() {
+  @javax.annotation.Nullable  public String getUsername() {
     return username;
   }
 
@@ -161,8 +148,7 @@ public class User {
    * Get firstName
    * @return firstName
    */
-  @javax.annotation.Nullable
-  public String getFirstName() {
+  @javax.annotation.Nullable  public String getFirstName() {
     return firstName;
   }
 
@@ -180,8 +166,7 @@ public class User {
    * Get lastName
    * @return lastName
    */
-  @javax.annotation.Nullable
-  public String getLastName() {
+  @javax.annotation.Nullable  public String getLastName() {
     return lastName;
   }
 
@@ -199,8 +184,7 @@ public class User {
    * Get email
    * @return email
    */
-  @javax.annotation.Nullable
-  public String getEmail() {
+  @javax.annotation.Nullable  public String getEmail() {
     return email;
   }
 
@@ -218,8 +202,7 @@ public class User {
    * Get password
    * @return password
    */
-  @javax.annotation.Nullable
-  public String getPassword() {
+  @javax.annotation.Nullable  public String getPassword() {
     return password;
   }
 
@@ -237,8 +220,7 @@ public class User {
    * Get phone
    * @return phone
    */
-  @javax.annotation.Nullable
-  public String getPhone() {
+  @javax.annotation.Nullable  public String getPhone() {
     return phone;
   }
 
@@ -256,8 +238,7 @@ public class User {
    * User Status
    * @return userStatus
    */
-  @javax.annotation.Nullable
-  public Integer getUserStatus() {
+  @javax.annotation.Nullable  public Integer getUserStatus() {
     return userStatus;
   }
 
@@ -275,8 +256,7 @@ public class User {
    * test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.
    * @return objectWithNoDeclaredProps
    */
-  @javax.annotation.Nullable
-  public Object getObjectWithNoDeclaredProps() {
+  @javax.annotation.Nullable  public Object getObjectWithNoDeclaredProps() {
     return objectWithNoDeclaredProps;
   }
 
@@ -294,8 +274,7 @@ public class User {
    * test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.
    * @return objectWithNoDeclaredPropsNullable
    */
-  @javax.annotation.Nullable
-  public Object getObjectWithNoDeclaredPropsNullable() {
+  @javax.annotation.Nullable  public Object getObjectWithNoDeclaredPropsNullable() {
     return objectWithNoDeclaredPropsNullable;
   }
 
@@ -313,8 +292,7 @@ public class User {
    * test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
    * @return anyTypeProp
    */
-  @javax.annotation.Nullable
-  public Object getAnyTypeProp() {
+  @javax.annotation.Nullable  public Object getAnyTypeProp() {
     return anyTypeProp;
   }
 
@@ -332,8 +310,7 @@ public class User {
    * test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.
    * @return anyTypePropNullable
    */
-  @javax.annotation.Nullable
-  public Object getAnyTypePropNullable() {
+  @javax.annotation.Nullable  public Object getAnyTypePropNullable() {
     return anyTypePropNullable;
   }
 
@@ -385,7 +362,6 @@ public class User {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

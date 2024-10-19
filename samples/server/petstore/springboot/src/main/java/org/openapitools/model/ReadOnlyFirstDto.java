@@ -19,7 +19,6 @@ import javax.annotation.Generated;
 /**
  * ReadOnlyFirstDto
  */
-
 @JsonTypeName("ReadOnlyFirst")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ReadOnlyFirstDto {
@@ -37,8 +36,7 @@ public class ReadOnlyFirstDto {
    * Get bar
    * @return bar
    */
-  
-  @ApiModelProperty(readOnly = true, value = "")
+    @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("bar")
   public String getBar() {
     return bar;
@@ -57,8 +55,7 @@ public class ReadOnlyFirstDto {
    * Get baz
    * @return baz
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("baz")
   public String getBaz() {
     return baz;
@@ -67,7 +64,6 @@ public class ReadOnlyFirstDto {
   public void setBaz(String baz) {
     this.baz = baz;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

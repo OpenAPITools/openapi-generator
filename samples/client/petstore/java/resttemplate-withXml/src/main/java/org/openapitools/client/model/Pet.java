@@ -47,36 +47,33 @@ import io.github.threetenjaxb.core.*;
   Pet.JSON_PROPERTY_STATUS
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 @XmlRootElement(name = "Pet")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Pet")
+
 public class Pet {
   public static final String JSON_PROPERTY_ID = "id";
   @XmlElement(name = "id")
-  @javax.annotation.Nullable
-  private Long id;
+  @javax.annotation.Nullable  private Long id;
 
   public static final String JSON_PROPERTY_CATEGORY = "category";
   @XmlElement(name = "Category")
-  @javax.annotation.Nullable
-  private Category category;
+  @javax.annotation.Nullable  private Category category;
 
   public static final String JSON_PROPERTY_NAME = "name";
   @XmlElement(name = "name")
-  @javax.annotation.Nonnull
-  private String name;
+  @javax.annotation.Nonnull  private String name;
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
   @XmlElement(name = "photoUrl")
   @XmlElementWrapper(name = "photoUrls")
-  @javax.annotation.Nonnull
-  private Set<String> photoUrls = new LinkedHashSet<>();
+  @javax.annotation.Nonnull  private Set<String> photoUrls = new LinkedHashSet<>();
 
   public static final String JSON_PROPERTY_TAGS = "tags";
   @XmlElement(name = "Tag")
   @XmlElementWrapper(name = "tag")
-  @javax.annotation.Nullable
-  private List<Tag> tags = new ArrayList<>();
+  @javax.annotation.Nullable  private List<Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -119,11 +116,9 @@ public class Pet {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_STATUS = "status";
   @XmlElement(name = "status")
-  @javax.annotation.Nullable
-  private StatusEnum status;
+  @javax.annotation.Nullable  private StatusEnum status;
 
   public Pet() {
   }
@@ -138,8 +133,7 @@ public class Pet {
    * Get id
    * @return id
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ID)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "id")
 
@@ -165,8 +159,7 @@ public class Pet {
    * Get category
    * @return category
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_CATEGORY)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_CATEGORY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "Category")
 
@@ -192,8 +185,7 @@ public class Pet {
    * Get name
    * @return name
    */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @javax.annotation.Nonnull  @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "name")
 
@@ -227,8 +219,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
    */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
+  @javax.annotation.Nonnull  @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "photoUrl")
   @JacksonXmlElementWrapper(localName = "photoUrls", useWrapping = true)
@@ -265,8 +256,7 @@ public class Pet {
    * Get tags
    * @return tags
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_TAGS)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_TAGS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "Tag")
   @JacksonXmlElementWrapper(localName = "tag", useWrapping = true)
@@ -294,8 +284,7 @@ public class Pet {
    * pet status in the store
    * @return status
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_STATUS)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "status")
 

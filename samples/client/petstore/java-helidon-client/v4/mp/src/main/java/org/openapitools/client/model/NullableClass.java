@@ -31,7 +31,6 @@ import java.util.NoSuchElementException;
 
 
 
-
 public class NullableClass extends HashMap<String, Object> {
   
   private Integer integerProp;
@@ -364,4 +363,3 @@ public class NullableClass extends HashMap<String, Object> {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

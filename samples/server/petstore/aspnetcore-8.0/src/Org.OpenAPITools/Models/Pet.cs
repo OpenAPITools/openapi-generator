@@ -19,7 +19,7 @@ using Newtonsoft.Json;
 using Org.OpenAPITools.Converters;
 
 namespace Org.OpenAPITools.Models
-{ 
+{
     /// <summary>
     /// A pet for sale in the pet store
     /// </summary>

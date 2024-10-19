@@ -51,11 +51,11 @@ import org.openapitools.client.JSON;
  * AllOfSimpleModel
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class AllOfSimpleModel {
   public static final String SERIALIZED_NAME_ARRAY_OF_STRINGS = "arrayOfStrings";
   @SerializedName(SERIALIZED_NAME_ARRAY_OF_STRINGS)
-  @javax.annotation.Nonnull
-  private List<String> arrayOfStrings = new ArrayList<>();
+  @javax.annotation.Nonnull  private List<String> arrayOfStrings = new ArrayList<>();
 
   public AllOfSimpleModel() {
   }
@@ -77,8 +77,7 @@ public class AllOfSimpleModel {
    * Get arrayOfStrings
    * @return arrayOfStrings
    */
-  @javax.annotation.Nonnull
-  public List<String> getArrayOfStrings() {
+  @javax.annotation.Nonnull  public List<String> getArrayOfStrings() {
     return arrayOfStrings;
   }
 
@@ -130,7 +129,6 @@ public class AllOfSimpleModel {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

@@ -39,7 +39,7 @@ public interface FakeClassnameTestApiDelegate {
      */
     default Mono<Client> testClassname(Mono<Client> client,
         ServerWebExchange exchange) {
-        Mono<Void> result = Mono.empty();
+Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -49,7 +49,6 @@ public interface FakeClassnameTestApiDelegate {
             }
         }
         return result.then(client).then(Mono.empty());
-
     }
 
 }

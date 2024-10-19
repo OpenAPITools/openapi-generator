@@ -19,7 +19,6 @@ import jakarta.annotation.Generated;
 /**
  * EnumArrays
  */
-
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class EnumArrays {
 
@@ -57,7 +56,6 @@ public class EnumArrays {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   private JustSymbolEnum justSymbol;
 
   /**
@@ -94,7 +92,6 @@ public class EnumArrays {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
@@ -143,7 +140,6 @@ public class EnumArrays {
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

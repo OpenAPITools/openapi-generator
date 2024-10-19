@@ -50,16 +50,15 @@ import org.openapitools.client.JSON;
  * FreeFormObjectTestClass
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class FreeFormObjectTestClass {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
-  @javax.annotation.Nullable
-  private String name;
+  @javax.annotation.Nullable  private String name;
 
   public static final String SERIALIZED_NAME_PROPERTIES = "properties";
   @SerializedName(SERIALIZED_NAME_PROPERTIES)
-  @javax.annotation.Nullable
-  private FreeFormObjectTestClassProperties properties;
+  @javax.annotation.Nullable  private FreeFormObjectTestClassProperties properties;
 
   public FreeFormObjectTestClass() {
   }
@@ -73,8 +72,7 @@ public class FreeFormObjectTestClass {
    * Get name
    * @return name
    */
-  @javax.annotation.Nullable
-  public String getName() {
+  @javax.annotation.Nullable  public String getName() {
     return name;
   }
 
@@ -92,8 +90,7 @@ public class FreeFormObjectTestClass {
    * Get properties
    * @return properties
    */
-  @javax.annotation.Nullable
-  public FreeFormObjectTestClassProperties getProperties() {
+  @javax.annotation.Nullable  public FreeFormObjectTestClassProperties getProperties() {
     return properties;
   }
 
@@ -145,7 +142,6 @@ public class FreeFormObjectTestClass {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

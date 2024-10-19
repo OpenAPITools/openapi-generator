@@ -27,26 +27,23 @@ import java.time.OffsetDateTime;
  * Order
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Order {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
-  @javax.annotation.Nullable
-  private Long id;
+  @javax.annotation.Nullable  private Long id;
 
   public static final String SERIALIZED_NAME_PET_ID = "petId";
   @SerializedName(SERIALIZED_NAME_PET_ID)
-  @javax.annotation.Nullable
-  private Long petId;
+  @javax.annotation.Nullable  private Long petId;
 
   public static final String SERIALIZED_NAME_QUANTITY = "quantity";
   @SerializedName(SERIALIZED_NAME_QUANTITY)
-  @javax.annotation.Nullable
-  private Integer quantity;
+  @javax.annotation.Nullable  private Integer quantity;
 
   public static final String SERIALIZED_NAME_SHIP_DATE = "shipDate";
   @SerializedName(SERIALIZED_NAME_SHIP_DATE)
-  @javax.annotation.Nullable
-  private OffsetDateTime shipDate;
+  @javax.annotation.Nullable  private OffsetDateTime shipDate;
 
   /**
    * Order Status
@@ -96,16 +93,13 @@ public class Order {
       }
     }
   }
-
   public static final String SERIALIZED_NAME_STATUS = "status";
   @SerializedName(SERIALIZED_NAME_STATUS)
-  @javax.annotation.Nullable
-  private StatusEnum status;
+  @javax.annotation.Nullable  private StatusEnum status;
 
   public static final String SERIALIZED_NAME_COMPLETE = "complete";
   @SerializedName(SERIALIZED_NAME_COMPLETE)
-  @javax.annotation.Nullable
-  private Boolean complete = false;
+  @javax.annotation.Nullable  private Boolean complete = false;
 
   public Order() {
   }
@@ -121,7 +115,6 @@ public class Order {
    * @return id
    */
   @javax.annotation.Nullable
-
   public Long getId() {
     return id;
   }
@@ -142,7 +135,6 @@ public class Order {
    * @return petId
    */
   @javax.annotation.Nullable
-
   public Long getPetId() {
     return petId;
   }
@@ -163,7 +155,6 @@ public class Order {
    * @return quantity
    */
   @javax.annotation.Nullable
-
   public Integer getQuantity() {
     return quantity;
   }
@@ -184,7 +175,6 @@ public class Order {
    * @return shipDate
    */
   @javax.annotation.Nullable
-
   public OffsetDateTime getShipDate() {
     return shipDate;
   }
@@ -205,7 +195,6 @@ public class Order {
    * @return status
    */
   @javax.annotation.Nullable
-
   public StatusEnum getStatus() {
     return status;
   }
@@ -226,7 +215,6 @@ public class Order {
    * @return complete
    */
   @javax.annotation.Nullable
-
   public Boolean getComplete() {
     return complete;
   }

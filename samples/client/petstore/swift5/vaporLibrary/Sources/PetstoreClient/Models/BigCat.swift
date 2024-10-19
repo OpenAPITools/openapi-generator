@@ -18,8 +18,7 @@ public final class BigCat: Content, Hashable {
         case tigers = "tigers"
         case leopards = "leopards"
         case jaguars = "jaguars"
-    }
-    public var kind: Kind?
+    }    public var kind: Kind?
 
     public init(kind: Kind? = nil) {
         self.kind = kind

@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
 import {getApiEntitiesState} from "../ApiEntitiesSelectors"
 import {List, Record, RecordOf, Map} from 'immutable';
@@ -108,4 +107,3 @@ export const orderRecordUtils = new OrderRecordUtils();
 
 export const apiEntitiesOrderSelector = (state: any) => getApiEntitiesState(state).order as Map<string, OrderRecordEntity>;
 export const apiEntityOrderSelector = (state: any, {id}: {id?: string | null}) => id ? apiEntitiesOrderSelector(state).get(id) : undefined;
-

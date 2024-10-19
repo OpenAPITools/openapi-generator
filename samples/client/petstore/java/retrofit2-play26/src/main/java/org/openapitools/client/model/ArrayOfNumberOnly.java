@@ -36,10 +36,10 @@ import jakarta.validation.Valid;
   ArrayOfNumberOnly.JSON_PROPERTY_ARRAY_NUMBER
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class ArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
-  @jakarta.annotation.Nullable
-  private List<BigDecimal> arrayNumber = new ArrayList<>();
+  @jakarta.annotation.Nullable  private List<BigDecimal> arrayNumber = new ArrayList<>();
 
   public ArrayOfNumberOnly() {
   }
@@ -62,9 +62,7 @@ public class ArrayOfNumberOnly {
    * Get arrayNumber
    * @return arrayNumber
    */
-  @jakarta.annotation.Nullable
-  @Valid
-
+  @jakarta.annotation.Nullable  @Valid
   @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

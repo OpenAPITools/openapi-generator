@@ -26,11 +26,11 @@ import java.io.IOException;
  * Client
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Client {
   public static final String SERIALIZED_NAME_CLIENT = "client";
   @SerializedName(SERIALIZED_NAME_CLIENT)
-  @javax.annotation.Nullable
-  private String client;
+  @javax.annotation.Nullable  private String client;
 
   public Client() {
   }
@@ -46,7 +46,6 @@ public class Client {
    * @return client
    */
   @javax.annotation.Nullable
-
   public String getClient() {
     return client;
   }

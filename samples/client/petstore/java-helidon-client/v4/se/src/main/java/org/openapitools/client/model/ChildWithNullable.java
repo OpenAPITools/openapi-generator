@@ -25,7 +25,6 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 
 
-
 public class ChildWithNullable extends ParentWithNullable {
   
   private String otherProperty;
@@ -75,4 +74,3 @@ public class ChildWithNullable extends ParentWithNullable {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

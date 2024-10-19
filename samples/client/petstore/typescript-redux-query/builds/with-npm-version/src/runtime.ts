@@ -11,7 +11,6 @@
  * Do not edit the class manually.
  */
 
-
 import { Meta, OptimisticUpdate, QueryKey, QueryOptions, Rollback, TransformStrategy, Update } from "redux-query";
 
 export const BASE_PATH = "http://petstore.swagger.io/v2".replace(/\/+$/, "");

@@ -38,14 +38,13 @@ import org.hibernate.validator.constraints.*;
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class FileSchemaTestClass {
   public static final String JSON_PROPERTY_FILE = "file";
-  @javax.annotation.Nullable
-  private ModelFile _file;
+  @javax.annotation.Nullable  private ModelFile _file;
 
   public static final String JSON_PROPERTY_FILES = "files";
-  @javax.annotation.Nullable
-  private List<@Valid ModelFile> files = new ArrayList<>();
+  @javax.annotation.Nullable  private List<@Valid ModelFile> files = new ArrayList<>();
 
   public FileSchemaTestClass() {
   }
@@ -60,9 +59,7 @@ public class FileSchemaTestClass {
    * Get _file
    * @return _file
    */
-  @javax.annotation.Nullable
-  @Valid
-
+  @javax.annotation.Nullable  @Valid
   @JsonProperty(JSON_PROPERTY_FILE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -95,9 +92,7 @@ public class FileSchemaTestClass {
    * Get files
    * @return files
    */
-  @javax.annotation.Nullable
-  @Valid
-
+  @javax.annotation.Nullable  @Valid
   @JsonProperty(JSON_PROPERTY_FILES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

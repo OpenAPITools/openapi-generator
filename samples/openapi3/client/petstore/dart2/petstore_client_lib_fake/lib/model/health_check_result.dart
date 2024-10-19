@@ -109,4 +109,3 @@ class HealthCheckResult {
   static const requiredKeys = <String>{
   };
 }
-

@@ -49,11 +49,11 @@ import org.openapitools.client.JSON;
  * SelfReferenceAdditionalProperties
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class SelfReferenceAdditionalProperties {
   public static final String SERIALIZED_NAME_DUMMY = "dummy";
   @SerializedName(SERIALIZED_NAME_DUMMY)
-  @javax.annotation.Nullable
-  private String dummy;
+  @javax.annotation.Nullable  private String dummy;
 
   public SelfReferenceAdditionalProperties() {
   }
@@ -67,8 +67,7 @@ public class SelfReferenceAdditionalProperties {
    * Get dummy
    * @return dummy
    */
-  @javax.annotation.Nullable
-  public String getDummy() {
+  @javax.annotation.Nullable  public String getDummy() {
     return dummy;
   }
 
@@ -120,7 +119,6 @@ public class SelfReferenceAdditionalProperties {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

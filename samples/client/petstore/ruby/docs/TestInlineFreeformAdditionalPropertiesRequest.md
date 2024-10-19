@@ -15,4 +15,3 @@ instance = Petstore::TestInlineFreeformAdditionalPropertiesRequest.new(
   some_property: null
 )
 ```
-

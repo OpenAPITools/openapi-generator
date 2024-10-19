@@ -32,7 +32,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -45,7 +44,6 @@ async with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling StoreApi->delete_order: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -108,7 +106,6 @@ configuration.api_key['api_key'] = os.environ["API_KEY"]
 
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['api_key'] = 'Bearer'
-
 # Enter a context with an instance of the API client
 async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -122,7 +119,6 @@ async with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling StoreApi->get_inventory: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -171,7 +167,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -186,7 +181,6 @@ async with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling StoreApi->get_order_by_id: %s\n" % e)
 ```
-
 
 
 ### Parameters
@@ -240,7 +234,6 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-
 # Enter a context with an instance of the API client
 async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -255,7 +248,6 @@ async with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling StoreApi->place_order: %s\n" % e)
 ```
-
 
 
 ### Parameters

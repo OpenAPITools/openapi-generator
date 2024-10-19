@@ -24,7 +24,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
 public class MapTest  {
   
   private Map<String, Map<String, String>> mapMapOfString = null;
@@ -75,6 +74,7 @@ public enum InnerEnum {
         throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
+
 
   private Map<String, InnerEnum> mapOfEnumString = null;
 
@@ -210,4 +210,3 @@ public enum InnerEnum {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

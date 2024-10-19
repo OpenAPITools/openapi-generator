@@ -132,4 +132,3 @@ class ReadOnlyFirst {
   static const requiredKeys = <String>{
   };
 }
-

@@ -50,9 +50,8 @@ class StoreApiEndpointsImpl[F[*]: Concurrent](
       requestHeaders = requestHeaders,
       auth = None) {
         
-        case r if r.status.code == 400 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
-        case r if r.status.code == 404 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
-    }
+                case r if r.status.code == 400 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
+                case r if r.status.code == 404 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))    }
   }
 
   override def getInventory()(implicit auth: _Authorization.ApiKey): F[Map[String, Int]] = {
@@ -69,8 +68,7 @@ class StoreApiEndpointsImpl[F[*]: Concurrent](
       requestHeaders = requestHeaders,
       auth = Some(auth)) {
         
-        case r if r.status.code == 200 => parseJson[F, Map[String, Int]]("Map[String, Int]", r)
-    }
+                case r if r.status.code == 200 => parseJson[F, Map[String, Int]]("Map[String, Int]", r)    }
   }
 
   override def getOrderById(orderId: Long): F[Order] = {
@@ -87,10 +85,9 @@ class StoreApiEndpointsImpl[F[*]: Concurrent](
       requestHeaders = requestHeaders,
       auth = None) {
         
-        case r if r.status.code == 200 => parseJson[F, Order]("Order", r)
-        case r if r.status.code == 400 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
-        case r if r.status.code == 404 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
-    }
+                case r if r.status.code == 200 => parseJson[F, Order]("Order", r)
+                case r if r.status.code == 400 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
+                case r if r.status.code == 404 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))    }
   }
 
   override def placeOrder(order: Order): F[Order] = {
@@ -107,9 +104,8 @@ class StoreApiEndpointsImpl[F[*]: Concurrent](
       requestHeaders = requestHeaders,
       auth = None) {
         
-        case r if r.status.code == 200 => parseJson[F, Order]("Order", r)
-        case r if r.status.code == 400 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
-    }
+                case r if r.status.code == 200 => parseJson[F, Order]("Order", r)
+                case r if r.status.code == 400 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))    }
   }
 
 }

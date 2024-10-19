@@ -77,7 +77,6 @@ public class ArrayTest {
 
   @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public List<String> getArrayOfString() {
     return arrayOfString;
   }
@@ -112,7 +111,6 @@ public class ArrayTest {
 
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
@@ -147,7 +145,6 @@ public class ArrayTest {
 
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public List<List<@Valid ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
@@ -158,7 +155,6 @@ public class ArrayTest {
   public void setArrayArrayOfModel(@jakarta.annotation.Nullable List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
-
 
   /**
    * Return true if this ArrayTest object is equal to o.

@@ -43,26 +43,22 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Pet.JSON_PROPERTY_STATUS
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Pet {
   public static final String JSON_PROPERTY_ID = "id";
-  @javax.annotation.Nullable
-  private Long id;
+  @javax.annotation.Nullable  private Long id;
 
   public static final String JSON_PROPERTY_CATEGORY = "category";
-  @javax.annotation.Nullable
-  private Category category;
+  @javax.annotation.Nullable  private Category category;
 
   public static final String JSON_PROPERTY_NAME = "name";
-  @javax.annotation.Nonnull
-  private String name;
+  @javax.annotation.Nonnull  private String name;
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
-  @javax.annotation.Nonnull
-  private List<String> photoUrls = new ArrayList<>();
+  @javax.annotation.Nonnull  private List<String> photoUrls = new ArrayList<>();
 
   public static final String JSON_PROPERTY_TAGS = "tags";
-  @javax.annotation.Nullable
-  private List<Tag> tags = new ArrayList<>();
+  @javax.annotation.Nullable  private List<Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -100,10 +96,8 @@ public class Pet {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_STATUS = "status";
-  @javax.annotation.Nullable
-  private StatusEnum status;
+  @javax.annotation.Nullable  private StatusEnum status;
 
   public Pet() {
   }
@@ -118,8 +112,7 @@ public class Pet {
    * Get id
    * @return id
    */
-  @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @javax.annotation.Nullable  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -144,8 +137,7 @@ public class Pet {
    * Get category
    * @return category
    */
-  @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @javax.annotation.Nullable  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_CATEGORY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -170,8 +162,7 @@ public class Pet {
    * Get name
    * @return name
    */
-  @javax.annotation.Nonnull
-  @ApiModelProperty(example = "doggie", required = true, value = "")
+  @javax.annotation.Nonnull  @ApiModelProperty(example = "doggie", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -204,8 +195,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
    */
-  @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
+  @javax.annotation.Nonnull  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -238,8 +228,7 @@ public class Pet {
    * Get tags
    * @return tags
    */
-  @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @javax.annotation.Nullable  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_TAGS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -266,8 +255,7 @@ public class Pet {
    * @deprecated
    */
   @Deprecated
-  @javax.annotation.Nullable
-  @ApiModelProperty(value = "pet status in the store")
+  @javax.annotation.Nullable  @ApiModelProperty(value = "pet status in the store")
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

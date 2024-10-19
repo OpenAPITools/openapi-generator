@@ -50,11 +50,11 @@ import org.openapitools.client.JSON;
  * FooGetDefaultResponse
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class FooGetDefaultResponse {
   public static final String SERIALIZED_NAME_STRING = "string";
   @SerializedName(SERIALIZED_NAME_STRING)
-  @javax.annotation.Nullable
-  private Foo string;
+  @javax.annotation.Nullable  private Foo string;
 
   public FooGetDefaultResponse() {
   }
@@ -68,8 +68,7 @@ public class FooGetDefaultResponse {
    * Get string
    * @return string
    */
-  @javax.annotation.Nullable
-  public Foo getString() {
+  @javax.annotation.Nullable  public Foo getString() {
     return string;
   }
 
@@ -121,7 +120,6 @@ public class FooGetDefaultResponse {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

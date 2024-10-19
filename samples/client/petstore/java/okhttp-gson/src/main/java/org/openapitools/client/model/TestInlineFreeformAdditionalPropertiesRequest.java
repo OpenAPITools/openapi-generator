@@ -49,11 +49,11 @@ import org.openapitools.client.JSON;
  * TestInlineFreeformAdditionalPropertiesRequest
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class TestInlineFreeformAdditionalPropertiesRequest {
   public static final String SERIALIZED_NAME_SOME_PROPERTY = "someProperty";
   @SerializedName(SERIALIZED_NAME_SOME_PROPERTY)
-  @javax.annotation.Nullable
-  private String someProperty;
+  @javax.annotation.Nullable  private String someProperty;
 
   public TestInlineFreeformAdditionalPropertiesRequest() {
   }
@@ -67,8 +67,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
    * Get someProperty
    * @return someProperty
    */
-  @javax.annotation.Nullable
-  public String getSomeProperty() {
+  @javax.annotation.Nullable  public String getSomeProperty() {
     return someProperty;
   }
 
@@ -120,7 +119,6 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

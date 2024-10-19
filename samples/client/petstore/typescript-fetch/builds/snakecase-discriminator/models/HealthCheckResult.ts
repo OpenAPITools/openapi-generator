@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
@@ -26,7 +25,6 @@ export interface HealthCheckResult {
      */
     nullableMessage?: string | null;
 }
-
 /**
  * Check if a given object implements the HealthCheckResult interface.
  */
@@ -62,4 +60,3 @@ export function HealthCheckResultFromJSONTyped(json: any, ignoreDiscriminator: b
         'NullableMessage': value['nullableMessage'],
     };
 }
-

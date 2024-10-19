@@ -68,7 +68,6 @@ public class ArrayOfArrayOfNumberOnly {
 
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;
   }
@@ -79,7 +78,6 @@ public class ArrayOfArrayOfNumberOnly {
   public void setArrayArrayNumber(@jakarta.annotation.Nullable List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
-
 
   /**
    * Return true if this ArrayOfArrayOfNumberOnly object is equal to o.

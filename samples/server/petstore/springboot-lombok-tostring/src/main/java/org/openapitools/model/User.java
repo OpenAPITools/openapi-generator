@@ -22,7 +22,6 @@ import jakarta.annotation.Generated;
 @lombok.Setter
 @lombok.ToString
 @lombok.EqualsAndHashCode
-
 @Schema(name = "User", description = "A User who is purchasing from the pet store")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class User {
@@ -89,7 +88,6 @@ public class User {
     this.userStatus = userStatus;
     return this;
   }
-
 
 
 }

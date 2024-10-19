@@ -237,4 +237,3 @@ AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD
     return o.toString().replace("\n", "\n    ");
   }
 }
-

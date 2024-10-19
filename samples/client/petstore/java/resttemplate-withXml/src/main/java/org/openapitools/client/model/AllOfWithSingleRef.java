@@ -36,19 +36,19 @@ import io.github.threetenjaxb.core.*;
   AllOfWithSingleRef.JSON_PROPERTY_SINGLE_REF_TYPE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 @XmlRootElement(name = "AllOfWithSingleRef")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "AllOfWithSingleRef")
+
 public class AllOfWithSingleRef {
   public static final String JSON_PROPERTY_USERNAME = "username";
   @XmlElement(name = "username")
-  @javax.annotation.Nullable
-  private String username;
+  @javax.annotation.Nullable  private String username;
 
   public static final String JSON_PROPERTY_SINGLE_REF_TYPE = "SingleRefType";
   @XmlElement(name = "SingleRefType")
-  @javax.annotation.Nullable
-  private SingleRefType singleRefType;
+  @javax.annotation.Nullable  private SingleRefType singleRefType;
 
   public AllOfWithSingleRef() {
   }
@@ -63,8 +63,7 @@ public class AllOfWithSingleRef {
    * Get username
    * @return username
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_USERNAME)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_USERNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "username")
 
@@ -90,8 +89,7 @@ public class AllOfWithSingleRef {
    * Get singleRefType
    * @return singleRefType
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SINGLE_REF_TYPE)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_SINGLE_REF_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "SingleRefType")
 

@@ -21,7 +21,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
 public class FormatTest  {
   
   private byte[] _byte;
@@ -71,4 +70,3 @@ public class FormatTest  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

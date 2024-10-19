@@ -184,6 +184,4 @@ Pet['StatusEnum'] = {
 };
 
 
-
 export default Pet;
-

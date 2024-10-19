@@ -49,11 +49,11 @@ import org.openapitools.client.JSON;
  * Foo
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Foo {
   public static final String SERIALIZED_NAME_BAR = "bar";
   @SerializedName(SERIALIZED_NAME_BAR)
-  @javax.annotation.Nullable
-  private String bar = "bar";
+  @javax.annotation.Nullable  private String bar = "bar";
 
   public Foo() {
   }
@@ -67,8 +67,7 @@ public class Foo {
    * Get bar
    * @return bar
    */
-  @javax.annotation.Nullable
-  public String getBar() {
+  @javax.annotation.Nullable  public String getBar() {
     return bar;
   }
 
@@ -120,7 +119,6 @@ public class Foo {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

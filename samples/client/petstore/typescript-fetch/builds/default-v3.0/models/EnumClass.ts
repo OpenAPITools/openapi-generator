@@ -12,7 +12,6 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * 
  * @export
@@ -51,4 +50,3 @@ export function EnumClassToJSON(value?: EnumClass | null): any {
 export function EnumClassToJSONTyped(value: any, ignoreDiscriminator: boolean): EnumClass {
     return value as EnumClass;
 }
-

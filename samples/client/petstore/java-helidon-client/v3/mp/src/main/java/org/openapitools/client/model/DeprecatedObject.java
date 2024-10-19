@@ -20,7 +20,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-
 public class DeprecatedObject  {
   
   private String name;
@@ -70,4 +69,3 @@ public class DeprecatedObject  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

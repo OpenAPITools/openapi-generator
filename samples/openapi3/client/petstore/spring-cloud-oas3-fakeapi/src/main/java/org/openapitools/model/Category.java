@@ -17,7 +17,6 @@ import javax.annotation.Generated;
 /**
  * Category
  */
-
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Category {
 
@@ -38,8 +37,7 @@ public class Category {
    * Get id
    * @return id
    */
-  
-  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public Long getId() {
     return id;
@@ -58,8 +56,7 @@ public class Category {
    * Get name
    * @return name
    */
-  @NotNull 
-  @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
+  @NotNull   @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
   public String getName() {
     return name;
@@ -68,7 +65,6 @@ public class Category {
   public void setName(String name) {
     this.name = name;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -19,7 +19,7 @@ using Newtonsoft.Json;
 using Org.OpenAPITools.Converters;
 
 namespace Org.OpenAPITools.Models
-{ 
+{
     /// <summary>
     /// Describes the result of uploading an image resource
     /// </summary>

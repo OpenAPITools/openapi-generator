@@ -25,7 +25,6 @@ import java.util.UUID;
 
 
 
-
 public class FormatTest  {
   
   private Integer integer;
@@ -436,4 +435,3 @@ public class FormatTest  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

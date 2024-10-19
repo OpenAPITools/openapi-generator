@@ -115,4 +115,3 @@ class SpecialModelName {
   static const requiredKeys = <String>{
   };
 }
-

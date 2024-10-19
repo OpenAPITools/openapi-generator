@@ -23,7 +23,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
   * Model for testing model with \"_class\" property
  **/
-
 public class ClassModel  {
   
   private String propertyClass;
@@ -73,4 +72,3 @@ public class ClassModel  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

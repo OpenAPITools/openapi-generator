@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import { Cat, CatFromJSONTyped, CatToJSON, CatToJSONTyped } from './Cat';
 import { Dog, DogFromJSONTyped, DogToJSON, DogToJSONTyped } from './Dog';
@@ -34,7 +33,6 @@ export interface Animal {
      */
     color?: string;
 }
-
 /**
  * Check if a given object implements the Animal interface.
  */
@@ -92,4 +90,3 @@ export function AnimalFromJSONTyped(json: any, ignoreDiscriminator: boolean): An
         'color': value['color'],
     };
 }
-

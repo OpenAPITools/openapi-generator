@@ -16,7 +16,6 @@ import jakarta.annotation.Generated;
 /**
  * CapitalizationDto
  */
-
 @JsonTypeName("Capitalization")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class CapitalizationDto {
@@ -146,7 +145,6 @@ public class CapitalizationDto {
   public void setATTNAME(String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

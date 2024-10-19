@@ -114,7 +114,6 @@ open class StoreApi : ApiClient {
             override fun deserialize(decoder: Decoder) = GetInventoryResponse(serializer.deserialize(decoder))
         }
     }
-
     /**
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions

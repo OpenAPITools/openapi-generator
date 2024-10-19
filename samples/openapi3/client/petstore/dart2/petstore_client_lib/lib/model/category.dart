@@ -132,4 +132,3 @@ class Category {
   static const requiredKeys = <String>{
   };
 }
-

@@ -55,61 +55,51 @@ import org.openapitools.client.JSON;
  * AdditionalPropertiesClass
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class AdditionalPropertiesClass implements Parcelable {
   public static final String SERIALIZED_NAME_MAP_STRING = "map_string";
   @SerializedName(SERIALIZED_NAME_MAP_STRING)
-  @javax.annotation.Nullable
-  private Map<String, String> mapString = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, String> mapString = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_NUMBER = "map_number";
   @SerializedName(SERIALIZED_NAME_MAP_NUMBER)
-  @javax.annotation.Nullable
-  private Map<String, BigDecimal> mapNumber = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, BigDecimal> mapNumber = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_INTEGER = "map_integer";
   @SerializedName(SERIALIZED_NAME_MAP_INTEGER)
-  @javax.annotation.Nullable
-  private Map<String, Integer> mapInteger = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, Integer> mapInteger = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_BOOLEAN = "map_boolean";
   @SerializedName(SERIALIZED_NAME_MAP_BOOLEAN)
-  @javax.annotation.Nullable
-  private Map<String, Boolean> mapBoolean = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, Boolean> mapBoolean = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_ARRAY_INTEGER = "map_array_integer";
   @SerializedName(SERIALIZED_NAME_MAP_ARRAY_INTEGER)
-  @javax.annotation.Nullable
-  private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_ARRAY_ANYTYPE = "map_array_anytype";
   @SerializedName(SERIALIZED_NAME_MAP_ARRAY_ANYTYPE)
-  @javax.annotation.Nullable
-  private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_MAP_STRING = "map_map_string";
   @SerializedName(SERIALIZED_NAME_MAP_MAP_STRING)
-  @javax.annotation.Nullable
-  private Map<String, Map<String, String>> mapMapString = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, Map<String, String>> mapMapString = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_MAP_ANYTYPE = "map_map_anytype";
   @SerializedName(SERIALIZED_NAME_MAP_MAP_ANYTYPE)
-  @javax.annotation.Nullable
-  private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
   public static final String SERIALIZED_NAME_ANYTYPE1 = "anytype_1";
   @SerializedName(SERIALIZED_NAME_ANYTYPE1)
-  @javax.annotation.Nullable
-  private Object anytype1;
+  @javax.annotation.Nullable  private Object anytype1;
 
   public static final String SERIALIZED_NAME_ANYTYPE2 = "anytype_2";
   @SerializedName(SERIALIZED_NAME_ANYTYPE2)
-  @javax.annotation.Nullable
-  private Object anytype2;
+  @javax.annotation.Nullable  private Object anytype2;
 
   public static final String SERIALIZED_NAME_ANYTYPE3 = "anytype_3";
   @SerializedName(SERIALIZED_NAME_ANYTYPE3)
-  @javax.annotation.Nullable
-  private Object anytype3;
+  @javax.annotation.Nullable  private Object anytype3;
 
   public AdditionalPropertiesClass() {
   }
@@ -131,8 +121,7 @@ public class AdditionalPropertiesClass implements Parcelable {
    * Get mapString
    * @return mapString
    */
-  @javax.annotation.Nullable
-  public Map<String, String> getMapString() {
+  @javax.annotation.Nullable  public Map<String, String> getMapString() {
     return mapString;
   }
 
@@ -158,8 +147,7 @@ public class AdditionalPropertiesClass implements Parcelable {
    * Get mapNumber
    * @return mapNumber
    */
-  @javax.annotation.Nullable
-  public Map<String, BigDecimal> getMapNumber() {
+  @javax.annotation.Nullable  public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
   }
 
@@ -185,8 +173,7 @@ public class AdditionalPropertiesClass implements Parcelable {
    * Get mapInteger
    * @return mapInteger
    */
-  @javax.annotation.Nullable
-  public Map<String, Integer> getMapInteger() {
+  @javax.annotation.Nullable  public Map<String, Integer> getMapInteger() {
     return mapInteger;
   }
 
@@ -212,8 +199,7 @@ public class AdditionalPropertiesClass implements Parcelable {
    * Get mapBoolean
    * @return mapBoolean
    */
-  @javax.annotation.Nullable
-  public Map<String, Boolean> getMapBoolean() {
+  @javax.annotation.Nullable  public Map<String, Boolean> getMapBoolean() {
     return mapBoolean;
   }
 
@@ -239,8 +225,7 @@ public class AdditionalPropertiesClass implements Parcelable {
    * Get mapArrayInteger
    * @return mapArrayInteger
    */
-  @javax.annotation.Nullable
-  public Map<String, List<Integer>> getMapArrayInteger() {
+  @javax.annotation.Nullable  public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
   }
 
@@ -266,8 +251,7 @@ public class AdditionalPropertiesClass implements Parcelable {
    * Get mapArrayAnytype
    * @return mapArrayAnytype
    */
-  @javax.annotation.Nullable
-  public Map<String, List<Object>> getMapArrayAnytype() {
+  @javax.annotation.Nullable  public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
   }
 
@@ -293,8 +277,7 @@ public class AdditionalPropertiesClass implements Parcelable {
    * Get mapMapString
    * @return mapMapString
    */
-  @javax.annotation.Nullable
-  public Map<String, Map<String, String>> getMapMapString() {
+  @javax.annotation.Nullable  public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
   }
 
@@ -320,8 +303,7 @@ public class AdditionalPropertiesClass implements Parcelable {
    * Get mapMapAnytype
    * @return mapMapAnytype
    */
-  @javax.annotation.Nullable
-  public Map<String, Map<String, Object>> getMapMapAnytype() {
+  @javax.annotation.Nullable  public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;
   }
 
@@ -339,8 +321,7 @@ public class AdditionalPropertiesClass implements Parcelable {
    * Get anytype1
    * @return anytype1
    */
-  @javax.annotation.Nullable
-  public Object getAnytype1() {
+  @javax.annotation.Nullable  public Object getAnytype1() {
     return anytype1;
   }
 
@@ -358,8 +339,7 @@ public class AdditionalPropertiesClass implements Parcelable {
    * Get anytype2
    * @return anytype2
    */
-  @javax.annotation.Nullable
-  public Object getAnytype2() {
+  @javax.annotation.Nullable  public Object getAnytype2() {
     return anytype2;
   }
 
@@ -377,15 +357,13 @@ public class AdditionalPropertiesClass implements Parcelable {
    * Get anytype3
    * @return anytype3
    */
-  @javax.annotation.Nullable
-  public Object getAnytype3() {
+  @javax.annotation.Nullable  public Object getAnytype3() {
     return anytype3;
   }
 
   public void setAnytype3(@javax.annotation.Nullable Object anytype3) {
     this.anytype3 = anytype3;
   }
-
 
 
   @Override

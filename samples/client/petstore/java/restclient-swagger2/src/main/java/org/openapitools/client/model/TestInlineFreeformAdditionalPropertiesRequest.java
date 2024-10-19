@@ -34,10 +34,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 @JsonTypeName("testInlineFreeformAdditionalProperties_request")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<String, Object> {
   public static final String JSON_PROPERTY_SOME_PROPERTY = "someProperty";
-  @jakarta.annotation.Nullable
-  private String someProperty;
+  @jakarta.annotation.Nullable  private String someProperty;
 
   public TestInlineFreeformAdditionalPropertiesRequest() {
 
@@ -53,8 +53,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
    * Get someProperty
    * @return someProperty
    */
-  @jakarta.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @jakarta.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_SOME_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

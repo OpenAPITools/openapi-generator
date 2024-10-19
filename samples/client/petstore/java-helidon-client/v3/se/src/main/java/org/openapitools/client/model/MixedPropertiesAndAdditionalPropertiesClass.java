@@ -25,7 +25,6 @@ import org.openapitools.client.model.Animal;
 
 
 
-
 public class MixedPropertiesAndAdditionalPropertiesClass  {
   
   private UUID uuid;
@@ -126,4 +125,3 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

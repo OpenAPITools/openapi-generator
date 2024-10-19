@@ -34,8 +34,7 @@ public interface UserApiDelegate {
      * @see UserApi#createUser
      */
     default void createUser(User user) {
-        throw new IllegalArgumentException("Not implemented");
-
+throw new IllegalArgumentException("Not implemented");
     }
 
     /**
@@ -47,8 +46,7 @@ public interface UserApiDelegate {
      * @see UserApi#createUsersWithArrayInput
      */
     default void createUsersWithArrayInput(List<@Valid User> user) {
-        throw new IllegalArgumentException("Not implemented");
-
+throw new IllegalArgumentException("Not implemented");
     }
 
     /**
@@ -60,8 +58,7 @@ public interface UserApiDelegate {
      * @see UserApi#createUsersWithListInput
      */
     default void createUsersWithListInput(List<@Valid User> user) {
-        throw new IllegalArgumentException("Not implemented");
-
+throw new IllegalArgumentException("Not implemented");
     }
 
     /**
@@ -74,8 +71,7 @@ public interface UserApiDelegate {
      * @see UserApi#deleteUser
      */
     default void deleteUser(String username) {
-        throw new IllegalArgumentException("Not implemented");
-
+throw new IllegalArgumentException("Not implemented");
     }
 
     /**
@@ -104,7 +100,6 @@ public interface UserApiDelegate {
             }
         });
         throw new IllegalArgumentException("Not implemented");
-
     }
 
     /**
@@ -119,8 +114,7 @@ public interface UserApiDelegate {
      */
     default String loginUser(String username,
         String password) {
-        throw new IllegalArgumentException("Not implemented");
-
+throw new IllegalArgumentException("Not implemented");
     }
 
     /**
@@ -131,8 +125,7 @@ public interface UserApiDelegate {
      * @see UserApi#logoutUser
      */
     default void logoutUser() {
-        throw new IllegalArgumentException("Not implemented");
-
+throw new IllegalArgumentException("Not implemented");
     }
 
     /**
@@ -147,8 +140,7 @@ public interface UserApiDelegate {
      */
     default void updateUser(String username,
         User user) {
-        throw new IllegalArgumentException("Not implemented");
-
+throw new IllegalArgumentException("Not implemented");
     }
 
 }

@@ -14,7 +14,6 @@
  * https://openapi-generator.tech
  */
 
-
 // generated from apiService.mustache
 package sample.cask.api
 

@@ -33,10 +33,10 @@ import jakarta.validation.Valid;
   NumberOnly.JSON_PROPERTY_JUST_NUMBER
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class NumberOnly {
   public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";
-  @jakarta.annotation.Nullable
-  private BigDecimal justNumber;
+  @jakarta.annotation.Nullable  private BigDecimal justNumber;
 
   public NumberOnly() {
   }
@@ -51,9 +51,7 @@ public class NumberOnly {
    * Get justNumber
    * @return justNumber
    */
-  @jakarta.annotation.Nullable
-  @Valid
-
+  @jakarta.annotation.Nullable  @Valid
   @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

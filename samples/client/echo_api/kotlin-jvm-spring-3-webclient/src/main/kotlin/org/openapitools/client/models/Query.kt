@@ -26,7 +26,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @param outcomes 
  */
 
-
 data class Query (
 
     /* Query */

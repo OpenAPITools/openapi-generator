@@ -29,4 +29,3 @@ instance = Petstore::User.new(
   user_status: null
 )
 ```
-

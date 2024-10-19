@@ -66,7 +66,6 @@ public class SpecialModelName {
     this.$specialPropertyName = $specialPropertyName;
   }
 
-
   /**
    * Return true if this $special[model.name] object is equal to o.
    */

@@ -95,7 +95,6 @@ public class IsoscelesTriangle {
     this.triangleType = triangleType;
   }
 
-
   /**
    * Return true if this IsoscelesTriangle object is equal to o.
    */

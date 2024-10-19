@@ -19,4 +19,3 @@ instance = Petstore::ApiResponse.new(
   message: null
 )
 ```
-

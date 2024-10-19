@@ -97,4 +97,3 @@ public class HasOnlyReadOnly   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

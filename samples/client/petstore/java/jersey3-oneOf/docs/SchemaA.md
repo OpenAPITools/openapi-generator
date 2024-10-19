@@ -10,4 +10,3 @@
 |**propA** | **String** |  |  [optional] |
 
 
-

@@ -26,36 +26,31 @@ import java.io.IOException;
  * Capitalization
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Capitalization {
   public static final String SERIALIZED_NAME_SMALL_CAMEL = "smallCamel";
   @SerializedName(SERIALIZED_NAME_SMALL_CAMEL)
-  @javax.annotation.Nullable
-  private String smallCamel;
+  @javax.annotation.Nullable  private String smallCamel;
 
   public static final String SERIALIZED_NAME_CAPITAL_CAMEL = "CapitalCamel";
   @SerializedName(SERIALIZED_NAME_CAPITAL_CAMEL)
-  @javax.annotation.Nullable
-  private String capitalCamel;
+  @javax.annotation.Nullable  private String capitalCamel;
 
   public static final String SERIALIZED_NAME_SMALL_SNAKE = "small_Snake";
   @SerializedName(SERIALIZED_NAME_SMALL_SNAKE)
-  @javax.annotation.Nullable
-  private String smallSnake;
+  @javax.annotation.Nullable  private String smallSnake;
 
   public static final String SERIALIZED_NAME_CAPITAL_SNAKE = "Capital_Snake";
   @SerializedName(SERIALIZED_NAME_CAPITAL_SNAKE)
-  @javax.annotation.Nullable
-  private String capitalSnake;
+  @javax.annotation.Nullable  private String capitalSnake;
 
   public static final String SERIALIZED_NAME_SC_A_E_T_H_FLOW_POINTS = "SCA_ETH_Flow_Points";
   @SerializedName(SERIALIZED_NAME_SC_A_E_T_H_FLOW_POINTS)
-  @javax.annotation.Nullable
-  private String scAETHFlowPoints;
+  @javax.annotation.Nullable  private String scAETHFlowPoints;
 
   public static final String SERIALIZED_NAME_A_T_T_N_A_M_E = "ATT_NAME";
   @SerializedName(SERIALIZED_NAME_A_T_T_N_A_M_E)
-  @javax.annotation.Nullable
-  private String ATT_NAME;
+  @javax.annotation.Nullable  private String ATT_NAME;
 
   public Capitalization() {
   }
@@ -71,7 +66,6 @@ public class Capitalization {
    * @return smallCamel
    */
   @javax.annotation.Nullable
-
   public String getSmallCamel() {
     return smallCamel;
   }
@@ -92,7 +86,6 @@ public class Capitalization {
    * @return capitalCamel
    */
   @javax.annotation.Nullable
-
   public String getCapitalCamel() {
     return capitalCamel;
   }
@@ -113,7 +106,6 @@ public class Capitalization {
    * @return smallSnake
    */
   @javax.annotation.Nullable
-
   public String getSmallSnake() {
     return smallSnake;
   }
@@ -134,7 +126,6 @@ public class Capitalization {
    * @return capitalSnake
    */
   @javax.annotation.Nullable
-
   public String getCapitalSnake() {
     return capitalSnake;
   }
@@ -155,7 +146,6 @@ public class Capitalization {
    * @return scAETHFlowPoints
    */
   @javax.annotation.Nullable
-
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
   }
@@ -176,7 +166,6 @@ public class Capitalization {
    * @return ATT_NAME
    */
   @javax.annotation.Nullable
-
   public String getATTNAME() {
     return ATT_NAME;
   }

@@ -21,7 +21,6 @@ import javax.annotation.Generated;
 /**
  * Order
  */
-
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Order {
 
@@ -70,7 +69,6 @@ public class Order {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   private StatusEnum status;
 
   private Boolean complete = false;
@@ -84,8 +82,7 @@ public class Order {
    * Get id
    * @return id
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
@@ -104,8 +101,7 @@ public class Order {
    * Get petId
    * @return petId
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("petId")
   public Long getPetId() {
     return petId;
@@ -124,8 +120,7 @@ public class Order {
    * Get quantity
    * @return quantity
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("quantity")
   public Integer getQuantity() {
     return quantity;
@@ -144,8 +139,7 @@ public class Order {
    * Get shipDate
    * @return shipDate
    */
-  @Valid 
-  @ApiModelProperty(value = "")
+  @Valid   @ApiModelProperty(value = "")
   @JsonProperty("shipDate")
   public OffsetDateTime getShipDate() {
     return shipDate;
@@ -164,8 +158,7 @@ public class Order {
    * Order Status
    * @return status
    */
-  
-  @ApiModelProperty(value = "Order Status")
+    @ApiModelProperty(value = "Order Status")
   @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
@@ -184,8 +177,7 @@ public class Order {
    * Get complete
    * @return complete
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("complete")
   public Boolean getComplete() {
     return complete;
@@ -194,7 +186,6 @@ public class Order {
   public void setComplete(Boolean complete) {
     this.complete = complete;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

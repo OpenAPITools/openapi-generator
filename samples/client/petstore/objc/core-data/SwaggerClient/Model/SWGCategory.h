@@ -16,7 +16,6 @@
 
 
 
-
 @protocol SWGCategory
 @end
 

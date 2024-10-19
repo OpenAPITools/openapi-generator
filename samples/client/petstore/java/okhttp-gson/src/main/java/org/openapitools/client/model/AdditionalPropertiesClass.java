@@ -52,46 +52,39 @@ import org.openapitools.client.JSON;
  * AdditionalPropertiesClass
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class AdditionalPropertiesClass {
   public static final String SERIALIZED_NAME_MAP_PROPERTY = "map_property";
   @SerializedName(SERIALIZED_NAME_MAP_PROPERTY)
-  @javax.annotation.Nullable
-  private Map<String, String> mapProperty = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, String> mapProperty = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_OF_MAP_PROPERTY = "map_of_map_property";
   @SerializedName(SERIALIZED_NAME_MAP_OF_MAP_PROPERTY)
-  @javax.annotation.Nullable
-  private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
 
   public static final String SERIALIZED_NAME_ANYTYPE1 = "anytype_1";
   @SerializedName(SERIALIZED_NAME_ANYTYPE1)
-  @javax.annotation.Nullable
-  private Object anytype1 = null;
+  @javax.annotation.Nullable  private Object anytype1 = null;
 
   public static final String SERIALIZED_NAME_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE1 = "map_with_undeclared_properties_anytype_1";
   @SerializedName(SERIALIZED_NAME_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE1)
-  @javax.annotation.Nullable
-  private Object mapWithUndeclaredPropertiesAnytype1;
+  @javax.annotation.Nullable  private Object mapWithUndeclaredPropertiesAnytype1;
 
   public static final String SERIALIZED_NAME_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE2 = "map_with_undeclared_properties_anytype_2";
   @SerializedName(SERIALIZED_NAME_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE2)
-  @javax.annotation.Nullable
-  private Object mapWithUndeclaredPropertiesAnytype2;
+  @javax.annotation.Nullable  private Object mapWithUndeclaredPropertiesAnytype2;
 
   public static final String SERIALIZED_NAME_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE3 = "map_with_undeclared_properties_anytype_3";
   @SerializedName(SERIALIZED_NAME_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE3)
-  @javax.annotation.Nullable
-  private Map<String, Object> mapWithUndeclaredPropertiesAnytype3 = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, Object> mapWithUndeclaredPropertiesAnytype3 = new HashMap<>();
 
   public static final String SERIALIZED_NAME_EMPTY_MAP = "empty_map";
   @SerializedName(SERIALIZED_NAME_EMPTY_MAP)
-  @javax.annotation.Nullable
-  private Object emptyMap;
+  @javax.annotation.Nullable  private Object emptyMap;
 
   public static final String SERIALIZED_NAME_MAP_WITH_UNDECLARED_PROPERTIES_STRING = "map_with_undeclared_properties_string";
   @SerializedName(SERIALIZED_NAME_MAP_WITH_UNDECLARED_PROPERTIES_STRING)
-  @javax.annotation.Nullable
-  private Map<String, String> mapWithUndeclaredPropertiesString = new HashMap<>();
+  @javax.annotation.Nullable  private Map<String, String> mapWithUndeclaredPropertiesString = new HashMap<>();
 
   public AdditionalPropertiesClass() {
   }
@@ -113,8 +106,7 @@ public class AdditionalPropertiesClass {
    * Get mapProperty
    * @return mapProperty
    */
-  @javax.annotation.Nullable
-  public Map<String, String> getMapProperty() {
+  @javax.annotation.Nullable  public Map<String, String> getMapProperty() {
     return mapProperty;
   }
 
@@ -140,8 +132,7 @@ public class AdditionalPropertiesClass {
    * Get mapOfMapProperty
    * @return mapOfMapProperty
    */
-  @javax.annotation.Nullable
-  public Map<String, Map<String, String>> getMapOfMapProperty() {
+  @javax.annotation.Nullable  public Map<String, Map<String, String>> getMapOfMapProperty() {
     return mapOfMapProperty;
   }
 
@@ -159,8 +150,7 @@ public class AdditionalPropertiesClass {
    * Get anytype1
    * @return anytype1
    */
-  @javax.annotation.Nullable
-  public Object getAnytype1() {
+  @javax.annotation.Nullable  public Object getAnytype1() {
     return anytype1;
   }
 
@@ -178,8 +168,7 @@ public class AdditionalPropertiesClass {
    * Get mapWithUndeclaredPropertiesAnytype1
    * @return mapWithUndeclaredPropertiesAnytype1
    */
-  @javax.annotation.Nullable
-  public Object getMapWithUndeclaredPropertiesAnytype1() {
+  @javax.annotation.Nullable  public Object getMapWithUndeclaredPropertiesAnytype1() {
     return mapWithUndeclaredPropertiesAnytype1;
   }
 
@@ -197,8 +186,7 @@ public class AdditionalPropertiesClass {
    * Get mapWithUndeclaredPropertiesAnytype2
    * @return mapWithUndeclaredPropertiesAnytype2
    */
-  @javax.annotation.Nullable
-  public Object getMapWithUndeclaredPropertiesAnytype2() {
+  @javax.annotation.Nullable  public Object getMapWithUndeclaredPropertiesAnytype2() {
     return mapWithUndeclaredPropertiesAnytype2;
   }
 
@@ -224,8 +212,7 @@ public class AdditionalPropertiesClass {
    * Get mapWithUndeclaredPropertiesAnytype3
    * @return mapWithUndeclaredPropertiesAnytype3
    */
-  @javax.annotation.Nullable
-  public Map<String, Object> getMapWithUndeclaredPropertiesAnytype3() {
+  @javax.annotation.Nullable  public Map<String, Object> getMapWithUndeclaredPropertiesAnytype3() {
     return mapWithUndeclaredPropertiesAnytype3;
   }
 
@@ -243,8 +230,7 @@ public class AdditionalPropertiesClass {
    * an object with no declared properties and no undeclared properties, hence it&#39;s an empty map.
    * @return emptyMap
    */
-  @javax.annotation.Nullable
-  public Object getEmptyMap() {
+  @javax.annotation.Nullable  public Object getEmptyMap() {
     return emptyMap;
   }
 
@@ -270,8 +256,7 @@ public class AdditionalPropertiesClass {
    * Get mapWithUndeclaredPropertiesString
    * @return mapWithUndeclaredPropertiesString
    */
-  @javax.annotation.Nullable
-  public Map<String, String> getMapWithUndeclaredPropertiesString() {
+  @javax.annotation.Nullable  public Map<String, String> getMapWithUndeclaredPropertiesString() {
     return mapWithUndeclaredPropertiesString;
   }
 
@@ -323,7 +308,6 @@ public class AdditionalPropertiesClass {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

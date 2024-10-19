@@ -15,7 +15,6 @@ import jakarta.annotation.Generated;
 /**
  * Capitalization
  */
-
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Capitalization {
 
@@ -144,7 +143,6 @@ public class Capitalization {
   public void setATTNAME(String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

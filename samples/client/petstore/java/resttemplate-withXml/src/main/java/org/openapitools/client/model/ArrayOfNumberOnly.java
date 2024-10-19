@@ -38,14 +38,15 @@ import io.github.threetenjaxb.core.*;
   ArrayOfNumberOnly.JSON_PROPERTY_ARRAY_NUMBER
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 @XmlRootElement(name = "ArrayOfNumberOnly")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ArrayOfNumberOnly")
+
 public class ArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
   @XmlElement(name = "ArrayNumber")
-  @javax.annotation.Nullable
-  private List<BigDecimal> arrayNumber = new ArrayList<>();
+  @javax.annotation.Nullable  private List<BigDecimal> arrayNumber = new ArrayList<>();
 
   public ArrayOfNumberOnly() {
   }
@@ -68,8 +69,7 @@ public class ArrayOfNumberOnly {
    * Get arrayNumber
    * @return arrayNumber
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "ArrayNumber")
   @JacksonXmlElementWrapper(useWrapping = false)

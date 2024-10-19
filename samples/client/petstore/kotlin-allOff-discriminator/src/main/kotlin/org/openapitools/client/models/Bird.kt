@@ -27,7 +27,6 @@ import com.squareup.moshi.JsonClass
  * @param featherType 
  */
 
-
 data class Bird (
 
     @Json(name = "id")

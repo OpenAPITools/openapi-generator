@@ -39,39 +39,35 @@ import io.github.threetenjaxb.core.*;
   Capitalization.JSON_PROPERTY_A_T_T_N_A_M_E
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 @XmlRootElement(name = "Capitalization")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Capitalization")
+
 public class Capitalization {
   public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";
   @XmlElement(name = "smallCamel")
-  @javax.annotation.Nullable
-  private String smallCamel;
+  @javax.annotation.Nullable  private String smallCamel;
 
   public static final String JSON_PROPERTY_CAPITAL_CAMEL = "CapitalCamel";
   @XmlElement(name = "CapitalCamel")
-  @javax.annotation.Nullable
-  private String capitalCamel;
+  @javax.annotation.Nullable  private String capitalCamel;
 
   public static final String JSON_PROPERTY_SMALL_SNAKE = "small_Snake";
   @XmlElement(name = "small_Snake")
-  @javax.annotation.Nullable
-  private String smallSnake;
+  @javax.annotation.Nullable  private String smallSnake;
 
   public static final String JSON_PROPERTY_CAPITAL_SNAKE = "Capital_Snake";
   @XmlElement(name = "Capital_Snake")
-  @javax.annotation.Nullable
-  private String capitalSnake;
+  @javax.annotation.Nullable  private String capitalSnake;
 
   public static final String JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS = "SCA_ETH_Flow_Points";
   @XmlElement(name = "SCA_ETH_Flow_Points")
-  @javax.annotation.Nullable
-  private String scAETHFlowPoints;
+  @javax.annotation.Nullable  private String scAETHFlowPoints;
 
   public static final String JSON_PROPERTY_A_T_T_N_A_M_E = "ATT_NAME";
   @XmlElement(name = "ATT_NAME")
-  @javax.annotation.Nullable
-  private String ATT_NAME;
+  @javax.annotation.Nullable  private String ATT_NAME;
 
   public Capitalization() {
   }
@@ -86,8 +82,7 @@ public class Capitalization {
    * Get smallCamel
    * @return smallCamel
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "smallCamel")
 
@@ -113,8 +108,7 @@ public class Capitalization {
    * Get capitalCamel
    * @return capitalCamel
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "CapitalCamel")
 
@@ -140,8 +134,7 @@ public class Capitalization {
    * Get smallSnake
    * @return smallSnake
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "small_Snake")
 
@@ -167,8 +160,7 @@ public class Capitalization {
    * Get capitalSnake
    * @return capitalSnake
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "Capital_Snake")
 
@@ -194,8 +186,7 @@ public class Capitalization {
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "SCA_ETH_Flow_Points")
 
@@ -221,8 +212,7 @@ public class Capitalization {
    * Name of the pet 
    * @return ATT_NAME
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "ATT_NAME")
 

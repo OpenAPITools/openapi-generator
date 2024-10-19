@@ -56,7 +56,6 @@ namespace Org.OpenAPITools.Model
             [EnumMember(Value = "SKIPPED")]
             SKIPPED = 3
         }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Query" /> class.
         /// </summary>
@@ -164,7 +163,6 @@ namespace Org.OpenAPITools.Model
         IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
-        }
-    }
+        }    }
 
 }

@@ -15,4 +15,3 @@ instance = Petstore::Dog.new(
   breed: null
 )
 ```
-

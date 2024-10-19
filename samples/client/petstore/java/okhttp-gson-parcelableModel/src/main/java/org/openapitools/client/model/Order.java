@@ -52,26 +52,23 @@ import org.openapitools.client.JSON;
  * Order
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Order implements Parcelable {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
-  @javax.annotation.Nullable
-  private Long id;
+  @javax.annotation.Nullable  private Long id;
 
   public static final String SERIALIZED_NAME_PET_ID = "petId";
   @SerializedName(SERIALIZED_NAME_PET_ID)
-  @javax.annotation.Nullable
-  private Long petId;
+  @javax.annotation.Nullable  private Long petId;
 
   public static final String SERIALIZED_NAME_QUANTITY = "quantity";
   @SerializedName(SERIALIZED_NAME_QUANTITY)
-  @javax.annotation.Nullable
-  private Integer quantity;
+  @javax.annotation.Nullable  private Integer quantity;
 
   public static final String SERIALIZED_NAME_SHIP_DATE = "shipDate";
   @SerializedName(SERIALIZED_NAME_SHIP_DATE)
-  @javax.annotation.Nullable
-  private OffsetDateTime shipDate;
+  @javax.annotation.Nullable  private OffsetDateTime shipDate;
 
   /**
    * Order Status
@@ -126,16 +123,13 @@ public class Order implements Parcelable {
       StatusEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_STATUS = "status";
   @SerializedName(SERIALIZED_NAME_STATUS)
-  @javax.annotation.Nullable
-  private StatusEnum status;
+  @javax.annotation.Nullable  private StatusEnum status;
 
   public static final String SERIALIZED_NAME_COMPLETE = "complete";
   @SerializedName(SERIALIZED_NAME_COMPLETE)
-  @javax.annotation.Nullable
-  private Boolean complete = false;
+  @javax.annotation.Nullable  private Boolean complete = false;
 
   public Order() {
   }
@@ -149,8 +143,7 @@ public class Order implements Parcelable {
    * Get id
    * @return id
    */
-  @javax.annotation.Nullable
-  public Long getId() {
+  @javax.annotation.Nullable  public Long getId() {
     return id;
   }
 
@@ -168,8 +161,7 @@ public class Order implements Parcelable {
    * Get petId
    * @return petId
    */
-  @javax.annotation.Nullable
-  public Long getPetId() {
+  @javax.annotation.Nullable  public Long getPetId() {
     return petId;
   }
 
@@ -187,8 +179,7 @@ public class Order implements Parcelable {
    * Get quantity
    * @return quantity
    */
-  @javax.annotation.Nullable
-  public Integer getQuantity() {
+  @javax.annotation.Nullable  public Integer getQuantity() {
     return quantity;
   }
 
@@ -206,8 +197,7 @@ public class Order implements Parcelable {
    * Get shipDate
    * @return shipDate
    */
-  @javax.annotation.Nullable
-  public OffsetDateTime getShipDate() {
+  @javax.annotation.Nullable  public OffsetDateTime getShipDate() {
     return shipDate;
   }
 
@@ -225,8 +215,7 @@ public class Order implements Parcelable {
    * Order Status
    * @return status
    */
-  @javax.annotation.Nullable
-  public StatusEnum getStatus() {
+  @javax.annotation.Nullable  public StatusEnum getStatus() {
     return status;
   }
 
@@ -244,15 +233,13 @@ public class Order implements Parcelable {
    * Get complete
    * @return complete
    */
-  @javax.annotation.Nullable
-  public Boolean getComplete() {
+  @javax.annotation.Nullable  public Boolean getComplete() {
     return complete;
   }
 
   public void setComplete(@javax.annotation.Nullable Boolean complete) {
     this.complete = complete;
   }
-
 
 
   @Override

@@ -30,151 +30,123 @@ import java.util.List;
  * XmlItem
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class XmlItem {
   public static final String SERIALIZED_NAME_ATTRIBUTE_STRING = "attribute_string";
   @SerializedName(SERIALIZED_NAME_ATTRIBUTE_STRING)
-  @javax.annotation.Nullable
-  private String attributeString;
+  @javax.annotation.Nullable  private String attributeString;
 
   public static final String SERIALIZED_NAME_ATTRIBUTE_NUMBER = "attribute_number";
   @SerializedName(SERIALIZED_NAME_ATTRIBUTE_NUMBER)
-  @javax.annotation.Nullable
-  private BigDecimal attributeNumber;
+  @javax.annotation.Nullable  private BigDecimal attributeNumber;
 
   public static final String SERIALIZED_NAME_ATTRIBUTE_INTEGER = "attribute_integer";
   @SerializedName(SERIALIZED_NAME_ATTRIBUTE_INTEGER)
-  @javax.annotation.Nullable
-  private Integer attributeInteger;
+  @javax.annotation.Nullable  private Integer attributeInteger;
 
   public static final String SERIALIZED_NAME_ATTRIBUTE_BOOLEAN = "attribute_boolean";
   @SerializedName(SERIALIZED_NAME_ATTRIBUTE_BOOLEAN)
-  @javax.annotation.Nullable
-  private Boolean attributeBoolean;
+  @javax.annotation.Nullable  private Boolean attributeBoolean;
 
   public static final String SERIALIZED_NAME_WRAPPED_ARRAY = "wrapped_array";
   @SerializedName(SERIALIZED_NAME_WRAPPED_ARRAY)
-  @javax.annotation.Nullable
-  private List<Integer> wrappedArray = new ArrayList<>();
+  @javax.annotation.Nullable  private List<Integer> wrappedArray = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_NAME_STRING = "name_string";
   @SerializedName(SERIALIZED_NAME_NAME_STRING)
-  @javax.annotation.Nullable
-  private String nameString;
+  @javax.annotation.Nullable  private String nameString;
 
   public static final String SERIALIZED_NAME_NAME_NUMBER = "name_number";
   @SerializedName(SERIALIZED_NAME_NAME_NUMBER)
-  @javax.annotation.Nullable
-  private BigDecimal nameNumber;
+  @javax.annotation.Nullable  private BigDecimal nameNumber;
 
   public static final String SERIALIZED_NAME_NAME_INTEGER = "name_integer";
   @SerializedName(SERIALIZED_NAME_NAME_INTEGER)
-  @javax.annotation.Nullable
-  private Integer nameInteger;
+  @javax.annotation.Nullable  private Integer nameInteger;
 
   public static final String SERIALIZED_NAME_NAME_BOOLEAN = "name_boolean";
   @SerializedName(SERIALIZED_NAME_NAME_BOOLEAN)
-  @javax.annotation.Nullable
-  private Boolean nameBoolean;
+  @javax.annotation.Nullable  private Boolean nameBoolean;
 
   public static final String SERIALIZED_NAME_NAME_ARRAY = "name_array";
   @SerializedName(SERIALIZED_NAME_NAME_ARRAY)
-  @javax.annotation.Nullable
-  private List<Integer> nameArray = new ArrayList<>();
+  @javax.annotation.Nullable  private List<Integer> nameArray = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_NAME_WRAPPED_ARRAY = "name_wrapped_array";
   @SerializedName(SERIALIZED_NAME_NAME_WRAPPED_ARRAY)
-  @javax.annotation.Nullable
-  private List<Integer> nameWrappedArray = new ArrayList<>();
+  @javax.annotation.Nullable  private List<Integer> nameWrappedArray = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_PREFIX_STRING = "prefix_string";
   @SerializedName(SERIALIZED_NAME_PREFIX_STRING)
-  @javax.annotation.Nullable
-  private String prefixString;
+  @javax.annotation.Nullable  private String prefixString;
 
   public static final String SERIALIZED_NAME_PREFIX_NUMBER = "prefix_number";
   @SerializedName(SERIALIZED_NAME_PREFIX_NUMBER)
-  @javax.annotation.Nullable
-  private BigDecimal prefixNumber;
+  @javax.annotation.Nullable  private BigDecimal prefixNumber;
 
   public static final String SERIALIZED_NAME_PREFIX_INTEGER = "prefix_integer";
   @SerializedName(SERIALIZED_NAME_PREFIX_INTEGER)
-  @javax.annotation.Nullable
-  private Integer prefixInteger;
+  @javax.annotation.Nullable  private Integer prefixInteger;
 
   public static final String SERIALIZED_NAME_PREFIX_BOOLEAN = "prefix_boolean";
   @SerializedName(SERIALIZED_NAME_PREFIX_BOOLEAN)
-  @javax.annotation.Nullable
-  private Boolean prefixBoolean;
+  @javax.annotation.Nullable  private Boolean prefixBoolean;
 
   public static final String SERIALIZED_NAME_PREFIX_ARRAY = "prefix_array";
   @SerializedName(SERIALIZED_NAME_PREFIX_ARRAY)
-  @javax.annotation.Nullable
-  private List<Integer> prefixArray = new ArrayList<>();
+  @javax.annotation.Nullable  private List<Integer> prefixArray = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_PREFIX_WRAPPED_ARRAY = "prefix_wrapped_array";
   @SerializedName(SERIALIZED_NAME_PREFIX_WRAPPED_ARRAY)
-  @javax.annotation.Nullable
-  private List<Integer> prefixWrappedArray = new ArrayList<>();
+  @javax.annotation.Nullable  private List<Integer> prefixWrappedArray = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_NAMESPACE_STRING = "namespace_string";
   @SerializedName(SERIALIZED_NAME_NAMESPACE_STRING)
-  @javax.annotation.Nullable
-  private String namespaceString;
+  @javax.annotation.Nullable  private String namespaceString;
 
   public static final String SERIALIZED_NAME_NAMESPACE_NUMBER = "namespace_number";
   @SerializedName(SERIALIZED_NAME_NAMESPACE_NUMBER)
-  @javax.annotation.Nullable
-  private BigDecimal namespaceNumber;
+  @javax.annotation.Nullable  private BigDecimal namespaceNumber;
 
   public static final String SERIALIZED_NAME_NAMESPACE_INTEGER = "namespace_integer";
   @SerializedName(SERIALIZED_NAME_NAMESPACE_INTEGER)
-  @javax.annotation.Nullable
-  private Integer namespaceInteger;
+  @javax.annotation.Nullable  private Integer namespaceInteger;
 
   public static final String SERIALIZED_NAME_NAMESPACE_BOOLEAN = "namespace_boolean";
   @SerializedName(SERIALIZED_NAME_NAMESPACE_BOOLEAN)
-  @javax.annotation.Nullable
-  private Boolean namespaceBoolean;
+  @javax.annotation.Nullable  private Boolean namespaceBoolean;
 
   public static final String SERIALIZED_NAME_NAMESPACE_ARRAY = "namespace_array";
   @SerializedName(SERIALIZED_NAME_NAMESPACE_ARRAY)
-  @javax.annotation.Nullable
-  private List<Integer> namespaceArray = new ArrayList<>();
+  @javax.annotation.Nullable  private List<Integer> namespaceArray = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_NAMESPACE_WRAPPED_ARRAY = "namespace_wrapped_array";
   @SerializedName(SERIALIZED_NAME_NAMESPACE_WRAPPED_ARRAY)
-  @javax.annotation.Nullable
-  private List<Integer> namespaceWrappedArray = new ArrayList<>();
+  @javax.annotation.Nullable  private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_PREFIX_NS_STRING = "prefix_ns_string";
   @SerializedName(SERIALIZED_NAME_PREFIX_NS_STRING)
-  @javax.annotation.Nullable
-  private String prefixNsString;
+  @javax.annotation.Nullable  private String prefixNsString;
 
   public static final String SERIALIZED_NAME_PREFIX_NS_NUMBER = "prefix_ns_number";
   @SerializedName(SERIALIZED_NAME_PREFIX_NS_NUMBER)
-  @javax.annotation.Nullable
-  private BigDecimal prefixNsNumber;
+  @javax.annotation.Nullable  private BigDecimal prefixNsNumber;
 
   public static final String SERIALIZED_NAME_PREFIX_NS_INTEGER = "prefix_ns_integer";
   @SerializedName(SERIALIZED_NAME_PREFIX_NS_INTEGER)
-  @javax.annotation.Nullable
-  private Integer prefixNsInteger;
+  @javax.annotation.Nullable  private Integer prefixNsInteger;
 
   public static final String SERIALIZED_NAME_PREFIX_NS_BOOLEAN = "prefix_ns_boolean";
   @SerializedName(SERIALIZED_NAME_PREFIX_NS_BOOLEAN)
-  @javax.annotation.Nullable
-  private Boolean prefixNsBoolean;
+  @javax.annotation.Nullable  private Boolean prefixNsBoolean;
 
   public static final String SERIALIZED_NAME_PREFIX_NS_ARRAY = "prefix_ns_array";
   @SerializedName(SERIALIZED_NAME_PREFIX_NS_ARRAY)
-  @javax.annotation.Nullable
-  private List<Integer> prefixNsArray = new ArrayList<>();
+  @javax.annotation.Nullable  private List<Integer> prefixNsArray = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_PREFIX_NS_WRAPPED_ARRAY = "prefix_ns_wrapped_array";
   @SerializedName(SERIALIZED_NAME_PREFIX_NS_WRAPPED_ARRAY)
-  @javax.annotation.Nullable
-  private List<Integer> prefixNsWrappedArray = new ArrayList<>();
+  @javax.annotation.Nullable  private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   public XmlItem() {
   }
@@ -190,7 +162,6 @@ public class XmlItem {
    * @return attributeString
    */
   @javax.annotation.Nullable
-
   public String getAttributeString() {
     return attributeString;
   }
@@ -211,7 +182,6 @@ public class XmlItem {
    * @return attributeNumber
    */
   @javax.annotation.Nullable
-
   public BigDecimal getAttributeNumber() {
     return attributeNumber;
   }
@@ -232,7 +202,6 @@ public class XmlItem {
    * @return attributeInteger
    */
   @javax.annotation.Nullable
-
   public Integer getAttributeInteger() {
     return attributeInteger;
   }
@@ -253,7 +222,6 @@ public class XmlItem {
    * @return attributeBoolean
    */
   @javax.annotation.Nullable
-
   public Boolean getAttributeBoolean() {
     return attributeBoolean;
   }
@@ -282,7 +250,6 @@ public class XmlItem {
    * @return wrappedArray
    */
   @javax.annotation.Nullable
-
   public List<Integer> getWrappedArray() {
     return wrappedArray;
   }
@@ -303,7 +270,6 @@ public class XmlItem {
    * @return nameString
    */
   @javax.annotation.Nullable
-
   public String getNameString() {
     return nameString;
   }
@@ -324,7 +290,6 @@ public class XmlItem {
    * @return nameNumber
    */
   @javax.annotation.Nullable
-
   public BigDecimal getNameNumber() {
     return nameNumber;
   }
@@ -345,7 +310,6 @@ public class XmlItem {
    * @return nameInteger
    */
   @javax.annotation.Nullable
-
   public Integer getNameInteger() {
     return nameInteger;
   }
@@ -366,7 +330,6 @@ public class XmlItem {
    * @return nameBoolean
    */
   @javax.annotation.Nullable
-
   public Boolean getNameBoolean() {
     return nameBoolean;
   }
@@ -395,7 +358,6 @@ public class XmlItem {
    * @return nameArray
    */
   @javax.annotation.Nullable
-
   public List<Integer> getNameArray() {
     return nameArray;
   }
@@ -424,7 +386,6 @@ public class XmlItem {
    * @return nameWrappedArray
    */
   @javax.annotation.Nullable
-
   public List<Integer> getNameWrappedArray() {
     return nameWrappedArray;
   }
@@ -445,7 +406,6 @@ public class XmlItem {
    * @return prefixString
    */
   @javax.annotation.Nullable
-
   public String getPrefixString() {
     return prefixString;
   }
@@ -466,7 +426,6 @@ public class XmlItem {
    * @return prefixNumber
    */
   @javax.annotation.Nullable
-
   public BigDecimal getPrefixNumber() {
     return prefixNumber;
   }
@@ -487,7 +446,6 @@ public class XmlItem {
    * @return prefixInteger
    */
   @javax.annotation.Nullable
-
   public Integer getPrefixInteger() {
     return prefixInteger;
   }
@@ -508,7 +466,6 @@ public class XmlItem {
    * @return prefixBoolean
    */
   @javax.annotation.Nullable
-
   public Boolean getPrefixBoolean() {
     return prefixBoolean;
   }
@@ -537,7 +494,6 @@ public class XmlItem {
    * @return prefixArray
    */
   @javax.annotation.Nullable
-
   public List<Integer> getPrefixArray() {
     return prefixArray;
   }
@@ -566,7 +522,6 @@ public class XmlItem {
    * @return prefixWrappedArray
    */
   @javax.annotation.Nullable
-
   public List<Integer> getPrefixWrappedArray() {
     return prefixWrappedArray;
   }
@@ -587,7 +542,6 @@ public class XmlItem {
    * @return namespaceString
    */
   @javax.annotation.Nullable
-
   public String getNamespaceString() {
     return namespaceString;
   }
@@ -608,7 +562,6 @@ public class XmlItem {
    * @return namespaceNumber
    */
   @javax.annotation.Nullable
-
   public BigDecimal getNamespaceNumber() {
     return namespaceNumber;
   }
@@ -629,7 +582,6 @@ public class XmlItem {
    * @return namespaceInteger
    */
   @javax.annotation.Nullable
-
   public Integer getNamespaceInteger() {
     return namespaceInteger;
   }
@@ -650,7 +602,6 @@ public class XmlItem {
    * @return namespaceBoolean
    */
   @javax.annotation.Nullable
-
   public Boolean getNamespaceBoolean() {
     return namespaceBoolean;
   }
@@ -679,7 +630,6 @@ public class XmlItem {
    * @return namespaceArray
    */
   @javax.annotation.Nullable
-
   public List<Integer> getNamespaceArray() {
     return namespaceArray;
   }
@@ -708,7 +658,6 @@ public class XmlItem {
    * @return namespaceWrappedArray
    */
   @javax.annotation.Nullable
-
   public List<Integer> getNamespaceWrappedArray() {
     return namespaceWrappedArray;
   }
@@ -729,7 +678,6 @@ public class XmlItem {
    * @return prefixNsString
    */
   @javax.annotation.Nullable
-
   public String getPrefixNsString() {
     return prefixNsString;
   }
@@ -750,7 +698,6 @@ public class XmlItem {
    * @return prefixNsNumber
    */
   @javax.annotation.Nullable
-
   public BigDecimal getPrefixNsNumber() {
     return prefixNsNumber;
   }
@@ -771,7 +718,6 @@ public class XmlItem {
    * @return prefixNsInteger
    */
   @javax.annotation.Nullable
-
   public Integer getPrefixNsInteger() {
     return prefixNsInteger;
   }
@@ -792,7 +738,6 @@ public class XmlItem {
    * @return prefixNsBoolean
    */
   @javax.annotation.Nullable
-
   public Boolean getPrefixNsBoolean() {
     return prefixNsBoolean;
   }
@@ -821,7 +766,6 @@ public class XmlItem {
    * @return prefixNsArray
    */
   @javax.annotation.Nullable
-
   public List<Integer> getPrefixNsArray() {
     return prefixNsArray;
   }
@@ -850,7 +794,6 @@ public class XmlItem {
    * @return prefixNsWrappedArray
    */
   @javax.annotation.Nullable
-
   public List<Integer> getPrefixNsWrappedArray() {
     return prefixNsWrappedArray;
   }

@@ -86,4 +86,3 @@ File.prototype['sourceURI'] = undefined;
 
 
 export default File;
-

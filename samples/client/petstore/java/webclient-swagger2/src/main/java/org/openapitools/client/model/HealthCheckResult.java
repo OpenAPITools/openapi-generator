@@ -36,10 +36,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   HealthCheckResult.JSON_PROPERTY_NULLABLE_MESSAGE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class HealthCheckResult {
   public static final String JSON_PROPERTY_NULLABLE_MESSAGE = "NullableMessage";
-  @javax.annotation.Nullable
-  private JsonNullable<String> nullableMessage = JsonNullable.<String>undefined();
+  @javax.annotation.Nullable  private JsonNullable<String> nullableMessage = JsonNullable.<String>undefined();
 
   public HealthCheckResult() {
   }
@@ -54,8 +54,7 @@ public class HealthCheckResult {
    * Get nullableMessage
    * @return nullableMessage
    */
-  @javax.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @javax.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonIgnore
 
   public String getNullableMessage() {
@@ -64,7 +63,6 @@ public class HealthCheckResult {
 
   @JsonProperty(JSON_PROPERTY_NULLABLE_MESSAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<String> getNullableMessage_JsonNullable() {
     return nullableMessage;
   }

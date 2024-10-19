@@ -158,4 +158,3 @@ class ObjectWithDeprecatedFields {
   static const requiredKeys = <String>{
   };
 }
-

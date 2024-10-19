@@ -36,6 +36,7 @@ import jakarta.validation.Valid;
   EnumArrays.JSON_PROPERTY_ARRAY_ENUM
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class EnumArrays {
   /**
    * Gets or Sets justSymbol
@@ -71,10 +72,8 @@ public class EnumArrays {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_JUST_SYMBOL = "just_symbol";
-  @jakarta.annotation.Nullable
-  private JustSymbolEnum justSymbol;
+  @jakarta.annotation.Nullable  private JustSymbolEnum justSymbol;
 
   /**
    * Gets or Sets arrayEnum
@@ -110,10 +109,8 @@ public class EnumArrays {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
-  @jakarta.annotation.Nullable
-  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
+  @jakarta.annotation.Nullable  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays() {
   }
@@ -128,9 +125,7 @@ public class EnumArrays {
    * Get justSymbol
    * @return justSymbol
    */
-  @jakarta.annotation.Nullable
-
-  @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JustSymbolEnum getJustSymbol() {
@@ -162,9 +157,7 @@ public class EnumArrays {
    * Get arrayEnum
    * @return arrayEnum
    */
-  @jakarta.annotation.Nullable
-
-  @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<ArrayEnumEnum> getArrayEnum() {

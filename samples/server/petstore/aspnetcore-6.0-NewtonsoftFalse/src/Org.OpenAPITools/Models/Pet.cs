@@ -19,7 +19,7 @@ using System.Text.Json;
 using Org.OpenAPITools.Converters;
 
 namespace Org.OpenAPITools.Models
-{ 
+{
     /// <summary>
     /// A pet for sale in the pet store
     /// </summary>
@@ -86,7 +86,6 @@ namespace Org.OpenAPITools.Models
             [EnumMember(Value = "sold")]
             SoldEnum = 3
         }
-
         /// <summary>
         /// pet status in the store
         /// </summary>

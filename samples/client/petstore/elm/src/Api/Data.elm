@@ -223,7 +223,6 @@ encodeOrderStatus =
     Json.Encode.string << stringFromOrder_Status
 
 
-
 encodePet : Pet -> Json.Encode.Value
 encodePet =
     encodeObject << encodePetPairs
@@ -264,7 +263,6 @@ stringFromPetStatus model =
 encodePetStatus : PetStatus -> Json.Encode.Value
 encodePetStatus =
     Json.Encode.string << stringFromPetStatus
-
 
 
 encodeTag : Tag -> Json.Encode.Value
@@ -364,7 +362,6 @@ orderStatusDecoder =
             )
 
 
-
 petDecoder : Json.Decode.Decoder Pet
 petDecoder =
     Json.Decode.succeed Pet
@@ -394,7 +391,6 @@ petStatusDecoder =
                     other ->
                         Json.Decode.fail <| "Unknown type: " ++ other
             )
-
 
 
 tagDecoder : Json.Decode.Decoder Tag

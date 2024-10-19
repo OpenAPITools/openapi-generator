@@ -198,7 +198,6 @@ void Another_fakeDummyResource::handler_PATCH_internal(const std::shared_ptr<res
     }
     defaultSessionClose(session, status_code, result);
     
-    
 }
 
 

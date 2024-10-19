@@ -10,4 +10,3 @@
 |**declawed** | **Boolean** |  |  [optional] |
 
 
-

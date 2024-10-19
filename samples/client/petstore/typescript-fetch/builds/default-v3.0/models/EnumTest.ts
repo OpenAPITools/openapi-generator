@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { OuterEnum } from './OuterEnum';
 import {
@@ -137,7 +136,6 @@ export const EnumTestEnumNumberEnum = {
 } as const;
 export type EnumTestEnumNumberEnum = typeof EnumTestEnumNumberEnum[keyof typeof EnumTestEnumNumberEnum];
 
-
 /**
  * Check if a given object implements the EnumTest interface.
  */
@@ -188,4 +186,3 @@ export function EnumTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'outerEnumIntegerDefaultValue': OuterEnumIntegerDefaultValueToJSON(value['outerEnumIntegerDefaultValue']),
     };
 }
-

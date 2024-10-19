@@ -10,7 +10,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { exists, mapValues } from '../runtime';
 /**
  * An order for a pets from the pet store
@@ -90,5 +89,4 @@ export enum OrderStatusEnum {
     Approved = 'approved',
     Delivered = 'delivered'
 }
-
 

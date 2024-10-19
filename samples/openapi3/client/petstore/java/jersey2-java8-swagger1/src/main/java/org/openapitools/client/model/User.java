@@ -286,7 +286,6 @@ public class User {
     this.userStatus = userStatus;
   }
 
-
   /**
    * Return true if this User object is equal to o.
    */

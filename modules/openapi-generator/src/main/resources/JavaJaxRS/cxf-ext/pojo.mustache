@@ -17,21 +17,35 @@ import com.fasterxml.jackson.annotation.JsonProperty;
     { {{#vars}}"{{name}}"{{^-last}}, {{/-last}}{{/vars}}
 }){{/hasVars}}
 {{^hasVars}}@XmlType(name = "{{classname}}"){{/hasVars}}
-{{^parent}}@XmlRootElement(name="{{classname}}"){{/parent}}
+{{^parent}}
+@XmlRootElement(name="{{classname}}")
+{{/parent}}
 {{/withXml}}
-{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{#description}}
+{{#discriminator}}
+{{>typeInfoAnnotation}}
+{{/discriminator}}
+{{#description}}
 /**
  * {{{description}}}
  */
 @ApiModel(description="{{{description}}}")
-{{/description}}{{>additionalModelTypeAnnotations}}
+{{/description}}
+{{>additionalModelTypeAnnotations}}
 {{#vendorExtensions.x-class-extra-annotation}}
 {{{vendorExtensions.x-class-extra-annotation}}}
 {{/vendorExtensions.x-class-extra-annotation}}
 public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensions.x-implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
-  {{#vars}}{{#isEnum}}{{^isContainer}}
-{{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
-{{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
+  {{#vars}}
+  {{#isEnum}}
+  {{^isContainer}}
+{{>enumClass}}
+  {{/isContainer}}
+  {{#isContainer}}
+  {{#mostInnerItems}}
+{{>enumClass}}
+  {{/mostInnerItems}}
+  {{/isContainer}}
+  {{/isEnum}}
 {{#description}}
  /**
   * {{{.}}}

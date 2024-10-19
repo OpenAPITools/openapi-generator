@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { ResponseMeta } from './ResponseMeta';
 import {
@@ -40,7 +39,6 @@ export interface GetBehaviorPermissionsResponse {
      */
     data?: { [key: string]: boolean; };
 }
-
 /**
  * Check if a given object implements the GetBehaviorPermissionsResponse interface.
  */
@@ -79,4 +77,3 @@ export function GetBehaviorPermissionsResponseFromJSONTyped(json: any, ignoreDis
         'data': value['data'],
     };
 }
-

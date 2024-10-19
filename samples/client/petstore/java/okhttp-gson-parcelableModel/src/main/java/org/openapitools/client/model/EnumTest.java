@@ -52,6 +52,7 @@ import org.openapitools.client.JSON;
  * EnumTest
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class EnumTest implements Parcelable {
   /**
    * Gets or Sets enumString
@@ -106,11 +107,9 @@ public class EnumTest implements Parcelable {
       EnumStringEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_ENUM_STRING = "enum_string";
   @SerializedName(SERIALIZED_NAME_ENUM_STRING)
-  @javax.annotation.Nullable
-  private EnumStringEnum enumString;
+  @javax.annotation.Nullable  private EnumStringEnum enumString;
 
   /**
    * Gets or Sets enumStringRequired
@@ -165,11 +164,9 @@ public class EnumTest implements Parcelable {
       EnumStringRequiredEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_ENUM_STRING_REQUIRED = "enum_string_required";
   @SerializedName(SERIALIZED_NAME_ENUM_STRING_REQUIRED)
-  @javax.annotation.Nonnull
-  private EnumStringRequiredEnum enumStringRequired;
+  @javax.annotation.Nonnull  private EnumStringRequiredEnum enumStringRequired;
 
   /**
    * Gets or Sets enumInteger
@@ -222,11 +219,9 @@ public class EnumTest implements Parcelable {
       EnumIntegerEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_ENUM_INTEGER = "enum_integer";
   @SerializedName(SERIALIZED_NAME_ENUM_INTEGER)
-  @javax.annotation.Nullable
-  private EnumIntegerEnum enumInteger;
+  @javax.annotation.Nullable  private EnumIntegerEnum enumInteger;
 
   /**
    * Gets or Sets enumNumber
@@ -279,16 +274,13 @@ public class EnumTest implements Parcelable {
       EnumNumberEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_ENUM_NUMBER = "enum_number";
   @SerializedName(SERIALIZED_NAME_ENUM_NUMBER)
-  @javax.annotation.Nullable
-  private EnumNumberEnum enumNumber;
+  @javax.annotation.Nullable  private EnumNumberEnum enumNumber;
 
   public static final String SERIALIZED_NAME_OUTER_ENUM = "outerEnum";
   @SerializedName(SERIALIZED_NAME_OUTER_ENUM)
-  @javax.annotation.Nullable
-  private OuterEnum outerEnum;
+  @javax.annotation.Nullable  private OuterEnum outerEnum;
 
   public EnumTest() {
   }
@@ -302,8 +294,7 @@ public class EnumTest implements Parcelable {
    * Get enumString
    * @return enumString
    */
-  @javax.annotation.Nullable
-  public EnumStringEnum getEnumString() {
+  @javax.annotation.Nullable  public EnumStringEnum getEnumString() {
     return enumString;
   }
 
@@ -321,8 +312,7 @@ public class EnumTest implements Parcelable {
    * Get enumStringRequired
    * @return enumStringRequired
    */
-  @javax.annotation.Nonnull
-  public EnumStringRequiredEnum getEnumStringRequired() {
+  @javax.annotation.Nonnull  public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
 
@@ -340,8 +330,7 @@ public class EnumTest implements Parcelable {
    * Get enumInteger
    * @return enumInteger
    */
-  @javax.annotation.Nullable
-  public EnumIntegerEnum getEnumInteger() {
+  @javax.annotation.Nullable  public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
 
@@ -359,8 +348,7 @@ public class EnumTest implements Parcelable {
    * Get enumNumber
    * @return enumNumber
    */
-  @javax.annotation.Nullable
-  public EnumNumberEnum getEnumNumber() {
+  @javax.annotation.Nullable  public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
 
@@ -378,15 +366,13 @@ public class EnumTest implements Parcelable {
    * Get outerEnum
    * @return outerEnum
    */
-  @javax.annotation.Nullable
-  public OuterEnum getOuterEnum() {
+  @javax.annotation.Nullable  public OuterEnum getOuterEnum() {
     return outerEnum;
   }
 
   public void setOuterEnum(@javax.annotation.Nullable OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
   }
-
 
 
   @Override

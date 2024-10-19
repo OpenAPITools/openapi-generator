@@ -149,4 +149,3 @@ class OuterComposite {
   static const requiredKeys = <String>{
   };
 }
-

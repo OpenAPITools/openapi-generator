@@ -22,7 +22,6 @@ import java.util.Map;
 
 
 
-
 public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<String, Object> {
   
   private String someProperty;
@@ -72,4 +71,3 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
     return o.toString().replace("\n", "\n    ");
   }
 }
-

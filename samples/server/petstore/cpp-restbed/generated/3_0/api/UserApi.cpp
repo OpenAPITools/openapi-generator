@@ -194,7 +194,6 @@ void UserResource::handler_POST_internal(const std::shared_ptr<restbed::Session>
     }
     defaultSessionClose(session, status_code, result);
     
-    
 }
 
 
@@ -307,7 +306,6 @@ void UserCreateWithArrayResource::handler_POST_internal(const std::shared_ptr<re
     }
     defaultSessionClose(session, status_code, result);
     
-    
 }
 
 
@@ -419,7 +417,6 @@ void UserCreateWithListResource::handler_POST_internal(const std::shared_ptr<res
         return;
     }
     defaultSessionClose(session, status_code, result);
-    
     
 }
 
@@ -544,7 +541,6 @@ void UserUsernameResource::handler_DELETE_internal(const std::shared_ptr<restbed
     }
     defaultSessionClose(session, status_code, result);
     
-    
 }
 
 // x-extension
@@ -604,7 +600,6 @@ void UserUsernameResource::handler_GET_internal(const std::shared_ptr<restbed::S
     }
     defaultSessionClose(session, status_code, result);
     
-    
 }
 // x-extension
 void UserUsernameResource::handler_PUT_internal(const std::shared_ptr<restbed::Session> session) {
@@ -655,7 +650,6 @@ void UserUsernameResource::handler_PUT_internal(const std::shared_ptr<restbed::S
         return;
     }
     defaultSessionClose(session, status_code, result);
-    
     
 }
 
@@ -792,7 +786,6 @@ void UserLoginResource::handler_GET_internal(const std::shared_ptr<restbed::Sess
     }
     defaultSessionClose(session, status_code, result);
     
-    
 }
 
 
@@ -900,7 +893,6 @@ void UserLogoutResource::handler_GET_internal(const std::shared_ptr<restbed::Ses
         return;
     }
     defaultSessionClose(session, status_code, result);
-    
     
 }
 

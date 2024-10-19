@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 import type { ItemId } from './ItemId';
 import {
@@ -52,7 +51,6 @@ export interface ModelError {
      */
     exception?: string;
 }
-
 /**
  * Check if a given object implements the ModelError interface.
  */
@@ -95,4 +93,3 @@ export function ModelErrorFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'exception': value['exception'],
     };
 }
-

@@ -48,7 +48,6 @@ namespace Org.OpenAPITools.Model
             [EnumMember(Value = "lower")]
             Lower = 2
         }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MapTest" /> class.
         /// </summary>

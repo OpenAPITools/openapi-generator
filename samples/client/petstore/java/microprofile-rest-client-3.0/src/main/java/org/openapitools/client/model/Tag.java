@@ -26,7 +26,6 @@ import jakarta.json.bind.annotation.JsonbProperty;
 /**
   * A tag for a pet
   */
-
 public class Tag  {
   
   @JsonbProperty("id")
@@ -101,4 +100,3 @@ public class Tag  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

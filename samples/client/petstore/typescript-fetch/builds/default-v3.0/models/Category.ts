@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * 
@@ -32,7 +31,6 @@ export interface Category {
      */
     name: string;
 }
-
 /**
  * Check if a given object implements the Category interface.
  */
@@ -71,4 +69,3 @@ export function CategoryFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'name': value['name'],
     };
 }
-

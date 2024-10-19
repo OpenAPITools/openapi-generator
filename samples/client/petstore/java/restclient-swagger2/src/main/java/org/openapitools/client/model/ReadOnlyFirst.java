@@ -32,14 +32,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ReadOnlyFirst.JSON_PROPERTY_BAZ
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class ReadOnlyFirst {
   public static final String JSON_PROPERTY_BAR = "bar";
-  @jakarta.annotation.Nullable
-  private String bar;
+  @jakarta.annotation.Nullable  private String bar;
 
   public static final String JSON_PROPERTY_BAZ = "baz";
-  @jakarta.annotation.Nullable
-  private String baz;
+  @jakarta.annotation.Nullable  private String baz;
 
   public ReadOnlyFirst() {
   }
@@ -58,8 +57,7 @@ public class ReadOnlyFirst {
    * Get bar
    * @return bar
    */
-  @jakarta.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @jakarta.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_BAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -79,8 +77,7 @@ public class ReadOnlyFirst {
    * Get baz
    * @return baz
    */
-  @jakarta.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @jakarta.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_BAZ)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

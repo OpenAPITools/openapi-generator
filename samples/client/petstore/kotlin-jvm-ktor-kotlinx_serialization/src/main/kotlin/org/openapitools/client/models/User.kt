@@ -33,7 +33,6 @@ import kotlinx.serialization.Contextual
  * @param userStatus User Status
  */
 @Serializable
-
 data class User (
 
     @SerialName(value = "id")

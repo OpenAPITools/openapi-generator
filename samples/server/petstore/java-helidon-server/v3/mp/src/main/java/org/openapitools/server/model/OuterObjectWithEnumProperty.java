@@ -23,7 +23,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
 public class OuterObjectWithEnumProperty  {
   
   private OuterEnumInteger value;
@@ -74,4 +73,3 @@ public class OuterObjectWithEnumProperty  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

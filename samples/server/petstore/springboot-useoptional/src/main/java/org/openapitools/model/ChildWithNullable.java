@@ -25,8 +25,6 @@ import javax.annotation.Generated;
 /**
  * ChildWithNullable
  */
-
-
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ChildWithNullable extends ParentWithNullable {
 
@@ -41,8 +39,7 @@ public class ChildWithNullable extends ParentWithNullable {
    * Get otherProperty
    * @return otherProperty
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("otherProperty")
   public Optional<String> getOtherProperty() {
     return otherProperty;
@@ -51,7 +48,6 @@ public class ChildWithNullable extends ParentWithNullable {
   public void setOtherProperty(Optional<String> otherProperty) {
     this.otherProperty = otherProperty;
   }
-
 
   public ChildWithNullable type(TypeEnum type) {
     super.type(type);
@@ -112,82 +108,81 @@ public class ChildWithNullable extends ParentWithNullable {
     return o.toString().replace("\n", "\n    ");
   }
   
-  public static class Builder extends ParentWithNullable.Builder {
-
-    private ChildWithNullable instance;
-
-    public Builder() {
-      this(new ChildWithNullable());
-    }
-
-    protected Builder(ChildWithNullable instance) {
-      super(instance); // the parent builder shares the same instance
-      this.instance = instance;
-    }
-
-    protected Builder copyOf(ChildWithNullable value) { 
-      super.copyOf(value);
-      this.instance.setOtherProperty(value.otherProperty);
-      return this;
-    }
-
-    public ChildWithNullable.Builder otherProperty(String otherProperty) {
-      this.instance.otherProperty(otherProperty);
-      return this;
-    }
-    
-    @Override
-    public ChildWithNullable.Builder type(TypeEnum type) {
-      this.instance.type(type);
-      return this;
-    }
-    
-    @Override
-    public ChildWithNullable.Builder nullableProperty(String nullableProperty) {
-      this.instance.nullableProperty(nullableProperty);
-      return this;
-    }
-    
-    public ChildWithNullable.Builder nullableProperty(JsonNullable<String> nullableProperty) {
-      this.instance.setNullableProperty(nullableProperty);
-      return this;
-    }
-    
-    /**
-    * returns a built ChildWithNullable instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public ChildWithNullable build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        super.build();
-        this.instance = null;
+    public static class Builder extends ParentWithNullable.Builder {
+  
+      private ChildWithNullable instance;
+  
+      public Builder() {
+        this(new ChildWithNullable());
+      }
+  
+      protected Builder(ChildWithNullable instance) {
+        super(instance); // the parent builder shares the same instance
+        this.instance = instance;
+      }
+  
+      protected Builder copyOf(ChildWithNullable value) { 
+        super.copyOf(value);
+        this.instance.setOtherProperty(value.otherProperty);
+        return this;
+      }
+  
+        public ChildWithNullable.Builder otherProperty(String otherProperty) {
+        this.instance.otherProperty(otherProperty);
+        return this;
+      }
+      
+        @Override
+      public ChildWithNullable.Builder type(TypeEnum type) {
+        this.instance.type(type);
+        return this;
+      }
+      
+      @Override
+      public ChildWithNullable.Builder nullableProperty(String nullableProperty) {
+        this.instance.nullableProperty(nullableProperty);
+        return this;
+      }
+      
+      public ChildWithNullable.Builder nullableProperty(JsonNullable<String> nullableProperty) {
+        this.instance.setNullableProperty(nullableProperty);
+        return this;
+      }
+      
+        /**
+      * returns a built ChildWithNullable instance.
+      *
+      * The builder is not reusable (NullPointerException)
+      */
+      public ChildWithNullable build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          super.build();
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field (except for the default values).
+    */
+    public static ChildWithNullable.Builder builder() {
+      return new ChildWithNullable.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field (except for the default values).
-  */
-  public static ChildWithNullable.Builder builder() {
-    return new ChildWithNullable.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public ChildWithNullable.Builder toBuilder() {
-    ChildWithNullable.Builder builder = new ChildWithNullable.Builder();
-    return builder.copyOf(this);
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public ChildWithNullable.Builder toBuilder() {
+      ChildWithNullable.Builder builder = new ChildWithNullable.Builder();
+      return builder.copyOf(this);
+    }
 }
 

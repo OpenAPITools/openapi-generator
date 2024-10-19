@@ -23,7 +23,6 @@ import javax.annotation.Generated;
 /**
  * EnumArraysDto
  */
-
 @JsonTypeName("EnumArrays")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class EnumArraysDto {
@@ -62,7 +61,6 @@ public class EnumArraysDto {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   private JustSymbolEnum justSymbol;
 
   /**
@@ -99,7 +97,6 @@ public class EnumArraysDto {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   @Valid
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
@@ -112,8 +109,7 @@ public class EnumArraysDto {
    * Get justSymbol
    * @return justSymbol
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("just_symbol")
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
@@ -140,8 +136,7 @@ public class EnumArraysDto {
    * Get arrayEnum
    * @return arrayEnum
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("array_enum")
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
@@ -150,7 +145,6 @@ public class EnumArraysDto {
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

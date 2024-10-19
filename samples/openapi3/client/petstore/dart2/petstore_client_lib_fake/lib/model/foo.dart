@@ -105,4 +105,3 @@ class Foo {
   static const requiredKeys = <String>{
   };
 }
-

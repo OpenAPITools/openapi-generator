@@ -85,4 +85,3 @@ class OuterEnumIntegerDefaultValueTypeTransformer {
   /// Singleton [OuterEnumIntegerDefaultValueTypeTransformer] instance.
   static OuterEnumIntegerDefaultValueTypeTransformer? _instance;
 }
-

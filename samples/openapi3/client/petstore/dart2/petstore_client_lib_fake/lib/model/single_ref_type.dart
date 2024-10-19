@@ -82,4 +82,3 @@ class SingleRefTypeTypeTransformer {
   /// Singleton [SingleRefTypeTypeTransformer] instance.
   static SingleRefTypeTypeTransformer? _instance;
 }
-

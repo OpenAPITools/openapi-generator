@@ -16,7 +16,6 @@ import jakarta.annotation.Generated;
 /**
  * TagDto
  */
-
 @JsonTypeName("Tag")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class TagDto {
@@ -62,7 +61,6 @@ public class TagDto {
   public void setName(String name) {
     this.name = name;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

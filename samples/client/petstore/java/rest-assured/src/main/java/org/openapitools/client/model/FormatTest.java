@@ -34,76 +34,63 @@ import org.hibernate.validator.constraints.*;
  * FormatTest
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class FormatTest {
   public static final String SERIALIZED_NAME_INTEGER = "integer";
   @SerializedName(SERIALIZED_NAME_INTEGER)
-  @javax.annotation.Nullable
-  private Integer integer;
+  @javax.annotation.Nullable  private Integer integer;
 
   public static final String SERIALIZED_NAME_INT32 = "int32";
   @SerializedName(SERIALIZED_NAME_INT32)
-  @javax.annotation.Nullable
-  private Integer int32;
+  @javax.annotation.Nullable  private Integer int32;
 
   public static final String SERIALIZED_NAME_INT64 = "int64";
   @SerializedName(SERIALIZED_NAME_INT64)
-  @javax.annotation.Nullable
-  private Long int64;
+  @javax.annotation.Nullable  private Long int64;
 
   public static final String SERIALIZED_NAME_NUMBER = "number";
   @SerializedName(SERIALIZED_NAME_NUMBER)
-  @javax.annotation.Nonnull
-  private BigDecimal number;
+  @javax.annotation.Nonnull  private BigDecimal number;
 
   public static final String SERIALIZED_NAME_FLOAT = "float";
   @SerializedName(SERIALIZED_NAME_FLOAT)
-  @javax.annotation.Nullable
-  private Float _float;
+  @javax.annotation.Nullable  private Float _float;
 
   public static final String SERIALIZED_NAME_DOUBLE = "double";
   @SerializedName(SERIALIZED_NAME_DOUBLE)
-  @javax.annotation.Nullable
-  private Double _double;
+  @javax.annotation.Nullable  private Double _double;
 
   public static final String SERIALIZED_NAME_STRING = "string";
   @SerializedName(SERIALIZED_NAME_STRING)
-  @javax.annotation.Nullable
-  private String string;
+  @javax.annotation.Nullable  private String string;
 
   public static final String SERIALIZED_NAME_BYTE = "byte";
   @SerializedName(SERIALIZED_NAME_BYTE)
-  @javax.annotation.Nonnull
-  private byte[] _byte;
+  @javax.annotation.Nonnull  private byte[] _byte;
 
   public static final String SERIALIZED_NAME_BINARY = "binary";
   @SerializedName(SERIALIZED_NAME_BINARY)
-  @javax.annotation.Nullable
-  private File binary;
+  @javax.annotation.Nullable  private File binary;
 
   public static final String SERIALIZED_NAME_DATE = "date";
   @SerializedName(SERIALIZED_NAME_DATE)
-  @javax.annotation.Nonnull
-  private LocalDate date;
+  @javax.annotation.Nonnull  private LocalDate date;
 
   public static final String SERIALIZED_NAME_DATE_TIME = "dateTime";
   @SerializedName(SERIALIZED_NAME_DATE_TIME)
-  @javax.annotation.Nullable
-  private OffsetDateTime dateTime;
+  @javax.annotation.Nullable  private OffsetDateTime dateTime;
 
   public static final String SERIALIZED_NAME_UUID = "uuid";
   @SerializedName(SERIALIZED_NAME_UUID)
-  @javax.annotation.Nullable
-  private UUID uuid;
+  @javax.annotation.Nullable  private UUID uuid;
 
   public static final String SERIALIZED_NAME_PASSWORD = "password";
   @SerializedName(SERIALIZED_NAME_PASSWORD)
-  @javax.annotation.Nonnull
-  private String password;
+  @javax.annotation.Nonnull  private String password;
 
   public static final String SERIALIZED_NAME_BIG_DECIMAL = "BigDecimal";
   @SerializedName(SERIALIZED_NAME_BIG_DECIMAL)
-  @javax.annotation.Nullable
-  private BigDecimal bigDecimal;
+  @javax.annotation.Nullable  private BigDecimal bigDecimal;
 
   public FormatTest() {
   }
@@ -120,9 +107,7 @@ public class FormatTest {
    * maximum: 100
    * @return integer
    */
-  @javax.annotation.Nullable
- @Min(10) @Max(100)
-
+  @javax.annotation.Nullable @Min(10) @Max(100)
   public Integer getInteger() {
     return integer;
   }
@@ -144,9 +129,7 @@ public class FormatTest {
    * maximum: 200
    * @return int32
    */
-  @javax.annotation.Nullable
- @Min(20) @Max(200)
-
+  @javax.annotation.Nullable @Min(20) @Max(200)
   public Integer getInt32() {
     return int32;
   }
@@ -167,8 +150,6 @@ public class FormatTest {
    * @return int64
    */
   @javax.annotation.Nullable
-
-
   public Long getInt64() {
     return int64;
   }
@@ -190,11 +171,9 @@ public class FormatTest {
    * maximum: 543.2
    * @return number
    */
-  @javax.annotation.Nonnull
-  @NotNull
+  @javax.annotation.Nonnull  @NotNull
   @Valid
  @DecimalMin("32.1") @DecimalMax("543.2")
-
   public BigDecimal getNumber() {
     return number;
   }
@@ -216,9 +195,7 @@ public class FormatTest {
    * maximum: 987.6
    * @return _float
    */
-  @javax.annotation.Nullable
- @DecimalMin("54.3") @DecimalMax("987.6")
-
+  @javax.annotation.Nullable @DecimalMin("54.3") @DecimalMax("987.6")
   public Float getFloat() {
     return _float;
   }
@@ -240,9 +217,7 @@ public class FormatTest {
    * maximum: 123.4
    * @return _double
    */
-  @javax.annotation.Nullable
- @DecimalMin("67.8") @DecimalMax("123.4")
-
+  @javax.annotation.Nullable @DecimalMin("67.8") @DecimalMax("123.4")
   public Double getDouble() {
     return _double;
   }
@@ -262,9 +237,7 @@ public class FormatTest {
    * Get string
    * @return string
    */
-  @javax.annotation.Nullable
- @Pattern(regexp="/[a-z]/i")
-
+  @javax.annotation.Nullable @Pattern(regexp="/[a-z]/i")
   public String getString() {
     return string;
   }
@@ -284,9 +257,7 @@ public class FormatTest {
    * Get _byte
    * @return _byte
    */
-  @javax.annotation.Nonnull
-  @NotNull
-
+  @javax.annotation.Nonnull  @NotNull
 
   public byte[] getByte() {
     return _byte;
@@ -307,9 +278,7 @@ public class FormatTest {
    * Get binary
    * @return binary
    */
-  @javax.annotation.Nullable
-  @Valid
-
+  @javax.annotation.Nullable  @Valid
 
   public File getBinary() {
     return binary;
@@ -330,10 +299,8 @@ public class FormatTest {
    * Get date
    * @return date
    */
-  @javax.annotation.Nonnull
-  @NotNull
+  @javax.annotation.Nonnull  @NotNull
   @Valid
-
 
   public LocalDate getDate() {
     return date;
@@ -354,9 +321,7 @@ public class FormatTest {
    * Get dateTime
    * @return dateTime
    */
-  @javax.annotation.Nullable
-  @Valid
-
+  @javax.annotation.Nullable  @Valid
 
   public OffsetDateTime getDateTime() {
     return dateTime;
@@ -377,9 +342,7 @@ public class FormatTest {
    * Get uuid
    * @return uuid
    */
-  @javax.annotation.Nullable
-  @Valid
-
+  @javax.annotation.Nullable  @Valid
 
   public UUID getUuid() {
     return uuid;
@@ -400,10 +363,8 @@ public class FormatTest {
    * Get password
    * @return password
    */
-  @javax.annotation.Nonnull
-  @NotNull
+  @javax.annotation.Nonnull  @NotNull
  @Size(min=10,max=64)
-
   public String getPassword() {
     return password;
   }
@@ -423,9 +384,7 @@ public class FormatTest {
    * Get bigDecimal
    * @return bigDecimal
    */
-  @javax.annotation.Nullable
-  @Valid
-
+  @javax.annotation.Nullable  @Valid
 
   public BigDecimal getBigDecimal() {
     return bigDecimal;

@@ -12,7 +12,6 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * Warning code returned when a potential problem is detected
  * @export
@@ -51,4 +50,3 @@ export function WarningCodeToJSON(value?: WarningCode | null): any {
 export function WarningCodeToJSONTyped(value: any, ignoreDiscriminator: boolean): WarningCode {
     return value as WarningCode;
 }
-

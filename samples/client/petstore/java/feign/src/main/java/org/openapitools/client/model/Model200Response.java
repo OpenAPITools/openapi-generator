@@ -95,7 +95,6 @@ public class Model200Response {
     this.propertyClass = propertyClass;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

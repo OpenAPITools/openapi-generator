@@ -32,14 +32,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ReadOnlyFirst.JSON_PROPERTY_BAZ
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class ReadOnlyFirst {
   public static final String JSON_PROPERTY_BAR = "bar";
-  @javax.annotation.Nullable
-  private String bar;
+  @javax.annotation.Nullable  private String bar;
 
   public static final String JSON_PROPERTY_BAZ = "baz";
-  @javax.annotation.Nullable
-  private String baz;
+  @javax.annotation.Nullable  private String baz;
 
   public ReadOnlyFirst() {
   }
@@ -58,8 +57,7 @@ public class ReadOnlyFirst {
    * Get bar
    * @return bar
    */
-  @javax.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @javax.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_BAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -79,8 +77,7 @@ public class ReadOnlyFirst {
    * Get baz
    * @return baz
    */
-  @javax.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @javax.annotation.Nullable  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_BAZ)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

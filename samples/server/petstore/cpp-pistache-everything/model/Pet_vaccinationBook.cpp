@@ -48,7 +48,7 @@ bool Pet_vaccinationBook::validate(std::stringstream& msg, const std::string& pa
     /* Vaccines */ {
         const std::set<org::openapitools::server::model::Vaccine>& value = m_Vaccines;
         const std::string currentValuePath = _pathPrefix + ".vaccines";
-                
+        
         
         if (!org::openapitools::server::helpers::hasOnlyUniqueItems(value))
         {
@@ -67,7 +67,6 @@ bool Pet_vaccinationBook::validate(std::stringstream& msg, const std::string& pa
                 i++;
             }
         }
-
     }
     
     return success;

@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * 
@@ -26,7 +25,6 @@ export interface ArrayOfNumberOnly {
      */
     arrayNumber?: Array<number>;
 }
-
 /**
  * Check if a given object implements the ArrayOfNumberOnly interface.
  */
@@ -62,4 +60,3 @@ export function ArrayOfNumberOnlyFromJSONTyped(json: any, ignoreDiscriminator: b
         'ArrayNumber': value['arrayNumber'],
     };
 }
-

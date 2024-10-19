@@ -49,6 +49,7 @@ import org.openapitools.client.JSON;
  * An object to test discriminator of enum string
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class EnumStringDiscriminator {
   /**
    * enum string type
@@ -101,11 +102,9 @@ public class EnumStringDiscriminator {
       EnumStrTypeEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_ENUM_STR_TYPE = "enum_str_type";
   @SerializedName(SERIALIZED_NAME_ENUM_STR_TYPE)
-  @javax.annotation.Nonnull
-  protected EnumStrTypeEnum enumStrType;
+  @javax.annotation.Nonnull  protected EnumStrTypeEnum enumStrType;
 
   public EnumStringDiscriminator() {
   }
@@ -119,8 +118,7 @@ public class EnumStringDiscriminator {
    * enum string type
    * @return enumStrType
    */
-  @javax.annotation.Nonnull
-  public EnumStrTypeEnum getEnumStrType() {
+  @javax.annotation.Nonnull  public EnumStrTypeEnum getEnumStrType() {
     return enumStrType;
   }
 
@@ -172,7 +170,6 @@ public class EnumStringDiscriminator {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

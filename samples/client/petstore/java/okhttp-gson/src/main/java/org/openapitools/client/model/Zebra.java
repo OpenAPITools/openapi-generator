@@ -49,6 +49,7 @@ import org.openapitools.client.JSON;
  * Zebra
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Zebra {
   /**
    * Gets or Sets type
@@ -103,16 +104,13 @@ public class Zebra {
       TypeEnum.fromValue(value);
     }
   }
-
   public static final String SERIALIZED_NAME_TYPE = "type";
   @SerializedName(SERIALIZED_NAME_TYPE)
-  @javax.annotation.Nullable
-  private TypeEnum type;
+  @javax.annotation.Nullable  private TypeEnum type;
 
   public static final String SERIALIZED_NAME_CLASS_NAME = "className";
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
-  @javax.annotation.Nonnull
-  private String className;
+  @javax.annotation.Nonnull  private String className;
 
   public Zebra() {
   }
@@ -126,8 +124,7 @@ public class Zebra {
    * Get type
    * @return type
    */
-  @javax.annotation.Nullable
-  public TypeEnum getType() {
+  @javax.annotation.Nullable  public TypeEnum getType() {
     return type;
   }
 
@@ -145,8 +142,7 @@ public class Zebra {
    * Get className
    * @return className
    */
-  @javax.annotation.Nonnull
-  public String getClassName() {
+  @javax.annotation.Nonnull  public String getClassName() {
     return className;
   }
 
@@ -198,7 +194,6 @@ public class Zebra {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

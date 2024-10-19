@@ -70,7 +70,6 @@ fun Route.UserApi() {
             "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
             else -> call.respondText(exampleContentString)
         }
-        
     }
 
     get<Paths.loginUser> {

@@ -55,8 +55,7 @@ class UserApiEndpointsImpl[F[*]: Concurrent](
       queryParameters = Nil,
       requestHeaders = requestHeaders,
       auth = Some(auth)) {
-        r => Concurrent[F].pure(())
-    }
+        r => Concurrent[F].pure(())    }
   }
 
   override def createUsersWithArrayInput(user: Seq[User])(implicit auth: _Authorization.ApiKey): F[Unit] = {
@@ -72,8 +71,7 @@ class UserApiEndpointsImpl[F[*]: Concurrent](
       queryParameters = Nil,
       requestHeaders = requestHeaders,
       auth = Some(auth)) {
-        r => Concurrent[F].pure(())
-    }
+        r => Concurrent[F].pure(())    }
   }
 
   override def createUsersWithListInput(user: Seq[User])(implicit auth: _Authorization.ApiKey): F[Unit] = {
@@ -89,8 +87,7 @@ class UserApiEndpointsImpl[F[*]: Concurrent](
       queryParameters = Nil,
       requestHeaders = requestHeaders,
       auth = Some(auth)) {
-        r => Concurrent[F].pure(())
-    }
+        r => Concurrent[F].pure(())    }
   }
 
   override def deleteUser(username: String)(implicit auth: _Authorization.ApiKey): F[Unit] = {
@@ -107,9 +104,8 @@ class UserApiEndpointsImpl[F[*]: Concurrent](
       requestHeaders = requestHeaders,
       auth = Some(auth)) {
         
-        case r if r.status.code == 400 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
-        case r if r.status.code == 404 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
-    }
+                case r if r.status.code == 400 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
+                case r if r.status.code == 404 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))    }
   }
 
   override def getUserByName(username: String): F[User] = {
@@ -126,10 +122,9 @@ class UserApiEndpointsImpl[F[*]: Concurrent](
       requestHeaders = requestHeaders,
       auth = None) {
         
-        case r if r.status.code == 200 => parseJson[F, User]("User", r)
-        case r if r.status.code == 400 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
-        case r if r.status.code == 404 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
-    }
+                case r if r.status.code == 200 => parseJson[F, User]("User", r)
+                case r if r.status.code == 400 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
+                case r if r.status.code == 404 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))    }
   }
 
   override def loginUser(username: String, password: String): F[String] = {
@@ -150,9 +145,8 @@ class UserApiEndpointsImpl[F[*]: Concurrent](
       requestHeaders = requestHeaders,
       auth = None) {
         
-        case r if r.status.code == 200 => parseJson[F, String]("String", r)
-        case r if r.status.code == 400 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
-    }
+                case r if r.status.code == 200 => parseJson[F, String]("String", r)
+                case r if r.status.code == 400 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))    }
   }
 
   override def logoutUser()(implicit auth: _Authorization.ApiKey): F[Unit] = {
@@ -168,8 +162,7 @@ class UserApiEndpointsImpl[F[*]: Concurrent](
       queryParameters = Nil,
       requestHeaders = requestHeaders,
       auth = Some(auth)) {
-        r => Concurrent[F].pure(())
-    }
+        r => Concurrent[F].pure(())    }
   }
 
   override def updateUser(username: String, user: User)(implicit auth: _Authorization.ApiKey): F[Unit] = {
@@ -186,9 +179,8 @@ class UserApiEndpointsImpl[F[*]: Concurrent](
       requestHeaders = requestHeaders,
       auth = Some(auth)) {
         
-        case r if r.status.code == 400 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
-        case r if r.status.code == 404 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
-    }
+                case r if r.status.code == 400 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
+                case r if r.status.code == 404 => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))    }
   }
 
 }

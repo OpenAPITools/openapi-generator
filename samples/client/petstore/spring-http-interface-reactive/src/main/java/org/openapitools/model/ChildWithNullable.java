@@ -22,8 +22,6 @@ import jakarta.annotation.Generated;
 /**
  * ChildWithNullable
  */
-
-
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ChildWithNullable extends ParentWithNullable {
 
@@ -47,7 +45,6 @@ public class ChildWithNullable extends ParentWithNullable {
   public void setOtherProperty(String otherProperty) {
     this.otherProperty = otherProperty;
   }
-
 
   public ChildWithNullable type(TypeEnum type) {
     super.type(type);

@@ -32,14 +32,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 @JsonTypeName("200_response")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Model200Response {
   public static final String JSON_PROPERTY_NAME = "name";
-  @javax.annotation.Nullable
-  private Integer name;
+  @javax.annotation.Nullable  private Integer name;
 
   public static final String JSON_PROPERTY_PROPERTY_CLASS = "class";
-  @javax.annotation.Nullable
-  private String propertyClass;
+  @javax.annotation.Nullable  private String propertyClass;
 
   public Model200Response() {
   }
@@ -62,8 +61,7 @@ public class Model200Response {
    * Get name
    * @return name
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getName() {
@@ -87,8 +85,7 @@ public class Model200Response {
    * Get propertyClass
    * @return propertyClass
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getPropertyClass() {
@@ -142,63 +139,62 @@ public class Model200Response {
   }
 
   public static class Builder {
-
-    private Model200Response instance;
-
-    public Builder() {
-      this(new Model200Response());
-    }
-
-    protected Builder(Model200Response instance) {
-      this.instance = instance;
-    }
-
-    public Model200Response.Builder name(Integer name) {
-      this.instance.name = name;
-      return this;
-    }
-    public Model200Response.Builder propertyClass(String propertyClass) {
-      this.instance.propertyClass = propertyClass;
-      return this;
-    }
-
-
-    /**
-    * returns a built Model200Response instance.
-    *
-    * The builder is not reusable.
-    */
-    public Model200Response build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
+  
+      private Model200Response instance;
+  
+      public Builder() {
+        this(new Model200Response());
+      }
+  
+      protected Builder(Model200Response instance) {
+        this.instance = instance;
+      }
+  
+      public Model200Response.Builder name(Integer name) {
+          this.instance.name = name;
+        return this;
+      }
+        public Model200Response.Builder propertyClass(String propertyClass) {
+          this.instance.propertyClass = propertyClass;
+        return this;
+      }
+    
+  
+      /**
+      * returns a built Model200Response instance.
+      *
+      * The builder is not reusable.
+      */
+      public Model200Response build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field.
+    */
+    public static Model200Response.Builder builder() {
+      return new Model200Response.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static Model200Response.Builder builder() {
-    return new Model200Response.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public Model200Response.Builder toBuilder() {
-    return new Model200Response.Builder()
-      .name(getName())
-      .propertyClass(getPropertyClass());
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public Model200Response.Builder toBuilder() {
+      return new Model200Response.Builder()
+        .name(getName())
+        .propertyClass(getPropertyClass());
+    }
 
 }
 

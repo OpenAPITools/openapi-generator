@@ -49,11 +49,11 @@ import org.openapitools.client.JSON;
  * GrandparentAnimal
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class GrandparentAnimal {
   public static final String SERIALIZED_NAME_PET_TYPE = "pet_type";
   @SerializedName(SERIALIZED_NAME_PET_TYPE)
-  @javax.annotation.Nonnull
-  protected String petType;
+  @javax.annotation.Nonnull  protected String petType;
 
   public GrandparentAnimal() {
     this.petType = this.getClass().getSimpleName();
@@ -68,8 +68,7 @@ public class GrandparentAnimal {
    * Get petType
    * @return petType
    */
-  @javax.annotation.Nonnull
-  public String getPetType() {
+  @javax.annotation.Nonnull  public String getPetType() {
     return petType;
   }
 
@@ -121,7 +120,6 @@ public class GrandparentAnimal {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

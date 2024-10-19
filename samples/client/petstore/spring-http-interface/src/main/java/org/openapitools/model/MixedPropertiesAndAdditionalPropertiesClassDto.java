@@ -22,7 +22,6 @@ import jakarta.annotation.Generated;
 /**
  * MixedPropertiesAndAdditionalPropertiesClassDto
  */
-
 @JsonTypeName("MixedPropertiesAndAdditionalPropertiesClass")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClassDto {
@@ -99,7 +98,6 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
   public void setMap(Map<String, AnimalDto> map) {
     this.map = map;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

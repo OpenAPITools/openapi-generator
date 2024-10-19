@@ -71,7 +71,6 @@ public class EnumArrays {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_JUST_SYMBOL = "just_symbol";
   @javax.annotation.Nullable
   private JustSymbolEnum justSymbol;
@@ -110,7 +109,6 @@ public class EnumArrays {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
   @javax.annotation.Nullable
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
@@ -174,7 +172,6 @@ public class EnumArrays {
   public void setArrayEnum(@javax.annotation.Nullable List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
-
 
   /**
    * Return true if this EnumArrays object is equal to o.

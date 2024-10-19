@@ -32,7 +32,6 @@ import java.io.Serializable
  * @param complete 
  */
 @KSerializable
-
 data class Order (
 
     @SerialName(value = "id")

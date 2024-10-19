@@ -12,7 +12,6 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * 
  * @export
@@ -51,4 +50,3 @@ export function OuterEnumIntegerToJSON(value?: OuterEnumInteger | null): any {
 export function OuterEnumIntegerToJSONTyped(value: any, ignoreDiscriminator: boolean): OuterEnumInteger {
     return value as OuterEnumInteger;
 }
-

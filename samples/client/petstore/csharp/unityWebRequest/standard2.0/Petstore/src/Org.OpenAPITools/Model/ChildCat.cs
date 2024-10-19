@@ -43,7 +43,6 @@ namespace Org.OpenAPITools.Model
             ChildCat = 1
         }
 
-
         /// <summary>
         /// Gets or Sets PetType
         /// </summary>

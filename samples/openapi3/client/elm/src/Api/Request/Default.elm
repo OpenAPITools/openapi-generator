@@ -42,7 +42,6 @@ headerTypeVariants =
     , HeaderTypeRight
     ]
 
-
 stringFromHeaderType : HeaderType -> String
 stringFromHeaderType model =
     case model of
@@ -51,7 +50,6 @@ stringFromHeaderType model =
 
         HeaderTypeRight ->
             "right"
-
 
 
 
@@ -68,7 +66,6 @@ enumerationVariants =
     , EnumerationC
     ]
 
-
 stringFromEnumeration : Enumeration -> String
 stringFromEnumeration model =
     case model of
@@ -80,7 +77,6 @@ stringFromEnumeration model =
 
         EnumerationC ->
             "c"
-
 
 
 
@@ -97,7 +93,6 @@ enumVariants =
     , EnumC
     ]
 
-
 stringFromEnum : Enum -> String
 stringFromEnum model =
     case model of
@@ -109,7 +104,6 @@ stringFromEnum model =
 
         EnumC ->
             "c"
-
 
 
 headerPost : String -> Maybe Int -> Maybe HeaderType -> Api.Request String

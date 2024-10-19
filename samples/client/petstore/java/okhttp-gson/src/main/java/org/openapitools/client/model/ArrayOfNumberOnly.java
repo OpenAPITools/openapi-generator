@@ -52,11 +52,11 @@ import org.openapitools.client.JSON;
  * ArrayOfNumberOnly
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class ArrayOfNumberOnly {
   public static final String SERIALIZED_NAME_ARRAY_NUMBER = "ArrayNumber";
   @SerializedName(SERIALIZED_NAME_ARRAY_NUMBER)
-  @javax.annotation.Nullable
-  private List<BigDecimal> arrayNumber = new ArrayList<>();
+  @javax.annotation.Nullable  private List<BigDecimal> arrayNumber = new ArrayList<>();
 
   public ArrayOfNumberOnly() {
   }
@@ -78,8 +78,7 @@ public class ArrayOfNumberOnly {
    * Get arrayNumber
    * @return arrayNumber
    */
-  @javax.annotation.Nullable
-  public List<BigDecimal> getArrayNumber() {
+  @javax.annotation.Nullable  public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
   }
 
@@ -131,7 +130,6 @@ public class ArrayOfNumberOnly {
     }
     return this.additionalProperties.get(key);
   }
-
 
   @Override
   public boolean equals(Object o) {

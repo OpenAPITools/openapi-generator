@@ -85,7 +85,6 @@ namespace Org.OpenAPITools.Model
             Duplicatevalue2 = 8
         }
 
-
         /// <summary>
         /// Gets or Sets EnumString
         /// </summary>
@@ -146,7 +145,6 @@ namespace Org.OpenAPITools.Model
             Duplicatevalue2 = 8
         }
 
-
         /// <summary>
         /// Gets or Sets EnumStringRequired
         /// </summary>
@@ -168,7 +166,6 @@ namespace Org.OpenAPITools.Model
             NUMBER_MINUS_1 = -1
         }
 
-
         /// <summary>
         /// Gets or Sets EnumInteger
         /// </summary>
@@ -189,7 +186,6 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             NUMBER_MINUS_2 = -2
         }
-
 
         /// <summary>
         /// Gets or Sets EnumIntegerOnly
@@ -214,7 +210,6 @@ namespace Org.OpenAPITools.Model
             [EnumMember(Value = "-1.2")]
             NUMBER_MINUS_1_DOT_2 = 2
         }
-
 
         /// <summary>
         /// Gets or Sets EnumNumber

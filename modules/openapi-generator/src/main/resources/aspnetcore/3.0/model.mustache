@@ -27,7 +27,11 @@ using {{packageName}}.Converters;
 {{#models}}
 {{#model}}
 namespace {{modelPackage}}
-{ {{#isEnum}}{{>enumClass}}{{/isEnum}}{{^isEnum}}
+{
+{{#isEnum}}
+{{>enumClass}}
+{{/isEnum}}
+{{^isEnum}}
     /// <summary>
     /// {{description}}
     /// </summary>
@@ -60,6 +64,7 @@ namespace {{modelPackage}}
         {{^complexType}}
 {{>enumClass}}
         {{/complexType}}
+
         {{/isEnum}}
         /// <summary>
         /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}

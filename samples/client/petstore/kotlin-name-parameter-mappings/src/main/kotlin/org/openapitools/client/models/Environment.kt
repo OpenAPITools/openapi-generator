@@ -25,7 +25,6 @@ import com.squareup.moshi.JsonClass
  * @param dummy 
  */
 
-
 data class Environment (
 
     @Json(name = "dummy")

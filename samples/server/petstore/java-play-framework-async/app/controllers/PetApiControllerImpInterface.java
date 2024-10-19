@@ -46,7 +46,6 @@ public abstract class PetApiControllerImpInterface {
         return ok();
     });
     return result;
-
     }
 
     public abstract void addPet(Http.Request request, Pet body) throws Exception;
@@ -65,7 +64,6 @@ public abstract class PetApiControllerImpInterface {
         return ok();
     });
     return result;
-
     }
 
     public abstract void deletePet(Http.Request request, Long petId, String apiKey) throws Exception;
@@ -90,7 +88,6 @@ return stage.thenApply(obj -> {
 
             return ok(result);
     });
-
     }
 
     public abstract CompletionStage<List<Pet>> findPetsByStatus(Http.Request request, @NotNull List<String> status) throws Exception;
@@ -115,7 +112,6 @@ return stage.thenApply(obj -> {
 
             return ok(result);
     });
-
     }
 
     public abstract CompletionStage<List<Pet>> findPetsByTags(Http.Request request, @NotNull List<String> tags) throws Exception;
@@ -134,7 +130,6 @@ return stage.thenApply(obj -> {
 
             return ok(result);
     });
-
     }
 
     public abstract CompletionStage<Pet> getPetById(Http.Request request, Long petId) throws Exception;
@@ -153,7 +148,6 @@ return stage.thenApply(obj -> {
         return ok();
     });
     return result;
-
     }
 
     public abstract void updatePet(Http.Request request, Pet body) throws Exception;
@@ -172,7 +166,6 @@ return stage.thenApply(obj -> {
         return ok();
     });
     return result;
-
     }
 
     public abstract void updatePetWithForm(Http.Request request, Long petId, String name, String status) throws Exception;
@@ -195,7 +188,6 @@ return stage.thenApply(obj -> {
 
             return ok(result);
     });
-
     }
 
     public abstract CompletionStage<ModelApiResponse> uploadFile(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> _file) throws Exception;

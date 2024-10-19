@@ -15,4 +15,3 @@ instance = Petstore::ClassModel.new(
   _class: null
 )
 ```
-

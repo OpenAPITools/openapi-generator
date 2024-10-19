@@ -25,10 +25,10 @@ import org.openapitools.client.JSON;
  * Order
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Order {
   public Order() {
   }
-
 
   @Override
   public boolean equals(Object o) {

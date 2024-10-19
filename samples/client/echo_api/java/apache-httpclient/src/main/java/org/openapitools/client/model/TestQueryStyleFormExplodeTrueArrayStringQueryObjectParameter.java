@@ -37,10 +37,10 @@ import java.util.StringJoiner;
 })
 @JsonTypeName("test_query_style_form_explode_true_array_string_query_object_parameter")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
   public static final String JSON_PROPERTY_VALUES = "values";
-  @javax.annotation.Nullable
-  private List<String> values = new ArrayList<>();
+  @javax.annotation.Nullable  private List<String> values = new ArrayList<>();
 
   public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter() {
   }
@@ -63,8 +63,7 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
    * Get values
    * @return values
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_VALUES)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_VALUES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<String> getValues() {

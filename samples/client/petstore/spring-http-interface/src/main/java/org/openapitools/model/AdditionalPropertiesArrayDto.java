@@ -21,7 +21,6 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 /**
  * AdditionalPropertiesArrayDto
  */
-
 @JsonTypeName("AdditionalPropertiesArray")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class AdditionalPropertiesArrayDto {
@@ -83,7 +82,6 @@ public class AdditionalPropertiesArrayDto {
         }
         return this.additionalProperties.get(key);
     }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

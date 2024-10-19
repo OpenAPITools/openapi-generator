@@ -87,7 +87,6 @@ public class EnumTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_ENUM_STRING = "enum_string";
   @javax.annotation.Nullable
   private EnumStringEnum enumString;
@@ -128,7 +127,6 @@ public class EnumTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_ENUM_STRING_REQUIRED = "enum_string_required";
   @javax.annotation.Nonnull
   private EnumStringRequiredEnum enumStringRequired;
@@ -167,7 +165,6 @@ public class EnumTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_ENUM_INTEGER = "enum_integer";
   @javax.annotation.Nullable
   private EnumIntegerEnum enumInteger;
@@ -206,7 +203,6 @@ public class EnumTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_ENUM_INTEGER_ONLY = "enum_integer_only";
   @javax.annotation.Nullable
   private EnumIntegerOnlyEnum enumIntegerOnly;
@@ -245,7 +241,6 @@ public class EnumTest {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_ENUM_NUMBER = "enum_number";
   @javax.annotation.Nullable
   private EnumNumberEnum enumNumber;
@@ -411,11 +406,9 @@ public class EnumTest {
 
   @JsonProperty(JSON_PROPERTY_OUTER_ENUM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public JsonNullable<OuterEnum> getOuterEnum_JsonNullable() {
     return outerEnum;
   }
-  
   @JsonProperty(JSON_PROPERTY_OUTER_ENUM)
   public void setOuterEnum_JsonNullable(JsonNullable<OuterEnum> outerEnum) {
     this.outerEnum = outerEnum;
@@ -499,7 +492,6 @@ public class EnumTest {
   public void setOuterEnumIntegerDefaultValue(@javax.annotation.Nullable OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
     this.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
   }
-
 
   /**
    * Return true if this Enum_Test object is equal to o.

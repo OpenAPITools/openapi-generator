@@ -10,4 +10,3 @@
 |**arrayNumber** | **List&lt;BigDecimal&gt;** |  |  [optional] |
 
 
-

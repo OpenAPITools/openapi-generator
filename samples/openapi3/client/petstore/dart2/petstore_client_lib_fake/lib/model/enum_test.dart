@@ -279,7 +279,6 @@ class EnumTestEnumStringEnumTypeTransformer {
 }
 
 
-
 class EnumTestEnumStringRequiredEnum {
   /// Instantiate a new enum with the provided [value].
   const EnumTestEnumStringRequiredEnum._(this.value);
@@ -356,7 +355,6 @@ class EnumTestEnumStringRequiredEnumTypeTransformer {
 }
 
 
-
 class EnumTestEnumIntegerEnum {
   /// Instantiate a new enum with the provided [value].
   const EnumTestEnumIntegerEnum._(this.value);
@@ -430,7 +428,6 @@ class EnumTestEnumIntegerEnumTypeTransformer {
 }
 
 
-
 class EnumTestEnumNumberEnum {
   /// Instantiate a new enum with the provided [value].
   const EnumTestEnumNumberEnum._(this.value);
@@ -502,5 +499,3 @@ class EnumTestEnumNumberEnumTypeTransformer {
   /// Singleton [EnumTestEnumNumberEnumTypeTransformer] instance.
   static EnumTestEnumNumberEnumTypeTransformer? _instance;
 }
-
-

@@ -14,24 +14,20 @@ internal struct EnumTest: Codable, JSONEncodable {
         case lower = "lower"
         case empty = ""
         case unknownDefaultOpenApi = "unknown_default_open_api"
-    }
-    internal enum EnumStringRequired: String, Codable, CaseIterable, CaseIterableDefaultsLast {
+    }    internal enum EnumStringRequired: String, Codable, CaseIterable, CaseIterableDefaultsLast {
         case upper = "UPPER"
         case lower = "lower"
         case empty = ""
         case unknownDefaultOpenApi = "unknown_default_open_api"
-    }
-    internal enum EnumInteger: Int, Codable, CaseIterable, CaseIterableDefaultsLast {
+    }    internal enum EnumInteger: Int, Codable, CaseIterable, CaseIterableDefaultsLast {
         case _1 = 1
         case number1 = -1
         case unknownDefaultOpenApi = 11184809
-    }
-    internal enum EnumNumber: Double, Codable, CaseIterable, CaseIterableDefaultsLast {
+    }    internal enum EnumNumber: Double, Codable, CaseIterable, CaseIterableDefaultsLast {
         case _11 = 1.1
         case number12 = -1.2
         case unknownDefaultOpenApi = 11184809
-    }
-    internal private(set) var enumString: EnumString?
+    }    internal private(set) var enumString: EnumString?
     internal private(set) var enumStringRequired: EnumStringRequired
     internal private(set) var enumInteger: EnumInteger?
     internal private(set) var enumNumber: EnumNumber?

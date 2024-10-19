@@ -23,8 +23,6 @@ import javax.annotation.Generated;
 /**
  * BigCat
  */
-
-
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class BigCat extends Cat {
 
@@ -66,7 +64,6 @@ public class BigCat extends Cat {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   private Optional<KindEnum> kind = Optional.empty();
 
   public BigCat() {
@@ -89,8 +86,7 @@ public class BigCat extends Cat {
    * Get kind
    * @return kind
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("kind")
   public Optional<KindEnum> getKind() {
     return kind;
@@ -99,7 +95,6 @@ public class BigCat extends Cat {
   public void setKind(Optional<KindEnum> kind) {
     this.kind = kind;
   }
-
 
   public BigCat declawed(Boolean declawed) {
     super.declawed(declawed);
@@ -154,83 +149,82 @@ public class BigCat extends Cat {
     return o.toString().replace("\n", "\n    ");
   }
   
-  public static class Builder extends Cat.Builder {
-
-    private BigCat instance;
-
-    public Builder() {
-      this(new BigCat());
-    }
-
-    protected Builder(BigCat instance) {
-      super(instance); // the parent builder shares the same instance
-      this.instance = instance;
-    }
-
-    protected Builder copyOf(BigCat value) { 
-      super.copyOf(value);
-      this.instance.setKind(value.kind);
-      return this;
-    }
-
-    public BigCat.Builder kind(KindEnum kind) {
-      this.instance.kind(kind);
-      return this;
-    }
-    
-    @Override
-    public BigCat.Builder declawed(Boolean declawed) {
-      this.instance.declawed(declawed);
-      return this;
-    }
-    
-    @Override
-    public BigCat.Builder className(String className) {
-      this.instance.className(className);
-      return this;
-    }
-    
-    @Override
-    public BigCat.Builder color(String color) {
-      this.instance.color(color);
-      return this;
-    }
-    
-    /**
-    * returns a built BigCat instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public BigCat build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        super.build();
-        this.instance = null;
+    public static class Builder extends Cat.Builder {
+  
+      private BigCat instance;
+  
+      public Builder() {
+        this(new BigCat());
+      }
+  
+      protected Builder(BigCat instance) {
+        super(instance); // the parent builder shares the same instance
+        this.instance = instance;
+      }
+  
+      protected Builder copyOf(BigCat value) { 
+        super.copyOf(value);
+        this.instance.setKind(value.kind);
+        return this;
+      }
+  
+        public BigCat.Builder kind(KindEnum kind) {
+        this.instance.kind(kind);
+        return this;
+      }
+      
+        @Override
+      public BigCat.Builder declawed(Boolean declawed) {
+        this.instance.declawed(declawed);
+        return this;
+      }
+      
+      @Override
+      public BigCat.Builder className(String className) {
+        this.instance.className(className);
+        return this;
+      }
+      
+      @Override
+      public BigCat.Builder color(String color) {
+        this.instance.color(color);
+        return this;
+      }
+      
+        /**
+      * returns a built BigCat instance.
+      *
+      * The builder is not reusable (NullPointerException)
+      */
+      public BigCat build() {
+        try {
+          return this.instance;
+        } finally {
+          // ensure that this.instance is not reused
+          super.build();
+          this.instance = null;
+        }
+      }
+  
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
       }
     }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
+  
+    /**
+    * Create a builder with no initialized field (except for the default values).
+    */
+    public static BigCat.Builder builder() {
+      return new BigCat.Builder();
     }
-  }
-
-  /**
-  * Create a builder with no initialized field (except for the default values).
-  */
-  public static BigCat.Builder builder() {
-    return new BigCat.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public BigCat.Builder toBuilder() {
-    BigCat.Builder builder = new BigCat.Builder();
-    return builder.copyOf(this);
-  }
-
+  
+    /**
+    * Create a builder with a shallow copy of this instance.
+    */
+    public BigCat.Builder toBuilder() {
+      BigCat.Builder builder = new BigCat.Builder();
+      return builder.copyOf(this);
+    }
 }
 

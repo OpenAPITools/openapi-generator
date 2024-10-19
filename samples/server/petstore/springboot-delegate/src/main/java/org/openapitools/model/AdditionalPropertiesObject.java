@@ -23,7 +23,6 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 /**
  * AdditionalPropertiesObject
  */
-
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class AdditionalPropertiesObject {
 
@@ -49,8 +48,7 @@ public class AdditionalPropertiesObject {
    * Get name
    * @return name
    */
-  
-  @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "")
   @JsonProperty("name")
   public String getName() {
     return name;
@@ -96,7 +94,6 @@ public class AdditionalPropertiesObject {
         }
         return this.additionalProperties.get(key);
     }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

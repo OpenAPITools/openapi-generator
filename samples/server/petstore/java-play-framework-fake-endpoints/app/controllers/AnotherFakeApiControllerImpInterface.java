@@ -38,7 +38,6 @@ public abstract class AnotherFakeApiControllerImpInterface {
         JsonNode result = mapper.valueToTree(obj);
 
         return ok(result);
-
     }
 
     public abstract Client call123testSpecialTags(Http.Request request, UUID uuidTest, Client body) throws Exception;

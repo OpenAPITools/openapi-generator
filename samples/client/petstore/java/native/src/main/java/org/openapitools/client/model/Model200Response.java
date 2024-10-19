@@ -39,12 +39,10 @@ import org.openapitools.client.ApiClient;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Model200Response {
   public static final String JSON_PROPERTY_NAME = "name";
-  @javax.annotation.Nullable
-  private Integer name;
+  @javax.annotation.Nullable  private Integer name;
 
   public static final String JSON_PROPERTY_PROPERTY_CLASS = "class";
-  @javax.annotation.Nullable
-  private String propertyClass;
+  @javax.annotation.Nullable  private String propertyClass;
 
   public Model200Response() { 
   }
@@ -58,8 +56,7 @@ public class Model200Response {
    * Get name
    * @return name
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Integer getName() {
     return name;
@@ -82,8 +79,7 @@ public class Model200Response {
    * Get propertyClass
    * @return propertyClass
    */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+  @javax.annotation.Nullable  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getPropertyClass() {
     return propertyClass;
@@ -95,7 +91,6 @@ public class Model200Response {
   public void setPropertyClass(@javax.annotation.Nullable String propertyClass) {
     this.propertyClass = propertyClass;
   }
-
 
   /**
    * Return true if this 200_response object is equal to o.
@@ -241,6 +236,5 @@ public class Model200Response {
       .name(getName())
       .propertyClass(getPropertyClass());
   }
-
 }
 

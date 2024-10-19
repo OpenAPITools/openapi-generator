@@ -107,4 +107,3 @@ LIONS(String.valueOf("lions")), TIGERS(String.valueOf("tigers")), LEOPARDS(Strin
     return o.toString().replace("\n", "\n    ");
   }
 }
-

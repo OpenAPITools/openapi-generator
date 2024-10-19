@@ -11,7 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
 import { mapValues } from '../runtime';
 /**
  * 
@@ -68,7 +67,6 @@ export const OrderStatusEnum = {
 } as const;
 export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
 
-
 /**
  * Check if a given object implements the Order interface.
  */
@@ -114,4 +112,3 @@ export function OrderFromJSONTyped(json: any, ignoreDiscriminator: boolean): Ord
         'complete': value['complete'],
     };
 }
-

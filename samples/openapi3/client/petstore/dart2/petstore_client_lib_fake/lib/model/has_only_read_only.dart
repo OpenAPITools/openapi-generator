@@ -132,4 +132,3 @@ class HasOnlyReadOnly {
   static const requiredKeys = <String>{
   };
 }
-

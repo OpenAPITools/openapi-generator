@@ -45,26 +45,22 @@ import jakarta.validation.Valid;
   Pet.JSON_PROPERTY_STATUS
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+
 public class Pet {
   public static final String JSON_PROPERTY_ID = "id";
-  @jakarta.annotation.Nullable
-  private Long id;
+  @jakarta.annotation.Nullable  private Long id;
 
   public static final String JSON_PROPERTY_CATEGORY = "category";
-  @jakarta.annotation.Nullable
-  private Category category;
+  @jakarta.annotation.Nullable  private Category category;
 
   public static final String JSON_PROPERTY_NAME = "name";
-  @jakarta.annotation.Nonnull
-  private String name;
+  @jakarta.annotation.Nonnull  private String name;
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
-  @jakarta.annotation.Nonnull
-  private Set<String> photoUrls = new LinkedHashSet<>();
+  @jakarta.annotation.Nonnull  private Set<String> photoUrls = new LinkedHashSet<>();
 
   public static final String JSON_PROPERTY_TAGS = "tags";
-  @jakarta.annotation.Nullable
-  private List<@Valid Tag> tags = new ArrayList<>();
+  @jakarta.annotation.Nullable  private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -102,10 +98,8 @@ public class Pet {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
-
   public static final String JSON_PROPERTY_STATUS = "status";
-  @jakarta.annotation.Nullable
-  private StatusEnum status;
+  @jakarta.annotation.Nullable  private StatusEnum status;
 
   public Pet() {
   }
@@ -120,9 +114,7 @@ public class Pet {
    * Get id
    * @return id
    */
-  @jakarta.annotation.Nullable
-
-  @JsonProperty(JSON_PROPERTY_ID)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getId() {
@@ -146,9 +138,7 @@ public class Pet {
    * Get category
    * @return category
    */
-  @jakarta.annotation.Nullable
-  @Valid
-
+  @jakarta.annotation.Nullable  @Valid
   @JsonProperty(JSON_PROPERTY_CATEGORY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -173,9 +163,7 @@ public class Pet {
    * Get name
    * @return name
    */
-  @jakarta.annotation.Nonnull
-  @NotNull
-
+  @jakarta.annotation.Nonnull  @NotNull
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -208,9 +196,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
    */
-  @jakarta.annotation.Nonnull
-  @NotNull
-
+  @jakarta.annotation.Nonnull  @NotNull
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -244,9 +230,7 @@ public class Pet {
    * Get tags
    * @return tags
    */
-  @jakarta.annotation.Nullable
-  @Valid
-
+  @jakarta.annotation.Nullable  @Valid
   @JsonProperty(JSON_PROPERTY_TAGS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -271,9 +255,7 @@ public class Pet {
    * pet status in the store
    * @return status
    */
-  @jakarta.annotation.Nullable
-
-  @JsonProperty(JSON_PROPERTY_STATUS)
+  @jakarta.annotation.Nullable  @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public StatusEnum getStatus() {
