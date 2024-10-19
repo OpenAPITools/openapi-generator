@@ -37,7 +37,7 @@ public class OAuth implements Authentication {
     /**
      * Sets the bearer access token used for Authorization.
      *
-     * @param bearerToken The bearer token to send in the Authorization header
+     * @param accessToken The bearer token to send in the Authorization header
      */
     public void setAccessToken(String accessToken) {
         setAccessToken(() -> accessToken);
