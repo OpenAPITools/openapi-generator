@@ -146,6 +146,7 @@ public class ApiClient {
     objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     objectMapper.setDateFormat(new RFC3339DateFormat());
     objectMapper.registerModule(new JavaTimeModule());
+    objectMapper.registerModule(new RFC3339JavaTimeModule());
     JsonNullableModule jnm = new JsonNullableModule();
     objectMapper.registerModule(jnm);
     return objectMapper;

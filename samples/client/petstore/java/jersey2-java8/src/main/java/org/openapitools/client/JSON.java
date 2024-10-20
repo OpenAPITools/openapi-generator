@@ -43,6 +43,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
             .defaultDateFormat(new RFC3339DateFormat())
             .addModule(new JavaTimeModule())
             .addModule(new JsonNullableModule())
+            .addModule(new RFC3339JavaTimeModule())
             .build();
   }
 
