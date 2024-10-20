@@ -6668,10 +6668,12 @@ public class DefaultCodegen implements CodegenConfig {
         // handle default value for enum, e.g. available => StatusEnum.AVAILABLE
         if (var.defaultValue != null) {
             final String enumDefaultValue = getEnumDefaultValue(var.defaultValue, dataType);
+            // The enum value may be represented with quotes. so, remove \" from this string.
+            final String enumDefaultUnescapedValue = enumDefaultValue.replace("\\\"", "");
 
             String enumName = null;
             for (Map<String, Object> enumVar : enumVars) {
-                if (enumDefaultValue.equals(enumVar.get("value"))) {
+                if (enumDefaultValue.equals(enumVar.get("value")) || enumDefaultUnescapedValue.equals(enumVar.get("value))) {
                     enumName = (String) enumVar.get("name");
                     break;
                 }
