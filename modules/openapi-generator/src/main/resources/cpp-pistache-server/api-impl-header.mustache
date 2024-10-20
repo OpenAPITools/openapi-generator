@@ -35,7 +35,7 @@ public:
 
     {{#operation}}
     {{#vendorExtensions.x-codegen-pistache-is-parsing-supported}}
-    void {{operationIdSnakeCase}}({{#authMethods}}{{#isBasicBasic}}const std::string &username, const std::string &password,{{/isBasicBasic}}{{/authMethods}}{{#allParams}}const {{{dataType}}} &{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Pistache::Http::ResponseWriter &response);
+    void {{operationIdSnakeCase}}({{#authMethods}}{{#isBasicBasic}}const HttpBasicCredentials &credentials,{{/isBasicBasic}}{{/authMethods}}{{#allParams}}const {{{dataType}}} &{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Pistache::Http::ResponseWriter &response);
     {{/vendorExtensions.x-codegen-pistache-is-parsing-supported}}
     {{^vendorExtensions.x-codegen-pistache-is-parsing-supported}}
     void {{operationIdSnakeCase}}(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter &response);
