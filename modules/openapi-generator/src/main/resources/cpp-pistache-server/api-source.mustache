@@ -119,9 +119,26 @@ void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Reque
     }
 
     try {
+
     {{/bodyParam}}
     {{/hasBodyParam}}
-        this->{{operationIdSnakeCase}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}response);
+        {{#authMethods}}{{#isBasicBasic}}
+        auto basicAuthHeader = request.headers().tryGet<Pistache::Http::Header::Authorization>();
+
+        if( (!basicAuthHeader) || (basicAuthHeader->getMethod() != Pistache::Http::Header::Authorization::Method::Basic))
+        {
+            response.send(Pistache::Http::Code::Unauthorized, "");
+            return;
+        }
+        const std::string username(basicAuthHeader->getBasicUser());
+        const std::string password(basicAuthHeader->getBasicPassword());
+        {{/isBasicBasic}}{{/authMethods}}
+
+        {{#authMethods}}{{#isBasicBearer}}
+        /* BASIC BEARER */
+        {{/isBasicBearer}}{{/authMethods}}
+
+    this->{{operationIdSnakeCase}}({{#authMethods}}{{#isBasicBasic}}username, password,{{/isBasicBasic}}{{/authMethods}}{{#allParams}}{{paramName}}, {{/allParams}}response);
     {{/vendorExtensions.x-codegen-pistache-is-parsing-supported}}
     {{^vendorExtensions.x-codegen-pistache-is-parsing-supported}}
     try {
