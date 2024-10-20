@@ -2389,6 +2389,22 @@ public class JavaClientCodegenTest {
         JavaFileAssert.assertThat(apiFile).fileContains(expectedInnerEnumLines);
     }
 
+    @Test public void testEnumDefaultIsRepresentedAsEnumAndNotString() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
+                .setInputSpec("src/test/resources/3_0/java/enum_with_default.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        TestUtils.assertFileContains(output.resolve("src/main/java/xyz/abcdef/api/CharacterRequest.java"), "private Planet planet = Planet.EARTH;");
+        
+    }
+
     @Test public void testQueryParamsExploded_whenQueryParamIsNull() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
