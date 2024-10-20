@@ -52,10 +52,11 @@ class UserRoutes(service : UserService[Try]) extends cask.Routes {
         val result =         for {
               userJson <- Parsed.fromTry(request.bodyAsJson)
               userData <- Parsed.eval(UserData.fromJson(userJson)) /* not array or map */
-              user <- Parsed.fromTry(userData.validated(failFast))
+              user <- Parsed.fromTry(UserData.validated(userData, failFast))
             resultTry <- Parsed.eval(service.createUser(user))
             result <- Parsed.fromTry(resultTry)
         } yield result
+
 
         (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
@@ -77,6 +78,7 @@ class UserRoutes(service : UserService[Try]) extends cask.Routes {
             result <- Parsed.fromTry(resultTry)
         } yield result
 
+
         (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
           case Right(other) => cask.Response(s"$other", 200)
@@ -96,6 +98,7 @@ class UserRoutes(service : UserService[Try]) extends cask.Routes {
             resultTry <- Parsed.eval(service.createUsersWithListInput(user))
             result <- Parsed.fromTry(resultTry)
         } yield result
+
 
         (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
@@ -117,6 +120,7 @@ class UserRoutes(service : UserService[Try]) extends cask.Routes {
             result <- Parsed.fromTry(resultTry)
         } yield result
 
+
         (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
           case Right(other) => cask.Response(s"$other", 200)
@@ -136,6 +140,8 @@ class UserRoutes(service : UserService[Try]) extends cask.Routes {
             result <- Parsed.fromTry(resultTry)
         } yield result
 
+        import User.{given, *} // this brings in upickle in the case of union (oneOf) types
+
         (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
           case Right(value : User) => cask.Response(data = write(value), 200, headers = Seq("Content-Type" -> "application/json"))
@@ -154,6 +160,7 @@ class UserRoutes(service : UserService[Try]) extends cask.Routes {
             resultTry <- Parsed.eval(service.loginUser(username, password))
             result <- Parsed.fromTry(resultTry)
         } yield result
+
 
         (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
@@ -175,6 +182,7 @@ class UserRoutes(service : UserService[Try]) extends cask.Routes {
             result <- Parsed.fromTry(resultTry)
         } yield result
 
+
         (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
           case Right(other) => cask.Response(s"$other", 200)
@@ -193,10 +201,11 @@ class UserRoutes(service : UserService[Try]) extends cask.Routes {
             username <- Parsed(username)
               userJson <- Parsed.fromTry(request.bodyAsJson)
               userData <- Parsed.eval(UserData.fromJson(userJson)) /* not array or map */
-              user <- Parsed.fromTry(userData.validated(failFast))
+              user <- Parsed.fromTry(UserData.validated(userData, failFast))
             resultTry <- Parsed.eval(service.updateUser(username, user))
             result <- Parsed.fromTry(resultTry)
         } yield result
+
 
         (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)

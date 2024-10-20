@@ -43,6 +43,7 @@ class StoreRoutes(service : StoreService[Try]) extends cask.Routes {
             result <- Parsed.fromTry(resultTry)
         } yield result
 
+
         (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
           case Right(other) => cask.Response(s"$other", 200)
@@ -61,6 +62,7 @@ class StoreRoutes(service : StoreService[Try]) extends cask.Routes {
             resultTry <- Parsed.eval(service.getInventory())
             result <- Parsed.fromTry(resultTry)
         } yield result
+
 
         (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
@@ -82,6 +84,8 @@ class StoreRoutes(service : StoreService[Try]) extends cask.Routes {
             result <- Parsed.fromTry(resultTry)
         } yield result
 
+        import Order.{given, *} // this brings in upickle in the case of union (oneOf) types
+
         (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
           case Right(value : Order) => cask.Response(data = write(value), 200, headers = Seq("Content-Type" -> "application/json"))
@@ -99,10 +103,12 @@ class StoreRoutes(service : StoreService[Try]) extends cask.Routes {
         val result =         for {
               orderJson <- Parsed.fromTry(request.bodyAsJson)
               orderData <- Parsed.eval(OrderData.fromJson(orderJson)) /* not array or map */
-              order <- Parsed.fromTry(orderData.validated(failFast))
+              order <- Parsed.fromTry(OrderData.validated(orderData, failFast))
             resultTry <- Parsed.eval(service.placeOrder(order))
             result <- Parsed.fromTry(resultTry)
         } yield result
+
+        import Order.{given, *} // this brings in upickle in the case of union (oneOf) types
 
         (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)

@@ -40,7 +40,10 @@
           {{^isMap}}
               {{paramName}}Json <- Parsed.fromTry(request.bodyAsJson)
               {{paramName}}Data <- Parsed.eval({{vendorExtensions.x-container-type}}Data.fromJson({{paramName}}Json)) /* not array or map */
-              {{paramName}} <- Parsed.fromTry({{paramName}}Data.validated(failFast))
+              {{paramName}}{{^required}}Opt{{/required}} <- Parsed.fromTry({{vendorExtensions.x-container-type}}Data.validated({{paramName}}Data, failFast))
+              {{^required}}
+              {{paramName}} = Option({{paramName}}Opt)
+              {{/required}}
           {{/isMap}}
         {{/isArray}}
     {{/vendorExtensions.x-consumes-json}}

@@ -21,7 +21,7 @@ import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
 
-
+        
 case class ApiResponse(
     code: Option[Int] = None ,
     `type`: Option[String] = None ,
@@ -54,4 +54,5 @@ enum Fields(val fieldName : String) extends Field(fieldName) {
 
 
 }
+
 

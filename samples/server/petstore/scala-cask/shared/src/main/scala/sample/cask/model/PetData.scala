@@ -44,7 +44,7 @@ case class PetData(
   }
 
   def validationErrors(path : Seq[Field], failFast : Boolean) : Seq[ValidationError] = {
-    val errors = scala.collection.mutable.ListBuffer[ValidationError]()
+    val _allValidationErrors = scala.collection.mutable.ListBuffer[ValidationError]()
         // ================== id validation ==================
         
         
@@ -57,8 +57,8 @@ case class PetData(
         
         
         // validating category
-        if (errors.isEmpty || !failFast) {
-            if category != null then errors ++= category.validationErrors(path :+ Pet.Fields.category, failFast)
+        if (_allValidationErrors.isEmpty || !failFast) {
+            if category != null then _allValidationErrors ++= category.validationErrors(path :+ Pet.Fields.category, failFast)
         }
 
         // ================== name validation ==================
@@ -78,11 +78,11 @@ case class PetData(
         
         
         
-        if (errors.isEmpty || !failFast) {
+        if (_allValidationErrors.isEmpty || !failFast) {
             if (tags != null) {
                 tags.zipWithIndex.foreach {
-                    case (value, i) if errors.isEmpty || !failFast =>
-                      errors ++= value.validationErrors(
+                    case (value, i) if _allValidationErrors.isEmpty || !failFast =>
+                      _allValidationErrors ++= value.validationErrors(
                         path :+ Pet.Fields.tags :+ Field(i.toString),
                         failFast)
                     case (value, i) =>
@@ -97,7 +97,7 @@ case class PetData(
         
         
 
-    errors.toSeq
+    _allValidationErrors.toSeq
   }
 
   /**
@@ -125,6 +125,8 @@ case class PetData(
 }
 
 object PetData {
+
+  def validated(d8a : PetData, failFast : Boolean) : scala.util.Try[Pet] = d8a.validated(failFast)
 
   def fromJson(jason : ujson.Value) : PetData = try {
         val data = read[PetData](jason)
