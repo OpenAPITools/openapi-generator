@@ -21,7 +21,8 @@ import scala.util.*
 import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
-/** OrderData a data transfer object, primarily for simple json serialisation.
+
+        /** OrderData a data transfer object, primarily for simple json serialisation.
   * It has no validation - there may be nulls, values out of range, etc
   */
 case class OrderData(
@@ -84,6 +85,9 @@ case class OrderData(
     errors.toSeq
   }
 
+  /**
+   * @return the validated model within a Try (if successful)
+   */
   def validated(failFast : Boolean = false) : scala.util.Try[Order] = {
     validationErrors(Vector(), failFast) match {
       case Seq() => Success(asModel)
@@ -94,30 +98,12 @@ case class OrderData(
   /** use 'validated' to check validation */
   def asModel : Order = {
     Order(
-        id = Option(
-        id
-        )
-        ,
-        petId = Option(
-        petId
-        )
-        ,
-        quantity = Option(
-        quantity
-        )
-        ,
-        shipDate = Option(
-        shipDate
-        )
-        ,
-        status = Option(
-        status
-        )
-        ,
-        complete = Option(
-        complete
-        )
-        
+        id = Option(id) /* one */ ,
+        petId = Option(petId) /* one */ ,
+        quantity = Option(quantity) /* one */ ,
+        shipDate = Option(shipDate) /* one */ ,
+        status = Option(status) /* one */ ,
+        complete = Option(complete) /* one */ 
     
     )
   }

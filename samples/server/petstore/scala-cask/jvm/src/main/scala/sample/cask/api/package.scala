@@ -25,6 +25,17 @@ import scala.reflect.ClassTag
 import scala.util.*
 import upickle.default.*
 
+
+extension (f: java.io.File) {
+    def bytes: Array[Byte] = java.nio.file.Files.readAllBytes(f.toPath)
+    def toBase64: String   = java.util.Base64.getEncoder.encodeToString(bytes)
+}
+
+// TODO - writing files as json isn't probably what we want to do
+given Writer[java.io.File] = new Writer[java.io.File] {
+    def write0[V](out: upickle.core.Visitor[?, V], v: java.io.File) = out.visitString(v.toBase64, -1)
+}
+
 // needed for BigDecimal params
 given cask.endpoints.QueryParamReader.SimpleParam[BigDecimal](BigDecimal.apply)
 
