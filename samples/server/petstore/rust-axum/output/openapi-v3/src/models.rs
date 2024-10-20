@@ -570,7 +570,6 @@ impl std::ops::DerefMut for AnotherXmlInner {
 }
 
 /// An XML object
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AnotherXmlObject {
@@ -735,7 +734,6 @@ impl PartialEq for AnyOfGet202Response {
 }
 
 /// Test a model containing an anyOf of a hash map
-
 /// Any of:
 /// - String
 /// - std::collections::HashMap<String, String>
@@ -766,7 +764,6 @@ impl PartialEq for AnyOfHashMapObject {
 }
 
 /// Test a model containing an anyOf
-
 /// Any of:
 /// - String
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
@@ -796,7 +793,6 @@ impl PartialEq for AnyOfObject {
 }
 
 /// Test containing an anyOf object
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AnyOfProperty {
@@ -952,7 +948,6 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<AnyOfPropert
 }
 
 /// An XML object
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct DuplicateXmlObject {
@@ -1244,8 +1239,153 @@ impl std::ops::DerefMut for Error {
     }
 }
 
-/// Test a model containing an anyOf that starts with a number
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct FormTestRequest {
+    #[serde(rename = "requiredArray")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub required_array: Option<Vec<String>>,
+}
 
+impl FormTestRequest {
+    #[allow(clippy::new_without_default, clippy::too_many_arguments)]
+    pub fn new() -> FormTestRequest {
+        FormTestRequest {
+            required_array: None,
+        }
+    }
+}
+
+/// Converts the FormTestRequest value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::fmt::Display for FormTestRequest {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let params: Vec<Option<String>> =
+            vec![self.required_array.as_ref().map(|required_array| {
+                [
+                    "requiredArray".to_string(),
+                    required_array
+                        .iter()
+                        .map(|x| x.to_string())
+                        .collect::<Vec<_>>()
+                        .join(","),
+                ]
+                .join(",")
+            })];
+
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a FormTestRequest value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for FormTestRequest {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
+        #[derive(Default)]
+        #[allow(dead_code)]
+        struct IntermediateRep {
+            pub required_array: Vec<Vec<String>>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',');
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => {
+                    return std::result::Result::Err(
+                        "Missing value while parsing FormTestRequest".to_string(),
+                    )
+                }
+            };
+
+            if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
+                match key {
+                    "requiredArray" => {
+                        return std::result::Result::Err(
+                            "Parsing a container in this style is not supported in FormTestRequest"
+                                .to_string(),
+                        )
+                    }
+                    _ => {
+                        return std::result::Result::Err(
+                            "Unexpected key while parsing FormTestRequest".to_string(),
+                        )
+                    }
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(FormTestRequest {
+            required_array: intermediate_rep.required_array.into_iter().next(),
+        })
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<FormTestRequest> and HeaderValue
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<FormTestRequest>> for HeaderValue {
+    type Error = String;
+
+    fn try_from(
+        hdr_value: header::IntoHeaderValue<FormTestRequest>,
+    ) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match HeaderValue::from_str(&hdr_value) {
+            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                "Invalid header value for FormTestRequest - value: {} is invalid {}",
+                hdr_value, e
+            )),
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<FormTestRequest> {
+    type Error = String;
+
+    fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+            std::result::Result::Ok(value) => {
+                match <FormTestRequest as std::str::FromStr>::from_str(value) {
+                    std::result::Result::Ok(value) => {
+                        std::result::Result::Ok(header::IntoHeaderValue(value))
+                    }
+                    std::result::Result::Err(err) => std::result::Result::Err(format!(
+                        "Unable to convert header value '{}' into FormTestRequest - {}",
+                        value, err
+                    )),
+                }
+            }
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                "Unable to convert header: {:?} to string: {}",
+                hdr_value, e
+            )),
+        }
+    }
+}
+
+/// Test a model containing an anyOf that starts with a number
 /// Any of:
 /// - String
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
@@ -3085,7 +3225,6 @@ impl std::ops::DerefMut for XmlInner {
 }
 
 /// An XML object
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct XmlObject {
