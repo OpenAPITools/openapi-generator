@@ -17,7 +17,7 @@ using namespace {{modelNamespace}};{{/hasModelImport}}
 
 {{#operation}}
 {{#vendorExtensions.x-codegen-pistache-is-parsing-supported}}
-void {{classname}}Impl::{{operationIdSnakeCase}}({{#authMethods}}{{#isBasicBasic}}const std::string &username, const std::string &password,{{/isBasicBasic}}{{/authMethods}}{{#allParams}}const {{{dataType}}} &{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Pistache::Http::ResponseWriter &response) {
+void {{classname}}Impl::{{operationIdSnakeCase}}({{#authMethods}}{{#isBasicBasic}}const HttpBasicCredentials &credentials, {{/isBasicBasic}}{{/authMethods}}{{#allParams}}const {{{dataType}}} &{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
 {{/vendorExtensions.x-codegen-pistache-is-parsing-supported}}
