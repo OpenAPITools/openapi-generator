@@ -672,7 +672,6 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<DummyPutRequ
 }
 
 /// structured response
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct GetYamlResponse {
@@ -809,7 +808,6 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<GetYamlRespo
 }
 
 /// An object of objects
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectOfObjects {

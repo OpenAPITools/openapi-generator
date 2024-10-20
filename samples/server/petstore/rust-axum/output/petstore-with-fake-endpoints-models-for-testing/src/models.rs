@@ -1753,7 +1753,6 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Category> {
 }
 
 /// Model for testing model with \"_class\" property
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ClassModel {
@@ -3695,7 +3694,6 @@ impl std::convert::TryFrom<HeaderValue>
 }
 
 /// Model for testing model name starting with number
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Model200Response {
@@ -3848,7 +3846,6 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Model200Resp
 }
 
 /// Model for testing model name same as property name
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Name {
@@ -5241,7 +5238,6 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<ReadOnlyFirs
 }
 
 /// Model for testing reserved words
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Return {
