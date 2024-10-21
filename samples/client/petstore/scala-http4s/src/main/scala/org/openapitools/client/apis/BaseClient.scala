@@ -42,7 +42,7 @@ abstract class BaseClient[F[*]: Concurrent](
       queryParameters: Seq[(String, Any)] = Nil,
       requestHeaders: Seq[(String, String)] = Nil,
       auth: Option[_Authorization] = None
-  )(handler: Response[F] => F[U])(implicit encoder: Encoder[T]): F[U] = {
+  )(handler: Response[F] => F[U])(using Encoder[T]): F[U] = {
 
     val m = Method.fromString(method) match {
       case Right(m) => m
