@@ -31,6 +31,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -605,6 +607,25 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         final Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         final List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
 
+
+        /**
+         * In this case, there is a import set to 'null':
+         *
+         * {{{
+         * ...
+         *       responses:
+         *         "200":
+         *           content:
+         *             application/json:
+         *               schema:
+         *                 format: byte
+         *                 type: string
+         *  }}}
+         */
+        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+        var filtered = imports.stream().filter(entry -> entry.get("import") != null).collect(Collectors.toList());
+        objs.put("imports", filtered);
+
         objs.put("route-groups", createRouteGroups(operationList));
 
         operationList.forEach(ScalaCaskServerCodegen::postProcessOperation);
@@ -800,6 +821,36 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
     }
 
 
+    private static String fixBackTicks(String text) {
+        // Create a regular expression pattern to find text between backticks
+        Pattern pattern = Pattern.compile("`([^`]+)`");
+        Matcher matcher = pattern.matcher(text);
+
+        // Use a StringBuffer to construct the result
+        StringBuffer result = new StringBuffer();
+
+        // Loop through all matches
+        while (matcher.find()) {
+            // Extract the text between backticks
+            String extractedText = matcher.group(1);
+
+            // Replace it with the capitalized version
+            matcher.appendReplacement(result, capitalise(extractedText));
+        }
+
+        // Append the remaining part of the string
+        matcher.appendTail(result);
+
+        return result.toString();
+    }
+
+    private String ensureNonKeyword(String text) {
+        if (isReservedWord(text)) {
+            return "`" + text + "`";
+        }
+        return text;
+    }
+
     private void postProcessProperty(final CodegenProperty p) {
         p.vendorExtensions.put("x-datatype-model", asScalaDataType(p, p.required, false));
         p.vendorExtensions.put("x-defaultValue-model", defaultValue(p, p.required, p.defaultValue));
@@ -807,6 +858,26 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         p.vendorExtensions.put("x-datatype-data", dataTypeData);
         p.vendorExtensions.put("x-containertype-data", containerType(dataTypeData));
         p.vendorExtensions.put("x-defaultValue-data", defaultValueNonOption(p, p.defaultValue));
+
+        /*
+         * Fix enum values which may be reserved words
+         */
+        if (p._enum != null) {
+            p._enum = p._enum.stream().map(this::ensureNonKeyword).collect(Collectors.toList());
+        }
+
+        /**
+         * This is a fix for the enum property "type" declared like this:
+         * {{{
+         *         type:
+         *           enum:
+         *             - foo
+         *           type: string
+         * }}}
+         */
+        if (p.datatypeWithEnum != null && p.datatypeWithEnum.matches(".*[^a-zA-Z0-9_\\]\\[].*")) {
+            p.datatypeWithEnum = fixBackTicks(p.datatypeWithEnum);
+        }
 
         // We have two data models: a "data transfer" model: A "<Foo>Data" model for unvalidated data and a "<Foo>" model
         // which has passed validation.
