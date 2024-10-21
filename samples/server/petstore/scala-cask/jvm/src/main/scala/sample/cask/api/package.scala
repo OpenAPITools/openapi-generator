@@ -31,7 +31,6 @@ extension (f: java.io.File) {
     def toBase64: String   = java.util.Base64.getEncoder.encodeToString(bytes)
 }
 
-// TODO - writing files as json isn't probably what we want to do
 given Writer[java.io.File] = new Writer[java.io.File] {
     def write0[V](out: upickle.core.Visitor[?, V], v: java.io.File) = out.visitString(v.toBase64, -1)
 }
