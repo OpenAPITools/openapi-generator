@@ -27,15 +27,15 @@ object {{classname}}Service {
   case class Handler[F[_]](
 {{#operations}}
     {{#operation}}
-        {{operationId}}Handler : ({{vendorExtensions.x-param-list-typed}}) => F[{{vendorExtensions.x-response-type}}]{{^-last}}, {{/-last}}
+        {{operationId}}Handler : ({{{vendorExtensions.x-param-list-typed}}}) => F[{{{vendorExtensions.x-response-type}}}]{{^-last}}, {{/-last}}
     {{/operation}}
 {{/operations}}
   ) extends {{classname}}Service[F] {
 {{#operations}}
     {{#operation}}
 
-        override def {{operationId}}({{vendorExtensions.x-param-list-typed}}) : F[{{vendorExtensions.x-response-type}}] = {
-          {{operationId}}Handler({{vendorExtensions.x-param-list}})
+        override def {{operationId}}({{{vendorExtensions.x-param-list-typed}}}) : F[{{{vendorExtensions.x-response-type}}}] = {
+          {{operationId}}Handler({{{vendorExtensions.x-param-list}}})
         }
     {{/operation}}
 {{/operations}}
@@ -45,7 +45,6 @@ object {{classname}}Service {
 {{#operations}}
     {{#operation}}
         ({{#allParams}}_{{^-last}}, {{/-last}}{{/allParams}}) => notImplemented("{{operationId}}"){{^-last}}, {{/-last}}
-        // override def {{operationId}}({{vendorExtensions.x-param-list-typed}}) : {{vendorExtensions.x-response-type}} = ???
     {{/operation}}
 {{/operations}}
   )
@@ -70,13 +69,13 @@ trait {{classname}}Service[F[_]] {
    * {{{description}}}
    * @return {{returnType}}
    */
-  def {{operationId}}({{vendorExtensions.x-param-list-typed}}) : F[{{vendorExtensions.x-response-type}}]
+  def {{operationId}}({{{vendorExtensions.x-param-list-typed}}}) : F[{{{vendorExtensions.x-response-type}}}]
 
   /**
    * override {{operationId}} with the given handler
    * @return a new implementation of {{classname}}Service[F] with {{operationId}} overridden using the given handler
    */
-  final def {{vendorExtensions.x-handlerName}}(handler : ({{vendorExtensions.x-param-list-typed}}) => F[{{vendorExtensions.x-response-type}}]) : {{classname}}Service[F] = {
+  final def {{vendorExtensions.x-handlerName}}(handler : ({{{vendorExtensions.x-param-list-typed}}}) => F[{{{vendorExtensions.x-response-type}}}]) : {{classname}}Service[F] = {
     asHandler.copy({{operationId}}Handler = handler)
   }
 {{/operation}}
@@ -91,7 +90,7 @@ trait {{classname}}Service[F[_]] {
         {{classname}}Service.Handler[F](
         {{#operations}}
           {{#operation}}
-              ({{vendorExtensions.x-param-list}}) => {{operationId}}({{vendorExtensions.x-param-list}}){{^-last}}, {{/-last}}
+              ({{{vendorExtensions.x-param-list}}}) => {{operationId}}({{{vendorExtensions.x-param-list}}}){{^-last}}, {{/-last}}
           {{/operation}}
         {{/operations}}
         )
@@ -121,8 +120,8 @@ trait {{classname}}Service[F[_]] {
     new {{classname}}Service[G] {
 {{#operations}}
     {{#operation}}
-        override def {{operationId}}({{vendorExtensions.x-param-list-typed}}) : G[{{vendorExtensions.x-response-type}}] = changeEffect {
-          self.{{operationId}}({{vendorExtensions.x-param-list}})
+        override def {{operationId}}({{{vendorExtensions.x-param-list-typed}}}) : G[{{{vendorExtensions.x-response-type}}}] = changeEffect {
+          self.{{operationId}}({{{vendorExtensions.x-param-list}}})
         }
     {{/operation}}
 {{/operations}}
