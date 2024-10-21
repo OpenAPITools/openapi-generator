@@ -753,7 +753,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                 "int".equalsIgnoreCase(datatype)) {
             return value;
         } else {
-            return "'" + escapeText(value) + "'";
+            return "'" + escapeTextInSingleQuotes(value) + "'";
         }
     }
 
