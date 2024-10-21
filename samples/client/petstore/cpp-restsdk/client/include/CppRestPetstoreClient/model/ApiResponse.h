@@ -51,42 +51,57 @@ public:
     void toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) const override;
     bool fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
 
+
     /////////////////////////////////////////////
     /// ApiResponse members
 
+    
+
+    
     /// <summary>
     /// 
     /// </summary>
+    
     int32_t getCode() const;
+    
+    
     bool codeIsSet() const;
     void unsetCode();
-
     void setCode(int32_t value);
-
+    
     /// <summary>
     /// 
     /// </summary>
+    
     utility::string_t getType() const;
+    
+    
     bool typeIsSet() const;
     void unsetType();
 
     void setType(const utility::string_t& value);
-
+    
     /// <summary>
     /// 
     /// </summary>
+    
     utility::string_t getMessage() const;
+    
+    
     bool messageIsSet() const;
     void unsetMessage();
 
     void setMessage(const utility::string_t& value);
-
+    
 
 protected:
+    
     int32_t m_Code;
     bool m_CodeIsSet;
+    
     utility::string_t m_Type;
     bool m_TypeIsSet;
+    
     utility::string_t m_Message;
     bool m_MessageIsSet;
 };

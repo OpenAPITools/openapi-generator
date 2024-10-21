@@ -53,20 +53,28 @@ public:
     void toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) const override;
     bool fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
 
+
     /////////////////////////////////////////////
     /// SchemaWithSet_vaccinationBook members
 
+    
+
+    
     /// <summary>
     /// 
     /// </summary>
-    std::set<std::shared_ptr<Vaccine>>& getVaccines();
+    
+    std::set<std::shared_ptr<Vaccine>> getVaccines() const;
+    
+    
     bool vaccinesIsSet() const;
     void unsetVaccines();
 
     void setVaccines(const std::set<std::shared_ptr<Vaccine>>& value);
-
+    
 
 protected:
+    
     std::set<std::shared_ptr<Vaccine>> m_Vaccines;
     bool m_VaccinesIsSet;
 };

@@ -19,7 +19,6 @@ namespace client {
 namespace model {
 
 
-
 Order::Order()
 {
     m_Id = 0L;
@@ -30,7 +29,6 @@ Order::Order()
     m_QuantityIsSet = false;
     m_ShipDate = utility::datetime();
     m_ShipDateIsSet = false;
-    m_Status = utility::conversions::to_string_t("");
     m_StatusIsSet = false;
     m_Complete = false;
     m_CompleteIsSet = false;
@@ -47,33 +45,46 @@ void Order::validate()
 
 web::json::value Order::toJson() const
 {
-
     web::json::value val = web::json::value::object();
     
     if(m_IdIsSet)
-    {
+    {   
+        
         val[utility::conversions::to_string_t(U("id"))] = ModelBase::toJson(m_Id);
     }
+    
     if(m_PetIdIsSet)
-    {
+    {   
+        
         val[utility::conversions::to_string_t(U("petId"))] = ModelBase::toJson(m_PetId);
     }
+    
     if(m_QuantityIsSet)
-    {
+    {   
+        
         val[utility::conversions::to_string_t(U("quantity"))] = ModelBase::toJson(m_Quantity);
     }
+    
     if(m_ShipDateIsSet)
-    {
+    {   
+        
         val[utility::conversions::to_string_t(U("shipDate"))] = ModelBase::toJson(m_ShipDate);
     }
+    
     if(m_StatusIsSet)
-    {
-        val[utility::conversions::to_string_t(U("status"))] = ModelBase::toJson(m_Status);
+    {   
+        
+        utility::string_t refVal = fromStatusEnum(m_Status);
+        val[utility::conversions::to_string_t(U("status"))] = ModelBase::toJson(refVal);
+        
     }
+    
     if(m_CompleteIsSet)
-    {
+    {   
+        
         val[utility::conversions::to_string_t(U("complete"))] = ModelBase::toJson(m_Complete);
     }
+    
 
     return val;
 }
@@ -90,6 +101,7 @@ bool Order::fromJson(const web::json::value& val)
             int64_t refVal_setId;
             ok &= ModelBase::fromJson(fieldValue, refVal_setId);
             setId(refVal_setId);
+            
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("petId"))))
@@ -100,6 +112,7 @@ bool Order::fromJson(const web::json::value& val)
             int64_t refVal_setPetId;
             ok &= ModelBase::fromJson(fieldValue, refVal_setPetId);
             setPetId(refVal_setPetId);
+            
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("quantity"))))
@@ -110,6 +123,7 @@ bool Order::fromJson(const web::json::value& val)
             int32_t refVal_setQuantity;
             ok &= ModelBase::fromJson(fieldValue, refVal_setQuantity);
             setQuantity(refVal_setQuantity);
+            
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("shipDate"))))
@@ -120,6 +134,7 @@ bool Order::fromJson(const web::json::value& val)
             utility::datetime refVal_setShipDate;
             ok &= ModelBase::fromJson(fieldValue, refVal_setShipDate);
             setShipDate(refVal_setShipDate);
+            
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("status"))))
@@ -129,7 +144,9 @@ bool Order::fromJson(const web::json::value& val)
         {
             utility::string_t refVal_setStatus;
             ok &= ModelBase::fromJson(fieldValue, refVal_setStatus);
-            setStatus(refVal_setStatus);
+            
+            setStatus(toStatusEnum(refVal_setStatus));
+            
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("complete"))))
@@ -140,6 +157,7 @@ bool Order::fromJson(const web::json::value& val)
             bool refVal_setComplete;
             ok &= ModelBase::fromJson(fieldValue, refVal_setComplete);
             setComplete(refVal_setComplete);
+            
         }
     }
     return ok;
@@ -155,26 +173,33 @@ void Order::toMultipart(std::shared_ptr<MultipartFormData> multipart, const util
     if(m_IdIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("id")), m_Id));
+        
     }
     if(m_PetIdIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("petId")), m_PetId));
+        
     }
     if(m_QuantityIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("quantity")), m_Quantity));
+        
     }
     if(m_ShipDateIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("shipDate")), m_ShipDate));
+        
     }
     if(m_StatusIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("status")), m_Status));
+        
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("status")), fromStatusEnum(m_Status)));
+        
     }
     if(m_CompleteIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("complete")), m_Complete));
+        
     }
 }
 
@@ -192,39 +217,83 @@ bool Order::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const ut
         int64_t refVal_setId;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("id"))), refVal_setId );
         setId(refVal_setId);
+        
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("petId"))))
     {
         int64_t refVal_setPetId;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("petId"))), refVal_setPetId );
         setPetId(refVal_setPetId);
+        
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("quantity"))))
     {
         int32_t refVal_setQuantity;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("quantity"))), refVal_setQuantity );
         setQuantity(refVal_setQuantity);
+        
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("shipDate"))))
     {
         utility::datetime refVal_setShipDate;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("shipDate"))), refVal_setShipDate );
         setShipDate(refVal_setShipDate);
+        
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("status"))))
     {
         utility::string_t refVal_setStatus;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("status"))), refVal_setStatus );
-        setStatus(refVal_setStatus);
+        
+        setStatus(toStatusEnum(refVal_setStatus));
+        
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("complete"))))
     {
         bool refVal_setComplete;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("complete"))), refVal_setComplete );
         setComplete(refVal_setComplete);
+        
     }
     return ok;
 }
+
+
+Order::StatusEnum Order::toStatusEnum(const utility::string_t& value) const
+{
+    
+    if (value == utility::conversions::to_string_t("placed")) {
+        return StatusEnum::placed;
+    }
+    
+    if (value == utility::conversions::to_string_t("approved")) {
+        return StatusEnum::approved;
+    }
+    
+    if (value == utility::conversions::to_string_t("delivered")) {
+        return StatusEnum::delivered;
+    }
+    
+    throw std::invalid_argument("Invalid value for conversion to StatusEnum");
+}
+
+
+const utility::string_t Order::fromStatusEnum(const StatusEnum value) const
+{
+    switch(value)
+    {
+        
+        case StatusEnum::placed: return utility::conversions::to_string_t("placed");
+        
+        case StatusEnum::approved: return utility::conversions::to_string_t("approved");
+        
+        case StatusEnum::delivered: return utility::conversions::to_string_t("delivered");
+        
+    }
+}
+
+
+
 
 int64_t Order::getId() const
 {
@@ -246,6 +315,7 @@ void Order::unsetId()
 {
     m_IdIsSet = false;
 }
+
 int64_t Order::getPetId() const
 {
     return m_PetId;
@@ -266,6 +336,7 @@ void Order::unsetPetId()
 {
     m_PetIdIsSet = false;
 }
+
 int32_t Order::getQuantity() const
 {
     return m_Quantity;
@@ -286,10 +357,12 @@ void Order::unsetQuantity()
 {
     m_QuantityIsSet = false;
 }
+
 utility::datetime Order::getShipDate() const
 {
     return m_ShipDate;
 }
+
 
 void Order::setShipDate(const utility::datetime& value)
 {
@@ -306,12 +379,14 @@ void Order::unsetShipDate()
 {
     m_ShipDateIsSet = false;
 }
-utility::string_t Order::getStatus() const
+
+Order::StatusEnum Order::getStatus() const
 {
     return m_Status;
 }
 
-void Order::setStatus(const utility::string_t& value)
+
+void Order::setStatus(const StatusEnum value)
 {
     m_Status = value;
     m_StatusIsSet = true;
@@ -326,6 +401,7 @@ void Order::unsetStatus()
 {
     m_StatusIsSet = false;
 }
+
 bool Order::isComplete() const
 {
     return m_Complete;
@@ -346,6 +422,7 @@ void Order::unsetComplete()
 {
     m_CompleteIsSet = false;
 }
+
 }
 }
 }
