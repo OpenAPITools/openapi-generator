@@ -105,7 +105,7 @@ import kotlinx.serialization.encoding.*
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.{{httpMethod}},
-            "{{path}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{^isEnum}}"${{{paramName}}}"{{/isEnum}}{{#isEnum}}"${ {{paramName}}.value }"{{/isEnum}}{{/isContainer}}){{/pathParams}},
+            "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{^isEnum}}"${{{paramName}}}"{{/isEnum}}{{#isEnum}}"${ {{paramName}}.value }"{{/isEnum}}{{/isContainer}}){{/pathParams}},
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = {{#hasAuthMethods}}true{{/hasAuthMethods}}{{^hasAuthMethods}}false{{/hasAuthMethods}},
