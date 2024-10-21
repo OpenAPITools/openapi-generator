@@ -1,0 +1,53 @@
+{{#isFile}}
+    _responseData = responseData as {{{dataType}}};
+{{/isFile}}
+{{^isFile}}
+    {{#simpleType}}
+        {{#primitiveType}}
+            {{#dataType}}
+                _responseData = responseData as {{{dataType}}};
+            {{/dataType}}
+            {{^dataType}}
+                _responseData = responseData;
+            {{/dataType}}
+        {{/primitiveType}}
+        {{^primitiveType}}
+            {{#dataType}}
+                _responseData = {{{dataType}}}.fromJson(responseData as Map<String,dynamic>);
+            {{/dataType}}
+            {{^dataType}}
+                _responseData = responseData;
+            {{/dataType}}
+        {{/primitiveType}}
+    {{/simpleType}}
+    {{^simpleType}}
+        {{#primitiveType}}
+            _responseData = responseData as {{{dataType}}};
+        {{/primitiveType}}
+        {{^primitiveType}}
+            {{#isModel}}
+                {{#isMap}}
+                    _responseData = responseData as {{{dataType}}};
+                {{/isMap}}
+                {{^isMap}}
+                    _responseData = {{{dataType}}}.fromJson(responseData as Map<String,dynamic>);
+                {{/isMap}}
+            {{/isModel}}
+            {{^isModel}}
+                {{#isArray}}
+                    {{#uniqueItems}}
+                        final _responseDataAsSet = responseData as List<dynamic>;
+                            _responseData = _responseDataAsSet.map<{{{baseType}}}>((dynamic e)=> {{{baseType}}}.fromJson(e as Map<String, dynamic>)).toSet();
+                    {{/uniqueItems}}
+                    {{^uniqueItems}}
+                        final _responseDataAsList = responseData as List<dynamic>;
+                        _responseData = _responseDataAsList.map<{{{baseType}}}>((dynamic e)=> {{{baseType}}}.fromJson(e as Map<String, dynamic>)).toList();
+                    {{/uniqueItems}}
+                {{/isArray}}
+                {{#isMap}}
+                        _responseData = responseData as Map<String, {{{baseType}}}>;
+                {{/isMap}}
+            {{/isModel}}
+        {{/primitiveType}}
+    {{/simpleType}}
+{{/isFile}}

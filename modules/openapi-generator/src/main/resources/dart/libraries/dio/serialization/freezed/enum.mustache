@@ -1,0 +1,13 @@
+part of 'models.dart';
+
+{{#description}}/// {{{description}}}{{/description}}
+@JsonEnum(valueField: 'value')
+enum {{classname}} {
+    {{#allowableValues}}
+        {{#enumVars}}
+            {{{name}}}(value: {{#isString}}r{{/isString}}{{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+        {{/enumVars}}
+        const {{classname}}({required this.value});
+        final {{dataType}} value;
+    {{/allowableValues}}
+}
