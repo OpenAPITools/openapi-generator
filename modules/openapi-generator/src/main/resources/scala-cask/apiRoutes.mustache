@@ -10,11 +10,12 @@ import {{modelPackage}}.*
 
 import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
+import scala.util.Try
 
 {{#imports}}import {{import}}
 {{/imports}}
 
-class {{classname}}Routes(service : {{classname}}Service) extends cask.Routes {
+class {{classname}}Routes(service : {{classname}}Service[Try]) extends cask.Routes {
 
 {{#route-groups}}
     // route group for {{methodName}}

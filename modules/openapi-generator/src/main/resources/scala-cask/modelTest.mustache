@@ -20,6 +20,8 @@ class {{classname}}Test extends AnyWordSpec with Matchers {
     value= {{value}}
     {{/examples}}
 {{/operations}}
+
+{{^isEnum}}
     "{{classname}}.fromJson" should {
         """not parse invalid json""" in {
            val Failure(err) = Try({{classname}}Data.fromJsonString("invalid jason"))
@@ -31,7 +33,7 @@ class {{classname}}Test extends AnyWordSpec with Matchers {
            sys.error("TODO")
         }
     }
-
+{{/isEnum}}
 }
 {{/model}}
 {{/models}}

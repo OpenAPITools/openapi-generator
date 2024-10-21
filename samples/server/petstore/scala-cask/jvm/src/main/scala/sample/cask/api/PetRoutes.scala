@@ -22,12 +22,13 @@ import sample.cask.model.*
 
 import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
+import scala.util.Try
 
 import sample.cask.model.ApiResponse
 import java.io.File
 import sample.cask.model.Pet
 
-class PetRoutes(service : PetService) extends cask.Routes {
+class PetRoutes(service : PetService[Try]) extends cask.Routes {
 
     // route group for routeWorkAroundForPOSTPet
     @cask.post("/pet", true)
@@ -63,7 +64,8 @@ class PetRoutes(service : PetService) extends cask.Routes {
               petJson <- Parsed.fromTry(request.bodyAsJson)
               petData <- Parsed.eval(PetData.fromJson(petJson)) /* not array or map */
               pet <- Parsed.fromTry(petData.validated(failFast))
-            result <- Parsed.eval(service.addPet(pet))
+            resultTry <- Parsed.eval(service.addPet(pet))
+            result <- Parsed.fromTry(resultTry)
         } yield result
 
         (result : @unchecked) match {
@@ -84,7 +86,8 @@ class PetRoutes(service : PetService) extends cask.Routes {
         val result =         for {
             petId <- Parsed(petId)
                 apiKey <- request.headerSingleValueOptional("apiKey")
-            result <- Parsed.eval(service.deletePet(petId, apiKey))
+            resultTry <- Parsed.eval(service.deletePet(petId, apiKey))
+            result <- Parsed.fromTry(resultTry)
         } yield result
 
         (result : @unchecked) match {
@@ -102,7 +105,8 @@ class PetRoutes(service : PetService) extends cask.Routes {
         def failFast = request.queryParams.keySet.contains("failFast")
 
         val result =         for {
-            result <- Parsed.eval(service.findPetsByStatus(status))
+            resultTry <- Parsed.eval(service.findPetsByStatus(status))
+            result <- Parsed.fromTry(resultTry)
         } yield result
 
         (result : @unchecked) match {
@@ -121,7 +125,8 @@ class PetRoutes(service : PetService) extends cask.Routes {
         def failFast = request.queryParams.keySet.contains("failFast")
 
         val result =         for {
-            result <- Parsed.eval(service.findPetsByTags(tags))
+            resultTry <- Parsed.eval(service.findPetsByTags(tags))
+            result <- Parsed.fromTry(resultTry)
         } yield result
 
         (result : @unchecked) match {
@@ -141,7 +146,8 @@ class PetRoutes(service : PetService) extends cask.Routes {
 
         val result =         for {
             petId <- Parsed(petId)
-            result <- Parsed.eval(service.getPetById(petId))
+            resultTry <- Parsed.eval(service.getPetById(petId))
+            result <- Parsed.fromTry(resultTry)
         } yield result
 
         (result : @unchecked) match {
@@ -163,7 +169,8 @@ class PetRoutes(service : PetService) extends cask.Routes {
               petJson <- Parsed.fromTry(request.bodyAsJson)
               petData <- Parsed.eval(PetData.fromJson(petJson)) /* not array or map */
               pet <- Parsed.fromTry(petData.validated(failFast))
-            result <- Parsed.eval(service.updatePet(pet))
+            resultTry <- Parsed.eval(service.updatePet(pet))
+            result <- Parsed.fromTry(resultTry)
         } yield result
 
         (result : @unchecked) match {
@@ -185,7 +192,8 @@ class PetRoutes(service : PetService) extends cask.Routes {
             petId <- Parsed(petId)
         name <- request.formSingleValueOptional("name")
         status <- request.formSingleValueOptional("status")
-            result <- Parsed.eval(service.updatePetWithForm(petId, name, status))
+            resultTry <- Parsed.eval(service.updatePetWithForm(petId, name, status))
+            result <- Parsed.fromTry(resultTry)
         } yield result
 
         (result : @unchecked) match {
@@ -206,7 +214,8 @@ class PetRoutes(service : PetService) extends cask.Routes {
             petId <- Parsed(petId)
         additionalMetadata <- request.formSingleValueOptional("additionalMetadata")
         file <- request.formValueAsFileOptional("file")
-            result <- Parsed.eval(service.uploadFile(petId, additionalMetadata, file))
+            resultTry <- Parsed.eval(service.uploadFile(petId, additionalMetadata, file))
+            result <- Parsed.fromTry(resultTry)
         } yield result
 
         (result : @unchecked) match {
