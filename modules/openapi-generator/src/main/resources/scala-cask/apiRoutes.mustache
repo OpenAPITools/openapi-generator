@@ -36,7 +36,7 @@ class {{classname}}Routes(service : {{classname}}Service[Try]) extends cask.Rout
          * {{description}}
          */
         {{vendorExtensions.x-annotation}}("{{vendorExtensions.x-cask-path}}")
-        def {{operationId}}({{vendorExtensions.x-cask-path-typed}}) = {
+        def {{operationId}}({{{vendorExtensions.x-cask-path-typed}}}) = {
         {{#authMethods}}
             // auth method {{name}} : {{type}}, keyParamName: {{keyParamName}}
         {{/authMethods}}
