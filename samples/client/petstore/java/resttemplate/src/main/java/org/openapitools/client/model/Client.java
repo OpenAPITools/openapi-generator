@@ -70,6 +70,7 @@ public class Client {
     this.client = client;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
