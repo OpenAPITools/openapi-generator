@@ -28,7 +28,6 @@ public class Category {
 
   private Long id;
 
-  private String name;
+  private @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") String name;
 
 }
-

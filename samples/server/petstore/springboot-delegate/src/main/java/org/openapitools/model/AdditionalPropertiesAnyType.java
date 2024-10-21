@@ -36,7 +36,7 @@ public class AdditionalPropertiesAnyType {
    * Constructor with all args parameters
    */
   public AdditionalPropertiesAnyType(String name) {
-      this.name = name;
+    this.name = name;
   }
 
   public AdditionalPropertiesAnyType name(String name) {
@@ -48,7 +48,6 @@ public class AdditionalPropertiesAnyType {
    * Get name
    * @return name
    */
-  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public String getName() {
@@ -136,4 +135,3 @@ public class AdditionalPropertiesAnyType {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

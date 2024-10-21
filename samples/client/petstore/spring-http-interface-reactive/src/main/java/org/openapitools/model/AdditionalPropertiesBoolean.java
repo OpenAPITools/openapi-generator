@@ -121,4 +121,3 @@ public class AdditionalPropertiesBoolean {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

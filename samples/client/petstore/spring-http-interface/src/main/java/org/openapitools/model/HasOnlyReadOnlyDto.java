@@ -102,4 +102,3 @@ public class HasOnlyReadOnlyDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

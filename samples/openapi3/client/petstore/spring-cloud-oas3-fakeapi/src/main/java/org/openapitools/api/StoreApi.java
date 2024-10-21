@@ -62,7 +62,7 @@ public interface StoreApi {
     )
     
     ResponseEntity<Void> deleteOrder(
-        @Parameter(name = "order_id", description = "ID of the order that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("order_id") String orderId
+        @Parameter(name = "order_id", description = "ID of the order that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("order_id") @NotNull String orderId
     );
 
 
@@ -127,7 +127,7 @@ public interface StoreApi {
     )
     
     ResponseEntity<Order> getOrderById(
-        @Min(1L) @Max(5L) @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("order_id") Long orderId
+        @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("order_id") @NotNull @Min(1L) @Max(5L) Long orderId
     );
 
 
@@ -160,7 +160,7 @@ public interface StoreApi {
     )
     
     ResponseEntity<Order> placeOrder(
-        @Parameter(name = "Order", description = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order order
+        @Parameter(name = "Order", description = "order placed for purchasing the pet", required = true) @RequestBody @NotNull @Valid Order order
     );
 
 }

@@ -80,4 +80,3 @@ public class NumberOnlyDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

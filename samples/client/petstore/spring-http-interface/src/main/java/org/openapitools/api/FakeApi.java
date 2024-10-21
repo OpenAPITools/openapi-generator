@@ -152,7 +152,7 @@ public interface FakeApi {
         contentType = "application/json"
     )
     ResponseEntity<Void> testBodyWithQueryParams(
-         @RequestParam(value = "query", required = true) String query,
+         @RequestParam(value = "query") String query,
          @RequestBody UserDto userDto
     );
 
@@ -203,10 +203,10 @@ public interface FakeApi {
         contentType = "application/x-www-form-urlencoded"
     )
     ResponseEntity<Void> testEndpointParameters(
-         @RequestParam(value = "number", required = true) BigDecimal number,
-         @RequestParam(value = "double", required = true) Double _double,
-         @RequestParam(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
-         @RequestParam(value = "byte", required = true) byte[] _byte,
+         @RequestParam(value = "number") BigDecimal number,
+         @RequestParam(value = "double") Double _double,
+         @RequestParam(value = "pattern_without_delimiter") String patternWithoutDelimiter,
+         @RequestParam(value = "byte") byte[] _byte,
          @RequestParam(value = "integer", required = false) Integer integer,
          @RequestParam(value = "int32", required = false) Integer int32,
          @RequestParam(value = "int64", required = false) Long int64,
@@ -242,7 +242,7 @@ public interface FakeApi {
         contentType = "application/x-www-form-urlencoded"
     )
     ResponseEntity<Void> testEnumParameters(
-         @RequestHeader(value = "enum_header_string_array", required = false) List<String> enumHeaderStringArray,
+         @RequestHeader(value = "enum_header_string_array", required = false) List enumHeaderStringArray,
          @RequestHeader(value = "enum_header_string", required = false, defaultValue = "-efg") String enumHeaderString,
          @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,
          @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
@@ -271,9 +271,9 @@ public interface FakeApi {
         accept = { "application/json" }
     )
     ResponseEntity<Void> testGroupParameters(
-         @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,
+         @RequestParam(value = "required_string_group") Integer requiredStringGroup,
          @RequestHeader(value = "required_boolean_group", required = true) Boolean requiredBooleanGroup,
-         @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,
+         @RequestParam(value = "required_int64_group") Long requiredInt64Group,
          @RequestParam(value = "string_group", required = false) Integer stringGroup,
          @RequestHeader(value = "boolean_group", required = false) Boolean booleanGroup,
          @RequestParam(value = "int64_group", required = false) Long int64Group
@@ -313,8 +313,8 @@ public interface FakeApi {
         contentType = "application/x-www-form-urlencoded"
     )
     ResponseEntity<Void> testJsonFormData(
-         @RequestParam(value = "param", required = true) String param,
-         @RequestParam(value = "param2", required = true) String param2
+         @RequestParam(value = "param") String param,
+         @RequestParam(value = "param2") String param2
     );
 
 
@@ -352,10 +352,10 @@ public interface FakeApi {
         accept = { "application/json" }
     )
     ResponseEntity<Void> testQueryParameterCollectionFormat(
-         @RequestParam(value = "pipe", required = true) List<String> pipe,
-         @RequestParam(value = "http", required = true) List<String> http,
-         @RequestParam(value = "url", required = true) List<String> url,
-         @RequestParam(value = "context", required = true) List<String> context
+         @RequestParam(value = "pipe") List<String> pipe,
+         @RequestParam(value = "http") List<String> http,
+         @RequestParam(value = "url") List<String> url,
+         @RequestParam(value = "context") List<String> context
     );
 
 

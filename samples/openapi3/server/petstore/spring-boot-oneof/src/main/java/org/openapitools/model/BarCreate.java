@@ -33,7 +33,7 @@ public class BarCreate extends Entity {
 
   private String fooPropB;
 
-  private FooRefOrValue foo;
+  private @Valid FooRefOrValue foo;
 
   public BarCreate() {
     super();
@@ -55,7 +55,6 @@ public class BarCreate extends Entity {
    * Get barPropA
    * @return barPropA
    */
-  
   @Schema(name = "barPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("barPropA")
   public String getBarPropA() {
@@ -75,7 +74,6 @@ public class BarCreate extends Entity {
    * Get fooPropB
    * @return fooPropB
    */
-  
   @Schema(name = "fooPropB", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("fooPropB")
   public String getFooPropB() {
@@ -95,10 +93,9 @@ public class BarCreate extends Entity {
    * Get foo
    * @return foo
    */
-  @Valid 
   @Schema(name = "foo", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("foo")
-  public FooRefOrValue getFoo() {
+  public @Valid FooRefOrValue getFoo() {
     return foo;
   }
 
@@ -199,47 +196,39 @@ public class BarCreate extends Entity {
       this.instance.barPropA(barPropA);
       return this;
     }
-    
     public BarCreate.Builder fooPropB(String fooPropB) {
       this.instance.fooPropB(fooPropB);
       return this;
     }
-    
     public BarCreate.Builder foo(FooRefOrValue foo) {
       this.instance.foo(foo);
       return this;
     }
-    
     @Override
     public BarCreate.Builder href(String href) {
       this.instance.href(href);
       return this;
     }
-    
     @Override
     public BarCreate.Builder id(String id) {
       this.instance.id(id);
       return this;
     }
-    
     @Override
     public BarCreate.Builder atSchemaLocation(String atSchemaLocation) {
       this.instance.atSchemaLocation(atSchemaLocation);
       return this;
     }
-    
     @Override
     public BarCreate.Builder atBaseType(String atBaseType) {
       this.instance.atBaseType(atBaseType);
       return this;
     }
-    
     @Override
     public BarCreate.Builder atType(String atType) {
       this.instance.atType(atType);
       return this;
     }
-    
     /**
     * returns a built BarCreate instance.
     *
@@ -277,4 +266,3 @@ public class BarCreate extends Entity {
   }
 
 }
-

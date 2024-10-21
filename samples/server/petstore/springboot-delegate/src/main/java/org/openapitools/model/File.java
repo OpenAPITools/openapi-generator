@@ -33,7 +33,7 @@ public class File {
    * Constructor with all args parameters
    */
   public File(String sourceURI) {
-      this.sourceURI = sourceURI;
+    this.sourceURI = sourceURI;
   }
 
   public File sourceURI(String sourceURI) {
@@ -45,7 +45,6 @@ public class File {
    * Test capitalization
    * @return sourceURI
    */
-  
   @ApiModelProperty(value = "Test capitalization")
   @JsonProperty("sourceURI")
   public String getSourceURI() {
@@ -93,4 +92,3 @@ public class File {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

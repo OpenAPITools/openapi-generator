@@ -60,7 +60,7 @@ public interface PetApi {
     )
     
     default ResponseEntity<Void> addPet(
-        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet body
+        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @RequestBody @NotNull @Valid Pet body
     ) {
         return getDelegate().addPet(body);
     }
@@ -96,7 +96,7 @@ public interface PetApi {
     )
     
     default ResponseEntity<Void> deletePet(
-        @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId,
+        @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") @NotNull Long petId,
         @ApiParam(value = "") @RequestHeader(value = "api_key", required = false) String apiKey
     ) {
         return getDelegate().deletePet(petId, apiKey);
@@ -117,7 +117,7 @@ public interface PetApi {
         nickname = "findPetsByStatus",
         notes = "Multiple status values can be provided with comma separated strings",
         response = Pet.class,
-        responseContainer = "List",
+        responseContainer = "array",
         authorizations = {
             @Authorization(value = "petstore_auth", scopes = {
                 @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -126,7 +126,7 @@ public interface PetApi {
          }
     )
     @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
+        @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "array"),
         @ApiResponse(code = 400, message = "Invalid status value")
     })
     @RequestMapping(
@@ -136,7 +136,7 @@ public interface PetApi {
     )
     
     default ResponseEntity<List<Pet>> findPetsByStatus(
-        @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status,
+        @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @RequestParam(value = "status") @NotNull List<String> status,
         @ApiIgnore final Pageable pageable
     ) {
         return getDelegate().findPetsByStatus(status, pageable);
@@ -159,7 +159,7 @@ public interface PetApi {
         nickname = "findPetsByTags",
         notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
         response = Pet.class,
-        responseContainer = "List",
+        responseContainer = "array",
         authorizations = {
             @Authorization(value = "petstore_auth", scopes = {
                 @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -168,7 +168,7 @@ public interface PetApi {
          }
     )
     @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
+        @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "array"),
         @ApiResponse(code = 400, message = "Invalid tag value")
     })
     @RequestMapping(
@@ -178,7 +178,7 @@ public interface PetApi {
     )
     
     default ResponseEntity<List<Pet>> findPetsByTags(
-        @NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags,
+        @ApiParam(value = "Tags to filter by", required = true) @RequestParam(value = "tags") @NotNull List<String> tags,
         @ApiIgnore final Pageable pageable
     ) {
         return getDelegate().findPetsByTags(tags, pageable);
@@ -216,7 +216,7 @@ public interface PetApi {
     )
     
     default ResponseEntity<Pet> getPetById(
-        @ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") Long petId
+        @ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") @NotNull Long petId
     ) {
         return getDelegate().getPetById(petId);
     }
@@ -234,7 +234,7 @@ public interface PetApi {
         nickname = "listAllPets",
         notes = "",
         response = Pet.class,
-        responseContainer = "List",
+        responseContainer = "array",
         authorizations = {
             @Authorization(value = "petstore_auth", scopes = {
                 @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -243,7 +243,7 @@ public interface PetApi {
          }
     )
     @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
+        @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "array"),
         @ApiResponse(code = 400, message = "Invalid status value")
     })
     @RequestMapping(
@@ -293,7 +293,7 @@ public interface PetApi {
     )
     
     default ResponseEntity<Void> updatePet(
-        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet body
+        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @RequestBody @NotNull @Valid Pet body
     ) {
         return getDelegate().updatePet(body);
     }
@@ -329,9 +329,9 @@ public interface PetApi {
     )
     
     default ResponseEntity<Void> updatePetWithForm(
-        @ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,
-        @ApiParam(value = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) String name,
-        @ApiParam(value = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) String status
+        @ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") @NotNull Long petId,
+        @ApiParam(value = "Updated name of the pet") @RequestParam(value = "name", required = false) String name,
+        @ApiParam(value = "Updated status of the pet") @RequestParam(value = "status", required = false) String status
     ) {
         return getDelegate().updatePetWithForm(petId, name, status);
     }
@@ -369,8 +369,8 @@ public interface PetApi {
     )
     
     default ResponseEntity<ModelApiResponse> uploadFile(
-        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
-        @ApiParam(value = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
+        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") @NotNull Long petId,
+        @ApiParam(value = "Additional data to pass to server") @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
         @ApiParam(value = "file to upload") @RequestPart(value = "file", required = false) MultipartFile file
     ) {
         return getDelegate().uploadFile(petId, additionalMetadata, file);

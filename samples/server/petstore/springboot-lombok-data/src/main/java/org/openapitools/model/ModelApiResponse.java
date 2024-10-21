@@ -35,4 +35,3 @@ public class ModelApiResponse {
   private String message;
 
 }
-

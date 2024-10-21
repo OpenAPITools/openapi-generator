@@ -17,6 +17,10 @@
 
 package org.openapitools.codegen;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -183,6 +187,12 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isEnum; // true if the enum is defined inline
     public boolean isInnerEnum; // Enums declared inline will be located inside the generic model, changing how the enum is referenced in some cases.
     public boolean isEnumRef; // true if it's a reference to an enum
+    /**
+     * This indicates that the enum whether it is inline or referenced can be used as a data type.
+     * If <code>RESOLVE_INLINE_ENUMS</code> is set to <code>true</code> in `<code>inlineSchemaOptions</code>, in those cases this field is irrelevant.
+     *
+     */
+    public boolean isResolvedEnum;
     public boolean isReadOnly;
     public boolean isWriteOnly;
     public boolean isNullable;
@@ -253,6 +263,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     private String format;
     private LinkedHashMap<String, List<String>> dependentRequired;
     private CodegenProperty contains;
+    private final ObjectMapper mapper = new ObjectMapper();
 
     @Override
     public CodegenProperty getContains() {
@@ -602,52 +613,170 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public CodegenProperty clone() {
         try {
             CodegenProperty cp = (CodegenProperty) super.clone();
+
+            // Deep copy in case of mutable objects
             if (this._enum != null) {
-                cp._enum = new ArrayList<String>(this._enum);
+                cp._enum = new ArrayList<>(this._enum);
             }
             if (this.allowableValues != null) {
-                cp.allowableValues = new HashMap<String, Object>(this.allowableValues);
-            }
-            if (this.items != null) {
-                cp.items = this.items;
-            }
-            if (this.additionalProperties != null) {
-                cp.additionalProperties = this.additionalProperties;
+                cp.allowableValues = mapper.readValue(
+                    mapper.writeValueAsString(this.allowableValues),
+                    new TypeReference<>() {});
             }
             if (this.vars != null) {
-                cp.vars = this.vars;
+                cp.vars = new ArrayList<>();
+                for (CodegenProperty var : this.vars) {
+                    cp.vars.add(var.clone());
+                }
             }
             if (this.requiredVars != null) {
-                cp.requiredVars = this.requiredVars;
-            }
-            if (this.mostInnerItems != null) {
-                cp.mostInnerItems = this.mostInnerItems;
+                cp.requiredVars = new ArrayList<>();
+                for (CodegenProperty var : this.requiredVars) {
+                    cp.requiredVars.add(var.clone());
+                }
             }
             if (this.vendorExtensions != null) {
-                cp.vendorExtensions = new HashMap<String, Object>(this.vendorExtensions);
+                cp.vendorExtensions = mapper.readValue(
+                    mapper.writeValueAsString(this.vendorExtensions),
+                    new TypeReference<>() {});
             }
-            if (this.composedSchemas != null) {
-                cp.composedSchemas = this.composedSchemas;
+            if (this.items != null) {
+                cp.items = this.items.clone();
+            }
+            if (this.additionalProperties != null) {
+                cp.additionalProperties = this.additionalProperties.clone();
+            }
+            if (this.mostInnerItems != null) {
+                cp.mostInnerItems = this.mostInnerItems.clone();
             }
             if (this.requiredVarsMap != null) {
-                cp.setRequiredVarsMap(this.requiredVarsMap);
-            }
-            if (this.ref != null) {
-                cp.setRef(this.ref);
-            }
-            if (this.format != null) {
-                cp.setFormat(this.format);
+                cp.requiredVarsMap = new HashMap<>();
+                for (Map.Entry<String, CodegenProperty> entry : this.requiredVarsMap.entrySet()) {
+                    cp.requiredVarsMap.put(entry.getKey(), entry.getValue().clone());
+                }
             }
             if (this.dependentRequired != null) {
-                cp.setDependentRequired(this.dependentRequired);
+                cp.dependentRequired = mapper.readValue(
+                    mapper.writeValueAsString(this.dependentRequired),
+                    new TypeReference<>() {});
             }
-            if (this.contains != null) {
-                cp.setContains(this.contains);
+            if (this.composedSchemas != null) {
+                cp.composedSchemas = this.composedSchemas.clone();
             }
+
+            // Immutable objects
+            cp.openApiType = this.openApiType;
+            cp.baseName = this.baseName;
+            cp.complexType = this.complexType;
+            cp.getter = this.getter;
+            cp.setter = this.setter;
+            cp.description = this.description;
+            cp.dataType = this.dataType;
+            cp.datatypeWithEnum = this.datatypeWithEnum;
+            cp.dataFormat = this.dataFormat;
+            cp.name = this.name;
+            cp.min = this.min;
+            cp.max = this.max;
+            cp.defaultValue = this.defaultValue;
+            cp.defaultValueWithParam = this.defaultValueWithParam;
+            cp.baseType = this.baseType;
+            cp.containerType = this.containerType;
+            cp.containerTypeMapped = this.containerTypeMapped;
+            cp.title = this.title;
+            cp.unescapedDescription = this.unescapedDescription;
+            cp.maxLength = this.maxLength;
+            cp.minLength = this.minLength;
+            cp.pattern = this.pattern;
+            cp.example = this.example;
+            cp.jsonSchema = this.jsonSchema;
+            cp.minimum = this.minimum;
+            cp.maximum = this.maximum;
+            cp.multipleOf = this.multipleOf;
+            cp.exclusiveMinimum = this.exclusiveMinimum;
+            cp.exclusiveMaximum = this.exclusiveMaximum;
+            cp.required = this.required;
+            cp.deprecated = this.deprecated;
+            cp.hasMoreNonReadOnly = this.hasMoreNonReadOnly;
+            cp.isPrimitiveType = this.isPrimitiveType;
+            cp.isModel = this.isModel;
+            cp.isContainer = this.isContainer;
+            cp.isString = this.isString;
+            cp.isNumeric = this.isNumeric;
+            cp.isInteger = this.isInteger;
+            cp.isShort = this.isShort;
+            cp.isLong = this.isLong;
+            cp.isUnboundedInteger = this.isUnboundedInteger;
+            cp.isNumber = this.isNumber;
+            cp.isFloat = this.isFloat;
+            cp.isDouble = this.isDouble;
+            cp.isDecimal = this.isDecimal;
+            cp.isByteArray = this.isByteArray;
+            cp.isBinary = this.isBinary;
+            cp.isFile = this.isFile;
+            cp.isBoolean = this.isBoolean;
+            cp.isDate = this.isDate;
+            cp.isDateTime = this.isDateTime;
+            cp.isUuid = this.isUuid;
+            cp.isUri = this.isUri;
+            cp.isEmail = this.isEmail;
+            cp.isPassword = this.isPassword;
+            cp.isNull = this.isNull;
+            cp.isVoid = this.isVoid;
+            cp.isFreeFormObject = this.isFreeFormObject;
+            cp.isAnyType = this.isAnyType;
+            cp.isArray = this.isArray;
+            cp.isMap = this.isMap;
+            cp.isOptional = this.isOptional;
+            cp.isEnum = this.isEnum;
+            cp.isInnerEnum = this.isInnerEnum;
+            cp.isEnumRef = this.isEnumRef;
+            cp.isResolvedEnum = this.isResolvedEnum;
+            cp.isReadOnly = this.isReadOnly;
+            cp.isWriteOnly = this.isWriteOnly;
+            cp.isNullable = this.isNullable;
+            cp.isSelfReference = this.isSelfReference;
+            cp.isCircularReference = this.isCircularReference;
+            cp.isDiscriminator = this.isDiscriminator;
+            cp.isNew = this.isNew;
+            cp.isOverridden = this.isOverridden;
+            cp.hasValidation = this.hasValidation;
+            cp.isInherited = this.isInherited;
+            cp.discriminatorValue = this.discriminatorValue;
+            cp.nameInLowerCase = this.nameInLowerCase;
+            cp.nameInCamelCase = this.nameInCamelCase;
+            cp.nameInPascalCase = this.nameInPascalCase;
+            cp.nameInSnakeCase = this.nameInSnakeCase;
+            cp.enumName = this.enumName;
+            cp.maxItems = this.maxItems;
+            cp.minItems = this.minItems;
+            cp.maxProperties = this.maxProperties;
+            cp.minProperties = this.minProperties;
+            cp.uniqueItems = this.uniqueItems;
+            cp.uniqueItemsBoolean = this.uniqueItemsBoolean;
+            cp.isXmlAttribute = this.isXmlAttribute;
+            cp.xmlPrefix = this.xmlPrefix;
+            cp.xmlName = this.xmlName;
+            cp.xmlNamespace = this.xmlNamespace;
+            cp.isXmlWrapped = this.isXmlWrapped;
+            cp.additionalPropertiesIsAnyType = this.additionalPropertiesIsAnyType;
+            cp.hasVars = this.hasVars;
+            cp.hasRequired = this.hasRequired;
+            cp.hasDiscriminatorWithNonEmptyMapping = this.hasDiscriminatorWithNonEmptyMapping;
+            cp.hasMultipleTypes = this.hasMultipleTypes;
+            cp.hasSanitizedName = this.hasSanitizedName;
+            cp.ref = this.ref;
+            cp.schemaIsFromAdditionalProperties = this.schemaIsFromAdditionalProperties;
+            cp.isBooleanSchemaTrue = this.isBooleanSchemaTrue;
+            cp.isBooleanSchemaFalse = this.isBooleanSchemaFalse;
+            cp.format = this.format;
+            cp.dependentRequired = this.dependentRequired;
+            cp.contains = this.contains;
 
             return cp;
         } catch (CloneNotSupportedException e) {
             throw new IllegalStateException(e);
+        } catch (JsonProcessingException e) {
+          throw new RuntimeException(e);
         }
     }
 
@@ -1025,6 +1154,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", isEnum=").append(isEnum);
         sb.append(", isInnerEnum=").append(isInnerEnum);
         sb.append(", isEnumRef=").append(isEnumRef);
+        sb.append(", isResolvedEnum=").append(isResolvedEnum);
         sb.append(", isAnyType=").append(isAnyType);
         sb.append(", isReadOnly=").append(isReadOnly);
         sb.append(", isWriteOnly=").append(isWriteOnly);
@@ -1122,6 +1252,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isEnum == that.isEnum &&
                 isInnerEnum == that.isInnerEnum &&
                 isEnumRef == that.isEnumRef &&
+                isResolvedEnum == that.isResolvedEnum &&
                 isAnyType == that.isAnyType &&
                 isReadOnly == that.isReadOnly &&
                 isWriteOnly == that.isWriteOnly &&
@@ -1211,7 +1342,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric,
                 isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isFile,
                 isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isPassword, isFreeFormObject,
-                isArray, isMap, isOptional, isEnum, isInnerEnum, isEnumRef, isAnyType, isReadOnly, isWriteOnly, isNullable, isShort,
+                isArray, isMap, isOptional, isEnum, isInnerEnum, isEnumRef, isResolvedEnum, isAnyType, isReadOnly, isWriteOnly, isNullable, isShort,
                 isUnboundedInteger, isSelfReference, isCircularReference, isDiscriminator, isNew, isOverridden, _enum,
                 allowableValues, items, mostInnerItems, additionalProperties, vars, requiredVars,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInPascalCase, nameInCamelCase,

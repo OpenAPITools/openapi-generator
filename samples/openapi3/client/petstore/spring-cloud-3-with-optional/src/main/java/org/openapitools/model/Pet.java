@@ -28,15 +28,13 @@ public class Pet {
 
   private Optional<Long> id = Optional.empty();
 
-  private Optional<Category> category = Optional.empty();
+  private Optional<@Valid Category> category = Optional.empty();
 
-  private String name;
+  private @NotNull String name;
 
-  @Valid
-  private List<String> photoUrls = new ArrayList<>();
+  private @NotNull List<Optional<String>> photoUrls = new ArrayList<>();
 
-  @Valid
-  private List<@Valid Tag> tags = new ArrayList<>();
+  private List<Optional<@Valid Tag>> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -85,13 +83,13 @@ public class Pet {
   /**
    * Constructor with only required parameters
    */
-  public Pet(String name, List<String> photoUrls) {
+  public Pet(String name, List<Optional<String>> photoUrls) {
     this.name = name;
     this.photoUrls = photoUrls;
   }
 
-  public Pet id(Long id) {
-    this.id = Optional.of(id);
+  public Pet id(Optional<Long> id) {
+    this.id = id;
     return this;
   }
 
@@ -99,7 +97,6 @@ public class Pet {
    * Get id
    * @return id
    */
-  
   @JsonProperty("id")
   public Optional<Long> getId() {
     return id;
@@ -109,8 +106,8 @@ public class Pet {
     this.id = id;
   }
 
-  public Pet category(Category category) {
-    this.category = Optional.of(category);
+  public Pet category(Optional<Category> category) {
+    this.category = category;
     return this;
   }
 
@@ -118,9 +115,8 @@ public class Pet {
    * Get category
    * @return category
    */
-  @Valid 
   @JsonProperty("category")
-  public Optional<Category> getCategory() {
+  public Optional<@Valid Category> getCategory() {
     return category;
   }
 
@@ -137,9 +133,8 @@ public class Pet {
    * Get name
    * @return name
    */
-  @NotNull 
   @JsonProperty("name")
-  public String getName() {
+  public @NotNull String getName() {
     return name;
   }
 
@@ -147,12 +142,12 @@ public class Pet {
     this.name = name;
   }
 
-  public Pet photoUrls(List<String> photoUrls) {
+  public Pet photoUrls(List<Optional<String>> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
 
-  public Pet addPhotoUrlsItem(String photoUrlsItem) {
+  public Pet addPhotoUrlsItem(Optional<String> photoUrlsItem) {
     if (this.photoUrls == null) {
       this.photoUrls = new ArrayList<>();
     }
@@ -164,22 +159,21 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
    */
-  @NotNull 
   @JsonProperty("photoUrls")
-  public List<String> getPhotoUrls() {
+  public @NotNull List<Optional<String>> getPhotoUrls() {
     return photoUrls;
   }
 
-  public void setPhotoUrls(List<String> photoUrls) {
+  public void setPhotoUrls(List<Optional<String>> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
-  public Pet tags(List<@Valid Tag> tags) {
+  public Pet tags(List<Optional<Tag>> tags) {
     this.tags = tags;
     return this;
   }
 
-  public Pet addTagsItem(Tag tagsItem) {
+  public Pet addTagsItem(Optional<Tag> tagsItem) {
     if (this.tags == null) {
       this.tags = new ArrayList<>();
     }
@@ -191,18 +185,17 @@ public class Pet {
    * Get tags
    * @return tags
    */
-  @Valid 
   @JsonProperty("tags")
-  public List<@Valid Tag> getTags() {
+  public List<Optional<@Valid Tag>> getTags() {
     return tags;
   }
 
-  public void setTags(List<@Valid Tag> tags) {
+  public void setTags(List<Optional<Tag>> tags) {
     this.tags = tags;
   }
 
-  public Pet status(StatusEnum status) {
-    this.status = Optional.of(status);
+  public Pet status(Optional<StatusEnum> status) {
+    this.status = status;
     return this;
   }
 
@@ -211,7 +204,6 @@ public class Pet {
    * @return status
    * @deprecated
    */
-  
   @JsonProperty("status")
   @Deprecated
   public Optional<StatusEnum> getStatus() {
@@ -273,4 +265,3 @@ public class Pet {
     return o.toString().replace("\n", "\n    ");
   }
 }
-
