@@ -302,7 +302,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
             ApiResponse methodResponse = findMethodResponse(operation.getResponses());
 
             if (methodResponse != null) {
-                Schema response = ModelUtils.getSchemaFromResponse(openAPI, methodResponse);
+                Schema response = ModelUtils.getFirstSchemaFromResponse(openAPI, methodResponse);
                 response = unaliasSchema(response);
                 if (response != null) {
                     CodegenProperty cm = fromProperty("response", response, false);
