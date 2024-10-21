@@ -51,13 +51,13 @@ namespace Org.OpenAPITools.Test.Api
         }
 
         /// <summary>
-        /// Test GetApiKeysId_0
+        /// Test GetApiKeysId
         /// </summary>
         [Fact (Skip = "not implemented")]
-        public async Task GetApiKeysId_0AsyncTest()
+        public async Task GetApiKeysIdAsyncTest()
         {
             int id = default!;
-            await _instance.GetApiKeysId_0Async(id);
+            await _instance.GetApiKeysIdAsync(id);
         }
     }
 }

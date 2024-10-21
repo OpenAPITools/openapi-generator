@@ -820,6 +820,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             httpStatusesWithReturn.add(status);
         }
     }
+    private HashMap<String, String> duplicateOf = new HashMap<String, String>();
 
     @Override
     @SuppressWarnings("unchecked")
@@ -839,6 +840,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             if (operations != null) {
                 List<CodegenOperation> ops = operations.getOperation();
                 for (CodegenOperation operation : ops) {
+                    String duplicates = duplicateOf.get(operation.operationId);
+                    if (duplicates != null) {
+                        operation.vendorExtensions.put("x-duplicates", duplicates);
+                    } else {
+                        duplicateOf.put(operation.operationId, operations.getClassname());
+                    }
                     if (operation.responses != null) {
                         for (CodegenResponse response : operation.responses) {
 
