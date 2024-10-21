@@ -473,16 +473,26 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
          *
          * @return the CodegenParameters
          */
-        public LinkedHashSet<CodegenParameter> getGroupQueryParams() {
-            LinkedHashSet<CodegenParameter> list = operations.stream().flatMap(op -> op.queryParams.stream()).map(p -> {
-                        final CodegenParameter copy = p.copy();
-                        copy.vendorExtensions.put("x-default-value", defaultValue(p));
-                        copy.required = false; // all our query params are optional for our work-around as it's a super-set of a few different routes
-                        copy.dataType = asScalaDataType(copy, false, true, true);
-                        copy.defaultValue = defaultValue(copy);
-                        return copy;
+        public Collection<CodegenParameter> getGroupQueryParams() {
+
+            // wow is this a pain to do in Java ... I just wanted to have distinct items of a list
+            // based on their name.
+            Set<String> alreadySeen = new HashSet<>();
+
+            List<CodegenParameter> list = operations.stream().flatMap(op -> op.queryParams.stream()).flatMap(p -> {
+                        if (alreadySeen.add(p.paramName)) {
+                            final CodegenParameter copy = p.copy();
+                            copy.vendorExtensions.put("x-default-value", defaultValue(p));
+                            copy.required = false; // all our query params are optional for our work-around as it's a super-set of a few different routes
+                            copy.dataType = asScalaDataType(copy, false, true, true);
+                            copy.defaultValue = defaultValue(copy);
+                            return Arrays.asList(copy).stream();
+                        } else {
+                            final List<CodegenParameter> empty = Collections.emptyList();
+                            return empty.stream();
+                        }
                     }
-            ).collect(Collectors.toCollection(LinkedHashSet::new));
+            ).collect(Collectors.toList());
 
             return list;
         }
