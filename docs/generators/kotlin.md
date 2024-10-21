@@ -51,6 +51,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useSettingsGradle|Whether the project uses settings.gradle.| |false|
 |useSpringBoot3|Whether to use the Spring Boot 3 with the jvm-spring-webclient library.| |false|
 
+## SUPPORTED VENDOR EXTENSIONS
+
+| Extension name | Description | Applicable for | Default value |
+| -------------- | ----------- | -------------- | ------------- |
+|x-class-extra-annotation|List of custom annotations to be added to model|MODEL|null
+|x-field-extra-annotation|List of custom annotations to be added to property|FIELD, OPERATION_PARAMETER|null
+
+
 ## IMPORT MAPPING
 
 | Type/Alias | Imports |
