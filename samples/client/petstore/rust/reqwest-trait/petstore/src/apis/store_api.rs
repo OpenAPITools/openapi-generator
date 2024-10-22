@@ -37,6 +37,8 @@ impl StoreApiClient {
     }
 }
 
+
+
 #[async_trait]
 impl StoreApi for StoreApiClient {
     /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -161,8 +163,6 @@ impl StoreApi for StoreApiClient {
     }
 
 }
-
-
 
 /// struct for typed errors of method [`delete_order`]
 #[derive(Debug, Clone, Serialize, Deserialize)]

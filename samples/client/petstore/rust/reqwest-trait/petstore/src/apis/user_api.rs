@@ -41,6 +41,8 @@ impl UserApiClient {
     }
 }
 
+
+
 #[async_trait]
 impl UserApi for UserApiClient {
     /// This can only be done by the logged in user.
@@ -322,8 +324,6 @@ impl UserApi for UserApiClient {
     }
 
 }
-
-
 
 /// struct for typed errors of method [`create_user`]
 #[derive(Debug, Clone, Serialize, Deserialize)]

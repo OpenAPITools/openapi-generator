@@ -35,6 +35,8 @@ impl TestingApiClient {
     }
 }
 
+
+
 #[async_trait]
 impl TestingApi for TestingApiClient {
     async fn tests_file_response_get<>(&self, ) -> Result<std::path::PathBuf, Error<TestsFileResponseGetError>> {
@@ -92,8 +94,6 @@ impl TestingApi for TestingApiClient {
     }
 
 }
-
-
 
 /// struct for typed errors of method [`tests_file_response_get`]
 #[derive(Debug, Clone, Serialize, Deserialize)]

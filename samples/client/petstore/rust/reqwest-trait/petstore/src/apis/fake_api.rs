@@ -34,6 +34,8 @@ impl FakeApiClient {
     }
 }
 
+
+
 #[async_trait]
 impl FakeApi for FakeApiClient {
     /// 
@@ -72,8 +74,6 @@ impl FakeApi for FakeApiClient {
     }
 
 }
-
-
 
 /// struct for typed errors of method [`test_nullable_required_param`]
 #[derive(Debug, Clone, Serialize, Deserialize)]

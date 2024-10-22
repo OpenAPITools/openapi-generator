@@ -41,6 +41,8 @@ impl PetApiClient {
     }
 }
 
+
+
 #[async_trait]
 impl PetApi for PetApiClient {
     /// 
@@ -324,8 +326,6 @@ impl PetApi for PetApiClient {
     }
 
 }
-
-
 
 /// struct for typed errors of method [`add_pet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
