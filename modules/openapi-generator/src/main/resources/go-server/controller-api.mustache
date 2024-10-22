@@ -476,7 +476,12 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{^items.isEnumRef}}
 	var {{paramName}}Param []string
 	if query.Has("{{baseName}}") {
-		{{paramName}}Param = strings.Split(query.Get("{{baseName}}"), ",")
+		{{#isExplode}}
+			{{paramName}}Param = query["{{baseName}}"]
+		{{/isExplode}}
+		{{^isExplode}}
+			{{paramName}}Param = strings.Split(query.Get("{{baseName}}"), ",")
+		{{/isExplode}}
 	}
 	{{/items.isEnumRef}}
 	{{#items.isEnumRef}}
