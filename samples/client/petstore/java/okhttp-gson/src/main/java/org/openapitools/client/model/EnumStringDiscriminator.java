@@ -107,6 +107,7 @@ public class EnumStringDiscriminator {
   protected EnumStrTypeEnum enumStrType;
 
   public EnumStringDiscriminator() {
+
   }
 
   public EnumStringDiscriminator enumStrType(EnumStrTypeEnum enumStrType) {

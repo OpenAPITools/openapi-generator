@@ -3080,6 +3080,7 @@ public class DefaultCodegen implements CodegenConfig {
             listOLists.add(m.requiredVars);
             listOLists.add(m.vars);
             listOLists.add(m.allVars);
+            listOLists.add(m.readWriteVars);
             for (List<CodegenProperty> theseVars : listOLists) {
                 for (CodegenProperty requiredVar : theseVars) {
                     if (discPropName.equals(requiredVar.baseName)) {
@@ -3111,6 +3112,37 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         return m;
+    }
+
+    protected static void setEnumDiscriminatorDefaultValue(CodegenModel model) {
+        if (model.discriminator == null) {
+            return;
+        }
+        String discPropName = model.discriminator.getPropertyBaseName();
+        Stream.of(model.requiredVars, model.vars, model.allVars, model.readWriteVars)
+                .flatMap(List::stream)
+                .filter(v -> discPropName.equals(v.baseName))
+                .forEach(v -> v.defaultValue = getEnumValueForProperty(model.schemaName, model.discriminator, v));
+    }
+
+    protected static String getEnumValueForProperty(
+            String modelName, CodegenDiscriminator discriminator, CodegenProperty var) {
+        if (!discriminator.getIsEnum() && !var.isEnum) {
+            return null;
+        }
+        Map<String, String> mapping = Optional.ofNullable(discriminator.getMapping()).orElseGet(Collections::emptyMap);
+        for (Map.Entry<String, String> e : mapping.entrySet()) {
+            String schemaName = e.getValue().indexOf('/') < 0 ? e.getValue() : ModelUtils.getSimpleRef(e.getValue());
+            if (modelName.equals(schemaName)) {
+                return e.getKey();
+            }
+        }
+        Object values = var.allowableValues.get("values");
+        if (!(values instanceof List<?>)) {
+            return null;
+        }
+        List<?> valueList = (List<?>) values;
+        return valueList.stream().filter(o -> o.equals(modelName)).map(o -> (String) o).findAny().orElse(null);
     }
 
     protected void SortModelPropertiesByRequiredFlag(CodegenModel model) {
