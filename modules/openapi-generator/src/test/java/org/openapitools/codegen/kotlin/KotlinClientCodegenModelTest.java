@@ -50,7 +50,7 @@ import java.util.Map;
 @SuppressWarnings("static-method")
 public class KotlinClientCodegenModelTest {
 
-    private Schema getArrayTestSchema() {
+    private Schema<?> getArrayTestSchema() {
         return new ObjectSchema()
                 .description("a sample model")
                 .addProperties("id", new IntegerSchema().format("int64"))
@@ -58,7 +58,7 @@ public class KotlinClientCodegenModelTest {
                 .addRequiredItem("id");
     }
 
-    private Schema getSimpleSchema() {
+    private Schema<?> getSimpleSchema() {
         return new ObjectSchema()
                 .description("a sample model")
                 .addProperties("id", new IntegerSchema().format("int64"))
@@ -68,14 +68,14 @@ public class KotlinClientCodegenModelTest {
                 .addRequiredItem("name");
     }
 
-    private Schema getMapSchema() {
+    private Schema<?> getMapSchema() {
         return new ObjectSchema()
                 .description("a sample model")
                 .addProperties("mapping", new MapSchema()
                         .additionalProperties(new StringSchema()));
     }
 
-    private Schema getComplexSchema() {
+    private Schema<?> getComplexSchema() {
         return new ObjectSchema()
                 .description("a sample model")
                 .addProperties("child", new ObjectSchema().$ref("#/components/schemas/Child"));
@@ -83,7 +83,7 @@ public class KotlinClientCodegenModelTest {
 
     @Test(description = "convert a simple model")
     public void simpleModelTest() {
-        final Schema schema = getSimpleSchema();
+        final Schema<?> schema = getSimpleSchema();
         final DefaultCodegen codegen = new KotlinClientCodegen();
         codegen.processOpts();
 
@@ -128,7 +128,7 @@ public class KotlinClientCodegenModelTest {
 
     @Test(description = "convert a simple model: threetenbp")
     public void selectDateLibraryAsThreetenbp() {
-        final Schema schema = getSimpleSchema();
+        final Schema<?> schema = getSimpleSchema();
         final KotlinClientCodegen codegen = new KotlinClientCodegen();
         codegen.setDateLibrary(KotlinClientCodegen.DateLibrary.THREETENBP.value);
         codegen.processOpts();
@@ -149,7 +149,7 @@ public class KotlinClientCodegenModelTest {
 
     @Test(description = "convert a simple model: threetenbp-localdatetime")
     public void selectDateLibraryAsThreetenbpLocalDateTime() {
-        final Schema schema = getSimpleSchema();
+        final Schema<?> schema = getSimpleSchema();
         final KotlinClientCodegen codegen = new KotlinClientCodegen();
         String value = KotlinClientCodegen.DateLibrary.THREETENBP_LOCALDATETIME.value;
         Assert.assertEquals(value, "threetenbp-localdatetime");
@@ -172,7 +172,7 @@ public class KotlinClientCodegenModelTest {
 
     @Test(description = "convert a simple model: date string")
     public void selectDateLibraryAsString() {
-        final Schema schema = getSimpleSchema();
+        final Schema<?> schema = getSimpleSchema();
         final KotlinClientCodegen codegen = new KotlinClientCodegen();
         codegen.setDateLibrary(KotlinClientCodegen.DateLibrary.STRING.value);
         codegen.processOpts();
@@ -193,7 +193,7 @@ public class KotlinClientCodegenModelTest {
 
     @Test(description = "convert a simple model: date java8")
     public void selectDateLibraryAsJava8() {
-        final Schema schema = getSimpleSchema();
+        final Schema<?> schema = getSimpleSchema();
         final KotlinClientCodegen codegen = new KotlinClientCodegen();
         codegen.setDateLibrary(KotlinClientCodegen.DateLibrary.JAVA8.value);
         codegen.processOpts();
@@ -214,7 +214,7 @@ public class KotlinClientCodegenModelTest {
 
     @Test(description = "convert a simple model: date java8-localdatetime")
     public void selectDateLibraryAsJava8LocalDateTime() {
-        final Schema schema = getSimpleSchema();
+        final Schema<?> schema = getSimpleSchema();
         final KotlinClientCodegen codegen = new KotlinClientCodegen();
         String value = KotlinClientCodegen.DateLibrary.JAVA8_LOCALDATETIME.value;
         Assert.assertEquals(value, "java8-localdatetime");
@@ -237,7 +237,7 @@ public class KotlinClientCodegenModelTest {
 
     @Test(description = "convert a model with array property to default kotlin.Array")
     public void arrayPropertyTest() {
-        final Schema model = getArrayTestSchema();
+        final Schema<?> model = getArrayTestSchema();
 
         final DefaultCodegen codegen = new KotlinClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
@@ -264,7 +264,7 @@ public class KotlinClientCodegenModelTest {
 
     @Test(description = "convert a model with array property to a kotlin.collections.List")
     public void listPropertyTest() {
-        final Schema model = getArrayTestSchema();
+        final Schema<?> model = getArrayTestSchema();
 
         final KotlinClientCodegen codegen = new KotlinClientCodegen();
         codegen.setCollectionType(KotlinClientCodegen.CollectionType.LIST.value);
@@ -293,7 +293,7 @@ public class KotlinClientCodegenModelTest {
 
     @Test(description = "convert a model with a map property")
     public void mapPropertyTest() {
-        final Schema schema = getMapSchema();
+        final Schema<?> schema = getMapSchema();
         final DefaultCodegen codegen = new KotlinClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -317,7 +317,7 @@ public class KotlinClientCodegenModelTest {
 
     @Test(description = "convert a model with complex property")
     public void complexPropertyTest() {
-        final Schema schema = getComplexSchema();
+        final Schema<?> schema = getComplexSchema();
         final DefaultCodegen codegen = new KotlinClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -351,7 +351,7 @@ public class KotlinClientCodegenModelTest {
 
     @Test(dataProvider = "modelNames", description = "sanitize model names")
     public void sanitizeModelNames(final String name, final ModelNameTest testCase) {
-        final Schema schema = getComplexSchema();
+        final Schema<?> schema = getComplexSchema();
         final DefaultCodegen codegen = new KotlinClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema(name, schema);
         codegen.setOpenAPI(openAPI);
@@ -448,4 +448,3 @@ public class KotlinClientCodegenModelTest {
         }
     }
 }
-
