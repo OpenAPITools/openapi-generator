@@ -82,21 +82,13 @@ object UserService {
 
   def apply() : UserService[Try] = UserService.Handler[Try](
         (_) => notImplemented("createUser"), 
-        // override def createUser(user : User) : Unit = ???
         (_) => notImplemented("createUsersWithArrayInput"), 
-        // override def createUsersWithArrayInput(user : Seq[User]) : Unit = ???
         (_) => notImplemented("createUsersWithListInput"), 
-        // override def createUsersWithListInput(user : Seq[User]) : Unit = ???
         (_) => notImplemented("deleteUser"), 
-        // override def deleteUser(username : String) : Unit = ???
         (_) => notImplemented("getUserByName"), 
-        // override def getUserByName(username : String) : User = ???
         (_, _) => notImplemented("loginUser"), 
-        // override def loginUser(username : String, password : String) : String = ???
         () => notImplemented("logoutUser"), 
-        // override def logoutUser() : Unit = ???
         (_, _) => notImplemented("updateUser")
-        // override def updateUser(username : String, user : User) : Unit = ???
   )
 
   private def notImplemented(name : String) = Failure(new Exception(s"TODO: $name not implemented"))

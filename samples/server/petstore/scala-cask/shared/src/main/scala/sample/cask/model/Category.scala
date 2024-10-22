@@ -34,8 +34,8 @@ def asJson: ujson.Value = asData.asJson
 
 def asData : CategoryData = {
 CategoryData(
-    id = id.getOrElse(0) /* 1 */ ,
-    name = name.getOrElse("") /* 1 */ 
+    id = id.getOrElse(0),
+    name = name.getOrElse("")
 
 )
 }

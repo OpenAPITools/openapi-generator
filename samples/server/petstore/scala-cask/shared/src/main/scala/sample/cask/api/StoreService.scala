@@ -61,13 +61,9 @@ object StoreService {
 
   def apply() : StoreService[Try] = StoreService.Handler[Try](
         (_) => notImplemented("deleteOrder"), 
-        // override def deleteOrder(orderId : String) : Unit = ???
         () => notImplemented("getInventory"), 
-        // override def getInventory() : Map[String, Int] = ???
         (_) => notImplemented("getOrderById"), 
-        // override def getOrderById(orderId : Long) : Order = ???
         (_) => notImplemented("placeOrder")
-        // override def placeOrder(order : Order) : Order = ???
   )
 
   private def notImplemented(name : String) = Failure(new Exception(s"TODO: $name not implemented"))

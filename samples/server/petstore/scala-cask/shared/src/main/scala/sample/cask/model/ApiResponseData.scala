@@ -75,9 +75,9 @@ case class ApiResponseData(
   /** use 'validated' to check validation */
   def asModel : ApiResponse = {
     ApiResponse(
-        code = Option(code) /* one */ ,
-        `type` = Option(`type`) /* one */ ,
-        message = Option(message) /* one */ 
+        code = Option(code),
+        `type` = Option(`type`),
+        message = Option(message)
     
     )
   }

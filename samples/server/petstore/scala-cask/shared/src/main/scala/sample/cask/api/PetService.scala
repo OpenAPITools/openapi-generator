@@ -83,21 +83,13 @@ object PetService {
 
   def apply() : PetService[Try] = PetService.Handler[Try](
         (_) => notImplemented("addPet"), 
-        // override def addPet(pet : Pet) : Pet = ???
         (_, _) => notImplemented("deletePet"), 
-        // override def deletePet(petId : Long, apiKey : Option[String]) : Unit = ???
         (_) => notImplemented("findPetsByStatus"), 
-        // override def findPetsByStatus(status : Seq[String]) : List[Pet] = ???
         (_) => notImplemented("findPetsByTags"), 
-        // override def findPetsByTags(tags : Seq[String]) : List[Pet] = ???
         (_) => notImplemented("getPetById"), 
-        // override def getPetById(petId : Long) : Pet = ???
         (_) => notImplemented("updatePet"), 
-        // override def updatePet(pet : Pet) : Pet = ???
         (_, _, _) => notImplemented("updatePetWithForm"), 
-        // override def updatePetWithForm(petId : Long, name : Option[String], status : Option[String]) : Unit = ???
         (_, _, _) => notImplemented("uploadFile")
-        // override def uploadFile(petId : Long, additionalMetadata : Option[String], file : Option[File]) : ApiResponse = ???
   )
 
   private def notImplemented(name : String) = Failure(new Exception(s"TODO: $name not implemented"))

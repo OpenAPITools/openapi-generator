@@ -41,14 +41,14 @@ def asJson: ujson.Value = asData.asJson
 
 def asData : UserData = {
 UserData(
-    id = id.getOrElse(0) /* 1 */ ,
-    username = username.getOrElse("") /* 1 */ ,
-    firstName = firstName.getOrElse("") /* 1 */ ,
-    lastName = lastName.getOrElse("") /* 1 */ ,
-    email = email.getOrElse("") /* 1 */ ,
-    password = password.getOrElse("") /* 1 */ ,
-    phone = phone.getOrElse("") /* 1 */ ,
-    userStatus = userStatus.getOrElse(0) /* 1 */ 
+    id = id.getOrElse(0),
+    username = username.getOrElse(""),
+    firstName = firstName.getOrElse(""),
+    lastName = lastName.getOrElse(""),
+    email = email.getOrElse(""),
+    password = password.getOrElse(""),
+    phone = phone.getOrElse(""),
+    userStatus = userStatus.getOrElse(0)
 
 )
 }

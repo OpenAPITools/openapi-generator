@@ -68,8 +68,8 @@ case class TagData(
   /** use 'validated' to check validation */
   def asModel : Tag = {
     Tag(
-        id = Option(id) /* one */ ,
-        name = Option(name) /* one */ 
+        id = Option(id),
+        name = Option(name)
     
     )
   }

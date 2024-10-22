@@ -74,8 +74,8 @@ case class CategoryData(
   /** use 'validated' to check validation */
   def asModel : Category = {
     Category(
-        id = Option(id) /* one */ ,
-        name = Option(name) /* one */ 
+        id = Option(id),
+        name = Option(name)
     
     )
   }

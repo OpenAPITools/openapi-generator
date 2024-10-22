@@ -40,12 +40,12 @@ def asJson: ujson.Value = asData.asJson
 
 def asData : OrderData = {
 OrderData(
-    id = id.getOrElse(0) /* 1 */ ,
-    petId = petId.getOrElse(0) /* 1 */ ,
-    quantity = quantity.getOrElse(0) /* 1 */ ,
-    shipDate = shipDate.getOrElse(null) /* 1 */ ,
-    status = status.getOrElse(null) /* 1 */ ,
-    complete = complete.getOrElse(false) /* 1 */ 
+    id = id.getOrElse(0),
+    petId = petId.getOrElse(0),
+    quantity = quantity.getOrElse(0),
+    shipDate = shipDate.getOrElse(null),
+    status = status.getOrElse(null),
+    complete = complete.getOrElse(false)
 
 )
 }
