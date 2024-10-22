@@ -146,7 +146,7 @@ public class {{classname}} {
     public static class {{operationIdCamelCase}}Oper implements Oper {
 
         public static final Method REQ_METHOD = {{httpMethod}};
-        public static final String REQ_URI = "{{path}}";
+        public static final String REQ_URI = "{{{path}}}";
 
         private RequestSpecBuilder reqSpec;
         private ResponseSpecBuilder respSpec;
@@ -163,7 +163,7 @@ public class {{classname}} {
         }
 
         /**
-         * {{httpMethod}} {{path}}
+         * {{httpMethod}} {{{path}}}
          * @param handler handler
          * @param <T> type
          * @return type
@@ -175,7 +175,7 @@ public class {{classname}} {
         {{#returnType}}
 
         /**
-         * {{httpMethod}} {{path}}
+         * {{httpMethod}} {{{path}}}
          * @param handler handler
          * @return {{returnType}}
          */

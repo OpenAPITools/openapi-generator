@@ -8,7 +8,7 @@
 # {{pathPrefix}}
 {{#operation}}
 {{bundleAlias}}_{{pathPrefix}}_{{operationIdLowerCase}}:
-    path:     {{path}}
+    path:     {{{path}}}
     methods:  [{{httpMethod}}]
     defaults:
         _controller: {{bundleAlias}}.controller.{{pathPrefix}}::{{operationId}}Action
