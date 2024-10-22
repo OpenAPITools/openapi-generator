@@ -61,7 +61,7 @@ end
 
 function register{{classname}}(router::HTTP.Router, impl; path_prefix::String="", optional_middlewares...)
     {{#operation}}
-    HTTP.register!(router, "{{httpMethod}}", path_prefix * "{{path}}", OpenAPI.Servers.middleware(impl, {{operationId}}_read, {{operationId}}_validate, {{operationId}}_invoke; optional_middlewares...))
+    HTTP.register!(router, "{{httpMethod}}", path_prefix * "{{{path}}}", OpenAPI.Servers.middleware(impl, {{operationId}}_read, {{operationId}}_validate, {{operationId}}_invoke; optional_middlewares...))
     {{/operation}}
     return router
 end

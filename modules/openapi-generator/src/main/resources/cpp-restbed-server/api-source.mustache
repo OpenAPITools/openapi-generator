@@ -104,9 +104,9 @@ std::string convertMapResponse(const std::map<KEY_T, VAL_T>& map)
 
 namespace {{classname}}Resources {
 {{#operation}}
-{{vendorExtensions.x-codegen-resource-name}}Resource::{{vendorExtensions.x-codegen-resource-name}}Resource(const std::string& context /* = "{{contextPath}}" */)
+{{vendorExtensions.x-codegen-resource-name}}Resource::{{vendorExtensions.x-codegen-resource-name}}Resource(const std::string& context /* = "{{{contextPath}}}" */)
 {
-	this->set_path(context + "{{path}}");
+	this->set_path(context + "{{{path}}}");
 	this->set_method_handler("{{httpMethod}}",
 		std::bind(&{{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}}_internal, this,
 			std::placeholders::_1));

@@ -10,7 +10,7 @@ The following server methods must be implemented:
 {{#operations}}
 {{#operation}}
 - **{{operationId}}**
-    - *invocation:* {{httpMethod}} {{path}}
+    - *invocation:* {{httpMethod}} {{{path}}}
     - *signature:* {{operationId}}(req::HTTP.Request{{#allParams}}{{#required}}, {{paramName}}::{{dataType}}{{/required}}{{/allParams}};{{#allParams}}{{^required}} {{paramName}}=nothing,{{/required}}{{/allParams}}) -> {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Nothing{{/returnType}}
 {{/operation}}
 {{/operations}}
