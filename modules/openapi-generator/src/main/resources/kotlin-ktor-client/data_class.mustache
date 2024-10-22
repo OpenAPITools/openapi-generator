@@ -23,7 +23,7 @@ import {{packageName}}.infrastructure.ByteArrayBase64Serializer
     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
     */
     enum class {{nameInCamelCase}} {
-        {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},
+        {{#allowableValues}}{{#enumVars}}@SerialName({{{value}}}) {{&name}}{{^-last}},
         {{/-last}}{{/enumVars}}{{/allowableValues}}
     }
     {{/isEnum}}{{/allVars}}

@@ -8,7 +8,6 @@ import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
-import io.ktor.client.statement.*
 import io.ktor.content.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
@@ -195,7 +194,7 @@ internal suspend inline fun <reified T> requestWithResponse(
         headerParameters.forEach {
             header(it.first, it.second)
         }
-        if (!formParameters.isEmpty()) {
+        if (formParameters.isNotEmpty()) {
             setBody(FormDataContent(Parameters.build {
                 formParameters
                     .whereSecondNotNull()

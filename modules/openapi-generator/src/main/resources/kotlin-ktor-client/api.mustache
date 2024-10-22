@@ -139,5 +139,125 @@ import {{import}}
 
     {{/-last}}
     {{/operation}}
+{{#operation}}
+    /**
+    * {{summary}}
+    * {{notes}}
+    {{#allParams}}
+    * @param {{paramName}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+    {{/allParams}}
+    * @return ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}>
+    */
+    suspend fun {{operationId}}WithResponse(
+        {{#hasParams}}
+        {{#allParams}}
+        {{#required}}{{>api_req_param}}{{/required}}{{^required}}{{>api_opt_param}}{{/required}}{{#hasMore}},{{/hasMore}}{{^hasMore}}{{#hasAuthMethods}},{{/hasAuthMethods}}{{/hasMore}}
+        {{/allParams}}
+        {{/hasParams}}
+        {{#authMethods}}
+        {{name}}: {{>auth_class_name}}{{#hasMore}},{{/hasMore}}
+        {{/authMethods}}
+    ) : ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> {
+        val queryParameters = mutableListOf<Pair<String, Any?>>()
+        {{#queryParams}}
+        {{#required}}
+        queryParameters += "{{{baseName}}}" to {{paramName}}
+        {{/required}}
+        {{^required}}
+        if({{paramName}} != null) queryParameters += "{{{baseName}}}" to {{paramName}}
+        {{/required}}
+        {{/queryParams}}
+
+        val headerParameters = listOf<Pair<String, Any?>>({{#hasHeaderParams}}
+            {{#headerParams}}
+            "{{{baseName}}}" to {{paramName}}{{#hasMore}}, {{/hasMore}}
+            {{/headerParams}}
+        {{/hasHeaderParams}})
+
+        val formParameters = listOf<Pair<String, String?>>({{#hasFormParams}}
+            {{#formParams}}
+            "{{{baseName}}}" to {{paramName}}{{#hasMore}}, {{/hasMore}}
+            {{/formParams}}
+        {{/hasFormParams}})
+
+        val authProviders = listOf<AuthProvider>({{#hasAuthMethods}}
+        {{#authMethods}}
+            {{#isApiKey}}
+            ApiKeyAuth(
+                location = ApiKeyAuth.Location.{{#isKeyInHeader}}header{{/isKeyInHeader}}{{^isKeyInHeader}}query{{/isKeyInHeader}},
+                paramName = "{{keyParamName}}",
+                config = {{name}}
+            ){{#hasMore}},{{/hasMore}}
+            {{/isApiKey}}
+            {{^isApiKey}}
+            {{#isBasicBearer}}
+            HttpBasicBearerAuth(
+                scheme = "{{scheme}}",
+                config = {{name}}
+            ){{#hasMore}},{{/hasMore}}
+            {{/isBasicBearer}}
+            {{^isBasicBearer}}
+            {{name}}{{#hasMore}}, {{/hasMore}}
+            {{/isBasicBearer}}
+            {{/isApiKey}}
+        {{/authMethods}}
+        {{/hasAuthMethods}})
+
+        var path = "{{{path}}}"
+        if (sanitizePaths) {
+            path = path.removePrefix("{{{basePathWithoutHost}}}")
+        }
+
+        {{#hasErrorResponseDataTypes}}
+        try {
+            return requestWithResponse(
+                url = "$basePath$path"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", "${{paramName}}"){{/pathParams}},
+                methodString =  "{{httpMethod}}",
+                queryParameters = queryParameters,
+                headerParameters = headerParameters,
+                formParameters = formParameters,
+                authProviders = authProviders,
+                requestTimeoutMillis = requestTimeoutMillis,
+                logger = this@{{classname}}.logger,
+                logLevel = this@{{classname}}.logLevel{{#hasBodyParam}}{{#bodyParam}},
+                bodyObject = {{paramName}},
+                bodySerializer = {{>param_serializer}}{{/bodyParam}}{{/hasBodyParam}}
+            )
+        } catch (exception: ResponseException) {
+            when(exception.response.status.value) {
+                {{#responses}}{{^dataType}}{{^isDefault}}{{{code}}} -> throw exception.toErrorWrapper<Unit>(){{^-last}}
+                {{/-last}}{{/isDefault}}{{/dataType}}{{/responses}}
+                {{#responses}}{{#dataType}}{{^isDefault}}{{{code}}} -> throw exception.toErrorWrapper<{{{baseType}}}>(){{^-last}}
+                {{/-last}}{{/isDefault}}{{/dataType}}{{/responses}}
+                else -> throw exception
+            }
+        } catch (timeoutException: HttpRequestTimeoutException) {
+            throw TimeoutErrorWrapper(timeoutException)
+        }
+        {{/hasErrorResponseDataTypes}}
+        {{^hasErrorResponseDataTypes}}
+        try {
+            return request(
+                url = "$basePath{{{path}}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", "${{paramName}}"){{/pathParams}},
+                methodString =  "{{httpMethod}}",
+                queryParameters = queryParameters,
+                headerParameters = headerParameters,
+                formParameters = formParameters,
+                authProviders = authProviders,
+                requestTimeoutMillis = requestTimeoutMillis,
+                logger = this@{{classname}}.logger,
+                logLevel = this@{{classname}}.logLevel{{#hasBodyParam}}{{#bodyParam}},
+                bodyObject = {{paramName}},
+                bodySerializer = {{>param_serializer}}{{/bodyParam}}{{/hasBodyParam}}
+            )
+        } catch (timeoutException: HttpRequestTimeoutException) {
+            throw TimeoutErrorWrapper(timeoutException)
+        }
+        {{/hasErrorResponseDataTypes}}
+    }
+    {{^-last}}
+
+    {{/-last}}
+    {{/operation}}
 }
 {{/operations}}
