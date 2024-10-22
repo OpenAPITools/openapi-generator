@@ -141,7 +141,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
             String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
-            return "Map[String, " + inner + "]() ";
+            return "Map[String, " + inner + "]()";
         } else if (ModelUtils.isFreeFormObject(p, openAPI)) {
             // We're opinionated in this template to use ujson
             return "ujson.Null";
@@ -152,6 +152,10 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
     @Override
     public String getSchemaType(Schema p) {
         if (ModelUtils.isFreeFormObject(p, openAPI)) {
+            if (ModelUtils.isMapSchema(p)) {
+                final String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
+                return "Map[String, " + inner + "]";
+            }
             // We're opinionated in this template to use ujson
             return AdditionalPropertiesType;
         }
@@ -705,7 +709,8 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
                 .filter(Objects::nonNull)
                 .collect(Collectors.toCollection(LinkedHashSet::new));
 
-        op.vendorExtensions.put("x-response-type", responses.isEmpty() ? "Unit" : String.join(" | ", responses));
+        var responseType = responses.isEmpty() ? "Unit" : String.join(" | ", responses);
+        op.vendorExtensions.put("x-response-type", responseType);
     }
 
     /**
@@ -763,28 +768,25 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
         if (doesNotNeedMapping(p, typesWhichDoNotNeedMapping)) {
             if (wrapInOptional) {
-                code = String.format("%s.getOrElse(%s) /* 1 */ ", p.name, dv);
+                code = String.format("%s.getOrElse(%s)", p.name, dv);
             } else {
-                code = String.format("%s /* 2 */ ", p.name);
+                code = String.format("%s", p.name);
             }
         } else {
             if (wrapInOptional) {
                 if (isByteArray(p)) {
-                    code = String.format("%s.getOrElse(%s) /* 3.1 */ ", p.name, dv);
+                    code = String.format("%s.getOrElse(%s)", p.name, dv);
                 } else {
-                    code = String.format("%s.map(_.asData).getOrElse(%s) /* 3.2 */ ", p.name, dv);
+                    code = String.format("%s.map(_.asData).getOrElse(%s)", p.name, dv);
                 }
             } else if (p.isArray) {
                 if (isByteArray(p)) {
-                    code = String.format("%s /* 4.1 */ ", p.name);
+                    code = String.format("%s", p.name);
                 } else {
-                    var needsMapping = isByteArray(p);
-
-                    // we only need to map 'asData' if the collection type is a model
-                    code = String.format("%s.map(_.asData) /* 4.2 */ ", p.name);
+                    code = String.format("%s.map(_.asData)", p.name);
                 }
             } else {
-                code = String.format("%s.asData /* 5 */ ", p.name);
+                code = String.format("%s.asData", p.name);
             }
         }
         return code;
@@ -810,21 +812,21 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
         if (doesNotNeedMapping(p, typesWhichDoNotNeedMapping)) {
             if (wrapInOptional) {
-                code = String.format("Option(%s) /* one */ ", p.name);
+                code = String.format("Option(%s)", p.name);
             } else {
-                code = String.format("%s /* two */", p.name);
+                code = String.format("%s", p.name);
             }
         } else {
             if (wrapInOptional) {
                 if (isByteArray(p)) {
-                    code = String.format("Option(%s) /* three */", p.name);
+                    code = String.format("Option(%s)", p.name);
                 } else {
-                    code = String.format("Option(%s).map(_.asModel) /* four */", p.name);
+                    code = String.format("Option(%s).map(_.asModel)", p.name);
                 }
             } else if (p.isArray) {
-                code = String.format("%s.map(_.asModel) /* five */", p.name);
+                code = String.format("%s.map(_.asModel)", p.name);
             } else {
-                code = String.format("%s.asModel /* six */", p.name);
+                code = String.format("%s.asModel", p.name);
             }
         }
         return code;
@@ -1080,6 +1082,10 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
     @Override
     public String getTypeDeclaration(Schema schema) {
         if (ModelUtils.isFreeFormObject(schema, openAPI)) {
+            if (ModelUtils.isMapSchema(schema)) {
+                String inner = getSchemaType(ModelUtils.getAdditionalProperties(schema));
+                return "Map[String, " + inner + "]";
+            }
             return AdditionalPropertiesType;
         }
         return super.getTypeDeclaration(schema);
