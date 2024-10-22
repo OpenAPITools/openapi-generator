@@ -1,0 +1,36 @@
+openapi: 3.1.0
+info:
+  title: Title
+  description: Description
+  version: 1.0.0
+servers:
+  - url: /
+paths:
+  /v1/path:
+    get:
+      summary: A path
+      description: Stuff happens on this path
+      operationId: getStuffFromPath
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                title: AListOfThings
+                items:
+                  type: object
+                  properties:
+                    aBooleanCheck:
+                      type: boolean
+                    condition:
+                      type: string
+                    purpose:
+                      type: array
+                      items:
+                        type: string
+                        enum:
+                          - FIRST
+                          - SECOND
+                          - THIRD
