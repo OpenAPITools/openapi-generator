@@ -1148,8 +1148,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
          * Not sure how to go about fixing that ... there doesn't seem to be any obvious properties set on the param
          * which would indicate it's actually a model type
          */
-        var isModel = param.getIsModel();// || (param.getComplexType() != null && !param.getComplexType().isEmpty());
-        String dataType = (isModel && useJason) ? param.getDataType() + "Data" : param.getDataType();
+        String dataType = (param.getIsModel() && useJason) ? param.getDataType() + "Data" : param.getDataType();
 
         final String dataSuffix = useJason && param.getItems() != null && param.getItems().getIsModel() ? "Data" : "";
         if (dataType.startsWith("List[")) {
