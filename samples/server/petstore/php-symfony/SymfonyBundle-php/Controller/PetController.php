@@ -255,7 +255,7 @@ class PetController extends Controller
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\All([
-            new Assert\Choice([ "available", "pending", "sold" ])
+            new Assert\Choice([ 'available', 'pending', 'sold' ])
         ]);
         $asserts[] = new Assert\All([
             new Assert\Type("string"),
