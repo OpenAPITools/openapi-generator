@@ -187,6 +187,7 @@ public class ApiClient {
     {{/joda}}
     objectMapper.registerModule(new JavaTimeModule());
     {{#openApiNullable}}
+    objectMapper.registerModule(new RFC3339JavaTimeModule());
     JsonNullableModule jnm = new JsonNullableModule();
     objectMapper.registerModule(jnm);
     {{/openApiNullable}}

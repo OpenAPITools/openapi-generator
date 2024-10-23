@@ -203,6 +203,7 @@ public class ApiClient {
     mapper.disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE);
     mapper.registerModule(new JavaTimeModule());
     mapper.registerModule(new JsonNullableModule());
+    mapper.registerModule(new RFC3339JavaTimeModule());
     return mapper;
   }
 

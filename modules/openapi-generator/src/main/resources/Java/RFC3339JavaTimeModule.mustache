@@ -1,0 +1,20 @@
+{{>licenseInfo}}
+package {{invokerPackage}};
+
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
+
+import com.fasterxml.jackson.databind.module.SimpleModule;
+
+{{>generatedAnnotation}}
+public class RFC3339JavaTimeModule extends SimpleModule {
+
+    public RFC3339JavaTimeModule() {
+        super("RFC3339JavaTimeModule");
+
+        addDeserializer(Instant.class, RFC3339InstantDeserializer.INSTANT);
+        addDeserializer(OffsetDateTime.class, RFC3339InstantDeserializer.OFFSET_DATE_TIME);
+        addDeserializer(ZonedDateTime.class, RFC3339InstantDeserializer.ZONED_DATE_TIME);
+    }
+}
