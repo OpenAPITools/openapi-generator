@@ -16,25 +16,54 @@ using namespace {{modelNamespace}};{{/hasModelImport}}
     {{#authMethods}}{{#isBasicBasic}}/*
 
     Http Basic Auth
+    ===============
 
     Do this in the individual classes in the constructor
 
     this->setBasicCredentialsAuthenticator(
-    [](const HttpBasicCredentials &credentials)->bool
-    {
-        return credentials.user == "foo" && credentials.password == "bar";
-    }
-    );
+        [](HttpBasicCredentials &credentials)->bool
+        {
+            if(credentials.user == "foo" && credentials.password == "bar")
+            {
+
+                const int userIdOfFoo = 66;
+                credentials.userdata = std::unique_ptr<void, std::function<void(void*)>> (
+                    reinterpret_cast<void*>(new int(userIdOfFoo)),
+                    [&](void* ptr)
+                    {
+                        int * value = reinterpret_cast<int*>(ptr);
+                        delete value;
+                    }
+                );
+                return true;
+            }
+            return false;
+        }
+        );
 
     or in main:
 
     for (auto api : apiImpls) {
         api->init();
 
-          setBasicCredentialsAuthenticator(
-        [](const HttpBasicCredentials &credentials)->bool
+        api->setBasicCredentialsAuthenticator(
+        []( HttpBasicCredentials &credentials)->bool
         {
-            return credentials.user == "foo" && credentials.password == "bar";
+            if(credentials.user == "foo" && credentials.password == "bar")
+            {
+
+                const int userIdOfFoo = 66;
+                credentials.userdata = std::unique_ptr<void, std::function<void(void*)>> (
+                    reinterpret_cast<void*>(new int(userIdOfFoo)),
+                    [&](void* ptr)
+                    {
+                        int * value = reinterpret_cast<int*>(ptr);
+                        delete value;
+                    }
+                );
+                return true;
+            }
+            return false;
         }
         );
     }
