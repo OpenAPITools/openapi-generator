@@ -83,7 +83,7 @@ import java.io.IOException
             {{#anyOf}}
             {{^isArray}}
             {{^vendorExtensions.x-duplicated-data-type}}
-            val adapter{{{dataType}}} = gson.getDelegateAdapter(this, TypeToken.get({{{dataType}}}::class.java))
+            val adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}} = gson.getDelegateAdapter(this, TypeToken.get({{{dataType}}}::class.java))
             {{/vendorExtensions.x-duplicated-data-type}}
             {{/isArray}}
             {{#isArray}}
@@ -122,7 +122,7 @@ import java.io.IOException
                         return
                     {{/isPrimitiveType}}
                     {{^isPrimitiveType}}
-                        val element = adapter{{{dataType}}}.toJsonTree(value.actualInstance as {{{dataType}}}?)
+                        val element = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}.toJsonTree(value.actualInstance as {{{dataType}}}?)
                         elementAdapter.write(out, element)
                         return
                     {{/isPrimitiveType}}
