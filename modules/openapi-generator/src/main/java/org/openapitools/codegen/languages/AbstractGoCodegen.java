@@ -749,25 +749,19 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             boolean addedValidator = false;
             CodegenModel model = m.getModel();
 
-            List<CodegenProperty> inheritedProperties = new ArrayList<>();
-            if (model.getComposedSchemas() != null) {
-                if (model.getComposedSchemas().getAnyOf() != null) {
-                    inheritedProperties.addAll(model.getComposedSchemas().getAnyOf());
-                }
-                if (model.getComposedSchemas().getOneOf() != null) {
-                    inheritedProperties.addAll(model.getComposedSchemas().getOneOf());
-                }
-            }
 
             List<CodegenProperty> codegenProperties = new ArrayList<>();
-            if (model.getComposedSchemas() == null || (model.getComposedSchemas() != null && model.getComposedSchemas().getAllOf() != null)) {
-                // If the model is an allOf or does not have any composed schemas, then we can use the model's properties.
-                codegenProperties.addAll(model.vars);
-            } else {
-                // If the model is no model, but is a
-                // anyOf or oneOf, add all first level options
-                // from anyOf or oneOf.
-                codegenProperties.addAll(inheritedProperties);
+            codegenProperties.addAll(model.vars);
+            if (model.getComposedSchemas() != null) {
+                if (model.getComposedSchemas().getAnyOf() != null) {
+                    codegenProperties.addAll(model.getComposedSchemas().getAnyOf());
+                }
+                if (model.getComposedSchemas().getOneOf() != null) {
+                    codegenProperties.addAll(model.getComposedSchemas().getOneOf());
+                }
+                if (model.getComposedSchemas().getAllOf() != null) {
+                    codegenProperties.addAll(model.getComposedSchemas().getAllOf());
+                }
             }
 
             for (CodegenProperty cp : codegenProperties) {
