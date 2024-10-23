@@ -1,6 +1,6 @@
 package org.openapitools.client.auth
 
-import io.ktor.util.InternalAPI
+import io.ktor.util.io.InternalAPI
 import io.ktor.util.encodeBase64
 
 class HttpBasicAuth : Authentication {

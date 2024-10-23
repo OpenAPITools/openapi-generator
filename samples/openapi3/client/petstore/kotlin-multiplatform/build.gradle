@@ -9,7 +9,7 @@ ext {
     kotlinx_version = '1.1.0'
     coroutines_version = '1.3.1'
     serialization_version = '0.12.0'
-    ktor_version = '1.2.4'
+    ktor_version = '3.0.0'
 }
 
 buildscript {
