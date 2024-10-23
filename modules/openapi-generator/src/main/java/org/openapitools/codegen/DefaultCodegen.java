@@ -86,6 +86,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.openapitools.codegen.CodegenConstants.DIVIDE_OPERATIONS_BY_CONTENT_TYPE;
 import static org.openapitools.codegen.CodegenConstants.UNSUPPORTED_V310_SPEC_MSG;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.OnceLogger.once;
@@ -392,7 +393,7 @@ public class DefaultCodegen implements CodegenConfig {
         convertPropertyToBooleanAndWriteBack(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, this::setDisallowAdditionalPropertiesIfNotPresent);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, this::setEnumUnknownDefaultCase);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.AUTOSET_CONSTANTS, this::setAutosetConstants);
-        }
+    }
 
 
     /***
@@ -999,6 +1000,49 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     @SuppressWarnings("unused")
     public void preprocessOpenAPI(OpenAPI openAPI) {
+
+        var divideOperationsByContentType = Boolean.parseBoolean(GlobalSettings.getProperty(DIVIDE_OPERATIONS_BY_CONTENT_TYPE, "false"));
+
+        if (divideOperationsByContentType && openAPI.getPaths() != null && !openAPI.getPaths().isEmpty()) {
+
+            for (Map.Entry<String, PathItem> entry : openAPI.getPaths().entrySet()) {
+                String pathStr = entry.getKey();
+                PathItem path = entry.getValue();
+                List<Operation> getOps = divideOperationsByContentType(pathStr, PathItem.HttpMethod.GET, path.getGet());
+                if (!getOps.isEmpty()) {
+                    path.addExtension("x-get", getOps);
+                }
+                List<Operation> putOps = divideOperationsByContentType(pathStr, PathItem.HttpMethod.PUT, path.getPut());
+                if (!putOps.isEmpty()) {
+                    path.addExtension("x-put", putOps);
+                }
+                List<Operation> postOps = divideOperationsByContentType(pathStr, PathItem.HttpMethod.POST, path.getPost());
+                if (!postOps.isEmpty()) {
+                    path.addExtension("x-post", postOps);
+                }
+                List<Operation> deleteOps = divideOperationsByContentType(pathStr, PathItem.HttpMethod.DELETE, path.getDelete());
+                if (!deleteOps.isEmpty()) {
+                    path.addExtension("x-delete", deleteOps);
+                }
+                List<Operation> optionsOps = divideOperationsByContentType(pathStr, PathItem.HttpMethod.OPTIONS, path.getOptions());
+                if (!optionsOps.isEmpty()) {
+                    path.addExtension("x-options", optionsOps);
+                }
+                List<Operation> headOps = divideOperationsByContentType(pathStr, PathItem.HttpMethod.HEAD, path.getHead());
+                if (!headOps.isEmpty()) {
+                    path.addExtension("x-head", headOps);
+                }
+                List<Operation> patchOps = divideOperationsByContentType(pathStr, PathItem.HttpMethod.PATCH, path.getPatch());
+                if (!patchOps.isEmpty()) {
+                    path.addExtension("x-patch", patchOps);
+                }
+                List<Operation> traceOps = divideOperationsByContentType(pathStr, PathItem.HttpMethod.TRACE, path.getTrace());
+                if (!traceOps.isEmpty()) {
+                    path.addExtension("x-trace", traceOps);
+                }
+            }
+        }
+
         if (useOneOfInterfaces && openAPI.getComponents() != null) {
             // we process the openapi schema here to find oneOf schemas and create interface models for them
             Map<String, Schema> schemas = new HashMap<>(openAPI.getComponents().getSchemas());
@@ -1078,6 +1122,77 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
         }
+    }
+
+    private List<Operation> divideOperationsByContentType(String path, PathItem.HttpMethod httpMethod, Operation op) {
+
+        if (op == null) {
+            return Collections.emptyList();
+        }
+
+        var additionalOps = new ArrayList<Operation>();
+
+        RequestBody body = op.getRequestBody();
+        if (body == null || body.getContent() == null) {
+            return Collections.emptyList();
+        }
+        Content content = body.getContent();
+        if (content.size() <= 1) {
+            return Collections.emptyList();
+        }
+        var firstEntry = content.entrySet().iterator().next();
+        var mediaTypesToRemove = new ArrayList<String>();
+        for (var entry : content.entrySet()) {
+            if (mediaTypesToRemove.contains(entry.getKey()) || entry.getKey().equals(firstEntry.getKey()) || entry.getValue().equals(firstEntry.getValue())) {
+                continue;
+            }
+            var foundSameOpSignature = false;
+            for (var additionalOp : additionalOps) {
+                RequestBody additionalBody = additionalOp.getRequestBody();
+                if (additionalBody == null || additionalBody.getContent() == null) {
+                    return Collections.emptyList();
+                }
+                for (var addContentEntry : additionalBody.getContent().entrySet()) {
+                    if (addContentEntry.getValue().equals(entry.getValue())) {
+                        foundSameOpSignature = true;
+                        break;
+                    }
+                }
+                if (foundSameOpSignature) {
+                    additionalBody.getContent().put(entry.getKey(), entry.getValue());
+                    break;
+                }
+            }
+            mediaTypesToRemove.add(entry.getKey());
+            if (foundSameOpSignature) {
+                continue;
+            }
+            additionalOps.add(new Operation()
+                .deprecated(op.getDeprecated())
+                .callbacks(op.getCallbacks())
+                .description(op.getDescription())
+                .extensions(op.getExtensions())
+                .externalDocs(op.getExternalDocs())
+                .operationId(getOrGenerateOperationId(op, path, httpMethod.name()))
+                .parameters(op.getParameters())
+                .responses(op.getResponses())
+                .security(op.getSecurity())
+                .servers(op.getServers())
+                .summary(op.getSummary())
+                .tags(op.getTags())
+                .requestBody(new RequestBody()
+                    .description(body.getDescription())
+                    .extensions(body.getExtensions())
+                    .content(new Content()
+                        .addMediaType(entry.getKey(), entry.getValue()))
+                )
+            );
+        }
+        if (!mediaTypesToRemove.isEmpty()) {
+            content.entrySet().removeIf(stringMediaTypeEntry -> mediaTypesToRemove.contains(stringMediaTypeEntry.getKey()));
+        }
+
+        return additionalOps;
     }
 
     // override with any special handling of the entire OpenAPI spec document
@@ -1164,8 +1279,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String escapeUnsafeCharacters(String input) {
-        LOGGER.warn("escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape " +
-                "unsafe characters");
+        LOGGER.warn("escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters");
         // doing nothing by default and code generator should implement
         // the logic to prevent code injection
         // later we'll make this method abstract to make sure
@@ -1181,8 +1295,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String escapeQuotationMark(String input) {
-        LOGGER.warn("escapeQuotationMark should be overridden in the code generator with proper logic to escape " +
-                "single/double quote");
+        LOGGER.warn("escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote");
         return input.replace("\"", "\\\"");
     }
 
