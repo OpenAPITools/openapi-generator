@@ -131,7 +131,7 @@ public class JavaValidationArrayPrimitivesTest {
                 .withType("Set<@Size(max = 1) String>")
                 .toType()
                 .assertProperty("stringEmail")
-                .withType("List<@Email String>")
+                .withType("List<@javax.validation.constraints.Email String>")
                 .toType()
                 .assertProperty("intMinMax")
                 .withType("List<@Min(1) @Max(10) Integer>")
@@ -143,13 +143,13 @@ public class JavaValidationArrayPrimitivesTest {
                 .withType("List<@Max(10) Integer>")
                 .toType()
                 .assertProperty("numberMinMax")
-                .withType("List<@DecimalMin(value = \"1\", inclusive = true) @DecimalMax(value = \"10\", inclusive = true) BigDecimal>")
+                .withType("List<@DecimalMin(\"1\") @DecimalMax(\"10\") BigDecimal>")
                 .toType()
                 .assertProperty("numberMin")
-                .withType("List<@DecimalMin(value = \"1\", inclusive = true) BigDecimal>")
+                .withType("List<@DecimalMin(\"1\") BigDecimal>")
                 .toType()
                 .assertProperty("numberMax")
-                .withType("List<@DecimalMax(value = \"10\", inclusive = true) BigDecimal>")
+                .withType("List<@DecimalMax(\"10\") BigDecimal>")
                 .toType()
                 .assertProperty("stringPatternWithMin")
                 .withType("JsonNullable<Set<@Pattern(regexp = \"^\\\\d{3}-\\\\d{2}-\\\\d{4}$\") @Size(min = 10) String>>")
@@ -158,16 +158,16 @@ public class JavaValidationArrayPrimitivesTest {
                 .withType("JsonNullable<Set<@Pattern(regexp = \"^\\\\d{3}-\\\\d{2}-\\\\d{4}$\") String>>")
                 .toType()
                 .assertProperty("stringMaxMinLengthNullable")
-                .withType("JsonNullable<Set<@Size(min = 1, max = 10) String>>")
+                .withType("JsonNullable<@Size(max = 10) Set<@Size(min = 1, max = 10) String>>")
                 .toType()
                 .assertProperty("stringMinLengthNullable")
-                .withType("JsonNullable<List<@Size(min = 1) String>>")
+                .withType("JsonNullable<@Size(max = 10) List<@Size(min = 1) String>>")
                 .toType()
                 .assertProperty("stringMaxLengthNullable")
-                .withType("JsonNullable<Set<@Size(max = 1) String>>")
+                .withType("JsonNullable<@Size(max = 10) Set<@Size(max = 1) String>>")
                 .toType()
                 .assertProperty("stringNumbers")
-                .withType("Set<@DecimalMin(value = \"1\", inclusive = true) @DecimalMax(value = \"10\", inclusive = true) BigDecimal>")
+                .withType("Set<@DecimalMin(\"1\") @DecimalMax(\"10\") BigDecimal>")
                 .toType()
                 .assertProperty("intMinMaxNullable")
                 .withType("JsonNullable<List<@Min(1) @Max(10) Integer>>")
@@ -179,10 +179,10 @@ public class JavaValidationArrayPrimitivesTest {
                 .withType("JsonNullable<List<@Max(10) Integer>>")
                 .toType()
                 .assertProperty("numberMinMaxNullable")
-                .withType("JsonNullable<List<@DecimalMin(value = \"1\", inclusive = true) @DecimalMax(value = \"10\", inclusive = true) BigDecimal>>")
+                .withType("JsonNullable<List<@DecimalMin(\"1\") @DecimalMax(\"10\") BigDecimal>>")
                 .toType()
                 .assertProperty("numberMinNullable")
-                .withType("JsonNullable<List<@DecimalMin(value = \"1\", inclusive = true) BigDecimal>>")
+                .withType("JsonNullable<List<@DecimalMin(\"1\") BigDecimal>>")
                 .toType()
                 .assertProperty("numberMaxNullable")
                 .withType("JsonNullable<List<@DecimalMax(value = \"10\", inclusive = false) BigDecimal>>")
@@ -420,8 +420,8 @@ public class JavaValidationArrayPrimitivesTest {
                 { Map.of("array", "List"), "@Valid MyItem" },
                 { Map.of("array", "Set"), "@Valid MyItem" },
                 { Collections.emptyMap(), "@Valid MyItem" },
-                { Map.of( "MyItem", "com.mycompany.MyItem"), "com.mycompany.@Valid MyItem"},
-                { Map.of( "MyItem", "com.mycompany.MyContainer<java.lang.String>"), "com.mycompany.@Valid MyContainer<java.lang.String>"}
+                { Map.of( "MyItem", "com.mycompany.MyItem"), "@Valid com.mycompany.MyItem"},
+                { Map.of( "MyItem", "com.mycompany.MyContainer<java.lang.String>"), "@Valid com.mycompany.MyContainer<java.lang.String>"}
         };
     }
 
@@ -447,25 +447,25 @@ public class JavaValidationArrayPrimitivesTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        String arrayMapping= typeMappings.getOrDefault("array", "List");
+        String arrayMapping = typeMappings.getOrDefault("array", "List");
         // @Valid@Size(min = 5) is not nice, but not related to this fix
         // adding a space would probably break many other tests
         JavaFileAssert.assertThat(files.get("ListOfPatternsApi.java"))
                 .fileContains("ResponseEntity<" + arrayMapping + "<String>>",
-                        arrayMapping + "<@Pattern(regexp = \"([a-z]+)\")String> requestBody")
-                .fileContainsPattern("@Valid\\s*@Size\\(min = 5\\)\\s*@RequestBody");
+                        arrayMapping + "<@Pattern(regexp = \"([a-z]+)\") String> requestBody")
+                .fileContainsPattern("@RequestBody\\(required = false\\)\\s*@Size\\(min = 5\\)");
 
         JavaFileAssert.assertThat(files.get("ListOfStringsApi.java"))
                 .fileContains(
                         "ResponseEntity<" + arrayMapping + "<String>>",
-                        arrayMapping + "<@Size(min = 2, max = 2)String> requestBody")
-                .fileContainsPattern("@Valid\\s*@Size\\(min = 5\\)\\s*@RequestBody");
+                        arrayMapping + "<@Size(min = 2, max = 2) String> requestBody")
+                .fileContainsPattern("@RequestBody\\(required = false\\)\\s*@Size\\(min = 5\\)");
 
         JavaFileAssert.assertThat(files.get("ListOfObjectsApi.java"))
                 .fileContains(
                         "ResponseEntity<" + arrayMapping + "<ListOfObjectsInner>>",
                         arrayMapping + "<@Valid ListOfObjectsInner> listOfObjectsInner")
-                .fileContainsPattern("@Valid\\s*@Size\\(min = 5\\)\\s*@RequestBody");
+                .fileContainsPattern("@RequestBody\\(required = false\\)\\s*@Size\\(min = 5\\)");
 
         String myItem = typeMappings.getOrDefault("MyItem", "MyItem");
         JavaFileAssert.assertThat(files.get("ListOfQualifiedItemApi.java"))

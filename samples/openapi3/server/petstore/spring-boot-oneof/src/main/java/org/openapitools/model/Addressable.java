@@ -35,7 +35,6 @@ public class Addressable {
    * Hyperlink reference
    * @return href
    */
-  
   @Schema(name = "href", description = "Hyperlink reference", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("href")
   public String getHref() {
@@ -55,7 +54,6 @@ public class Addressable {
    * unique identifier
    * @return id
    */
-  
   @Schema(name = "id", description = "unique identifier", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public String getId() {
@@ -127,12 +125,10 @@ public class Addressable {
       this.instance.href(href);
       return this;
     }
-    
     public Addressable.Builder id(String id) {
       this.instance.id(id);
       return this;
     }
-    
     /**
     * returns a built Addressable instance.
     *
@@ -169,4 +165,3 @@ public class Addressable {
   }
 
 }
-

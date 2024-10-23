@@ -33,7 +33,7 @@ public class NumberOnly {
    * Constructor with all args parameters
    */
   public NumberOnly(BigDecimal justNumber) {
-      this.justNumber = justNumber;
+    this.justNumber = justNumber;
   }
 
   public NumberOnly justNumber(BigDecimal justNumber) {
@@ -45,7 +45,6 @@ public class NumberOnly {
    * Get justNumber
    * @return justNumber
    */
-  @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("JustNumber")
   public BigDecimal getJustNumber() {
@@ -93,4 +92,3 @@ public class NumberOnly {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

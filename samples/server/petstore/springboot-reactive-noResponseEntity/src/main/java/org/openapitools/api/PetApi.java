@@ -66,7 +66,7 @@ public interface PetApi {
     @ResponseStatus(HttpStatus.OK)
     
     default Mono<Void> addPet(
-        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Mono<Pet> pet,
+        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @RequestBody Mono<@NotNull @Valid Pet> pet,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().addPet(pet, exchange);
@@ -105,7 +105,7 @@ public interface PetApi {
     @ResponseStatus(HttpStatus.OK)
     
     default Mono<Void> deletePet(
-        @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId,
+        @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") @NotNull Long petId,
         @ApiParam(value = "") @RequestHeader(value = "api_key", required = false) String apiKey,
         @ApiIgnore final ServerWebExchange exchange
     ) {
@@ -127,7 +127,7 @@ public interface PetApi {
         nickname = "findPetsByStatus",
         notes = "Multiple status values can be provided with comma separated strings",
         response = Pet.class,
-        responseContainer = "List",
+        responseContainer = "array",
         authorizations = {
             @Authorization(value = "petstore_auth", scopes = {
                 @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -136,7 +136,7 @@ public interface PetApi {
          }
     )
     @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
+        @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "array"),
         @ApiResponse(code = 400, message = "Invalid status value")
     })
     @RequestMapping(
@@ -147,7 +147,7 @@ public interface PetApi {
     @ResponseStatus(HttpStatus.OK)
     
     default Flux<Pet> findPetsByStatus(
-        @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status,
+        @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @RequestParam(value = "status") @NotNull List<String> status,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().findPetsByStatus(status, exchange);
@@ -170,7 +170,7 @@ public interface PetApi {
         nickname = "findPetsByTags",
         notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
         response = Pet.class,
-        responseContainer = "Set",
+        responseContainer = "set",
         authorizations = {
             @Authorization(value = "petstore_auth", scopes = {
                 @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -179,7 +179,7 @@ public interface PetApi {
          }
     )
     @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "Set"),
+        @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "set"),
         @ApiResponse(code = 400, message = "Invalid tag value")
     })
     @RequestMapping(
@@ -190,7 +190,7 @@ public interface PetApi {
     @ResponseStatus(HttpStatus.OK)
     
     default Flux<Pet> findPetsByTags(
-        @NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) Set<String> tags,
+        @ApiParam(value = "Tags to filter by", required = true) @RequestParam(value = "tags") @NotNull Set<String> tags,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().findPetsByTags(tags, exchange);
@@ -229,7 +229,7 @@ public interface PetApi {
     @ResponseStatus(HttpStatus.OK)
     
     default Mono<Pet> getPetById(
-        @ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") Long petId,
+        @ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") @NotNull Long petId,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().getPetById(petId, exchange);
@@ -272,7 +272,7 @@ public interface PetApi {
     @ResponseStatus(HttpStatus.OK)
     
     default Mono<Void> updatePet(
-        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Mono<Pet> pet,
+        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @RequestBody Mono<@NotNull @Valid Pet> pet,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().updatePet(pet, exchange);
@@ -311,9 +311,9 @@ public interface PetApi {
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     
     default Mono<Void> updatePetWithForm(
-        @ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,
-        @ApiParam(value = "Updated name of the pet") @Valid @RequestPart(value = "name", required = false) String name,
-        @ApiParam(value = "Updated status of the pet") @Valid @RequestPart(value = "status", required = false) String status,
+        @ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") @NotNull Long petId,
+        @ApiParam(value = "Updated name of the pet") @RequestPart(value = "name", required = false) String name,
+        @ApiParam(value = "Updated status of the pet") @RequestPart(value = "status", required = false) String status,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().updatePetWithForm(petId, name, status, exchange);
@@ -354,8 +354,8 @@ public interface PetApi {
     @ResponseStatus(HttpStatus.OK)
     
     default Mono<ModelApiResponse> uploadFile(
-        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
-        @ApiParam(value = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
+        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") @NotNull Long petId,
+        @ApiParam(value = "Additional data to pass to server") @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
         @ApiParam(value = "file to upload") @RequestPart(value = "file", required = false) Flux<Part> file,
         @ApiIgnore final ServerWebExchange exchange
     ) {

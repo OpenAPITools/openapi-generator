@@ -119,4 +119,3 @@ public class AnimalDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

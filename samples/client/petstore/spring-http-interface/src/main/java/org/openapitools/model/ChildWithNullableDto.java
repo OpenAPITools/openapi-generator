@@ -56,7 +56,7 @@ public class ChildWithNullableDto extends ParentWithNullableDto {
     return this;
   }
 
-  public ChildWithNullableDto nullableProperty(String nullableProperty) {
+  public ChildWithNullableDto nullableProperty(JsonNullable<String> nullableProperty) {
     super.nullableProperty(nullableProperty);
     return this;
   }
@@ -110,4 +110,3 @@ public class ChildWithNullableDto extends ParentWithNullableDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

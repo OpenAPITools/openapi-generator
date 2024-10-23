@@ -22,7 +22,11 @@ import java.util.List;
     X_FIELD_EXTRA_ANNOTATION("x-field-extra-annotation", Arrays.asList(ExtensionLevel.FIELD, ExtensionLevel.OPERATION_PARAMETER), "List of custom annotations to be added to property", null),
     X_OPERATION_EXTRA_ANNOTATION("x-operation-extra-annotation", ExtensionLevel.OPERATION, "List of custom annotations to be added to operation", null),
     X_VERSION_PARAM("x-version-param", ExtensionLevel.OPERATION_PARAMETER, "Marker property that tells that this parameter would be used for endpoint versioning. Applicable for headers & query params. true/false", null),
-    X_PATTERN_MESSAGE("x-pattern-message", Arrays.asList(ExtensionLevel.FIELD, ExtensionLevel.OPERATION_PARAMETER), "Add this property whenever you need to customize the invalidation error message for the regex pattern of a variable", null),
+    X_NOT_NULL("x-not-null-message", Arrays.asList(ExtensionLevel.FIELD, ExtensionLevel.OPERATION_PARAMETER), "Add this property whenever you need to customize the validation error message for required field", null),
+    X_PATTERN_MESSAGE("x-pattern-message", Arrays.asList(ExtensionLevel.FIELD, ExtensionLevel.OPERATION_PARAMETER), "Add this property whenever you need to customize the validation error message for the regex pattern of a variable", null),
+    X_SIZE_MESSAGE("x-size-message", Arrays.asList(ExtensionLevel.FIELD, ExtensionLevel.OPERATION_PARAMETER), "Add this property whenever you need to customize the validation error message for the size of a variable (can be applied along with `minLength`, `maxLength`, `minItems`, `maxItems`)", null),
+    X_MINIMUM_MESSAGE("x-minimum-message", Arrays.asList(ExtensionLevel.FIELD, ExtensionLevel.OPERATION_PARAMETER), "Add this property whenever you need to customize the validation error message for the minimum of a number", null),
+    X_MAXIMUM_MESSAGE("x-maximum-message", Arrays.asList(ExtensionLevel.FIELD, ExtensionLevel.OPERATION_PARAMETER), "Add this property whenever you need to customize the validation error message for the maximum of a number", null),
     ;
 
     private final String name;

@@ -76,7 +76,7 @@ public interface PetApi {
         accept = { "application/json", "application/xml" }
     )
     ResponseEntity<List<PetDto>> findPetsByStatus(
-         @RequestParam(value = "status", required = true) List<String> status
+         @RequestParam(value = "status") List<String> status
     );
 
 
@@ -96,7 +96,7 @@ public interface PetApi {
         accept = { "application/json", "application/xml" }
     )
     ResponseEntity<Set<PetDto>> findPetsByTags(
-         @RequestParam(value = "tags", required = true) Set<String> tags
+         @RequestParam(value = "tags") Set<String> tags
     );
 
 
@@ -217,7 +217,7 @@ public interface PetApi {
     )
     ResponseEntity<ApiResponseDto> uploadFileWithRequiredFile(
          @PathVariable("petId") Long petId,
-         @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
+         @RequestPart(value = "requiredFile") MultipartFile requiredFile,
          @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
     );
 

@@ -37,7 +37,6 @@ public class HasOnlyReadOnlyDto {
    * Get bar
    * @return bar
    */
-  
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("bar")
   public String getBar() {
@@ -57,7 +56,6 @@ public class HasOnlyReadOnlyDto {
    * Get foo
    * @return foo
    */
-  
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("foo")
   public String getFoo() {
@@ -107,4 +105,3 @@ public class HasOnlyReadOnlyDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-
