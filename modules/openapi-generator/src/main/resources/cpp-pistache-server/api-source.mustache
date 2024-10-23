@@ -15,8 +15,7 @@ const std::string {{classname}}::base = "{{basePathWithoutHost}}";
 
 {{classname}}::{{classname}}(const std::shared_ptr<Pistache::Rest::Router>& rtr)
     : ApiBase(rtr)
-{
-}
+{}
 
 void {{classname}}::init() {
     setupRoutes();
@@ -122,7 +121,7 @@ void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Reque
 
     {{/bodyParam}}
     {{/hasBodyParam}}
-        {{#authMethods}}{{#isBasicBasic}}
+    {{#authMethods}}{{#isBasicBasic}}
         auto basicAuthHeader = request.headers().tryGet<Pistache::Http::Header::Authorization>();
 
         if( (!basicAuthHeader) || (basicAuthHeader->getMethod() != Pistache::Http::Header::Authorization::Method::Basic))
@@ -131,6 +130,18 @@ void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Reque
             return;
         }
         HttpBasicCredentials credentials{basicAuthHeader->getBasicUser(), basicAuthHeader->getBasicPassword()};
+        if( ! this->basicCredentialsAuthenticator.has_value())
+        {
+            response.send(Pistache::Http::Code::Unauthorized, "");
+            return;
+        }
+
+        if( ! this->basicCredentialsAuthenticator.value()(credentials))
+        {
+            response.send(Pistache::Http::Code::Unauthorized, "");
+            return;
+        }
+
         {{/isBasicBasic}}{{/authMethods}}
 
         {{#authMethods}}{{#isBasicBearer}}

@@ -13,6 +13,37 @@ using namespace {{modelNamespace}};{{/hasModelImport}}
 {{classname}}Impl::{{classname}}Impl(const std::shared_ptr<Pistache::Rest::Router>& rtr)
     : {{classname}}(rtr)
 {
+    {{#authMethods}}{{#isBasicBasic}}/*
+
+    Http Basic Auth
+
+    Do this in the individual classes in the constructor
+
+    this->setBasicCredentialsAuthenticator(
+    [](const HttpBasicCredentials &credentials)->bool
+    {
+        return credentials.user == "foo" && credentials.password == "bar";
+    }
+    );
+
+    or in main:
+
+    for (auto api : apiImpls) {
+        api->init();
+
+          setBasicCredentialsAuthenticator(
+        [](const HttpBasicCredentials &credentials)->bool
+        {
+            return credentials.user == "foo" && credentials.password == "bar";
+        }
+        );
+    }
+
+    or a mix.
+
+    Until you do either, protected resources will result in a 401.
+    */{{/isBasicBasic}}{{/authMethods}}
+
 }
 
 {{#operation}}

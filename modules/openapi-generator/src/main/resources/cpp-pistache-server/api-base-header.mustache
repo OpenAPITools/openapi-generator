@@ -16,11 +16,13 @@ namespace {{apiNamespace}}
 
 
     {{#authMethods}}{{#isBasicBasic}}
-    struct HttpBasicCredentials
+    typedef struct
     {
-        std::string userid;
+        std::string user;
         std::string password;
-    };
+    } HttpBasicCredentials;
+
+    typedef std::function<bool(const HttpBasicCredentials &)> BasicCredentialsAuthenticator;
     {{/isBasicBasic}}{{/authMethods}}
 
 
@@ -31,8 +33,21 @@ public:
     virtual ~ApiBase() = default;
     virtual void init() = 0;
 
+    {{#authMethods}}{{#isBasicBasic}}
+    bool canCredentialsBeAccepted(const HttpBasicCredentials& credentials) const;
+    void setBasicCredentialsAuthenticator( const BasicCredentialsAuthenticator &newBasicCredentialsAuthenticator)
+    {
+        basicCredentialsAuthenticator = newBasicCredentialsAuthenticator;
+    }
+
+    {{/isBasicBasic}}{{/authMethods}}
+
+
 protected:
     const std::shared_ptr<Pistache::Rest::Router> router;
+    {{#authMethods}}{{#isBasicBasic}}std::optional<BasicCredentialsAuthenticator> basicCredentialsAuthenticator;{{/isBasicBasic}}{{/authMethods}}
+
+
 };
 
 } // namespace {{apiNamespace}}
