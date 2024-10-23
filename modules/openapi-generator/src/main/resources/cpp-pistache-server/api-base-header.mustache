@@ -20,9 +20,10 @@ namespace {{apiNamespace}}
     {
         std::string user;
         std::string password;
+        std::unique_ptr<void, std::function<void(void*)>> userdata;
     } HttpBasicCredentials;
 
-    typedef std::function<bool(const HttpBasicCredentials &)> BasicCredentialsAuthenticator;
+    typedef std::function<bool(HttpBasicCredentials &)> BasicCredentialsAuthenticator;
     {{/isBasicBasic}}{{/authMethods}}
 
 
@@ -34,7 +35,7 @@ public:
     virtual void init() = 0;
 
     {{#authMethods}}{{#isBasicBasic}}
-    bool canCredentialsBeAccepted(const HttpBasicCredentials& credentials) const;
+    bool canCredentialsBeAccepted(HttpBasicCredentials& credentials) const;
     void setBasicCredentialsAuthenticator( const BasicCredentialsAuthenticator &newBasicCredentialsAuthenticator)
     {
         basicCredentialsAuthenticator = newBasicCredentialsAuthenticator;
