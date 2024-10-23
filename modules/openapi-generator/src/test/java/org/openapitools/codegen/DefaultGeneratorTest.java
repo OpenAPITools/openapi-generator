@@ -429,15 +429,15 @@ public class DefaultGeneratorTest {
         // Validate when converting to parameter
         Operation operation = openAPI.getPaths().get("/fake/StringRegex").getPost();
         RequestBody body = operation.getRequestBody();
-        CodegenParameter codegenParameter = config.fromRequestBody(body, new HashSet<>(), "body");
+        CodegenParameter codegenParameter = config.fromRequestBody(body, "opId", new HashSet<>(), "body");
 
         Assert.assertEquals(codegenParameter.pattern, escapedPattern);
 
         // Validate when converting to response
         ApiResponse response = operation.getResponses().get("200");
-        CodegenResponse codegenResponse = config.fromResponse("200", response);
+        CodegenResponse codegenResponse = config.fromResponse("opId", "200", response);
 
-        Assert.assertEquals(((Schema) codegenResponse.schema).getPattern(), expectedPattern);
+        Assert.assertEquals(((Schema)codegenResponse.schema).getPattern(), expectedPattern);
         Assert.assertEquals(codegenResponse.pattern, escapedPattern);
     }
 
