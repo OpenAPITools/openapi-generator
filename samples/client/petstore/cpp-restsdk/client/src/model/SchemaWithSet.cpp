@@ -19,7 +19,6 @@ namespace client {
 namespace model {
 
 
-
 SchemaWithSet::SchemaWithSet()
 {
     m_CertificatesIsSet = false;
@@ -37,17 +36,20 @@ void SchemaWithSet::validate()
 
 web::json::value SchemaWithSet::toJson() const
 {
-
     web::json::value val = web::json::value::object();
     
     if(m_CertificatesIsSet)
-    {
+    {   
+        
         val[utility::conversions::to_string_t(U("certificates"))] = ModelBase::toJson(m_Certificates);
     }
+    
     if(m_VaccinationBookIsSet)
-    {
+    {   
+        
         val[utility::conversions::to_string_t(U("vaccinationBook"))] = ModelBase::toJson(m_VaccinationBook);
     }
+    
 
     return val;
 }
@@ -64,6 +66,7 @@ bool SchemaWithSet::fromJson(const web::json::value& val)
             std::set<utility::string_t> refVal_setCertificates;
             ok &= ModelBase::fromJson(fieldValue, refVal_setCertificates);
             setCertificates(refVal_setCertificates);
+            
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("vaccinationBook"))))
@@ -74,6 +77,7 @@ bool SchemaWithSet::fromJson(const web::json::value& val)
             std::shared_ptr<SchemaWithSet_vaccinationBook> refVal_setVaccinationBook;
             ok &= ModelBase::fromJson(fieldValue, refVal_setVaccinationBook);
             setVaccinationBook(refVal_setVaccinationBook);
+            
         }
     }
     return ok;
@@ -89,10 +93,12 @@ void SchemaWithSet::toMultipart(std::shared_ptr<MultipartFormData> multipart, co
     if(m_CertificatesIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("certificates")), m_Certificates));
+        
     }
     if(m_VaccinationBookIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("vaccinationBook")), m_VaccinationBook));
+        
     }
 }
 
@@ -110,20 +116,26 @@ bool SchemaWithSet::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
         std::set<utility::string_t> refVal_setCertificates;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("certificates"))), refVal_setCertificates );
         setCertificates(refVal_setCertificates);
+        
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("vaccinationBook"))))
     {
         std::shared_ptr<SchemaWithSet_vaccinationBook> refVal_setVaccinationBook;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("vaccinationBook"))), refVal_setVaccinationBook );
         setVaccinationBook(refVal_setVaccinationBook);
+        
     }
     return ok;
 }
 
-std::set<utility::string_t>& SchemaWithSet::getCertificates()
+
+
+
+std::set<utility::string_t> SchemaWithSet::getCertificates() const
 {
     return m_Certificates;
 }
+
 
 void SchemaWithSet::setCertificates(const std::set<utility::string_t>& value)
 {
@@ -140,10 +152,12 @@ void SchemaWithSet::unsetCertificates()
 {
     m_CertificatesIsSet = false;
 }
+
 std::shared_ptr<SchemaWithSet_vaccinationBook> SchemaWithSet::getVaccinationBook() const
 {
     return m_VaccinationBook;
 }
+
 
 void SchemaWithSet::setVaccinationBook(const std::shared_ptr<SchemaWithSet_vaccinationBook>& value)
 {
@@ -160,6 +174,7 @@ void SchemaWithSet::unsetVaccinationBook()
 {
     m_VaccinationBookIsSet = false;
 }
+
 }
 }
 }

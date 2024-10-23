@@ -51,31 +51,42 @@ public:
     void toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) const override;
     bool fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
 
+
     /////////////////////////////////////////////
     /// Vaccine members
 
+    
+
+    
     /// <summary>
     /// vaccination date
     /// </summary>
+    
     std::shared_ptr<AnyType> getDate() const;
+    
+    
     bool dateIsSet() const;
     void unsetdate();
 
     void setDate(const std::shared_ptr<AnyType>& value);
-
+    
     /// <summary>
     /// true if a booster is still needed to complete the vaccination
     /// </summary>
+    
     bool isBoosterRequired() const;
+    
+    
     bool boosterRequiredIsSet() const;
     void unsetBoosterRequired();
-
     void setBoosterRequired(bool value);
-
+    
 
 protected:
+    
     std::shared_ptr<AnyType> m_date;
     bool m_dateIsSet;
+    
     bool m_BoosterRequired;
     bool m_BoosterRequiredIsSet;
 };
