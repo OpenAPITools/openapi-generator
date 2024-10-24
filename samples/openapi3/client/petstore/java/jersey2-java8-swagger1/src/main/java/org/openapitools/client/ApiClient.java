@@ -892,8 +892,8 @@ public class ApiClient extends JavaTimeFormatter {
     if (contentType.startsWith("multipart/form-data")) {
       MultiPart multiPart = new MultiPart();
       for (Entry<String, Object> param: formParams.entrySet()) {
-        if (param.getValue() instanceof Iterable) {
-          ((Iterable)param.getValue()).forEach(v -> addParamToMultipart(v, param.getKey(), multiPart));
+        if (param.getValue() instanceof Iterable<?>) {
+          ((Iterable<?>)param.getValue()).forEach(v -> addParamToMultipart(v, param.getKey(), multiPart));
         } else {
           addParamToMultipart(param.getValue(), param.getKey(), multiPart);
         }
