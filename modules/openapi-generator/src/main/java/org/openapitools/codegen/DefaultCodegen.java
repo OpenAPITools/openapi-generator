@@ -3558,6 +3558,13 @@ public class DefaultCodegen implements CodegenConfig {
                         .orElseGet(() -> typeMapping.get("string"));
         discriminator.setPropertyType(propertyType);
 
+        // check to see if the discriminator property is an enum string
+        boolean isEnum = Optional
+                .ofNullable(discriminatorFound(schemaName, schema, discriminatorPropertyName, new TreeSet<>()))
+                .map(CodegenProperty::getIsEnum)
+                .orElse(false);
+        discriminator.setIsEnum(isEnum);
+
         discriminator.setMapping(sourceDiscriminator.getMapping());
         List<MappedModel> uniqueDescendants = new ArrayList<>();
         if (sourceDiscriminator.getMapping() != null && !sourceDiscriminator.getMapping().isEmpty()) {
@@ -3608,12 +3615,6 @@ public class DefaultCodegen implements CodegenConfig {
             Collections.sort(uniqueDescendants);
         }
         discriminator.getMappedModels().addAll(uniqueDescendants);
-
-        boolean isEnum = Optional
-                .ofNullable(discriminatorFound(schemaName, schema, discriminatorPropertyName, new TreeSet<>()))
-                .map(CodegenProperty::getIsEnum)
-                .orElse(false);
-        discriminator.setIsEnum(isEnum);
 
         return discriminator;
     }
