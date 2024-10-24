@@ -774,4 +774,24 @@ public class OpenAPINormalizerTest {
         assertEquals(normalizedTypeSchema.getEnum().size(), 1);
         assertEquals(Arrays.asList(originalConst), normalizedTypeSchema.getEnum());
     }
+
+    @Test
+    public void testOpenAPINormalizerProcessingAllOfSchema31Spec() {
+        // to test array schema processing in 3.1 spec
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/unsupported_schema_test.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("Dummy");
+        assertEquals(((Schema) schema.getProperties().get("property1")).getAllOf().size(), 2);
+        assertNotEquals(((Schema) ((Schema) schema.getProperties().get("property2")).getAllOf().get(0)).getIf(), null); // if is set before normalization
+        assertNotEquals(((Schema) ((Schema) schema.getProperties().get("property2")).getAllOf().get(1)).getThen(), null); // then is set before normalization
+
+        Map<String, String> inputRules = Map.of("NORMALIZE_31SPEC", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
+        openAPINormalizer.normalize();
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("Dummy");
+        assertEquals(((Schema) schema2.getProperties().get("property1")).getAllOf(), null);
+        assertEquals(((Schema) schema2.getProperties().get("property2")).getAllOf(), null);
+        assertEquals(((Schema) schema2.getProperties().get("property2")).getAllOf(), null);
+    }
 }
