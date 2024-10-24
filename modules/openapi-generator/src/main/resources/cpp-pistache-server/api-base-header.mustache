@@ -24,7 +24,18 @@ namespace {{apiNamespace}}
     } HttpBasicCredentials;
 
     typedef std::function<bool(HttpBasicCredentials &)> BasicCredentialsAuthenticator;
-    {{/isBasicBasic}}{{/authMethods}}
+    {{/isBasicBasic}}
+
+    {{#isBasicBearer}}
+    typedef struct
+    {
+        std::string token;
+        std::unique_ptr<void, std::function<void(void*)>> userdata;
+    } HttpBearerToken;
+
+    typedef std::function<bool(HttpBearerToken &)> BearerTokenAuthenticator;
+    {{/isBasicBearer}}
+    {{/authMethods}}
 
 
 
@@ -35,18 +46,23 @@ public:
     virtual void init() = 0;
 
     {{#authMethods}}{{#isBasicBasic}}
-    bool canCredentialsBeAccepted(HttpBasicCredentials& credentials) const;
     void setBasicCredentialsAuthenticator( const BasicCredentialsAuthenticator &newBasicCredentialsAuthenticator)
     {
         basicCredentialsAuthenticator = newBasicCredentialsAuthenticator;
     }
-
-    {{/isBasicBasic}}{{/authMethods}}
+    {{/isBasicBasic}}
+    {{#isBasicBearer}}
+    void setBearerTokenAuthenticator( const BearerTokenAuthenticator &newbearerTokenAuthenticator)
+    {
+        bearerTokenAuthenticator = newbearerTokenAuthenticator;
+    }
+    {{/isBasicBearer}}{{/authMethods}}
 
 
 protected:
     const std::shared_ptr<Pistache::Rest::Router> router;
     {{#authMethods}}{{#isBasicBasic}}std::optional<BasicCredentialsAuthenticator> basicCredentialsAuthenticator;{{/isBasicBasic}}{{/authMethods}}
+    {{#authMethods}}{{#isBasicBearer}}std::optional<BearerTokenAuthenticator> bearerTokenAuthenticator;{{/isBasicBearer}}{{/authMethods}}
 
 
 };

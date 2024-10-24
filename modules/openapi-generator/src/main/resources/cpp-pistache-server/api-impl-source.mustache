@@ -71,13 +71,71 @@ using namespace {{modelNamespace}};{{/hasModelImport}}
     or a mix.
 
     Until you do either, protected resources will result in a 401.
-    */{{/isBasicBasic}}{{/authMethods}}
+    */{{/isBasicBasic}}
+    {{#isBasicBearer}}/*
+
+    Http Basic Bearer
+    ===============
+
+    Do this in the individual classes in the constructor
+
+    this->setBearerTokenAuthenticator(
+        [](HttpBearerToken &token)->bool
+        {
+            if(token.token == "Zm9vYmFyCg==")
+            {
+                const int userIdOfFoo = 99;
+                token.userdata = std::unique_ptr<void,std::function<void(void*)>>(
+                    reinterpret_cast<void*>(new int(userIdOfFoo)),
+                    [&](void* ptr)
+                    {
+                        int * value = reinterpret_cast<int*>(ptr);
+                        delete value;
+                    }
+                );
+                return true;
+            }
+            return false;
+        }
+        );
+
+    or in main:
+
+    for (auto api : apiImpls) {
+        api->init();
+
+        api->setBearerTokenAuthenticator(
+        [](HttpBearerToken &token)->bool
+        {
+            if(token.token == "Zm9vYmFyCg==")
+            {
+                const int userIdOfFoo = 99;
+                token.userdata = std::unique_ptr<void,std::function<void(void*)>>(
+                    reinterpret_cast<void*>(new int(userIdOfFoo)),
+                    [&](void* ptr)
+                    {
+                        int * value = reinterpret_cast<int*>(ptr);
+                        delete value;
+                    }
+                );
+                return true;
+            }
+            return false;
+        }
+        );
+    }
+
+    or a mix.
+
+    Until you do either, protected resources will result in a 401.
+    */{{/isBasicBearer}}
+    {{/authMethods}}
 
 }
 
 {{#operation}}
 {{#vendorExtensions.x-codegen-pistache-is-parsing-supported}}
-void {{classname}}Impl::{{operationIdSnakeCase}}({{#authMethods}}{{#isBasicBasic}}const HttpBasicCredentials &credentials, {{/isBasicBasic}}{{/authMethods}}{{#allParams}}const {{{dataType}}} &{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Pistache::Http::ResponseWriter &response) {
+void {{classname}}Impl::{{operationIdSnakeCase}}({{#authMethods}}{{#isBasicBasic}}const HttpBasicCredentials &credentials, {{/isBasicBasic}}{{#isBasicBearer}}const HttpBearerToken &bearerToken, {{/isBasicBearer}}{{/authMethods}}{{#allParams}}const {{{dataType}}} &{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
 {{/vendorExtensions.x-codegen-pistache-is-parsing-supported}}
