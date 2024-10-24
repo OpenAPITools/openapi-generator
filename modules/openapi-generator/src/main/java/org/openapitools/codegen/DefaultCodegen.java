@@ -3216,12 +3216,15 @@ public class DefaultCodegen implements CodegenConfig {
      */
     private CodegenProperty discriminatorFound(String composedSchemaName, Schema sc, String discPropName, Set<String> visitedSchemas) {
         Schema refSchema = ModelUtils.getReferencedSchema(openAPI, sc);
-        // Identify nameless schemas by their toString.
-        String schemaKey = Optional.ofNullable(refSchema.getName()).orElseGet(refSchema::toString);
-        if (visitedSchemas.contains(schemaKey)) { // recursive schema definition found
+        ModelUtils.getSimpleRef(sc.get$ref());
+        String schemaName = Optional.ofNullable(composedSchemaName)
+                .or(() -> Optional.ofNullable(refSchema.getName()))
+                .or(() -> Optional.ofNullable(sc.get$ref()).map(ModelUtils::getSimpleRef))
+                .orElseGet(sc::toString);
+        if (visitedSchemas.contains(schemaName)) { // recursive schema definition found
             return null;
         } else {
-            visitedSchemas.add(schemaKey);
+            visitedSchemas.add(schemaName);
         }
 
         if (refSchema.getProperties() != null && refSchema.getProperties().get(discPropName) != null) {
@@ -3242,7 +3245,8 @@ public class DefaultCodegen implements CodegenConfig {
             if (composedSchema.getAllOf() != null) {
                 // If our discriminator is in one of the allOf schemas break when we find it
                 for (Object allOf : composedSchema.getAllOf()) {
-                    CodegenProperty cp = discriminatorFound(composedSchemaName, (Schema) allOf, discPropName, visitedSchemas);
+                    Schema allOfSchema = (Schema) allOf;
+                    CodegenProperty cp = discriminatorFound(allOfSchema.getName(), allOfSchema, discPropName, visitedSchemas);
                     if (cp != null) {
                         return cp;
                     }
@@ -3252,8 +3256,9 @@ public class DefaultCodegen implements CodegenConfig {
                 // All oneOf definitions must contain the discriminator
                 CodegenProperty cp = new CodegenProperty();
                 for (Object oneOf : composedSchema.getOneOf()) {
-                    String modelName = ModelUtils.getSimpleRef(((Schema) oneOf).get$ref());
-                    CodegenProperty thisCp = discriminatorFound(composedSchemaName, (Schema) oneOf, discPropName, visitedSchemas);
+                    Schema oneOfSchema = (Schema) oneOf;
+                    String modelName = ModelUtils.getSimpleRef((oneOfSchema).get$ref());
+                    CodegenProperty thisCp = discriminatorFound(oneOfSchema.getName(), oneOfSchema, discPropName, visitedSchemas);
                     if (thisCp == null) {
                         once(LOGGER).warn(
                                 "'{}' defines discriminator '{}', but the referenced OneOf schema '{}' is missing {}",
@@ -3275,8 +3280,9 @@ public class DefaultCodegen implements CodegenConfig {
                 // All anyOf definitions must contain the discriminator because a min of one must be selected
                 CodegenProperty cp = new CodegenProperty();
                 for (Object anyOf : composedSchema.getAnyOf()) {
-                    String modelName = ModelUtils.getSimpleRef(((Schema) anyOf).get$ref());
-                    CodegenProperty thisCp = discriminatorFound(composedSchemaName, (Schema) anyOf, discPropName, visitedSchemas);
+                    Schema anyOfSchema = (Schema) anyOf;
+                    String modelName = ModelUtils.getSimpleRef(anyOfSchema.get$ref());
+                    CodegenProperty thisCp = discriminatorFound(anyOfSchema.getName(), anyOfSchema, discPropName, visitedSchemas);
                     if (thisCp == null) {
                         once(LOGGER).warn(
                                 "'{}' defines discriminator '{}', but the referenced AnyOf schema '{}' is missing {}",
