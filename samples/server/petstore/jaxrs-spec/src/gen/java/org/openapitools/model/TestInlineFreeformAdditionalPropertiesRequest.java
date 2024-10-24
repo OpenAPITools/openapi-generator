@@ -23,6 +23,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<String, Object> implements Serializable {
   private String someProperty;
 
+  public TestInlineFreeformAdditionalPropertiesRequest() {
+  }
+
   /**
    **/
   public TestInlineFreeformAdditionalPropertiesRequest someProperty(String someProperty) {

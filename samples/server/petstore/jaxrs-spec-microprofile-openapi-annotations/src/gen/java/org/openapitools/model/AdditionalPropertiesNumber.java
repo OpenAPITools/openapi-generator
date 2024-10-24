@@ -21,6 +21,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> implements Serializable {
   private String name;
 
+  public AdditionalPropertiesNumber() {
+  }
+
   /**
    **/
   public AdditionalPropertiesNumber name(String name) {

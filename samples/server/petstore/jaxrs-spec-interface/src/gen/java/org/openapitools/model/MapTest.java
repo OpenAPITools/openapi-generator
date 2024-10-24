@@ -72,6 +72,9 @@ public class MapTest  implements Serializable {
   private @Valid Map<String, Boolean> directMap = new HashMap<>();
   private @Valid Map<String, Boolean> indirectMap = new HashMap<>();
 
+  public MapTest() {
+  }
+
   /**
    **/
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {

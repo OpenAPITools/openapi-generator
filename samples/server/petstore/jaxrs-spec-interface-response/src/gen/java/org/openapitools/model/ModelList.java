@@ -21,6 +21,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class ModelList  implements Serializable {
   private String _123list;
 
+  public ModelList() {
+  }
+
   /**
    **/
   public ModelList _123list(String _123list) {

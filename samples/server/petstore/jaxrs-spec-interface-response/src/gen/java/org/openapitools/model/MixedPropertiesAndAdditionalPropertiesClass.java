@@ -27,6 +27,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   private Date dateTime;
   private @Valid Map<String, Animal> map = new HashMap<>();
 
+  public MixedPropertiesAndAdditionalPropertiesClass() {
+  }
+
   /**
    **/
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {

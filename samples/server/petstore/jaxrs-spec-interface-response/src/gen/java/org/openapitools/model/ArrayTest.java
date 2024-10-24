@@ -26,6 +26,9 @@ public class ArrayTest  implements Serializable {
   private @Valid List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
   private @Valid List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
+  public ArrayTest() {
+  }
+
   /**
    **/
   public ArrayTest arrayOfString(List<String> arrayOfString) {
