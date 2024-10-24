@@ -32,7 +32,7 @@
 #' @field oauth_secret OAuth secret
 #' @field oauth_refresh_token OAuth refresh token
 #' @field oauth_flow_type OAuth flow type
-#' @field oauth_authorization_url Authoriziation URL
+#' @field oauth_authorization_url authorization URL
 #' @field oauth_token_url Token URL
 #' @field oauth_pkce Boolean flag to enable PKCE
 #' @field oauth_scopes OAuth scopes
@@ -68,7 +68,7 @@ ApiClient  <- R6::R6Class(
     # OAuth2
     # Flow type
     oauth_flow_type = "implicit",
-    # Authoriziation URL
+    # authorization URL
     oauth_authorization_url = "http://petstore.swagger.io/api/oauth/dialog",
     # Token URL
     oauth_token_url = "",
@@ -99,7 +99,7 @@ ApiClient  <- R6::R6Class(
     #' @param bearer_token Bearer token.
     #' @param timeout Timeout.
     #' @param retry_status_codes Status codes for retry.
-    #' @param max_retry_attempts Maxmium number of retry.
+    #' @param max_retry_attempts Maximum number of retry.
     #' @export
     initialize = function(base_path = NULL, user_agent = NULL,
                           default_headers = NULL,
@@ -296,7 +296,7 @@ ApiClient  <- R6::R6Class(
 
         req <- req %>% req_oauth_auth_code(client, scope = req_oauth_scopes,
                                            pkce = self$oauth_pkce,
-                                           auth_url = self$oauth_authoriziation_url)
+                                           auth_url = self$oauth_authorization_url)
       }
 
       # stream data

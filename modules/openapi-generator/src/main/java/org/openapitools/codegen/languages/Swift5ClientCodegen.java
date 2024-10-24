@@ -316,7 +316,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 .defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(new CliOption(VALIDATABLE,
-                "Make validation rules and validator for model properies (default: true)")
+                "Make validation rules and validator for model properties (default: true)")
                 .defaultValue(Boolean.TRUE.toString()));
 
         supportedLibraries.put(LIBRARY_URLSESSION, "[DEFAULT] HTTP client: URLSession");

@@ -177,7 +177,7 @@ class PetApi
      *
      * Add a new pet to the store
      *
-     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
      * URL: http://petstore.swagger.io/v2
      * URL: http://path-server-test.petstore.local/v2
      * URL: http://{server}.swagger.io:{port}/v2
@@ -198,7 +198,7 @@ class PetApi
      *
      * Add a new pet to the store
      *
-     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
      * URL: http://petstore.swagger.io/v2
      * URL: http://path-server-test.petstore.local/v2
      * URL: http://{server}.swagger.io:{port}/v2
@@ -253,7 +253,7 @@ class PetApi
      *
      * Add a new pet to the store
      *
-     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
      * URL: http://petstore.swagger.io/v2
      * URL: http://path-server-test.petstore.local/v2
      * URL: http://{server}.swagger.io:{port}/v2
@@ -278,7 +278,7 @@ class PetApi
      *
      * Add a new pet to the store
      *
-     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
      * URL: http://petstore.swagger.io/v2
      * URL: http://path-server-test.petstore.local/v2
      * URL: http://{server}.swagger.io:{port}/v2
@@ -318,7 +318,7 @@ class PetApi
     /**
      * Create request for operation 'addPet'
      *
-     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
      * URL: http://petstore.swagger.io/v2
      * URL: http://path-server-test.petstore.local/v2
      * URL: http://{server}.swagger.io:{port}/v2
@@ -1413,7 +1413,7 @@ class PetApi
      *
      * Update an existing pet
      *
-     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
      * URL: http://petstore.swagger.io/v2
      * URL: http://path-server-test.petstore.local/v2
      * URL: http://{server}.swagger.io:{port}/v2
@@ -1434,7 +1434,7 @@ class PetApi
      *
      * Update an existing pet
      *
-     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
      * URL: http://petstore.swagger.io/v2
      * URL: http://path-server-test.petstore.local/v2
      * URL: http://{server}.swagger.io:{port}/v2
@@ -1489,7 +1489,7 @@ class PetApi
      *
      * Update an existing pet
      *
-     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
      * URL: http://petstore.swagger.io/v2
      * URL: http://path-server-test.petstore.local/v2
      * URL: http://{server}.swagger.io:{port}/v2
@@ -1514,7 +1514,7 @@ class PetApi
      *
      * Update an existing pet
      *
-     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
      * URL: http://petstore.swagger.io/v2
      * URL: http://path-server-test.petstore.local/v2
      * URL: http://{server}.swagger.io:{port}/v2
@@ -1554,7 +1554,7 @@ class PetApi
     /**
      * Create request for operation 'updatePet'
      *
-     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
      * URL: http://petstore.swagger.io/v2
      * URL: http://path-server-test.petstore.local/v2
      * URL: http://{server}.swagger.io:{port}/v2

@@ -591,7 +591,7 @@ public class InlineModelResolver {
      *     breed:
      *       type: string
      *
-     * @param key      a unique name ofr the composed schema.
+     * @param key      a unique name for the composed schema.
      * @param children the list of nested schemas within a composed schema (allOf, anyOf, oneOf).
      * @param skipAllOfInlineSchemas true if allOf inline schemas need to be skipped.
      */

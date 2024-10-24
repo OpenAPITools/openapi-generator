@@ -2362,7 +2362,7 @@ components:
       properties:
         chAccAgeInd:
           description: "Length of time that the cardholder has had the account with\
-            \ the 3DS Requestor. \nAllowed values:\n* **01** \u2014 No account\n*\
+            \ the 3DS Requester. \nAllowed values:\n* **01** \u2014 No account\n*\
             \ **02** \u2014 Created during this transaction\n* **03** \u2014 Less\
             \ than 30 days\n* **04** \u2014 30\u201360 days\n* **05** \u2014 More\
             \ than 60 days"
@@ -2376,13 +2376,13 @@ components:
           minLength: 2
           type: string
         chAccChange:
-          description: "Date that the cardholder\u2019s account with the 3DS Requestor\
+          description: "Date that the cardholder\u2019s account with the 3DS Requester\
             \ was last changed, including Billing or Shipping address, new payment\
             \ account, or new user(s) added. \nFormat: **YYYYMMDD**"
           type: string
         chAccChangeInd:
           description: "Length of time since the cardholder\u2019s account information\
-            \ with the 3DS Requestor was last changed, including Billing or Shipping\
+            \ with the 3DS Requester was last changed, including Billing or Shipping\
             \ address, new payment account, or new user(s) added. \nAllowed values:\n\
             * **01** \u2014 Changed during this transaction\n* **02** \u2014 Less\
             \ than 30 days\n* **03** \u2014 30\u201360 days\n* **04** \u2014 More\
@@ -2396,12 +2396,12 @@ components:
           minLength: 2
           type: string
         chAccPwChange:
-          description: "Date that cardholder\u2019s account with the 3DS Requestor\
+          description: "Date that cardholder\u2019s account with the 3DS Requester\
             \ had a password change or account reset. \nFormat: **YYYYMMDD**"
           type: string
         chAccPwChangeInd:
           description: "Indicates the length of time since the cardholder\u2019s account\
-            \ with the 3DS Requestor had a password change or account reset. \nAllowed\
+            \ with the 3DS Requester had a password change or account reset. \nAllowed\
             \ values:\n* **01** \u2014 No change\n* **02** \u2014 Changed during this\
             \ transaction\n* **03** \u2014 Less than 30 days\n* **04** \u2014 30\u2013\
             60 days\n* **05** \u2014 More than 60 days"
@@ -2415,7 +2415,7 @@ components:
           minLength: 2
           type: string
         chAccString:
-          description: "Date that the cardholder opened the account with the 3DS Requestor.\
+          description: "Date that the cardholder opened the account with the 3DS Requester.\
             \ \nFormat: **YYYYMMDD**"
           type: string
         nbPurchaseAccount:
@@ -2424,11 +2424,11 @@ components:
           type: string
         paymentAccAge:
           description: "String that the payment account was enrolled in the cardholder\u2019\
-            s account with the 3DS Requestor. \nFormat: **YYYYMMDD**"
+            s account with the 3DS Requester. \nFormat: **YYYYMMDD**"
           type: string
         paymentAccInd:
           description: "Indicates the length of time that the payment account was\
-            \ enrolled in the cardholder\u2019s account with the 3DS Requestor. \n\
+            \ enrolled in the cardholder\u2019s account with the 3DS Requester. \n\
             Allowed values:\n* **01** \u2014 No account (guest checkout)\n* **02**\
             \ \u2014 During this transaction\n* **03** \u2014 Less than 30 days\n\
             * **04** \u2014 30\u201360 days\n* **05** \u2014 More than 60 days"
@@ -2447,11 +2447,11 @@ components:
           type: string
         shipAddressUsage:
           description: "String when the shipping address used for this transaction\
-            \ was first used with the 3DS Requestor. \nFormat: **YYYYMMDD**"
+            \ was first used with the 3DS Requester. \nFormat: **YYYYMMDD**"
           type: string
         shipAddressUsageInd:
           description: "Indicates when the shipping address used for this transaction\
-            \ was first used with the 3DS Requestor. \nAllowed values:\n* **01** \u2014\
+            \ was first used with the 3DS Requester. \nAllowed values:\n* **01** \u2014\
             \ This transaction\n* **02** \u2014 Less than 30 days\n* **03** \u2014\
             \ 30\u201360 days\n* **04** \u2014 More than 60 days"
           enum:
@@ -2474,7 +2474,7 @@ components:
           minLength: 2
           type: string
         suspiciousAccActivity:
-          description: "Indicates whether the 3DS Requestor has experienced suspicious\
+          description: "Indicates whether the 3DS Requester has experienced suspicious\
             \ activity (including previous fraud) on the cardholder account. \nAllowed\
             \ values:\n* **01** \u2014 No suspicious activity has been observed\n\
             * **02** \u2014 Suspicious activity has been observed"
@@ -2486,13 +2486,13 @@ components:
           type: string
         txnActivityDay:
           description: 'Number of transactions (successful and abandoned) for this
-            cardholder account with the 3DS Requestor across all payment accounts
+            cardholder account with the 3DS Requester across all payment accounts
             in the previous 24 hours. Max length: 3 characters.'
           maxLength: 3
           type: string
         txnActivityYear:
           description: 'Number of transactions (successful and abandoned) for this
-            cardholder account with the 3DS Requestor across all payment accounts
+            cardholder account with the 3DS Requester across all payment accounts
             in the previous year. Max length: 3 characters.'
           maxLength: 3
           type: string
@@ -7556,7 +7556,7 @@ components:
           description: indicates where the money is going
           type: string
         walletOwnerTaxId:
-          description: indicates the tax identifier of the fund recepient
+          description: indicates the tax identifier of the fund recipient
           type: string
       type: object
     GenericIssuerPaymentMethodDetails:
@@ -11792,7 +11792,7 @@ components:
 
             * PREPAID_NONRELOADABLE
 
-            * DEFFERED_DEBIT
+            * DEFERRED_DEBIT
 
 
             > This functionality requires additional configuration on Adyen''s end.
@@ -12876,7 +12876,7 @@ components:
         acctInfo:
           x-addedInVersion: '68'
           description: "Additional information about the Cardholder\u2019s account\
-            \ provided by the 3DS Requestor."
+            \ provided by the 3DS Requester."
           $ref: '#/components/schemas/AcctInfo'
         acctType:
           x-addedInVersion: '68'
@@ -12926,7 +12926,7 @@ components:
         challengeIndicator:
           deprecated: true
           x-deprecatedInVersion: '68'
-          x-deprecatedMessage: Use `threeDSRequestorChallengeInd` instead.
+          x-deprecatedMessage: Use `threeDSRequesterChallengeInd` instead.
           description: 'Possibility to specify a preference for receiving a challenge
             from the issuer.
 
@@ -13083,20 +13083,20 @@ components:
         threeDSCompInd:
           description: Completion indicator for the device fingerprinting.
           type: string
-        threeDSRequestorAuthenticationInd:
+        threeDSRequesterAuthenticationInd:
           x-addedInVersion: '68'
           description: Indicates the type of Authentication request.
           type: string
-        threeDSRequestorAuthenticationInfo:
+        threeDSRequesterAuthenticationInfo:
           x-addedInVersion: '68'
-          description: Information about how the 3DS Requestor authenticated the cardholder
+          description: Information about how the 3DS Requester authenticated the cardholder
             before or during the transaction
-          $ref: '#/components/schemas/ThreeDSRequestorAuthenticationInfo'
-        threeDSRequestorChallengeInd:
+          $ref: '#/components/schemas/ThreeDSRequesterAuthenticationInfo'
+        threeDSRequesterChallengeInd:
           x-addedInVersion: '68'
           description: "Indicates whether a challenge is requested for this transaction.\
             \ Possible values:\n* **01** \u2014 No preference\n* **02** \u2014 No\
-            \ challenge requested\n* **03** \u2014 Challenge requested (3DS Requestor\
+            \ challenge requested\n* **03** \u2014 Challenge requested (3DS Requester\
             \ preference)\n* **04** \u2014 Challenge requested (Mandate)\n* **05**\
             \ \u2014 No challenge (transactional risk analysis is already performed)\n\
             * **06** \u2014 Data Only"
@@ -13108,22 +13108,22 @@ components:
             - '05'
             - '06'
           type: string
-        threeDSRequestorID:
+        threeDSRequesterID:
           description: Required for [authentication-only integration](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only)
-            for Visa. Unique 3D Secure requestor identifier assigned by the Directory
+            for Visa. Unique 3D Secure requester identifier assigned by the Directory
             Server when you enrol for 3D Secure 2.
           type: string
-        threeDSRequestorName:
+        threeDSRequesterName:
           description: Required for [authentication-only integration](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only)
-            for Visa. Unique 3D Secure requestor name assigned by the Directory Server
+            for Visa. Unique 3D Secure requester name assigned by the Directory Server
             when you enrol for 3D Secure 2.
           type: string
-        threeDSRequestorPriorAuthenticationInfo:
+        threeDSRequesterPriorAuthenticationInfo:
           x-addedInVersion: '68'
-          description: Information about how the 3DS Requestor authenticated the cardholder
+          description: Information about how the 3DS Requester authenticated the cardholder
             as part of a previous 3DS transaction.
-          $ref: '#/components/schemas/ThreeDSRequestorPriorAuthenticationInfo'
-        threeDSRequestorURL:
+          $ref: '#/components/schemas/ThreeDSRequesterPriorAuthenticationInfo'
+        threeDSRequesterURL:
           description: URL of the (customer service) website that will be shown to
             the shopper in case of technical errors during the 3D Secure 2 process.
           type: string
@@ -13170,7 +13170,7 @@ components:
         acctInfo:
           x-addedInVersion: '68'
           description: "Additional information about the Cardholder\u2019s account\
-            \ provided by the 3DS Requestor."
+            \ provided by the 3DS Requester."
           $ref: '#/components/schemas/AcctInfo'
         acctType:
           x-addedInVersion: '68'
@@ -13220,7 +13220,7 @@ components:
         challengeIndicator:
           deprecated: true
           x-deprecatedInVersion: '68'
-          x-deprecatedMessage: Use `threeDSRequestorChallengeInd` instead.
+          x-deprecatedMessage: Use `threeDSRequesterChallengeInd` instead.
           description: 'Possibility to specify a preference for receiving a challenge
             from the issuer.
 
@@ -13350,20 +13350,20 @@ components:
         threeDSCompInd:
           description: Completion indicator for the device fingerprinting.
           type: string
-        threeDSRequestorAuthenticationInd:
+        threeDSRequesterAuthenticationInd:
           x-addedInVersion: '68'
           description: Indicates the type of Authentication request.
           type: string
-        threeDSRequestorAuthenticationInfo:
+        threeDSRequesterAuthenticationInfo:
           x-addedInVersion: '68'
-          description: Information about how the 3DS Requestor authenticated the cardholder
+          description: Information about how the 3DS Requester authenticated the cardholder
             before or during the transaction
-          $ref: '#/components/schemas/ThreeDSRequestorAuthenticationInfo'
-        threeDSRequestorChallengeInd:
+          $ref: '#/components/schemas/ThreeDSRequesterAuthenticationInfo'
+        threeDSRequesterChallengeInd:
           x-addedInVersion: '68'
           description: "Indicates whether a challenge is requested for this transaction.\
             \ Possible values:\n* **01** \u2014 No preference\n* **02** \u2014 No\
-            \ challenge requested\n* **03** \u2014 Challenge requested (3DS Requestor\
+            \ challenge requested\n* **03** \u2014 Challenge requested (3DS Requester\
             \ preference)\n* **04** \u2014 Challenge requested (Mandate)\n* **05**\
             \ \u2014 No challenge (transactional risk analysis is already performed)\n\
             * **06** \u2014 Data Only"
@@ -13375,22 +13375,22 @@ components:
             - '05'
             - '06'
           type: string
-        threeDSRequestorID:
+        threeDSRequesterID:
           description: Required for [authentication-only integration](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only)
-            for Visa. Unique 3D Secure requestor identifier assigned by the Directory
+            for Visa. Unique 3D Secure requester identifier assigned by the Directory
             Server when you enrol for 3D Secure 2.
           type: string
-        threeDSRequestorName:
+        threeDSRequesterName:
           description: Required for [authentication-only integration](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only)
-            for Visa. Unique 3D Secure requestor name assigned by the Directory Server
+            for Visa. Unique 3D Secure requester name assigned by the Directory Server
             when you enrol for 3D Secure 2.
           type: string
-        threeDSRequestorPriorAuthenticationInfo:
+        threeDSRequesterPriorAuthenticationInfo:
           x-addedInVersion: '68'
-          description: Information about how the 3DS Requestor authenticated the cardholder
+          description: Information about how the 3DS Requester authenticated the cardholder
             as part of a previous 3DS transaction.
-          $ref: '#/components/schemas/ThreeDSRequestorPriorAuthenticationInfo'
-        threeDSRequestorURL:
+          $ref: '#/components/schemas/ThreeDSRequesterPriorAuthenticationInfo'
+        threeDSRequesterURL:
           description: URL of the (customer service) website that will be shown to
             the shopper in case of technical errors during the 3D Secure 2 process.
           type: string
@@ -13533,11 +13533,11 @@ components:
           description: Risk score calculated by Cartes Bancaires Directory Server
             (DS).
           type: string
-        threeDSRequestorChallengeInd:
+        threeDSRequesterChallengeInd:
           x-addedInVersion: '68'
           description: "Indicates whether a challenge is requested for this transaction.\
             \ Possible values:\n* **01** \u2014 No preference\n* **02** \u2014 No\
-            \ challenge requested\n* **03** \u2014 Challenge requested (3DS Requestor\
+            \ challenge requested\n* **03** \u2014 Challenge requested (3DS Requester\
             \ preference)\n* **04** \u2014 Challenge requested (Mandate)\n* **05**\
             \ \u2014 No challenge (transactional risk analysis is already performed)\n\
             * **06** \u2014 Data Only"
@@ -13618,7 +13618,7 @@ components:
             - 2.2.0
           type: string
       type: object
-    ThreeDSRequestorAuthenticationInfo:
+    ThreeDSRequesterAuthenticationInfo:
       properties:
         threeDSReqAuthData:
           description: 'Data that documents and supports a specific authentication
@@ -13626,15 +13626,15 @@ components:
           type: string
         threeDSReqAuthMethod:
           description: "Mechanism used by the Cardholder to authenticate to the 3DS\
-            \ Requestor. Allowed values:\n* **01** \u2014 No 3DS Requestor authentication\
+            \ Requester. Allowed values:\n* **01** \u2014 No 3DS Requester authentication\
             \ occurred (for example, cardholder \u201Clogged in\u201D as guest).\n\
-            * **02** \u2014 Login to the cardholder account at the 3DS Requestor system\
-            \ using 3DS Requestor\u2019s own credentials.\n* **03** \u2014 Login to\
-            \ the cardholder account at the 3DS Requestor system using federated ID.\n\
-            * **04** \u2014 Login to the cardholder account at the 3DS Requestor system\
+            * **02** \u2014 Login to the cardholder account at the 3DS Requester system\
+            \ using 3DS Requester\u2019s own credentials.\n* **03** \u2014 Login to\
+            \ the cardholder account at the 3DS Requester system using federated ID.\n\
+            * **04** \u2014 Login to the cardholder account at the 3DS Requester system\
             \ using issuer credentials.\n* **05** \u2014 Login to the cardholder account\
-            \ at the 3DS Requestor system using third-party authentication.\n* **06**\
-            \ \u2014 Login to the cardholder account at the 3DS Requestor system using\
+            \ at the 3DS Requester system using third-party authentication.\n* **06**\
+            \ \u2014 Login to the cardholder account at the 3DS Requester system using\
             \ FIDO Authenticator."
           enum:
             - '01'
@@ -13653,7 +13653,7 @@ components:
           minLength: 12
           type: string
       type: object
-    ThreeDSRequestorPriorAuthenticationInfo:
+    ThreeDSRequesterPriorAuthenticationInfo:
       properties:
         threeDSReqPriorAuthData:
           description: 'Data that documents and supports a specific authentication
@@ -13661,7 +13661,7 @@ components:
           type: string
         threeDSReqPriorAuthMethod:
           description: "Mechanism used by the Cardholder to previously authenticate\
-            \ to the 3DS Requestor. Allowed values:\n* **01** \u2014 Frictionless\
+            \ to the 3DS Requester. Allowed values:\n* **01** \u2014 Frictionless\
             \ authentication occurred by ACS.\n* **02** \u2014 Cardholder challenge\
             \ occurred by ACS.\n* **03** \u2014 AVS verified.\n* **04** \u2014 Other\
             \ issuer methods."

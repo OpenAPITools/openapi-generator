@@ -946,7 +946,7 @@ components:
       description: string or int
       type: [string, integer]
     OneOfStringOrInt:
-      description: string or int (onefOf)
+      description: string or int (oneOf)
       oneOf:
         - type: string
         - type: integer
@@ -992,7 +992,7 @@ components:
       properties: {}
       type: object
       title: HTTPValidationError
-    # okhttp-gson doesnot support array of string
+    # okhttp-gson doesn't support array of string
     #AnyOfArray:
     #  anyOf:
     #    - type: array
