@@ -379,4 +379,30 @@ public interface FakeApiDelegate {
 
     }
 
+    /**
+     * POST /fake/{petId}/uploadImageWithOptionalBody : uploads an image (required)
+     * 
+     *
+     * @param petId ID of pet to update (required)
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param optionalFile file to upload (optional)
+     * @return successful operation (status code 200)
+     * @see FakeApi#uploadImageWithOptionalBody
+     */
+    default ResponseEntity<ModelApiResponse> uploadImageWithOptionalBody(Long petId,
+        String additionalMetadata,
+        MultipartFile optionalFile) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
 }
