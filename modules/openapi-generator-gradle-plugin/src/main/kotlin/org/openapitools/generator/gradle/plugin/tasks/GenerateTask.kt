@@ -121,6 +121,13 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     val inputSpecRootDirectory = project.objects.property<String>();
 
     /**
+     * Skip merge spec files step
+     */
+    @Input
+    @Optional
+    val inputSpecRootDirectorySkipMerge = project.objects.property<Boolean>()
+
+    /**
      * Name of the file that will contain all merged specs
      */
     @Input
@@ -625,9 +632,16 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
         }
 
         inputSpecRootDirectory.ifNotEmpty { inputSpecRootDirectoryValue ->
-            run {
-                resolvedInputSpec = MergedSpecBuilder(inputSpecRootDirectoryValue, mergedFileName.getOrElse("merged")).buildMergedSpec()
-                logger.info("Merge input spec would be used - {}", resolvedInputSpec)
+            var runMergeSpec = true
+            inputSpecRootDirectorySkipMerge.ifNotEmpty { skipMergeValue -> { runMergeSpec = !skipMergeValue } }
+            if (runMergeSpec) {
+                run {
+                    resolvedInputSpec = MergedSpecBuilder(
+                        inputSpecRootDirectoryValue,
+                        mergedFileName.getOrElse("merged")
+                    ).buildMergedSpec()
+                    logger.info("Merge input spec would be used - {}", resolvedInputSpec)
+                }
             }
         }
 
