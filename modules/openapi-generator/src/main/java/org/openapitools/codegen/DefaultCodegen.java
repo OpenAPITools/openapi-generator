@@ -3215,15 +3215,17 @@ public class DefaultCodegen implements CodegenConfig {
      * @param visitedSchemas     A set of visited schema names
      */
     private CodegenProperty discriminatorFound(String composedSchemaName, Schema sc, String discPropName, Set<String> visitedSchemas) {
-        if (visitedSchemas.contains(composedSchemaName)) { // recursive schema definition found
+        Schema refSchema = ModelUtils.getReferencedSchema(openAPI, sc);
+        // Identify nameless schemas by their toString.
+        String schemaKey = Optional.ofNullable(refSchema.getName()).orElseGet(refSchema::toString);
+        if (visitedSchemas.contains(schemaKey)) { // recursive schema definition found
             return null;
         } else {
-            visitedSchemas.add(composedSchemaName);
+            visitedSchemas.add(schemaKey);
         }
 
-        Schema refSchema = ModelUtils.getReferencedSchema(openAPI, sc);
         if (refSchema.getProperties() != null && refSchema.getProperties().get(discPropName) != null) {
-            Schema discSchema = (Schema) refSchema.getProperties().get(discPropName);
+            Schema discSchema = ModelUtils.getReferencedSchema(openAPI, (Schema)refSchema.getProperties().get(discPropName));
             CodegenProperty cp = new CodegenProperty();
             if (ModelUtils.isStringSchema(discSchema)) {
                 cp.isString = true;
@@ -3232,6 +3234,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (refSchema.getRequired() != null && refSchema.getRequired().contains(discPropName)) {
                 cp.setRequired(true);
             }
+            cp.setIsEnum(discSchema.getEnum() != null && !discSchema.getEnum().isEmpty());
             return cp;
         }
         if (ModelUtils.isComposedSchema(refSchema)) {
@@ -3606,24 +3609,10 @@ public class DefaultCodegen implements CodegenConfig {
         }
         discriminator.getMappedModels().addAll(uniqueDescendants);
 
-        // check current schema, all parents and descendants to see if the discriminator property is an enum string
-        Stream<Schema> schemasToCheckForEnumDiscriminator = Stream.concat(
-                Stream.of(schema),
-                Stream.concat(
-                        ModelUtils.isComposedSchema(schema)
-                                ? ModelUtils.getAllParentsName(schema, openAPI.getComponents().getSchemas(), true).stream()
-                                : Stream.of(),
-                        uniqueDescendants.stream().map(MappedModel::getModelName)
-                ).flatMap(s -> Optional.ofNullable(ModelUtils.getSchema(openAPI, s)).stream())
-        );
-
-        boolean isEnum = schemasToCheckForEnumDiscriminator.anyMatch(s -> Optional
-                .ofNullable(s.getProperties())
-                .map(p -> (Schema) p.get(discriminatorPropertyName))
-                .map(s1 -> ModelUtils.getReferencedSchema(openAPI, s1))
-                .filter(s1 -> s1 instanceof StringSchema && s1.getEnum() != null && !s1.getEnum().isEmpty())
-                .isPresent()
-        );
+        boolean isEnum = Optional
+                .ofNullable(discriminatorFound(schemaName, schema, discriminatorPropertyName, new TreeSet<>()))
+                .map(CodegenProperty::getIsEnum)
+                .orElse(false);
         discriminator.setIsEnum(isEnum);
 
         return discriminator;
