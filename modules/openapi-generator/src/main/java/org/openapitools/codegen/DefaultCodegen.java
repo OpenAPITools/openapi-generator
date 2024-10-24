@@ -3128,7 +3128,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected static String getEnumValueForProperty(
             String modelName, CodegenDiscriminator discriminator, CodegenProperty var) {
         if (!discriminator.getIsEnum() && !var.isEnum) {
-            return null;
+            return var.defaultValue;
         }
         Map<String, String> mapping = Optional.ofNullable(discriminator.getMapping()).orElseGet(Collections::emptyMap);
         for (Map.Entry<String, String> e : mapping.entrySet()) {
@@ -3139,10 +3139,10 @@ public class DefaultCodegen implements CodegenConfig {
         }
         Object values = var.allowableValues.get("values");
         if (!(values instanceof List<?>)) {
-            return null;
+            return var.defaultValue;
         }
         List<?> valueList = (List<?>) values;
-        return valueList.stream().filter(o -> o.equals(modelName)).map(o -> (String) o).findAny().orElse(null);
+        return valueList.stream().filter(o -> o.equals(modelName)).map(o -> (String) o).findAny().orElse(var.defaultValue);
     }
 
     protected void SortModelPropertiesByRequiredFlag(CodegenModel model) {
