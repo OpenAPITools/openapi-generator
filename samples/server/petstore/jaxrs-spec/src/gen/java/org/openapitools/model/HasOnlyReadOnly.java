@@ -114,7 +114,7 @@ public class HasOnlyReadOnly  implements Serializable {
     return new HasOnlyReadOnlyBuilderImpl();
   }
 
-  private static class HasOnlyReadOnlyBuilderImpl extends HasOnlyReadOnlyBuilder<HasOnlyReadOnly, HasOnlyReadOnlyBuilderImpl> {
+  private static final class HasOnlyReadOnlyBuilderImpl extends HasOnlyReadOnlyBuilder<HasOnlyReadOnly, HasOnlyReadOnlyBuilderImpl> {
 
     @Override
     protected HasOnlyReadOnlyBuilderImpl self() {

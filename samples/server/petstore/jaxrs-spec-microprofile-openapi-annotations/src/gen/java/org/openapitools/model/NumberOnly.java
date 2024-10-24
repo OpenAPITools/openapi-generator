@@ -89,7 +89,7 @@ public class NumberOnly  implements Serializable {
     return new NumberOnlyBuilderImpl();
   }
 
-  private static class NumberOnlyBuilderImpl extends NumberOnlyBuilder<NumberOnly, NumberOnlyBuilderImpl> {
+  private static final class NumberOnlyBuilderImpl extends NumberOnlyBuilder<NumberOnly, NumberOnlyBuilderImpl> {
 
     @Override
     protected NumberOnlyBuilderImpl self() {
