@@ -75,8 +75,11 @@ export class UserApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
+
+        let urlPath = `/user`;
+
         const response = await this.request({
-            path: `/user`,
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -111,8 +114,11 @@ export class UserApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
+
+        let urlPath = `/user/createWithArray`;
+
         const response = await this.request({
-            path: `/user/createWithArray`,
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -146,8 +152,11 @@ export class UserApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
+
+        let urlPath = `/user/createWithList`;
+
         const response = await this.request({
-            path: `/user/createWithList`,
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -180,8 +189,12 @@ export class UserApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+
+        let urlPath = `/user/{username}`;
+        urlPath = urlPath.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username'])));
+
         const response = await this.request({
-            path: `/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username']))),
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -213,8 +226,12 @@ export class UserApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+
+        let urlPath = `/user/{username}`;
+        urlPath = urlPath.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username'])));
+
         const response = await this.request({
-            path: `/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username']))),
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -261,8 +278,11 @@ export class UserApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+
+        let urlPath = `/user/login`;
+
         const response = await this.request({
-            path: `/user/login`,
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -291,8 +311,11 @@ export class UserApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+
+        let urlPath = `/user/logout`;
+
         const response = await this.request({
-            path: `/user/logout`,
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -333,8 +356,12 @@ export class UserApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
+
+        let urlPath = `/user/{username}`;
+        urlPath = urlPath.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username'])));
+
         const response = await this.request({
-            path: `/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username']))),
+            path: urlPath,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
