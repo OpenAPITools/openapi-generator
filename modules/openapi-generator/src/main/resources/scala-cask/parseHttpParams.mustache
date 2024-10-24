@@ -53,5 +53,6 @@
         {{/vendorExtensions.x-consumes-xml}}
     {{/vendorExtensions.x-consumes-json}}
 {{/bodyParams}}
-            result <- Parsed.eval(service.{{operationId}}({{vendorExtensions.x-param-list}}))
+            resultTry <- Parsed.eval(service.{{operationId}}({{{vendorExtensions.x-param-list}}}))
+            result <- Parsed.fromTry(resultTry)
         } yield result

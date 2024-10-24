@@ -13,57 +13,60 @@
 
 // this model was generated using model.mustache
 package sample.cask.model
+
 import scala.util.control.NonFatal
 
 // see https://com-lihaoyi.github.io/upickle/
 import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
+
+
 case class User(
-  id: Option[Long] = None ,
-  username: Option[String] = None ,
-  firstName: Option[String] = None ,
-  lastName: Option[String] = None ,
-  email: Option[String] = None ,
-  password: Option[String] = None ,
-  phone: Option[String] = None ,
-/* User Status */
-  userStatus: Option[Int] = None 
+    id: Option[Long] = None ,
+    username: Option[String] = None ,
+    firstName: Option[String] = None ,
+    lastName: Option[String] = None ,
+    email: Option[String] = None ,
+    password: Option[String] = None ,
+    phone: Option[String] = None ,
+        /* User Status */
+    userStatus: Option[Int] = None 
 
 
 ) {
 
-  def asJsonString: String = asData.asJsonString
-  def asJson: ujson.Value = asData.asJson
+def asJsonString: String = asData.asJsonString
+def asJson: ujson.Value = asData.asJson
 
-  def asData : UserData = {
-    UserData(
-            id = id.getOrElse(0),
-            username = username.getOrElse(""),
-            firstName = firstName.getOrElse(""),
-            lastName = lastName.getOrElse(""),
-            email = email.getOrElse(""),
-            password = password.getOrElse(""),
-            phone = phone.getOrElse(""),
-            userStatus = userStatus.getOrElse(0)
-        
-    )
-  }
+def asData : UserData = {
+UserData(
+    id = id.getOrElse(0),
+    username = username.getOrElse(""),
+    firstName = firstName.getOrElse(""),
+    lastName = lastName.getOrElse(""),
+    email = email.getOrElse(""),
+    password = password.getOrElse(""),
+    phone = phone.getOrElse(""),
+    userStatus = userStatus.getOrElse(0)
+
+)
+}
 }
 
 object User {
-    given RW[User] = summon[RW[ujson.Value]].bimap[User](_.asJson, json => read[UserData](json).asModel)
+given RW[User] = summon[RW[ujson.Value]].bimap[User](_.asJson, json => read[UserData](json).asModel)
 
-    enum Fields(val fieldName : String) extends Field(fieldName) {
-            case id extends Fields("id")
-            case username extends Fields("username")
-            case firstName extends Fields("firstName")
-            case lastName extends Fields("lastName")
-            case email extends Fields("email")
-            case password extends Fields("password")
-            case phone extends Fields("phone")
-            case userStatus extends Fields("userStatus")
-    }
+enum Fields(val fieldName : String) extends Field(fieldName) {
+    case id extends Fields("id")
+    case username extends Fields("username")
+    case firstName extends Fields("firstName")
+    case lastName extends Fields("lastName")
+    case email extends Fields("email")
+    case password extends Fields("password")
+    case phone extends Fields("phone")
+    case userStatus extends Fields("userStatus")
+}
 
 
 }
