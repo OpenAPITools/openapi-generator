@@ -108,6 +108,7 @@ public class EnumStringDiscriminator {
   protected EnumStrTypeEnum enumStrType;
 
   public EnumStringDiscriminator() {
+
   }
 
   public EnumStringDiscriminator enumStrType(@javax.annotation.Nonnull EnumStrTypeEnum enumStrType) {
