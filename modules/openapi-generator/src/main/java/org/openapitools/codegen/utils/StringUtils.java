@@ -283,4 +283,32 @@ public class StringUtils {
             throw new RuntimeException("Word '" + name + "' could not be escaped.");
         });
     }
+
+    /**
+     * Return a unique string based on a set of processed strings.
+     *
+     * @param processedStrings a set of strings that have been processed
+     * @param input            input to be checked for uniqueness
+     * @return a unique string
+     */
+    public static String getUniqueString(Set<String> processedStrings, String input) {
+        if (input == null) {
+            return null;
+        }
+
+        String uniqueName = input;
+        // check for input uniqueness
+        int counter = 0;
+
+        if (processedStrings.contains(uniqueName)) {
+            // look for next unique next, e.g. getName_7
+            while (processedStrings.contains(uniqueName)) {
+                uniqueName = uniqueName + "_" + counter;
+                counter++;
+            }
+        }
+
+        processedStrings.add(uniqueName);
+        return uniqueName;
+    }
 }

@@ -614,3 +614,10 @@ Example:
 ```
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -o /tmp/java-okhttp/ --openapi-normalizer SET_PRIMITIVE_TYPES_TO_NULLABLE="integer|number"
 ```
+
+- `FIX_DUPLICATED_OPERATIONID`: When set to true, an integer suffix will be added to duplicated operationId(s), e.g. getName => getName_0, getName_1, etc
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_1/java/petstore.yaml -o /tmp/java-okhttp/ --openapi-normalizer FIX_DUPLICATED_OPERATIONID=true
+```
