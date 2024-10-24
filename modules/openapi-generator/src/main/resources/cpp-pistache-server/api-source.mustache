@@ -121,7 +121,22 @@ void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Reque
 
     {{/bodyParam}}
     {{/hasBodyParam}}
+
+    {{#authMethods}}
+    #ifndef HTTP_BASIC_AUTH_DEFINED
+    #define HTTP_BASIC_AUTH_DEFINED 0
+    #endif
+    #ifndef HTTP_BEARER_AUTH_DEFINED
+    #define HTTP_BEARER_AUTH_DEFINED 0
+    #endif
+    {{/authMethods}}
+
+
+
     {{#authMethods}}{{#isBasicBasic}}
+#undef HTTP_BASIC_AUTH_DEFINED
+#define HTTP_BASIC_AUTH_DEFINED 1
+
         auto basicAuthHeader = request.headers().tryGet<Pistache::Http::Header::Authorization>();
 
         if( (!basicAuthHeader) || (basicAuthHeader->getMethod() != Pistache::Http::Header::Authorization::Method::Basic))
@@ -145,10 +160,36 @@ void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Reque
         {{/isBasicBasic}}{{/authMethods}}
 
         {{#authMethods}}{{#isBasicBearer}}
-        /* BASIC BEARER */
+#undef HTTP_BEARER_AUTH_DEFINED
+#define HTTP_BEARER_AUTH_DEFINED 1
+        auto bearerAuthHeader = request.headers().tryGet<Pistache::Http::Header::Authorization>();
+
+        if( (!bearerAuthHeader) || (bearerAuthHeader->getMethod() != Pistache::Http::Header::Authorization::Method::Bearer))
+        {
+            response.send(Pistache::Http::Code::Unauthorized, "");
+            return;
+        }
+        std::string completeHeaderValue = bearerAuthHeader->value();
+        const std::string tokenAsString(completeHeaderValue.begin() + std::string("Bearer ").length(), completeHeaderValue.end());
+
+        HttpBearerToken bearerToken{tokenAsString};
+        if( ! this->bearerTokenAuthenticator.has_value())
+        {
+            response.send(Pistache::Http::Code::Unauthorized, "");
+            return;
+        }
+
+        if( ! this->bearerTokenAuthenticator.value()(bearerToken))
+        {
+            response.send(Pistache::Http::Code::Unauthorized, "");
+            return;
+        }
+
+
+
         {{/isBasicBearer}}{{/authMethods}}
 
-    this->{{operationIdSnakeCase}}({{#authMethods}}{{#isBasicBasic}}credentials,{{/isBasicBasic}}{{/authMethods}}{{#allParams}}{{paramName}}, {{/allParams}}response);
+    this->{{operationIdSnakeCase}}({{#authMethods}}{{#isBasicBasic}}credentials,{{/isBasicBasic}}{{#isBasicBearer}}bearerToken,{{/isBasicBearer}}{{/authMethods}}{{#allParams}}{{paramName}}, {{/allParams}}response);
     {{/vendorExtensions.x-codegen-pistache-is-parsing-supported}}
     {{^vendorExtensions.x-codegen-pistache-is-parsing-supported}}
     try {
@@ -165,6 +206,22 @@ void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Reque
     } catch (std::exception &e) {
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
+
+#define REST_PATH "{{{vendorExtensions.x-codegen-pistache-path}}}" {{! this is nessecary, because the path does not exist in the authMethods scope.}}
+    {{#authMethods}}
+    {{! This static assert may be rendered more that once, so the compilation will fail even harder!}}
+    static_assert(HTTP_BASIC_AUTH_DEFINED + HTTP_BEARER_AUTH_DEFINED < 2, "Path '" REST_PATH "' has more than one security scheme specified, and the Pistache server generator does not support that." );
+    {{/authMethods}}
+#undef REST_PATH
+
+    {{#authMethods}}
+    #ifdef HTTP_BEARER_AUTH_DEFINED
+    #undef HTTP_BEARER_AUTH_DEFINED
+    #endif
+    #ifdef HTTP_BASIC_AUTH_DEFINED
+    #undef HTTP_BASIC_AUTH_DEFINED
+    #endif
+    {{/authMethods}}
 
 }
 {{/operation}}
