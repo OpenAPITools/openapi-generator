@@ -3,7 +3,7 @@
 ##
 ## You can build _just_ this part with:
 ##     docker --target builder -t container-name:builder -f .hub.cli.dockerfile .
-FROM maven:3-eclipse-temurin-17 as builder
+FROM maven:3-eclipse-temurin-21 as builder
 
 ENV GEN_DIR /opt/openapi-generator
 WORKDIR ${GEN_DIR}
@@ -15,7 +15,7 @@ RUN mvn -B -am -pl "modules/openapi-generator-cli" package
 ## The final (release) image
 ## The resulting container here only needs the target jar
 ## and ca-certificates (to be able to query HTTPS hosted specs)
-FROM eclipse-temurin:17-jre
+FROM eclipse-temurin:21-jre
 
 ENV GEN_DIR /opt/openapi-generator
 
