@@ -120,10 +120,10 @@ public class KotlinReservedWordsTest {
         CodegenProperty property = codegen.fromProperty(reservedWord, (Schema) linked.getProperties().get(reservedWord));
 
         if ("object".equals(reservedWord)) {
-            assertEquals(property.complexType, "kotlin.Any");
-            assertEquals(property.dataType, "kotlin.Any");
-            assertEquals(property.datatypeWithEnum, "kotlin.Any");
-            assertEquals(property.baseType, "kotlin.Any");
+            assertEquals(property.complexType, "Any");
+            assertEquals(property.dataType, "Any");
+            assertEquals(property.datatypeWithEnum, "Any");
+            assertEquals(property.baseType, "Any");
         } else {
             assertEquals(property.complexType, titleCased);
             assertEquals(property.dataType, titleCased);
@@ -160,9 +160,9 @@ public class KotlinReservedWordsTest {
         File resultSourcePath = new File(output, "src/main/kotlin");
 
         assertFileContains(Paths.get(resultSourcePath.getAbsolutePath() + baseApiPackage + "DefaultApi.kt"),
-               "fun test(`value`: kotlin.String) : Unit {",
-               "fun testWithHttpInfo(`value`: kotlin.String) : ApiResponse<Unit?> {",
-               "fun testRequestConfig(`value`: kotlin.String) : RequestConfig<Unit> {"
+               "fun test(`value`: String) : Unit {",
+               "fun testWithHttpInfo(`value`: String) : ApiResponse<Unit?> {",
+               "fun testRequestConfig(`value`: String) : RequestConfig<Unit> {"
         );
 
         assertFileNotContains(Paths.get(resultSourcePath.getAbsolutePath() + baseApiPackage + "DefaultApi.kt"),

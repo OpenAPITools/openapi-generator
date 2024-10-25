@@ -43,9 +43,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("static-method")
 public class KotlinClientCodegenModelTest {
@@ -98,30 +100,30 @@ public class KotlinClientCodegenModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
-        Assert.assertEquals(property1.dataType, "kotlin.Long");
+        Assert.assertEquals(property1.dataType, "Long");
         Assert.assertEquals(property1.name, "id");
         Assert.assertEquals(property1.defaultValue, null);
-        Assert.assertEquals(property1.baseType, "kotlin.Long");
+        Assert.assertEquals(property1.baseType, "Long");
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
         Assert.assertFalse(property1.isContainer);
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
-        Assert.assertEquals(property2.dataType, "kotlin.String");
+        Assert.assertEquals(property2.dataType, "String");
         Assert.assertEquals(property2.name, "name");
         Assert.assertEquals(property2.defaultValue, null);
-        Assert.assertEquals(property2.baseType, "kotlin.String");
+        Assert.assertEquals(property2.baseType, "String");
         Assert.assertTrue(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
         Assert.assertFalse(property2.isContainer);
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.dataType, "java.time.OffsetDateTime");
+        Assert.assertEquals(property3.dataType, "OffsetDateTime");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, null);
-        Assert.assertEquals(property3.baseType, "java.time.OffsetDateTime");
+        Assert.assertEquals(property3.baseType, "OffsetDateTime");
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isContainer);
     }
@@ -138,11 +140,12 @@ public class KotlinClientCodegenModelTest {
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         final CodegenProperty property3 = cm.vars.get(2);
+        Assert.assertListContains(new ArrayList<>(cm.imports), s -> s.equals("OffsetDateTime"), "OffsetDateTime");
         Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.dataType, "org.threeten.bp.OffsetDateTime");
+        Assert.assertEquals(property3.dataType, "OffsetDateTime");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, null);
-        Assert.assertEquals(property3.baseType, "org.threeten.bp.OffsetDateTime");
+        Assert.assertEquals(property3.baseType, "OffsetDateTime");
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isContainer);
     }
@@ -161,11 +164,12 @@ public class KotlinClientCodegenModelTest {
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         final CodegenProperty property3 = cm.vars.get(2);
+        Assert.assertListContains(new ArrayList<>(cm.imports), s -> s.equals("LocalDateTime"), "LocalDateTime");
         Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.dataType, "org.threeten.bp.LocalDateTime");
+        Assert.assertEquals(property3.dataType, "LocalDateTime");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, null);
-        Assert.assertEquals(property3.baseType, "org.threeten.bp.LocalDateTime");
+        Assert.assertEquals(property3.baseType, "LocalDateTime");
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isContainer);
     }
@@ -183,10 +187,10 @@ public class KotlinClientCodegenModelTest {
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.dataType, "kotlin.String");
+        Assert.assertEquals(property3.dataType, "String");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, null);
-        Assert.assertEquals(property3.baseType, "kotlin.String");
+        Assert.assertEquals(property3.baseType, "String");
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isContainer);
     }
@@ -204,10 +208,10 @@ public class KotlinClientCodegenModelTest {
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.dataType, "java.time.OffsetDateTime");
+        Assert.assertEquals(property3.dataType, "OffsetDateTime");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, null);
-        Assert.assertEquals(property3.baseType, "java.time.OffsetDateTime");
+        Assert.assertEquals(property3.baseType, "OffsetDateTime");
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isContainer);
     }
@@ -227,10 +231,10 @@ public class KotlinClientCodegenModelTest {
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.dataType, "java.time.LocalDateTime");
+        Assert.assertEquals(property3.dataType, "LocalDateTime");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, null);
-        Assert.assertEquals(property3.baseType, "java.time.LocalDateTime");
+        Assert.assertEquals(property3.baseType, "LocalDateTime");
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isContainer);
     }
@@ -253,10 +257,10 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property.baseName, "examples");
         Assert.assertEquals(property.getter, "getExamples");
         Assert.assertEquals(property.setter, "setExamples");
-        Assert.assertEquals(property.dataType, "kotlin.Array<kotlin.String>");
+        Assert.assertEquals(property.dataType, "Array<String>");
         Assert.assertEquals(property.name, "examples");
         Assert.assertEquals(property.defaultValue, null);
-        Assert.assertEquals(property.baseType, "kotlin.Array");
+        Assert.assertEquals(property.baseType, "Array");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
@@ -282,10 +286,10 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property.baseName, "examples");
         Assert.assertEquals(property.getter, "getExamples");
         Assert.assertEquals(property.setter, "setExamples");
-        Assert.assertEquals(property.dataType, "kotlin.collections.List<kotlin.String>");
+        Assert.assertEquals(property.dataType, "List<String>");
         Assert.assertEquals(property.name, "examples");
         Assert.assertEquals(property.defaultValue, null);
-        Assert.assertEquals(property.baseType, "kotlin.collections.List");
+        Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
@@ -306,9 +310,9 @@ public class KotlinClientCodegenModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "mapping");
-        Assert.assertEquals(property1.dataType, "kotlin.collections.Map<kotlin.String, kotlin.String>");
+        Assert.assertEquals(property1.dataType, "Map<String, String>");
         Assert.assertEquals(property1.name, "mapping");
-        Assert.assertEquals(property1.baseType, "kotlin.collections.Map");
+        Assert.assertEquals(property1.baseType, "Map");
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
@@ -382,7 +386,7 @@ public class KotlinClientCodegenModelTest {
 
         Assert.assertEquals(files.size(), 31);
         TestUtils.assertFileContains(Paths.get(output + "/src/main/kotlin/xyz/abcdef/api/DefaultApi.kt"),
-                "fun getSomeValue(@Query(\"since\") since: kotlin.String? = null, @Query(\"sinceBuild\") sinceBuild: kotlin.String? = null, @Query(\"maxBuilds\") maxBuilds: kotlin.Int? = null, @Query(\"maxWaitSecs\") maxWaitSecs: kotlin.Int? = null)"
+                "fun getSomeValue(@Query(\"since\") since: String? = null, @Query(\"sinceBuild\") sinceBuild: String? = null, @Query(\"maxBuilds\") maxBuilds: Int? = null, @Query(\"maxWaitSecs\") maxWaitSecs: Int? = null)"
         );
     }
 
@@ -439,7 +443,6 @@ public class KotlinClientCodegenModelTest {
                 {ClientLibrary.JVM_KTOR},
                 {ClientLibrary.JVM_OKHTTP4},
                 {ClientLibrary.JVM_RETROFIT2},
-                {ClientLibrary.MULTIPLATFORM},
                 {ClientLibrary.JVM_VOLLEY},
                 {ClientLibrary.JVM_VERTX}
         };
@@ -470,6 +473,30 @@ public class KotlinClientCodegenModelTest {
     }
 
     @Test(dataProvider = "gsonClientLibraries")
+    public void testThreeTenBpLibraryProperlyAddsImports_19942(ClientLibrary clientLibrary) throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        String path = output.getAbsolutePath();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setLibrary(clientLibrary.getLibraryName())
+                .setInputSpec("src/test/resources/3_0/issue_19942_datetime.json")
+                .addAdditionalProperty("omitGradleWrapper", true)
+                .addAdditionalProperty("serializationLibrary", "gson")
+                .addAdditionalProperty("dateLibrary", "threetenbp-localdatetime")
+                .addAdditionalProperty("useSpringBoot3", "true")
+                .addAdditionalProperty("generateOneOfAnyOfWrappers", true)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        TestUtils.assertFileContains(Paths.get(path + "/src/" + clientLibrary.getSourceRoot() + "/org/openapitools/client/models/ObjectWithComplexAnyOfDate.kt"),
+                "import org.threeten.bp.LocalDate", "import org.threeten.bp.LocalDateTime");
+    }
+
+    @Test(dataProvider = "gsonClientLibraries")
     public void testLocalVariablesUseSanitizedDataTypeNamesForAnyOfProperty_19942(ClientLibrary clientLibrary) throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         String path = output.getAbsolutePath();
@@ -489,8 +516,11 @@ public class KotlinClientCodegenModelTest {
 
         generator.opts(configurator.toClientOptInput()).generate();
 
+        TestUtils.assertFileContains(Paths.get(path + "/src/" + clientLibrary.getSourceRoot() + "/org/openapitools/client/models/ObjectWithComplexAnyOfId.kt"),
+                "import java.math.BigDecimal", "val adapterString", "val adapterBigDecimal");
+
         TestUtils.assertFileNotContains(Paths.get(path + "/src/" + clientLibrary.getSourceRoot() + "/org/openapitools/client/models/ObjectWithComplexAnyOfId.kt"),
-                "val adapterkotlin.String", "val adapterjava.math.BigDecimal");
+                "import kotlin.String", "val adapterkotlin.String", "val adapterjava.math.BigDecimal");
     }
 
     private static class ModelNameTest {

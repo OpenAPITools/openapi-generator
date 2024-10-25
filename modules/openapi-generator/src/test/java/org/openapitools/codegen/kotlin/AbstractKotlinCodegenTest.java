@@ -266,7 +266,7 @@ public class AbstractKotlinCodegenTest {
         CodegenModel cm1 = codegen.fromModel("ModelWithEnumPropertyHavingDefault", test1);
 
         // Make sure we got the container object.
-        Assert.assertEquals(cm1.getDataType(), "kotlin.Any");
+        Assert.assertEquals(cm1.getDataType(), "Any");
         Assert.assertEquals(codegen.getTypeDeclaration("MyResponse"), "MyResponse");
 
         // We need to postProcess the model for enums to be processed

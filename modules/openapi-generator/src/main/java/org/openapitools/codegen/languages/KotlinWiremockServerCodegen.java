@@ -73,7 +73,8 @@ public class KotlinWiremockServerCodegen extends AbstractKotlinCodegen {
             )
         );
 
-        typeMapping.put("array", "kotlin.collections.List");
+        typeMapping.put("array", "List");
+        importMapping.put("List", "kotlin.collections.List");
 
         reservedWords.remove("ApiResponse");
 
