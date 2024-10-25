@@ -5,6 +5,7 @@ info:
 paths:
   "/animal":
     get:
+      operationId: animalGet
       responses:
         '200':
           description: OK

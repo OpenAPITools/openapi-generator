@@ -3216,7 +3216,6 @@ public class DefaultCodegen implements CodegenConfig {
      */
     private CodegenProperty discriminatorFound(String composedSchemaName, Schema sc, String discPropName, Set<String> visitedSchemas) {
         Schema refSchema = ModelUtils.getReferencedSchema(openAPI, sc);
-        ModelUtils.getSimpleRef(sc.get$ref());
         String schemaName = Optional.ofNullable(composedSchemaName)
                 .or(() -> Optional.ofNullable(refSchema.getName()))
                 .or(() -> Optional.ofNullable(sc.get$ref()).map(ModelUtils::getSimpleRef))
@@ -3258,7 +3257,9 @@ public class DefaultCodegen implements CodegenConfig {
                 for (Object oneOf : composedSchema.getOneOf()) {
                     Schema oneOfSchema = (Schema) oneOf;
                     String modelName = ModelUtils.getSimpleRef((oneOfSchema).get$ref());
-                    CodegenProperty thisCp = discriminatorFound(oneOfSchema.getName(), oneOfSchema, discPropName, visitedSchemas);
+                    // Must use a copied set as the oneOf schemas can point to the same discriminator.
+                    Set<String> visitedSchemasCopy = new TreeSet<>(visitedSchemas);
+                    CodegenProperty thisCp = discriminatorFound(oneOfSchema.getName(), oneOfSchema, discPropName, visitedSchemasCopy);
                     if (thisCp == null) {
                         once(LOGGER).warn(
                                 "'{}' defines discriminator '{}', but the referenced OneOf schema '{}' is missing {}",
@@ -3282,7 +3283,9 @@ public class DefaultCodegen implements CodegenConfig {
                 for (Object anyOf : composedSchema.getAnyOf()) {
                     Schema anyOfSchema = (Schema) anyOf;
                     String modelName = ModelUtils.getSimpleRef(anyOfSchema.get$ref());
-                    CodegenProperty thisCp = discriminatorFound(anyOfSchema.getName(), anyOfSchema, discPropName, visitedSchemas);
+                    // Must use a copied set as the anyOf schemas can point to the same discriminator.
+                    Set<String> visitedSchemasCopy = new TreeSet<>(visitedSchemas);
+                    CodegenProperty thisCp = discriminatorFound(anyOfSchema.getName(), anyOfSchema, discPropName, visitedSchemasCopy);
                     if (thisCp == null) {
                         once(LOGGER).warn(
                                 "'{}' defines discriminator '{}', but the referenced AnyOf schema '{}' is missing {}",
