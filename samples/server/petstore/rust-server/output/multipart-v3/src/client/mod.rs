@@ -23,7 +23,8 @@ use mime::Mime;
 use std::io::Cursor;
 use multipart::client::lazy::Multipart;
 use hyper_0_10::header::{Headers, ContentType};
-use mime_multipart::{Node, Part, write_multipart};
+use log::warn;
+use mime_multipart::{read_multipart_body, Node, Part, write_multipart};
 
 use crate::models;
 use crate::header;
@@ -423,6 +424,8 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
+        // No schema variants
+
         // Consumes multipart/related body
         let boundary = swagger::multipart::related::generate_boundary();
         let mut body_parts = vec![];
@@ -489,6 +492,7 @@ impl<S, C> Api<C> for Client<S, C> where
         // Add the message body to the request object.
         *request.body_mut() = Body::from(body);
 
+
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -500,6 +504,7 @@ impl<S, C> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             201 => {
+                let (header, body) = response.into_parts();
                 Ok(
                     MultipartRelatedRequestPostResponse::OK
                 )
@@ -560,6 +565,8 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
+
+        // No schema variants
 
         // Consumes multipart/form body
         let (body_string, multipart_header) = {
@@ -643,6 +650,7 @@ impl<S, C> Api<C> for Client<S, C> where
         });
 
 
+
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -654,6 +662,7 @@ impl<S, C> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             201 => {
+                let (header, body) = response.into_parts();
                 Ok(
                     MultipartRequestPostResponse::OK
                 )
@@ -713,6 +722,8 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
+        // No schema variants
+
         // Consumes multipart/related body
         let boundary = swagger::multipart::related::generate_boundary();
         let mut body_parts = vec![];
@@ -764,6 +775,7 @@ impl<S, C> Api<C> for Client<S, C> where
         // Add the message body to the request object.
         *request.body_mut() = Body::from(body);
 
+
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -775,6 +787,7 @@ impl<S, C> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
+                let (header, body) = response.into_parts();
                 Ok(
                     MultipleIdenticalMimeTypesPostResponse::OK
                 )

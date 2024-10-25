@@ -320,8 +320,8 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
-        CodegenResponse result = super.fromResponse(responseCode, response);
+    public CodegenResponse fromResponse(String opId, String responseCode, ApiResponse response) {
+        CodegenResponse result = super.fromResponse(opId, responseCode, response);
         result.vendorExtensions.put(X_HAS_RESPONSE_PROPS, result.hasHeaders || result.dataType != null);
         List<CodegenProperty> allResponseProps = new ArrayList<>(result.headers);
         List<CodegenProperty> requiredResponseProps = new ArrayList<>();

@@ -59,7 +59,7 @@ impl std::str::FromStr for {{{classname}}} {
 {{/isEnum}}
 {{^isEnum}}
 {{#dataType}}
-#[derive(Debug, Clone, PartialEq, {{#vendorExtensions.x-partial-ord}}PartialOrd, {{/vendorExtensions.x-partial-ord}}serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, {{#vendorExtensions.x-partial-ord}}{{#^isVariant}}PartialOrd, {{/^isVariant}}{{/vendorExtensions.x-partial-ord}}serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 {{#xmlName}}
 #[serde(rename = "{{{.}}}")]

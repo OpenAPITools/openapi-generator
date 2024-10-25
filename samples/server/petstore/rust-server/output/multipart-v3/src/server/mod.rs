@@ -13,8 +13,7 @@ pub use swagger::auth::Authorization;
 use swagger::auth::Scopes;
 use url::form_urlencoded;
 use hyper_0_10::header::{Headers, ContentType};
-use mime_0_2::{TopLevel, SubLevel, Mime as Mime2};
-use mime_multipart::{read_multipart_body, Node, Part};
+use mime_multipart::{read_multipart_body, Node, Part, write_multipart};
 use multipart::server::Multipart;
 use multipart::server::save::{PartialReason, SaveResult};
 
@@ -295,6 +294,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(201).expect("Unable to turn 201 into a StatusCode");
 
+
                                                 },
                                             },
                                             Err(_) => {
@@ -483,6 +483,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(201).expect("Unable to turn 201 into a StatusCode");
 
+
                                                 },
                                             },
                                             Err(_) => {
@@ -588,6 +589,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 MultipleIdenticalMimeTypesPostResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
 
                                                 },
                                             },

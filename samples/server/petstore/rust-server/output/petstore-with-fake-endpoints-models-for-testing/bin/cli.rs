@@ -225,7 +225,7 @@ enum Operation {
     AddPet {
         /// Pet object that needs to be added to the store
         #[structopt(parse(try_from_str = parse_json))]
-        body: models::Pet,
+        body: swagger::OneOf2<models::AddPetApplicationSlashJsonRequest,models::AddPetApplicationSlashXmlRequest>,
     },
     /// Finds Pets by status
     FindPetsByStatus {
@@ -243,7 +243,7 @@ enum Operation {
     UpdatePet {
         /// Pet object that needs to be added to the store
         #[structopt(parse(try_from_str = parse_json))]
-        body: models::Pet,
+        body: swagger::OneOf2<models::UpdatePetApplicationSlashJsonRequest,models::UpdatePetApplicationSlashXmlRequest>,
     },
     /// Deletes a pet
     DeletePet {

@@ -105,6 +105,25 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public CodegenProperty returnProperty;
     private boolean schemaIsFromAdditionalProperties;
 
+    /**
+     * mime-type of this response.
+     *
+     * Null if there are multiple options, in which case schemaVariants
+     * will contain a CodegenResponse for each option
+     */
+    public String contentType;
+
+    /**
+     * If the response has multiple possible mime types, this array represents
+     * the options
+     */
+    public List<CodegenResponse> schemaVariants;
+
+    /**
+     * Name of the variant type if this is one of multiple variants
+     */
+    public String variantType;
+
     @Override
     public int hashCode() {
         return Objects.hash(headers, code, message, examples, dataType, baseType, containerType, containerTypeMapped, hasHeaders,
@@ -116,7 +135,8 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern(),
                 is1xx, is2xx, is3xx, is4xx, is5xx, additionalPropertiesIsAnyType, hasVars, hasRequired,
                 hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, responseHeaders, content,
-                requiredVarsMap, ref, uniqueItemsBoolean, schemaIsFromAdditionalProperties);
+                requiredVarsMap, ref, uniqueItemsBoolean, schemaIsFromAdditionalProperties,
+                contentType, schemaVariants, variantType);
     }
 
     @Override
@@ -200,7 +220,10 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 Objects.equals(getMinimum(), that.getMinimum()) &&
                 Objects.equals(getMaximum(), that.getMaximum()) &&
                 Objects.equals(getPattern(), that.getPattern()) &&
-                Objects.equals(getMultipleOf(), that.getMultipleOf());
+                Objects.equals(getMultipleOf(), that.getMultipleOf()) &&
+                Objects.equals(schemaVariants, that.schemaVariants) &&
+                Objects.equals(contentType, that.contentType) &&
+                Objects.equals(variantType, that.variantType);
 
     }
 
@@ -635,6 +658,9 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", requiredVarsMap=").append(requiredVarsMap);
         sb.append(", ref=").append(ref);
         sb.append(", schemaIsFromAdditionalProperties=").append(schemaIsFromAdditionalProperties);
+        sb.append(", contentType='").append(contentType).append('\'');
+        sb.append(", variantType='").append(variantType).append('\'');
+        sb.append(", schemaVariants=").append(schemaVariants);
         sb.append('}');
         return sb.toString();
     }

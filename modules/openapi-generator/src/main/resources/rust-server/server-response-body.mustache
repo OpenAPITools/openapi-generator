@@ -1,0 +1,16 @@
+{{#schemaVariants}}
+  {{#-first}}
+    let body = match body {
+  {{/-first}}
+        {{{vendorExtensions.x-variant-name}}}(body) => {
+            let body : {{{dataType}}} = body.into();
+
+{{>server-response-body-instance}}
+        },
+  {{#-last}}
+    };
+  {{/-last}}
+{{/schemaVariants}}
+{{^schemaVariants}}
+{{>server-response-body-instance}}
+{{/schemaVariants}}

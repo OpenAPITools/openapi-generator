@@ -1,0 +1,40 @@
+{{#vendorExtensions.x-has-schema-variants}}
+  {{^bodyParam.required}}
+      if let Some(param_{{{bodyParam.paramName}}}) = param_{{{bodyParam.paramName}}} {
+  {{/bodyParam.required}}
+      match param_{{bodyParam.paramName}} {
+  {{#bodyParam.schemaVariants}}
+    {{{vendorExtensions.x-variant-name}}}(body) => {
+            let body : {{{dataType}}} = body.into();
+      {{#vendorExtensions.x-consumes-basic}}
+            let param_{{{bodyParam.paramName}}} = body;
+      {{/vendorExtensions.x-consumes-basic}}
+      {{^vendorExtensions.x-consumes-basic}}
+        {{#formParams}}
+            let param_{{{paramName}}} = body.{{{paramName}}};
+        {{/formParams}}
+      {{/vendorExtensions.x-consumes-basic}}
+{{>client-request-body-instance}}
+        },
+  {{/bodyParam.schemaVariants}}
+      }
+  {{^bodyParam.required}}
+      }
+  {{/bodyParam.required}}
+{{/vendorExtensions.x-has-schema-variants}}
+{{^vendorExtensions.x-has-schema-variants}}
+        // No schema variants
+  {{#vendorExtensions.x-consumes-basic}}
+        // Basic schema
+    {{^bodyParam.required}}
+        // Optional Basic Schema
+        if let Some(param_{{{bodyParam.paramName}}}) = param_{{{bodyParam.paramName}}} {
+    {{/bodyParam.required}}
+  {{/vendorExtensions.x-consumes-basic}}
+{{>client-request-body-instance}}
+  {{#vendorExtensions.x-consumes-basic}}
+    {{^bodyParam.required}}
+        }
+    {{/bodyParam.required}}
+  {{/vendorExtensions.x-consumes-basic}}
+{{/vendorExtensions.x-has-schema-variants}}

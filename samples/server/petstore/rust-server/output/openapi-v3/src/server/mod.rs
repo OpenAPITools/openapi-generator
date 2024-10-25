@@ -277,6 +277,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+            // application/json
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
@@ -284,12 +285,14 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
+
 
                                                 },
                                                 AnyOfGetResponse::AlternateSuccess
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(201).expect("Unable to turn 201 into a StatusCode");
+            // application/json
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
@@ -298,11 +301,13 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
 
+
                                                 },
                                                 AnyOfGetResponse::AnyOfSuccess
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(202).expect("Unable to turn 202 into a StatusCode");
+            // application/json
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
@@ -310,6 +315,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
+
 
                                                 },
                                             },
@@ -369,6 +375,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(204).expect("Unable to turn 204 into a StatusCode");
 
+
                                                 },
                                             },
                                             Err(_) => {
@@ -411,6 +418,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
+
                                                 },
                                             },
                                             Err(_) => {
@@ -452,6 +460,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 FormTestResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
 
                                                 },
                                             },
@@ -517,6 +526,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
+
                                                 },
                                             },
                                             Err(_) => {
@@ -567,6 +577,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 JsonComplexQueryParamGetResponse::Success
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
 
                                                 },
                                             },
@@ -622,6 +633,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
+
                                                 },
                                             },
                                             Err(_) => {
@@ -652,6 +664,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+            // application/merge-patch+json
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/merge-patch+json")
@@ -659,6 +672,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
+
 
                                                 },
                                             },
@@ -690,6 +704,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+            // application/json
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
@@ -698,11 +713,13 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
 
+
                                                 },
                                                 MultigetGetResponse::XMLRsp
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(201).expect("Unable to turn 201 into a StatusCode");
+            // application/xml
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/xml")
@@ -711,11 +728,13 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
 
+
                                                 },
                                                 MultigetGetResponse::OctetRsp
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(202).expect("Unable to turn 202 into a StatusCode");
+            // application/octet-stream
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/octet-stream")
@@ -724,11 +743,13 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     let body = body.0;
                                                     *response.body_mut() = Body::from(body);
 
+
                                                 },
                                                 MultigetGetResponse::StringRsp
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(203).expect("Unable to turn 203 into a StatusCode");
+            // text/plain
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("text/plain")
@@ -737,11 +758,13 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     let body = body;
                                                     *response.body_mut() = Body::from(body);
 
+
                                                 },
                                                 MultigetGetResponse::DuplicateResponseLongText
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(204).expect("Unable to turn 204 into a StatusCode");
+            // application/json
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
@@ -749,12 +772,14 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
+
 
                                                 },
                                                 MultigetGetResponse::DuplicateResponseLongText_2
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(205).expect("Unable to turn 205 into a StatusCode");
+            // application/json
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
@@ -763,11 +788,13 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
 
+
                                                 },
                                                 MultigetGetResponse::DuplicateResponseLongText_3
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(206).expect("Unable to turn 206 into a StatusCode");
+            // application/json
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
@@ -775,6 +802,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
+
 
                                                 },
                                             },
@@ -836,6 +864,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
+
                                                 },
                                             },
                                             Err(_) => {
@@ -866,6 +895,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+            // application/json
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
@@ -873,6 +903,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
+
 
                                                 },
                                             },
@@ -903,6 +934,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 OverrideServerGetResponse::Success
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(204).expect("Unable to turn 204 into a StatusCode");
+
 
                                                 },
                                             },
@@ -991,6 +1023,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+            // application/json
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
@@ -998,6 +1031,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
+
 
                                                 },
                                             },
@@ -1058,6 +1092,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
+
                                                 },
                                             },
                                             Err(_) => {
@@ -1116,6 +1151,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(204).expect("Unable to turn 204 into a StatusCode");
 
+
                                                 },
                                             },
                                             Err(_) => {
@@ -1137,6 +1173,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 let result = body.into_raw().await;
                 match result {
                      Ok(body) => {
+                                let mut unused_elements : Vec<String> = vec![];
                                 let param_body: Option<swagger::ByteArray> = if !body.is_empty() {
                                     Some(swagger::ByteArray(body.to_vec()))
                                 } else {
@@ -1161,11 +1198,18 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
+                                        if !unused_elements.is_empty() {
+                                            response.headers_mut().insert(
+                                                HeaderName::from_static("warning"),
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                    .expect("Unable to create Warning header value"));
+                                        }
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 RequiredOctetStreamPutResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
 
                                                 },
                                             },
@@ -1257,6 +1301,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         object_header
                                                     );
                                                     }
+            // application/json
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
@@ -1264,6 +1309,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
+
 
                                                 },
                                                 ResponsesWithHeadersGetResponse::PreconditionFailed
@@ -1308,6 +1354,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     );
                                                     }
 
+
                                                 },
                                             },
                                             Err(_) => {
@@ -1338,6 +1385,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(204).expect("Unable to turn 204 into a StatusCode");
+            // application/json
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
@@ -1346,11 +1394,13 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
 
+
                                                 },
                                                 Rfc7807GetResponse::NotFound
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
+            // application/problem+json
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/problem+json")
@@ -1359,11 +1409,13 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
 
+
                                                 },
                                                 Rfc7807GetResponse::NotAcceptable
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(406).expect("Unable to turn 406 into a StatusCode");
+            // application/problem+xml
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/problem+xml")
@@ -1371,6 +1423,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // XML Body
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
+
 
                                                 },
                                             },
@@ -1442,6 +1495,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
+
                                                 },
                                             },
                                             Err(_) => {
@@ -1500,6 +1554,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
+
                                                 },
                                             },
                                             Err(_) => {
@@ -1536,6 +1591,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+            // application/json
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
@@ -1543,6 +1599,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
+
 
                                                 },
                                             },
@@ -1602,10 +1659,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(201).expect("Unable to turn 201 into a StatusCode");
 
+
                                                 },
                                                 XmlExtraPostResponse::BadRequest
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
+
 
                                                 },
                                             },
@@ -1671,6 +1730,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(201).expect("Unable to turn 201 into a StatusCode");
+            // text/xml
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("text/xml")
@@ -1683,10 +1743,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     let body = serde_xml_rs::to_string_with_namespaces(&body, namespaces).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
 
+
                                                 },
                                                 XmlOtherPostResponse::BadRequest
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
+
 
                                                 },
                                             },
@@ -1752,10 +1814,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(201).expect("Unable to turn 201 into a StatusCode");
 
+
                                                 },
                                                 XmlOtherPutResponse::BadRequest
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
+
 
                                                 },
                                             },
@@ -1821,10 +1885,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(201).expect("Unable to turn 201 into a StatusCode");
 
+
                                                 },
                                                 XmlPostResponse::BadRequest
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
+
 
                                                 },
                                             },
@@ -1890,10 +1956,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(201).expect("Unable to turn 201 into a StatusCode");
 
+
                                                 },
                                                 XmlPutResponse::BadRequest
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
+
 
                                                 },
                                             },
@@ -1954,6 +2022,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 EnumInPathPathParamGetResponse::Success
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
 
                                                 },
                                             },
@@ -2024,6 +2093,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
+
                                                 },
                                             },
                                             Err(_) => {
@@ -2092,6 +2162,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
+
                                                 },
                                             },
                                             Err(_) => {
@@ -2152,6 +2223,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+            // application/json
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
@@ -2159,6 +2231,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
+
 
                                                 },
                                             },
