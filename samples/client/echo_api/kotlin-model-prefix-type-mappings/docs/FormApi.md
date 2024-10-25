@@ -22,25 +22,25 @@ Test form parameter(s)
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(FormApi::class.java)
-val integerForm : kotlin.Int = 56 // kotlin.Int | 
-val booleanForm : kotlin.Boolean = true // kotlin.Boolean | 
-val stringForm : kotlin.String = stringForm_example // kotlin.String | 
+val integerForm : Int = 56 // Int | 
+val booleanForm : Boolean = true // Boolean | 
+val stringForm : String = stringForm_example // String | 
 
 launch(Dispatchers.IO) {
-    val result : kotlin.String = webService.testFormIntegerBooleanString(integerForm, booleanForm, stringForm)
+    val result : String = webService.testFormIntegerBooleanString(integerForm, booleanForm, stringForm)
 }
 ```
 
 ### Parameters
-| **integerForm** | **kotlin.Int**|  | [optional] |
-| **booleanForm** | **kotlin.Boolean**|  | [optional] |
+| **integerForm** | **Int**|  | [optional] |
+| **booleanForm** | **Boolean**|  | [optional] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **stringForm** | **kotlin.String**|  | [optional] |
+| **stringForm** | **String**|  | [optional] |
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 
@@ -65,31 +65,31 @@ Test form parameter(s) for oneOf schema
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(FormApi::class.java)
-val form1 : kotlin.String = form1_example // kotlin.String | 
-val form2 : kotlin.Int = 56 // kotlin.Int | 
-val form3 : kotlin.String = form3_example // kotlin.String | 
-val form4 : kotlin.Boolean = true // kotlin.Boolean | 
-val id : kotlin.Long = 789 // kotlin.Long | 
-val name : kotlin.String = name_example // kotlin.String | 
+val form1 : String = form1_example // String | 
+val form2 : Int = 56 // Int | 
+val form3 : String = form3_example // String | 
+val form4 : Boolean = true // Boolean | 
+val id : Long = 789 // Long | 
+val name : String = name_example // String | 
 
 launch(Dispatchers.IO) {
-    val result : kotlin.String = webService.testFormOneof(form1, form2, form3, form4, id, name)
+    val result : String = webService.testFormOneof(form1, form2, form3, form4, id, name)
 }
 ```
 
 ### Parameters
-| **form1** | **kotlin.String**|  | [optional] |
-| **form2** | **kotlin.Int**|  | [optional] |
-| **form3** | **kotlin.String**|  | [optional] |
-| **form4** | **kotlin.Boolean**|  | [optional] |
-| **id** | **kotlin.Long**|  | [optional] |
+| **form1** | **String**|  | [optional] |
+| **form2** | **Int**|  | [optional] |
+| **form3** | **String**|  | [optional] |
+| **form4** | **Boolean**|  | [optional] |
+| **id** | **Long**|  | [optional] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **name** | **kotlin.String**|  | [optional] |
+| **name** | **String**|  | [optional] |
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 

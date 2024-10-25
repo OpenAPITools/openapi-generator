@@ -26,7 +26,7 @@ class TestBinaryGifStubBuilder internal constructor(private val objectMapper: Ob
      * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
-        body: java.io.File,
+        body: File,
         configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
     ): MappingBuilder =
         stub.willReturn(aResponse()
@@ -74,7 +74,7 @@ class TestBodyApplicationOctetstreamBinaryStubBuilder internal constructor(priva
      * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
-        body: kotlin.String,
+        body: String,
         configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
     ): MappingBuilder =
         stub.willReturn(aResponse()
@@ -122,7 +122,7 @@ class TestBodyMultipartFormdataArrayOfBinaryStubBuilder internal constructor(pri
      * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
-        body: kotlin.String,
+        body: String,
         configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
     ): MappingBuilder =
         stub.willReturn(aResponse()
@@ -170,7 +170,7 @@ class TestBodyMultipartFormdataSingleBinaryStubBuilder internal constructor(priv
      * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
-        body: kotlin.String,
+        body: String,
         configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
     ): MappingBuilder =
         stub.willReturn(aResponse()
@@ -218,7 +218,7 @@ class TestEchoBodyFreeFormObjectResponseStringStubBuilder internal constructor(p
      * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
-        body: kotlin.String,
+        body: String,
         configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
     ): MappingBuilder =
         stub.willReturn(aResponse()
@@ -314,7 +314,7 @@ class TestEchoBodyPetResponseStringStubBuilder internal constructor(private val 
      * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
-        body: kotlin.String,
+        body: String,
         configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
     ): MappingBuilder =
         stub.willReturn(aResponse()
@@ -362,7 +362,7 @@ class TestEchoBodyTagResponseStringStubBuilder internal constructor(private val 
      * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
-        body: kotlin.String,
+        body: String,
         configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
     ): MappingBuilder =
         stub.willReturn(aResponse()

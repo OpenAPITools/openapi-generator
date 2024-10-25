@@ -59,7 +59,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun deleteOrder(orderId: kotlin.String) : Unit = withContext(Dispatchers.IO) {
+    suspend fun deleteOrder(orderId: String) : Unit = withContext(Dispatchers.IO) {
         val localVarResponse = deleteOrderWithHttpInfo(orderId = orderId)
 
         return@withContext when (localVarResponse.responseType) {
@@ -86,7 +86,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    suspend fun deleteOrderWithHttpInfo(orderId: kotlin.String) : ApiResponse<Unit?> = withContext(Dispatchers.IO) {
+    suspend fun deleteOrderWithHttpInfo(orderId: String) : ApiResponse<Unit?> = withContext(Dispatchers.IO) {
         val localVariableConfig = deleteOrderRequestConfig(orderId = orderId)
 
         return@withContext request<Unit, Unit>(
@@ -100,7 +100,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
      * @param orderId ID of the order that needs to be deleted
      * @return RequestConfig
      */
-    fun deleteOrderRequestConfig(orderId: kotlin.String) : RequestConfig<Unit> {
+    fun deleteOrderRequestConfig(orderId: String) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -118,7 +118,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
-     * @return kotlin.collections.Map<kotlin.String, kotlin.Int>
+     * @return Map<String, Int>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
@@ -127,11 +127,11 @@ class StoreApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun getInventory() : kotlin.collections.Map<kotlin.String, kotlin.Int> = withContext(Dispatchers.IO) {
+    suspend fun getInventory() : Map<String, Int> = withContext(Dispatchers.IO) {
         val localVarResponse = getInventoryWithHttpInfo()
 
         return@withContext when (localVarResponse.responseType) {
-            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.Map<kotlin.String, kotlin.Int>
+            ResponseType.Success -> (localVarResponse as Success<*>).data as Map<String, Int>
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -148,16 +148,16 @@ class StoreApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
-     * @return ApiResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>?>
+     * @return ApiResponse<Map<String, Int>?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    suspend fun getInventoryWithHttpInfo() : ApiResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>?> = withContext(Dispatchers.IO) {
+    suspend fun getInventoryWithHttpInfo() : ApiResponse<Map<String, Int>?> = withContext(Dispatchers.IO) {
         val localVariableConfig = getInventoryRequestConfig()
 
-        return@withContext request<Unit, kotlin.collections.Map<kotlin.String, kotlin.Int>>(
+        return@withContext request<Unit, Map<String, Int>>(
             localVariableConfig
         )
     }
@@ -196,7 +196,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun getOrderById(orderId: kotlin.Long) : Order = withContext(Dispatchers.IO) {
+    suspend fun getOrderById(orderId: Long) : Order = withContext(Dispatchers.IO) {
         val localVarResponse = getOrderByIdWithHttpInfo(orderId = orderId)
 
         return@withContext when (localVarResponse.responseType) {
@@ -224,7 +224,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    suspend fun getOrderByIdWithHttpInfo(orderId: kotlin.Long) : ApiResponse<Order?> = withContext(Dispatchers.IO) {
+    suspend fun getOrderByIdWithHttpInfo(orderId: Long) : ApiResponse<Order?> = withContext(Dispatchers.IO) {
         val localVariableConfig = getOrderByIdRequestConfig(orderId = orderId)
 
         return@withContext request<Unit, Order>(
@@ -238,7 +238,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
      * @param orderId ID of pet that needs to be fetched
      * @return RequestConfig
      */
-    fun getOrderByIdRequestConfig(orderId: kotlin.Long) : RequestConfig<Unit> {
+    fun getOrderByIdRequestConfig(orderId: Long) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()

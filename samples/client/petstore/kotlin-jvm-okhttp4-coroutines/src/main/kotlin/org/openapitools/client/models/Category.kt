@@ -30,10 +30,10 @@ import java.io.Serializable
 data class Category (
 
     @SerializedName("id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
 
     @SerializedName("name")
-    val name: kotlin.String? = null
+    val name: String? = null
 
 ) : Serializable {
     companion object {

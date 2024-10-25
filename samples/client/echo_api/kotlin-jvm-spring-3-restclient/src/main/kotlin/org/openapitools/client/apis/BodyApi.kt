@@ -25,6 +25,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.http.MediaType
 
 
+import kotlin.Any
+import java.io.File
 import org.openapitools.client.models.Pet
 import org.openapitools.client.models.Tag
 import org.openapitools.client.infrastructure.*
@@ -39,15 +41,15 @@ class BodyApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun testBinaryGif(): java.io.File {
+    fun testBinaryGif(): File {
         val result = testBinaryGifWithHttpInfo()
         return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun testBinaryGifWithHttpInfo(): ResponseEntity<java.io.File> {
+    fun testBinaryGifWithHttpInfo(): ResponseEntity<File> {
         val localVariableConfig = testBinaryGifRequestConfig()
-        return request<Unit, java.io.File>(
+        return request<Unit, File>(
             localVariableConfig
         )
     }
@@ -74,20 +76,20 @@ class BodyApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun testBodyApplicationOctetstreamBinary(body: java.io.File? = null): kotlin.String {
+    fun testBodyApplicationOctetstreamBinary(body: File? = null): String {
         val result = testBodyApplicationOctetstreamBinaryWithHttpInfo(body = body)
         return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun testBodyApplicationOctetstreamBinaryWithHttpInfo(body: java.io.File? = null): ResponseEntity<kotlin.String> {
+    fun testBodyApplicationOctetstreamBinaryWithHttpInfo(body: File? = null): ResponseEntity<String> {
         val localVariableConfig = testBodyApplicationOctetstreamBinaryRequestConfig(body = body)
-        return request<java.io.File, kotlin.String>(
+        return request<File, String>(
             localVariableConfig
         )
     }
 
-    fun testBodyApplicationOctetstreamBinaryRequestConfig(body: java.io.File? = null) : RequestConfig<java.io.File> {
+    fun testBodyApplicationOctetstreamBinaryRequestConfig(body: File? = null) : RequestConfig<File> {
         val localVariableBody = body
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -110,20 +112,20 @@ class BodyApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun testBodyMultipartFormdataArrayOfBinary(files: kotlin.collections.List<java.io.File>): kotlin.String {
+    fun testBodyMultipartFormdataArrayOfBinary(files: List<File>): String {
         val result = testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files = files)
         return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files: kotlin.collections.List<java.io.File>): ResponseEntity<kotlin.String> {
+    fun testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files: List<File>): ResponseEntity<String> {
         val localVariableConfig = testBodyMultipartFormdataArrayOfBinaryRequestConfig(files = files)
-        return request<Map<String, PartConfig<*>>, kotlin.String>(
+        return request<Map<String, PartConfig<*>>, String>(
             localVariableConfig
         )
     }
 
-    fun testBodyMultipartFormdataArrayOfBinaryRequestConfig(files: kotlin.collections.List<java.io.File>) : RequestConfig<Map<String, PartConfig<*>>> {
+    fun testBodyMultipartFormdataArrayOfBinaryRequestConfig(files: List<File>) : RequestConfig<Map<String, PartConfig<*>>> {
         val localVariableBody = mapOf(
             "files" to PartConfig(body = files, headers = mutableMapOf()),)
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
@@ -146,20 +148,20 @@ class BodyApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun testBodyMultipartFormdataSingleBinary(myFile: java.io.File? = null): kotlin.String {
+    fun testBodyMultipartFormdataSingleBinary(myFile: File? = null): String {
         val result = testBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile = myFile)
         return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun testBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile: java.io.File? = null): ResponseEntity<kotlin.String> {
+    fun testBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile: File? = null): ResponseEntity<String> {
         val localVariableConfig = testBodyMultipartFormdataSingleBinaryRequestConfig(myFile = myFile)
-        return request<Map<String, PartConfig<*>>, kotlin.String>(
+        return request<Map<String, PartConfig<*>>, String>(
             localVariableConfig
         )
     }
 
-    fun testBodyMultipartFormdataSingleBinaryRequestConfig(myFile: java.io.File? = null) : RequestConfig<Map<String, PartConfig<*>>> {
+    fun testBodyMultipartFormdataSingleBinaryRequestConfig(myFile: File? = null) : RequestConfig<Map<String, PartConfig<*>>> {
         val localVariableBody = mapOf(
             "my-file" to PartConfig(body = myFile, headers = mutableMapOf()),)
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
@@ -182,20 +184,20 @@ class BodyApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun testEchoBodyFreeFormObjectResponseString(body: kotlin.Any? = null): kotlin.String {
+    fun testEchoBodyFreeFormObjectResponseString(body: Any? = null): String {
         val result = testEchoBodyFreeFormObjectResponseStringWithHttpInfo(body = body)
         return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun testEchoBodyFreeFormObjectResponseStringWithHttpInfo(body: kotlin.Any? = null): ResponseEntity<kotlin.String> {
+    fun testEchoBodyFreeFormObjectResponseStringWithHttpInfo(body: Any? = null): ResponseEntity<String> {
         val localVariableConfig = testEchoBodyFreeFormObjectResponseStringRequestConfig(body = body)
-        return request<kotlin.Any, kotlin.String>(
+        return request<Any, String>(
             localVariableConfig
         )
     }
 
-    fun testEchoBodyFreeFormObjectResponseStringRequestConfig(body: kotlin.Any? = null) : RequestConfig<kotlin.Any> {
+    fun testEchoBodyFreeFormObjectResponseStringRequestConfig(body: Any? = null) : RequestConfig<Any> {
         val localVariableBody = body
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -254,15 +256,15 @@ class BodyApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun testEchoBodyPetResponseString(pet: Pet? = null): kotlin.String {
+    fun testEchoBodyPetResponseString(pet: Pet? = null): String {
         val result = testEchoBodyPetResponseStringWithHttpInfo(pet = pet)
         return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun testEchoBodyPetResponseStringWithHttpInfo(pet: Pet? = null): ResponseEntity<kotlin.String> {
+    fun testEchoBodyPetResponseStringWithHttpInfo(pet: Pet? = null): ResponseEntity<String> {
         val localVariableConfig = testEchoBodyPetResponseStringRequestConfig(pet = pet)
-        return request<Pet, kotlin.String>(
+        return request<Pet, String>(
             localVariableConfig
         )
     }
@@ -290,15 +292,15 @@ class BodyApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun testEchoBodyTagResponseString(tag: Tag? = null): kotlin.String {
+    fun testEchoBodyTagResponseString(tag: Tag? = null): String {
         val result = testEchoBodyTagResponseStringWithHttpInfo(tag = tag)
         return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun testEchoBodyTagResponseStringWithHttpInfo(tag: Tag? = null): ResponseEntity<kotlin.String> {
+    fun testEchoBodyTagResponseStringWithHttpInfo(tag: Tag? = null): ResponseEntity<String> {
         val localVariableConfig = testEchoBodyTagResponseStringRequestConfig(tag = tag)
-        return request<Tag, kotlin.String>(
+        return request<Tag, String>(
             localVariableConfig
         )
     }

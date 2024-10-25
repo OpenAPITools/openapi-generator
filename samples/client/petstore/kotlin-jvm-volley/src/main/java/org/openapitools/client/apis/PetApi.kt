@@ -17,6 +17,7 @@ import org.openapitools.client.request.IRequestFactory
 import org.openapitools.client.request.RequestFactory
 import org.openapitools.client.infrastructure.CollectionFormats.*
 
+import java.io.File
 import org.openapitools.client.models.ModelApiResponse
 import org.openapitools.client.models.Pet
 
@@ -102,7 +103,7 @@ class PetApi (
      * @param apiKey  (optional)
      * @return void
      */
-    suspend fun deletePet(petId: kotlin.Long, apiKey: kotlin.String? = null): Unit {
+    suspend fun deletePet(petId: Long, apiKey: String? = null): Unit {
         val body: Any? = null
 
         val contentTypes : Array<String> = arrayOf()
@@ -163,9 +164,9 @@ class PetApi (
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
-     * @return kotlin.collections.List<Pet>
+     * @return List<Pet>
      */
-    suspend fun findPetsByStatus(status: CSVParams): kotlin.collections.List<Pet>? {
+    suspend fun findPetsByStatus(status: CSVParams): List<Pet>? {
         val body: Any? = null
 
         val contentTypes : Array<String> = arrayOf()
@@ -193,7 +194,7 @@ class PetApi (
         val headerParams: Map<String, String> = mapOf()
 
         return suspendCoroutine { continuation ->
-            val responseListener = Response.Listener<kotlin.collections.List<Pet>> { response ->
+            val responseListener = Response.Listener<List<Pet>> { response ->
                 continuation.resume(response)
             }
 
@@ -201,11 +202,11 @@ class PetApi (
                 continuation.resumeWithException(error)
             }
 
-            val responseType = object : TypeToken<kotlin.collections.List<Pet>>() {}.type
+            val responseType = object : TypeToken<List<Pet>>() {}.type
 
             // Call the correct request builder based on whether we have a return type or a body.
             // All other switching on types must be done in code inside the builder
-            val request: Request<kotlin.collections.List<Pet>> = requestFactory.build(
+            val request: Request<List<Pet>> = requestFactory.build(
                     Request.Method.GET,
                     "$basePath$path",
                     body,
@@ -226,10 +227,10 @@ class PetApi (
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
-     * @return kotlin.collections.List<Pet>
+     * @return List<Pet>
      */
     @Deprecated("This api was deprecated")
-    suspend fun findPetsByTags(tags: CSVParams): kotlin.collections.List<Pet>? {
+    suspend fun findPetsByTags(tags: CSVParams): List<Pet>? {
         val body: Any? = null
 
         val contentTypes : Array<String> = arrayOf()
@@ -257,7 +258,7 @@ class PetApi (
         val headerParams: Map<String, String> = mapOf()
 
         return suspendCoroutine { continuation ->
-            val responseListener = Response.Listener<kotlin.collections.List<Pet>> { response ->
+            val responseListener = Response.Listener<List<Pet>> { response ->
                 continuation.resume(response)
             }
 
@@ -265,11 +266,11 @@ class PetApi (
                 continuation.resumeWithException(error)
             }
 
-            val responseType = object : TypeToken<kotlin.collections.List<Pet>>() {}.type
+            val responseType = object : TypeToken<List<Pet>>() {}.type
 
             // Call the correct request builder based on whether we have a return type or a body.
             // All other switching on types must be done in code inside the builder
-            val request: Request<kotlin.collections.List<Pet>> = requestFactory.build(
+            val request: Request<List<Pet>> = requestFactory.build(
                     Request.Method.GET,
                     "$basePath$path",
                     body,
@@ -292,7 +293,7 @@ class PetApi (
      * @param petId ID of pet to return
      * @return Pet
      */
-    suspend fun getPetById(petId: kotlin.Long): Pet? {
+    suspend fun getPetById(petId: Long): Pet? {
         val body: Any? = null
 
         val contentTypes : Array<String> = arrayOf()
@@ -416,7 +417,7 @@ class PetApi (
      * @param status Updated status of the pet (optional)
      * @return void
      */
-    suspend fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null): Unit {
+    suspend fun updatePetWithForm(petId: Long, name: String? = null, status: String? = null): Unit {
         val body: Any? = null
 
         val contentTypes : Array<String> = arrayOf("application/x-www-form-urlencoded")
@@ -482,7 +483,7 @@ class PetApi (
      * @param file file to upload (optional)
      * @return ModelApiResponse
      */
-    suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: java.io.File? = null): ModelApiResponse? {
+    suspend fun uploadFile(petId: Long, additionalMetadata: String? = null, file: File? = null): ModelApiResponse? {
         val body: Any? = null
 
         val contentTypes : Array<String> = arrayOf("multipart/form-data")

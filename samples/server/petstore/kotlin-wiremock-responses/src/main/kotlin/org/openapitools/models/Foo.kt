@@ -9,6 +9,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class Foo(
     @field:JsonProperty("bar")
-    val bar: kotlin.String? = "bar",
+    val bar: String? = "bar",
 
 )

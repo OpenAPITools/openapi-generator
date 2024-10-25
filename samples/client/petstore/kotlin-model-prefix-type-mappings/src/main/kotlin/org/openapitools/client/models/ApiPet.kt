@@ -44,19 +44,19 @@ import com.google.gson.annotations.SerializedName
 data class ApiPet (
 
     @SerializedName("name")
-    val name: kotlin.String,
+    val name: String,
 
     @SerializedName("photoUrls")
-    val photoUrls: kotlin.collections.List<kotlin.String>,
+    val photoUrls: kotlin.collections.List<String>,
 
     @SerializedName("id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
 
     @SerializedName("category")
     val category: ApiCategory? = null,
 
     @SerializedName("tags")
-    val tags: kotlin.collections.List<ApiTag>? = null,
+    val tags: List<ApiTag>? = null,
 
     /* pet status in the store */
     @SerializedName("status")
@@ -70,7 +70,7 @@ data class ApiPet (
      *
      * Values: AVAILABLE,PENDING,SOLD
      */
-    enum class Status(val value: kotlin.String) {
+    enum class Status(val value: String) {
         @SerializedName(value = "available") AVAILABLE("available"),
         @SerializedName(value = "pending") PENDING("pending"),
         @SerializedName(value = "sold") SOLD("sold");

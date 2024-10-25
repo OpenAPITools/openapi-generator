@@ -36,29 +36,29 @@ import com.squareup.moshi.JsonClass
 data class User (
 
     @Json(name = "id")
-    var id: kotlin.Long? = null,
+    var id: Long? = null,
 
     @Json(name = "username")
-    var username: kotlin.String? = null,
+    var username: String? = null,
 
     @Json(name = "firstName")
-    var firstName: kotlin.String? = null,
+    var firstName: String? = null,
 
     @Json(name = "lastName")
-    var lastName: kotlin.String? = null,
+    var lastName: String? = null,
 
     @Json(name = "email")
-    var email: kotlin.String? = null,
+    var email: String? = null,
 
     @Json(name = "password")
-    var password: kotlin.String? = null,
+    var password: String? = null,
 
     @Json(name = "phone")
-    var phone: kotlin.String? = null,
+    var phone: String? = null,
 
     /* User Status */
     @Json(name = "userStatus")
-    var userStatus: kotlin.Int? = null
+    var userStatus: Int? = null
 
 ) {
 

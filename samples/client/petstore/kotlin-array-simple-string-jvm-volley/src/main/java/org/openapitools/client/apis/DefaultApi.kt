@@ -38,7 +38,7 @@ class DefaultApi (
      * @param ids 
      * @return void
      */
-    suspend fun idsGet(ids: kotlin.collections.List<kotlin.String>): Unit {
+    suspend fun idsGet(ids: List<String>): Unit {
         val body: Any? = null
 
         val contentTypes : Array<String> = arrayOf()

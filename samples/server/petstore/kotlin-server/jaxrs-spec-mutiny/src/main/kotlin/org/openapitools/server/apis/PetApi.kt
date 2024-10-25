@@ -1,5 +1,6 @@
 package org.openapitools.server.apis;
 
+import java.io.File
 import org.openapitools.server.models.ModelApiResponse
 import org.openapitools.server.models.Pet
 
@@ -22,22 +23,22 @@ interface PetApi {
 
     @DELETE
     @Path("/pet/{petId}")
-    fun deletePet(@PathParam("petId") petId: kotlin.Long,@HeaderParam("api_key")   apiKey: kotlin.String?): io.smallrye.mutiny.Uni<Response>
+    fun deletePet(@PathParam("petId") petId: Long,@HeaderParam("api_key")   apiKey: String?): io.smallrye.mutiny.Uni<Response>
 
     @GET
     @Path("/pet/findByStatus")
     @Produces("application/xml", "application/json")
-    fun findPetsByStatus(@QueryParam("status")   status: kotlin.collections.List<kotlin.String>): io.smallrye.mutiny.Uni<Response>
+    fun findPetsByStatus(@QueryParam("status")   status: List<String>): io.smallrye.mutiny.Uni<Response>
 
     @GET
     @Path("/pet/findByTags")
     @Produces("application/xml", "application/json")
-    fun findPetsByTags(@QueryParam("tags")   tags: kotlin.collections.List<kotlin.String>): io.smallrye.mutiny.Uni<Response>
+    fun findPetsByTags(@QueryParam("tags")   tags: List<String>): io.smallrye.mutiny.Uni<Response>
 
     @GET
     @Path("/pet/{petId}")
     @Produces("application/xml", "application/json")
-    fun getPetById(@PathParam("petId") petId: kotlin.Long): io.smallrye.mutiny.Uni<Response>
+    fun getPetById(@PathParam("petId") petId: Long): io.smallrye.mutiny.Uni<Response>
 
     @PUT
     @Path("/pet")
@@ -47,11 +48,11 @@ interface PetApi {
     @POST
     @Path("/pet/{petId}")
     @Consumes("application/x-www-form-urlencoded")
-    fun updatePetWithForm(@PathParam("petId") petId: kotlin.Long,@FormParam(value = "name") name: kotlin.String?,@FormParam(value = "status") status: kotlin.String?): io.smallrye.mutiny.Uni<Response>
+    fun updatePetWithForm(@PathParam("petId") petId: Long,@FormParam(value = "name") name: String?,@FormParam(value = "status") status: String?): io.smallrye.mutiny.Uni<Response>
 
     @POST
     @Path("/pet/{petId}/uploadImage")
     @Consumes("multipart/form-data")
     @Produces("application/json")
-    fun uploadFile(@PathParam("petId") petId: kotlin.Long,@FormParam(value = "additionalMetadata") additionalMetadata: kotlin.String?, @FormParam(value = "file") fileInputStream: InputStream?): io.smallrye.mutiny.Uni<Response>
+    fun uploadFile(@PathParam("petId") petId: Long,@FormParam(value = "additionalMetadata") additionalMetadata: String?, @FormParam(value = "file") fileInputStream: InputStream?): io.smallrye.mutiny.Uni<Response>
 }

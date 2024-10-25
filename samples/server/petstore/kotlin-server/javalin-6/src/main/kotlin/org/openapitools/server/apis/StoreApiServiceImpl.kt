@@ -5,15 +5,15 @@ import io.javalin.http.Context
 
 class StoreApiServiceImpl : StoreApiService {
 
-    override fun deleteOrder(orderId: kotlin.String, ctx: Context): Unit {
+    override fun deleteOrder(orderId: String, ctx: Context): Unit {
         TODO("Implement me")
     }
 
-    override fun getInventory(ctx: Context): Map<String, kotlin.Int> {
+    override fun getInventory(ctx: Context): Map<String, Int> {
         TODO("Implement me")
     }
 
-    override fun getOrderById(orderId: kotlin.Long, ctx: Context): Order {
+    override fun getOrderById(orderId: Long, ctx: Context): Order {
         TODO("Implement me")
     }
 

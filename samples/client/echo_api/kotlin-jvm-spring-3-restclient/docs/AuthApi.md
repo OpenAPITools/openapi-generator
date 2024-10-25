@@ -10,7 +10,7 @@ All URIs are relative to *http://localhost:3000*
 
 <a id="testAuthHttpBasic"></a>
 # **testAuthHttpBasic**
-> kotlin.String testAuthHttpBasic()
+> String testAuthHttpBasic()
 
 To test HTTP basic authentication
 
@@ -24,7 +24,7 @@ To test HTTP basic authentication
 
 val apiInstance = AuthApi()
 try {
-    val result : kotlin.String = apiInstance.testAuthHttpBasic()
+    val result : String = apiInstance.testAuthHttpBasic()
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling AuthApi#testAuthHttpBasic")
@@ -40,7 +40,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 
@@ -56,7 +56,7 @@ Configure http_auth:
 
 <a id="testAuthHttpBearer"></a>
 # **testAuthHttpBearer**
-> kotlin.String testAuthHttpBearer()
+> String testAuthHttpBearer()
 
 To test HTTP bearer authentication
 
@@ -70,7 +70,7 @@ To test HTTP bearer authentication
 
 val apiInstance = AuthApi()
 try {
-    val result : kotlin.String = apiInstance.testAuthHttpBearer()
+    val result : String = apiInstance.testAuthHttpBearer()
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling AuthApi#testAuthHttpBearer")
@@ -86,7 +86,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 

@@ -1,5 +1,6 @@
 package org.openapitools.server.apis
 
+import java.time.OffsetDateTime
 import org.openapitools.server.models.User
 import io.javalin.http.Context
 
@@ -25,7 +26,7 @@ interface UserApiService {
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithArrayInput
      */
-    fun createUsersWithArrayInput(user: kotlin.collections.List<User>, ctx: Context): Unit
+    fun createUsersWithArrayInput(user: List<User>, ctx: Context): Unit
 
     /**
      * POST /user/createWithList : Creates list of users with given input array
@@ -36,7 +37,7 @@ interface UserApiService {
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithListInput
      */
-    fun createUsersWithListInput(user: kotlin.collections.List<User>, ctx: Context): Unit
+    fun createUsersWithListInput(user: List<User>, ctx: Context): Unit
 
     /**
      * DELETE /user/{username} : Delete user
@@ -48,7 +49,7 @@ interface UserApiService {
      *         or User not found (status code 404)
      * @see UserApi#deleteUser
      */
-    fun deleteUser(username: kotlin.String, ctx: Context): Unit
+    fun deleteUser(username: String, ctx: Context): Unit
 
     /**
      * GET /user/{username} : Get user by user name
@@ -61,7 +62,7 @@ interface UserApiService {
      *         or User not found (status code 404)
      * @see UserApi#getUserByName
      */
-    fun getUserByName(username: kotlin.String, ctx: Context): User
+    fun getUserByName(username: String, ctx: Context): User
 
     /**
      * GET /user/login : Logs user into the system
@@ -74,7 +75,7 @@ interface UserApiService {
      *         or Invalid username/password supplied (status code 400)
      * @see UserApi#loginUser
      */
-    fun loginUser(username: kotlin.String, password: kotlin.String, ctx: Context): kotlin.String
+    fun loginUser(username: String, password: String, ctx: Context): String
 
     /**
      * GET /user/logout : Logs out current logged in user session
@@ -97,5 +98,5 @@ interface UserApiService {
      *         or User not found (status code 404)
      * @see UserApi#updateUser
      */
-    fun updateUser(username: kotlin.String, user: User, ctx: Context): Unit
+    fun updateUser(username: String, user: User, ctx: Context): Unit
 }

@@ -75,7 +75,7 @@ interface PetApi {
             method = [RequestMethod.DELETE],
             value = ["/pet/{petId}"]
     )
-    fun deletePet(@Parameter(description = "Pet id to delete", required = true) @PathVariable("petId") petId: kotlin.Long,@Parameter(description = "", `in` = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) apiKey: kotlin.String?): ResponseEntity<Unit> {
+    fun deletePet(@Parameter(description = "Pet id to delete", required = true) @PathVariable("petId") petId: Long,@Parameter(description = "", `in` = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) apiKey: String?): ResponseEntity<Unit> {
         return getDelegate().deletePet(petId, apiKey)
     }
 
@@ -95,7 +95,7 @@ interface PetApi {
             value = ["/pet/findByStatus"],
             produces = ["application/xml", "application/json"]
     )
-    fun findPetsByStatus(@NotNull @Parameter(description = "Status values that need to be considered for filter", required = true, schema = Schema(allowableValues = ["available", "pending", "sold"])) @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>): ResponseEntity<List<Pet>> {
+    fun findPetsByStatus(@NotNull @Parameter(description = "Status values that need to be considered for filter", required = true, schema = Schema(allowableValues = ["available", "pending", "sold"])) @Valid @RequestParam(value = "status", required = true) status: List<String>): ResponseEntity<List<Pet>> {
         return getDelegate().findPetsByStatus(status)
     }
 
@@ -115,7 +115,7 @@ interface PetApi {
             value = ["/pet/findByTags"],
             produces = ["application/xml", "application/json"]
     )
-    fun findPetsByTags(@NotNull @Parameter(description = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>): ResponseEntity<List<Pet>> {
+    fun findPetsByTags(@NotNull @Parameter(description = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) tags: List<String>): ResponseEntity<List<Pet>> {
         return getDelegate().findPetsByTags(tags)
     }
 
@@ -136,7 +136,7 @@ interface PetApi {
             value = ["/pet/{petId}"],
             produces = ["application/xml", "application/json"]
     )
-    fun getPetById(@Parameter(description = "ID of pet to return", required = true) @PathVariable("petId") petId: kotlin.Long): ResponseEntity<Pet> {
+    fun getPetById(@Parameter(description = "ID of pet to return", required = true) @PathVariable("petId") petId: Long): ResponseEntity<Pet> {
         return getDelegate().getPetById(petId)
     }
 
@@ -178,7 +178,7 @@ interface PetApi {
             value = ["/pet/{petId}"],
             consumes = ["application/x-www-form-urlencoded"]
     )
-    fun updatePetWithForm(@Parameter(description = "ID of pet that needs to be updated", required = true) @PathVariable("petId") petId: kotlin.Long,@Parameter(description = "Updated name of the pet") @RequestParam(value = "name", required = false) name: kotlin.String? ,@Parameter(description = "Updated status of the pet") @RequestParam(value = "status", required = false) status: kotlin.String? ): ResponseEntity<Unit> {
+    fun updatePetWithForm(@Parameter(description = "ID of pet that needs to be updated", required = true) @PathVariable("petId") petId: Long,@Parameter(description = "Updated name of the pet") @RequestParam(value = "name", required = false) name: String? ,@Parameter(description = "Updated status of the pet") @RequestParam(value = "status", required = false) status: String? ): ResponseEntity<Unit> {
         return getDelegate().updatePetWithForm(petId, name, status)
     }
 
@@ -198,7 +198,7 @@ interface PetApi {
             produces = ["application/json"],
             consumes = ["multipart/form-data"]
     )
-    fun uploadFile(@Parameter(description = "ID of pet to update", required = true) @PathVariable("petId") petId: kotlin.Long,@Parameter(description = "Additional data to pass to server") @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String? ,@Parameter(description = "file to upload") @Valid @RequestPart("file", required = false) file: org.springframework.core.io.Resource?): ResponseEntity<ModelApiResponse> {
+    fun uploadFile(@Parameter(description = "ID of pet to update", required = true) @PathVariable("petId") petId: Long,@Parameter(description = "Additional data to pass to server") @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: String? ,@Parameter(description = "file to upload") @Valid @RequestPart("file", required = false) file: org.springframework.core.io.Resource?): ResponseEntity<ModelApiResponse> {
         return getDelegate().uploadFile(petId, additionalMetadata, file)
     }
 }

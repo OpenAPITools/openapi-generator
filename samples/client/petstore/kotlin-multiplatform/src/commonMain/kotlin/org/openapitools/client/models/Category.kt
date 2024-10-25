@@ -30,9 +30,9 @@ import kotlinx.serialization.encoding.*
 
 data class Category (
 
-    @SerialName(value = "id") val id: kotlin.Long? = null,
+    @SerialName(value = "id") val id: Long? = null,
 
-    @SerialName(value = "name") val name: kotlin.String? = null
+    @SerialName(value = "name") val name: String? = null
 
 ) {
 

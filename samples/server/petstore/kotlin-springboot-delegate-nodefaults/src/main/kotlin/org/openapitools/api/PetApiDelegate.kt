@@ -28,26 +28,26 @@ interface PetApiDelegate {
     /**
      * @see PetApi#deletePet
      */
-    fun deletePet(petId: kotlin.Long,
-        apiKey: kotlin.String?): ResponseEntity<Unit>
+    fun deletePet(petId: Long,
+        apiKey: String?): ResponseEntity<Unit>
 
 
     /**
      * @see PetApi#findPetsByStatus
      */
-    fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>): ResponseEntity<List<Pet>>
+    fun findPetsByStatus(status: List<String>): ResponseEntity<List<Pet>>
 
 
     /**
      * @see PetApi#findPetsByTags
      */
-    fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): ResponseEntity<List<Pet>>
+    fun findPetsByTags(tags: List<String>): ResponseEntity<List<Pet>>
 
 
     /**
      * @see PetApi#getPetById
      */
-    fun getPetById(petId: kotlin.Long): ResponseEntity<Pet>
+    fun getPetById(petId: Long): ResponseEntity<Pet>
 
 
     /**
@@ -59,16 +59,16 @@ interface PetApiDelegate {
     /**
      * @see PetApi#updatePetWithForm
      */
-    fun updatePetWithForm(petId: kotlin.Long,
-        name: kotlin.String?,
-        status: kotlin.String?): ResponseEntity<Unit>
+    fun updatePetWithForm(petId: Long,
+        name: String?,
+        status: String?): ResponseEntity<Unit>
 
 
     /**
      * @see PetApi#uploadFile
      */
-    fun uploadFile(petId: kotlin.Long,
-        additionalMetadata: kotlin.String?,
+    fun uploadFile(petId: Long,
+        additionalMetadata: String?,
         file: Resource?): ResponseEntity<ModelApiResponse>
 
 }

@@ -48,7 +48,7 @@ data class ApiAnyOfUserOrPetOrArrayString(var actualInstance: Any? = null) {
             val adapterApiUser = gson.getDelegateAdapter(this, TypeToken.get(ApiUser::class.java))
             val adapterApiPet = gson.getDelegateAdapter(this, TypeToken.get(ApiPet::class.java))
             @Suppress("UNCHECKED_CAST")
-            val adapterkotlincollectionsListkotlinString = gson.getDelegateAdapter(this, TypeToken.get(object : TypeToken<kotlin.collections.List<kotlin.String>>() {}.type)) as TypeAdapter<kotlin.collections.List<kotlin.String>>
+            val adapterListString = gson.getDelegateAdapter(this, TypeToken.get(object : TypeToken<List<String>>() {}.type)) as TypeAdapter<List<String>>
 
             @Suppress("UNCHECKED_CAST")
             return object : TypeAdapter<ApiAnyOfUserOrPetOrArrayString?>() {
@@ -71,16 +71,16 @@ data class ApiAnyOfUserOrPetOrArrayString(var actualInstance: Any? = null) {
                         elementAdapter.write(out, element)
                         return
                     }
-                    // check if the actual instance is of the type `kotlin.collections.List<kotlin.String>`
+                    // check if the actual instance is of the type `List<String>`
                     if (value.actualInstance is List<*>) {
                         val list = value.actualInstance as List<Any>
-                        if (list.get(0) is kotlin.String) {
-                            val array = adapterkotlincollectionsListkotlinString.toJsonTree(value.actualInstance as kotlin.collections.List<kotlin.String>?).getAsJsonArray()
+                        if (list.get(0) is String) {
+                            val array = adapterListString.toJsonTree(value.actualInstance as List<String>?).getAsJsonArray()
                             elementAdapter.write(out, array)
                             return
                         }
                     }
-                    throw IOException("Failed to serialize as the type doesn't match anyOf schemas: ApiPet, ApiUser, kotlin.collections.List<kotlin.String>")
+                    throw IOException("Failed to serialize as the type doesn't match anyOf schemas: ApiPet, ApiUser, List<String>")
                 }
 
                 @Throws(IOException::class)
@@ -116,7 +116,7 @@ data class ApiAnyOfUserOrPetOrArrayString(var actualInstance: Any? = null) {
                         errorMessages.add(String.format("Deserialization for ApiPet failed with `%s`.", e.message))
                         //log.log(Level.FINER, "Input data does not match schema 'ApiPet'", e)
                     }
-                    // deserialize kotlin.collections.List<kotlin.String>
+                    // deserialize List<String>
                     try {
                         // validate the JSON object to see if any exception is thrown
                         require(jsonElement.isJsonArray) {
@@ -129,14 +129,14 @@ data class ApiAnyOfUserOrPetOrArrayString(var actualInstance: Any? = null) {
                                 String.format("Expected array items to be of type String in the JSON string but got `%s`", jsonElement.toString())
                             }
                         }
-                        actualAdapter = adapterkotlincollectionsListkotlinString
+                        actualAdapter = adapterListString
                         ret.actualInstance = actualAdapter.fromJsonTree(jsonElement)
                         return ret
-                        //log.log(Level.FINER, "Input data matches schema 'kotlin.collections.List<kotlin.String>'")
+                        //log.log(Level.FINER, "Input data matches schema 'List<String>'")
                     } catch (e: Exception) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format("Deserialization for kotlin.collections.List<kotlin.String> failed with `%s`.", e.message))
-                        //log.log(Level.FINER, "Input data does not match schema 'kotlin.collections.List<kotlin.String>'", e)
+                        errorMessages.add(String.format("Deserialization for List<String> failed with `%s`.", e.message))
+                        //log.log(Level.FINER, "Input data does not match schema 'List<String>'", e)
                     }
 
                     throw IOException(String.format("Failed deserialization for ApiAnyOfUserOrPetOrArrayString: no schema match result. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()))
@@ -177,7 +177,7 @@ data class ApiAnyOfUserOrPetOrArrayString(var actualInstance: Any? = null) {
                 // Validation failed, continue
                 errorMessages.add(String.format("Validation for ApiPet failed with `%s`.", e.message))
             }
-            // validate the json string with kotlin.collections.List<kotlin.String>
+            // validate the json string with List<String>
             try {
                 // validate the JSON object to see if any exception is thrown
                 require(jsonElement.isJsonArray) {
@@ -193,7 +193,7 @@ data class ApiAnyOfUserOrPetOrArrayString(var actualInstance: Any? = null) {
                 match++
             } catch (e: Exception) {
                 // Validation failed, continue
-                errorMessages.add(String.format("Validation for kotlin.collections.List<kotlin.String> failed with `%s`.", e.message))
+                errorMessages.add(String.format("Validation for List<String> failed with `%s`.", e.message))
             }
 
             if (match != 1) {

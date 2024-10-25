@@ -9,7 +9,7 @@ All URIs are relative to *http://localhost:3000*
 
 <a id="testHeaderIntegerBooleanStringEnums"></a>
 # **testHeaderIntegerBooleanStringEnums**
-> kotlin.String testHeaderIntegerBooleanStringEnums(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader)
+> String testHeaderIntegerBooleanStringEnums(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader)
 
 Test header parameter(s)
 
@@ -22,13 +22,13 @@ Test header parameter(s)
 //import org.openapitools.client.models.*
 
 val apiInstance = HeaderApi()
-val integerHeader : kotlin.Int = 56 // kotlin.Int | 
-val booleanHeader : kotlin.Boolean = true // kotlin.Boolean | 
-val stringHeader : kotlin.String = stringHeader_example // kotlin.String | 
-val enumNonrefStringHeader : kotlin.String = enumNonrefStringHeader_example // kotlin.String | 
+val integerHeader : Int = 56 // Int | 
+val booleanHeader : Boolean = true // Boolean | 
+val stringHeader : String = stringHeader_example // String | 
+val enumNonrefStringHeader : String = enumNonrefStringHeader_example // String | 
 val enumRefStringHeader : StringEnumRef =  // StringEnumRef | 
 try {
-    val result : kotlin.String = apiInstance.testHeaderIntegerBooleanStringEnums(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader)
+    val result : String = apiInstance.testHeaderIntegerBooleanStringEnums(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling HeaderApi#testHeaderIntegerBooleanStringEnums")
@@ -40,17 +40,17 @@ try {
 ```
 
 ### Parameters
-| **integerHeader** | **kotlin.Int**|  | [optional] |
-| **booleanHeader** | **kotlin.Boolean**|  | [optional] |
-| **stringHeader** | **kotlin.String**|  | [optional] |
-| **enumNonrefStringHeader** | **kotlin.String**|  | [optional] [enum: success, failure, unclassified] |
+| **integerHeader** | **Int**|  | [optional] |
+| **booleanHeader** | **Boolean**|  | [optional] |
+| **stringHeader** | **String**|  | [optional] |
+| **enumNonrefStringHeader** | **String**|  | [optional] [enum: success, failure, unclassified] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **enumRefStringHeader** | [**StringEnumRef**](.md)|  | [optional] [enum: success, failure, unclassified] |
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 

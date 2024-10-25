@@ -36,19 +36,19 @@ import com.squareup.moshi.JsonClass
 data class Pet (
 
     @Json(name = "name")
-    var name: kotlin.String,
+    var name: String,
 
     @Json(name = "photoUrls")
-    var photoUrls: kotlin.collections.MutableList<kotlin.String>,
+    var photoUrls: kotlin.collections.MutableList<String>,
 
     @Json(name = "id")
-    var id: kotlin.Long? = null,
+    var id: Long? = null,
 
     @Json(name = "category")
     var category: Category? = null,
 
     @Json(name = "tags")
-    var tags: kotlin.collections.MutableList<Tag>? = null,
+    var tags: MutableList<Tag>? = null,
 
     /* pet status in the store */
     @Json(name = "status")
@@ -62,7 +62,7 @@ data class Pet (
      * Values: available,pending,sold
      */
     @JsonClass(generateAdapter = false)
-    enum class Status(val value: kotlin.String) {
+    enum class Status(val value: String) {
         @Json(name = "available") available("available"),
         @Json(name = "pending") pending("pending"),
         @Json(name = "sold") sold("sold");

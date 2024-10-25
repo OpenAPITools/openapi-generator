@@ -229,7 +229,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         typeMapping.put("binary", "ByteArray");
         typeMapping.put("Date", "LocalDate");
         typeMapping.put("DateTime", "OffsetDateTime");
-        typeMapping.put("AnyType", "kotlin.Any");
+        typeMapping.put("AnyType", "Any");
 
         instantiationTypes.put("array", "kotlin.collections.ArrayList");
         instantiationTypes.put("list", "kotlin.collections.ArrayList");
@@ -242,6 +242,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         importMapping.put("File", "java.io.File");
         importMapping.put("Date", "java.time.LocalDate");
         importMapping.put("Timestamp", "java.sql.Timestamp");
+        importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
         importMapping.put("DateTime", "java.time.OffsetDateTime");
         importMapping.put("LocalDateTime", "java.time.LocalDateTime");
         importMapping.put("LocalDate", "java.time.LocalDate");
@@ -896,15 +897,15 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        if ("kotlin.Int".equals(datatype) || "kotlin.Long".equals(datatype)) {
+        if (isDataType("Int", datatype)|| isDataType("Long", datatype)) {
             return value;
-        } else if ("kotlin.Double".equals(datatype)) {
+        } else if (isDataType("Double", datatype)) {
             if (value.contains(".")) {
                 return value;
             } else {
                 return value + ".0"; // Float and double must have .0
             }
-        } else if ("kotlin.Float".equals(datatype)) {
+        } else if (isDataType("Float", datatype)) {
             return value + "f";
         } else {
             return "\"" + value + "\"";

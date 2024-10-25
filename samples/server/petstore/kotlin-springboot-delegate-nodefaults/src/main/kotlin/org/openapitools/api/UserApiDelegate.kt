@@ -1,5 +1,6 @@
 package org.openapitools.api
 
+import java.time.OffsetDateTime
 import org.openapitools.model.User
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -27,32 +28,32 @@ interface UserApiDelegate {
     /**
      * @see UserApi#createUsersWithArrayInput
      */
-    fun createUsersWithArrayInput(user: kotlin.collections.List<User>): ResponseEntity<Unit>
+    fun createUsersWithArrayInput(user: List<User>): ResponseEntity<Unit>
 
 
     /**
      * @see UserApi#createUsersWithListInput
      */
-    fun createUsersWithListInput(user: kotlin.collections.List<User>): ResponseEntity<Unit>
+    fun createUsersWithListInput(user: List<User>): ResponseEntity<Unit>
 
 
     /**
      * @see UserApi#deleteUser
      */
-    fun deleteUser(username: kotlin.String): ResponseEntity<Unit>
+    fun deleteUser(username: String): ResponseEntity<Unit>
 
 
     /**
      * @see UserApi#getUserByName
      */
-    fun getUserByName(username: kotlin.String): ResponseEntity<User>
+    fun getUserByName(username: String): ResponseEntity<User>
 
 
     /**
      * @see UserApi#loginUser
      */
-    fun loginUser(username: kotlin.String,
-        password: kotlin.String): ResponseEntity<kotlin.String>
+    fun loginUser(username: String,
+        password: String): ResponseEntity<String>
 
 
     /**
@@ -64,7 +65,7 @@ interface UserApiDelegate {
     /**
      * @see UserApi#updateUser
      */
-    fun updateUser(username: kotlin.String,
+    fun updateUser(username: String,
         user: User): ResponseEntity<Unit>
 
 }

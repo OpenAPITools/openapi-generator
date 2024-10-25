@@ -24,11 +24,11 @@ import org.openapitools.server.models.Tag
  * @param status pet status in the store
  */
 data class Pet(
-    var name: kotlin.String,
-    var photoUrls: kotlin.collections.MutableList<kotlin.String>,
-    var id: kotlin.Long? = null,
+    var name: String,
+    var photoUrls: MutableList<String>,
+    var id: Long? = null,
     var category: Category? = null,
-    var tags: kotlin.collections.MutableList<Tag>? = null,
+    var tags: MutableList<Tag>? = null,
     /* pet status in the store */
     var status: Pet.Status? = null
 ) 
@@ -37,7 +37,7 @@ data class Pet(
     * pet status in the store
     * Values: available,pending,sold
     */
-    enum class Status(val value: kotlin.String){
+    enum class Status(val value: String){
         available("available"),
         pending("pending"),
         sold("sold");

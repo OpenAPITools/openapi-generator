@@ -4,11 +4,11 @@
 ## Properties
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
-| **name** | **kotlin.String** |  |  |
-| **photoUrls** | **kotlin.collections.List&lt;kotlin.String&gt;** |  |  |
-| **id** | **kotlin.Long** |  |  [optional] |
+| **name** | **String** |  |  |
+| **photoUrls** | **List&lt;String&gt;** |  |  |
+| **id** | **Long** |  |  [optional] |
 | **category** | [**ApiCategory**](ApiCategory.md) |  |  [optional] |
-| **tags** | [**kotlin.collections.List&lt;ApiTag&gt;**](ApiTag.md) |  |  [optional] |
+| **tags** | [**List&lt;ApiTag&gt;**](ApiTag.md) |  |  [optional] |
 | **status** | [**inline**](#Status) | pet status in the store |  [optional] |
 
 

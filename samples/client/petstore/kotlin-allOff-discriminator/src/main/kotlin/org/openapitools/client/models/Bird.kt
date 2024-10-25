@@ -15,6 +15,7 @@
 
 package org.openapitools.client.models
 
+import kotlin.Any
 import org.openapitools.client.models.Animal
 
 import com.squareup.moshi.Json
@@ -34,7 +35,7 @@ data class Bird (
     override val id: java.util.UUID,
 
     @Json(name = "featherType")
-    val featherType: kotlin.String
+    val featherType: String
 
 ) : Animal {
 

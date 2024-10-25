@@ -28,28 +28,28 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class User(
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("id") val id: kotlin.Long? = null,
+    @get:JsonProperty("id") val id: Long? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("username") val username: kotlin.String? = null,
+    @get:JsonProperty("username") val username: String? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("firstName") val firstName: kotlin.String? = null,
+    @get:JsonProperty("firstName") val firstName: String? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("lastName") val lastName: kotlin.String? = null,
+    @get:JsonProperty("lastName") val lastName: String? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("email") val email: kotlin.String? = null,
+    @get:JsonProperty("email") val email: String? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("password") val password: kotlin.String? = null,
+    @get:JsonProperty("password") val password: String? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("phone") val phone: kotlin.String? = null,
+    @get:JsonProperty("phone") val phone: String? = null,
 
     @Schema(example = "null", description = "User Status")
-    @get:JsonProperty("userStatus") val userStatus: kotlin.Int? = null
+    @get:JsonProperty("userStatus") val userStatus: Int? = null
     ) : Serializable{
 
     companion object {

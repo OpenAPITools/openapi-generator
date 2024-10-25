@@ -19,7 +19,7 @@ Method | HTTP request | Description
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(DefaultApi::class.java)
-val ids : kotlin.collections.List<kotlin.String> =  // kotlin.collections.List<kotlin.String> | 
+val ids : List<String> =  // List<String> | 
 
 webService.idsGet(ids)
 ```
@@ -28,7 +28,7 @@ webService.idsGet(ids)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ids** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)|  |
+ **ids** | [**List&lt;String&gt;**](String.md)|  |
 
 ### Return type
 

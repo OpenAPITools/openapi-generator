@@ -48,7 +48,7 @@ interface PetApi {
             method = [RequestMethod.DELETE],
             value = ["/pet/{petId}"]
     )
-    fun deletePet( @PathVariable("petId") petId: kotlin.Long, @RequestHeader(value = "api_key", required = false) apiKey: kotlin.String?): ResponseEntity<Unit> {
+    fun deletePet( @PathVariable("petId") petId: Long, @RequestHeader(value = "api_key", required = false) apiKey: String?): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -58,7 +58,7 @@ interface PetApi {
             value = ["/pet/findByStatus"],
             produces = ["application/xml", "application/json"]
     )
-    fun findPetsByStatus(@NotNull  @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>): ResponseEntity<List<Pet>> {
+    fun findPetsByStatus(@NotNull  @Valid @RequestParam(value = "status", required = true) status: List<String>): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -68,7 +68,7 @@ interface PetApi {
             value = ["/pet/findByTags"],
             produces = ["application/xml", "application/json"]
     )
-    fun findPetsByTags(@NotNull  @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>): ResponseEntity<List<Pet>> {
+    fun findPetsByTags(@NotNull  @Valid @RequestParam(value = "tags", required = true) tags: List<String>): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -78,7 +78,7 @@ interface PetApi {
             value = ["/pet/{petId}"],
             produces = ["application/xml", "application/json"]
     )
-    fun getPetById( @PathVariable("petId") petId: kotlin.Long): ResponseEntity<Pet> {
+    fun getPetById( @PathVariable("petId") petId: Long): ResponseEntity<Pet> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -99,7 +99,7 @@ interface PetApi {
             value = ["/pet/{petId}"],
             consumes = ["application/x-www-form-urlencoded"]
     )
-    fun updatePetWithForm( @PathVariable("petId") petId: kotlin.Long, @RequestParam(value = "name", required = false) name: kotlin.String? , @RequestParam(value = "status", required = false) status: kotlin.String? ): ResponseEntity<Unit> {
+    fun updatePetWithForm( @PathVariable("petId") petId: Long, @RequestParam(value = "name", required = false) name: String? , @RequestParam(value = "status", required = false) status: String? ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -110,7 +110,7 @@ interface PetApi {
             produces = ["application/json"],
             consumes = ["multipart/form-data"]
     )
-    fun uploadFile( @PathVariable("petId") petId: kotlin.Long, @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String? , @Valid @RequestPart("file", required = false) file: org.springframework.core.io.Resource?): ResponseEntity<ModelApiResponse> {
+    fun uploadFile( @PathVariable("petId") petId: Long, @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: String? , @Valid @RequestPart("file", required = false) file: org.springframework.core.io.Resource?): ResponseEntity<ModelApiResponse> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 }

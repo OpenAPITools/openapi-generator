@@ -22,10 +22,10 @@ import io.swagger.annotations.ApiModelProperty
 data class Tag(
 
     @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("id") val id: kotlin.Long? = null,
+    @get:JsonProperty("id") val id: Long? = null,
 
     @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("name") val name: kotlin.String? = null
+    @get:JsonProperty("name") val name: String? = null
     ) : Serializable{
 
     companion object {

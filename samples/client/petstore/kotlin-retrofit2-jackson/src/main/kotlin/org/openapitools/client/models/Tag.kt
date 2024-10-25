@@ -30,10 +30,10 @@ import java.io.Serializable
 data class Tag (
 
     @get:JsonProperty("id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
 
     @get:JsonProperty("name")
-    val name: kotlin.String? = null
+    val name: String? = null
 
 ) : Serializable {
     companion object {

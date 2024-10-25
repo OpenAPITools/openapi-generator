@@ -16,7 +16,7 @@ All URIs are relative to *http://localhost:3000*
 
 <a id="testBinaryGif"></a>
 # **testBinaryGif**
-> java.io.File testBinaryGif()
+> File testBinaryGif()
 
 Test binary (gif) response body
 
@@ -30,7 +30,7 @@ Test binary (gif) response body
 
 val apiInstance = BodyApi()
 try {
-    val result : java.io.File = apiInstance.testBinaryGif()
+    val result : File = apiInstance.testBinaryGif()
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling BodyApi#testBinaryGif")
@@ -46,7 +46,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**java.io.File**](java.io.File.md)
+[**File**](File.md)
 
 ### Authorization
 
@@ -59,7 +59,7 @@ No authorization required
 
 <a id="testBodyApplicationOctetstreamBinary"></a>
 # **testBodyApplicationOctetstreamBinary**
-> kotlin.String testBodyApplicationOctetstreamBinary(body)
+> String testBodyApplicationOctetstreamBinary(body)
 
 Test body parameter(s)
 
@@ -72,9 +72,9 @@ Test body parameter(s)
 //import org.openapitools.client.models.*
 
 val apiInstance = BodyApi()
-val body : java.io.File = BINARY_DATA_HERE // java.io.File | 
+val body : File = BINARY_DATA_HERE // File | 
 try {
-    val result : kotlin.String = apiInstance.testBodyApplicationOctetstreamBinary(body)
+    val result : String = apiInstance.testBodyApplicationOctetstreamBinary(body)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling BodyApi#testBodyApplicationOctetstreamBinary")
@@ -88,11 +88,11 @@ try {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **body** | **java.io.File**|  | [optional] |
+| **body** | **File**|  | [optional] |
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 
@@ -105,7 +105,7 @@ No authorization required
 
 <a id="testBodyMultipartFormdataArrayOfBinary"></a>
 # **testBodyMultipartFormdataArrayOfBinary**
-> kotlin.String testBodyMultipartFormdataArrayOfBinary(files)
+> String testBodyMultipartFormdataArrayOfBinary(files)
 
 Test array of binary in multipart mime
 
@@ -118,9 +118,9 @@ Test array of binary in multipart mime
 //import org.openapitools.client.models.*
 
 val apiInstance = BodyApi()
-val files : kotlin.collections.List<java.io.File> = /path/to/file.txt // kotlin.collections.List<java.io.File> | 
+val files : List<File> = /path/to/file.txt // List<File> | 
 try {
-    val result : kotlin.String = apiInstance.testBodyMultipartFormdataArrayOfBinary(files)
+    val result : String = apiInstance.testBodyMultipartFormdataArrayOfBinary(files)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling BodyApi#testBodyMultipartFormdataArrayOfBinary")
@@ -134,11 +134,11 @@ try {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **files** | **kotlin.collections.List&lt;java.io.File&gt;**|  | |
+| **files** | **List&lt;File&gt;**|  | |
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 
@@ -151,7 +151,7 @@ No authorization required
 
 <a id="testBodyMultipartFormdataSingleBinary"></a>
 # **testBodyMultipartFormdataSingleBinary**
-> kotlin.String testBodyMultipartFormdataSingleBinary(myFile)
+> String testBodyMultipartFormdataSingleBinary(myFile)
 
 Test single binary in multipart mime
 
@@ -164,9 +164,9 @@ Test single binary in multipart mime
 //import org.openapitools.client.models.*
 
 val apiInstance = BodyApi()
-val myFile : java.io.File = BINARY_DATA_HERE // java.io.File | 
+val myFile : File = BINARY_DATA_HERE // File | 
 try {
-    val result : kotlin.String = apiInstance.testBodyMultipartFormdataSingleBinary(myFile)
+    val result : String = apiInstance.testBodyMultipartFormdataSingleBinary(myFile)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling BodyApi#testBodyMultipartFormdataSingleBinary")
@@ -180,11 +180,11 @@ try {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **myFile** | **java.io.File**|  | [optional] |
+| **myFile** | **File**|  | [optional] |
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 
@@ -197,7 +197,7 @@ No authorization required
 
 <a id="testEchoBodyFreeFormObjectResponseString"></a>
 # **testEchoBodyFreeFormObjectResponseString**
-> kotlin.String testEchoBodyFreeFormObjectResponseString(body)
+> String testEchoBodyFreeFormObjectResponseString(body)
 
 Test free form object
 
@@ -210,9 +210,9 @@ Test free form object
 //import org.openapitools.client.models.*
 
 val apiInstance = BodyApi()
-val body : kotlin.Any = Object // kotlin.Any | Free form object
+val body : Any = Object // Any | Free form object
 try {
-    val result : kotlin.String = apiInstance.testEchoBodyFreeFormObjectResponseString(body)
+    val result : String = apiInstance.testEchoBodyFreeFormObjectResponseString(body)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling BodyApi#testEchoBodyFreeFormObjectResponseString")
@@ -226,11 +226,11 @@ try {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **body** | **kotlin.Any**| Free form object | [optional] |
+| **body** | **Any**| Free form object | [optional] |
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 
@@ -289,7 +289,7 @@ No authorization required
 
 <a id="testEchoBodyPetResponseString"></a>
 # **testEchoBodyPetResponseString**
-> kotlin.String testEchoBodyPetResponseString(pet)
+> String testEchoBodyPetResponseString(pet)
 
 Test empty response body
 
@@ -304,7 +304,7 @@ Test empty response body
 val apiInstance = BodyApi()
 val pet : Pet =  // Pet | Pet object that needs to be added to the store
 try {
-    val result : kotlin.String = apiInstance.testEchoBodyPetResponseString(pet)
+    val result : String = apiInstance.testEchoBodyPetResponseString(pet)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling BodyApi#testEchoBodyPetResponseString")
@@ -322,7 +322,7 @@ try {
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 
@@ -335,7 +335,7 @@ No authorization required
 
 <a id="testEchoBodyTagResponseString"></a>
 # **testEchoBodyTagResponseString**
-> kotlin.String testEchoBodyTagResponseString(tag)
+> String testEchoBodyTagResponseString(tag)
 
 Test empty json (request body)
 
@@ -350,7 +350,7 @@ Test empty json (request body)
 val apiInstance = BodyApi()
 val tag : Tag =  // Tag | Tag object
 try {
-    val result : kotlin.String = apiInstance.testEchoBodyTagResponseString(tag)
+    val result : String = apiInstance.testEchoBodyTagResponseString(tag)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling BodyApi#testEchoBodyTagResponseString")
@@ -368,7 +368,7 @@ try {
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 

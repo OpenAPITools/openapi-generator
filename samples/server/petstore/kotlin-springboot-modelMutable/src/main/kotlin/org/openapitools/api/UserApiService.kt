@@ -1,5 +1,6 @@
 package org.openapitools.api
 
+import java.time.OffsetDateTime
 import org.openapitools.model.User
 
 interface UserApiService {
@@ -21,7 +22,7 @@ interface UserApiService {
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithArrayInput
      */
-    fun createUsersWithArrayInput(body: kotlin.collections.List<User>): Unit
+    fun createUsersWithArrayInput(body: List<User>): Unit
 
     /**
      * POST /user/createWithList : Creates list of users with given input array
@@ -30,7 +31,7 @@ interface UserApiService {
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithListInput
      */
-    fun createUsersWithListInput(body: kotlin.collections.List<User>): Unit
+    fun createUsersWithListInput(body: List<User>): Unit
 
     /**
      * DELETE /user/{username} : Delete user
@@ -41,7 +42,7 @@ interface UserApiService {
      *         or User not found (status code 404)
      * @see UserApi#deleteUser
      */
-    fun deleteUser(username: kotlin.String): Unit
+    fun deleteUser(username: String): Unit
 
     /**
      * GET /user/{username} : Get user by user name
@@ -52,7 +53,7 @@ interface UserApiService {
      *         or User not found (status code 404)
      * @see UserApi#getUserByName
      */
-    fun getUserByName(username: kotlin.String): User
+    fun getUserByName(username: String): User
 
     /**
      * GET /user/login : Logs user into the system
@@ -63,7 +64,7 @@ interface UserApiService {
      *         or Invalid username/password supplied (status code 400)
      * @see UserApi#loginUser
      */
-    fun loginUser(username: kotlin.String, password: kotlin.String): kotlin.String
+    fun loginUser(username: String, password: String): String
 
     /**
      * GET /user/logout : Logs out current logged in user session
@@ -83,5 +84,5 @@ interface UserApiService {
      *         or User not found (status code 404)
      * @see UserApi#updateUser
      */
-    fun updateUser(username: kotlin.String, body: User): Unit
+    fun updateUser(username: String, body: User): Unit
 }

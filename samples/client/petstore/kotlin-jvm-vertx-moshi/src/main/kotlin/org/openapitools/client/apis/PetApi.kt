@@ -17,6 +17,7 @@ package org.openapitools.client.apis
 
 import java.io.IOException
 
+import java.io.File
 import org.openapitools.client.models.ModelApiResponse
 import org.openapitools.client.models.Pet
 
@@ -115,7 +116,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun deletePet(petId: kotlin.Long, apiKey: kotlin.String? = null) : Future<Unit> {
+    fun deletePet(petId: Long, apiKey: String? = null) : Future<Unit> {
         return deletePetWithHttpInfo(petId = petId, apiKey = apiKey).map { localVarResponse ->
             when (localVarResponse.responseType) {
                 ResponseType.Success -> Unit
@@ -143,7 +144,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun deletePetWithHttpInfo(petId: kotlin.Long, apiKey: kotlin.String?) : Future<ApiResponse<Unit?>> {
+    fun deletePetWithHttpInfo(petId: Long, apiKey: String?) : Future<ApiResponse<Unit?>> {
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.DELETE, UriTemplate.of("$basePath/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString()))))
 
@@ -179,7 +180,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
-     * @return kotlin.collections.List<Pet>
+     * @return List<Pet>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
@@ -188,10 +189,10 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun findPetsByStatus(status: kotlin.collections.List<StatusFindPetsByStatus>) : Future<kotlin.collections.List<Pet>> {
+    fun findPetsByStatus(status: kotlin.collections.List<StatusFindPetsByStatus>) : Future<List<Pet>> {
         return findPetsByStatusWithHttpInfo(status = status).map { localVarResponse ->
             when (localVarResponse.responseType) {
-                ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<Pet>
+                ResponseType.Success -> (localVarResponse as Success<*>).data as List<Pet>
                 ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
                 ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
                 ResponseType.ClientError -> {
@@ -210,13 +211,13 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
-     * @return ApiResponse<kotlin.collections.List<Pet>?>
+     * @return ApiResponse<List<Pet>?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun findPetsByStatusWithHttpInfo(status: kotlin.collections.List<StatusFindPetsByStatus>) : Future<ApiResponse<kotlin.collections.List<Pet>?>> {
+    fun findPetsByStatusWithHttpInfo(status: kotlin.collections.List<StatusFindPetsByStatus>) : Future<ApiResponse<List<Pet>?>> {
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/pet/findByStatus"))
 
@@ -235,7 +236,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
         return request
             .send()
             .map {
-                val apiResponse: ApiResponse<kotlin.collections.List<Pet>?> = handleResponse(it)
+                val apiResponse: ApiResponse<List<Pet>?> = handleResponse(it)
                 apiResponse
             }
     }
@@ -244,7 +245,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
-     * @return kotlin.collections.List<Pet>
+     * @return List<Pet>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
@@ -254,10 +255,10 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     @Deprecated(message = "This operation is deprecated.")
-    fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>) : Future<kotlin.collections.List<Pet>> {
+    fun findPetsByTags(tags: List<String>) : Future<List<Pet>> {
         return findPetsByTagsWithHttpInfo(tags = tags).map { localVarResponse ->
             when (localVarResponse.responseType) {
-                ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<Pet>
+                ResponseType.Success -> (localVarResponse as Success<*>).data as List<Pet>
                 ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
                 ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
                 ResponseType.ClientError -> {
@@ -276,14 +277,14 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
-     * @return ApiResponse<kotlin.collections.List<Pet>?>
+     * @return ApiResponse<List<Pet>?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     @Deprecated(message = "This operation is deprecated.")
-    fun findPetsByTagsWithHttpInfo(tags: kotlin.collections.List<kotlin.String>) : Future<ApiResponse<kotlin.collections.List<Pet>?>> {
+    fun findPetsByTagsWithHttpInfo(tags: List<String>) : Future<ApiResponse<List<Pet>?>> {
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/pet/findByTags"))
 
@@ -302,7 +303,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
         return request
             .send()
             .map {
-                val apiResponse: ApiResponse<kotlin.collections.List<Pet>?> = handleResponse(it)
+                val apiResponse: ApiResponse<List<Pet>?> = handleResponse(it)
                 apiResponse
             }
     }
@@ -320,7 +321,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getPetById(petId: kotlin.Long) : Future<Pet> {
+    fun getPetById(petId: Long) : Future<Pet> {
         return getPetByIdWithHttpInfo(petId = petId).map { localVarResponse ->
             when (localVarResponse.responseType) {
                 ResponseType.Success -> (localVarResponse as Success<*>).data as Pet
@@ -348,7 +349,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getPetByIdWithHttpInfo(petId: kotlin.Long) : Future<ApiResponse<Pet?>> {
+    fun getPetByIdWithHttpInfo(petId: Long) : Future<ApiResponse<Pet?>> {
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString()))))
 
@@ -456,7 +457,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null) : Future<Unit> {
+    fun updatePetWithForm(petId: Long, name: String? = null, status: String? = null) : Future<Unit> {
         return updatePetWithFormWithHttpInfo(petId = petId, name = name, status = status).map { localVarResponse ->
             when (localVarResponse.responseType) {
                 ResponseType.Success -> Unit
@@ -485,7 +486,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun updatePetWithFormWithHttpInfo(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?) : Future<ApiResponse<Unit?>> {
+    fun updatePetWithFormWithHttpInfo(petId: Long, name: String?, status: String?) : Future<ApiResponse<Unit?>> {
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("$basePath/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString()))))
 
@@ -526,7 +527,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: java.io.File? = null) : Future<ModelApiResponse> {
+    fun uploadFile(petId: Long, additionalMetadata: String? = null, file: File? = null) : Future<ModelApiResponse> {
         return uploadFileWithHttpInfo(petId = petId, additionalMetadata = additionalMetadata, file = file).map { localVarResponse ->
             when (localVarResponse.responseType) {
                 ResponseType.Success -> (localVarResponse as Success<*>).data as ModelApiResponse
@@ -556,7 +557,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun uploadFileWithHttpInfo(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : Future<ApiResponse<ModelApiResponse?>> {
+    fun uploadFileWithHttpInfo(petId: Long, additionalMetadata: String?, file: File?) : Future<ApiResponse<ModelApiResponse?>> {
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("$basePath/pet/{petId}/uploadImage".replace("{"+"petId"+"}", encodeURIComponent(petId.toString()))))
 

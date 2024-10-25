@@ -22,10 +22,10 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class Category(
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("id") var id: kotlin.Long? = null,
+    @get:JsonProperty("id") var id: Long? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("name") var name: kotlin.String? = null
+    @get:JsonProperty("name") var name: String? = null
     ) : Serializable{
 
     companion object {

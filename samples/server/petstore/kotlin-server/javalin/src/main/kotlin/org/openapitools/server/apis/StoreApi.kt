@@ -14,7 +14,7 @@ class StoreApi(private val service: StoreApiService) {
      * @param orderId ID of the order that needs to be deleted 
      */
     fun deleteOrder(ctx: Context) {
-        ctx.status(200).json(service.deleteOrder(ctx.pathParamAsClass<kotlin.String>("orderId").get()))
+        ctx.status(200).json(service.deleteOrder(ctx.pathParamAsClass<String>("orderId").get()))
     }
 
     /**
@@ -31,7 +31,7 @@ class StoreApi(private val service: StoreApiService) {
      * @param orderId ID of pet that needs to be fetched 
      */
     fun getOrderById(ctx: Context) {
-        ctx.status(200).json(service.getOrderById(ctx.pathParamAsClass<kotlin.Long>("orderId").get()))
+        ctx.status(200).json(service.getOrderById(ctx.pathParamAsClass<Long>("orderId").get()))
     }
 
     /**

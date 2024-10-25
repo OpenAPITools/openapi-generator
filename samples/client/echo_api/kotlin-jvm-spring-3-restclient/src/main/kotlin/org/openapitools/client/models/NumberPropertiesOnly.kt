@@ -15,6 +15,7 @@
 
 package org.openapitools.client.models
 
+import java.math.BigDecimal
 
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -31,13 +32,13 @@ import com.fasterxml.jackson.annotation.JsonProperty
 data class NumberPropertiesOnly (
 
     @get:JsonProperty("number")
-    val number: java.math.BigDecimal? = null,
+    val number: BigDecimal? = null,
 
     @get:JsonProperty("float")
-    val float: kotlin.Float? = null,
+    val float: Float? = null,
 
     @get:JsonProperty("double")
-    val double: kotlin.Double? = null
+    val double: Double? = null
 
 ) {
 

@@ -39,7 +39,7 @@ class StoreApi (
      * @param orderId ID of the order that needs to be deleted
      * @return void
      */
-    suspend fun deleteOrder(orderId: kotlin.String): Unit {
+    suspend fun deleteOrder(orderId: String): Unit {
         val body: Any? = null
 
         val contentTypes : Array<String> = arrayOf()
@@ -97,9 +97,9 @@ class StoreApi (
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
-     * @return kotlin.collections.Map<kotlin.String, kotlin.Int>
+     * @return Map<String, Int>
      */
-    suspend fun getInventory(): kotlin.collections.Map<kotlin.String, kotlin.Int>? {
+    suspend fun getInventory(): Map<String, Int>? {
         val body: Any? = null
 
         val contentTypes : Array<String> = arrayOf()
@@ -125,7 +125,7 @@ class StoreApi (
         val headerParams: Map<String, String> = mapOf()
 
         return suspendCoroutine { continuation ->
-            val responseListener = Response.Listener<kotlin.collections.Map<kotlin.String, kotlin.Int>> { response ->
+            val responseListener = Response.Listener<Map<String, Int>> { response ->
                 continuation.resume(response)
             }
 
@@ -133,11 +133,11 @@ class StoreApi (
                 continuation.resumeWithException(error)
             }
 
-            val responseType = object : TypeToken<kotlin.collections.Map<kotlin.String, kotlin.Int>>() {}.type
+            val responseType = object : TypeToken<Map<String, Int>>() {}.type
 
             // Call the correct request builder based on whether we have a return type or a body.
             // All other switching on types must be done in code inside the builder
-            val request: Request<kotlin.collections.Map<kotlin.String, kotlin.Int>> = requestFactory.build(
+            val request: Request<Map<String, Int>> = requestFactory.build(
                     Request.Method.GET,
                     "$basePath$path",
                     body,
@@ -160,7 +160,7 @@ class StoreApi (
      * @param orderId ID of pet that needs to be fetched
      * @return Order
      */
-    suspend fun getOrderById(orderId: kotlin.Long): Order? {
+    suspend fun getOrderById(orderId: Long): Order? {
         val body: Any? = null
 
         val contentTypes : Array<String> = arrayOf()

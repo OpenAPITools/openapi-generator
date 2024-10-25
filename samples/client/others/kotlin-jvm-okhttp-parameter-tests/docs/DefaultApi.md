@@ -22,21 +22,21 @@ Multiple status values can be provided with comma separated strings
 //import org.openapitools.client.models.*
 
 val apiInstance = DefaultApi()
-val pathDefault : kotlin.String = pathDefault_example // kotlin.String | path default
-val pathNullable : kotlin.String = pathNullable_example // kotlin.String | path_nullable
-val queryDefault : kotlin.String = queryDefault_example // kotlin.String | query default
-val queryDefaultEnum : kotlin.String = queryDefaultEnum_example // kotlin.String | query default enum
-val queryDefaultInt : java.math.BigDecimal = 8.14 // java.math.BigDecimal | query default int
-val headerDefault : kotlin.String = headerDefault_example // kotlin.String | header default
-val headerDefaultEnum : kotlin.String = headerDefaultEnum_example // kotlin.String | header default enum
-val headerDefaultInt : java.math.BigDecimal = 8.14 // java.math.BigDecimal | header default int
-val cookieDefault : kotlin.String = cookieDefault_example // kotlin.String | cookie default
-val cookieDefaultEnum : kotlin.String = cookieDefaultEnum_example // kotlin.String | cookie default enum
-val cookieDefaultInt : java.math.BigDecimal = 8.14 // java.math.BigDecimal | cookie default int
-val queryNullable : kotlin.String = queryNullable_example // kotlin.String | query nullable
-val headerNullable : kotlin.String = headerNullable_example // kotlin.String | header nullable
-val cookieNullable : kotlin.String = cookieNullable_example // kotlin.String | cookie_nullable
-val dollarQueryDollarDollarSign : kotlin.String = dollarQueryDollarDollarSign_example // kotlin.String | query parameter with dollar sign
+val pathDefault : String = pathDefault_example // String | path default
+val pathNullable : String = pathNullable_example // String | path_nullable
+val queryDefault : String = queryDefault_example // String | query default
+val queryDefaultEnum : String = queryDefaultEnum_example // String | query default enum
+val queryDefaultInt : BigDecimal = 8.14 // BigDecimal | query default int
+val headerDefault : String = headerDefault_example // String | header default
+val headerDefaultEnum : String = headerDefaultEnum_example // String | header default enum
+val headerDefaultInt : BigDecimal = 8.14 // BigDecimal | header default int
+val cookieDefault : String = cookieDefault_example // String | cookie default
+val cookieDefaultEnum : String = cookieDefaultEnum_example // String | cookie default enum
+val cookieDefaultInt : BigDecimal = 8.14 // BigDecimal | cookie default int
+val queryNullable : String = queryNullable_example // String | query nullable
+val headerNullable : String = headerNullable_example // String | header nullable
+val cookieNullable : String = cookieNullable_example // String | cookie_nullable
+val dollarQueryDollarDollarSign : String = dollarQueryDollarDollarSign_example // String | query parameter with dollar sign
 try {
     apiInstance.findPetsByStatus(pathDefault, pathNullable, queryDefault, queryDefaultEnum, queryDefaultInt, headerDefault, headerDefaultEnum, headerDefaultInt, cookieDefault, cookieDefaultEnum, cookieDefaultInt, queryNullable, headerNullable, cookieNullable, dollarQueryDollarDollarSign)
 } catch (e: ClientException) {
@@ -49,23 +49,23 @@ try {
 ```
 
 ### Parameters
-| **pathDefault** | **kotlin.String**| path default | |
-| **pathNullable** | **kotlin.String**| path_nullable | |
-| **queryDefault** | **kotlin.String**| query default | [optional] [default to &quot;available&quot;] |
-| **queryDefaultEnum** | **kotlin.String**| query default enum | [optional] [default to B] [enum: A, B, C] |
-| **queryDefaultInt** | **java.math.BigDecimal**| query default int | [optional] [default to 3] |
-| **headerDefault** | **kotlin.String**| header default | [optional] [default to &quot;available&quot;] |
-| **headerDefaultEnum** | **kotlin.String**| header default enum | [optional] [default to B] [enum: A, B, C] |
-| **headerDefaultInt** | **java.math.BigDecimal**| header default int | [optional] [default to 3] |
-| **cookieDefault** | **kotlin.String**| cookie default | [optional] [default to &quot;available&quot;] |
-| **cookieDefaultEnum** | **kotlin.String**| cookie default enum | [optional] [default to B] [enum: A, B, C] |
-| **cookieDefaultInt** | **java.math.BigDecimal**| cookie default int | [optional] [default to 3] |
-| **queryNullable** | **kotlin.String**| query nullable | [optional] |
-| **headerNullable** | **kotlin.String**| header nullable | [optional] |
-| **cookieNullable** | **kotlin.String**| cookie_nullable | [optional] |
+| **pathDefault** | **String**| path default | |
+| **pathNullable** | **String**| path_nullable | |
+| **queryDefault** | **String**| query default | [optional] [default to &quot;available&quot;] |
+| **queryDefaultEnum** | **String**| query default enum | [optional] [default to B] [enum: A, B, C] |
+| **queryDefaultInt** | **BigDecimal**| query default int | [optional] [default to 3] |
+| **headerDefault** | **String**| header default | [optional] [default to &quot;available&quot;] |
+| **headerDefaultEnum** | **String**| header default enum | [optional] [default to B] [enum: A, B, C] |
+| **headerDefaultInt** | **BigDecimal**| header default int | [optional] [default to 3] |
+| **cookieDefault** | **String**| cookie default | [optional] [default to &quot;available&quot;] |
+| **cookieDefaultEnum** | **String**| cookie default enum | [optional] [default to B] [enum: A, B, C] |
+| **cookieDefaultInt** | **BigDecimal**| cookie default int | [optional] [default to 3] |
+| **queryNullable** | **String**| query nullable | [optional] |
+| **headerNullable** | **String**| header nullable | [optional] |
+| **cookieNullable** | **String**| cookie_nullable | [optional] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **dollarQueryDollarDollarSign** | **kotlin.String**| query parameter with dollar sign | [optional] |
+| **dollarQueryDollarDollarSign** | **String**| query parameter with dollar sign | [optional] |
 
 ### Return type
 

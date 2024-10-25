@@ -38,10 +38,10 @@ import com.google.gson.annotations.SerializedName
 data class ApiTag (
 
     @SerializedName("id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
 
     @SerializedName("name")
-    val name: kotlin.String? = null
+    val name: String? = null
 
 ) {
 

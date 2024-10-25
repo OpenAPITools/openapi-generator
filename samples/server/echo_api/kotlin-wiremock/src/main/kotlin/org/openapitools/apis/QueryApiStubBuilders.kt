@@ -26,7 +26,7 @@ class TestEnumRefStringStubBuilder internal constructor(private val objectMapper
      * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
-        body: kotlin.String,
+        body: String,
         configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
     ): MappingBuilder =
         stub.willReturn(aResponse()
@@ -74,7 +74,7 @@ class TestQueryDatetimeDateStringStubBuilder internal constructor(private val ob
      * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
-        body: kotlin.String,
+        body: String,
         configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
     ): MappingBuilder =
         stub.willReturn(aResponse()
@@ -122,7 +122,7 @@ class TestQueryIntegerBooleanStringStubBuilder internal constructor(private val 
      * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
-        body: kotlin.String,
+        body: String,
         configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
     ): MappingBuilder =
         stub.willReturn(aResponse()
@@ -170,7 +170,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectStubBuilder internal constructor(
      * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
-        body: kotlin.String,
+        body: String,
         configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
     ): MappingBuilder =
         stub.willReturn(aResponse()
@@ -218,7 +218,7 @@ class TestQueryStyleFormExplodeTrueArrayStringStubBuilder internal constructor(p
      * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
-        body: kotlin.String,
+        body: String,
         configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
     ): MappingBuilder =
         stub.willReturn(aResponse()
@@ -266,7 +266,7 @@ class TestQueryStyleFormExplodeTrueObjectStubBuilder internal constructor(privat
      * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
-        body: kotlin.String,
+        body: String,
         configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
     ): MappingBuilder =
         stub.willReturn(aResponse()

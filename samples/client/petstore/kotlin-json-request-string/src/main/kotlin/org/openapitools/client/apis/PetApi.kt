@@ -19,7 +19,9 @@ import java.io.IOException
 import okhttp3.Call
 import okhttp3.HttpUrl
 
+import java.io.File
 import org.openapitools.client.models.ModelApiResponse
+import java.time.OffsetDateTime
 import org.openapitools.client.models.Pet
 
 import kotlinx.serialization.SerialName
@@ -129,7 +131,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = A
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun deletePet(petId: kotlin.Long, apiKey: kotlin.String? = null) : Unit {
+    fun deletePet(petId: Long, apiKey: String? = null) : Unit {
         val localVarResponse = deletePetWithHttpInfo(petId = petId, apiKey = apiKey)
 
         return when (localVarResponse.responseType) {
@@ -157,7 +159,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = A
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun deletePetWithHttpInfo(petId: kotlin.Long, apiKey: kotlin.String?) : ApiResponse<Unit?> {
+    fun deletePetWithHttpInfo(petId: Long, apiKey: String?) : ApiResponse<Unit?> {
         val localVariableConfig = deletePetRequestConfig(petId = petId, apiKey = apiKey)
 
         return request<Unit, Unit>(
@@ -172,7 +174,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = A
      * @param apiKey  (optional)
      * @return RequestConfig
      */
-    fun deletePetRequestConfig(petId: kotlin.Long, apiKey: kotlin.String?) : RequestConfig<Unit> {
+    fun deletePetRequestConfig(petId: Long, apiKey: String?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -192,7 +194,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = A
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
-     * @return kotlin.collections.List<Pet>
+     * @return List<Pet>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
@@ -202,12 +204,12 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = A
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     @Deprecated(message = "This operation is deprecated.")
-    fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>) : kotlin.collections.List<Pet> {
+    fun findPetsByTags(tags: List<String>) : List<Pet> {
         @Suppress("DEPRECATION")
         val localVarResponse = findPetsByTagsWithHttpInfo(tags = tags)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<Pet>
+            ResponseType.Success -> (localVarResponse as Success<*>).data as List<Pet>
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -225,18 +227,18 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = A
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
-     * @return ApiResponse<kotlin.collections.List<Pet>?>
+     * @return ApiResponse<List<Pet>?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     @Deprecated(message = "This operation is deprecated.")
-    fun findPetsByTagsWithHttpInfo(tags: kotlin.collections.List<kotlin.String>) : ApiResponse<kotlin.collections.List<Pet>?> {
+    fun findPetsByTagsWithHttpInfo(tags: List<String>) : ApiResponse<List<Pet>?> {
         @Suppress("DEPRECATION")
         val localVariableConfig = findPetsByTagsRequestConfig(tags = tags)
 
-        return request<Unit, kotlin.collections.List<Pet>>(
+        return request<Unit, List<Pet>>(
             localVariableConfig
         )
     }
@@ -248,7 +250,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = A
      * @return RequestConfig
      */
     @Deprecated(message = "This operation is deprecated.")
-    fun findPetsByTagsRequestConfig(tags: kotlin.collections.List<kotlin.String>) : RequestConfig<Unit> {
+    fun findPetsByTagsRequestConfig(tags: List<String>) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -271,7 +273,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = A
      * Get all pets
      * 
      * @param lastUpdated When this endpoint was hit last to help identify if the client already has the latest copy. (optional)
-     * @return kotlin.collections.List<Pet>
+     * @return List<Pet>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
@@ -280,11 +282,11 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = A
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getAllPets(lastUpdated: java.time.OffsetDateTime? = null) : kotlin.collections.List<Pet> {
+    fun getAllPets(lastUpdated: OffsetDateTime? = null) : List<Pet> {
         val localVarResponse = getAllPetsWithHttpInfo(lastUpdated = lastUpdated)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<Pet>
+            ResponseType.Success -> (localVarResponse as Success<*>).data as List<Pet>
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -302,16 +304,16 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = A
      * Get all pets
      * 
      * @param lastUpdated When this endpoint was hit last to help identify if the client already has the latest copy. (optional)
-     * @return ApiResponse<kotlin.collections.List<Pet>?>
+     * @return ApiResponse<List<Pet>?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getAllPetsWithHttpInfo(lastUpdated: java.time.OffsetDateTime?) : ApiResponse<kotlin.collections.List<Pet>?> {
+    fun getAllPetsWithHttpInfo(lastUpdated: OffsetDateTime?) : ApiResponse<List<Pet>?> {
         val localVariableConfig = getAllPetsRequestConfig(lastUpdated = lastUpdated)
 
-        return request<Unit, kotlin.collections.List<Pet>>(
+        return request<Unit, List<Pet>>(
             localVariableConfig
         )
     }
@@ -322,7 +324,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = A
      * @param lastUpdated When this endpoint was hit last to help identify if the client already has the latest copy. (optional)
      * @return RequestConfig
      */
-    fun getAllPetsRequestConfig(lastUpdated: java.time.OffsetDateTime?) : RequestConfig<Unit> {
+    fun getAllPetsRequestConfig(lastUpdated: OffsetDateTime?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -356,7 +358,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = A
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getPetById(petId: kotlin.Long) : Pet {
+    fun getPetById(petId: Long) : Pet {
         val localVarResponse = getPetByIdWithHttpInfo(petId = petId)
 
         return when (localVarResponse.responseType) {
@@ -384,7 +386,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = A
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getPetByIdWithHttpInfo(petId: kotlin.Long) : ApiResponse<Pet?> {
+    fun getPetByIdWithHttpInfo(petId: Long) : ApiResponse<Pet?> {
         val localVariableConfig = getPetByIdRequestConfig(petId = petId)
 
         return request<Unit, Pet>(
@@ -398,7 +400,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = A
      * @param petId ID of pet to return
      * @return RequestConfig
      */
-    fun getPetByIdRequestConfig(petId: kotlin.Long) : RequestConfig<Unit> {
+    fun getPetByIdRequestConfig(petId: Long) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -497,7 +499,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = A
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null) : Unit {
+    fun updatePetWithForm(petId: Long, name: String? = null, status: String? = null) : Unit {
         val localVarResponse = updatePetWithFormWithHttpInfo(petId = petId, name = name, status = status)
 
         return when (localVarResponse.responseType) {
@@ -526,7 +528,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = A
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun updatePetWithFormWithHttpInfo(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?) : ApiResponse<Unit?> {
+    fun updatePetWithFormWithHttpInfo(petId: Long, name: String?, status: String?) : ApiResponse<Unit?> {
         val localVariableConfig = updatePetWithFormRequestConfig(petId = petId, name = name, status = status)
 
         return request<Map<String, PartConfig<*>>, Unit>(
@@ -542,7 +544,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = A
      * @param status Updated status of the pet (optional)
      * @return RequestConfig
      */
-    fun updatePetWithFormRequestConfig(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?) : RequestConfig<Map<String, PartConfig<*>>> {
+    fun updatePetWithFormRequestConfig(petId: Long, name: String?, status: String?) : RequestConfig<Map<String, PartConfig<*>>> {
         val localVariableBody = mapOf(
             "name" to PartConfig(body = name, headers = mutableMapOf()),
             "status" to PartConfig(body = status, headers = mutableMapOf()),)
@@ -574,7 +576,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = A
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: java.io.File? = null) : ModelApiResponse {
+    fun uploadFile(petId: Long, additionalMetadata: String? = null, file: File? = null) : ModelApiResponse {
         val localVarResponse = uploadFileWithHttpInfo(petId = petId, additionalMetadata = additionalMetadata, file = file)
 
         return when (localVarResponse.responseType) {
@@ -604,7 +606,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = A
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun uploadFileWithHttpInfo(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : ApiResponse<ModelApiResponse?> {
+    fun uploadFileWithHttpInfo(petId: Long, additionalMetadata: String?, file: File?) : ApiResponse<ModelApiResponse?> {
         val localVariableConfig = uploadFileRequestConfig(petId = petId, additionalMetadata = additionalMetadata, file = file)
 
         return request<Map<String, PartConfig<*>>, ModelApiResponse>(
@@ -620,7 +622,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = A
      * @param file file to upload (optional)
      * @return RequestConfig
      */
-    fun uploadFileRequestConfig(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : RequestConfig<Map<String, PartConfig<*>>> {
+    fun uploadFileRequestConfig(petId: Long, additionalMetadata: String?, file: File?) : RequestConfig<Map<String, PartConfig<*>>> {
         val localVariableBody = mapOf(
             "additionalMetadata" to PartConfig(body = additionalMetadata, headers = mutableMapOf()),
             "file" to PartConfig(body = file, headers = mutableMapOf()),)

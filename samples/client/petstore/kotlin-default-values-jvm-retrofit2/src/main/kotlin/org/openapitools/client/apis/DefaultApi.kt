@@ -6,6 +6,7 @@ import retrofit2.Call
 import okhttp3.RequestBody
 import com.squareup.moshi.Json
 
+import java.math.BigDecimal
 
 interface DefaultApi {
     /**
@@ -47,6 +48,6 @@ interface DefaultApi {
      */
     @Multipart
     @POST("test")
-    fun test(@Path("pi0") pi0: kotlin.Int = 10, @Path("pi1") pi1: kotlin.Int, @Path("pn0") pn0: java.math.BigDecimal = java.math.BigDecimal("10.0"), @Path("pn1") pn1: java.math.BigDecimal, @Query("qi0") qi0: kotlin.Int? = 10, @Query("qi1") qi1: kotlin.Int = 71, @Query("qi2") qi2: kotlin.Int? = null, @Query("qi3") qi3: kotlin.Int, @Query("qn0") qn0: java.math.BigDecimal? = java.math.BigDecimal("10.0"), @Query("qn1") qn1: java.math.BigDecimal = java.math.BigDecimal("71.0"), @Query("qn2") qn2: java.math.BigDecimal? = null, @Query("qn3") qn3: java.math.BigDecimal, @Header("hi0") hi0: kotlin.Int? = 10, @Header("hi1") hi1: kotlin.Int = 71, @Header("hi2") hi2: kotlin.Int? = null, @Header("hi3") hi3: kotlin.Int, @Header("hn0") hn0: java.math.BigDecimal? = java.math.BigDecimal("10.0"), @Header("hn1") hn1: java.math.BigDecimal = java.math.BigDecimal("71.0"), @Header("hn2") hn2: java.math.BigDecimal? = null, @Header("hn3") hn3: java.math.BigDecimal, @Part("fi0") fi0: kotlin.Int? = 10, @Part("fi1") fi1: kotlin.Int = 71, @Part("fi2") fi2: kotlin.Int? = null, @Part("fi3") fi3: kotlin.Int, @Part("fn0") fn0: java.math.BigDecimal? = java.math.BigDecimal("10.0"), @Part("fn1") fn1: java.math.BigDecimal = java.math.BigDecimal("71.0"), @Part("fn2") fn2: java.math.BigDecimal? = null, @Part("fn3") fn3: java.math.BigDecimal, @Part("fn4") fn4: kotlin.collections.List<kotlin.String>): Call<Unit>
+    fun test(@Path("pi0") pi0: Int = 10, @Path("pi1") pi1: Int, @Path("pn0") pn0: BigDecimal = BigDecimal("10.0"), @Path("pn1") pn1: BigDecimal, @Query("qi0") qi0: Int? = 10, @Query("qi1") qi1: Int = 71, @Query("qi2") qi2: Int? = null, @Query("qi3") qi3: Int, @Query("qn0") qn0: BigDecimal? = BigDecimal("10.0"), @Query("qn1") qn1: BigDecimal = BigDecimal("71.0"), @Query("qn2") qn2: BigDecimal? = null, @Query("qn3") qn3: BigDecimal, @Header("hi0") hi0: Int? = 10, @Header("hi1") hi1: Int = 71, @Header("hi2") hi2: Int? = null, @Header("hi3") hi3: Int, @Header("hn0") hn0: BigDecimal? = BigDecimal("10.0"), @Header("hn1") hn1: BigDecimal = BigDecimal("71.0"), @Header("hn2") hn2: BigDecimal? = null, @Header("hn3") hn3: BigDecimal, @Part("fi0") fi0: Int? = 10, @Part("fi1") fi1: Int = 71, @Part("fi2") fi2: Int? = null, @Part("fi3") fi3: Int, @Part("fn0") fn0: BigDecimal? = BigDecimal("10.0"), @Part("fn1") fn1: BigDecimal = BigDecimal("71.0"), @Part("fn2") fn2: BigDecimal? = null, @Part("fn3") fn3: BigDecimal, @Part("fn4") fn4: List<String>): Call<Unit>
 
 }

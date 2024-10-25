@@ -9,27 +9,27 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class DefaultValue(
     @field:JsonProperty("array_string_enum_ref_default")
-    val arrayStringEnumRefDefault: kotlin.collections.List<StringEnumRef>? = null,
+    val arrayStringEnumRefDefault: List<StringEnumRef>? = null,
 
     @field:JsonProperty("array_string_enum_default")
-    val arrayStringEnumDefault: kotlin.collections.List<kotlin.String>? = null,
+    val arrayStringEnumDefault: List<String>? = null,
 
     @field:JsonProperty("array_string_default")
-    val arrayStringDefault: kotlin.collections.List<kotlin.String>? = arrayListOf("failure","skipped"),
+    val arrayStringDefault: List<String>? = arrayListOf("failure","skipped"),
 
     @field:JsonProperty("array_integer_default")
-    val arrayIntegerDefault: kotlin.collections.List<kotlin.Int>? = arrayListOf(1,3),
+    val arrayIntegerDefault: List<Int>? = arrayListOf(1,3),
 
     @field:JsonProperty("array_string")
-    val arrayString: kotlin.collections.List<kotlin.String>? = null,
+    val arrayString: List<String>? = null,
 
     @field:JsonProperty("array_string_nullable")
-    val arrayStringNullable: kotlin.collections.List<kotlin.String>? = null,
+    val arrayStringNullable: List<String>? = null,
 
     @field:JsonProperty("array_string_extension_nullable")
-    val arrayStringExtensionNullable: kotlin.collections.List<kotlin.String>? = null,
+    val arrayStringExtensionNullable: List<String>? = null,
 
     @field:JsonProperty("string_nullable")
-    val stringNullable: kotlin.String? = null,
+    val stringNullable: String? = null,
 
 )

@@ -32,10 +32,10 @@ import java.io.Serializable
 data class Tag (
 
     @SerialName(value = "id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
 
     @SerialName(value = "name")
-    val name: kotlin.String? = null
+    val name: String? = null
 
 ) : Serializable {
     companion object {

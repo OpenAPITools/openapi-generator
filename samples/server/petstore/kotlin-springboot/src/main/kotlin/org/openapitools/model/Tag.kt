@@ -20,9 +20,9 @@ import javax.validation.Valid
  */
 data class Tag(
 
-    @get:JsonProperty("id") val id: kotlin.Long? = null,
+    @get:JsonProperty("id") val id: Long? = null,
 
-    @get:JsonProperty("name") val name: kotlin.String? = null
+    @get:JsonProperty("name") val name: String? = null
     ) : Serializable{
 
     companion object {

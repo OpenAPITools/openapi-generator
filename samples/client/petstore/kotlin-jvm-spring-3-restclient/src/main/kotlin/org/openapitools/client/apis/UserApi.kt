@@ -25,6 +25,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.http.MediaType
 
 
+import java.time.OffsetDateTime
 import org.openapitools.client.models.User
 import org.openapitools.client.infrastructure.*
 
@@ -72,19 +73,19 @@ class UserApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun createUsersWithArrayInput(user: kotlin.collections.List<User>): Unit {
+    fun createUsersWithArrayInput(user: List<User>): Unit {
         createUsersWithArrayInputWithHttpInfo(user = user)
     }
 
     @Throws(RestClientResponseException::class)
-    fun createUsersWithArrayInputWithHttpInfo(user: kotlin.collections.List<User>): ResponseEntity<Unit> {
+    fun createUsersWithArrayInputWithHttpInfo(user: List<User>): ResponseEntity<Unit> {
         val localVariableConfig = createUsersWithArrayInputRequestConfig(user = user)
-        return request<kotlin.collections.List<User>, Unit>(
+        return request<List<User>, Unit>(
             localVariableConfig
         )
     }
 
-    fun createUsersWithArrayInputRequestConfig(user: kotlin.collections.List<User>) : RequestConfig<kotlin.collections.List<User>> {
+    fun createUsersWithArrayInputRequestConfig(user: List<User>) : RequestConfig<List<User>> {
         val localVariableBody = user
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -106,19 +107,19 @@ class UserApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun createUsersWithListInput(user: kotlin.collections.List<User>): Unit {
+    fun createUsersWithListInput(user: List<User>): Unit {
         createUsersWithListInputWithHttpInfo(user = user)
     }
 
     @Throws(RestClientResponseException::class)
-    fun createUsersWithListInputWithHttpInfo(user: kotlin.collections.List<User>): ResponseEntity<Unit> {
+    fun createUsersWithListInputWithHttpInfo(user: List<User>): ResponseEntity<Unit> {
         val localVariableConfig = createUsersWithListInputRequestConfig(user = user)
-        return request<kotlin.collections.List<User>, Unit>(
+        return request<List<User>, Unit>(
             localVariableConfig
         )
     }
 
-    fun createUsersWithListInputRequestConfig(user: kotlin.collections.List<User>) : RequestConfig<kotlin.collections.List<User>> {
+    fun createUsersWithListInputRequestConfig(user: List<User>) : RequestConfig<List<User>> {
         val localVariableBody = user
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -140,19 +141,19 @@ class UserApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun deleteUser(username: kotlin.String): Unit {
+    fun deleteUser(username: String): Unit {
         deleteUserWithHttpInfo(username = username)
     }
 
     @Throws(RestClientResponseException::class)
-    fun deleteUserWithHttpInfo(username: kotlin.String): ResponseEntity<Unit> {
+    fun deleteUserWithHttpInfo(username: String): ResponseEntity<Unit> {
         val localVariableConfig = deleteUserRequestConfig(username = username)
         return request<Unit, Unit>(
             localVariableConfig
         )
     }
 
-    fun deleteUserRequestConfig(username: kotlin.String) : RequestConfig<Unit> {
+    fun deleteUserRequestConfig(username: String) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -174,20 +175,20 @@ class UserApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun getUserByName(username: kotlin.String): User {
+    fun getUserByName(username: String): User {
         val result = getUserByNameWithHttpInfo(username = username)
         return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun getUserByNameWithHttpInfo(username: kotlin.String): ResponseEntity<User> {
+    fun getUserByNameWithHttpInfo(username: String): ResponseEntity<User> {
         val localVariableConfig = getUserByNameRequestConfig(username = username)
         return request<Unit, User>(
             localVariableConfig
         )
     }
 
-    fun getUserByNameRequestConfig(username: kotlin.String) : RequestConfig<Unit> {
+    fun getUserByNameRequestConfig(username: String) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -210,20 +211,20 @@ class UserApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun loginUser(username: kotlin.String, password: kotlin.String): kotlin.String {
+    fun loginUser(username: String, password: String): String {
         val result = loginUserWithHttpInfo(username = username, password = password)
         return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun loginUserWithHttpInfo(username: kotlin.String, password: kotlin.String): ResponseEntity<kotlin.String> {
+    fun loginUserWithHttpInfo(username: String, password: String): ResponseEntity<String> {
         val localVariableConfig = loginUserRequestConfig(username = username, password = password)
-        return request<Unit, kotlin.String>(
+        return request<Unit, String>(
             localVariableConfig
         )
     }
 
-    fun loginUserRequestConfig(username: kotlin.String, password: kotlin.String) : RequestConfig<Unit> {
+    fun loginUserRequestConfig(username: String, password: String) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -282,19 +283,19 @@ class UserApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun updateUser(username: kotlin.String, user: User): Unit {
+    fun updateUser(username: String, user: User): Unit {
         updateUserWithHttpInfo(username = username, user = user)
     }
 
     @Throws(RestClientResponseException::class)
-    fun updateUserWithHttpInfo(username: kotlin.String, user: User): ResponseEntity<Unit> {
+    fun updateUserWithHttpInfo(username: String, user: User): ResponseEntity<Unit> {
         val localVariableConfig = updateUserRequestConfig(username = username, user = user)
         return request<User, Unit>(
             localVariableConfig
         )
     }
 
-    fun updateUserRequestConfig(username: kotlin.String, user: User) : RequestConfig<User> {
+    fun updateUserRequestConfig(username: String, user: User) : RequestConfig<User> {
         val localVariableBody = user
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()

@@ -36,28 +36,28 @@ import com.google.gson.annotations.SerializedName
 data class ApiDefaultValue (
 
     @SerializedName("array_string_enum_ref_default")
-    val arrayStringEnumRefDefault: kotlin.collections.List<ApiStringEnumRef>? = null,
+    val arrayStringEnumRefDefault: List<ApiStringEnumRef>? = null,
 
     @SerializedName("array_string_enum_default")
-    val arrayStringEnumDefault: kotlin.collections.List<ApiDefaultValue.ArrayStringEnumDefault>? = null,
+    val arrayStringEnumDefault: List<ApiDefaultValue.ArrayStringEnumDefault>? = null,
 
     @SerializedName("array_string_default")
-    val arrayStringDefault: kotlin.collections.List<kotlin.String>? = arrayListOf("failure","skipped"),
+    val arrayStringDefault: List<String>? = arrayListOf("failure","skipped"),
 
     @SerializedName("array_integer_default")
-    val arrayIntegerDefault: kotlin.collections.List<kotlin.Int>? = arrayListOf(1,3),
+    val arrayIntegerDefault: List<Int>? = arrayListOf(1,3),
 
     @SerializedName("array_string")
-    val arrayString: kotlin.collections.List<kotlin.String>? = null,
+    val arrayString: List<String>? = null,
 
     @SerializedName("array_string_nullable")
-    val arrayStringNullable: kotlin.collections.List<kotlin.String>? = null,
+    val arrayStringNullable: List<String>? = null,
 
     @SerializedName("array_string_extension_nullable")
-    val arrayStringExtensionNullable: kotlin.collections.List<kotlin.String>? = null,
+    val arrayStringExtensionNullable: List<String>? = null,
 
     @SerializedName("string_nullable")
-    val stringNullable: kotlin.String? = null
+    val stringNullable: String? = null
 
 ) {
 

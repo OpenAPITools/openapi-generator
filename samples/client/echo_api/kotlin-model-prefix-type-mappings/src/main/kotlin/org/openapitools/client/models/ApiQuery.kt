@@ -30,10 +30,10 @@ data class ApiQuery (
 
     /* Query */
     @SerializedName("id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
 
     @SerializedName("outcomes")
-    val outcomes: kotlin.collections.List<ApiQuery.Outcomes>? = null
+    val outcomes: List<ApiQuery.Outcomes>? = null
 
 ) {
 

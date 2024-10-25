@@ -1,5 +1,6 @@
 package org.openapitools.api
 
+import java.time.OffsetDateTime
 import org.openapitools.model.User
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -31,7 +32,7 @@ interface UserApiDelegate {
     /**
      * @see UserApi#createUsersWithArrayInput
      */
-    fun createUsersWithArrayInput(user: kotlin.collections.List<User>): ResponseEntity<Unit> {
+    fun createUsersWithArrayInput(user: List<User>): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
@@ -40,7 +41,7 @@ interface UserApiDelegate {
     /**
      * @see UserApi#createUsersWithListInput
      */
-    fun createUsersWithListInput(user: kotlin.collections.List<User>): ResponseEntity<Unit> {
+    fun createUsersWithListInput(user: List<User>): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
@@ -49,7 +50,7 @@ interface UserApiDelegate {
     /**
      * @see UserApi#deleteUser
      */
-    fun deleteUser(username: kotlin.String): ResponseEntity<Unit> {
+    fun deleteUser(username: String): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
@@ -58,7 +59,7 @@ interface UserApiDelegate {
     /**
      * @see UserApi#getUserByName
      */
-    fun getUserByName(username: kotlin.String): ResponseEntity<User> {
+    fun getUserByName(username: String): ResponseEntity<User> {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -79,8 +80,8 @@ interface UserApiDelegate {
     /**
      * @see UserApi#loginUser
      */
-    fun loginUser(username: kotlin.String,
-        password: kotlin.String): ResponseEntity<kotlin.String> {
+    fun loginUser(username: String,
+        password: String): ResponseEntity<String> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
@@ -98,7 +99,7 @@ interface UserApiDelegate {
     /**
      * @see UserApi#updateUser
      */
-    fun updateUser(username: kotlin.String,
+    fun updateUser(username: String,
         user: User): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 

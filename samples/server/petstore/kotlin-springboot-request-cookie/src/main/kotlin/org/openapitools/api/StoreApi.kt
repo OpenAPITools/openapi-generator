@@ -51,7 +51,7 @@ interface StoreApi {
             method = [RequestMethod.DELETE],
             value = ["/store/order/{order_id}"]
     )
-    fun deleteOrder(@Parameter(description = "ID of the order that needs to be deleted", required = true) @PathVariable("order_id") orderId: kotlin.String): ResponseEntity<Unit> {
+    fun deleteOrder(@Parameter(description = "ID of the order that needs to be deleted", required = true) @PathVariable("order_id") orderId: String): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -61,7 +61,7 @@ interface StoreApi {
         operationId = "getInventory",
         description = """Returns a map of status codes to quantities""",
         responses = [
-            ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = kotlin.collections.Map::class))])
+            ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = Map::class))])
         ],
         security = [ SecurityRequirement(name = "api_key") ]
     )
@@ -70,7 +70,7 @@ interface StoreApi {
             value = ["/store/inventory"],
             produces = ["application/json"]
     )
-    fun getInventory(): ResponseEntity<Map<String, kotlin.Int>> {
+    fun getInventory(): ResponseEntity<Map<String, Int>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -90,7 +90,7 @@ interface StoreApi {
             value = ["/store/order/{order_id}"],
             produces = ["application/xml", "application/json"]
     )
-    fun getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched", required = true) @PathVariable("order_id") orderId: kotlin.Long): ResponseEntity<Order> {
+    fun getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched", required = true) @PathVariable("order_id") orderId: Long): ResponseEntity<Order> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 

@@ -9,12 +9,12 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class ApiResponse(
     @field:JsonProperty("code")
-    val code: kotlin.Int? = null,
+    val code: Int? = null,
 
     @field:JsonProperty("type")
-    val type: kotlin.String? = null,
+    val type: String? = null,
 
     @field:JsonProperty("message")
-    val message: kotlin.String? = null,
+    val message: String? = null,
 
 )

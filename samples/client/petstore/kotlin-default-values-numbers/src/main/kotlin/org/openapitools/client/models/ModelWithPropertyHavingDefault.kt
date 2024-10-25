@@ -35,28 +35,28 @@ import com.google.gson.annotations.SerializedName
 data class ModelWithPropertyHavingDefault (
 
     @SerializedName("propertyInt")
-    val propertyInt: kotlin.Int? = 0,
+    val propertyInt: Int? = 0,
 
     @SerializedName("propertyLong")
-    val propertyLong: kotlin.Long? = 0L,
+    val propertyLong: Long? = 0L,
 
     @SerializedName("propertyFloat1")
-    val propertyFloat1: kotlin.Float? = 0f,
+    val propertyFloat1: Float? = 0f,
 
     @SerializedName("propertyFloat2")
-    val propertyFloat2: kotlin.Float? = 0.0f,
+    val propertyFloat2: Float? = 0.0f,
 
     @SerializedName("propertyFloat3")
-    val propertyFloat3: kotlin.Float? = 0.01f,
+    val propertyFloat3: Float? = 0.01f,
 
     @SerializedName("propertyDouble1")
-    val propertyDouble1: kotlin.Double? = 0.0,
+    val propertyDouble1: Double? = 0.0,
 
     @SerializedName("propertyDouble2")
-    val propertyDouble2: kotlin.Double? = 0.0,
+    val propertyDouble2: Double? = 0.0,
 
     @SerializedName("propertyDouble3")
-    val propertyDouble3: kotlin.Double? = 0.01
+    val propertyDouble3: Double? = 0.01
 
 ) {
 

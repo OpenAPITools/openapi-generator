@@ -21,7 +21,7 @@ interface StoreApi {
      * @return [Call]<[Unit]>
      */
     @DELETE("store/order/{orderId}")
-    fun deleteOrder(@Path("orderId") orderId: kotlin.String): Call<Unit>
+    fun deleteOrder(@Path("orderId") orderId: String): Call<Unit>
 
     /**
      * Returns pet inventories by status
@@ -29,10 +29,10 @@ interface StoreApi {
      * Responses:
      *  - 200: successful operation
      *
-     * @return [Call]<[kotlin.collections.Map<kotlin.String, kotlin.Int>]>
+     * @return [Call]<[Map<String, Int>]>
      */
     @GET("store/inventory")
-    fun getInventory(): Call<kotlin.collections.Map<kotlin.String, kotlin.Int>>
+    fun getInventory(): Call<Map<String, Int>>
 
     /**
      * Find purchase order by ID
@@ -46,7 +46,7 @@ interface StoreApi {
      * @return [Call]<[Order]>
      */
     @GET("store/order/{orderId}")
-    fun getOrderById(@Path("orderId") orderId: kotlin.Long): Call<Order>
+    fun getOrderById(@Path("orderId") orderId: Long): Call<Order>
 
     /**
      * Place an order for a pet

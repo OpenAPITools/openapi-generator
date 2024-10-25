@@ -30,10 +30,10 @@ import com.squareup.moshi.JsonClass
 data class Tag (
 
     @Json(name = "id")
-    var id: kotlin.Long? = null,
+    var id: Long? = null,
 
     @Json(name = "name")
-    var name: kotlin.String? = null
+    var name: String? = null
 
 ) {
 

@@ -23,13 +23,13 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class ModelApiResponse(
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("code") val code: kotlin.Int? = null,
+    @get:JsonProperty("code") val code: Int? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("type") val type: kotlin.String? = null,
+    @get:JsonProperty("type") val type: String? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("message") val message: kotlin.String? = null
+    @get:JsonProperty("message") val message: String? = null
     ) : Serializable{
 
     companion object {

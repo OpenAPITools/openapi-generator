@@ -45,7 +45,7 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
         method = [RequestMethod.DELETE],
         value = ["/store/order/{orderId}"]
     )
-    fun deleteOrder(@Parameter(description = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") orderId: kotlin.String): ResponseEntity<Unit> {
+    fun deleteOrder(@Parameter(description = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") orderId: String): ResponseEntity<Unit> {
         return ResponseEntity(service.deleteOrder(orderId), HttpStatus.valueOf(400))
     }
 
@@ -54,7 +54,7 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
         operationId = "getInventory",
         description = """Returns a map of status codes to quantities""",
         responses = [
-            ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = kotlin.collections.Map::class))]) ],
+            ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = Map::class))]) ],
         security = [ SecurityRequirement(name = "api_key") ]
     )
     @RequestMapping(
@@ -62,7 +62,7 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
         value = ["/store/inventory"],
         produces = ["application/json"]
     )
-    fun getInventory(): ResponseEntity<Map<String, kotlin.Int>> {
+    fun getInventory(): ResponseEntity<Map<String, Int>> {
         return ResponseEntity(service.getInventory(), HttpStatus.valueOf(200))
     }
 
@@ -80,7 +80,7 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
         value = ["/store/order/{orderId}"],
         produces = ["application/xml", "application/json"]
     )
-    fun getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") orderId: kotlin.Long): ResponseEntity<Order> {
+    fun getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") orderId: Long): ResponseEntity<Order> {
         return ResponseEntity(service.getOrderById(orderId), HttpStatus.valueOf(200))
     }
 

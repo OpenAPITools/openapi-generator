@@ -26,6 +26,7 @@ import io.ktor.server.resources.head
 import io.ktor.server.resources.patch
 import io.ktor.server.routing.*
 import org.openapitools.server.infrastructure.ApiPrincipal
+import java.time.OffsetDateTime
 import org.openapitools.server.models.User
 
 fun Route.UserApi() {

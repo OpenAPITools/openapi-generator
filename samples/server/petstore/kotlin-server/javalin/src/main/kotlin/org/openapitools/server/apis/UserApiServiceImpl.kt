@@ -1,5 +1,6 @@
 package org.openapitools.server.apis
 
+import java.time.OffsetDateTime
 import org.openapitools.server.models.User
 
 class UserApiServiceImpl : UserApiService {
@@ -8,23 +9,23 @@ class UserApiServiceImpl : UserApiService {
         TODO("Implement me")
     }
 
-    override fun createUsersWithArrayInput(user: kotlin.collections.List<User>): Unit {
+    override fun createUsersWithArrayInput(user: List<User>): Unit {
         TODO("Implement me")
     }
 
-    override fun createUsersWithListInput(user: kotlin.collections.List<User>): Unit {
+    override fun createUsersWithListInput(user: List<User>): Unit {
         TODO("Implement me")
     }
 
-    override fun deleteUser(username: kotlin.String): Unit {
+    override fun deleteUser(username: String): Unit {
         TODO("Implement me")
     }
 
-    override fun getUserByName(username: kotlin.String): User {
+    override fun getUserByName(username: String): User {
         TODO("Implement me")
     }
 
-    override fun loginUser(username: kotlin.String, password: kotlin.String): kotlin.String {
+    override fun loginUser(username: String, password: String): String {
         TODO("Implement me")
     }
 
@@ -32,7 +33,7 @@ class UserApiServiceImpl : UserApiService {
         TODO("Implement me")
     }
 
-    override fun updateUser(username: kotlin.String, user: User): Unit {
+    override fun updateUser(username: String, user: User): Unit {
         TODO("Implement me")
     }
 }

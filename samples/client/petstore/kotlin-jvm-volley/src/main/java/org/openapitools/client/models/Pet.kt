@@ -37,19 +37,19 @@ import org.openapitools.client.infrastructure.ITransformForStorage
 data class Pet (
 
     @SerializedName("name")
-    val name: kotlin.String,
+    val name: String,
 
     @SerializedName("photoUrls")
-    val photoUrls: kotlin.collections.List<kotlin.String>,
+    val photoUrls: kotlin.collections.List<String>,
 
     @SerializedName("id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
 
     @SerializedName("category")
     val category: Category? = null,
 
     @SerializedName("tags")
-    val tags: kotlin.collections.List<Tag>? = null,
+    val tags: List<Tag>? = null,
 
     /* pet status in the store */
     @SerializedName("status")
@@ -72,7 +72,7 @@ status = this.status,
      *
      * Values: available,pending,sold
      */
-    enum class Status(val value: kotlin.String) {
+    enum class Status(val value: String) {
         @SerializedName(value = "available") available("available"),
         @SerializedName(value = "pending") pending("pending"),
         @SerializedName(value = "sold") sold("sold");

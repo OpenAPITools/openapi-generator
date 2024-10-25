@@ -56,7 +56,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun idsGet(ids: kotlin.collections.List<kotlin.String>) : Unit {
+    fun idsGet(ids: List<String>) : Unit {
         val localVarResponse = idsGetWithHttpInfo(ids = ids)
 
         return when (localVarResponse.responseType) {
@@ -83,7 +83,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun idsGetWithHttpInfo(ids: kotlin.collections.List<kotlin.String>) : ApiResponse<Unit?> {
+    fun idsGetWithHttpInfo(ids: List<String>) : ApiResponse<Unit?> {
         val localVariableConfig = idsGetRequestConfig(ids = ids)
 
         return request<Unit, Unit>(
@@ -97,7 +97,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory
      * @param ids 
      * @return RequestConfig
      */
-    fun idsGetRequestConfig(ids: kotlin.collections.List<kotlin.String>) : RequestConfig<Unit> {
+    fun idsGetRequestConfig(ids: List<String>) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()

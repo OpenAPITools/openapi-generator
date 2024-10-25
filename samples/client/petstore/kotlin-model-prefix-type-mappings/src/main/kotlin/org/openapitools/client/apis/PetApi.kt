@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName
 
 import org.openapitools.client.models.ApiApiResponse
 import org.openapitools.client.models.ApiPet
+import java.io.File
 
 import okhttp3.MultipartBody
 
@@ -36,7 +37,7 @@ interface PetApi {
      * @return [Unit]
      */
     @DELETE("pet/{petId}")
-    suspend fun deletePet(@Path("petId") petId: kotlin.Long, @Header("api_key") apiKey: kotlin.String? = null): Response<Unit>
+    suspend fun deletePet(@Path("petId") petId: Long, @Header("api_key") apiKey: String? = null): Response<Unit>
 
 
     /**
@@ -56,10 +57,10 @@ interface PetApi {
      *  - 400: Invalid status value
      *
      * @param status Status values that need to be considered for filter
-     * @return [kotlin.collections.List<ApiPet>]
+     * @return [List<ApiPet>]
      */
     @GET("pet/findByStatus")
-    suspend fun findPetsByStatus(@Query("status") status: CSVParams): Response<kotlin.collections.List<ApiPet>>
+    suspend fun findPetsByStatus(@Query("status") status: CSVParams): Response<List<ApiPet>>
 
     /**
      * Finds Pets by tags
@@ -69,11 +70,11 @@ interface PetApi {
      *  - 400: Invalid tag value
      *
      * @param tags Tags to filter by
-     * @return [kotlin.collections.List<ApiPet>]
+     * @return [List<ApiPet>]
      */
     @Deprecated("This api was deprecated")
     @GET("pet/findByTags")
-    suspend fun findPetsByTags(@Query("tags") tags: CSVParams): Response<kotlin.collections.List<ApiPet>>
+    suspend fun findPetsByTags(@Query("tags") tags: CSVParams): Response<List<ApiPet>>
 
     /**
      * Find pet by ID
@@ -87,7 +88,7 @@ interface PetApi {
      * @return [ApiPet]
      */
     @GET("pet/{petId}")
-    suspend fun getPetById(@Path("petId") petId: kotlin.Long): Response<ApiPet>
+    suspend fun getPetById(@Path("petId") petId: Long): Response<ApiPet>
 
     /**
      * Update an existing pet
@@ -117,7 +118,7 @@ interface PetApi {
      */
     @FormUrlEncoded
     @POST("pet/{petId}")
-    suspend fun updatePetWithForm(@Path("petId") petId: kotlin.Long, @Field("name") name: kotlin.String? = null, @Field("status") status: kotlin.String? = null): Response<Unit>
+    suspend fun updatePetWithForm(@Path("petId") petId: Long, @Field("name") name: String? = null, @Field("status") status: String? = null): Response<Unit>
 
     /**
      * uploads an image
@@ -132,6 +133,6 @@ interface PetApi {
      */
     @Multipart
     @POST("pet/{petId}/uploadImage")
-    suspend fun uploadFile(@Path("petId") petId: kotlin.Long, @Part("additionalMetadata") additionalMetadata: kotlin.String? = null, @Part file: MultipartBody.Part? = null): Response<ApiApiResponse>
+    suspend fun uploadFile(@Path("petId") petId: Long, @Part("additionalMetadata") additionalMetadata: String? = null, @Part file: MultipartBody.Part? = null): Response<ApiApiResponse>
 
 }

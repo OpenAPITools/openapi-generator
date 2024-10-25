@@ -4,6 +4,7 @@ import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonValue
+import java.time.OffsetDateTime
 import java.io.Serializable
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
@@ -28,29 +29,29 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class Order(
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("id") val id: kotlin.Long? = null,
+    @get:JsonProperty("id") val id: Long? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("petId") val petId: kotlin.Long? = null,
+    @get:JsonProperty("petId") val petId: Long? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("quantity") val quantity: kotlin.Int? = null,
+    @get:JsonProperty("quantity") val quantity: Int? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("shipDate") val shipDate: java.time.OffsetDateTime? = null,
+    @get:JsonProperty("shipDate") val shipDate: OffsetDateTime? = null,
 
     @Schema(example = "null", description = "Order Status")
     @get:JsonProperty("status") val status: Order.Status? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("complete") val complete: kotlin.Boolean? = false
+    @get:JsonProperty("complete") val complete: Boolean? = false
     ) : Serializable{
 
     /**
     * Order Status
     * Values: placed,approved,delivered
     */
-    enum class Status(@get:JsonValue val value: kotlin.String) {
+    enum class Status(@get:JsonValue val value: String) {
 
         placed("placed"),
         approved("approved"),
@@ -59,7 +60,7 @@ data class Order(
         companion object {
             @JvmStatic
             @JsonCreator
-            fun forValue(value: kotlin.String): Status {
+            fun forValue(value: String): Status {
                 return values().first{it -> it.value == value}
             }
         }

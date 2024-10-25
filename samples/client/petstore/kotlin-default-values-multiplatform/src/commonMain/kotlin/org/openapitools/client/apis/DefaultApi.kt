@@ -75,7 +75,7 @@ open class DefaultApi : ApiClient {
      * @param fn4 
      * @return void
      */
-    open suspend fun test(pi0: kotlin.Int = 10, pi1: kotlin.Int, pn0: kotlin.Double = 10.0.toDouble(), pn1: kotlin.Double, qi0: kotlin.Int? = 10, qi1: kotlin.Int = 71, qi2: kotlin.Int? = null, qi3: kotlin.Int, qn0: kotlin.Double? = 10.0.toDouble(), qn1: kotlin.Double = 71.0.toDouble(), qn2: kotlin.Double? = null, qn3: kotlin.Double, hi0: kotlin.Int? = 10, hi1: kotlin.Int = 71, hi2: kotlin.Int? = null, hi3: kotlin.Int, hn0: kotlin.Double? = 10.0.toDouble(), hn1: kotlin.Double = 71.0.toDouble(), hn2: kotlin.Double? = null, hn3: kotlin.Double, fi0: kotlin.Int? = 10, fi1: kotlin.Int = 71, fi2: kotlin.Int? = null, fi3: kotlin.Int, fn0: kotlin.Double? = 10.0.toDouble(), fn1: kotlin.Double = 71.0.toDouble(), fn2: kotlin.Double? = null, fn3: kotlin.Double, fn4: kotlin.collections.List<kotlin.String>): HttpResponse<Unit> {
+    open suspend fun test(pi0: Int = 10, pi1: Int, pn0: Double = 10.0.toDouble(), pn1: Double, qi0: Int? = 10, qi1: Int = 71, qi2: Int? = null, qi3: Int, qn0: Double? = 10.0.toDouble(), qn1: Double = 71.0.toDouble(), qn2: Double? = null, qn3: Double, hi0: Int? = 10, hi1: Int = 71, hi2: Int? = null, hi3: Int, hn0: Double? = 10.0.toDouble(), hn1: Double = 71.0.toDouble(), hn2: Double? = null, hn3: Double, fi0: Int? = 10, fi1: Int = 71, fi2: Int? = null, fi3: Int, fn0: Double? = 10.0.toDouble(), fn1: Double = 71.0.toDouble(), fn2: Double? = null, fn3: Double, fn4: List<String>): HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>()
 

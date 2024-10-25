@@ -24,8 +24,8 @@ import com.fasterxml.jackson.annotation.JsonInclude
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Category (
-    val id: kotlin.Long? = null,
-    val name: kotlin.String? = null
+    val id: Long? = null,
+    val name: String? = null
 ) {
 
 }

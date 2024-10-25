@@ -15,6 +15,7 @@
 
 package org.openapitools.client.apis
 
+import java.io.File
 import org.openapitools.client.models.ModelApiResponse
 import org.openapitools.client.models.Pet
 
@@ -75,7 +76,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
          * @param apiKey  (optional)
          * @return void
         */
-        open suspend fun deletePet(petId: kotlin.Long, apiKey: kotlin.String?): HttpResponse<Unit> {
+        open suspend fun deletePet(petId: Long, apiKey: String?): HttpResponse<Unit> {
 
             val localVariableAuthNames = listOf<String>("petstore_auth")
 
@@ -106,10 +107,10 @@ import com.fasterxml.jackson.databind.ObjectMapper
         * Finds Pets by status
         * Multiple status values can be provided with comma separated strings
          * @param status Status values that need to be considered for filter 
-         * @return kotlin.collections.List<Pet>
+         * @return List<Pet>
         */
             @Suppress("UNCHECKED_CAST")
-        open suspend fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>): HttpResponse<kotlin.collections.List<Pet>> {
+        open suspend fun findPetsByStatus(status: List<String>): HttpResponse<List<Pet>> {
 
             val localVariableAuthNames = listOf<String>("petstore_auth")
 
@@ -140,10 +141,10 @@ import com.fasterxml.jackson.databind.ObjectMapper
         * Finds Pets by tags
         * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
          * @param tags Tags to filter by 
-         * @return kotlin.collections.List<Pet>
+         * @return List<Pet>
         */
             @Suppress("UNCHECKED_CAST")
-        open suspend fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): HttpResponse<kotlin.collections.List<Pet>> {
+        open suspend fun findPetsByTags(tags: List<String>): HttpResponse<List<Pet>> {
 
             val localVariableAuthNames = listOf<String>("petstore_auth")
 
@@ -177,7 +178,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
          * @return Pet
         */
             @Suppress("UNCHECKED_CAST")
-        open suspend fun getPetById(petId: kotlin.Long): HttpResponse<Pet> {
+        open suspend fun getPetById(petId: Long): HttpResponse<Pet> {
 
             val localVariableAuthNames = listOf<String>("api_key")
 
@@ -242,7 +243,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
          * @param status Updated status of the pet (optional)
          * @return void
         */
-        open suspend fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?): HttpResponse<Unit> {
+        open suspend fun updatePetWithForm(petId: Long, name: String?, status: String?): HttpResponse<Unit> {
 
             val localVariableAuthNames = listOf<String>("petstore_auth")
 
@@ -280,7 +281,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
          * @return ModelApiResponse
         */
             @Suppress("UNCHECKED_CAST")
-        open suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: io.ktor.client.request.forms.InputProvider?): HttpResponse<ModelApiResponse> {
+        open suspend fun uploadFile(petId: Long, additionalMetadata: String?, file: io.ktor.client.request.forms.InputProvider?): HttpResponse<ModelApiResponse> {
 
             val localVariableAuthNames = listOf<String>("petstore_auth")
 

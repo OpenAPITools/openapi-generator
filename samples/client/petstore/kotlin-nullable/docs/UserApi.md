@@ -72,7 +72,7 @@ Creates list of users with given input array
 //import org.openapitools.client.models.*
 
 val apiInstance = UserApi()
-val body : kotlin.collections.List<User> =  // kotlin.collections.List<User> | List of user object
+val body : List<User> =  // List<User> | List of user object
 try {
     apiInstance.createUsersWithArrayInput(body)
 } catch (e: ClientException) {
@@ -87,7 +87,7 @@ try {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **body** | [**kotlin.collections.List&lt;User&gt;**](User.md)| List of user object | |
+| **body** | [**List&lt;User&gt;**](User.md)| List of user object | |
 
 ### Return type
 
@@ -115,7 +115,7 @@ Creates list of users with given input array
 //import org.openapitools.client.models.*
 
 val apiInstance = UserApi()
-val body : kotlin.collections.List<User> =  // kotlin.collections.List<User> | List of user object
+val body : List<User> =  // List<User> | List of user object
 try {
     apiInstance.createUsersWithListInput(body)
 } catch (e: ClientException) {
@@ -130,7 +130,7 @@ try {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **body** | [**kotlin.collections.List&lt;User&gt;**](User.md)| List of user object | |
+| **body** | [**List&lt;User&gt;**](User.md)| List of user object | |
 
 ### Return type
 
@@ -160,7 +160,7 @@ This can only be done by the logged in user.
 //import org.openapitools.client.models.*
 
 val apiInstance = UserApi()
-val username : kotlin.String = username_example // kotlin.String | The name that needs to be deleted
+val username : String = username_example // String | The name that needs to be deleted
 try {
     apiInstance.deleteUser(username)
 } catch (e: ClientException) {
@@ -175,7 +175,7 @@ try {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **username** | **kotlin.String**| The name that needs to be deleted | |
+| **username** | **String**| The name that needs to be deleted | |
 
 ### Return type
 
@@ -203,7 +203,7 @@ Get user by user name
 //import org.openapitools.client.models.*
 
 val apiInstance = UserApi()
-val username : kotlin.String = username_example // kotlin.String | The name that needs to be fetched. Use user1 for testing.
+val username : String = username_example // String | The name that needs to be fetched. Use user1 for testing.
 try {
     val result : User? = apiInstance.getUserByName(username)
     println(result)
@@ -219,7 +219,7 @@ try {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **username** | **kotlin.String**| The name that needs to be fetched. Use user1 for testing. | |
+| **username** | **String**| The name that needs to be fetched. Use user1 for testing. | |
 
 ### Return type
 
@@ -236,7 +236,7 @@ No authorization required
 
 <a id="loginUser"></a>
 # **loginUser**
-> kotlin.String loginUser(username, password)
+> String loginUser(username, password)
 
 Logs user into the system
 
@@ -247,10 +247,10 @@ Logs user into the system
 //import org.openapitools.client.models.*
 
 val apiInstance = UserApi()
-val username : kotlin.String = username_example // kotlin.String | The user name for login
-val password : kotlin.String = password_example // kotlin.String | The password for login in clear text
+val username : String = username_example // String | The user name for login
+val password : String = password_example // String | The password for login in clear text
 try {
-    val result : kotlin.String? = apiInstance.loginUser(username, password)
+    val result : String? = apiInstance.loginUser(username, password)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling UserApi#loginUser")
@@ -262,14 +262,14 @@ try {
 ```
 
 ### Parameters
-| **username** | **kotlin.String**| The user name for login | |
+| **username** | **String**| The user name for login | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **password** | **kotlin.String**| The password for login in clear text | |
+| **password** | **String**| The password for login in clear text | |
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 
@@ -335,7 +335,7 @@ This can only be done by the logged in user.
 //import org.openapitools.client.models.*
 
 val apiInstance = UserApi()
-val username : kotlin.String = username_example // kotlin.String | name that need to be deleted
+val username : String = username_example // String | name that need to be deleted
 val body : User =  // User | Updated user object
 try {
     apiInstance.updateUser(username, body)
@@ -349,7 +349,7 @@ try {
 ```
 
 ### Parameters
-| **username** | **kotlin.String**| name that need to be deleted | |
+| **username** | **String**| name that need to be deleted | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **body** | [**User**](User.md)| Updated user object | |

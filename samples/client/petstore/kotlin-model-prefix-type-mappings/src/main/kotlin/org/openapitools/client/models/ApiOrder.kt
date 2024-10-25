@@ -15,6 +15,7 @@
 
 package org.openapitools.client.models
 
+import java.time.OffsetDateTime
 
 import com.google.gson.Gson
 import com.google.gson.JsonElement
@@ -42,23 +43,23 @@ import com.google.gson.annotations.SerializedName
 data class ApiOrder (
 
     @SerializedName("id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
 
     @SerializedName("petId")
-    val petId: kotlin.Long? = null,
+    val petId: Long? = null,
 
     @SerializedName("quantity")
-    val quantity: kotlin.Int? = null,
+    val quantity: Int? = null,
 
     @SerializedName("shipDate")
-    val shipDate: java.time.OffsetDateTime? = null,
+    val shipDate: OffsetDateTime? = null,
 
     /* Order Status */
     @SerializedName("status")
     val status: ApiOrder.Status? = null,
 
     @SerializedName("complete")
-    val complete: kotlin.Boolean? = false
+    val complete: Boolean? = false
 
 ) {
 
@@ -67,7 +68,7 @@ data class ApiOrder (
      *
      * Values: PLACED,APPROVED,DELIVERED
      */
-    enum class Status(val value: kotlin.String) {
+    enum class Status(val value: String) {
         @SerializedName(value = "placed") PLACED("placed"),
         @SerializedName(value = "approved") APPROVED("approved"),
         @SerializedName(value = "delivered") DELIVERED("delivered");

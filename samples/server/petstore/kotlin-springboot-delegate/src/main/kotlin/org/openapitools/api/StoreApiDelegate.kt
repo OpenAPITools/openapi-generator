@@ -22,7 +22,7 @@ interface StoreApiDelegate {
     /**
      * @see StoreApi#deleteOrder
      */
-    fun deleteOrder(orderId: kotlin.String): ResponseEntity<Unit> {
+    fun deleteOrder(orderId: String): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
@@ -31,7 +31,7 @@ interface StoreApiDelegate {
     /**
      * @see StoreApi#getInventory
      */
-    fun getInventory(): ResponseEntity<Map<String, kotlin.Int>> {
+    fun getInventory(): ResponseEntity<Map<String, Int>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
@@ -40,7 +40,7 @@ interface StoreApiDelegate {
     /**
      * @see StoreApi#getOrderById
      */
-    fun getOrderById(orderId: kotlin.Long): ResponseEntity<Order> {
+    fun getOrderById(orderId: Long): ResponseEntity<Order> {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

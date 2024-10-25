@@ -23,13 +23,13 @@ import io.swagger.annotations.ApiModelProperty
 data class ModelApiResponse(
 
     @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("code") val code: kotlin.Int? = null,
+    @get:JsonProperty("code") val code: Int? = null,
 
     @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("type") val type: kotlin.String? = null,
+    @get:JsonProperty("type") val type: String? = null,
 
     @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("message") val message: kotlin.String? = null
+    @get:JsonProperty("message") val message: String? = null
     ) : Serializable{
 
     companion object {

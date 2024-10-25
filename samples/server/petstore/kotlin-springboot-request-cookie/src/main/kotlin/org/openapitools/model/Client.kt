@@ -20,7 +20,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class Client(
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("client") val client: kotlin.String? = null
+    @get:JsonProperty("client") val client: String? = null
     ) {
 
 }

@@ -10,19 +10,19 @@ class PetApiServiceImpl : PetApiService {
         TODO("Implement me")
     }
 
-    override fun deletePet(petId: kotlin.Long, apiKey: kotlin.String?, ctx: Context): Unit {
+    override fun deletePet(petId: Long, apiKey: String?, ctx: Context): Unit {
         TODO("Implement me")
     }
 
-    override fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>, ctx: Context): List<Pet> {
+    override fun findPetsByStatus(status: List<String>, ctx: Context): List<Pet> {
         TODO("Implement me")
     }
 
-    override fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>, ctx: Context): List<Pet> {
+    override fun findPetsByTags(tags: List<String>, ctx: Context): List<Pet> {
         TODO("Implement me")
     }
 
-    override fun getPetById(petId: kotlin.Long, ctx: Context): Pet {
+    override fun getPetById(petId: Long, ctx: Context): Pet {
         TODO("Implement me")
     }
 
@@ -30,11 +30,11 @@ class PetApiServiceImpl : PetApiService {
         TODO("Implement me")
     }
 
-    override fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?, ctx: Context): Unit {
+    override fun updatePetWithForm(petId: Long, name: String?, status: String?, ctx: Context): Unit {
         TODO("Implement me")
     }
 
-    override fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: io.javalin.http.UploadedFile?, ctx: Context): ModelApiResponse {
+    override fun uploadFile(petId: Long, additionalMetadata: String?, file: io.javalin.http.UploadedFile?, ctx: Context): ModelApiResponse {
         TODO("Implement me")
     }
 }

@@ -15,6 +15,7 @@
 
 package org.openapitools.client.models
 
+import java.time.OffsetDateTime
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
@@ -43,23 +44,23 @@ import kotlinx.parcelize.Parcelize
 data class Order (
 
     @SerialName(value = "id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
 
     @SerialName(value = "petId")
-    val petId: kotlin.Long? = null,
+    val petId: Long? = null,
 
     @SerialName(value = "quantity")
-    val quantity: kotlin.Int? = null,
+    val quantity: Int? = null,
 
     @Contextual @SerialName(value = "shipDate")
-    val shipDate: java.time.OffsetDateTime? = null,
+    val shipDate: OffsetDateTime? = null,
 
     /* Order Status */
     @SerialName(value = "status")
     val status: Order.Status? = null,
 
     @SerialName(value = "complete")
-    val complete: kotlin.Boolean? = false
+    val complete: Boolean? = false
 
 ) : Parcelable {
 
@@ -69,7 +70,7 @@ data class Order (
      * Values: placed,approved,delivered,unknown_default_open_api
      */
     @Serializable(with = OrderSerializer::class)
-    enum class Status(val value: kotlin.String) {
+    enum class Status(val value: String) {
         @SerialName(value = "placed") placed("placed"),
         @SerialName(value = "approved") approved("approved"),
         @SerialName(value = "delivered") delivered("delivered"),
@@ -78,16 +79,16 @@ data class Order (
 
     @Serializer(forClass = Status::class)
     internal object StatusSerializer : KSerializer<Status> {
-        override val descriptor = kotlin.String.serializer().descriptor
+        override val descriptor = String.serializer().descriptor
 
         override fun deserialize(decoder: Decoder): Status {
-            val value = decoder.decodeSerializableValue(kotlin.String.serializer())
+            val value = decoder.decodeSerializableValue(String.serializer())
             return Status.values().firstOrNull { it.value == value }
                 ?: Status.unknown_default_open_api
         }
 
         override fun serialize(encoder: Encoder, value: Status) {
-            encoder.encodeSerializableValue(kotlin.String.serializer(), value.value)
+            encoder.encodeSerializableValue(String.serializer(), value.value)
         }
     }
 

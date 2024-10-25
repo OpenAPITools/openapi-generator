@@ -28,7 +28,7 @@ import com.google.gson.annotations.SerializedName
 data class ApiTestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter (
 
     @SerializedName("values")
-    val propertyValues: kotlin.collections.List<kotlin.String>? = null
+    val propertyValues: List<String>? = null
 
 ) {
 

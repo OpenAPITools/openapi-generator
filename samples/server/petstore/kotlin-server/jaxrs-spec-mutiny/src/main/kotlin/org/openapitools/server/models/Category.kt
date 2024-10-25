@@ -24,11 +24,11 @@ data class Category (
 
 
     @JsonProperty("id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
 
 
     @JsonProperty("name")
-    val name: kotlin.String? = null
+    val name: String? = null
 
 )
 

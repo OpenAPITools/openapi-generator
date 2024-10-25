@@ -5,9 +5,9 @@
 ## Properties
 Name | Mapping | SQL Type | Default | Type | Description | Notes
 ---- | ------- | -------- | ------- | ---- | ----------- | -----
-**code** | code | int |  | **kotlin.Int** |  |  [optional]
-**type** | type | text |  | **kotlin.String** |  |  [optional]
-**message** | message | text |  | **kotlin.String** |  |  [optional]
+**code** | code | int |  | [**kotlin.Int**](kotlin.Int.md) |  |  [optional]
+**type** | type | text |  | [**kotlin.String**](kotlin.String.md) |  |  [optional]
+**message** | message | text |  | [**kotlin.String**](kotlin.String.md) |  |  [optional]
 
 
 

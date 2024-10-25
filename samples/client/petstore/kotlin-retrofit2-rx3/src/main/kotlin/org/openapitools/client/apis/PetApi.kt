@@ -7,6 +7,7 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.core.Completable
 import com.squareup.moshi.Json
 
+import java.io.File
 import org.openapitools.client.models.ModelApiResponse
 import org.openapitools.client.models.Pet
 
@@ -36,7 +37,7 @@ interface PetApi {
      * @return [Call]<[Unit]>
      */
     @DELETE("pet/{petId}")
-    fun deletePet(@Path("petId") petId: kotlin.Long, @Header("api_key") apiKey: kotlin.String? = null): Completable
+    fun deletePet(@Path("petId") petId: Long, @Header("api_key") apiKey: String? = null): Completable
 
 
     /**
@@ -56,10 +57,10 @@ interface PetApi {
      *  - 400: Invalid status value
      *
      * @param status Status values that need to be considered for filter
-     * @return [Call]<[kotlin.collections.List<Pet>]>
+     * @return [Call]<[List<Pet>]>
      */
     @GET("pet/findByStatus")
-    fun findPetsByStatus(@Query("status") status: CSVParams): Single<kotlin.collections.List<Pet>>
+    fun findPetsByStatus(@Query("status") status: CSVParams): Single<List<Pet>>
 
     /**
      * Finds Pets by tags
@@ -69,11 +70,11 @@ interface PetApi {
      *  - 400: Invalid tag value
      *
      * @param tags Tags to filter by
-     * @return [Call]<[kotlin.collections.List<Pet>]>
+     * @return [Call]<[List<Pet>]>
      */
     @Deprecated("This api was deprecated")
     @GET("pet/findByTags")
-    fun findPetsByTags(@Query("tags") tags: CSVParams): Single<kotlin.collections.List<Pet>>
+    fun findPetsByTags(@Query("tags") tags: CSVParams): Single<List<Pet>>
 
     /**
      * Find pet by ID
@@ -87,7 +88,7 @@ interface PetApi {
      * @return [Call]<[Pet]>
      */
     @GET("pet/{petId}")
-    fun getPetById(@Path("petId") petId: kotlin.Long): Single<Pet>
+    fun getPetById(@Path("petId") petId: Long): Single<Pet>
 
     /**
      * Update an existing pet
@@ -116,7 +117,7 @@ interface PetApi {
      */
     @FormUrlEncoded
     @POST("pet/{petId}")
-    fun updatePetWithForm(@Path("petId") petId: kotlin.Long, @Field("name") name: kotlin.String? = null, @Field("status") status: kotlin.String? = null): Completable
+    fun updatePetWithForm(@Path("petId") petId: Long, @Field("name") name: String? = null, @Field("status") status: String? = null): Completable
 
     /**
      * uploads an image
@@ -131,6 +132,6 @@ interface PetApi {
      */
     @Multipart
     @POST("pet/{petId}/uploadImage")
-    fun uploadFile(@Path("petId") petId: kotlin.Long, @Part("additionalMetadata") additionalMetadata: kotlin.String? = null, @Part file: MultipartBody.Part? = null): Single<ModelApiResponse>
+    fun uploadFile(@Path("petId") petId: Long, @Part("additionalMetadata") additionalMetadata: String? = null, @Part file: MultipartBody.Part? = null): Single<ModelApiResponse>
 
 }

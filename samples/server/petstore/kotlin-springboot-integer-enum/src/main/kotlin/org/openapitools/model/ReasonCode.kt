@@ -18,7 +18,7 @@ import jakarta.validation.Valid
 * 
 * Values: _10,_20
 */
-enum class ReasonCode(@get:JsonValue val value: kotlin.Int) {
+enum class ReasonCode(@get:JsonValue val value: Int) {
 
     _10(10),
     _20(20);
@@ -26,7 +26,7 @@ enum class ReasonCode(@get:JsonValue val value: kotlin.Int) {
     companion object {
         @JvmStatic
         @JsonCreator
-        fun forValue(value: kotlin.Int): ReasonCode {
+        fun forValue(value: Int): ReasonCode {
                 return values().first{it -> it.value == value}
         }
     }

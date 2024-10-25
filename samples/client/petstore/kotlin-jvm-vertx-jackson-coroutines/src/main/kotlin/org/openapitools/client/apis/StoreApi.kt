@@ -51,7 +51,7 @@ class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken:
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun deleteOrder(orderId: kotlin.String) : Unit {
+    suspend fun deleteOrder(orderId: String) : Unit {
         return deleteOrderWithHttpInfo(orderId = orderId).map { localVarResponse ->
             when (localVarResponse.responseType) {
                 ResponseType.Success -> Unit
@@ -78,7 +78,7 @@ class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken:
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun deleteOrderWithHttpInfo(orderId: kotlin.String) : Future<ApiResponse<Unit?>> {
+    fun deleteOrderWithHttpInfo(orderId: String) : Future<ApiResponse<Unit?>> {
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.DELETE, UriTemplate.of("$basePath/store/order/{orderId}".replace("{"+"orderId"+"}", encodeURIComponent(orderId.toString()))))
 
@@ -101,7 +101,7 @@ class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken:
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
-     * @return kotlin.collections.Map<kotlin.String, kotlin.Int>
+     * @return Map<String, Int>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
@@ -110,10 +110,10 @@ class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken:
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun getInventory() : kotlin.collections.Map<kotlin.String, kotlin.Int> {
+    suspend fun getInventory() : Map<String, Int> {
         return getInventoryWithHttpInfo().map { localVarResponse ->
             when (localVarResponse.responseType) {
-                ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.Map<kotlin.String, kotlin.Int>
+                ResponseType.Success -> (localVarResponse as Success<*>).data as Map<String, Int>
                 ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
                 ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
                 ResponseType.ClientError -> {
@@ -131,13 +131,13 @@ class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken:
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
-     * @return ApiResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>?>
+     * @return ApiResponse<Map<String, Int>?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getInventoryWithHttpInfo() : Future<ApiResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>?>> {
+    fun getInventoryWithHttpInfo() : Future<ApiResponse<Map<String, Int>?>> {
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/store/inventory"))
 
@@ -159,7 +159,7 @@ class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken:
         return request
             .send()
             .map {
-                val apiResponse: ApiResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>?> = handleResponse(it)
+                val apiResponse: ApiResponse<Map<String, Int>?> = handleResponse(it)
                 apiResponse
             }
     }
@@ -177,7 +177,7 @@ class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken:
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun getOrderById(orderId: kotlin.Long) : Order {
+    suspend fun getOrderById(orderId: Long) : Order {
         return getOrderByIdWithHttpInfo(orderId = orderId).map { localVarResponse ->
             when (localVarResponse.responseType) {
                 ResponseType.Success -> (localVarResponse as Success<*>).data as Order
@@ -205,7 +205,7 @@ class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken:
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getOrderByIdWithHttpInfo(orderId: kotlin.Long) : Future<ApiResponse<Order?>> {
+    fun getOrderByIdWithHttpInfo(orderId: Long) : Future<ApiResponse<Order?>> {
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/store/order/{orderId}".replace("{"+"orderId"+"}", encodeURIComponent(orderId.toString()))))
 

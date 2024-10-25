@@ -29,10 +29,10 @@ import com.google.gson.annotations.SerializedName
 data class ApiBird (
 
     @SerializedName("size")
-    val propertySize: kotlin.String? = null,
+    val propertySize: String? = null,
 
     @SerializedName("color")
-    val color: kotlin.String? = null
+    val color: String? = null
 
 ) {
 

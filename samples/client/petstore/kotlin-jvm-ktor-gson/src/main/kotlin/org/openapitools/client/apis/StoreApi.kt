@@ -44,7 +44,7 @@ import java.text.DateFormat
          * @param orderId ID of the order that needs to be deleted 
          * @return void
         */
-        open suspend fun deleteOrder(orderId: kotlin.String): HttpResponse<Unit> {
+        open suspend fun deleteOrder(orderId: String): HttpResponse<Unit> {
 
             val localVariableAuthNames = listOf<String>()
 
@@ -73,10 +73,10 @@ import java.text.DateFormat
         /**
         * Returns pet inventories by status
         * Returns a map of status codes to quantities
-         * @return kotlin.collections.Map<kotlin.String, kotlin.Int>
+         * @return Map<String, Int>
         */
             @Suppress("UNCHECKED_CAST")
-        open suspend fun getInventory(): HttpResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>> {
+        open suspend fun getInventory(): HttpResponse<Map<String, Int>> {
 
             val localVariableAuthNames = listOf<String>("api_key")
 
@@ -109,7 +109,7 @@ import java.text.DateFormat
          * @return Order
         */
             @Suppress("UNCHECKED_CAST")
-        open suspend fun getOrderById(orderId: kotlin.Long): HttpResponse<Order> {
+        open suspend fun getOrderById(orderId: Long): HttpResponse<Order> {
 
             val localVariableAuthNames = listOf<String>()
 

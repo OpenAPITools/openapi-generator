@@ -1,5 +1,6 @@
 package org.openapitools.api
 
+import java.time.OffsetDateTime
 import org.openapitools.model.User
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -43,7 +44,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = ["/user/createWithArray"],
         consumes = ["application/json"]
     )
-    fun createUsersWithArrayInput( @Valid @RequestBody user: kotlin.collections.List<User>): ResponseEntity<Unit> {
+    fun createUsersWithArrayInput( @Valid @RequestBody user: List<User>): ResponseEntity<Unit> {
         return ResponseEntity(service.createUsersWithArrayInput(user), HttpStatus.valueOf(200))
     }
 
@@ -53,7 +54,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = ["/user/createWithList"],
         consumes = ["application/json"]
     )
-    fun createUsersWithListInput( @Valid @RequestBody user: kotlin.collections.List<User>): ResponseEntity<Unit> {
+    fun createUsersWithListInput( @Valid @RequestBody user: List<User>): ResponseEntity<Unit> {
         return ResponseEntity(service.createUsersWithListInput(user), HttpStatus.valueOf(200))
     }
 
@@ -62,7 +63,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         method = [RequestMethod.DELETE],
         value = ["/user/{username}"]
     )
-    fun deleteUser( @PathVariable("username") username: kotlin.String): ResponseEntity<Unit> {
+    fun deleteUser( @PathVariable("username") username: String): ResponseEntity<Unit> {
         return ResponseEntity(service.deleteUser(username), HttpStatus.valueOf(400))
     }
 
@@ -72,7 +73,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = ["/user/{username}"],
         produces = ["application/xml", "application/json"]
     )
-    fun getUserByName( @PathVariable("username") username: kotlin.String): ResponseEntity<User> {
+    fun getUserByName( @PathVariable("username") username: String): ResponseEntity<User> {
         return ResponseEntity(service.getUserByName(username), HttpStatus.valueOf(200))
     }
 
@@ -82,7 +83,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = ["/user/login"],
         produces = ["application/xml", "application/json"]
     )
-    fun loginUser(@NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")  @Valid @RequestParam(value = "username", required = true) username: kotlin.String,@NotNull  @Valid @RequestParam(value = "password", required = true) password: kotlin.String): ResponseEntity<kotlin.String> {
+    fun loginUser(@NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")  @Valid @RequestParam(value = "username", required = true) username: String,@NotNull  @Valid @RequestParam(value = "password", required = true) password: String): ResponseEntity<String> {
         return ResponseEntity(service.loginUser(username, password), HttpStatus.valueOf(200))
     }
 
@@ -101,7 +102,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = ["/user/{username}"],
         consumes = ["application/json"]
     )
-    fun updateUser( @PathVariable("username") username: kotlin.String, @Valid @RequestBody user: User): ResponseEntity<Unit> {
+    fun updateUser( @PathVariable("username") username: String, @Valid @RequestBody user: User): ResponseEntity<Unit> {
         return ResponseEntity(service.updateUser(username, user), HttpStatus.valueOf(400))
     }
 }

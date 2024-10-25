@@ -32,13 +32,13 @@ import kotlinx.serialization.Contextual
 data class ModelApiResponse (
 
     @SerialName(value = "code")
-    val code: kotlin.Int? = null,
+    val code: Int? = null,
 
     @SerialName(value = "type")
-    val type: kotlin.String? = null,
+    val type: String? = null,
 
     @SerialName(value = "message")
-    val message: kotlin.String? = null
+    val message: String? = null
 
 ) {
 

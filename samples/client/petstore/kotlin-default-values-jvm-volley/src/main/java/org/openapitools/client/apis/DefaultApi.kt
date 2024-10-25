@@ -17,6 +17,7 @@ import org.openapitools.client.request.IRequestFactory
 import org.openapitools.client.request.RequestFactory
 import org.openapitools.client.infrastructure.CollectionFormats.*
 
+import java.math.BigDecimal
 
 /*
 * If you wish to use a custom http stack with your client you
@@ -66,7 +67,7 @@ class DefaultApi (
      * @param fn4 
      * @return void
      */
-    suspend fun test(pi0: kotlin.Int = 10, pi1: kotlin.Int, pn0: java.math.BigDecimal = java.math.BigDecimal("10.0"), pn1: java.math.BigDecimal, qi0: kotlin.Int? = 10, qi1: kotlin.Int = 71, qi2: kotlin.Int? = null, qi3: kotlin.Int, qn0: java.math.BigDecimal? = java.math.BigDecimal("10.0"), qn1: java.math.BigDecimal = java.math.BigDecimal("71.0"), qn2: java.math.BigDecimal? = null, qn3: java.math.BigDecimal, hi0: kotlin.Int? = 10, hi1: kotlin.Int = 71, hi2: kotlin.Int? = null, hi3: kotlin.Int, hn0: java.math.BigDecimal? = java.math.BigDecimal("10.0"), hn1: java.math.BigDecimal = java.math.BigDecimal("71.0"), hn2: java.math.BigDecimal? = null, hn3: java.math.BigDecimal, fi0: kotlin.Int? = 10, fi1: kotlin.Int = 71, fi2: kotlin.Int? = null, fi3: kotlin.Int, fn0: java.math.BigDecimal? = java.math.BigDecimal("10.0"), fn1: java.math.BigDecimal = java.math.BigDecimal("71.0"), fn2: java.math.BigDecimal? = null, fn3: java.math.BigDecimal, fn4: kotlin.collections.List<kotlin.String>): Unit {
+    suspend fun test(pi0: Int = 10, pi1: Int, pn0: BigDecimal = BigDecimal("10.0"), pn1: BigDecimal, qi0: Int? = 10, qi1: Int = 71, qi2: Int? = null, qi3: Int, qn0: BigDecimal? = BigDecimal("10.0"), qn1: BigDecimal = BigDecimal("71.0"), qn2: BigDecimal? = null, qn3: BigDecimal, hi0: Int? = 10, hi1: Int = 71, hi2: Int? = null, hi3: Int, hn0: BigDecimal? = BigDecimal("10.0"), hn1: BigDecimal = BigDecimal("71.0"), hn2: BigDecimal? = null, hn3: BigDecimal, fi0: Int? = 10, fi1: Int = 71, fi2: Int? = null, fi3: Int, fn0: BigDecimal? = BigDecimal("10.0"), fn1: BigDecimal = BigDecimal("71.0"), fn2: BigDecimal? = null, fn3: BigDecimal, fn4: List<String>): Unit {
         val body: Any? = null
 
         val contentTypes : Array<String> = arrayOf("multipart/form-data")

@@ -26,23 +26,23 @@ Test query parameter(s)
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(QueryApi::class.java)
-val enumNonrefStringQuery : kotlin.String = enumNonrefStringQuery_example // kotlin.String | 
+val enumNonrefStringQuery : String = enumNonrefStringQuery_example // String | 
 val enumRefStringQuery : ApiStringEnumRef =  // ApiStringEnumRef | 
 
 launch(Dispatchers.IO) {
-    val result : kotlin.String = webService.testEnumRefString(enumNonrefStringQuery, enumRefStringQuery)
+    val result : String = webService.testEnumRefString(enumNonrefStringQuery, enumRefStringQuery)
 }
 ```
 
 ### Parameters
-| **enumNonrefStringQuery** | **kotlin.String**|  | [optional] [enum: success, failure, unclassified] |
+| **enumNonrefStringQuery** | **String**|  | [optional] [enum: success, failure, unclassified] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **enumRefStringQuery** | [**ApiStringEnumRef**](.md)|  | [optional] [enum: success, failure, unclassified] |
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 
@@ -67,25 +67,25 @@ Test query parameter(s)
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(QueryApi::class.java)
-val datetimeQuery : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
-val dateQuery : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | 
-val stringQuery : kotlin.String = stringQuery_example // kotlin.String | 
+val datetimeQuery : OffsetDateTime = 2013-10-20T19:20:30+01:00 // OffsetDateTime | 
+val dateQuery : LocalDate = 2013-10-20 // LocalDate | 
+val stringQuery : String = stringQuery_example // String | 
 
 launch(Dispatchers.IO) {
-    val result : kotlin.String = webService.testQueryDatetimeDateString(datetimeQuery, dateQuery, stringQuery)
+    val result : String = webService.testQueryDatetimeDateString(datetimeQuery, dateQuery, stringQuery)
 }
 ```
 
 ### Parameters
-| **datetimeQuery** | **java.time.OffsetDateTime**|  | [optional] |
-| **dateQuery** | **java.time.LocalDate**|  | [optional] |
+| **datetimeQuery** | **OffsetDateTime**|  | [optional] |
+| **dateQuery** | **LocalDate**|  | [optional] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **stringQuery** | **kotlin.String**|  | [optional] |
+| **stringQuery** | **String**|  | [optional] |
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 
@@ -110,25 +110,25 @@ Test query parameter(s)
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(QueryApi::class.java)
-val integerQuery : kotlin.Int = 56 // kotlin.Int | 
-val booleanQuery : kotlin.Boolean = true // kotlin.Boolean | 
-val stringQuery : kotlin.String = stringQuery_example // kotlin.String | 
+val integerQuery : Int = 56 // Int | 
+val booleanQuery : Boolean = true // Boolean | 
+val stringQuery : String = stringQuery_example // String | 
 
 launch(Dispatchers.IO) {
-    val result : kotlin.String = webService.testQueryIntegerBooleanString(integerQuery, booleanQuery, stringQuery)
+    val result : String = webService.testQueryIntegerBooleanString(integerQuery, booleanQuery, stringQuery)
 }
 ```
 
 ### Parameters
-| **integerQuery** | **kotlin.Int**|  | [optional] |
-| **booleanQuery** | **kotlin.Boolean**|  | [optional] |
+| **integerQuery** | **Int**|  | [optional] |
+| **booleanQuery** | **Boolean**|  | [optional] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **stringQuery** | **kotlin.String**|  | [optional] |
+| **stringQuery** | **String**|  | [optional] |
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 
@@ -156,7 +156,7 @@ val webService = apiClient.createWebservice(QueryApi::class.java)
 val queryObject : ApiPet =  // ApiPet | 
 
 launch(Dispatchers.IO) {
-    val result : kotlin.String = webService.testQueryStyleDeepObjectExplodeTrueObject(queryObject)
+    val result : String = webService.testQueryStyleDeepObjectExplodeTrueObject(queryObject)
 }
 ```
 
@@ -167,7 +167,7 @@ launch(Dispatchers.IO) {
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 
@@ -195,7 +195,7 @@ val webService = apiClient.createWebservice(QueryApi::class.java)
 val queryObject : ApiTestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter =  // ApiTestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter | 
 
 launch(Dispatchers.IO) {
-    val result : kotlin.String = webService.testQueryStyleFormExplodeTrueArrayString(queryObject)
+    val result : String = webService.testQueryStyleFormExplodeTrueArrayString(queryObject)
 }
 ```
 
@@ -206,7 +206,7 @@ launch(Dispatchers.IO) {
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 
@@ -234,7 +234,7 @@ val webService = apiClient.createWebservice(QueryApi::class.java)
 val queryObject : ApiPet =  // ApiPet | 
 
 launch(Dispatchers.IO) {
-    val result : kotlin.String = webService.testQueryStyleFormExplodeTrueObject(queryObject)
+    val result : String = webService.testQueryStyleFormExplodeTrueObject(queryObject)
 }
 ```
 
@@ -245,7 +245,7 @@ launch(Dispatchers.IO) {
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 

@@ -11,6 +11,7 @@
 */
 package org.openapitools.server.models
 
+import java.time.OffsetDateTime
 
 /**
  * An order for a pets from the pet store
@@ -22,20 +23,20 @@ package org.openapitools.server.models
  * @param complete 
  */
 data class Order(
-    var id: kotlin.Long? = null,
-    var petId: kotlin.Long? = null,
-    var quantity: kotlin.Int? = null,
-    var shipDate: java.time.OffsetDateTime? = null,
+    var id: Long? = null,
+    var petId: Long? = null,
+    var quantity: Int? = null,
+    var shipDate: OffsetDateTime? = null,
     /* Order Status */
     var status: Order.Status? = null,
-    var complete: kotlin.Boolean? = false
+    var complete: Boolean? = false
 ) 
 {
     /**
     * Order Status
     * Values: placed,approved,delivered
     */
-    enum class Status(val value: kotlin.String){
+    enum class Status(val value: String){
         placed("placed"),
         approved("approved"),
         delivered("delivered");

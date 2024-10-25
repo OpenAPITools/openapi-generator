@@ -31,13 +31,13 @@ import com.squareup.moshi.JsonClass
 data class ModelApiResponse (
 
     @Json(name = "code")
-    var code: kotlin.Int? = null,
+    var code: Int? = null,
 
     @Json(name = "type")
-    var type: kotlin.String? = null,
+    var type: String? = null,
 
     @Json(name = "message")
-    var message: kotlin.String? = null
+    var message: String? = null
 
 ) {
 

@@ -15,6 +15,7 @@
 
 package org.openapitools.client.models
 
+import java.math.BigDecimal
 
 import com.google.gson.annotations.SerializedName
 
@@ -30,13 +31,13 @@ import com.google.gson.annotations.SerializedName
 data class ApiNumberPropertiesOnly (
 
     @SerializedName("number")
-    val number: java.math.BigDecimal? = null,
+    val number: BigDecimal? = null,
 
     @SerializedName("float")
-    val float: kotlin.Float? = null,
+    val float: Float? = null,
 
     @SerializedName("double")
-    val double: kotlin.Double? = null
+    val double: Double? = null
 
 ) {
 

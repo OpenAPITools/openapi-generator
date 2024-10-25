@@ -30,15 +30,15 @@ data class Pet (
 
 
     @JsonProperty("name")
-    val name: kotlin.String,
+    val name: String,
 
 
     @JsonProperty("photoUrls")
-    val photoUrls: kotlin.collections.List<kotlin.String>,
+    val photoUrls: List<String>,
 
 
     @JsonProperty("id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
 
 
     @JsonProperty("category")
@@ -46,7 +46,7 @@ data class Pet (
 
 
     @JsonProperty("tags")
-    val tags: kotlin.collections.List<Tag>? = null,
+    val tags: List<Tag>? = null,
 
     /* pet status in the store */
 
@@ -60,7 +60,7 @@ data class Pet (
      *
      * Values: available,pending,sold
      */
-    enum class Status(val value: kotlin.String) {
+    enum class Status(val value: String) {
         @JsonProperty(value = "available") available("available"),
         @JsonProperty(value = "pending") pending("pending"),
         @JsonProperty(value = "sold") sold("sold");

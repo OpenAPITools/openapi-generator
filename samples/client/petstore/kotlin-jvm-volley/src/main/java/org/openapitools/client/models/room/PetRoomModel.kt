@@ -18,6 +18,8 @@ package org.openapitools.client.models.room
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import org.openapitools.client.models.Category
+import org.openapitools.client.models.Tag
 import org.openapitools.client.models.*
 
 
@@ -33,17 +35,17 @@ import org.openapitools.client.models.*
 */
 data class PetRoomModel (
     @PrimaryKey(autoGenerate = true) var roomTableId: Int,
-    var photoUrls: kotlin.collections.List<kotlin.String>,
+    var photoUrls: List<String>,
     
-    var name: kotlin.String,
-    var id: kotlin.Long? = null,
+    var name: String,
+    var id: Long? = null,
     var category: Category? = null,
     
     var status: Pet.Status? = null,
     ) {
 
     @Ignore
-    var tags: kotlin.collections.List<Tag>? = null
+    var tags: List<Tag>? = null
 
     companion object { }
 

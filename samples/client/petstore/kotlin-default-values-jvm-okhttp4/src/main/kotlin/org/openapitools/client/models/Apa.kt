@@ -15,6 +15,7 @@
 
 package org.openapitools.client.models
 
+import java.math.BigDecimal
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -32,16 +33,16 @@ import com.squareup.moshi.JsonClass
 data class Apa (
 
     @Json(name = "i0")
-    val i0: kotlin.Int,
+    val i0: Int,
 
     @Json(name = "n0")
-    val n0: java.math.BigDecimal,
+    val n0: BigDecimal,
 
     @Json(name = "i1")
-    val i1: kotlin.Int? = null,
+    val i1: Int? = null,
 
     @Json(name = "n1")
-    val n1: java.math.BigDecimal? = null
+    val n1: BigDecimal? = null
 
 ) {
 

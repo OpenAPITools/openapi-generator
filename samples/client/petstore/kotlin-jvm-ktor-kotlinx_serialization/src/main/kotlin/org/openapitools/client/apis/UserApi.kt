@@ -15,6 +15,7 @@
 
 package org.openapitools.client.apis
 
+import java.time.OffsetDateTime
 import org.openapitools.client.models.User
 
 import org.openapitools.client.infrastructure.*
@@ -70,7 +71,7 @@ import io.ktor.http.ParametersBuilder
          * @param user List of user object 
          * @return void
         */
-        open suspend fun createUsersWithArrayInput(user: kotlin.collections.List<User>): HttpResponse<Unit> {
+        open suspend fun createUsersWithArrayInput(user: List<User>): HttpResponse<Unit> {
 
             val localVariableAuthNames = listOf<String>("api_key")
 
@@ -101,7 +102,7 @@ import io.ktor.http.ParametersBuilder
          * @param user List of user object 
          * @return void
         */
-        open suspend fun createUsersWithListInput(user: kotlin.collections.List<User>): HttpResponse<Unit> {
+        open suspend fun createUsersWithListInput(user: List<User>): HttpResponse<Unit> {
 
             val localVariableAuthNames = listOf<String>("api_key")
 
@@ -132,7 +133,7 @@ import io.ktor.http.ParametersBuilder
          * @param username The name that needs to be deleted 
          * @return void
         */
-        open suspend fun deleteUser(username: kotlin.String): HttpResponse<Unit> {
+        open suspend fun deleteUser(username: String): HttpResponse<Unit> {
 
             val localVariableAuthNames = listOf<String>("api_key")
 
@@ -165,7 +166,7 @@ import io.ktor.http.ParametersBuilder
          * @return User
         */
             @Suppress("UNCHECKED_CAST")
-        open suspend fun getUserByName(username: kotlin.String): HttpResponse<User> {
+        open suspend fun getUserByName(username: String): HttpResponse<User> {
 
             val localVariableAuthNames = listOf<String>()
 
@@ -196,10 +197,10 @@ import io.ktor.http.ParametersBuilder
         * 
          * @param username The user name for login 
          * @param password The password for login in clear text 
-         * @return kotlin.String
+         * @return String
         */
             @Suppress("UNCHECKED_CAST")
-        open suspend fun loginUser(username: kotlin.String, password: kotlin.String): HttpResponse<kotlin.String> {
+        open suspend fun loginUser(username: String, password: String): HttpResponse<String> {
 
             val localVariableAuthNames = listOf<String>()
 
@@ -265,7 +266,7 @@ import io.ktor.http.ParametersBuilder
          * @param user Updated user object 
          * @return void
         */
-        open suspend fun updateUser(username: kotlin.String, user: User): HttpResponse<Unit> {
+        open suspend fun updateUser(username: String, user: User): HttpResponse<Unit> {
 
             val localVariableAuthNames = listOf<String>("api_key")
 

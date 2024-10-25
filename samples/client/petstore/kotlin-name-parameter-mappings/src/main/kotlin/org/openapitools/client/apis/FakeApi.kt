@@ -61,7 +61,7 @@ class FakeApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getParameterNameMapping(underscoreType: kotlin.Long, type: kotlin.String, typeWithUnderscore: kotlin.String, httpDebugOption: kotlin.String) : Environment {
+    fun getParameterNameMapping(underscoreType: Long, type: String, typeWithUnderscore: String, httpDebugOption: String) : Environment {
         val localVarResponse = getParameterNameMappingWithHttpInfo(underscoreType = underscoreType, type = type, typeWithUnderscore = typeWithUnderscore, httpDebugOption = httpDebugOption)
 
         return when (localVarResponse.responseType) {
@@ -92,7 +92,7 @@ class FakeApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getParameterNameMappingWithHttpInfo(underscoreType: kotlin.Long, type: kotlin.String, typeWithUnderscore: kotlin.String, httpDebugOption: kotlin.String) : ApiResponse<Environment?> {
+    fun getParameterNameMappingWithHttpInfo(underscoreType: Long, type: String, typeWithUnderscore: String, httpDebugOption: String) : ApiResponse<Environment?> {
         val localVariableConfig = getParameterNameMappingRequestConfig(underscoreType = underscoreType, type = type, typeWithUnderscore = typeWithUnderscore, httpDebugOption = httpDebugOption)
 
         return request<Unit, Environment>(
@@ -109,7 +109,7 @@ class FakeApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
      * @param httpDebugOption http debug option (to test parameter naming option)
      * @return RequestConfig
      */
-    fun getParameterNameMappingRequestConfig(underscoreType: kotlin.Long, type: kotlin.String, typeWithUnderscore: kotlin.String, httpDebugOption: kotlin.String) : RequestConfig<Unit> {
+    fun getParameterNameMappingRequestConfig(underscoreType: Long, type: String, typeWithUnderscore: String, httpDebugOption: String) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {

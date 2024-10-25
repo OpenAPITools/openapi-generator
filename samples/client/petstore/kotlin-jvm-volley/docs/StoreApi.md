@@ -24,7 +24,7 @@ For valid response try integer IDs with value &lt; 1000. Anything above 1000 or 
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(StoreApi::class.java)
-val orderId : kotlin.String = orderId_example // kotlin.String | ID of the order that needs to be deleted
+val orderId : String = orderId_example // String | ID of the order that needs to be deleted
 
 webService.deleteOrder(orderId)
 ```
@@ -33,7 +33,7 @@ webService.deleteOrder(orderId)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **kotlin.String**| ID of the order that needs to be deleted |
+ **orderId** | **String**| ID of the order that needs to be deleted |
 
 ### Return type
 
@@ -63,7 +63,7 @@ Returns a map of status codes to quantities
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(StoreApi::class.java)
 
-val result : kotlin.collections.Map<kotlin.String, kotlin.Int> = webService.getInventory()
+val result : Map<String, Int> = webService.getInventory()
 ```
 
 ### Parameters
@@ -71,7 +71,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**kotlin.collections.Map&lt;kotlin.String, kotlin.Int&gt;**
+**Map&lt;String, Int&gt;**
 
 ### Authorization
 
@@ -96,7 +96,7 @@ For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other val
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(StoreApi::class.java)
-val orderId : kotlin.Long = 789 // kotlin.Long | ID of pet that needs to be fetched
+val orderId : Long = 789 // Long | ID of pet that needs to be fetched
 
 val result : Order = webService.getOrderById(orderId)
 ```
@@ -105,7 +105,7 @@ val result : Order = webService.getOrderById(orderId)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **kotlin.Long**| ID of pet that needs to be fetched |
+ **orderId** | **Long**| ID of pet that needs to be fetched |
 
 ### Return type
 

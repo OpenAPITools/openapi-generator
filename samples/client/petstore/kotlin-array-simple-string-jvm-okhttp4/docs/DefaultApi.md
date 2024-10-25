@@ -20,7 +20,7 @@ All URIs are relative to *http://localhost*
 //import org.openapitools.client.models.*
 
 val apiInstance = DefaultApi()
-val ids : kotlin.collections.List<kotlin.String> =  // kotlin.collections.List<kotlin.String> | 
+val ids : List<String> =  // List<String> | 
 try {
     apiInstance.idsGet(ids)
 } catch (e: ClientException) {
@@ -35,7 +35,7 @@ try {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **ids** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)|  | |
+| **ids** | [**List&lt;String&gt;**](String.md)|  | |
 
 ### Return type
 

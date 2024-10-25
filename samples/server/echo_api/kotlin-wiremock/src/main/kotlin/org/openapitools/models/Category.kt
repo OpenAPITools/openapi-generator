@@ -9,9 +9,9 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class Category(
     @field:JsonProperty("id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
 
     @field:JsonProperty("name")
-    val name: kotlin.String? = null,
+    val name: String? = null,
 
 )

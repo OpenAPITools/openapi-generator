@@ -18,6 +18,7 @@ package org.openapitools.client.models.room
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import java.math.BigDecimal
 import org.openapitools.client.models.*
 
 
@@ -32,10 +33,10 @@ import org.openapitools.client.models.*
 data class ApaRoomModel (
     @PrimaryKey(autoGenerate = true) var roomTableId: Int,
     
-    var i0: kotlin.Int,
-    var n0: java.math.BigDecimal,
-    var i1: kotlin.Int? = null,
-    var n1: java.math.BigDecimal? = null,
+    var i0: Int,
+    var n0: BigDecimal,
+    var i1: Int? = null,
+    var n1: BigDecimal? = null,
     
     ) {
 

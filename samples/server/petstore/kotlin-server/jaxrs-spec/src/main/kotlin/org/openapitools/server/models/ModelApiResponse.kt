@@ -25,15 +25,15 @@ data class ModelApiResponse (
 
 
     @JsonProperty("code")
-    val code: kotlin.Int? = null,
+    val code: Int? = null,
 
 
     @JsonProperty("type")
-    val type: kotlin.String? = null,
+    val type: String? = null,
 
 
     @JsonProperty("message")
-    val message: kotlin.String? = null
+    val message: String? = null
 
 )
 

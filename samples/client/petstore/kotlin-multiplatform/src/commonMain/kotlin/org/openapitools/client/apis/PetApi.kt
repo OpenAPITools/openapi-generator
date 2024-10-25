@@ -16,6 +16,7 @@
 package org.openapitools.client.apis
 
 import org.openapitools.client.models.ModelApiResponse
+import org.openapitools.client.infrastructure.OctetByteArray
 import org.openapitools.client.models.Pet
 
 import org.openapitools.client.infrastructure.*
@@ -82,7 +83,7 @@ open class PetApi : ApiClient {
      * @param apiKey  (optional)
      * @return void
      */
-    open suspend fun deletePet(petId: kotlin.Long, apiKey: kotlin.String? = null): HttpResponse<Unit> {
+    open suspend fun deletePet(petId: Long, apiKey: String? = null): HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>("petstore_auth")
 
@@ -131,10 +132,10 @@ open class PetApi : ApiClient {
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
-     * @return kotlin.collections.List<Pet>
+     * @return List<Pet>
      */
     @Suppress("UNCHECKED_CAST")
-    open suspend fun findPetsByStatus(status: kotlin.collections.List<StatusFindPetsByStatus>): HttpResponse<kotlin.collections.List<Pet>> {
+    open suspend fun findPetsByStatus(status: kotlin.collections.List<StatusFindPetsByStatus>): HttpResponse<List<Pet>> {
 
         val localVariableAuthNames = listOf<String>("petstore_auth")
 
@@ -174,10 +175,10 @@ open class PetApi : ApiClient {
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
-     * @return kotlin.collections.List<Pet>
+     * @return List<Pet>
      */
     @Suppress("UNCHECKED_CAST")
-    open suspend fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): HttpResponse<kotlin.collections.List<Pet>> {
+    open suspend fun findPetsByTags(tags: List<String>): HttpResponse<List<Pet>> {
 
         val localVariableAuthNames = listOf<String>("petstore_auth")
 
@@ -220,7 +221,7 @@ open class PetApi : ApiClient {
      * @return Pet
      */
     @Suppress("UNCHECKED_CAST")
-    open suspend fun getPetById(petId: kotlin.Long): HttpResponse<Pet> {
+    open suspend fun getPetById(petId: Long): HttpResponse<Pet> {
 
         val localVariableAuthNames = listOf<String>("api_key")
 
@@ -286,7 +287,7 @@ open class PetApi : ApiClient {
      * @param status Updated status of the pet (optional)
      * @return void
      */
-    open suspend fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null): HttpResponse<Unit> {
+    open suspend fun updatePetWithForm(petId: Long, name: String? = null, status: String? = null): HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>("petstore_auth")
 
@@ -324,7 +325,7 @@ open class PetApi : ApiClient {
      * @return ModelApiResponse
      */
     @Suppress("UNCHECKED_CAST")
-    open suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: io.ktor.client.request.forms.InputProvider? = null): HttpResponse<ModelApiResponse> {
+    open suspend fun uploadFile(petId: Long, additionalMetadata: String? = null, file: io.ktor.client.request.forms.InputProvider? = null): HttpResponse<ModelApiResponse> {
 
         val localVariableAuthNames = listOf<String>("petstore_auth")
 

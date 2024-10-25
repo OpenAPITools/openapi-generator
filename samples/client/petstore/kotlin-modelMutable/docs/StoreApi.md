@@ -25,7 +25,7 @@ For valid response try integer IDs with value &lt; 1000. Anything above 1000 or 
 //import org.openapitools.client.models.*
 
 val apiInstance = StoreApi()
-val orderId : kotlin.String = orderId_example // kotlin.String | ID of the order that needs to be deleted
+val orderId : String = orderId_example // String | ID of the order that needs to be deleted
 try {
     apiInstance.deleteOrder(orderId)
 } catch (e: ClientException) {
@@ -40,7 +40,7 @@ try {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **orderId** | **kotlin.String**| ID of the order that needs to be deleted | |
+| **orderId** | **String**| ID of the order that needs to be deleted | |
 
 ### Return type
 
@@ -57,7 +57,7 @@ No authorization required
 
 <a id="getInventory"></a>
 # **getInventory**
-> kotlin.collections.MutableMap&lt;kotlin.String, kotlin.Int&gt; getInventory()
+> MutableMap&lt;String, Int&gt; getInventory()
 
 Returns pet inventories by status
 
@@ -71,7 +71,7 @@ Returns a map of status codes to quantities
 
 val apiInstance = StoreApi()
 try {
-    val result : kotlin.collections.MutableMap<kotlin.String, kotlin.Int> = apiInstance.getInventory()
+    val result : MutableMap<String, Int> = apiInstance.getInventory()
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling StoreApi#getInventory")
@@ -87,7 +87,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**kotlin.collections.MutableMap&lt;kotlin.String, kotlin.Int&gt;**
+**MutableMap&lt;String, Int&gt;**
 
 ### Authorization
 
@@ -116,7 +116,7 @@ For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other val
 //import org.openapitools.client.models.*
 
 val apiInstance = StoreApi()
-val orderId : kotlin.Long = 789 // kotlin.Long | ID of pet that needs to be fetched
+val orderId : Long = 789 // Long | ID of pet that needs to be fetched
 try {
     val result : Order = apiInstance.getOrderById(orderId)
     println(result)
@@ -132,7 +132,7 @@ try {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **orderId** | **kotlin.Long**| ID of pet that needs to be fetched | |
+| **orderId** | **Long**| ID of pet that needs to be fetched | |
 
 ### Return type
 

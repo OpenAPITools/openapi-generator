@@ -1,5 +1,6 @@
 package org.openapitools.api
 
+import java.time.OffsetDateTime
 import org.openapitools.model.User
 import kotlinx.coroutines.flow.Flow
 
@@ -42,7 +43,7 @@ interface UserApiService {
      *         or User not found (status code 404)
      * @see UserApi#deleteUser
      */
-    suspend fun deleteUser(username: kotlin.String): Unit
+    suspend fun deleteUser(username: String): Unit
 
     /**
      * GET /user/{username} : Get user by user name
@@ -53,7 +54,7 @@ interface UserApiService {
      *         or User not found (status code 404)
      * @see UserApi#getUserByName
      */
-    suspend fun getUserByName(username: kotlin.String): User
+    suspend fun getUserByName(username: String): User
 
     /**
      * GET /user/login : Logs user into the system
@@ -64,7 +65,7 @@ interface UserApiService {
      *         or Invalid username/password supplied (status code 400)
      * @see UserApi#loginUser
      */
-    suspend fun loginUser(username: kotlin.String, password: kotlin.String): kotlin.String
+    suspend fun loginUser(username: String, password: String): String
 
     /**
      * GET /user/logout : Logs out current logged in user session
@@ -84,5 +85,5 @@ interface UserApiService {
      *         or User not found (status code 404)
      * @see UserApi#updateUser
      */
-    suspend fun updateUser(username: kotlin.String, body: User): Unit
+    suspend fun updateUser(username: String, body: User): Unit
 }

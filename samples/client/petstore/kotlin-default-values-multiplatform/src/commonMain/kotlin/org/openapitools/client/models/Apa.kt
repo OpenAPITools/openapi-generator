@@ -32,13 +32,13 @@ import kotlinx.serialization.encoding.*
 
 data class Apa (
 
-    @SerialName(value = "i0") @Required val i0: kotlin.Int,
+    @SerialName(value = "i0") @Required val i0: Int,
 
-    @SerialName(value = "n0") @Required val n0: kotlin.Double,
+    @SerialName(value = "n0") @Required val n0: Double,
 
-    @SerialName(value = "i1") val i1: kotlin.Int? = null,
+    @SerialName(value = "i1") val i1: Int? = null,
 
-    @SerialName(value = "n1") val n1: kotlin.Double? = null
+    @SerialName(value = "n1") val n1: Double? = null
 
 ) {
 

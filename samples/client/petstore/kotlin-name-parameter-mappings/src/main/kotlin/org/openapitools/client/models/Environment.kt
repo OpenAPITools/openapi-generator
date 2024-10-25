@@ -29,7 +29,7 @@ import com.squareup.moshi.JsonClass
 data class Environment (
 
     @Json(name = "dummy")
-    val dummy: kotlin.String? = null
+    val dummy: String? = null
 
 ) {
 

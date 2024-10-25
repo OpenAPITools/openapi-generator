@@ -17,6 +17,7 @@ package org.openapitools.client.apis
 
 import java.io.IOException
 
+import java.time.OffsetDateTime
 import org.openapitools.client.models.User
 
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -119,7 +120,7 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun createUsersWithArrayInput(user: kotlin.collections.List<User>) : Unit {
+    suspend fun createUsersWithArrayInput(user: List<User>) : Unit {
         return createUsersWithArrayInputWithHttpInfo(user = user).map { localVarResponse ->
             when (localVarResponse.responseType) {
                 ResponseType.Success -> Unit
@@ -146,7 +147,7 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun createUsersWithArrayInputWithHttpInfo(user: kotlin.collections.List<User>) : Future<ApiResponse<Unit?>> {
+    fun createUsersWithArrayInputWithHttpInfo(user: List<User>) : Future<ApiResponse<Unit?>> {
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("$basePath/user/createWithArray"))
 
@@ -187,7 +188,7 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun createUsersWithListInput(user: kotlin.collections.List<User>) : Unit {
+    suspend fun createUsersWithListInput(user: List<User>) : Unit {
         return createUsersWithListInputWithHttpInfo(user = user).map { localVarResponse ->
             when (localVarResponse.responseType) {
                 ResponseType.Success -> Unit
@@ -214,7 +215,7 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun createUsersWithListInputWithHttpInfo(user: kotlin.collections.List<User>) : Future<ApiResponse<Unit?>> {
+    fun createUsersWithListInputWithHttpInfo(user: List<User>) : Future<ApiResponse<Unit?>> {
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("$basePath/user/createWithList"))
 
@@ -255,7 +256,7 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun deleteUser(username: kotlin.String) : Unit {
+    suspend fun deleteUser(username: String) : Unit {
         return deleteUserWithHttpInfo(username = username).map { localVarResponse ->
             when (localVarResponse.responseType) {
                 ResponseType.Success -> Unit
@@ -282,7 +283,7 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun deleteUserWithHttpInfo(username: kotlin.String) : Future<ApiResponse<Unit?>> {
+    fun deleteUserWithHttpInfo(username: String) : Future<ApiResponse<Unit?>> {
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.DELETE, UriTemplate.of("$basePath/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString()))))
 
@@ -322,7 +323,7 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun getUserByName(username: kotlin.String) : User {
+    suspend fun getUserByName(username: String) : User {
         return getUserByNameWithHttpInfo(username = username).map { localVarResponse ->
             when (localVarResponse.responseType) {
                 ResponseType.Success -> (localVarResponse as Success<*>).data as User
@@ -350,7 +351,7 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getUserByNameWithHttpInfo(username: kotlin.String) : Future<ApiResponse<User?>> {
+    fun getUserByNameWithHttpInfo(username: String) : Future<ApiResponse<User?>> {
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString()))))
 
@@ -375,7 +376,7 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
      * 
      * @param username The user name for login
      * @param password The password for login in clear text
-     * @return kotlin.String
+     * @return String
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
@@ -384,10 +385,10 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun loginUser(username: kotlin.String, password: kotlin.String) : kotlin.String {
+    suspend fun loginUser(username: String, password: String) : String {
         return loginUserWithHttpInfo(username = username, password = password).map { localVarResponse ->
             when (localVarResponse.responseType) {
-                ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.String
+                ResponseType.Success -> (localVarResponse as Success<*>).data as String
                 ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
                 ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
                 ResponseType.ClientError -> {
@@ -407,13 +408,13 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
      * 
      * @param username The user name for login
      * @param password The password for login in clear text
-     * @return ApiResponse<kotlin.String?>
+     * @return ApiResponse<String?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun loginUserWithHttpInfo(username: kotlin.String, password: kotlin.String) : Future<ApiResponse<kotlin.String?>> {
+    fun loginUserWithHttpInfo(username: String, password: String) : Future<ApiResponse<String?>> {
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/user/login"))
 
@@ -430,7 +431,7 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
         return request
             .send()
             .map {
-                val apiResponse: ApiResponse<kotlin.String?> = handleResponse(it)
+                val apiResponse: ApiResponse<String?> = handleResponse(it)
                 apiResponse
             }
     }
@@ -512,7 +513,7 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun updateUser(username: kotlin.String, user: User) : Unit {
+    suspend fun updateUser(username: String, user: User) : Unit {
         return updateUserWithHttpInfo(username = username, user = user).map { localVarResponse ->
             when (localVarResponse.responseType) {
                 ResponseType.Success -> Unit
@@ -540,7 +541,7 @@ class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: 
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun updateUserWithHttpInfo(username: kotlin.String, user: User) : Future<ApiResponse<Unit?>> {
+    fun updateUserWithHttpInfo(username: String, user: User) : Future<ApiResponse<Unit?>> {
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.PUT, UriTemplate.of("$basePath/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString()))))
 

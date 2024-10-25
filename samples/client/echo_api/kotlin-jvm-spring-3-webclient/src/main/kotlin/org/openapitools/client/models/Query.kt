@@ -31,10 +31,10 @@ data class Query (
 
     /* Query */
     @get:JsonProperty("id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
 
     @get:JsonProperty("outcomes")
-    val outcomes: kotlin.collections.List<Query.Outcomes>? = null
+    val outcomes: List<Query.Outcomes>? = null
 
 ) {
 

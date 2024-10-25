@@ -28,7 +28,7 @@ interface PetApiService {
      * @return Invalid pet value (status code 400)
      * @see PetApi#deletePet
      */
-    fun deletePet(petId: kotlin.Long, apiKey: kotlin.String?, ctx: Context): Unit
+    fun deletePet(petId: Long, apiKey: String?, ctx: Context): Unit
 
     /**
      * GET /pet/findByStatus : Finds Pets by status
@@ -40,7 +40,7 @@ interface PetApiService {
      *         or Invalid status value (status code 400)
      * @see PetApi#findPetsByStatus
      */
-    fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>, ctx: Context): List<Pet>
+    fun findPetsByStatus(status: List<String>, ctx: Context): List<Pet>
 
     /**
      * GET /pet/findByTags : Finds Pets by tags
@@ -53,7 +53,7 @@ interface PetApiService {
      * @deprecated
      * @see PetApi#findPetsByTags
      */
-    fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>, ctx: Context): List<Pet>
+    fun findPetsByTags(tags: List<String>, ctx: Context): List<Pet>
 
     /**
      * GET /pet/{petId} : Find pet by ID
@@ -66,7 +66,7 @@ interface PetApiService {
      *         or Pet not found (status code 404)
      * @see PetApi#getPetById
      */
-    fun getPetById(petId: kotlin.Long, ctx: Context): Pet
+    fun getPetById(petId: Long, ctx: Context): Pet
 
     /**
      * PUT /pet : Update an existing pet
@@ -95,7 +95,7 @@ interface PetApiService {
      * @return Invalid input (status code 405)
      * @see PetApi#updatePetWithForm
      */
-    fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?, ctx: Context): Unit
+    fun updatePetWithForm(petId: Long, name: String?, status: String?, ctx: Context): Unit
 
     /**
      * POST /pet/{petId}/uploadImage : uploads an image
@@ -108,5 +108,5 @@ interface PetApiService {
      * @return successful operation (status code 200)
      * @see PetApi#uploadFile
      */
-    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: io.javalin.http.UploadedFile?, ctx: Context): ModelApiResponse
+    fun uploadFile(petId: Long, additionalMetadata: String?, file: io.javalin.http.UploadedFile?, ctx: Context): ModelApiResponse
 }

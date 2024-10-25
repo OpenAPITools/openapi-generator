@@ -4,18 +4,18 @@
 ## Properties
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
-| **username** | **kotlin.String** |  |  |
-| **name** | **kotlin.String** |  |  |
-| **photoUrls** | **kotlin.collections.List&lt;kotlin.String&gt;** |  |  |
-| **id** | **kotlin.Long** |  |  [optional] |
-| **firstName** | **kotlin.String** |  |  [optional] |
-| **lastName** | **kotlin.String** |  |  [optional] |
-| **email** | **kotlin.String** |  |  [optional] |
-| **password** | **kotlin.String** |  |  [optional] |
-| **phone** | **kotlin.String** |  |  [optional] |
-| **userStatus** | **kotlin.Int** | User Status |  [optional] |
+| **username** | **String** |  |  |
+| **name** | **String** |  |  |
+| **photoUrls** | **List&lt;String&gt;** |  |  |
+| **id** | **Long** |  |  [optional] |
+| **firstName** | **String** |  |  [optional] |
+| **lastName** | **String** |  |  [optional] |
+| **email** | **String** |  |  [optional] |
+| **password** | **String** |  |  [optional] |
+| **phone** | **String** |  |  [optional] |
+| **userStatus** | **Int** | User Status |  [optional] |
 | **category** | [**ApiCategory**](ApiCategory.md) |  |  [optional] |
-| **tags** | [**kotlin.collections.List&lt;ApiTag&gt;**](ApiTag.md) |  |  [optional] |
+| **tags** | [**List&lt;ApiTag&gt;**](ApiTag.md) |  |  [optional] |
 | **status** | [**inline**](#Status) | pet status in the store |  [optional] |
 
 
