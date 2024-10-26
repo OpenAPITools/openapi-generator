@@ -22,6 +22,11 @@ using namespace org::openapitools::server::model;
 PetApiImpl::PetApiImpl(const std::shared_ptr<Pistache::Rest::Router>& rtr)
     : PetApi(rtr)
 {
+    
+    
+
+    
+
 }
 
 void PetApiImpl::add_pet(const Pet &pet, Pistache::Http::ResponseWriter &response) {
