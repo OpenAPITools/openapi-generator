@@ -7,4 +7,6 @@ additionalProperties:
   hideGenerationTimestamp: "true"
   allowBlockingValidator: "true"
   packageName: openapi-v3
+globalProperties:
+  skipFormModel: false
 enablePostProcessFile: true

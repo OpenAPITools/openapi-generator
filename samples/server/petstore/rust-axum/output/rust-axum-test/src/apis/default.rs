@@ -12,7 +12,7 @@ use crate::{models, types::*};
 #[allow(clippy::large_enum_variant)]
 pub enum AllOfGetResponse {
     /// OK
-    Status200_OK(models::AllOfObject),
+    Status200_OK(models::FooAllOfObject),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -107,7 +107,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-        body: models::DummyPutRequest,
+        body: models::FooDummyPutRequest,
     ) -> Result<DummyPutResponse, String>;
 
     /// Get a file.

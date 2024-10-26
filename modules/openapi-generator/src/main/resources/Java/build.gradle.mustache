@@ -66,7 +66,7 @@ if(hasProperty('target') && target == 'android') {
 
     task sourcesJar(type: Jar) {
         from android.sourceSets.main.java.srcDirs
-        classifier = 'sources'
+        archiveClassifier = 'sources'
     }
 
     artifacts {
@@ -97,12 +97,12 @@ if(hasProperty('target') && target == 'android') {
     }
 
     task sourcesJar(type: Jar, dependsOn: classes) {
-        classifier = 'sources'
+        archiveClassifier = 'sources'
         from sourceSets.main.allSource
     }
 
     task javadocJar(type: Jar, dependsOn: javadoc) {
-        classifier = 'javadoc'
+        archiveClassifier = 'javadoc'
         from javadoc.destinationDir
     }
 

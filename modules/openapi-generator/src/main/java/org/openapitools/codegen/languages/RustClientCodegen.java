@@ -422,9 +422,12 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 content = content.trim().replace("v", "");
                 content = content.replace("V", "");
 
-                // convert 5.2 to 5.2.0 for example
                 String[] contents = content.split("[.]");
-                if (contents.length == 2) {
+                if (contents.length == 1) {
+                    // convert 5 to 5.0.0 for example
+                    content += ".0.0";
+                } else if (contents.length == 2) {
+                    // convert 5.2 to 5.2.0 for example
                     content += ".0";
                 }
 
