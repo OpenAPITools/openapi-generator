@@ -23,8 +23,7 @@ const std::string StoreApi::base = "";
 
 StoreApi::StoreApi(const std::shared_ptr<Pistache::Rest::Router>& rtr)
     : ApiBase(rtr)
-{
-}
+{}
 
 void StoreApi::init() {
     setupRoutes();
@@ -74,7 +73,15 @@ void StoreApi::get_nested_object_handler(const Pistache::Rest::Request &, Pistac
 
 
     try {
-        this->get_nested_object(response);
+
+
+
+
+    
+
+        
+
+    this->get_nested_object(response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
@@ -86,6 +93,10 @@ void StoreApi::get_nested_object_handler(const Pistache::Rest::Request &, Pistac
     } catch (std::exception &e) {
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
+
+#define REST_PATH "/pet" 
+#undef REST_PATH
+
 
 }
 

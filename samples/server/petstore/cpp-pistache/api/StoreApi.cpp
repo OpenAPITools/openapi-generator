@@ -23,8 +23,7 @@ const std::string StoreApi::base = "/v2";
 
 StoreApi::StoreApi(const std::shared_ptr<Pistache::Rest::Router>& rtr)
     : ApiBase(rtr)
-{
-}
+{}
 
 void StoreApi::init() {
     setupRoutes();
@@ -79,7 +78,15 @@ void StoreApi::delete_order_handler(const Pistache::Rest::Request &request, Pist
     auto orderId = request.param(":orderId").as<std::string>();
     
     try {
-        this->delete_order(orderId, response);
+
+
+
+
+    
+
+        
+
+    this->delete_order(orderId, response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
@@ -91,6 +98,10 @@ void StoreApi::delete_order_handler(const Pistache::Rest::Request &request, Pist
     } catch (std::exception &e) {
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
+
+#define REST_PATH "/store/order/:orderId" 
+#undef REST_PATH
+
 
 }
 void StoreApi::get_inventory_handler(const Pistache::Rest::Request &, Pistache::Http::ResponseWriter response) {
@@ -98,7 +109,21 @@ void StoreApi::get_inventory_handler(const Pistache::Rest::Request &, Pistache::
 
 
     try {
-        this->get_inventory(response);
+
+    #ifndef HTTP_BASIC_AUTH_DEFINED
+    #define HTTP_BASIC_AUTH_DEFINED 0
+    #endif
+    #ifndef HTTP_BEARER_AUTH_DEFINED
+    #define HTTP_BEARER_AUTH_DEFINED 0
+    #endif
+
+
+
+    
+
+        
+
+    this->get_inventory(response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
@@ -110,6 +135,17 @@ void StoreApi::get_inventory_handler(const Pistache::Rest::Request &, Pistache::
     } catch (std::exception &e) {
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
+
+#define REST_PATH "/store/inventory" 
+    static_assert(HTTP_BASIC_AUTH_DEFINED + HTTP_BEARER_AUTH_DEFINED < 2, "Path '" REST_PATH "' has more than one security scheme specified, and the Pistache server generator does not support that." );
+#undef REST_PATH
+
+    #ifdef HTTP_BEARER_AUTH_DEFINED
+    #undef HTTP_BEARER_AUTH_DEFINED
+    #endif
+    #ifdef HTTP_BASIC_AUTH_DEFINED
+    #undef HTTP_BASIC_AUTH_DEFINED
+    #endif
 
 }
 void StoreApi::get_order_by_id_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
@@ -119,7 +155,15 @@ void StoreApi::get_order_by_id_handler(const Pistache::Rest::Request &request, P
     auto orderId = request.param(":orderId").as<int64_t>();
     
     try {
-        this->get_order_by_id(orderId, response);
+
+
+
+
+    
+
+        
+
+    this->get_order_by_id(orderId, response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
@@ -131,6 +175,10 @@ void StoreApi::get_order_by_id_handler(const Pistache::Rest::Request &request, P
     } catch (std::exception &e) {
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
+
+#define REST_PATH "/store/order/:orderId" 
+#undef REST_PATH
+
 
 }
 void StoreApi::place_order_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
@@ -150,7 +198,16 @@ void StoreApi::place_order_handler(const Pistache::Rest::Request &request, Pista
     }
 
     try {
-        this->place_order(body, response);
+
+
+
+
+
+    
+
+        
+
+    this->place_order(body, response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
@@ -162,6 +219,10 @@ void StoreApi::place_order_handler(const Pistache::Rest::Request &request, Pista
     } catch (std::exception &e) {
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
+
+#define REST_PATH "/store/order" 
+#undef REST_PATH
+
 
 }
 
