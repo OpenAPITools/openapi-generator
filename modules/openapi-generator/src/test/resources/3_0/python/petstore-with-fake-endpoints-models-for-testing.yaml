@@ -2867,7 +2867,7 @@ components:
       required:
         - test_enum
       properties:
-        another_test:
+        test_enum_common_prefix:
           $ref: "#/components/schemas/EnumWithCommonPrefix"
         test_enum:
           $ref: "#/components/schemas/TestEnum"

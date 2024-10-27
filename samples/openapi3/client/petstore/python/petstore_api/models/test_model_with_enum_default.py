@@ -29,14 +29,14 @@ class TestModelWithEnumDefault(BaseModel):
     """
     TestModelWithEnumDefault
     """ # noqa: E501
-    another_test: Optional[EnumWithCommonPrefix] = EnumWithCommonPrefix.VAL_2
+    test_enum_common_prefix: Optional[EnumWithCommonPrefix] = EnumWithCommonPrefix.VAL_2
     test_enum: TestEnum
     test_string: Optional[StrictStr] = None
     test_enum_with_default: Optional[TestEnumWithDefault] = TestEnumWithDefault.ZWEI
     test_string_with_default: Optional[StrictStr] = 'ahoy matey'
     test_inline_defined_enum_with_default: Optional[StrictStr] = 'B'
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["another_test", "test_enum", "test_string", "test_enum_with_default", "test_string_with_default", "test_inline_defined_enum_with_default"]
+    __properties: ClassVar[List[str]] = ["test_enum_common_prefix", "test_enum", "test_string", "test_enum_with_default", "test_string_with_default", "test_inline_defined_enum_with_default"]
 
     @field_validator('test_inline_defined_enum_with_default')
     def test_inline_defined_enum_with_default_validate_enum(cls, value):
@@ -106,7 +106,7 @@ class TestModelWithEnumDefault(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "another_test": obj.get("another_test") if obj.get("another_test") is not None else EnumWithCommonPrefix.VAL_2,
+            "test_enum_common_prefix": obj.get("test_enum_common_prefix") if obj.get("test_enum_common_prefix") is not None else EnumWithCommonPrefix.VAL_2,
             "test_enum": obj.get("test_enum"),
             "test_string": obj.get("test_string"),
             "test_enum_with_default": obj.get("test_enum_with_default") if obj.get("test_enum_with_default") is not None else TestEnumWithDefault.ZWEI,
