@@ -27,7 +27,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class ChildWithNullable extends ParentWithNullable {
 
   private Optional<String> otherProperty = Optional.empty();
@@ -126,7 +126,7 @@ public class ChildWithNullable extends ParentWithNullable {
     }
 
     protected Builder copyOf(ChildWithNullable value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       this.instance.setOtherProperty(value.otherProperty);
       return this;
     }

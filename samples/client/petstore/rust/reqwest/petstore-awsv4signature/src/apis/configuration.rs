@@ -24,7 +24,6 @@ pub struct Configuration {
     pub bearer_access_token: Option<String>,
     pub api_key: Option<ApiKey>,
     pub aws_v4_key: Option<AWSv4Key>,
-    // TODO: take an oauth2 token source, similar to the go one
 }
 
 pub type BasicAuth = (String, Option<String>);

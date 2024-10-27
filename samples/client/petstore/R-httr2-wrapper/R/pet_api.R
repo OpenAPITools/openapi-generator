@@ -11,278 +11,6 @@
 #' @format An \code{R6Class} generator object
 #' @field api_client Handles the client-server communication.
 #'
-#' @section Methods:
-#' \describe{
-#' \strong{ add_pet } \emph{ Add a new pet to the store }
-#' 
-#'
-#' \itemize{
-#' \item \emph{ @param } pet \link{Pet}
-#' \item \emph{ @returnType } \link{Pet} \cr
-#'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
-#'
-#' \item status code : 200 | successful operation
-#'
-#' \item return type : Pet
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' \item status code : 405 | Invalid input
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ delete_pet } \emph{ Deletes a pet }
-#' 
-#'
-#' \itemize{
-#' \item \emph{ @param } pet_id integer
-#' \item \emph{ @param } api_key character
-#'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
-#'
-#' \item status code : 400 | Invalid pet value
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ find_pets_by_status } \emph{ Finds Pets by status }
-#' Multiple status values can be provided with comma separated strings
-#'
-#' \itemize{
-#' \item \emph{ @param } status Enum < [available, pending, sold] >
-#' \item \emph{ @returnType } list( \link{Pet} ) \cr
-#'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
-#'
-#' \item status code : 200 | successful operation
-#'
-#' \item return type : array[Pet]
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' \item status code : 400 | Invalid status value
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ find_pets_by_tags } \emph{ Finds Pets by tags }
-#' Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-#'
-#' \itemize{
-#' \item \emph{ @param } tags list( character )
-#' \item \emph{ @returnType } list( \link{Pet} ) \cr
-#'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
-#'
-#' \item status code : 200 | successful operation
-#'
-#' \item return type : array[Pet]
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' \item status code : 400 | Invalid tag value
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ get_pet_by_id } \emph{ Find pet by ID }
-#' Returns a single pet
-#'
-#' \itemize{
-#' \item \emph{ @param } pet_id integer
-#' \item \emph{ @returnType } \link{Pet} \cr
-#'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
-#'
-#' \item status code : 200 | successful operation
-#'
-#' \item return type : Pet
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' \item status code : 400 | Invalid ID supplied
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' \item status code : 404 | Pet not found
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ get_pet_by_id_streaming } \emph{ Find pet by ID (streaming) }
-#' Returns a single pet
-#'
-#' \itemize{
-#' \item \emph{ @param } pet_id integer
-#' \item \emph{ @returnType } \link{Pet} \cr
-#'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
-#'
-#' \item status code : 200 | successful operation
-#'
-#' \item return type : Pet
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' \item status code : 400 | Invalid ID supplied
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' \item status code : 404 | Pet not found
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ test_header } \emph{ Header test }
-#' Header test
-#'
-#' \itemize{
-#' \item \emph{ @param } header_test_int integer
-#' \item \emph{ @returnType } \link{Pet} \cr
-#'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
-#'
-#' \item status code : 200 | successful operation
-#'
-#' \item return type : Pet
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' \item status code : 400 | Invalid ID supplied
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' \item status code : 404 | Pet not found
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ update_pet } \emph{ Update an existing pet }
-#' 
-#'
-#' \itemize{
-#' \item \emph{ @param } pet \link{Pet}
-#' \item \emph{ @returnType } \link{Pet} \cr
-#'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
-#'
-#' \item status code : 200 | successful operation
-#'
-#' \item return type : Pet
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' \item status code : 400 | Invalid ID supplied
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' \item status code : 404 | Pet not found
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' \item status code : 405 | Validation exception
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ update_pet_with_form } \emph{ Updates a pet in the store with form data }
-#' 
-#'
-#' \itemize{
-#' \item \emph{ @param } pet_id integer
-#' \item \emph{ @param } name character
-#' \item \emph{ @param } status character
-#'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
-#'
-#' \item status code : 405 | Invalid input
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ upload_file } \emph{ uploads an image }
-#' 
-#'
-#' \itemize{
-#' \item \emph{ @param } pet_id integer
-#' \item \emph{ @param } additional_metadata character
-#' \item \emph{ @param } file data.frame
-#' \item \emph{ @returnType } \link{ModelApiResponse} \cr
-#'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
-#'
-#' \item status code : 200 | successful operation
-#'
-#' \item return type : ModelApiResponse
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' }
-#'
-#'
 #' @examples
 #' \dontrun{
 #' ####################  add_pet  ####################
@@ -644,13 +372,11 @@ PetApi <- R6::R6Class(
   "PetApi",
   public = list(
     api_client = NULL,
-    #' Initialize a new PetApi.
-    #'
+
     #' @description
     #' Initialize a new PetApi.
     #'
     #' @param api_client An instance of API client.
-    #' @export
     initialize = function(api_client) {
       if (!missing(api_client)) {
         self$api_client <- api_client
@@ -658,16 +384,15 @@ PetApi <- R6::R6Class(
         self$api_client <- ApiClient$new()
       }
     },
-    #' Add a new pet to the store
-    #'
+
     #' @description
     #' Add a new pet to the store
     #'
     #' @param pet Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return Pet
-    #' @export
     add_pet = function(pet, data_file = NULL, ...) {
       local_var_response <- self$add_pet_with_http_info(pet, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
@@ -680,16 +405,15 @@ PetApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' Add a new pet to the store
-    #'
+
     #' @description
     #' Add a new pet to the store
     #'
     #' @param pet Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return API response (Pet) with additional information such as HTTP status code, headers
-    #' @export
     add_pet_with_http_info = function(pet, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -781,16 +505,15 @@ PetApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
     },
-    #' Deletes a pet
-    #'
+
     #' @description
     #' Deletes a pet
     #'
     #' @param pet_id Pet id to delete
     #' @param api_key (optional) No description
     #' @param ... Other optional arguments
+    #'
     #' @return void
-    #' @export
     delete_pet = function(pet_id, api_key = NULL, ...) {
       local_var_response <- self$delete_pet_with_http_info(pet_id, api_key, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
@@ -803,16 +526,15 @@ PetApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' Deletes a pet
-    #'
+
     #' @description
     #' Deletes a pet
     #'
     #' @param pet_id Pet id to delete
     #' @param api_key (optional) No description
     #' @param ... Other optional arguments
+    #'
     #' @return API response (void) with additional information such as HTTP status code, headers
-    #' @export
     delete_pet_with_http_info = function(pet_id, api_key = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -891,16 +613,15 @@ PetApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
     },
-    #' Finds Pets by status
-    #'
+
     #' @description
     #' Finds Pets by status
     #'
     #' @param status Status values that need to be considered for filter
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return array[Pet]
-    #' @export
     find_pets_by_status = function(status, data_file = NULL, ...) {
       local_var_response <- self$find_pets_by_status_with_http_info(status, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
@@ -913,16 +634,15 @@ PetApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' Finds Pets by status
-    #'
+
     #' @description
     #' Finds Pets by status
     #'
     #' @param status Status values that need to be considered for filter
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return API response (array[Pet]) with additional information such as HTTP status code, headers
-    #' @export
     find_pets_by_status_with_http_info = function(status, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -944,7 +664,7 @@ PetApi <- R6::R6Class(
       # explore
       for (query_item in `status`) {
         # validate enum values
-        if (!(query_item %in% c("available", "pending", "sold"))) {
+        if (!is.null(query_item) && !(query_item %in% c("available", "pending", "sold"))) {
           rlang::abort(message = "Invalid value for `status` when calling PetApi$find_pets_by_status. Must be [available, pending, sold].",
                        .subclass = "ApiException",
                        ApiException = ApiException$new(status = 0,
@@ -1019,16 +739,15 @@ PetApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
     },
-    #' Finds Pets by tags
-    #'
+
     #' @description
     #' Finds Pets by tags
     #'
     #' @param tags Tags to filter by
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return array[Pet]
-    #' @export
     find_pets_by_tags = function(tags, data_file = NULL, ...) {
       local_var_response <- self$find_pets_by_tags_with_http_info(tags, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
@@ -1041,16 +760,15 @@ PetApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' Finds Pets by tags
-    #'
+
     #' @description
     #' Finds Pets by tags
     #'
     #' @param tags Tags to filter by
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return API response (array[Pet]) with additional information such as HTTP status code, headers
-    #' @export
     find_pets_by_tags_with_http_info = function(tags, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -1135,16 +853,15 @@ PetApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
     },
-    #' Find pet by ID
-    #'
+
     #' @description
     #' Find pet by ID
     #'
     #' @param pet_id ID of pet to return
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return Pet
-    #' @export
     get_pet_by_id = function(pet_id, data_file = NULL, ...) {
       local_var_response <- self$get_pet_by_id_with_http_info(pet_id, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
@@ -1157,16 +874,15 @@ PetApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' Find pet by ID
-    #'
+
     #' @description
     #' Find pet by ID
     #'
     #' @param pet_id ID of pet to return
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return API response (Pet) with additional information such as HTTP status code, headers
-    #' @export
     get_pet_by_id_with_http_info = function(pet_id, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -1256,8 +972,7 @@ PetApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
     },
-    #' Find pet by ID (streaming)
-    #'
+
     #' @description
     #' Find pet by ID (streaming)
     #'
@@ -1265,8 +980,8 @@ PetApi <- R6::R6Class(
     #' @param stream_callback (optional) callback function to process the data stream
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return Pet
-    #' @export
     get_pet_by_id_streaming = function(pet_id, stream_callback = NULL, data_file = NULL, ...) {
       local_var_response <- self$get_pet_by_id_streaming_with_http_info(pet_id, stream_callback = stream_callback, data_file = data_file, ...)
       if (typeof(stream_callback) == "closure") { # return void if streaming is enabled
@@ -1283,8 +998,7 @@ PetApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' Find pet by ID (streaming)
-    #'
+
     #' @description
     #' Find pet by ID (streaming)
     #'
@@ -1292,8 +1006,8 @@ PetApi <- R6::R6Class(
     #' @param stream_callback (optional) callback function to process the data stream
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return API response (Pet) with additional information such as HTTP status code, headers
-    #' @export
     get_pet_by_id_streaming_with_http_info = function(pet_id, stream_callback = NULL, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -1388,8 +1102,7 @@ PetApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
     },
-    #' Header test
-    #'
+
     #' @description
     #' Header test
     #'
@@ -1397,8 +1110,8 @@ PetApi <- R6::R6Class(
     #' @param stream_callback (optional) callback function to process the data stream
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return Pet
-    #' @export
     test_header = function(header_test_int, stream_callback = NULL, data_file = NULL, ...) {
       local_var_response <- self$test_header_with_http_info(header_test_int, stream_callback = stream_callback, data_file = data_file, ...)
       if (typeof(stream_callback) == "closure") { # return void if streaming is enabled
@@ -1415,8 +1128,7 @@ PetApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' Header test
-    #'
+
     #' @description
     #' Header test
     #'
@@ -1424,8 +1136,8 @@ PetApi <- R6::R6Class(
     #' @param stream_callback (optional) callback function to process the data stream
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return API response (Pet) with additional information such as HTTP status code, headers
-    #' @export
     test_header_with_http_info = function(header_test_int, stream_callback = NULL, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -1518,16 +1230,15 @@ PetApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
     },
-    #' Update an existing pet
-    #'
+
     #' @description
     #' Update an existing pet
     #'
     #' @param pet Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return Pet
-    #' @export
     update_pet = function(pet, data_file = NULL, ...) {
       local_var_response <- self$update_pet_with_http_info(pet, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
@@ -1540,16 +1251,15 @@ PetApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' Update an existing pet
-    #'
+
     #' @description
     #' Update an existing pet
     #'
     #' @param pet Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return API response (Pet) with additional information such as HTTP status code, headers
-    #' @export
     update_pet_with_http_info = function(pet, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -1640,8 +1350,7 @@ PetApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
     },
-    #' Updates a pet in the store with form data
-    #'
+
     #' @description
     #' Updates a pet in the store with form data
     #'
@@ -1649,8 +1358,8 @@ PetApi <- R6::R6Class(
     #' @param name (optional) Updated name of the pet
     #' @param status (optional) Updated status of the pet
     #' @param ... Other optional arguments
+    #'
     #' @return void
-    #' @export
     update_pet_with_form = function(pet_id, name = NULL, status = NULL, ...) {
       local_var_response <- self$update_pet_with_form_with_http_info(pet_id, name, status, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
@@ -1663,8 +1372,7 @@ PetApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' Updates a pet in the store with form data
-    #'
+
     #' @description
     #' Updates a pet in the store with form data
     #'
@@ -1672,8 +1380,8 @@ PetApi <- R6::R6Class(
     #' @param name (optional) Updated name of the pet
     #' @param status (optional) Updated status of the pet
     #' @param ... Other optional arguments
+    #'
     #' @return API response (void) with additional information such as HTTP status code, headers
-    #' @export
     update_pet_with_form_with_http_info = function(pet_id, name = NULL, status = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -1750,8 +1458,7 @@ PetApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
     },
-    #' uploads an image
-    #'
+
     #' @description
     #' uploads an image
     #'
@@ -1760,8 +1467,8 @@ PetApi <- R6::R6Class(
     #' @param file (optional) file to upload
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return ModelApiResponse
-    #' @export
     upload_file = function(pet_id, additional_metadata = NULL, file = NULL, data_file = NULL, ...) {
       local_var_response <- self$upload_file_with_http_info(pet_id, additional_metadata, file, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
@@ -1774,8 +1481,7 @@ PetApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' uploads an image
-    #'
+
     #' @description
     #' uploads an image
     #'
@@ -1784,8 +1490,8 @@ PetApi <- R6::R6Class(
     #' @param file (optional) file to upload
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return API response (ModelApiResponse) with additional information such as HTTP status code, headers
-    #' @export
     upload_file_with_http_info = function(pet_id, additional_metadata = NULL, file = NULL, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()

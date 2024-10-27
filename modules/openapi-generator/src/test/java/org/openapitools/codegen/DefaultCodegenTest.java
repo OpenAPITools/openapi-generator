@@ -57,6 +57,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.*;
@@ -717,6 +722,41 @@ public class DefaultCodegenTest {
             }
         }
         Assertions.assertTrue(typeSeen);
+    }
+
+    @Test
+    public void testExecutePostProcessor() throws InterruptedException, ExecutionException {
+        final DefaultCodegen codegen = new DefaultCodegen();
+
+        ExecutorService executor = Executors.newFixedThreadPool(1);
+        try {
+            Future<Boolean> call1 = executor.submit(new Callable<Boolean>() {
+                @Override
+                public Boolean call() throws Exception {
+                    return codegen.executePostProcessor(new String[] { "binary_does_not_exist" });
+                }
+            });
+
+            Future<Boolean> call2 = executor.submit(new Callable<Boolean>() {
+                @Override
+                public Boolean call() throws Exception {
+                    return codegen.executePostProcessor(new String[] { "echo Hello" });
+                }
+            });
+
+            Future<Boolean> call3 = executor.submit(new Callable<Boolean>() {
+                @Override
+                public Boolean call() throws Exception {
+                    return codegen.executePostProcessor(new String[] { "echo", "Hello" });
+                }
+            });
+
+            assertFalse(call1.get());
+            assertTrue(call2.get());
+            assertTrue(call3.get());
+        } finally {
+            executor.shutdown();
+        }
     }
 
     @Test

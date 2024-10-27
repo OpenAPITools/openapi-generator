@@ -19,6 +19,15 @@ workflows:
 
             sudo gem install cocoapods
     - script@1.2.0:
+        title: Run Swift6 tests
+        inputs:
+        - content: |
+            #!/usr/bin/env bash
+
+            set -e
+
+            ./samples/client/petstore/swift6/swift6_test_all.sh
+    - script@1.2.0:
         title: Run Swift5 tests
         inputs:
         - content: |
@@ -39,4 +48,4 @@ workflows:
 
 meta:
   bitrise.io:
-    stack: osx-xcode-14.3.x-ventura
+    stack: osx-xcode-16.0.x

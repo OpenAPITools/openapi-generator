@@ -30,22 +30,22 @@ plugins {
 }
 
 dependencies {
-    compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    compile("org.jetbrains.kotlin:kotlin-reflect")
-    compile("org.springframework.boot:spring-boot-starter-web")
-    compile("io.springfox:springfox-swagger2:2.9.2")
-    compile("org.webjars:swagger-ui:4.10.3")
-    compile("org.webjars:webjars-locator-core")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("io.springfox:springfox-swagger2:2.9.2")
+    implementation("org.webjars:swagger-ui:4.10.3")
+    implementation("org.webjars:webjars-locator-core")
 
-    compile("com.google.code.findbugs:jsr305:3.0.2")
-    compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
-    compile("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
-    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
-    compile("com.fasterxml.jackson.module:jackson-module-kotlin")
-    compile("javax.validation:validation-api")
-    compile("javax.annotation:javax.annotation-api:1.3.2")
-    testCompile("org.jetbrains.kotlin:kotlin-test-junit5")
-    testCompile("org.springframework.boot:spring-boot-starter-test") {
+    implementation("com.google.code.findbugs:jsr305:3.0.2")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("javax.validation:validation-api")
+    implementation("javax.annotation:javax.annotation-api:1.3.2")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "junit")
     }
 }

@@ -27,8 +27,7 @@ AllofTagApiResponse <- R6::R6Class(
     `message` = NULL,
     `_field_list` = c("id", "name", "code", "type", "message"),
     `additional_properties` = list(),
-    #' Initialize a new AllofTagApiResponse class.
-    #'
+
     #' @description
     #' Initialize a new AllofTagApiResponse class.
     #'
@@ -39,7 +38,6 @@ AllofTagApiResponse <- R6::R6Class(
     #' @param message message
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
-    #' @export
     initialize = function(`id` = NULL, `name` = NULL, `code` = NULL, `type` = NULL, `message` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`id`)) {
         if (!(is.numeric(`id`) && length(`id`) == 1)) {
@@ -77,13 +75,11 @@ AllofTagApiResponse <- R6::R6Class(
         }
       }
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return AllofTagApiResponse in JSON format
-    #' @export
     toJSON = function() {
       AllofTagApiResponseObject <- list()
       if (!is.null(self$`id`)) {
@@ -112,14 +108,12 @@ AllofTagApiResponse <- R6::R6Class(
 
       AllofTagApiResponseObject
     },
-    #' Deserialize JSON string into an instance of AllofTagApiResponse
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of AllofTagApiResponse
     #'
     #' @param input_json the JSON input
     #' @return the instance of AllofTagApiResponse
-    #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`id`)) {
@@ -146,13 +140,11 @@ AllofTagApiResponse <- R6::R6Class(
 
       self
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return AllofTagApiResponse in JSON format
-    #' @export
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`id`)) {
@@ -204,14 +196,12 @@ AllofTagApiResponse <- R6::R6Class(
       }
       json_string <- as.character(jsonlite::minify(jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA)))
     },
-    #' Deserialize JSON string into an instance of AllofTagApiResponse
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of AllofTagApiResponse
     #'
     #' @param input_json the JSON input
     #' @return the instance of AllofTagApiResponse
-    #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`id` <- this_object$`id`
@@ -228,53 +218,42 @@ AllofTagApiResponse <- R6::R6Class(
 
       self
     },
-    #' Validate JSON input with respect to AllofTagApiResponse
-    #'
+
     #' @description
     #' Validate JSON input with respect to AllofTagApiResponse and throw an exception if invalid
     #'
     #' @param input the JSON input
-    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
     },
-    #' To string (JSON format)
-    #'
+
     #' @description
     #' To string (JSON format)
     #'
     #' @return String representation of AllofTagApiResponse
-    #' @export
     toString = function() {
       self$toJSONString()
     },
-    #' Return true if the values in all fields are valid.
-    #'
+
     #' @description
     #' Return true if the values in all fields are valid.
     #'
     #' @return true if the values in all fields are valid.
-    #' @export
     isValid = function() {
       TRUE
     },
-    #' Return a list of invalid fields (if any).
-    #'
+
     #' @description
     #' Return a list of invalid fields (if any).
     #'
     #' @return A list of invalid fields (if any).
-    #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
       invalid_fields
     },
-    #' Print the object
-    #'
+
     #' @description
     #' Print the object
-    #'
-    #' @export
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)

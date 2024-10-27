@@ -12,7 +12,11 @@ using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;{{#useCompareNetObjects}}
 using KellermanSoftware.CompareNetObjects;{{/useCompareNetObjects}}
+{{#models}}
+{{#-first}}
 using {{packageName}}.{{modelPackage}};
+{{/-first}}
+{{/models}}
 using System.Runtime.CompilerServices;
 
 {{>Assembly}}namespace {{packageName}}.{{clientPackage}}
@@ -60,7 +64,7 @@ using System.Runtime.CompilerServices;
             /// <summary>
             /// The {{keyParamName}} header
             /// </summary>
-            {{#lambda.titlecase}}{{keyParamName}}{{/lambda.titlecase}}{{^-last}},{{/-last}}
+            {{#lambda.titlecase}}{{#lambda.alphabet_or_underscore}}{{keyParamName}}{{/lambda.alphabet_or_underscore}}{{/lambda.titlecase}}{{^-last}},{{/-last}}
             {{/apiKeyMethods}}
         }
 
@@ -76,7 +80,7 @@ using System.Runtime.CompilerServices;
             return value switch
             {
                 {{#apiKeyMethods}}
-                ApiKeyHeader.{{#lambda.titlecase}}{{keyParamName}}{{/lambda.titlecase}} => "{{keyParamName}}",
+                ApiKeyHeader.{{#lambda.titlecase}}{{#lambda.alphabet_or_underscore}}{{keyParamName}}{{/lambda.alphabet_or_underscore}}{{/lambda.titlecase}} => "{{keyParamName}}",
                 {{/apiKeyMethods}}
                 _ => throw new System.ComponentModel.InvalidEnumArgumentException(nameof(value), (int)value, typeof(ApiKeyHeader)),
             };
@@ -85,7 +89,7 @@ using System.Runtime.CompilerServices;
             switch(value)
             {
                 {{#apiKeyMethods}}
-                case ApiKeyHeader.{{#lambda.titlecase}}{{keyParamName}}{{/lambda.titlecase}}:
+                case ApiKeyHeader.{{#lambda.titlecase}}{{#lambda.alphabet_or_underscore}}{{keyParamName}}{{/lambda.alphabet_or_underscore}}{{/lambda.titlecase}}:
                     return "{{keyParamName}}";
                 {{/apiKeyMethods}}
                 default:
@@ -172,6 +176,10 @@ using System.Runtime.CompilerServices;
                 // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
                 // For example: 2009-06-15T13:45:30.0000000
                 return dateTimeOffset.ToString(format);
+            {{#net60OrLater}}
+            if (obj is DateOnly dateOnly)
+                return dateOnly.ToString(format);
+            {{/net60OrLater}}
             if (obj is bool boolean)
                 return boolean
                     ? "true"

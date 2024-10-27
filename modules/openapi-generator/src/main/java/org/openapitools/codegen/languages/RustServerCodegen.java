@@ -49,11 +49,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URL;
 import java.util.*;
-import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -265,6 +263,8 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
                     " 'export RUST_POST_PROCESS_FILE=\"/usr/local/bin/rustfmt\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` " +
                     " (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'RUST_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (!Boolean.TRUE.equals(ModelUtils.isGenerateAliasAsModel())) {
@@ -1063,39 +1063,48 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     public String getTypeDeclaration(Schema p) {
         LOGGER.trace("Getting type declaration for schema");
 
+        String type;
+
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             String innerType = getTypeDeclaration(inner);
-            return typeMapping.get("array") + "<" + innerType + ">";
+            type = typeMapping.get("array") + "<" + innerType + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
             String innerType = getTypeDeclaration(inner);
             StringBuilder typeDeclaration = new StringBuilder(typeMapping.get("map")).append("<").append(typeMapping.get("string")).append(", ");
             typeDeclaration.append(innerType).append(">");
-            return typeDeclaration.toString();
+            type = typeDeclaration.toString();
         } else if (!StringUtils.isEmpty(p.get$ref())) {
-            String dataType;
             try {
-                dataType = modelFromSchema(p);
+                type = modelFromSchema(p);
 
-                if (dataType != null) {
-                    dataType = "models::" + dataType;
-                    LOGGER.debug("Returning " + dataType + " from ref");
+                if (type != null) {
+                    type = "models::" + type;
+                    LOGGER.debug("Returning " + type + " from ref");
                 }
             } catch (Exception e) {
-                dataType = null;
+                type = null;
                 LOGGER.error("Error obtaining the datatype from schema (model): " + p + ". Error was: " + e.getMessage(), e);
             }
-
-            LOGGER.debug("Returning " + dataType);
-
-            return dataType;
         } else if (p instanceof FileSchema) {
-            return typeMapping.get("File").toString();
+            type = typeMapping.get("File").toString();
+        } else {
+            type = super.getTypeDeclaration(p);
         }
 
-        return super.getTypeDeclaration(p);
+        // We are using extrinsic nullability, rather than intrinsic, so we need to dig into the inner
+        // layer of the referenced schema.
+        Schema rp = ModelUtils.getReferencedSchema(openAPI, p);
+
+        if (rp.getNullable() == Boolean.TRUE) {
+            type = "swagger::Nullable<" + type + ">";
+        }
+
+        LOGGER.debug("Returning " + type + " for type declaration");
+
+        return type;
     }
 
     @Override
@@ -1400,6 +1409,19 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         return "swagger::AnyOf" + types.size() + "<" + String.join(",", types) + ">";
     }
 
+    /**
+     * Strip a swagger::Nullable wrapper on a datatype
+     *
+     * @deprecated Avoid using this - use a different mechanism instead.
+     */
+    private static String stripNullable(String type) {
+        if (type.startsWith("swagger::Nullable<") && type.endsWith(">")) {
+            return type.substring("swagger::Nullable<".length(), type.length() - 1);
+        } else {
+            return type;
+        }
+    }
+
     @Override
     public String toAllOfName(List<String> names, Schema composedSchema) {
         // Handle all of objects as freeform
@@ -1409,7 +1431,9 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
-        if (!languageSpecificPrimitives.contains(property.dataType)) {
+
+        // TODO: We should avoid reverse engineering primitive type status from the data type
+        if (!languageSpecificPrimitives.contains(stripNullable(property.dataType))) {
             // If we use a more qualified model name, then only camelize the actual type, not the qualifier.
             if (property.dataType.contains(":")) {
                 int position = property.dataType.lastIndexOf(":");
@@ -1417,7 +1441,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             } else {
                 property.dataType = camelize(property.dataType);
             }
-            property.isPrimitiveType = property.isContainer && languageSpecificPrimitives.contains(typeMapping.get(property.complexType));
+            property.isPrimitiveType = property.isContainer && languageSpecificPrimitives.contains(typeMapping.get(stripNullable(property.complexType)));
         } else {
             property.isPrimitiveType = true;
         }
@@ -1496,6 +1520,10 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         if (Boolean.TRUE.equals(param.isFreeFormObject)) {
             param.vendorExtensions.put("x-format-string", "{:?}");
             example = null;
+        } else if (param.isArray && param.isString) {
+            // This occurs if the parameter is a form property and is Vec<String>
+            param.vendorExtensions.put("x-format-string", "{:?}");
+            example = (param.example != null) ? "&vec![\"" + param.example + "\".to_string()]" : "&Vec::new()";
         } else if (param.isString) {
             param.vendorExtensions.put("x-format-string", "\\\"{}\\\"");
             example = "\"" + ((param.example != null) ? param.example : "") + "\".to_string()";
@@ -1542,6 +1570,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -1553,19 +1582,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
         // only process files with .rs extension
         if ("rs".equals(FilenameUtils.getExtension(file.toString()))) {
-            try {
-                Process p = Runtime.getRuntime().exec(new String[]{commandPrefix, file.toString()});
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({} {}). Exit code: {}", commandPrefix, file, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {} {}", commandPrefix, file);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({} ()). Exception: {}", commandPrefix, file, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[] {commandPrefix, file.toString()});
         }
     }
 

@@ -142,6 +142,8 @@ jobs:
           path: modules/openapi-generator-cli/target
       - name: Delete samples that are entirely generated
         run: |
+          rm -rf samples/client/petstore/csharp/generichost/latest/Tags
+
           rm -rf samples/client/petstore/csharp/generichost/net8/AllOf
           rm -rf samples/client/petstore/csharp/generichost/net8/AnyOf
           rm -rf samples/client/petstore/csharp/generichost/net8/AnyOfNoCompare

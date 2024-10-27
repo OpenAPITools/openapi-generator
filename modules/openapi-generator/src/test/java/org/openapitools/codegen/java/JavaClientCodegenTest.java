@@ -1274,6 +1274,34 @@ public class JavaClientCodegenTest {
     }
 
     /**
+     * see https://github.com/OpenAPITools/openapi-generator/issues/19895
+     */
+    @Test public void testCharsetInContentTypeCorrectlyEncodedForFeignApi_issue19895() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(FEIGN)
+                .setInputSpec("src/test/resources/3_0/issue_19895.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        validateJavaSourceFiles(files);
+        var defaultApiFile = output.resolve("src/main/java/org/openapitools/client/api/DefaultApi.java");
+        assertThat(files).contains(defaultApiFile.toFile());
+        assertThat(defaultApiFile).content()
+                .doesNotContain(
+                        "Content-Type: application/json;charset&#x3D;utf-8",
+                        "Accept: application/json;charset&#x3D;utf-8")
+                .contains(
+                        "Content-Type: application/json;charset=utf-8",
+                        "Accept: application/json;charset=utf-8"
+                );
+    }
+
+    /**
      * See https://github.com/OpenAPITools/openapi-generator/issues/6715
      * <p>
      * UPDATE: the following test has been ignored due to https://github.com/OpenAPITools/openapi-generator/pull/11081/
@@ -1954,9 +1982,9 @@ public class JavaClientCodegenTest {
         new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen)).generate();
 
         assertThat(output.resolve("src/main/java/org/openapitools/client/model/Cat.java")).content()
-            .contains("  @Override\n" + "  public Cat petType(String petType) {");
+            .contains("  @Override\n" + "  public Cat petType(@javax.annotation.Nonnull String petType) {");
         assertThat(output.resolve("src/main/java/org/openapitools/client/model/Pet.java")).content()
-            .contains("  }\n" + "\n" + "  public Pet petType(String petType) {\n");
+            .contains("  }\n" + "\n" + "  public Pet petType(@javax.annotation.Nonnull String petType) {\n");
     }
 
     @Test public void testForJavaNativeClientOverrideSetter() {
@@ -1971,9 +1999,9 @@ public class JavaClientCodegenTest {
         new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen)).generate();
 
         assertThat(output.resolve("src/main/java/org/openapitools/client/model/Cat.java")).content()
-            .contains("  @Override\n" + "  public Cat petType(String petType) {");
+            .contains("  @Override\n" + "  public Cat petType(@javax.annotation.Nonnull String petType) {");
         assertThat(output.resolve("src/main/java/org/openapitools/client/model/Pet.java")).content()
-            .contains("  }\n" + "\n" + "  public Pet petType(String petType) {\n");
+            .contains("  }\n" + "\n" + "  public Pet petType(@javax.annotation.Nonnull String petType) {\n");
     }
 
     @Test public void testDeprecatedProperty() {
@@ -1989,9 +2017,9 @@ public class JavaClientCodegenTest {
         validateJavaSourceFiles(files);
         TestUtils.assertFileContains(
             output.resolve("src/main/java/org/openapitools/client/model/BigDog.java"),
-            "@Deprecated\n public BigDog declawed(Boolean declawed) {", // deprecated builder method
+            "@Deprecated\n public BigDog declawed(@javax.annotation.Nullable Boolean declawed) {", // deprecated builder method
             "@Deprecated\n @javax.annotation.Nullable\n\n public Boolean getDeclawed() {", // deprecated getter
-            "@Deprecated\n" + " public void setDeclawed(Boolean declawed) {" // deprecated setter
+            "@Deprecated\n" + " public void setDeclawed(@javax.annotation.Nullable Boolean declawed) {" // deprecated setter
         );
     }
 
@@ -2008,13 +2036,13 @@ public class JavaClientCodegenTest {
         validateJavaSourceFiles(files);
         TestUtils.assertFileContains(
             output.resolve("src/main/java/org/openapitools/client/model/BigDog.java"),
-            "@Deprecated\n public BigDog declawed(Boolean declawed) {", // deprecated builder method
+            "@Deprecated\n public BigDog declawed(@jakarta.annotation.Nullable Boolean declawed) {", // deprecated builder method
             "@Deprecated\n @jakarta.annotation.Nullable\n @JsonProperty(JSON_PROPERTY_DECLAWED)\n"
                 + " @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)\n\n"
                 + " public Boolean getDeclawed() {", // deprecated getter
             "@Deprecated\n @JsonProperty(JSON_PROPERTY_DECLAWED)\n"
                 + " @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)\n"
-                + " public void setDeclawed(Boolean declawed) {" // deprecated setter
+                + " public void setDeclawed(@jakarta.annotation.Nullable Boolean declawed) {" // deprecated setter
         );
     }
 

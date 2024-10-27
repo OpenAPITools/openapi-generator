@@ -48,16 +48,17 @@ import org.openapitools.client.JSON;
 /**
  * DanishPig
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class DanishPig {
   public static final String SERIALIZED_NAME_CLASS_NAME = "className";
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
+  @javax.annotation.Nonnull
   private String className;
 
   public DanishPig() {
   }
 
-  public DanishPig className(String className) {
+  public DanishPig className(@javax.annotation.Nonnull String className) {
     this.className = className;
     return this;
   }
@@ -71,7 +72,7 @@ public class DanishPig {
     return className;
   }
 
-  public void setClassName(String className) {
+  public void setClassName(@javax.annotation.Nonnull String className) {
     this.className = className;
   }
 

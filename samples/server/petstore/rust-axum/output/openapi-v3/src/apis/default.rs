@@ -46,6 +46,22 @@ pub enum EnumInPathPathParamGetResponse {
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
+pub enum FormTestResponse {
+    /// OK
+    Status200_OK,
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
+pub enum GetWithBooleanParameterResponse {
+    /// OK
+    Status200_OK,
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum JsonComplexQueryParamGetResponse {
     /// Success
     Status200_Success,
@@ -93,6 +109,14 @@ pub enum MultigetGetResponse {
 pub enum MultipleAuthSchemeGetResponse {
     /// Check that limiting to multiple required auth schemes works
     Status200_CheckThatLimitingToMultipleRequiredAuthSchemesWorks,
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
+pub enum MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse {
+    /// Success
+    Status200_Success,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -171,6 +195,14 @@ pub enum Rfc7807GetResponse {
     Status404_NotFound(models::ObjectWithArrayOfObjects),
     /// NotAcceptable
     Status406_NotAcceptable(String),
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
+pub enum TwoFirstLetterHeadersResponse {
+    /// OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -279,6 +311,26 @@ pub trait Default {
         path_params: models::EnumInPathPathParamGetPathParams,
     ) -> Result<EnumInPathPathParamGetResponse, String>;
 
+    /// Test a Form Post.
+    ///
+    /// FormTest - POST /form-test
+    async fn form_test(
+        &self,
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+        body: models::FormTestRequest,
+    ) -> Result<FormTestResponse, String>;
+
+    /// GetWithBooleanParameter - GET /get-with-bool
+    async fn get_with_boolean_parameter(
+        &self,
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+        query_params: models::GetWithBooleanParameterQueryParams,
+    ) -> Result<GetWithBooleanParameterResponse, String>;
+
     /// JsonComplexQueryParamGet - GET /json-complex-query-param
     async fn json_complex_query_param_get(
         &self,
@@ -322,6 +374,18 @@ pub trait Default {
         host: Host,
         cookies: CookieJar,
     ) -> Result<MultipleAuthSchemeGetResponse, String>;
+
+    /// MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGet - GET /multiple-path-params-with-very-long-path-to-test-formatting/{path_param_a}/{path_param_b}
+    async fn multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get(
+        &self,
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+        path_params: models::MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetPathParams,
+    ) -> Result<
+        MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse,
+        String,
+    >;
 
     /// OneOfGet - GET /one-of
     async fn one_of_get(
@@ -392,6 +456,15 @@ pub trait Default {
         cookies: CookieJar,
     ) -> Result<Rfc7807GetResponse, String>;
 
+    /// TwoFirstLetterHeaders - POST /operation-two-first-letter-headers
+    async fn two_first_letter_headers(
+        &self,
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+        header_params: models::TwoFirstLetterHeadersHeaderParams,
+    ) -> Result<TwoFirstLetterHeadersResponse, String>;
+
     /// UntypedPropertyGet - GET /untyped_property
     async fn untyped_property_get(
         &self,
@@ -436,7 +509,7 @@ pub trait Default {
         body: Bytes,
     ) -> Result<XmlOtherPutResponse, String>;
 
-    /// Post an array.
+    /// Post an array.  It's important we test apostrophes, so include one here..
     ///
     /// XmlPost - POST /xml
     async fn xml_post(

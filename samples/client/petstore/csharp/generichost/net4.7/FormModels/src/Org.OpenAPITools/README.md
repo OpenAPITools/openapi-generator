@@ -134,7 +134,7 @@ Authentication schemes defined for the API:
 ### api_key
 
 - **Type**: API key
-- **API key parameter name**: api_key
+- **API key parameter name**: api-key
 - **Location**: HTTP header
 
 <a id="api_key_query"></a>
@@ -162,7 +162,7 @@ Authentication schemes defined for the API:
 
 ## Build
 - SDK version: 1.0.0
-- Generator version: 7.9.0-SNAPSHOT
+- Generator version: 7.10.0-SNAPSHOT
 - Build package: org.openapitools.codegen.languages.CSharpClientCodegen
 
 ## Api Information

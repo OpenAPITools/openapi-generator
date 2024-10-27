@@ -33,7 +33,7 @@ $apiInstance = new OpenAPI\Client\Api\PathApi(
 $path_string = 'path_string_example'; // string
 $path_integer = 56; // int
 $enum_nonref_string_path = 'enum_nonref_string_path_example'; // string
-$enum_ref_string_path = new \OpenAPI\Client\Model\StringEnumRef(); // StringEnumRef
+$enum_ref_string_path = new \OpenAPI\Client\Model\\OpenAPI\Client\Model\StringEnumRef(); // \OpenAPI\Client\Model\StringEnumRef
 
 try {
     $result = $apiInstance->testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath($path_string, $path_integer, $enum_nonref_string_path, $enum_ref_string_path);
@@ -50,7 +50,7 @@ try {
 | **path_string** | **string**|  | |
 | **path_integer** | **int**|  | |
 | **enum_nonref_string_path** | **string**|  | |
-| **enum_ref_string_path** | [**StringEnumRef**](../Model/.md)|  | |
+| **enum_ref_string_path** | [**\OpenAPI\Client\Model\StringEnumRef**](../Model/.md)|  | |
 
 ### Return type
 

@@ -111,7 +111,6 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
                 // Typescript reserved words
                 "constructor"));
 
-        typeMapping.put("List", "Array");
         typeMapping.put("object", "any");
         typeMapping.put("DateTime", "Date");
 
@@ -141,6 +140,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         supportModelPropertyNaming(CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.camelCase);
 
         // Git
+        supportingFiles.add(new SupportingFile(".gitattributes.mustache", "", ".gitattributes"));
         supportingFiles.add(new SupportingFile(".gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
 

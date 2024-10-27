@@ -175,7 +175,7 @@ impl<T> Nullable<T> {
     /// assert_eq!(x.expect("the world is ending"), "value");
     /// ```
     ///
-    /// ```{.should_panic}
+    /// ```should_panic
     /// # use openapi_v3::types::Nullable;
     ///
     /// let x: Nullable<&str> = Nullable::Null;
@@ -210,7 +210,7 @@ impl<T> Nullable<T> {
     /// assert_eq!(x.unwrap(), "air");
     /// ```
     ///
-    /// ```{.should_panic}
+    /// ```should_panic
     /// # use openapi_v3::types::Nullable;
     ///
     /// let x: Nullable<&str> = Nullable::Null;
@@ -530,7 +530,7 @@ impl<T> Nullable<T> {
     }
 }
 
-impl<'a, T: Clone> Nullable<&'a T> {
+impl<T: Clone> Nullable<&T> {
     /// Maps an `Nullable<&T>` to an `Nullable<T>` by cloning the contents of the
     /// Nullable.
     ///

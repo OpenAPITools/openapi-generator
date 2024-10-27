@@ -25,49 +25,30 @@ import upickle.default.*
   */
 case class TagData(
   id: Long = 0 ,
+  name: String = "" 
+  
 
-    name: String = "" 
+) derives RW {
 
-  ) {
+  def asJsonString: String = asJson.toString()
 
-  def asJson: String = write(this)
+  def asJson : ujson.Value = {
+    val jason = writeJs(this)
+    jason
+  }
 
   def validationErrors(path : Seq[Field], failFast : Boolean) : Seq[ValidationError] = {
     val errors = scala.collection.mutable.ListBuffer[ValidationError]()
-        // ==================
-        // id
-
-
-
-
-
-
+        // ================== id validation ==================
+        
+        
+        
         
 
-
-
-
-
-
-
+        // ================== name validation ==================
         
-
-        // ==================
-        // name
-
-
-
-
-
-
         
-
-
-
-
-
-
-
+        
         
 
     errors.toSeq
@@ -91,19 +72,28 @@ case class TagData(
         name
         )
         
+    
     )
   }
 }
 
 object TagData {
 
-  given readWriter : RW[TagData] = macroRW
+  def fromJson(jason : ujson.Value) : TagData = try {
+        val data = read[TagData](jason)
+        data
+    } catch {
+      case NonFatal(e) => sys.error(s"Error creating TagData from json '$jason': $e")
+  }
 
-  def fromJsonString(jason : String) : TagData = try {
-        read[TagData](jason)
-     } catch {
+  def fromJsonString(jason : String) : TagData = {
+        val parsed = try {
+           read[ujson.Value](jason)
+        } catch {
           case NonFatal(e) => sys.error(s"Error parsing json '$jason': $e")
-     }
+        }
+        fromJson(parsed)
+  }
 
   def manyFromJsonString(jason : String) : Seq[TagData] = try {
         read[List[TagData]](jason)

@@ -16,11 +16,11 @@ import { HttpFile } from '../http/http';
 export class Dog extends Animal {
     'breed'?: string;
 
-    static readonly discriminator: string | undefined = undefined;
+    static override readonly discriminator: string | undefined = undefined;
 
-    static readonly mapping: {[index: string]: string} | undefined = undefined;
+    static override readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static override readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
             "name": "breed",
             "baseName": "breed",
@@ -28,7 +28,7 @@ export class Dog extends Animal {
             "format": ""
         }    ];
 
-    static getAttributeTypeMap() {
+    static override getAttributeTypeMap() {
         return super.getAttributeTypeMap().concat(Dog.attributeTypeMap);
     }
 

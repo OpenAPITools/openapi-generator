@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Client
         public enum ApiKeyHeader
         {
             /// <summary>
-            /// The api_key header
+            /// The api-key header
             /// </summary>
             Api_key,
             /// <summary>
@@ -77,7 +77,7 @@ namespace Org.OpenAPITools.Client
         {
             return value switch
             {
-                ApiKeyHeader.Api_key => "api_key",
+                ApiKeyHeader.Api_key => "api-key",
                 ApiKeyHeader.Api_key_query => "api_key_query",
                 _ => throw new System.ComponentModel.InvalidEnumArgumentException(nameof(value), (int)value, typeof(ApiKeyHeader)),
             };
@@ -160,6 +160,8 @@ namespace Org.OpenAPITools.Client
                 // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
                 // For example: 2009-06-15T13:45:30.0000000
                 return dateTimeOffset.ToString(format);
+            if (obj is DateOnly dateOnly)
+                return dateOnly.ToString(format);
             if (obj is bool boolean)
                 return boolean
                     ? "true"

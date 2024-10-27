@@ -13,6 +13,7 @@ import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.features.SchemaSupportFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 
 public interface IJsonSchemaValidationProperties {
@@ -283,7 +284,7 @@ public interface IJsonSchemaValidationProperties {
      *
      * @param p the schema which contains the type info
      */
-    default void setTypeProperties(Schema p) {
+    default void setTypeProperties(Schema p, OpenAPI openAPI) {
         if (ModelUtils.isModelWithPropertiesOnly(p)) {
             setIsModel(true);
         } else if (ModelUtils.isArraySchema(p)) {
@@ -336,7 +337,7 @@ public interface IJsonSchemaValidationProperties {
             setIsNull(true);
         } else if (ModelUtils.isAnyType(p)) {
             setIsAnyType(true);
-        } else if (ModelUtils.isFreeFormObject(p)) {
+        } else if (ModelUtils.isFreeFormObject(p, openAPI)) {
             setIsFreeFormObject(true);
             // TODO: remove below later after updating generators to properly use isFreeFormObject
             setIsMap(true);

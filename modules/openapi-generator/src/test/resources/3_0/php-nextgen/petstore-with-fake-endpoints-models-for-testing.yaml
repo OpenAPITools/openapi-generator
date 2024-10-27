@@ -1303,6 +1303,42 @@ paths:
       responses:
         200:
           description: The instance started successfully
+  /fake/enum/endpoint:
+    get:
+      tags:
+        - fake
+      summary: test endpoint with enum parameter
+      operationId: fake-enum-endpoint
+      parameters:
+        - name: enum-class
+          in: query
+          description: enum class parameter
+          required: true
+          schema:
+              $ref: '#/components/schemas/EnumClass'
+        - name: enum-class-array
+          in: query
+          description: enum class parameter
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/EnumClass'
+        - name: enum-class-map
+          in: query
+          description: enum class parameter
+          required: true
+          schema:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/EnumClass'
+      responses:
+        200:
+          description: The instance started successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnumClass'
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -2067,3 +2103,18 @@ components:
       type: array
       items:
         type: string
+    EnumWithNameAndDescription:
+      type: integer
+      enum:
+        - 1
+        - 2
+        - 3
+        - 4
+      x-enum-varnames:
+        - ONE
+        - "2"
+        - " 3"
+      x-enum-descriptions:
+        - The word one
+        - The digit two
+        - The digit three prefixed by a space

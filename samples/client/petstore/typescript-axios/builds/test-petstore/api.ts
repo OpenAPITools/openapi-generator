@@ -725,10 +725,10 @@ export interface FormatTest {
     'double'?: number;
     /**
      * 
-     * @type {Decimal}
+     * @type {string}
      * @memberof FormatTest
      */
-    'decimal'?: Decimal;
+    'decimal'?: string;
     /**
      * 
      * @type {string}
@@ -1322,7 +1322,7 @@ export type OuterEnumDefaultValue = typeof OuterEnumDefaultValue[keyof typeof Ou
 /**
  * 
  * @export
- * @enum {string}
+ * @enum {number}
  */
 
 export const OuterEnumInteger = {
@@ -1337,7 +1337,7 @@ export type OuterEnumInteger = typeof OuterEnumInteger[keyof typeof OuterEnumInt
 /**
  * 
  * @export
- * @enum {string}
+ * @enum {number}
  */
 
 export const OuterEnumIntegerDefaultValue = {

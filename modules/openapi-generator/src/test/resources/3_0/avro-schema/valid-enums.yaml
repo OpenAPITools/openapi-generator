@@ -1,0 +1,42 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Test for valid enums
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sample'
+components:
+  schemas:
+    Sample:
+      properties:
+        type:
+          enum:
+            - 'a'
+            - 'b'
+            # This enum is invalid for Avro schemas, as it contains a `-`
+            - 'uh-oh'
+            # This next one starts with a number, which is invalid for Avro schemas
+            - '0h_oh'
+            # The next two is to make sure collisions are resolved properly
+            - 'coll-ision'
+            - 'coll_ision'
+          type: 'string'
+        another:
+          enum:
+            - 'x'
+            - 'y'
+            - null
+          type: 'string'
+        equivalent:
+          enum:
+            - 'x'
+            - 'y'
+          type: 'string'
+          nullable: true

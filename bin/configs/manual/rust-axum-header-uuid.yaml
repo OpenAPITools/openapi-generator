@@ -6,4 +6,6 @@ generateAliasAsModel: true
 additionalProperties:
   hideGenerationTimestamp: "true"
   packageName: rust-axum-header-uui
+globalProperties:
+  skipFormModel: "false"
 enablePostProcessFile: true

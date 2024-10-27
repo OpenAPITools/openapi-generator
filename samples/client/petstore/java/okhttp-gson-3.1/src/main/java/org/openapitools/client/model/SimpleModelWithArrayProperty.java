@@ -50,16 +50,17 @@ import org.openapitools.client.JSON;
 /**
  * SimpleModelWithArrayProperty
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class SimpleModelWithArrayProperty {
   public static final String SERIALIZED_NAME_ARRAY_OF_STRINGS = "arrayOfStrings";
   @SerializedName(SERIALIZED_NAME_ARRAY_OF_STRINGS)
+  @javax.annotation.Nonnull
   private List<String> arrayOfStrings = new ArrayList<>();
 
   public SimpleModelWithArrayProperty() {
   }
 
-  public SimpleModelWithArrayProperty arrayOfStrings(List<String> arrayOfStrings) {
+  public SimpleModelWithArrayProperty arrayOfStrings(@javax.annotation.Nonnull List<String> arrayOfStrings) {
     this.arrayOfStrings = arrayOfStrings;
     return this;
   }
@@ -81,7 +82,7 @@ public class SimpleModelWithArrayProperty {
     return arrayOfStrings;
   }
 
-  public void setArrayOfStrings(List<String> arrayOfStrings) {
+  public void setArrayOfStrings(@javax.annotation.Nonnull List<String> arrayOfStrings) {
     this.arrayOfStrings = arrayOfStrings;
   }
 

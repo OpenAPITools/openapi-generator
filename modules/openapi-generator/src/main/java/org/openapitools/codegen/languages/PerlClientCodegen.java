@@ -28,7 +28,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -173,6 +172,8 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (StringUtils.isEmpty(System.getenv("PERL_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable PERL_POST_PROCESS_FILE not defined so the Perl code may not be properly formatted. To define it, try 'export PERL_POST_PROCESS_FILE=/usr/local/bin/perltidy -b -bext=\"/\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'PERL_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(MODULE_VERSION)) {
@@ -624,6 +625,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -637,20 +639,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         if ("t".equals(FilenameUtils.getExtension(file.toString())) ||
                 "pm".equals(FilenameUtils.getExtension(file.toString())) ||
                 "pl".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = perlTidyPath + " -b -bext='/' " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[] {perlTidyPath, "-b", "-bext='/'", file.toString()});
         }
     }
 
