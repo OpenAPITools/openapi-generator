@@ -20,6 +20,7 @@ import json
 
 from typing import Any, Dict, Optional
 from pydantic import BaseModel, Field, StrictStr, validator
+from petstore_api.models.enum_with_common_prefix import EnumWithCommonPrefix
 from petstore_api.models.test_enum import TestEnum
 from petstore_api.models.test_enum_with_default import TestEnumWithDefault
 
@@ -27,13 +28,14 @@ class TestModelWithEnumDefault(BaseModel):
     """
     TestModelWithEnumDefault
     """
+    another_test: Optional[EnumWithCommonPrefix] = None
     test_enum: TestEnum = Field(...)
     test_string: Optional[StrictStr] = None
     test_enum_with_default: Optional[TestEnumWithDefault] = None
     test_string_with_default: Optional[StrictStr] = 'ahoy matey'
     test_inline_defined_enum_with_default: Optional[StrictStr] = 'B'
     additional_properties: Dict[str, Any] = {}
-    __properties = ["test_enum", "test_string", "test_enum_with_default", "test_string_with_default", "test_inline_defined_enum_with_default"]
+    __properties = ["another_test", "test_enum", "test_string", "test_enum_with_default", "test_string_with_default", "test_inline_defined_enum_with_default"]
 
     @validator('test_inline_defined_enum_with_default')
     def test_inline_defined_enum_with_default_validate_enum(cls, value):
@@ -87,6 +89,7 @@ class TestModelWithEnumDefault(BaseModel):
             return TestModelWithEnumDefault.parse_obj(obj)
 
         _obj = TestModelWithEnumDefault.parse_obj({
+            "another_test": obj.get("another_test"),
             "test_enum": obj.get("test_enum"),
             "test_string": obj.get("test_string"),
             "test_enum_with_default": obj.get("test_enum_with_default"),

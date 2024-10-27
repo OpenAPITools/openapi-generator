@@ -777,11 +777,21 @@ components:
         - ZWEI
         - DREI
       default: ZWEI
+    EnumWithCommonPrefix:
+      type: string
+      example: V_T_2
+      enum:
+        - V_MORE_1
+        - V_T_2
+        - V_MULT_3
+      default: V_T_2
     TestModel:
       type: object
       required:
         - test_enum
       properties:
+        another_test:
+          $ref: "#/components/schemas/EnumWithCommonPrefix"
         test_enum:
           $ref: "#/components/schemas/TestEnum"
         test_string:

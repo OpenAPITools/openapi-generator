@@ -870,8 +870,19 @@ components:
       - DREI
       title: TestEnumWithDefault
       type: string
+    EnumWithCommonPrefix:
+      default: V_T_2
+      enum:
+      - V_MORE_1
+      - V_T_2
+      - V_MULT_3
+      example: V_T_2
+      title: EnumWithCommonPrefix
+      type: string
     TestModel:
       properties:
+        another_test:
+          $ref: '#/components/schemas/EnumWithCommonPrefix'
         test_enum:
           $ref: '#/components/schemas/TestEnum'
         test_string:

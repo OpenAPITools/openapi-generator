@@ -4,6 +4,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**another_test** | [**EnumWithCommonPrefix**](EnumWithCommonPrefix.md) |  | [optional] 
 **test_enum** | [**TestEnum**](TestEnum.md) |  | 
 **test_string** | **str** |  | [optional] 
 **test_enum_with_default** | [**TestEnumWithDefault**](TestEnumWithDefault.md) |  | [optional] 

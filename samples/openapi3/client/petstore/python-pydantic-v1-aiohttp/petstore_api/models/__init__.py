@@ -52,6 +52,7 @@ from petstore_api.models.enum_class import EnumClass
 from petstore_api.models.enum_string1 import EnumString1
 from petstore_api.models.enum_string2 import EnumString2
 from petstore_api.models.enum_test import EnumTest
+from petstore_api.models.enum_with_common_prefix import EnumWithCommonPrefix
 from petstore_api.models.feeding import Feeding
 from petstore_api.models.field import Field
 from petstore_api.models.file import File

@@ -190,6 +190,7 @@ Class | Method | HTTP request | Description
  - [EnumString1](docs/EnumString1.md)
  - [EnumString2](docs/EnumString2.md)
  - [EnumTest](docs/EnumTest.md)
+ - [EnumWithCommonPrefix](docs/EnumWithCommonPrefix.md)
  - [Feeding](docs/Feeding.md)
  - [Field](docs/Field.md)
  - [File](docs/File.md)

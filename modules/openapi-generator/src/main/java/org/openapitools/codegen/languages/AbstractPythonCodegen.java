@@ -302,6 +302,12 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     }
 
     @Override
+    public boolean isRemoveEnumValuePrefix() {
+        // Python enum models do not currently support removing any common prefixes.
+        return false;
+    }
+
+    @Override
     public String toParamName(String name) {
         // obtain the name from parameterNameMapping directly if provided
         if (parameterNameMapping.containsKey(name)) {

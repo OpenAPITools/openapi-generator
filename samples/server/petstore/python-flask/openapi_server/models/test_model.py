@@ -3,10 +3,12 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model import Model
+from openapi_server.models.enum_with_common_prefix import EnumWithCommonPrefix
 from openapi_server.models.test_enum import TestEnum
 from openapi_server.models.test_enum_with_default import TestEnumWithDefault
 from openapi_server import util
 
+from openapi_server.models.enum_with_common_prefix import EnumWithCommonPrefix  # noqa: E501
 from openapi_server.models.test_enum import TestEnum  # noqa: E501
 from openapi_server.models.test_enum_with_default import TestEnumWithDefault  # noqa: E501
 
@@ -16,9 +18,11 @@ class TestModel(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, test_enum=None, test_string=None, test_enum_with_default=TestEnumWithDefault.ZWEI, test_string_with_default='ahoy matey', test_inline_defined_enum_with_default='B'):  # noqa: E501
+    def __init__(self, another_test=EnumWithCommonPrefix.V_T_2, test_enum=None, test_string=None, test_enum_with_default=TestEnumWithDefault.ZWEI, test_string_with_default='ahoy matey', test_inline_defined_enum_with_default='B'):  # noqa: E501
         """TestModel - a model defined in OpenAPI
 
+        :param another_test: The another_test of this TestModel.  # noqa: E501
+        :type another_test: EnumWithCommonPrefix
         :param test_enum: The test_enum of this TestModel.  # noqa: E501
         :type test_enum: TestEnum
         :param test_string: The test_string of this TestModel.  # noqa: E501
@@ -31,6 +35,7 @@ class TestModel(Model):
         :type test_inline_defined_enum_with_default: str
         """
         self.openapi_types = {
+            'another_test': EnumWithCommonPrefix,
             'test_enum': TestEnum,
             'test_string': str,
             'test_enum_with_default': TestEnumWithDefault,
@@ -39,6 +44,7 @@ class TestModel(Model):
         }
 
         self.attribute_map = {
+            'another_test': 'another_test',
             'test_enum': 'test_enum',
             'test_string': 'test_string',
             'test_enum_with_default': 'test_enum_with_default',
@@ -46,6 +52,7 @@ class TestModel(Model):
             'test_inline_defined_enum_with_default': 'test_inline_defined_enum_with_default'
         }
 
+        self._another_test = another_test
         self._test_enum = test_enum
         self._test_string = test_string
         self._test_enum_with_default = test_enum_with_default
@@ -62,6 +69,27 @@ class TestModel(Model):
         :rtype: TestModel
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def another_test(self) -> EnumWithCommonPrefix:
+        """Gets the another_test of this TestModel.
+
+
+        :return: The another_test of this TestModel.
+        :rtype: EnumWithCommonPrefix
+        """
+        return self._another_test
+
+    @another_test.setter
+    def another_test(self, another_test: EnumWithCommonPrefix):
+        """Sets the another_test of this TestModel.
+
+
+        :param another_test: The another_test of this TestModel.
+        :type another_test: EnumWithCommonPrefix
+        """
+
+        self._another_test = another_test
 
     @property
     def test_enum(self) -> TestEnum:
