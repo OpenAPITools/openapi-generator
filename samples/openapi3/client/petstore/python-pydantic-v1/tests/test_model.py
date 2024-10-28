@@ -378,7 +378,7 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(d5.__fields_set__, {'value', 'str_value'})
         self.assertEqual(d5.to_json(), '{"value": 1, "str_value": null}')
 
-    def test_enum_string_single_member(self):
+    def test_enum_single_members(self):
         enum_test = petstore_api.EnumTest(
             enum_string_required="lower",
             enum_string_single_member="abc",
