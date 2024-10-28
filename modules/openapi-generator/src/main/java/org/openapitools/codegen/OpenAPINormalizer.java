@@ -681,15 +681,16 @@ public class OpenAPINormalizer {
 
             // remove unsupported schemas (e.g. if, then)
             if (ModelUtils.isUnsupportedSchema(openAPI, item)) {
+                LOGGER.debug("Removed allOf sub-schema that's not yet supported: {}", item);
                 iterator.remove();
             }
         }
 
         if (schema.getAllOf().size() == 0) {
             // no more schema in allOf so reset to null instead
+            LOGGER.info("Unset/Removed allOf after cleaning up allOf sub-schemas that are not yet supported.");
             schema.setAllOf(null);
         }
-
     }
 
     private Schema normalizeAllOf(Schema schema, Set<Schema> visitedSchemas) {
