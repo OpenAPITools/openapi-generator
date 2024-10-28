@@ -11,6 +11,8 @@ Name | Type | Description | Notes
 **enum_number** | **float** |  | [optional] 
 **enum_number_vendor_ext** | **int** |  | [optional] 
 **enum_string_vendor_ext** | **str** |  | [optional] 
+**enum_string_single_member** | **str** |  | [optional] 
+**enum_integer_single_member** | **int** |  | [optional] 
 **outer_enum** | [**OuterEnum**](OuterEnum.md) |  | [optional] 
 **outer_enum_integer** | [**OuterEnumInteger**](OuterEnumInteger.md) |  | [optional] 
 **outer_enum_default_value** | [**OuterEnumDefaultValue**](OuterEnumDefaultValue.md) |  | [optional] 
