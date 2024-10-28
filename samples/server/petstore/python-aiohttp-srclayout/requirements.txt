@@ -8,3 +8,4 @@ werkzeug == 0.16.1; python_version=="3.5" or python_version=="3.4"
 swagger-ui-bundle == 0.0.9
 aiohttp_jinja2 == 1.5.0
 Flask < 2.3
+werkzeug>=3.0.6 # not directly required, pinned by Snyk to avoid a vulnerability
