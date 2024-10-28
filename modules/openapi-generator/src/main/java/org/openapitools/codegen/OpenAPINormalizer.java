@@ -665,7 +665,41 @@ public class OpenAPINormalizer {
         }
     }
 
+    /*
+     * Remove unsupported schemas (e.g. if, then) from allOf.
+     *
+     * @param schema Schema
+     */
+    private void removeUnsupportedSchemasFromAllOf(Schema schema) {
+        if (schema.getAllOf() == null) {
+            return;
+        }
+
+        Iterator<Schema> iterator = schema.getAllOf().iterator();
+        while (iterator.hasNext()) {
+            Schema item = iterator.next();
+
+            // remove unsupported schemas (e.g. if, then)
+            if (ModelUtils.isUnsupportedSchema(openAPI, item)) {
+                LOGGER.debug("Removed allOf sub-schema that's not yet supported: {}", item);
+                iterator.remove();
+            }
+        }
+
+        if (schema.getAllOf().size() == 0) {
+            // no more schema in allOf so reset to null instead
+            LOGGER.info("Unset/Removed allOf after cleaning up allOf sub-schemas that are not yet supported.");
+            schema.setAllOf(null);
+        }
+    }
+
     private Schema normalizeAllOf(Schema schema, Set<Schema> visitedSchemas) {
+        removeUnsupportedSchemasFromAllOf(schema);
+
+        if (schema.getAllOf() == null) {
+            return schema;
+        }
+
         for (Object item : schema.getAllOf()) {
             if (!(item instanceof Schema)) {
                 throw new RuntimeException("Error! allOf schema is not of the type Schema: " + item);
@@ -673,6 +707,7 @@ public class OpenAPINormalizer {
             // normalize allOf sub schemas one by one
             normalizeSchema((Schema) item, visitedSchemas);
         }
+
         // process rules here
         processUseAllOfRefAsParent(schema);
 
@@ -680,6 +715,12 @@ public class OpenAPINormalizer {
     }
 
     private Schema normalizeAllOfWithProperties(Schema schema, Set<Schema> visitedSchemas) {
+        removeUnsupportedSchemasFromAllOf(schema);
+
+        if (schema.getAllOf() == null) {
+            return schema;
+        }
+
         for (Object item : schema.getAllOf()) {
             if (!(item instanceof Schema)) {
                 throw new RuntimeException("Error! allOf schema is not of the type Schema: " + item);
