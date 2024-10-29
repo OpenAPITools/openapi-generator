@@ -433,6 +433,66 @@ public class KotlinClientCodegenModelTest {
         configAssert.assertValue(KotlinClientCodegen.FAIL_ON_UNKNOWN_PROPERTIES, codegen::isFailOnUnknownProperties, Boolean.FALSE);
     }
 
+    @DataProvider(name = "gsonClientLibraries")
+    public Object[][] pathResponses() {
+        return new Object[][]{
+                {ClientLibrary.JVM_KTOR},
+                {ClientLibrary.JVM_OKHTTP4},
+                {ClientLibrary.JVM_RETROFIT2},
+                {ClientLibrary.MULTIPLATFORM},
+                {ClientLibrary.JVM_VOLLEY},
+                {ClientLibrary.JVM_VERTX}
+        };
+    }
+
+    @Test(dataProvider = "gsonClientLibraries")
+    public void testLocalVariablesUseSanitizedDataTypeNamesForOneOfProperty_19942(ClientLibrary clientLibrary) throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        String path = output.getAbsolutePath();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setLibrary(clientLibrary.getLibraryName())
+                .setInputSpec("src/test/resources/3_0/issue_19942.json")
+                .addAdditionalProperty("omitGradleWrapper", true)
+                .addAdditionalProperty("serializationLibrary", "gson")
+                .addAdditionalProperty("dateLibrary", "kotlinx-datetime")
+                .addAdditionalProperty("useSpringBoot3", "true")
+                .addAdditionalProperty("generateOneOfAnyOfWrappers", true)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        TestUtils.assertFileNotContains(Paths.get(path + "/src/" + clientLibrary.getSourceRoot() + "/org/openapitools/client/models/ObjectWithComplexOneOfId.kt"),
+                "val adapterkotlin.String", "val adapterjava.math.BigDecimal");
+    }
+
+    @Test(dataProvider = "gsonClientLibraries")
+    public void testLocalVariablesUseSanitizedDataTypeNamesForAnyOfProperty_19942(ClientLibrary clientLibrary) throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        String path = output.getAbsolutePath();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setLibrary(clientLibrary.getLibraryName())
+                .setInputSpec("src/test/resources/3_0/issue_19942.json")
+                .addAdditionalProperty("omitGradleWrapper", true)
+                .addAdditionalProperty("serializationLibrary", "gson")
+                .addAdditionalProperty("dateLibrary", "kotlinx-datetime")
+                .addAdditionalProperty("useSpringBoot3", "true")
+                .addAdditionalProperty("generateOneOfAnyOfWrappers", true)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        TestUtils.assertFileNotContains(Paths.get(path + "/src/" + clientLibrary.getSourceRoot() + "/org/openapitools/client/models/ObjectWithComplexAnyOfId.kt"),
+                "val adapterkotlin.String", "val adapterjava.math.BigDecimal");
+    }
+
     private static class ModelNameTest {
         private final String expectedName;
         private final String expectedClassName;
