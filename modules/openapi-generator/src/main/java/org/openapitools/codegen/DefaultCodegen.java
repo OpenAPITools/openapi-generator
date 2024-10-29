@@ -4774,7 +4774,7 @@ public class DefaultCodegen implements CodegenConfig {
         op.hasRequiredParams = op.requiredParams.size() > 0;
 
         // check if the operation has only a single parameter
-       op.hasSingleParam = op.allParams.size() == 1;
+        op.hasSingleParam = op.allParams.size() == 1;
 
         // set Restful Flag
         op.isRestfulShow = op.isRestfulShow();
@@ -5724,7 +5724,7 @@ public class DefaultCodegen implements CodegenConfig {
         // check for operationId uniqueness
         String uniqueName = co.operationId;
         int counter = seenOperationIds.getOrDefault(uniqueName, 0);
-        while(seenOperationIds.containsKey(uniqueName)) {
+        while (seenOperationIds.containsKey(uniqueName)) {
             uniqueName = co.operationId + "_" + counter;
             counter++;
         }
@@ -6120,7 +6120,7 @@ public class DefaultCodegen implements CodegenConfig {
             return seenValues.get(value);
         }
 
-        Optional<Entry<String,String>> foundEntry = seenValues.entrySet().stream().filter(v -> v.getValue().toLowerCase(Locale.ROOT).equals(value.toLowerCase(Locale.ROOT))).findAny();
+        Optional<Entry<String, String>> foundEntry = seenValues.entrySet().stream().filter(v -> v.getValue().toLowerCase(Locale.ROOT).equals(value.toLowerCase(Locale.ROOT))).findAny();
         if (foundEntry.isPresent()) {
             int counter = 0;
             String uniqueValue = value + "_" + counter;
@@ -8181,7 +8181,7 @@ public class DefaultCodegen implements CodegenConfig {
             int exitValue = p.exitValue();
             if (exitValue != 0) {
                 try (InputStreamReader inputStreamReader = new InputStreamReader(p.getErrorStream(), StandardCharsets.UTF_8);
-                    BufferedReader br = new BufferedReader(inputStreamReader)) {
+                BufferedReader br = new BufferedReader(inputStreamReader)) {
                     StringBuilder sb = new StringBuilder();
                     String line;
                     while ((line = br.readLine()) != null) {
