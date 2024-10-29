@@ -519,7 +519,7 @@ public class OpenAPINormalizer {
             return;
         }
 
-        for (Map.Entry<String, ApiResponse> entry : apiResponses.entrySet()) {
+           for (Map.Entry<String, ApiResponse> entry : apiResponses.entrySet()) {
             normalizeResponse(entry.getValue());
         }
     }
@@ -527,8 +527,8 @@ public class OpenAPINormalizer {
     /**
      * Auto fix a self referencing schema using any type to replace the self-referencing sub-item.
      *
-     * @param name           Schema name
-     * @param schema         Schema
+     * @param name   Schema name
+     * @param schema Schema
      */
     public void fixSelfReferenceSchema(String name, Schema schema) {
         if (ModelUtils.isArraySchema(schema)) {
@@ -1015,7 +1015,6 @@ public class OpenAPINormalizer {
     }
 
 
-
     /**
      * If the schema is oneOf and the sub-schemas is null, set `nullable: true`
      * instead.
@@ -1034,7 +1033,7 @@ public class OpenAPINormalizer {
             // simplify any type with 6 sub-schemas (string, integer, etc) in oneOf
             if (oneOfSchemas.size() == 6) {
                 TreeSet<String> ts = new TreeSet<>();
-                for (Schema s: oneOfSchemas) {
+                for (Schema s : oneOfSchemas) {
                     s = ModelUtils.getReferencedSchema(openAPI, s);
                     String type = ModelUtils.getType(s);
                     if (type == null) {
@@ -1135,6 +1134,7 @@ public class OpenAPINormalizer {
         schema.setNullable(true);
         return schema;
     }
+
     /**
      * Set nullable to true in map if needed.
      *
@@ -1170,7 +1170,7 @@ public class OpenAPINormalizer {
             // simplify any type with 6 sub-schemas (string, integer, etc) in anyOf
             if (anyOfSchemas.size() == 6) {
                 TreeSet<String> ts = new TreeSet<>();
-                for (Schema s: anyOfSchemas) {
+                for (Schema s : anyOfSchemas) {
                     s = ModelUtils.getReferencedSchema(openAPI, s);
                     String type = ModelUtils.getType(s);
                     if (type == null) {
