@@ -353,6 +353,14 @@ public class InlineModelResolverTest {
     }
 
     @Test
+    public void resolveComponentsResponses() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        new InlineModelResolver().flatten(openAPI);
+        ApiResponse apiResponse = openAPI.getComponents().getResponses().get("JustAnotherResponse");
+        assertEquals(apiResponse.getContent().get("application/json").getSchema().get$ref(), "#/components/schemas/inline_object");
+    }
+
+    @Test
     public void resolveRequestBodyInvalidRef() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/invalid_ref_request_body.yaml");
         new InlineModelResolver().flatten(openAPI);

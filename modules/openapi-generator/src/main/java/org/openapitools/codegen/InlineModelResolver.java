@@ -107,6 +107,7 @@ public class InlineModelResolver {
 
         flattenPaths();
         flattenComponents();
+        flattenComponentResponses();
     }
 
     /**
@@ -565,6 +566,20 @@ public class InlineModelResolver {
 
             flattenContent(response.getContent(),
                     (operation.getOperationId() == null ? modelName : operation.getOperationId()) + "_" + key + "_response");
+        }
+    }
+
+    /**
+     * Flatten inline models in the responses section in the components.
+     */
+    private void flattenComponentResponses() {
+        Map<String, ApiResponse> apiResponses = openAPI.getComponents().getResponses();
+        if (apiResponses == null) {
+            return;
+        }
+
+        for (Map.Entry<String, ApiResponse> entry : apiResponses.entrySet()) {
+            flattenContent(entry.getValue().getContent(), null);
         }
     }
 
