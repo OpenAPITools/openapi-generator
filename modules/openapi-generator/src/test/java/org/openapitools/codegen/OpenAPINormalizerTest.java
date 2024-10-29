@@ -551,7 +551,7 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
-    public void testOpenAPINormalizerSimplifyOneOfAnyOf31SpecForIssue18184  () {
+    public void testOpenAPINormalizerSimplifyOneOfAnyOf31SpecForIssue18184() {
         // to test the rule SIMPLIFY_ONEOF_ANYOF in 3.1 spec
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_18184.yaml");
         // test spec contains anyOf with a ref to enum and another scheme type is null
@@ -813,7 +813,5 @@ public class OpenAPINormalizerTest {
         ApiResponse apiResponse2 = openAPI.getComponents().getResponses().get("JustAnotherResponse");
         assertEquals(((Schema) apiResponse2.getContent().get("application/json").getSchema().getProperties().get("uuid")).getType(), "integer");
         assertEquals(((Schema) apiResponse2.getContent().get("application/json").getSchema().getProperties().get("label")).getType(), "string");
-
-
     }
 }

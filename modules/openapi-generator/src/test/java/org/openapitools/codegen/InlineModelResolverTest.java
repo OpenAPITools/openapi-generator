@@ -1051,7 +1051,7 @@ public class InlineModelResolverTest {
     public void testInlineSchemaOptions() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         InlineModelResolver resolver = new InlineModelResolver();
-        Map<String, String> inlineSchemaOptions= new HashMap<>();
+        Map<String, String> inlineSchemaOptions = new HashMap<>();
         inlineSchemaOptions.put("ARRAY_ITEM_SUFFIX", "_something");
         resolver.setInlineSchemaOptions(inlineSchemaOptions);
         resolver.flatten(openAPI);
@@ -1143,7 +1143,7 @@ public class InlineModelResolverTest {
     public void resolveOperationInlineEnum() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         Parameter parameter = openAPI.getPaths().get("/resolve_parameter_inline_enum").getGet().getParameters().get(0);
-        assertNull(((ArraySchema) parameter.getSchema()).getItems().get$ref() );
+        assertNull(((ArraySchema) parameter.getSchema()).getItems().get$ref());
 
         InlineModelResolver resolver = new InlineModelResolver();
         Map<String, String> inlineSchemaOptions = new HashMap<>();
@@ -1153,7 +1153,7 @@ public class InlineModelResolverTest {
 
         Parameter parameter2 = openAPI.getPaths().get("/resolve_parameter_inline_enum").getGet().getParameters().get(0);
         assertEquals("#/components/schemas/resolveParameterInlineEnum_status_inline_enum_parameter_inner",
-                ((ArraySchema) parameter2.getSchema()).getItems().get$ref() );
+                ((ArraySchema) parameter2.getSchema()).getItems().get$ref());
 
     }
 
