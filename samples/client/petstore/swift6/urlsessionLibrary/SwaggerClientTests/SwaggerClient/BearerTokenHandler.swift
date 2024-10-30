@@ -33,7 +33,7 @@ public class BearerOpenAPIInterceptor: OpenAPIInterceptor {
         }
     }
     
-    public func retry<T>(urlRequest: URLRequest, urlSession: any URLSessionProtocol, requestBuilder: RequestBuilder<T>, data: Data?, response: URLResponse?, error: any Error, completion: @escaping (OpenAPIInterceptorRetry) -> Void) {
+    public func retry<T>(urlRequest: URLRequest, urlSession: URLSessionProtocol, requestBuilder: RequestBuilder<T>, data: Data?, response: URLResponse?, error: Error, completion: @escaping (OpenAPIInterceptorRetry) -> Void) {
         // We will analyse the response to see if it's a 401, and if it's a 401, we will refresh the token and retry the request
         refreshTokenIfUnauthorizedRequestResponse(
             data: data,
