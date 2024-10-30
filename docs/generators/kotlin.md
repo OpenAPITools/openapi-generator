@@ -34,6 +34,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |mapFileBinaryToByteArray|Map File and Binary to ByteArray (default: false)| |false|
 |modelMutable|Create mutable models| |false|
 |moshiCodeGen|Whether to enable codegen with the Moshi library. Refer to the [official Moshi doc](https://github.com/square/moshi#codegen) for more info.| |false|
+|nonPublicApi|Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.| |false|
 |nullableReturnType|Nullable return type| |false|
 |omitGradlePluginVersions|Whether to declare Gradle plugin versions in build files.| |false|
 |omitGradleWrapper|Whether to omit Gradle wrapper for creating a sub project.| |false|

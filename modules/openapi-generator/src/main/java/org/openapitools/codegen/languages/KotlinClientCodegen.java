@@ -268,6 +268,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(CliOption.newBoolean(MOSHI_CODE_GEN, "Whether to enable codegen with the Moshi library. Refer to the [official Moshi doc](https://github.com/square/moshi#codegen) for more info."));
         cliOptions.add(CliOption.newBoolean(FAIL_ON_UNKNOWN_PROPERTIES, "Fail Jackson de-serialization on unknown properties", false));
 
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.NON_PUBLIC_API, CodegenConstants.NON_PUBLIC_API_DESC));
         cliOptions.add(CliOption.newBoolean(NULLABLE_RETURN_TYPE, "Nullable return type"));
 
         cliOptions.add(CliOption.newBoolean(GENERATE_ROOM_MODELS, "Generate Android Room database models in addition to API models (JVM Volley library only)", false));
