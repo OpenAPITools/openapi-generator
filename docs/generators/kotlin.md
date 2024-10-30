@@ -25,6 +25,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |collectionType|Option. Collection type to use|<dl><dt>**array**</dt><dd>kotlin.Array</dd><dt>**list**</dt><dd>kotlin.collections.List</dd></dl>|list|
 |dateLibrary|Option. Date library to use|<dl><dt>**threetenbp-localdatetime**</dt><dd>Threetenbp - Backport of JSR310 (jvm only, for legacy app only)</dd><dt>**kotlinx-datetime**</dt><dd>kotlinx-datetime (preferred for multiplatform)</dd><dt>**string**</dt><dd>String</dd><dt>**java8-localdatetime**</dt><dd>Java 8 native JSR310 (jvm only, for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (jvm only, preferred for jdk 1.8+)</dd><dt>**threetenbp**</dt><dd>Threetenbp - Backport of JSR310 (jvm only, preferred for jdk &lt; 1.8)</dd></dl>|java8|
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |original|
+|explicitApi|Generates code with explicit access modifiers to comply with Kotlin Explicit API Mode.| |false|
 |failOnUnknownProperties|Fail Jackson de-serialization on unknown properties| |false|
 |generateOneOfAnyOfWrappers|Generate oneOf, anyOf schemas as wrappers.| |false|
 |generateRoomModels|Generate Android Room database models in addition to API models (JVM Volley library only)| |false|
@@ -34,6 +35,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |mapFileBinaryToByteArray|Map File and Binary to ByteArray (default: false)| |false|
 |modelMutable|Create mutable models| |false|
 |moshiCodeGen|Whether to enable codegen with the Moshi library. Refer to the [official Moshi doc](https://github.com/square/moshi#codegen) for more info.| |false|
+|nonPublicApi|Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.| |false|
 |nullableReturnType|Nullable return type| |false|
 |omitGradlePluginVersions|Whether to declare Gradle plugin versions in build files.| |false|
 |omitGradleWrapper|Whether to omit Gradle wrapper for creating a sub project.| |false|

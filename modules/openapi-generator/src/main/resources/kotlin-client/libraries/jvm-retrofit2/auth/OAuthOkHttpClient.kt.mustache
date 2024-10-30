@@ -16,7 +16,7 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 
 
-class OAuthOkHttpClient(
+{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class OAuthOkHttpClient(
         private var client: OkHttpClient = OkHttpClient()
 ) : HttpClient {
 
