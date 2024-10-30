@@ -1,6 +1,6 @@
 package {{packageName}}.auth
 
-interface Authentication {
+{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}interface Authentication {
 
     /**
      * Apply authentication settings to header and query params.
@@ -8,6 +8,6 @@ interface Authentication {
      * @param query Query parameters.
      * @param headers Header parameters.
      */
-    fun apply(query: MutableMap<String, List<String>>, headers: MutableMap<String, String>)
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun apply(query: MutableMap<String, List<String>>, headers: MutableMap<String, String>)
 
 }

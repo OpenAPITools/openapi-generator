@@ -16,7 +16,7 @@ import {{modelPackage}}.*
 * @param {{{name}}} {{{description}}}
 {{/allVars}}
 */
-data class {{classname}}RoomModel (
+{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}data class {{classname}}RoomModel (
     @PrimaryKey(autoGenerate = true) var roomTableId: Int,
     {{#allVars}}{{#items.isPrimitiveType}}var {{{name}}}: {{#isArray}}{{#isList}}kotlin.collections.List{{/isList}}{{^isList}}kotlin.Array{{/isList}}<{{^items.isEnum}}{{{items.dataType}}}{{/items.isEnum}}{{#items.isEnum}}{{classname}}.{{{nameInPascalCase}}}{{/items.isEnum}}>{{>model_room_init_var}}{{/isArray}},
     {{/items.isPrimitiveType}}{{/allVars}}

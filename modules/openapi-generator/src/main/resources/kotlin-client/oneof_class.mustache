@@ -71,9 +71,9 @@ import java.io.IOException
 @Deprecated(message = "This schema is deprecated.")
 {{/isDeprecated}}
 {{>additionalModelTypeAnnotations}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}data class {{classname}}(var actualInstance: Any? = null) {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}data class {{classname}}(var actualInstance: Any? = null) {
 
-    class CustomTypeAdapterFactory : TypeAdapterFactory {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class CustomTypeAdapterFactory : TypeAdapterFactory {
         override fun <T> create(gson: Gson, type: TypeToken<T>): TypeAdapter<T>? {
             if (!{{classname}}::class.java.isAssignableFrom(type.rawType)) {
                 return null // this class only serializes '{{classname}}' and its subtypes
@@ -237,7 +237,7 @@ import java.io.IOException
         }
     }
 
-    companion object {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}companion object {
         /**
         * Validates the JSON Element and throws an exception if issues found
         *
@@ -245,7 +245,7 @@ import java.io.IOException
         * @throws IOException if the JSON Element is invalid with respect to {{classname}}
         */
         @Throws(IOException::class)
-        fun validateJsonElement(jsonElement: JsonElement?) {
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun validateJsonElement(jsonElement: JsonElement?) {
             requireNotNull(jsonElement) {
                 "Provided json element must not be null"
             }
