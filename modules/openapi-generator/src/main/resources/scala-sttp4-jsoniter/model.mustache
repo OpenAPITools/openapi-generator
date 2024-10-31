@@ -27,33 +27,85 @@ case class {{classname}}(
 {{/isEnum}}
 
 {{#isEnum}}
-object {{classname}} extends Enumeration {
-    type {{classname}} = {{classname}}.Value
+enum {{classname}} {
 {{#allowableValues}}
-    {{#values}}
-    val {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} = Value("{{.}}")
-    {{/values}}
+  {{#values}}
+  case {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}}
+  {{/values}}
 {{/allowableValues}}
+}
+object {{classname}} {
+  import com.github.plokhotnyuk.jsoniter_scala.macros.*
+  import com.github.plokhotnyuk.jsoniter_scala.core.*
+  {{#isString}}
+  given CodecMakerConfig = CodecMakerConfig
+    .withAdtLeafClassNameMapper(x => JsonCodecMaker.simpleClassName(x) match {
+      {{#values}}
+      case "{{#fnEnumEntry}}{{.}}{{/fnEnumEntry}}" => "{{.}}"
+      {{/values}}
+    }).withDiscriminatorFieldName(None)
+
+  given {{#fnCodecName}}{{datatypeWithEnum}}{{/fnCodecName}}: JsonValueCodec[{{datatypeWithEnum}}] = JsonCodecMaker.make
+  {{/isString}}
+  {{#isNumber}}
+  given {{#fnCodecName}}{{datatypeWithEnum}}{{/fnCodecName}}: JsonValueCodec[{{datatypeWithEnum}}] = new JsonValueCodec[{{datatypeWithEnum}}] {
+    import scala.util.{Try, Success, Failure}
+
+    override val nullValue: {{datatypeWithEnum}} = null
+
+    override def decodeValue(in: JsonReader, default: {{datatypeWithEnum}}): {{datatypeWithEnum}} =
+      val x = in.readByte()
+      Try { {{datatypeWithEnum}}.fromOrdinal(x) } match {
+        case Success(v) => v
+        case Failure(_) => in.decodeError(s"unexpected number value: $x")
+      }
+    override def encodeValue(x: {{datatypeWithEnum}}, out: JsonWriter): Unit = out.writeVal(x.ordinal)
+  }
+  {{/isNumber}}
 }
 {{/isEnum}}
 {{#hasEnums}}
 object {{classname}}Enums {
-
   {{#vars}}
   {{#isEnum}}
-  type {{datatypeWithEnum}} = {{datatypeWithEnum}}.Value
-  {{/isEnum}}
-  {{/vars}}
-  {{#vars}}
-  {{#isEnum}}
-  object {{datatypeWithEnum}} extends Enumeration {
-{{#_enum}}
-    val {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} = Value("{{.}}")
-{{/_enum}}
+  enum {{datatypeWithEnum}} {
+    {{#_enum}}
+    case {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}}
+    {{/_enum}}
   }
+  object {{datatypeWithEnum}} {
+    import com.github.plokhotnyuk.jsoniter_scala.macros.*
+    import com.github.plokhotnyuk.jsoniter_scala.core.*
+    {{#isString}}
+    given CodecMakerConfig = CodecMakerConfig
+      .withAdtLeafClassNameMapper(x => JsonCodecMaker.simpleClassName(x) match {
+      {{#_enum}}
+        case "{{#fnEnumEntry}}{{.}}{{/fnEnumEntry}}" => "{{.}}"
+      {{/_enum}}
+      }).withDiscriminatorFieldName(None)
 
+    given {{#fnCodecName}}{{datatypeWithEnum}}{{/fnCodecName}}: JsonValueCodec[{{datatypeWithEnum}}] = JsonCodecMaker.make
+    {{/isString}}
+    {{#isNumber}}
+    given {{#fnCodecName}}{{datatypeWithEnum}}{{/fnCodecName}}: JsonValueCodec[{{datatypeWithEnum}}] = new JsonValueCodec[{{datatypeWithEnum}}] {
+      import scala.util.{Try, Success, Failure}
+
+      override val nullValue: {{datatypeWithEnum}} = null
+
+      override def decodeValue(in: JsonReader, default: {{datatypeWithEnum}}): {{datatypeWithEnum}} =
+        val x = in.readByte()
+        Try { {{datatypeWithEnum}}.fromOrdinal(x) } match {
+          case Success(v) => v
+          case Failure(_) => in.decodeError(s"unexpected number value: $x")
+        }
+      override def encodeValue(x: {{datatypeWithEnum}}, out: JsonWriter): Unit = out.writeVal(x.ordinal)
+    }
+    {{/isNumber}}
+
+  }
   {{/isEnum}}
   {{/vars}}
+
 }
 {{/hasEnums}}
 {{/model}}

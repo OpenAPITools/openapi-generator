@@ -4,6 +4,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -32,23 +33,20 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
                     "F[Either[ResponseError[ErrorType], ReturnType]]] or to flatten " +
                     "response's error raising them through enclosing monad (F[ReturnType]).",
             true);
-    private static final StringProperty JODA_TIME_VERSION = new StringProperty("jodaTimeVersion", "The version of " +
-            "joda-time library", "2.10.13");
     private static final StringProperty JSONITER_VERSION = new StringProperty("jsoniterVersion",
             "The version of jsoniter-scala " +
                     "library",
             "2.31.1");
 
-    private static final JsonLibraryProperty JSON_LIBRARY_PROPERTY = new JsonLibraryProperty();
-
     public static final String DEFAULT_PACKAGE_NAME = "org.openapitools.client";
     private static final PackageProperty PACKAGE_PROPERTY = new PackageProperty();
 
     private static final List<Property<?>> properties = Arrays.asList(
-            STTP_CLIENT_VERSION, USE_SEPARATE_ERROR_CHANNEL, JODA_TIME_VERSION,
-            JSONITER_VERSION, JSON_LIBRARY_PROPERTY, PACKAGE_PROPERTY);
+            STTP_CLIENT_VERSION, USE_SEPARATE_ERROR_CHANNEL, JSONITER_VERSION, PACKAGE_PROPERTY);
 
-    private final Logger LOGGER = LoggerFactory.getLogger(ScalaSttp4ClientCodegen.class);
+    private static final Set<String> NO_JSON_CODEC_TYPES = new HashSet<>(Arrays.asList("UUID", "URI", "URL", "File", "Path"));
+
+    private final Logger LOGGER = LoggerFactory.getLogger(ScalaSttp4JsoniterClientCodegen.class);
 
     protected String groupId = "org.openapitools";
     protected String artifactId = "openapi-client";
@@ -56,6 +54,8 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
     protected boolean registerNonStandardStatusCodes = true;
     protected boolean renderJavadoc = true;
     protected boolean removeOAuthSecurities = true;
+
+    protected Map<String, String> jsonCodecNeedingTypes = new HashMap<>();
 
     Map<String, ModelsMap> enumRefs = new HashMap<>();
 
@@ -90,19 +90,20 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
         apiTemplateFiles.put("api.mustache", ".scala");
         embeddedTemplateDir = templateDir = "scala-sttp4-jsoniter";
 
-        String jsonLibrary = JSON_LIBRARY_PROPERTY.getValue(additionalProperties);
-
         String jsonValueClass = "io.circe.Json";
 
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
         additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
+        additionalProperties.put("jsonCodecNeedingTypes", jsonCodecNeedingTypes.entrySet());
         if (renderJavadoc) {
             additionalProperties.put("javadocRenderer", new JavadocLambda());
         }
         additionalProperties.put("fnCapitalize", new CapitalizeLambda());
         additionalProperties.put("fnCamelize", new CamelizeLambda(false));
         additionalProperties.put("fnEnumEntry", new EnumEntryLambda());
+        additionalProperties.put("fnCodecName", new CodecNameLambda());
+        additionalProperties.put("fnHandleDownload", new HandleDownloadLambda());
 
         // importMapping.remove("Seq");
         // importMapping.remove("List");
@@ -156,8 +157,6 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
         supportingFiles.add(new SupportingFile("additionalTypeSerializers.mustache", invokerFolder,
                 "AdditionalTypeSerializers.scala"));
         supportingFiles.add(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
-        // supportingFiles.add(new SupportingFile("dateSerializers.mustache",
-        // invokerFolder, "DateSerializers.scala"));
     }
 
     @Override
@@ -173,7 +172,6 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
     @Override
     public String encodePath(String input) {
         String path = super.encodePath(input);
-
         // The parameter names in the URI must be converted to the same case as
         // the method parameter.
         StringBuffer buf = new StringBuffer(path.length());
@@ -185,13 +183,55 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
         return buf.toString();
     }
 
+    private PathMetadata encPath(String input) {
+        String path = super.encodePath(input);
+        ArrayList<String> pathParams = new ArrayList<>();
+
+        // The parameter names in the URI must be converted to the same case as
+        // the method parameter.
+        StringBuffer buf = new StringBuffer(path.length());
+        Matcher matcher = Pattern.compile("[{](.*?)[}]").matcher(path);
+        while (matcher.find()) {
+            matcher.appendReplacement(buf, "\\${" + toParamName(matcher.group(0)) + "}");
+            pathParams.add(matcher.group(0));
+        }
+        matcher.appendTail(buf);
+        return new PathMetadata(buf.toString(), pathParams);
+    }
+
     @Override
     public CodegenOperation fromOperation(String path,
             String httpMethod,
             Operation operation,
             List<Server> servers) {
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
-        op.path = encodePath(path);
+
+        PathMetadata pathMetadata = encPath(path);
+
+        op.path = pathMetadata.getPath();
+
+        for (String pathParam : pathMetadata.getPathParams()) {
+            CodegenParameter param = new CodegenParameter();
+            param.isPathParam = true;
+            param.baseName = pathParam;
+            param.paramName = toParamName(pathParam);
+            param.dataType = "String";
+            param.required = true;
+
+            boolean alreadyExists = false;
+            for (CodegenParameter existingParam : op.pathParams) {
+                if (existingParam.baseName.equals(param.baseName) || existingParam.paramName.equals(param.paramName)) {
+                    alreadyExists = true;
+                    break;
+                }
+            }
+
+            if (!alreadyExists) {
+                op.pathParams.add(param);
+                op.allParams.add(param);
+            }
+        }
+
         return op;
     }
 
@@ -310,6 +350,30 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap ops = objs.getOperations();
+
+//        allModels.forEach(model -> {
+//            if (model.getModel().name.equals("PluginStatus")) {
+//                System.out.println("Found plugin status model");
+//                System.out.println(model.getModel());
+//            }
+//        });
+
+        for (CodegenOperation operation : ops.getOperation()) {
+            if (operation.returnType != null && !NO_JSON_CODEC_TYPES.contains(operation.returnType)) {
+                String identifier = formatIdentifier(operation.returnType, false) + "Codec";
+                String type = operation.returnType;
+                jsonCodecNeedingTypes.put(identifier, type);
+            }
+
+            if (operation.bodyParam != null && !NO_JSON_CODEC_TYPES.contains(operation.bodyParam.dataType)) {
+                String identifier = formatIdentifier(operation.bodyParam.dataType, false) + "Codec";
+                String type = operation.bodyParam.dataType;
+
+                jsonCodecNeedingTypes.put(identifier, type);
+            }
+        }
+
         if (registerNonStandardStatusCodes) {
             try {
                 OperationMap opsMap = objs.getOperations();
@@ -385,7 +449,14 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        return formatIdentifier(property.baseName, true);
+        String identifier = formatIdentifier(property.baseName, true);
+
+        // remove backticks because there are no capitalized reserved words in Scala
+        if (identifier.startsWith("`") && identifier.endsWith("`")) {
+            return identifier.substring(1, identifier.length() - 1);
+        } else {
+            return identifier;
+        }
     }
 
     @Override
@@ -511,29 +582,6 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
         }
     }
 
-    public static class JsonLibraryProperty extends StringProperty {
-        private static final String JSON4S = "json4s";
-        private static final String CIRCE = "circe";
-
-        public JsonLibraryProperty() {
-            super("jsonLibrary", "Json library to use. Possible values are: json4s and circe.", JSON4S);
-        }
-
-        @Override
-        public void updateAdditionalProperties(Map<String, Object> additionalProperties) {
-            String value = getValue(additionalProperties);
-            if (CIRCE.equals(value) || JSON4S.equals(value)) {
-                additionalProperties.put(CIRCE, CIRCE.equals(value));
-                additionalProperties.put(JSON4S, JSON4S.equals(value));
-            } else {
-                IllegalArgumentException exception = new IllegalArgumentException(
-                        "Invalid json library: " + value + ". Must be " + CIRCE + " " +
-                                "or " + JSON4S);
-                throw exception;
-            }
-        }
-    }
-
     public static class PackageProperty extends StringProperty {
 
         public PackageProperty() {
@@ -598,7 +646,40 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
     private class EnumEntryLambda extends CustomLambda {
         @Override
         public String formatFragment(String fragment) {
+            if (fragment.isBlank()) {
+                return "NotPresent";
+            }
             return formatIdentifier(fragment, true);
+        }
+    }
+
+    private class CodecNameLambda extends CustomLambda {
+        @Override
+        public String formatFragment(String fragment) {
+            // remove backticks because this is used as prefix for Codec generation
+            return formatIdentifier(fragment, false).replace("`", "") + "Codec";
+        }
+    }
+
+    private static class HandleDownloadLambda extends CustomLambda {
+        @Override
+        public String formatFragment(String fragment) {
+            if (fragment.equals("asJson[File]")) {
+                return "asFile(File.createTempFile(\"download\", \".tmp\")).mapLeft(errStr => DeserializationException(errStr, new Exception(errStr)))";
+            } else {
+                return fragment;
+            }
+        }
+    }
+
+    @Getter
+    private static class PathMetadata {
+        private final String path;
+        private final ArrayList<String> pathParams;
+
+        PathMetadata(String path, ArrayList<String> pathParams) {
+            this.path = path;
+            this.pathParams = pathParams;
         }
     }
 

@@ -4,8 +4,9 @@ package {{package}}
 {{#imports}}
 import {{import}}
 {{/imports}}
-import {{invokerPackage}}.JsonSupport._
-import sttp.client4._
+import {{invokerPackage}}.JsonSupport.{*, given}
+import sttp.client4.jsoniter.*
+import sttp.client4.*
 import sttp.model.Method
 
 {{#operations}}
@@ -16,6 +17,7 @@ object {{classname}} {
 class {{classname}}(baseUrl: String) {
 
 {{#operation}}
+
 {{#javadocRenderer}}
 {{>javadoc}}
 {{/javadocRenderer}}
@@ -30,13 +32,17 @@ class {{classname}}(baseUrl: String) {
       .cookie("{{keyParamName}}", apiKey){{/isKeyInCookie}}{{/isApiKey}}{{/authMethods}}{{#formParams.0}}{{^isMultipart}}
       .body(Map({{#formParams}}
         {{>paramFormCreation}}{{^-last}},{{/-last}}{{/formParams}}
-      )){{/isMultipart}}{{#isMultipart}}
+      ).collect {
+        case (key, Some(value)) => key -> value.toString
+        case (key, value) if value != None => key -> value.toString
+      }){{/isMultipart}}{{#isMultipart}}
       .multipartBody(Seq({{#formParams}}
-        {{>paramMultipartCreation}}{{^-last}}, {{/-last}}{{/formParams}}
+        {{>paramMultipartCreation}}{{/formParams}}
       ).flatten){{/isMultipart}}{{/formParams.0}}{{#bodyParam}}
       .body({{paramName}}){{/bodyParam}}
-      .response({{#separateErrorChannel}}{{^returnType}}asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))){{/returnType}}{{#returnType}}asJson[{{>operationReturnType}}]{{/returnType}}{{/separateErrorChannel}}{{^separateErrorChannel}}{{^returnType}}asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))).getRight{{/returnType}}{{#returnType}}asJson[{{>operationReturnType}}].getRight{{/returnType}}{{/separateErrorChannel}})
+      .response({{#separateErrorChannel}}{{^returnType}}asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))){{/returnType}}{{#fnHandleDownload}}{{#returnType}}asJson[{{>operationReturnType}}]{{/returnType}}{{/fnHandleDownload}}{{/separateErrorChannel}}{{^separateErrorChannel}}{{^returnType}}asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))).getRight{{/returnType}}{{#returnType}}asJson[{{>operationReturnType}}].getRight{{/returnType}}{{/separateErrorChannel}})
 
 {{/operation}}
+
 }
 {{/operations}}

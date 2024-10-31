@@ -1,15 +1,13 @@
 package {{invokerPackage}}
 
 import java.net.{ URI, URISyntaxException }
+import com.github.plokhotnyuk.jsoniter_scala.core.*
 
-{{#circe}}
 trait AdditionalTypeSerializers {
-    import com.github.plokhotnyuk.jsoniter_scala._
 
-    implicit final lazy val URICodec: JsonValueCodec[URI] = new JsonValueCodec[URI] {
-      def nullValue: URI = null
-      def decodeValue(in: JsonReader, default: URI): URI = ???
-      def encodeValue(uri: URI, out: JsonWriter): Unit = ???
-    }
+  implicit final lazy val URICodec: JsonValueCodec[URI] = new JsonValueCodec[URI] {
+    def nullValue: URI = null
+    def decodeValue(in: JsonReader, default: URI): URI = ???
+    def encodeValue(uri: URI, out: JsonWriter): Unit = ???
+  }
 }
-{{/circe}}
