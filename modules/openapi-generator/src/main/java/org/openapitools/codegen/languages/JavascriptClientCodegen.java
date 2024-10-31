@@ -81,7 +81,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     protected boolean useES6 = true; // default is ES6
     @Setter protected String npmRepository = null;
     @Getter private String modelPropertyNaming = "camelCase";
-    @Setter protected boolean useURLSearchParams = false;
+    @Setter protected boolean useURLSearchParams = true;
 
     public JavascriptClientCodegen() {
         super();

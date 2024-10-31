@@ -13,7 +13,6 @@
 
 
 import superagent from "superagent";
-import querystring from "querystring";
 
 /**
 * @module ApiClient
@@ -435,7 +434,9 @@ class ApiClient {
         }
 
         if (contentType === 'application/x-www-form-urlencoded') {
-            let queryString = querystring.stringify(this.normalizeParams(formParams));
+            let normalizedParams = this.normalizeParams(formParams)
+            let urlSearchParams =  new URLSearchParams(normalizedParams);
+            let queryString = urlSearchParams.toString();
             request.send(queryString);
         } else if (contentType == 'multipart/form-data') {
             var _formParams = this.normalizeParams(formParams);
