@@ -31,7 +31,6 @@ namespace Org.OpenAPITools.Model
     /// ChildCat
     /// </summary>
     [DataContract(Name = "ChildCat")]
-    [JsonConverter(typeof(JsonSubtypes), "PetType")]
     public partial class ChildCat : ParentPet, IEquatable<ChildCat>, IValidatableObject
     {
         /// <summary>
