@@ -81,7 +81,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     protected boolean useES6 = true; // default is ES6
     @Setter protected String npmRepository = null;
     @Getter private String modelPropertyNaming = "camelCase";
-    @Setter protected boolean useURLSearchParams = false;
+    @Setter protected boolean useURLSearchParams = true;
 
     public JavascriptClientCodegen() {
         super();
@@ -194,7 +194,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         cliOptions.add(new CliOption(USE_URL_SEARCH_PARAMS,
                 "use JS build-in UrlSearchParams, instead of deprecated npm lib 'querystring'")
-                .defaultValue(Boolean.FALSE.toString())
+                .defaultValue(Boolean.TRUE.toString())
         );
 
         supportedLibraries.put(LIBRARY_JAVASCRIPT, "JavaScript client library");
