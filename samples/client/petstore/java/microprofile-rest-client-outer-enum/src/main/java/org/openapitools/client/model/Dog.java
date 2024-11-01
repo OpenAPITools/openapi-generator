@@ -12,6 +12,8 @@
 
 package org.openapitools.client.model;
 
+import java.util.Objects;
+import java.util.Arrays;
 import org.openapitools.client.model.Status;
 import java.lang.reflect.Type;
 import javax.json.bind.annotation.JsonbTypeDeserializer;
