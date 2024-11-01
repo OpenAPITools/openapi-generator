@@ -87,6 +87,24 @@ public class Tag  {
   }
 
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Tag tag = (Tag) o;
+    return Objects.equals(this.id, tag.id) &&
+        Objects.equals(this.name, tag.name);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name);
+  }
+
   /**
    * Create a string representation of this pojo.
    */

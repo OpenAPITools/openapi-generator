@@ -97,6 +97,25 @@ public class Cat  {
   }
 
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Cat cat = (Cat) o;
+    return Objects.equals(this.id, cat.id) &&
+        Objects.equals(this.name, cat.name) &&
+        Objects.equals(this.status, cat.status);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name, status);
+  }
+
   /**
    * Create a string representation of this pojo.
    */
