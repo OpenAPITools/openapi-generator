@@ -558,12 +558,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     addedTimeImport = true;
                 }
 
-                // import "reflect" package if the parameter is collectionFormat=multi
-                if (!addedReflectImport && param.isCollectionFormatMulti) {
-                    imports.add(createMapping("import", "reflect"));
-                    addedReflectImport = true;
-                }
-
                 // set x-exportParamName
                 char nameFirstChar = param.paramName.charAt(0);
                 if (Character.isUpperCase(nameFirstChar)) {
@@ -574,6 +568,14 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     StringBuilder sb = new StringBuilder(param.paramName);
                     sb.setCharAt(0, Character.toUpperCase(nameFirstChar));
                     param.vendorExtensions.put("x-export-param-name", sb.toString());
+                }
+            }
+
+            for (CodegenParameter param : operation.queryParams) {
+                // import "reflect" package if the parameter is collectionFormat=multi
+                if (!addedReflectImport && param.isCollectionFormatMulti) {
+                    imports.add(createMapping("import", "reflect"));
+                    addedReflectImport = true;
                 }
             }
 

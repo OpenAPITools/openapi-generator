@@ -3861,8 +3861,29 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         Schema original = null;
+        // process the dereference schema if it's a ref to allOf with a single item
+        // and certain field(s) (e.g. description, readyOnly, etc) is set
+        if (p.get$ref() != null) {
+            Schema derefSchema = ModelUtils.getReferencedSchema(openAPI, p);
+            if (ModelUtils.isAllOfWithSingleItem(derefSchema) && (
+                    derefSchema.getReadOnly() != null ||
+                            derefSchema.getWriteOnly() != null ||
+                            derefSchema.getDeprecated() != null ||
+                            derefSchema.getDescription() != null ||
+                            derefSchema.getMaxLength() != null ||
+                            derefSchema.getMinLength() != null ||
+                            derefSchema.getMinimum() != null ||
+                            derefSchema.getMaximum() != null ||
+                            derefSchema.getMaximum() != null ||
+                            derefSchema.getMinItems() != null ||
+                            derefSchema.getTitle() != null
+                    )) {
+                p = ModelUtils.getReferencedSchema(openAPI, p);
+            }
+        }
+
         // check if it's allOf (only 1 sub schema) with or without default/nullable/etc set in the top level
-        if (ModelUtils.isAllOf(p) && p.getAllOf().size() == 1) {
+        if (ModelUtils.isAllOfWithSingleItem(p)) {
             if (p.getAllOf().get(0) instanceof Schema) {
                 original = p;
                 p = (Schema) p.getAllOf().get(0);
@@ -4333,7 +4354,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (code == null) {
             return null;
         }
-        return responses.get(code);
+        return ModelUtils.getReferencedApiResponse(openAPI, responses.get(code));
     }
 
     /**
@@ -4365,7 +4386,8 @@ public class DefaultCodegen implements CodegenConfig {
                                         CodegenOperation op,
                                         ApiResponse methodResponse,
                                         Map<String, String> schemaMappings) {
-        Schema responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(openAPI, methodResponse));
+        ApiResponse response = ModelUtils.getReferencedApiResponse(openAPI, methodResponse);
+        Schema responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(openAPI, response));
 
         if (responseSchema != null) {
             CodegenProperty cm = fromProperty("response", responseSchema, false);
@@ -4418,7 +4440,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
             op.returnProperty = cm;
         }
-        addHeaders(methodResponse, op.responseHeaders);
+        addHeaders(response, op.responseHeaders);
     }
 
     /**
@@ -4484,7 +4506,7 @@ public class DefaultCodegen implements CodegenConfig {
             ApiResponse methodResponse = findMethodResponse(operation.getResponses());
             for (Map.Entry<String, ApiResponse> operationGetResponsesEntry : operation.getResponses().entrySet()) {
                 String key = operationGetResponsesEntry.getKey();
-                ApiResponse response = operationGetResponsesEntry.getValue();
+                ApiResponse response = ModelUtils.getReferencedApiResponse(openAPI, operationGetResponsesEntry.getValue());
                 addProducesInfo(response, op);
                 CodegenResponse r = fromResponse(key, response);
                 Map<String, Header> headers = response.getHeaders();
@@ -4554,9 +4576,10 @@ public class DefaultCodegen implements CodegenConfig {
             List<Map<String, String>> examples = new ArrayList<>();
 
             for (String statusCode : operation.getResponses().keySet()) {
-                ApiResponse apiResponse = operation.getResponses().get(statusCode);
+                ApiResponse apiResponse = ModelUtils.getReferencedApiResponse(openAPI, operation.getResponses().get(statusCode));
                 Schema schema = unaliasSchema(ModelUtils.getSchemaFromResponse(openAPI, apiResponse));
                 if (schema == null) {
+                    // void response
                     continue;
                 }
 
@@ -4753,7 +4776,7 @@ public class DefaultCodegen implements CodegenConfig {
         op.hasRequiredParams = op.requiredParams.size() > 0;
 
         // check if the operation has only a single parameter
-       op.hasSingleParam = op.allParams.size() == 1;
+        op.hasSingleParam = op.allParams.size() == 1;
 
         // set Restful Flag
         op.isRestfulShow = op.isRestfulShow();
@@ -5144,7 +5167,7 @@ public class DefaultCodegen implements CodegenConfig {
             parameterModelName = getParameterDataType(parameter, parameterSchema);
             CodegenProperty prop;
             if (this instanceof RustServerCodegen) {
-                // for rust server, we need to do somethings special as it uses
+                // for rust server, we need to do something special as it uses
                 // $ref (e.g. #components/schemas/Pet) to determine whether it's a model
                 prop = fromProperty(parameter.getName(), parameterSchema, false);
             } else if (getUseInlineModelResolver()) {
@@ -5703,7 +5726,7 @@ public class DefaultCodegen implements CodegenConfig {
         // check for operationId uniqueness
         String uniqueName = co.operationId;
         int counter = seenOperationIds.getOrDefault(uniqueName, 0);
-        while(seenOperationIds.containsKey(uniqueName)) {
+        while (seenOperationIds.containsKey(uniqueName)) {
             uniqueName = co.operationId + "_" + counter;
             counter++;
         }
@@ -6099,7 +6122,7 @@ public class DefaultCodegen implements CodegenConfig {
             return seenValues.get(value);
         }
 
-        Optional<Entry<String,String>> foundEntry = seenValues.entrySet().stream().filter(v -> v.getValue().toLowerCase(Locale.ROOT).equals(value.toLowerCase(Locale.ROOT))).findAny();
+        Optional<Entry<String, String>> foundEntry = seenValues.entrySet().stream().filter(v -> v.getValue().toLowerCase(Locale.ROOT).equals(value.toLowerCase(Locale.ROOT))).findAny();
         if (foundEntry.isPresent()) {
             int counter = 0;
             String uniqueValue = value + "_" + counter;
@@ -8160,7 +8183,7 @@ public class DefaultCodegen implements CodegenConfig {
             int exitValue = p.exitValue();
             if (exitValue != 0) {
                 try (InputStreamReader inputStreamReader = new InputStreamReader(p.getErrorStream(), StandardCharsets.UTF_8);
-                    BufferedReader br = new BufferedReader(inputStreamReader)) {
+                BufferedReader br = new BufferedReader(inputStreamReader)) {
                     StringBuilder sb = new StringBuilder();
                     String line;
                     while ((line = br.readLine()) != null) {

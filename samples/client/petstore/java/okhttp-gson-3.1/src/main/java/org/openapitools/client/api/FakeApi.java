@@ -778,7 +778,7 @@ public class FakeApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call refToRefParameterCall(UUID refToUuid, final ApiCallback _callback) throws ApiException {
@@ -849,7 +849,7 @@ public class FakeApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
     public String refToRefParameter(UUID refToUuid) throws ApiException {
@@ -866,7 +866,7 @@ public class FakeApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
     public ApiResponse<String> refToRefParameterWithHttpInfo(UUID refToUuid) throws ApiException {
@@ -885,7 +885,7 @@ public class FakeApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call refToRefParameterAsync(UUID refToUuid, final ApiCallback<String> _callback) throws ApiException {
@@ -1258,7 +1258,7 @@ public class FakeApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call responseRefToNoRefCall(final ApiCallback _callback) throws ApiException {
@@ -1319,7 +1319,7 @@ public class FakeApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
     public String responseRefToNoRef() throws ApiException {
@@ -1335,7 +1335,7 @@ public class FakeApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
     public ApiResponse<String> responseRefToNoRefWithHttpInfo() throws ApiException {
@@ -1353,7 +1353,7 @@ public class FakeApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call responseRefToNoRefAsync(final ApiCallback<String> _callback) throws ApiException {
@@ -1371,7 +1371,7 @@ public class FakeApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call responseRefToRefCall(final ApiCallback _callback) throws ApiException {
@@ -1432,7 +1432,7 @@ public class FakeApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
     public String responseRefToRef() throws ApiException {
@@ -1448,7 +1448,7 @@ public class FakeApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
     public ApiResponse<String> responseRefToRefWithHttpInfo() throws ApiException {
@@ -1466,7 +1466,7 @@ public class FakeApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call responseRefToRefAsync(final ApiCallback<String> _callback) throws ApiException {

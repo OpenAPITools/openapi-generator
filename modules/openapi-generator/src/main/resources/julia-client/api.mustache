@@ -46,7 +46,7 @@ function _oacinternal_{{operationId}}(_api::{{classname}}{{#allParams}}{{#requir
 
 {{/hasValidation}}
 {{/allParams}}
-    _ctx = OpenAPI.Clients.Ctx(_api.client, "{{httpMethod}}", _returntypes_{{operationId}}_{{classname}}, "{{path}}", [{{#authMethods}}"{{name}}", {{/authMethods}}]{{#bodyParam}}, {{paramName}}{{/bodyParam}})
+    _ctx = OpenAPI.Clients.Ctx(_api.client, "{{httpMethod}}", _returntypes_{{operationId}}_{{classname}}, "{{{path}}}", [{{#authMethods}}"{{name}}", {{/authMethods}}]{{#bodyParam}}, {{paramName}}{{/bodyParam}})
 {{#pathParams}}
     OpenAPI.Clients.set_param(_ctx.path, "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{paramName}}{{#isListContainer}}; collection_format="{{collectionFormat}}"{{/isListContainer}})  # type {{dataType}}
 {{/pathParams}}

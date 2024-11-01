@@ -1274,6 +1274,34 @@ public class JavaClientCodegenTest {
     }
 
     /**
+     * see https://github.com/OpenAPITools/openapi-generator/issues/19895
+     */
+    @Test public void testCharsetInContentTypeCorrectlyEncodedForFeignApi_issue19895() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(FEIGN)
+                .setInputSpec("src/test/resources/3_0/issue_19895.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        validateJavaSourceFiles(files);
+        var defaultApiFile = output.resolve("src/main/java/org/openapitools/client/api/DefaultApi.java");
+        assertThat(files).contains(defaultApiFile.toFile());
+        assertThat(defaultApiFile).content()
+                .doesNotContain(
+                        "Content-Type: application/json;charset&#x3D;utf-8",
+                        "Accept: application/json;charset&#x3D;utf-8")
+                .contains(
+                        "Content-Type: application/json;charset=utf-8",
+                        "Accept: application/json;charset=utf-8"
+                );
+    }
+
+    /**
      * See https://github.com/OpenAPITools/openapi-generator/issues/6715
      * <p>
      * UPDATE: the following test has been ignored due to https://github.com/OpenAPITools/openapi-generator/pull/11081/
@@ -2935,7 +2963,7 @@ public class JavaClientCodegenTest {
 
 
     @Test
-    public void shouldGenerateOAuthTokenSuppliers() {
+    public void testRestTemplateWithGeneratedOAuthTokenSuppliers() {
 
         final Map<String, File> files = generateFromContract(
             "src/test/resources/3_0/java/oauth.yaml",
@@ -2966,6 +2994,27 @@ public class JavaClientCodegenTest {
 
     }
 
+    @Test
+    public void testRestClientWithGeneratedOAuthTokenSuppliers() {
+        final Map<String, File> files = generateFromContract(
+            "src/test/resources/3_0/java/oauth.yaml",
+            JavaClientCodegen.RESTCLIENT
+        );
+
+        final JavaFileAssert oAuth = JavaFileAssert.assertThat(files.get("OAuth.java"))
+            .printFileContent();
+        oAuth
+            .assertMethod("setAccessToken", "String")
+            .bodyContainsLines("setAccessToken(() -> accessToken);");
+        oAuth
+            .assertMethod("setAccessToken", "Supplier<String>")
+            .bodyContainsLines("this.tokenSupplier = tokenSupplier;");
+        oAuth
+            .assertMethod("applyToParams")
+            .bodyContainsLines("Optional.ofNullable(tokenSupplier).map(Supplier::get).ifPresent(accessToken ->")
+            .bodyContainsLines("headerParams.add(HttpHeaders.AUTHORIZATION, \"Bearer \" + accessToken)");
+    }
+    
     @Test public void testRestClientWithXML_issue_19137() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()

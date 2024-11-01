@@ -345,7 +345,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             if (operation.getResponses() != null) {
                 for (Map.Entry<String, ApiResponse> operationGetResponsesEntry : operation.getResponses().entrySet()) {
                     String s = operationGetResponsesEntry.getKey();
-                    ApiResponse apiResponse = operationGetResponsesEntry.getValue();
+                    ApiResponse apiResponse = ModelUtils.getReferencedApiResponse(openAPI, operationGetResponsesEntry.getValue());
                     if (apiResponse.getContent() != null) {
                         Content content = apiResponse.getContent();
                         for (String p : content.keySet()) {

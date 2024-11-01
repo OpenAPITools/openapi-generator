@@ -530,7 +530,7 @@ impl<T> Nullable<T> {
     }
 }
 
-impl<'a, T: Clone> Nullable<&'a T> {
+impl<T: Clone> Nullable<&T> {
     /// Maps an `Nullable<&T>` to an `Nullable<T>` by cloning the contents of the
     /// Nullable.
     ///

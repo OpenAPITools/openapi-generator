@@ -9,7 +9,7 @@ import cucumber.api.junit.Cucumber;
 @ActiveProfiles("test")
 @CucumberOptions(format = { "pretty", "html:target/cucumber-html-report",
 {{#resourcePaths}}
- "json:./report/{{path}}-report-json/{{path}}.json",
+ "json:./report/{{{path}}}-report-json/{{{path}}}.json",
 {{/resourcePaths}} })
 public class {{serviceName}}Test {
 }

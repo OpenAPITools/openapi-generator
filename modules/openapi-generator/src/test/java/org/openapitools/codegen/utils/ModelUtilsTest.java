@@ -501,4 +501,26 @@ public class ModelUtilsTest {
         assertTrue(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getAnyOf().get(2)));
         assertTrue(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getAnyOf().get(3)));
     }
+
+    @Test
+    public void isUnsupportedSchemaTest() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/unsupported_schema_test.yaml");
+        Map<String, String> options = new HashMap<>();
+        Schema schema = openAPI.getComponents().getSchemas().get("Dummy");
+        Schema property1 = (Schema) schema.getProperties().get("property1");
+        Schema property2 = (Schema) schema.getProperties().get("property2");
+
+        // a test of string type with allOf (2 patterns)
+        assertTrue(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property1.getAllOf().get(0)));
+        assertTrue(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property1.getAllOf().get(1)));
+
+        // if, then test
+        assertTrue(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property2.getAllOf().get(0)));
+        assertTrue(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property2.getAllOf().get(1)));
+
+        // typical schemas, e.g. boolean, string, array of string (enum)
+        assertFalse(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property2.getProperties().get("aBooleanCheck")));
+        assertFalse(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property2.getProperties().get("condition")));
+        assertFalse(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property2.getProperties().get("purpose")));
+    }
 }

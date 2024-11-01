@@ -475,6 +475,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             } else {
                 original = operation.getResponses().get(rsp.code);
             }
+            original = ModelUtils.getReferencedApiResponse(openAPI, original);
 
             // Create a unique responseID for this response, if one is not already specified with the "x-response-id" extension
             if (!rsp.vendorExtensions.containsKey("x-response-id")) {

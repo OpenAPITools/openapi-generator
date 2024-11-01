@@ -54,7 +54,7 @@ public interface {{classname}} {
     @HttpExchange(
         method = "{{{httpMethod}}}",
         value = "{{{path}}}",
-        accept = { {{#vendorExtensions.x-accepts}}"{{.}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-accepts}} }{{#vendorExtensions.x-content-type}},
+        accept = { {{#vendorExtensions.x-accepts}}"{{{.}}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-accepts}} }{{#vendorExtensions.x-content-type}},
         contentType = "{{{vendorExtensions.x-content-type}}}"{{/vendorExtensions.x-content-type}}
     )
     {{>responseType}} {{operationId}}(
