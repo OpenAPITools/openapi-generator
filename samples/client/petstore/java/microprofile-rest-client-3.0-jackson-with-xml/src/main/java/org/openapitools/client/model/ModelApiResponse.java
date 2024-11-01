@@ -135,7 +135,6 @@ public class ModelApiResponse  {
     return this;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

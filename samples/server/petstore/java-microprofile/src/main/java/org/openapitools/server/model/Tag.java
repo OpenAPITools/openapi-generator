@@ -88,7 +88,6 @@ public class Tag  {
     return this;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

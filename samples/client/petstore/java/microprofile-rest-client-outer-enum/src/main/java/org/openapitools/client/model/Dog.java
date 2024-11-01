@@ -98,7 +98,6 @@ public class Dog  {
     return this;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
