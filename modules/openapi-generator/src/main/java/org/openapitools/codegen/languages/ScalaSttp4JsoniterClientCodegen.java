@@ -23,6 +23,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private static final StringProperty STTP_CLIENT_VERSION = new StringProperty("sttpClientVersion",
             "The version of " +
@@ -58,6 +60,9 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
     protected Map<String, String> jsonCodecNeedingTypes = new HashMap<>();
 
     Map<String, ModelsMap> enumRefs = new HashMap<>();
+
+    private Map<String, String> apiNameMappings = new HashMap<>();
+    private Set<String> uniqueApiNames = new HashSet<>();
 
     public ScalaSttp4JsoniterClientCodegen() {
         super();
@@ -183,7 +188,7 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
         return buf.toString();
     }
 
-    private PathMetadata encPath(String input) {
+    private PathMetadata parseAndEncodePath(String input) {
         String path = super.encodePath(input);
         ArrayList<String> pathParams = new ArrayList<>();
 
@@ -206,7 +211,7 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
             List<Server> servers) {
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
 
-        PathMetadata pathMetadata = encPath(path);
+        PathMetadata pathMetadata = parseAndEncodePath(path);
 
         op.path = pathMetadata.getPath();
 
@@ -246,6 +251,41 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
             return this.reservedWordsMappings().get(name);
         }
         return "`" + name + "`";
+    }
+
+    @Override
+    public String toApiName(String name) {
+        // first come, first served
+        // if a tag name is already mapped, use that mapping
+        if (apiNameMappings.containsKey(name)) {
+            return apiNameMappings.get(name);
+        }
+
+        String generatedApiName = super.toApiName(name);
+        String lowerCasedApiName = generatedApiName.toLowerCase(Locale.ROOT);
+
+        // check if the name is unique (case-insensitive)
+        // if it's unique, add it to the mappings and return the generated name
+        if (!uniqueApiNames.contains(lowerCasedApiName)) {
+            uniqueApiNames.add(lowerCasedApiName);
+            apiNameMappings.put(name, generatedApiName);
+
+            return generatedApiName;
+        } else {
+            // if the name is not unique, generate a new name with a unique suffix
+            int i = 0;
+            while (true) {
+                String nextGeneratedApiName = super.toApiName(name + i);
+                String lowerCasedNextGeneratedApiName = nextGeneratedApiName.toLowerCase(Locale.ROOT);
+                if (!uniqueApiNames.contains(lowerCasedNextGeneratedApiName)) {
+                    uniqueApiNames.add(lowerCasedNextGeneratedApiName);
+                    apiNameMappings.put(name, nextGeneratedApiName);
+                    
+                    return nextGeneratedApiName;
+                }
+                i++;
+            }
+        }
     }
 
     @Override
@@ -351,13 +391,6 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationMap ops = objs.getOperations();
-
-//        allModels.forEach(model -> {
-//            if (model.getModel().name.equals("PluginStatus")) {
-//                System.out.println("Found plugin status model");
-//                System.out.println(model.getModel());
-//            }
-//        });
 
         for (CodegenOperation operation : ops.getOperation()) {
             if (operation.returnType != null && !NO_JSON_CODEC_TYPES.contains(operation.returnType)) {
