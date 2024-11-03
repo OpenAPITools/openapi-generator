@@ -348,8 +348,8 @@ namespace Org.OpenAPITools.Client
 
         }
 
-        partial void InterceptRequest(UnityWebRequest req, string path, RequestOptions options, IReadableConfiguration configuration);
-        partial void InterceptResponse(UnityWebRequest req, string path, RequestOptions options, IReadableConfiguration configuration, ref object responseData);
+        public virtual void InterceptRequest(UnityWebRequest req, string path, RequestOptions options, IReadableConfiguration configuration) { }
+        public virtual void InterceptResponse(UnityWebRequest req, string path, RequestOptions options, IReadableConfiguration configuration, ref object responseData) { }
 
         private ApiResponse<T> ToApiResponse<T>(UnityWebRequest request, object responseData)
         {

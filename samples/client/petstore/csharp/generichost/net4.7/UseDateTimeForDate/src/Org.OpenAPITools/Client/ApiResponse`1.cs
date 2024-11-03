@@ -145,7 +145,7 @@ namespace Org.OpenAPITools.Client
             OnCreated(httpRequestMessage, httpResponseMessage);
         }
 
-        partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+        public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
     }
 
     /// <summary>

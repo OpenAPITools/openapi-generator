@@ -170,7 +170,7 @@ namespace Org.OpenAPITools.Api
             OauthTokenProvider = oauthTokenProvider;
         }
 
-        partial void FormatTestClassname(ModelClient modelClient);
+        public virtual void FormatTestClassname(ModelClient modelClient) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -202,7 +202,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="modelClient"></param>
-        partial void AfterTestClassname(ref bool suppressDefaultLog, ITestClassnameApiResponse apiResponseLocalVar, ModelClient modelClient);
+        public virtual void AfterTestClassname(ref bool suppressDefaultLog, ITestClassnameApiResponse apiResponseLocalVar, ModelClient modelClient) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -227,7 +227,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="modelClient"></param>
-        partial void OnErrorTestClassname(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, ModelClient modelClient);
+        public virtual void OnErrorTestClassname(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, ModelClient modelClient) { }
 
         /// <summary>
         /// To test class name in snake case To test class name in snake case
@@ -361,7 +361,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -409,7 +409,7 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
     }
 }

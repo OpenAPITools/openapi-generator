@@ -1308,7 +1308,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterFakeHealthGet(ref bool suppressDefaultLog, IFakeHealthGetApiResponse apiResponseLocalVar);
+        public virtual void AfterFakeHealthGet(ref bool suppressDefaultLog, IFakeHealthGetApiResponse apiResponseLocalVar) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1331,7 +1331,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="exceptionLocalVar"></param>
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
-        partial void OnErrorFakeHealthGet(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar);
+        public virtual void OnErrorFakeHealthGet(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar) { }
 
         /// <summary>
         /// Health check endpoint 
@@ -1433,7 +1433,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -1481,10 +1481,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatFakeOuterBooleanSerialize(ref Option<bool> body);
+        public virtual void FormatFakeOuterBooleanSerialize(ref Option<bool> body) { }
 
         /// <summary>
         /// Processes the server response
@@ -1505,7 +1505,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="body"></param>
-        partial void AfterFakeOuterBooleanSerialize(ref bool suppressDefaultLog, IFakeOuterBooleanSerializeApiResponse apiResponseLocalVar, Option<bool> body);
+        public virtual void AfterFakeOuterBooleanSerialize(ref bool suppressDefaultLog, IFakeOuterBooleanSerializeApiResponse apiResponseLocalVar, Option<bool> body) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1530,7 +1530,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="body"></param>
-        partial void OnErrorFakeOuterBooleanSerialize(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<bool> body);
+        public virtual void OnErrorFakeOuterBooleanSerialize(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<bool> body) { }
 
         /// <summary>
         ///  Test serialization of outer boolean types
@@ -1650,7 +1650,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -1698,10 +1698,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatFakeOuterCompositeSerialize(Option<OuterComposite> outerComposite);
+        public virtual void FormatFakeOuterCompositeSerialize(Option<OuterComposite> outerComposite) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -1733,7 +1733,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="outerComposite"></param>
-        partial void AfterFakeOuterCompositeSerialize(ref bool suppressDefaultLog, IFakeOuterCompositeSerializeApiResponse apiResponseLocalVar, Option<OuterComposite> outerComposite);
+        public virtual void AfterFakeOuterCompositeSerialize(ref bool suppressDefaultLog, IFakeOuterCompositeSerializeApiResponse apiResponseLocalVar, Option<OuterComposite> outerComposite) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1758,7 +1758,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="outerComposite"></param>
-        partial void OnErrorFakeOuterCompositeSerialize(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<OuterComposite> outerComposite);
+        public virtual void OnErrorFakeOuterCompositeSerialize(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<OuterComposite> outerComposite) { }
 
         /// <summary>
         ///  Test serialization of object with outer number type
@@ -1880,7 +1880,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -1928,10 +1928,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatFakeOuterNumberSerialize(ref Option<decimal> body);
+        public virtual void FormatFakeOuterNumberSerialize(ref Option<decimal> body) { }
 
         /// <summary>
         /// Processes the server response
@@ -1952,7 +1952,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="body"></param>
-        partial void AfterFakeOuterNumberSerialize(ref bool suppressDefaultLog, IFakeOuterNumberSerializeApiResponse apiResponseLocalVar, Option<decimal> body);
+        public virtual void AfterFakeOuterNumberSerialize(ref bool suppressDefaultLog, IFakeOuterNumberSerializeApiResponse apiResponseLocalVar, Option<decimal> body) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1977,7 +1977,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="body"></param>
-        partial void OnErrorFakeOuterNumberSerialize(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<decimal> body);
+        public virtual void OnErrorFakeOuterNumberSerialize(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<decimal> body) { }
 
         /// <summary>
         ///  Test serialization of outer number types
@@ -2097,7 +2097,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -2145,10 +2145,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatFakeOuterStringSerialize(ref Guid requiredStringUuid, ref Option<string> body);
+        public virtual void FormatFakeOuterStringSerialize(ref Guid requiredStringUuid, ref Option<string> body) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -2182,7 +2182,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="requiredStringUuid"></param>
         /// <param name="body"></param>
-        partial void AfterFakeOuterStringSerialize(ref bool suppressDefaultLog, IFakeOuterStringSerializeApiResponse apiResponseLocalVar, Guid requiredStringUuid, Option<string> body);
+        public virtual void AfterFakeOuterStringSerialize(ref bool suppressDefaultLog, IFakeOuterStringSerializeApiResponse apiResponseLocalVar, Guid requiredStringUuid, Option<string> body) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2209,7 +2209,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathLocalVar"></param>
         /// <param name="requiredStringUuid"></param>
         /// <param name="body"></param>
-        partial void OnErrorFakeOuterStringSerialize(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Guid requiredStringUuid, Option<string> body);
+        public virtual void OnErrorFakeOuterStringSerialize(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Guid requiredStringUuid, Option<string> body) { }
 
         /// <summary>
         ///  Test serialization of outer string types
@@ -2339,7 +2339,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -2387,7 +2387,7 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
         /// <summary>
@@ -2407,7 +2407,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterGetArrayOfEnums(ref bool suppressDefaultLog, IGetArrayOfEnumsApiResponse apiResponseLocalVar);
+        public virtual void AfterGetArrayOfEnums(ref bool suppressDefaultLog, IGetArrayOfEnumsApiResponse apiResponseLocalVar) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2430,7 +2430,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="exceptionLocalVar"></param>
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
-        partial void OnErrorGetArrayOfEnums(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar);
+        public virtual void OnErrorGetArrayOfEnums(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar) { }
 
         /// <summary>
         /// Array of Enums 
@@ -2532,7 +2532,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -2580,7 +2580,7 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
         /// <summary>
@@ -2600,7 +2600,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterGetMixedAnyOf(ref bool suppressDefaultLog, IGetMixedAnyOfApiResponse apiResponseLocalVar);
+        public virtual void AfterGetMixedAnyOf(ref bool suppressDefaultLog, IGetMixedAnyOfApiResponse apiResponseLocalVar) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2623,7 +2623,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="exceptionLocalVar"></param>
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
-        partial void OnErrorGetMixedAnyOf(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar);
+        public virtual void OnErrorGetMixedAnyOf(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar) { }
 
         /// <summary>
         /// Test mixed type anyOf deserialization 
@@ -2725,7 +2725,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -2773,7 +2773,7 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
         /// <summary>
@@ -2793,7 +2793,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterGetMixedOneOf(ref bool suppressDefaultLog, IGetMixedOneOfApiResponse apiResponseLocalVar);
+        public virtual void AfterGetMixedOneOf(ref bool suppressDefaultLog, IGetMixedOneOfApiResponse apiResponseLocalVar) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2816,7 +2816,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="exceptionLocalVar"></param>
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
-        partial void OnErrorGetMixedOneOf(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar);
+        public virtual void OnErrorGetMixedOneOf(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar) { }
 
         /// <summary>
         /// Test mixed type oneOf deserialization 
@@ -2918,7 +2918,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -2966,10 +2966,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatTestAdditionalPropertiesReference(Dictionary<string, Object> requestBody);
+        public virtual void FormatTestAdditionalPropertiesReference(Dictionary<string, Object> requestBody) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -3001,7 +3001,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="requestBody"></param>
-        partial void AfterTestAdditionalPropertiesReference(ref bool suppressDefaultLog, ITestAdditionalPropertiesReferenceApiResponse apiResponseLocalVar, Dictionary<string, Object> requestBody);
+        public virtual void AfterTestAdditionalPropertiesReference(ref bool suppressDefaultLog, ITestAdditionalPropertiesReferenceApiResponse apiResponseLocalVar, Dictionary<string, Object> requestBody) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -3026,7 +3026,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="requestBody"></param>
-        partial void OnErrorTestAdditionalPropertiesReference(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Dictionary<string, Object> requestBody);
+        public virtual void OnErrorTestAdditionalPropertiesReference(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Dictionary<string, Object> requestBody) { }
 
         /// <summary>
         /// test referenced additionalProperties 
@@ -3139,7 +3139,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -3155,10 +3155,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatTestBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass);
+        public virtual void FormatTestBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -3190,7 +3190,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="fileSchemaTestClass"></param>
-        partial void AfterTestBodyWithFileSchema(ref bool suppressDefaultLog, ITestBodyWithFileSchemaApiResponse apiResponseLocalVar, FileSchemaTestClass fileSchemaTestClass);
+        public virtual void AfterTestBodyWithFileSchema(ref bool suppressDefaultLog, ITestBodyWithFileSchemaApiResponse apiResponseLocalVar, FileSchemaTestClass fileSchemaTestClass) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -3215,7 +3215,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="fileSchemaTestClass"></param>
-        partial void OnErrorTestBodyWithFileSchema(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, FileSchemaTestClass fileSchemaTestClass);
+        public virtual void OnErrorTestBodyWithFileSchema(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, FileSchemaTestClass fileSchemaTestClass) { }
 
         /// <summary>
         ///  For this test, the body for this request much reference a schema named &#x60;File&#x60;.
@@ -3328,7 +3328,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -3344,10 +3344,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatTestBodyWithQueryParams(ref string query, User user);
+        public virtual void FormatTestBodyWithQueryParams(ref string query, User user) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -3385,7 +3385,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="query"></param>
         /// <param name="user"></param>
-        partial void AfterTestBodyWithQueryParams(ref bool suppressDefaultLog, ITestBodyWithQueryParamsApiResponse apiResponseLocalVar, string query, User user);
+        public virtual void AfterTestBodyWithQueryParams(ref bool suppressDefaultLog, ITestBodyWithQueryParamsApiResponse apiResponseLocalVar, string query, User user) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -3412,7 +3412,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathLocalVar"></param>
         /// <param name="query"></param>
         /// <param name="user"></param>
-        partial void OnErrorTestBodyWithQueryParams(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string query, User user);
+        public virtual void OnErrorTestBodyWithQueryParams(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string query, User user) { }
 
         /// <summary>
         ///  
@@ -3533,7 +3533,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -3549,10 +3549,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatTestClientModel(ModelClient modelClient);
+        public virtual void FormatTestClientModel(ModelClient modelClient) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -3584,7 +3584,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="modelClient"></param>
-        partial void AfterTestClientModel(ref bool suppressDefaultLog, ITestClientModelApiResponse apiResponseLocalVar, ModelClient modelClient);
+        public virtual void AfterTestClientModel(ref bool suppressDefaultLog, ITestClientModelApiResponse apiResponseLocalVar, ModelClient modelClient) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -3609,7 +3609,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="modelClient"></param>
-        partial void OnErrorTestClientModel(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, ModelClient modelClient);
+        public virtual void OnErrorTestClientModel(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, ModelClient modelClient) { }
 
         /// <summary>
         /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
@@ -3730,7 +3730,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -3778,10 +3778,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatTestEndpointParameters(ref decimal number, ref string patternWithoutDelimiter, ref byte[] varByte, ref double varDouble, ref Option<System.IO.Stream> binary, ref Option<string> callback, ref Option<DateTime> date, ref Option<DateTime> dateTime, ref Option<int> int32, ref Option<long> int64, ref Option<int> integer, ref Option<string> password, ref Option<float> varFloat, ref Option<string> varString);
+        public virtual void FormatTestEndpointParameters(ref decimal number, ref string patternWithoutDelimiter, ref byte[] varByte, ref double varDouble, ref Option<System.IO.Stream> binary, ref Option<string> callback, ref Option<DateTime> date, ref Option<DateTime> dateTime, ref Option<int> int32, ref Option<long> int64, ref Option<int> integer, ref Option<string> password, ref Option<float> varFloat, ref Option<string> varString) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -3859,7 +3859,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password"></param>
         /// <param name="varFloat"></param>
         /// <param name="varString"></param>
-        partial void AfterTestEndpointParameters(ref bool suppressDefaultLog, ITestEndpointParametersApiResponse apiResponseLocalVar, decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary, Option<string> callback, Option<DateTime> date, Option<DateTime> dateTime, Option<int> int32, Option<long> int64, Option<int> integer, Option<string> password, Option<float> varFloat, Option<string> varString);
+        public virtual void AfterTestEndpointParameters(ref bool suppressDefaultLog, ITestEndpointParametersApiResponse apiResponseLocalVar, decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary, Option<string> callback, Option<DateTime> date, Option<DateTime> dateTime, Option<int> int32, Option<long> int64, Option<int> integer, Option<string> password, Option<float> varFloat, Option<string> varString) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -3910,7 +3910,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password"></param>
         /// <param name="varFloat"></param>
         /// <param name="varString"></param>
-        partial void OnErrorTestEndpointParameters(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary, Option<string> callback, Option<DateTime> date, Option<DateTime> dateTime, Option<int> int32, Option<long> int64, Option<int> integer, Option<string> password, Option<float> varFloat, Option<string> varString);
+        public virtual void OnErrorTestEndpointParameters(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary, Option<string> callback, Option<DateTime> date, Option<DateTime> dateTime, Option<int> int32, Option<long> int64, Option<int> integer, Option<string> password, Option<float> varFloat, Option<string> varString) { }
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트  Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -4102,7 +4102,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 400 BadRequest
@@ -4124,10 +4124,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatTestEnumParameters(ref Option<TestEnumParametersRequestEnumFormString> enumFormString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray, ref Option<TestEnumParametersEnumHeaderStringParameter> enumHeaderString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray, ref Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble, ref Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger, ref Option<TestEnumParametersEnumHeaderStringParameter> enumQueryString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray);
+        public virtual void FormatTestEnumParameters(ref Option<TestEnumParametersRequestEnumFormString> enumFormString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray, ref Option<TestEnumParametersEnumHeaderStringParameter> enumHeaderString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray, ref Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble, ref Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger, ref Option<TestEnumParametersEnumHeaderStringParameter> enumQueryString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -4181,7 +4181,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryInteger"></param>
         /// <param name="enumQueryString"></param>
         /// <param name="enumQueryStringArray"></param>
-        partial void AfterTestEnumParameters(ref bool suppressDefaultLog, ITestEnumParametersApiResponse apiResponseLocalVar, Option<TestEnumParametersRequestEnumFormString> enumFormString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray, Option<TestEnumParametersEnumHeaderStringParameter> enumHeaderString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray, Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble, Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger, Option<TestEnumParametersEnumHeaderStringParameter> enumQueryString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray);
+        public virtual void AfterTestEnumParameters(ref bool suppressDefaultLog, ITestEnumParametersApiResponse apiResponseLocalVar, Option<TestEnumParametersRequestEnumFormString> enumFormString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray, Option<TestEnumParametersEnumHeaderStringParameter> enumHeaderString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray, Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble, Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger, Option<TestEnumParametersEnumHeaderStringParameter> enumQueryString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -4220,7 +4220,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryInteger"></param>
         /// <param name="enumQueryString"></param>
         /// <param name="enumQueryStringArray"></param>
-        partial void OnErrorTestEnumParameters(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<TestEnumParametersRequestEnumFormString> enumFormString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray, Option<TestEnumParametersEnumHeaderStringParameter> enumHeaderString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray, Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble, Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger, Option<TestEnumParametersEnumHeaderStringParameter> enumQueryString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray);
+        public virtual void OnErrorTestEnumParameters(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<TestEnumParametersRequestEnumFormString> enumFormString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray, Option<TestEnumParametersEnumHeaderStringParameter> enumHeaderString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray, Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble, Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger, Option<TestEnumParametersEnumHeaderStringParameter> enumQueryString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray) { }
 
         /// <summary>
         /// To test enum parameters To test enum parameters
@@ -4377,7 +4377,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 400 BadRequest
@@ -4399,10 +4399,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatTestGroupParameters(ref bool requiredBooleanGroup, ref long requiredInt64Group, ref int requiredStringGroup, ref Option<bool> booleanGroup, ref Option<long> int64Group, ref Option<int> stringGroup);
+        public virtual void FormatTestGroupParameters(ref bool requiredBooleanGroup, ref long requiredInt64Group, ref int requiredStringGroup, ref Option<bool> booleanGroup, ref Option<long> int64Group, ref Option<int> stringGroup) { }
 
         /// <summary>
         /// Processes the server response
@@ -4433,7 +4433,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup"></param>
         /// <param name="int64Group"></param>
         /// <param name="stringGroup"></param>
-        partial void AfterTestGroupParameters(ref bool suppressDefaultLog, ITestGroupParametersApiResponse apiResponseLocalVar, bool requiredBooleanGroup, long requiredInt64Group, int requiredStringGroup, Option<bool> booleanGroup, Option<long> int64Group, Option<int> stringGroup);
+        public virtual void AfterTestGroupParameters(ref bool suppressDefaultLog, ITestGroupParametersApiResponse apiResponseLocalVar, bool requiredBooleanGroup, long requiredInt64Group, int requiredStringGroup, Option<bool> booleanGroup, Option<long> int64Group, Option<int> stringGroup) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -4468,7 +4468,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup"></param>
         /// <param name="int64Group"></param>
         /// <param name="stringGroup"></param>
-        partial void OnErrorTestGroupParameters(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, bool requiredBooleanGroup, long requiredInt64Group, int requiredStringGroup, Option<bool> booleanGroup, Option<long> int64Group, Option<int> stringGroup);
+        public virtual void OnErrorTestGroupParameters(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, bool requiredBooleanGroup, long requiredInt64Group, int requiredStringGroup, Option<bool> booleanGroup, Option<long> int64Group, Option<int> stringGroup) { }
 
         /// <summary>
         /// Fake endpoint to test group parameters (optional) Fake endpoint to test group parameters (optional)
@@ -4604,7 +4604,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 400 BadRequest
@@ -4620,10 +4620,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatTestInlineAdditionalProperties(Dictionary<string, string> requestBody);
+        public virtual void FormatTestInlineAdditionalProperties(Dictionary<string, string> requestBody) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -4655,7 +4655,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="requestBody"></param>
-        partial void AfterTestInlineAdditionalProperties(ref bool suppressDefaultLog, ITestInlineAdditionalPropertiesApiResponse apiResponseLocalVar, Dictionary<string, string> requestBody);
+        public virtual void AfterTestInlineAdditionalProperties(ref bool suppressDefaultLog, ITestInlineAdditionalPropertiesApiResponse apiResponseLocalVar, Dictionary<string, string> requestBody) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -4680,7 +4680,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="requestBody"></param>
-        partial void OnErrorTestInlineAdditionalProperties(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Dictionary<string, string> requestBody);
+        public virtual void OnErrorTestInlineAdditionalProperties(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Dictionary<string, string> requestBody) { }
 
         /// <summary>
         /// test inline additionalProperties 
@@ -4793,7 +4793,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -4809,10 +4809,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatTestInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest);
+        public virtual void FormatTestInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -4844,7 +4844,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="testInlineFreeformAdditionalPropertiesRequest"></param>
-        partial void AfterTestInlineFreeformAdditionalProperties(ref bool suppressDefaultLog, ITestInlineFreeformAdditionalPropertiesApiResponse apiResponseLocalVar, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest);
+        public virtual void AfterTestInlineFreeformAdditionalProperties(ref bool suppressDefaultLog, ITestInlineFreeformAdditionalPropertiesApiResponse apiResponseLocalVar, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -4869,7 +4869,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="testInlineFreeformAdditionalPropertiesRequest"></param>
-        partial void OnErrorTestInlineFreeformAdditionalProperties(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest);
+        public virtual void OnErrorTestInlineFreeformAdditionalProperties(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) { }
 
         /// <summary>
         /// test inline free-form additionalProperties 
@@ -4982,7 +4982,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -4998,10 +4998,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatTestJsonFormData(ref string param, ref string param2);
+        public virtual void FormatTestJsonFormData(ref string param, ref string param2) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -5039,7 +5039,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="param"></param>
         /// <param name="param2"></param>
-        partial void AfterTestJsonFormData(ref bool suppressDefaultLog, ITestJsonFormDataApiResponse apiResponseLocalVar, string param, string param2);
+        public virtual void AfterTestJsonFormData(ref bool suppressDefaultLog, ITestJsonFormDataApiResponse apiResponseLocalVar, string param, string param2) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -5066,7 +5066,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathLocalVar"></param>
         /// <param name="param"></param>
         /// <param name="param2"></param>
-        partial void OnErrorTestJsonFormData(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string param, string param2);
+        public virtual void OnErrorTestJsonFormData(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string param, string param2) { }
 
         /// <summary>
         /// test json serialization of form data 
@@ -5189,7 +5189,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -5205,10 +5205,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatTestQueryParameterCollectionFormat(List<string> context, List<string> http, List<string> ioutil, List<string> pipe, ref string requiredNotNullable, List<string> url, ref Option<string> notRequiredNotNullable, ref Option<string> notRequiredNullable, ref string requiredNullable);
+        public virtual void FormatTestQueryParameterCollectionFormat(List<string> context, List<string> http, List<string> ioutil, List<string> pipe, ref string requiredNotNullable, List<string> url, ref Option<string> notRequiredNotNullable, ref Option<string> notRequiredNullable, ref string requiredNullable) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -5280,7 +5280,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="notRequiredNotNullable"></param>
         /// <param name="notRequiredNullable"></param>
         /// <param name="requiredNullable"></param>
-        partial void AfterTestQueryParameterCollectionFormat(ref bool suppressDefaultLog, ITestQueryParameterCollectionFormatApiResponse apiResponseLocalVar, List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, List<string> url, Option<string> notRequiredNotNullable, Option<string> notRequiredNullable, string requiredNullable);
+        public virtual void AfterTestQueryParameterCollectionFormat(ref bool suppressDefaultLog, ITestQueryParameterCollectionFormatApiResponse apiResponseLocalVar, List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, List<string> url, Option<string> notRequiredNotNullable, Option<string> notRequiredNullable, string requiredNullable) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -5321,7 +5321,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="notRequiredNotNullable"></param>
         /// <param name="notRequiredNullable"></param>
         /// <param name="requiredNullable"></param>
-        partial void OnErrorTestQueryParameterCollectionFormat(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, List<string> url, Option<string> notRequiredNotNullable, Option<string> notRequiredNullable, string requiredNullable);
+        public virtual void OnErrorTestQueryParameterCollectionFormat(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, List<string> url, Option<string> notRequiredNotNullable, Option<string> notRequiredNullable, string requiredNullable) { }
 
         /// <summary>
         ///  To test the collection format in query parameters
@@ -5454,7 +5454,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -5470,10 +5470,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatTestStringMapReference(Dictionary<string, string> requestBody);
+        public virtual void FormatTestStringMapReference(Dictionary<string, string> requestBody) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -5505,7 +5505,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="requestBody"></param>
-        partial void AfterTestStringMapReference(ref bool suppressDefaultLog, ITestStringMapReferenceApiResponse apiResponseLocalVar, Dictionary<string, string> requestBody);
+        public virtual void AfterTestStringMapReference(ref bool suppressDefaultLog, ITestStringMapReferenceApiResponse apiResponseLocalVar, Dictionary<string, string> requestBody) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -5530,7 +5530,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="requestBody"></param>
-        partial void OnErrorTestStringMapReference(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Dictionary<string, string> requestBody);
+        public virtual void OnErrorTestStringMapReference(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Dictionary<string, string> requestBody) { }
 
         /// <summary>
         /// test referenced string map 
@@ -5643,7 +5643,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -5659,7 +5659,7 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
     }
 }

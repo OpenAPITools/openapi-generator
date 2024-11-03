@@ -357,7 +357,7 @@ namespace Org.OpenAPITools.Api
             OauthTokenProvider = oauthTokenProvider;
         }
 
-        partial void FormatDeleteOrder(ref string orderId);
+        public virtual void FormatDeleteOrder(ref string orderId) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -389,7 +389,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="orderId"></param>
-        partial void AfterDeleteOrder(ref bool suppressDefaultLog, IDeleteOrderApiResponse apiResponseLocalVar, string orderId);
+        public virtual void AfterDeleteOrder(ref bool suppressDefaultLog, IDeleteOrderApiResponse apiResponseLocalVar, string orderId) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -414,7 +414,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="orderId"></param>
-        partial void OnErrorDeleteOrder(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string orderId);
+        public virtual void OnErrorDeleteOrder(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string orderId) { }
 
         /// <summary>
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
@@ -514,7 +514,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 400 BadRequest
@@ -536,7 +536,7 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
         /// <summary>
@@ -556,7 +556,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterGetInventory(ref bool suppressDefaultLog, IGetInventoryApiResponse apiResponseLocalVar);
+        public virtual void AfterGetInventory(ref bool suppressDefaultLog, IGetInventoryApiResponse apiResponseLocalVar) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -579,7 +579,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="exceptionLocalVar"></param>
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
-        partial void OnErrorGetInventory(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar);
+        public virtual void OnErrorGetInventory(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar) { }
 
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
@@ -690,7 +690,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -738,10 +738,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatGetOrderById(ref long orderId);
+        public virtual void FormatGetOrderById(ref long orderId) { }
 
         /// <summary>
         /// Processes the server response
@@ -762,7 +762,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="orderId"></param>
-        partial void AfterGetOrderById(ref bool suppressDefaultLog, IGetOrderByIdApiResponse apiResponseLocalVar, long orderId);
+        public virtual void AfterGetOrderById(ref bool suppressDefaultLog, IGetOrderByIdApiResponse apiResponseLocalVar, long orderId) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -787,7 +787,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="orderId"></param>
-        partial void OnErrorGetOrderById(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, long orderId);
+        public virtual void OnErrorGetOrderById(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, long orderId) { }
 
         /// <summary>
         /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
@@ -895,7 +895,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -955,10 +955,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatPlaceOrder(Order order);
+        public virtual void FormatPlaceOrder(Order order) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -990,7 +990,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="order"></param>
-        partial void AfterPlaceOrder(ref bool suppressDefaultLog, IPlaceOrderApiResponse apiResponseLocalVar, Order order);
+        public virtual void AfterPlaceOrder(ref bool suppressDefaultLog, IPlaceOrderApiResponse apiResponseLocalVar, Order order) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1015,7 +1015,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="order"></param>
-        partial void OnErrorPlaceOrder(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Order order);
+        public virtual void OnErrorPlaceOrder(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Order order) { }
 
         /// <summary>
         /// Place an order for a pet 
@@ -1137,7 +1137,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -1191,7 +1191,7 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
     }
 }

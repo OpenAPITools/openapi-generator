@@ -152,7 +152,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterRootGet(ref bool suppressDefaultLog, IRootGetApiResponse apiResponseLocalVar);
+        public virtual void AfterRootGet(ref bool suppressDefaultLog, IRootGetApiResponse apiResponseLocalVar) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -175,7 +175,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="exceptionLocalVar"></param>
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
-        partial void OnErrorRootGet(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar);
+        public virtual void OnErrorRootGet(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar) { }
 
         /// <summary>
         ///  
@@ -278,7 +278,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -326,7 +326,7 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
     }
 }

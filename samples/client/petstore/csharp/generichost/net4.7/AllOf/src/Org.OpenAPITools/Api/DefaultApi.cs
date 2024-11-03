@@ -135,7 +135,7 @@ namespace Org.OpenAPITools.Api
             Events = defaultApiEvents;
         }
 
-        partial void FormatList(ref string personId);
+        public virtual void FormatList(ref string personId) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -167,7 +167,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="personId"></param>
-        partial void AfterList(ref bool suppressDefaultLog, IListApiResponse apiResponseLocalVar, string personId);
+        public virtual void AfterList(ref bool suppressDefaultLog, IListApiResponse apiResponseLocalVar, string personId) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -192,7 +192,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="personId"></param>
-        partial void OnErrorList(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string personId);
+        public virtual void OnErrorList(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string personId) { }
 
         /// <summary>
         ///  
@@ -301,7 +301,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -349,7 +349,7 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
     }
 }

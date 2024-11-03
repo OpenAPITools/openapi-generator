@@ -598,7 +598,7 @@ namespace Org.OpenAPITools.Api
             OauthTokenProvider = oauthTokenProvider;
         }
 
-        partial void FormatCreateUser(User user);
+        public virtual void FormatCreateUser(User user) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -630,7 +630,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="user"></param>
-        partial void AfterCreateUser(ref bool suppressDefaultLog, ICreateUserApiResponse apiResponseLocalVar, User user);
+        public virtual void AfterCreateUser(ref bool suppressDefaultLog, ICreateUserApiResponse apiResponseLocalVar, User user) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -655,7 +655,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="user"></param>
-        partial void OnErrorCreateUser(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, User user);
+        public virtual void OnErrorCreateUser(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, User user) { }
 
         /// <summary>
         /// Create user This can only be done by the logged in user.
@@ -768,7 +768,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is the default response type
@@ -784,10 +784,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatCreateUsersWithArrayInput(List<User> user);
+        public virtual void FormatCreateUsersWithArrayInput(List<User> user) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -819,7 +819,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="user"></param>
-        partial void AfterCreateUsersWithArrayInput(ref bool suppressDefaultLog, ICreateUsersWithArrayInputApiResponse apiResponseLocalVar, List<User> user);
+        public virtual void AfterCreateUsersWithArrayInput(ref bool suppressDefaultLog, ICreateUsersWithArrayInputApiResponse apiResponseLocalVar, List<User> user) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -844,7 +844,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="user"></param>
-        partial void OnErrorCreateUsersWithArrayInput(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, List<User> user);
+        public virtual void OnErrorCreateUsersWithArrayInput(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, List<User> user) { }
 
         /// <summary>
         /// Creates list of users with given input array 
@@ -957,7 +957,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is the default response type
@@ -973,10 +973,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatCreateUsersWithListInput(List<User> user);
+        public virtual void FormatCreateUsersWithListInput(List<User> user) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -1008,7 +1008,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="user"></param>
-        partial void AfterCreateUsersWithListInput(ref bool suppressDefaultLog, ICreateUsersWithListInputApiResponse apiResponseLocalVar, List<User> user);
+        public virtual void AfterCreateUsersWithListInput(ref bool suppressDefaultLog, ICreateUsersWithListInputApiResponse apiResponseLocalVar, List<User> user) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1033,7 +1033,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="user"></param>
-        partial void OnErrorCreateUsersWithListInput(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, List<User> user);
+        public virtual void OnErrorCreateUsersWithListInput(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, List<User> user) { }
 
         /// <summary>
         /// Creates list of users with given input array 
@@ -1146,7 +1146,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is the default response type
@@ -1162,10 +1162,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatDeleteUser(ref string username);
+        public virtual void FormatDeleteUser(ref string username) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -1197,7 +1197,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="username"></param>
-        partial void AfterDeleteUser(ref bool suppressDefaultLog, IDeleteUserApiResponse apiResponseLocalVar, string username);
+        public virtual void AfterDeleteUser(ref bool suppressDefaultLog, IDeleteUserApiResponse apiResponseLocalVar, string username) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1222,7 +1222,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="username"></param>
-        partial void OnErrorDeleteUser(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string username);
+        public virtual void OnErrorDeleteUser(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string username) { }
 
         /// <summary>
         /// Delete user This can only be done by the logged in user.
@@ -1322,7 +1322,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 400 BadRequest
@@ -1344,10 +1344,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatGetUserByName(ref string username);
+        public virtual void FormatGetUserByName(ref string username) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -1379,7 +1379,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="username"></param>
-        partial void AfterGetUserByName(ref bool suppressDefaultLog, IGetUserByNameApiResponse apiResponseLocalVar, string username);
+        public virtual void AfterGetUserByName(ref bool suppressDefaultLog, IGetUserByNameApiResponse apiResponseLocalVar, string username) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1404,7 +1404,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="username"></param>
-        partial void OnErrorGetUserByName(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string username);
+        public virtual void OnErrorGetUserByName(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string username) { }
 
         /// <summary>
         /// Get user by user name 
@@ -1514,7 +1514,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -1618,10 +1618,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatLoginUser(ref string password, ref string username);
+        public virtual void FormatLoginUser(ref string password, ref string username) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -1659,7 +1659,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="password"></param>
         /// <param name="username"></param>
-        partial void AfterLoginUser(ref bool suppressDefaultLog, ILoginUserApiResponse apiResponseLocalVar, string password, string username);
+        public virtual void AfterLoginUser(ref bool suppressDefaultLog, ILoginUserApiResponse apiResponseLocalVar, string password, string username) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1686,7 +1686,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathLocalVar"></param>
         /// <param name="password"></param>
         /// <param name="username"></param>
-        partial void OnErrorLoginUser(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string password, string username);
+        public virtual void OnErrorLoginUser(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string password, string username) { }
 
         /// <summary>
         /// Logs user into the system 
@@ -1804,7 +1804,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -1858,7 +1858,7 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
         /// <summary>
@@ -1878,7 +1878,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterLogoutUser(ref bool suppressDefaultLog, ILogoutUserApiResponse apiResponseLocalVar);
+        public virtual void AfterLogoutUser(ref bool suppressDefaultLog, ILogoutUserApiResponse apiResponseLocalVar) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1901,7 +1901,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="exceptionLocalVar"></param>
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
-        partial void OnErrorLogoutUser(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar);
+        public virtual void OnErrorLogoutUser(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar) { }
 
         /// <summary>
         /// Logs out current logged in user session 
@@ -1994,7 +1994,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is the default response type
@@ -2010,10 +2010,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatUpdateUser(User user, ref string username);
+        public virtual void FormatUpdateUser(User user, ref string username) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -2051,7 +2051,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="user"></param>
         /// <param name="username"></param>
-        partial void AfterUpdateUser(ref bool suppressDefaultLog, IUpdateUserApiResponse apiResponseLocalVar, User user, string username);
+        public virtual void AfterUpdateUser(ref bool suppressDefaultLog, IUpdateUserApiResponse apiResponseLocalVar, User user, string username) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2078,7 +2078,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathLocalVar"></param>
         /// <param name="user"></param>
         /// <param name="username"></param>
-        partial void OnErrorUpdateUser(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, User user, string username);
+        public virtual void OnErrorUpdateUser(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, User user, string username) { }
 
         /// <summary>
         /// Updated user This can only be done by the logged in user.
@@ -2194,7 +2194,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 400 BadRequest
@@ -2216,7 +2216,7 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
     }
 }

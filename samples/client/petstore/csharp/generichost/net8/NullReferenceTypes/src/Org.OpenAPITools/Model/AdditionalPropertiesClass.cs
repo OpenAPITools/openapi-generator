@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Model
             OnCreated();
         }
 
-        partial void OnCreated();
+        public virtual void OnCreated() { }
 
         /// <summary>
         /// Used to track the state of Anytype1

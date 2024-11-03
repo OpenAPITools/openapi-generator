@@ -676,7 +676,7 @@ namespace Org.OpenAPITools.Api
             OauthTokenProvider = oauthTokenProvider;
         }
 
-        partial void FormatAddPet(Pet pet);
+        public virtual void FormatAddPet(Pet pet) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -708,7 +708,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="pet"></param>
-        partial void AfterAddPet(ref bool suppressDefaultLog, IAddPetApiResponse apiResponseLocalVar, Pet pet);
+        public virtual void AfterAddPet(ref bool suppressDefaultLog, IAddPetApiResponse apiResponseLocalVar, Pet pet) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -733,7 +733,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="pet"></param>
-        partial void OnErrorAddPet(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Pet pet);
+        public virtual void OnErrorAddPet(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Pet pet) { }
 
         /// <summary>
         /// Add a new pet to the store 
@@ -868,7 +868,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 405 MethodNotAllowed
@@ -884,10 +884,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatDeletePet(ref long petId, ref Option<string> apiKey);
+        public virtual void FormatDeletePet(ref long petId, ref Option<string> apiKey) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -921,7 +921,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="petId"></param>
         /// <param name="apiKey"></param>
-        partial void AfterDeletePet(ref bool suppressDefaultLog, IDeletePetApiResponse apiResponseLocalVar, long petId, Option<string> apiKey);
+        public virtual void AfterDeletePet(ref bool suppressDefaultLog, IDeletePetApiResponse apiResponseLocalVar, long petId, Option<string> apiKey) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -948,7 +948,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathLocalVar"></param>
         /// <param name="petId"></param>
         /// <param name="apiKey"></param>
-        partial void OnErrorDeletePet(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, long petId, Option<string> apiKey);
+        public virtual void OnErrorDeletePet(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, long petId, Option<string> apiKey) { }
 
         /// <summary>
         /// Deletes a pet 
@@ -1065,7 +1065,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 400 BadRequest
@@ -1081,10 +1081,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatFindPetsByStatus(List<string> status);
+        public virtual void FormatFindPetsByStatus(List<string> status) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -1116,7 +1116,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="status"></param>
-        partial void AfterFindPetsByStatus(ref bool suppressDefaultLog, IFindPetsByStatusApiResponse apiResponseLocalVar, List<string> status);
+        public virtual void AfterFindPetsByStatus(ref bool suppressDefaultLog, IFindPetsByStatusApiResponse apiResponseLocalVar, List<string> status) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1141,7 +1141,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="status"></param>
-        partial void OnErrorFindPetsByStatus(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, List<string> status);
+        public virtual void OnErrorFindPetsByStatus(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, List<string> status) { }
 
         /// <summary>
         /// Finds Pets by status Multiple status values can be provided with comma separated strings
@@ -1278,7 +1278,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -1358,10 +1358,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatFindPetsByTags(List<string> tags);
+        public virtual void FormatFindPetsByTags(List<string> tags) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -1393,7 +1393,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="tags"></param>
-        partial void AfterFindPetsByTags(ref bool suppressDefaultLog, IFindPetsByTagsApiResponse apiResponseLocalVar, List<string> tags);
+        public virtual void AfterFindPetsByTags(ref bool suppressDefaultLog, IFindPetsByTagsApiResponse apiResponseLocalVar, List<string> tags) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1418,7 +1418,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="tags"></param>
-        partial void OnErrorFindPetsByTags(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, List<string> tags);
+        public virtual void OnErrorFindPetsByTags(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, List<string> tags) { }
 
         /// <summary>
         /// Finds Pets by tags Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -1555,7 +1555,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -1609,10 +1609,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatGetPetById(ref long petId);
+        public virtual void FormatGetPetById(ref long petId) { }
 
         /// <summary>
         /// Processes the server response
@@ -1633,7 +1633,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="petId"></param>
-        partial void AfterGetPetById(ref bool suppressDefaultLog, IGetPetByIdApiResponse apiResponseLocalVar, long petId);
+        public virtual void AfterGetPetById(ref bool suppressDefaultLog, IGetPetByIdApiResponse apiResponseLocalVar, long petId) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1658,7 +1658,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="petId"></param>
-        partial void OnErrorGetPetById(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, long petId);
+        public virtual void OnErrorGetPetById(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, long petId) { }
 
         /// <summary>
         /// Find pet by ID Returns a single pet
@@ -1784,7 +1784,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -1844,10 +1844,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatUpdatePet(Pet pet);
+        public virtual void FormatUpdatePet(Pet pet) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -1879,7 +1879,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="pet"></param>
-        partial void AfterUpdatePet(ref bool suppressDefaultLog, IUpdatePetApiResponse apiResponseLocalVar, Pet pet);
+        public virtual void AfterUpdatePet(ref bool suppressDefaultLog, IUpdatePetApiResponse apiResponseLocalVar, Pet pet) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1904,7 +1904,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="pet"></param>
-        partial void OnErrorUpdatePet(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Pet pet);
+        public virtual void OnErrorUpdatePet(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Pet pet) { }
 
         /// <summary>
         /// Update an existing pet 
@@ -2039,7 +2039,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 400 BadRequest
@@ -2067,10 +2067,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatUpdatePetWithForm(ref long petId, ref Option<string> name, ref Option<string> status);
+        public virtual void FormatUpdatePetWithForm(ref long petId, ref Option<string> name, ref Option<string> status) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -2110,7 +2110,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId"></param>
         /// <param name="name"></param>
         /// <param name="status"></param>
-        partial void AfterUpdatePetWithForm(ref bool suppressDefaultLog, IUpdatePetWithFormApiResponse apiResponseLocalVar, long petId, Option<string> name, Option<string> status);
+        public virtual void AfterUpdatePetWithForm(ref bool suppressDefaultLog, IUpdatePetWithFormApiResponse apiResponseLocalVar, long petId, Option<string> name, Option<string> status) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2139,7 +2139,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId"></param>
         /// <param name="name"></param>
         /// <param name="status"></param>
-        partial void OnErrorUpdatePetWithForm(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, long petId, Option<string> name, Option<string> status);
+        public virtual void OnErrorUpdatePetWithForm(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, long petId, Option<string> name, Option<string> status) { }
 
         /// <summary>
         /// Updates a pet in the store with form data 
@@ -2276,7 +2276,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 405 MethodNotAllowed
@@ -2292,10 +2292,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatUploadFile(ref long petId, ref Option<string> additionalMetadata, ref Option<System.IO.Stream> file);
+        public virtual void FormatUploadFile(ref long petId, ref Option<string> additionalMetadata, ref Option<System.IO.Stream> file) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -2335,7 +2335,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId"></param>
         /// <param name="additionalMetadata"></param>
         /// <param name="file"></param>
-        partial void AfterUploadFile(ref bool suppressDefaultLog, IUploadFileApiResponse apiResponseLocalVar, long petId, Option<string> additionalMetadata, Option<System.IO.Stream> file);
+        public virtual void AfterUploadFile(ref bool suppressDefaultLog, IUploadFileApiResponse apiResponseLocalVar, long petId, Option<string> additionalMetadata, Option<System.IO.Stream> file) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2364,7 +2364,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId"></param>
         /// <param name="additionalMetadata"></param>
         /// <param name="file"></param>
-        partial void OnErrorUploadFile(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, long petId, Option<string> additionalMetadata, Option<System.IO.Stream> file);
+        public virtual void OnErrorUploadFile(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, long petId, Option<string> additionalMetadata, Option<System.IO.Stream> file) { }
 
         /// <summary>
         /// uploads an image 
@@ -2510,7 +2510,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -2558,10 +2558,10 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
 
-        partial void FormatUploadFileWithRequiredFile(ref long petId, ref System.IO.Stream requiredFile, ref Option<string> additionalMetadata);
+        public virtual void FormatUploadFileWithRequiredFile(ref long petId, ref System.IO.Stream requiredFile, ref Option<string> additionalMetadata) { }
 
         /// <summary>
         /// Validates the request parameters
@@ -2601,7 +2601,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId"></param>
         /// <param name="requiredFile"></param>
         /// <param name="additionalMetadata"></param>
-        partial void AfterUploadFileWithRequiredFile(ref bool suppressDefaultLog, IUploadFileWithRequiredFileApiResponse apiResponseLocalVar, long petId, System.IO.Stream requiredFile, Option<string> additionalMetadata);
+        public virtual void AfterUploadFileWithRequiredFile(ref bool suppressDefaultLog, IUploadFileWithRequiredFileApiResponse apiResponseLocalVar, long petId, System.IO.Stream requiredFile, Option<string> additionalMetadata) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2630,7 +2630,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId"></param>
         /// <param name="requiredFile"></param>
         /// <param name="additionalMetadata"></param>
-        partial void OnErrorUploadFileWithRequiredFile(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, long petId, System.IO.Stream requiredFile, Option<string> additionalMetadata);
+        public virtual void OnErrorUploadFileWithRequiredFile(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, long petId, System.IO.Stream requiredFile, Option<string> additionalMetadata) { }
 
         /// <summary>
         /// uploads an image (required) 
@@ -2776,7 +2776,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -2824,7 +2824,7 @@ namespace Org.OpenAPITools.Api
                     Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
         }
     }
 }
