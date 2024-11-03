@@ -616,6 +616,16 @@ public class ModelUtils {
         return ModelUtils.isArraySchema(schema) && Boolean.TRUE.equals(schema.getUniqueItems());
     }
 
+    /**
+     * Return true if the schema is a string/integer/number/boolean type in OpenAPI.
+     *
+     * @param schema the OAS schema
+     * @return true if the schema is a string/integer/number/boolean type in OpenAPI.
+     */
+    public static boolean isPrimitiveType(Schema schema) {
+        return (isStringSchema(schema) || isIntegerSchema(schema) || isNumberSchema(schema) || isBooleanSchema(schema));
+    }
+
     public static boolean isStringSchema(Schema schema) {
         return schema instanceof StringSchema || SchemaTypeUtil.STRING_TYPE.equals(getType(schema));
     }
@@ -2021,6 +2031,18 @@ public class ModelUtils {
         return false;
     }
 
+
+    /**
+     * Returns true if the schema contains allOf with a single item but
+     * no properties/oneOf/anyOf defined
+     *
+     * @param schema the schema
+     * @return true if the schema contains allOf but no properties/oneOf/anyOf defined.
+     */
+    public static boolean isAllOfWithSingleItem(Schema schema) {
+        return (isAllOf(schema) && schema.getAllOf().size() == 1);
+    }
+
     /**
      * Returns true if the schema contains allOf and may or may not have
      * properties/oneOf/anyOf defined.
@@ -2257,6 +2279,35 @@ public class ModelUtils {
             if ((schema.getType() == null || schema.getType().equals("null")) && schema.get$ref() == null) {
                 return true;
             }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if the schema is supported by OpenAPI Generator.
+     * <p>
+     * Return true if the schema can be handled by OpenAPI Generator
+     *
+     * @param schema Schema
+     * @param openAPI OpenAPIs
+     *
+     * @return true if schema is null type
+     */
+    public static boolean isUnsupportedSchema(OpenAPI openAPI, Schema schema) {
+        if (schema == null) {
+            return true;
+        }
+
+        // dereference the schema
+        schema = ModelUtils.getReferencedSchema(openAPI, schema);
+
+        if (schema.getTypes() == null && hasValidation(schema))  {
+            // just validation without type
+            return true;
+        } else if (schema.getIf() != null && schema.getThen() != null) {
+            // if, then in 3.1 spec
+            return true;
         }
 
         return false;

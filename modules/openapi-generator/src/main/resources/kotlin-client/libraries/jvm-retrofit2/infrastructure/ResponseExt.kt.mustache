@@ -12,7 +12,7 @@ import retrofit2.Response
 
 {{#moshi}}
 @Throws(JsonDataException::class)
-inline fun <reified T> Response<*>.getErrorResponse(serializerBuilder: Moshi.Builder = Serializer.moshiBuilder): T? {
+{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}inline fun <reified T> Response<*>.getErrorResponse(serializerBuilder: Moshi.Builder = Serializer.moshiBuilder): T? {
     val serializer = serializerBuilder.build()
     val parser = serializer.adapter(T::class.java)
     val response = errorBody()?.string()
@@ -24,7 +24,7 @@ inline fun <reified T> Response<*>.getErrorResponse(serializerBuilder: Moshi.Bui
 {{/moshi}}
 {{#gson}}
 @Throws(JsonParseException::class)
-inline fun <reified T> Response<*>.getErrorResponse(serializerBuilder: GsonBuilder = Serializer.gsonBuilder): T? {
+{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}inline fun <reified T> Response<*>.getErrorResponse(serializerBuilder: GsonBuilder = Serializer.gsonBuilder): T? {
     val serializer = serializerBuilder.create()
     val reader = errorBody()?.charStream()
     if (reader != null) {

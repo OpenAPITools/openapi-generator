@@ -38,6 +38,7 @@ import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.VendorExtension;
 import org.openapitools.codegen.meta.features.ClientModificationFeature;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
@@ -89,6 +90,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public static final String MOSHI_CODE_GEN = "moshiCodeGen";
 
+    public static final String EXPLICIT_API = "explicitApi";
     public static final String NULLABLE_RETURN_TYPE = "nullableReturnType";
 
     public static final String SUPPORT_ANDROID_API_LEVEL_25_AND_BELLOW = "supportAndroidApiLevel25AndBelow";
@@ -267,6 +269,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(CliOption.newBoolean(MOSHI_CODE_GEN, "Whether to enable codegen with the Moshi library. Refer to the [official Moshi doc](https://github.com/square/moshi#codegen) for more info."));
         cliOptions.add(CliOption.newBoolean(FAIL_ON_UNKNOWN_PROPERTIES, "Fail Jackson de-serialization on unknown properties", false));
 
+        cliOptions.add(CliOption.newBoolean(EXPLICIT_API, "Generates code with explicit access modifiers to comply with Kotlin Explicit API Mode."));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.NON_PUBLIC_API, CodegenConstants.NON_PUBLIC_API_DESC));
         cliOptions.add(CliOption.newBoolean(NULLABLE_RETURN_TYPE, "Nullable return type"));
 
         cliOptions.add(CliOption.newBoolean(GENERATE_ROOM_MODELS, "Generate Android Room database models in addition to API models (JVM Volley library only)", false));
@@ -1048,5 +1052,13 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
         System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
         System.out.println("################################################################################");
+    }
+
+    @Override
+    public List<VendorExtension> getSupportedVendorExtensions() {
+        var extensions = super.getSupportedVendorExtensions();
+        extensions.add(VendorExtension.X_CLASS_EXTRA_ANNOTATION);
+        extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
+        return extensions;
     }
 }

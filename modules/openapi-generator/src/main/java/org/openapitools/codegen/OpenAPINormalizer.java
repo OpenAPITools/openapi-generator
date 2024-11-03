@@ -287,6 +287,7 @@ public class OpenAPINormalizer {
         normalizeInfo();
         normalizePaths();
         normalizeComponentsSchemas();
+        normalizeComponentsResponses();
     }
 
     /**
@@ -445,12 +446,19 @@ public class OpenAPINormalizer {
         }
 
         for (Map.Entry<String, ApiResponse> responsesEntry : responses.entrySet()) {
-            if (responsesEntry.getValue() == null) {
-                continue;
-            } else {
-                normalizeContent(ModelUtils.getReferencedApiResponse(openAPI, responsesEntry.getValue()).getContent());
-                normalizeHeaders(ModelUtils.getReferencedApiResponse(openAPI, responsesEntry.getValue()).getHeaders());
-            }
+            normalizeResponse(responsesEntry.getValue());
+        }
+    }
+
+    /**
+     * Normalizes schemas in ApiResponse
+     *
+     * @param apiResponse API response
+     */
+    private void normalizeResponse(ApiResponse apiResponse) {
+        if (apiResponse != null) {
+            normalizeContent(ModelUtils.getReferencedApiResponse(openAPI, apiResponse).getContent());
+            normalizeHeaders(ModelUtils.getReferencedApiResponse(openAPI, apiResponse).getHeaders());
         }
     }
 
@@ -503,10 +511,24 @@ public class OpenAPINormalizer {
     }
 
     /**
+     * Normalizes schemas in component's responses.
+     */
+    private void normalizeComponentsResponses() {
+        Map<String, ApiResponse> apiResponses = openAPI.getComponents().getResponses();
+        if (apiResponses == null) {
+            return;
+        }
+
+           for (Map.Entry<String, ApiResponse> entry : apiResponses.entrySet()) {
+            normalizeResponse(entry.getValue());
+        }
+    }
+
+    /**
      * Auto fix a self referencing schema using any type to replace the self-referencing sub-item.
      *
-     * @param name           Schema name
-     * @param schema         Schema
+     * @param name   Schema name
+     * @param schema Schema
      */
     public void fixSelfReferenceSchema(String name, Schema schema) {
         if (ModelUtils.isArraySchema(schema)) {
@@ -665,7 +687,41 @@ public class OpenAPINormalizer {
         }
     }
 
+    /*
+     * Remove unsupported schemas (e.g. if, then) from allOf.
+     *
+     * @param schema Schema
+     */
+    private void removeUnsupportedSchemasFromAllOf(Schema schema) {
+        if (schema.getAllOf() == null) {
+            return;
+        }
+
+        Iterator<Schema> iterator = schema.getAllOf().iterator();
+        while (iterator.hasNext()) {
+            Schema item = iterator.next();
+
+            // remove unsupported schemas (e.g. if, then)
+            if (ModelUtils.isUnsupportedSchema(openAPI, item)) {
+                LOGGER.debug("Removed allOf sub-schema that's not yet supported: {}", item);
+                iterator.remove();
+            }
+        }
+
+        if (schema.getAllOf().size() == 0) {
+            // no more schema in allOf so reset to null instead
+            LOGGER.info("Unset/Removed allOf after cleaning up allOf sub-schemas that are not yet supported.");
+            schema.setAllOf(null);
+        }
+    }
+
     private Schema normalizeAllOf(Schema schema, Set<Schema> visitedSchemas) {
+        removeUnsupportedSchemasFromAllOf(schema);
+
+        if (schema.getAllOf() == null) {
+            return schema;
+        }
+
         for (Object item : schema.getAllOf()) {
             if (!(item instanceof Schema)) {
                 throw new RuntimeException("Error! allOf schema is not of the type Schema: " + item);
@@ -673,6 +729,7 @@ public class OpenAPINormalizer {
             // normalize allOf sub schemas one by one
             normalizeSchema((Schema) item, visitedSchemas);
         }
+
         // process rules here
         processUseAllOfRefAsParent(schema);
 
@@ -680,6 +737,12 @@ public class OpenAPINormalizer {
     }
 
     private Schema normalizeAllOfWithProperties(Schema schema, Set<Schema> visitedSchemas) {
+        removeUnsupportedSchemasFromAllOf(schema);
+
+        if (schema.getAllOf() == null) {
+            return schema;
+        }
+
         for (Object item : schema.getAllOf()) {
             if (!(item instanceof Schema)) {
                 throw new RuntimeException("Error! allOf schema is not of the type Schema: " + item);
@@ -952,7 +1015,6 @@ public class OpenAPINormalizer {
     }
 
 
-
     /**
      * If the schema is oneOf and the sub-schemas is null, set `nullable: true`
      * instead.
@@ -971,7 +1033,7 @@ public class OpenAPINormalizer {
             // simplify any type with 6 sub-schemas (string, integer, etc) in oneOf
             if (oneOfSchemas.size() == 6) {
                 TreeSet<String> ts = new TreeSet<>();
-                for (Schema s: oneOfSchemas) {
+                for (Schema s : oneOfSchemas) {
                     s = ModelUtils.getReferencedSchema(openAPI, s);
                     String type = ModelUtils.getType(s);
                     if (type == null) {
@@ -1072,6 +1134,7 @@ public class OpenAPINormalizer {
         schema.setNullable(true);
         return schema;
     }
+
     /**
      * Set nullable to true in map if needed.
      *
@@ -1107,7 +1170,7 @@ public class OpenAPINormalizer {
             // simplify any type with 6 sub-schemas (string, integer, etc) in anyOf
             if (anyOfSchemas.size() == 6) {
                 TreeSet<String> ts = new TreeSet<>();
-                for (Schema s: anyOfSchemas) {
+                for (Schema s : anyOfSchemas) {
                     s = ModelUtils.getReferencedSchema(openAPI, s);
                     String type = ModelUtils.getType(s);
                     if (type == null) {

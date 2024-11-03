@@ -2981,7 +2981,7 @@ public class JavaClientCodegenTest {
 
 
     @Test
-    public void shouldGenerateOAuthTokenSuppliers() {
+    public void testRestTemplateWithGeneratedOAuthTokenSuppliers() {
 
         final Map<String, File> files = generateFromContract(
             "src/test/resources/3_0/java/oauth.yaml",
@@ -3012,6 +3012,27 @@ public class JavaClientCodegenTest {
 
     }
 
+    @Test
+    public void testRestClientWithGeneratedOAuthTokenSuppliers() {
+        final Map<String, File> files = generateFromContract(
+            "src/test/resources/3_0/java/oauth.yaml",
+            JavaClientCodegen.RESTCLIENT
+        );
+
+        final JavaFileAssert oAuth = JavaFileAssert.assertThat(files.get("OAuth.java"))
+            .printFileContent();
+        oAuth
+            .assertMethod("setAccessToken", "String")
+            .bodyContainsLines("setAccessToken(() -> accessToken);");
+        oAuth
+            .assertMethod("setAccessToken", "Supplier<String>")
+            .bodyContainsLines("this.tokenSupplier = tokenSupplier;");
+        oAuth
+            .assertMethod("applyToParams")
+            .bodyContainsLines("Optional.ofNullable(tokenSupplier).map(Supplier::get).ifPresent(accessToken ->")
+            .bodyContainsLines("headerParams.add(HttpHeaders.AUTHORIZATION, \"Bearer \" + accessToken)");
+    }
+    
     @Test public void testRestClientWithXML_issue_19137() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
