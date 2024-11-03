@@ -159,7 +159,7 @@ class ApiClient(
 
     companion object {
         @JvmStatic
-        protected val baseUrlKey = "org.openapitools.client.baseUrl"
+        protected val baseUrlKey: String = "org.openapitools.client.baseUrl"
 
         @JvmStatic
         val defaultBasePath: String by lazy {

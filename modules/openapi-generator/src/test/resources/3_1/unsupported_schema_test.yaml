@@ -1,0 +1,64 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: Example
+servers:
+  - url: http://api.example.xyz/v1
+paths:
+  /person/display/{personId}:
+    get:
+      parameters:
+        - name: personId
+          in: path
+          required: true
+          description: The id of the person to retrieve
+          schema:
+            type: string
+      operationId: list
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Dummy"
+components:
+  schemas:
+    Dummy:
+      type: object
+      properties:
+        property1:
+          type: string
+          allOf:
+            - pattern: "[abc]"
+            - pattern: "[a-z]"
+        property2:
+          type: object
+          allOf:
+            - if:
+                properties:
+                  aBooleanCheck:
+                    const: false
+              then:
+                required:
+                  - condition
+            - if:
+                properties:
+                  aBooleanCheck:
+                    const: true
+              then:
+                required:
+                  - purpose
+          properties:
+            aBooleanCheck:
+              type: boolean
+            condition:
+              type: string
+            purpose:
+              type: array
+              items:
+                type: string
+                enum:
+                  - FIRST
+                  - SECOND
+                  - THIRD

@@ -22,7 +22,7 @@ import static org.openapitools.codegen.TestUtils.assertFileContains;
 
 public class KotlinClientCodegenApiTest {
 
-    @DataProvider(name = "pathResponses")
+    @DataProvider(name = "clientLibraries")
     public Object[][] pathResponses() {
         return new Object[][]{
                 {ClientLibrary.JVM_KTOR},
@@ -36,7 +36,7 @@ public class KotlinClientCodegenApiTest {
         };
     }
 
-    @Test(dataProvider = "pathResponses")
+    @Test(dataProvider = "clientLibraries")
     void testPathVariableIsNotEscaped_19930(ClientLibrary library) throws IOException {
 
         OpenAPI openAPI = new OpenAPIParser()
@@ -75,30 +75,5 @@ public class KotlinClientCodegenApiTest {
         codegen.additionalProperties().put(KotlinClientCodegen.USE_SPRING_BOOT3, "true");
         codegen.additionalProperties().put(KotlinClientCodegen.DATE_LIBRARY, "kotlinx-datetime");
         return codegen;
-    }
-
-    @Getter
-    private enum ClientLibrary {
-        JVM_KTOR("main/kotlin"),
-        JVM_OKHTTP4("main/kotlin"),
-        JVM_SPRING_WEBCLIENT("main/kotlin"),
-        JVM_SPRING_RESTCLIENT("main/kotlin"),
-        JVM_RETROFIT2("main/kotlin"),
-        MULTIPLATFORM("commonMain/kotlin"),
-        JVM_VOLLEY("gson", "main/java"),
-        JVM_VERTX("main/kotlin");
-        private final String serializationLibrary;
-        private final String libraryName;
-        private final String sourceRoot;
-
-        ClientLibrary(String serializationLibrary, String sourceRoot) {
-            this.serializationLibrary = serializationLibrary;
-            this.sourceRoot = sourceRoot;
-            this.libraryName = Strings.toLowerCase(this.name()).replace("_", "-");
-        }
-
-        ClientLibrary(String sourceRoot) {
-            this("jackson", sourceRoot);
-        }
     }
 }

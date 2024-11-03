@@ -1,7 +1,10 @@
 {{>licenseInfo}}
 
 import superagent from "superagent";
+{{^useURLSearchParams}}
 import querystring from "querystring";
+{{! see https://www.npmjs.com/package/querystring && https://github.com/Gozala/querystring }}
+{{/useURLSearchParams}}
 
 {{#emitJSDoc}}/**
 * @module {{#invokerPackage}}{{.}}/{{/invokerPackage}}ApiClient
@@ -455,7 +458,15 @@ class ApiClient {
         }
 
         if (contentType === 'application/x-www-form-urlencoded') {
-            request.send(querystring.stringify(this.normalizeParams(formParams)));
+            {{^useURLSearchParams}}
+            let queryString = querystring.stringify(this.normalizeParams(formParams));
+            {{/useURLSearchParams}}
+            {{#useURLSearchParams}}
+            let normalizedParams = this.normalizeParams(formParams)
+            let urlSearchParams =  new URLSearchParams(normalizedParams);
+            let queryString = urlSearchParams.toString();
+            {{/useURLSearchParams}}
+            request.send(queryString);
         } else if (contentType == 'multipart/form-data') {
             var _formParams = this.normalizeParams(formParams);
             for (var key in _formParams) {

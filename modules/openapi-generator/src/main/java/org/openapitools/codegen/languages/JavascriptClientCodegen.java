@@ -57,6 +57,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     public static final String EMIT_JS_DOC = "emitJSDoc";
     public static final String USE_ES6 = "useES6";
     public static final String NPM_REPOSITORY = "npmRepository";
+    public static final String USE_URL_SEARCH_PARAMS = "useURLSearchParams";
 
     public static final String LIBRARY_JAVASCRIPT = "javascript";
     public static final String LIBRARY_APOLLO = "apollo";
@@ -80,6 +81,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     protected boolean useES6 = true; // default is ES6
     @Setter protected String npmRepository = null;
     @Getter private String modelPropertyNaming = "camelCase";
+    @Setter protected boolean useURLSearchParams = true;
 
     public JavascriptClientCodegen() {
         super();
@@ -190,6 +192,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
         cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
+        cliOptions.add(new CliOption(USE_URL_SEARCH_PARAMS,
+                "use JS build-in UrlSearchParams, instead of deprecated npm lib 'querystring'")
+                .defaultValue(Boolean.TRUE.toString())
+        );
 
         supportedLibraries.put(LIBRARY_JAVASCRIPT, "JavaScript client library");
         supportedLibraries.put(LIBRARY_APOLLO, "Apollo REST DataSource");
@@ -267,6 +273,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (additionalProperties.containsKey(NPM_REPOSITORY)) {
             setNpmRepository(((String) additionalProperties.get(NPM_REPOSITORY)));
         }
+        if (additionalProperties.containsKey(USE_URL_SEARCH_PARAMS)) {
+            setUseURLSearchParams(convertPropertyToBooleanAndWriteBack(USE_URL_SEARCH_PARAMS));
+        }
         if (additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
             setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
         }
@@ -334,6 +343,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         additionalProperties.put(EMIT_JS_DOC, emitJSDoc);
         additionalProperties.put(USE_ES6, useES6);
         additionalProperties.put(NPM_REPOSITORY, npmRepository);
+        additionalProperties.put(USE_URL_SEARCH_PARAMS, useURLSearchParams);
 
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);

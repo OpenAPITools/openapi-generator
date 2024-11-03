@@ -43,6 +43,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sourceFolder|source folder for generated code| |src|
 |useInheritance|use JavaScript prototype chains &amp; delegation for inheritance| |true|
 |usePromises|use Promises as return values from the client API, instead of superagent callbacks| |false|
+|useURLSearchParams|use JS build-in UrlSearchParams, instead of deprecated npm lib 'querystring'| |true|
 
 ## IMPORT MAPPING
 

@@ -740,14 +740,22 @@ public class DefaultCodegenTest {
             Future<Boolean> call2 = executor.submit(new Callable<Boolean>() {
                 @Override
                 public Boolean call() throws Exception {
-                    return codegen.executePostProcessor(new String[] { "echo Hello" });
+                    String os = System.getProperty("os.name");
+                    String postProcessor = os.contains("Windows")
+                        ? "cmd.exe /c echo hello"
+                        : "echo Hello";
+                    return codegen.executePostProcessor(new String[] { postProcessor });
                 }
             });
 
             Future<Boolean> call3 = executor.submit(new Callable<Boolean>() {
                 @Override
                 public Boolean call() throws Exception {
-                    return codegen.executePostProcessor(new String[] { "echo", "Hello" });
+                    String os = System.getProperty("os.name");
+                    String[] postProcessor = os.contains("Windows")
+                        ? new String[] { "cmd.exe", "/c", "echo", "hello" }
+                        : new String[] { "echo", "Hello" };
+                    return codegen.executePostProcessor(postProcessor);
                 }
             });
 

@@ -632,6 +632,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [CAM](https://www.cam-inc.co.jp/)
 - [Camptocamp](https://www.camptocamp.com/en)
 - [Carlsberg Group](https://www.carlsberggroup.com/)
+- [CERN](https://home.cern/)
 - [Christopher Queen Consulting](https://www.christopherqueenconsulting.com/)
 - [Cisco](https://www.cisco.com/)
 - [codecentric AG](https://www.codecentric.de/)
