@@ -12,11 +12,11 @@ public typealias ArrayTest = PetstoreClientAPI.ArrayTest
 
 extension PetstoreClientAPI {
 
-public final class ArrayTest: Codable, JSONEncodable, Hashable {
+public final class ArrayTest: @unchecked Sendable, Codable, JSONEncodable, Hashable {
 
-    public var arrayOfString: [String]?
-    public var arrayArrayOfInteger: [[Int64]]?
-    public var arrayArrayOfModel: [[ReadOnlyFirst]]?
+    public private(set) var arrayOfString: [String]?
+    public private(set) var arrayArrayOfInteger: [[Int64]]?
+    public private(set) var arrayArrayOfModel: [[ReadOnlyFirst]]?
 
     public init(arrayOfString: [String]? = nil, arrayArrayOfInteger: [[Int64]]? = nil, arrayArrayOfModel: [[ReadOnlyFirst]]? = nil) {
         self.arrayOfString = arrayOfString

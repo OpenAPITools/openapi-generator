@@ -12,13 +12,13 @@ public typealias TypeHolderExample = PetstoreClientAPI.TypeHolderExample
 
 extension PetstoreClientAPI {
 
-public final class TypeHolderExample: Codable, JSONEncodable, Hashable {
+public final class TypeHolderExample: @unchecked Sendable, Codable, JSONEncodable, Hashable {
 
-    public var stringItem: String
-    public var numberItem: Double
-    public var integerItem: Int
-    public var boolItem: Bool
-    public var arrayItem: [Int]
+    public private(set) var stringItem: String
+    public private(set) var numberItem: Double
+    public private(set) var integerItem: Int
+    public private(set) var boolItem: Bool
+    public private(set) var arrayItem: [Int]
 
     public init(stringItem: String, numberItem: Double, integerItem: Int, boolItem: Bool, arrayItem: [Int]) {
         self.stringItem = stringItem

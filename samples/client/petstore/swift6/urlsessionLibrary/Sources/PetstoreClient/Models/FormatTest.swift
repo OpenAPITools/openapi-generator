@@ -12,7 +12,7 @@ public typealias FormatTest = PetstoreClientAPI.FormatTest
 
 extension PetstoreClientAPI {
 
-public final class FormatTest: Codable, JSONEncodable, Hashable {
+public final class FormatTest: @unchecked Sendable, Codable, JSONEncodable, Hashable {
 
     static let integerRule = NumericRule<Int>(minimum: 10, exclusiveMinimum: false, maximum: 100, exclusiveMaximum: false, multipleOf: nil)
     static let int32Rule = NumericRule<Int>(minimum: 20, exclusiveMinimum: false, maximum: 200, exclusiveMaximum: false, multipleOf: nil)
@@ -21,19 +21,19 @@ public final class FormatTest: Codable, JSONEncodable, Hashable {
     static let doubleRule = NumericRule<Double>(minimum: 67.8, exclusiveMinimum: false, maximum: 123.4, exclusiveMaximum: false, multipleOf: nil)
     static let stringRule = StringRule(minLength: nil, maxLength: nil, pattern: "/[a-z]/i")
     static let passwordRule = StringRule(minLength: 10, maxLength: 64, pattern: nil)
-    public var integer: Int?
-    public var int32: Int?
-    public var int64: Int64?
-    public var number: Double
-    public var float: Float?
-    public var double: Double?
-    public var string: String?
-    public var byte: Data
-    public var binary: Data?
-    public var date: Date
-    public var dateTime: Date?
-    public var uuid: UUID?
-    public var password: String
+    public private(set) var integer: Int?
+    public private(set) var int32: Int?
+    public private(set) var int64: Int64?
+    public private(set) var number: Double
+    public private(set) var float: Float?
+    public private(set) var double: Double?
+    public private(set) var string: String?
+    public private(set) var byte: Data
+    public private(set) var binary: Data?
+    public private(set) var date: Date
+    public private(set) var dateTime: Date?
+    public private(set) var uuid: UUID?
+    public private(set) var password: String
 
     public init(integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, number: Double, float: Float? = nil, double: Double? = nil, string: String? = nil, byte: Data, binary: Data? = nil, date: Date, dateTime: Date? = nil, uuid: UUID? = nil, password: String) {
         self.integer = integer

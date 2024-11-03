@@ -44,6 +44,8 @@ public enum NullEncodable<Wrapped: Hashable>: Hashable {
     case encodeValue(Wrapped)
 }
 
+extension NullEncodable: Sendable where Wrapped: Sendable {}
+
 extension NullEncodable: Codable where Wrapped: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
