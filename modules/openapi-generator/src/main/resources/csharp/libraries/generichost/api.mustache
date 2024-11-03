@@ -241,7 +241,7 @@ namespace {{packageName}}.{{apiPackage}}
 
         {{#allParams}}
         {{#-first}}
-        partial void Format{{operationId}}({{#allParams}}{{#isPrimitiveType}}ref {{/isPrimitiveType}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        public virtual void Format{{operationId}}({{#allParams}}{{#isPrimitiveType}}ref {{/isPrimitiveType}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) { }
 
         {{/-first}}
         {{/allParams}}
@@ -298,7 +298,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        partial void After{{operationId}}({{#lambda.joinWithComma}}ref bool suppressDefaultLog  {{interfacePrefix}}{{operationId}}ApiResponse apiResponseLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
+        public virtual void After{{operationId}}({{#lambda.joinWithComma}}ref bool suppressDefaultLog  {{interfacePrefix}}{{operationId}}ApiResponse apiResponseLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}}) { }
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -326,7 +326,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        partial void OnError{{operationId}}({{#lambda.joinWithComma}}ref bool suppressDefaultLogLocalVar  Exception exceptionLocalVar  string pathFormatLocalVar  string pathLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
+        public virtual void OnError{{operationId}}({{#lambda.joinWithComma}}ref bool suppressDefaultLogLocalVar  Exception exceptionLocalVar  string pathFormatLocalVar  string pathLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}}) { }
 
         /// <summary>
         /// {{summary}} {{notes}}
@@ -709,7 +709,7 @@ namespace {{packageName}}.{{apiPackage}}
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            public virtual void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage) { }
             {{#responses}}
 
             {{#vendorExtensions.x-http-status-is-default}}
@@ -786,7 +786,7 @@ namespace {{packageName}}.{{apiPackage}}
                 {{/lambda.trimTrailingWithNewLine}}
             }
 
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+            public virtual void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode) { }
             {{/-last}}
             {{/responses}}
         }
