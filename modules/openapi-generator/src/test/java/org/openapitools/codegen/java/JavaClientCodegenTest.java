@@ -2405,7 +2405,6 @@ public class JavaClientCodegenTest {
             output.resolve("src/main/java/org/openapitools/client/model/CharacterRequest.java"),
             "private Planet planet = Planet.EARTH;"
         );
-        
     }
 
     @Test public void testQueryParamsExploded_whenQueryParamIsNull() {
