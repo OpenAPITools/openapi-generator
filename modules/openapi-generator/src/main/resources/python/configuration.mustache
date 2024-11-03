@@ -15,7 +15,9 @@ from typing_extensions import NotRequired, Self
 
 import urllib3
 
+{{#hasHttpSignatureMethods}}
 from {{packageName}}.signing import HttpSigningConfiguration
+{{/hasHttpSignatureMethods}}
 
 JSON_SCHEMA_VALIDATION_KEYWORDS = {
     'multipleOf', 'maximum', 'exclusiveMaximum',
@@ -36,8 +38,16 @@ AuthSetting = TypedDict(
 )
 
 
+{{#authMethods}}
+{{#isBasic}}
+  {{#isBasicBearer}}
+    {{#bearerFormat}}
 class AuthSettingJWT(AuthSetting):
     format: Literal["JWT"]
+    {{/bearerFormat}}
+  {{/isBasicBearer}}
+{{/isBasic}}
+{{/authMethods}}
 
 
 AuthSettings = TypedDict(
@@ -55,14 +65,19 @@ AuthSettings = TypedDict(
         "{{name}}": NotRequired[AuthSetting],
   {{/isBasicBasic}}
   {{#isBasicBearer}}
+    {{#bearerFormat}}
         "{{name}}": NotRequired[AuthSettingJWT],
+    {{/bearerFormat}}
+    {{^bearerFormat}}
+        "{{name}}": NotRequired[AuthSetting],
+    {{/bearerFormat}}
   {{/isBasicBearer}}
   {{#isHttpSignature}}
         "{{name}}": NotRequired[AuthSetting],
   {{/isHttpSignature}}
 {{/isBasic}}
 {{/authMethods}}
-  }
+    }
 )
 
 

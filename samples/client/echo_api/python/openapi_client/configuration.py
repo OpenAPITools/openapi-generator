@@ -24,7 +24,6 @@ from typing_extensions import NotRequired, Self
 
 import urllib3
 
-from openapi_client.signing import HttpSigningConfiguration
 
 JSON_SCHEMA_VALIDATION_KEYWORDS = {
     'multipleOf', 'maximum', 'exclusiveMaximum',
@@ -45,16 +44,14 @@ AuthSetting = TypedDict(
 )
 
 
-class AuthSettingJWT(AuthSetting):
-    format: Literal["JWT"]
 
 
 AuthSettings = TypedDict(
     "AuthSettings",
     {
         "http_auth": NotRequired[AuthSetting],
-        "http_bearer_auth": NotRequired[AuthSettingJWT],
-  }
+        "http_bearer_auth": NotRequired[AuthSetting],
+    }
 )
 
 

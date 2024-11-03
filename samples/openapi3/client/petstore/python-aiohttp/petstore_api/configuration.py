@@ -56,7 +56,7 @@ AuthSettings = TypedDict(
         "http_basic_test": NotRequired[AuthSetting],
         "bearer_test": NotRequired[AuthSettingJWT],
         "http_signature_test": NotRequired[AuthSetting],
-  }
+    }
 )
 
 
