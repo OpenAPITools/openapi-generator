@@ -18,7 +18,8 @@ import logging
 from logging import FileHandler
 import multiprocessing
 import sys
-from typing import Any, ClassVar, Dict, List, Literal, NotRequired, Optional, Self, TypedDict
+from typing import Any, ClassVar, Dict, List, Literal, Optional, TypedDict
+from typing_extensions import NotRequired, Self
 
 import urllib3
 
