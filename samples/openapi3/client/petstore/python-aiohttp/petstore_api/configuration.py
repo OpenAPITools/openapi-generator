@@ -32,10 +32,32 @@ JSON_SCHEMA_VALIDATION_KEYWORDS = {
 
 ServerVariablesT = Dict[str, str]
 
-AuthSetting = TypedDict(
-    "AuthSetting",
+GenericAuthSetting = TypedDict(
+    "GenericAuthSetting",
     {
         "type": str,
+        "in": str,
+        "key": str,
+        "value": str,
+    },
+)
+
+
+OAuth2AuthSetting = TypedDict(
+    "OAuth2AuthSetting",
+    {
+        "type": Literal["oauth2"],
+        "in": Literal["header"],
+        "key": Literal["Authorization"],
+        "value": str,
+    },
+)
+
+
+APIKeyAuthSetting = TypedDict(
+    "APIKeyAuthSetting",
+    {
+        "type": Literal["api_key"],
         "in": str,
         "key": str,
         "value": Optional[str],
@@ -43,20 +65,62 @@ AuthSetting = TypedDict(
 )
 
 
-class AuthSettingJWT(AuthSetting):
-    format: Literal["JWT"]
+BasicAuthSetting = TypedDict(
+    "BasicAuthSetting",
+    {
+        "type": Literal["basic"],
+        "in": Literal["header"],
+        "key": Literal["Authorization"],
+        "value": Optional[str],
+    },
+)
+
+
+BearerFormatAuthSetting = TypedDict(
+    "BearerFormatAuthSetting",
+    {
+        "type": Literal["bearer"],
+        "in": Literal["header"],
+        "format": Literal["JWT"],
+        "key": Literal["Authorization"],
+        "value": str,
+    },
+)
+
+
+BearerAuthSetting = TypedDict(
+    "BearerAuthSetting",
+    {
+        "type": Literal["bearer"],
+        "in": Literal["header"],
+        "key": Literal["Authorization"],
+        "value": str,
+    },
+)
+
+
+HTTPSignatureAuthSetting = TypedDict(
+    "HTTPSignatureAuthSetting",
+    {
+        "type": Literal["http-signature"],
+        "in": Literal["header"],
+        "key": Literal["Authorization"],
+        "value": None,
+    },
+)
 
 
 AuthSettings = TypedDict(
     "AuthSettings",
     {
-        "petstore_auth": NotRequired[AuthSetting],
-        "api_key": NotRequired[AuthSetting],
-        "api_key_query": NotRequired[AuthSetting],
-        "http_basic_test": NotRequired[AuthSetting],
-        "bearer_test": NotRequired[AuthSettingJWT],
-        "http_signature_test": NotRequired[AuthSetting],
-    }
+        "petstore_auth": OAuth2AuthSetting,
+        "api_key": APIKeyAuthSetting,
+        "api_key_query": APIKeyAuthSetting,
+        "http_basic_test": BasicAuthSetting,
+        "bearer_test": BearerFormatAuthSetting,
+        "http_signature_test": HTTPSignatureAuthSetting,
+    },
+    total=False,
 )
 
 

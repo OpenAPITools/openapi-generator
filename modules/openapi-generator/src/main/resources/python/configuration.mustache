@@ -27,10 +27,32 @@ JSON_SCHEMA_VALIDATION_KEYWORDS = {
 
 ServerVariablesT = Dict[str, str]
 
-AuthSetting = TypedDict(
-    "AuthSetting",
+GenericAuthSetting = TypedDict(
+    "GenericAuthSetting",
     {
         "type": str,
+        "in": str,
+        "key": str,
+        "value": str,
+    },
+)
+
+
+OAuth2AuthSetting = TypedDict(
+    "OAuth2AuthSetting",
+    {
+        "type": Literal["oauth2"],
+        "in": Literal["header"],
+        "key": Literal["Authorization"],
+        "value": str,
+    },
+)
+
+
+APIKeyAuthSetting = TypedDict(
+    "APIKeyAuthSetting",
+    {
+        "type": Literal["api_key"],
         "in": str,
         "key": str,
         "value": Optional[str],
@@ -38,16 +60,49 @@ AuthSetting = TypedDict(
 )
 
 
-{{#authMethods}}
-{{#isBasic}}
-  {{#isBasicBearer}}
-    {{#bearerFormat}}
-class AuthSettingJWT(AuthSetting):
-    format: Literal["JWT"]
-    {{/bearerFormat}}
-  {{/isBasicBearer}}
-{{/isBasic}}
-{{/authMethods}}
+BasicAuthSetting = TypedDict(
+    "BasicAuthSetting",
+    {
+        "type": Literal["basic"],
+        "in": Literal["header"],
+        "key": Literal["Authorization"],
+        "value": Optional[str],
+    },
+)
+
+
+BearerFormatAuthSetting = TypedDict(
+    "BearerFormatAuthSetting",
+    {
+        "type": Literal["bearer"],
+        "in": Literal["header"],
+        "format": Literal["JWT"],
+        "key": Literal["Authorization"],
+        "value": str,
+    },
+)
+
+
+BearerAuthSetting = TypedDict(
+    "BearerAuthSetting",
+    {
+        "type": Literal["bearer"],
+        "in": Literal["header"],
+        "key": Literal["Authorization"],
+        "value": str,
+    },
+)
+
+
+HTTPSignatureAuthSetting = TypedDict(
+    "HTTPSignatureAuthSetting",
+    {
+        "type": Literal["http-signature"],
+        "in": Literal["header"],
+        "key": Literal["Authorization"],
+        "value": None,
+    },
+)
 
 
 AuthSettings = TypedDict(
@@ -55,29 +110,30 @@ AuthSettings = TypedDict(
     {
 {{#authMethods}}
 {{#isOAuth}}
-        "{{name}}": NotRequired[AuthSetting],
+        "{{name}}": OAuth2AuthSetting,
 {{/isOAuth}}
 {{#isApiKey}}
-        "{{name}}": NotRequired[AuthSetting],
+        "{{name}}": APIKeyAuthSetting,
 {{/isApiKey}}
 {{#isBasic}}
   {{#isBasicBasic}}
-        "{{name}}": NotRequired[AuthSetting],
+        "{{name}}": BasicAuthSetting,
   {{/isBasicBasic}}
   {{#isBasicBearer}}
     {{#bearerFormat}}
-        "{{name}}": NotRequired[AuthSettingJWT],
+        "{{name}}": BearerFormatAuthSetting,
     {{/bearerFormat}}
     {{^bearerFormat}}
-        "{{name}}": NotRequired[AuthSetting],
+        "{{name}}": BearerAuthSetting,
     {{/bearerFormat}}
   {{/isBasicBearer}}
   {{#isHttpSignature}}
-        "{{name}}": NotRequired[AuthSetting],
+        "{{name}}": HTTPSignatureAuthSetting,
   {{/isHttpSignature}}
 {{/isBasic}}
 {{/authMethods}}
-    }
+    },
+    total=False,
 )
 
 

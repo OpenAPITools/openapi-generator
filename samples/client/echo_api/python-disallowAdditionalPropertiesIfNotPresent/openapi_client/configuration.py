@@ -33,10 +33,32 @@ JSON_SCHEMA_VALIDATION_KEYWORDS = {
 
 ServerVariablesT = Dict[str, str]
 
-AuthSetting = TypedDict(
-    "AuthSetting",
+GenericAuthSetting = TypedDict(
+    "GenericAuthSetting",
     {
         "type": str,
+        "in": str,
+        "key": str,
+        "value": str,
+    },
+)
+
+
+OAuth2AuthSetting = TypedDict(
+    "OAuth2AuthSetting",
+    {
+        "type": Literal["oauth2"],
+        "in": Literal["header"],
+        "key": Literal["Authorization"],
+        "value": str,
+    },
+)
+
+
+APIKeyAuthSetting = TypedDict(
+    "APIKeyAuthSetting",
+    {
+        "type": Literal["api_key"],
         "in": str,
         "key": str,
         "value": Optional[str],
@@ -44,14 +66,58 @@ AuthSetting = TypedDict(
 )
 
 
+BasicAuthSetting = TypedDict(
+    "BasicAuthSetting",
+    {
+        "type": Literal["basic"],
+        "in": Literal["header"],
+        "key": Literal["Authorization"],
+        "value": Optional[str],
+    },
+)
+
+
+BearerFormatAuthSetting = TypedDict(
+    "BearerFormatAuthSetting",
+    {
+        "type": Literal["bearer"],
+        "in": Literal["header"],
+        "format": Literal["JWT"],
+        "key": Literal["Authorization"],
+        "value": str,
+    },
+)
+
+
+BearerAuthSetting = TypedDict(
+    "BearerAuthSetting",
+    {
+        "type": Literal["bearer"],
+        "in": Literal["header"],
+        "key": Literal["Authorization"],
+        "value": str,
+    },
+)
+
+
+HTTPSignatureAuthSetting = TypedDict(
+    "HTTPSignatureAuthSetting",
+    {
+        "type": Literal["http-signature"],
+        "in": Literal["header"],
+        "key": Literal["Authorization"],
+        "value": None,
+    },
+)
 
 
 AuthSettings = TypedDict(
     "AuthSettings",
     {
-        "http_auth": NotRequired[AuthSetting],
-        "http_bearer_auth": NotRequired[AuthSetting],
-    }
+        "http_auth": BasicAuthSetting,
+        "http_bearer_auth": BearerAuthSetting,
+    },
+    total=False,
 )
 
 
