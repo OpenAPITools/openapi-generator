@@ -2401,7 +2401,10 @@ public class JavaClientCodegenTest {
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
-        TestUtils.assertFileContains(output.resolve("src/main/java/xyz/abcdef/api/CharacterRequest.java"), "private Planet planet = Planet.EARTH;");
+        TestUtils.assertFileContains(
+            output.resolve("src/main/java/org/openapitools/client/model/CharacterRequest.java"),
+            "private Planet planet = Planet.EARTH;"
+        );
         
     }
 
