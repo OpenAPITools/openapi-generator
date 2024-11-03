@@ -6673,7 +6673,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             String enumName = null;
             for (Map<String, Object> enumVar : enumVars) {
-                if (enumDefaultValue.equals(enumVar.get("value")) || enumDefaultUnescapedValue.equals(enumVar.get("value))) {
+                if (enumDefaultValue.equals(enumVar.get("value")) || enumDefaultUnescapedValue.equals(enumVar.get("value"))) {
                     enumName = (String) enumVar.get("name");
                     break;
                 }
