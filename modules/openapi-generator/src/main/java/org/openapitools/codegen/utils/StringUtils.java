@@ -215,7 +215,59 @@ public class StringUtils {
         return word;
     }
 
+    private static final ImmutablePair<String, String>[] camelizeReplacements = new ImmutablePair[]{
+        new ImmutablePair<>("asos", "ASOS"),
+        new ImmutablePair<>("url", "URL"),
+        new ImmutablePair<>("id", "ID"),};
+
+    /**
+     * Camelizes a name by appending the extra replacements
+     * 
+     * @param word string to be camelize
+     * @return camelized and replaced string
+     */
+    public static String camelizeApplyingFormat(String word) {
+        return camelizeApplyingFormat(word, UPPERCASE_FIRST_CHAR);
+    }
+
+    /**
+     * Camelizes a name by appending the extra replacements
+     * 
+     * @param inputWord string to be camelize
+     * @param camelizeOption option for the camelize result
+     * @return camelized and replaced string
+    */
+    public static String camelizeApplyingFormat(final String inputWord, CamelizeOption camelizeOption) {
+        String word = camelize(inputWord, camelizeOption);
+
+        switch (camelizeOption) {
+            case LOWERCASE_FIRST_LETTER:
+            case LOWERCASE_FIRST_CHAR:
+                word = applyExtraFormatting(word, false);
+                break;
+            case UPPERCASE_FIRST_CHAR:
+                word = applyExtraFormatting(word, true);
+                break;
+        }
+
+        return word;
+    }
+
+    private static String applyExtraFormatting(String input, boolean shouldApplyAtStart) {
+        for (ImmutablePair<String, String> pair : camelizeReplacements) {
+            String prefix = pair.getKey();
+            String replacement = pair.getValue();
+            if (shouldApplyAtStart) {
+                input = input.replaceAll("(?i)" + prefix, replacement);
+            } else {
+                input = input.replaceAll("(?i)(?<!^)" + prefix, replacement);
+            }
+        }
+        return input;
+    }
+
     private static class EscapedNameOptions {
+
         public EscapedNameOptions(String name, Set<String> specialChars, List<String> charactersToAllow, String appendToReplacement) {
             this.name = name;
             this.appendToReplacement = appendToReplacement;
