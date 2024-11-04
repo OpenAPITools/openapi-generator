@@ -9,6 +9,7 @@ import org.openapitools.codegen.config.GlobalSettings;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
@@ -215,10 +216,12 @@ public class StringUtils {
         return word;
     }
 
-    private static final ImmutablePair<String, String>[] camelizeReplacements = new ImmutablePair[]{
+
+    private static final ImmutablePair<String, String>[] formatReplacements = new ImmutablePair[]{
         new ImmutablePair<>("asos", "ASOS"),
         new ImmutablePair<>("url", "URL"),
-        new ImmutablePair<>("id", "ID"),};
+        new ImmutablePair<>("id", "ID"),
+    };
 
     /**
      * Camelizes a name by appending the extra replacements
@@ -254,16 +257,32 @@ public class StringUtils {
     }
 
     private static String applyExtraFormatting(String input, boolean shouldApplyAtStart) {
-        for (ImmutablePair<String, String> pair : camelizeReplacements) {
-            String prefix = pair.getKey();
+        for (ImmutablePair<String, String> pair : formatReplacements) {
+            String name = pair.getKey();
             String replacement = pair.getValue();
+            if (shouldSkipReplacement(input)) {
+                continue;
+            }
             if (shouldApplyAtStart) {
-                input = input.replaceAll("(?i)" + prefix, replacement);
+                input = input.replaceAll("(?i)" + name, replacement);
             } else {
-                input = input.replaceAll("(?i)(?<!^)" + prefix, replacement);
+                input = input.replaceAll("(?i)(?<!^)" + name, replacement);
             }
         }
         return input;
+    }
+
+    private static boolean shouldSkipReplacement(String value) {
+        String[] excludedReplacements = {
+            "uuid",
+        };
+
+        for (String excludedReplacement : excludedReplacements) {
+            if (excludedReplacement.equalsIgnoreCase(value)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static class EscapedNameOptions {
