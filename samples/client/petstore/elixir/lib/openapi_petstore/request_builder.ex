@@ -162,10 +162,11 @@ defmodule OpenapiPetstore.RequestBuilder do
 
   ### Returns
 
-  - `{:ok, struct}` or `{:ok, Tesla.Env.t()}` on success
+  - `{:ok, struct}`, {:ok, [struct]} or `{:ok, Tesla.Env.t()}` on success
   - `{:error, term}` on failure
   """
-  @spec evaluate_response(Tesla.Env.result(), response_mapping) :: {:ok, struct()} | Tesla.Env.result()
+  @spec evaluate_response(Tesla.Env.result(), response_mapping) ::
+          {:ok, struct() | [struct()] | Tesla.Env.t()} | {:error, Tesla.Env.t() | any()}
   def evaluate_response({:ok, %Tesla.Env{} = env}, mapping) do
     resolve_mapping(env, mapping, nil)
   end
