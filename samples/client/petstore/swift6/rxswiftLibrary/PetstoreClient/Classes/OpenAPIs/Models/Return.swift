@@ -8,7 +8,7 @@
 import Foundation
 
 /** Model for testing reserved words */
-public struct Return: Codable, JSONEncodable, Hashable {
+public struct Return: Sendable, Codable, JSONEncodable, Hashable {
 
     public var `return`: Int?
 

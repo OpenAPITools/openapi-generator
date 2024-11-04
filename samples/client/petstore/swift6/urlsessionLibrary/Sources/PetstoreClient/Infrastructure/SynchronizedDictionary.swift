@@ -6,7 +6,7 @@
 
 import Foundation
 
-internal struct SynchronizedDictionary<K: Hashable, V> {
+internal struct SynchronizedDictionary<K: Hashable, V> : @unchecked Sendable {
 
     private var dictionary = [K: V]()
     private let lock = NSRecursiveLock()

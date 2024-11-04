@@ -7,9 +7,9 @@
 
 import Foundation
 
-public struct Pet: Codable, JSONEncodable, Hashable {
+public struct Pet: Sendable, Codable, JSONEncodable, Hashable {
 
-    public enum Status: String, Codable, CaseIterable {
+    public enum Status: String, Sendable, Codable, CaseIterable {
         case available = "available"
         case pending = "pending"
         case sold = "sold"
