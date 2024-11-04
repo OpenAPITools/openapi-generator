@@ -113,9 +113,6 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 .excludeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism
                 )
-                .excludeParameterFeatures(
-                        ParameterFeature.Query
-                )
         );
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
