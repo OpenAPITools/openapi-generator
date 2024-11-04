@@ -98,6 +98,7 @@ pub trait User {
         method: Method,
         host: Host,
         cookies: CookieJar,
+        token_in_header: Option<String>,
         body: models::User,
     ) -> Result<CreateUserResponse, String>;
 
@@ -109,6 +110,7 @@ pub trait User {
         method: Method,
         host: Host,
         cookies: CookieJar,
+        token_in_header: Option<String>,
         body: Vec<models::User>,
     ) -> Result<CreateUsersWithArrayInputResponse, String>;
 
@@ -120,6 +122,7 @@ pub trait User {
         method: Method,
         host: Host,
         cookies: CookieJar,
+        token_in_header: Option<String>,
         body: Vec<models::User>,
     ) -> Result<CreateUsersWithListInputResponse, String>;
 
@@ -131,6 +134,7 @@ pub trait User {
         method: Method,
         host: Host,
         cookies: CookieJar,
+        token_in_header: Option<String>,
         path_params: models::DeleteUserPathParams,
     ) -> Result<DeleteUserResponse, String>;
 
@@ -164,6 +168,7 @@ pub trait User {
         method: Method,
         host: Host,
         cookies: CookieJar,
+        token_in_header: Option<String>,
     ) -> Result<LogoutUserResponse, String>;
 
     /// Updated user.
@@ -174,6 +179,7 @@ pub trait User {
         method: Method,
         host: Host,
         cookies: CookieJar,
+        token_in_header: Option<String>,
         path_params: models::UpdateUserPathParams,
         body: models::User,
     ) -> Result<UpdateUserResponse, String>;

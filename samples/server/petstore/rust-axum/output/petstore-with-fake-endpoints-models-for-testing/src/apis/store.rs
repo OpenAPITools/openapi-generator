@@ -70,6 +70,7 @@ pub trait Store {
         method: Method,
         host: Host,
         cookies: CookieJar,
+        token_in_header: Option<String>,
     ) -> Result<GetInventoryResponse, String>;
 
     /// Find purchase order by ID.
