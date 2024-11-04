@@ -573,7 +573,7 @@ defmodule OpenapiPetstore.Api.Fake do
       |> method(:delete)
       |> url("/fake")
       |> add_param(:query, :required_string_group, required_string_group)
-      |> add_param(:headers, "required_boolean_group", required_boolean_group)
+      |> add_param(:headers, :required_boolean_group, required_boolean_group)
       |> add_param(:query, :required_int64_group, required_int64_group)
       |> add_optional_params(optional_params, opts)
       |> Enum.into([])
