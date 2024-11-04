@@ -1,0 +1,25 @@
+{{>do_not_edit}}
+{{>partial_header}}package common
+
+import (
+	"encoding/json"
+	"fmt"
+    "net/url"
+
+	"github.com/go-resty/resty/v2"
+    "github.com/google/go-querystring/query"
+)
+
+func ConvertToURLValues[T any](params *T) (url.Values, error) {
+    return query.Values(params)
+}
+
+func GetErrorResponse[T any](result *resty.Response) (T, error) {
+	var resErr T
+	if ue := json.Unmarshal(result.Body(), &resErr); ue != nil {
+		return resErr, fmt.Errorf("failed to unmarshal error response: %s", result.String())
+	}
+
+	return resErr, nil
+}
+

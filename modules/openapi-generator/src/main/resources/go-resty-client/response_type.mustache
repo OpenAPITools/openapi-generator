@@ -1,0 +1,1 @@
+{{^isArray}}{{^returnTypeIsPrimitive}}{{^isResponseFile}}models.{{/isResponseFile}}{{/returnTypeIsPrimitive}}{{/isArray}}{{#isArray}}{{^returnTypeIsPrimitive}}{{^isResponseFile}}{{#lambda.append-package}}{{.}}{{/lambda.append-package}}{{/isResponseFile}}{{/returnTypeIsPrimitive}}{{/isArray}}{{^isArray}}{{{.}}}{{/isArray}}

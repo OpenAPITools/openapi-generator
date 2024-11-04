@@ -4,7 +4,6 @@ org.openapitools.codegen.languages.AndroidClientCodegen
 org.openapitools.codegen.languages.Apache2ConfigCodegen
 org.openapitools.codegen.languages.ApexClientCodegen
 org.openapitools.codegen.languages.AsciidocDocumentationCodegen
-org.openapitools.codegen.languages.AspnetFastendpointsServerCodegen
 org.openapitools.codegen.languages.AspNetServerCodegen
 org.openapitools.codegen.languages.AvroSchemaCodegen
 org.openapitools.codegen.languages.BashClientCodegen
@@ -34,7 +33,6 @@ org.openapitools.codegen.languages.ErlangServerCodegen
 org.openapitools.codegen.languages.ErlangServerDeprecatedCodegen
 org.openapitools.codegen.languages.FsharpFunctionsServerCodegen
 org.openapitools.codegen.languages.FsharpGiraffeServerCodegen
-org.openapitools.codegen.languages.GdscriptClientCodegen
 org.openapitools.codegen.languages.GoClientCodegen
 org.openapitools.codegen.languages.GoEchoServerCodegen
 org.openapitools.codegen.languages.GoServerCodegen
@@ -63,7 +61,6 @@ org.openapitools.codegen.languages.JavaCXFServerCodegen
 org.openapitools.codegen.languages.JavaCXFExtServerCodegen
 org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen
 org.openapitools.codegen.languages.JavaJerseyServerCodegen
-org.openapitools.codegen.languages.JavaMicroprofileServerCodegen
 org.openapitools.codegen.languages.JavaResteasyServerCodegen
 org.openapitools.codegen.languages.JavaResteasyEapServerCodegen
 org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen
@@ -77,13 +74,6 @@ org.openapitools.codegen.languages.JMeterClientCodegen
 org.openapitools.codegen.languages.JuliaClientCodegen
 org.openapitools.codegen.languages.JuliaServerCodegen
 org.openapitools.codegen.languages.K6ClientCodegen
-org.openapitools.codegen.languages.KotlinClientCodegen
-org.openapitools.codegen.languages.KotlinMiskServerCodegen
-org.openapitools.codegen.languages.KotlinServerCodegen
-org.openapitools.codegen.languages.KotlinSpringServerCodegen
-org.openapitools.codegen.languages.KotlinVertxServerCodegen
-org.openapitools.codegen.languages.KotlinWiremockServerCodegen
-org.openapitools.codegen.languages.KtormSchemaCodegen
 org.openapitools.codegen.languages.LuaClientCodegen
 org.openapitools.codegen.languages.MarkdownDocumentationCodegen
 org.openapitools.codegen.languages.MysqlSchemaCodegen
@@ -104,8 +94,6 @@ org.openapitools.codegen.languages.PhpSlim4ServerCodegen
 org.openapitools.codegen.languages.PhpSymfonyServerCodegen
 org.openapitools.codegen.languages.PhpMezzioPathHandlerServerCodegen
 org.openapitools.codegen.languages.PhpDataTransferClientCodegen
-org.openapitools.codegen.languages.PhpLaravelServerCodegen
-org.openapitools.codegen.languages.PostgresqlSchemaCodegen
 org.openapitools.codegen.languages.PostmanCollectionCodegen
 org.openapitools.codegen.languages.PowerShellClientCodegen
 org.openapitools.codegen.languages.ProtobufSchemaCodegen
@@ -156,10 +144,13 @@ org.openapitools.codegen.languages.TypeScriptReduxQueryClientCodegen
 org.openapitools.codegen.languages.TypeScriptRxjsClientCodegen
 org.openapitools.codegen.languages.WsdlSchemaCodegen
 org.openapitools.codegen.languages.XojoClientCodegen
+org.openapitools.codegen.languages.ZapierClientCodegen
 <<<<<<< HEAD
-org.openapitools.codegen.languages.ZapierClientCodegen
-=======
-org.openapitools.codegen.languages.ZapierClientCodegen
+||||||| parent of 848ed0eb39 (add go resty client generator)
 
 org.openapitools.codegen.languages.GoGinServer2Codegen
->>>>>>> e2be768a35 (add modern golang gin server generator)
+=======
+
+org.openapitools.codegen.languages.GoGinServer2Codegen
+org.openapitools.codegen.languages.GoRestyClient
+>>>>>>> 848ed0eb39 (add go resty client generator)

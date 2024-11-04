@@ -1,0 +1,26 @@
+{{>do_not_edit}}
+{{>partial_header}}package common
+
+import (
+	"net/http"
+	"time"
+)
+
+type RequestOption func(*RequestOptions)
+
+type RequestOptions struct {
+	Timeout time.Duration
+	Headers http.Header
+}
+
+func Timeout(t time.Duration) RequestOption {
+	return func(o *RequestOptions) {
+		o.Timeout = t
+	}
+}
+
+func Headers(h http.Header) RequestOption {
+	return func(o *RequestOptions) {
+		o.Headers = h
+	}
+}

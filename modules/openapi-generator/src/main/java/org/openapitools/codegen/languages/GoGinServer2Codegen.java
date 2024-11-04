@@ -91,6 +91,8 @@ public class GoGinServer2Codegen extends AbstractGoCodegen {
 
     protected String openapiUUIDLibVersion = "v0.21.7";
 
+    protected boolean replacePath = true;
+
     public GoGinServer2Codegen() {
         super();
 
@@ -104,7 +106,6 @@ public class GoGinServer2Codegen extends AbstractGoCodegen {
 
         setEnumVarNameToUpperCase(false);
         appendCommonAbbreviations(commonAbbreviations);
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
     }
 
     @Override
@@ -166,6 +167,13 @@ public class GoGinServer2Codegen extends AbstractGoCodegen {
             additionalProperties.put("hasSecurities", false);
         }
 
+        additionalProperties.put("appTags", openAPI.getTags());
+
+        addSupportingFiles();
+    }
+
+    protected void addSupportingFiles() {
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("securer.mustache", path, "securer.go"));
         supportingFiles.add(new SupportingFile("main.mustache", "", "main.go"));
         supportingFiles.add(new SupportingFile("go.mod.mustache", "", "go.mod"));
@@ -203,7 +211,7 @@ public class GoGinServer2Codegen extends AbstractGoCodegen {
                 addedUuidImport = true;
             }
 
-            if (operation.path != null) {
+            if (replacePath && operation.path != null) {
                 operation.path = operation.path.replaceAll("\\{(.*?)\\}", ":$1");
             }
         }
@@ -338,7 +346,7 @@ public class GoGinServer2Codegen extends AbstractGoCodegen {
         return String.join("", words).toLowerCase(Locale.ROOT);
     }
 
-    private boolean requiresImport(CodegenParameter parameter, String format) {
+    protected boolean requiresImport(CodegenParameter parameter, String format) {
         String pointer = "*" + format;
         return parameter.dataType.equals(format) ||
                 parameter.dataType.equals(pointer) ||

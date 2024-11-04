@@ -1,0 +1,103 @@
+{{>do_not_edit}}
+{{>partial_header}}package {{packageName}}
+
+import (
+	"net/http"
+	"net/url"
+	"time"
+
+	"github.com/go-resty/resty/v2"
+
+{{#appTags}}
+    "github.com/{{gitUserId}}/{{gitRepoId}}/{{#packagePath}}{{.}}/{{/packagePath}}{{packageName}}/{{apiPackage}}/{{name}}"
+{{/appTags}}
+)
+
+const (
+	// DefaultURL is the default URL of the upstream server
+{{#servers}}
+{{#-first}}
+    DefaultURL = "{{url}}"
+{{/-first}}
+{{/servers}}
+)
+
+type RestyRetryConfig struct {
+	// Count is the number of retries to attempt, set non-zero to enable
+	Count int
+
+	// WaitTime You can override initial retry wait time.
+	// Default is 100 milliseconds.
+	WaitTime time.Duration
+
+	// MaxWaitTime You can override max retry wait time.
+	// Default is 2 seconds.
+	MaxWaitTime time.Duration
+}
+
+type RestyConfig struct {
+	// URL is the base URL of the upstream server
+	URL *url.URL
+
+	// Transport is inner transport for the Client
+	Transport http.RoundTripper
+
+	// RestyRetryConfig is for retrying requests
+	RetryOptions *RestyRetryConfig
+
+	// RestyLogger is the logger for resty
+	RestyLogger resty.Logger
+
+	// RestyDebug is the debug flag for resty
+	RestyDebug bool
+}
+
+// New creates a new volume manager vsc HTTP Client.
+func New(c *RestyConfig) *APIClient {
+	u := DefaultURL
+	if c.URL != nil {
+		u = c.URL.String()
+	}
+
+	client := resty.
+		New().
+		SetBaseURL(u)
+
+	if c.RestyLogger != nil {
+		client.SetLogger(c.RestyLogger)
+	}
+
+	if c.RestyDebug {
+		client.SetDebug(c.RestyDebug)
+	}
+
+	if c.Transport != nil {
+		client.SetTransport(c.Transport)
+	}
+
+	if c.RetryOptions != nil {
+		client.SetRetryCount(c.RetryOptions.Count)
+		client.SetRetryWaitTime(c.RetryOptions.WaitTime)
+		client.SetRetryMaxWaitTime(c.RetryOptions.MaxWaitTime)
+	}
+
+	return &APIClient{
+{{#appTags}}
+        {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}: {{name}}.New(client),
+{{/appTags}}
+	}
+}
+
+func NewWithClient(client *resty.Client) *APIClient {
+	return &APIClient{
+{{#appTags}}
+        {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}: {{name}}.New(client),
+{{/appTags}}
+	}
+}
+
+type APIClient struct {
+{{#appTags}}
+    {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}} *{{name}}.API
+{{/appTags}}
+}

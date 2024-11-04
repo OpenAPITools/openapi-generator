@@ -1,0 +1,2 @@
+    // {{nameInPascalCase}} {{description}}
+    {{nameInPascalCase}} {{#isNullable}}*{{/isNullable}}{{dataType}} `form:"{{baseName}}{{^required}},omitempty{{/required}}"{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}} url:"{{baseName}}{{^required}},omitempty{{/required}}"`

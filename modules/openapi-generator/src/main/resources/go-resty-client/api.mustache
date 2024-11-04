@@ -1,0 +1,281 @@
+{{>do_not_edit}}
+{{>partial_header}}package {{baseName.toLowerCase}}
+{{#operations}}
+
+import (
+    "fmt"
+    "net/http"
+    "context"
+{{#imports}}
+    "{{import}}"
+{{/imports}}
+
+    "github.com/go-resty/resty/v2"
+
+    "github.com/{{gitUserId}}/{{gitRepoId}}/{{#packagePath}}{{.}}/{{/packagePath}}{{packageName}}/common"
+    "github.com/{{gitUserId}}/{{gitRepoId}}/{{#packagePath}}{{.}}/{{/packagePath}}{{packageName}}/models"
+)
+{{#operation}}
+{{#hasParams}}
+{{#hasQueryParams}}
+
+type {{operationId}}QueryParams struct {
+{{#queryParams}}
+
+{{> partial_query_param}}
+{{/queryParams}}
+}
+{{/hasQueryParams}}
+
+type {{operationId}}Params struct {
+{{#pathParams}}
+
+{{> partial_path_param}}
+{{/pathParams}}
+{{#hasQueryParams}}
+
+    QueryParams *{{operationId}}QueryParams `json:"-" url:"-"`
+{{/hasQueryParams}}
+{{#bodyParam}}
+
+    // {{nameInPascalCase}} request body
+    request {{>request_type}} `json:"-"`
+{{/bodyParam}}
+}
+
+func New{{operationId}}Params({{#pathParams}}{{paramName}} {{dataType}}{{^-last}}, {{/-last}}{{/pathParams}}{{#queryParams}}{{#required}}{{#hasPathParams}}{{#-first}}, {{/-first}}{{/hasPathParams}}{{paramName}} {{dataType}}{{^-last}}, {{/-last}}{{/required}}{{/queryParams}}{{#bodyParam}}{{#required}}{{#hasPathParams}}, {{/hasPathParams}}{{#hasQueryParams}}{{^hasPathParams}}, {{/hasPathParams}}{{/hasQueryParams}}request {{>request_type}}{{/required}}{{/bodyParam}}) *{{operationId}}Params {
+    return &{{operationId}}Params{
+{{#pathParams}}
+        {{nameInPascalCase}}: {{paramName}},
+{{/pathParams}}
+{{#queryParams}}
+{{#-first}}
+        QueryParams: &{{operationId}}QueryParams{
+{{/-first}}
+{{#required}}
+            {{nameInPascalCase}}: {{paramName}},
+{{/required}}
+{{^required}}
+{{#defaultValue}}
+            {{nameInPascalCase}}: {{defaultValue}},
+{{/defaultValue}}
+{{/required}}
+{{#-last}}
+        },
+{{/-last}}
+{{/queryParams}}
+{{#bodyParam}}
+{{#required}}
+        request: request,
+{{/required}}
+{{/bodyParam}}
+    }
+}
+{{#hasQueryParams}}
+{{#queryParams}}
+{{^required}}
+{{#-first}}
+
+{{/-first}}
+func (p *{{operationId}}Params) With{{nameInPascalCase}}({{#lambda.pascalcase}}{{paramName}}{{/lambda.pascalcase}} {{#isNullable}}*{{/isNullable}}{{dataType}}) *{{operationId}}Params {
+    p.Set{{nameInPascalCase}}({{#lambda.pascalcase}}{{paramName}}{{/lambda.pascalcase}})
+    return p
+}
+
+func (p *{{operationId}}Params) Set{{nameInPascalCase}}({{#lambda.pascalcase}}{{paramName}}{{/lambda.pascalcase}} {{#isNullable}}*{{/isNullable}}{{dataType}}) {
+    if (p.QueryParams == nil) {
+        p.QueryParams = &{{operationId}}QueryParams{}
+    }
+    p.QueryParams.{{nameInPascalCase}} = {{#lambda.pascalcase}}{{paramName}}{{/lambda.pascalcase}}
+}
+{{^-last}}
+
+{{/-last}}
+{{/required}}
+{{/queryParams}}
+{{/hasQueryParams}}
+{{#hasBodyParam}}
+{{#bodyParam}}
+{{^required}}
+
+func (p *{{operationId}}Params) WithRequest(request {{>request_type}}) *{{operationId}}Params {
+    p.SetRequest(request)
+    return p
+}
+
+func (p *{{operationId}}Params) SetRequest(request {{>request_type}}) {
+    p.request = request
+}
+{{/required}}
+{{/bodyParam}}
+{{/hasBodyParam}}
+{{/hasParams}}
+
+{{#returnType}}
+type {{operationId}}Response struct {
+    // Response headers
+    Headers http.Header
+
+    Payload *{{>response_type}}
+}
+{{/returnType}}
+
+{{#responses}}
+{{^is1xx}}
+{{^is2xx}}
+{{^is3xx}}
+{{#dataType}}
+type {{operationId}}{{#goHttpStatusName}}{{code}}{{/goHttpStatusName}} struct {
+{{#isModel}}
+    Payload *models.{{dataType}}
+{{/isModel}}
+{{#isString}}
+    Payload string
+{{/isString}}
+}
+
+func New{{operationId}}{{#goHttpStatusName}}{{code}}{{/goHttpStatusName}}(result *resty.Response) *{{operationId}}{{#goHttpStatusName}}{{code}}{{/goHttpStatusName}} {
+{{#isModel}}
+    p, e := common.GetErrorResponse[*models.{{dataType}}](result)
+    if e != nil {
+        p = &models.{{dataType}}{}
+    }
+{{/isModel}}
+{{#isString}}
+    p := result.String()
+{{/isString}}
+    return &{{operationId}}{{#goHttpStatusName}}{{code}}{{/goHttpStatusName}}{
+        Payload: p,
+    }
+}
+
+func (r * {{operationId}}{{#goHttpStatusName}}{{code}}{{/goHttpStatusName}}) Error() string {
+    return fmt.Sprintf("[{{httpMethod}} {{path}} [%d] {{#goHttpStatusName}}{{code}}{{/goHttpStatusName}}  {{#isString}}%s{{/isString}}{{^isString}}%+v{{/isString}}", {{code}}, r.Payload)
+}
+{{^-last}}
+
+{{/-last}}
+{{/dataType}}
+{{/is3xx}}
+{{/is2xx}}
+{{/is1xx}}
+{{/responses}}
+{{/operation}}
+
+{{#operation}}
+{{#-first}}
+{{#tags}}
+{{#-first}}
+// {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}} for {{name}} API
+type API struct {
+	client *resty.Client
+}
+
+// New creates a new {{name}} API client.
+func New(client *resty.Client) *API {
+	return &API{
+		client: client,
+	}
+}
+{{/-first}}
+{{/tags}}
+{{/-first}}
+{{/operation}}
+
+{{#operation}}
+// {{nickname}} - {{{summary}}}
+// path: {{path}}
+// method: {{httpMethod}}
+{{#isDeprecated}}
+// Deprecated
+{{/isDeprecated}}
+func (a *API) {{nickname}}(ctx context.Context, {{#hasParams}}params *{{operationId}}Params, {{/hasParams}}options ...common.RequestOption) {{#returnType}}(*{{operationId}}Response, error){{/returnType}}{{^returnType}}error{{/returnType}} {
+    opts := &common.RequestOptions{
+        Timeout: common.DefaultTimeout,
+		Headers: make(http.Header),
+	}
+	for _, opt := range options {
+		opt(opts)
+	}
+
+    req := a.client.
+		SetTimeout(opts.Timeout).
+		R().
+		SetContext(ctx).
+		SetHeaderMultiValues(opts.Headers)
+{{#hasPathParams}}
+
+    pathParams, e := common.ConvertToURLValues(params)
+	if e != nil {
+		return {{#returnType}}nil,{{/returnType}} e
+	}
+
+    for k, val := range pathParams {
+		req = req.SetPathParam(k, val[0])
+	}
+
+{{/hasPathParams}}
+{{#hasQueryParams}}
+
+    queryParams, e := common.ConvertToURLValues(params.QueryParams)
+    if e != nil {
+        return {{#returnType}}nil,{{/returnType}} e
+    }
+    req = req.SetQueryParamsFromValues(queryParams)
+
+{{/hasQueryParams}}
+	result, err := req.
+{{#hasBodyParam}}
+{{#bodyParam}}
+        SetBody(params.request).
+{{/bodyParam}}
+{{/hasBodyParam}}
+{{#returnType}}
+        SetResult(&{{>response_type}}{}).
+{{/returnType}}
+        {{#lambda.pascalcase}}{{httpMethod}}{{/lambda.pascalcase}}("{{path}}")
+
+    if err != nil {
+        return {{#returnType}}nil, {{/returnType}}err
+    }
+
+    if result.IsError() {
+        if result.String() == "" {
+			return {{#returnType}}nil, {{/returnType}}fmt.Errorf("%s", result.Status())
+		}
+
+        switch result.StatusCode() {
+{{#responses}}
+{{^is1xx}}
+{{^is2xx}}
+{{^is3xx}}
+        case {{#goHttpStatus}}{{code}}{{/goHttpStatus}}:
+{{#dataType}}
+            return {{#returnType}}nil, {{/returnType}}New{{operationId}}{{#goHttpStatusName}}{{code}}{{/goHttpStatusName}}(result)
+{{/dataType}}
+{{^dataType}}
+            return {{#returnType}}nil, {{/returnType}}fmt.Errorf("[%s]: %s", result.Status(), result.String())
+{{/dataType}}
+{{/is3xx}}
+{{/is2xx}}
+{{/is1xx}}
+{{/responses}}
+        default:
+            return {{#returnType}}nil, {{/returnType}}fmt.Errorf("unexpected error response: [%s]: %s", result.Status(), result.String())
+        }
+    }
+{{#returnType}}
+
+    res := &{{operationId}}Response{
+        Headers: result.Header(),
+        Payload: result.Result().(*{{>response_type}}),
+    }
+{{/returnType}}
+
+    return {{#returnType}}res, {{/returnType}}err
+}
+{{^-last}}
+
+{{/-last}}
+{{/operation}}
+{{/operations}}
