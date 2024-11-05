@@ -562,6 +562,26 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                     }
                 }
             }
+
+            for (CodegenProperty header : rsp.headers) {
+                if (uuidType.equals(header.dataType)) {
+                    additionalProperties.put("apiUsesUuid", true);
+                }
+                header.nameInPascalCase = toModelName(header.baseName);
+                header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
+            }
+        }
+
+        for (CodegenParameter header : op.headerParams) {
+            header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
+        }
+
+        for (CodegenProperty header : op.responseHeaders) {
+            if (uuidType.equals(header.dataType)) {
+                additionalProperties.put("apiUsesUuid", true);
+            }
+            header.nameInPascalCase = toModelName(header.baseName);
+            header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
         }
 
         // Include renderUuidConversionImpl exactly once in the vendorExtensions map when

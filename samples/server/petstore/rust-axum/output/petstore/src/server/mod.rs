@@ -1497,7 +1497,7 @@ where
 
                     {
                         let mut response_headers = response.headers_mut().unwrap();
-                        response_headers.insert(HeaderName::from_static(""), set_cookie);
+                        response_headers.insert(HeaderName::from_static("set-cookie"), set_cookie);
                     }
                 }
                 if let Some(x_rate_limit) = x_rate_limit {
@@ -1512,7 +1512,8 @@ where
 
                     {
                         let mut response_headers = response.headers_mut().unwrap();
-                        response_headers.insert(HeaderName::from_static(""), x_rate_limit);
+                        response_headers
+                            .insert(HeaderName::from_static("x-rate-limit"), x_rate_limit);
                     }
                 }
                 if let Some(x_expires_after) = x_expires_after {
@@ -1528,7 +1529,8 @@ where
 
                     {
                         let mut response_headers = response.headers_mut().unwrap();
-                        response_headers.insert(HeaderName::from_static(""), x_expires_after);
+                        response_headers
+                            .insert(HeaderName::from_static("x-expires-after"), x_expires_after);
                     }
                 }
                 let mut response = response.status(200);
