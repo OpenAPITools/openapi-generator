@@ -408,6 +408,7 @@ public class PetApiTest {
         assertEquals(200, defaultResponse.getStatusCode());
 
         try {
+            // use invalid content type
             api.uploadFileWithHttpInfo(pet.getId(), "image/jpeg", "a test file", new File(file.getAbsolutePath()));
         } catch (ApiException e) {
             LOG.info("Code: {}. Message: {}", e.getCode(), e.getMessage());
