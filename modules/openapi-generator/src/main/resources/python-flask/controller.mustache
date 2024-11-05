@@ -1,19 +1,17 @@
 import connexion
-from typing import Dict
-from typing import Tuple
-from typing import Union
+import six
 
 {{#imports}}{{import}}  # noqa: E501
 {{/imports}}
 from {{packageName}} import util
+from modules import impl_controller
 {{#operations}}
 {{#operation}}
 
+def {{operationId}}({{#allParams}}{{paramName}}{{#required}}=None{{/required}}{{^-last}}, {{/-last}}{{/allParams}}):  # noqa: E501
+    """{{#summary}}{{.}}{{/summary}}{{^summary}}{{operationId}}{{/summary}}
 
-def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/allParams}}):  # noqa: E501
-    """{{summary}}{{^summary}}{{operationId}}{{/summary}}
-
-    {{notes}} # noqa: E501
+    {{#notes}}{{.}}{{/notes}} # noqa: E501
 
     {{#allParams}}
     :param {{paramName}}: {{description}}
@@ -35,7 +33,7 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
                 {{/isFile}}
             {{/isPrimitiveType}}
         {{/isContainer}}
-        {{#isArray}}
+        {{#isListContainer}}
             {{#items}}
                 {{#isPrimitiveType}}
     :type {{paramName}}: List[{{>param_type}}]
@@ -44,8 +42,8 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
     :type {{paramName}}: list | bytes
                 {{/isPrimitiveType}}
             {{/items}}
-        {{/isArray}}
-        {{#isMap}}
+        {{/isListContainer}}
+        {{#isMapContainer}}
             {{#items}}
                 {{#isPrimitiveType}}
     :type {{paramName}}: Dict[str, {{>param_type}}]
@@ -54,10 +52,10 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
     :type {{paramName}}: dict | bytes
                 {{/isPrimitiveType}}
             {{/items}}
-        {{/isMap}}
+        {{/isMapContainer}}
     {{/allParams}}
 
-    :rtype: Union[{{returnType}}{{^returnType}}None{{/returnType}}, Tuple[{{returnType}}{{^returnType}}None{{/returnType}}, int], Tuple[{{returnType}}{{^returnType}}None{{/returnType}}, int, Dict[str, str]]
+    :rtype: {{#returnType}}{{.}}{{/returnType}}{{^returnType}}None{{/returnType}}
     """
     {{#allParams}}
         {{^isContainer}}
@@ -71,12 +69,13 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
                 {{^isFile}}
                     {{^isUuid}}
     if connexion.request.is_json:
-        {{paramName}} = {{baseType}}{{^baseType}}{{#dataType}} {{.}}{{/dataType}}{{/baseType}}.from_dict(connexion.request.get_json())  # noqa: E501
+        body = connexion.request.get_json()  # noqa: E501
+        {{paramName}} = {{baseType}}.from_dict(body)  # noqa: E501
                     {{/isUuid}}
                 {{/isFile}}
             {{/isPrimitiveType}}
         {{/isContainer}}
-        {{#isArray}}
+        {{#isListContainer}}
             {{#items}}
                 {{#isDate}}
     if connexion.request.is_json:
@@ -91,24 +90,27 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
         {{paramName}} = [{{complexType}}.from_dict(d) for d in connexion.request.get_json()]  # noqa: E501
                 {{/complexType}}
             {{/items}}
-        {{/isArray}}
-        {{#isMap}}
+        {{/isListContainer}}
+        {{#isMapContainer}}
             {{#items}}
                 {{#isDate}}
     if connexion.request.is_json:
-        {{paramName}} = {k: util.deserialize_date(v) for k, v in connexion.request.get_json().items()}  # noqa: E501
+        {{paramName}} = {k: util.deserialize_date(v) for k, v in six.iteritems(connexion.request.get_json())}  # noqa: E501
                 {{/isDate}}
                 {{#isDateTime}}
     if connexion.request.is_json:
-        {{paramName}} = {k: util.deserialize_datetime(v) for k, v in connexion.request.get_json().items()}  # noqa: E501
+        {{paramName}} = {k: util.deserialize_datetime(v) for k, v in six.iteritems(connexion.request.get_json())}  # noqa: E501
                 {{/isDateTime}}
                 {{#complexType}}
     if connexion.request.is_json:
-        {{paramName}} = {k: {{baseType}}.from_dict(v) for k, v in connexion.request.get_json().items()}  # noqa: E501
+        {{paramName}} = {k: {{baseType}}.from_dict(v) for k, v in six.iteritems(connexion.request.get_json())}  # noqa: E501
                 {{/complexType}}
             {{/items}}
-        {{/isMap}}
+        {{/isMapContainer}}
     {{/allParams}}
-    return 'do some magic!'
+
+    return impl_controller.{{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
+                            
+    
 {{/operation}}
 {{/operations}}
