@@ -130,4 +130,28 @@ public class Swift5ModelEnumTest {
         Assert.assertEquals(enumVar.baseType, "Double");
         Assert.assertTrue(enumVar.isEnum);
     }
+
+    @Test(description = "convert a java model with additional replacements")
+    public void convertAdditionalReplacementsTest() {
+        final StringSchema enumSchema = new StringSchema();
+        enumSchema.setEnum(Arrays.asList("valueId", "valueUrl", "valueAsos"));
+        enumSchema.setDefault("valueId");
+
+        final Schema model = new Schema().type("object").addProperty("asosEnum", enumSchema);
+
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(cm.vars.size(), 1);
+
+        final CodegenProperty enumVar = cm.vars.get(0);
+        Assert.assertEquals(enumVar.baseName, "asosEnum");
+        Assert.assertEquals(enumVar.dataType, "String");
+        Assert.assertEquals(enumVar.datatypeWithEnum, "ASOSEnum");
+        Assert.assertEquals(enumVar.name, "asosEnum");
+        Assert.assertEquals(enumVar.baseType, "String");
+        Assert.assertTrue(enumVar.isEnum);
+    }
 }

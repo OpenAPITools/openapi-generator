@@ -199,6 +199,27 @@ public class Swift5ClientCodegenTest {
         Assert.assertEquals(result, "MyTypeAPI");
     }
 
+    @Test(description = "Extra format is applied to models", enabled = true)
+    public void replacementTest() {
+        DefaultCodegen codegen = new Swift5ClientCodegen();
+
+        codegen.setModelNamePrefix("Asos");
+        String result = codegen.toModelName("Error");
+        Assert.assertEquals(result, "ASOSError");
+
+        codegen.setModelNamePrefix("asos");
+        result = codegen.toModelName("Error");
+        Assert.assertEquals(result, "ASOSError");
+
+        codegen.setModelNamePrefix("Id");
+        result = codegen.toModelName("Object");
+        Assert.assertEquals(result, "IDObject");
+
+        codegen.setModelNamePrefix("id");
+        result = codegen.toModelName("Object");
+        Assert.assertEquals(result, "IDObject");
+    }
+
     @Test(enabled = true)
     public void testDefaultPodAuthors() throws Exception {
         // Given

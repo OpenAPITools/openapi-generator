@@ -242,47 +242,24 @@ public class StringUtils {
     */
     public static String camelizeApplyingFormat(final String inputWord, CamelizeOption camelizeOption) {
         String word = camelize(inputWord, camelizeOption);
-
-        switch (camelizeOption) {
-            case LOWERCASE_FIRST_LETTER:
-            case LOWERCASE_FIRST_CHAR:
-                word = applyExtraFormatting(word, false);
-                break;
-            case UPPERCASE_FIRST_CHAR:
-                word = applyExtraFormatting(word, true);
-                break;
-        }
-
+        word = applyExtraFormatting(word);
         return word;
     }
 
-    private static String applyExtraFormatting(String input, boolean shouldApplyAtStart) {
-        for (ImmutablePair<String, String> pair : formatReplacements) {
-            String name = pair.getKey();
-            String replacement = pair.getValue();
-            if (shouldSkipReplacement(input)) {
-                continue;
-            }
-            if (shouldApplyAtStart) {
-                input = input.replaceAll("(?i)" + name, replacement);
-            } else {
-                input = input.replaceAll("(?i)(?<!^)" + name, replacement);
-            }
-        }
-        return input;
-    }
+    public static String applyExtraFormatting(String input) {
+        List<String> replacements = Arrays.asList(
+            "Asos",
+            "Id",
+            "Url"
+        );
 
-    private static boolean shouldSkipReplacement(String value) {
-        String[] excludedReplacements = {
-            "uuid",
-        };
+        String output = input;
 
-        for (String excludedReplacement : excludedReplacements) {
-            if (excludedReplacement.equalsIgnoreCase(value)) {
-                return true;
-            }
+        for (String replacement : replacements) {
+            output = output.replace(replacement, replacement.toUpperCase());
         }
-        return false;
+
+        return output;
     }
 
     private static class EscapedNameOptions {
