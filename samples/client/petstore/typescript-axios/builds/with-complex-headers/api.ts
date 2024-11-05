@@ -581,12 +581,13 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * 
          * @summary uploads an image
          * @param {number} petId ID of pet to update
+         * @param {string} [contentType] Content type header parameter
          * @param {string} [additionalMetadata] Additional data to pass to server
          * @param {File} [file] file to upload
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadFile: async (petId: number, additionalMetadata?: string, file?: File, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        uploadFile: async (petId: number, contentType?: string, additionalMetadata?: string, file?: File, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'petId' is not null or undefined
             assertParamExists('uploadFile', 'petId', petId)
             const localVarPath = `/pet/{petId}/uploadImage`
@@ -619,6 +620,9 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
     
             localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
     
+            if (contentType != null) {
+                localVarHeaderParameter['Content-Type'] = String(contentType);
+            }
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -741,13 +745,14 @@ export const PetApiFp = function(configuration?: Configuration) {
          * 
          * @summary uploads an image
          * @param {number} petId ID of pet to update
+         * @param {string} [contentType] Content type header parameter
          * @param {string} [additionalMetadata] Additional data to pass to server
          * @param {File} [file] file to upload
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async uploadFile(petId: number, additionalMetadata?: string, file?: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadFile(petId, additionalMetadata, file, options);
+        async uploadFile(petId: number, contentType?: string, additionalMetadata?: string, file?: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadFile(petId, contentType, additionalMetadata, file, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PetApi.uploadFile']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -843,13 +848,14 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * 
          * @summary uploads an image
          * @param {number} petId ID of pet to update
+         * @param {string} [contentType] Content type header parameter
          * @param {string} [additionalMetadata] Additional data to pass to server
          * @param {File} [file] file to upload
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadFile(petId: number, additionalMetadata?: string, file?: File, options?: RawAxiosRequestConfig): AxiosPromise<ApiResponse> {
-            return localVarFp.uploadFile(petId, additionalMetadata, file, options).then((request) => request(axios, basePath));
+        uploadFile(petId: number, contentType?: string, additionalMetadata?: string, file?: File, options?: RawAxiosRequestConfig): AxiosPromise<ApiResponse> {
+            return localVarFp.uploadFile(petId, contentType, additionalMetadata, file, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -956,14 +962,15 @@ export class PetApi extends BaseAPI {
      * 
      * @summary uploads an image
      * @param {number} petId ID of pet to update
+     * @param {string} [contentType] Content type header parameter
      * @param {string} [additionalMetadata] Additional data to pass to server
      * @param {File} [file] file to upload
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public uploadFile(petId: number, additionalMetadata?: string, file?: File, options?: RawAxiosRequestConfig) {
-        return PetApiFp(this.configuration).uploadFile(petId, additionalMetadata, file, options).then((request) => request(this.axios, this.basePath));
+    public uploadFile(petId: number, contentType?: string, additionalMetadata?: string, file?: File, options?: RawAxiosRequestConfig) {
+        return PetApiFp(this.configuration).uploadFile(petId, contentType, additionalMetadata, file, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

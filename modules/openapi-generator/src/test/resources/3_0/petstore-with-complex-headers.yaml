@@ -257,6 +257,13 @@ paths:
           schema:
             type: integer
             format: int64
+        - name: Content-Type
+          in: header
+          style: simple
+          description: Content type header parameter
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: successful operation
