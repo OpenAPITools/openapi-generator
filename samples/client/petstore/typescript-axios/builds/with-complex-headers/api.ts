@@ -295,27 +295,24 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
 
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
             if (header1 != null) {
                 localVarHeaderParameter['header1'] = typeof header1 === 'string'
                     ? header1
                     : JSON.stringify(header1);
             }
-
             if (header2) {
                 let mapped = header2.map(value => (<any>"Array<Pet>" !== "Array<string>") ? JSON.stringify(value) : (value || ""));
                 localVarHeaderParameter['header2'] = mapped.join(COLLECTION_FORMATS["csv"]);
             }
-
             if (accept != null) {
                 localVarHeaderParameter['Accept'] = typeof accept === 'string'
                     ? accept
                     : JSON.stringify(accept);
             }
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -354,12 +351,11 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
 
+
+    
             if (apiKey != null) {
                 localVarHeaderParameter['api_key'] = String(apiKey);
             }
-
-
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};

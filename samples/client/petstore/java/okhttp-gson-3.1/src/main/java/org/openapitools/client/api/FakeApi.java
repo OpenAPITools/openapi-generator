@@ -806,10 +806,6 @@ public class FakeApi {
         Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-        if (refToUuid != null) {
-            localVarHeaderParams.put("ref_to_uuid", localVarApiClient.parameterToString(refToUuid));
-        }
-
         final String[] localVarAccepts = {
             "text/plain"
         };
@@ -824,6 +820,11 @@ public class FakeApi {
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
+
+        if (refToUuid != null) {
+            localVarHeaderParams.put("ref_to_uuid", localVarApiClient.parameterToString(refToUuid));
+        }
+
 
         String[] localVarAuthNames = new String[] {  };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
@@ -932,10 +933,6 @@ public class FakeApi {
         Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-        if (refToAnyof != null) {
-            localVarHeaderParams.put("ref_to_anyof", localVarApiClient.parameterToString(refToAnyof));
-        }
-
         final String[] localVarAccepts = {
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
@@ -949,6 +946,11 @@ public class FakeApi {
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
+
+        if (refToAnyof != null) {
+            localVarHeaderParams.put("ref_to_anyof", localVarApiClient.parameterToString(refToAnyof));
+        }
+
 
         String[] localVarAuthNames = new String[] {  };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
@@ -1053,10 +1055,6 @@ public class FakeApi {
         Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-        if (refToOneof != null) {
-            localVarHeaderParams.put("ref_to_oneof", localVarApiClient.parameterToString(refToOneof));
-        }
-
         final String[] localVarAccepts = {
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
@@ -1070,6 +1068,11 @@ public class FakeApi {
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
+
+        if (refToOneof != null) {
+            localVarHeaderParams.put("ref_to_oneof", localVarApiClient.parameterToString(refToOneof));
+        }
+
 
         String[] localVarAuthNames = new String[] {  };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
