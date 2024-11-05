@@ -300,6 +300,14 @@ paths:
           format: int64
           type: integer
         style: simple
+      - description: Content type header parameter
+        explode: false
+        in: header
+        name: Content-Type
+        required: false
+        schema:
+          type: string
+        style: simple
       requestBody:
         content:
           multipart/form-data:
