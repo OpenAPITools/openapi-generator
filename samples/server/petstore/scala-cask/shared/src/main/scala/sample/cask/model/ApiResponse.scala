@@ -35,9 +35,9 @@ def asJson: ujson.Value = asData.asJson
 
 def asData : ApiResponseData = {
 ApiResponseData(
-    code = code.getOrElse(0),
-    `type` = `type`.getOrElse(""),
-    message = message.getOrElse("")
+    code = code.getOrElse(0) /*  1 */,
+    `type` = `type`.getOrElse("") /*  1 */,
+    message = message.getOrElse("") /*  1 */
 
 )
 }

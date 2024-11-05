@@ -113,12 +113,12 @@ case class PetData(
   /** use 'validated' to check validation */
   def asModel : Pet = {
     Pet(
-        id = Option(id),
-        category = Option(category).map(_.asModel),
-        name = name,
-        photoUrls = photoUrls,
-        tags = tags.map(_.asModel),
-        status = Option(status)
+        id = Option(id) /* 1 */,
+        category = Option(category).map(_.asModel) /* 4 */,
+        name = name /* 2 */,
+        photoUrls = photoUrls /* 2 */,
+        tags = tags.map(_.asModel) /* 5 */,
+        status = Option(status) /* 1 */
     
     )
   }

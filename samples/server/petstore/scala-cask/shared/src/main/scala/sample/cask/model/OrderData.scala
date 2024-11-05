@@ -98,12 +98,12 @@ case class OrderData(
   /** use 'validated' to check validation */
   def asModel : Order = {
     Order(
-        id = Option(id),
-        petId = Option(petId),
-        quantity = Option(quantity),
-        shipDate = Option(shipDate),
-        status = Option(status),
-        complete = Option(complete)
+        id = Option(id) /* 1 */,
+        petId = Option(petId) /* 1 */,
+        quantity = Option(quantity) /* 1 */,
+        shipDate = Option(shipDate) /* 1 */,
+        status = Option(status) /* 1 */,
+        complete = Option(complete) /* 1 */
     
     )
   }

@@ -39,12 +39,12 @@ def asJson: ujson.Value = asData.asJson
 
 def asData : PetData = {
 PetData(
-    id = id.getOrElse(0),
-    category = category.map(_.asData).getOrElse(null),
-    name = name,
-    photoUrls = photoUrls,
-    tags = tags.map(_.asData),
-    status = status.getOrElse(null)
+    id = id.getOrElse(0) /*  1 */,
+    category = category.map(_.asData).getOrElse(null) /* 4 */,
+    name = name /* 2 */,
+    photoUrls = photoUrls /* 2 */,
+    tags = tags.map(_.asData) /* 6 */,
+    status = status.getOrElse(null) /*  1 */
 
 )
 }

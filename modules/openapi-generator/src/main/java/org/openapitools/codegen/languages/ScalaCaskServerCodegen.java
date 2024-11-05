@@ -768,25 +768,25 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
         if (doesNotNeedMapping(p, typesWhichDoNotNeedMapping)) {
             if (wrapInOptional) {
-                code = String.format("%s.getOrElse(%s)", p.name, dv);
+                code = String.format(Locale.ROOT, "%s.getOrElse(%s) /*  1 */", p.name, dv);
             } else {
-                code = String.format("%s", p.name);
+                code = String.format(Locale.ROOT, "%s /* 2 */", p.name);
             }
         } else {
             if (wrapInOptional) {
                 if (isByteArray(p)) {
-                    code = String.format("%s.getOrElse(%s)", p.name, dv);
+                    code = String.format(Locale.ROOT, "%s.getOrElse(%s) /* 3 */", p.name, dv);
                 } else {
-                    code = String.format("%s.map(_.asData).getOrElse(%s)", p.name, dv);
+                    code = String.format(Locale.ROOT, "%s.map(_.asData).getOrElse(%s) /* 4 */", p.name, dv);
                 }
             } else if (p.isArray) {
                 if (isByteArray(p)) {
-                    code = String.format("%s", p.name);
+                    code = String.format(Locale.ROOT, "%s /* 5 */", p.name);
                 } else {
-                    code = String.format("%s.map(_.asData)", p.name);
+                    code = String.format(Locale.ROOT, "%s.map(_.asData) /* 6 */", p.name);
                 }
             } else {
-                code = String.format("%s.asData", p.name);
+                code = String.format(Locale.ROOT, "%s.asData /* 7 */", p.name);
             }
         }
         return code;
@@ -812,21 +812,21 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
         if (doesNotNeedMapping(p, typesWhichDoNotNeedMapping)) {
             if (wrapInOptional) {
-                code = String.format("Option(%s)", p.name);
+                code = String.format(Locale.ROOT, "Option(%s) /* 1 */", p.name);
             } else {
-                code = String.format("%s", p.name);
+                code = String.format(Locale.ROOT, "%s /* 2 */", p.name);
             }
         } else {
             if (wrapInOptional) {
                 if (isByteArray(p)) {
-                    code = String.format("Option(%s)", p.name);
+                    code = String.format(Locale.ROOT, "Option(%s) /* 3 */", p.name);
                 } else {
-                    code = String.format("Option(%s).map(_.asModel)", p.name);
+                    code = String.format(Locale.ROOT, "Option(%s).map(_.asModel) /* 4 */", p.name);
                 }
             } else if (p.isArray) {
-                code = String.format("%s.map(_.asModel)", p.name);
+                code = String.format(Locale.ROOT, "%s.map(_.asModel) /* 5 */", p.name);
             } else {
-                code = String.format("%s.asModel", p.name);
+                code = String.format(Locale.ROOT, "%s.asModel /* 6 */", p.name);
             }
         }
         return code;
@@ -902,9 +902,9 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         var typesWhichShouldNotBeMapped = importMapping.keySet().stream()
                 .flatMap(key -> Stream.of(
                         key,
-                        String.format("List[%s]", key),
-                        String.format("Seq[%s]", key),
-                        String.format("Set[%s]", key)
+                        String.format(Locale.ROOT, "List[%s]", key),
+                        String.format(Locale.ROOT, "Seq[%s]", key),
+                        String.format(Locale.ROOT, "Set[%s]", key)
                 )).collect(Collectors.toSet());
         typesWhichShouldNotBeMapped.add("byte");
 

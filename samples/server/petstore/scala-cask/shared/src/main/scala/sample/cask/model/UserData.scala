@@ -111,14 +111,14 @@ case class UserData(
   /** use 'validated' to check validation */
   def asModel : User = {
     User(
-        id = Option(id),
-        username = Option(username),
-        firstName = Option(firstName),
-        lastName = Option(lastName),
-        email = Option(email),
-        password = Option(password),
-        phone = Option(phone),
-        userStatus = Option(userStatus)
+        id = Option(id) /* 1 */,
+        username = Option(username) /* 1 */,
+        firstName = Option(firstName) /* 1 */,
+        lastName = Option(lastName) /* 1 */,
+        email = Option(email) /* 1 */,
+        password = Option(password) /* 1 */,
+        phone = Option(phone) /* 1 */,
+        userStatus = Option(userStatus) /* 1 */
     
     )
   }
