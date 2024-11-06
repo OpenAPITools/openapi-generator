@@ -61,7 +61,7 @@ namespace YourProject
         {
             var host = CreateHostBuilder(args).Build();
             var api = host.Services.GetRequiredService<IAPIKEYSApi>();
-            GetApiKeysId_1ApiResponse apiResponse = await api.GetApiKeysId_1Async("todo");
+            GetApiKeysIdApiResponse apiResponse = await api.GetApiKeysIdAsync("todo");
             object model = apiResponse.Ok();
         }
 

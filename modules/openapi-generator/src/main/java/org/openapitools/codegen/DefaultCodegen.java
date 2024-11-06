@@ -5701,8 +5701,6 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    private final Map<String, Integer> seenOperationIds = new HashMap<String, Integer>();
-
     /**
      * Add operation to group
      *
@@ -5723,18 +5721,13 @@ public class DefaultCodegen implements CodegenConfig {
         }
         // check for operationId uniqueness
         String uniqueName = co.operationId;
-        int counter = seenOperationIds.getOrDefault(uniqueName, 0);
-        while (seenOperationIds.containsKey(uniqueName)) {
-            uniqueName = co.operationId + "_" + counter;
-            counter++;
-        }
+        int counter = 0;
         for (CodegenOperation op : opList) {
             if (uniqueName.equals(op.operationId)) {
                 uniqueName = co.operationId + "_" + counter;
                 counter++;
             }
         }
-        seenOperationIds.put(co.operationId, counter);
         if (!co.operationId.equals(uniqueName)) {
             LOGGER.warn("generated unique operationId `{}`", uniqueName);
         }

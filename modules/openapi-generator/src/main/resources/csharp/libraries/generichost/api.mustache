@@ -85,6 +85,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{/operation}}
     }
     {{#operation}}
+    {{^vendorExtensions.x-duplicates}}
     {{#responses}}
     {{#-first}}
 
@@ -115,6 +116,7 @@ namespace {{packageName}}.{{apiPackage}}
     }
     {{/-first}}
     {{/responses}}
+    {{/vendorExtensions.x-duplicates}}
     {{/operation}}
 
     /// <summary>
@@ -134,7 +136,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// </summary>
         public event EventHandler<ExceptionEventArgs>{{nrt?}} OnError{{operationId}};
 
-        internal void ExecuteOn{{operationId}}({{classname}}.{{operationId}}ApiResponse apiResponse)
+        internal void ExecuteOn{{operationId}}({{#vendorExtensions.x-duplicates}}{{.}}{{/vendorExtensions.x-duplicates}}{{^vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}.{{operationId}}ApiResponse apiResponse)
         {
             On{{operationId}}?.Invoke(this, new ApiResponseEventArgs(apiResponse));
         }
@@ -619,9 +621,9 @@ namespace {{packageName}}.{{apiPackage}}
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync({{#net60OrLater}}cancellationToken{{/net60OrLater}}).ConfigureAwait(false);
 
-                        ILogger<{{operationId}}ApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<{{operationId}}ApiResponse>();
+                        ILogger<{{#vendorExtensions.x-duplicates}}{{.}}.{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<{{#vendorExtensions.x-duplicates}}{{.}}.{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse>();
 
-                        {{operationId}}ApiResponse apiResponseLocalVar = new{{^net60OrLater}} {{operationId}}ApiResponse{{/net60OrLater}}(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "{{{path}}}", requestedAtLocalVar, _jsonSerializerOptions);
+                        {{#vendorExtensions.x-duplicates}}{{.}}.{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse apiResponseLocalVar = new{{^net60OrLater}} {{operationId}}ApiResponse{{/net60OrLater}}(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "{{{path}}}", requestedAtLocalVar, _jsonSerializerOptions);
 
                         After{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}apiResponseLocalVar  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
 
@@ -680,6 +682,7 @@ namespace {{packageName}}.{{apiPackage}}
             }
             {{/lambda.trimLineBreaks}}
         }
+        {{^vendorExtensions.x-duplicates}}
         {{#responses}}
         {{#-first}}
 
@@ -792,6 +795,7 @@ namespace {{packageName}}.{{apiPackage}}
         }
         {{/-first}}
         {{/responses}}
+        {{/vendorExtensions.x-duplicates}}
         {{/operation}}
     }
     {{/operations}}
