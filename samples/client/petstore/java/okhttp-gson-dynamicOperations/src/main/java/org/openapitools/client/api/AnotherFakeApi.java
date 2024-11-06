@@ -139,6 +139,11 @@ public class AnotherFakeApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
+        if (uuidTest != null) {
+            localVarHeaderParams.put("uuid_test", localVarApiClient.parameterToString(uuidTest));
+        }
+
+
         String[] localVarAuthNames = new String[] {  };
         return localVarApiClient.buildCall(basePath, localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }

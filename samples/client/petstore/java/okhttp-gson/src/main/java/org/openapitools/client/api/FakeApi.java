@@ -1197,14 +1197,6 @@ public class FakeApi {
             localVarQueryParams.addAll(localVarApiClient.parameterToPair("type", type));
         }
 
-        if (underscoreType != null) {
-            localVarHeaderParams.put("_type", localVarApiClient.parameterToString(underscoreType));
-        }
-
-        if (typeWithUnderscore != null) {
-            localVarHeaderParams.put("type_", localVarApiClient.parameterToString(typeWithUnderscore));
-        }
-
         final String[] localVarAccepts = {
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
@@ -1218,6 +1210,16 @@ public class FakeApi {
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
+
+        if (underscoreType != null) {
+            localVarHeaderParams.put("_type", localVarApiClient.parameterToString(underscoreType));
+        }
+
+
+        if (typeWithUnderscore != null) {
+            localVarHeaderParams.put("type_", localVarApiClient.parameterToString(typeWithUnderscore));
+        }
+
 
         String[] localVarAuthNames = new String[] {  };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
@@ -2105,14 +2107,6 @@ public class FakeApi {
             localVarQueryParams.addAll(localVarApiClient.parameterToPair("enum_query_double", enumQueryDouble));
         }
 
-        if (enumHeaderStringArray != null) {
-            localVarHeaderParams.put("enum_header_string_array", localVarApiClient.parameterToString(enumHeaderStringArray));
-        }
-
-        if (enumHeaderString != null) {
-            localVarHeaderParams.put("enum_header_string", localVarApiClient.parameterToString(enumHeaderString));
-        }
-
         final String[] localVarAccepts = {
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
@@ -2127,6 +2121,16 @@ public class FakeApi {
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
+
+        if (enumHeaderStringArray != null) {
+            localVarHeaderParams.put("enum_header_string_array", localVarApiClient.parameterToString(enumHeaderStringArray));
+        }
+
+
+        if (enumHeaderString != null) {
+            localVarHeaderParams.put("enum_header_string", localVarApiClient.parameterToString(enumHeaderString));
+        }
+
 
         String[] localVarAuthNames = new String[] {  };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
@@ -2254,14 +2258,6 @@ public class FakeApi {
             localVarQueryParams.addAll(localVarApiClient.parameterToPair("int64_group", int64Group));
         }
 
-        if (requiredBooleanGroup != null) {
-            localVarHeaderParams.put("required_boolean_group", localVarApiClient.parameterToString(requiredBooleanGroup));
-        }
-
-        if (booleanGroup != null) {
-            localVarHeaderParams.put("boolean_group", localVarApiClient.parameterToString(booleanGroup));
-        }
-
         final String[] localVarAccepts = {
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
@@ -2275,6 +2271,16 @@ public class FakeApi {
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
+
+        if (requiredBooleanGroup != null) {
+            localVarHeaderParams.put("required_boolean_group", localVarApiClient.parameterToString(requiredBooleanGroup));
+        }
+
+
+        if (booleanGroup != null) {
+            localVarHeaderParams.put("boolean_group", localVarApiClient.parameterToString(booleanGroup));
+        }
+
 
         String[] localVarAuthNames = new String[] { "bearer_test" };
         return localVarApiClient.buildCall(basePath, localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);

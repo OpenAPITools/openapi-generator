@@ -272,6 +272,11 @@ public class PetApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
+        if (apiKey != null) {
+            localVarHeaderParams.put("api_key", localVarApiClient.parameterToString(apiKey));
+        }
+
+
         String[] localVarAuthNames = new String[] { "petstore_auth" };
         return localVarApiClient.buildCall(basePath, localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
