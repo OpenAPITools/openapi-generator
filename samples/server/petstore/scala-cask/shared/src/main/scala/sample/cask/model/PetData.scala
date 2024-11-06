@@ -13,8 +13,6 @@
 
 // this model was generated using modelData.mustache
 package sample.cask.model
-import sample.cask.model.Category
-import sample.cask.model.Tag
 import scala.util.control.NonFatal
 import scala.util.*
 
@@ -22,7 +20,8 @@ import scala.util.*
 import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
-/** PetData a data transfer object, primarily for simple json serialisation.
+
+        /** PetData a data transfer object, primarily for simple json serialisation.
   * It has no validation - there may be nulls, values out of range, etc
   */
 case class PetData(
@@ -101,6 +100,9 @@ case class PetData(
     errors.toSeq
   }
 
+  /**
+   * @return the validated model within a Try (if successful)
+   */
   def validated(failFast : Boolean = false) : scala.util.Try[Pet] = {
     validationErrors(Vector(), failFast) match {
       case Seq() => Success(asModel)
@@ -111,30 +113,12 @@ case class PetData(
   /** use 'validated' to check validation */
   def asModel : Pet = {
     Pet(
-        id = Option(
-        id
-        )
-        ,
-        category = Option(
-        category
-        )
-        .map(_.asModel),
-        name = 
-        name
-        
-        ,
-        photoUrls = 
-        photoUrls
-        
-        ,
-        tags = 
-        tags
-        
-        .map(_.asModel),
-        status = Option(
-        status
-        )
-        
+        id = Option(id) /* 1 */,
+        category = Option(category).map(_.asModel) /* 4 */,
+        name = name /* 2 */,
+        photoUrls = photoUrls /* 2 */,
+        tags = tags.map(_.asModel) /* 5 */,
+        status = Option(status) /* 1 */
     
     )
   }

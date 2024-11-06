@@ -20,7 +20,8 @@ import scala.util.*
 import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
-/** CategoryData a data transfer object, primarily for simple json serialisation.
+
+        /** CategoryData a data transfer object, primarily for simple json serialisation.
   * It has no validation - there may be nulls, values out of range, etc
   */
 case class CategoryData(
@@ -60,6 +61,9 @@ case class CategoryData(
     errors.toSeq
   }
 
+  /**
+   * @return the validated model within a Try (if successful)
+   */
   def validated(failFast : Boolean = false) : scala.util.Try[Category] = {
     validationErrors(Vector(), failFast) match {
       case Seq() => Success(asModel)
@@ -70,14 +74,8 @@ case class CategoryData(
   /** use 'validated' to check validation */
   def asModel : Category = {
     Category(
-        id = Option(
-        id
-        )
-        ,
-        name = Option(
-        name
-        )
-        
+        id = Option(id) /* 1 */,
+        name = Option(name) /* 1 */
     
     )
   }

@@ -20,7 +20,8 @@ import scala.util.*
 import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
-/** UserData a data transfer object, primarily for simple json serialisation.
+
+        /** UserData a data transfer object, primarily for simple json serialisation.
   * It has no validation - there may be nulls, values out of range, etc
   */
 case class UserData(
@@ -97,6 +98,9 @@ case class UserData(
     errors.toSeq
   }
 
+  /**
+   * @return the validated model within a Try (if successful)
+   */
   def validated(failFast : Boolean = false) : scala.util.Try[User] = {
     validationErrors(Vector(), failFast) match {
       case Seq() => Success(asModel)
@@ -107,38 +111,14 @@ case class UserData(
   /** use 'validated' to check validation */
   def asModel : User = {
     User(
-        id = Option(
-        id
-        )
-        ,
-        username = Option(
-        username
-        )
-        ,
-        firstName = Option(
-        firstName
-        )
-        ,
-        lastName = Option(
-        lastName
-        )
-        ,
-        email = Option(
-        email
-        )
-        ,
-        password = Option(
-        password
-        )
-        ,
-        phone = Option(
-        phone
-        )
-        ,
-        userStatus = Option(
-        userStatus
-        )
-        
+        id = Option(id) /* 1 */,
+        username = Option(username) /* 1 */,
+        firstName = Option(firstName) /* 1 */,
+        lastName = Option(lastName) /* 1 */,
+        email = Option(email) /* 1 */,
+        password = Option(password) /* 1 */,
+        phone = Option(phone) /* 1 */,
+        userStatus = Option(userStatus) /* 1 */
     
     )
   }
