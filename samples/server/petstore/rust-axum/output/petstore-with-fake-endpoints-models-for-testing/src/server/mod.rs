@@ -22,6 +22,7 @@ where
         + apis::pet::Pet
         + apis::store::Store
         + apis::user::User
+        + apis::ApiKeyAuthHeader
         + 'static,
 {
     // build our application with a route
@@ -1646,13 +1647,25 @@ async fn get_pet_by_id<I, A>(
     method: Method,
     host: Host,
     cookies: CookieJar,
+    headers: HeaderMap,
     Path(path_params): Path<models::GetPetByIdPathParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::pet::Pet,
+    A: apis::pet::Pet + apis::ApiKeyAuthHeader,
 {
+    // Authentication
+    let token_in_header = api_impl
+        .as_ref()
+        .extract_token_from_header(&headers, "ApiKey");
+    if let (None,) = (&token_in_header,) {
+        return Response::builder()
+            .status(StatusCode::UNAUTHORIZED)
+            .body(Body::empty())
+            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
+    }
+
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || get_pet_by_id_validation(path_params))
         .await
@@ -1667,7 +1680,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .get_pet_by_id(method, host, cookies, path_params)
+        .get_pet_by_id(method, host, cookies, token_in_header, path_params)
         .await;
 
     let mut response = Response::builder();
@@ -2022,12 +2035,24 @@ async fn get_inventory<I, A>(
     method: Method,
     host: Host,
     cookies: CookieJar,
+    headers: HeaderMap,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::store::Store,
+    A: apis::store::Store + apis::ApiKeyAuthHeader,
 {
+    // Authentication
+    let token_in_header = api_impl
+        .as_ref()
+        .extract_token_from_header(&headers, "ApiKey");
+    if let (None,) = (&token_in_header,) {
+        return Response::builder()
+            .status(StatusCode::UNAUTHORIZED)
+            .body(Body::empty())
+            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
+    }
+
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || get_inventory_validation())
         .await
@@ -2040,7 +2065,10 @@ where
             .map_err(|_| StatusCode::BAD_REQUEST);
     };
 
-    let result = api_impl.as_ref().get_inventory(method, host, cookies).await;
+    let result = api_impl
+        .as_ref()
+        .get_inventory(method, host, cookies, token_in_header)
+        .await;
 
     let mut response = Response::builder();
 
@@ -2656,7 +2684,8 @@ where
 
                     {
                         let mut response_headers = response.headers_mut().unwrap();
-                        response_headers.insert(HeaderName::from_static(""), x_rate_limit);
+                        response_headers
+                            .insert(HeaderName::from_static("X-Rate-Limit"), x_rate_limit);
                     }
                 }
                 if let Some(x_expires_after) = x_expires_after {
@@ -2672,7 +2701,8 @@ where
 
                     {
                         let mut response_headers = response.headers_mut().unwrap();
-                        response_headers.insert(HeaderName::from_static(""), x_expires_after);
+                        response_headers
+                            .insert(HeaderName::from_static("X-Expires-After"), x_expires_after);
                     }
                 }
                 let mut response = response.status(200);

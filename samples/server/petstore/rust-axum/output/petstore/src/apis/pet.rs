@@ -144,6 +144,7 @@ pub trait Pet {
         method: Method,
         host: Host,
         cookies: CookieJar,
+        token_in_header: Option<String>,
         path_params: models::GetPetByIdPathParams,
     ) -> Result<GetPetByIdResponse, String>;
 

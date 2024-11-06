@@ -30,6 +30,14 @@ pub trait {{classnamePascalCase}} {
     method: Method,
     host: Host,
     cookies: CookieJar,
+    {{#vendorExtensions}}
+      {{#x-has-cookie-auth-methods}}
+        token_in_cookie: Option<String>,
+      {{/x-has-cookie-auth-methods}}
+      {{#x-has-header-auth-methods}}
+        token_in_header: Option<String>,
+      {{/x-has-header-auth-methods}}
+    {{/vendorExtensions}}
     {{#headerParams.size}}
       header_params: models::{{{operationIdCamelCase}}}HeaderParams,
     {{/headerParams.size}}
