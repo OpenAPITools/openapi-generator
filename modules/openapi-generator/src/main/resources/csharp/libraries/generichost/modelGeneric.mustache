@@ -76,7 +76,7 @@
         }
 
         {{/composedSchemas.oneOf}}
-        partial void OnCreated();
+        public virtual void OnCreated() { }
 
         {{#vars}}
         {{#items.isEnum}}

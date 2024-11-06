@@ -420,8 +420,8 @@ namespace Org.OpenAPITools.Client
             return request;
         }
 
-        partial void InterceptRequest(HttpRequestMessage req);
-        partial void InterceptResponse(HttpRequestMessage req, HttpResponseMessage response);
+        public virtual void InterceptRequest(HttpRequestMessage req) { }
+        public virtual void InterceptResponse(HttpRequestMessage req, HttpResponseMessage response) { }
 
         private async Task<ApiResponse<T>> ToApiResponse<T>(HttpResponseMessage response, object responseData, Uri uri)
         {

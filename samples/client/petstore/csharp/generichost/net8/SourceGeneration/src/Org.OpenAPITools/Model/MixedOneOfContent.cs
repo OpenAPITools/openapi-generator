@@ -82,7 +82,7 @@ namespace Org.OpenAPITools.Model
             OnCreated();
         }
 
-        partial void OnCreated();
+        public virtual void OnCreated() { }
 
         /// <summary>
         /// Gets or Sets String
