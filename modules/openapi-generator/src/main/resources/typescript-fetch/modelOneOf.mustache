@@ -41,7 +41,11 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
 {{/discriminator}}
 }
 
-export function {{classname}}ToJSON(value?: {{classname}} | null): any {
+export function {{classname}}ToJSON(json: any): any {
+    return {{classname}}ToJSONTyped(json, false);
+}
+
+export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
