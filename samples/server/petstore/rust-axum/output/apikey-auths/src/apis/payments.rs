@@ -48,7 +48,7 @@ pub trait Payments {
         host: Host,
         cookies: CookieJar,
         path_params: models::GetPaymentMethodByIdPathParams,
-    ) -> Result<GetPaymentMethodByIdResponse, String>;
+    ) -> Result<GetPaymentMethodByIdResponse, ()>;
 
     /// Get payment methods.
     ///
@@ -58,7 +58,7 @@ pub trait Payments {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<GetPaymentMethodsResponse, String>;
+    ) -> Result<GetPaymentMethodsResponse, ()>;
 
     /// Make a payment.
     ///
@@ -70,5 +70,5 @@ pub trait Payments {
         cookies: CookieJar,
         token_in_cookie: Option<String>,
         body: Option<models::Payment>,
-    ) -> Result<PostMakePaymentResponse, String>;
+    ) -> Result<PostMakePaymentResponse, ()>;
 }
