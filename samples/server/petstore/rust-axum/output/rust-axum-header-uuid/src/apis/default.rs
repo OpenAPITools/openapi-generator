@@ -26,5 +26,5 @@ pub trait Default {
         host: Host,
         cookies: CookieJar,
         header_params: models::UsersPostHeaderParams,
-    ) -> Result<UsersPostResponse, String>;
+    ) -> Result<UsersPostResponse, ()>;
 }

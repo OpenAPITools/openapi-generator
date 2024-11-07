@@ -124,11 +124,11 @@ export function ResponseMetaFromJSONTyped(json: any, ignoreDiscriminator: boolea
     };
 }
 
-  export function ResponseMetaToJSON(json: any): ResponseMeta {
-      return ResponseMetaToJSONTyped(json, false);
-  }
+export function ResponseMetaToJSON(json: any): ResponseMeta {
+    return ResponseMetaToJSONTyped(json, false);
+}
 
-  export function ResponseMetaToJSONTyped(value?: ResponseMeta | null, ignoreDiscriminator: boolean = false): any {
+export function ResponseMetaToJSONTyped(value?: ResponseMeta | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

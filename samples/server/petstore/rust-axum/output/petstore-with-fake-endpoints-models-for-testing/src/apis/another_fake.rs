@@ -28,5 +28,5 @@ pub trait AnotherFake {
         host: Host,
         cookies: CookieJar,
         body: models::Client,
-    ) -> Result<TestSpecialTagsResponse, String>;
+    ) -> Result<TestSpecialTagsResponse, ()>;
 }

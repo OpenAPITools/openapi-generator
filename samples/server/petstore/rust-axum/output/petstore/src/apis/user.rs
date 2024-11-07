@@ -100,7 +100,7 @@ pub trait User {
         cookies: CookieJar,
         token_in_header: Option<String>,
         body: models::User,
-    ) -> Result<CreateUserResponse, String>;
+    ) -> Result<CreateUserResponse, ()>;
 
     /// Creates list of users with given input array.
     ///
@@ -112,7 +112,7 @@ pub trait User {
         cookies: CookieJar,
         token_in_header: Option<String>,
         body: Vec<models::User>,
-    ) -> Result<CreateUsersWithArrayInputResponse, String>;
+    ) -> Result<CreateUsersWithArrayInputResponse, ()>;
 
     /// Creates list of users with given input array.
     ///
@@ -124,7 +124,7 @@ pub trait User {
         cookies: CookieJar,
         token_in_header: Option<String>,
         body: Vec<models::User>,
-    ) -> Result<CreateUsersWithListInputResponse, String>;
+    ) -> Result<CreateUsersWithListInputResponse, ()>;
 
     /// Delete user.
     ///
@@ -136,7 +136,7 @@ pub trait User {
         cookies: CookieJar,
         token_in_header: Option<String>,
         path_params: models::DeleteUserPathParams,
-    ) -> Result<DeleteUserResponse, String>;
+    ) -> Result<DeleteUserResponse, ()>;
 
     /// Get user by user name.
     ///
@@ -147,7 +147,7 @@ pub trait User {
         host: Host,
         cookies: CookieJar,
         path_params: models::GetUserByNamePathParams,
-    ) -> Result<GetUserByNameResponse, String>;
+    ) -> Result<GetUserByNameResponse, ()>;
 
     /// Logs user into the system.
     ///
@@ -158,7 +158,7 @@ pub trait User {
         host: Host,
         cookies: CookieJar,
         query_params: models::LoginUserQueryParams,
-    ) -> Result<LoginUserResponse, String>;
+    ) -> Result<LoginUserResponse, ()>;
 
     /// Logs out current logged in user session.
     ///
@@ -169,7 +169,7 @@ pub trait User {
         host: Host,
         cookies: CookieJar,
         token_in_header: Option<String>,
-    ) -> Result<LogoutUserResponse, String>;
+    ) -> Result<LogoutUserResponse, ()>;
 
     /// Updated user.
     ///
@@ -182,5 +182,5 @@ pub trait User {
         token_in_header: Option<String>,
         path_params: models::UpdateUserPathParams,
         body: models::User,
-    ) -> Result<UpdateUserResponse, String>;
+    ) -> Result<UpdateUserResponse, ()>;
 }

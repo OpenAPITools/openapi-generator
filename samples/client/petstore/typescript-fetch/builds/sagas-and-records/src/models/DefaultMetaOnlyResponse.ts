@@ -57,11 +57,11 @@ export function DefaultMetaOnlyResponseFromJSONTyped(json: any, ignoreDiscrimina
     };
 }
 
-  export function DefaultMetaOnlyResponseToJSON(json: any): DefaultMetaOnlyResponse {
-      return DefaultMetaOnlyResponseToJSONTyped(json, false);
-  }
+export function DefaultMetaOnlyResponseToJSON(json: any): DefaultMetaOnlyResponse {
+    return DefaultMetaOnlyResponseToJSONTyped(json, false);
+}
 
-  export function DefaultMetaOnlyResponseToJSONTyped(value?: DefaultMetaOnlyResponse | null, ignoreDiscriminator: boolean = false): any {
+export function DefaultMetaOnlyResponseToJSONTyped(value?: DefaultMetaOnlyResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

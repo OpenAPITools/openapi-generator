@@ -72,7 +72,7 @@ pub trait {{classnamePascalCase}} {
     {{#x-consumes-multipart-related}}
         body: axum::body::Body,
     {{/x-consumes-multipart-related}}
-    ) -> Result<{{{operationId}}}Response, String>;
+    ) -> Result<{{{operationId}}}Response, ()>;
   {{/vendorExtensions}}
   {{^-last}}
 

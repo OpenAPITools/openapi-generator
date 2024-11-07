@@ -26,5 +26,5 @@ pub trait InfoRepo {
         host: Host,
         cookies: CookieJar,
         path_params: models::GetRepoInfoPathParams,
-    ) -> Result<GetRepoInfoResponse, String>;
+    ) -> Result<GetRepoInfoResponse, ()>;
 }

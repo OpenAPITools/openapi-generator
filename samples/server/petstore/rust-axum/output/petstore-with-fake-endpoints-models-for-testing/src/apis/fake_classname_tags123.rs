@@ -28,5 +28,5 @@ pub trait FakeClassnameTags123 {
         host: Host,
         cookies: CookieJar,
         body: models::Client,
-    ) -> Result<TestClassnameResponse, String>;
+    ) -> Result<TestClassnameResponse, ()>;
 }

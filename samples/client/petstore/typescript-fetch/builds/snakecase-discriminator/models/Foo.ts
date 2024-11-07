@@ -48,11 +48,11 @@ export function FooFromJSONTyped(json: any, ignoreDiscriminator: boolean): Foo {
     };
 }
 
-  export function FooToJSON(json: any): Foo {
-      return FooToJSONTyped(json, false);
-  }
+export function FooToJSON(json: any): Foo {
+    return FooToJSONTyped(json, false);
+}
 
-  export function FooToJSONTyped(value?: Foo | null, ignoreDiscriminator: boolean = false): any {
+export function FooToJSONTyped(value?: Foo | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
