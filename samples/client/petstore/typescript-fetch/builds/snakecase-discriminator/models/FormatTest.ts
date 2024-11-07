@@ -157,11 +157,11 @@ export function FormatTestFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     };
 }
 
-  export function FormatTestToJSON(json: any): FormatTest {
-      return FormatTestToJSONTyped(json, false);
-  }
+export function FormatTestToJSON(json: any): FormatTest {
+    return FormatTestToJSONTyped(json, false);
+}
 
-  export function FormatTestToJSONTyped(value?: FormatTest | null, ignoreDiscriminator: boolean = false): any {
+export function FormatTestToJSONTyped(value?: FormatTest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

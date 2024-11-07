@@ -112,11 +112,11 @@ export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
     };
 }
 
-  export function PetToJSON(json: any): Pet {
-      return PetToJSONTyped(json, false);
-  }
+export function PetToJSON(json: any): Pet {
+    return PetToJSONTyped(json, false);
+}
 
-  export function PetToJSONTyped(value?: Pet | null, ignoreDiscriminator: boolean = false): any {
+export function PetToJSONTyped(value?: Pet | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
