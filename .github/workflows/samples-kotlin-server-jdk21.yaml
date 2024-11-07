@@ -4,9 +4,11 @@ on:
   push:
     paths:
       - 'samples/server/petstore/kotlin-server/**'
+      - 'samples/server/petstore/kotlin-server-required-and-nullable-properties/**'
   pull_request:
     paths:
       - 'samples/server/petstore/kotlin-server/**'
+      - 'samples/server/petstore/kotlin-server-required-and-nullable-properties/**'
 
 env:
   GRADLE_VERSION: '8.10'
@@ -21,6 +23,7 @@ jobs:
         sample:
           - samples/server/petstore/kotlin-server/javalin-6
           - samples/server/petstore/kotlin-server/ktor
+          - samples/server/petstore/kotlin-server-required-and-nullable-properties
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4

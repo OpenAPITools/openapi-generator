@@ -7,6 +7,7 @@ on:
       - 'samples/server/petstore/kotlin-server/**'
       - 'samples/server/petstore/kotlin-server-modelMutable/**'
       - 'samples/server/petstore/kotlin-springboot-*/**'
+      - 'samples/server/petstore/kotlin-server-required-and-nullable-properties/**'
       # comment out due to gradle build failure
       # - samples/server/petstore/kotlin-spring-default/**
   pull_request:
@@ -15,6 +16,7 @@ on:
       - 'samples/server/petstore/kotlin-server/**'
       - 'samples/server/petstore/kotlin-server-modelMutable/**'
       - 'samples/server/petstore/kotlin-springboot-*/**'
+      - 'samples/server/petstore/kotlin-server-required-and-nullable-properties/**'
       # comment out due to gradle build failure
       # - samples/server/petstore/kotlin-spring-default/**
 
@@ -30,6 +32,7 @@ jobs:
       matrix:
         sample:
           # server
+          - samples/server/petstore/kotlin-server-required-and-nullable-properties
           - samples/server/petstore/kotlin-springboot-3
           - samples/server/petstore/kotlin-springboot-delegate-nodefaults
           - samples/server/petstore/kotlin-springboot-request-cookie
