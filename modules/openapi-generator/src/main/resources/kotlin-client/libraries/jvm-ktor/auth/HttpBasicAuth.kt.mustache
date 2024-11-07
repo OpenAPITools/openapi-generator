@@ -1,6 +1,6 @@
 package {{packageName}}.auth
 
-import io.ktor.util.InternalAPI
+import io.ktor.util.io.InternalAPI
 import io.ktor.util.encodeBase64
 
 {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class HttpBasicAuth : Authentication {
