@@ -71,11 +71,11 @@ export function GetMatchingPartsResponseFromJSONTyped(json: any, ignoreDiscrimin
     };
 }
 
-  export function GetMatchingPartsResponseToJSON(json: any): GetMatchingPartsResponse {
-      return GetMatchingPartsResponseToJSONTyped(json, false);
-  }
+export function GetMatchingPartsResponseToJSON(json: any): GetMatchingPartsResponse {
+    return GetMatchingPartsResponseToJSONTyped(json, false);
+}
 
-  export function GetMatchingPartsResponseToJSONTyped(value?: GetMatchingPartsResponse | null, ignoreDiscriminator: boolean = false): any {
+export function GetMatchingPartsResponseToJSONTyped(value?: GetMatchingPartsResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

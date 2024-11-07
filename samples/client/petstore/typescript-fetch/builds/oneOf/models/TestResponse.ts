@@ -52,7 +52,11 @@ export function TestResponseFromJSONTyped(json: any, ignoreDiscriminator: boolea
     return {} as any;
 }
 
-export function TestResponseToJSON(value?: TestResponse | null): any {
+export function TestResponseToJSON(json: any): any {
+    return TestResponseToJSONTyped(json, false);
+}
+
+export function TestResponseToJSONTyped(value?: TestResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
