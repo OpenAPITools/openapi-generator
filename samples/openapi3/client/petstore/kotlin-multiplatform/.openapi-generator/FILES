@@ -116,7 +116,3 @@ src/commonMain/kotlin/org/openapitools/client/models/Return.kt
 src/commonMain/kotlin/org/openapitools/client/models/SpecialModelname.kt
 src/commonMain/kotlin/org/openapitools/client/models/Tag.kt
 src/commonMain/kotlin/org/openapitools/client/models/User.kt
-src/commonTest/kotlin/util/Coroutine.kt
-src/iosTest/kotlin/util/Coroutine.kt
-src/jsTest/kotlin/util/Coroutine.kt
-src/jvmTest/kotlin/util/Coroutine.kt
