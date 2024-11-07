@@ -49,7 +49,7 @@ export function {{classname}}ToJSON(value?: {{classname}} | null): any {
     switch (value['{{discriminator.propertyName}}']) {
 {{#discriminator.mappedModels}}
         case '{{mappingName}}':
-            return {{modelName}}ToJSON(value);
+            return Object.assign({}, {{modelName}}ToJSON(value), { {{discriminator.propertyName}}: '{{mappingName}}' } as const);
 {{/discriminator.mappedModels}}
         default:
             throw new Error(`No variant of {{classname}} exists with '{{discriminator.propertyName}}=${value['{{discriminator.propertyName}}']}'`);
