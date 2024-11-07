@@ -362,18 +362,18 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         {{^supportMultipleResponses}}
-        {{^returnType}}
-        Ok(())
-        {{/returnType}}
-        {{#returnType}}
         {{#isResponseFile}}
         Ok(local_var_resp)
         {{/isResponseFile}}
         {{^isResponseFile}}
+        {{^returnType}}
+        Ok(())
+        {{/returnType}}
+        {{#returnType}}
         let local_var_content = local_var_resp.text(){{#supportAsync}}.await{{/supportAsync}}?;
         serde_json::from_str(&local_var_content).map_err(Error::from)
-        {{/isResponseFile}}
         {{/returnType}}
+        {{/isResponseFile}}
         {{/supportMultipleResponses}}
         {{#supportMultipleResponses}}
         {{#isResponseFile}}
