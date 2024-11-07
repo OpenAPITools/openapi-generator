@@ -26,5 +26,5 @@ pub trait Default {
         host: Host,
         cookies: CookieJar,
         body: models::Email,
-    ) -> Result<MailPutResponse, String>;
+    ) -> Result<MailPutResponse, ()>;
 }

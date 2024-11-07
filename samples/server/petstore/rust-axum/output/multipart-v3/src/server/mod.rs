@@ -76,11 +76,7 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
-            // Application code returned an error. This should not happen, as the implementation should
-            // return a valid response.
-            response.status(500).body(Body::empty())
-        }
+        Err(_) => response.status(500).body(Body::empty()),
     };
 
     resp.map_err(|e| {
@@ -132,11 +128,7 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
-            // Application code returned an error. This should not happen, as the implementation should
-            // return a valid response.
-            response.status(500).body(Body::empty())
-        }
+        Err(_) => response.status(500).body(Body::empty()),
     };
 
     resp.map_err(|e| {
@@ -189,11 +181,7 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
-            // Application code returned an error. This should not happen, as the implementation should
-            // return a valid response.
-            response.status(500).body(Body::empty())
-        }
+        Err(_) => response.status(500).body(Body::empty()),
     };
 
     resp.map_err(|e| {
