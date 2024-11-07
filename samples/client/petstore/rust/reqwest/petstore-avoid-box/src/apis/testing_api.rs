@@ -19,7 +19,7 @@ use super::{Error, configuration};
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum TestsFileResponseGetSuccess {
-    Status200(reqwest::Response),
+    Status200(std::path::PathBuf),
     UnknownValue(serde_json::Value),
 }
 
@@ -46,7 +46,7 @@ pub enum TestsTypeTestingGetError {
 }
 
 
-pub async fn tests_file_response_get(configuration: &configuration::Configuration) -> Result<ResponseContent<TestsFileResponseGetSuccess>, Error<TestsFileResponseGetError>> {
+pub async fn tests_file_response_get(configuration: &configuration::Configuration) -> Result<reqwest::Response, Error<TestsFileResponseGetError>> {
     let local_var_configuration = configuration;
 
     // unbox the parameters
@@ -67,10 +67,7 @@ pub async fn tests_file_response_get(configuration: &configuration::Configuratio
     let local_var_status = local_var_resp.status();
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        let local_var_content = String::new();
-        let local_var_entity = TestsFileResponseGetSuccess::Status200(local_var_resp);
-        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Ok(local_var_result)
+        Ok(local_var_resp)
     } else {
         let local_var_content = local_var_resp.text().await?;
         let local_var_entity: Option<TestsFileResponseGetError> = serde_json::from_str(&local_var_content).ok();
