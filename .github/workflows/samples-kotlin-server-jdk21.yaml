@@ -9,7 +9,7 @@ on:
       - 'samples/server/petstore/kotlin-server/**'
 
 env:
-  GRADLE_VERSION: 8.8
+  GRADLE_VERSION: 8.10
 
 jobs:
   build:
@@ -20,8 +20,6 @@ jobs:
       matrix:
         sample:
           - samples/server/petstore/kotlin-server/javalin-6
-          - samples/server/petstore/kotlin-server/jaxrs-spec
-          - samples/server/petstore/kotlin-server/jaxrs-spec-mutiny
           - samples/server/petstore/kotlin-server/ktor
     steps:
       - uses: actions/checkout@v4
