@@ -1,4 +1,4 @@
-name: Samples Kotlin server
+name: Samples Kotlin server (jdk8)
 
 on:
   push:
@@ -21,7 +21,7 @@ env:
 
 jobs:
   build:
-    name: Build Kotlin server
+    name: Build Kotlin server (jdk8)
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
