@@ -19,7 +19,7 @@ on:
       # - samples/server/petstore/kotlin-spring-default/**
 
 env:
-  GRADLE_VERSION: 8.10
+  GRADLE_VERSION: '8.10'
 
 jobs:
   build:
