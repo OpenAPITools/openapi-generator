@@ -2,7 +2,8 @@
   "compilerOptions": {
     "strict": true,
     /* Basic Options */
-    "target": "es5",
+    "target": "es6",
+    "esModuleInterop": true,
     "moduleResolution": "node",
     "declaration": true,
 
