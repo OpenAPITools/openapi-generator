@@ -2,7 +2,7 @@ name: Samples Kotlin server (jdk21)
 
 on:
   push:
-    branches:
+    paths:
       - 'samples/server/petstore/kotlin-server/javalin-6/**'
   pull_request:
     paths:

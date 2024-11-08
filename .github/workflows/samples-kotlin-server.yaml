@@ -2,7 +2,7 @@ name: Samples Kotlin server
 
 on:
   push:
-    branches:
+    paths:
       - samples/server/others/kotlin-server/jaxrs-spec/**
       - 'samples/server/petstore/kotlin*/**'
       - 'samples/server/others/kotlin-server/jaxrs-spec-array-response/**'

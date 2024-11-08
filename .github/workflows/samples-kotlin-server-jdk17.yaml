@@ -2,7 +2,7 @@ name: Samples Kotlin server (jdk17)
 
 on:
   push:
-    branches:
+    paths:
       - 'samples/server/petstore/kotlin-springboot-3*/**'
       - 'samples/server/petstore/kotlin-server/**'
       - 'samples/server/petstore/kotlin-server-modelMutable/**'
