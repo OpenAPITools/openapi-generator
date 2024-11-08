@@ -1,16 +1,8 @@
 version: 2.0
 shards:
-  ameba:
-    git: https://github.com/crystal-ameba/ameba.git
-    version: 0.14.3
-
   crest:
     git: https://github.com/mamantoha/crest.git
-    version: 0.26.8
-
-  exception_page:
-    git: https://github.com/crystal-loot/exception_page.git
-    version: 0.1.5
+    version: 1.3.13
 
   http-client-digest_auth:
     git: https://github.com/mamantoha/http-client-digest_auth.git
@@ -18,17 +10,5 @@ shards:
 
   http_proxy:
     git: https://github.com/mamantoha/http_proxy.git
-    version: 0.8.0
-
-  kemal:
-    git: https://github.com/kemalcr/kemal.git
-    version: 0.27.0
-
-  kilt:
-    git: https://github.com/jeromegn/kilt.git
-    version: 0.4.1
-
-  radix:
-    git: https://github.com/luislavena/radix.git
-    version: 0.3.9
+    version: 0.10.3
 

@@ -70,6 +70,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val templateDir = project.objects.property<String?>()
 
     /**
+     * The template location (which may be a directory or a classpath location) holding custom templates.
+     */
+    val templateResourcePath = project.objects.property<String?>()
+
+    /**
      * Adds authorization headers when fetching the OpenAPI definitions remotely.
      * Pass in a URL-encoded string of name:header with a comma separating multiple values
      */
@@ -191,6 +196,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
      * Specifies mappings between an enum name and the new name
      */
     val enumNameMappings = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies mappings between an operation id name and the new name
+     */
+    val operationIdNameMappings = project.objects.mapProperty<String, String>()
 
     /**
      * Specifies mappings (rules) in OpenAPI normalizer
@@ -338,12 +348,6 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val generateApiDocumentation = project.objects.property<Boolean>()
 
     /**
-     * A special-case setting which configures some generators with XML support. In some cases,
-     * this forces json OR xml, so the default here is false.
-     */
-    val withXml = project.objects.property<Boolean>()
-
-    /**
      * To write all log messages (not just errors) to STDOUT
      */
     val logToStderr = project.objects.property<Boolean>()
@@ -403,7 +407,6 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
         generateModelDocumentation.set(true)
         generateApiTests.set(true)
         generateApiDocumentation.set(true)
-        withXml.set(false)
         configOptions.set(mapOf())
         validateSpec.set(true)
         logToStderr.set(false)

@@ -7,6 +7,13 @@ async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}<I, A>(
 {{#headerParams.size}}
   headers: HeaderMap,
 {{/headerParams.size}}
+{{^headerParams.size}}
+{{#vendorExtensions}}
+{{#x-has-header-auth-methods}}
+  headers: HeaderMap,
+{{/x-has-header-auth-methods}}
+{{/vendorExtensions}}
+{{/headerParams.size}}
 {{#pathParams.size}}
   Path(path_params): Path<models::{{{operationIdCamelCase}}}PathParams>,
 {{/pathParams.size}}
@@ -45,16 +52,36 @@ async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}<I, A>(
 {{/x-consumes-multipart-related}}
 {{/vendorExtensions}}
 ) -> Result<Response, StatusCode>
-where 
+where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::{{classFilename}}::{{classnamePascalCase}}{{#vendorExtensions}}{{#x-has-cookie-auth-methods}}+ apis::CookieAuthentication{{/x-has-cookie-auth-methods}}{{#x-has-header-auth-methods}}+ apis::ApiKeyAuthHeader{{/x-has-header-auth-methods}}{{/vendorExtensions}},
 {
+{{#vendorExtensions}}
+{{#x-has-auth-methods}}
+    // Authentication
+{{/x-has-auth-methods}}
+{{#x-has-cookie-auth-methods}}
+    let token_in_cookie = api_impl.as_ref().extract_token_from_cookie(&cookies, "{{x-api-key-cookie-name}}");
+{{/x-has-cookie-auth-methods}}
+{{#x-has-header-auth-methods}}
+    let token_in_header = api_impl.as_ref().extract_token_from_header(&headers, "{{x-api-key-header-name}}");
+{{/x-has-header-auth-methods}}
+{{#x-has-auth-methods}}
+    if let ({{#x-has-cookie-auth-methods}}None,{{/x-has-cookie-auth-methods}}{{#x-has-header-auth-methods}}None,{{/x-has-header-auth-methods}}) = ({{#x-has-cookie-auth-methods}}&token_in_cookie,{{/x-has-cookie-auth-methods}}{{#x-has-header-auth-methods}}&token_in_header,{{/x-has-header-auth-methods}}) {
+        return Response::builder()
+                    .status(StatusCode::UNAUTHORIZED)
+                    .body(Body::empty())
+                    .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
+    }
+{{/x-has-auth-methods}}
+{{/vendorExtensions}}
+
 {{#headerParams}}
   {{#-first}}
     // Header parameters
     let header_params = {
   {{/-first}}
-                let header_{{{paramName}}} = headers.get(HeaderName::from_static("{{{nameInLowerCase}}}"));
+                let header_{{{paramName}}} = headers.get(HeaderName::from_static("{{{baseName}}}"));
 
                 let header_{{{paramName}}} = match header_{{{paramName}}} {
                     Some(v) => match header::IntoHeaderValue::<{{{dataType}}}>::try_from((*v).clone()) {
@@ -94,21 +121,21 @@ where
        }
   };
 
-  {{/-last}} 
+  {{/-last}}
 {{/headerParams}}
 
   {{^disableValidator}}
     {{^allowBlockingValidator}}
       #[allow(clippy::redundant_closure)]
-      let validation = tokio::task::spawn_blocking(move || 
-    {{/allowBlockingValidator}} 
+      let validation = tokio::task::spawn_blocking(move ||
+    {{/allowBlockingValidator}}
     {{#allowBlockingValidator}}
       let validation =
     {{/allowBlockingValidator}}
     {{#vendorExtensions}}{{{x-operation-id}}}_validation{{/vendorExtensions}}(
       {{#headerParams.size}}
         header_params,
-      {{/headerParams.size}} 
+      {{/headerParams.size}}
       {{#pathParams.size}}
         path_params,
       {{/pathParams.size}}
@@ -120,7 +147,7 @@ where
         {{#bodyParam}}
           body,
         {{/bodyParam}}
-      {{/x-consumes-multipart}} 
+      {{/x-consumes-multipart}}
       {{/x-consumes-multipart-related}}
     )
   {{^allowBlockingValidator}}).await.unwrap(){{/allowBlockingValidator}};
@@ -128,7 +155,7 @@ where
   let Ok((
   {{#headerParams.size}}
     header_params,
-  {{/headerParams.size}} 
+  {{/headerParams.size}}
   {{#pathParams.size}}
     path_params,
   {{/pathParams.size}}
@@ -140,13 +167,13 @@ where
     {{#bodyParam}}
       body,
     {{/bodyParam}}
-  {{/x-consumes-multipart}}  
+  {{/x-consumes-multipart}}
   {{/x-consumes-multipart-related}}
   )) = validation else {
     return Response::builder()
             .status(StatusCode::BAD_REQUEST)
             .body(Body::from(validation.unwrap_err().to_string()))
-            .map_err(|_| StatusCode::BAD_REQUEST); 
+            .map_err(|_| StatusCode::BAD_REQUEST);
   };
   {{/disableValidator}}
 
@@ -154,6 +181,14 @@ where
       method,
       host,
       cookies,
+      {{#vendorExtensions}}
+        {{#x-has-cookie-auth-methods}}
+          token_in_cookie,
+        {{/x-has-cookie-auth-methods}}
+        {{#x-has-header-auth-methods}}
+          token_in_header,
+        {{/x-has-header-auth-methods}}
+      {{/vendorExtensions}}
       {{#headerParams.size}}
         header_params,
       {{/headerParams.size}}
@@ -187,7 +222,7 @@ where
   let resp = match result {
                                             Ok(rsp) => match rsp {
 {{#responses}}
-                                                {{{operationId}}}Response::{{#vendorExtensions}}{{x-response-id}}{{/vendorExtensions}}
+                                                apis::{{classFilename}}::{{{operationId}}}Response::{{#vendorExtensions}}{{x-response-id}}{{/vendorExtensions}}
 {{#dataType}}
 {{^headers}}
                                                     (body)
@@ -228,11 +263,11 @@ where
                                                         }
                                                     };
 
-                                                    
+
                                                     {
                                                       let mut response_headers = response.headers_mut().unwrap();
                                                       response_headers.insert(
-                                                          HeaderName::from_static("{{{nameInLowerCase}}}"),
+                                                          HeaderName::from_static("{{{baseName}}}"),
                                                           {{name}}
                                                       );
                                                     }
@@ -240,8 +275,12 @@ where
                                                     }
   {{/required}}
 {{/headers}}
-
+{{#range}}
+                                                  response.status::<u16>(body.code.parse().unwrap());  // {{{code}}}
+{{/range}}
+{{^range}}
                                                   let mut response = response.status({{{code}}});
+{{/range}}
 {{#produces}}
 {{#-first}}
 {{#dataType}}
@@ -264,7 +303,7 @@ where
                                                   let body_content =  tokio::task::spawn_blocking(move ||
   {{/allowBlockingResponseSerialize}}
   {{#allowBlockingResponseSerialize}}
-                                                  let body_content = 
+                                                  let body_content =
   {{/allowBlockingResponseSerialize}}
                                                       serde_json::to_vec(&body).map_err(|e| {
                                                         error!(error = ?e);
@@ -276,7 +315,7 @@ where
                                                   let body_content =  tokio::task::spawn_blocking(move ||
   {{/allowBlockingResponseSerialize}}
   {{#allowBlockingResponseSerialize}}
-                                                  let body_content = 
+                                                  let body_content =
   {{/allowBlockingResponseSerialize}}
                                                       serde_urlencoded::to_string(body).map_err(|e| {
                                                         error!(error = ?e);

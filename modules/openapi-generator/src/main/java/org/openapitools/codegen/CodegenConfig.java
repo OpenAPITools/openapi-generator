@@ -158,6 +158,8 @@ public interface CodegenConfig {
 
     Map<String, String> enumNameMapping();
 
+    Map<String, String> operationIdNameMapping();
+
     Map<String, String> openapiNormalizer();
 
     Map<String, String> apiTemplateFiles();
@@ -254,6 +256,10 @@ public interface CodegenConfig {
 
     void setSkipOperationExample(boolean skipOperationExample);
 
+    boolean isSkipSortingOperations();
+
+    void setSkipSortingOperations(boolean skipSortingOperations);
+
     public boolean isHideGenerationTimestamp();
 
     public void setHideGenerationTimestamp(boolean hideGenerationTimestamp);
@@ -348,14 +354,16 @@ public interface CodegenConfig {
     */
     String generatorLanguageVersion();
 
+    boolean isTypeErasedGenerics();
+
     List<VendorExtension> getSupportedVendorExtensions();
 
     boolean getUseInlineModelResolver();
 
     boolean getAddSuffixToDuplicateOperationNicknames();
 
-    boolean getUseOpenAPINormalizer();
+    boolean getUseOpenapiNormalizer();
 
-    Set<String> getOpenAPIGeneratorIgnoreList();
+    Set<String> getOpenapiGeneratorIgnoreList();
 
 }

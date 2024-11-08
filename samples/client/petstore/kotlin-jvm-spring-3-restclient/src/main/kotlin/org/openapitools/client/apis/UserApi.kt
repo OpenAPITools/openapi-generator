@@ -39,8 +39,7 @@ class UserApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun createUser(user: User): Unit {
-        return createUserWithHttpInfo(user = user)
-            .body!!
+        createUserWithHttpInfo(user = user)
     }
 
     @Throws(RestClientResponseException::class)
@@ -74,8 +73,7 @@ class UserApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun createUsersWithArrayInput(user: kotlin.collections.List<User>): Unit {
-        return createUsersWithArrayInputWithHttpInfo(user = user)
-            .body!!
+        createUsersWithArrayInputWithHttpInfo(user = user)
     }
 
     @Throws(RestClientResponseException::class)
@@ -109,8 +107,7 @@ class UserApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun createUsersWithListInput(user: kotlin.collections.List<User>): Unit {
-        return createUsersWithListInputWithHttpInfo(user = user)
-            .body!!
+        createUsersWithListInputWithHttpInfo(user = user)
     }
 
     @Throws(RestClientResponseException::class)
@@ -144,8 +141,7 @@ class UserApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun deleteUser(username: kotlin.String): Unit {
-        return deleteUserWithHttpInfo(username = username)
-            .body!!
+        deleteUserWithHttpInfo(username = username)
     }
 
     @Throws(RestClientResponseException::class)
@@ -179,8 +175,8 @@ class UserApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun getUserByName(username: kotlin.String): User {
-        return getUserByNameWithHttpInfo(username = username)
-            .body!!
+        val result = getUserByNameWithHttpInfo(username = username)
+        return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
@@ -215,8 +211,8 @@ class UserApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun loginUser(username: kotlin.String, password: kotlin.String): kotlin.String {
-        return loginUserWithHttpInfo(username = username, password = password)
-            .body!!
+        val result = loginUserWithHttpInfo(username = username, password = password)
+        return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
@@ -254,8 +250,7 @@ class UserApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun logoutUser(): Unit {
-        return logoutUserWithHttpInfo()
-            .body!!
+        logoutUserWithHttpInfo()
     }
 
     @Throws(RestClientResponseException::class)
@@ -288,8 +283,7 @@ class UserApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun updateUser(username: kotlin.String, user: User): Unit {
-        return updateUserWithHttpInfo(username = username, user = user)
-            .body!!
+        updateUserWithHttpInfo(username = username, user = user)
     }
 
     @Throws(RestClientResponseException::class)

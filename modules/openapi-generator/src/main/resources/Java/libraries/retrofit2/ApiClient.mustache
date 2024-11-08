@@ -1,8 +1,12 @@
+{{>licenseInfo}}
+
 package {{invokerPackage}};
 
+{{#gson}}
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonElement;
+{{/gson}}
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
@@ -20,9 +24,14 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 {{/useRxJava2}}
 {{#useRxJava3}}
-import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 {{/useRxJava3}}
+{{#gson}}
 import retrofit2.converter.gson.GsonConverterFactory;
+{{/gson}}
+{{#jackson}}
+import retrofit2.converter.jackson.JacksonConverterFactory;
+{{/jackson}}
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 import {{invokerPackage}}.auth.HttpBasicAuth;
 import {{invokerPackage}}.auth.HttpBearerAuth;
@@ -157,7 +166,12 @@ public class ApiClient {
       .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
       {{/useRxJava3}}
       .addConverterFactory(ScalarsConverterFactory.create())
+      {{#jackson}}
+      .addConverterFactory(JacksonConverterFactory.create(json.getMapper()));
+      {{/jackson}}
+      {{#gson}}
       .addConverterFactory(GsonCustomConverterFactory.create(json.getGson()));
+      {{/gson}}
   }
 
   public <S> S createService(Class<S> serviceClass) {
@@ -173,6 +187,7 @@ public class ApiClient {
     return this;
   }
 
+  {{#gson}}
   public ApiClient setSqlDateFormat(DateFormat dateFormat) {
     this.json.setSqlDateFormat(dateFormat);
     return this;
@@ -200,8 +215,9 @@ public class ApiClient {
     this.json.setLocalDateFormat(dateFormat);
     return this;
   }
-
   {{/jsr310}}
+  {{/gson}}
+
 
   /**
    * Helper method to configure the first api key found
@@ -401,6 +417,7 @@ public class ApiClient {
   }
 }
 
+{{#gson}}
 /**
  * This wrapper is to take care of this case:
  * when the deserialization fails due to JsonParseException and the
@@ -455,3 +472,4 @@ class GsonCustomConverterFactory extends Converter.Factory
     return gsonConverterFactory.requestBodyConverter(type, parameterAnnotations, methodAnnotations, retrofit);
   }
 }
+{{/gson}}

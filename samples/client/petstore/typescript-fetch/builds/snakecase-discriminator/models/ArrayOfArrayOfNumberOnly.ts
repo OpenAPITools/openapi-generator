@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -30,10 +30,8 @@ export interface ArrayOfArrayOfNumberOnly {
 /**
  * Check if a given object implements the ArrayOfArrayOfNumberOnly interface.
  */
-export function instanceOfArrayOfArrayOfNumberOnly(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfArrayOfArrayOfNumberOnly(value: object): value is ArrayOfArrayOfNumberOnly {
+    return true;
 }
 
 export function ArrayOfArrayOfNumberOnlyFromJSON(json: any): ArrayOfArrayOfNumberOnly {
@@ -41,25 +39,27 @@ export function ArrayOfArrayOfNumberOnlyFromJSON(json: any): ArrayOfArrayOfNumbe
 }
 
 export function ArrayOfArrayOfNumberOnlyFromJSONTyped(json: any, ignoreDiscriminator: boolean): ArrayOfArrayOfNumberOnly {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'arrayArrayNumber': !exists(json, 'ArrayArrayNumber') ? undefined : json['ArrayArrayNumber'],
+        'arrayArrayNumber': json['ArrayArrayNumber'] == null ? undefined : json['ArrayArrayNumber'],
     };
 }
 
-export function ArrayOfArrayOfNumberOnlyToJSON(value?: ArrayOfArrayOfNumberOnly | null): any {
-    if (value === undefined) {
-        return undefined;
+export function ArrayOfArrayOfNumberOnlyToJSON(json: any): ArrayOfArrayOfNumberOnly {
+    return ArrayOfArrayOfNumberOnlyToJSONTyped(json, false);
+}
+
+export function ArrayOfArrayOfNumberOnlyToJSONTyped(value?: ArrayOfArrayOfNumberOnly | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'ArrayArrayNumber': value.arrayArrayNumber,
+        'ArrayArrayNumber': value['arrayArrayNumber'],
     };
 }
 

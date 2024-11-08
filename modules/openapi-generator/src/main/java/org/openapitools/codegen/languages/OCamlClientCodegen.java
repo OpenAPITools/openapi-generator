@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -34,7 +35,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -51,8 +51,8 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     public static final String CO_HTTP = "cohttp";
 
-    protected String packageName = "openapi";
-    protected String packageVersion = "1.0.0";
+    @Setter protected String packageName = "openapi";
+    @Setter protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected String apiFolder = "src/apis";
@@ -62,14 +62,17 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     private Map<String, Schema> enumHash = new HashMap<>();
     private Map<String, String> enumUniqNames;
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "ocaml";
     }
 
+    @Override
     public String getHelp() {
         return "Generates an OCaml client library (beta).";
     }
@@ -279,9 +282,9 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     private void collectEnumSchemas(String parentName, String sName, Schema schema) {
-        if (schema instanceof ArraySchema) {
-            collectEnumSchemas(parentName, sName, ((ArraySchema) schema).getItems());
-        } else if (schema instanceof MapSchema && schema.getAdditionalProperties() instanceof Schema) {
+        if (ModelUtils.isArraySchema(schema)) {
+            collectEnumSchemas(parentName, sName, ModelUtils.getSchemaItems(schema));
+        } else if (ModelUtils.isMapSchema(schema) && schema.getAdditionalProperties() instanceof Schema) {
             collectEnumSchemas(parentName, sName, (Schema) schema.getAdditionalProperties());
         } else if (isEnumSchema(schema)) {
             String h = hashEnum(schema);
@@ -317,11 +320,10 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                 collectEnumSchemas(pName, (Schema) schema.getAdditionalProperties());
             }
 
-            if (schema instanceof ArraySchema) {
-                ArraySchema s = (ArraySchema) schema;
-                if (s.getItems() != null) {
+            if (ModelUtils.isArraySchema(schema)) {
+                if (ModelUtils.getSchemaItems(schema) != null) {
                     String pName = parentName != null ? parentName + "_" + sName : sName;
-                    collectEnumSchemas(pName, s.getItems());
+                    collectEnumSchemas(pName, ModelUtils.getSchemaItems(schema));
                 }
             }
         }
@@ -343,7 +345,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             if (operation.getResponses() != null) {
                 for (Map.Entry<String, ApiResponse> operationGetResponsesEntry : operation.getResponses().entrySet()) {
                     String s = operationGetResponsesEntry.getKey();
-                    ApiResponse apiResponse = operationGetResponsesEntry.getValue();
+                    ApiResponse apiResponse = ModelUtils.getReferencedApiResponse(openAPI, operationGetResponsesEntry.getValue());
                     if (apiResponse.getContent() != null) {
                         Content content = apiResponse.getContent();
                         for (String p : content.keySet()) {
@@ -581,11 +583,10 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             if (inner == null) {
                 LOGGER.warn("{}(array property) does not have a proper inner type defined.Default to string",
-                        ap.getName());
+                        p.getName());
                 inner = new StringSchema().description("TODO default missing array inner type to string");
             }
             return getTypeDeclaration(inner) + " list";
@@ -754,14 +755,6 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                 && !languageSpecificPrimitives.contains(type);
     }
 
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
-    }
-
     @Override
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
@@ -812,20 +805,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         }
         // only process files with ml or mli extension
         if ("ml".equals(FilenameUtils.getExtension(file.toString())) || "mli".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = ocamlPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[] {ocamlPostProcessFile, file.toString()});
         }
     }
 

@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.tag import Tag
 from typing import Optional, Set
@@ -31,11 +31,11 @@ class MapOfArrayOfModel(BaseModel):
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["shopIdToOrgOnlineLipMap"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -75,10 +75,10 @@ class MapOfArrayOfModel(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of each value in shop_id_to_org_online_lip_map (dict of array)
         _field_dict_of_array = {}
         if self.shop_id_to_org_online_lip_map:
-            for _key in self.shop_id_to_org_online_lip_map:
-                if self.shop_id_to_org_online_lip_map[_key] is not None:
-                    _field_dict_of_array[_key] = [
-                        _item.to_dict() for _item in self.shop_id_to_org_online_lip_map[_key]
+            for _key_shop_id_to_org_online_lip_map in self.shop_id_to_org_online_lip_map:
+                if self.shop_id_to_org_online_lip_map[_key_shop_id_to_org_online_lip_map] is not None:
+                    _field_dict_of_array[_key_shop_id_to_org_online_lip_map] = [
+                        _item.to_dict() for _item in self.shop_id_to_org_online_lip_map[_key_shop_id_to_org_online_lip_map]
                     ]
             _dict['shopIdToOrgOnlineLipMap'] = _field_dict_of_array
         # puts key-value pairs in additional_properties in the top level

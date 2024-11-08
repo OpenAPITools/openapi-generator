@@ -26,7 +26,7 @@ class Query(BaseModel):
     """
     Query
     """
-    id: Optional[StrictInt] = Field(None, description="Query")
+    id: Optional[StrictInt] = Field(default=None, description="Query")
     outcomes: Optional[conlist(StrictStr)] = None
     __properties = ["id", "outcomes"]
 
@@ -37,7 +37,7 @@ class Query(BaseModel):
             return value
 
         for i in value:
-            if i not in ('SUCCESS', 'FAILURE', 'SKIPPED'):
+            if i not in ('SUCCESS', 'FAILURE', 'SKIPPED',):
                 raise ValueError("each list item must be one of ('SUCCESS', 'FAILURE', 'SKIPPED')")
         return value
 

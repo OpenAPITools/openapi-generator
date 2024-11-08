@@ -9,6 +9,8 @@ Method | HTTP request | Description
 [**TestQueryIntegerBooleanString**](QueryApi.md#TestQueryIntegerBooleanString) | **GET** /query/integer/boolean/string | Test query parameter(s)
 [**TestQueryStyleDeepObjectExplodeTrueObject**](QueryApi.md#TestQueryStyleDeepObjectExplodeTrueObject) | **GET** /query/style_deepObject/explode_true/object | Test query parameter(s)
 [**TestQueryStyleDeepObjectExplodeTrueObjectAllOf**](QueryApi.md#TestQueryStyleDeepObjectExplodeTrueObjectAllOf) | **GET** /query/style_deepObject/explode_true/object/allOf | Test query parameter(s)
+[**TestQueryStyleFormExplodeFalseArrayInteger**](QueryApi.md#TestQueryStyleFormExplodeFalseArrayInteger) | **GET** /query/style_form/explode_false/array_integer | Test query parameter(s)
+[**TestQueryStyleFormExplodeFalseArrayString**](QueryApi.md#TestQueryStyleFormExplodeFalseArrayString) | **GET** /query/style_form/explode_false/array_string | Test query parameter(s)
 [**TestQueryStyleFormExplodeTrueArrayString**](QueryApi.md#TestQueryStyleFormExplodeTrueArrayString) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)
 [**TestQueryStyleFormExplodeTrueObject**](QueryApi.md#TestQueryStyleFormExplodeTrueObject) | **GET** /query/style_form/explode_true/object | Test query parameter(s)
 [**TestQueryStyleFormExplodeTrueObjectAllOf**](QueryApi.md#TestQueryStyleFormExplodeTrueObjectAllOf) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s)
@@ -240,6 +242,100 @@ dput(result)
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query_object** | [**TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter**](.md)|  | [optional] 
+
+### Return type
+
+**character**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
+
+# **TestQueryStyleFormExplodeFalseArrayInteger**
+> character TestQueryStyleFormExplodeFalseArrayInteger(query_object = var.query_object)
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Example
+```R
+library(openapi)
+
+# Test query parameter(s)
+#
+# prepare function argument(s)
+var_query_object <- c(123) # array[integer] |  (Optional)
+
+api_instance <- QueryApi$new()
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$TestQueryStyleFormExplodeFalseArrayInteger(query_object = var_query_objectdata_file = "result.txt")
+result <- api_instance$TestQueryStyleFormExplodeFalseArrayInteger(query_object = var_query_object)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **query_object** | list( **integer** )|  | [optional] 
+
+### Return type
+
+**character**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
+
+# **TestQueryStyleFormExplodeFalseArrayString**
+> character TestQueryStyleFormExplodeFalseArrayString(query_object = var.query_object)
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Example
+```R
+library(openapi)
+
+# Test query parameter(s)
+#
+# prepare function argument(s)
+var_query_object <- c("inner_example") # array[character] |  (Optional)
+
+api_instance <- QueryApi$new()
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$TestQueryStyleFormExplodeFalseArrayString(query_object = var_query_objectdata_file = "result.txt")
+result <- api_instance$TestQueryStyleFormExplodeFalseArrayString(query_object = var_query_object)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **query_object** | list( **character** )|  | [optional] 
 
 ### Return type
 

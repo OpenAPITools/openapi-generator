@@ -1,15 +1,16 @@
 package org.openapitools.codegen.online.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openapitools.codegen.online.model.ResponseCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.util.Assert;
 
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.not;
@@ -18,7 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @WebMvcTest(GenApiController.class)
 public class GenApiControllerTest {
 
@@ -124,12 +125,41 @@ public class GenApiControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(header().string(HttpHeaders.CONTENT_LENGTH, not(0)));
     }
+
     @Test
     public void generateClientWithInvalidOpenAPIUrl() throws Exception {
-        String invalidOpenAPIUrl = "https://test.com:1234/invalid_openapi.json";
+        final String invalidOpenAPIUrl = "https://[::1]/invalid_openapi.json";
         mockMvc.perform(post("http://test.com:1234/api/gen/clients/java")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"openAPIUrl\": \"" + invalidOpenAPIUrl + "\"}"))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void generateWithOpenAPINormalizer() throws Exception {
+        String withOpenAPINormalizer = "{\"openAPIUrl\":\"https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml\",\"openapiNormalizer\":[\"FILTER=operationId:updatePet\"],\"options\":{},\"spec\":{}}";
+        String withoutOpenAPINormalizer = "{\"openAPIUrl\":\"https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml\",\"options\":{},\"spec\":{}}";
+
+        String responseOfNormalized = mockMvc.perform(post("http://test.com:1234/api/gen/clients/java")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(withOpenAPINormalizer))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        String codeOfNormalized = new ObjectMapper().readValue(responseOfNormalized, ResponseCode.class).getCode();
+        Long lengthOfNormalized = Long.parseLong(mockMvc.perform(get("http://test.com:1234/api/gen/download/" + codeOfNormalized))
+                .andExpect(content().contentType("application/zip"))
+                .andExpect(status().isOk()).andReturn().getResponse().getHeader("Content-Length"));
+
+        String responseOfNotNormalized = mockMvc.perform(post("http://test.com:1234/api/gen/clients/java")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(withoutOpenAPINormalizer))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+
+        String codeOfNotNormalized = new ObjectMapper().readValue(responseOfNotNormalized, ResponseCode.class).getCode();
+        Long lengthOfNotNormalized = Long.parseLong(mockMvc.perform(get("http://test.com:1234/api/gen/download/" + codeOfNotNormalized))
+                .andExpect(content().contentType("application/zip"))
+                .andExpect(status().isOk()).andReturn().getResponse().getHeader("Content-Length"));
+
+        Assert.isTrue(lengthOfNormalized <= lengthOfNotNormalized,"Using the normalizer should result in a smaller or equal file size");
+
     }
 }

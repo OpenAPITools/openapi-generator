@@ -13,6 +13,9 @@ if [ "$NODE_INDEX" = "1" ]; then
   echo "Running node $NODE_INDEX ..."
   java -version
 
+  sudo apt-get -y install cpanminus
+
+  (cd samples/client/petstore/perl && /bin/bash ./test.bash)
   (cd samples/client/petstore/ruby && mvn integration-test)
   (cd samples/client/petstore/ruby-faraday && mvn integration-test)
   (cd samples/client/petstore/ruby-httpx && mvn integration-test)
@@ -36,10 +39,19 @@ elif [ "$NODE_INDEX" = "2" ]; then
   export PATH="/usr/local/go1.18/go/bin:$PATH"
   go version
 
+  # install cpprestsdk
+  sudo apt-get install libcpprest-dev
+  wget "https://github.com/aminya/setup-cpp/releases/download/v0.37.0/setup-cpp-x64-linux"
+  chmod +x ./setup-cpp-x64-linux
+  sudo ./setup-cpp-x64-linux --compiler llvm --cmake true --ninja true
+  source ~/.cpprc # activate cpp environment variables
+
   # run go integration tests
   (cd samples/client/petstore/go && mvn integration-test)
   (cd samples/openapi3/client/petstore/go && mvn integration-test)
   (cd samples/openapi3/client/petstore/go-petstore-generateMarshalJSON-false && mvn integration-test)
+  (cd samples/client/others/go/allof_multiple_ref_and_discriminator && mvn integration-test)
+  (cd samples/client/petstore/cpp-restsdk/client && mvn integration-test)
 
 elif [ "$NODE_INDEX" = "3" ]; then
 
@@ -66,6 +78,8 @@ elif [ "$NODE_INDEX" = "3" ]; then
   (cd samples/client/petstore/typescript-angular-v14-provided-in-root && mvn integration-test)
   (cd samples/client/petstore/typescript-angular-v15-provided-in-root && mvn integration-test)
   (cd samples/client/petstore/typescript-angular-v16-provided-in-root && mvn integration-test)
+  (cd samples/client/petstore/typescript-angular-v17-provided-in-root && mvn integration-test)
+  (cd samples/client/petstore/typescript-angular-v18-provided-in-root && mvn integration-test)
   (cd samples/openapi3/client/petstore/typescript/builds/default && mvn integration-test)
   (cd samples/openapi3/client/petstore/typescript/tests/default && mvn integration-test)
   (cd samples/openapi3/client/petstore/typescript/builds/jquery && mvn integration-test)
@@ -77,6 +91,7 @@ elif [ "$NODE_INDEX" = "3" ]; then
   #(cd samples/openapi3/client/petstore/typescript/tests/deno && mvn integration-test)
   (cd samples/openapi3/client/petstore/typescript/builds/browser && mvn integration-test)
   (cd samples/openapi3/client/petstore/typescript/tests/browser && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/builds/nullable-enum && mvn integration-test)
   (cd samples/client/petstore/typescript-fetch/builds/default && mvn integration-test)
   (cd samples/client/petstore/typescript-fetch/builds/es6-target && mvn integration-test)
   (cd samples/client/petstore/typescript-fetch/builds/with-npm-version && mvn integration-test)
@@ -85,6 +100,7 @@ elif [ "$NODE_INDEX" = "3" ]; then
   (cd samples/client/petstore/typescript-rxjs/builds/with-npm-version && mvn integration-test)
   (cd samples/client/petstore/typescript-axios/builds/with-npm-version && mvn integration-test)
   (cd samples/client/petstore/typescript-axios/tests/default && mvn integration-test)
+  (cd samples/client/petstore/typescript-axios/tests/with-complex-headers && mvn integration-test)
   (cd samples/client/petstore/javascript-flowtyped && mvn integration-test)
   (cd samples/client/petstore/javascript-es6 && mvn integration-test)
   (cd samples/client/petstore/javascript-promise-es6 && mvn integration-test)
@@ -100,13 +116,13 @@ else
   (cd samples/client/petstore/java/jersey2-java8 && mvn integration-test)
   (cd samples/openapi3/client/petstore/java/jersey2-java8 && mvn integration-test)
   (cd samples/client/petstore/java/jersey3 && mvn integration-test)
+  (cd samples/client/petstore/java/jersey3-oneOf && mvn integration-test)
   (cd samples/client/others/java/okhttp-gson-streaming && mvn integration-test)
   (cd samples/client/petstore/java/okhttp-gson && mvn integration-test)
   (cd samples/client/petstore/java/okhttp-gson-3.1 && mvn integration-test)
   (cd samples/client/petstore/java/resteasy && mvn integration-test)
   (cd samples/client/petstore/java-micronaut-client && mvn integration-test)
   (cd samples/client/petstore/java/apache-httpclient && mvn integration-test)
+  (cd samples/client/petstore/java/resttemplate-jakarta && mvn integration-test)
 
 fi
-
-

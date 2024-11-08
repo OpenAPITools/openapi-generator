@@ -17,7 +17,7 @@
 
 package org.openapitools.codegen.python;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import com.google.common.collect.Sets;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -31,7 +31,6 @@ import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileExists;
 import org.openapitools.codegen.TestUtils;
-import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import java.io.File;
@@ -529,5 +528,6 @@ public class PythonClientCodegenTest {
                 .get(Paths.get(output.getAbsolutePath(), "openapi_client", "api", "hello_example_api.py").toString());
         assertNotNull(apiFile);
         assertFileContains(apiFile.toPath(), "_header_params['X-CUSTOM_CONSTANT_HEADER'] = 'CONSTANT_VALUE'");
+        assertFileContains(apiFile.toPath(), "_query_params.append(('CONSTANT_QUERY_STRING_KEY', 'CONSTANT_QUERY_STRING_VALUE'))");
     }
 }

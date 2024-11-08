@@ -4,7 +4,9 @@ use std::pin::Pin;
 use futures;
 use futures::Future;
 use futures::future::*;
+use http_body_util::BodyExt;
 use hyper;
+use hyper_util::client::legacy::connect::Connect;
 use hyper::header::{AUTHORIZATION, CONTENT_LENGTH, CONTENT_TYPE, HeaderValue, USER_AGENT};
 use serde;
 use serde_json;
@@ -107,9 +109,9 @@ impl Request {
     pub fn execute<'a, C, U>(
         self,
         conf: &configuration::Configuration<C>,
-    ) -> Pin<Box<dyn Future<Output=Result<U, Error>> + 'a>>
+    ) -> Pin<Box<dyn Future<Output=Result<U, Error>> + 'a + Send>>
         where
-            C: hyper::client::connect::Connect + Clone + std::marker::Send + Sync,
+            C: Connect + Clone + std::marker::Send + Sync,
             U: Sized + std::marker::Send + 'a,
             for<'de> U: serde::Deserialize<'de>,
     {
@@ -128,7 +130,7 @@ impl Request {
         let mut uri_str = format!("{}{}", conf.base_path, path);
 
         let query_string_str = query_string.finish();
-        if query_string_str != "" {
+        if !query_string_str.is_empty() {
             uri_str += "?";
             uri_str += &query_string_str;
         }
@@ -203,13 +205,13 @@ impl Request {
             for (k, v) in self.form_params {
                 enc.append_pair(&k, &v);
             }
-            req_builder.body(hyper::Body::from(enc.finish()))
+            req_builder.body(enc.finish())
         } else if let Some(body) = self.serialized_body {
             req_headers.insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
             req_headers.insert(CONTENT_LENGTH, body.len().into());
-            req_builder.body(hyper::Body::from(body))
+            req_builder.body(body)
         } else {
-            req_builder.body(hyper::Body::default())
+            req_builder.body(String::new())
         };
         let request = match request_result {
             Ok(request) => request,
@@ -233,9 +235,12 @@ impl Request {
                     // need to impl default for all models.
                     futures::future::ok::<U, Error>(serde_json::from_str("null").expect("serde null value")).boxed()
                 } else {
-                    hyper::body::to_bytes(response.into_body())
-                        .map(|bytes| serde_json::from_slice(&bytes.unwrap()))
-                        .map_err(|e| Error::from(e)).boxed()
+                    let collect = response.into_body().collect().map_err(Error::from);
+                    collect.map(|collected| {
+                        collected.and_then(|collected| {
+                           serde_json::from_slice(&collected.to_bytes()).map_err(Error::from)
+                        })
+                    }).boxed()
                 }
             }))
     }

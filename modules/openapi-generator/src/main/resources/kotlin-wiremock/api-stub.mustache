@@ -1,0 +1,47 @@
+@file:Suppress(
+    "RemoveRedundantQualifierName",
+    "UnusedImport",
+    "unused",
+)
+
+package {{apiPackage}}
+
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.github.tomakehurst.wiremock.client.MappingBuilder
+import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder
+import com.github.tomakehurst.wiremock.client.WireMock.*
+import com.github.tomakehurst.wiremock.matching.StringValuePattern
+import {{modelPackage}}.*
+
+{{#operations}}
+/**
+ * WireMock stub request builder.
+ */
+open class {{classname}}Stubs(private val objectMapper: ObjectMapper) {
+{{#operation}}
+
+    /**
+     * Construct a stub for the operation {{operationId}}.
+     *
+     {{#pathParams}}
+     * @param {{paramName}} path parameter {{paramName}} pattern.
+     {{/pathParams}}
+     {{#queryParams}}
+     * @param {{paramName}} query parameter {{paramName}} pattern.
+     {{/queryParams}}
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return A [{{operationIdCamelCase}}StubBuilder] to configure the response, and the final [MappingBuilder].
+     */
+    fun {{operationId}}({{#pathParams}}{{paramName}}: StringValuePattern, {{/pathParams}}{{#queryParams}}{{paramName}}: StringValuePattern? = null, {{/queryParams}}configurer: MappingBuilder.() -> MappingBuilder = { this }): {{operationIdCamelCase}}StubBuilder =
+        {{operationIdCamelCase}}StubBuilder(objectMapper, {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}(urlPathTemplate("{{{path}}}"))
+            {{#pathParams}}
+            .withPathParam("{{baseName}}", {{paramName}})
+            {{/pathParams}}
+            {{#queryParams}}
+            .apply { {{paramName}}?.let { withQueryParam("{{baseName}}", it) } }
+            {{/queryParams}}
+            .configurer()
+        )
+{{/operation}}
+}
+{{/operations}}

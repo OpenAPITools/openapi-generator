@@ -12,12 +12,13 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { Owner } from './Owner';
 import {
     OwnerFromJSON,
     OwnerFromJSONTyped,
     OwnerToJSON,
+    OwnerToJSONTyped,
 } from './Owner';
 
 /**
@@ -37,10 +38,8 @@ export interface Club {
 /**
  * Check if a given object implements the Club interface.
  */
-export function instanceOfClub(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfClub(value: object): value is Club {
+    return true;
 }
 
 export function ClubFromJSON(json: any): Club {
@@ -48,22 +47,24 @@ export function ClubFromJSON(json: any): Club {
 }
 
 export function ClubFromJSONTyped(json: any, ignoreDiscriminator: boolean): Club {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'owner': !exists(json, 'owner') ? undefined : OwnerFromJSON(json['owner']),
+        'owner': json['owner'] == null ? undefined : OwnerFromJSON(json['owner']),
     };
 }
 
-export function ClubToJSON(value?: Club | null): any {
-    if (value === undefined) {
-        return undefined;
+export function ClubToJSON(json: any): Club {
+    return ClubToJSONTyped(json, false);
+}
+
+export function ClubToJSONTyped(value?: Omit<Club, 'owner'> | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
     };

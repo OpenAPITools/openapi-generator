@@ -12,12 +12,13 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { ErrorCode } from './ErrorCode';
 import {
     ErrorCodeFromJSON,
     ErrorCodeFromJSONTyped,
     ErrorCodeToJSON,
+    ErrorCodeToJSONTyped,
 } from './ErrorCode';
 
 /**
@@ -99,11 +100,9 @@ export type ResponseMetaCodeEnum = typeof ResponseMetaCodeEnum[keyof typeof Resp
 /**
  * Check if a given object implements the ResponseMeta interface.
  */
-export function instanceOfResponseMeta(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "code" in value;
-
-    return isInstance;
+export function instanceOfResponseMeta(value: object): value is ResponseMeta {
+    if (!('code' in value) || value['code'] === undefined) return false;
+    return true;
 }
 
 export function ResponseMetaFromJSON(json: any): ResponseMeta {
@@ -111,35 +110,37 @@ export function ResponseMetaFromJSON(json: any): ResponseMeta {
 }
 
 export function ResponseMetaFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResponseMeta {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
         'code': json['code'],
-        'detail': !exists(json, 'detail') ? undefined : json['detail'],
-        'exception': !exists(json, 'exception') ? undefined : json['exception'],
-        'type': !exists(json, 'type') ? undefined : json['type'],
-        'errorCode': !exists(json, 'errorCode') ? undefined : ErrorCodeFromJSON(json['errorCode']),
-        'errors': !exists(json, 'errors') ? undefined : json['errors'],
+        'detail': json['detail'] == null ? undefined : json['detail'],
+        'exception': json['exception'] == null ? undefined : json['exception'],
+        'type': json['type'] == null ? undefined : json['type'],
+        'errorCode': json['errorCode'] == null ? undefined : ErrorCodeFromJSON(json['errorCode']),
+        'errors': json['errors'] == null ? undefined : json['errors'],
     };
 }
 
-export function ResponseMetaToJSON(value?: ResponseMeta | null): any {
-    if (value === undefined) {
-        return undefined;
+export function ResponseMetaToJSON(json: any): ResponseMeta {
+    return ResponseMetaToJSONTyped(json, false);
+}
+
+export function ResponseMetaToJSONTyped(value?: ResponseMeta | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'code': value.code,
-        'detail': value.detail,
-        'exception': value.exception,
-        'type': value.type,
-        'errorCode': ErrorCodeToJSON(value.errorCode),
-        'errors': value.errors,
+        'code': value['code'],
+        'detail': value['detail'],
+        'exception': value['exception'],
+        'type': value['type'],
+        'errorCode': ErrorCodeToJSON(value['errorCode']),
+        'errors': value['errors'],
     };
 }
 

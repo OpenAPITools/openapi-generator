@@ -34,26 +34,28 @@ import org.openapitools.client.JSON;
   Apple.JSON_PROPERTY_ORIGIN
 })
 @JsonTypeName("apple")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Apple {
   public static final String JSON_PROPERTY_CULTIVAR = "cultivar";
+  @javax.annotation.Nullable
   private String cultivar;
 
   public static final String JSON_PROPERTY_ORIGIN = "origin";
+  @javax.annotation.Nullable
   private String origin;
 
   public Apple() { 
   }
 
-  public Apple cultivar(String cultivar) {
+  public Apple cultivar(@javax.annotation.Nullable String cultivar) {
     this.cultivar = cultivar;
     return this;
   }
 
-   /**
+  /**
    * Get cultivar
    * @return cultivar
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CULTIVAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -65,20 +67,20 @@ public class Apple {
 
   @JsonProperty(JSON_PROPERTY_CULTIVAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCultivar(String cultivar) {
+  public void setCultivar(@javax.annotation.Nullable String cultivar) {
     this.cultivar = cultivar;
   }
 
 
-  public Apple origin(String origin) {
+  public Apple origin(@javax.annotation.Nullable String origin) {
     this.origin = origin;
     return this;
   }
 
-   /**
+  /**
    * Get origin
    * @return origin
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ORIGIN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -90,7 +92,7 @@ public class Apple {
 
   @JsonProperty(JSON_PROPERTY_ORIGIN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setOrigin(String origin) {
+  public void setOrigin(@javax.annotation.Nullable String origin) {
     this.origin = origin;
   }
 

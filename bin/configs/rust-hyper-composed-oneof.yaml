@@ -1,0 +1,8 @@
+generatorName: rust
+outputDir: samples/client/others/rust/hyper/composed-oneof
+library: hyper
+inputSpec: modules/openapi-generator/src/test/resources/3_0/composed-oneof.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust
+additionalProperties:
+  supportAsync: "false"
+  packageName: composed-oneof-hyper

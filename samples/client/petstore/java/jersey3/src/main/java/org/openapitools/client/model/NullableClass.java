@@ -38,6 +38,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -58,7 +60,7 @@ import org.openapitools.client.JSON;
   NullableClass.JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP,
   NullableClass.JSON_PROPERTY_OBJECT_ITEMS_NULLABLE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class NullableClass {
   public static final String JSON_PROPERTY_INTEGER_PROP = "integer_prop";
   private JsonNullable<Integer> integerProp = JsonNullable.<Integer>undefined();
@@ -85,7 +87,8 @@ public class NullableClass {
   private JsonNullable<List<Object>> arrayAndItemsNullableProp = JsonNullable.<List<Object>>undefined();
 
   public static final String JSON_PROPERTY_ARRAY_ITEMS_NULLABLE = "array_items_nullable";
-  private List<Object> arrayItemsNullable;
+  @jakarta.annotation.Nullable
+  private List<Object> arrayItemsNullable = new ArrayList<>();
 
   public static final String JSON_PROPERTY_OBJECT_NULLABLE_PROP = "object_nullable_prop";
   private JsonNullable<Map<String, Object>> objectNullableProp = JsonNullable.<Map<String, Object>>undefined();
@@ -94,21 +97,23 @@ public class NullableClass {
   private JsonNullable<Map<String, Object>> objectAndItemsNullableProp = JsonNullable.<Map<String, Object>>undefined();
 
   public static final String JSON_PROPERTY_OBJECT_ITEMS_NULLABLE = "object_items_nullable";
+  @jakarta.annotation.Nullable
   private Map<String, Object> objectItemsNullable = new HashMap<>();
 
   public NullableClass() { 
   }
 
-  public NullableClass integerProp(Integer integerProp) {
+  public NullableClass integerProp(@jakarta.annotation.Nullable Integer integerProp) {
     this.integerProp = JsonNullable.<Integer>of(integerProp);
     return this;
   }
 
-   /**
+  /**
    * Get integerProp
    * @return integerProp
-  **/
+   */
   @jakarta.annotation.Nullable
+
   @JsonIgnore
 
   public Integer getIntegerProp() {
@@ -127,21 +132,23 @@ public class NullableClass {
     this.integerProp = integerProp;
   }
 
-  public void setIntegerProp(Integer integerProp) {
+  public void setIntegerProp(@jakarta.annotation.Nullable Integer integerProp) {
     this.integerProp = JsonNullable.<Integer>of(integerProp);
   }
 
 
-  public NullableClass numberProp(BigDecimal numberProp) {
+  public NullableClass numberProp(@jakarta.annotation.Nullable BigDecimal numberProp) {
     this.numberProp = JsonNullable.<BigDecimal>of(numberProp);
     return this;
   }
 
-   /**
+  /**
    * Get numberProp
    * @return numberProp
-  **/
+   */
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonIgnore
 
   public BigDecimal getNumberProp() {
@@ -160,21 +167,22 @@ public class NullableClass {
     this.numberProp = numberProp;
   }
 
-  public void setNumberProp(BigDecimal numberProp) {
+  public void setNumberProp(@jakarta.annotation.Nullable BigDecimal numberProp) {
     this.numberProp = JsonNullable.<BigDecimal>of(numberProp);
   }
 
 
-  public NullableClass booleanProp(Boolean booleanProp) {
+  public NullableClass booleanProp(@jakarta.annotation.Nullable Boolean booleanProp) {
     this.booleanProp = JsonNullable.<Boolean>of(booleanProp);
     return this;
   }
 
-   /**
+  /**
    * Get booleanProp
    * @return booleanProp
-  **/
+   */
   @jakarta.annotation.Nullable
+
   @JsonIgnore
 
   public Boolean getBooleanProp() {
@@ -193,21 +201,22 @@ public class NullableClass {
     this.booleanProp = booleanProp;
   }
 
-  public void setBooleanProp(Boolean booleanProp) {
+  public void setBooleanProp(@jakarta.annotation.Nullable Boolean booleanProp) {
     this.booleanProp = JsonNullable.<Boolean>of(booleanProp);
   }
 
 
-  public NullableClass stringProp(String stringProp) {
+  public NullableClass stringProp(@jakarta.annotation.Nullable String stringProp) {
     this.stringProp = JsonNullable.<String>of(stringProp);
     return this;
   }
 
-   /**
+  /**
    * Get stringProp
    * @return stringProp
-  **/
+   */
   @jakarta.annotation.Nullable
+
   @JsonIgnore
 
   public String getStringProp() {
@@ -226,21 +235,23 @@ public class NullableClass {
     this.stringProp = stringProp;
   }
 
-  public void setStringProp(String stringProp) {
+  public void setStringProp(@jakarta.annotation.Nullable String stringProp) {
     this.stringProp = JsonNullable.<String>of(stringProp);
   }
 
 
-  public NullableClass dateProp(LocalDate dateProp) {
+  public NullableClass dateProp(@jakarta.annotation.Nullable LocalDate dateProp) {
     this.dateProp = JsonNullable.<LocalDate>of(dateProp);
     return this;
   }
 
-   /**
+  /**
    * Get dateProp
    * @return dateProp
-  **/
+   */
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonIgnore
 
   public LocalDate getDateProp() {
@@ -259,21 +270,23 @@ public class NullableClass {
     this.dateProp = dateProp;
   }
 
-  public void setDateProp(LocalDate dateProp) {
+  public void setDateProp(@jakarta.annotation.Nullable LocalDate dateProp) {
     this.dateProp = JsonNullable.<LocalDate>of(dateProp);
   }
 
 
-  public NullableClass datetimeProp(OffsetDateTime datetimeProp) {
+  public NullableClass datetimeProp(@jakarta.annotation.Nullable OffsetDateTime datetimeProp) {
     this.datetimeProp = JsonNullable.<OffsetDateTime>of(datetimeProp);
     return this;
   }
 
-   /**
+  /**
    * Get datetimeProp
    * @return datetimeProp
-  **/
+   */
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonIgnore
 
   public OffsetDateTime getDatetimeProp() {
@@ -292,12 +305,12 @@ public class NullableClass {
     this.datetimeProp = datetimeProp;
   }
 
-  public void setDatetimeProp(OffsetDateTime datetimeProp) {
+  public void setDatetimeProp(@jakarta.annotation.Nullable OffsetDateTime datetimeProp) {
     this.datetimeProp = JsonNullable.<OffsetDateTime>of(datetimeProp);
   }
 
 
-  public NullableClass arrayNullableProp(List<Object> arrayNullableProp) {
+  public NullableClass arrayNullableProp(@jakarta.annotation.Nullable List<Object> arrayNullableProp) {
     this.arrayNullableProp = JsonNullable.<List<Object>>of(arrayNullableProp);
     return this;
   }
@@ -314,11 +327,12 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get arrayNullableProp
    * @return arrayNullableProp
-  **/
+   */
   @jakarta.annotation.Nullable
+
   @JsonIgnore
 
   public List<Object> getArrayNullableProp() {
@@ -337,12 +351,12 @@ public class NullableClass {
     this.arrayNullableProp = arrayNullableProp;
   }
 
-  public void setArrayNullableProp(List<Object> arrayNullableProp) {
+  public void setArrayNullableProp(@jakarta.annotation.Nullable List<Object> arrayNullableProp) {
     this.arrayNullableProp = JsonNullable.<List<Object>>of(arrayNullableProp);
   }
 
 
-  public NullableClass arrayAndItemsNullableProp(List<Object> arrayAndItemsNullableProp) {
+  public NullableClass arrayAndItemsNullableProp(@jakarta.annotation.Nullable List<Object> arrayAndItemsNullableProp) {
     this.arrayAndItemsNullableProp = JsonNullable.<List<Object>>of(arrayAndItemsNullableProp);
     return this;
   }
@@ -359,11 +373,12 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get arrayAndItemsNullableProp
    * @return arrayAndItemsNullableProp
-  **/
+   */
   @jakarta.annotation.Nullable
+
   @JsonIgnore
 
   public List<Object> getArrayAndItemsNullableProp() {
@@ -382,12 +397,12 @@ public class NullableClass {
     this.arrayAndItemsNullableProp = arrayAndItemsNullableProp;
   }
 
-  public void setArrayAndItemsNullableProp(List<Object> arrayAndItemsNullableProp) {
+  public void setArrayAndItemsNullableProp(@jakarta.annotation.Nullable List<Object> arrayAndItemsNullableProp) {
     this.arrayAndItemsNullableProp = JsonNullable.<List<Object>>of(arrayAndItemsNullableProp);
   }
 
 
-  public NullableClass arrayItemsNullable(List<Object> arrayItemsNullable) {
+  public NullableClass arrayItemsNullable(@jakarta.annotation.Nullable List<Object> arrayItemsNullable) {
     this.arrayItemsNullable = arrayItemsNullable;
     return this;
   }
@@ -400,11 +415,12 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get arrayItemsNullable
    * @return arrayItemsNullable
-  **/
+   */
   @jakarta.annotation.Nullable
+
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEMS_NULLABLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -415,12 +431,12 @@ public class NullableClass {
 
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEMS_NULLABLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setArrayItemsNullable(List<Object> arrayItemsNullable) {
+  public void setArrayItemsNullable(@jakarta.annotation.Nullable List<Object> arrayItemsNullable) {
     this.arrayItemsNullable = arrayItemsNullable;
   }
 
 
-  public NullableClass objectNullableProp(Map<String, Object> objectNullableProp) {
+  public NullableClass objectNullableProp(@jakarta.annotation.Nullable Map<String, Object> objectNullableProp) {
     this.objectNullableProp = JsonNullable.<Map<String, Object>>of(objectNullableProp);
     return this;
   }
@@ -437,11 +453,12 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get objectNullableProp
    * @return objectNullableProp
-  **/
+   */
   @jakarta.annotation.Nullable
+
   @JsonIgnore
 
   public Map<String, Object> getObjectNullableProp() {
@@ -460,12 +477,12 @@ public class NullableClass {
     this.objectNullableProp = objectNullableProp;
   }
 
-  public void setObjectNullableProp(Map<String, Object> objectNullableProp) {
+  public void setObjectNullableProp(@jakarta.annotation.Nullable Map<String, Object> objectNullableProp) {
     this.objectNullableProp = JsonNullable.<Map<String, Object>>of(objectNullableProp);
   }
 
 
-  public NullableClass objectAndItemsNullableProp(Map<String, Object> objectAndItemsNullableProp) {
+  public NullableClass objectAndItemsNullableProp(@jakarta.annotation.Nullable Map<String, Object> objectAndItemsNullableProp) {
     this.objectAndItemsNullableProp = JsonNullable.<Map<String, Object>>of(objectAndItemsNullableProp);
     return this;
   }
@@ -482,11 +499,12 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get objectAndItemsNullableProp
    * @return objectAndItemsNullableProp
-  **/
+   */
   @jakarta.annotation.Nullable
+
   @JsonIgnore
 
   public Map<String, Object> getObjectAndItemsNullableProp() {
@@ -505,12 +523,12 @@ public class NullableClass {
     this.objectAndItemsNullableProp = objectAndItemsNullableProp;
   }
 
-  public void setObjectAndItemsNullableProp(Map<String, Object> objectAndItemsNullableProp) {
+  public void setObjectAndItemsNullableProp(@jakarta.annotation.Nullable Map<String, Object> objectAndItemsNullableProp) {
     this.objectAndItemsNullableProp = JsonNullable.<Map<String, Object>>of(objectAndItemsNullableProp);
   }
 
 
-  public NullableClass objectItemsNullable(Map<String, Object> objectItemsNullable) {
+  public NullableClass objectItemsNullable(@jakarta.annotation.Nullable Map<String, Object> objectItemsNullable) {
     this.objectItemsNullable = objectItemsNullable;
     return this;
   }
@@ -523,11 +541,12 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get objectItemsNullable
    * @return objectItemsNullable
-  **/
+   */
   @jakarta.annotation.Nullable
+
   @JsonProperty(JSON_PROPERTY_OBJECT_ITEMS_NULLABLE)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -538,7 +557,7 @@ public class NullableClass {
 
   @JsonProperty(JSON_PROPERTY_OBJECT_ITEMS_NULLABLE)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
-  public void setObjectItemsNullable(Map<String, Object> objectItemsNullable) {
+  public void setObjectItemsNullable(@jakarta.annotation.Nullable Map<String, Object> objectItemsNullable) {
     this.objectItemsNullable = objectItemsNullable;
   }
 

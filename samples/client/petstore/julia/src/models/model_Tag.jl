@@ -32,7 +32,9 @@ function check_required(o::Tag)
 end
 
 function OpenAPI.validate_property(::Type{ Tag }, name::Symbol, val)
+
     if name === Symbol("id")
         OpenAPI.validate_param(name, "Tag", :format, val, "int64")
     end
+
 end

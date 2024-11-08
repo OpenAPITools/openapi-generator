@@ -1,5 +1,16 @@
 {{>modelEnumInterfaces}}
 
+export function instanceOf{{classname}}(value: any): boolean {
+    for (const key in {{classname}}) {
+        if (Object.prototype.hasOwnProperty.call({{classname}}, key)) {
+            if ({{classname}}[key as keyof typeof {{classname}}] === value) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 export function {{classname}}FromJSON(json: any): {{classname}} {
     return {{classname}}FromJSONTyped(json, false);
 }
@@ -10,4 +21,8 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
 
 export function {{classname}}ToJSON(value?: {{classname}} | null): any {
     return value as any;
+}
+
+export function {{classname}}ToJSONTyped(value: any, ignoreDiscriminator: boolean): {{classname}} {
+    return value as {{classname}};
 }

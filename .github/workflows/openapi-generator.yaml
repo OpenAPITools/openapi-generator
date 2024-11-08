@@ -140,8 +140,42 @@ jobs:
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target
+      - name: Delete samples that are entirely generated
+        run: |
+          rm -rf samples/client/petstore/csharp/generichost/latest/Tags
+
+          rm -rf samples/client/petstore/csharp/generichost/net8/AllOf
+          rm -rf samples/client/petstore/csharp/generichost/net8/AnyOf
+          rm -rf samples/client/petstore/csharp/generichost/net8/AnyOfNoCompare
+          rm -rf samples/client/petstore/csharp/generichost/net8/FormModels
+          rm -rf samples/client/petstore/csharp/generichost/net8/NullReferenceTypes
+          rm -rf samples/client/petstore/csharp/generichost/net8/OneOf
+          rm -rf samples/client/petstore/csharp/generichost/net8/Petstore
+          rm -rf samples/client/petstore/csharp/generichost/net8/SourceGeneration
+          rm -rf samples/client/petstore/csharp/generichost/net8/UseDateTimeForDate
+
+          rm -rf samples/client/petstore/csharp/generichost/standard2.0/Petstore
+
+          rm -rf samples/client/petstore/csharp/generichost/net4.8/AllOf
+          rm -rf samples/client/petstore/csharp/generichost/net4.8/AnyOf
+          rm -rf samples/client/petstore/csharp/generichost/net4.8/AnyOfNoCompare
+          rm -rf samples/client/petstore/csharp/generichost/net4.8/FormModels
+          rm -rf samples/client/petstore/csharp/generichost/net4.8/OneOf
+          rm -rf samples/client/petstore/csharp/generichost/net4.8/Petstore
+          rm -rf samples/client/petstore/csharp/generichost/net4.8/UseDateTimeForDate
+
+          rm -rf samples/client/petstore/csharp/generichost/net4.7/AllOf
+          rm -rf samples/client/petstore/csharp/generichost/net4.7/AnyOf
+          rm -rf samples/client/petstore/csharp/generichost/net4.7/AnyOfNoCompare
+          rm -rf samples/client/petstore/csharp/generichost/net4.7/FormModels
+          rm -rf samples/client/petstore/csharp/generichost/net4.7/OneOf
+          rm -rf samples/client/petstore/csharp/generichost/net4.7/Petstore
+          rm -rf samples/client/petstore/csharp/generichost/net4.7/UseDateTimeForDate
       - name: Generate samples
-        run: bash bin/generate-samples.sh
+        run: |
+          bash bin/generate-samples.sh
+          # when a sample is deleted, you have to generate it twice for all files to get created
+          bash bin/generate-samples.sh
       - name: Verify git status
         run: |
           if [[ "$(git status --porcelain)" != "" ]]; then

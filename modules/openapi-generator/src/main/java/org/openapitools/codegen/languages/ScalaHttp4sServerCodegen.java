@@ -1,4 +1,6 @@
 /*
+ * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -14,7 +16,6 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -66,7 +67,7 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
         supportsMultipleInheritance = true;
         supportsInheritance = true;
         supportsMixins = true;
-        addOneOfInterfaceImports =true;
+        addOneOfInterfaceImports = true;
 
 
         setReservedWordsLowerCase(
@@ -141,7 +142,6 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
         additionalProperties.put("licenseUrl", "http://apache.org/licenses/LICENSE-2.0.html");
 
 
-
         languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "String",
@@ -197,6 +197,7 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
     }
 
     private final static Map<String, String> locationStatusToResponse = new HashMap<>();
+
     static {
         locationStatusToResponse.put("300", "MultipleChoices");
         locationStatusToResponse.put("301", "MovedPermanently");
@@ -207,16 +208,19 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
     }
 
     private final static Map<String, String> wwwAuthStatusToResponse = new HashMap<>();
+
     static {
         wwwAuthStatusToResponse.put("401", "Unauthorized");
     }
 
     private final static Map<String, String> allowStatusToResponse = new HashMap<>();
+
     static {
         allowStatusToResponse.put("405", "MethodNotAllowed");
     }
 
     private final static Map<String, String> proxyAuthStatusToResponse = new HashMap<>();
+
     static {
         proxyAuthStatusToResponse.put("407", "ProxyAuthenticationRequired");
     }
@@ -314,7 +318,7 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
 
         apiTemplateFiles.put("api.mustache", ".scala");
 
-        if (!additionalProperties.containsKey(EXCLUDE_SBT) && !Boolean.parseBoolean((String)additionalProperties.get(EXCLUDE_SBT))) {
+        if (!additionalProperties.containsKey(EXCLUDE_SBT) && !Boolean.parseBoolean((String) additionalProperties.get(EXCLUDE_SBT))) {
             supportingFiles.add(new SupportingFile("build.sbt", "", "build.sbt"));
             supportingFiles.add(new SupportingFile("build.properties", "project", "build.properties"));
         }
@@ -328,18 +332,18 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
 
     @Override
     public boolean isEnablePostProcessFile() {
-       return true;
+        return true;
     }
 
     @Override
     public void postProcessFile(File file, String fileType) {
-        System.out.println("postprocess " + file.toString());
+        LOGGER.debug("postprocess " + file.toString());
         super.postProcessFile(file, fileType);
     }
 
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
-        Map<String, ModelsMap> modelsMap =  super.postProcessAllModels(objs);
+        Map<String, ModelsMap> modelsMap = super.postProcessAllModels(objs);
 
         for (ModelsMap mm : modelsMap.values()) {
             for (ModelMap model : mm.getModels()) {
@@ -367,7 +371,7 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
 
                 // add refined constraints
 
-                for (CodegenProperty prop: cModel.vars) {
+                for (CodegenProperty prop : cModel.vars) {
                     Set<String> imports = new TreeSet<>();
 
                     prop.getVendorExtensions().putAll(refineProp(prop, imports));
@@ -389,8 +393,8 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
 
             vendorExtensions.put("x-type", "Refined[" + dataType + ", " + refinedRgt + "]");
             vendorExtensions.put("x-refined-lft", dataType);
-            vendorExtensions.put("x-refined-rgt",  refinedRgt);
-            vendorExtensions.put("x-refined",  true);
+            vendorExtensions.put("x-refined-rgt", refinedRgt);
+            vendorExtensions.put("x-refined", true);
         } else {
             vendorExtensions.put("x-type", dataType);
         }
@@ -407,8 +411,8 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
             ArrayList<String> refined = new ArrayList<>();
 
             if (prop.getMinLength() != null) {
-               refined.add("MinSize[" + prop.getMinLength() + "]");
-               imports.add("MinSize");
+                refined.add("MinSize[" + prop.getMinLength() + "]");
+                imports.add("MinSize");
             }
             if (prop.getMaxLength() != null) {
                 refined.add("MaxSize[" + prop.getMaxLength() + "]");
@@ -485,7 +489,7 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
 
         List<ModelMap> models = (List<ModelMap>) bundle.get("models");
         TreeSet<String> allImports = new TreeSet<>();
-        for (ModelMap mm: models) {
+        for (ModelMap mm : models) {
             for (String nextImport : mm.getModel().imports) {
                 String mapping = importMapping().get(nextImport);
                 if (mapping != null && !defaultIncludes().contains(mapping)) {
@@ -504,9 +508,9 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
 
         ApiInfoMap apiInfoMap = (ApiInfoMap) bundle.get("apiInfo");
         Map<String, List<String>> authToOperationMap = new TreeMap<>();
-        for (OperationsMap op: apiInfoMap.getApis()) {
+        for (OperationsMap op : apiInfoMap.getApis()) {
             List<HashMap<String, Object>> opsByAuth = (List<HashMap<String, Object>>) op.get("operationsByAuth");
-            for (HashMap<String, Object> auth: opsByAuth) {
+            for (HashMap<String, Object> auth : opsByAuth) {
                 String autName = (String) auth.get("auth");
                 String classname = (String) op.get("classname");
                 List<String> classnames = authToOperationMap.computeIfAbsent(autName, k -> new ArrayList<>());
@@ -549,7 +553,7 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + apiFileFolderRelative() ;
+        return outputFolder + File.separator + apiFileFolderRelative();
     }
 
     private String apiFileFolderRelative() {
@@ -599,7 +603,7 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
             }
 
             // decide wat methods do we need in responses:
-            for (CodegenResponse resp: op.responses) {
+            for (CodegenResponse resp : op.responses) {
                 if (resp.code.equals("0"))
                     resp.code = "200"; // 200 by default
 
@@ -649,11 +653,11 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
             }
 
             if (op.authMethods != null) {
-                for (CodegenSecurity cs: op.authMethods) {
+                for (CodegenSecurity cs : op.authMethods) {
                     allAuth.add(cs.name);
                 }
                 List<Map<String, Object>> authDup = new ArrayList<>();
-                for (CodegenSecurity authMeth: op.authMethods) {
+                for (CodegenSecurity authMeth : op.authMethods) {
                     Map<String, Object> vals = new HashMap<>();
                     vals.put("authName", authMeth.name);
                     vals.put("operation", op);
@@ -706,8 +710,7 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
@@ -781,7 +784,7 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
         op.imports.addAll(imports);
     }
 
-    private String cpToPathParameter(CodegenParameter cp, Set<String> imports,  Map<String, Object> vendorExtensions) {
+    private String cpToPathParameter(CodegenParameter cp, Set<String> imports, Map<String, Object> vendorExtensions) {
         // don't support containers and arrays yet, reset to string
         if (cp.isContainer || cp.isArray) {
             cp.setDataType("String");
@@ -809,20 +812,20 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
         String queryString = "";
 
         for (CodegenParameter cp : op.queryParams) {
-           if (queryString.isEmpty()) {
-               queryString = queryString + " :? ";
-           } else {
-               queryString = queryString + " +& ";
-           }
+            if (queryString.isEmpty()) {
+                queryString = queryString + " :? ";
+            } else {
+                queryString = queryString + " +& ";
+            }
 
-           queryString = queryString + cpToQueryParameter(cp, imports, cp.vendorExtensions);
+            queryString = queryString + cpToQueryParameter(cp, imports, cp.vendorExtensions);
         }
 
         op.vendorExtensions.put("x-codegen-query", queryString);
         op.imports.addAll(imports);
     }
 
-    private String cpToQueryParameter(CodegenParameter cp, Set<String> imports,  Map<String, Object> vendorExtensions) {
+    private String cpToQueryParameter(CodegenParameter cp, Set<String> imports, Map<String, Object> vendorExtensions) {
         // don't support containers and arrays yet, reset to string
         if (cp.isContainer && !cp.isArray) {
             cp.setDataType("String");
@@ -836,17 +839,7 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
     }
 
     @Override
-    public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
-        System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
-        System.out.println("################################################################################");
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.SCALA;
     }
-
-    @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.SCALA; }
 }

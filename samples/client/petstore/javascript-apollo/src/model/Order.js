@@ -34,6 +34,7 @@ class Order {
      * Only for internal use.
      */
     static initialize(obj) { 
+        obj['complete'] = false;
     }
 
     /**

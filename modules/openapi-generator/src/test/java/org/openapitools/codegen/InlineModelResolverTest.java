@@ -353,6 +353,14 @@ public class InlineModelResolverTest {
     }
 
     @Test
+    public void resolveComponentsResponses() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        new InlineModelResolver().flatten(openAPI);
+        ApiResponse apiResponse = openAPI.getComponents().getResponses().get("JustAnotherResponse");
+        assertEquals(apiResponse.getContent().get("application/json").getSchema().get$ref(), "#/components/schemas/inline_object");
+    }
+
+    @Test
     public void resolveRequestBodyInvalidRef() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/invalid_ref_request_body.yaml");
         new InlineModelResolver().flatten(openAPI);
@@ -1043,7 +1051,7 @@ public class InlineModelResolverTest {
     public void testInlineSchemaOptions() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         InlineModelResolver resolver = new InlineModelResolver();
-        Map<String, String> inlineSchemaOptions= new HashMap<>();
+        Map<String, String> inlineSchemaOptions = new HashMap<>();
         inlineSchemaOptions.put("ARRAY_ITEM_SUFFIX", "_something");
         resolver.setInlineSchemaOptions(inlineSchemaOptions);
         resolver.flatten(openAPI);
@@ -1135,7 +1143,7 @@ public class InlineModelResolverTest {
     public void resolveOperationInlineEnum() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         Parameter parameter = openAPI.getPaths().get("/resolve_parameter_inline_enum").getGet().getParameters().get(0);
-        assertNull(((ArraySchema) parameter.getSchema()).getItems().get$ref() );
+        assertNull(((ArraySchema) parameter.getSchema()).getItems().get$ref());
 
         InlineModelResolver resolver = new InlineModelResolver();
         Map<String, String> inlineSchemaOptions = new HashMap<>();
@@ -1145,7 +1153,7 @@ public class InlineModelResolverTest {
 
         Parameter parameter2 = openAPI.getPaths().get("/resolve_parameter_inline_enum").getGet().getParameters().get(0);
         assertEquals("#/components/schemas/resolveParameterInlineEnum_status_inline_enum_parameter_inner",
-                ((ArraySchema) parameter2.getSchema()).getItems().get$ref() );
+                ((ArraySchema) parameter2.getSchema()).getItems().get$ref());
 
     }
 
@@ -1170,5 +1178,31 @@ public class InlineModelResolverTest {
         assertEquals("#/components/schemas/resolve_parameter_inline_enum_form_parameters_request_enum_form_string",
                 ((Schema) inlineFormParaemter.getProperties().get("enum_form_string")).get$ref());
 
+    }
+
+    @Test
+    public void doNotWrapSingleAllOfRefs() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue_15077.yaml");
+        new InlineModelResolver().flatten(openAPI);
+
+        // None of these cases should be wrapped in an inline schema and should reference the original schema "NumberRange"
+        Schema limitsModel = (Schema) openAPI.getComponents().getSchemas().get("Limits");
+        final String numberRangeRef = "#/components/schemas/NumberRange";
+
+        Schema allOfRef = (Schema) limitsModel.getProperties().get("allOfRef");
+        assertNotNull(allOfRef.getAllOf());
+        assertEquals(numberRangeRef, ((Schema) allOfRef.getAllOf().get(0)).get$ref());
+
+        Schema allOfRefWithDescription = (Schema) limitsModel.getProperties().get("allOfRefWithDescription");
+        assertNotNull(allOfRefWithDescription.getAllOf());
+        assertEquals(numberRangeRef, ((Schema) allOfRefWithDescription.getAllOf().get(0)).get$ref());
+
+        Schema allOfRefWithReadonly = (Schema) limitsModel.getProperties().get("allOfRefWithReadonly");
+        assertNotNull(allOfRefWithReadonly.getAllOf());
+        assertEquals(numberRangeRef, ((Schema) allOfRefWithReadonly.getAllOf().get(0)).get$ref());
+
+        Schema allOfRefWithDescriptionAndReadonly = (Schema) limitsModel.getProperties().get("allOfRefWithDescriptionAndReadonly");
+        assertNotNull(allOfRefWithDescriptionAndReadonly.getAllOf());
+        assertEquals(numberRangeRef, ((Schema) allOfRefWithDescriptionAndReadonly.getAllOf().get(0)).get$ref());
     }
 }

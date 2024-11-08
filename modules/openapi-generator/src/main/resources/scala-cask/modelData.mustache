@@ -1,0 +1,23 @@
+{{>licenseInfo}}
+// this model was generated using modelData.mustache
+package {{modelPackage}}
+{{#imports}}import {{import}}
+{{/imports}}
+import scala.util.control.NonFatal
+import scala.util.*
+
+// see https://com-lihaoyi.github.io/upickle/
+import upickle.default.{ReadWriter => RW, macroRW}
+import upickle.default.*
+
+{{#models}}
+{{#model}}
+
+    {{#isEnum}}
+        {{>modelDataEnum}}
+    {{/isEnum}}
+    {{^isEnum}}
+        {{>modelDataClass}}
+    {{/isEnum}}
+{{/model}}
+{{/models}}

@@ -47,15 +47,15 @@ knownRecordFactories.set(MatchingPartsRecordProps.recType, MatchingPartsRecord);
 class MatchingPartsRecordUtils extends ApiRecordUtils<MatchingParts, MatchingPartsRecord> {
     public normalize(apiObject: MatchingParts, asEntity?: boolean): MatchingParts {
         (apiObject as any).recType = MatchingPartsRecordProps.recType;
-        partRecordUtils.normalizeArray(apiObject.connected);
-        partRecordUtils.normalizeArray(apiObject.related);
+        partRecordUtils.normalizeArray(apiObject['connected']);
+        partRecordUtils.normalizeArray(apiObject['related']);
         return apiObject;
     }
 
     public toApi(record: MatchingPartsRecord): MatchingParts {
         const apiObject = super.toApi(record);
-        apiObject.connected = partRecordUtils.toApiArray(record.connected);
-        apiObject.related = partRecordUtils.toApiArray(record.related);
+        apiObject['connected'] = partRecordUtils.toApiArray(record['connected']);
+        apiObject['related'] = partRecordUtils.toApiArray(record['related']);
         return apiObject;
     }
 }

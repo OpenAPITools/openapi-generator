@@ -21,7 +21,6 @@ import com.google.common.collect.ImmutableMap;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.Swift5ClientCodegen;
 
-import java.io.File;
 import java.util.Map;
 
 public class Swift5OptionsProvider implements OptionsProvider {
@@ -32,7 +31,6 @@ public class Swift5OptionsProvider implements OptionsProvider {
     public static final String RESPONSE_AS_VALUE = "test";
     public static final String NON_PUBLIC_API_REQUIRED_VALUE = "false";
     public static final String OBJC_COMPATIBLE_VALUE = "false";
-    public static final String LENIENT_TYPE_CAST_VALUE = "false";
     public static final String POD_SOURCE_VALUE = "{ :git => 'git@github.com:swagger-api/swagger-mustache.git'," +
             " :tag => 'v1.0.0-SNAPSHOT' }";
     public static final String POD_VERSION_VALUE = "v1.0.0-SNAPSHOT";
@@ -72,7 +70,6 @@ public class Swift5OptionsProvider implements OptionsProvider {
                 .put(Swift5ClientCodegen.RESPONSE_AS, RESPONSE_AS_VALUE)
                 .put(CodegenConstants.NON_PUBLIC_API, NON_PUBLIC_API_REQUIRED_VALUE)
                 .put(Swift5ClientCodegen.OBJC_COMPATIBLE, OBJC_COMPATIBLE_VALUE)
-                .put(Swift5ClientCodegen.LENIENT_TYPE_CAST, LENIENT_TYPE_CAST_VALUE)
                 .put(Swift5ClientCodegen.POD_SOURCE, POD_SOURCE_VALUE)
                 .put(CodegenConstants.POD_VERSION, POD_VERSION_VALUE)
                 .put(Swift5ClientCodegen.POD_AUTHORS, POD_AUTHORS_VALUE)
@@ -101,6 +98,7 @@ public class Swift5OptionsProvider implements OptionsProvider {
                 .put(Swift5ClientCodegen.MAP_FILE_BINARY_TO_DATA, "false")
                 .put(Swift5ClientCodegen.USE_CUSTOM_DATE_WITHOUT_TIME, "false")
                 .put(Swift5ClientCodegen.VALIDATABLE, "true")
+                .put(Swift5ClientCodegen.ONE_OF_UNKNOWN_DEFAULT_CASE, "false")
                 .put(Swift5ClientCodegen.USE_CLASSES, "false")
                 .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
                 .build();

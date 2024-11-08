@@ -13,19 +13,26 @@
 
 package org.openapitools.client.api;
 
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.api.UserApi;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.ErrorLoggingFilter;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+
 import static io.restassured.config.ObjectMapperConfig.objectMapperConfig;
 import static io.restassured.config.RestAssuredConfig.config;
 import static org.openapitools.client.GsonObjectMapper.gson;
@@ -33,12 +40,12 @@ import static org.openapitools.client.GsonObjectMapper.gson;
 /**
  * API tests for UserApi
  */
-@Ignore
+@Disabled
 public class UserApiTest {
 
     private UserApi api;
 
-    @Before
+    @BeforeEach
     public void createApi() {
         api = ApiClient.api(ApiClient.Config.apiConfig().reqSpecSupplier(
                 () -> new RequestSpecBuilder()
@@ -64,7 +71,7 @@ public class UserApiTest {
      */
     @Test
     public void shouldSee0AfterCreateUsersWithArrayInput() {
-        List<User> body = null;
+        List<@Valid User> body = null;
         api.createUsersWithArrayInput()
                 .body(body).execute(r -> r.prettyPeek());
         // TODO: test validations
@@ -76,7 +83,7 @@ public class UserApiTest {
      */
     @Test
     public void shouldSee0AfterCreateUsersWithListInput() {
-        List<User> body = null;
+        List<@Valid User> body = null;
         api.createUsersWithListInput()
                 .body(body).execute(r -> r.prettyPeek());
         // TODO: test validations

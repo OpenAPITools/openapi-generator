@@ -838,6 +838,7 @@ components:
         - string
         - boolean
         - uuid
+        - bytes
       properties:
         int32:
           type: integer
@@ -858,6 +859,9 @@ components:
         uuid:
           type: string
           format: uuid
+        bytes:
+          type: string
+          format: byte
     Return:
       description: Test using keywords
       type: object
@@ -954,4 +958,18 @@ components:
           type: string
           nullable: true
         just_string:
+          type: string
+    NumericEnumTesting:
+      description: testing that numeric enums are converted correctly
+      enum:
+        - 0
+        - 1
+        - 2
+        - 3
+      type: integer
+    ref:
+      description: using reserved word as model name
+      type: object
+      properties:
+        dummy:
           type: string

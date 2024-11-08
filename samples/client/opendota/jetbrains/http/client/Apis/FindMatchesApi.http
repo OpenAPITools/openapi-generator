@@ -1,0 +1,6 @@
+## FindMatchesApi
+
+### GET /
+## GET /
+GET https://api.opendota.com/api/findMatches?teamA={{teamA}}&teamB={{teamB}}
+Accept: application/json; charset=utf-8

@@ -9,6 +9,10 @@ import java.net.URI;
 /**
  * {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
  */
+{{#jsonb}}
+@JsonbTypeSerializer({{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}.Serializer.class)
+@JsonbTypeDeserializer({{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}.Deserializer.class)
+{{/jsonb}}
 {{>additionalEnumTypeAnnotations}}public enum {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} {
   {{#gson}}
   {{#allowableValues}}{{#enumVars}}
@@ -36,6 +40,22 @@ import java.net.URI;
     return String.valueOf(value);
   }
 
+{{#jsonb}}
+  public static final class Deserializer implements JsonbDeserializer<{{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}> {
+    @Override
+    public {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} deserialize(JsonParser parser, DeserializationContext ctx, Type rtType) {
+      return fromValue(parser.getString());
+    }
+  }
+
+  public static final class Serializer implements JsonbSerializer<{{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}> {
+    @Override
+    public void serialize({{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} obj, JsonGenerator generator, SerializationContext ctx) {
+      generator.write(obj.value{{#isUri}}.toASCIIString(){{/isUri}});
+    }
+  }
+
+{{/jsonb}}
 {{#jackson}}
   @JsonCreator
 {{/jackson}}
@@ -45,7 +65,6 @@ import java.net.URI;
         return b;
       }
     }
-    {{#useNullForUnknownEnumValue}}return null;{{/useNullForUnknownEnumValue}}{{^useNullForUnknownEnumValue}}throw new IllegalArgumentException("Unexpected value '" + text + "'");{{/useNullForUnknownEnumValue}}
+    {{#useNullForUnknownEnumValue}}return null;{{/useNullForUnknownEnumValue}}{{^useNullForUnknownEnumValue}}{{#enumUnknownDefaultCase}}{{#allowableValues}}{{#enumVars}}{{#-last}}return {{{name}}};{{/-last}}{{/enumVars}}{{/allowableValues}}{{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}throw new IllegalArgumentException("Unexpected value '" + text + "'");{{/enumUnknownDefaultCase}}{{/useNullForUnknownEnumValue}}
   }
-
 }

@@ -7,12 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-{{^netStandard}}
 using System.Threading.Channels;
-{{/netStandard}}
-{{#netStandard}}
-using System.Threading.Channels;
-{{/netStandard}}
 
 namespace {{packageName}}.{{clientPackage}}
 {
@@ -58,11 +53,15 @@ namespace {{packageName}}.{{clientPackage}}
             }
             else
             {
-                {{#lambda.indent1}}{{#lambda.pasteLine}}{{/lambda.pasteLine}}{{/lambda.indent1}}
+                {{#lambda.indentAll1}}
+                {{#lambda.paste}}
+                {{/lambda.paste}}
+                {{/lambda.indentAll1}}
             }
             {{/hasApiKeyMethods}}
             {{^hasApiKeyMethods}}
-            {{#lambda.pasteLine}}{{/lambda.pasteLine}}
+            {{#lambda.paste}}
+            {{/lambda.paste}}
             {{/hasApiKeyMethods}}
 
             foreach(Channel<TTokenBase> tokens in AvailableTokens.Values)
@@ -70,7 +69,7 @@ namespace {{packageName}}.{{clientPackage}}
                     _tokens[i].TokenBecameAvailable += ((sender) => tokens.Writer.TryWrite((TTokenBase) sender));
         }
 
-        internal override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(string header = "", System.Threading.CancellationToken cancellation = default{{^netstandard20OrLater}}(System.Threading.CancellationToken){{/netstandard20OrLater}})
+        internal override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(string header = "", System.Threading.CancellationToken cancellation = default{{^netstandard20OrLater}}(global::System.Threading.CancellationToken){{/netstandard20OrLater}})
         {
             if (!AvailableTokens.TryGetValue(header, out Channel<TTokenBase>{{nrt?}} tokens))
                 throw new KeyNotFoundException($"Could not locate a token for header '{header}'.");

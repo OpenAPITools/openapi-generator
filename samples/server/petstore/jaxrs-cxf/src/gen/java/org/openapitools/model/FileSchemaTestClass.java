@@ -20,7 +20,7 @@ public class FileSchemaTestClass  {
 
   @ApiModelProperty(value = "")
   @Valid
-  private List<@Valid ModelFile> files;
+  private List<@Valid ModelFile> files = new ArrayList<>();
  /**
    * Get _file
    * @return _file

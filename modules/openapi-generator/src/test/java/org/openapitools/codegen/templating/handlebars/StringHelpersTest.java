@@ -21,7 +21,7 @@ public class StringHelpersTest {
         Context context = Context
                 .newBuilder(data)
                 .resolver(
-                        FieldValueResolver.INSTANCE)
+                        AccessAwareFieldValueResolver.INSTANCE)
                 .build();
 
         Template tmpl = handlebars.compileInline(template);

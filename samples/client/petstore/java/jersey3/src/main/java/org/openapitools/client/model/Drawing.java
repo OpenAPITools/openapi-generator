@@ -37,6 +37,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -49,9 +51,10 @@ import org.openapitools.client.JSON;
   Drawing.JSON_PROPERTY_NULLABLE_SHAPE,
   Drawing.JSON_PROPERTY_SHAPES
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Drawing {
   public static final String JSON_PROPERTY_MAIN_SHAPE = "mainShape";
+  @jakarta.annotation.Nullable
   private Shape mainShape;
 
   public static final String JSON_PROPERTY_SHAPE_OR_NULL = "shapeOrNull";
@@ -61,21 +64,24 @@ public class Drawing {
   private JsonNullable<NullableShape> nullableShape = JsonNullable.<NullableShape>undefined();
 
   public static final String JSON_PROPERTY_SHAPES = "shapes";
-  private List<Shape> shapes;
+  @jakarta.annotation.Nullable
+  private List<Shape> shapes = new ArrayList<>();
 
   public Drawing() { 
   }
 
-  public Drawing mainShape(Shape mainShape) {
+  public Drawing mainShape(@jakarta.annotation.Nullable Shape mainShape) {
     this.mainShape = mainShape;
     return this;
   }
 
-   /**
+  /**
    * Get mainShape
    * @return mainShape
-  **/
+   */
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonProperty(JSON_PROPERTY_MAIN_SHAPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -86,21 +92,23 @@ public class Drawing {
 
   @JsonProperty(JSON_PROPERTY_MAIN_SHAPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMainShape(Shape mainShape) {
+  public void setMainShape(@jakarta.annotation.Nullable Shape mainShape) {
     this.mainShape = mainShape;
   }
 
 
-  public Drawing shapeOrNull(ShapeOrNull shapeOrNull) {
+  public Drawing shapeOrNull(@jakarta.annotation.Nullable ShapeOrNull shapeOrNull) {
     this.shapeOrNull = JsonNullable.<ShapeOrNull>of(shapeOrNull);
     return this;
   }
 
-   /**
+  /**
    * Get shapeOrNull
    * @return shapeOrNull
-  **/
+   */
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonIgnore
 
   public ShapeOrNull getShapeOrNull() {
@@ -119,21 +127,23 @@ public class Drawing {
     this.shapeOrNull = shapeOrNull;
   }
 
-  public void setShapeOrNull(ShapeOrNull shapeOrNull) {
+  public void setShapeOrNull(@jakarta.annotation.Nullable ShapeOrNull shapeOrNull) {
     this.shapeOrNull = JsonNullable.<ShapeOrNull>of(shapeOrNull);
   }
 
 
-  public Drawing nullableShape(NullableShape nullableShape) {
+  public Drawing nullableShape(@jakarta.annotation.Nullable NullableShape nullableShape) {
     this.nullableShape = JsonNullable.<NullableShape>of(nullableShape);
     return this;
   }
 
-   /**
+  /**
    * Get nullableShape
    * @return nullableShape
-  **/
+   */
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonIgnore
 
   public NullableShape getNullableShape() {
@@ -152,12 +162,12 @@ public class Drawing {
     this.nullableShape = nullableShape;
   }
 
-  public void setNullableShape(NullableShape nullableShape) {
+  public void setNullableShape(@jakarta.annotation.Nullable NullableShape nullableShape) {
     this.nullableShape = JsonNullable.<NullableShape>of(nullableShape);
   }
 
 
-  public Drawing shapes(List<Shape> shapes) {
+  public Drawing shapes(@jakarta.annotation.Nullable List<Shape> shapes) {
     this.shapes = shapes;
     return this;
   }
@@ -170,11 +180,13 @@ public class Drawing {
     return this;
   }
 
-   /**
+  /**
    * Get shapes
    * @return shapes
-  **/
+   */
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonProperty(JSON_PROPERTY_SHAPES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -185,7 +197,7 @@ public class Drawing {
 
   @JsonProperty(JSON_PROPERTY_SHAPES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setShapes(List<Shape> shapes) {
+  public void setShapes(@jakarta.annotation.Nullable List<Shape> shapes) {
     this.shapes = shapes;
   }
 

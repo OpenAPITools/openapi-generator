@@ -5,6 +5,8 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
@@ -24,8 +26,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.INVOKER_PACKAGE;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen implements BeanValidationFeatures, OptionalFeatures {
     public static final String OPT_TITLE = "title";
@@ -58,8 +58,8 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     protected final Logger LOGGER = LoggerFactory.getLogger(JavaMicronautAbstractCodegen.class);
 
     protected String title;
-    protected boolean useBeanValidation;
-    protected boolean useOptional;
+    @Getter protected boolean useOptional;
+    @Getter @Setter
     protected boolean visitable;
     protected String buildTool;
     protected String testTool;
@@ -225,10 +225,6 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         }
 
         // Get boolean properties
-        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
-        }
-        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
 
         if (additionalProperties.containsKey(USE_OPTIONAL)) {
             this.setUseOptional(convertPropertyToBoolean(USE_OPTIONAL));
@@ -318,6 +314,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             setSerializationLibrary((String) additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY));
         }
         additionalProperties.put(this.serializationLibrary, true);
+        this.jackson = JACKSON.equals(this.serializationLibrary);
 
         // Add all the supporting files
         String resourceFolder = projectFolder + "/resources";
@@ -427,17 +424,8 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     }
 
     @Override
-    public void setUseBeanValidation(boolean useBeanValidation) {
-        this.useBeanValidation = useBeanValidation;
-    }
-
-    @Override
     public void setUseOptional(boolean useOptional) {
         this.useOptional = useOptional;
-    }
-
-    public void setVisitable(boolean visitable) {
-        this.visitable = visitable;
     }
 
     @Override
@@ -447,18 +435,6 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             apiVarName = escapeReservedWord(apiVarName);
         }
         return apiVarName;
-    }
-
-    public boolean isUseBeanValidation() {
-        return useBeanValidation;
-    }
-
-    public boolean isUseOptional() {
-        return useOptional;
-    }
-
-    public boolean isVisitable() {
-        return visitable;
     }
 
     @Override

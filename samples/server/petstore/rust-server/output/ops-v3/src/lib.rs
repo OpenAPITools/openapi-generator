@@ -1,18 +1,24 @@
-#![allow(missing_docs, trivial_casts, unused_variables, unused_mut, unused_imports, unused_extern_crates, non_camel_case_types)]
-#![allow(unused_imports, unused_attributes)]
+#![allow(missing_docs, trivial_casts, unused_variables, unused_mut, unused_imports, unused_extern_crates, unused_attributes, non_camel_case_types)]
 #![allow(clippy::derive_partial_eq_without_eq, clippy::disallowed_names)]
 
 use async_trait::async_trait;
 use futures::Stream;
 use std::error::Error;
+use std::collections::BTreeSet;
 use std::task::{Poll, Context};
 use swagger::{ApiError, ContextWrapper};
 use serde::{Serialize, Deserialize};
+use crate::server::Authorization;
+
 
 type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 
 pub const BASE_PATH: &str = "";
 pub const API_VERSION: &str = "0.0.1";
+
+mod auth;
+pub use auth::{AuthenticationApi, Claims};
+
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op10GetResponse {

@@ -61,7 +61,7 @@ bool {{classname}}::validate(std::stringstream& msg, const std::string& pathPref
         {{> model-validation-body }}
     }
     {{/hasValidation}}{{#required}}{{#isModel}}
-    if (!m_{{name}}.validate()) {
+    if (!m_{{name}}.validate(msg, _pathPrefix + ".{{nameInCamelCase}}")) {
         msg << _pathPrefix << ": {{name}} is invalid;";
         success = false;
     }{{/isModel}}{{/required}}{{/isArray}}{{/vars}}{{/isEnum}}{{#vendorExtensions.x-is-string-enum-container}}{{#anyOf}}{{#-first}}

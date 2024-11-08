@@ -25,7 +25,6 @@ import kotlin.collections.Map
 
 @RestController
 @Validated
-@RequestMapping("\${api.base-path:/v2}")
 class UserApiController(@Autowired(required = true) val service: UserApiService) {
 
 

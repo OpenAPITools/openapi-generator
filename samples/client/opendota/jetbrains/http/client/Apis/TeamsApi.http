@@ -1,0 +1,26 @@
+## TeamsApi
+
+### GET /teams
+## GET /teams
+GET https://api.opendota.com/api/teams?page={{page}}
+Accept: application/json; charset=utf-8
+
+### GET /teams/{team_id}
+## GET /teams/{team_id}
+GET https://api.opendota.com/api/teams/{{team_id}}
+Accept: application/json; charset=utf-8
+
+### GET /teams/{team_id}/heroes
+## GET /teams/{team_id}/heroes
+GET https://api.opendota.com/api/teams/{{team_id}}/heroes
+Accept: application/json; charset=utf-8
+
+### GET /teams/{team_id}/matches
+## GET /teams/{team_id}/matches
+GET https://api.opendota.com/api/teams/{{team_id}}/matches
+Accept: application/json; charset=utf-8
+
+### GET /teams/{team_id}/players
+## GET /teams/{team_id}/players
+GET https://api.opendota.com/api/teams/{{team_id}}/players
+Accept: application/json; charset=utf-8

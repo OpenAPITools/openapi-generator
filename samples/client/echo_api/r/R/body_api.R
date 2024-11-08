@@ -12,156 +12,6 @@
 #' @format An \code{R6Class} generator object
 #' @field api_client Handles the client-server communication.
 #'
-#' @section Methods:
-#' \describe{
-#' \strong{ TestBinaryGif } \emph{ Test binary (gif) response body }
-#' Test binary (gif) response body
-#'
-#' \itemize{
-#'
-#'
-#' \item status code : 200 | Successful operation
-#'
-#' \item return type : data.frame
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ TestBodyApplicationOctetstreamBinary } \emph{ Test body parameter(s) }
-#' Test body parameter(s)
-#'
-#' \itemize{
-#' \item \emph{ @param } body data.frame
-#'
-#'
-#' \item status code : 200 | Successful operation
-#'
-#' \item return type : character
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ TestBodyMultipartFormdataArrayOfBinary } \emph{ Test array of binary in multipart mime }
-#' Test array of binary in multipart mime
-#'
-#' \itemize{
-#' \item \emph{ @param } files list( data.frame )
-#'
-#'
-#' \item status code : 200 | Successful operation
-#'
-#' \item return type : character
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ TestBodyMultipartFormdataSingleBinary } \emph{ Test single binary in multipart mime }
-#' Test single binary in multipart mime
-#'
-#' \itemize{
-#' \item \emph{ @param } my_file data.frame
-#'
-#'
-#' \item status code : 200 | Successful operation
-#'
-#' \item return type : character
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ TestEchoBodyAllOfPet } \emph{ Test body parameter(s) }
-#' Test body parameter(s)
-#'
-#' \itemize{
-#' \item \emph{ @param } pet \link{Pet}
-#' \item \emph{ @returnType } \link{Pet} \cr
-#'
-#'
-#' \item status code : 200 | Successful operation
-#'
-#' \item return type : Pet
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ TestEchoBodyFreeFormObjectResponseString } \emph{ Test free form object }
-#' Test free form object
-#'
-#' \itemize{
-#' \item \emph{ @param } body object
-#'
-#'
-#' \item status code : 200 | Successful operation
-#'
-#' \item return type : character
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ TestEchoBodyPet } \emph{ Test body parameter(s) }
-#' Test body parameter(s)
-#'
-#' \itemize{
-#' \item \emph{ @param } pet \link{Pet}
-#' \item \emph{ @returnType } \link{Pet} \cr
-#'
-#'
-#' \item status code : 200 | Successful operation
-#'
-#' \item return type : Pet
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ TestEchoBodyPetResponseString } \emph{ Test empty response body }
-#' Test empty response body
-#'
-#' \itemize{
-#' \item \emph{ @param } pet \link{Pet}
-#'
-#'
-#' \item status code : 200 | Successful operation
-#'
-#' \item return type : character
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ TestEchoBodyTagResponseString } \emph{ Test empty json (request body) }
-#' Test empty json (request body)
-#'
-#' \itemize{
-#' \item \emph{ @param } tag \link{Tag}
-#'
-#'
-#' \item status code : 200 | Successful operation
-#'
-#' \item return type : character
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' }
-#'
-#'
 #' @examples
 #' \dontrun{
 #' ####################  TestBinaryGif  ####################
@@ -275,6 +125,20 @@
 #' dput(result)
 #'
 #'
+#' ####################  TestEchoBodyStringEnum  ####################
+#'
+#' library(openapi)
+#' var_body <- "body_example" # character | String enum (Optional)
+#'
+#' #Test string enum response body
+#' api_instance <- BodyApi$new()
+#'
+#' # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+#' # result <- api_instance$TestEchoBodyStringEnum(body = var_bodydata_file = "result.txt")
+#' result <- api_instance$TestEchoBodyStringEnum(body = var_body)
+#' dput(result)
+#'
+#'
 #' ####################  TestEchoBodyTagResponseString  ####################
 #'
 #' library(openapi)
@@ -297,13 +161,11 @@ BodyApi <- R6::R6Class(
   "BodyApi",
   public = list(
     api_client = NULL,
-    #' Initialize a new BodyApi.
-    #'
+
     #' @description
     #' Initialize a new BodyApi.
     #'
     #' @param api_client An instance of API client.
-    #' @export
     initialize = function(api_client) {
       if (!missing(api_client)) {
         self$api_client <- api_client
@@ -311,15 +173,14 @@ BodyApi <- R6::R6Class(
         self$api_client <- ApiClient$new()
       }
     },
-    #' Test binary (gif) response body
-    #'
+
     #' @description
     #' Test binary (gif) response body
     #'
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return data.frame
-    #' @export
     TestBinaryGif = function(data_file = NULL, ...) {
       local_var_response <- self$TestBinaryGifWithHttpInfo(data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
@@ -332,15 +193,14 @@ BodyApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' Test binary (gif) response body
-    #'
+
     #' @description
     #' Test binary (gif) response body
     #'
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return API response (data.frame) with additional information such as HTTP status code, headers
-    #' @export
     TestBinaryGifWithHttpInfo = function(data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -379,7 +239,7 @@ BodyApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "data.frame", loadNamespace("openapi")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "data.frame", loadNamespace("openapi")),
           error = function(e) {
             stop("Failed to deserialize response")
           }
@@ -397,16 +257,15 @@ BodyApi <- R6::R6Class(
         local_var_resp
       }
     },
-    #' Test body parameter(s)
-    #'
+
     #' @description
     #' Test body parameter(s)
     #'
     #' @param body (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return character
-    #' @export
     TestBodyApplicationOctetstreamBinary = function(body = NULL, data_file = NULL, ...) {
       local_var_response <- self$TestBodyApplicationOctetstreamBinaryWithHttpInfo(body, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
@@ -419,16 +278,15 @@ BodyApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' Test body parameter(s)
-    #'
+
     #' @description
     #' Test body parameter(s)
     #'
     #' @param body (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    #' @export
     TestBodyApplicationOctetstreamBinaryWithHttpInfo = function(body = NULL, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -474,7 +332,7 @@ BodyApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "character", loadNamespace("openapi")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("openapi")),
           error = function(e) {
             stop("Failed to deserialize response")
           }
@@ -492,16 +350,15 @@ BodyApi <- R6::R6Class(
         local_var_resp
       }
     },
-    #' Test array of binary in multipart mime
-    #'
+
     #' @description
     #' Test array of binary in multipart mime
     #'
     #' @param files 
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return character
-    #' @export
     TestBodyMultipartFormdataArrayOfBinary = function(files, data_file = NULL, ...) {
       local_var_response <- self$TestBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
@@ -514,16 +371,15 @@ BodyApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' Test array of binary in multipart mime
-    #'
+
     #' @description
     #' Test array of binary in multipart mime
     #'
     #' @param files 
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    #' @export
     TestBodyMultipartFormdataArrayOfBinaryWithHttpInfo = function(files, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -568,7 +424,7 @@ BodyApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "character", loadNamespace("openapi")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("openapi")),
           error = function(e) {
             stop("Failed to deserialize response")
           }
@@ -586,16 +442,15 @@ BodyApi <- R6::R6Class(
         local_var_resp
       }
     },
-    #' Test single binary in multipart mime
-    #'
+
     #' @description
     #' Test single binary in multipart mime
     #'
     #' @param my_file (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return character
-    #' @export
     TestBodyMultipartFormdataSingleBinary = function(my_file = NULL, data_file = NULL, ...) {
       local_var_response <- self$TestBodyMultipartFormdataSingleBinaryWithHttpInfo(my_file, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
@@ -608,16 +463,15 @@ BodyApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' Test single binary in multipart mime
-    #'
+
     #' @description
     #' Test single binary in multipart mime
     #'
     #' @param my_file (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    #' @export
     TestBodyMultipartFormdataSingleBinaryWithHttpInfo = function(my_file = NULL, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -658,7 +512,7 @@ BodyApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "character", loadNamespace("openapi")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("openapi")),
           error = function(e) {
             stop("Failed to deserialize response")
           }
@@ -676,16 +530,15 @@ BodyApi <- R6::R6Class(
         local_var_resp
       }
     },
-    #' Test body parameter(s)
-    #'
+
     #' @description
     #' Test body parameter(s)
     #'
     #' @param pet (optional) Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return Pet
-    #' @export
     TestEchoBodyAllOfPet = function(pet = NULL, data_file = NULL, ...) {
       local_var_response <- self$TestEchoBodyAllOfPetWithHttpInfo(pet, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
@@ -698,16 +551,15 @@ BodyApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' Test body parameter(s)
-    #'
+
     #' @description
     #' Test body parameter(s)
     #'
     #' @param pet (optional) Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return API response (Pet) with additional information such as HTTP status code, headers
-    #' @export
     TestEchoBodyAllOfPetWithHttpInfo = function(pet = NULL, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -753,7 +605,7 @@ BodyApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "Pet", loadNamespace("openapi")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "Pet", loadNamespace("openapi")),
           error = function(e) {
             stop("Failed to deserialize response")
           }
@@ -771,16 +623,15 @@ BodyApi <- R6::R6Class(
         local_var_resp
       }
     },
-    #' Test free form object
-    #'
+
     #' @description
     #' Test free form object
     #'
     #' @param body (optional) Free form object
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return character
-    #' @export
     TestEchoBodyFreeFormObjectResponseString = function(body = NULL, data_file = NULL, ...) {
       local_var_response <- self$TestEchoBodyFreeFormObjectResponseStringWithHttpInfo(body, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
@@ -793,16 +644,15 @@ BodyApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' Test free form object
-    #'
+
     #' @description
     #' Test free form object
     #'
     #' @param body (optional) Free form object
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    #' @export
     TestEchoBodyFreeFormObjectResponseStringWithHttpInfo = function(body = NULL, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -848,7 +698,7 @@ BodyApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "character", loadNamespace("openapi")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("openapi")),
           error = function(e) {
             stop("Failed to deserialize response")
           }
@@ -866,16 +716,15 @@ BodyApi <- R6::R6Class(
         local_var_resp
       }
     },
-    #' Test body parameter(s)
-    #'
+
     #' @description
     #' Test body parameter(s)
     #'
     #' @param pet (optional) Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return Pet
-    #' @export
     TestEchoBodyPet = function(pet = NULL, data_file = NULL, ...) {
       local_var_response <- self$TestEchoBodyPetWithHttpInfo(pet, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
@@ -888,16 +737,15 @@ BodyApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' Test body parameter(s)
-    #'
+
     #' @description
     #' Test body parameter(s)
     #'
     #' @param pet (optional) Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return API response (Pet) with additional information such as HTTP status code, headers
-    #' @export
     TestEchoBodyPetWithHttpInfo = function(pet = NULL, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -943,7 +791,7 @@ BodyApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "Pet", loadNamespace("openapi")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "Pet", loadNamespace("openapi")),
           error = function(e) {
             stop("Failed to deserialize response")
           }
@@ -961,16 +809,15 @@ BodyApi <- R6::R6Class(
         local_var_resp
       }
     },
-    #' Test empty response body
-    #'
+
     #' @description
     #' Test empty response body
     #'
     #' @param pet (optional) Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return character
-    #' @export
     TestEchoBodyPetResponseString = function(pet = NULL, data_file = NULL, ...) {
       local_var_response <- self$TestEchoBodyPetResponseStringWithHttpInfo(pet, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
@@ -983,16 +830,15 @@ BodyApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' Test empty response body
-    #'
+
     #' @description
     #' Test empty response body
     #'
     #' @param pet (optional) Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    #' @export
     TestEchoBodyPetResponseStringWithHttpInfo = function(pet = NULL, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -1038,7 +884,7 @@ BodyApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "character", loadNamespace("openapi")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("openapi")),
           error = function(e) {
             stop("Failed to deserialize response")
           }
@@ -1056,16 +902,108 @@ BodyApi <- R6::R6Class(
         local_var_resp
       }
     },
-    #' Test empty json (request body)
+
+    #' @description
+    #' Test string enum response body
     #'
+    #' @param body (optional) String enum
+    #' @param data_file (optional) name of the data file to save the result
+    #' @param ... Other optional arguments
+    #'
+    #' @return StringEnumRef
+    TestEchoBodyStringEnum = function(body = NULL, data_file = NULL, ...) {
+      local_var_response <- self$TestEchoBodyStringEnumWithHttpInfo(body, data_file = data_file, ...)
+      if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
+        local_var_response$content
+      } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
+        local_var_response
+      } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
+        local_var_response
+      } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
+        local_var_response
+      }
+    },
+
+    #' @description
+    #' Test string enum response body
+    #'
+    #' @param body (optional) String enum
+    #' @param data_file (optional) name of the data file to save the result
+    #' @param ... Other optional arguments
+    #'
+    #' @return API response (StringEnumRef) with additional information such as HTTP status code, headers
+    TestEchoBodyStringEnumWithHttpInfo = function(body = NULL, data_file = NULL, ...) {
+      args <- list(...)
+      query_params <- list()
+      header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
+      oauth_scopes <- NULL
+      is_oauth <- FALSE
+
+
+      if (!is.null(`body`)) {
+        local_var_body <- `body`$toJSONString()
+      } else {
+        body <- NULL
+      }
+
+      local_var_url_path <- "/echo/body/string_enum"
+
+      # The Accept request HTTP header
+      local_var_accepts <- list("application/json")
+
+      # The Content-Type representation header
+      local_var_content_types <- list("application/json")
+
+      local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
+                                 method = "POST",
+                                 query_params = query_params,
+                                 header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
+                                 accepts = local_var_accepts,
+                                 content_types = local_var_content_types,
+                                 body = local_var_body,
+                                 is_oauth = is_oauth,
+                                 oauth_scopes = oauth_scopes,
+                                 ...)
+
+      if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
+        # save response in a file
+        if (!is.null(data_file)) {
+          write(local_var_resp$response, data_file)
+        }
+
+        deserialized_resp_obj <- tryCatch(
+          self$api_client$deserialize(local_var_resp$response_as_text(), "StringEnumRef", loadNamespace("openapi")),
+          error = function(e) {
+            stop("Failed to deserialize response")
+          }
+        )
+        local_var_resp$content <- deserialized_resp_obj
+        local_var_resp
+      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        ApiResponse$new(paste("Server returned ", local_var_resp$status_code, " response status code."), local_var_resp)
+      } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
+        ApiResponse$new("API client error", local_var_resp)
+      } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
+        if (is.null(local_var_resp$response) || local_var_resp$response == "") {
+          local_var_resp$response <- "API server error"
+        }
+        local_var_resp
+      }
+    },
+
     #' @description
     #' Test empty json (request body)
     #'
     #' @param tag (optional) Tag object
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return character
-    #' @export
     TestEchoBodyTagResponseString = function(tag = NULL, data_file = NULL, ...) {
       local_var_response <- self$TestEchoBodyTagResponseStringWithHttpInfo(tag, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
@@ -1078,16 +1016,15 @@ BodyApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' Test empty json (request body)
-    #'
+
     #' @description
     #' Test empty json (request body)
     #'
     #' @param tag (optional) Tag object
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    #' @export
     TestEchoBodyTagResponseStringWithHttpInfo = function(tag = NULL, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -1133,7 +1070,7 @@ BodyApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "character", loadNamespace("openapi")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("openapi")),
           error = function(e) {
             stop("Failed to deserialize response")
           }

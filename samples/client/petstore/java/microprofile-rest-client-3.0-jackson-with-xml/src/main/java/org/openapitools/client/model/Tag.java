@@ -23,34 +23,36 @@ import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import jakarta.xml.bind.annotation.*;
 import jakarta.xml.bind.annotation.adapters.*;
 
-@XmlAccessorType(XmlAccessType.FIELD)
- @XmlType(name = "Tag", propOrder =
-    { "id", "name"
-})
+@XmlType(name = "Tag", propOrder =
+    { "id", "name" }
+)
 
-@XmlRootElement(name="Tag")
+
+@XmlRootElement(name = "Tag")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Tag")
 @JsonPropertyOrder({
   Tag.JSON_PROPERTY_ID,
   Tag.JSON_PROPERTY_NAME
 })
 /**
   * A tag for a pet
- **/
+  */
 
 public class Tag  {
   
   public static final String JSON_PROPERTY_ID = "id";
-  @XmlElement(name="id")
+  @XmlElement(name = "id")
   private Long id;
 
   public static final String JSON_PROPERTY_NAME = "name";
-  @XmlElement(name="name")
+  @XmlElement(name = "name")
   private String name;
 
- /**
+  /**
    * Get id
    * @return id
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "id")
@@ -59,8 +61,8 @@ public class Tag  {
   }
 
   /**
-    * Set id
-  **/
+   * Set id
+   */
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "id")
@@ -73,10 +75,10 @@ public class Tag  {
     return this;
   }
 
- /**
+  /**
    * Get name
    * @return name
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "name")
@@ -85,8 +87,8 @@ public class Tag  {
   }
 
   /**
-    * Set name
-  **/
+   * Set name
+   */
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "name")
@@ -101,8 +103,8 @@ public class Tag  {
 
 
   /**
-    * Create a string representation of this pojo.
-  **/
+   * Create a string representation of this pojo.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -125,3 +127,4 @@ public class Tag  {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

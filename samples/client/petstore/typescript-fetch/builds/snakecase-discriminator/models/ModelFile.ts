@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * Must be named `File` for test.
  * @export
@@ -30,10 +30,8 @@ export interface ModelFile {
 /**
  * Check if a given object implements the ModelFile interface.
  */
-export function instanceOfModelFile(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfModelFile(value: object): value is ModelFile {
+    return true;
 }
 
 export function ModelFileFromJSON(json: any): ModelFile {
@@ -41,25 +39,27 @@ export function ModelFileFromJSON(json: any): ModelFile {
 }
 
 export function ModelFileFromJSONTyped(json: any, ignoreDiscriminator: boolean): ModelFile {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'sourceURI': !exists(json, 'sourceURI') ? undefined : json['sourceURI'],
+        'sourceURI': json['sourceURI'] == null ? undefined : json['sourceURI'],
     };
 }
 
-export function ModelFileToJSON(value?: ModelFile | null): any {
-    if (value === undefined) {
-        return undefined;
+export function ModelFileToJSON(json: any): ModelFile {
+    return ModelFileToJSONTyped(json, false);
+}
+
+export function ModelFileToJSONTyped(value?: ModelFile | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'sourceURI': value.sourceURI,
+        'sourceURI': value['sourceURI'],
     };
 }
 

@@ -22,13 +22,13 @@ module {{classname}}Handlers =
     /// </summary>
    [<FunctionName("{{operationId}}")>]
     let {{operationId}}
-        ([<HttpTrigger(Extensions.Http.AuthorizationLevel.Anonymous, "{{httpMethod}}", Route = "{{contextPath}}{{path}}")>]
+        ([<HttpTrigger(Extensions.Http.AuthorizationLevel.Anonymous, "{{httpMethod}}", Route = "{{{contextPath}}}{{{path}}}")>]
         req:HttpRequest ) =
 
       {{#hasBodyParam}}
       use reader = StreamReader(req.Body)
 
-      let mediaTypes = [{{#consumes}}"{{mediaType}}";{{/consumes}}] // currently unused
+      let mediaTypes = [{{#consumes}}"{{{mediaType}}}";{{/consumes}}] // currently unused
 
       {{#bodyParam}}
       let bind (contentType:string) body  =

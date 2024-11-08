@@ -10,22 +10,13 @@ use validator::{Validate, ValidationErrors};
 use crate::{header, types::*};
 
 #[allow(unused_imports)]
-use crate::models;
-
-use crate::{
-    AddPetResponse, Api, CreateUserResponse, CreateUsersWithArrayInputResponse,
-    CreateUsersWithListInputResponse, DeleteOrderResponse, DeletePetResponse, DeleteUserResponse,
-    FindPetsByStatusResponse, FindPetsByTagsResponse, GetInventoryResponse, GetOrderByIdResponse,
-    GetPetByIdResponse, GetUserByNameResponse, LoginUserResponse, LogoutUserResponse,
-    PlaceOrderResponse, UpdatePetResponse, UpdatePetWithFormResponse, UpdateUserResponse,
-    UploadFileResponse,
-};
+use crate::{apis, models};
 
 /// Setup API Server.
 pub fn new<I, A>(api_impl: I) -> Router
 where
     I: AsRef<A> + Clone + Send + Sync + 'static,
-    A: Api + 'static,
+    A: apis::pet::Pet + apis::store::Store + apis::user::User + apis::ApiKeyAuthHeader + 'static,
 {
     // build our application with a route
     Router::new()
@@ -68,7 +59,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct AddPetBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a models::Pet,
 }
 
@@ -79,7 +70,6 @@ fn add_pet_validation(body: models::Pet) -> std::result::Result<(models::Pet,), 
 
     Ok((body,))
 }
-
 /// AddPet - POST /v2/pet
 #[tracing::instrument(skip_all)]
 async fn add_pet<I, A>(
@@ -91,7 +81,7 @@ async fn add_pet<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::pet::Pet,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || add_pet_validation(body))
@@ -111,7 +101,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            AddPetResponse::Status200_SuccessfulOperation(body) => {
+            apis::pet::AddPetResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -127,7 +117,7 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            AddPetResponse::Status405_InvalidInput => {
+            apis::pet::AddPetResponse::Status405_InvalidInput => {
                 let mut response = response.status(405);
                 response.body(Body::empty())
             }
@@ -158,7 +148,6 @@ fn delete_pet_validation(
 
     Ok((header_params, path_params))
 }
-
 /// DeletePet - DELETE /v2/pet/{petId}
 #[tracing::instrument(skip_all)]
 async fn delete_pet<I, A>(
@@ -171,7 +160,7 @@ async fn delete_pet<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::pet::Pet,
 {
     // Header parameters
     let header_params = {
@@ -220,7 +209,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            DeletePetResponse::Status400_InvalidPetValue => {
+            apis::pet::DeletePetResponse::Status400_InvalidPetValue => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -246,7 +235,6 @@ fn find_pets_by_status_validation(
 
     Ok((query_params,))
 }
-
 /// FindPetsByStatus - GET /v2/pet/findByStatus
 #[tracing::instrument(skip_all)]
 async fn find_pets_by_status<I, A>(
@@ -258,7 +246,7 @@ async fn find_pets_by_status<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::pet::Pet,
 {
     #[allow(clippy::redundant_closure)]
     let validation =
@@ -282,7 +270,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            FindPetsByStatusResponse::Status200_SuccessfulOperation(body) => {
+            apis::pet::FindPetsByStatusResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -298,7 +286,7 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            FindPetsByStatusResponse::Status400_InvalidStatusValue => {
+            apis::pet::FindPetsByStatusResponse::Status400_InvalidStatusValue => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -324,7 +312,6 @@ fn find_pets_by_tags_validation(
 
     Ok((query_params,))
 }
-
 /// FindPetsByTags - GET /v2/pet/findByTags
 #[tracing::instrument(skip_all)]
 async fn find_pets_by_tags<I, A>(
@@ -336,7 +323,7 @@ async fn find_pets_by_tags<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::pet::Pet,
 {
     #[allow(clippy::redundant_closure)]
     let validation =
@@ -360,7 +347,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            FindPetsByTagsResponse::Status200_SuccessfulOperation(body) => {
+            apis::pet::FindPetsByTagsResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -376,7 +363,7 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            FindPetsByTagsResponse::Status400_InvalidTagValue => {
+            apis::pet::FindPetsByTagsResponse::Status400_InvalidTagValue => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -402,20 +389,31 @@ fn get_pet_by_id_validation(
 
     Ok((path_params,))
 }
-
 /// GetPetById - GET /v2/pet/{petId}
 #[tracing::instrument(skip_all)]
 async fn get_pet_by_id<I, A>(
     method: Method,
     host: Host,
     cookies: CookieJar,
+    headers: HeaderMap,
     Path(path_params): Path<models::GetPetByIdPathParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::pet::Pet + apis::ApiKeyAuthHeader,
 {
+    // Authentication
+    let token_in_header = api_impl
+        .as_ref()
+        .extract_token_from_header(&headers, "ApiKey");
+    if let (None,) = (&token_in_header,) {
+        return Response::builder()
+            .status(StatusCode::UNAUTHORIZED)
+            .body(Body::empty())
+            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
+    }
+
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || get_pet_by_id_validation(path_params))
         .await
@@ -430,14 +428,14 @@ where
 
     let result = api_impl
         .as_ref()
-        .get_pet_by_id(method, host, cookies, path_params)
+        .get_pet_by_id(method, host, cookies, token_in_header, path_params)
         .await;
 
     let mut response = Response::builder();
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            GetPetByIdResponse::Status200_SuccessfulOperation(body) => {
+            apis::pet::GetPetByIdResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -453,11 +451,11 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            GetPetByIdResponse::Status400_InvalidIDSupplied => {
+            apis::pet::GetPetByIdResponse::Status400_InvalidIDSupplied => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
-            GetPetByIdResponse::Status404_PetNotFound => {
+            apis::pet::GetPetByIdResponse::Status404_PetNotFound => {
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -478,7 +476,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct UpdatePetBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a models::Pet,
 }
 
@@ -491,7 +489,6 @@ fn update_pet_validation(
 
     Ok((body,))
 }
-
 /// UpdatePet - PUT /v2/pet
 #[tracing::instrument(skip_all)]
 async fn update_pet<I, A>(
@@ -503,7 +500,7 @@ async fn update_pet<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::pet::Pet,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || update_pet_validation(body))
@@ -526,7 +523,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            UpdatePetResponse::Status200_SuccessfulOperation(body) => {
+            apis::pet::UpdatePetResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -542,15 +539,15 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            UpdatePetResponse::Status400_InvalidIDSupplied => {
+            apis::pet::UpdatePetResponse::Status400_InvalidIDSupplied => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
-            UpdatePetResponse::Status404_PetNotFound => {
+            apis::pet::UpdatePetResponse::Status404_PetNotFound => {
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
-            UpdatePetResponse::Status405_ValidationException => {
+            apis::pet::UpdatePetResponse::Status405_ValidationException => {
                 let mut response = response.status(405);
                 response.body(Body::empty())
             }
@@ -568,15 +565,32 @@ where
     })
 }
 
+#[derive(validator::Validate)]
+#[allow(dead_code)]
+struct UpdatePetWithFormBodyValidator<'a> {
+    #[validate(nested)]
+    body: &'a models::UpdatePetWithFormRequest,
+}
+
 #[tracing::instrument(skip_all)]
 fn update_pet_with_form_validation(
     path_params: models::UpdatePetWithFormPathParams,
-) -> std::result::Result<(models::UpdatePetWithFormPathParams,), ValidationErrors> {
+    body: Option<models::UpdatePetWithFormRequest>,
+) -> std::result::Result<
+    (
+        models::UpdatePetWithFormPathParams,
+        Option<models::UpdatePetWithFormRequest>,
+    ),
+    ValidationErrors,
+> {
     path_params.validate()?;
+    if let Some(body) = &body {
+        let b = UpdatePetWithFormBodyValidator { body };
+        b.validate()?;
+    }
 
-    Ok((path_params,))
+    Ok((path_params, body))
 }
-
 /// UpdatePetWithForm - POST /v2/pet/{petId}
 #[tracing::instrument(skip_all)]
 async fn update_pet_with_form<I, A>(
@@ -585,18 +599,19 @@ async fn update_pet_with_form<I, A>(
     cookies: CookieJar,
     Path(path_params): Path<models::UpdatePetWithFormPathParams>,
     State(api_impl): State<I>,
+    Form(body): Form<Option<models::UpdatePetWithFormRequest>>,
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::pet::Pet,
 {
     #[allow(clippy::redundant_closure)]
     let validation =
-        tokio::task::spawn_blocking(move || update_pet_with_form_validation(path_params))
+        tokio::task::spawn_blocking(move || update_pet_with_form_validation(path_params, body))
             .await
             .unwrap();
 
-    let Ok((path_params,)) = validation else {
+    let Ok((path_params, body)) = validation else {
         return Response::builder()
             .status(StatusCode::BAD_REQUEST)
             .body(Body::from(validation.unwrap_err().to_string()))
@@ -605,14 +620,14 @@ where
 
     let result = api_impl
         .as_ref()
-        .update_pet_with_form(method, host, cookies, path_params)
+        .update_pet_with_form(method, host, cookies, path_params, body)
         .await;
 
     let mut response = Response::builder();
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            UpdatePetWithFormResponse::Status405_InvalidInput => {
+            apis::pet::UpdatePetWithFormResponse::Status405_InvalidInput => {
                 let mut response = response.status(405);
                 response.body(Body::empty())
             }
@@ -638,7 +653,6 @@ fn upload_file_validation(
 
     Ok((path_params,))
 }
-
 /// UploadFile - POST /v2/pet/{petId}/uploadImage
 #[tracing::instrument(skip_all)]
 async fn upload_file<I, A>(
@@ -651,7 +665,7 @@ async fn upload_file<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::pet::Pet,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || upload_file_validation(path_params))
@@ -674,7 +688,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            UploadFileResponse::Status200_SuccessfulOperation(body) => {
+            apis::pet::UploadFileResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -719,7 +733,6 @@ fn delete_order_validation(
 
     Ok((path_params,))
 }
-
 /// DeleteOrder - DELETE /v2/store/order/{orderId}
 #[tracing::instrument(skip_all)]
 async fn delete_order<I, A>(
@@ -731,7 +744,7 @@ async fn delete_order<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::store::Store,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || delete_order_validation(path_params))
@@ -754,11 +767,11 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            DeleteOrderResponse::Status400_InvalidIDSupplied => {
+            apis::store::DeleteOrderResponse::Status400_InvalidIDSupplied => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
-            DeleteOrderResponse::Status404_OrderNotFound => {
+            apis::store::DeleteOrderResponse::Status404_OrderNotFound => {
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -780,19 +793,30 @@ where
 fn get_inventory_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// GetInventory - GET /v2/store/inventory
 #[tracing::instrument(skip_all)]
 async fn get_inventory<I, A>(
     method: Method,
     host: Host,
     cookies: CookieJar,
+    headers: HeaderMap,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::store::Store + apis::ApiKeyAuthHeader,
 {
+    // Authentication
+    let token_in_header = api_impl
+        .as_ref()
+        .extract_token_from_header(&headers, "ApiKey");
+    if let (None,) = (&token_in_header,) {
+        return Response::builder()
+            .status(StatusCode::UNAUTHORIZED)
+            .body(Body::empty())
+            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
+    }
+
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || get_inventory_validation())
         .await
@@ -805,13 +829,16 @@ where
             .map_err(|_| StatusCode::BAD_REQUEST);
     };
 
-    let result = api_impl.as_ref().get_inventory(method, host, cookies).await;
+    let result = api_impl
+        .as_ref()
+        .get_inventory(method, host, cookies, token_in_header)
+        .await;
 
     let mut response = Response::builder();
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            GetInventoryResponse::Status200_SuccessfulOperation(body) => {
+            apis::store::GetInventoryResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -856,7 +883,6 @@ fn get_order_by_id_validation(
 
     Ok((path_params,))
 }
-
 /// GetOrderById - GET /v2/store/order/{orderId}
 #[tracing::instrument(skip_all)]
 async fn get_order_by_id<I, A>(
@@ -868,7 +894,7 @@ async fn get_order_by_id<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::store::Store,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || get_order_by_id_validation(path_params))
@@ -891,7 +917,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            GetOrderByIdResponse::Status200_SuccessfulOperation(body) => {
+            apis::store::GetOrderByIdResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -907,11 +933,11 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            GetOrderByIdResponse::Status400_InvalidIDSupplied => {
+            apis::store::GetOrderByIdResponse::Status400_InvalidIDSupplied => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
-            GetOrderByIdResponse::Status404_OrderNotFound => {
+            apis::store::GetOrderByIdResponse::Status404_OrderNotFound => {
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -932,7 +958,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct PlaceOrderBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a models::Order,
 }
 
@@ -945,7 +971,6 @@ fn place_order_validation(
 
     Ok((body,))
 }
-
 /// PlaceOrder - POST /v2/store/order
 #[tracing::instrument(skip_all)]
 async fn place_order<I, A>(
@@ -957,7 +982,7 @@ async fn place_order<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::store::Store,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || place_order_validation(body))
@@ -980,7 +1005,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            PlaceOrderResponse::Status200_SuccessfulOperation(body) => {
+            apis::store::PlaceOrderResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -996,7 +1021,7 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            PlaceOrderResponse::Status400_InvalidOrder => {
+            apis::store::PlaceOrderResponse::Status400_InvalidOrder => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -1017,7 +1042,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct CreateUserBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a models::User,
 }
 
@@ -1030,20 +1055,31 @@ fn create_user_validation(
 
     Ok((body,))
 }
-
 /// CreateUser - POST /v2/user
 #[tracing::instrument(skip_all)]
 async fn create_user<I, A>(
     method: Method,
     host: Host,
     cookies: CookieJar,
+    headers: HeaderMap,
     State(api_impl): State<I>,
     Json(body): Json<models::User>,
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::user::User + apis::ApiKeyAuthHeader,
 {
+    // Authentication
+    let token_in_header = api_impl
+        .as_ref()
+        .extract_token_from_header(&headers, "ApiKey");
+    if let (None,) = (&token_in_header,) {
+        return Response::builder()
+            .status(StatusCode::UNAUTHORIZED)
+            .body(Body::empty())
+            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
+    }
+
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || create_user_validation(body))
         .await
@@ -1058,14 +1094,14 @@ where
 
     let result = api_impl
         .as_ref()
-        .create_user(method, host, cookies, body)
+        .create_user(method, host, cookies, token_in_header, body)
         .await;
 
     let mut response = Response::builder();
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            CreateUserResponse::Status0_SuccessfulOperation => {
+            apis::user::CreateUserResponse::Status0_SuccessfulOperation => {
                 let mut response = response.status(0);
                 response.body(Body::empty())
             }
@@ -1086,7 +1122,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct CreateUsersWithArrayInputBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a Vec<models::User>,
 }
 
@@ -1099,20 +1135,31 @@ fn create_users_with_array_input_validation(
 
     Ok((body,))
 }
-
 /// CreateUsersWithArrayInput - POST /v2/user/createWithArray
 #[tracing::instrument(skip_all)]
 async fn create_users_with_array_input<I, A>(
     method: Method,
     host: Host,
     cookies: CookieJar,
+    headers: HeaderMap,
     State(api_impl): State<I>,
     Json(body): Json<Vec<models::User>>,
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::user::User + apis::ApiKeyAuthHeader,
 {
+    // Authentication
+    let token_in_header = api_impl
+        .as_ref()
+        .extract_token_from_header(&headers, "ApiKey");
+    if let (None,) = (&token_in_header,) {
+        return Response::builder()
+            .status(StatusCode::UNAUTHORIZED)
+            .body(Body::empty())
+            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
+    }
+
     #[allow(clippy::redundant_closure)]
     let validation =
         tokio::task::spawn_blocking(move || create_users_with_array_input_validation(body))
@@ -1128,14 +1175,14 @@ where
 
     let result = api_impl
         .as_ref()
-        .create_users_with_array_input(method, host, cookies, body)
+        .create_users_with_array_input(method, host, cookies, token_in_header, body)
         .await;
 
     let mut response = Response::builder();
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            CreateUsersWithArrayInputResponse::Status0_SuccessfulOperation => {
+            apis::user::CreateUsersWithArrayInputResponse::Status0_SuccessfulOperation => {
                 let mut response = response.status(0);
                 response.body(Body::empty())
             }
@@ -1156,7 +1203,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct CreateUsersWithListInputBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a Vec<models::User>,
 }
 
@@ -1169,20 +1216,31 @@ fn create_users_with_list_input_validation(
 
     Ok((body,))
 }
-
 /// CreateUsersWithListInput - POST /v2/user/createWithList
 #[tracing::instrument(skip_all)]
 async fn create_users_with_list_input<I, A>(
     method: Method,
     host: Host,
     cookies: CookieJar,
+    headers: HeaderMap,
     State(api_impl): State<I>,
     Json(body): Json<Vec<models::User>>,
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::user::User + apis::ApiKeyAuthHeader,
 {
+    // Authentication
+    let token_in_header = api_impl
+        .as_ref()
+        .extract_token_from_header(&headers, "ApiKey");
+    if let (None,) = (&token_in_header,) {
+        return Response::builder()
+            .status(StatusCode::UNAUTHORIZED)
+            .body(Body::empty())
+            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
+    }
+
     #[allow(clippy::redundant_closure)]
     let validation =
         tokio::task::spawn_blocking(move || create_users_with_list_input_validation(body))
@@ -1198,14 +1256,14 @@ where
 
     let result = api_impl
         .as_ref()
-        .create_users_with_list_input(method, host, cookies, body)
+        .create_users_with_list_input(method, host, cookies, token_in_header, body)
         .await;
 
     let mut response = Response::builder();
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            CreateUsersWithListInputResponse::Status0_SuccessfulOperation => {
+            apis::user::CreateUsersWithListInputResponse::Status0_SuccessfulOperation => {
                 let mut response = response.status(0);
                 response.body(Body::empty())
             }
@@ -1231,20 +1289,31 @@ fn delete_user_validation(
 
     Ok((path_params,))
 }
-
 /// DeleteUser - DELETE /v2/user/{username}
 #[tracing::instrument(skip_all)]
 async fn delete_user<I, A>(
     method: Method,
     host: Host,
     cookies: CookieJar,
+    headers: HeaderMap,
     Path(path_params): Path<models::DeleteUserPathParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::user::User + apis::ApiKeyAuthHeader,
 {
+    // Authentication
+    let token_in_header = api_impl
+        .as_ref()
+        .extract_token_from_header(&headers, "ApiKey");
+    if let (None,) = (&token_in_header,) {
+        return Response::builder()
+            .status(StatusCode::UNAUTHORIZED)
+            .body(Body::empty())
+            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
+    }
+
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || delete_user_validation(path_params))
         .await
@@ -1259,18 +1328,18 @@ where
 
     let result = api_impl
         .as_ref()
-        .delete_user(method, host, cookies, path_params)
+        .delete_user(method, host, cookies, token_in_header, path_params)
         .await;
 
     let mut response = Response::builder();
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            DeleteUserResponse::Status400_InvalidUsernameSupplied => {
+            apis::user::DeleteUserResponse::Status400_InvalidUsernameSupplied => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
-            DeleteUserResponse::Status404_UserNotFound => {
+            apis::user::DeleteUserResponse::Status404_UserNotFound => {
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -1296,7 +1365,6 @@ fn get_user_by_name_validation(
 
     Ok((path_params,))
 }
-
 /// GetUserByName - GET /v2/user/{username}
 #[tracing::instrument(skip_all)]
 async fn get_user_by_name<I, A>(
@@ -1308,7 +1376,7 @@ async fn get_user_by_name<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::user::User,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || get_user_by_name_validation(path_params))
@@ -1331,7 +1399,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            GetUserByNameResponse::Status200_SuccessfulOperation(body) => {
+            apis::user::GetUserByNameResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1347,11 +1415,11 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            GetUserByNameResponse::Status400_InvalidUsernameSupplied => {
+            apis::user::GetUserByNameResponse::Status400_InvalidUsernameSupplied => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
-            GetUserByNameResponse::Status404_UserNotFound => {
+            apis::user::GetUserByNameResponse::Status404_UserNotFound => {
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -1377,7 +1445,6 @@ fn login_user_validation(
 
     Ok((query_params,))
 }
-
 /// LoginUser - GET /v2/user/login
 #[tracing::instrument(skip_all)]
 async fn login_user<I, A>(
@@ -1389,7 +1456,7 @@ async fn login_user<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::user::User,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || login_user_validation(query_params))
@@ -1412,7 +1479,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            LoginUserResponse::Status200_SuccessfulOperation {
+            apis::user::LoginUserResponse::Status200_SuccessfulOperation {
                 body,
                 set_cookie,
                 x_rate_limit,
@@ -1430,7 +1497,7 @@ where
 
                     {
                         let mut response_headers = response.headers_mut().unwrap();
-                        response_headers.insert(HeaderName::from_static("set-cookie"), set_cookie);
+                        response_headers.insert(HeaderName::from_static("Set-Cookie"), set_cookie);
                     }
                 }
                 if let Some(x_rate_limit) = x_rate_limit {
@@ -1446,7 +1513,7 @@ where
                     {
                         let mut response_headers = response.headers_mut().unwrap();
                         response_headers
-                            .insert(HeaderName::from_static("x-rate-limit"), x_rate_limit);
+                            .insert(HeaderName::from_static("X-Rate-Limit"), x_rate_limit);
                     }
                 }
                 if let Some(x_expires_after) = x_expires_after {
@@ -1463,10 +1530,9 @@ where
                     {
                         let mut response_headers = response.headers_mut().unwrap();
                         response_headers
-                            .insert(HeaderName::from_static("x-expires-after"), x_expires_after);
+                            .insert(HeaderName::from_static("X-Expires-After"), x_expires_after);
                     }
                 }
-
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1482,7 +1548,7 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            LoginUserResponse::Status400_InvalidUsername => {
+            apis::user::LoginUserResponse::Status400_InvalidUsername => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -1504,19 +1570,30 @@ where
 fn logout_user_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// LogoutUser - GET /v2/user/logout
 #[tracing::instrument(skip_all)]
 async fn logout_user<I, A>(
     method: Method,
     host: Host,
     cookies: CookieJar,
+    headers: HeaderMap,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::user::User + apis::ApiKeyAuthHeader,
 {
+    // Authentication
+    let token_in_header = api_impl
+        .as_ref()
+        .extract_token_from_header(&headers, "ApiKey");
+    if let (None,) = (&token_in_header,) {
+        return Response::builder()
+            .status(StatusCode::UNAUTHORIZED)
+            .body(Body::empty())
+            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
+    }
+
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || logout_user_validation())
         .await
@@ -1529,13 +1606,16 @@ where
             .map_err(|_| StatusCode::BAD_REQUEST);
     };
 
-    let result = api_impl.as_ref().logout_user(method, host, cookies).await;
+    let result = api_impl
+        .as_ref()
+        .logout_user(method, host, cookies, token_in_header)
+        .await;
 
     let mut response = Response::builder();
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            LogoutUserResponse::Status0_SuccessfulOperation => {
+            apis::user::LogoutUserResponse::Status0_SuccessfulOperation => {
                 let mut response = response.status(0);
                 response.body(Body::empty())
             }
@@ -1556,7 +1636,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct UpdateUserBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a models::User,
 }
 
@@ -1571,21 +1651,32 @@ fn update_user_validation(
 
     Ok((path_params, body))
 }
-
 /// UpdateUser - PUT /v2/user/{username}
 #[tracing::instrument(skip_all)]
 async fn update_user<I, A>(
     method: Method,
     host: Host,
     cookies: CookieJar,
+    headers: HeaderMap,
     Path(path_params): Path<models::UpdateUserPathParams>,
     State(api_impl): State<I>,
     Json(body): Json<models::User>,
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::user::User + apis::ApiKeyAuthHeader,
 {
+    // Authentication
+    let token_in_header = api_impl
+        .as_ref()
+        .extract_token_from_header(&headers, "ApiKey");
+    if let (None,) = (&token_in_header,) {
+        return Response::builder()
+            .status(StatusCode::UNAUTHORIZED)
+            .body(Body::empty())
+            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
+    }
+
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || update_user_validation(path_params, body))
         .await
@@ -1600,18 +1691,18 @@ where
 
     let result = api_impl
         .as_ref()
-        .update_user(method, host, cookies, path_params, body)
+        .update_user(method, host, cookies, token_in_header, path_params, body)
         .await;
 
     let mut response = Response::builder();
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            UpdateUserResponse::Status400_InvalidUserSupplied => {
+            apis::user::UpdateUserResponse::Status400_InvalidUserSupplied => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
-            UpdateUserResponse::Status404_UserNotFound => {
+            apis::user::UpdateUserResponse::Status404_UserNotFound => {
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }

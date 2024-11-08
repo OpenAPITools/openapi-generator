@@ -5,6 +5,7 @@ export * from './dogBreed';
 export * from './dogComposed';
 export * from './dogInherited';
 export * from './dogMapped';
+export * from './dummy';
 export * from './petWithMappedDiscriminator';
 export * from './petWithSimpleDiscriminator';
 export * from './petWithoutDiscriminator';

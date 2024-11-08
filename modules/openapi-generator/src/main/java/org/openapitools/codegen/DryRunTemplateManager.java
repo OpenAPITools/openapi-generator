@@ -18,6 +18,9 @@ import java.util.Map;
 public class DryRunTemplateManager implements TemplateProcessor {
     private final TemplateManagerOptions options;
     private final Map<String, DryRunStatus> dryRunStatusMap = new HashMap<>();
+    
+    private final Map<String, Map<String, Object>> capturedTemplateData = new HashMap<>();
+    private boolean recordTemplateData = false;
 
     /**
      * Constructs a new instance of {@link DryRunTemplateManager} for the provided options
@@ -47,6 +50,9 @@ public class DryRunTemplateManager implements TemplateProcessor {
      */
     @Override
     public File write(Map<String, Object> data, String template, File target) throws IOException {
+        if (recordTemplateData) {
+            this.capturedTemplateData.put(target.getAbsolutePath(), data);
+        }
         return writeToFile(target.getAbsolutePath(), "dummy".getBytes(StandardCharsets.UTF_8));
     }
 
@@ -100,5 +106,26 @@ public class DryRunTemplateManager implements TemplateProcessor {
     @Override
     public void error(Path path, String context) {
         dryRunStatusMap.put(path.toString(), new DryRunStatus(path, DryRunStatus.State.Error, context));
+    }
+
+    /**
+     * Enable capturing of data being passed to the files as they are being written.<br>
+     * Call this method <b><u>before</u></b> calling {@link Generator#generate()}.
+     */
+    public DryRunTemplateManager enableTemplateDataCapturing() {
+        recordTemplateData = true;
+        return this;
+    }
+
+    /**
+     * Retrieve the captured template data for a specific file. Capturing must have  
+     * been enabled via {@link #enableTemplateDataCapturing()} prior to generation.<br>
+     * Note: Not all files have template data (e.g. Metadata files) – in such case an empty
+     * map is returned.
+     * @param generatedFile An absolute path to the generated file
+     * @return Typically one of the *Map types found in {@link org.openapitools.codegen.model}
+     */
+    public Map<String, Object> getCapturedTemplateData(Path generatedFile) {
+        return capturedTemplateData.getOrDefault(generatedFile.toString(), Map.of());
     }
 }

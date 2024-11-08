@@ -143,8 +143,8 @@ function login_user_read(handler)
     function login_user_read_handler(req::HTTP.Request)
         openapi_params = Dict{String,Any}()
         query_params = HTTP.queryparams(URIs.URI(req.target))
-        openapi_params["username"] = OpenAPI.Servers.to_param(String, query_params, "username", required=true, )
-        openapi_params["password"] = OpenAPI.Servers.to_param(String, query_params, "password", required=true, )
+        openapi_params["username"] = OpenAPI.Servers.to_param(String, query_params, "username", required=true, style="form", is_explode=true)
+        openapi_params["password"] = OpenAPI.Servers.to_param(String, query_params, "password", required=true, style="form", is_explode=true)
         req.context[:openapi_params] = openapi_params
 
         return handler(req)

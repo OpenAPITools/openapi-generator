@@ -23,13 +23,14 @@ import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE;
 import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
-import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -81,6 +82,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
     private static final String NPM_REPOSITORY = "npmRepository";
 
     // NPM Option Values
+    @Getter @Setter
     protected String npmRepository = null;
     protected String snapshot = null;
     protected ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.PascalCase;
@@ -109,7 +111,6 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
                 // Typescript reserved words
                 "constructor"));
 
-        typeMapping.put("List", "Array");
         typeMapping.put("object", "any");
         typeMapping.put("DateTime", "Date");
 
@@ -139,6 +140,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         supportModelPropertyNaming(CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.camelCase);
 
         // Git
+        supportingFiles.add(new SupportingFile(".gitattributes.mustache", "", ".gitattributes"));
         supportingFiles.add(new SupportingFile(".gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
 
@@ -169,30 +171,6 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         supportingFiles.add(new SupportingFile("api" + File.separator + "baseapi.mustache", "apis", "baseapi.ts"));
         apiTemplateFiles.put("api" + File.separator + "api.mustache", ".ts");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
-    }
-
-    public String getNpmName() {
-        return npmName;
-    }
-
-    public void setNpmName(String npmName) {
-        this.npmName = npmName;
-    }
-
-    public String getNpmRepository() {
-        return npmRepository;
-    }
-
-    public void setNpmRepository(String npmRepository) {
-        this.npmRepository = npmRepository;
-    }
-
-    public String getNpmVersion() {
-        return npmVersion;
-    }
-
-    public void setNpmVersion(String npmVersion) {
-        this.npmVersion = npmVersion;
     }
 
     @Override
@@ -376,6 +354,16 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
                     }
                 }
             }
+            if (!cm.oneOf.isEmpty()) {
+                // For oneOfs only import $refs within the oneOf
+                TreeSet<String> oneOfRefs = new TreeSet<>();
+                for (String im : cm.imports) {
+                    if (cm.oneOf.contains(im)) {
+                        oneOfRefs.add(im);
+                    }
+                }
+                cm.imports = oneOfRefs;
+            }
         }
         for (ModelMap mo : models) {
             CodegenModel cm = mo.getModel();
@@ -480,12 +468,8 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        Schema inner;
-        if (ModelUtils.isArraySchema(p)) {
-            inner = ((ArraySchema) p).getItems();
-            return this.getSchemaType(p) + "<" + this.getTypeDeclaration(unaliasSchema(inner)) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
-            inner = getSchemaAdditionalProperties(p);
+        if (ModelUtils.isMapSchema(p)) {
+            Schema<?> inner = getSchemaAdditionalProperties(p);
             String postfix = "";
             if (Boolean.TRUE.equals(inner.getNullable())) {
                 postfix = " | null";
@@ -787,8 +771,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
             }
             return fullPrefix + example + closeChars;
         } else if (ModelUtils.isArraySchema(schema)) {
-            ArraySchema arrayschema = (ArraySchema) schema;
-            Schema itemSchema = arrayschema.getItems();
+            Schema itemSchema = ModelUtils.getSchemaItems(schema);
             String itemModelName = getModelName(itemSchema);
             if (objExample instanceof Iterable && itemModelName == null) {
                 // If the example is already a list, return it directly instead of wrongly wrap it in another list
@@ -919,8 +902,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         } else if (simpleStringSchema(schema)) {
             return propName + "_example";
         } else if (ModelUtils.isArraySchema(schema)) {
-            ArraySchema arraySchema = (ArraySchema) schema;
-            Schema itemSchema = arraySchema.getItems();
+            Schema itemSchema = ModelUtils.getSchemaItems(schema);
             example = getObjectExample(itemSchema);
             if (example != null) {
                 return example;

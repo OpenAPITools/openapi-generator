@@ -20,7 +20,7 @@
   Path        = ["{{{replacedPathName}}}"],
   {{#isBodyAllowed}}
   Body        = {{^formParams.isEmpty}}{form, [{{#formParams}}{{#required}}{{^-first}}, {{/-first}}{<<"{{{baseName}}}">>, {{paramName}}{{/required}}{{/formParams}}]++{{packageName}}_utils:optional_params([{{#formParams}}{{^required}}{{^-first}}, {{/-first}}'{{{baseName}}}'{{/required}}{{/formParams}}], _OptionalParams)}{{/formParams.isEmpty}}{{#formParams.isEmpty}}{{#bodyParams.isEmpty}}[]{{/bodyParams.isEmpty}}{{^bodyParams.isEmpty}}{{#bodyParams}}{{paramName}}{{/bodyParams}}{{/bodyParams.isEmpty}}{{/formParams.isEmpty}},
-  ContentType = {{#hasConsumes}}hd([{{#consumes}}{{^-first}}, {{/-first}}"{{mediaType}}"{{/consumes}}]){{/hasConsumes}}{{^hasConsumes}}"text/plain"{{/hasConsumes}},
+  ContentType = {{#hasConsumes}}hd([{{#consumes}}{{^-first}}, {{/-first}}"{{{mediaType}}}"{{/consumes}}]){{/hasConsumes}}{{^hasConsumes}}"text/plain"{{/hasConsumes}},
   {{/isBodyAllowed}}
   {{^queryParams.isEmpty}}
   QueryString = [{{#queryParams}}{{^-first}}, {{/-first}}<<"{{{baseName}}}=">>, {{{paramName}}}, <<"&">>{{/queryParams}}],

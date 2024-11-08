@@ -12,18 +12,20 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { BehaviorType } from './BehaviorType';
 import {
     BehaviorTypeFromJSON,
     BehaviorTypeFromJSONTyped,
     BehaviorTypeToJSON,
+    BehaviorTypeToJSONTyped,
 } from './BehaviorType';
 import type { ResponseMeta } from './ResponseMeta';
 import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
+    ResponseMetaToJSONTyped,
 } from './ResponseMeta';
 
 /**
@@ -46,14 +48,14 @@ export interface GetBehaviorTypeResponse {
     data?: BehaviorType;
 }
 
+
+
 /**
  * Check if a given object implements the GetBehaviorTypeResponse interface.
  */
-export function instanceOfGetBehaviorTypeResponse(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "meta" in value;
-
-    return isInstance;
+export function instanceOfGetBehaviorTypeResponse(value: object): value is GetBehaviorTypeResponse {
+    if (!('meta' in value) || value['meta'] === undefined) return false;
+    return true;
 }
 
 export function GetBehaviorTypeResponseFromJSON(json: any): GetBehaviorTypeResponse {
@@ -61,27 +63,29 @@ export function GetBehaviorTypeResponseFromJSON(json: any): GetBehaviorTypeRespo
 }
 
 export function GetBehaviorTypeResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetBehaviorTypeResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
         'meta': ResponseMetaFromJSON(json['meta']),
-        'data': !exists(json, 'data') ? undefined : BehaviorTypeFromJSON(json['data']),
+        'data': json['data'] == null ? undefined : BehaviorTypeFromJSON(json['data']),
     };
 }
 
-export function GetBehaviorTypeResponseToJSON(value?: GetBehaviorTypeResponse | null): any {
-    if (value === undefined) {
-        return undefined;
+export function GetBehaviorTypeResponseToJSON(json: any): GetBehaviorTypeResponse {
+    return GetBehaviorTypeResponseToJSONTyped(json, false);
+}
+
+export function GetBehaviorTypeResponseToJSONTyped(value?: GetBehaviorTypeResponse | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'meta': ResponseMetaToJSON(value.meta),
-        'data': BehaviorTypeToJSON(value.data),
+        'meta': ResponseMetaToJSON(value['meta']),
+        'data': BehaviorTypeToJSON(value['data']),
     };
 }
 

@@ -99,10 +99,11 @@ if(hasProperty('target') && target == 'android') {
 
 ext {
     swagger_annotations_version = "1.6.5"
-    jackson_version = "2.13.4"
-    jackson_databind_version = "2.13.4.2"
+    jackson_version = "2.17.1"
+    jackson_databind_version = "2.17.1"
     jackson_databind_nullable_version = "0.2.6"
     jakarta_annotation_version = "2.1.0"
+    bean_validation_version = "3.0.2"
     jersey_version = "3.0.4"
     junit_version = "5.8.2"
     scribejava_apis_version = "8.3.1"
@@ -125,6 +126,8 @@ dependencies {
     implementation "com.github.scribejava:scribejava-apis:$scribejava_apis_version"
     implementation "org.tomitribe:tomitribe-http-signatures:$tomitribe_http_signatures_version"
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
+    implementation "jakarta.validation:jakarta.validation-api:$bean_validation_version"
+
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
 }

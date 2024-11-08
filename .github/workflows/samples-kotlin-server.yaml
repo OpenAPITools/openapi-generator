@@ -5,17 +5,19 @@ on:
     branches:
       - samples/server/others/kotlin-server/jaxrs-spec/**
       - 'samples/server/petstore/kotlin*/**'
+      - 'samples/server/others/kotlin-server/jaxrs-spec-array-response/**'
       # comment out due to gradle build failure
       #- samples/server/petstore/kotlin-spring-default/**
   pull_request:
     paths:
       - samples/server/others/kotlin-server/jaxrs-spec/**
       - 'samples/server/petstore/kotlin*/**'
+      - 'samples/server/others/kotlin-server/jaxrs-spec-array-response/**'
       # comment out due to gradle build failure
       # - samples/server/petstore/kotlin-spring-default/**
 
 env:
-  GRADLE_VERSION: 6.9
+  GRADLE_VERSION: 7.6.4
 
 jobs:
   build:
@@ -27,6 +29,8 @@ jobs:
         sample:
           # server
           - samples/server/petstore/kotlin-springboot
+          - samples/server/petstore/kotlin-springboot-multipart-request-model
+          - samples/server/petstore/kotlin-springboot-bigdecimal-default
           - samples/server/petstore/kotlin-springboot-delegate
           - samples/server/petstore/kotlin-springboot-modelMutable
           - samples/server/petstore/kotlin-springboot-reactive
@@ -39,6 +43,8 @@ jobs:
           - samples/server/petstore/kotlin-server-modelMutable
           - samples/server/petstore/kotlin-server/javalin
           - samples/server/others/kotlin-server/jaxrs-spec
+          - samples/server/others/kotlin-server/jaxrs-spec-array-response
+          - samples/server/petstore/kotlin-spring-cloud
           # comment out due to gradle build failure
           #- samples/server/petstore/kotlin-spring-default
           # no build.gradle file
@@ -58,7 +64,7 @@ jobs:
             ~/.gradle
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
       - name: Install Gradle wrapper
-        uses: eskatos/gradle-command-action@v2
+        uses: eskatos/gradle-command-action@v3
         with:
           gradle-version: ${{ env.GRADLE_VERSION }}
           build-root-directory: ${{ matrix.sample }}

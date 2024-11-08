@@ -41,8 +41,8 @@ namespace Org.OpenAPITools.Model
         public NumberPropertiesOnly(decimal number = default(decimal), float varFloat = default(float), double varDouble = default(double))
         {
             this.Number = number;
-            this.VarFloat = varFloat;
-            this.VarDouble = varDouble;
+            this.Float = varFloat;
+            this.Double = varDouble;
         }
 
         /// <summary>
@@ -52,16 +52,16 @@ namespace Org.OpenAPITools.Model
         public decimal Number { get; set; }
 
         /// <summary>
-        /// Gets or Sets VarFloat
+        /// Gets or Sets Float
         /// </summary>
         [DataMember(Name = "float", EmitDefaultValue = false)]
-        public float VarFloat { get; set; }
+        public float Float { get; set; }
 
         /// <summary>
-        /// Gets or Sets VarDouble
+        /// Gets or Sets Double
         /// </summary>
         [DataMember(Name = "double", EmitDefaultValue = false)]
-        public double VarDouble { get; set; }
+        public double Double { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -72,8 +72,8 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class NumberPropertiesOnly {\n");
             sb.Append("  Number: ").Append(Number).Append("\n");
-            sb.Append("  VarFloat: ").Append(VarFloat).Append("\n");
-            sb.Append("  VarDouble: ").Append(VarDouble).Append("\n");
+            sb.Append("  Float: ").Append(Float).Append("\n");
+            sb.Append("  Double: ").Append(Double).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -114,12 +114,12 @@ namespace Org.OpenAPITools.Model
                     this.Number.Equals(input.Number)
                 ) && 
                 (
-                    this.VarFloat == input.VarFloat ||
-                    this.VarFloat.Equals(input.VarFloat)
+                    this.Float == input.Float ||
+                    this.Float.Equals(input.Float)
                 ) && 
                 (
-                    this.VarDouble == input.VarDouble ||
-                    this.VarDouble.Equals(input.VarDouble)
+                    this.Double == input.Double ||
+                    this.Double.Equals(input.Double)
                 );
         }
 
@@ -133,8 +133,8 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.Number.GetHashCode();
-                hashCode = (hashCode * 59) + this.VarFloat.GetHashCode();
-                hashCode = (hashCode * 59) + this.VarDouble.GetHashCode();
+                hashCode = (hashCode * 59) + this.Float.GetHashCode();
+                hashCode = (hashCode * 59) + this.Double.GetHashCode();
                 return hashCode;
             }
         }
@@ -144,18 +144,18 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
-            // VarDouble (double) maximum
-            if (this.VarDouble > (double)50.2)
+            // Double (double) maximum
+            if (this.Double > (double)50.2)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarDouble, must be a value less than or equal to 50.2.", new [] { "VarDouble" });
+                yield return new ValidationResult("Invalid value for Double, must be a value less than or equal to 50.2.", new [] { "Double" });
             }
 
-            // VarDouble (double) minimum
-            if (this.VarDouble < (double)0.8)
+            // Double (double) minimum
+            if (this.Double < (double)0.8)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarDouble, must be a value greater than or equal to 0.8.", new [] { "VarDouble" });
+                yield return new ValidationResult("Invalid value for Double, must be a value greater than or equal to 0.8.", new [] { "Double" });
             }
 
             yield break;

@@ -29,8 +29,7 @@ Pet <- R6::R6Class(
     `status` = NULL,
     `_field_list` = c("id", "category", "name", "photoUrls", "tags", "status"),
     `additional_properties` = list(),
-    #' Initialize a new Pet class.
-    #'
+
     #' @description
     #' Initialize a new Pet class.
     #'
@@ -42,7 +41,6 @@ Pet <- R6::R6Class(
     #' @param status pet status in the store
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
-    #' @export
     initialize = function(`name`, `photoUrls`, `id` = NULL, `category` = NULL, `tags` = NULL, `status` = NULL, additional_properties = NULL, ...) {
       if (!missing(`name`)) {
         if (!(is.character(`name`) && length(`name`) == 1)) {
@@ -85,13 +83,11 @@ Pet <- R6::R6Class(
         }
       }
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return Pet in JSON format
-    #' @export
     toJSON = function() {
       PetObject <- list()
       if (!is.null(self$`id`)) {
@@ -124,14 +120,12 @@ Pet <- R6::R6Class(
 
       PetObject
     },
-    #' Deserialize JSON string into an instance of Pet
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of Pet
     #'
     #' @param input_json the JSON input
     #' @return the instance of Pet
-    #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`id`)) {
@@ -166,13 +160,11 @@ Pet <- R6::R6Class(
 
       self
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return Pet in JSON format
-    #' @export
     toJSONString = function() {
       jsoncontent <- c(
         if (!is.null(self$`id`)) {
@@ -232,14 +224,12 @@ Pet <- R6::R6Class(
       }
       json_string <- as.character(jsonlite::minify(jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA)))
     },
-    #' Deserialize JSON string into an instance of Pet
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of Pet
     #'
     #' @param input_json the JSON input
     #' @return the instance of Pet
-    #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`id` <- this_object$`id`
@@ -260,13 +250,11 @@ Pet <- R6::R6Class(
 
       self
     },
-    #' Validate JSON input with respect to Pet
-    #'
+
     #' @description
     #' Validate JSON input with respect to Pet and throw an exception if invalid
     #'
     #' @param input the JSON input
-    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
       # check the required field `name`
@@ -285,23 +273,19 @@ Pet <- R6::R6Class(
         stop(paste("The JSON input `", input, "` is invalid for Pet: the required field `photoUrls` is missing."))
       }
     },
-    #' To string (JSON format)
-    #'
+
     #' @description
     #' To string (JSON format)
     #'
     #' @return String representation of Pet
-    #' @export
     toString = function() {
       self$toJSONString()
     },
-    #' Return true if the values in all fields are valid.
-    #'
+
     #' @description
     #' Return true if the values in all fields are valid.
     #'
     #' @return true if the values in all fields are valid.
-    #' @export
     isValid = function() {
       # check if the required `name` is null
       if (is.null(self$`name`)) {
@@ -315,13 +299,11 @@ Pet <- R6::R6Class(
 
       TRUE
     },
-    #' Return a list of invalid fields (if any).
-    #'
+
     #' @description
     #' Return a list of invalid fields (if any).
     #'
     #' @return A list of invalid fields (if any).
-    #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
       # check if the required `name` is null
@@ -336,12 +318,9 @@ Pet <- R6::R6Class(
 
       invalid_fields
     },
-    #' Print the object
-    #'
+
     #' @description
     #' Print the object
-    #'
-    #' @export
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)

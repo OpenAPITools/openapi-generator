@@ -44,7 +44,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun createUser(user: User): Mono<Unit> {
         return createUserWithHttpInfo(user = user)
-            .map { it.body }
+            .map { Unit }
     }
 
     @Throws(WebClientResponseException::class)
@@ -79,7 +79,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun createUsersWithArrayInput(user: kotlin.collections.List<User>): Mono<Unit> {
         return createUsersWithArrayInputWithHttpInfo(user = user)
-            .map { it.body }
+            .map { Unit }
     }
 
     @Throws(WebClientResponseException::class)
@@ -114,7 +114,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun createUsersWithListInput(user: kotlin.collections.List<User>): Mono<Unit> {
         return createUsersWithListInputWithHttpInfo(user = user)
-            .map { it.body }
+            .map { Unit }
     }
 
     @Throws(WebClientResponseException::class)
@@ -149,7 +149,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun deleteUser(username: kotlin.String): Mono<Unit> {
         return deleteUserWithHttpInfo(username = username)
-            .map { it.body }
+            .map { Unit }
     }
 
     @Throws(WebClientResponseException::class)
@@ -259,7 +259,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun logoutUser(): Mono<Unit> {
         return logoutUserWithHttpInfo()
-            .map { it.body }
+            .map { Unit }
     }
 
     @Throws(WebClientResponseException::class)
@@ -293,7 +293,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun updateUser(username: kotlin.String, user: User): Mono<Unit> {
         return updateUserWithHttpInfo(username = username, user = user)
-            .map { it.body }
+            .map { Unit }
     }
 
     @Throws(WebClientResponseException::class)

@@ -19,9 +19,10 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -33,7 +34,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -49,35 +49,24 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
 
     private final Logger LOGGER = LoggerFactory.getLogger(HaskellYesodServerCodegen.class);
 
+    @Getter @Setter
     protected String projectName;
+    @Getter @Setter
     protected String apiModuleName;
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "haskell-yesod";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a haskell-yesod server.";
-    }
-
-    public String getProjectName() {
-        return projectName;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
-    public String getApiModuleName() {
-        return apiModuleName;
-    }
-
-    public void setApiModuleName(String apiModuleName) {
-        this.apiModuleName = apiModuleName;
     }
 
     public HaskellYesodServerCodegen() {
@@ -199,6 +188,8 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
 
         if (StringUtils.isEmpty(System.getenv("HASKELL_POST_PROCESS_FILE"))) {
             LOGGER.info("Hint: Environment variable HASKELL_POST_PROCESS_FILE not defined so the Haskell code may not be properly formatted. To define it, try 'export HASKELL_POST_PROCESS_FILE=\"$HOME/.local/bin/hfmt -w\"' (Linux/Mac)");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'HASKELL_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(PROJECT_NAME)) {
@@ -295,8 +286,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
@@ -342,8 +332,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
             String inner = getSchemaType(additionalProperties2);
             return "(Map.Map Text " + inner + ")";
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            String inner = getSchemaType(ap.getItems());
+            String inner = getSchemaType(ModelUtils.getSchemaItems(p));
             // Return only the inner type; the wrapping with QueryList is done
             // somewhere else, where we have access to the collection format.
             return inner;
@@ -575,6 +564,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -585,20 +575,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
 
         // only process files with hs extension
         if ("hs".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = haskellPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[] {haskellPostProcessFile, file.toString()});
         }
     }
 

@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -30,10 +30,8 @@ export interface Owner {
 /**
  * Check if a given object implements the Owner interface.
  */
-export function instanceOfOwner(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfOwner(value: object): value is Owner {
+    return true;
 }
 
 export function OwnerFromJSON(json: any): Owner {
@@ -41,25 +39,27 @@ export function OwnerFromJSON(json: any): Owner {
 }
 
 export function OwnerFromJSONTyped(json: any, ignoreDiscriminator: boolean): Owner {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'name': !exists(json, 'name') ? undefined : json['name'],
+        'name': json['name'] == null ? undefined : json['name'],
     };
 }
 
-export function OwnerToJSON(value?: Owner | null): any {
-    if (value === undefined) {
-        return undefined;
+export function OwnerToJSON(json: any): Owner {
+    return OwnerToJSONTyped(json, false);
+}
+
+export function OwnerToJSONTyped(value?: Owner | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'name': value.name,
+        'name': value['name'],
     };
 }
 

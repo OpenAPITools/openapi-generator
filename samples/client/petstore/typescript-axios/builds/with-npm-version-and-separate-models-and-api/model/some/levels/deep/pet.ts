@@ -15,10 +15,10 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { Category } from './category';
+import type { Category } from './category';
 // May contain unused imports in some cases
 // @ts-ignore
-import { Tag } from './tag';
+import type { Tag } from './tag';
 
 /**
  * A pet for sale in the pet store

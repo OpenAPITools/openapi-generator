@@ -18,28 +18,25 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for AdditionalPropertiesNumber
  */
-public class AdditionalPropertiesNumberTest {
+class AdditionalPropertiesNumberTest {
     private final AdditionalPropertiesNumber model = new AdditionalPropertiesNumber();
 
     /**
      * Model tests for AdditionalPropertiesNumber
      */
     @Test
-    public void testAdditionalPropertiesNumber() {
+    void testAdditionalPropertiesNumber() {
         // TODO: test AdditionalPropertiesNumber
     }
 
@@ -47,7 +44,7 @@ public class AdditionalPropertiesNumberTest {
      * Test the property 'name'
      */
     @Test
-    public void nameTest() {
+    void nameTest() {
         // TODO: test name
     }
 

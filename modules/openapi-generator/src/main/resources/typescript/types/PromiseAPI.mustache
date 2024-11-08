@@ -48,7 +48,7 @@ export class Promise{{classname}} {
      * {{&summary}}
      {{/summary}}
      {{#allParams}}
-     * @param {{paramName}} {{description}}
+     * @param {{#required}}{{paramName}}{{/required}}{{^required}}[{{paramName}}]{{/required}}{{#description}} {{description}}{{/description}}
      {{/allParams}}
      */
     public {{nickname}}WithHttpInfo({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration): Promise<HttpInfo<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
@@ -64,7 +64,7 @@ export class Promise{{classname}} {
      * {{&summary}}
      {{/summary}}
      {{#allParams}}
-     * @param {{paramName}} {{description}}
+     * @param {{#required}}{{paramName}}{{/required}}{{^required}}[{{paramName}}]{{/required}}{{#description}} {{description}}{{/description}}
      {{/allParams}}
      */
     public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}> {

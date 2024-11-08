@@ -3,6 +3,7 @@
 namespace OpenAPI\Client;
 
 use DateTime;
+use Generator;
 use GuzzleHttp\Psr7\Utils;
 use OpenAPI\Client\Model\Pet;
 use OpenAPI\Client\Model\Tag;
@@ -27,7 +28,7 @@ class ObjectSerializerTest extends TestCase
         $this->assertSame("sun.gif", ObjectSerializer::sanitizeFilename("../sun.gif"));
         $this->assertSame("sun.gif", ObjectSerializer::sanitizeFilename("/var/tmp/sun.gif"));
         $this->assertSame("sun.gif", ObjectSerializer::sanitizeFilename("./sun.gif"));
-        
+
         $this->assertSame("sun", ObjectSerializer::sanitizeFilename("sun"));
         $this->assertSame("sun.gif", ObjectSerializer::sanitizeFilename("..\sun.gif"));
         $this->assertSame("sun.gif", ObjectSerializer::sanitizeFilename("\var\tmp\sun.gif"));
@@ -61,7 +62,7 @@ class ObjectSerializerTest extends TestCase
      * File Streams Provider
      * @return array[]
      */
-    public function provideFileStreams(): array
+    public static function provideFileStreams(): array
     {
         return [
             'File stream without headers' => [
@@ -111,7 +112,7 @@ class ObjectSerializerTest extends TestCase
      *
      * @return string[][]
      */
-    public function provideTimestamps(): array
+    public static function provideTimestamps(): array
     {
         return [
             'String from #7942' => [
@@ -172,7 +173,7 @@ class ObjectSerializerTest extends TestCase
      *
      * @return array[]
      */
-    public function provideQueryParams(): array
+    public static function provideQueryParams(): array
     {
         $array = ['blue', 'black', 'brown'];
         $object = ['R' => 100, 'G' => 200, 'B' => 150];
@@ -299,10 +300,12 @@ class ObjectSerializerTest extends TestCase
             'deepObject array, explode off, required true' => [
                 $array, 'color', 'array', 'deepObject', false, true, 'color=blue%2Cblack%2Cbrown',
             ],
-            // color=blue&color=black&color=brown
+
+            // color[0]=blue&color[1]=black&color[2]=brown
             'deepObject array, explode on, required true' => [
-                $array, 'color', 'array', 'deepObject', true, true, 'color=blue&color=black&color=brown',
+                $array, 'color', 'array', 'deepObject', true, true, 'color%5B0%5D=blue&color%5B1%5D=black&color%5B2%5D=brown',
             ],
+
             // color[R]=100&color[G]=200&color[B]=150
             'deepObject object, explode off, required true' => [
                 $object, 'color', 'object', 'deepObject', false, true, 'color%5BR%5D=100&color%5BG%5D=200&color%5BB%5D=150',
@@ -426,6 +429,9 @@ class ObjectSerializerTest extends TestCase
             ],
             'form 0 bool, explode on, required false' => [
                 0, 'field', 'bool', 'form', true, false, 'field=0',
+            ],
+            'form string "0", explode on, required true' => [
+                '0', 'field', 'string', 'form', true, true, 'field=0',
             ],
         ];
     }
@@ -569,6 +575,37 @@ class ObjectSerializerTest extends TestCase
                 true, 'skipValidation', 'boolean', 'form', true, false, 'skipValidation=true',
             ],
         ];
+    }
+
+    /**
+     * @covers ObjectSerializer::buildQuery
+     * @dataProvider provideBuildQuery
+     */
+    public function testToBuildQuery(
+        string $expected,
+        array $data,
+        string|null $booleanFormatString = null,
+    ): void
+    {
+        $config = new Configuration();
+        if ($booleanFormatString !== null) {
+            $config->setBooleanFormatForQueryString($booleanFormatString);
+        }
+        $config::setDefaultConfiguration($config);
+
+        $query = ObjectSerializer::buildQuery($data);
+        $this->assertEquals($expected, $query);
+    }
+
+    /** @return Generator<string, array{string, array<string, mixed>, 2?: Configuration::BOOLEAN_FORMAT_*}> */
+    public function provideBuildQuery(): Generator
+    {
+        yield 'true as int' => ['foo=1', ['foo' => true]];
+        yield 'true as int as default' => ['foo=1', ['foo' => true], Configuration::BOOLEAN_FORMAT_INT];
+        yield 'false as int' => ['foo=0', ['foo' => false]];
+        yield 'false as int as default' => ['foo=0', ['foo' => false], Configuration::BOOLEAN_FORMAT_INT];
+        yield 'true as string' => ['foo=true', ['foo' => true], Configuration::BOOLEAN_FORMAT_STRING];
+        yield 'false as string' => ['foo=false', ['foo' => false], Configuration::BOOLEAN_FORMAT_STRING];
     }
 
     /**

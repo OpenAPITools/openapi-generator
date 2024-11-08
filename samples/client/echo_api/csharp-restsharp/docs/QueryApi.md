@@ -9,6 +9,8 @@ All URIs are relative to *http://localhost:3000*
 | [**TestQueryIntegerBooleanString**](QueryApi.md#testqueryintegerbooleanstring) | **GET** /query/integer/boolean/string | Test query parameter(s) |
 | [**TestQueryStyleDeepObjectExplodeTrueObject**](QueryApi.md#testquerystyledeepobjectexplodetrueobject) | **GET** /query/style_deepObject/explode_true/object | Test query parameter(s) |
 | [**TestQueryStyleDeepObjectExplodeTrueObjectAllOf**](QueryApi.md#testquerystyledeepobjectexplodetrueobjectallof) | **GET** /query/style_deepObject/explode_true/object/allOf | Test query parameter(s) |
+| [**TestQueryStyleFormExplodeFalseArrayInteger**](QueryApi.md#testquerystyleformexplodefalsearrayinteger) | **GET** /query/style_form/explode_false/array_integer | Test query parameter(s) |
+| [**TestQueryStyleFormExplodeFalseArrayString**](QueryApi.md#testquerystyleformexplodefalsearraystring) | **GET** /query/style_form/explode_false/array_string | Test query parameter(s) |
 | [**TestQueryStyleFormExplodeTrueArrayString**](QueryApi.md#testquerystyleformexplodetruearraystring) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s) |
 | [**TestQueryStyleFormExplodeTrueObject**](QueryApi.md#testquerystyleformexplodetrueobject) | **GET** /query/style_form/explode_true/object | Test query parameter(s) |
 | [**TestQueryStyleFormExplodeTrueObjectAllOf**](QueryApi.md#testquerystyleformexplodetrueobjectallof) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s) |
@@ -456,6 +458,188 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **queryObject** | [**TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter?**](TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter?.md) |  | [optional]  |
+
+### Return type
+
+**string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="testquerystyleformexplodefalsearrayinteger"></a>
+# **TestQueryStyleFormExplodeFalseArrayInteger**
+> string TestQueryStyleFormExplodeFalseArrayInteger (List<int>? queryObject = null)
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class TestQueryStyleFormExplodeFalseArrayIntegerExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "http://localhost:3000";
+            var apiInstance = new QueryApi(config);
+            var queryObject = new List<int>?(); // List<int>? |  (optional) 
+
+            try
+            {
+                // Test query parameter(s)
+                string result = apiInstance.TestQueryStyleFormExplodeFalseArrayInteger(queryObject);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling QueryApi.TestQueryStyleFormExplodeFalseArrayInteger: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the TestQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Test query parameter(s)
+    ApiResponse<string> response = apiInstance.TestQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(queryObject);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling QueryApi.TestQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **queryObject** | [**List&lt;int&gt;?**](int.md) |  | [optional]  |
+
+### Return type
+
+**string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="testquerystyleformexplodefalsearraystring"></a>
+# **TestQueryStyleFormExplodeFalseArrayString**
+> string TestQueryStyleFormExplodeFalseArrayString (List<string>? queryObject = null)
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class TestQueryStyleFormExplodeFalseArrayStringExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "http://localhost:3000";
+            var apiInstance = new QueryApi(config);
+            var queryObject = new List<string>?(); // List<string>? |  (optional) 
+
+            try
+            {
+                // Test query parameter(s)
+                string result = apiInstance.TestQueryStyleFormExplodeFalseArrayString(queryObject);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling QueryApi.TestQueryStyleFormExplodeFalseArrayString: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the TestQueryStyleFormExplodeFalseArrayStringWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Test query parameter(s)
+    ApiResponse<string> response = apiInstance.TestQueryStyleFormExplodeFalseArrayStringWithHttpInfo(queryObject);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling QueryApi.TestQueryStyleFormExplodeFalseArrayStringWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **queryObject** | [**List&lt;string&gt;?**](string.md) |  | [optional]  |
 
 ### Return type
 

@@ -1,0 +1,140 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: Example
+  license:
+    name: MIT
+servers:
+  - url: http://api.example.xyz/v1
+paths:
+  /person/display/{personId}:
+    get:
+      parameters:
+        - name: personId
+          in: path
+          required: true
+          description: The id of the person to retrieve
+          schema:
+            type: string
+      operationId: list
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnyOfTest"
+components:
+  schemas:
+    AnyOfTest:
+      description: to test anyOf
+      anyOf:
+        - type: string
+        - type: 'null'
+        - type: null
+        - $ref: null
+    OneOfTest:
+      description: to test oneOf
+      oneOf:
+        - type: integer
+        - type: 'null'
+        - type: null
+        - $ref: null
+    OneOfTest2:
+      description: to test oneOf
+      oneOf:
+        - type: string
+        - type: 'null'
+    OneOfNullableTest:
+      description: to test oneOf nullable
+      oneOf:
+        - type: integer
+        - type: string
+        - $ref: null
+    SingleAnyOfTest:
+      description: to test anyOf (enum string only)
+      anyOf:
+        - type: string
+          enum:
+            - A
+            - B
+    Parent:
+      type: object
+      properties:
+        number:
+          anyOf:
+            - $ref: '#/components/schemas/Number'
+    ParentWithOneOfProperty:
+      type: object
+      properties:
+        number:
+          oneOf:
+            - $ref: '#/components/schemas/Number'
+    ParentWithPluralOneOfProperty:
+      type: object
+      properties:
+        number:
+          oneOf:
+            - $ref: '#/components/schemas/Number'
+            - $ref: '#/components/schemas/Number2'
+    Number:
+      enum:
+        - one
+        - two
+        - three
+      type: string
+    Number2:
+      enum:
+        - one
+        - two
+      type: string
+    AnyOfStringArrayOfString:
+      anyOf:
+        - type: string
+        - type: array
+          items:
+            type: string
+    AnyOfAnyType:
+      anyOf:
+        - type: boolean
+        - type: array
+          items: {}
+        - type: object
+        - type: string
+        - type: number
+        - type: integer
+    OneOfAnyType:
+      oneOf:
+        - type: object
+        - type: boolean
+        - type: number
+        - type: string
+        - type: integer
+        - type: array
+          items: {}
+    TypeIntegerWithOneOf:
+      type: integer
+      oneOf:
+        - title: ITEM A
+          description: This permission is for item A.
+          const: 1
+        - title: ITEM B
+          description: This permission is for item B.
+          const: 2
+        - title: ITEM C
+          description: This permission is for item C.
+          const: 4
+      format: int32
+    # need to repeat the issue when it only occurs with the 3rd, 4th, 5th, etc schemas with oneOf(type: null, $ref)
+    OneOfNullAndRef:
+      oneOf:
+        - $ref: '#/components/schemas/Parent'
+        - type: "null"
+    OneOfNullAndRef2:
+      oneOf:
+        - $ref: '#/components/schemas/Parent'
+        - type: "null"
+    OneOfNullAndRef3:
+      oneOf:
+        - $ref: '#/components/schemas/Parent'
+        - type: "null"

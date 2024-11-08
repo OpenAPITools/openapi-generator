@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
  * @export
@@ -30,10 +30,8 @@ export interface HealthCheckResult {
 /**
  * Check if a given object implements the HealthCheckResult interface.
  */
-export function instanceOfHealthCheckResult(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfHealthCheckResult(value: object): value is HealthCheckResult {
+    return true;
 }
 
 export function HealthCheckResultFromJSON(json: any): HealthCheckResult {
@@ -41,25 +39,27 @@ export function HealthCheckResultFromJSON(json: any): HealthCheckResult {
 }
 
 export function HealthCheckResultFromJSONTyped(json: any, ignoreDiscriminator: boolean): HealthCheckResult {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'nullableMessage': !exists(json, 'NullableMessage') ? undefined : json['NullableMessage'],
+        'nullableMessage': json['NullableMessage'] == null ? undefined : json['NullableMessage'],
     };
 }
 
-export function HealthCheckResultToJSON(value?: HealthCheckResult | null): any {
-    if (value === undefined) {
-        return undefined;
+export function HealthCheckResultToJSON(json: any): HealthCheckResult {
+    return HealthCheckResultToJSONTyped(json, false);
+}
+
+export function HealthCheckResultToJSONTyped(value?: HealthCheckResult | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'NullableMessage': value.nullableMessage,
+        'NullableMessage': value['nullableMessage'],
     };
 }
 

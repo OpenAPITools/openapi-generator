@@ -82,7 +82,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestHeaderIntegerBooleanStringEnumsAsync(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestHeaderIntegerBooleanStringEnumsAsync(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
 
         /// <summary>
         /// Test header parameter(s)
@@ -99,7 +99,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestHeaderIntegerBooleanStringEnumsWithHttpInfoAsync(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestHeaderIntegerBooleanStringEnumsWithHttpInfoAsync(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -323,7 +323,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestHeaderIntegerBooleanStringEnumsAsync(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestHeaderIntegerBooleanStringEnumsAsync(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestHeaderIntegerBooleanStringEnumsWithHttpInfoAsync(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -341,7 +341,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestHeaderIntegerBooleanStringEnumsWithHttpInfoAsync(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestHeaderIntegerBooleanStringEnumsWithHttpInfoAsync(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();

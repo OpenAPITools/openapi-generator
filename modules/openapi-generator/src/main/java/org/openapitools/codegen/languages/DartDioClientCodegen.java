@@ -19,11 +19,11 @@ package org.openapitools.codegen.languages;
 import com.google.common.collect.Sets;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Discriminator;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.api.TemplatePathLocator;
@@ -60,6 +60,9 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     public static final String DATE_LIBRARY_TIME_MACHINE = "timemachine";
     public static final String DATE_LIBRARY_DEFAULT = DATE_LIBRARY_CORE;
 
+    public static final String EQUALITY_CHECK_METHOD = "equalityCheckMethod";
+    public static final String EQUALITY_CHECK_METHOD_DEFAULT = "default";
+    public static final String EQUALITY_CHECK_METHOD_EQUATABLE = "equatable";
     public static final String SERIALIZATION_LIBRARY_BUILT_VALUE = "built_value";
     public static final String SERIALIZATION_LIBRARY_JSON_SERIALIZABLE = "json_serializable";
     public static final String SERIALIZATION_LIBRARY_DEFAULT = SERIALIZATION_LIBRARY_BUILT_VALUE;
@@ -70,8 +73,12 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
     private static final String CLIENT_NAME = "clientName";
 
+    @Getter @Setter
     private String dateLibrary;
+    @Getter @Setter
+    private String equalityCheckMethod;
 
+    @Getter @Setter
     private String clientName;
 
     private TemplateManager templateManager;
@@ -107,35 +114,30 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         serializationLibrary.setDefault(SERIALIZATION_LIBRARY_DEFAULT);
         cliOptions.add(serializationLibrary);
 
+        // Equality check option
+        final CliOption equalityCheckOption = CliOption.newString(EQUALITY_CHECK_METHOD, "Specify equality check method. Takes effect only in case if serializationLibrary is json_serializable.");
+        equalityCheckOption.setDefault(EQUALITY_CHECK_METHOD_DEFAULT);
+
+        final Map<String, String> equalityCheckOptions = new HashMap<>();
+        equalityCheckOptions.put(EQUALITY_CHECK_METHOD_DEFAULT, "[DEFAULT] Built in hash code generation method");
+        equalityCheckOptions.put(EQUALITY_CHECK_METHOD_EQUATABLE, "Uses equatable library for equality checking");
+        equalityCheckOption.setEnum(equalityCheckOptions);
+        cliOptions.add(equalityCheckOption);
+
         // Date Library Option
         final CliOption dateOption = CliOption.newString(DATE_LIBRARY, "Specify Date library");
         dateOption.setDefault(DATE_LIBRARY_DEFAULT);
-
-        final CliOption finalProperties = CliOption.newBoolean(FINAL_PROPERTIES, "Whether properties are marked as final when using Json Serializable for serialization");
-        finalProperties.setDefault("true");
-        cliOptions.add(finalProperties);
 
         final Map<String, String> dateOptions = new HashMap<>();
         dateOptions.put(DATE_LIBRARY_CORE, "[DEFAULT] Dart core library (DateTime)");
         dateOptions.put(DATE_LIBRARY_TIME_MACHINE, "Time Machine is date and time library for Flutter, Web, and Server with support for timezones, calendars, cultures, formatting and parsing.");
         dateOption.setEnum(dateOptions);
         cliOptions.add(dateOption);
-    }
 
-    public String getDateLibrary() {
-        return dateLibrary;
-    }
-
-    public void setDateLibrary(String library) {
-        this.dateLibrary = library;
-    }
-
-    public String getClientName() {
-        return clientName;
-    }
-
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
+        // Final Properties Option
+        final CliOption finalProperties = CliOption.newBoolean(FINAL_PROPERTIES, "Whether properties are marked as final when using Json Serializable for serialization");
+        finalProperties.setDefault("true");
+        cliOptions.add(finalProperties);
     }
 
     @Override
@@ -152,11 +154,6 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     public void processOpts() {
         super.processOpts();
 
-        if (StringUtils.isEmpty(System.getenv("DART_POST_PROCESS_FILE"))) {
-            LOGGER.info("Environment variable DART_POST_PROCESS_FILE not defined so the Dart code may not be properly formatted. To define it, try `export DART_POST_PROCESS_FILE=\"/usr/local/bin/dartfmt -w\"` (Linux/Mac)");
-            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
-        }
-
         if (!additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY)) {
             additionalProperties.put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_DEFAULT);
             LOGGER.debug("Serialization library not set, using default {}", SERIALIZATION_LIBRARY_DEFAULT);
@@ -171,6 +168,12 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             LOGGER.debug("Date library not set, using default {}", DATE_LIBRARY_DEFAULT);
         }
         setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString());
+
+        if (!additionalProperties.containsKey(EQUALITY_CHECK_METHOD)) {
+            additionalProperties.put(EQUALITY_CHECK_METHOD, EQUALITY_CHECK_METHOD_DEFAULT);
+            LOGGER.debug("Equality check method not set, using default {}", EQUALITY_CHECK_METHOD_DEFAULT);
+        }
+        setEqualityCheckMethod(additionalProperties.get(EQUALITY_CHECK_METHOD).toString());
 
         if (!additionalProperties.containsKey(FINAL_PROPERTIES)) {
             additionalProperties.put(FINAL_PROPERTIES, Boolean.parseBoolean(FINAL_PROPERTIES_DEFAULT_VALUE));
@@ -205,6 +208,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         supportingFiles.add(new SupportingFile("auth/auth.mustache", authFolder, "auth.dart"));
 
         configureSerializationLibrary(srcFolder);
+        configureEqualityCheckMethod(srcFolder);
         configureDateLibrary(srcFolder);
     }
 
@@ -276,6 +280,17 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         languageSpecificPrimitives.add("Object");
         imports.put("Uint8List", "dart:typed_data");
         imports.put("MultipartFile", DIO_IMPORT);
+    }
+
+    private void configureEqualityCheckMethod(String srcFolder) {
+        switch (equalityCheckMethod) {
+            case EQUALITY_CHECK_METHOD_EQUATABLE:
+                additionalProperties.put("useEquatable", "true");
+                break;
+            default:
+            case EQUALITY_CHECK_METHOD_DEFAULT:
+                break;
+        }
     }
 
     private void configureDateLibrary(String srcFolder) {
@@ -749,13 +764,13 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
         final boolean isArray;
 
-        final boolean uniqueItems;
+        @Getter final boolean uniqueItems;
 
         final boolean isMap;
 
         final boolean isNullable;
 
-        final String dataType;
+        @Getter final String dataType;
 
         private BuiltValueSerializer(boolean isArray, boolean uniqueItems, boolean isMap, boolean isNullable, String dataType) {
             this.isArray = isArray;
@@ -769,20 +784,12 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             return isArray;
         }
 
-        public boolean isUniqueItems() {
-            return uniqueItems;
-        }
-
         public boolean isMap() {
             return isMap;
         }
 
         public boolean isNullable() {
             return isNullable;
-        }
-
-        public String getDataType() {
-            return dataType;
         }
 
         @Override

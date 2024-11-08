@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+<!-- Common develocity.xml configuration for Maven shared between CI agents and developers building locally.
+
+     The build cache credentials required for CI builds to write to the remote build cache are read from environment variables.
+     Possibly, the credentials are configured in Jenkins via Credentials plugin (https://plugins.jenkins.io/credentials/) and
+     Credentials Binding plugin (https://plugins.jenkins.io/credentials-binding/), or the credentials are injected using the
+     vendor-specific mechanism of the CI server running the build.
+
+     Note: In the XML configuration below, you need to adjust
+
+             - the server url of your Develocity server
+             - the name of the environment variable that reveals the build is running in a CI environment
+             - the names of the environment variables holding the build cache credentials
+
+           to the specifics of your CI server settings. -->
+
+<develocity
+    xmlns="https://www.gradle.com/develocity-maven" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://www.gradle.com/develocity-maven https://www.gradle.com/schema/develocity-maven.xsd">
+  <server>
+    <url>https://ge.openapi-generator.tech/</url>
+    <allowUntrusted>false</allowUntrusted>
+  </server>
+  <buildScan>
+    <backgroundBuildScanUpload>#{isFalse(env['CI'])}</backgroundBuildScanUpload> <!-- adjust to your CI provider -->
+    <publishing>
+      <onlyIf>authenticated</onlyIf>
+    </publishing>
+    <obfuscation>
+      <!-- Use a redacted value.-->
+      <ipAddresses>#{{'0.0.0.0'}}</ipAddresses>
+    </obfuscation>
+  </buildScan>
+  <buildCache>
+    <local>
+      <enabled>true</enabled>
+    </local>
+    <remote>
+      <enabled>true</enabled>
+      <!-- Check credentials presence to avoid build cache errors on PR builds when credentials are not present -->
+      <storeEnabled>#{isTrue(env['CI']) and isTrue(env['GRADLE_ENTERPRISE_ACCESS_KEY'])}</storeEnabled>
+    </remote>
+  </buildCache>
+</develocity>

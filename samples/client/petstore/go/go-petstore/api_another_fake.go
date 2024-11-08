@@ -121,7 +121,7 @@ func (a *AnotherFakeAPIService) Call123TestSpecialTagsExecute(r ApiCall123TestSp
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	parameterAddToHeaderOrQuery(localVarHeaderParams, "uuid_test", r.uuidTest, "")
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "uuid_test", r.uuidTest, "", "")
 	// body params
 	localVarPostBody = r.body
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)

@@ -76,7 +76,7 @@ class OuterCompositeTest extends TestCase
     public function testOuterComposite()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,7 +85,7 @@ class OuterCompositeTest extends TestCase
     public function testPropertyMyNumber()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -94,7 +94,7 @@ class OuterCompositeTest extends TestCase
     public function testPropertyMyString()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -103,6 +103,6 @@ class OuterCompositeTest extends TestCase
     public function testPropertyMyBoolean()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

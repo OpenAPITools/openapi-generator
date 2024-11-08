@@ -16,6 +16,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Api
 {
@@ -53,6 +54,29 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
         ApiResponse<string> TestFormIntegerBooleanStringWithHttpInfo(int? integerForm = default(int?), bool? booleanForm = default(bool?), string? stringForm = default(string?), int operationIndex = 0);
+        /// <summary>
+        /// Test form parameter(s) for multipart schema
+        /// </summary>
+        /// <remarks>
+        /// Test form parameter(s) for multipart schema
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="marker"></param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <returns>string</returns>
+        string TestFormObjectMultipart(TestFormObjectMultipartRequestMarker marker, int operationIndex = 0);
+
+        /// <summary>
+        /// Test form parameter(s) for multipart schema
+        /// </summary>
+        /// <remarks>
+        /// Test form parameter(s) for multipart schema
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="marker"></param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <returns>ApiResponse of string</returns>
+        ApiResponse<string> TestFormObjectMultipartWithHttpInfo(TestFormObjectMultipartRequestMarker marker, int operationIndex = 0);
         /// <summary>
         /// Test form parameter(s) for oneOf schema
         /// </summary>
@@ -108,7 +132,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestFormIntegerBooleanStringAsync(int? integerForm = default(int?), bool? booleanForm = default(bool?), string? stringForm = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestFormIntegerBooleanStringAsync(int? integerForm = default(int?), bool? booleanForm = default(bool?), string? stringForm = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
 
         /// <summary>
         /// Test form parameter(s)
@@ -123,7 +147,32 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestFormIntegerBooleanStringWithHttpInfoAsync(int? integerForm = default(int?), bool? booleanForm = default(bool?), string? stringForm = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestFormIntegerBooleanStringWithHttpInfoAsync(int? integerForm = default(int?), bool? booleanForm = default(bool?), string? stringForm = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
+        /// <summary>
+        /// Test form parameter(s) for multipart schema
+        /// </summary>
+        /// <remarks>
+        /// Test form parameter(s) for multipart schema
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="marker"></param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of string</returns>
+        System.Threading.Tasks.Task<string> TestFormObjectMultipartAsync(TestFormObjectMultipartRequestMarker marker, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Test form parameter(s) for multipart schema
+        /// </summary>
+        /// <remarks>
+        /// Test form parameter(s) for multipart schema
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="marker"></param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (string)</returns>
+        System.Threading.Tasks.Task<ApiResponse<string>> TestFormObjectMultipartWithHttpInfoAsync(TestFormObjectMultipartRequestMarker marker, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
         /// <summary>
         /// Test form parameter(s) for oneOf schema
         /// </summary>
@@ -140,7 +189,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestFormOneofAsync(string? form1 = default(string?), int? form2 = default(int?), string? form3 = default(string?), bool? form4 = default(bool?), long? id = default(long?), string? name = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestFormOneofAsync(string? form1 = default(string?), int? form2 = default(int?), string? form3 = default(string?), bool? form4 = default(bool?), long? id = default(long?), string? name = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
 
         /// <summary>
         /// Test form parameter(s) for oneOf schema
@@ -158,7 +207,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestFormOneofWithHttpInfoAsync(string? form1 = default(string?), int? form2 = default(int?), string? form3 = default(string?), bool? form4 = default(bool?), long? id = default(long?), string? name = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestFormOneofWithHttpInfoAsync(string? form1 = default(string?), int? form2 = default(int?), string? form3 = default(string?), bool? form4 = default(bool?), long? id = default(long?), string? name = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -369,7 +418,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestFormIntegerBooleanStringAsync(int? integerForm = default(int?), bool? booleanForm = default(bool?), string? stringForm = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestFormIntegerBooleanStringAsync(int? integerForm = default(int?), bool? booleanForm = default(bool?), string? stringForm = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestFormIntegerBooleanStringWithHttpInfoAsync(integerForm, booleanForm, stringForm, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -385,7 +434,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestFormIntegerBooleanStringWithHttpInfoAsync(int? integerForm = default(int?), bool? booleanForm = default(bool?), string? stringForm = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestFormIntegerBooleanStringWithHttpInfoAsync(int? integerForm = default(int?), bool? booleanForm = default(bool?), string? stringForm = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -434,6 +483,152 @@ namespace Org.OpenAPITools.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("TestFormIntegerBooleanString", localVarResponse);
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Test form parameter(s) for multipart schema Test form parameter(s) for multipart schema
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="marker"></param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <returns>string</returns>
+        public string TestFormObjectMultipart(TestFormObjectMultipartRequestMarker marker, int operationIndex = 0)
+        {
+            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestFormObjectMultipartWithHttpInfo(marker);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Test form parameter(s) for multipart schema Test form parameter(s) for multipart schema
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="marker"></param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <returns>ApiResponse of string</returns>
+        public Org.OpenAPITools.Client.ApiResponse<string> TestFormObjectMultipartWithHttpInfo(TestFormObjectMultipartRequestMarker marker, int operationIndex = 0)
+        {
+            // verify the required parameter 'marker' is set
+            if (marker == null)
+            {
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'marker' when calling FormApi->TestFormObjectMultipart");
+            }
+
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "multipart/form-data"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "text/plain"
+            };
+
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
+
+            localVarRequestOptions.FormParameters.Add("marker", Org.OpenAPITools.Client.ClientUtils.Serialize(marker)); // form parameter
+
+            localVarRequestOptions.Operation = "FormApi.TestFormObjectMultipart";
+            localVarRequestOptions.OperationIndex = operationIndex;
+
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Post<string>("/form/object/multipart", localVarRequestOptions, this.Configuration);
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("TestFormObjectMultipart", localVarResponse);
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Test form parameter(s) for multipart schema Test form parameter(s) for multipart schema
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="marker"></param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of string</returns>
+        public async System.Threading.Tasks.Task<string> TestFormObjectMultipartAsync(TestFormObjectMultipartRequestMarker marker, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+        {
+            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestFormObjectMultipartWithHttpInfoAsync(marker, operationIndex, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Test form parameter(s) for multipart schema Test form parameter(s) for multipart schema
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="marker"></param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (string)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestFormObjectMultipartWithHttpInfoAsync(TestFormObjectMultipartRequestMarker marker, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'marker' is set
+            if (marker == null)
+            {
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'marker' when calling FormApi->TestFormObjectMultipart");
+            }
+
+
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "multipart/form-data"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "text/plain"
+            };
+
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
+
+            localVarRequestOptions.FormParameters.Add("marker", Org.OpenAPITools.Client.ClientUtils.Serialize(marker)); // form parameter
+
+            localVarRequestOptions.Operation = "FormApi.TestFormObjectMultipart";
+            localVarRequestOptions.OperationIndex = operationIndex;
+
+
+            // make the HTTP request
+            var localVarResponse = await this.AsynchronousClient.PostAsync<string>("/form/object/multipart", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("TestFormObjectMultipart", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -554,7 +749,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestFormOneofAsync(string? form1 = default(string?), int? form2 = default(int?), string? form3 = default(string?), bool? form4 = default(bool?), long? id = default(long?), string? name = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestFormOneofAsync(string? form1 = default(string?), int? form2 = default(int?), string? form3 = default(string?), bool? form4 = default(bool?), long? id = default(long?), string? name = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestFormOneofWithHttpInfoAsync(form1, form2, form3, form4, id, name, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -573,7 +768,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestFormOneofWithHttpInfoAsync(string? form1 = default(string?), int? form2 = default(int?), string? form3 = default(string?), bool? form4 = default(bool?), long? id = default(long?), string? name = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestFormOneofWithHttpInfoAsync(string? form1 = default(string?), int? form2 = default(int?), string? form3 = default(string?), bool? form4 = default(bool?), long? id = default(long?), string? name = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();

@@ -10,13 +10,16 @@ import jakarta.ws.rs.core.GenericType;
 
 import org.openapitools.client.model.Order;
 
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class StoreApi {
   private ApiClient apiClient;
 
@@ -83,7 +86,7 @@ public class StoreApi {
 
     // Path parameters
     String localVarPath = "/store/order/{order_id}"
-            .replaceAll("\\{order_id}", apiClient.escapeString(orderId));
+            .replaceAll("\\{order_id}", apiClient.escapeString(orderId.toString()));
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType();

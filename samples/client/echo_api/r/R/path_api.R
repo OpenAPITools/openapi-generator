@@ -12,30 +12,6 @@
 #' @format An \code{R6Class} generator object
 #' @field api_client Handles the client-server communication.
 #'
-#' @section Methods:
-#' \describe{
-#' \strong{ TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath } \emph{ Test path parameter(s) }
-#' Test path parameter(s)
-#'
-#' \itemize{
-#' \item \emph{ @param } path_string character
-#' \item \emph{ @param } path_integer integer
-#' \item \emph{ @param } enum_nonref_string_path Enum < [success, failure, unclassified] >
-#' \item \emph{ @param } enum_ref_string_path \link{StringEnumRef}
-#'
-#'
-#' \item status code : 200 | Successful operation
-#'
-#' \item return type : character
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' }
-#'
-#'
 #' @examples
 #' \dontrun{
 #' ####################  TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath  ####################
@@ -63,13 +39,11 @@ PathApi <- R6::R6Class(
   "PathApi",
   public = list(
     api_client = NULL,
-    #' Initialize a new PathApi.
-    #'
+
     #' @description
     #' Initialize a new PathApi.
     #'
     #' @param api_client An instance of API client.
-    #' @export
     initialize = function(api_client) {
       if (!missing(api_client)) {
         self$api_client <- api_client
@@ -77,8 +51,7 @@ PathApi <- R6::R6Class(
         self$api_client <- ApiClient$new()
       }
     },
-    #' Test path parameter(s)
-    #'
+
     #' @description
     #' Test path parameter(s)
     #'
@@ -88,8 +61,8 @@ PathApi <- R6::R6Class(
     #' @param enum_ref_string_path 
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return character
-    #' @export
     TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath = function(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, data_file = NULL, ...) {
       local_var_response <- self$TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
@@ -102,8 +75,7 @@ PathApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' Test path parameter(s)
-    #'
+
     #' @description
     #' Test path parameter(s)
     #'
@@ -113,8 +85,8 @@ PathApi <- R6::R6Class(
     #' @param enum_ref_string_path 
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    #' @export
     TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo = function(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -189,7 +161,7 @@ PathApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "character", loadNamespace("openapi")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("openapi")),
           error = function(e) {
             stop("Failed to deserialize response")
           }

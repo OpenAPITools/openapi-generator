@@ -81,6 +81,6 @@ class AuthApiTest extends TestCase
     public function testTestAuthHttpBasic()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

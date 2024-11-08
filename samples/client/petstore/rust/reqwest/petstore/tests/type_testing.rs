@@ -12,7 +12,8 @@ fn test_types() {
         double: 45.56,
         string: String::from("something"),
         boolean: true,
-        uuid: Uuid::new_v4()
+        uuid: Uuid::new_v4(),
+        bytes: vec![1,2,3,4]
     };
     assert_eq!(type_of(tt.int32), "i32");
     assert_eq!(type_of(tt.int64), "i64");

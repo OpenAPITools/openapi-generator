@@ -27,28 +27,29 @@ import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.OffsetTime
 import java.util.Locale
+import java.util.regex.Pattern
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 
- val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
+val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
 
-open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClient) {
+open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClient) {
     companion object {
-        protected const val ContentType = "Content-Type"
-        protected const val Accept = "Accept"
-        protected const val Authorization = "Authorization"
-        protected const val JsonMediaType = "application/json"
-        protected const val FormDataMediaType = "multipart/form-data"
-        protected const val FormUrlEncMediaType = "application/x-www-form-urlencoded"
-        protected const val XmlMediaType = "application/xml"
-        protected const val OctetMediaType = "application/octet-stream"
+        protected const val ContentType: String = "Content-Type"
+        protected const val Accept: String = "Accept"
+        protected const val Authorization: String = "Authorization"
+        protected const val JsonMediaType: String = "application/json"
+        protected const val FormDataMediaType: String = "multipart/form-data"
+        protected const val FormUrlEncMediaType: String = "application/x-www-form-urlencoded"
+        protected const val XmlMediaType: String = "application/xml"
+        protected const val OctetMediaType: String = "application/octet-stream"
 
         val apiKey: MutableMap<String, String> = mutableMapOf()
         val apiKeyPrefix: MutableMap<String, String> = mutableMapOf()
         var username: String? = null
         var password: String? = null
         var accessToken: String? = null
-        const val baseUrlKey = "org.openapitools.client.baseUrl"
+        const val baseUrlKey: String = "org.openapitools.client.baseUrl"
 
         @JvmStatic
         val defaultClient: OkHttpClient by lazy {
@@ -57,6 +58,21 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
 
         @JvmStatic
         val builder: OkHttpClient.Builder = OkHttpClient.Builder()
+    }
+
+    /**
+     * Guess Content-Type header from the given byteArray (defaults to "application/octet-stream").
+     *
+     * @param byteArray The given file
+     * @return The guessed Content-Type
+     */
+    protected fun guessContentTypeFromByteArray(byteArray: ByteArray): String {
+        val contentType = try {
+            URLConnection.guessContentTypeFromStream(byteArray.inputStream())
+        } catch (io: IOException) {
+            "application/octet-stream"
+        }
+        return contentType
     }
 
     /**
@@ -72,6 +88,7 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
 
     protected inline fun <reified T> requestBody(content: T, mediaType: String?): RequestBody =
         when {
+            content is ByteArray -> content.toRequestBody((mediaType ?: guessContentTypeFromByteArray(content)).toMediaTypeOrNull())
             content is File -> content.asRequestBody((mediaType ?: guessContentTypeFromFile(content)).toMediaTypeOrNull())
             mediaType == FormDataMediaType ->
                 MultipartBody.Builder()
@@ -121,17 +138,58 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
             else -> throw UnsupportedOperationException("requestBody currently only supports JSON body, byte body and File body.")
         }
 
-    protected inline fun <reified T: Any?> responseBody(body: ResponseBody?, mediaType: String? = JsonMediaType): T? {
+    protected inline fun <reified T: Any?> responseBody(response: Response, mediaType: String? = JsonMediaType): T? {
+        val body = response.body
         if(body == null) {
             return null
-        }
-        if (T::class.java == File::class.java) {
+        } else if (T::class.java == Unit::class.java) {
+            // No need to parse the body when we're not interested in the body
+            // Useful when API is returning other Content-Type
+            return null
+        } else if (T::class.java == File::class.java) {
             // return tempFile
+            val contentDisposition = response.header("Content-Disposition")
+
+            val fileName = if (contentDisposition != null) {
+                // Get filename from the Content-Disposition header.
+                val pattern = Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?")
+                val matcher = pattern.matcher(contentDisposition)
+                if (matcher.find()) {
+                    matcher.group(1)
+                        ?.replace(".*[/\\\\]", "")
+                        ?.replace(";", "")
+                } else {
+                    null
+                }
+            } else {
+                null
+            }
+
+            var prefix: String?
+            val suffix: String?
+            if (fileName == null) {
+                prefix = "download"
+                suffix = ""
+            } else {
+                val pos = fileName.lastIndexOf(".")
+                if (pos == -1) {
+                    prefix = fileName
+                    suffix = null
+                } else {
+                    prefix = fileName.substring(0, pos)
+                    suffix = fileName.substring(pos)
+                }
+                // Files.createTempFile requires the prefix to be at least three characters long
+                if (prefix.length < 3) {
+                    prefix = "download"
+                }
+            }
+
             val tempFile = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                java.nio.file.Files.createTempFile("tmp.net.medicineone.teleconsultationandroid.openapi.openapicommon", null).toFile()
+                java.nio.file.Files.createTempFile(prefix, suffix).toFile()
             } else {
                 @Suppress("DEPRECATION")
-                createTempFile("tmp.net.medicineone.teleconsultationandroid.openapi.openapicommon", null)
+                createTempFile(prefix, suffix)
             }
             tempFile.deleteOnExit()
             body.byteStream().use { inputStream ->
@@ -226,33 +284,35 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
         @Suppress("UNNECESSARY_SAFE_CALL")
-        return when {
-            response.isRedirect -> Redirection(
-                response.code,
-                response.headers.toMultimap()
-            )
-            response.isInformational -> Informational(
-                response.message,
-                response.code,
-                response.headers.toMultimap()
-            )
-            response.isSuccessful -> Success(
-                responseBody(response.body, accept),
-                response.code,
-                response.headers.toMultimap()
-            )
-            response.isClientError -> ClientError(
-                response.message,
-                response.body?.string(),
-                response.code,
-                response.headers.toMultimap()
-            )
-            else -> ServerError(
-                response.message,
-                response.body?.string(),
-                response.code,
-                response.headers.toMultimap()
-            )
+        return response.use {
+            when {
+                it.isRedirect -> Redirection(
+                    it.code,
+                    it.headers.toMultimap()
+                )
+                it.isInformational -> Informational(
+                    it.message,
+                    it.code,
+                    it.headers.toMultimap()
+                )
+                it.isSuccessful -> Success(
+                    responseBody(it, accept),
+                    it.code,
+                    it.headers.toMultimap()
+                )
+                it.isClientError -> ClientError(
+                    it.message,
+                    it.body?.string(),
+                    it.code,
+                    it.headers.toMultimap()
+                )
+                else -> ServerError(
+                    it.message,
+                    it.body?.string(),
+                    it.code,
+                    it.headers.toMultimap()
+                )
+            }
         }
     }
 

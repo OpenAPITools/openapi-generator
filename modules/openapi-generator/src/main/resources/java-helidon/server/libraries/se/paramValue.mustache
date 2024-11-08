@@ -1,4 +1,5 @@
-{{#isPathParam}}Optional.ofNullable(request.path().param("{{baseName}}")){{/isPathParam}}{{!
+{{#x-helidon-v3}}{{!
+}}{{#isPathParam}}Optional.ofNullable(request.path().param("{{baseName}}")){{/isPathParam}}{{!
 }}{{#isQueryParam}}{{#isPrimitiveType}}request.queryParams().toMap().getOrDefault("{{baseName}}", List.of()).stream().findFirst(){{/isPrimitiveType}}{{/isQueryParam}}{{!
 }}{{#isQueryParam}}{{^isPrimitiveType}}Optional.ofNullable(request.queryParams().toMap().get("{{baseName}}")){{/isPrimitiveType}}{{/isQueryParam}}{{!
 }}{{#isCookieParam}}{{#isPrimitiveType}}request.headers().cookies().toMap().getOrDefault("{{baseName}}", List.of()).stream().findFirst(){{/isPrimitiveType}}{{/isCookieParam}}{{!
@@ -12,3 +13,6 @@
     }}{{^isDecimal}}{{^isNumber}}{{^isDate}}{{^isDateTime}}{{{dataType}}}::valueOf{{/isDateTime}}{{/isDate}}{{/isNumber}}{{/isDecimal}}){{!
 }}{{/isString}}{{/isFile}}{{/isPrimitiveType}}{{!
 }}.orElse(null);
+{{/x-helidon-v3}}{{!
+}}{{^x-helidon-v3}}{{> paramMethodInvocation }};
+{{/x-helidon-v3}}

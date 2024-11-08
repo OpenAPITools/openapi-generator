@@ -12,6 +12,7 @@ All URIs are relative to *http://localhost:3000*
 | [**TestEchoBodyFreeFormObjectResponseString**](BodyApi.md#testechobodyfreeformobjectresponsestring) | **POST** /echo/body/FreeFormObject/response_string | Test free form object |
 | [**TestEchoBodyPet**](BodyApi.md#testechobodypet) | **POST** /echo/body/Pet | Test body parameter(s) |
 | [**TestEchoBodyPetResponseString**](BodyApi.md#testechobodypetresponsestring) | **POST** /echo/body/Pet/response_string | Test empty response body |
+| [**TestEchoBodyStringEnum**](BodyApi.md#testechobodystringenum) | **POST** /echo/body/string_enum | Test string enum response body |
 | [**TestEchoBodyTagResponseString**](BodyApi.md#testechobodytagresponsestring) | **POST** /echo/body/Tag/response_string | Test empty json (request body) |
 
 <a id="testbinarygif"></a>
@@ -728,6 +729,97 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: text/plain
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="testechobodystringenum"></a>
+# **TestEchoBodyStringEnum**
+> StringEnumRef TestEchoBodyStringEnum (string? body = null)
+
+Test string enum response body
+
+Test string enum response body
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class TestEchoBodyStringEnumExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "http://localhost:3000";
+            var apiInstance = new BodyApi(config);
+            var body = null;  // string? | String enum (optional) 
+
+            try
+            {
+                // Test string enum response body
+                StringEnumRef result = apiInstance.TestEchoBodyStringEnum(body);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling BodyApi.TestEchoBodyStringEnum: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the TestEchoBodyStringEnumWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Test string enum response body
+    ApiResponse<StringEnumRef> response = apiInstance.TestEchoBodyStringEnumWithHttpInfo(body);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling BodyApi.TestEchoBodyStringEnumWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **body** | **string?** | String enum | [optional]  |
+
+### Return type
+
+[**StringEnumRef**](StringEnumRef.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 
 ### HTTP response details

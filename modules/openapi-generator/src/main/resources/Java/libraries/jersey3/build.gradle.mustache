@@ -99,12 +99,15 @@ if(hasProperty('target') && target == 'android') {
 
 ext {
     swagger_annotations_version = "1.6.5"
-    jackson_version = "2.13.4"
-    jackson_databind_version = "2.13.4.2"
+    jackson_version = "2.17.1"
+    jackson_databind_version = "2.17.1"
     {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.6"
     {{/openApiNullable}}
     jakarta_annotation_version = "2.1.0"
+    {{#useBeanValidation}}
+    bean_validation_version = "3.0.2"
+    {{/useBeanValidation}}
     jersey_version = "3.0.4"
     junit_version = "5.8.2"
     {{#hasOAuthMethods}}
@@ -140,6 +143,10 @@ dependencies {
     implementation "org.tomitribe:tomitribe-http-signatures:$tomitribe_http_signatures_version"
     {{/hasHttpSignatureMethods}}
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
+    {{#useBeanValidation}}
+    implementation "jakarta.validation:jakarta.validation-api:$bean_validation_version"
+    {{/useBeanValidation}}
+
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
 }

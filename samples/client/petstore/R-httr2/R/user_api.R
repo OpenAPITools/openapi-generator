@@ -11,187 +11,6 @@
 #' @format An \code{R6Class} generator object
 #' @field api_client Handles the client-server communication.
 #'
-#' @section Methods:
-#' \describe{
-#' \strong{ create_user } \emph{ Create user }
-#' This can only be done by the logged in user.
-#'
-#' \itemize{
-#' \item \emph{ @param } user \link{User}
-#'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
-#'
-#' \item status code : 0 | successful operation
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ create_users_with_array_input } \emph{ Creates list of users with given input array }
-#' 
-#'
-#' \itemize{
-#' \item \emph{ @param } user list( \link{User} )
-#'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
-#'
-#' \item status code : 0 | successful operation
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ create_users_with_list_input } \emph{ Creates list of users with given input array }
-#' 
-#'
-#' \itemize{
-#' \item \emph{ @param } user list( \link{User} )
-#'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
-#'
-#' \item status code : 0 | successful operation
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ delete_user } \emph{ Delete user }
-#' This can only be done by the logged in user.
-#'
-#' \itemize{
-#' \item \emph{ @param } username character
-#'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
-#'
-#' \item status code : 400 | Invalid username supplied
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' \item status code : 404 | User not found
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ get_user_by_name } \emph{ Get user by user name }
-#' 
-#'
-#' \itemize{
-#' \item \emph{ @param } username character
-#' \item \emph{ @returnType } \link{User} \cr
-#'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
-#'
-#' \item status code : 200 | successful operation
-#'
-#' \item return type : User
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' \item status code : 400 | Invalid username supplied
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' \item status code : 404 | User not found
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ login_user } \emph{ Logs user into the system }
-#' 
-#'
-#' \itemize{
-#' \item \emph{ @param } username character
-#' \item \emph{ @param } password character
-#'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
-#'
-#' \item status code : 200 | successful operation
-#'
-#' \item return type : character
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' Set-Cookie \tab Cookie authentication key for use with the `api_key` apiKey authentication. \cr
-#' X-Rate-Limit \tab calls per hour allowed by the user \cr
-#' X-Expires-After \tab date in UTC when token expires \cr
-#' }
-#' \item status code : 400 | Invalid username/password supplied
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ logout_user } \emph{ Logs out current logged in user session }
-#' 
-#'
-#' \itemize{
-#'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
-#'
-#' \item status code : 0 | successful operation
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ update_user } \emph{ Updated user }
-#' This can only be done by the logged in user.
-#'
-#' \itemize{
-#' \item \emph{ @param } username character
-#' \item \emph{ @param } user \link{User}
-#'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
-#'
-#' \item status code : 400 | Invalid user supplied
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' \item status code : 404 | User not found
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' }
-#'
-#'
 #' @examples
 #' \dontrun{
 #' ####################  create_user  ####################
@@ -438,13 +257,11 @@ UserApi <- R6::R6Class(
   "UserApi",
   public = list(
     api_client = NULL,
-    #' Initialize a new UserApi.
-    #'
+
     #' @description
     #' Initialize a new UserApi.
     #'
     #' @param api_client An instance of API client.
-    #' @export
     initialize = function(api_client) {
       if (!missing(api_client)) {
         self$api_client <- api_client
@@ -452,15 +269,14 @@ UserApi <- R6::R6Class(
         self$api_client <- ApiClient$new()
       }
     },
-    #' Create user
-    #'
+
     #' @description
     #' Create user
     #'
     #' @param user Created user object
     #' @param ... Other optional arguments
+    #'
     #' @return void
-    #' @export
     create_user = function(user, ...) {
       local_var_response <- self$create_user_with_http_info(user, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
@@ -473,15 +289,14 @@ UserApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' Create user
-    #'
+
     #' @description
     #' Create user
     #'
     #' @param user Created user object
     #' @param ... Other optional arguments
+    #'
     #' @return API response (void) with additional information such as HTTP status code, headers
-    #' @export
     create_user_with_http_info = function(user, ...) {
       args <- list(...)
       query_params <- list()
@@ -560,15 +375,14 @@ UserApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
     },
-    #' Creates list of users with given input array
-    #'
+
     #' @description
     #' Creates list of users with given input array
     #'
     #' @param user List of user object
     #' @param ... Other optional arguments
+    #'
     #' @return void
-    #' @export
     create_users_with_array_input = function(user, ...) {
       local_var_response <- self$create_users_with_array_input_with_http_info(user, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
@@ -581,15 +395,14 @@ UserApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' Creates list of users with given input array
-    #'
+
     #' @description
     #' Creates list of users with given input array
     #'
     #' @param user List of user object
     #' @param ... Other optional arguments
+    #'
     #' @return API response (void) with additional information such as HTTP status code, headers
-    #' @export
     create_users_with_array_input_with_http_info = function(user, ...) {
       args <- list(...)
       query_params <- list()
@@ -671,15 +484,14 @@ UserApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
     },
-    #' Creates list of users with given input array
-    #'
+
     #' @description
     #' Creates list of users with given input array
     #'
     #' @param user List of user object
     #' @param ... Other optional arguments
+    #'
     #' @return void
-    #' @export
     create_users_with_list_input = function(user, ...) {
       local_var_response <- self$create_users_with_list_input_with_http_info(user, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
@@ -692,15 +504,14 @@ UserApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' Creates list of users with given input array
-    #'
+
     #' @description
     #' Creates list of users with given input array
     #'
     #' @param user List of user object
     #' @param ... Other optional arguments
+    #'
     #' @return API response (void) with additional information such as HTTP status code, headers
-    #' @export
     create_users_with_list_input_with_http_info = function(user, ...) {
       args <- list(...)
       query_params <- list()
@@ -782,15 +593,14 @@ UserApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
     },
-    #' Delete user
-    #'
+
     #' @description
     #' Delete user
     #'
     #' @param username The name that needs to be deleted
     #' @param ... Other optional arguments
+    #'
     #' @return void
-    #' @export
     delete_user = function(username, ...) {
       local_var_response <- self$delete_user_with_http_info(username, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
@@ -803,15 +613,14 @@ UserApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' Delete user
-    #'
+
     #' @description
     #' Delete user
     #'
     #' @param username The name that needs to be deleted
     #' @param ... Other optional arguments
+    #'
     #' @return API response (void) with additional information such as HTTP status code, headers
-    #' @export
     delete_user_with_http_info = function(username, ...) {
       args <- list(...)
       query_params <- list()
@@ -888,16 +697,15 @@ UserApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
     },
-    #' Get user by user name
-    #'
+
     #' @description
     #' Get user by user name
     #'
     #' @param username The name that needs to be fetched. Use user1 for testing.
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return User
-    #' @export
     get_user_by_name = function(username, data_file = NULL, ...) {
       local_var_response <- self$get_user_by_name_with_http_info(username, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
@@ -910,16 +718,15 @@ UserApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' Get user by user name
-    #'
+
     #' @description
     #' Get user by user name
     #'
     #' @param username The name that needs to be fetched. Use user1 for testing.
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return API response (User) with additional information such as HTTP status code, headers
-    #' @export
     get_user_by_name_with_http_info = function(username, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -970,7 +777,7 @@ UserApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "User", loadNamespace("petstore")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "User", loadNamespace("petstore")),
           error = function(e) {
             rlang::abort(message = "Failed to deserialize response",
                          .subclass = "ApiException",
@@ -1005,8 +812,7 @@ UserApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
     },
-    #' Logs user into the system
-    #'
+
     #' @description
     #' Logs user into the system
     #'
@@ -1014,8 +820,8 @@ UserApi <- R6::R6Class(
     #' @param password The password for login in clear text
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return character
-    #' @export
     login_user = function(username, password, data_file = NULL, ...) {
       local_var_response <- self$login_user_with_http_info(username, password, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
@@ -1028,8 +834,7 @@ UserApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' Logs user into the system
-    #'
+
     #' @description
     #' Logs user into the system
     #'
@@ -1037,8 +842,8 @@ UserApi <- R6::R6Class(
     #' @param password The password for login in clear text
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    #' @export
     login_user_with_http_info = function(username, password, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -1103,7 +908,7 @@ UserApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "character", loadNamespace("petstore")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("petstore")),
           error = function(e) {
             rlang::abort(message = "Failed to deserialize response",
                          .subclass = "ApiException",
@@ -1138,14 +943,13 @@ UserApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
     },
-    #' Logs out current logged in user session
-    #'
+
     #' @description
     #' Logs out current logged in user session
     #'
     #' @param ... Other optional arguments
+    #'
     #' @return void
-    #' @export
     logout_user = function(...) {
       local_var_response <- self$logout_user_with_http_info(...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
@@ -1158,14 +962,13 @@ UserApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' Logs out current logged in user session
-    #'
+
     #' @description
     #' Logs out current logged in user session
     #'
     #' @param ... Other optional arguments
+    #'
     #' @return API response (void) with additional information such as HTTP status code, headers
-    #' @export
     logout_user_with_http_info = function(...) {
       args <- list(...)
       query_params <- list()
@@ -1230,16 +1033,15 @@ UserApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
     },
-    #' Updated user
-    #'
+
     #' @description
     #' Updated user
     #'
     #' @param username name that need to be deleted
     #' @param user Updated user object
     #' @param ... Other optional arguments
+    #'
     #' @return void
-    #' @export
     update_user = function(username, user, ...) {
       local_var_response <- self$update_user_with_http_info(username, user, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
@@ -1252,16 +1054,15 @@ UserApi <- R6::R6Class(
         local_var_response
       }
     },
-    #' Updated user
-    #'
+
     #' @description
     #' Updated user
     #'
     #' @param username name that need to be deleted
     #' @param user Updated user object
     #' @param ... Other optional arguments
+    #'
     #' @return API response (void) with additional information such as HTTP status code, headers
-    #' @export
     update_user_with_http_info = function(username, user, ...) {
       args <- list(...)
       query_params <- list()
