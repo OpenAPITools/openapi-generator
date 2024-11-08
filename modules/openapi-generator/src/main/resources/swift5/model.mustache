@@ -4,13 +4,15 @@
 //
 
 import Foundation
-
 {{#swiftUseApiNamespace}}
+
 @available(*, deprecated, renamed: "{{projectName}}API.{{classname}}")
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} typealias {{classname}} = {{projectName}}API.{{classname}}
 extension {{projectName}}API {
 {{/swiftUseApiNamespace}}
-{{#description}}/// {{{.}}}{{/description}}{{#isDeprecated}}
+{{#description}}
+
+/// {{{.}}}{{/description}}{{#isDeprecated}}
 @available(*, deprecated, message: "This schema is deprecated."){{/isDeprecated}}{{#vendorExtensions.x-is-one-of-interface}}
 {{> modelOneOf}}{{/vendorExtensions.x-is-one-of-interface}}{{^vendorExtensions.x-is-one-of-interface}}{{#isArray}}
 {{> modelArray}}{{/isArray}}{{^isArray}}{{#isEnum}}
