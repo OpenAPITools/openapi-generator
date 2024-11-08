@@ -26,13 +26,14 @@ enum {{classname}}(val value: String) {
 }
 
 object {{classname}} {
-  given decoder{{classname}}: Decoder[{{classname}}] =
-    Decoder.decodeString.map(str => {{classname}}.values.find(_.value == str)
-      .getOrElse(throw java.lang.IllegalArgumentException(s"{{classname}} enum case not found: $str"))
-    )
 
-  given encoder{{classname}}: Encoder[{{classname}}] =
-    Encoder.encodeString.contramap[{{classname}}](_.value)
+  def withValueOpt(value: String): Option[{{classname}}] = {{classname}}.values.find(_.value == value)
+  def withValue(value: String): {{classname}} =
+    withValueOpt(value).getOrElse(throw java.lang.IllegalArgumentException(s"{{classname}} enum case not found: $value"))
+
+  given decoder{{classname}}: Decoder[{{classname}}] = Decoder.decodeString.map(withValue)
+  given encoder{{classname}}: Encoder[{{classname}}] = Encoder.encodeString.contramap[{{classname}}](_.value)
+
 }
 {{/isEnum}}
 {{^isEnum}}
