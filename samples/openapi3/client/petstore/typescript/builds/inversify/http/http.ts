@@ -1,5 +1,5 @@
 // TODO: evaluate if we can easily get rid of this library
-import * as FormData from "form-data";
+import  FormData from "form-data";
 import { URL, URLSearchParams } from 'url';
 import * as http from 'http';
 import * as https from 'https';
