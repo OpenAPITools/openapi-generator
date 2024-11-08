@@ -216,13 +216,6 @@ public class StringUtils {
         return word;
     }
 
-
-    private static final ImmutablePair<String, String>[] formatReplacements = new ImmutablePair[]{
-        new ImmutablePair<>("asos", "ASOS"),
-        new ImmutablePair<>("url", "URL"),
-        new ImmutablePair<>("id", "ID"),
-    };
-
     /**
      * Camelizes a name by appending the extra replacements
      * 
