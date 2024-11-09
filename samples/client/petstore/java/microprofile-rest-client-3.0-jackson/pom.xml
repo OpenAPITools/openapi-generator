@@ -127,6 +127,12 @@
         <version>${jakarta.annotation.version}</version>
         <scope>provided</scope>
     </dependency>
+    <!-- For equals and hashCode using reflection -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>${commons.lang3.version}</version>
+    </dependency>
   </dependencies>
   <repositories>
     <repository>
@@ -141,6 +147,8 @@
     <java.version>11</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
     <swagger.core.version>1.5.18</swagger.core.version>
     <jetty.version>9.2.9.v20150224</jetty.version>
     <junit.version>5.10.2</junit.version>
@@ -164,6 +172,6 @@
     <jandex.maven.plugin.version>1.1.0</jandex.maven.plugin.version>
     <maven.failsafe.plugin.version>2.6</maven.failsafe.plugin.version>
     <build.helper.maven.plugin.version>1.9.1</build.helper.maven.plugin.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <commons.lang3.version>3.17.0</commons.lang3.version>
   </properties>
 </project>
