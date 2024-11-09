@@ -53,7 +53,74 @@ public class {{classname}} {
         this.apiClient = apiClient;
     }
 
-    {{#operation}}
+    {{#operation}}{{#useSingleRequestParameter}}{{#hasParams}}{{^hasSingleParam}}
+    public class {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request {
+    {{#allParams}}
+        private final {{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}};
+    {{/allParams}}
+
+        public {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
+      {{#allParams}}
+          this.{{paramName}} = {{paramName}};
+      {{/allParams}}
+      }
+
+    {{#allParams}}
+        public {{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}}() {
+            return this.{{paramName}};
+        }
+    {{/allParams}}
+    }
+
+      /**
+      * {{summary}}
+      * {{notes}}
+    {{#responses}}     * <p><b>{{code}}</b>{{#message}} - {{.}}{{/message}}
+    {{/responses}}     * @param requestParameters The {{operationId}} request parameters as object
+    {{#returnType}}     * @return {{.}}
+    {{/returnType}}     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+    {{#externalDocs}}
+        * {{description}}
+        * @see <a href="{{url}}">{{summary}} Documentation</a>
+    {{/externalDocs}}
+      */
+      public {{#returnType}}{{#vendorExtensions.x-webclient-blocking}}{{#vendorExtensions.x-webclient-return-except-list-of-string}}{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnBaseType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnBaseType}}}{{/isResponseFile}}>{{/vendorExtensions.x-webclient-return-except-list-of-string}}{{^vendorExtensions.x-webclient-return-except-list-of-string}}{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}{{/vendorExtensions.x-webclient-return-except-list-of-string}}{{/vendorExtensions.x-webclient-blocking}}{{^vendorExtensions.x-webclient-blocking}}{{#vendorExtensions.x-webclient-return-except-list-of-string}}Flux<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnBaseType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnBaseType}}}{{/isResponseFile}}>{{/vendorExtensions.x-webclient-return-except-list-of-string}}{{^vendorExtensions.x-webclient-return-except-list-of-string}}Mono<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>{{/vendorExtensions.x-webclient-return-except-list-of-string}}{{/vendorExtensions.x-webclient-blocking}} {{/returnType}}{{^returnType}}{{#vendorExtensions.x-webclient-blocking}}void{{/vendorExtensions.x-webclient-blocking}}{{^vendorExtensions.x-webclient-blocking}}Mono<Void>{{/vendorExtensions.x-webclient-blocking}} {{/returnType}}{{operationId}}({{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request requestParameters) throws WebClientResponseException {
+          {{^returnType}}{{^vendorExtensions.x-webclient-blocking}}return {{/vendorExtensions.x-webclient-blocking}}{{/returnType}}{{#returnType}}return {{/returnType}}this.{{operationId}}({{#allParams}}requestParameters.{{paramName}}(){{^-last}}, {{/-last}}{{/allParams}});
+      }
+
+      /**
+      * {{summary}}
+      * {{notes}}
+    {{#responses}}     * <p><b>{{code}}</b>{{#message}} - {{.}}{{/message}}
+    {{/responses}}     * @param requestParameters The {{operationId}} request parameters as object
+    {{#returnType}}     * @return ResponseEntity&lt;{{.}}&gt;
+    {{/returnType}}     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+    {{#externalDocs}}
+        * {{description}}
+        * @see <a href="{{url}}">{{summary}} Documentation</a>
+    {{/externalDocs}}
+      */
+      public {{#vendorExtensions.x-webclient-blocking}}{{#returnType}}{{#vendorExtensions.x-webclient-return-except-list-of-string}}ResponseEntity<List<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnBaseType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnBaseType}}}{{/isResponseFile}}>>{{/vendorExtensions.x-webclient-return-except-list-of-string}}{{^vendorExtensions.x-webclient-return-except-list-of-string}}ResponseEntity<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>{{/vendorExtensions.x-webclient-return-except-list-of-string}}{{/returnType}}{{^returnType}}ResponseEntity<Void>{{/returnType}} {{/vendorExtensions.x-webclient-blocking}}{{^vendorExtensions.x-webclient-blocking}}{{#returnType}}{{#vendorExtensions.x-webclient-return-except-list-of-string}}Mono<ResponseEntity<List<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnBaseType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnBaseType}}}{{/isResponseFile}}>>>{{/vendorExtensions.x-webclient-return-except-list-of-string}}{{^vendorExtensions.x-webclient-return-except-list-of-string}}Mono<ResponseEntity<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>>{{/vendorExtensions.x-webclient-return-except-list-of-string}}{{/returnType}}{{^returnType}}Mono<ResponseEntity<Void>>{{/returnType}} {{/vendorExtensions.x-webclient-blocking}}{{operationId}}WithHttpInfo({{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request requestParameters) throws WebClientResponseException {
+          return this.{{operationId}}WithHttpInfo({{#allParams}}requestParameters.{{paramName}}(){{^-last}}, {{/-last}}{{/allParams}});
+      }
+
+      /**
+      * {{summary}}
+      * {{notes}}
+    {{#responses}}     * <p><b>{{code}}</b>{{#message}} - {{.}}{{/message}}
+    {{/responses}}     * @param requestParameters The {{operationId}} request parameters as object
+      * @return ResponseSpec
+      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+    {{#externalDocs}}
+        * {{description}}
+        * @see <a href="{{url}}">{{summary}} Documentation</a>
+    {{/externalDocs}}
+      */
+      public ResponseSpec {{operationId}}WithResponseSpec({{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request requestParameters) throws WebClientResponseException {
+         return this.{{operationId}}WithResponseSpec({{#allParams}}requestParameters.{{paramName}}(){{^-last}}, {{/-last}}{{/allParams}});
+      }
+
+          {{/hasSingleParam}}{{/hasParams}}{{/useSingleRequestParameter}}
     /**
      * {{summary}}
      * {{notes}}

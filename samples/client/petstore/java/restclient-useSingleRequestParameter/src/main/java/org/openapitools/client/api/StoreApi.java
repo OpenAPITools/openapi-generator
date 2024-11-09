@@ -44,10 +44,6 @@ public class StoreApi {
         this.apiClient = apiClient;
     }
 
-// It has a single param!
-/*
-* orderId
-*/
     /**
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
@@ -185,10 +181,6 @@ public class StoreApi {
     public ResponseSpec getInventoryWithResponseSpec() throws RestClientResponseException {
         return getInventoryRequestCreation();
     }
-// It has a single param!
-/*
-* orderId
-*/
     /**
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
@@ -271,10 +263,6 @@ public class StoreApi {
     public ResponseSpec getOrderByIdWithResponseSpec(Long orderId) throws RestClientResponseException {
         return getOrderByIdRequestCreation(orderId);
     }
-// It has a single param!
-/*
-* order
-*/
     /**
      * Place an order for a pet
      * 
