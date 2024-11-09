@@ -2,24 +2,25 @@ name: Samples Kotlin server (jdk21)
 
 on:
   push:
-    branches:
-      - 'samples/server/petstore/kotlin-server/javalin-6/**'
+    paths:
+      - 'samples/server/petstore/kotlin-server/**'
   pull_request:
     paths:
-      - 'samples/server/petstore/kotlin-server/javalin-6/**'
+      - 'samples/server/petstore/kotlin-server/**'
 
 env:
-  GRADLE_VERSION: 8.8
+  GRADLE_VERSION: '8.10'
 
 jobs:
   build:
-    name: Build Kotlin server
+    name: Build Kotlin server (jdk21)
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         sample:
           - samples/server/petstore/kotlin-server/javalin-6
+          - samples/server/petstore/kotlin-server/ktor
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
