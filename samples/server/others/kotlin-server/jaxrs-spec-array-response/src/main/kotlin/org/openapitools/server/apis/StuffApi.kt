@@ -17,10 +17,10 @@ interface StuffApi {
     @GET
     @Path("/stuff")
     @Produces("application/json")
-    fun findStuff(): kotlin.collections.List<Stuff>
+    fun findStuff(): List<Stuff>
 
     @GET
     @Path("/uniquestuff")
     @Produces("application/json")
-    fun findUniqueStuff(): kotlin.collections.Set<Stuff>
+    fun findUniqueStuff(): Set<Stuff>
 }

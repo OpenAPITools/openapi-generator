@@ -30,11 +30,11 @@ import com.fasterxml.jackson.annotation.JsonInclude
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Pet (
-    @SerializedName("name") private var _name: kotlin.String?,
-    @SerializedName("photoUrls") private var _photoUrls: kotlin.Array<kotlin.String>?,
-    var id: kotlin.Long? = null,
+    @SerializedName("name") private var _name: String?,
+    @SerializedName("photoUrls") private var _photoUrls: Array<String>?,
+    var id: Long? = null,
     var category: Category? = null,
-    var tags: kotlin.Array<Tag>? = null,
+    var tags: Array<Tag>? = null,
     /* pet status in the store */
     var status: Pet.Status? = null
 ) {
@@ -43,7 +43,7 @@ data class Pet (
     * pet status in the store
     * Values: available,pending,sold
     */
-    enum class Status(val value: kotlin.String){
+    enum class Status(val value: String){
     
         available("available"),
     

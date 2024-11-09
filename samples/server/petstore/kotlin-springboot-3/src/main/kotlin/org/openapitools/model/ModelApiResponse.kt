@@ -21,11 +21,11 @@ import jakarta.validation.Valid
  */
 data class ModelApiResponse(
 
-    @get:JsonProperty("code") val code: kotlin.Int? = null,
+    @get:JsonProperty("code") val code: Int? = null,
 
-    @get:JsonProperty("type") val type: kotlin.String? = null,
+    @get:JsonProperty("type") val type: String? = null,
 
-    @get:JsonProperty("message") val message: kotlin.String? = null
+    @get:JsonProperty("message") val message: String? = null
     ) : Serializable{
 
     companion object {

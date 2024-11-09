@@ -37,29 +37,29 @@ import kotlinx.serialization.Contextual
 data class User (
 
     @SerialName(value = "id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
 
     @SerialName(value = "username")
-    val username: kotlin.String? = null,
+    val username: String? = null,
 
     @SerialName(value = "firstName")
-    val firstName: kotlin.String? = null,
+    val firstName: String? = null,
 
     @SerialName(value = "lastName")
-    val lastName: kotlin.String? = null,
+    val lastName: String? = null,
 
     @SerialName(value = "email")
-    val email: kotlin.String? = null,
+    val email: String? = null,
 
     @SerialName(value = "password")
-    val password: kotlin.String? = null,
+    val password: String? = null,
 
     @SerialName(value = "phone")
-    val phone: kotlin.String? = null,
+    val phone: String? = null,
 
     /* User Status */
     @SerialName(value = "userStatus")
-    val userStatus: kotlin.Int? = null
+    val userStatus: Int? = null
 
 ) {
 

@@ -6,6 +6,7 @@ import retrofit2.Call
 import okhttp3.RequestBody
 import com.squareup.moshi.Json
 
+import java.io.File
 import org.openapitools.client.models.ModelApiResponse
 import org.openapitools.client.models.Pet
 
@@ -35,7 +36,7 @@ interface PetApi {
      * @return [Call]<[Unit]>
      */
     @DELETE("pet/{petId}")
-    fun deletePet(@Path("petId") petId: kotlin.Long, @Header("api_key") apiKey: kotlin.String? = null): Call<Unit>
+    fun deletePet(@Path("petId") petId: Long, @Header("api_key") apiKey: String? = null): Call<Unit>
 
 
     /**
@@ -55,10 +56,10 @@ interface PetApi {
      *  - 400: Invalid status value
      *
      * @param status Status values that need to be considered for filter
-     * @return [Call]<[kotlin.collections.List<Pet>]>
+     * @return [Call]<[List<Pet>]>
      */
     @GET("pet/findByStatus")
-    fun findPetsByStatus(@Query("status") status: CSVParams): Call<kotlin.collections.List<Pet>>
+    fun findPetsByStatus(@Query("status") status: CSVParams): Call<List<Pet>>
 
     /**
      * Finds Pets by tags
@@ -68,11 +69,11 @@ interface PetApi {
      *  - 400: Invalid tag value
      *
      * @param tags Tags to filter by
-     * @return [Call]<[kotlin.collections.List<Pet>]>
+     * @return [Call]<[List<Pet>]>
      */
     @Deprecated("This api was deprecated")
     @GET("pet/findByTags")
-    fun findPetsByTags(@Query("tags") tags: CSVParams): Call<kotlin.collections.List<Pet>>
+    fun findPetsByTags(@Query("tags") tags: CSVParams): Call<List<Pet>>
 
     /**
      * Find pet by ID
@@ -86,7 +87,7 @@ interface PetApi {
      * @return [Call]<[Pet]>
      */
     @GET("pet/{petId}")
-    fun getPetById(@Path("petId") petId: kotlin.Long): Call<Pet>
+    fun getPetById(@Path("petId") petId: Long): Call<Pet>
 
     /**
      * Update an existing pet
@@ -115,7 +116,7 @@ interface PetApi {
      */
     @FormUrlEncoded
     @POST("pet/{petId}")
-    fun updatePetWithForm(@Path("petId") petId: kotlin.Long, @Field("name") name: kotlin.String? = null, @Field("status") status: kotlin.String? = null): Call<Unit>
+    fun updatePetWithForm(@Path("petId") petId: Long, @Field("name") name: String? = null, @Field("status") status: String? = null): Call<Unit>
 
     /**
      * uploads an image
@@ -130,6 +131,6 @@ interface PetApi {
      */
     @Multipart
     @POST("pet/{petId}/uploadImage")
-    fun uploadFile(@Path("petId") petId: kotlin.Long, @Part("additionalMetadata") additionalMetadata: kotlin.String? = null, @Part file: MultipartBody.Part? = null): Call<ModelApiResponse>
+    fun uploadFile(@Path("petId") petId: Long, @Part("additionalMetadata") additionalMetadata: String? = null, @Part file: MultipartBody.Part? = null): Call<ModelApiResponse>
 
 }

@@ -39,10 +39,10 @@ import kotlinx.parcelize.Parcelize
 data class Category (
 
     @SerialName(value = "id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
 
     @SerialName(value = "name")
-    val name: kotlin.String? = null
+    val name: String? = null
 
 ) : Parcelable {
 

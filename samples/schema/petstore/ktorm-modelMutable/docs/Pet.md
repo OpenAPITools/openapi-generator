@@ -5,9 +5,9 @@
 ## Properties
 Name | Mapping | SQL Type | Default | Type | Description | Notes
 ---- | ------- | -------- | ------- | ---- | ----------- | -----
-**name** | name | text NOT NULL |  | **kotlin.String** |  | 
-**photoUrls** | `One-To-Many` | `----` | `----`  | **kotlin.Array&lt;kotlin.String&gt;** |  | 
-**id** | id | long PRIMARY KEY AUTOINCREMENT |  | **kotlin.Long** |  |  [optional]
+**name** | name | text NOT NULL |  | [**kotlin.String**](kotlin.String.md) |  | 
+**photoUrls** | `One-To-Many` | `----` | `----`  | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md) |  | 
+**id** | id | long PRIMARY KEY AUTOINCREMENT |  | [**kotlin.Long**](kotlin.Long.md) |  |  [optional]
 **category** | category | long |  | [**Category**](Category.md) |  |  [optional] [foreignkey]
 **tags** | `One-To-Many` | `----` | `----`  | [**kotlin.Array&lt;Tag&gt;**](Tag.md) |  |  [optional]
 **status** | status | text |  | [**status**](#Status) | pet status in the store |  [optional]

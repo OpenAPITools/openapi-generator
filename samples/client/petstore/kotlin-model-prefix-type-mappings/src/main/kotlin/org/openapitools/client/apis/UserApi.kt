@@ -7,6 +7,7 @@ import okhttp3.RequestBody
 import com.google.gson.annotations.SerializedName
 
 import org.openapitools.client.models.ApiUser
+import java.time.OffsetDateTime
 
 interface UserApi {
     /**
@@ -31,7 +32,7 @@ interface UserApi {
      * @return [Unit]
      */
     @POST("user/createWithArray")
-    suspend fun createUsersWithArrayInput(@Body apiUser: kotlin.collections.List<ApiUser>): Response<Unit>
+    suspend fun createUsersWithArrayInput(@Body apiUser: List<ApiUser>): Response<Unit>
 
     /**
      * Creates list of users with given input array
@@ -43,7 +44,7 @@ interface UserApi {
      * @return [Unit]
      */
     @POST("user/createWithList")
-    suspend fun createUsersWithListInput(@Body apiUser: kotlin.collections.List<ApiUser>): Response<Unit>
+    suspend fun createUsersWithListInput(@Body apiUser: List<ApiUser>): Response<Unit>
 
     /**
      * Delete user
@@ -56,7 +57,7 @@ interface UserApi {
      * @return [Unit]
      */
     @DELETE("user/{username}")
-    suspend fun deleteUser(@Path("username") username: kotlin.String): Response<Unit>
+    suspend fun deleteUser(@Path("username") username: String): Response<Unit>
 
     /**
      * Get user by user name
@@ -70,7 +71,7 @@ interface UserApi {
      * @return [ApiUser]
      */
     @GET("user/{username}")
-    suspend fun getUserByName(@Path("username") username: kotlin.String): Response<ApiUser>
+    suspend fun getUserByName(@Path("username") username: String): Response<ApiUser>
 
     /**
      * Logs user into the system
@@ -81,10 +82,10 @@ interface UserApi {
      *
      * @param username The user name for login
      * @param password The password for login in clear text
-     * @return [kotlin.String]
+     * @return [String]
      */
     @GET("user/login")
-    suspend fun loginUser(@Query("username") username: kotlin.String, @Query("password") password: kotlin.String): Response<kotlin.String>
+    suspend fun loginUser(@Query("username") username: String, @Query("password") password: String): Response<String>
 
     /**
      * Logs out current logged in user session
@@ -109,6 +110,6 @@ interface UserApi {
      * @return [Unit]
      */
     @PUT("user/{username}")
-    suspend fun updateUser(@Path("username") username: kotlin.String, @Body apiUser: ApiUser): Response<Unit>
+    suspend fun updateUser(@Path("username") username: String, @Body apiUser: ApiUser): Response<Unit>
 
 }

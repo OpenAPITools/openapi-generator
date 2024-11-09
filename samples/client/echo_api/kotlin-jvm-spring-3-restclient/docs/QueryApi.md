@@ -14,7 +14,7 @@ All URIs are relative to *http://localhost:3000*
 
 <a id="testEnumRefString"></a>
 # **testEnumRefString**
-> kotlin.String testEnumRefString(enumNonrefStringQuery, enumRefStringQuery)
+> String testEnumRefString(enumNonrefStringQuery, enumRefStringQuery)
 
 Test query parameter(s)
 
@@ -27,10 +27,10 @@ Test query parameter(s)
 //import org.openapitools.client.models.*
 
 val apiInstance = QueryApi()
-val enumNonrefStringQuery : kotlin.String = enumNonrefStringQuery_example // kotlin.String | 
+val enumNonrefStringQuery : String = enumNonrefStringQuery_example // String | 
 val enumRefStringQuery : StringEnumRef =  // StringEnumRef | 
 try {
-    val result : kotlin.String = apiInstance.testEnumRefString(enumNonrefStringQuery, enumRefStringQuery)
+    val result : String = apiInstance.testEnumRefString(enumNonrefStringQuery, enumRefStringQuery)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling QueryApi#testEnumRefString")
@@ -42,14 +42,14 @@ try {
 ```
 
 ### Parameters
-| **enumNonrefStringQuery** | **kotlin.String**|  | [optional] [enum: success, failure, unclassified] |
+| **enumNonrefStringQuery** | **String**|  | [optional] [enum: success, failure, unclassified] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **enumRefStringQuery** | [**StringEnumRef**](.md)|  | [optional] [enum: success, failure, unclassified] |
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 
@@ -62,7 +62,7 @@ No authorization required
 
 <a id="testQueryDatetimeDateString"></a>
 # **testQueryDatetimeDateString**
-> kotlin.String testQueryDatetimeDateString(datetimeQuery, dateQuery, stringQuery)
+> String testQueryDatetimeDateString(datetimeQuery, dateQuery, stringQuery)
 
 Test query parameter(s)
 
@@ -75,11 +75,11 @@ Test query parameter(s)
 //import org.openapitools.client.models.*
 
 val apiInstance = QueryApi()
-val datetimeQuery : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
-val dateQuery : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | 
-val stringQuery : kotlin.String = stringQuery_example // kotlin.String | 
+val datetimeQuery : OffsetDateTime = 2013-10-20T19:20:30+01:00 // OffsetDateTime | 
+val dateQuery : LocalDate = 2013-10-20 // LocalDate | 
+val stringQuery : String = stringQuery_example // String | 
 try {
-    val result : kotlin.String = apiInstance.testQueryDatetimeDateString(datetimeQuery, dateQuery, stringQuery)
+    val result : String = apiInstance.testQueryDatetimeDateString(datetimeQuery, dateQuery, stringQuery)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling QueryApi#testQueryDatetimeDateString")
@@ -91,15 +91,15 @@ try {
 ```
 
 ### Parameters
-| **datetimeQuery** | **java.time.OffsetDateTime**|  | [optional] |
-| **dateQuery** | **java.time.LocalDate**|  | [optional] |
+| **datetimeQuery** | **OffsetDateTime**|  | [optional] |
+| **dateQuery** | **LocalDate**|  | [optional] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **stringQuery** | **kotlin.String**|  | [optional] |
+| **stringQuery** | **String**|  | [optional] |
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 
@@ -112,7 +112,7 @@ No authorization required
 
 <a id="testQueryIntegerBooleanString"></a>
 # **testQueryIntegerBooleanString**
-> kotlin.String testQueryIntegerBooleanString(integerQuery, booleanQuery, stringQuery)
+> String testQueryIntegerBooleanString(integerQuery, booleanQuery, stringQuery)
 
 Test query parameter(s)
 
@@ -125,11 +125,11 @@ Test query parameter(s)
 //import org.openapitools.client.models.*
 
 val apiInstance = QueryApi()
-val integerQuery : kotlin.Int = 56 // kotlin.Int | 
-val booleanQuery : kotlin.Boolean = true // kotlin.Boolean | 
-val stringQuery : kotlin.String = stringQuery_example // kotlin.String | 
+val integerQuery : Int = 56 // Int | 
+val booleanQuery : Boolean = true // Boolean | 
+val stringQuery : String = stringQuery_example // String | 
 try {
-    val result : kotlin.String = apiInstance.testQueryIntegerBooleanString(integerQuery, booleanQuery, stringQuery)
+    val result : String = apiInstance.testQueryIntegerBooleanString(integerQuery, booleanQuery, stringQuery)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling QueryApi#testQueryIntegerBooleanString")
@@ -141,15 +141,15 @@ try {
 ```
 
 ### Parameters
-| **integerQuery** | **kotlin.Int**|  | [optional] |
-| **booleanQuery** | **kotlin.Boolean**|  | [optional] |
+| **integerQuery** | **Int**|  | [optional] |
+| **booleanQuery** | **Boolean**|  | [optional] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **stringQuery** | **kotlin.String**|  | [optional] |
+| **stringQuery** | **String**|  | [optional] |
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 
@@ -162,7 +162,7 @@ No authorization required
 
 <a id="testQueryStyleDeepObjectExplodeTrueObject"></a>
 # **testQueryStyleDeepObjectExplodeTrueObject**
-> kotlin.String testQueryStyleDeepObjectExplodeTrueObject(queryObject)
+> String testQueryStyleDeepObjectExplodeTrueObject(queryObject)
 
 Test query parameter(s)
 
@@ -177,7 +177,7 @@ Test query parameter(s)
 val apiInstance = QueryApi()
 val queryObject : Pet =  // Pet | 
 try {
-    val result : kotlin.String = apiInstance.testQueryStyleDeepObjectExplodeTrueObject(queryObject)
+    val result : String = apiInstance.testQueryStyleDeepObjectExplodeTrueObject(queryObject)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling QueryApi#testQueryStyleDeepObjectExplodeTrueObject")
@@ -195,7 +195,7 @@ try {
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 
@@ -208,7 +208,7 @@ No authorization required
 
 <a id="testQueryStyleFormExplodeTrueArrayString"></a>
 # **testQueryStyleFormExplodeTrueArrayString**
-> kotlin.String testQueryStyleFormExplodeTrueArrayString(queryObject)
+> String testQueryStyleFormExplodeTrueArrayString(queryObject)
 
 Test query parameter(s)
 
@@ -223,7 +223,7 @@ Test query parameter(s)
 val apiInstance = QueryApi()
 val queryObject : TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter =  // TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter | 
 try {
-    val result : kotlin.String = apiInstance.testQueryStyleFormExplodeTrueArrayString(queryObject)
+    val result : String = apiInstance.testQueryStyleFormExplodeTrueArrayString(queryObject)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling QueryApi#testQueryStyleFormExplodeTrueArrayString")
@@ -241,7 +241,7 @@ try {
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 
@@ -254,7 +254,7 @@ No authorization required
 
 <a id="testQueryStyleFormExplodeTrueObject"></a>
 # **testQueryStyleFormExplodeTrueObject**
-> kotlin.String testQueryStyleFormExplodeTrueObject(queryObject)
+> String testQueryStyleFormExplodeTrueObject(queryObject)
 
 Test query parameter(s)
 
@@ -269,7 +269,7 @@ Test query parameter(s)
 val apiInstance = QueryApi()
 val queryObject : Pet =  // Pet | 
 try {
-    val result : kotlin.String = apiInstance.testQueryStyleFormExplodeTrueObject(queryObject)
+    val result : String = apiInstance.testQueryStyleFormExplodeTrueObject(queryObject)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling QueryApi#testQueryStyleFormExplodeTrueObject")
@@ -287,7 +287,7 @@ try {
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 

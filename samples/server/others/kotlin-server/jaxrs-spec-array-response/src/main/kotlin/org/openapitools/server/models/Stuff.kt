@@ -25,15 +25,15 @@ data class Stuff (
 
 
     @JsonProperty("name")
-    val name: kotlin.String,
+    val name: String,
 
 
     @JsonProperty("id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
 
 
     @JsonProperty("tag")
-    val tag: kotlin.String? = null
+    val tag: String? = null
 
 )
 

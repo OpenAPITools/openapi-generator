@@ -24,7 +24,7 @@ import com.google.gson.annotations.SerializedName
  * Values: SUCCESS,FAILURE,UNCLASSIFIED
  */
 
-enum class ApiStringEnumRef(val value: kotlin.String) {
+enum class ApiStringEnumRef(val value: String) {
 
     @SerializedName(value = "success")
     SUCCESS("success"),

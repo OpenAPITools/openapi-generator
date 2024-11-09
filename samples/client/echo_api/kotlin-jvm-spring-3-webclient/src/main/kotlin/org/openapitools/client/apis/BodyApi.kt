@@ -26,6 +26,8 @@ import org.springframework.http.MediaType
 import reactor.core.publisher.Mono
 import org.springframework.util.LinkedMultiValueMap
 
+import kotlin.Any
+import java.io.File
 import org.openapitools.client.models.Pet
 import org.openapitools.client.models.Tag
 import org.openapitools.client.infrastructure.*
@@ -43,15 +45,15 @@ class BodyApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun testBinaryGif(): Mono<java.io.File> {
+    fun testBinaryGif(): Mono<File> {
         return testBinaryGifWithHttpInfo()
             .map { it.body }
     }
 
     @Throws(WebClientResponseException::class)
-    fun testBinaryGifWithHttpInfo(): Mono<ResponseEntity<java.io.File>> {
+    fun testBinaryGifWithHttpInfo(): Mono<ResponseEntity<File>> {
         val localVariableConfig = testBinaryGifRequestConfig()
-        return request<Unit, java.io.File>(
+        return request<Unit, File>(
             localVariableConfig
         )
     }
@@ -78,20 +80,20 @@ class BodyApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun testBodyApplicationOctetstreamBinary(body: java.io.File? = null): Mono<kotlin.String> {
+    fun testBodyApplicationOctetstreamBinary(body: File? = null): Mono<String> {
         return testBodyApplicationOctetstreamBinaryWithHttpInfo(body = body)
             .map { it.body }
     }
 
     @Throws(WebClientResponseException::class)
-    fun testBodyApplicationOctetstreamBinaryWithHttpInfo(body: java.io.File? = null): Mono<ResponseEntity<kotlin.String>> {
+    fun testBodyApplicationOctetstreamBinaryWithHttpInfo(body: File? = null): Mono<ResponseEntity<String>> {
         val localVariableConfig = testBodyApplicationOctetstreamBinaryRequestConfig(body = body)
-        return request<java.io.File, kotlin.String>(
+        return request<File, String>(
             localVariableConfig
         )
     }
 
-    fun testBodyApplicationOctetstreamBinaryRequestConfig(body: java.io.File? = null) : RequestConfig<java.io.File> {
+    fun testBodyApplicationOctetstreamBinaryRequestConfig(body: File? = null) : RequestConfig<File> {
         val localVariableBody = body
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -114,20 +116,20 @@ class BodyApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun testBodyMultipartFormdataArrayOfBinary(files: kotlin.collections.List<java.io.File>): Mono<kotlin.String> {
+    fun testBodyMultipartFormdataArrayOfBinary(files: List<File>): Mono<String> {
         return testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files = files)
             .map { it.body }
     }
 
     @Throws(WebClientResponseException::class)
-    fun testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files: kotlin.collections.List<java.io.File>): Mono<ResponseEntity<kotlin.String>> {
+    fun testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files: List<File>): Mono<ResponseEntity<String>> {
         val localVariableConfig = testBodyMultipartFormdataArrayOfBinaryRequestConfig(files = files)
-        return request<Map<String, PartConfig<*>>, kotlin.String>(
+        return request<Map<String, PartConfig<*>>, String>(
             localVariableConfig
         )
     }
 
-    fun testBodyMultipartFormdataArrayOfBinaryRequestConfig(files: kotlin.collections.List<java.io.File>) : RequestConfig<Map<String, PartConfig<*>>> {
+    fun testBodyMultipartFormdataArrayOfBinaryRequestConfig(files: List<File>) : RequestConfig<Map<String, PartConfig<*>>> {
         val localVariableBody = mapOf(
             "files" to PartConfig(body = files, headers = mutableMapOf()),)
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
@@ -150,20 +152,20 @@ class BodyApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun testBodyMultipartFormdataSingleBinary(myFile: java.io.File? = null): Mono<kotlin.String> {
+    fun testBodyMultipartFormdataSingleBinary(myFile: File? = null): Mono<String> {
         return testBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile = myFile)
             .map { it.body }
     }
 
     @Throws(WebClientResponseException::class)
-    fun testBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile: java.io.File? = null): Mono<ResponseEntity<kotlin.String>> {
+    fun testBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile: File? = null): Mono<ResponseEntity<String>> {
         val localVariableConfig = testBodyMultipartFormdataSingleBinaryRequestConfig(myFile = myFile)
-        return request<Map<String, PartConfig<*>>, kotlin.String>(
+        return request<Map<String, PartConfig<*>>, String>(
             localVariableConfig
         )
     }
 
-    fun testBodyMultipartFormdataSingleBinaryRequestConfig(myFile: java.io.File? = null) : RequestConfig<Map<String, PartConfig<*>>> {
+    fun testBodyMultipartFormdataSingleBinaryRequestConfig(myFile: File? = null) : RequestConfig<Map<String, PartConfig<*>>> {
         val localVariableBody = mapOf(
             "my-file" to PartConfig(body = myFile, headers = mutableMapOf()),)
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
@@ -186,20 +188,20 @@ class BodyApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun testEchoBodyFreeFormObjectResponseString(body: kotlin.Any? = null): Mono<kotlin.String> {
+    fun testEchoBodyFreeFormObjectResponseString(body: Any? = null): Mono<String> {
         return testEchoBodyFreeFormObjectResponseStringWithHttpInfo(body = body)
             .map { it.body }
     }
 
     @Throws(WebClientResponseException::class)
-    fun testEchoBodyFreeFormObjectResponseStringWithHttpInfo(body: kotlin.Any? = null): Mono<ResponseEntity<kotlin.String>> {
+    fun testEchoBodyFreeFormObjectResponseStringWithHttpInfo(body: Any? = null): Mono<ResponseEntity<String>> {
         val localVariableConfig = testEchoBodyFreeFormObjectResponseStringRequestConfig(body = body)
-        return request<kotlin.Any, kotlin.String>(
+        return request<Any, String>(
             localVariableConfig
         )
     }
 
-    fun testEchoBodyFreeFormObjectResponseStringRequestConfig(body: kotlin.Any? = null) : RequestConfig<kotlin.Any> {
+    fun testEchoBodyFreeFormObjectResponseStringRequestConfig(body: Any? = null) : RequestConfig<Any> {
         val localVariableBody = body
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -258,15 +260,15 @@ class BodyApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun testEchoBodyPetResponseString(pet: Pet? = null): Mono<kotlin.String> {
+    fun testEchoBodyPetResponseString(pet: Pet? = null): Mono<String> {
         return testEchoBodyPetResponseStringWithHttpInfo(pet = pet)
             .map { it.body }
     }
 
     @Throws(WebClientResponseException::class)
-    fun testEchoBodyPetResponseStringWithHttpInfo(pet: Pet? = null): Mono<ResponseEntity<kotlin.String>> {
+    fun testEchoBodyPetResponseStringWithHttpInfo(pet: Pet? = null): Mono<ResponseEntity<String>> {
         val localVariableConfig = testEchoBodyPetResponseStringRequestConfig(pet = pet)
-        return request<Pet, kotlin.String>(
+        return request<Pet, String>(
             localVariableConfig
         )
     }
@@ -294,15 +296,15 @@ class BodyApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun testEchoBodyTagResponseString(tag: Tag? = null): Mono<kotlin.String> {
+    fun testEchoBodyTagResponseString(tag: Tag? = null): Mono<String> {
         return testEchoBodyTagResponseStringWithHttpInfo(tag = tag)
             .map { it.body }
     }
 
     @Throws(WebClientResponseException::class)
-    fun testEchoBodyTagResponseStringWithHttpInfo(tag: Tag? = null): Mono<ResponseEntity<kotlin.String>> {
+    fun testEchoBodyTagResponseStringWithHttpInfo(tag: Tag? = null): Mono<ResponseEntity<String>> {
         val localVariableConfig = testEchoBodyTagResponseStringRequestConfig(tag = tag)
-        return request<Tag, kotlin.String>(
+        return request<Tag, String>(
             localVariableConfig
         )
     }

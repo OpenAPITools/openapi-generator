@@ -28,17 +28,17 @@ import javax.validation.Valid
  */
 data class Pet(
 
-    @get:JsonProperty("name", required = true) val name: kotlin.String,
+    @get:JsonProperty("name", required = true) val name: String,
 
-    @get:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
+    @get:JsonProperty("photoUrls", required = true) val photoUrls: List<String>,
 
-    @get:JsonProperty("id") val id: kotlin.Long? = null,
+    @get:JsonProperty("id") val id: Long? = null,
 
     @field:Valid
     @get:JsonProperty("category") val category: Category? = null,
 
     @field:Valid
-    @get:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
+    @get:JsonProperty("tags") val tags: List<Tag>? = null,
 
     @get:JsonProperty("status") val status: Pet.Status? = null
     ) : Serializable{
@@ -47,7 +47,7 @@ data class Pet(
     * pet status in the store
     * Values: available,pending,sold
     */
-    enum class Status(@get:JsonValue val value: kotlin.String) {
+    enum class Status(@get:JsonValue val value: String) {
 
         available("available"),
         pending("pending"),
@@ -56,7 +56,7 @@ data class Pet(
         companion object {
             @JvmStatic
             @JsonCreator
-            fun forValue(value: kotlin.String): Status {
+            fun forValue(value: String): Status {
                 return values().first{it -> it.value == value}
             }
         }

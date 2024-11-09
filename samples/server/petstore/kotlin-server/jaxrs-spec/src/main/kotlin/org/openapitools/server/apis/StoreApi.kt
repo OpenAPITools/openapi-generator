@@ -15,7 +15,7 @@ import java.io.InputStream
 class StoreApi {
 
     @DELETE
-    suspend fun deleteOrder(@PathParam("orderId") orderId: kotlin.String): Response {
+    suspend fun deleteOrder(@PathParam("orderId") orderId: String): Response {
         return Response.ok().entity("magic!").build();
     }
 
@@ -27,7 +27,7 @@ class StoreApi {
 
     @GET
     @Produces("application/xml", "application/json")
-    suspend fun getOrderById(@PathParam("orderId") orderId: kotlin.Long): Response {
+    suspend fun getOrderById(@PathParam("orderId") orderId: Long): Response {
         return Response.ok().entity("magic!").build();
     }
 

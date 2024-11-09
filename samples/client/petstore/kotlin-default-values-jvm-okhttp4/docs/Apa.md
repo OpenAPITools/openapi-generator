@@ -4,10 +4,10 @@
 ## Properties
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
-| **i0** | **kotlin.Int** |  |  |
-| **n0** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  |
-| **i1** | **kotlin.Int** |  |  [optional] |
-| **n1** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
+| **i0** | **Int** |  |  |
+| **n0** | [**BigDecimal**](BigDecimal.md) |  |  |
+| **i1** | **Int** |  |  [optional] |
+| **n1** | [**BigDecimal**](BigDecimal.md) |  |  [optional] |
 
 
 

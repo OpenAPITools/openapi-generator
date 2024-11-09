@@ -344,20 +344,20 @@ public class KotlinSpringServerCodegenTest {
             "ApiUtil");
 
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2Api.kt"),
-            "import kotlinx.coroutines.flow.Flow", "ResponseEntity<Flow<kotlin.String>>");
+            "import kotlinx.coroutines.flow.Flow", "ResponseEntity<Flow<String>>");
         assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2Api.kt"),
             "exchange");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt"),
-            "import kotlinx.coroutines.flow.Flow", "ResponseEntity<Flow<kotlin.String>>");
+            "import kotlinx.coroutines.flow.Flow", "ResponseEntity<Flow<String>>");
         assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt"),
             "suspend fun", "ApiUtil");
 
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV3Api.kt"),
-            "import kotlinx.coroutines.flow.Flow", "requestBody: Flow<kotlin.Long>");
+            "import kotlinx.coroutines.flow.Flow", "requestBody: Flow<Long>");
         assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV3Api.kt"),
             "exchange");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV3ApiDelegate.kt"),
-            "import kotlinx.coroutines.flow.Flow", "suspend fun", "requestBody: Flow<kotlin.Long>");
+            "import kotlinx.coroutines.flow.Flow", "suspend fun", "requestBody: Flow<Long>");
         assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV3ApiDelegate.kt"),
             "ApiUtil");
     }
@@ -389,7 +389,7 @@ public class KotlinSpringServerCodegenTest {
 
         generator.opts(input).generate();
 
-        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/ArrayWithNullableItemsModel.kt"), "List<kotlin.String?>");
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/ArrayWithNullableItemsModel.kt"), "List<String?>");
     }
 
 
@@ -776,7 +776,7 @@ public class KotlinSpringServerCodegenTest {
         Path outputFilepath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApiController.kt");
 
         assertFileContains(outputFilepath,
-                           "@Parameter(description = \"Additional data to pass to server\") @RequestParam(value = \"additionalMetadata\", required = false) additionalMetadata: kotlin.String?");
+                           "@Parameter(description = \"Additional data to pass to server\") @RequestParam(value = \"additionalMetadata\", required = false) additionalMetadata: String?");
         assertFileContains(outputFilepath,
                            "@Parameter(description = \"image to upload\") @Valid @RequestPart(\"image\", required = false) image: org.springframework.core.io.Resource?");
 

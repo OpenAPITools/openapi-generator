@@ -17,11 +17,11 @@ interface FormApi {
      * @param integerForm  (optional)
      * @param booleanForm  (optional)
      * @param stringForm  (optional)
-     * @return [kotlin.String]
+     * @return [String]
      */
     @FormUrlEncoded
     @POST("form/integer/boolean/string")
-    suspend fun testFormIntegerBooleanString(@Field("integer_form") integerForm: kotlin.Int? = null, @Field("boolean_form") booleanForm: kotlin.Boolean? = null, @Field("string_form") stringForm: kotlin.String? = null): Response<kotlin.String>
+    suspend fun testFormIntegerBooleanString(@Field("integer_form") integerForm: Int? = null, @Field("boolean_form") booleanForm: Boolean? = null, @Field("string_form") stringForm: String? = null): Response<String>
 
     /**
      * Test form parameter(s) for oneOf schema
@@ -35,10 +35,10 @@ interface FormApi {
      * @param form4  (optional)
      * @param id  (optional)
      * @param name  (optional)
-     * @return [kotlin.String]
+     * @return [String]
      */
     @FormUrlEncoded
     @POST("form/oneof")
-    suspend fun testFormOneof(@Field("form1") form1: kotlin.String? = null, @Field("form2") form2: kotlin.Int? = null, @Field("form3") form3: kotlin.String? = null, @Field("form4") form4: kotlin.Boolean? = null, @Field("id") id: kotlin.Long? = null, @Field("name") name: kotlin.String? = null): Response<kotlin.String>
+    suspend fun testFormOneof(@Field("form1") form1: String? = null, @Field("form2") form2: Int? = null, @Field("form3") form3: String? = null, @Field("form4") form4: Boolean? = null, @Field("id") id: Long? = null, @Field("name") name: String? = null): Response<String>
 
 }

@@ -3063,4 +3063,29 @@ public class JavaClientCodegenTest {
         );
     }
 
+/*    @Test
+    public void testLocalVariablesUseSanitizedDataTypeNamesForAnyOfProperty_19942() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        String path = output.getAbsolutePath();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary("okhttp-gson")
+                .setInputSpec("src/test/resources/3_0/issue_19942.json")
+                .addAdditionalProperty("omitGradleWrapper", true)
+                .addAdditionalProperty("serializationLibrary", "gson")
+                .addAdditionalProperty("generateOneOfAnyOfWrappers", true)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        TestUtils.assertFileContains(Paths.get(path + "/src/main/java/org/openapitools/client/models/ObjectWithComplexAnyOfId.kt"),
+                "val adapterBigDecimal");
+
+        TestUtils.assertFileNotContains(Paths.get(path + "/src/main/java/org/openapitools/client/models/ObjectWithComplexAnyOfId.kt"),
+                "val adapterkotlin.String", "val adapterjava.math.BigDecimal");
+    }*/
+
 }

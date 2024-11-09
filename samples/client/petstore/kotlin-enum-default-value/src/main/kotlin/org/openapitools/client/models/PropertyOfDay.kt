@@ -15,6 +15,7 @@
 
 package org.openapitools.client.models
 
+import kotlin.Any
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -36,11 +37,11 @@ data class PropertyOfDay (
 
     /* Name of property of day */
     @Json(name = "name")
-    val name: kotlin.String,
+    val name: String,
 
     /* Description of the property of day */
     @Json(name = "description")
-    val description: kotlin.String? = null,
+    val description: String? = null,
 
     /* Days of week */
     @Json(name = "daysOfWeek")
@@ -52,7 +53,7 @@ data class PropertyOfDay (
 
     /* Day of year */
     @Json(name = "dayOfYear")
-    val dayOfYear: kotlin.Int? = null,
+    val dayOfYear: Int? = null,
 
     /* Holiday types */
     @Json(name = "holidayTypes")
@@ -69,7 +70,7 @@ data class PropertyOfDay (
      * Values: MONDAY,TUESDAY,WEDNESDAY,THURSDAY,FRIDAY,SATURDAY,SUNDAY,WEEKDAYS,WEEKEND,EVERYDAY,unknown_default_open_api
      */
     @JsonClass(generateAdapter = false)
-    enum class DaysOfWeek(val value: kotlin.Any) {
+    enum class DaysOfWeek(val value: Any) {
         @Json(name = "MONDAY") MONDAY("MONDAY"),
         @Json(name = "TUESDAY") TUESDAY("TUESDAY"),
         @Json(name = "WEDNESDAY") WEDNESDAY("WEDNESDAY"),
@@ -88,7 +89,7 @@ data class PropertyOfDay (
      * Values: _1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,unknown_default_open_api
      */
     @JsonClass(generateAdapter = false)
-    enum class MonthOfYear(val value: kotlin.Int) {
+    enum class MonthOfYear(val value: Int) {
         @Json(name = "1") _1(1),
         @Json(name = "2") _2(2),
         @Json(name = "3") _3(3),
@@ -109,7 +110,7 @@ data class PropertyOfDay (
      * Values: NOT_HOLIDAY,LOCAL_HOLIDAY,NATIONAL_HOLIDAY,ANY_HOLIDAY,WORKING_DAY,ANY_DAY,NEW_YEARS_DAY,PALM_SUNDAY,MAUNDY_THURSDAY,GOOD_FRIDAY,EASTER_SUNDAY,EASTER_MONDAY,LABOUR_DAY,CONSTITUTION_DAY,ASCENSION_DAY,WHIT_SUNDAY,WHIT_MONDAY,XMAS_DAY,BOXING_DAY,unknown_default_open_api
      */
     @JsonClass(generateAdapter = false)
-    enum class HolidayTypes(val value: kotlin.Any) {
+    enum class HolidayTypes(val value: Any) {
         @Json(name = "NOT_HOLIDAY") NOT_HOLIDAY("NOT_HOLIDAY"),
         @Json(name = "LOCAL_HOLIDAY") LOCAL_HOLIDAY("LOCAL_HOLIDAY"),
         @Json(name = "NATIONAL_HOLIDAY") NATIONAL_HOLIDAY("NATIONAL_HOLIDAY"),

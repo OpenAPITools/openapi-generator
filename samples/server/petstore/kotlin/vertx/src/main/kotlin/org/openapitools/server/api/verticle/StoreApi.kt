@@ -19,13 +19,13 @@ interface StoreApi  {
     fun init(vertx:Vertx,config:JsonObject)
     /* deleteOrder
      * Delete purchase order by ID */
-    suspend fun deleteOrder(orderId:kotlin.String?,context:OperationRequest):Response<Void>
+    suspend fun deleteOrder(orderId:String?,context:OperationRequest):Response<Void>
     /* getInventory
      * Returns pet inventories by status */
-    suspend fun getInventory(context:OperationRequest):Response<kotlin.collections.Map<kotlin.String, kotlin.Int>>
+    suspend fun getInventory(context:OperationRequest):Response<Map<String, Int>>
     /* getOrderById
      * Find purchase order by ID */
-    suspend fun getOrderById(orderId:kotlin.Long?,context:OperationRequest):Response<Order>
+    suspend fun getOrderById(orderId:Long?,context:OperationRequest):Response<Order>
     /* placeOrder
      * Place an order for a pet */
     suspend fun placeOrder(body:Order?,context:OperationRequest):Response<Order>

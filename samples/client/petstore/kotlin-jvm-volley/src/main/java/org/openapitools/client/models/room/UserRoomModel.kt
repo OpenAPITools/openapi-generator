@@ -36,14 +36,14 @@ import org.openapitools.client.models.*
 data class UserRoomModel (
     @PrimaryKey(autoGenerate = true) var roomTableId: Int,
     
-    var id: kotlin.Long? = null,
-    var username: kotlin.String? = null,
-    var firstName: kotlin.String? = null,
-    var lastName: kotlin.String? = null,
-    var email: kotlin.String? = null,
-    var password: kotlin.String? = null,
-    var phone: kotlin.String? = null,
-    var userStatus: kotlin.Int? = null,
+    var id: Long? = null,
+    var username: String? = null,
+    var firstName: String? = null,
+    var lastName: String? = null,
+    var email: String? = null,
+    var password: String? = null,
+    var phone: String? = null,
+    var userStatus: Int? = null,
     
     ) {
 

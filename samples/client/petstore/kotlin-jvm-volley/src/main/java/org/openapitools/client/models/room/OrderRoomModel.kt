@@ -18,6 +18,7 @@ package org.openapitools.client.models.room
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import java.time.OffsetDateTime
 import org.openapitools.client.models.*
 
 
@@ -34,11 +35,11 @@ import org.openapitools.client.models.*
 data class OrderRoomModel (
     @PrimaryKey(autoGenerate = true) var roomTableId: Int,
     
-    var id: kotlin.Long? = null,
-    var petId: kotlin.Long? = null,
-    var quantity: kotlin.Int? = null,
-    var shipDate: java.time.OffsetDateTime? = null,
-    var complete: kotlin.Boolean? = null,
+    var id: Long? = null,
+    var petId: Long? = null,
+    var quantity: Int? = null,
+    var shipDate: OffsetDateTime? = null,
+    var complete: Boolean? = null,
     
     var status: Order.Status? = null,
     ) {

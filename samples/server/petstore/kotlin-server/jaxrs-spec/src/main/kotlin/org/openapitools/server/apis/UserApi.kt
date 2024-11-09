@@ -1,5 +1,6 @@
 package org.openapitools.server.apis;
 
+import java.time.OffsetDateTime
 import org.openapitools.server.models.User
 
 import javax.ws.rs.*
@@ -20,29 +21,29 @@ class UserApi {
     }
 
     @POST
-    suspend fun createUsersWithArrayInput( body: kotlin.collections.List<User>): Response {
+    suspend fun createUsersWithArrayInput( body: List<User>): Response {
         return Response.ok().entity("magic!").build();
     }
 
     @POST
-    suspend fun createUsersWithListInput( body: kotlin.collections.List<User>): Response {
+    suspend fun createUsersWithListInput( body: List<User>): Response {
         return Response.ok().entity("magic!").build();
     }
 
     @DELETE
-    suspend fun deleteUser(@PathParam("username") username: kotlin.String): Response {
+    suspend fun deleteUser(@PathParam("username") username: String): Response {
         return Response.ok().entity("magic!").build();
     }
 
     @GET
     @Produces("application/xml", "application/json")
-    suspend fun getUserByName(@PathParam("username") username: kotlin.String): Response {
+    suspend fun getUserByName(@PathParam("username") username: String): Response {
         return Response.ok().entity("magic!").build();
     }
 
     @GET
     @Produces("application/xml", "application/json")
-    suspend fun loginUser(@QueryParam("username")   username: kotlin.String,@QueryParam("password")   password: kotlin.String): Response {
+    suspend fun loginUser(@QueryParam("username")   username: String,@QueryParam("password")   password: String): Response {
         return Response.ok().entity("magic!").build();
     }
 
@@ -52,7 +53,7 @@ class UserApi {
     }
 
     @PUT
-    suspend fun updateUser(@PathParam("username") username: kotlin.String, body: User): Response {
+    suspend fun updateUser(@PathParam("username") username: String, body: User): Response {
         return Response.ok().entity("magic!").build();
     }
 }

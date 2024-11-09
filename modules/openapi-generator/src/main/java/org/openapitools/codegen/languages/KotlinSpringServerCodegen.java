@@ -204,8 +204,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         additionalProperties.put("closebrace", CLOSE_BRACE);
 
         // Use lists instead of arrays
-        typeMapping.put("array", "kotlin.collections.List");
-        typeMapping.put("list", "kotlin.collections.List");
+        typeMapping.put("array", "List");
+        typeMapping.put("list", "List");
+        importMapping.put("List", "kotlin.collections.List");
 
         // use resource for file handling
         typeMapping.put("file", "org.springframework.core.io.Resource");
@@ -423,10 +424,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
 
         if (isModelMutable()) {
-            typeMapping.put("array", "kotlin.collections.MutableList");
-            typeMapping.put("list", "kotlin.collections.MutableList");
-            typeMapping.put("set", "kotlin.collections.MutableSet");
-            typeMapping.put("map", "kotlin.collections.MutableMap");
+            typeMapping.put("array", "MutableList");
+            typeMapping.put("list", "MutableList");
+            typeMapping.put("set", "MutableSet");
+            typeMapping.put("map", "MutableMap");
+            importMapping.put("MutableList", "kotlin.collections.MutableList");
+            importMapping.put("MutableMap", "kotlin.collections.MutableMap");
+            importMapping.put("MutableSet", "kotlin.collections.MutableSet");
         }
 
         // Swagger import mappings
@@ -922,6 +926,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private String getNonMutableContainerTypeIfNeeded(String type) {
         if (type != null && type.contains("kotlin.collections.Mutable")) {
             return type.replaceAll("kotlin\\.collections\\.Mutable", "kotlin.collections.");
+        } else if (type != null && type.startsWith("Mutable")) {
+            return type.replaceFirst("Mutable", "");
         }
         return type;
     }

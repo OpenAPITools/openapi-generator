@@ -13,7 +13,7 @@ interface PathApi {
     /**
     * enum for parameter enumNonrefStringPath
     */
-    enum class EnumNonrefStringPathTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(val value: kotlin.String) {
+    enum class EnumNonrefStringPathTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(val value: String) {
         @SerializedName(value = "success") SUCCESS("success"),
         @SerializedName(value = "failure") FAILURE("failure"),
         @SerializedName(value = "unclassified") UNCLASSIFIED("unclassified")
@@ -29,9 +29,9 @@ interface PathApi {
      * @param pathInteger 
      * @param enumNonrefStringPath 
      * @param enumRefStringPath 
-     * @return [kotlin.String]
+     * @return [String]
      */
     @GET("path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}")
-    suspend fun testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(@Path("path_string") pathString: kotlin.String, @Path("path_integer") pathInteger: kotlin.Int, @Path("enum_nonref_string_path") enumNonrefStringPath: kotlin.String, @Path("enum_ref_string_path") enumRefStringPath: ApiStringEnumRef): Response<kotlin.String>
+    suspend fun testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(@Path("path_string") pathString: String, @Path("path_integer") pathInteger: Int, @Path("enum_nonref_string_path") enumNonrefStringPath: String, @Path("enum_ref_string_path") enumRefStringPath: ApiStringEnumRef): Response<String>
 
 }

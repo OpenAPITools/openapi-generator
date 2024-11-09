@@ -32,7 +32,7 @@ data class ApiError(
     * 
     * Values: OK,ERROR
     */
-    enum class ErrorCode(@get:JsonValue val value: kotlin.Int) {
+    enum class ErrorCode(@get:JsonValue val value: Int) {
 
         OK(0),
         ERROR(100);
@@ -40,7 +40,7 @@ data class ApiError(
         companion object {
             @JvmStatic
             @JsonCreator
-            fun forValue(value: kotlin.Int): ErrorCode {
+            fun forValue(value: Int): ErrorCode {
                 return values().first{it -> it.value == value}
             }
         }

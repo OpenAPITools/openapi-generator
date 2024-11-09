@@ -36,7 +36,7 @@ interface StoreApi {
             method = [RequestMethod.DELETE],
             value = ["/store/order/{orderId}"]
     )
-    fun deleteOrder( @PathVariable("orderId") orderId: kotlin.String): ResponseEntity<Unit> {
+    fun deleteOrder( @PathVariable("orderId") orderId: String): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -46,7 +46,7 @@ interface StoreApi {
             value = ["/store/inventory"],
             produces = ["application/json"]
     )
-    fun getInventory(): ResponseEntity<Map<String, kotlin.Int>> {
+    fun getInventory(): ResponseEntity<Map<String, Int>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -56,7 +56,7 @@ interface StoreApi {
             value = ["/store/order/{orderId}"],
             produces = ["application/xml", "application/json"]
     )
-    fun getOrderById(@Min(1L) @Max(5L)  @PathVariable("orderId") orderId: kotlin.Long): ResponseEntity<Order> {
+    fun getOrderById(@Min(1L) @Max(5L)  @PathVariable("orderId") orderId: Long): ResponseEntity<Order> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 

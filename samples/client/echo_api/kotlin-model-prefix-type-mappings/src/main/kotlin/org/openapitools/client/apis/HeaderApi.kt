@@ -13,7 +13,7 @@ interface HeaderApi {
     /**
     * enum for parameter enumNonrefStringHeader
     */
-    enum class EnumNonrefStringHeaderTestHeaderIntegerBooleanStringEnums(val value: kotlin.String) {
+    enum class EnumNonrefStringHeaderTestHeaderIntegerBooleanStringEnums(val value: String) {
         @SerializedName(value = "success") SUCCESS("success"),
         @SerializedName(value = "failure") FAILURE("failure"),
         @SerializedName(value = "unclassified") UNCLASSIFIED("unclassified")
@@ -30,9 +30,9 @@ interface HeaderApi {
      * @param stringHeader  (optional)
      * @param enumNonrefStringHeader  (optional)
      * @param enumRefStringHeader  (optional)
-     * @return [kotlin.String]
+     * @return [String]
      */
     @GET("header/integer/boolean/string/enums")
-    suspend fun testHeaderIntegerBooleanStringEnums(@Header("integer_header") integerHeader: kotlin.Int? = null, @Header("boolean_header") booleanHeader: kotlin.Boolean? = null, @Header("string_header") stringHeader: kotlin.String? = null, @Header("enum_nonref_string_header") enumNonrefStringHeader: EnumNonrefStringHeaderTestHeaderIntegerBooleanStringEnums? = null, @Header("enum_ref_string_header") enumRefStringHeader: ApiStringEnumRef? = null): Response<kotlin.String>
+    suspend fun testHeaderIntegerBooleanStringEnums(@Header("integer_header") integerHeader: Int? = null, @Header("boolean_header") booleanHeader: Boolean? = null, @Header("string_header") stringHeader: String? = null, @Header("enum_nonref_string_header") enumNonrefStringHeader: EnumNonrefStringHeaderTestHeaderIntegerBooleanStringEnums? = null, @Header("enum_ref_string_header") enumRefStringHeader: ApiStringEnumRef? = null): Response<String>
 
 }

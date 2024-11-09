@@ -29,10 +29,10 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 interface Animal{
                 @get:Schema(example = "null", requiredMode = Schema.RequiredMode.REQUIRED, description = "")
-        val className: kotlin.String
+        val className: String
 
                 @get:Schema(example = "null", description = "")
-        val color: kotlin.String? 
+        val color: String? 
 
 
 }

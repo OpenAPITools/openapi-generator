@@ -31,9 +31,9 @@ import org.openapitools.client.models.*
 data class ModelApiResponseRoomModel (
     @PrimaryKey(autoGenerate = true) var roomTableId: Int,
     
-    var code: kotlin.Int? = null,
-    var type: kotlin.String? = null,
-    var message: kotlin.String? = null,
+    var code: Int? = null,
+    var type: String? = null,
+    var message: String? = null,
     
     ) {
 

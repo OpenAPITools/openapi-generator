@@ -26,7 +26,7 @@ class FooGetStubBuilder internal constructor(private val objectMapper: ObjectMap
      * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith404(
-        body: kotlin.String,
+        body: String,
         configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
     ): MappingBuilder =
         stub.willReturn(aResponse()
@@ -44,7 +44,7 @@ class FooGetStubBuilder internal constructor(private val objectMapper: ObjectMap
      * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith400(
-        body: kotlin.collections.List<Foo>,
+        body: List<Foo>,
         configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
     ): MappingBuilder =
         stub.willReturn(aResponse()

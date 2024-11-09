@@ -21,19 +21,19 @@ interface StoreApiDelegate {
     /**
      * @see StoreApi#deleteOrder
      */
-    fun deleteOrder(orderId: kotlin.String): ResponseEntity<Unit>
+    fun deleteOrder(orderId: String): ResponseEntity<Unit>
 
 
     /**
      * @see StoreApi#getInventory
      */
-    fun getInventory(): ResponseEntity<Map<String, kotlin.Int>>
+    fun getInventory(): ResponseEntity<Map<String, Int>>
 
 
     /**
      * @see StoreApi#getOrderById
      */
-    fun getOrderById(orderId: kotlin.Long): ResponseEntity<Order>
+    fun getOrderById(orderId: Long): ResponseEntity<Order>
 
 
     /**

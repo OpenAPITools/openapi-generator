@@ -38,19 +38,19 @@ import java.io.Serializable
 data class Pet (
 
     @SerialName(value = "name")
-    val name: kotlin.String,
+    val name: String,
 
     @SerialName(value = "photoUrls")
-    val photoUrls: kotlin.collections.List<kotlin.String>,
+    val photoUrls: kotlin.collections.List<String>,
 
     @SerialName(value = "id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
 
     @SerialName(value = "category")
     val category: Category? = null,
 
     @SerialName(value = "tags")
-    val tags: kotlin.collections.List<Tag>? = null,
+    val tags: List<Tag>? = null,
 
     /* pet status in the store */
     @SerialName(value = "status")
@@ -67,7 +67,7 @@ data class Pet (
      * Values: AVAILABLE,PENDING,SOLD
      */
     @KSerializable
-    enum class Status(val value: kotlin.String) {
+    enum class Status(val value: String) {
         @SerialName(value = "available") AVAILABLE("available"),
         @SerialName(value = "pending") PENDING("pending"),
         @SerialName(value = "sold") SOLD("sold");

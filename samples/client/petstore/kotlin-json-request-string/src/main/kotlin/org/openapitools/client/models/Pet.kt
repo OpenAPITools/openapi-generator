@@ -45,19 +45,19 @@ import kotlinx.parcelize.Parcelize
 data class Pet (
 
     @SerialName(value = "name")
-    val name: kotlin.String,
+    val name: String,
 
     @SerialName(value = "photoUrls")
-    val photoUrls: kotlin.collections.List<kotlin.String>,
+    val photoUrls: kotlin.collections.List<String>,
 
     @SerialName(value = "id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
 
     @SerialName(value = "category")
     val category: Category? = null,
 
     @SerialName(value = "tags")
-    val tags: kotlin.collections.List<Tag>? = null,
+    val tags: List<Tag>? = null,
 
     /* pet status in the store */
     @SerialName(value = "status")
@@ -71,7 +71,7 @@ data class Pet (
      * Values: available,pending,sold,unknown_default_open_api
      */
     @Serializable(with = PetSerializer::class)
-    enum class Status(val value: kotlin.String) {
+    enum class Status(val value: String) {
         @SerialName(value = "available") available("available"),
         @SerialName(value = "pending") pending("pending"),
         @SerialName(value = "sold") sold("sold"),
@@ -80,16 +80,16 @@ data class Pet (
 
     @Serializer(forClass = Status::class)
     internal object StatusSerializer : KSerializer<Status> {
-        override val descriptor = kotlin.String.serializer().descriptor
+        override val descriptor = String.serializer().descriptor
 
         override fun deserialize(decoder: Decoder): Status {
-            val value = decoder.decodeSerializableValue(kotlin.String.serializer())
+            val value = decoder.decodeSerializableValue(String.serializer())
             return Status.values().firstOrNull { it.value == value }
                 ?: Status.unknown_default_open_api
         }
 
         override fun serialize(encoder: Encoder, value: Status) {
-            encoder.encodeSerializableValue(kotlin.String.serializer(), value.value)
+            encoder.encodeSerializableValue(String.serializer(), value.value)
         }
     }
 

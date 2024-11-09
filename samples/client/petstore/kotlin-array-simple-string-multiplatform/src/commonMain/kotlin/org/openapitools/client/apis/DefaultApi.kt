@@ -47,7 +47,7 @@ open class DefaultApi : ApiClient {
      * @param ids 
      * @return void
      */
-    open suspend fun idsGet(ids: kotlin.collections.List<kotlin.String>): HttpResponse<Unit> {
+    open suspend fun idsGet(ids: List<String>): HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>()
 

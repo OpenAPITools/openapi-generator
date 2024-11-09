@@ -132,7 +132,7 @@ class FindPetsByStatusStubBuilder internal constructor(private val objectMapper:
      * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
-        body: kotlin.collections.List<Pet>,
+        body: List<Pet>,
         configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
     ): MappingBuilder =
         stub.willReturn(aResponse()
@@ -194,7 +194,7 @@ class FindPetsByTagsStubBuilder internal constructor(private val objectMapper: O
      * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
-        body: kotlin.collections.List<Pet>,
+        body: List<Pet>,
         configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
     ): MappingBuilder =
         stub.willReturn(aResponse()

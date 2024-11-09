@@ -21,29 +21,29 @@ Test header parameter(s)
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(HeaderApi::class.java)
-val integerHeader : kotlin.Int = 56 // kotlin.Int | 
-val booleanHeader : kotlin.Boolean = true // kotlin.Boolean | 
-val stringHeader : kotlin.String = stringHeader_example // kotlin.String | 
-val enumNonrefStringHeader : kotlin.String = enumNonrefStringHeader_example // kotlin.String | 
+val integerHeader : Int = 56 // Int | 
+val booleanHeader : Boolean = true // Boolean | 
+val stringHeader : String = stringHeader_example // String | 
+val enumNonrefStringHeader : String = enumNonrefStringHeader_example // String | 
 val enumRefStringHeader : ApiStringEnumRef =  // ApiStringEnumRef | 
 
 launch(Dispatchers.IO) {
-    val result : kotlin.String = webService.testHeaderIntegerBooleanStringEnums(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader)
+    val result : String = webService.testHeaderIntegerBooleanStringEnums(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader)
 }
 ```
 
 ### Parameters
-| **integerHeader** | **kotlin.Int**|  | [optional] |
-| **booleanHeader** | **kotlin.Boolean**|  | [optional] |
-| **stringHeader** | **kotlin.String**|  | [optional] |
-| **enumNonrefStringHeader** | **kotlin.String**|  | [optional] [enum: success, failure, unclassified] |
+| **integerHeader** | **Int**|  | [optional] |
+| **booleanHeader** | **Boolean**|  | [optional] |
+| **stringHeader** | **String**|  | [optional] |
+| **enumNonrefStringHeader** | **String**|  | [optional] [enum: success, failure, unclassified] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **enumRefStringHeader** | [**ApiStringEnumRef**](.md)|  | [optional] [enum: success, failure, unclassified] |
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 

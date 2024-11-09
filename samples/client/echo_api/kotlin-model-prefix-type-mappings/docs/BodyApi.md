@@ -30,7 +30,7 @@ val apiClient = ApiClient()
 val webService = apiClient.createWebservice(BodyApi::class.java)
 
 launch(Dispatchers.IO) {
-    val result : RequestBody = webService.testBinaryGif()
+    val result : File = webService.testBinaryGif()
 }
 ```
 
@@ -39,7 +39,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**RequestBody**](java.io.File.md)
+[**File**](File.md)
 
 ### Authorization
 
@@ -64,21 +64,21 @@ Test body parameter(s)
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(BodyApi::class.java)
-val body : RequestBody = BINARY_DATA_HERE // RequestBody | 
+val body : File = BINARY_DATA_HERE // File | 
 
 launch(Dispatchers.IO) {
-    val result : kotlin.String = webService.testBodyApplicationOctetstreamBinary(body)
+    val result : String = webService.testBodyApplicationOctetstreamBinary(body)
 }
 ```
 
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **body** | **RequestBody**|  | [optional] |
+| **body** | **File**|  | [optional] |
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 
@@ -103,21 +103,21 @@ Test array of binary in multipart mime
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(BodyApi::class.java)
-val files : kotlin.collections.List<RequestBody> = /path/to/file.txt // kotlin.collections.List<RequestBody> | 
+val files : List<File> = /path/to/file.txt // List<File> | 
 
 launch(Dispatchers.IO) {
-    val result : kotlin.String = webService.testBodyMultipartFormdataArrayOfBinary(files)
+    val result : String = webService.testBodyMultipartFormdataArrayOfBinary(files)
 }
 ```
 
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **files** | **kotlin.collections.List&lt;RequestBody&gt;**|  | |
+| **files** | **List&lt;File&gt;**|  | |
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 
@@ -142,21 +142,21 @@ Test single binary in multipart mime
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(BodyApi::class.java)
-val myFile : RequestBody = BINARY_DATA_HERE // RequestBody | 
+val myFile : File = BINARY_DATA_HERE // File | 
 
 launch(Dispatchers.IO) {
-    val result : kotlin.String = webService.testBodyMultipartFormdataSingleBinary(myFile)
+    val result : String = webService.testBodyMultipartFormdataSingleBinary(myFile)
 }
 ```
 
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **myFile** | **RequestBody**|  | [optional] |
+| **myFile** | **File**|  | [optional] |
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 
@@ -181,21 +181,21 @@ Test free form object
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(BodyApi::class.java)
-val body : kotlin.Any = Object // kotlin.Any | Free form object
+val body : Any = Object // Any | Free form object
 
 launch(Dispatchers.IO) {
-    val result : kotlin.String = webService.testEchoBodyFreeFormObjectResponseString(body)
+    val result : String = webService.testEchoBodyFreeFormObjectResponseString(body)
 }
 ```
 
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **body** | **kotlin.Any**| Free form object | [optional] |
+| **body** | **Any**| Free form object | [optional] |
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 
@@ -262,7 +262,7 @@ val webService = apiClient.createWebservice(BodyApi::class.java)
 val apiPet : ApiPet =  // ApiPet | Pet object that needs to be added to the store
 
 launch(Dispatchers.IO) {
-    val result : kotlin.String = webService.testEchoBodyPetResponseString(apiPet)
+    val result : String = webService.testEchoBodyPetResponseString(apiPet)
 }
 ```
 
@@ -273,7 +273,7 @@ launch(Dispatchers.IO) {
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 
@@ -301,7 +301,7 @@ val webService = apiClient.createWebservice(BodyApi::class.java)
 val apiTag : ApiTag =  // ApiTag | Tag object
 
 launch(Dispatchers.IO) {
-    val result : kotlin.String = webService.testEchoBodyTagResponseString(apiTag)
+    val result : String = webService.testEchoBodyTagResponseString(apiTag)
 }
 ```
 
@@ -312,7 +312,7 @@ launch(Dispatchers.IO) {
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 

@@ -5,14 +5,14 @@
 ## Properties
 Name | Mapping | SQL Type | Default | Type | Description | Notes
 ---- | ------- | -------- | ------- | ---- | ----------- | -----
-**id** | id | long PRIMARY KEY AUTOINCREMENT |  | **kotlin.Long** |  |  [optional]
-**username** | username | text |  | **kotlin.String** |  |  [optional]
-**firstName** | firstName | text |  | **kotlin.String** |  |  [optional]
-**lastName** | lastName | text |  | **kotlin.String** |  |  [optional]
-**email** | email | text |  | **kotlin.String** |  |  [optional]
-**password** | password | text |  | **kotlin.String** |  |  [optional]
-**phone** | phone | text |  | **kotlin.String** |  |  [optional]
-**userStatus** | userStatus | int |  | **kotlin.Int** | User Status |  [optional]
+**id** | id | long PRIMARY KEY AUTOINCREMENT |  | [**kotlin.Long**](kotlin.Long.md) |  |  [optional]
+**username** | username | text |  | [**kotlin.String**](kotlin.String.md) |  |  [optional]
+**firstName** | firstName | text |  | [**kotlin.String**](kotlin.String.md) |  |  [optional]
+**lastName** | lastName | text |  | [**kotlin.String**](kotlin.String.md) |  |  [optional]
+**email** | email | text |  | [**kotlin.String**](kotlin.String.md) |  |  [optional]
+**password** | password | text |  | [**kotlin.String**](kotlin.String.md) |  |  [optional]
+**phone** | phone | text |  | [**kotlin.String**](kotlin.String.md) |  |  [optional]
+**userStatus** | userStatus | int |  | [**kotlin.Int**](kotlin.Int.md) | User Status |  [optional]
 
 
 

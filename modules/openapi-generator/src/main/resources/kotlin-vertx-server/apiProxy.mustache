@@ -91,10 +91,10 @@ class {{classname}}VertxProxyHandler(private val vertx: Vertx, private val servi
                     if ({{paramName}}Param == null) {
                          throw IllegalArgumentException("{{paramName}} is required")
                     }
-                    val {{paramName}} = {{paramName}}Param.map{ java.io.File(it as String) }
+                    val {{paramName}} = {{paramName}}Param.map{ File(it as String) }
                             {{/required}}
                             {{^required}}
-                    val {{paramName}} = {{paramName}}Param?.map{ java.io.File(it as String) }
+                    val {{paramName}} = {{paramName}}Param?.map{ File(it as String) }
                             {{/required}}
                         {{/isFile}}
                         {{#isPrimitiveType}}

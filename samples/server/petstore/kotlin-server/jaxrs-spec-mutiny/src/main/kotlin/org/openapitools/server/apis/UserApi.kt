@@ -1,5 +1,6 @@
 package org.openapitools.server.apis;
 
+import java.time.OffsetDateTime
 import org.openapitools.server.models.User
 
 import javax.ws.rs.*
@@ -20,25 +21,25 @@ interface UserApi {
 
     @POST
     @Path("/user/createWithArray")
-    fun createUsersWithArrayInput( body: kotlin.collections.List<User>): io.smallrye.mutiny.Uni<Response>
+    fun createUsersWithArrayInput( body: List<User>): io.smallrye.mutiny.Uni<Response>
 
     @POST
     @Path("/user/createWithList")
-    fun createUsersWithListInput( body: kotlin.collections.List<User>): io.smallrye.mutiny.Uni<Response>
+    fun createUsersWithListInput( body: List<User>): io.smallrye.mutiny.Uni<Response>
 
     @DELETE
     @Path("/user/{username}")
-    fun deleteUser(@PathParam("username") username: kotlin.String): io.smallrye.mutiny.Uni<Response>
+    fun deleteUser(@PathParam("username") username: String): io.smallrye.mutiny.Uni<Response>
 
     @GET
     @Path("/user/{username}")
     @Produces("application/xml", "application/json")
-    fun getUserByName(@PathParam("username") username: kotlin.String): io.smallrye.mutiny.Uni<Response>
+    fun getUserByName(@PathParam("username") username: String): io.smallrye.mutiny.Uni<Response>
 
     @GET
     @Path("/user/login")
     @Produces("application/xml", "application/json")
-    fun loginUser(@QueryParam("username")   username: kotlin.String,@QueryParam("password")   password: kotlin.String): io.smallrye.mutiny.Uni<Response>
+    fun loginUser(@QueryParam("username")   username: String,@QueryParam("password")   password: String): io.smallrye.mutiny.Uni<Response>
 
     @GET
     @Path("/user/logout")
@@ -46,5 +47,5 @@ interface UserApi {
 
     @PUT
     @Path("/user/{username}")
-    fun updateUser(@PathParam("username") username: kotlin.String, body: User): io.smallrye.mutiny.Uni<Response>
+    fun updateUser(@PathParam("username") username: String, body: User): io.smallrye.mutiny.Uni<Response>
 }

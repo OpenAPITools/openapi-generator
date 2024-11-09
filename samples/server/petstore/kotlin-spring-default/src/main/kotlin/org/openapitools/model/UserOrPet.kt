@@ -38,34 +38,34 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class UserOrPet(
 
     @Schema(example = "null", required = true, description = "")
-    @get:JsonProperty("username", required = true) val username: kotlin.String,
+    @get:JsonProperty("username", required = true) val username: String,
 
     @Schema(example = "doggie", required = true, description = "")
-    @get:JsonProperty("name", required = true) val name: kotlin.String,
+    @get:JsonProperty("name", required = true) val name: String,
 
     @Schema(example = "null", required = true, description = "")
-    @get:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
+    @get:JsonProperty("photoUrls", required = true) val photoUrls: List<String>,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("id") val id: kotlin.Long? = null,
+    @get:JsonProperty("id") val id: Long? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("firstName") val firstName: kotlin.String? = null,
+    @get:JsonProperty("firstName") val firstName: String? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("lastName") val lastName: kotlin.String? = null,
+    @get:JsonProperty("lastName") val lastName: String? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("email") val email: kotlin.String? = null,
+    @get:JsonProperty("email") val email: String? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("password") val password: kotlin.String? = null,
+    @get:JsonProperty("password") val password: String? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("phone") val phone: kotlin.String? = null,
+    @get:JsonProperty("phone") val phone: String? = null,
 
     @Schema(example = "null", description = "User Status")
-    @get:JsonProperty("userStatus") val userStatus: kotlin.Int? = null,
+    @get:JsonProperty("userStatus") val userStatus: Int? = null,
 
     @field:Valid
     @Schema(example = "null", description = "")
@@ -73,7 +73,7 @@ data class UserOrPet(
 
     @field:Valid
     @Schema(example = "null", description = "")
-    @get:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
+    @get:JsonProperty("tags") val tags: List<Tag>? = null,
 
     @Schema(example = "null", description = "pet status in the store")
     @Deprecated(message = "")
@@ -84,7 +84,7 @@ data class UserOrPet(
     * pet status in the store
     * Values: available,pending,sold
     */
-    enum class Status(@get:JsonValue val value: kotlin.String) {
+    enum class Status(@get:JsonValue val value: String) {
 
         available("available"),
         pending("pending"),
@@ -93,7 +93,7 @@ data class UserOrPet(
         companion object {
             @JvmStatic
             @JsonCreator
-            fun forValue(value: kotlin.String): Status {
+            fun forValue(value: String): Status {
                 return values().first{it -> it.value == value}
             }
         }

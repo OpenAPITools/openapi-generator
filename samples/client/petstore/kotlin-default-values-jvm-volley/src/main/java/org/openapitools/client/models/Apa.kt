@@ -15,6 +15,7 @@
 
 package org.openapitools.client.models
 
+import java.math.BigDecimal
 
 import com.google.gson.annotations.SerializedName
 import org.openapitools.client.models.room.ApaRoomModel
@@ -33,16 +34,16 @@ import org.openapitools.client.infrastructure.ITransformForStorage
 data class Apa (
 
     @SerializedName("i0")
-    val i0: kotlin.Int,
+    val i0: Int,
 
     @SerializedName("n0")
-    val n0: java.math.BigDecimal,
+    val n0: BigDecimal,
 
     @SerializedName("i1")
-    val i1: kotlin.Int? = null,
+    val i1: Int? = null,
 
     @SerializedName("n1")
-    val n1: java.math.BigDecimal? = null
+    val n1: BigDecimal? = null
 
 ): ITransformForStorage<ApaRoomModel> {
     companion object { }

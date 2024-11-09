@@ -32,16 +32,16 @@ import com.squareup.moshi.JsonClass
 data class PropertyNameMapping (
 
     @Json(name = "http_debug_operation")
-    val httpDebugOperation: kotlin.String? = null,
+    val httpDebugOperation: String? = null,
 
     @Json(name = "_type")
-    val underscoreType: kotlin.String? = null,
+    val underscoreType: String? = null,
 
     @Json(name = "type")
-    val type: kotlin.String? = null,
+    val type: String? = null,
 
     @Json(name = "type_")
-    val typeWithUnderscore: kotlin.String? = null
+    val typeWithUnderscore: String? = null
 
 ) {
 

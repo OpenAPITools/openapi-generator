@@ -9,7 +9,7 @@ All URIs are relative to *http://localhost:3000*
 
 <a id="testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath"></a>
 # **testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**
-> kotlin.String testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath)
+> String testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath)
 
 Test path parameter(s)
 
@@ -22,12 +22,12 @@ Test path parameter(s)
 //import org.openapitools.client.models.*
 
 val apiInstance = PathApi()
-val pathString : kotlin.String = pathString_example // kotlin.String | 
-val pathInteger : kotlin.Int = 56 // kotlin.Int | 
-val enumNonrefStringPath : kotlin.String = enumNonrefStringPath_example // kotlin.String | 
+val pathString : String = pathString_example // String | 
+val pathInteger : Int = 56 // Int | 
+val enumNonrefStringPath : String = enumNonrefStringPath_example // String | 
 val enumRefStringPath : StringEnumRef =  // StringEnumRef | 
 try {
-    val result : kotlin.String = apiInstance.testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath)
+    val result : String = apiInstance.testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling PathApi#testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath")
@@ -39,16 +39,16 @@ try {
 ```
 
 ### Parameters
-| **pathString** | **kotlin.String**|  | |
-| **pathInteger** | **kotlin.Int**|  | |
-| **enumNonrefStringPath** | **kotlin.String**|  | [enum: success, failure, unclassified] |
+| **pathString** | **String**|  | |
+| **pathInteger** | **Int**|  | |
+| **enumNonrefStringPath** | **String**|  | [enum: success, failure, unclassified] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **enumRefStringPath** | [**StringEnumRef**](.md)|  | [enum: success, failure, unclassified] |
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 

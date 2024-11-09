@@ -13,7 +13,7 @@ interface StoreApiService {
      *         or Order not found (status code 404)
      * @see StoreApi#deleteOrder
      */
-    fun deleteOrder(orderId: kotlin.String): Unit
+    fun deleteOrder(orderId: String): Unit
 
     /**
      * GET /store/inventory : Returns pet inventories by status
@@ -22,7 +22,7 @@ interface StoreApiService {
      * @return successful operation (status code 200)
      * @see StoreApi#getInventory
      */
-    fun getInventory(): Map<String, kotlin.Int>
+    fun getInventory(): Map<String, Int>
 
     /**
      * GET /store/order/{orderId} : Find purchase order by ID
@@ -34,7 +34,7 @@ interface StoreApiService {
      *         or Order not found (status code 404)
      * @see StoreApi#getOrderById
      */
-    fun getOrderById(orderId: kotlin.Long): Order
+    fun getOrderById(orderId: Long): Order
 
     /**
      * POST /store/order : Place an order for a pet

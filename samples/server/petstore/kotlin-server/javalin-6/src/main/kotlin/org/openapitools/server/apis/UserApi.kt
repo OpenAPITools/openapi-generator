@@ -5,6 +5,7 @@ import io.javalin.http.bodyAsClass
 import io.javalin.http.pathParamAsClass
 import io.javalin.http.queryParamAsClass
 
+import java.time.OffsetDateTime
 import org.openapitools.server.models.User
 
 class UserApi(private val service: UserApiService) {
@@ -44,7 +45,7 @@ class UserApi(private val service: UserApiService) {
      * @param username The name that needs to be deleted 
      */
     fun deleteUser(ctx: Context) {
-        val result = service.deleteUser(ctx.pathParamAsClass<kotlin.String>("username").get(), ctx)
+        val result = service.deleteUser(ctx.pathParamAsClass<String>("username").get(), ctx)
         ctx.status(400).json(result)
     }
 
@@ -54,7 +55,7 @@ class UserApi(private val service: UserApiService) {
      * @param username The name that needs to be fetched. Use user1 for testing. 
      */
     fun getUserByName(ctx: Context) {
-        val result = service.getUserByName(ctx.pathParamAsClass<kotlin.String>("username").get(), ctx)
+        val result = service.getUserByName(ctx.pathParamAsClass<String>("username").get(), ctx)
         ctx.status(200).json(result)
     }
 
@@ -65,7 +66,7 @@ class UserApi(private val service: UserApiService) {
      * @param password The password for login in clear text 
      */
     fun loginUser(ctx: Context) {
-        val result = service.loginUser(ctx.queryParamAsClass<kotlin.String>("username").get(), ctx.queryParamAsClass<kotlin.String>("password").get(), ctx)
+        val result = service.loginUser(ctx.queryParamAsClass<String>("username").get(), ctx.queryParamAsClass<String>("password").get(), ctx)
         ctx.status(200).json(result)
     }
 
@@ -85,7 +86,7 @@ class UserApi(private val service: UserApiService) {
      * @param user Updated user object 
      */
     fun updateUser(ctx: Context) {
-        val result = service.updateUser(ctx.pathParamAsClass<kotlin.String>("username").get(), ctx.bodyAsClass<User>(), ctx)
+        val result = service.updateUser(ctx.pathParamAsClass<String>("username").get(), ctx.bodyAsClass<User>(), ctx)
         ctx.status(400).json(result)
     }
 

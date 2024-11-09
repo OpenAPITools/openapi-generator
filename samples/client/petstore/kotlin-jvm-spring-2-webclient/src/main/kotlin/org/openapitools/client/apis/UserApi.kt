@@ -26,6 +26,7 @@ import org.springframework.http.MediaType
 import reactor.core.publisher.Mono
 import org.springframework.util.LinkedMultiValueMap
 
+import java.time.OffsetDateTime
 import org.openapitools.client.models.User
 import org.openapitools.client.infrastructure.*
 
@@ -77,20 +78,20 @@ class UserApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun createUsersWithArrayInput(user: kotlin.collections.List<User>): Mono<Unit> {
+    fun createUsersWithArrayInput(user: List<User>): Mono<Unit> {
         return createUsersWithArrayInputWithHttpInfo(user = user)
             .map { Unit }
     }
 
     @Throws(WebClientResponseException::class)
-    fun createUsersWithArrayInputWithHttpInfo(user: kotlin.collections.List<User>): Mono<ResponseEntity<Unit>> {
+    fun createUsersWithArrayInputWithHttpInfo(user: List<User>): Mono<ResponseEntity<Unit>> {
         val localVariableConfig = createUsersWithArrayInputRequestConfig(user = user)
-        return request<kotlin.collections.List<User>, Unit>(
+        return request<List<User>, Unit>(
             localVariableConfig
         )
     }
 
-    fun createUsersWithArrayInputRequestConfig(user: kotlin.collections.List<User>) : RequestConfig<kotlin.collections.List<User>> {
+    fun createUsersWithArrayInputRequestConfig(user: List<User>) : RequestConfig<List<User>> {
         val localVariableBody = user
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -112,20 +113,20 @@ class UserApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun createUsersWithListInput(user: kotlin.collections.List<User>): Mono<Unit> {
+    fun createUsersWithListInput(user: List<User>): Mono<Unit> {
         return createUsersWithListInputWithHttpInfo(user = user)
             .map { Unit }
     }
 
     @Throws(WebClientResponseException::class)
-    fun createUsersWithListInputWithHttpInfo(user: kotlin.collections.List<User>): Mono<ResponseEntity<Unit>> {
+    fun createUsersWithListInputWithHttpInfo(user: List<User>): Mono<ResponseEntity<Unit>> {
         val localVariableConfig = createUsersWithListInputRequestConfig(user = user)
-        return request<kotlin.collections.List<User>, Unit>(
+        return request<List<User>, Unit>(
             localVariableConfig
         )
     }
 
-    fun createUsersWithListInputRequestConfig(user: kotlin.collections.List<User>) : RequestConfig<kotlin.collections.List<User>> {
+    fun createUsersWithListInputRequestConfig(user: List<User>) : RequestConfig<List<User>> {
         val localVariableBody = user
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -147,20 +148,20 @@ class UserApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun deleteUser(username: kotlin.String): Mono<Unit> {
+    fun deleteUser(username: String): Mono<Unit> {
         return deleteUserWithHttpInfo(username = username)
             .map { Unit }
     }
 
     @Throws(WebClientResponseException::class)
-    fun deleteUserWithHttpInfo(username: kotlin.String): Mono<ResponseEntity<Unit>> {
+    fun deleteUserWithHttpInfo(username: String): Mono<ResponseEntity<Unit>> {
         val localVariableConfig = deleteUserRequestConfig(username = username)
         return request<Unit, Unit>(
             localVariableConfig
         )
     }
 
-    fun deleteUserRequestConfig(username: kotlin.String) : RequestConfig<Unit> {
+    fun deleteUserRequestConfig(username: String) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -182,20 +183,20 @@ class UserApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun getUserByName(username: kotlin.String): Mono<User> {
+    fun getUserByName(username: String): Mono<User> {
         return getUserByNameWithHttpInfo(username = username)
             .map { it.body }
     }
 
     @Throws(WebClientResponseException::class)
-    fun getUserByNameWithHttpInfo(username: kotlin.String): Mono<ResponseEntity<User>> {
+    fun getUserByNameWithHttpInfo(username: String): Mono<ResponseEntity<User>> {
         val localVariableConfig = getUserByNameRequestConfig(username = username)
         return request<Unit, User>(
             localVariableConfig
         )
     }
 
-    fun getUserByNameRequestConfig(username: kotlin.String) : RequestConfig<Unit> {
+    fun getUserByNameRequestConfig(username: String) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -218,20 +219,20 @@ class UserApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun loginUser(username: kotlin.String, password: kotlin.String): Mono<kotlin.String> {
+    fun loginUser(username: String, password: String): Mono<String> {
         return loginUserWithHttpInfo(username = username, password = password)
             .map { it.body }
     }
 
     @Throws(WebClientResponseException::class)
-    fun loginUserWithHttpInfo(username: kotlin.String, password: kotlin.String): Mono<ResponseEntity<kotlin.String>> {
+    fun loginUserWithHttpInfo(username: String, password: String): Mono<ResponseEntity<String>> {
         val localVariableConfig = loginUserRequestConfig(username = username, password = password)
-        return request<Unit, kotlin.String>(
+        return request<Unit, String>(
             localVariableConfig
         )
     }
 
-    fun loginUserRequestConfig(username: kotlin.String, password: kotlin.String) : RequestConfig<Unit> {
+    fun loginUserRequestConfig(username: String, password: String) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -291,20 +292,20 @@ class UserApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun updateUser(username: kotlin.String, user: User): Mono<Unit> {
+    fun updateUser(username: String, user: User): Mono<Unit> {
         return updateUserWithHttpInfo(username = username, user = user)
             .map { Unit }
     }
 
     @Throws(WebClientResponseException::class)
-    fun updateUserWithHttpInfo(username: kotlin.String, user: User): Mono<ResponseEntity<Unit>> {
+    fun updateUserWithHttpInfo(username: String, user: User): Mono<ResponseEntity<Unit>> {
         val localVariableConfig = updateUserRequestConfig(username = username, user = user)
         return request<User, Unit>(
             localVariableConfig
         )
     }
 
-    fun updateUserRequestConfig(username: kotlin.String, user: User) : RequestConfig<User> {
+    fun updateUserRequestConfig(username: String, user: User) : RequestConfig<User> {
         val localVariableBody = user
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()

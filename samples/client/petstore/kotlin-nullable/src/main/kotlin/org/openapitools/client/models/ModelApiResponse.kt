@@ -32,13 +32,13 @@ import java.io.Serializable
 data class ModelApiResponse (
 
     @Json(name = "code")
-    val code: kotlin.Int? = null,
+    val code: Int? = null,
 
     @Json(name = "type")
-    val type: kotlin.String? = null,
+    val type: String? = null,
 
     @Json(name = "message")
-    val message: kotlin.String? = null
+    val message: String? = null
 
 ) : Serializable {
     companion object {

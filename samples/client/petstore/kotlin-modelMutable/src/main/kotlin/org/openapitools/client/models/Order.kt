@@ -15,6 +15,7 @@
 
 package org.openapitools.client.models
 
+import java.time.OffsetDateTime
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -34,23 +35,23 @@ import com.squareup.moshi.JsonClass
 data class Order (
 
     @Json(name = "id")
-    var id: kotlin.Long? = null,
+    var id: Long? = null,
 
     @Json(name = "petId")
-    var petId: kotlin.Long? = null,
+    var petId: Long? = null,
 
     @Json(name = "quantity")
-    var quantity: kotlin.Int? = null,
+    var quantity: Int? = null,
 
     @Json(name = "shipDate")
-    var shipDate: java.time.OffsetDateTime? = null,
+    var shipDate: OffsetDateTime? = null,
 
     /* Order Status */
     @Json(name = "status")
     var status: Order.Status? = null,
 
     @Json(name = "complete")
-    var complete: kotlin.Boolean? = false
+    var complete: Boolean? = false
 
 ) {
 
@@ -60,7 +61,7 @@ data class Order (
      * Values: placed,approved,delivered
      */
     @JsonClass(generateAdapter = false)
-    enum class Status(val value: kotlin.String) {
+    enum class Status(val value: String) {
         @Json(name = "placed") placed("placed"),
         @Json(name = "approved") approved("approved"),
         @Json(name = "delivered") delivered("delivered");

@@ -9,12 +9,12 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class NumberPropertiesOnly(
     @field:JsonProperty("number")
-    val number: java.math.BigDecimal? = null,
+    val number: BigDecimal? = null,
 
     @field:JsonProperty("float")
-    val float: kotlin.Float? = null,
+    val float: Float? = null,
 
     @field:JsonProperty("double")
-    val double: kotlin.Double? = null,
+    val double: Double? = null,
 
 )

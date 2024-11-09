@@ -452,8 +452,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
         additionalProperties.put(MAP_FILE_BINARY_TO_BYTE_ARRAY, mapFileBinaryToByteArray);
         if (mapFileBinaryToByteArray) {
-            typeMapping.put("file", "kotlin.ByteArray");
-            typeMapping.put("binary", "kotlin.ByteArray");
+            typeMapping.put("file", "ByteArray");
+            typeMapping.put("binary", "ByteArray");
+            importMapping.put("ByteArray", "kotlin.ByteArray");
         }
 
         if (additionalProperties.containsKey(GENERATE_ONEOF_ANYOF_WRAPPERS)) {
@@ -507,11 +508,13 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         if (CollectionType.LIST.value.equals(collectionType)) {
             if (isModelMutable()) {
-                typeMapping.put("array", "kotlin.collections.MutableList");
-                typeMapping.put("list", "kotlin.collections.MutableList");
+                typeMapping.put("array", "MutableList");
+                typeMapping.put("list", "MutableList");
+                importMapping.put("MutableList", "kotlin.collections.MutableList");
             } else {
-                typeMapping.put("array", "kotlin.collections.List");
-                typeMapping.put("list", "kotlin.collections.List");
+                typeMapping.put("array", "List");
+                typeMapping.put("list", "List");
+                importMapping.put("List", "kotlin.collections.List");
             }
             additionalProperties.put("isList", true);
         }
@@ -571,37 +574,36 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         additionalProperties.put(DateLibrary.THREETENBP.value, true);
         typeMapping.put("date", "LocalDate");
         importMapping.put("LocalDate", "org.threeten.bp.LocalDate");
-        defaultIncludes.add("org.threeten.bp.LocalDate");
 
         if (dateLibrary.equals(DateLibrary.THREETENBP.value)) {
-            typeMapping.put("date-time", "org.threeten.bp.OffsetDateTime");
+            typeMapping.put("date-time", "OffsetDateTime");
             typeMapping.put("DateTime", "OffsetDateTime");
             importMapping.put("OffsetDateTime", "org.threeten.bp.OffsetDateTime");
-            defaultIncludes.add("org.threeten.bp.OffsetDateTime");
         } else if (dateLibrary.equals(DateLibrary.THREETENBP_LOCALDATETIME.value)) {
-            typeMapping.put("date-time", "org.threeten.bp.LocalDateTime");
+            typeMapping.put("date-time", "LocalDateTime");
             typeMapping.put("DateTime", "LocalDateTime");
             importMapping.put("LocalDateTime", "org.threeten.bp.LocalDateTime");
-            defaultIncludes.add("org.threeten.bp.LocalDateTime");
         }
     }
 
     private void processStringDate() {
-        typeMapping.put("date-time", "kotlin.String");
-        typeMapping.put("date", "kotlin.String");
-        typeMapping.put("Date", "kotlin.String");
-        typeMapping.put("DateTime", "kotlin.String");
+        typeMapping.put("date-time", "String");
+        typeMapping.put("date", "String");
+        typeMapping.put("Date", "String");
+        typeMapping.put("DateTime", "String");
+
+        importMapping.put("String", "kotlin.String");
     }
 
     private void processJava8Date(String dateLibrary) {
         additionalProperties.put(DateLibrary.JAVA8.value, true);
 
         if (dateLibrary.equals(DateLibrary.JAVA8.value)) {
-            typeMapping.put("date-time", "java.time.OffsetDateTime");
+            typeMapping.put("date-time", "OffsetDateTime");
             typeMapping.put("DateTime", "OffsetDateTime");
             importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
         } else if (dateLibrary.equals(DateLibrary.JAVA8_LOCALDATETIME.value)) {
-            typeMapping.put("date-time", "java.time.LocalDateTime");
+            typeMapping.put("date-time", "LocalDateTime");
             typeMapping.put("DateTime", "LocalDateTime");
             importMapping.put("LocalDateTime", "java.time.LocalDateTime");
         }
@@ -832,14 +834,16 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         defaultIncludes.add(packageName + ".infrastructure.OctetByteArray");
 
         // multiplatform type mapping
-        typeMapping.put("number", "kotlin.Double");
+        typeMapping.put("number", "Double");
         typeMapping.put("file", "OctetByteArray");
         typeMapping.put("binary", "OctetByteArray");
         typeMapping.put("ByteArray", "Base64ByteArray");
-        typeMapping.put("object", "kotlin.String");  // kotlin.Any not serializable
+        typeMapping.put("object", "String");  // kotlin.Any not serializable
 
         // multiplatform import mapping
         importMapping.put("BigDecimal", "kotlin.Double");
+        importMapping.put("String", "kotlin.String");
+        importMapping.put("Double", "kotlin.Double");
         importMapping.put("UUID", "kotlin.String");
         importMapping.put("URI", "kotlin.String");
         importMapping.put("InputProvider", "io.ktor.client.request.forms.InputProvider");

@@ -7,8 +7,10 @@ import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import com.google.gson.annotations.SerializedName
 
+import kotlin.Any
 import org.openapitools.client.models.ApiPet
 import org.openapitools.client.models.ApiTag
+import java.io.File
 
 import okhttp3.MultipartBody
 
@@ -31,10 +33,10 @@ interface BodyApi {
      *  - 200: Successful operation
      *
      * @param body  (optional)
-     * @return [kotlin.String]
+     * @return [String]
      */
     @POST("body/application/octetstream/binary")
-    suspend fun testBodyApplicationOctetstreamBinary(@Body body: RequestBody? = null): Response<kotlin.String>
+    suspend fun testBodyApplicationOctetstreamBinary(@Body body: File? = null): Response<String>
 
     /**
      * Test array of binary in multipart mime
@@ -43,11 +45,11 @@ interface BodyApi {
      *  - 200: Successful operation
      *
      * @param files 
-     * @return [kotlin.String]
+     * @return [String]
      */
     @Multipart
     @POST("body/application/octetstream/array_of_binary")
-    suspend fun testBodyMultipartFormdataArrayOfBinary(@Part files: MultipartBody.Part): Response<kotlin.String>
+    suspend fun testBodyMultipartFormdataArrayOfBinary(@Part files: MultipartBody.Part): Response<String>
 
     /**
      * Test single binary in multipart mime
@@ -56,11 +58,11 @@ interface BodyApi {
      *  - 200: Successful operation
      *
      * @param myFile  (optional)
-     * @return [kotlin.String]
+     * @return [String]
      */
     @Multipart
     @POST("body/application/octetstream/single_binary")
-    suspend fun testBodyMultipartFormdataSingleBinary(@Part myFile: MultipartBody.Part? = null): Response<kotlin.String>
+    suspend fun testBodyMultipartFormdataSingleBinary(@Part myFile: MultipartBody.Part? = null): Response<String>
 
     /**
      * Test free form object
@@ -69,10 +71,10 @@ interface BodyApi {
      *  - 200: Successful operation
      *
      * @param body Free form object (optional)
-     * @return [kotlin.String]
+     * @return [String]
      */
     @POST("echo/body/FreeFormObject/response_string")
-    suspend fun testEchoBodyFreeFormObjectResponseString(@Body body: kotlin.Any? = null): Response<kotlin.String>
+    suspend fun testEchoBodyFreeFormObjectResponseString(@Body body: Any? = null): Response<String>
 
     /**
      * Test body parameter(s)
@@ -93,10 +95,10 @@ interface BodyApi {
      *  - 200: Successful operation
      *
      * @param apiPet Pet object that needs to be added to the store (optional)
-     * @return [kotlin.String]
+     * @return [String]
      */
     @POST("echo/body/Pet/response_string")
-    suspend fun testEchoBodyPetResponseString(@Body apiPet: ApiPet? = null): Response<kotlin.String>
+    suspend fun testEchoBodyPetResponseString(@Body apiPet: ApiPet? = null): Response<String>
 
     /**
      * Test empty json (request body)
@@ -105,9 +107,9 @@ interface BodyApi {
      *  - 200: Successful operation
      *
      * @param apiTag Tag object (optional)
-     * @return [kotlin.String]
+     * @return [String]
      */
     @POST("echo/body/Tag/response_string")
-    suspend fun testEchoBodyTagResponseString(@Body apiTag: ApiTag? = null): Response<kotlin.String>
+    suspend fun testEchoBodyTagResponseString(@Body apiTag: ApiTag? = null): Response<String>
 
 }

@@ -5,6 +5,7 @@ import io.javalin.http.bodyAsClass
 import io.javalin.http.pathParamAsClass
 import io.javalin.http.queryParamAsClass
 
+import java.time.OffsetDateTime
 import org.openapitools.server.models.User
 
 class UserApi(private val service: UserApiService) {
@@ -41,7 +42,7 @@ class UserApi(private val service: UserApiService) {
      * @param username The name that needs to be deleted 
      */
     fun deleteUser(ctx: Context) {
-        ctx.status(200).json(service.deleteUser(ctx.pathParamAsClass<kotlin.String>("username").get()))
+        ctx.status(200).json(service.deleteUser(ctx.pathParamAsClass<String>("username").get()))
     }
 
     /**
@@ -50,7 +51,7 @@ class UserApi(private val service: UserApiService) {
      * @param username The name that needs to be fetched. Use user1 for testing. 
      */
     fun getUserByName(ctx: Context) {
-        ctx.status(200).json(service.getUserByName(ctx.pathParamAsClass<kotlin.String>("username").get()))
+        ctx.status(200).json(service.getUserByName(ctx.pathParamAsClass<String>("username").get()))
     }
 
     /**
@@ -78,7 +79,7 @@ class UserApi(private val service: UserApiService) {
      * @param user Updated user object 
      */
     fun updateUser(ctx: Context) {
-        ctx.status(200).json(service.updateUser(ctx.pathParamAsClass<kotlin.String>("username").get(), ctx.bodyAsClass<User>()))
+        ctx.status(200).json(service.updateUser(ctx.pathParamAsClass<String>("username").get(), ctx.bodyAsClass<User>()))
     }
 
 }

@@ -5,6 +5,7 @@
 */
 package org.openapitools.api
 
+import java.time.OffsetDateTime
 import org.openapitools.model.User
 import io.swagger.v3.oas.annotations.*
 import io.swagger.v3.oas.annotations.enums.*
@@ -73,7 +74,7 @@ interface UserApi {
             value = ["/user/createWithArray"],
             consumes = ["application/json"]
     )
-    fun createUsersWithArrayInput(@Parameter(description = "List of user object", required = true) @Valid @RequestBody user: kotlin.collections.List<User>): ResponseEntity<Unit> {
+    fun createUsersWithArrayInput(@Parameter(description = "List of user object", required = true) @Valid @RequestBody user: List<User>): ResponseEntity<Unit> {
         return getDelegate().createUsersWithArrayInput(user)
     }
 
@@ -92,7 +93,7 @@ interface UserApi {
             value = ["/user/createWithList"],
             consumes = ["application/json"]
     )
-    fun createUsersWithListInput(@Parameter(description = "List of user object", required = true) @Valid @RequestBody user: kotlin.collections.List<User>): ResponseEntity<Unit> {
+    fun createUsersWithListInput(@Parameter(description = "List of user object", required = true) @Valid @RequestBody user: List<User>): ResponseEntity<Unit> {
         return getDelegate().createUsersWithListInput(user)
     }
 
@@ -111,7 +112,7 @@ interface UserApi {
             method = [RequestMethod.DELETE],
             value = ["/user/{username}"]
     )
-    fun deleteUser(@Parameter(description = "The name that needs to be deleted", required = true) @PathVariable("username") username: kotlin.String): ResponseEntity<Unit> {
+    fun deleteUser(@Parameter(description = "The name that needs to be deleted", required = true) @PathVariable("username") username: String): ResponseEntity<Unit> {
         return getDelegate().deleteUser(username)
     }
 
@@ -131,7 +132,7 @@ interface UserApi {
             value = ["/user/{username}"],
             produces = ["application/xml", "application/json"]
     )
-    fun getUserByName(@Parameter(description = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") username: kotlin.String): ResponseEntity<User> {
+    fun getUserByName(@Parameter(description = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") username: String): ResponseEntity<User> {
         return getDelegate().getUserByName(username)
     }
 
@@ -141,7 +142,7 @@ interface UserApi {
         operationId = "loginUser",
         description = """""",
         responses = [
-            ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = kotlin.String::class))]),
+            ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = String::class))]),
             ApiResponse(responseCode = "400", description = "Invalid username/password supplied")
         ]
     )
@@ -150,7 +151,7 @@ interface UserApi {
             value = ["/user/login"],
             produces = ["application/xml", "application/json"]
     )
-    fun loginUser(@NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @Parameter(description = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) username: kotlin.String,@NotNull @Parameter(description = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) password: kotlin.String): ResponseEntity<kotlin.String> {
+    fun loginUser(@NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @Parameter(description = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) username: String,@NotNull @Parameter(description = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) password: String): ResponseEntity<String> {
         return getDelegate().loginUser(username, password)
     }
 
@@ -188,7 +189,7 @@ interface UserApi {
             value = ["/user/{username}"],
             consumes = ["application/json"]
     )
-    fun updateUser(@Parameter(description = "name that need to be deleted", required = true) @PathVariable("username") username: kotlin.String,@Parameter(description = "Updated user object", required = true) @Valid @RequestBody user: User): ResponseEntity<Unit> {
+    fun updateUser(@Parameter(description = "name that need to be deleted", required = true) @PathVariable("username") username: String,@Parameter(description = "Updated user object", required = true) @Valid @RequestBody user: User): ResponseEntity<Unit> {
         return getDelegate().updateUser(username, user)
     }
 }

@@ -32,13 +32,13 @@ import org.openapitools.client.infrastructure.ITransformForStorage
 data class ModelApiResponse (
 
     @SerializedName("code")
-    val code: kotlin.Int? = null,
+    val code: Int? = null,
 
     @SerializedName("type")
-    val type: kotlin.String? = null,
+    val type: String? = null,
 
     @SerializedName("message")
-    val message: kotlin.String? = null
+    val message: String? = null
 
 ): ITransformForStorage<ModelApiResponseRoomModel> {
     companion object { }

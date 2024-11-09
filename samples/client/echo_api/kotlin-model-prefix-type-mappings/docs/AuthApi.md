@@ -25,7 +25,7 @@ apiClient.setCredentials("USERNAME", "PASSWORD")
 val webService = apiClient.createWebservice(AuthApi::class.java)
 
 launch(Dispatchers.IO) {
-    val result : kotlin.String = webService.testAuthHttpBasic()
+    val result : String = webService.testAuthHttpBasic()
 }
 ```
 
@@ -34,7 +34,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 
@@ -64,7 +64,7 @@ apiClient.setBearerToken("TOKEN")
 val webService = apiClient.createWebservice(AuthApi::class.java)
 
 launch(Dispatchers.IO) {
-    val result : kotlin.String = webService.testAuthHttpBearer()
+    val result : String = webService.testAuthHttpBearer()
 }
 ```
 
@@ -73,7 +73,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 

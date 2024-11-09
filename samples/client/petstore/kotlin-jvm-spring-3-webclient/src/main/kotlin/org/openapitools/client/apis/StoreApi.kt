@@ -42,20 +42,20 @@ class StoreApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun deleteOrder(orderId: kotlin.String): Mono<Unit> {
+    fun deleteOrder(orderId: String): Mono<Unit> {
         return deleteOrderWithHttpInfo(orderId = orderId)
             .map { Unit }
     }
 
     @Throws(WebClientResponseException::class)
-    fun deleteOrderWithHttpInfo(orderId: kotlin.String): Mono<ResponseEntity<Unit>> {
+    fun deleteOrderWithHttpInfo(orderId: String): Mono<ResponseEntity<Unit>> {
         val localVariableConfig = deleteOrderRequestConfig(orderId = orderId)
         return request<Unit, Unit>(
             localVariableConfig
         )
     }
 
-    fun deleteOrderRequestConfig(orderId: kotlin.String) : RequestConfig<Unit> {
+    fun deleteOrderRequestConfig(orderId: String) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -77,15 +77,15 @@ class StoreApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun getInventory(): Mono<kotlin.collections.Map<kotlin.String, kotlin.Int>> {
+    fun getInventory(): Mono<Map<String, Int>> {
         return getInventoryWithHttpInfo()
             .map { it.body }
     }
 
     @Throws(WebClientResponseException::class)
-    fun getInventoryWithHttpInfo(): Mono<ResponseEntity<kotlin.collections.Map<kotlin.String, kotlin.Int>>> {
+    fun getInventoryWithHttpInfo(): Mono<ResponseEntity<Map<String, Int>>> {
         val localVariableConfig = getInventoryRequestConfig()
-        return request<Unit, kotlin.collections.Map<kotlin.String, kotlin.Int>>(
+        return request<Unit, Map<String, Int>>(
             localVariableConfig
         )
     }
@@ -112,20 +112,20 @@ class StoreApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun getOrderById(orderId: kotlin.Long): Mono<Order> {
+    fun getOrderById(orderId: Long): Mono<Order> {
         return getOrderByIdWithHttpInfo(orderId = orderId)
             .map { it.body }
     }
 
     @Throws(WebClientResponseException::class)
-    fun getOrderByIdWithHttpInfo(orderId: kotlin.Long): Mono<ResponseEntity<Order>> {
+    fun getOrderByIdWithHttpInfo(orderId: Long): Mono<ResponseEntity<Order>> {
         val localVariableConfig = getOrderByIdRequestConfig(orderId = orderId)
         return request<Unit, Order>(
             localVariableConfig
         )
     }
 
-    fun getOrderByIdRequestConfig(orderId: kotlin.Long) : RequestConfig<Unit> {
+    fun getOrderByIdRequestConfig(orderId: Long) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()

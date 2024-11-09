@@ -2,6 +2,7 @@ package org.openapitools.model
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
+import kotlin.Any
 import org.openapitools.model.Animal
 import jakarta.validation.constraints.DecimalMax
 import jakarta.validation.constraints.DecimalMin
@@ -21,13 +22,13 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class Cat(
 
     @Schema(example = "null", required = true, description = "")
-    @get:JsonProperty("className", required = true) override val className: kotlin.String,
+    @get:JsonProperty("className", required = true) override val className: String,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("declawed") val declawed: kotlin.Boolean? = null,
+    @get:JsonProperty("declawed") val declawed: Boolean? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("color") override val color: kotlin.String? = "red"
+    @get:JsonProperty("color") override val color: String? = "red"
     ) : Animal{
 
 }

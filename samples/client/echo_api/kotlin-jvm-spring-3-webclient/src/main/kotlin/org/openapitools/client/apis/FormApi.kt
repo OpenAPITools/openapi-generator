@@ -41,20 +41,20 @@ class FormApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun testFormIntegerBooleanString(integerForm: kotlin.Int? = null, booleanForm: kotlin.Boolean? = null, stringForm: kotlin.String? = null): Mono<kotlin.String> {
+    fun testFormIntegerBooleanString(integerForm: Int? = null, booleanForm: Boolean? = null, stringForm: String? = null): Mono<String> {
         return testFormIntegerBooleanStringWithHttpInfo(integerForm = integerForm, booleanForm = booleanForm, stringForm = stringForm)
             .map { it.body }
     }
 
     @Throws(WebClientResponseException::class)
-    fun testFormIntegerBooleanStringWithHttpInfo(integerForm: kotlin.Int? = null, booleanForm: kotlin.Boolean? = null, stringForm: kotlin.String? = null): Mono<ResponseEntity<kotlin.String>> {
+    fun testFormIntegerBooleanStringWithHttpInfo(integerForm: Int? = null, booleanForm: Boolean? = null, stringForm: String? = null): Mono<ResponseEntity<String>> {
         val localVariableConfig = testFormIntegerBooleanStringRequestConfig(integerForm = integerForm, booleanForm = booleanForm, stringForm = stringForm)
-        return request<Map<String, PartConfig<*>>, kotlin.String>(
+        return request<Map<String, PartConfig<*>>, String>(
             localVariableConfig
         )
     }
 
-    fun testFormIntegerBooleanStringRequestConfig(integerForm: kotlin.Int? = null, booleanForm: kotlin.Boolean? = null, stringForm: kotlin.String? = null) : RequestConfig<Map<String, PartConfig<*>>> {
+    fun testFormIntegerBooleanStringRequestConfig(integerForm: Int? = null, booleanForm: Boolean? = null, stringForm: String? = null) : RequestConfig<Map<String, PartConfig<*>>> {
         val localVariableBody = mapOf(
             "integer_form" to PartConfig(body = integerForm, headers = mutableMapOf()),
             "boolean_form" to PartConfig(body = booleanForm, headers = mutableMapOf()),
@@ -79,20 +79,20 @@ class FormApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun testFormOneof(form1: kotlin.String? = null, form2: kotlin.Int? = null, form3: kotlin.String? = null, form4: kotlin.Boolean? = null, id: kotlin.Long? = null, name: kotlin.String? = null): Mono<kotlin.String> {
+    fun testFormOneof(form1: String? = null, form2: Int? = null, form3: String? = null, form4: Boolean? = null, id: Long? = null, name: String? = null): Mono<String> {
         return testFormOneofWithHttpInfo(form1 = form1, form2 = form2, form3 = form3, form4 = form4, id = id, name = name)
             .map { it.body }
     }
 
     @Throws(WebClientResponseException::class)
-    fun testFormOneofWithHttpInfo(form1: kotlin.String? = null, form2: kotlin.Int? = null, form3: kotlin.String? = null, form4: kotlin.Boolean? = null, id: kotlin.Long? = null, name: kotlin.String? = null): Mono<ResponseEntity<kotlin.String>> {
+    fun testFormOneofWithHttpInfo(form1: String? = null, form2: Int? = null, form3: String? = null, form4: Boolean? = null, id: Long? = null, name: String? = null): Mono<ResponseEntity<String>> {
         val localVariableConfig = testFormOneofRequestConfig(form1 = form1, form2 = form2, form3 = form3, form4 = form4, id = id, name = name)
-        return request<Map<String, PartConfig<*>>, kotlin.String>(
+        return request<Map<String, PartConfig<*>>, String>(
             localVariableConfig
         )
     }
 
-    fun testFormOneofRequestConfig(form1: kotlin.String? = null, form2: kotlin.Int? = null, form3: kotlin.String? = null, form4: kotlin.Boolean? = null, id: kotlin.Long? = null, name: kotlin.String? = null) : RequestConfig<Map<String, PartConfig<*>>> {
+    fun testFormOneofRequestConfig(form1: String? = null, form2: Int? = null, form3: String? = null, form4: Boolean? = null, id: Long? = null, name: String? = null) : RequestConfig<Map<String, PartConfig<*>>> {
         val localVariableBody = mapOf(
             "form1" to PartConfig(body = form1, headers = mutableMapOf()),
             "form2" to PartConfig(body = form2, headers = mutableMapOf()),

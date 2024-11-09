@@ -15,6 +15,7 @@
 
 package org.openapitools.client.apis
 
+import java.time.OffsetDateTime
 import org.openapitools.client.models.User
 
 import org.openapitools.client.infrastructure.*
@@ -75,7 +76,7 @@ import java.text.DateFormat
          * @param body List of user object 
          * @return void
         */
-        open suspend fun createUsersWithArrayInput(body: kotlin.collections.List<User>): HttpResponse<Unit> {
+        open suspend fun createUsersWithArrayInput(body: List<User>): HttpResponse<Unit> {
 
             val localVariableAuthNames = listOf<String>()
 
@@ -106,7 +107,7 @@ import java.text.DateFormat
          * @param body List of user object 
          * @return void
         */
-        open suspend fun createUsersWithListInput(body: kotlin.collections.List<User>): HttpResponse<Unit> {
+        open suspend fun createUsersWithListInput(body: List<User>): HttpResponse<Unit> {
 
             val localVariableAuthNames = listOf<String>()
 
@@ -137,7 +138,7 @@ import java.text.DateFormat
          * @param username The name that needs to be deleted 
          * @return void
         */
-        open suspend fun deleteUser(username: kotlin.String): HttpResponse<Unit> {
+        open suspend fun deleteUser(username: String): HttpResponse<Unit> {
 
             val localVariableAuthNames = listOf<String>()
 
@@ -170,7 +171,7 @@ import java.text.DateFormat
          * @return User
         */
             @Suppress("UNCHECKED_CAST")
-        open suspend fun getUserByName(username: kotlin.String): HttpResponse<User> {
+        open suspend fun getUserByName(username: String): HttpResponse<User> {
 
             val localVariableAuthNames = listOf<String>()
 
@@ -201,10 +202,10 @@ import java.text.DateFormat
         * 
          * @param username The user name for login 
          * @param password The password for login in clear text 
-         * @return kotlin.String
+         * @return String
         */
             @Suppress("UNCHECKED_CAST")
-        open suspend fun loginUser(username: kotlin.String, password: kotlin.String): HttpResponse<kotlin.String> {
+        open suspend fun loginUser(username: String, password: String): HttpResponse<String> {
 
             val localVariableAuthNames = listOf<String>()
 
@@ -270,7 +271,7 @@ import java.text.DateFormat
          * @param body Updated user object 
          * @return void
         */
-        open suspend fun updateUser(username: kotlin.String, body: User): HttpResponse<Unit> {
+        open suspend fun updateUser(username: String, body: User): HttpResponse<Unit> {
 
             val localVariableAuthNames = listOf<String>()
 

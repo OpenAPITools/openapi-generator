@@ -15,6 +15,7 @@
 
 package org.openapitools.client.models
 
+import java.time.OffsetDateTime
 
 import kotlinx.serialization.Serializable as KSerializable
 import kotlinx.serialization.SerialName
@@ -36,23 +37,23 @@ import java.io.Serializable
 data class Order (
 
     @SerialName(value = "id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
 
     @SerialName(value = "petId")
-    val petId: kotlin.Long? = null,
+    val petId: Long? = null,
 
     @SerialName(value = "quantity")
-    val quantity: kotlin.Int? = null,
+    val quantity: Int? = null,
 
     @Contextual @SerialName(value = "shipDate")
-    val shipDate: java.time.OffsetDateTime? = null,
+    val shipDate: OffsetDateTime? = null,
 
     /* Order Status */
     @SerialName(value = "status")
     val status: Order.Status? = null,
 
     @SerialName(value = "complete")
-    val complete: kotlin.Boolean? = false
+    val complete: Boolean? = false
 
 ) : Serializable {
     companion object {
@@ -65,7 +66,7 @@ data class Order (
      * Values: PLACED,APPROVED,DELIVERED
      */
     @KSerializable
-    enum class Status(val value: kotlin.String) {
+    enum class Status(val value: String) {
         @SerialName(value = "placed") PLACED("placed"),
         @SerialName(value = "approved") APPROVED("approved"),
         @SerialName(value = "delivered") DELIVERED("delivered");

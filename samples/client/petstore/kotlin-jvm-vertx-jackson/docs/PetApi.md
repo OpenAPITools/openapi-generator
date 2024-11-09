@@ -77,8 +77,8 @@ Deletes a pet
 //import org.openapitools.client.models.*
 
 val apiInstance = PetApi()
-val petId : kotlin.Long = 789 // kotlin.Long | Pet id to delete
-val apiKey : kotlin.String = apiKey_example // kotlin.String | 
+val petId : Long = 789 // Long | Pet id to delete
+val apiKey : String = apiKey_example // String | 
 try {
     apiInstance.deletePet(petId, apiKey)
 } catch (e: ClientException) {
@@ -91,10 +91,10 @@ try {
 ```
 
 ### Parameters
-| **petId** | **kotlin.Long**| Pet id to delete | |
+| **petId** | **Long**| Pet id to delete | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **apiKey** | **kotlin.String**|  | [optional] |
+| **apiKey** | **String**|  | [optional] |
 
 ### Return type
 
@@ -113,7 +113,7 @@ Configure petstore_auth:
 
 <a id="findPetsByStatus"></a>
 # **findPetsByStatus**
-> kotlin.collections.List&lt;Pet&gt; findPetsByStatus(status)
+> List&lt;Pet&gt; findPetsByStatus(status)
 
 Finds Pets by status
 
@@ -126,9 +126,9 @@ Multiple status values can be provided with comma separated strings
 //import org.openapitools.client.models.*
 
 val apiInstance = PetApi()
-val status : kotlin.collections.List<kotlin.String> =  // kotlin.collections.List<kotlin.String> | Status values that need to be considered for filter
+val status : List<String> =  // List<String> | Status values that need to be considered for filter
 try {
-    val result : kotlin.collections.List<Pet> = apiInstance.findPetsByStatus(status)
+    val result : List<Pet> = apiInstance.findPetsByStatus(status)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling PetApi#findPetsByStatus")
@@ -142,11 +142,11 @@ try {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **status** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Status values that need to be considered for filter | [enum: available, pending, sold] |
+| **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [enum: available, pending, sold] |
 
 ### Return type
 
-[**kotlin.collections.List&lt;Pet&gt;**](Pet.md)
+[**List&lt;Pet&gt;**](Pet.md)
 
 ### Authorization
 
@@ -161,7 +161,7 @@ Configure petstore_auth:
 
 <a id="findPetsByTags"></a>
 # **findPetsByTags**
-> kotlin.collections.List&lt;Pet&gt; findPetsByTags(tags)
+> List&lt;Pet&gt; findPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -174,9 +174,9 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 //import org.openapitools.client.models.*
 
 val apiInstance = PetApi()
-val tags : kotlin.collections.List<kotlin.String> =  // kotlin.collections.List<kotlin.String> | Tags to filter by
+val tags : List<String> =  // List<String> | Tags to filter by
 try {
-    val result : kotlin.collections.List<Pet> = apiInstance.findPetsByTags(tags)
+    val result : List<Pet> = apiInstance.findPetsByTags(tags)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling PetApi#findPetsByTags")
@@ -190,11 +190,11 @@ try {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **tags** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Tags to filter by | |
+| **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by | |
 
 ### Return type
 
-[**kotlin.collections.List&lt;Pet&gt;**](Pet.md)
+[**List&lt;Pet&gt;**](Pet.md)
 
 ### Authorization
 
@@ -222,7 +222,7 @@ Returns a single pet
 //import org.openapitools.client.models.*
 
 val apiInstance = PetApi()
-val petId : kotlin.Long = 789 // kotlin.Long | ID of pet to return
+val petId : Long = 789 // Long | ID of pet to return
 try {
     val result : Pet = apiInstance.getPetById(petId)
     println(result)
@@ -238,7 +238,7 @@ try {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **petId** | **kotlin.Long**| ID of pet to return | |
+| **petId** | **Long**| ID of pet to return | |
 
 ### Return type
 
@@ -319,9 +319,9 @@ Updates a pet in the store with form data
 //import org.openapitools.client.models.*
 
 val apiInstance = PetApi()
-val petId : kotlin.Long = 789 // kotlin.Long | ID of pet that needs to be updated
-val name : kotlin.String = name_example // kotlin.String | Updated name of the pet
-val status : kotlin.String = status_example // kotlin.String | Updated status of the pet
+val petId : Long = 789 // Long | ID of pet that needs to be updated
+val name : String = name_example // String | Updated name of the pet
+val status : String = status_example // String | Updated status of the pet
 try {
     apiInstance.updatePetWithForm(petId, name, status)
 } catch (e: ClientException) {
@@ -334,11 +334,11 @@ try {
 ```
 
 ### Parameters
-| **petId** | **kotlin.Long**| ID of pet that needs to be updated | |
-| **name** | **kotlin.String**| Updated name of the pet | [optional] |
+| **petId** | **Long**| ID of pet that needs to be updated | |
+| **name** | **String**| Updated name of the pet | [optional] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **status** | **kotlin.String**| Updated status of the pet | [optional] |
+| **status** | **String**| Updated status of the pet | [optional] |
 
 ### Return type
 
@@ -370,9 +370,9 @@ uploads an image
 //import org.openapitools.client.models.*
 
 val apiInstance = PetApi()
-val petId : kotlin.Long = 789 // kotlin.Long | ID of pet to update
-val additionalMetadata : kotlin.String = additionalMetadata_example // kotlin.String | Additional data to pass to server
-val file : java.io.File = BINARY_DATA_HERE // java.io.File | file to upload
+val petId : Long = 789 // Long | ID of pet to update
+val additionalMetadata : String = additionalMetadata_example // String | Additional data to pass to server
+val file : File = BINARY_DATA_HERE // File | file to upload
 try {
     val result : ModelApiResponse = apiInstance.uploadFile(petId, additionalMetadata, file)
     println(result)
@@ -386,11 +386,11 @@ try {
 ```
 
 ### Parameters
-| **petId** | **kotlin.Long**| ID of pet to update | |
-| **additionalMetadata** | **kotlin.String**| Additional data to pass to server | [optional] |
+| **petId** | **Long**| ID of pet to update | |
+| **additionalMetadata** | **String**| Additional data to pass to server | [optional] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **file** | **java.io.File**| file to upload | [optional] |
+| **file** | **File**| file to upload | [optional] |
 
 ### Return type
 

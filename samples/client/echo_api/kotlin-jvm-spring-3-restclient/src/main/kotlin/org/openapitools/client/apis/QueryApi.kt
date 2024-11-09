@@ -25,6 +25,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.http.MediaType
 
 
+import java.time.LocalDate
+import java.time.OffsetDateTime
 import org.openapitools.client.models.Pet
 import org.openapitools.client.models.StringEnumRef
 import org.openapitools.client.models.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
@@ -41,7 +43,7 @@ class QueryApi(client: RestClient) : ApiClient(client) {
     /**
      * enum for parameter enumNonrefStringQuery
      */
-    enum class EnumNonrefStringQueryTestEnumRefString(val value: kotlin.String) {
+    enum class EnumNonrefStringQueryTestEnumRefString(val value: String) {
         @JsonProperty(value = "success") success("success"),
         @JsonProperty(value = "failure") failure("failure"),
         @JsonProperty(value = "unclassified") unclassified("unclassified"),
@@ -49,15 +51,15 @@ class QueryApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun testEnumRefString(enumNonrefStringQuery: EnumNonrefStringQueryTestEnumRefString? = null, enumRefStringQuery: StringEnumRef? = null): kotlin.String {
+    fun testEnumRefString(enumNonrefStringQuery: EnumNonrefStringQueryTestEnumRefString? = null, enumRefStringQuery: StringEnumRef? = null): String {
         val result = testEnumRefStringWithHttpInfo(enumNonrefStringQuery = enumNonrefStringQuery, enumRefStringQuery = enumRefStringQuery)
         return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun testEnumRefStringWithHttpInfo(enumNonrefStringQuery: EnumNonrefStringQueryTestEnumRefString? = null, enumRefStringQuery: StringEnumRef? = null): ResponseEntity<kotlin.String> {
+    fun testEnumRefStringWithHttpInfo(enumNonrefStringQuery: EnumNonrefStringQueryTestEnumRefString? = null, enumRefStringQuery: StringEnumRef? = null): ResponseEntity<String> {
         val localVariableConfig = testEnumRefStringRequestConfig(enumNonrefStringQuery = enumNonrefStringQuery, enumRefStringQuery = enumRefStringQuery)
-        return request<Unit, kotlin.String>(
+        return request<Unit, String>(
             localVariableConfig
         )
     }
@@ -92,20 +94,20 @@ class QueryApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun testQueryDatetimeDateString(datetimeQuery: java.time.OffsetDateTime? = null, dateQuery: java.time.LocalDate? = null, stringQuery: kotlin.String? = null): kotlin.String {
+    fun testQueryDatetimeDateString(datetimeQuery: OffsetDateTime? = null, dateQuery: LocalDate? = null, stringQuery: String? = null): String {
         val result = testQueryDatetimeDateStringWithHttpInfo(datetimeQuery = datetimeQuery, dateQuery = dateQuery, stringQuery = stringQuery)
         return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun testQueryDatetimeDateStringWithHttpInfo(datetimeQuery: java.time.OffsetDateTime? = null, dateQuery: java.time.LocalDate? = null, stringQuery: kotlin.String? = null): ResponseEntity<kotlin.String> {
+    fun testQueryDatetimeDateStringWithHttpInfo(datetimeQuery: OffsetDateTime? = null, dateQuery: LocalDate? = null, stringQuery: String? = null): ResponseEntity<String> {
         val localVariableConfig = testQueryDatetimeDateStringRequestConfig(datetimeQuery = datetimeQuery, dateQuery = dateQuery, stringQuery = stringQuery)
-        return request<Unit, kotlin.String>(
+        return request<Unit, String>(
             localVariableConfig
         )
     }
 
-    fun testQueryDatetimeDateStringRequestConfig(datetimeQuery: java.time.OffsetDateTime? = null, dateQuery: java.time.LocalDate? = null, stringQuery: kotlin.String? = null) : RequestConfig<Unit> {
+    fun testQueryDatetimeDateStringRequestConfig(datetimeQuery: OffsetDateTime? = null, dateQuery: LocalDate? = null, stringQuery: String? = null) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -138,20 +140,20 @@ class QueryApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun testQueryIntegerBooleanString(integerQuery: kotlin.Int? = null, booleanQuery: kotlin.Boolean? = null, stringQuery: kotlin.String? = null): kotlin.String {
+    fun testQueryIntegerBooleanString(integerQuery: Int? = null, booleanQuery: Boolean? = null, stringQuery: String? = null): String {
         val result = testQueryIntegerBooleanStringWithHttpInfo(integerQuery = integerQuery, booleanQuery = booleanQuery, stringQuery = stringQuery)
         return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun testQueryIntegerBooleanStringWithHttpInfo(integerQuery: kotlin.Int? = null, booleanQuery: kotlin.Boolean? = null, stringQuery: kotlin.String? = null): ResponseEntity<kotlin.String> {
+    fun testQueryIntegerBooleanStringWithHttpInfo(integerQuery: Int? = null, booleanQuery: Boolean? = null, stringQuery: String? = null): ResponseEntity<String> {
         val localVariableConfig = testQueryIntegerBooleanStringRequestConfig(integerQuery = integerQuery, booleanQuery = booleanQuery, stringQuery = stringQuery)
-        return request<Unit, kotlin.String>(
+        return request<Unit, String>(
             localVariableConfig
         )
     }
 
-    fun testQueryIntegerBooleanStringRequestConfig(integerQuery: kotlin.Int? = null, booleanQuery: kotlin.Boolean? = null, stringQuery: kotlin.String? = null) : RequestConfig<Unit> {
+    fun testQueryIntegerBooleanStringRequestConfig(integerQuery: Int? = null, booleanQuery: Boolean? = null, stringQuery: String? = null) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -184,15 +186,15 @@ class QueryApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun testQueryStyleDeepObjectExplodeTrueObject(queryObject: Pet? = null): kotlin.String {
+    fun testQueryStyleDeepObjectExplodeTrueObject(queryObject: Pet? = null): String {
         val result = testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(queryObject = queryObject)
         return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(queryObject: Pet? = null): ResponseEntity<kotlin.String> {
+    fun testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(queryObject: Pet? = null): ResponseEntity<String> {
         val localVariableConfig = testQueryStyleDeepObjectExplodeTrueObjectRequestConfig(queryObject = queryObject)
-        return request<Unit, kotlin.String>(
+        return request<Unit, String>(
             localVariableConfig
         )
     }
@@ -224,15 +226,15 @@ class QueryApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun testQueryStyleFormExplodeTrueArrayString(queryObject: TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? = null): kotlin.String {
+    fun testQueryStyleFormExplodeTrueArrayString(queryObject: TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? = null): String {
         val result = testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(queryObject = queryObject)
         return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(queryObject: TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? = null): ResponseEntity<kotlin.String> {
+    fun testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(queryObject: TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? = null): ResponseEntity<String> {
         val localVariableConfig = testQueryStyleFormExplodeTrueArrayStringRequestConfig(queryObject = queryObject)
-        return request<Unit, kotlin.String>(
+        return request<Unit, String>(
             localVariableConfig
         )
     }
@@ -264,15 +266,15 @@ class QueryApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun testQueryStyleFormExplodeTrueObject(queryObject: Pet? = null): kotlin.String {
+    fun testQueryStyleFormExplodeTrueObject(queryObject: Pet? = null): String {
         val result = testQueryStyleFormExplodeTrueObjectWithHttpInfo(queryObject = queryObject)
         return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun testQueryStyleFormExplodeTrueObjectWithHttpInfo(queryObject: Pet? = null): ResponseEntity<kotlin.String> {
+    fun testQueryStyleFormExplodeTrueObjectWithHttpInfo(queryObject: Pet? = null): ResponseEntity<String> {
         val localVariableConfig = testQueryStyleFormExplodeTrueObjectRequestConfig(queryObject = queryObject)
-        return request<Unit, kotlin.String>(
+        return request<Unit, String>(
             localVariableConfig
         )
     }

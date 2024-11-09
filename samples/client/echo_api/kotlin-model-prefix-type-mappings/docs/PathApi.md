@@ -21,27 +21,27 @@ Test path parameter(s)
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(PathApi::class.java)
-val pathString : kotlin.String = pathString_example // kotlin.String | 
-val pathInteger : kotlin.Int = 56 // kotlin.Int | 
-val enumNonrefStringPath : kotlin.String = enumNonrefStringPath_example // kotlin.String | 
+val pathString : String = pathString_example // String | 
+val pathInteger : Int = 56 // Int | 
+val enumNonrefStringPath : String = enumNonrefStringPath_example // String | 
 val enumRefStringPath : ApiStringEnumRef =  // ApiStringEnumRef | 
 
 launch(Dispatchers.IO) {
-    val result : kotlin.String = webService.testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath)
+    val result : String = webService.testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath)
 }
 ```
 
 ### Parameters
-| **pathString** | **kotlin.String**|  | |
-| **pathInteger** | **kotlin.Int**|  | |
-| **enumNonrefStringPath** | **kotlin.String**|  | [enum: success, failure, unclassified] |
+| **pathString** | **String**|  | |
+| **pathInteger** | **Int**|  | |
+| **enumNonrefStringPath** | **String**|  | [enum: success, failure, unclassified] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **enumRefStringPath** | [**ApiStringEnumRef**](.md)|  | [enum: success, failure, unclassified] |
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 

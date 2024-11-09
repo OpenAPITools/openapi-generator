@@ -39,7 +39,7 @@ class HeaderApi(client: RestClient) : ApiClient(client) {
     /**
      * enum for parameter enumNonrefStringHeader
      */
-    enum class EnumNonrefStringHeaderTestHeaderIntegerBooleanStringEnums(val value: kotlin.String) {
+    enum class EnumNonrefStringHeaderTestHeaderIntegerBooleanStringEnums(val value: String) {
         @JsonProperty(value = "success") success("success"),
         @JsonProperty(value = "failure") failure("failure"),
         @JsonProperty(value = "unclassified") unclassified("unclassified"),
@@ -47,20 +47,20 @@ class HeaderApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun testHeaderIntegerBooleanStringEnums(integerHeader: kotlin.Int? = null, booleanHeader: kotlin.Boolean? = null, stringHeader: kotlin.String? = null, enumNonrefStringHeader: EnumNonrefStringHeaderTestHeaderIntegerBooleanStringEnums? = null, enumRefStringHeader: StringEnumRef? = null): kotlin.String {
+    fun testHeaderIntegerBooleanStringEnums(integerHeader: Int? = null, booleanHeader: Boolean? = null, stringHeader: String? = null, enumNonrefStringHeader: EnumNonrefStringHeaderTestHeaderIntegerBooleanStringEnums? = null, enumRefStringHeader: StringEnumRef? = null): String {
         val result = testHeaderIntegerBooleanStringEnumsWithHttpInfo(integerHeader = integerHeader, booleanHeader = booleanHeader, stringHeader = stringHeader, enumNonrefStringHeader = enumNonrefStringHeader, enumRefStringHeader = enumRefStringHeader)
         return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun testHeaderIntegerBooleanStringEnumsWithHttpInfo(integerHeader: kotlin.Int? = null, booleanHeader: kotlin.Boolean? = null, stringHeader: kotlin.String? = null, enumNonrefStringHeader: EnumNonrefStringHeaderTestHeaderIntegerBooleanStringEnums? = null, enumRefStringHeader: StringEnumRef? = null): ResponseEntity<kotlin.String> {
+    fun testHeaderIntegerBooleanStringEnumsWithHttpInfo(integerHeader: Int? = null, booleanHeader: Boolean? = null, stringHeader: String? = null, enumNonrefStringHeader: EnumNonrefStringHeaderTestHeaderIntegerBooleanStringEnums? = null, enumRefStringHeader: StringEnumRef? = null): ResponseEntity<String> {
         val localVariableConfig = testHeaderIntegerBooleanStringEnumsRequestConfig(integerHeader = integerHeader, booleanHeader = booleanHeader, stringHeader = stringHeader, enumNonrefStringHeader = enumNonrefStringHeader, enumRefStringHeader = enumRefStringHeader)
-        return request<Unit, kotlin.String>(
+        return request<Unit, String>(
             localVariableConfig
         )
     }
 
-    fun testHeaderIntegerBooleanStringEnumsRequestConfig(integerHeader: kotlin.Int? = null, booleanHeader: kotlin.Boolean? = null, stringHeader: kotlin.String? = null, enumNonrefStringHeader: EnumNonrefStringHeaderTestHeaderIntegerBooleanStringEnums? = null, enumRefStringHeader: StringEnumRef? = null) : RequestConfig<Unit> {
+    fun testHeaderIntegerBooleanStringEnumsRequestConfig(integerHeader: Int? = null, booleanHeader: Boolean? = null, stringHeader: String? = null, enumNonrefStringHeader: EnumNonrefStringHeaderTestHeaderIntegerBooleanStringEnums? = null, enumRefStringHeader: StringEnumRef? = null) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()

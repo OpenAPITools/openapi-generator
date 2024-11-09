@@ -4,11 +4,11 @@
 ## Properties
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
-| **name** | **kotlin.String** | Name of property of day |  |
-| **description** | **kotlin.String** | Description of the property of day |  [optional] |
+| **name** | **String** | Name of property of day |  |
+| **description** | **String** | Description of the property of day |  [optional] |
 | **daysOfWeek** | [**inline**](#DaysOfWeek) | Days of week |  [optional] |
 | **monthOfYear** | [**inline**](#MonthOfYear) | Month of year |  [optional] |
-| **dayOfYear** | **kotlin.Int** | Day of year |  [optional] |
+| **dayOfYear** | **Int** | Day of year |  [optional] |
 | **holidayTypes** | [**inline**](#HolidayTypes) | Holiday types |  [optional] |
 
 

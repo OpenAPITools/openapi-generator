@@ -48,7 +48,7 @@ open class StoreApi : ApiClient {
      * @param orderId ID of the order that needs to be deleted
      * @return void
      */
-    open suspend fun deleteOrder(orderId: kotlin.String): HttpResponse<Unit> {
+    open suspend fun deleteOrder(orderId: String): HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>()
 
@@ -77,10 +77,10 @@ open class StoreApi : ApiClient {
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
-     * @return kotlin.collections.Map<kotlin.String, kotlin.Int>
+     * @return Map<String, Int>
      */
     @Suppress("UNCHECKED_CAST")
-    open suspend fun getInventory(): HttpResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>> {
+    open suspend fun getInventory(): HttpResponse<Map<String, Int>> {
 
         val localVariableAuthNames = listOf<String>("api_key")
 
@@ -106,9 +106,9 @@ open class StoreApi : ApiClient {
     }
 
     @Serializable(GetInventoryResponse.Companion::class)
-    private class GetInventoryResponse(val value: Map<kotlin.String, kotlin.Int>) {
+    private class GetInventoryResponse(val value: Map<kotlin.String, Int>) {
         companion object : KSerializer<GetInventoryResponse> {
-            private val serializer: KSerializer<Map<kotlin.String, kotlin.Int>> = serializer<Map<String, kotlin.Int>>()
+            private val serializer: KSerializer<Map<kotlin.String, Int>> = serializer<Map<String, Int>>()
             override val descriptor = serializer.descriptor
             override fun serialize(encoder: Encoder, value: GetInventoryResponse) = serializer.serialize(encoder, value.value)
             override fun deserialize(decoder: Decoder) = GetInventoryResponse(serializer.deserialize(decoder))
@@ -122,7 +122,7 @@ open class StoreApi : ApiClient {
      * @return Order
      */
     @Suppress("UNCHECKED_CAST")
-    open suspend fun getOrderById(orderId: kotlin.Long): HttpResponse<Order> {
+    open suspend fun getOrderById(orderId: Long): HttpResponse<Order> {
 
         val localVariableAuthNames = listOf<String>()
 

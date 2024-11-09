@@ -41,15 +41,15 @@ class AuthApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun testAuthHttpBasic(): Mono<kotlin.String> {
+    fun testAuthHttpBasic(): Mono<String> {
         return testAuthHttpBasicWithHttpInfo()
             .map { it.body }
     }
 
     @Throws(WebClientResponseException::class)
-    fun testAuthHttpBasicWithHttpInfo(): Mono<ResponseEntity<kotlin.String>> {
+    fun testAuthHttpBasicWithHttpInfo(): Mono<ResponseEntity<String>> {
         val localVariableConfig = testAuthHttpBasicRequestConfig()
-        return request<Unit, kotlin.String>(
+        return request<Unit, String>(
             localVariableConfig
         )
     }
@@ -76,15 +76,15 @@ class AuthApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun testAuthHttpBearer(): Mono<kotlin.String> {
+    fun testAuthHttpBearer(): Mono<String> {
         return testAuthHttpBearerWithHttpInfo()
             .map { it.body }
     }
 
     @Throws(WebClientResponseException::class)
-    fun testAuthHttpBearerWithHttpInfo(): Mono<ResponseEntity<kotlin.String>> {
+    fun testAuthHttpBearerWithHttpInfo(): Mono<ResponseEntity<String>> {
         val localVariableConfig = testAuthHttpBearerRequestConfig()
-        return request<Unit, kotlin.String>(
+        return request<Unit, String>(
             localVariableConfig
         )
     }

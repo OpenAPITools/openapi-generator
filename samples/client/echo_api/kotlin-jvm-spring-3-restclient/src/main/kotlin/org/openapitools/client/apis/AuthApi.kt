@@ -37,15 +37,15 @@ class AuthApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun testAuthHttpBasic(): kotlin.String {
+    fun testAuthHttpBasic(): String {
         val result = testAuthHttpBasicWithHttpInfo()
         return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun testAuthHttpBasicWithHttpInfo(): ResponseEntity<kotlin.String> {
+    fun testAuthHttpBasicWithHttpInfo(): ResponseEntity<String> {
         val localVariableConfig = testAuthHttpBasicRequestConfig()
-        return request<Unit, kotlin.String>(
+        return request<Unit, String>(
             localVariableConfig
         )
     }
@@ -72,15 +72,15 @@ class AuthApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun testAuthHttpBearer(): kotlin.String {
+    fun testAuthHttpBearer(): String {
         val result = testAuthHttpBearerWithHttpInfo()
         return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun testAuthHttpBearerWithHttpInfo(): ResponseEntity<kotlin.String> {
+    fun testAuthHttpBearerWithHttpInfo(): ResponseEntity<String> {
         val localVariableConfig = testAuthHttpBearerRequestConfig()
-        return request<Unit, kotlin.String>(
+        return request<Unit, String>(
             localVariableConfig
         )
     }

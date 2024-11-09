@@ -26,6 +26,7 @@ import org.springframework.http.MediaType
 import reactor.core.publisher.Mono
 import org.springframework.util.LinkedMultiValueMap
 
+import java.io.File
 import org.openapitools.client.models.ModelApiResponse
 import org.openapitools.client.models.Pet
 import org.openapitools.client.infrastructure.*
@@ -80,20 +81,20 @@ class PetApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun deletePet(petId: kotlin.Long, apiKey: kotlin.String? = null): Mono<Unit> {
+    fun deletePet(petId: Long, apiKey: String? = null): Mono<Unit> {
         return deletePetWithHttpInfo(petId = petId, apiKey = apiKey)
             .map { Unit }
     }
 
     @Throws(WebClientResponseException::class)
-    fun deletePetWithHttpInfo(petId: kotlin.Long, apiKey: kotlin.String? = null): Mono<ResponseEntity<Unit>> {
+    fun deletePetWithHttpInfo(petId: Long, apiKey: String? = null): Mono<ResponseEntity<Unit>> {
         val localVariableConfig = deletePetRequestConfig(petId = petId, apiKey = apiKey)
         return request<Unit, Unit>(
             localVariableConfig
         )
     }
 
-    fun deletePetRequestConfig(petId: kotlin.Long, apiKey: kotlin.String? = null) : RequestConfig<Unit> {
+    fun deletePetRequestConfig(petId: Long, apiKey: String? = null) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -125,15 +126,15 @@ class PetApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun findPetsByStatus(status: kotlin.collections.List<StatusFindPetsByStatus>): Mono<kotlin.collections.List<Pet>> {
+    fun findPetsByStatus(status: kotlin.collections.List<StatusFindPetsByStatus>): Mono<List<Pet>> {
         return findPetsByStatusWithHttpInfo(status = status)
             .map { it.body }
     }
 
     @Throws(WebClientResponseException::class)
-    fun findPetsByStatusWithHttpInfo(status: kotlin.collections.List<StatusFindPetsByStatus>): Mono<ResponseEntity<kotlin.collections.List<Pet>>> {
+    fun findPetsByStatusWithHttpInfo(status: kotlin.collections.List<StatusFindPetsByStatus>): Mono<ResponseEntity<List<Pet>>> {
         val localVariableConfig = findPetsByStatusRequestConfig(status = status)
-        return request<Unit, kotlin.collections.List<Pet>>(
+        return request<Unit, List<Pet>>(
             localVariableConfig
         )
     }
@@ -164,22 +165,22 @@ class PetApi(client: WebClient) : ApiClient(client) {
 
     @Throws(WebClientResponseException::class)
     @Deprecated(message = "This operation is deprecated.")
-    fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): Mono<kotlin.collections.List<Pet>> {
+    fun findPetsByTags(tags: List<String>): Mono<List<Pet>> {
         return findPetsByTagsWithHttpInfo(tags = tags)
             .map { it.body }
     }
 
     @Throws(WebClientResponseException::class)
     @Deprecated(message = "This operation is deprecated.")
-    fun findPetsByTagsWithHttpInfo(tags: kotlin.collections.List<kotlin.String>): Mono<ResponseEntity<kotlin.collections.List<Pet>>> {
+    fun findPetsByTagsWithHttpInfo(tags: List<String>): Mono<ResponseEntity<List<Pet>>> {
         val localVariableConfig = findPetsByTagsRequestConfig(tags = tags)
-        return request<Unit, kotlin.collections.List<Pet>>(
+        return request<Unit, List<Pet>>(
             localVariableConfig
         )
     }
 
     @Deprecated(message = "This operation is deprecated.")
-    fun findPetsByTagsRequestConfig(tags: kotlin.collections.List<kotlin.String>) : RequestConfig<Unit> {
+    fun findPetsByTagsRequestConfig(tags: List<String>) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -204,20 +205,20 @@ class PetApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun getPetById(petId: kotlin.Long): Mono<Pet> {
+    fun getPetById(petId: Long): Mono<Pet> {
         return getPetByIdWithHttpInfo(petId = petId)
             .map { it.body }
     }
 
     @Throws(WebClientResponseException::class)
-    fun getPetByIdWithHttpInfo(petId: kotlin.Long): Mono<ResponseEntity<Pet>> {
+    fun getPetByIdWithHttpInfo(petId: Long): Mono<ResponseEntity<Pet>> {
         val localVariableConfig = getPetByIdRequestConfig(petId = petId)
         return request<Unit, Pet>(
             localVariableConfig
         )
     }
 
-    fun getPetByIdRequestConfig(petId: kotlin.Long) : RequestConfig<Unit> {
+    fun getPetByIdRequestConfig(petId: Long) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -277,20 +278,20 @@ class PetApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null): Mono<Unit> {
+    fun updatePetWithForm(petId: Long, name: String? = null, status: String? = null): Mono<Unit> {
         return updatePetWithFormWithHttpInfo(petId = petId, name = name, status = status)
             .map { Unit }
     }
 
     @Throws(WebClientResponseException::class)
-    fun updatePetWithFormWithHttpInfo(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null): Mono<ResponseEntity<Unit>> {
+    fun updatePetWithFormWithHttpInfo(petId: Long, name: String? = null, status: String? = null): Mono<ResponseEntity<Unit>> {
         val localVariableConfig = updatePetWithFormRequestConfig(petId = petId, name = name, status = status)
         return request<Map<String, PartConfig<*>>, Unit>(
             localVariableConfig
         )
     }
 
-    fun updatePetWithFormRequestConfig(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null) : RequestConfig<Map<String, PartConfig<*>>> {
+    fun updatePetWithFormRequestConfig(petId: Long, name: String? = null, status: String? = null) : RequestConfig<Map<String, PartConfig<*>>> {
         val localVariableBody = mapOf(
             "name" to PartConfig(body = name, headers = mutableMapOf()),
             "status" to PartConfig(body = status, headers = mutableMapOf()),)
@@ -314,20 +315,20 @@ class PetApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: java.io.File? = null): Mono<ModelApiResponse> {
+    fun uploadFile(petId: Long, additionalMetadata: String? = null, file: File? = null): Mono<ModelApiResponse> {
         return uploadFileWithHttpInfo(petId = petId, additionalMetadata = additionalMetadata, file = file)
             .map { it.body }
     }
 
     @Throws(WebClientResponseException::class)
-    fun uploadFileWithHttpInfo(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: java.io.File? = null): Mono<ResponseEntity<ModelApiResponse>> {
+    fun uploadFileWithHttpInfo(petId: Long, additionalMetadata: String? = null, file: File? = null): Mono<ResponseEntity<ModelApiResponse>> {
         val localVariableConfig = uploadFileRequestConfig(petId = petId, additionalMetadata = additionalMetadata, file = file)
         return request<Map<String, PartConfig<*>>, ModelApiResponse>(
             localVariableConfig
         )
     }
 
-    fun uploadFileRequestConfig(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: java.io.File? = null) : RequestConfig<Map<String, PartConfig<*>>> {
+    fun uploadFileRequestConfig(petId: Long, additionalMetadata: String? = null, file: File? = null) : RequestConfig<Map<String, PartConfig<*>>> {
         val localVariableBody = mapOf(
             "additionalMetadata" to PartConfig(body = additionalMetadata, headers = mutableMapOf()),
             "file" to PartConfig(body = file, headers = mutableMapOf()),)

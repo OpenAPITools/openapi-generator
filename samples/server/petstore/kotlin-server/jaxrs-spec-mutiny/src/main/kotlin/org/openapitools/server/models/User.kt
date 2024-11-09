@@ -30,36 +30,36 @@ data class User (
 
 
     @JsonProperty("id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
 
 
     @JsonProperty("username")
-    val username: kotlin.String? = null,
+    val username: String? = null,
 
 
     @JsonProperty("firstName")
-    val firstName: kotlin.String? = null,
+    val firstName: String? = null,
 
 
     @JsonProperty("lastName")
-    val lastName: kotlin.String? = null,
+    val lastName: String? = null,
 
 
     @JsonProperty("email")
-    val email: kotlin.String? = null,
+    val email: String? = null,
 
 
     @JsonProperty("password")
-    val password: kotlin.String? = null,
+    val password: String? = null,
 
 
     @JsonProperty("phone")
-    val phone: kotlin.String? = null,
+    val phone: String? = null,
 
     /* User Status */
 
     @JsonProperty("userStatus")
-    val userStatus: kotlin.Int? = null
+    val userStatus: Int? = null
 
 )
 

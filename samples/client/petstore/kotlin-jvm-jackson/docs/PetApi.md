@@ -65,17 +65,17 @@ Deletes a pet
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(PetApi::class.java)
-val petId : kotlin.Long = 789 // kotlin.Long | Pet id to delete
-val apiKey : kotlin.String = apiKey_example // kotlin.String | 
+val petId : Long = 789 // Long | Pet id to delete
+val apiKey : String = apiKey_example // String | 
 
 webService.deletePet(petId, apiKey)
 ```
 
 ### Parameters
-| **petId** | **kotlin.Long**| Pet id to delete | |
+| **petId** | **Long**| Pet id to delete | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **apiKey** | **kotlin.String**|  | [optional] |
+| **apiKey** | **String**|  | [optional] |
 
 ### Return type
 
@@ -104,19 +104,19 @@ Multiple status values can be provided with comma separated strings
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(PetApi::class.java)
-val status : kotlin.collections.List<kotlin.String> =  // kotlin.collections.List<kotlin.String> | Status values that need to be considered for filter
+val status : List<String> =  // List<String> | Status values that need to be considered for filter
 
-val result : kotlin.collections.List<Pet> = webService.findPetsByStatus(status)
+val result : List<Pet> = webService.findPetsByStatus(status)
 ```
 
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **status** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Status values that need to be considered for filter | [enum: available, pending, sold] |
+| **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [enum: available, pending, sold] |
 
 ### Return type
 
-[**kotlin.collections.List&lt;Pet&gt;**](Pet.md)
+[**List&lt;Pet&gt;**](Pet.md)
 
 ### Authorization
 
@@ -141,19 +141,19 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(PetApi::class.java)
-val tags : kotlin.collections.List<kotlin.String> =  // kotlin.collections.List<kotlin.String> | Tags to filter by
+val tags : List<String> =  // List<String> | Tags to filter by
 
-val result : kotlin.collections.List<Pet> = webService.findPetsByTags(tags)
+val result : List<Pet> = webService.findPetsByTags(tags)
 ```
 
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **tags** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Tags to filter by | |
+| **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by | |
 
 ### Return type
 
-[**kotlin.collections.List&lt;Pet&gt;**](Pet.md)
+[**List&lt;Pet&gt;**](Pet.md)
 
 ### Authorization
 
@@ -178,7 +178,7 @@ Returns a single pet
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(PetApi::class.java)
-val petId : kotlin.Long = 789 // kotlin.Long | ID of pet to return
+val petId : Long = 789 // Long | ID of pet to return
 
 val result : Pet = webService.getPetById(petId)
 ```
@@ -186,7 +186,7 @@ val result : Pet = webService.getPetById(petId)
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **petId** | **kotlin.Long**| ID of pet to return | |
+| **petId** | **Long**| ID of pet to return | |
 
 ### Return type
 
@@ -252,19 +252,19 @@ Updates a pet in the store with form data
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(PetApi::class.java)
-val petId : kotlin.Long = 789 // kotlin.Long | ID of pet that needs to be updated
-val name : kotlin.String = name_example // kotlin.String | Updated name of the pet
-val status : kotlin.String = status_example // kotlin.String | Updated status of the pet
+val petId : Long = 789 // Long | ID of pet that needs to be updated
+val name : String = name_example // String | Updated name of the pet
+val status : String = status_example // String | Updated status of the pet
 
 webService.updatePetWithForm(petId, name, status)
 ```
 
 ### Parameters
-| **petId** | **kotlin.Long**| ID of pet that needs to be updated | |
-| **name** | **kotlin.String**| Updated name of the pet | [optional] |
+| **petId** | **Long**| ID of pet that needs to be updated | |
+| **name** | **String**| Updated name of the pet | [optional] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **status** | **kotlin.String**| Updated status of the pet | [optional] |
+| **status** | **String**| Updated status of the pet | [optional] |
 
 ### Return type
 
@@ -293,19 +293,19 @@ uploads an image
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(PetApi::class.java)
-val petId : kotlin.Long = 789 // kotlin.Long | ID of pet to update
-val additionalMetadata : kotlin.String = additionalMetadata_example // kotlin.String | Additional data to pass to server
-val file : java.io.File = BINARY_DATA_HERE // java.io.File | file to upload
+val petId : Long = 789 // Long | ID of pet to update
+val additionalMetadata : String = additionalMetadata_example // String | Additional data to pass to server
+val file : File = BINARY_DATA_HERE // File | file to upload
 
 val result : ModelApiResponse = webService.uploadFile(petId, additionalMetadata, file)
 ```
 
 ### Parameters
-| **petId** | **kotlin.Long**| ID of pet to update | |
-| **additionalMetadata** | **kotlin.String**| Additional data to pass to server | [optional] |
+| **petId** | **Long**| ID of pet to update | |
+| **additionalMetadata** | **String**| Additional data to pass to server | [optional] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **file** | **java.io.File**| file to upload | [optional] |
+| **file** | **File**| file to upload | [optional] |
 
 ### Return type
 

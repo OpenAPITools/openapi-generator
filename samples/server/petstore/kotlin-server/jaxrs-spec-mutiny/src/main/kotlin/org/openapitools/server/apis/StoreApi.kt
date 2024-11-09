@@ -16,7 +16,7 @@ interface StoreApi {
 
     @DELETE
     @Path("/store/order/{orderId}")
-    fun deleteOrder(@PathParam("orderId") orderId: kotlin.String): io.smallrye.mutiny.Uni<Response>
+    fun deleteOrder(@PathParam("orderId") orderId: String): io.smallrye.mutiny.Uni<Response>
 
     @GET
     @Path("/store/inventory")
@@ -26,7 +26,7 @@ interface StoreApi {
     @GET
     @Path("/store/order/{orderId}")
     @Produces("application/xml", "application/json")
-    fun getOrderById(@PathParam("orderId") orderId: kotlin.Long): io.smallrye.mutiny.Uni<Response>
+    fun getOrderById(@PathParam("orderId") orderId: Long): io.smallrye.mutiny.Uni<Response>
 
     @POST
     @Path("/store/order")

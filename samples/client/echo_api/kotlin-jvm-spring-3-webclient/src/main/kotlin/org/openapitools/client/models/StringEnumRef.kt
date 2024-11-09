@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * Values: success,failure,unclassified,unknown_default_open_api
  */
 
-enum class StringEnumRef(val value: kotlin.String) {
+enum class StringEnumRef(val value: String) {
 
     @JsonProperty(value = "success")
     success("success"),

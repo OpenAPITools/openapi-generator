@@ -25,7 +25,7 @@ class PetApi(private val service: PetApiService) {
      * @param apiKey  (optional)
      */
     fun deletePet(ctx: Context) {
-        ctx.status(200).json(service.deletePet(ctx.pathParamAsClass<kotlin.Long>("petId").get(), ctx.header("api_key")))
+        ctx.status(200).json(service.deletePet(ctx.pathParamAsClass<Long>("petId").get(), ctx.header("api_key")))
     }
 
     /**
@@ -52,7 +52,7 @@ class PetApi(private val service: PetApiService) {
      * @param petId ID of pet to return 
      */
     fun getPetById(ctx: Context) {
-        ctx.status(200).json(service.getPetById(ctx.pathParamAsClass<kotlin.Long>("petId").get()))
+        ctx.status(200).json(service.getPetById(ctx.pathParamAsClass<Long>("petId").get()))
     }
 
     /**
@@ -72,7 +72,7 @@ class PetApi(private val service: PetApiService) {
      * @param status Updated status of the pet (optional)
      */
     fun updatePetWithForm(ctx: Context) {
-        ctx.status(200).json(service.updatePetWithForm(ctx.pathParamAsClass<kotlin.Long>("petId").get(), ctx.formParam("name"), ctx.formParam("status")))
+        ctx.status(200).json(service.updatePetWithForm(ctx.pathParamAsClass<Long>("petId").get(), ctx.formParam("name"), ctx.formParam("status")))
     }
 
     /**
@@ -83,7 +83,7 @@ class PetApi(private val service: PetApiService) {
      * @param file file to upload (optional)
      */
     fun uploadFile(ctx: Context) {
-        ctx.status(200).json(service.uploadFile(ctx.pathParamAsClass<kotlin.Long>("petId").get(), ctx.formParam("additionalMetadata"), ctx.uploadedFile("file")))
+        ctx.status(200).json(service.uploadFile(ctx.pathParamAsClass<Long>("petId").get(), ctx.formParam("additionalMetadata"), ctx.uploadedFile("file")))
     }
 
 }

@@ -19,6 +19,7 @@ import java.io.IOException
 import okhttp3.Call
 import okhttp3.HttpUrl
 
+import java.math.BigDecimal
 
 import com.squareup.moshi.Json
 
@@ -47,7 +48,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory
     /**
      * enum for parameter queryDefaultEnum
      */
-     enum class QueryDefaultEnumFindPetsByStatus(val value: kotlin.String) {
+     enum class QueryDefaultEnumFindPetsByStatus(val value: String) {
          @Json(name = "A") A("A"),
          @Json(name = "B") B("B"),
          @Json(name = "C") C("C");
@@ -65,7 +66,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory
     /**
      * enum for parameter headerDefaultEnum
      */
-     enum class HeaderDefaultEnumFindPetsByStatus(val value: kotlin.String) {
+     enum class HeaderDefaultEnumFindPetsByStatus(val value: String) {
          @Json(name = "A") A("A"),
          @Json(name = "B") B("B"),
          @Json(name = "C") C("C");
@@ -83,7 +84,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory
     /**
      * enum for parameter cookieDefaultEnum
      */
-     enum class CookieDefaultEnumFindPetsByStatus(val value: kotlin.String) {
+     enum class CookieDefaultEnumFindPetsByStatus(val value: String) {
          @Json(name = "A") A("A"),
          @Json(name = "B") B("B"),
          @Json(name = "C") C("C");
@@ -124,7 +125,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun findPetsByStatus(pathDefault: kotlin.String, pathNullable: kotlin.String, queryDefault: kotlin.String? = "available", queryDefaultEnum: QueryDefaultEnumFindPetsByStatus? = QueryDefaultEnumFindPetsByStatus.B, queryDefaultInt: java.math.BigDecimal? = java.math.BigDecimal("3"), headerDefault: kotlin.String? = "available", headerDefaultEnum: HeaderDefaultEnumFindPetsByStatus? = HeaderDefaultEnumFindPetsByStatus.B, headerDefaultInt: java.math.BigDecimal? = java.math.BigDecimal("3"), cookieDefault: kotlin.String? = "available", cookieDefaultEnum: CookieDefaultEnumFindPetsByStatus? = CookieDefaultEnumFindPetsByStatus.B, cookieDefaultInt: java.math.BigDecimal? = java.math.BigDecimal("3"), queryNullable: kotlin.String? = null, headerNullable: kotlin.String? = null, cookieNullable: kotlin.String? = null, dollarQueryDollarDollarSign: kotlin.String? = null) : Unit {
+    fun findPetsByStatus(pathDefault: String, pathNullable: String, queryDefault: String? = "available", queryDefaultEnum: QueryDefaultEnumFindPetsByStatus? = QueryDefaultEnumFindPetsByStatus.B, queryDefaultInt: BigDecimal? = BigDecimal("3"), headerDefault: String? = "available", headerDefaultEnum: HeaderDefaultEnumFindPetsByStatus? = HeaderDefaultEnumFindPetsByStatus.B, headerDefaultInt: BigDecimal? = BigDecimal("3"), cookieDefault: String? = "available", cookieDefaultEnum: CookieDefaultEnumFindPetsByStatus? = CookieDefaultEnumFindPetsByStatus.B, cookieDefaultInt: BigDecimal? = BigDecimal("3"), queryNullable: String? = null, headerNullable: String? = null, cookieNullable: String? = null, dollarQueryDollarDollarSign: String? = null) : Unit {
         val localVarResponse = findPetsByStatusWithHttpInfo(pathDefault = pathDefault, pathNullable = pathNullable, queryDefault = queryDefault, queryDefaultEnum = queryDefaultEnum, queryDefaultInt = queryDefaultInt, headerDefault = headerDefault, headerDefaultEnum = headerDefaultEnum, headerDefaultInt = headerDefaultInt, cookieDefault = cookieDefault, cookieDefaultEnum = cookieDefaultEnum, cookieDefaultInt = cookieDefaultInt, queryNullable = queryNullable, headerNullable = headerNullable, cookieNullable = cookieNullable, dollarQueryDollarDollarSign = dollarQueryDollarDollarSign)
 
         return when (localVarResponse.responseType) {
@@ -165,7 +166,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun findPetsByStatusWithHttpInfo(pathDefault: kotlin.String, pathNullable: kotlin.String, queryDefault: kotlin.String?, queryDefaultEnum: QueryDefaultEnumFindPetsByStatus?, queryDefaultInt: java.math.BigDecimal?, headerDefault: kotlin.String?, headerDefaultEnum: HeaderDefaultEnumFindPetsByStatus?, headerDefaultInt: java.math.BigDecimal?, cookieDefault: kotlin.String?, cookieDefaultEnum: CookieDefaultEnumFindPetsByStatus?, cookieDefaultInt: java.math.BigDecimal?, queryNullable: kotlin.String?, headerNullable: kotlin.String?, cookieNullable: kotlin.String?, dollarQueryDollarDollarSign: kotlin.String?) : ApiResponse<Unit?> {
+    fun findPetsByStatusWithHttpInfo(pathDefault: String, pathNullable: String, queryDefault: String?, queryDefaultEnum: QueryDefaultEnumFindPetsByStatus?, queryDefaultInt: BigDecimal?, headerDefault: String?, headerDefaultEnum: HeaderDefaultEnumFindPetsByStatus?, headerDefaultInt: BigDecimal?, cookieDefault: String?, cookieDefaultEnum: CookieDefaultEnumFindPetsByStatus?, cookieDefaultInt: BigDecimal?, queryNullable: String?, headerNullable: String?, cookieNullable: String?, dollarQueryDollarDollarSign: String?) : ApiResponse<Unit?> {
         val localVariableConfig = findPetsByStatusRequestConfig(pathDefault = pathDefault, pathNullable = pathNullable, queryDefault = queryDefault, queryDefaultEnum = queryDefaultEnum, queryDefaultInt = queryDefaultInt, headerDefault = headerDefault, headerDefaultEnum = headerDefaultEnum, headerDefaultInt = headerDefaultInt, cookieDefault = cookieDefault, cookieDefaultEnum = cookieDefaultEnum, cookieDefaultInt = cookieDefaultInt, queryNullable = queryNullable, headerNullable = headerNullable, cookieNullable = cookieNullable, dollarQueryDollarDollarSign = dollarQueryDollarDollarSign)
 
         return request<Unit, Unit>(
@@ -193,7 +194,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory
      * @param dollarQueryDollarDollarSign query parameter with dollar sign (optional)
      * @return RequestConfig
      */
-    fun findPetsByStatusRequestConfig(pathDefault: kotlin.String, pathNullable: kotlin.String, queryDefault: kotlin.String?, queryDefaultEnum: QueryDefaultEnumFindPetsByStatus?, queryDefaultInt: java.math.BigDecimal?, headerDefault: kotlin.String?, headerDefaultEnum: HeaderDefaultEnumFindPetsByStatus?, headerDefaultInt: java.math.BigDecimal?, cookieDefault: kotlin.String?, cookieDefaultEnum: CookieDefaultEnumFindPetsByStatus?, cookieDefaultInt: java.math.BigDecimal?, queryNullable: kotlin.String?, headerNullable: kotlin.String?, cookieNullable: kotlin.String?, dollarQueryDollarDollarSign: kotlin.String?) : RequestConfig<Unit> {
+    fun findPetsByStatusRequestConfig(pathDefault: String, pathNullable: String, queryDefault: String?, queryDefaultEnum: QueryDefaultEnumFindPetsByStatus?, queryDefaultInt: BigDecimal?, headerDefault: String?, headerDefaultEnum: HeaderDefaultEnumFindPetsByStatus?, headerDefaultInt: BigDecimal?, cookieDefault: String?, cookieDefaultEnum: CookieDefaultEnumFindPetsByStatus?, cookieDefaultInt: BigDecimal?, queryNullable: String?, headerNullable: String?, cookieNullable: String?, dollarQueryDollarDollarSign: String?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {

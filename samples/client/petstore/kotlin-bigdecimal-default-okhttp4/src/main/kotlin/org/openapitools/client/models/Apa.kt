@@ -15,6 +15,7 @@
 
 package org.openapitools.client.models
 
+import java.math.BigDecimal
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -34,23 +35,23 @@ import com.squareup.moshi.JsonClass
 data class Apa (
 
     @Json(name = "bepa")
-    val bepa: java.math.BigDecimal = java.math.BigDecimal("0"),
+    val bepa: BigDecimal = BigDecimal("0"),
 
     @Json(name = "cepa")
-    val cepa: java.math.BigDecimal = java.math.BigDecimal("6.28318"),
+    val cepa: BigDecimal = BigDecimal("6.28318"),
 
     @Json(name = "depa")
-    val depa: java.math.BigDecimal? = java.math.BigDecimal("71"),
+    val depa: BigDecimal? = BigDecimal("71"),
 
     @Json(name = "epa")
-    val epa: java.math.BigDecimal? = java.math.BigDecimal("-71"),
+    val epa: BigDecimal? = BigDecimal("-71"),
 
     @Json(name = "fepa")
     @Deprecated(message = "This property is deprecated.")
-    val fepa: java.math.BigDecimal? = java.math.BigDecimal("100"),
+    val fepa: BigDecimal? = BigDecimal("100"),
 
     @Json(name = "gepa")
-    val gepa: java.math.BigDecimal? = null
+    val gepa: BigDecimal? = null
 
 ) {
 

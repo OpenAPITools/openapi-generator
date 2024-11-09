@@ -30,7 +30,7 @@ import kotlinx.serialization.encoding.Encoder
  * Values: MY_FIRST_VALUE,MY_SECOND_VALUE,UNKNOWN_DEFAULT_OPEN_API
  */
 @Serializable(with = PetEnumSerializer::class)
-enum class PetEnum(val value: kotlin.String) {
+enum class PetEnum(val value: String) {
 
     @SerialName(value = "myFirstValue")
     MY_FIRST_VALUE("myFirstValue"),
@@ -70,16 +70,16 @@ enum class PetEnum(val value: kotlin.String) {
 
 @Serializer(forClass = PetEnum::class)
 internal object PetEnumSerializer : KSerializer<PetEnum> {
-    override val descriptor = kotlin.String.serializer().descriptor
+    override val descriptor = String.serializer().descriptor
 
     override fun deserialize(decoder: Decoder): PetEnum {
-        val value = decoder.decodeSerializableValue(kotlin.String.serializer())
+        val value = decoder.decodeSerializableValue(String.serializer())
         return PetEnum.values().firstOrNull { it.value == value }
             ?: PetEnum.UNKNOWN_DEFAULT_OPEN_API
     }
 
     override fun serialize(encoder: Encoder, value: PetEnum) {
-        encoder.encodeSerializableValue(kotlin.String.serializer(), value.value)
+        encoder.encodeSerializableValue(String.serializer(), value.value)
     }
 }
 

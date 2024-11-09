@@ -34,18 +34,18 @@ import kotlinx.serialization.encoding.*
 
 data class Apa (
 
-    @SerialName(value = "bepa") @Required val bepa: kotlin.Double = (0).toDouble(),
+    @SerialName(value = "bepa") @Required val bepa: Double = (0).toDouble(),
 
-    @SerialName(value = "cepa") @Required val cepa: kotlin.Double = (6.28318).toDouble(),
+    @SerialName(value = "cepa") @Required val cepa: Double = (6.28318).toDouble(),
 
-    @SerialName(value = "depa") val depa: kotlin.Double? = (71).toDouble(),
+    @SerialName(value = "depa") val depa: Double? = (71).toDouble(),
 
-    @SerialName(value = "epa") val epa: kotlin.Double? = (-71).toDouble(),
+    @SerialName(value = "epa") val epa: Double? = (-71).toDouble(),
 
     @Deprecated(message = "This property is deprecated.")
-    @SerialName(value = "fepa") val fepa: kotlin.Double? = (100).toDouble(),
+    @SerialName(value = "fepa") val fepa: Double? = (100).toDouble(),
 
-    @SerialName(value = "gepa") val gepa: kotlin.Double? = null
+    @SerialName(value = "gepa") val gepa: Double? = null
 
 ) {
 

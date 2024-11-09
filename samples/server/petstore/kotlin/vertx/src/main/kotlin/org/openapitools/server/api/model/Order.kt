@@ -11,6 +11,7 @@
 */
 package org.openapitools.server.api.model
 
+import java.time.OffsetDateTime
 
         
 import com.google.gson.annotations.SerializedName
@@ -28,20 +29,20 @@ import com.fasterxml.jackson.annotation.JsonInclude
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Order (
-    val id: kotlin.Long? = null,
-    val petId: kotlin.Long? = null,
-    val quantity: kotlin.Int? = null,
-    val shipDate: java.time.OffsetDateTime? = null,
+    val id: Long? = null,
+    val petId: Long? = null,
+    val quantity: Int? = null,
+    val shipDate: OffsetDateTime? = null,
     /* Order Status */
     val status: Order.Status? = null,
-    val complete: kotlin.Boolean? = false
+    val complete: Boolean? = false
 ) {
 
     /**
     * Order Status
     * Values: placed,approved,delivered
     */
-    enum class Status(val value: kotlin.String){
+    enum class Status(val value: String){
     
         placed("placed"),
     

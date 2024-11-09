@@ -19,8 +19,8 @@ package org.openapitools.server.models
  * @param message 
  */
 data class ModelApiResponse(
-    val code: kotlin.Int? = null,
-    val type: kotlin.String? = null,
-    val message: kotlin.String? = null
+    val code: Int? = null,
+    val type: String? = null,
+    val message: String? = null
 ) 
 

@@ -38,19 +38,19 @@ class StoreApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun deleteOrder(orderId: kotlin.String): Unit {
+    fun deleteOrder(orderId: String): Unit {
         deleteOrderWithHttpInfo(orderId = orderId)
     }
 
     @Throws(RestClientResponseException::class)
-    fun deleteOrderWithHttpInfo(orderId: kotlin.String): ResponseEntity<Unit> {
+    fun deleteOrderWithHttpInfo(orderId: String): ResponseEntity<Unit> {
         val localVariableConfig = deleteOrderRequestConfig(orderId = orderId)
         return request<Unit, Unit>(
             localVariableConfig
         )
     }
 
-    fun deleteOrderRequestConfig(orderId: kotlin.String) : RequestConfig<Unit> {
+    fun deleteOrderRequestConfig(orderId: String) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -72,15 +72,15 @@ class StoreApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun getInventory(): kotlin.collections.Map<kotlin.String, kotlin.Int> {
+    fun getInventory(): Map<String, Int> {
         val result = getInventoryWithHttpInfo()
         return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun getInventoryWithHttpInfo(): ResponseEntity<kotlin.collections.Map<kotlin.String, kotlin.Int>> {
+    fun getInventoryWithHttpInfo(): ResponseEntity<Map<String, Int>> {
         val localVariableConfig = getInventoryRequestConfig()
-        return request<Unit, kotlin.collections.Map<kotlin.String, kotlin.Int>>(
+        return request<Unit, Map<String, Int>>(
             localVariableConfig
         )
     }
@@ -107,20 +107,20 @@ class StoreApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun getOrderById(orderId: kotlin.Long): Order {
+    fun getOrderById(orderId: Long): Order {
         val result = getOrderByIdWithHttpInfo(orderId = orderId)
         return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun getOrderByIdWithHttpInfo(orderId: kotlin.Long): ResponseEntity<Order> {
+    fun getOrderByIdWithHttpInfo(orderId: Long): ResponseEntity<Order> {
         val localVariableConfig = getOrderByIdRequestConfig(orderId = orderId)
         return request<Unit, Order>(
             localVariableConfig
         )
     }
 
-    fun getOrderByIdRequestConfig(orderId: kotlin.Long) : RequestConfig<Unit> {
+    fun getOrderByIdRequestConfig(orderId: Long) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()

@@ -67,7 +67,7 @@ Creates list of users with given input array
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(UserApi::class.java)
-val apiUser : kotlin.collections.List<ApiUser> =  // kotlin.collections.List<ApiUser> | List of user object
+val apiUser : List<ApiUser> =  // List<ApiUser> | List of user object
 
 launch(Dispatchers.IO) {
     webService.createUsersWithArrayInput(apiUser)
@@ -77,7 +77,7 @@ launch(Dispatchers.IO) {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **apiUser** | [**kotlin.collections.List&lt;ApiUser&gt;**](ApiUser.md)| List of user object | |
+| **apiUser** | [**List&lt;ApiUser&gt;**](ApiUser.md)| List of user object | |
 
 ### Return type
 
@@ -106,7 +106,7 @@ Creates list of users with given input array
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(UserApi::class.java)
-val apiUser : kotlin.collections.List<ApiUser> =  // kotlin.collections.List<ApiUser> | List of user object
+val apiUser : List<ApiUser> =  // List<ApiUser> | List of user object
 
 launch(Dispatchers.IO) {
     webService.createUsersWithListInput(apiUser)
@@ -116,7 +116,7 @@ launch(Dispatchers.IO) {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **apiUser** | [**kotlin.collections.List&lt;ApiUser&gt;**](ApiUser.md)| List of user object | |
+| **apiUser** | [**List&lt;ApiUser&gt;**](ApiUser.md)| List of user object | |
 
 ### Return type
 
@@ -145,7 +145,7 @@ This can only be done by the logged in user.
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(UserApi::class.java)
-val username : kotlin.String = username_example // kotlin.String | The name that needs to be deleted
+val username : String = username_example // String | The name that needs to be deleted
 
 launch(Dispatchers.IO) {
     webService.deleteUser(username)
@@ -155,7 +155,7 @@ launch(Dispatchers.IO) {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **username** | **kotlin.String**| The name that needs to be deleted | |
+| **username** | **String**| The name that needs to be deleted | |
 
 ### Return type
 
@@ -184,7 +184,7 @@ Get user by user name
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(UserApi::class.java)
-val username : kotlin.String = username_example // kotlin.String | The name that needs to be fetched. Use user1 for testing.
+val username : String = username_example // String | The name that needs to be fetched. Use user1 for testing.
 
 launch(Dispatchers.IO) {
     val result : ApiUser = webService.getUserByName(username)
@@ -194,7 +194,7 @@ launch(Dispatchers.IO) {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **username** | **kotlin.String**| The name that needs to be fetched. Use user1 for testing. | |
+| **username** | **String**| The name that needs to be fetched. Use user1 for testing. | |
 
 ### Return type
 
@@ -223,23 +223,23 @@ Logs user into the system
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(UserApi::class.java)
-val username : kotlin.String = username_example // kotlin.String | The user name for login
-val password : kotlin.String = password_example // kotlin.String | The password for login in clear text
+val username : String = username_example // String | The user name for login
+val password : String = password_example // String | The password for login in clear text
 
 launch(Dispatchers.IO) {
-    val result : kotlin.String = webService.loginUser(username, password)
+    val result : String = webService.loginUser(username, password)
 }
 ```
 
 ### Parameters
-| **username** | **kotlin.String**| The user name for login | |
+| **username** | **String**| The user name for login | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **password** | **kotlin.String**| The password for login in clear text | |
+| **password** | **String**| The password for login in clear text | |
 
 ### Return type
 
-**kotlin.String**
+**String**
 
 ### Authorization
 
@@ -300,7 +300,7 @@ This can only be done by the logged in user.
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(UserApi::class.java)
-val username : kotlin.String = username_example // kotlin.String | name that need to be deleted
+val username : String = username_example // String | name that need to be deleted
 val apiUser : ApiUser =  // ApiUser | Updated user object
 
 launch(Dispatchers.IO) {
@@ -309,7 +309,7 @@ launch(Dispatchers.IO) {
 ```
 
 ### Parameters
-| **username** | **kotlin.String**| name that need to be deleted | |
+| **username** | **String**| name that need to be deleted | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **apiUser** | [**ApiUser**](ApiUser.md)| Updated user object | |

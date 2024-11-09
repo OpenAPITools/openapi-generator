@@ -31,11 +31,11 @@ import kotlinx.serialization.encoding.*
 
 data class ModelApiResponse (
 
-    @SerialName(value = "code") val code: kotlin.Int? = null,
+    @SerialName(value = "code") val code: Int? = null,
 
-    @SerialName(value = "type") val type: kotlin.String? = null,
+    @SerialName(value = "type") val type: String? = null,
 
-    @SerialName(value = "message") val message: kotlin.String? = null
+    @SerialName(value = "message") val message: String? = null
 
 ) {
 

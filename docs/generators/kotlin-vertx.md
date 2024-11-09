@@ -36,13 +36,26 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Type/Alias | Imports |
 | ---------- | ------- |
+|Any|kotlin.Any|
+|Array|kotlin.Array|
 |BigDecimal|java.math.BigDecimal|
+|Boolean|kotlin.Boolean|
+|ByteArray|kotlin.ByteArray|
 |Date|java.time.LocalDate|
 |DateTime|java.time.OffsetDateTime|
+|Double|kotlin.Double|
 |File|java.io.File|
+|Float|kotlin.Float|
+|Integer|kotlin.Int|
+|List|kotlin.collections.List|
 |LocalDate|java.time.LocalDate|
 |LocalDateTime|java.time.LocalDateTime|
 |LocalTime|java.time.LocalTime|
+|Long|kotlin.Long|
+|Map|kotlin.collections.Map|
+|OffsetDateTime|java.time.OffsetDateTime|
+|Set|kotlin.collections.Set|
+|String|kotlin.String|
 |Timestamp|java.sql.Timestamp|
 |URI|java.net.URI|
 |UUID|java.util.UUID|
@@ -60,23 +73,23 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## LANGUAGE PRIMITIVES
 
 <ul class="column-ul">
-<li>kotlin.Array</li>
-<li>kotlin.Boolean</li>
-<li>kotlin.Byte</li>
-<li>kotlin.ByteArray</li>
-<li>kotlin.Char</li>
-<li>kotlin.Double</li>
-<li>kotlin.Float</li>
-<li>kotlin.Int</li>
-<li>kotlin.Long</li>
-<li>kotlin.Short</li>
-<li>kotlin.String</li>
-<li>kotlin.collections.List</li>
-<li>kotlin.collections.Map</li>
-<li>kotlin.collections.MutableList</li>
-<li>kotlin.collections.MutableMap</li>
-<li>kotlin.collections.MutableSet</li>
-<li>kotlin.collections.Set</li>
+<li>Array</li>
+<li>Boolean</li>
+<li>Byte</li>
+<li>ByteArray</li>
+<li>Char</li>
+<li>Double</li>
+<li>Float</li>
+<li>Int</li>
+<li>List</li>
+<li>Long</li>
+<li>Map</li>
+<li>MutableList</li>
+<li>MutableMap</li>
+<li>MutableSet</li>
+<li>Set</li>
+<li>Short</li>
+<li>String</li>
 </ul>
 
 ## RESERVED WORDS

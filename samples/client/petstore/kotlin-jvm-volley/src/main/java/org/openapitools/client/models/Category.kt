@@ -31,10 +31,10 @@ import org.openapitools.client.infrastructure.ITransformForStorage
 data class Category (
 
     @SerializedName("id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
 
     @SerializedName("name")
-    val name: kotlin.String? = null
+    val name: String? = null
 
 ): ITransformForStorage<CategoryRoomModel> {
     companion object { }

@@ -30,13 +30,13 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class Pet(
 
     @Schema(example = "doggie", required = true, description = "")
-    @get:JsonProperty("name", required = true) val name: kotlin.String,
+    @get:JsonProperty("name", required = true) val name: String,
 
     @Schema(example = "null", required = true, description = "")
-    @get:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
+    @get:JsonProperty("photoUrls", required = true) val photoUrls: List<String>,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("id") val id: kotlin.Long? = null,
+    @get:JsonProperty("id") val id: Long? = null,
 
     @field:Valid
     @Schema(example = "null", description = "")
@@ -44,7 +44,7 @@ data class Pet(
 
     @field:Valid
     @Schema(example = "null", description = "")
-    @get:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
+    @get:JsonProperty("tags") val tags: List<Tag>? = null,
 
     @Schema(example = "null", description = "pet status in the store")
     @get:JsonProperty("status") val status: Pet.Status? = null
@@ -54,7 +54,7 @@ data class Pet(
     * pet status in the store
     * Values: available,pending,sold
     */
-    enum class Status(@get:JsonValue val value: kotlin.String) {
+    enum class Status(@get:JsonValue val value: String) {
 
         available("available"),
         pending("pending"),
@@ -63,7 +63,7 @@ data class Pet(
         companion object {
             @JvmStatic
             @JsonCreator
-            fun forValue(value: kotlin.String): Status {
+            fun forValue(value: String): Status {
                 return values().first{it -> it.value == value}
             }
         }

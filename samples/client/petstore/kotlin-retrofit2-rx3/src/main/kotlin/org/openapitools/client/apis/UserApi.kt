@@ -7,6 +7,7 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.core.Completable
 import com.squareup.moshi.Json
 
+import java.time.OffsetDateTime
 import org.openapitools.client.models.User
 
 interface UserApi {
@@ -32,7 +33,7 @@ interface UserApi {
      * @return [Call]<[Unit]>
      */
     @POST("user/createWithArray")
-    fun createUsersWithArrayInput(@Body body: kotlin.collections.List<User>): Completable
+    fun createUsersWithArrayInput(@Body body: List<User>): Completable
 
     /**
      * Creates list of users with given input array
@@ -44,7 +45,7 @@ interface UserApi {
      * @return [Call]<[Unit]>
      */
     @POST("user/createWithList")
-    fun createUsersWithListInput(@Body body: kotlin.collections.List<User>): Completable
+    fun createUsersWithListInput(@Body body: List<User>): Completable
 
     /**
      * Delete user
@@ -57,7 +58,7 @@ interface UserApi {
      * @return [Call]<[Unit]>
      */
     @DELETE("user/{username}")
-    fun deleteUser(@Path("username") username: kotlin.String): Completable
+    fun deleteUser(@Path("username") username: String): Completable
 
     /**
      * Get user by user name
@@ -71,7 +72,7 @@ interface UserApi {
      * @return [Call]<[User]>
      */
     @GET("user/{username}")
-    fun getUserByName(@Path("username") username: kotlin.String): Single<User>
+    fun getUserByName(@Path("username") username: String): Single<User>
 
     /**
      * Logs user into the system
@@ -82,10 +83,10 @@ interface UserApi {
      *
      * @param username The user name for login
      * @param password The password for login in clear text
-     * @return [Call]<[kotlin.String]>
+     * @return [Call]<[String]>
      */
     @GET("user/login")
-    fun loginUser(@Query("username") username: kotlin.String, @Query("password") password: kotlin.String): Single<kotlin.String>
+    fun loginUser(@Query("username") username: String, @Query("password") password: String): Single<String>
 
     /**
      * Logs out current logged in user session
@@ -110,6 +111,6 @@ interface UserApi {
      * @return [Call]<[Unit]>
      */
     @PUT("user/{username}")
-    fun updateUser(@Path("username") username: kotlin.String, @Body body: User): Completable
+    fun updateUser(@Path("username") username: String, @Body body: User): Completable
 
 }

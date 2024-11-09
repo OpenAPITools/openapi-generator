@@ -15,6 +15,7 @@
 
 package org.openapitools.client.models
 
+import java.time.OffsetDateTime
 
 import com.google.gson.annotations.SerializedName
 import org.openapitools.client.models.room.OrderRoomModel
@@ -35,23 +36,23 @@ import org.openapitools.client.infrastructure.ITransformForStorage
 data class Order (
 
     @SerializedName("id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
 
     @SerializedName("petId")
-    val petId: kotlin.Long? = null,
+    val petId: Long? = null,
 
     @SerializedName("quantity")
-    val quantity: kotlin.Int? = null,
+    val quantity: Int? = null,
 
     @SerializedName("shipDate")
-    val shipDate: java.time.OffsetDateTime? = null,
+    val shipDate: OffsetDateTime? = null,
 
     /* Order Status */
     @SerializedName("status")
     val status: Order.Status? = null,
 
     @SerializedName("complete")
-    val complete: kotlin.Boolean? = false
+    val complete: Boolean? = false
 
 ): ITransformForStorage<OrderRoomModel> {
     companion object { }
@@ -70,7 +71,7 @@ complete = this.complete,
      *
      * Values: placed,approved,delivered
      */
-    enum class Status(val value: kotlin.String) {
+    enum class Status(val value: String) {
         @SerializedName(value = "placed") placed("placed"),
         @SerializedName(value = "approved") approved("approved"),
         @SerializedName(value = "delivered") delivered("delivered");

@@ -14,10 +14,10 @@ interface AuthApi {
      * Responses:
      *  - 200: Successful operation
      *
-     * @return [kotlin.String]
+     * @return [String]
      */
     @POST("auth/http/basic")
-    suspend fun testAuthHttpBasic(): Response<kotlin.String>
+    suspend fun testAuthHttpBasic(): Response<String>
 
     /**
      * To test HTTP bearer authentication
@@ -25,9 +25,9 @@ interface AuthApi {
      * Responses:
      *  - 200: Successful operation
      *
-     * @return [kotlin.String]
+     * @return [String]
      */
     @POST("auth/http/bearer")
-    suspend fun testAuthHttpBearer(): Response<kotlin.String>
+    suspend fun testAuthHttpBearer(): Response<String>
 
 }

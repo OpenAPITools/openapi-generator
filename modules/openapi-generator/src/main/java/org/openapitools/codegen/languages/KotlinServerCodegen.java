@@ -113,7 +113,8 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         artifactId = "kotlin-server";
         packageName = "org.openapitools.server";
 
-        typeMapping.put("array", "kotlin.collections.List");
+        typeMapping.put("array", "List");
+        importMapping.put("List", "kotlin.collections.List");
 
         // cliOptions default redefinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, this.artifactId);
@@ -173,7 +174,8 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         super.processOpts();
 
         if (isModelMutable()) {
-            typeMapping.put("array", "kotlin.collections.MutableList");
+            typeMapping.put("array", "MutableList");
+            importMapping.put("MutableList", "kotlin.collections.MutableList");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.LIBRARY)) {

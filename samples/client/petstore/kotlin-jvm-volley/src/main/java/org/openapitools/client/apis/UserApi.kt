@@ -17,6 +17,7 @@ import org.openapitools.client.request.IRequestFactory
 import org.openapitools.client.request.RequestFactory
 import org.openapitools.client.infrastructure.CollectionFormats.*
 
+import java.time.OffsetDateTime
 import org.openapitools.client.models.User
 
 /*
@@ -100,7 +101,7 @@ class UserApi (
      * @param body List of user object
      * @return void
      */
-    suspend fun createUsersWithArrayInput(body: kotlin.collections.List<User>): Unit {
+    suspend fun createUsersWithArrayInput(body: List<User>): Unit {
         val body: Any? = body
 
         val contentTypes : Array<String> = arrayOf()
@@ -161,7 +162,7 @@ class UserApi (
      * @param body List of user object
      * @return void
      */
-    suspend fun createUsersWithListInput(body: kotlin.collections.List<User>): Unit {
+    suspend fun createUsersWithListInput(body: List<User>): Unit {
         val body: Any? = body
 
         val contentTypes : Array<String> = arrayOf()
@@ -222,7 +223,7 @@ class UserApi (
      * @param username The name that needs to be deleted
      * @return void
      */
-    suspend fun deleteUser(username: kotlin.String): Unit {
+    suspend fun deleteUser(username: String): Unit {
         val body: Any? = null
 
         val contentTypes : Array<String> = arrayOf()
@@ -283,7 +284,7 @@ class UserApi (
      * @param username The name that needs to be fetched. Use user1 for testing.
      * @return User
      */
-    suspend fun getUserByName(username: kotlin.String): User? {
+    suspend fun getUserByName(username: String): User? {
         val body: Any? = null
 
         val contentTypes : Array<String> = arrayOf()
@@ -343,9 +344,9 @@ class UserApi (
      * 
      * @param username The user name for login
      * @param password The password for login in clear text
-     * @return kotlin.String
+     * @return String
      */
-    suspend fun loginUser(username: kotlin.String, password: kotlin.String): kotlin.String? {
+    suspend fun loginUser(username: String, password: String): String? {
         val body: Any? = null
 
         val contentTypes : Array<String> = arrayOf()
@@ -374,7 +375,7 @@ class UserApi (
         val headerParams: Map<String, String> = mapOf()
 
         return suspendCoroutine { continuation ->
-            val responseListener = Response.Listener<kotlin.String> { response ->
+            val responseListener = Response.Listener<String> { response ->
                 continuation.resume(response)
             }
 
@@ -382,11 +383,11 @@ class UserApi (
                 continuation.resumeWithException(error)
             }
 
-            val responseType = object : TypeToken<kotlin.String>() {}.type
+            val responseType = object : TypeToken<String>() {}.type
 
             // Call the correct request builder based on whether we have a return type or a body.
             // All other switching on types must be done in code inside the builder
-            val request: Request<kotlin.String> = requestFactory.build(
+            val request: Request<String> = requestFactory.build(
                     Request.Method.GET,
                     "$basePath$path",
                     body,
@@ -470,7 +471,7 @@ class UserApi (
      * @param body Updated user object
      * @return void
      */
-    suspend fun updateUser(username: kotlin.String, body: User): Unit {
+    suspend fun updateUser(username: String, body: User): Unit {
         val body: Any? = body
 
         val contentTypes : Array<String> = arrayOf()

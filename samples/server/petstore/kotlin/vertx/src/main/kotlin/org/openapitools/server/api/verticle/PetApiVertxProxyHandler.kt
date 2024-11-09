@@ -16,6 +16,7 @@ import io.vertx.core.json.Json
 import io.vertx.core.json.JsonArray
 import com.google.gson.reflect.TypeToken
 import com.google.gson.Gson
+import java.io.File
 import org.openapitools.server.api.model.ModelApiResponse
 import org.openapitools.server.api.model.Pet
 
@@ -105,8 +106,8 @@ class PetApiVertxProxyHandler(private val vertx: Vertx, private val service: Pet
                     if(statusParam == null){
                          throw IllegalArgumentException("status is required")
                     }
-                    val status:kotlin.Array<kotlin.String> = Gson().fromJson(statusParam.encode()
-                            , object : TypeToken<kotlin.collections.List<kotlin.String>>(){}.type)
+                    val status:Array<String> = Gson().fromJson(statusParam.encode()
+                            , object : TypeToken<kotlin.collections.List<String>>(){}.type)
                     GlobalScope.launch(vertx.dispatcher()){
                         val result = service.findPetsByStatus(status,context)
                         val payload = JsonArray(Json.encode(result.payload)).toBuffer()
@@ -123,8 +124,8 @@ class PetApiVertxProxyHandler(private val vertx: Vertx, private val service: Pet
                     if(tagsParam == null){
                          throw IllegalArgumentException("tags is required")
                     }
-                    val tags:kotlin.Array<kotlin.String> = Gson().fromJson(tagsParam.encode()
-                            , object : TypeToken<kotlin.collections.List<kotlin.String>>(){}.type)
+                    val tags:Array<String> = Gson().fromJson(tagsParam.encode()
+                            , object : TypeToken<kotlin.collections.List<String>>(){}.type)
                     GlobalScope.launch(vertx.dispatcher()){
                         val result = service.findPetsByTags(tags,context)
                         val payload = JsonArray(Json.encode(result.payload)).toBuffer()
@@ -194,7 +195,7 @@ class PetApiVertxProxyHandler(private val vertx: Vertx, private val service: Pet
                     }
                     val additionalMetadata = ApiHandlerUtils.searchStringInJson(params,"additionalMetadata")
                     val fileParam = context.extra.getJsonArray("files")
-                    val file = fileParam?.map{ java.io.File(it as String) }
+                    val file = fileParam?.map{ File(it as String) }
                     GlobalScope.launch(vertx.dispatcher()){
                         val result = service.uploadFile(petId,additionalMetadata,file,context)
                         val payload = JsonObject(Json.encode(result.payload)).toBuffer()

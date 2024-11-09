@@ -28,28 +28,28 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class User(
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("id") var id: kotlin.Long? = null,
+    @get:JsonProperty("id") var id: Long? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("username") var username: kotlin.String? = null,
+    @get:JsonProperty("username") var username: String? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("firstName") var firstName: kotlin.String? = null,
+    @get:JsonProperty("firstName") var firstName: String? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("lastName") var lastName: kotlin.String? = null,
+    @get:JsonProperty("lastName") var lastName: String? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("email") var email: kotlin.String? = null,
+    @get:JsonProperty("email") var email: String? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("password") var password: kotlin.String? = null,
+    @get:JsonProperty("password") var password: String? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("phone") var phone: kotlin.String? = null,
+    @get:JsonProperty("phone") var phone: String? = null,
 
     @Schema(example = "null", description = "User Status")
-    @get:JsonProperty("userStatus") var userStatus: kotlin.Int? = null
+    @get:JsonProperty("userStatus") var userStatus: Int? = null
     ) : Serializable{
 
     companion object {

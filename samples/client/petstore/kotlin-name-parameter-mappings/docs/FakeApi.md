@@ -20,10 +20,10 @@ parameter name mapping test
 //import org.openapitools.client.models.*
 
 val apiInstance = FakeApi()
-val underscoreType : kotlin.Long = 789 // kotlin.Long | _type
-val type : kotlin.String = type_example // kotlin.String | type
-val typeWithUnderscore : kotlin.String = typeWithUnderscore_example // kotlin.String | type_
-val httpDebugOption : kotlin.String = httpDebugOption_example // kotlin.String | http debug option (to test parameter naming option)
+val underscoreType : Long = 789 // Long | _type
+val type : String = type_example // String | type
+val typeWithUnderscore : String = typeWithUnderscore_example // String | type_
+val httpDebugOption : String = httpDebugOption_example // String | http debug option (to test parameter naming option)
 try {
     val result : Environment = apiInstance.getParameterNameMapping(underscoreType, type, typeWithUnderscore, httpDebugOption)
     println(result)
@@ -37,12 +37,12 @@ try {
 ```
 
 ### Parameters
-| **underscoreType** | **kotlin.Long**| _type | |
-| **type** | **kotlin.String**| type | |
-| **typeWithUnderscore** | **kotlin.String**| type_ | |
+| **underscoreType** | **Long**| _type | |
+| **type** | **String**| type | |
+| **typeWithUnderscore** | **String**| type_ | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **httpDebugOption** | **kotlin.String**| http debug option (to test parameter naming option) | |
+| **httpDebugOption** | **String**| http debug option (to test parameter naming option) | |
 
 ### Return type
 

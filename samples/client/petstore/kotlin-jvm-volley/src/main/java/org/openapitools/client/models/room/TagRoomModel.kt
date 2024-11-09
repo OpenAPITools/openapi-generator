@@ -30,8 +30,8 @@ import org.openapitools.client.models.*
 data class TagRoomModel (
     @PrimaryKey(autoGenerate = true) var roomTableId: Int,
     
-    var id: kotlin.Long? = null,
-    var name: kotlin.String? = null,
+    var id: Long? = null,
+    var name: String? = null,
     
     ) {
 

@@ -25,6 +25,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.http.MediaType
 
 
+import java.io.File
 import org.openapitools.client.models.ModelApiResponse
 import org.openapitools.client.models.Pet
 import org.openapitools.client.infrastructure.*
@@ -76,19 +77,19 @@ class PetApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun deletePet(petId: kotlin.Long, apiKey: kotlin.String? = null): Unit {
+    fun deletePet(petId: Long, apiKey: String? = null): Unit {
         deletePetWithHttpInfo(petId = petId, apiKey = apiKey)
     }
 
     @Throws(RestClientResponseException::class)
-    fun deletePetWithHttpInfo(petId: kotlin.Long, apiKey: kotlin.String? = null): ResponseEntity<Unit> {
+    fun deletePetWithHttpInfo(petId: Long, apiKey: String? = null): ResponseEntity<Unit> {
         val localVariableConfig = deletePetRequestConfig(petId = petId, apiKey = apiKey)
         return request<Unit, Unit>(
             localVariableConfig
         )
     }
 
-    fun deletePetRequestConfig(petId: kotlin.Long, apiKey: kotlin.String? = null) : RequestConfig<Unit> {
+    fun deletePetRequestConfig(petId: Long, apiKey: String? = null) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -120,15 +121,15 @@ class PetApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun findPetsByStatus(status: kotlin.collections.List<StatusFindPetsByStatus>): kotlin.collections.List<Pet> {
+    fun findPetsByStatus(status: kotlin.collections.List<StatusFindPetsByStatus>): List<Pet> {
         val result = findPetsByStatusWithHttpInfo(status = status)
         return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun findPetsByStatusWithHttpInfo(status: kotlin.collections.List<StatusFindPetsByStatus>): ResponseEntity<kotlin.collections.List<Pet>> {
+    fun findPetsByStatusWithHttpInfo(status: kotlin.collections.List<StatusFindPetsByStatus>): ResponseEntity<List<Pet>> {
         val localVariableConfig = findPetsByStatusRequestConfig(status = status)
-        return request<Unit, kotlin.collections.List<Pet>>(
+        return request<Unit, List<Pet>>(
             localVariableConfig
         )
     }
@@ -159,22 +160,22 @@ class PetApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     @Deprecated(message = "This operation is deprecated.")
-    fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): kotlin.collections.List<Pet> {
+    fun findPetsByTags(tags: List<String>): List<Pet> {
         val result = findPetsByTagsWithHttpInfo(tags = tags)
         return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
     @Deprecated(message = "This operation is deprecated.")
-    fun findPetsByTagsWithHttpInfo(tags: kotlin.collections.List<kotlin.String>): ResponseEntity<kotlin.collections.List<Pet>> {
+    fun findPetsByTagsWithHttpInfo(tags: List<String>): ResponseEntity<List<Pet>> {
         val localVariableConfig = findPetsByTagsRequestConfig(tags = tags)
-        return request<Unit, kotlin.collections.List<Pet>>(
+        return request<Unit, List<Pet>>(
             localVariableConfig
         )
     }
 
     @Deprecated(message = "This operation is deprecated.")
-    fun findPetsByTagsRequestConfig(tags: kotlin.collections.List<kotlin.String>) : RequestConfig<Unit> {
+    fun findPetsByTagsRequestConfig(tags: List<String>) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -199,20 +200,20 @@ class PetApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun getPetById(petId: kotlin.Long): Pet {
+    fun getPetById(petId: Long): Pet {
         val result = getPetByIdWithHttpInfo(petId = petId)
         return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun getPetByIdWithHttpInfo(petId: kotlin.Long): ResponseEntity<Pet> {
+    fun getPetByIdWithHttpInfo(petId: Long): ResponseEntity<Pet> {
         val localVariableConfig = getPetByIdRequestConfig(petId = petId)
         return request<Unit, Pet>(
             localVariableConfig
         )
     }
 
-    fun getPetByIdRequestConfig(petId: kotlin.Long) : RequestConfig<Unit> {
+    fun getPetByIdRequestConfig(petId: Long) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -272,19 +273,19 @@ class PetApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null): Unit {
+    fun updatePetWithForm(petId: Long, name: String? = null, status: String? = null): Unit {
         updatePetWithFormWithHttpInfo(petId = petId, name = name, status = status)
     }
 
     @Throws(RestClientResponseException::class)
-    fun updatePetWithFormWithHttpInfo(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null): ResponseEntity<Unit> {
+    fun updatePetWithFormWithHttpInfo(petId: Long, name: String? = null, status: String? = null): ResponseEntity<Unit> {
         val localVariableConfig = updatePetWithFormRequestConfig(petId = petId, name = name, status = status)
         return request<Map<String, PartConfig<*>>, Unit>(
             localVariableConfig
         )
     }
 
-    fun updatePetWithFormRequestConfig(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null) : RequestConfig<Map<String, PartConfig<*>>> {
+    fun updatePetWithFormRequestConfig(petId: Long, name: String? = null, status: String? = null) : RequestConfig<Map<String, PartConfig<*>>> {
         val localVariableBody = mapOf(
             "name" to PartConfig(body = name, headers = mutableMapOf()),
             "status" to PartConfig(body = status, headers = mutableMapOf()),)
@@ -308,20 +309,20 @@ class PetApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: java.io.File? = null): ModelApiResponse {
+    fun uploadFile(petId: Long, additionalMetadata: String? = null, file: File? = null): ModelApiResponse {
         val result = uploadFileWithHttpInfo(petId = petId, additionalMetadata = additionalMetadata, file = file)
         return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun uploadFileWithHttpInfo(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: java.io.File? = null): ResponseEntity<ModelApiResponse> {
+    fun uploadFileWithHttpInfo(petId: Long, additionalMetadata: String? = null, file: File? = null): ResponseEntity<ModelApiResponse> {
         val localVariableConfig = uploadFileRequestConfig(petId = petId, additionalMetadata = additionalMetadata, file = file)
         return request<Map<String, PartConfig<*>>, ModelApiResponse>(
             localVariableConfig
         )
     }
 
-    fun uploadFileRequestConfig(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: java.io.File? = null) : RequestConfig<Map<String, PartConfig<*>>> {
+    fun uploadFileRequestConfig(petId: Long, additionalMetadata: String? = null, file: File? = null) : RequestConfig<Map<String, PartConfig<*>>> {
         val localVariableBody = mapOf(
             "additionalMetadata" to PartConfig(body = additionalMetadata, headers = mutableMapOf()),
             "file" to PartConfig(body = file, headers = mutableMapOf()),)
