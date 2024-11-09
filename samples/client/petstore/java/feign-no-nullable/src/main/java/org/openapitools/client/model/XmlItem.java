@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -1011,47 +1013,12 @@ public class XmlItem {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    XmlItem xmlItem = (XmlItem) o;
-    return Objects.equals(this.attributeString, xmlItem.attributeString) &&
-        Objects.equals(this.attributeNumber, xmlItem.attributeNumber) &&
-        Objects.equals(this.attributeInteger, xmlItem.attributeInteger) &&
-        Objects.equals(this.attributeBoolean, xmlItem.attributeBoolean) &&
-        Objects.equals(this.wrappedArray, xmlItem.wrappedArray) &&
-        Objects.equals(this.nameString, xmlItem.nameString) &&
-        Objects.equals(this.nameNumber, xmlItem.nameNumber) &&
-        Objects.equals(this.nameInteger, xmlItem.nameInteger) &&
-        Objects.equals(this.nameBoolean, xmlItem.nameBoolean) &&
-        Objects.equals(this.nameArray, xmlItem.nameArray) &&
-        Objects.equals(this.nameWrappedArray, xmlItem.nameWrappedArray) &&
-        Objects.equals(this.prefixString, xmlItem.prefixString) &&
-        Objects.equals(this.prefixNumber, xmlItem.prefixNumber) &&
-        Objects.equals(this.prefixInteger, xmlItem.prefixInteger) &&
-        Objects.equals(this.prefixBoolean, xmlItem.prefixBoolean) &&
-        Objects.equals(this.prefixArray, xmlItem.prefixArray) &&
-        Objects.equals(this.prefixWrappedArray, xmlItem.prefixWrappedArray) &&
-        Objects.equals(this.namespaceString, xmlItem.namespaceString) &&
-        Objects.equals(this.namespaceNumber, xmlItem.namespaceNumber) &&
-        Objects.equals(this.namespaceInteger, xmlItem.namespaceInteger) &&
-        Objects.equals(this.namespaceBoolean, xmlItem.namespaceBoolean) &&
-        Objects.equals(this.namespaceArray, xmlItem.namespaceArray) &&
-        Objects.equals(this.namespaceWrappedArray, xmlItem.namespaceWrappedArray) &&
-        Objects.equals(this.prefixNsString, xmlItem.prefixNsString) &&
-        Objects.equals(this.prefixNsNumber, xmlItem.prefixNsNumber) &&
-        Objects.equals(this.prefixNsInteger, xmlItem.prefixNsInteger) &&
-        Objects.equals(this.prefixNsBoolean, xmlItem.prefixNsBoolean) &&
-        Objects.equals(this.prefixNsArray, xmlItem.prefixNsArray) &&
-        Objects.equals(this.prefixNsWrappedArray, xmlItem.prefixNsWrappedArray);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(attributeString, attributeNumber, attributeInteger, attributeBoolean, wrappedArray, nameString, nameNumber, nameInteger, nameBoolean, nameArray, nameWrappedArray, prefixString, prefixNumber, prefixInteger, prefixBoolean, prefixArray, prefixWrappedArray, namespaceString, namespaceNumber, namespaceInteger, namespaceBoolean, namespaceArray, namespaceWrappedArray, prefixNsString, prefixNsNumber, prefixNsInteger, prefixNsBoolean, prefixNsArray, prefixNsWrappedArray);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override

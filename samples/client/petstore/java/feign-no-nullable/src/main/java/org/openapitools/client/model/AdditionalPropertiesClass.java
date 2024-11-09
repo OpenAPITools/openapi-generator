@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -445,29 +447,12 @@ public class AdditionalPropertiesClass {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    AdditionalPropertiesClass additionalPropertiesClass = (AdditionalPropertiesClass) o;
-    return Objects.equals(this.mapString, additionalPropertiesClass.mapString) &&
-        Objects.equals(this.mapNumber, additionalPropertiesClass.mapNumber) &&
-        Objects.equals(this.mapInteger, additionalPropertiesClass.mapInteger) &&
-        Objects.equals(this.mapBoolean, additionalPropertiesClass.mapBoolean) &&
-        Objects.equals(this.mapArrayInteger, additionalPropertiesClass.mapArrayInteger) &&
-        Objects.equals(this.mapArrayAnytype, additionalPropertiesClass.mapArrayAnytype) &&
-        Objects.equals(this.mapMapString, additionalPropertiesClass.mapMapString) &&
-        Objects.equals(this.mapMapAnytype, additionalPropertiesClass.mapMapAnytype) &&
-        Objects.equals(this.anytype1, additionalPropertiesClass.anytype1) &&
-        Objects.equals(this.anytype2, additionalPropertiesClass.anytype2) &&
-        Objects.equals(this.anytype3, additionalPropertiesClass.anytype3);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(mapString, mapNumber, mapInteger, mapBoolean, mapArrayInteger, mapArrayAnytype, mapMapString, mapMapAnytype, anytype1, anytype2, anytype3);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override

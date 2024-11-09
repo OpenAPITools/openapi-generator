@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -117,20 +119,12 @@ public class AdditionalPropertiesString extends HashMap<String, String> {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    AdditionalPropertiesString additionalPropertiesString = (AdditionalPropertiesString) o;
-    return Objects.equals(this.name, additionalPropertiesString.name) &&
-        super.equals(o);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, super.hashCode());
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override

@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -67,19 +69,12 @@ public class Client {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Client client = (Client) o;
-    return Objects.equals(this.client, client.client);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(client);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override
