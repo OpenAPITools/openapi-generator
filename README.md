@@ -725,6 +725,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Telstra](https://dev.telstra.com)
 - [Tencent](https://www.tencent.com)
 - [The University of Aizu](https://www.u-aizu.ac.jp/en/)
+- [TINQIN](https://www.tinqin.com/)
 - [Translucent ApS](https://www.translucent.dk)
 - [TravelTime platform](https://www.traveltimeplatform.com/)
 - [TribalScale](https://www.tribalscale.com)
