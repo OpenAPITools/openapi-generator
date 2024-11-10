@@ -12,9 +12,9 @@ public typealias ArrayOfNumberOnly = PetstoreClientAPI.ArrayOfNumberOnly
 
 extension PetstoreClientAPI {
 
-public final class ArrayOfNumberOnly: Codable, JSONEncodable, Hashable {
+public final class ArrayOfNumberOnly: @unchecked Sendable, Codable, JSONEncodable, Hashable {
 
-    public var arrayNumber: [Double]?
+    public private(set) var arrayNumber: [Double]?
 
     public init(arrayNumber: [Double]? = nil) {
         self.arrayNumber = arrayNumber

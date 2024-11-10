@@ -47,21 +47,24 @@ import io.github.threetenjaxb.core.*;
 public class MixedPropertiesAndAdditionalPropertiesClass {
   public static final String JSON_PROPERTY_UUID = "uuid";
   @XmlElement(name = "uuid")
+  @javax.annotation.Nullable
   private UUID uuid;
 
   public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
   @XmlElement(name = "dateTime")
   @XmlJavaTypeAdapter(OffsetDateTimeXmlAdapter.class)
+  @javax.annotation.Nullable
   private OffsetDateTime dateTime;
 
   public static final String JSON_PROPERTY_MAP = "map";
   @XmlElement(name = "map")
+  @javax.annotation.Nullable
   private Map<String, Animal> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClass() {
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
+  public MixedPropertiesAndAdditionalPropertiesClass uuid(@javax.annotation.Nullable UUID uuid) {
     
     this.uuid = uuid;
     return this;
@@ -84,11 +87,11 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "uuid")
-  public void setUuid(UUID uuid) {
+  public void setUuid(@javax.annotation.Nullable UUID uuid) {
     this.uuid = uuid;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
+  public MixedPropertiesAndAdditionalPropertiesClass dateTime(@javax.annotation.Nullable OffsetDateTime dateTime) {
     
     this.dateTime = dateTime;
     return this;
@@ -111,11 +114,11 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "dateTime")
-  public void setDateTime(OffsetDateTime dateTime) {
+  public void setDateTime(@javax.annotation.Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
+  public MixedPropertiesAndAdditionalPropertiesClass map(@javax.annotation.Nullable Map<String, Animal> map) {
     
     this.map = map;
     return this;
@@ -148,7 +151,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "map")
   @JacksonXmlElementWrapper(useWrapping = false)
-  public void setMap(Map<String, Animal> map) {
+  public void setMap(@javax.annotation.Nullable Map<String, Animal> map) {
     this.map = map;
   }
 

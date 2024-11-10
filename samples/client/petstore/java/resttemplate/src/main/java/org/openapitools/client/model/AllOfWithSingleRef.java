@@ -34,9 +34,11 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class AllOfWithSingleRef {
   public static final String JSON_PROPERTY_USERNAME = "username";
+  @javax.annotation.Nullable
   private String username;
 
   public static final String JSON_PROPERTY_SINGLE_REF_TYPE = "SingleRefType";
+  @javax.annotation.Nullable
   private SingleRefType singleRefType;
 
   public AllOfWithSingleRef() {
@@ -50,7 +52,7 @@ public class AllOfWithSingleRef {
     this.singleRefType = singleRefType;
   }
 
-  public AllOfWithSingleRef username(String username) {
+  public AllOfWithSingleRef username(@javax.annotation.Nullable String username) {
     
     this.username = username;
     return this;
@@ -71,11 +73,11 @@ public class AllOfWithSingleRef {
 
   @JsonProperty(JSON_PROPERTY_USERNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUsername(String username) {
+  public void setUsername(@javax.annotation.Nullable String username) {
     this.username = username;
   }
 
-  public AllOfWithSingleRef singleRefType(SingleRefType singleRefType) {
+  public AllOfWithSingleRef singleRefType(@javax.annotation.Nullable SingleRefType singleRefType) {
     
     this.singleRefType = singleRefType;
     return this;
@@ -96,7 +98,7 @@ public class AllOfWithSingleRef {
 
   @JsonProperty(JSON_PROPERTY_SINGLE_REF_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSingleRefType(SingleRefType singleRefType) {
+  public void setSingleRefType(@javax.annotation.Nullable SingleRefType singleRefType) {
     this.singleRefType = singleRefType;
   }
 

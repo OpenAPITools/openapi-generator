@@ -656,6 +656,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             } else {
                 original = operation.getResponses().get(rsp.code);
             }
+            original = ModelUtils.getReferencedApiResponse(openAPI, original);
             String[] words = rsp.message.split("[^A-Za-z ]");
 
             // Create a unique responseID for this response.

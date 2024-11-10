@@ -100,9 +100,9 @@ There is a new `swift6` generator, that is currently in beta, try it and give us
 
 ### How do I implement bearer token authentication with URLSession on the Swift 5 API client?
 
-<details>
-  <summary>First you subclass RequestBuilderFactory</summary>
+First you subclass RequestBuilderFactory
 
+```
     class BearerRequestBuilderFactory: RequestBuilderFactory {
         func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
             BearerRequestBuilder<T>.self
@@ -112,11 +112,10 @@ There is a new `swift6` generator, that is currently in beta, try it and give us
             BearerDecodableRequestBuilder<T>.self
         }
     }
-</details>
+```
 
-<details>
-  <summary>Then you subclass URLSessionRequestBuilder and URLSessionDecodableRequestBuilder </summary>
-
+Then you subclass URLSessionRequestBuilder and URLSessionDecodableRequestBuilder
+```
     class BearerRequestBuilder<T>: URLSessionRequestBuilder<T> {
         @discardableResult
         override func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
@@ -245,8 +244,7 @@ There is a new `swift6` generator, that is currently in beta, try it and give us
             completionHandler()
         }
     }
-
-</details>
+```
 
 Then you assign the `BearerRequestBuilderFactory` to the property `requestBuilderFactory`.
 
@@ -260,9 +258,9 @@ Here is a working sample that put's together all of this.
 
 ### How do I implement bearer token authentication with Alamofire on the Swift 5 API client?
 
-<details>
-  <summary>First you subclass RequestBuilderFactory</summary>
+First you subclass RequestBuilderFactory
 
+```
     class BearerRequestBuilderFactory: RequestBuilderFactory {
         func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
             BearerRequestBuilder<T>.self
@@ -272,11 +270,10 @@ Here is a working sample that put's together all of this.
             BearerDecodableRequestBuilder<T>.self
         }
     }
-</details>
+```
 
-<details>
-  <summary>Then you subclass AlamofireRequestBuilder and AlamofireDecodableRequestBuilder</summary>
-
+Then you subclass AlamofireRequestBuilder and AlamofireDecodableRequestBuilder
+```
     class BearerRequestBuilder<T>: AlamofireRequestBuilder<T> {
         override func createSessionManager() -> SessionManager {
             let sessionManager = super.createSessionManager()
@@ -334,7 +331,7 @@ Here is a working sample that put's together all of this.
             completionHandler(true)
         }
     }
-</details>
+```
 
 Then you assign the `BearerRequestBuilderFactory` to the property `requestBuilderFactory`.
 
@@ -348,12 +345,19 @@ Here is a working sample that put's together all of this.
 
 ### How do I implement bearer token authentication with URLSession on the Swift 6 API client?
 
-<details>
-  <summary>First you implement the `OpenAPIInterceptor` protocol.</summary>
+First you implement the `OpenAPIInterceptor` protocol.
+```
 public class BearerOpenAPIInterceptor: OpenAPIInterceptor {
     public init() {}
     
-    public func intercept(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, completion: @escaping (Result<URLRequest, any Error>) -> Void) {
+    public func intercept<T>(urlRequest: URLRequest, urlSession: URLSessionProtocol, requestBuilder: RequestBuilder<T>, completion: @escaping (Result<URLRequest, any Error>) -> Void) {
+
+        guard requestBuilder.requiresAuthentication else {
+            // no authentication required
+            completion(.success(urlRequest))
+            return
+        }
+
         refreshTokenIfDoesntExist { token in
             
             // Change the current url request
@@ -361,13 +365,13 @@ public class BearerOpenAPIInterceptor: OpenAPIInterceptor {
             newUrlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
             
             // Change the global headers
-            openAPIClient.customHeaders["Authorization"] = "Bearer \(token)"
+            requestBuilder.openAPIClient.customHeaders["Authorization"] = "Bearer \(token)"
             
             completion(.success(newUrlRequest))
         }
     }
     
-    public func retry(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, data: Data?, response: URLResponse, error: Error, completion: @escaping (OpenAPIInterceptorRetry) -> Void) {
+    public func retry<T>(urlRequest: URLRequest, urlSession: URLSessionProtocol, requestBuilder: RequestBuilder<T>, data: Data?, response: URLResponse?, error: Error, completion: @escaping (OpenAPIInterceptorRetry) -> Void) {
         // We will analyse the response to see if it's a 401, and if it's a 401, we will refresh the token and retry the request
         refreshTokenIfUnauthorizedRequestResponse(
             data: data,
@@ -378,7 +382,7 @@ public class BearerOpenAPIInterceptor: OpenAPIInterceptor {
             if wasTokenRefreshed, let newToken = newToken {
                 
                 // Change the global headers
-                openAPIClient.customHeaders["Authorization"] = "Bearer \(newToken)"
+                requestBuilder.openAPIClient.customHeaders["Authorization"] = "Bearer \(newToken)"
                 
                 completion(.retry)
             } else {
@@ -400,7 +404,7 @@ public class BearerOpenAPIInterceptor: OpenAPIInterceptor {
         }
     }
     
-    func refreshTokenIfUnauthorizedRequestResponse(data: Data?, response: URLResponse, error: Error, completionHandler: @escaping (Bool, String?) -> Void) {
+    func refreshTokenIfUnauthorizedRequestResponse(data: Data?, response: URLResponse?, error: Error, completionHandler: @escaping (Bool, String?) -> Void) {
         if let response = response as? HTTPURLResponse, response.statusCode == 401 {
             startRefreshingToken { token in
                 completionHandler(true, token)
@@ -419,7 +423,7 @@ public class BearerOpenAPIInterceptor: OpenAPIInterceptor {
         completionHandler(dummyBearerToken)
     }
 }
-</details>
+```
 
 Then you assign the `BearerOpenAPIInterceptor` to the property `OpenAPIClient.shared.interceptor`.
 
@@ -431,8 +435,8 @@ Here is a working sample that put's together all of this.
 
 ### How do I implement bearer token authentication with Alamofire on the Swift 6 API client?
 
-<details>
-  <summary>First implement the `Alamofire` `RequestInterceptor` protocol.</summary>
+First implement the `Alamofire` `RequestInterceptor` protocol.
+```
 class BearerTokenHandler: RequestInterceptor, @unchecked Sendable {
     private var bearerToken: String? = nil
     
@@ -468,7 +472,7 @@ class BearerTokenHandler: RequestInterceptor, @unchecked Sendable {
         completionHandler(true)
     }
 }
-</details>
+```
 
 Then you assign the `BearerTokenHandler` to the property `OpenAPIClient.shared.interceptor`.
 
@@ -480,6 +484,8 @@ Here is a working sample that put's together all of this.
 
 ### How do I migrate from the Swift 5 generator to the swift 6 generator?
 
+- Change the generator to the new `swift6` generator, e.g. `openapi-generator generate -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g swift6 -o /tmp/test/`
+- Check the `swift6` [URLSession](https://github.com/OpenAPITools/openapi-generator/tree/master/samples/client/petstore/swift6/urlsessionLibrary) and [Alamofire](https://github.com/OpenAPITools/openapi-generator/tree/master/samples/client/petstore/swift6/alamofireLibrary) samples.
 - The infrastructure files have been moved to a new directory called `Infrastructure`. Please delete the old ones.
 - The `AnyCodable` dependency has been removed and replaced with a new enum called `JSONValue`, allowing you to use this generator without external dependencies.
 - The `Combine` response is now deferred by default, meaning the request will only start when you begin listening to it. To restore the previous behavior, set the `combineDeferred` flag to `false`.

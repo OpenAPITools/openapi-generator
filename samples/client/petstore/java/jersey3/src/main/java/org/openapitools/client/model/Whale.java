@@ -40,18 +40,21 @@ import org.openapitools.client.JSON;
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Whale {
   public static final String JSON_PROPERTY_HAS_BALEEN = "hasBaleen";
+  @jakarta.annotation.Nullable
   private Boolean hasBaleen;
 
   public static final String JSON_PROPERTY_HAS_TEETH = "hasTeeth";
+  @jakarta.annotation.Nullable
   private Boolean hasTeeth;
 
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
+  @jakarta.annotation.Nonnull
   private String className;
 
   public Whale() { 
   }
 
-  public Whale hasBaleen(Boolean hasBaleen) {
+  public Whale hasBaleen(@jakarta.annotation.Nullable Boolean hasBaleen) {
     this.hasBaleen = hasBaleen;
     return this;
   }
@@ -72,12 +75,12 @@ public class Whale {
 
   @JsonProperty(JSON_PROPERTY_HAS_BALEEN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setHasBaleen(Boolean hasBaleen) {
+  public void setHasBaleen(@jakarta.annotation.Nullable Boolean hasBaleen) {
     this.hasBaleen = hasBaleen;
   }
 
 
-  public Whale hasTeeth(Boolean hasTeeth) {
+  public Whale hasTeeth(@jakarta.annotation.Nullable Boolean hasTeeth) {
     this.hasTeeth = hasTeeth;
     return this;
   }
@@ -98,12 +101,12 @@ public class Whale {
 
   @JsonProperty(JSON_PROPERTY_HAS_TEETH)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setHasTeeth(Boolean hasTeeth) {
+  public void setHasTeeth(@jakarta.annotation.Nullable Boolean hasTeeth) {
     this.hasTeeth = hasTeeth;
   }
 
 
-  public Whale className(String className) {
+  public Whale className(@jakarta.annotation.Nonnull String className) {
     this.className = className;
     return this;
   }
@@ -125,7 +128,7 @@ public class Whale {
 
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setClassName(String className) {
+  public void setClassName(@jakarta.annotation.Nonnull String className) {
     this.className = className;
   }
 

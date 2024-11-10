@@ -45,7 +45,6 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
     protected boolean addedApiIndex = false;
     protected boolean addedModelIndex = false;
 
-
     public TypeScriptReduxQueryClientCodegen() {
         super();
 
@@ -282,5 +281,10 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
 
     private void setUseSingleRequestParameter(boolean useSingleRequestParameter) {
         this.useSingleRequestParameter = useSingleRequestParameter;
+    }
+
+    @Override
+    protected String getLicenseNameDefaultValue() {
+        return null;
     }
 }

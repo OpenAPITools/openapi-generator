@@ -114,7 +114,7 @@ internal class PetAPI {
     /**
      * enum for parameter status
      */
-    internal enum Status_findPetsByStatus: String, CaseIterable {
+    internal enum Status_findPetsByStatus: String, Sendable, CaseIterable {
         case available = "available"
         case pending = "pending"
         case sold = "sold"

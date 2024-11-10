@@ -10,21 +10,21 @@ import Vapor
 
 public final class EnumTest: Content, Hashable {
 
-    public enum EnumString: String, Content, Hashable, CaseIterable {
+    public enum EnumString: String, Sendable, Content, Hashable, CaseIterable {
         case upper = "UPPER"
         case lower = "lower"
         case empty = ""
     }
-    public enum EnumStringRequired: String, Content, Hashable, CaseIterable {
+    public enum EnumStringRequired: String, Sendable, Content, Hashable, CaseIterable {
         case upper = "UPPER"
         case lower = "lower"
         case empty = ""
     }
-    public enum EnumInteger: Int, Content, Hashable, CaseIterable {
+    public enum EnumInteger: Int, Sendable, Content, Hashable, CaseIterable {
         case _1 = 1
         case number1 = -1
     }
-    public enum EnumNumber: Double, Content, Hashable, CaseIterable {
+    public enum EnumNumber: Double, Sendable, Content, Hashable, CaseIterable {
         case _11 = 1.1
         case number12 = -1.2
     }

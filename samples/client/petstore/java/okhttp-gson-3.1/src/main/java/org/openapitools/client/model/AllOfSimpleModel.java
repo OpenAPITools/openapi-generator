@@ -54,12 +54,13 @@ import org.openapitools.client.JSON;
 public class AllOfSimpleModel {
   public static final String SERIALIZED_NAME_ARRAY_OF_STRINGS = "arrayOfStrings";
   @SerializedName(SERIALIZED_NAME_ARRAY_OF_STRINGS)
+  @javax.annotation.Nonnull
   private List<String> arrayOfStrings = new ArrayList<>();
 
   public AllOfSimpleModel() {
   }
 
-  public AllOfSimpleModel arrayOfStrings(List<String> arrayOfStrings) {
+  public AllOfSimpleModel arrayOfStrings(@javax.annotation.Nonnull List<String> arrayOfStrings) {
     this.arrayOfStrings = arrayOfStrings;
     return this;
   }
@@ -81,7 +82,7 @@ public class AllOfSimpleModel {
     return arrayOfStrings;
   }
 
-  public void setArrayOfStrings(List<String> arrayOfStrings) {
+  public void setArrayOfStrings(@javax.annotation.Nonnull List<String> arrayOfStrings) {
     this.arrayOfStrings = arrayOfStrings;
   }
 

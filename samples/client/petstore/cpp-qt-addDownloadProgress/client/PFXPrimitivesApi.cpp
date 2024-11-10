@@ -35,6 +35,10 @@ void PFXPrimitivesApi::initializeServerConfigs() {
     QUrl("http://petstore.swagger.io/v2"),
     "No description provided",
     QMap<QString, PFXServerVariable>()));
+    defaultConf.append(PFXServerConfiguration(
+    QUrl("http://localhost:8080/v2"),
+    "No description provided",
+    QMap<QString, PFXServerVariable>()));
     _serverConfigs.insert("primitivesIntegerPost", defaultConf);
     _serverIndices.insert("primitivesIntegerPost", 0);
     _serverConfigs.insert("primitivesNumberPut", defaultConf);
@@ -228,7 +232,7 @@ void PFXPrimitivesApi::primitivesIntegerPost(const ::test_namespace::OptionalPar
     connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXPrimitivesApi::primitivesIntegerPostProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPrimitivesApi::primitivesIntegerPostCallback);
     connect(this, &PFXPrimitivesApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             Q_EMIT allPendingRequestsCompleted();
         }
@@ -301,7 +305,7 @@ void PFXPrimitivesApi::primitivesNumberPut(const ::test_namespace::OptionalParam
     connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXPrimitivesApi::primitivesNumberPutProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPrimitivesApi::primitivesNumberPutCallback);
     connect(this, &PFXPrimitivesApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             Q_EMIT allPendingRequestsCompleted();
         }

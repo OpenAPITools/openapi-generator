@@ -530,6 +530,8 @@ paths:
     put:
       tags:
         - user
+      servers:
+        - url: http://user.petstore.swagger.io/v2
       summary: Updated user
       description: This can only be done by the logged in user.
       operationId: updateUser
@@ -572,6 +574,7 @@ paths:
           description: User not found
 servers:
   - url: http://petstore.swagger.io/v2
+  - url: http://localhost:8080/v2
 components:
   requestBodies:
     UserArray:

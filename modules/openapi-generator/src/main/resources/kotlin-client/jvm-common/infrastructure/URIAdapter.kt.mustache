@@ -16,17 +16,17 @@ import com.squareup.moshi.ToJson
 import java.net.URI
 
 {{#moshi}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}class URIAdapter {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class URIAdapter {
     @ToJson
-    fun toJson(uri: URI) = uri.toString()
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun toJson(uri: URI): String = uri.toString()
 
     @FromJson
-    fun fromJson(s: String): URI = URI.create(s)
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun fromJson(s: String): URI = URI.create(s)
 }
 {{/moshi}}
 {{#kotlinx_serialization}}
 @Serializer(forClass = URI::class)
-{{#nonPublicApi}}internal {{/nonPublicApi}}object URIAdapter : KSerializer<URI> {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}object URIAdapter : KSerializer<URI> {
     override fun serialize(encoder: Encoder, value: URI) {
         encoder.encodeString(value.toASCIIString())
     }

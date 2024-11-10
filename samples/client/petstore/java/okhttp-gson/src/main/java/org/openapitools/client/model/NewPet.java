@@ -57,34 +57,52 @@ import org.openapitools.client.JSON;
 public class NewPet {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
+  @javax.annotation.Nullable
   private Long id;
+
+  public static final String SERIALIZED_NAME_CATEGORY_REF_TO_INLINE_ALLOF_STRING = "category_ref_to_inline_allof_string";
+  @SerializedName(SERIALIZED_NAME_CATEGORY_REF_TO_INLINE_ALLOF_STRING)
+  @javax.annotation.Nullable
+  private String categoryRefToInlineAllofString;
+
+  public static final String SERIALIZED_NAME_CATEGORY_INLINE_ALLOF_STRING = "category_inline_allof_string";
+  @SerializedName(SERIALIZED_NAME_CATEGORY_INLINE_ALLOF_STRING)
+  @javax.annotation.Nullable
+  private String categoryInlineAllofString;
 
   public static final String SERIALIZED_NAME_CATEGORY_INLINE_ALLOF = "category_inline_allof";
   @SerializedName(SERIALIZED_NAME_CATEGORY_INLINE_ALLOF)
+  @javax.annotation.Nullable
   private NewPetCategoryInlineAllof categoryInlineAllof;
 
   public static final String SERIALIZED_NAME_CATEGORY_ALL_OF_REF = "category_allOf_ref";
   @SerializedName(SERIALIZED_NAME_CATEGORY_ALL_OF_REF)
+  @javax.annotation.Nullable
   private Category categoryAllOfRef;
 
   public static final String SERIALIZED_NAME_CATEGORY_ALL_OF_REF_DESCRIPTION = "category_allOf_ref_description";
   @SerializedName(SERIALIZED_NAME_CATEGORY_ALL_OF_REF_DESCRIPTION)
+  @javax.annotation.Nullable
   private Category categoryAllOfRefDescription;
 
   public static final String SERIALIZED_NAME_CATEGORY_ALL_OF_REF_DESCRIPTION_READONLY = "category_allOf_ref_description_readonly";
   @SerializedName(SERIALIZED_NAME_CATEGORY_ALL_OF_REF_DESCRIPTION_READONLY)
+  @javax.annotation.Nullable
   private Category categoryAllOfRefDescriptionReadonly;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nonnull
   private String name;
 
   public static final String SERIALIZED_NAME_PHOTO_URLS = "photoUrls";
   @SerializedName(SERIALIZED_NAME_PHOTO_URLS)
+  @javax.annotation.Nonnull
   private List<String> photoUrls = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
+  @javax.annotation.Nullable
   private List<Tag> tags = new ArrayList<>();
 
   /**
@@ -143,6 +161,7 @@ public class NewPet {
 
   public static final String SERIALIZED_NAME_STATUS = "status";
   @SerializedName(SERIALIZED_NAME_STATUS)
+  @javax.annotation.Nullable
   private StatusEnum status;
 
   public NewPet() {
@@ -155,7 +174,7 @@ public class NewPet {
     this.categoryAllOfRefDescriptionReadonly = categoryAllOfRefDescriptionReadonly;
   }
 
-  public NewPet id(Long id) {
+  public NewPet id(@javax.annotation.Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -169,12 +188,50 @@ public class NewPet {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
 
-  public NewPet categoryInlineAllof(NewPetCategoryInlineAllof categoryInlineAllof) {
+  public NewPet categoryRefToInlineAllofString(@javax.annotation.Nullable String categoryRefToInlineAllofString) {
+    this.categoryRefToInlineAllofString = categoryRefToInlineAllofString;
+    return this;
+  }
+
+  /**
+   * testing allOf with a ref to string
+   * @return categoryRefToInlineAllofString
+   */
+  @javax.annotation.Nullable
+  public String getCategoryRefToInlineAllofString() {
+    return categoryRefToInlineAllofString;
+  }
+
+  public void setCategoryRefToInlineAllofString(@javax.annotation.Nullable String categoryRefToInlineAllofString) {
+    this.categoryRefToInlineAllofString = categoryRefToInlineAllofString;
+  }
+
+
+  public NewPet categoryInlineAllofString(@javax.annotation.Nullable String categoryInlineAllofString) {
+    this.categoryInlineAllofString = categoryInlineAllofString;
+    return this;
+  }
+
+  /**
+   * testing allOf with a ref to string
+   * @return categoryInlineAllofString
+   */
+  @javax.annotation.Nullable
+  public String getCategoryInlineAllofString() {
+    return categoryInlineAllofString;
+  }
+
+  public void setCategoryInlineAllofString(@javax.annotation.Nullable String categoryInlineAllofString) {
+    this.categoryInlineAllofString = categoryInlineAllofString;
+  }
+
+
+  public NewPet categoryInlineAllof(@javax.annotation.Nullable NewPetCategoryInlineAllof categoryInlineAllof) {
     this.categoryInlineAllof = categoryInlineAllof;
     return this;
   }
@@ -188,12 +245,12 @@ public class NewPet {
     return categoryInlineAllof;
   }
 
-  public void setCategoryInlineAllof(NewPetCategoryInlineAllof categoryInlineAllof) {
+  public void setCategoryInlineAllof(@javax.annotation.Nullable NewPetCategoryInlineAllof categoryInlineAllof) {
     this.categoryInlineAllof = categoryInlineAllof;
   }
 
 
-  public NewPet categoryAllOfRef(Category categoryAllOfRef) {
+  public NewPet categoryAllOfRef(@javax.annotation.Nullable Category categoryAllOfRef) {
     this.categoryAllOfRef = categoryAllOfRef;
     return this;
   }
@@ -207,12 +264,12 @@ public class NewPet {
     return categoryAllOfRef;
   }
 
-  public void setCategoryAllOfRef(Category categoryAllOfRef) {
+  public void setCategoryAllOfRef(@javax.annotation.Nullable Category categoryAllOfRef) {
     this.categoryAllOfRef = categoryAllOfRef;
   }
 
 
-  public NewPet categoryAllOfRefDescription(Category categoryAllOfRefDescription) {
+  public NewPet categoryAllOfRefDescription(@javax.annotation.Nullable Category categoryAllOfRefDescription) {
     this.categoryAllOfRefDescription = categoryAllOfRefDescription;
     return this;
   }
@@ -226,7 +283,7 @@ public class NewPet {
     return categoryAllOfRefDescription;
   }
 
-  public void setCategoryAllOfRefDescription(Category categoryAllOfRefDescription) {
+  public void setCategoryAllOfRefDescription(@javax.annotation.Nullable Category categoryAllOfRefDescription) {
     this.categoryAllOfRefDescription = categoryAllOfRefDescription;
   }
 
@@ -242,7 +299,7 @@ public class NewPet {
 
 
 
-  public NewPet name(String name) {
+  public NewPet name(@javax.annotation.Nonnull String name) {
     this.name = name;
     return this;
   }
@@ -256,12 +313,12 @@ public class NewPet {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nonnull String name) {
     this.name = name;
   }
 
 
-  public NewPet photoUrls(List<String> photoUrls) {
+  public NewPet photoUrls(@javax.annotation.Nonnull List<String> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
@@ -283,12 +340,12 @@ public class NewPet {
     return photoUrls;
   }
 
-  public void setPhotoUrls(List<String> photoUrls) {
+  public void setPhotoUrls(@javax.annotation.Nonnull List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
 
-  public NewPet tags(List<Tag> tags) {
+  public NewPet tags(@javax.annotation.Nullable List<Tag> tags) {
     this.tags = tags;
     return this;
   }
@@ -310,12 +367,12 @@ public class NewPet {
     return tags;
   }
 
-  public void setTags(List<Tag> tags) {
+  public void setTags(@javax.annotation.Nullable List<Tag> tags) {
     this.tags = tags;
   }
 
 
-  public NewPet status(StatusEnum status) {
+  public NewPet status(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
     return this;
   }
@@ -329,7 +386,7 @@ public class NewPet {
     return status;
   }
 
-  public void setStatus(StatusEnum status) {
+  public void setStatus(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
   }
 
@@ -389,6 +446,8 @@ public class NewPet {
     }
     NewPet newPet = (NewPet) o;
     return Objects.equals(this.id, newPet.id) &&
+        Objects.equals(this.categoryRefToInlineAllofString, newPet.categoryRefToInlineAllofString) &&
+        Objects.equals(this.categoryInlineAllofString, newPet.categoryInlineAllofString) &&
         Objects.equals(this.categoryInlineAllof, newPet.categoryInlineAllof) &&
         Objects.equals(this.categoryAllOfRef, newPet.categoryAllOfRef) &&
         Objects.equals(this.categoryAllOfRefDescription, newPet.categoryAllOfRefDescription) &&
@@ -402,7 +461,7 @@ public class NewPet {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, categoryInlineAllof, categoryAllOfRef, categoryAllOfRefDescription, categoryAllOfRefDescriptionReadonly, name, photoUrls, tags, status, additionalProperties);
+    return Objects.hash(id, categoryRefToInlineAllofString, categoryInlineAllofString, categoryInlineAllof, categoryAllOfRef, categoryAllOfRefDescription, categoryAllOfRefDescriptionReadonly, name, photoUrls, tags, status, additionalProperties);
   }
 
   @Override
@@ -410,6 +469,8 @@ public class NewPet {
     StringBuilder sb = new StringBuilder();
     sb.append("class NewPet {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    categoryRefToInlineAllofString: ").append(toIndentedString(categoryRefToInlineAllofString)).append("\n");
+    sb.append("    categoryInlineAllofString: ").append(toIndentedString(categoryInlineAllofString)).append("\n");
     sb.append("    categoryInlineAllof: ").append(toIndentedString(categoryInlineAllof)).append("\n");
     sb.append("    categoryAllOfRef: ").append(toIndentedString(categoryAllOfRef)).append("\n");
     sb.append("    categoryAllOfRefDescription: ").append(toIndentedString(categoryAllOfRefDescription)).append("\n");
@@ -442,6 +503,8 @@ public class NewPet {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
     openapiFields.add("id");
+    openapiFields.add("category_ref_to_inline_allof_string");
+    openapiFields.add("category_inline_allof_string");
     openapiFields.add("category_inline_allof");
     openapiFields.add("category_allOf_ref");
     openapiFields.add("category_allOf_ref_description");
@@ -477,6 +540,12 @@ public class NewPet {
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
+      if ((jsonObj.get("category_ref_to_inline_allof_string") != null && !jsonObj.get("category_ref_to_inline_allof_string").isJsonNull()) && !jsonObj.get("category_ref_to_inline_allof_string").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `category_ref_to_inline_allof_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("category_ref_to_inline_allof_string").toString()));
+      }
+      if ((jsonObj.get("category_inline_allof_string") != null && !jsonObj.get("category_inline_allof_string").isJsonNull()) && !jsonObj.get("category_inline_allof_string").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `category_inline_allof_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("category_inline_allof_string").toString()));
+      }
       // validate the optional field `category_inline_allof`
       if (jsonObj.get("category_inline_allof") != null && !jsonObj.get("category_inline_allof").isJsonNull()) {
         NewPetCategoryInlineAllof.validateJsonElement(jsonObj.get("category_inline_allof"));

@@ -53,12 +53,13 @@ import org.openapitools.client.JSON;
 public class CircularReference2 {
   public static final String SERIALIZED_NAME_PROP1 = "prop1";
   @SerializedName(SERIALIZED_NAME_PROP1)
+  @javax.annotation.Nullable
   private CircularReference3 prop1;
 
   public CircularReference2() {
   }
 
-  public CircularReference2 prop1(CircularReference3 prop1) {
+  public CircularReference2 prop1(@javax.annotation.Nullable CircularReference3 prop1) {
     this.prop1 = prop1;
     return this;
   }
@@ -72,7 +73,7 @@ public class CircularReference2 {
     return prop1;
   }
 
-  public void setProp1(CircularReference3 prop1) {
+  public void setProp1(@javax.annotation.Nullable CircularReference3 prop1) {
     this.prop1 = prop1;
   }
 

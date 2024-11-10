@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Banana: Codable, JSONEncodable, Hashable {
+public struct Banana: Sendable, Codable, JSONEncodable, Hashable {
 
     public var count: Double?
 

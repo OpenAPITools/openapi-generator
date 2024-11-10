@@ -129,7 +129,7 @@ open class PetAPI {
     /**
      * enum for parameter status
      */
-    public enum Status_findPetsByStatus: String, CaseIterable, Content {
+    public enum Status_findPetsByStatus: String, Sendable, CaseIterable, Content {
         case available = "available"
         case pending = "pending"
         case sold = "sold"

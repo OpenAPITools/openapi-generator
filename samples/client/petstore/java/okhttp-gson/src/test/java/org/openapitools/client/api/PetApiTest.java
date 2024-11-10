@@ -399,7 +399,22 @@ public class PetApiTest {
         writer.write("Hello world!");
         writer.close();
 
-        api.uploadFile(pet.getId(), "a test file", new File(file.getAbsolutePath()));
+        // respect user supplied content type
+        ApiResponse formDataResponse = api.uploadFileWithHttpInfo(pet.getId(), "multipart/form-data", "a test file", new File(file.getAbsolutePath()));
+        assertEquals(200, formDataResponse.getStatusCode());
+
+        // use default content type
+        ApiResponse defaultResponse = api.uploadFileWithHttpInfo(pet.getId(), null, "a test file", new File(file.getAbsolutePath()));
+        assertEquals(200, defaultResponse.getStatusCode());
+
+        try {
+            // use invalid content type
+            api.uploadFileWithHttpInfo(pet.getId(), "image/jpeg", "a test file", new File(file.getAbsolutePath()));
+        } catch (ApiException e) {
+            LOG.info("Code: {}. Message: {}", e.getCode(), e.getMessage());
+            assertEquals(415, e.getCode());
+        }
+        
         api.deletePet(pet.getId(), null);
     }
 

@@ -587,7 +587,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                     }
 
                     for (Map.Entry<String, ApiResponse> responseEntry : operation.getResponses().entrySet()) {
-                        CodegenResponse r = fromResponse(responseEntry.getKey(), responseEntry.getValue());
+                        CodegenResponse r = fromResponse(responseEntry.getKey(), ModelUtils.getReferencedApiResponse(openAPI, responseEntry.getValue()));
                         if (r.baseType != null &&
                                 !defaultIncludes.contains(r.baseType) &&
                                 !languageSpecificPrimitives.contains(r.baseType)) {
@@ -1056,6 +1056,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
      * @return true if should be hidden, false otherwise
      */
     private boolean shouldHideOperationResponse(ApiResponse resp) {
+        resp = ModelUtils.getReferencedApiResponse(openAPI, resp);
         boolean hideOperationResponse = false;
 
         if (Objects.nonNull(resp.getExtensions()) && !resp.getExtensions().isEmpty()

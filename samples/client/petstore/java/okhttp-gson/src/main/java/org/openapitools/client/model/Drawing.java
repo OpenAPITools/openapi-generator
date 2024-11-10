@@ -59,24 +59,28 @@ import org.openapitools.client.JSON;
 public class Drawing {
   public static final String SERIALIZED_NAME_MAIN_SHAPE = "mainShape";
   @SerializedName(SERIALIZED_NAME_MAIN_SHAPE)
+  @javax.annotation.Nullable
   private Shape mainShape;
 
   public static final String SERIALIZED_NAME_SHAPE_OR_NULL = "shapeOrNull";
   @SerializedName(SERIALIZED_NAME_SHAPE_OR_NULL)
+  @javax.annotation.Nullable
   private ShapeOrNull shapeOrNull;
 
   public static final String SERIALIZED_NAME_NULLABLE_SHAPE = "nullableShape";
   @SerializedName(SERIALIZED_NAME_NULLABLE_SHAPE)
+  @javax.annotation.Nullable
   private NullableShape nullableShape;
 
   public static final String SERIALIZED_NAME_SHAPES = "shapes";
   @SerializedName(SERIALIZED_NAME_SHAPES)
+  @javax.annotation.Nullable
   private List<Shape> shapes = new ArrayList<>();
 
   public Drawing() {
   }
 
-  public Drawing mainShape(Shape mainShape) {
+  public Drawing mainShape(@javax.annotation.Nullable Shape mainShape) {
     this.mainShape = mainShape;
     return this;
   }
@@ -90,12 +94,12 @@ public class Drawing {
     return mainShape;
   }
 
-  public void setMainShape(Shape mainShape) {
+  public void setMainShape(@javax.annotation.Nullable Shape mainShape) {
     this.mainShape = mainShape;
   }
 
 
-  public Drawing shapeOrNull(ShapeOrNull shapeOrNull) {
+  public Drawing shapeOrNull(@javax.annotation.Nullable ShapeOrNull shapeOrNull) {
     this.shapeOrNull = shapeOrNull;
     return this;
   }
@@ -109,12 +113,12 @@ public class Drawing {
     return shapeOrNull;
   }
 
-  public void setShapeOrNull(ShapeOrNull shapeOrNull) {
+  public void setShapeOrNull(@javax.annotation.Nullable ShapeOrNull shapeOrNull) {
     this.shapeOrNull = shapeOrNull;
   }
 
 
-  public Drawing nullableShape(NullableShape nullableShape) {
+  public Drawing nullableShape(@javax.annotation.Nullable NullableShape nullableShape) {
     this.nullableShape = nullableShape;
     return this;
   }
@@ -128,12 +132,12 @@ public class Drawing {
     return nullableShape;
   }
 
-  public void setNullableShape(NullableShape nullableShape) {
+  public void setNullableShape(@javax.annotation.Nullable NullableShape nullableShape) {
     this.nullableShape = nullableShape;
   }
 
 
-  public Drawing shapes(List<Shape> shapes) {
+  public Drawing shapes(@javax.annotation.Nullable List<Shape> shapes) {
     this.shapes = shapes;
     return this;
   }
@@ -155,7 +159,7 @@ public class Drawing {
     return shapes;
   }
 
-  public void setShapes(List<Shape> shapes) {
+  public void setShapes(@javax.annotation.Nullable List<Shape> shapes) {
     this.shapes = shapes;
   }
 

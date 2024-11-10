@@ -12,10 +12,10 @@ public typealias HasOnlyReadOnly = PetstoreClientAPI.HasOnlyReadOnly
 
 extension PetstoreClientAPI {
 
-public final class HasOnlyReadOnly: Codable, JSONEncodable, Hashable {
+public final class HasOnlyReadOnly: @unchecked Sendable, Codable, JSONEncodable, Hashable {
 
-    public var bar: String?
-    public var foo: String?
+    public private(set) var bar: String?
+    public private(set) var foo: String?
 
     public init(bar: String? = nil, foo: String? = nil) {
         self.bar = bar

@@ -33,21 +33,21 @@ val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
 
 open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClient) {
     companion object {
-        protected const val ContentType = "Content-Type"
-        protected const val Accept = "Accept"
-        protected const val Authorization = "Authorization"
-        protected const val JsonMediaType = "application/json"
-        protected const val FormDataMediaType = "multipart/form-data"
-        protected const val FormUrlEncMediaType = "application/x-www-form-urlencoded"
-        protected const val XmlMediaType = "application/xml"
-        protected const val OctetMediaType = "application/octet-stream"
+        protected const val ContentType: String = "Content-Type"
+        protected const val Accept: String = "Accept"
+        protected const val Authorization: String = "Authorization"
+        protected const val JsonMediaType: String = "application/json"
+        protected const val FormDataMediaType: String = "multipart/form-data"
+        protected const val FormUrlEncMediaType: String = "application/x-www-form-urlencoded"
+        protected const val XmlMediaType: String = "application/xml"
+        protected const val OctetMediaType: String = "application/octet-stream"
 
         val apiKey: MutableMap<String, String> = mutableMapOf()
         val apiKeyPrefix: MutableMap<String, String> = mutableMapOf()
         var username: String? = null
         var password: String? = null
         var accessToken: String? = null
-        const val baseUrlKey = "org.openapitools.client.baseUrl"
+        const val baseUrlKey: String = "org.openapitools.client.baseUrl"
 
         @JvmStatic
         val defaultClient: OkHttpClient by lazy {

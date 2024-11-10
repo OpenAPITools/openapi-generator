@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ArrayTest: Codable, JSONEncodable, Hashable {
+public struct ArrayTest: Sendable, Codable, JSONEncodable, Hashable {
 
     public var arrayOfString: [String]?
     public var arrayArrayOfInteger: [[Int64]]?

@@ -242,10 +242,6 @@ public class PetApi {
         Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-        if (apiKey != null) {
-            localVarHeaderParams.put("api_key", localVarApiClient.parameterToString(apiKey));
-        }
-
         final String[] localVarAccepts = {
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
@@ -259,6 +255,11 @@ public class PetApi {
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
+
+        if (apiKey != null) {
+            localVarHeaderParams.put("api_key", localVarApiClient.parameterToString(apiKey));
+        }
+
 
         String[] localVarAuthNames = new String[] { "AWS4Auth", "petstore_auth" };
         return localVarApiClient.buildCall(basePath, localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);

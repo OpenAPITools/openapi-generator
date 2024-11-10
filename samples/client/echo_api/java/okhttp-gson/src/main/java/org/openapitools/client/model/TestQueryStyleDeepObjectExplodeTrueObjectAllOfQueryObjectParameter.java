@@ -52,24 +52,28 @@ import org.openapitools.client.JSON;
 public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter {
   public static final String SERIALIZED_NAME_SIZE = "size";
   @SerializedName(SERIALIZED_NAME_SIZE)
+  @javax.annotation.Nullable
   private String size;
 
   public static final String SERIALIZED_NAME_COLOR = "color";
   @SerializedName(SERIALIZED_NAME_COLOR)
+  @javax.annotation.Nullable
   private String color;
 
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
+  @javax.annotation.Nullable
   private Long id;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nullable
   private String name;
 
   public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter() {
   }
 
-  public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter size(String size) {
+  public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter size(@javax.annotation.Nullable String size) {
     this.size = size;
     return this;
   }
@@ -83,12 +87,12 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
     return size;
   }
 
-  public void setSize(String size) {
+  public void setSize(@javax.annotation.Nullable String size) {
     this.size = size;
   }
 
 
-  public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter color(String color) {
+  public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter color(@javax.annotation.Nullable String color) {
     this.color = color;
     return this;
   }
@@ -102,12 +106,12 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
     return color;
   }
 
-  public void setColor(String color) {
+  public void setColor(@javax.annotation.Nullable String color) {
     this.color = color;
   }
 
 
-  public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter id(Long id) {
+  public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter id(@javax.annotation.Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -121,12 +125,12 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
 
-  public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter name(String name) {
+  public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter name(@javax.annotation.Nullable String name) {
     this.name = name;
     return this;
   }
@@ -140,7 +144,7 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
 

@@ -113,26 +113,6 @@ public class HeaderApi {
         Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-        if (integerHeader != null) {
-            localVarHeaderParams.put("integer_header", localVarApiClient.parameterToString(integerHeader));
-        }
-
-        if (booleanHeader != null) {
-            localVarHeaderParams.put("boolean_header", localVarApiClient.parameterToString(booleanHeader));
-        }
-
-        if (stringHeader != null) {
-            localVarHeaderParams.put("string_header", localVarApiClient.parameterToString(stringHeader));
-        }
-
-        if (enumNonrefStringHeader != null) {
-            localVarHeaderParams.put("enum_nonref_string_header", localVarApiClient.parameterToString(enumNonrefStringHeader));
-        }
-
-        if (enumRefStringHeader != null) {
-            localVarHeaderParams.put("enum_ref_string_header", localVarApiClient.parameterToString(enumRefStringHeader));
-        }
-
         final String[] localVarAccepts = {
             "text/plain"
         };
@@ -147,6 +127,31 @@ public class HeaderApi {
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
+
+        if (integerHeader != null) {
+            localVarHeaderParams.put("integer_header", localVarApiClient.parameterToString(integerHeader));
+        }
+
+
+        if (booleanHeader != null) {
+            localVarHeaderParams.put("boolean_header", localVarApiClient.parameterToString(booleanHeader));
+        }
+
+
+        if (stringHeader != null) {
+            localVarHeaderParams.put("string_header", localVarApiClient.parameterToString(stringHeader));
+        }
+
+
+        if (enumNonrefStringHeader != null) {
+            localVarHeaderParams.put("enum_nonref_string_header", localVarApiClient.parameterToString(enumNonrefStringHeader));
+        }
+
+
+        if (enumRefStringHeader != null) {
+            localVarHeaderParams.put("enum_ref_string_header", localVarApiClient.parameterToString(enumRefStringHeader));
+        }
+
 
         String[] localVarAuthNames = new String[] {  };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);

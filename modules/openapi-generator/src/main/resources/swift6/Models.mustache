@@ -44,6 +44,8 @@ extension CaseIterableDefaultsLast {
     case encodeValue(Wrapped)
 }
 
+extension NullEncodable: Sendable where Wrapped: Sendable {}
+
 extension NullEncodable: Codable where Wrapped: Codable {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()

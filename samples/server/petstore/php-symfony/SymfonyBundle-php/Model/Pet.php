@@ -98,7 +98,7 @@ class Pet
      * @SerializedName("status")
      * @Type("string")
     */
-    #[Assert\Choice(["available", "pending", "sold"])]
+    #[Assert\Choice(['available', 'pending', 'sold'])]
     #[Assert\Type("string")]
     protected ?string $status = null;
 

@@ -26,5 +26,5 @@ pub trait Repo {
         host: Host,
         cookies: CookieJar,
         body: models::ObjectParam,
-    ) -> Result<CreateRepoResponse, String>;
+    ) -> Result<CreateRepoResponse, ()>;
 }

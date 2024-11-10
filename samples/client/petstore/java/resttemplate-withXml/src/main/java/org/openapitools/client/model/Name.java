@@ -43,24 +43,28 @@ import io.github.threetenjaxb.core.*;
 public class Name {
   public static final String JSON_PROPERTY_NAME = "name";
   @XmlElement(name = "name")
+  @javax.annotation.Nonnull
   private Integer name;
 
   public static final String JSON_PROPERTY_SNAKE_CASE = "snake_case";
   @XmlElement(name = "snake_case")
+  @javax.annotation.Nullable
   private Integer snakeCase;
 
   public static final String JSON_PROPERTY_PROPERTY = "property";
   @XmlElement(name = "property")
+  @javax.annotation.Nullable
   private String property;
 
   public static final String JSON_PROPERTY_123NUMBER = "123Number";
   @XmlElement(name = "123Number")
+  @javax.annotation.Nullable
   private Integer _123number;
 
   public Name() {
   }
 
-  public Name name(Integer name) {
+  public Name name(@javax.annotation.Nonnull Integer name) {
     
     this.name = name;
     return this;
@@ -83,7 +87,7 @@ public class Name {
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "name")
-  public void setName(Integer name) {
+  public void setName(@javax.annotation.Nonnull Integer name) {
     this.name = name;
   }
 
@@ -102,7 +106,7 @@ public class Name {
 
 
 
-  public Name property(String property) {
+  public Name property(@javax.annotation.Nullable String property) {
     
     this.property = property;
     return this;
@@ -125,7 +129,7 @@ public class Name {
   @JsonProperty(JSON_PROPERTY_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "property")
-  public void setProperty(String property) {
+  public void setProperty(@javax.annotation.Nullable String property) {
     this.property = property;
   }
 

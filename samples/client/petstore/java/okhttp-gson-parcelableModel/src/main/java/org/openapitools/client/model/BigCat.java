@@ -111,6 +111,7 @@ public class BigCat extends Cat implements Parcelable {
 
   public static final String SERIALIZED_NAME_KIND = "kind";
   @SerializedName(SERIALIZED_NAME_KIND)
+  @javax.annotation.Nullable
   private KindEnum kind;
 
   public BigCat() {
@@ -118,7 +119,7 @@ public class BigCat extends Cat implements Parcelable {
     this.className = this.getClass().getSimpleName();
   }
 
-  public BigCat kind(KindEnum kind) {
+  public BigCat kind(@javax.annotation.Nullable KindEnum kind) {
     this.kind = kind;
     return this;
   }
@@ -132,7 +133,7 @@ public class BigCat extends Cat implements Parcelable {
     return kind;
   }
 
-  public void setKind(KindEnum kind) {
+  public void setKind(@javax.annotation.Nullable KindEnum kind) {
     this.kind = kind;
   }
 

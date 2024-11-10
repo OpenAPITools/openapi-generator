@@ -180,12 +180,6 @@ public class {{classname}} {
 
         {{/isQueryParam}}
         {{/constantParams}}
-        {{#headerParams}}
-        if ({{paramName}} != null) {
-            localVarHeaderParams.put("{{baseName}}", localVarApiClient.parameterToString({{paramName}}));
-        }
-
-        {{/headerParams}}
         {{#constantParams}}
         {{#isHeaderParam}}
         // Set client side default value of Header Param "{{baseName}}".
@@ -230,6 +224,15 @@ public class {{classname}} {
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
+        {{^dynamicOperations}}
+        {{#headerParams}}
+
+        if ({{paramName}} != null) {
+            localVarHeaderParams.put("{{baseName}}", localVarApiClient.parameterToString({{paramName}}));
+        }
+
+        {{/headerParams}}
+        {{/dynamicOperations}}
 
         String[] localVarAuthNames = new String[] { {{#withAWSV4Signature}}"AWS4Auth"{{/withAWSV4Signature}}{{#authMethods}}{{#-first}}{{#withAWSV4Signature}}, {{/withAWSV4Signature}}{{/-first}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}} };
         return localVarApiClient.buildCall(basePath, localVarPath, {{^dynamicOperations}}"{{httpMethod}}"{{/dynamicOperations}}{{#dynamicOperations}}apiOperation.getMethod(){{/dynamicOperations}}, localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);

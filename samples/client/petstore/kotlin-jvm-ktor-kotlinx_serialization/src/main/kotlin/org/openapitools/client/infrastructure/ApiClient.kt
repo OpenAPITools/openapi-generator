@@ -49,8 +49,8 @@ open class ApiClient(
     }
 
     companion object {
-          const val BASE_URL = "http://petstore.swagger.io/v2"
-          protected val UNSAFE_HEADERS = listOf(HttpHeaders.ContentType)
+          const val BASE_URL: String = "http://petstore.swagger.io/v2"
+          protected val UNSAFE_HEADERS: List<String> = listOf(HttpHeaders.ContentType)
     }
 
     /**

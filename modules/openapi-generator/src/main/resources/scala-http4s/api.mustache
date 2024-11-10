@@ -48,7 +48,7 @@ class {{classname}}EndpointsImpl[F[*]: Concurrent](
       formParameters = {{^hasFormParams}}None,{{/hasFormParams}}{{#hasFormParams}}formParameters,{{/hasFormParams}}
       queryParameters = {{^hasQueryParams}}Nil,{{/hasQueryParams}}{{#hasQueryParams}}queryParameters,{{/hasQueryParams}}
       requestHeaders = requestHeaders,
-      auth = {{#authMethods}}Some(auth){{/authMethods}}{{^authMethods}}None{{/authMethods}}) {
+      auth = {{#authMethods.0}}Some(auth){{/authMethods.0}}{{^authMethods}}None{{/authMethods}}) {
         {{>responseState}}
     }
   }

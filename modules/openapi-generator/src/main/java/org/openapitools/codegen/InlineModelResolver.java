@@ -107,6 +107,7 @@ public class InlineModelResolver {
 
         flattenPaths();
         flattenComponents();
+        flattenComponentResponses();
     }
 
     /**
@@ -352,7 +353,7 @@ public class InlineModelResolver {
             }
 
             if (items == null) {
-                LOGGER.debug("prefixItems in array schema is not supported at the moment: {}",  schema.toString());
+                LOGGER.debug("prefixItems in array schema is not supported at the moment: {}", schema.toString());
                 return;
             }
             String schemaName = resolveModelName(items.getTitle(), modelPrefix + this.inlineSchemaOptions.get("ARRAY_ITEM_SUFFIX"));
@@ -565,6 +566,20 @@ public class InlineModelResolver {
 
             flattenContent(response.getContent(),
                     (operation.getOperationId() == null ? modelName : operation.getOperationId()) + "_" + key + "_response");
+        }
+    }
+
+    /**
+     * Flatten inline models in the responses section in the components.
+     */
+    private void flattenComponentResponses() {
+        Map<String, ApiResponse> apiResponses = openAPI.getComponents().getResponses();
+        if (apiResponses == null) {
+            return;
+        }
+
+        for (Map.Entry<String, ApiResponse> entry : apiResponses.entrySet()) {
+            flattenContent(entry.getValue().getContent(), null);
         }
     }
 

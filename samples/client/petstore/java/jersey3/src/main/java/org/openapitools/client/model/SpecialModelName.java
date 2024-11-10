@@ -39,15 +39,17 @@ import org.openapitools.client.JSON;
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class SpecialModelName {
   public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
+  @jakarta.annotation.Nullable
   private Long $specialPropertyName;
 
   public static final String JSON_PROPERTY_SPECIAL_MODEL_NAME = "_special_model.name_";
+  @jakarta.annotation.Nullable
   private String specialModelName;
 
   public SpecialModelName() { 
   }
 
-  public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
+  public SpecialModelName $specialPropertyName(@jakarta.annotation.Nullable Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
     return this;
   }
@@ -68,12 +70,12 @@ public class SpecialModelName {
 
   @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void set$SpecialPropertyName(Long $specialPropertyName) {
+  public void set$SpecialPropertyName(@jakarta.annotation.Nullable Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }
 
 
-  public SpecialModelName specialModelName(String specialModelName) {
+  public SpecialModelName specialModelName(@jakarta.annotation.Nullable String specialModelName) {
     this.specialModelName = specialModelName;
     return this;
   }
@@ -94,7 +96,7 @@ public class SpecialModelName {
 
   @JsonProperty(JSON_PROPERTY_SPECIAL_MODEL_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSpecialModelName(String specialModelName) {
+  public void setSpecialModelName(@jakarta.annotation.Nullable String specialModelName) {
     this.specialModelName = specialModelName;
   }
 

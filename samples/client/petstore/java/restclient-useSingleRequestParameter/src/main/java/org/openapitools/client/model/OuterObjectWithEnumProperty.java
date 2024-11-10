@@ -33,12 +33,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class OuterObjectWithEnumProperty {
   public static final String JSON_PROPERTY_VALUE = "value";
+  @jakarta.annotation.Nonnull
   private OuterEnumInteger value;
 
   public OuterObjectWithEnumProperty() {
   }
 
-  public OuterObjectWithEnumProperty value(OuterEnumInteger value) {
+  public OuterObjectWithEnumProperty value(@jakarta.annotation.Nonnull OuterEnumInteger value) {
     
     this.value = value;
     return this;
@@ -59,7 +60,7 @@ public class OuterObjectWithEnumProperty {
 
   @JsonProperty(JSON_PROPERTY_VALUE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setValue(OuterEnumInteger value) {
+  public void setValue(@jakarta.annotation.Nonnull OuterEnumInteger value) {
     this.value = value;
   }
 

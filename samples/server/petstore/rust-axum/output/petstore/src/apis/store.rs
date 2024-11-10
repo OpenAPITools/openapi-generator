@@ -60,7 +60,7 @@ pub trait Store {
         host: Host,
         cookies: CookieJar,
         path_params: models::DeleteOrderPathParams,
-    ) -> Result<DeleteOrderResponse, String>;
+    ) -> Result<DeleteOrderResponse, ()>;
 
     /// Returns pet inventories by status.
     ///
@@ -70,7 +70,8 @@ pub trait Store {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<GetInventoryResponse, String>;
+        token_in_header: Option<String>,
+    ) -> Result<GetInventoryResponse, ()>;
 
     /// Find purchase order by ID.
     ///
@@ -81,7 +82,7 @@ pub trait Store {
         host: Host,
         cookies: CookieJar,
         path_params: models::GetOrderByIdPathParams,
-    ) -> Result<GetOrderByIdResponse, String>;
+    ) -> Result<GetOrderByIdResponse, ()>;
 
     /// Place an order for a pet.
     ///
@@ -92,5 +93,5 @@ pub trait Store {
         host: Host,
         cookies: CookieJar,
         body: models::Order,
-    ) -> Result<PlaceOrderResponse, String>;
+    ) -> Result<PlaceOrderResponse, ()>;
 }

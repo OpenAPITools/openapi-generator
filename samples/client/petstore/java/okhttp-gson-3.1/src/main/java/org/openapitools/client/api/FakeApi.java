@@ -778,7 +778,7 @@ public class FakeApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call refToRefParameterCall(UUID refToUuid, final ApiCallback _callback) throws ApiException {
@@ -806,10 +806,6 @@ public class FakeApi {
         Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-        if (refToUuid != null) {
-            localVarHeaderParams.put("ref_to_uuid", localVarApiClient.parameterToString(refToUuid));
-        }
-
         final String[] localVarAccepts = {
             "text/plain"
         };
@@ -824,6 +820,11 @@ public class FakeApi {
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
+
+        if (refToUuid != null) {
+            localVarHeaderParams.put("ref_to_uuid", localVarApiClient.parameterToString(refToUuid));
+        }
+
 
         String[] localVarAuthNames = new String[] {  };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
@@ -849,7 +850,7 @@ public class FakeApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
     public String refToRefParameter(UUID refToUuid) throws ApiException {
@@ -866,7 +867,7 @@ public class FakeApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
     public ApiResponse<String> refToRefParameterWithHttpInfo(UUID refToUuid) throws ApiException {
@@ -885,7 +886,7 @@ public class FakeApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call refToRefParameterAsync(UUID refToUuid, final ApiCallback<String> _callback) throws ApiException {
@@ -932,10 +933,6 @@ public class FakeApi {
         Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-        if (refToAnyof != null) {
-            localVarHeaderParams.put("ref_to_anyof", localVarApiClient.parameterToString(refToAnyof));
-        }
-
         final String[] localVarAccepts = {
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
@@ -949,6 +946,11 @@ public class FakeApi {
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
+
+        if (refToAnyof != null) {
+            localVarHeaderParams.put("ref_to_anyof", localVarApiClient.parameterToString(refToAnyof));
+        }
+
 
         String[] localVarAuthNames = new String[] {  };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
@@ -1053,10 +1055,6 @@ public class FakeApi {
         Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-        if (refToOneof != null) {
-            localVarHeaderParams.put("ref_to_oneof", localVarApiClient.parameterToString(refToOneof));
-        }
-
         final String[] localVarAccepts = {
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
@@ -1070,6 +1068,11 @@ public class FakeApi {
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
+
+        if (refToOneof != null) {
+            localVarHeaderParams.put("ref_to_oneof", localVarApiClient.parameterToString(refToOneof));
+        }
+
 
         String[] localVarAuthNames = new String[] {  };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
@@ -1258,7 +1261,7 @@ public class FakeApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call responseRefToNoRefCall(final ApiCallback _callback) throws ApiException {
@@ -1319,7 +1322,7 @@ public class FakeApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
     public String responseRefToNoRef() throws ApiException {
@@ -1335,7 +1338,7 @@ public class FakeApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
     public ApiResponse<String> responseRefToNoRefWithHttpInfo() throws ApiException {
@@ -1353,7 +1356,7 @@ public class FakeApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call responseRefToNoRefAsync(final ApiCallback<String> _callback) throws ApiException {
@@ -1371,7 +1374,7 @@ public class FakeApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call responseRefToRefCall(final ApiCallback _callback) throws ApiException {
@@ -1432,7 +1435,7 @@ public class FakeApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
     public String responseRefToRef() throws ApiException {
@@ -1448,7 +1451,7 @@ public class FakeApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
     public ApiResponse<String> responseRefToRefWithHttpInfo() throws ApiException {
@@ -1466,7 +1469,7 @@ public class FakeApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call responseRefToRefAsync(final ApiCallback<String> _callback) throws ApiException {

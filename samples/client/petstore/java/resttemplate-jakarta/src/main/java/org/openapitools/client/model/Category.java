@@ -33,9 +33,11 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
 public class Category {
   public static final String JSON_PROPERTY_ID = "id";
+  @jakarta.annotation.Nullable
   private Long id;
 
   public static final String JSON_PROPERTY_NAME = "name";
+  @jakarta.annotation.Nullable
   private String name;
 
   public Category() {
@@ -49,7 +51,7 @@ public class Category {
     this.name = name;
   }
 
-  public Category id(Long id) {
+  public Category id(@jakarta.annotation.Nullable Long id) {
     
     this.id = id;
     return this;
@@ -70,11 +72,11 @@ public class Category {
 
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setId(Long id) {
+  public void setId(@jakarta.annotation.Nullable Long id) {
     this.id = id;
   }
 
-  public Category name(String name) {
+  public Category name(@jakarta.annotation.Nullable String name) {
     
     this.name = name;
     return this;
@@ -95,7 +97,7 @@ public class Category {
 
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setName(String name) {
+  public void setName(@jakarta.annotation.Nullable String name) {
     this.name = name;
   }
 

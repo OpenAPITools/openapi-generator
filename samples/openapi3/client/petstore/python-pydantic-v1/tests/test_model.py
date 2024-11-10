@@ -378,6 +378,28 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(d5.__fields_set__, {'value', 'str_value'})
         self.assertEqual(d5.to_json(), '{"value": 1, "str_value": null}')
 
+    def test_enum_single_members(self):
+        enum_test = petstore_api.EnumTest(
+            enum_string_required="lower",
+            enum_string_single_member="abc",
+            enum_integer_single_member=100,
+        )
+        self.assertEqual(enum_test.enum_string_single_member, "abc")
+        self.assertEqual(enum_test.enum_integer_single_member, 100)
+        with self.assertRaises(ValueError) as e:
+            enum_test = petstore_api.EnumTest(
+                enum_string_required="lower",
+                enum_string_single_member="ab",
+            )
+            self.assertTrue("must be one of enum values ('abc')" in str(e))
+
+        with self.assertRaises(ValueError) as e:
+            enum_test = petstore_api.EnumTest(
+                enum_string_required="lower",
+                enum_integer_single_member=10,
+            )
+            self.assertTrue("must be one of enum values (100)" in str(e))
+    
     def test_valdiator(self):
         # test regular expression
         a = petstore_api.FormatTest(number=123.45, byte=bytes("string", 'utf-8'), date="2013-09-17", password="testing09876")
@@ -413,7 +435,6 @@ class ModelTests(unittest.TestCase):
         pet_ap3 = petstore_api.Pet.from_dict(pet_ap.to_dict())
         pet_ap4 = petstore_api.Pet.from_dict(pet_ap.to_dict())
         self.assertNotEqual(id(pet_ap3), id(pet_ap4))
-
 
     def test_additional_properties(self):
         pet_ap = petstore_api.Pet(name="test name", photo_urls=["string"])

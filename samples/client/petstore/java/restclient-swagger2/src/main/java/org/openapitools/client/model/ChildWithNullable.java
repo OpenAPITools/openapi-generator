@@ -44,13 +44,14 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 public class ChildWithNullable extends ParentWithNullable {
   public static final String JSON_PROPERTY_OTHER_PROPERTY = "otherProperty";
+  @jakarta.annotation.Nullable
   private String otherProperty;
 
   public ChildWithNullable() {
 
   }
 
-  public ChildWithNullable otherProperty(String otherProperty) {
+  public ChildWithNullable otherProperty(@jakarta.annotation.Nullable String otherProperty) {
     
     this.otherProperty = otherProperty;
     return this;
@@ -72,18 +73,18 @@ public class ChildWithNullable extends ParentWithNullable {
 
   @JsonProperty(JSON_PROPERTY_OTHER_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setOtherProperty(String otherProperty) {
+  public void setOtherProperty(@jakarta.annotation.Nullable String otherProperty) {
     this.otherProperty = otherProperty;
   }
 
   @Override
-  public ChildWithNullable type(TypeEnum type) {
+  public ChildWithNullable type(@jakarta.annotation.Nullable TypeEnum type) {
     this.setType(type);
     return this;
   }
 
   @Override
-  public ChildWithNullable nullableProperty(String nullableProperty) {
+  public ChildWithNullable nullableProperty(@jakarta.annotation.Nullable String nullableProperty) {
     this.setNullableProperty(nullableProperty);
     return this;
   }

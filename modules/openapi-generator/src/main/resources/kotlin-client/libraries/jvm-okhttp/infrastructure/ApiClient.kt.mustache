@@ -58,33 +58,33 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.squareup.moshi.adapter
 {{/moshi}}
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClient) {
-    {{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
-        protected const val ContentType = "Content-Type"
-        protected const val Accept = "Accept"
-        protected const val Authorization = "Authorization"
-        protected const val JsonMediaType = "application/json"
-        protected const val FormDataMediaType = "multipart/form-data"
-        protected const val FormUrlEncMediaType = "application/x-www-form-urlencoded"
-        protected const val XmlMediaType = "application/xml"
-        protected const val OctetMediaType = "application/octet-stream"
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}open class ApiClient({{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val baseUrl: String, {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val client: Call.Factory = defaultClient) {
+    {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}companion object {
+        protected const val ContentType: String = "Content-Type"
+        protected const val Accept: String = "Accept"
+        protected const val Authorization: String = "Authorization"
+        protected const val JsonMediaType: String = "application/json"
+        protected const val FormDataMediaType: String = "multipart/form-data"
+        protected const val FormUrlEncMediaType: String = "application/x-www-form-urlencoded"
+        protected const val XmlMediaType: String = "application/xml"
+        protected const val OctetMediaType: String = "application/octet-stream"
 
-        val apiKey: MutableMap<String, String> = mutableMapOf()
-        val apiKeyPrefix: MutableMap<String, String> = mutableMapOf()
-        var username: String? = null
-        var password: String? = null
-        var accessToken: String? = null
-        const val baseUrlKey = "{{packageName}}.baseUrl"
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val apiKey: MutableMap<String, String> = mutableMapOf()
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val apiKeyPrefix: MutableMap<String, String> = mutableMapOf()
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}var username: String? = null
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}var password: String? = null
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}var accessToken: String? = null
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}const val baseUrlKey: String = "{{packageName}}.baseUrl"
 
         @JvmStatic
-        val defaultClient: OkHttpClient by lazy {
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val defaultClient: OkHttpClient by lazy {
             builder.build()
         }
 
         @JvmStatic
-        val builder: OkHttpClient.Builder = OkHttpClient.Builder()
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val builder: OkHttpClient.Builder = OkHttpClient.Builder()
     }
 
     /**

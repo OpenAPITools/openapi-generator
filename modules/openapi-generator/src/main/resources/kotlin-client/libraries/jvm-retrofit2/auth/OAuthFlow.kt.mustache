@@ -1,5 +1,5 @@
 package {{packageName}}.auth
 
-enum class OAuthFlow {
+{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}enum class OAuthFlow {
     accessCode, implicit, password, application
 }
