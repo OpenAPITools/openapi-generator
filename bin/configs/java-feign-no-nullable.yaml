@@ -10,3 +10,4 @@ additionalProperties:
   additionalModelTypeAnnotations: '@javax.annotation.concurrent.Immutable'
   openApiNullable: false
   useReflectionEqualsHashCode: true
+  annotationLibrary: "swagger1"
