@@ -27,6 +27,8 @@ import _root_.sample.cask.api.*
  * passing in the custom business logic services
  */
 class BaseApp(
+    override val appComplexRouteService : ComplexRouteService[Try] = ComplexRouteService(),
+
     override val appPetService : PetService[Try] = PetService(),
 
     override val appStoreService : StoreService[Try] = StoreService(),

@@ -21,7 +21,7 @@ import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
 
-
+        
 case class User(
     id: Option[Long] = None ,
     username: Option[String] = None ,
@@ -70,4 +70,5 @@ enum Fields(val fieldName : String) extends Field(fieldName) {
 
 
 }
+
 

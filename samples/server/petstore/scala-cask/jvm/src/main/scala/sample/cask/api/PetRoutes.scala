@@ -63,10 +63,12 @@ class PetRoutes(service : PetService[Try]) extends cask.Routes {
         val result =         for {
               petJson <- Parsed.fromTry(request.bodyAsJson)
               petData <- Parsed.eval(PetData.fromJson(petJson)) /* not array or map */
-              pet <- Parsed.fromTry(petData.validated(failFast))
+              pet <- Parsed.fromTry(PetData.validated(petData, failFast))
             resultTry <- Parsed.eval(service.addPet(pet))
             result <- Parsed.fromTry(resultTry)
         } yield result
+
+        import Pet.{given, *} // this brings in upickle in the case of union (oneOf) types
 
         (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
@@ -90,6 +92,7 @@ class PetRoutes(service : PetService[Try]) extends cask.Routes {
             result <- Parsed.fromTry(resultTry)
         } yield result
 
+
         (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
           case Right(other) => cask.Response(s"$other", 200)
@@ -108,6 +111,7 @@ class PetRoutes(service : PetService[Try]) extends cask.Routes {
             resultTry <- Parsed.eval(service.findPetsByStatus(status))
             result <- Parsed.fromTry(resultTry)
         } yield result
+
 
         (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
@@ -128,6 +132,7 @@ class PetRoutes(service : PetService[Try]) extends cask.Routes {
             resultTry <- Parsed.eval(service.findPetsByTags(tags))
             result <- Parsed.fromTry(resultTry)
         } yield result
+
 
         (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
@@ -150,6 +155,8 @@ class PetRoutes(service : PetService[Try]) extends cask.Routes {
             result <- Parsed.fromTry(resultTry)
         } yield result
 
+        import Pet.{given, *} // this brings in upickle in the case of union (oneOf) types
+
         (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
           case Right(value : Pet) => cask.Response(data = write(value), 200, headers = Seq("Content-Type" -> "application/json"))
@@ -168,10 +175,12 @@ class PetRoutes(service : PetService[Try]) extends cask.Routes {
         val result =         for {
               petJson <- Parsed.fromTry(request.bodyAsJson)
               petData <- Parsed.eval(PetData.fromJson(petJson)) /* not array or map */
-              pet <- Parsed.fromTry(petData.validated(failFast))
+              pet <- Parsed.fromTry(PetData.validated(petData, failFast))
             resultTry <- Parsed.eval(service.updatePet(pet))
             result <- Parsed.fromTry(resultTry)
         } yield result
+
+        import Pet.{given, *} // this brings in upickle in the case of union (oneOf) types
 
         (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
@@ -196,6 +205,7 @@ class PetRoutes(service : PetService[Try]) extends cask.Routes {
             result <- Parsed.fromTry(resultTry)
         } yield result
 
+
         (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
           case Right(other) => cask.Response(s"$other", 200)
@@ -217,6 +227,8 @@ class PetRoutes(service : PetService[Try]) extends cask.Routes {
             resultTry <- Parsed.eval(service.uploadFile(petId, additionalMetadata, file))
             result <- Parsed.fromTry(resultTry)
         } yield result
+
+        import ApiResponse.{given, *} // this brings in upickle in the case of union (oneOf) types
 
         (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
