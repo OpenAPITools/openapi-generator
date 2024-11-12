@@ -227,9 +227,9 @@ paths:
             type: integer
             format: int64
       responses:
-        '204':
+        "204":
           description: successful operation
-        '400':
+        "400":
           description: Invalid pet value
       security:
         - petstore_auth:
