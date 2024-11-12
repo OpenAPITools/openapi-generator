@@ -26,9 +26,9 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/Pet"
       responses:
-        '201':
+        "201":
           description: successful operation
-        '405':
+        "405":
           description: Invalid input
       security:
         - petstore_auth:
@@ -43,13 +43,13 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/Pet"
       responses:
-        '204':
+        "204":
           description: successful operation
-        '400':
+        "400":
           description: Invalid ID supplied
-        '404':
+        "404":
           description: Pet not found
-        '405':
+        "405":
           description: Validation exception
       security:
         - petstore_auth:
@@ -79,7 +79,7 @@ paths:
                 - sold
               default: available
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/xml:
@@ -119,7 +119,7 @@ paths:
               type: string
             uniqueItems: true
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/xml:
@@ -157,7 +157,7 @@ paths:
             type: integer
             format: int64
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/xml:
@@ -199,9 +199,9 @@ paths:
                   description: Updated status of the pet
                   type: string
       responses:
-        '200':
+        "200":
           description: Success
-        '405':
+        "405":
           description: Invalid input
       security:
         - petstore_auth:
