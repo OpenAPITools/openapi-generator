@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 # **createUser**
 ```swift
-    open class func createUser(body: User) -> Observable<Void>
+    open func createUser(body: User) -> Observable<Void>
 ```
 
 Create user
@@ -56,7 +56,7 @@ No authorization required
 
 # **createUsersWithArrayInput**
 ```swift
-    open class func createUsersWithArrayInput(body: [User]) -> Observable<Void>
+    open func createUsersWithArrayInput(body: [User]) -> Observable<Void>
 ```
 
 Creates list of users with given input array
@@ -94,7 +94,7 @@ No authorization required
 
 # **createUsersWithListInput**
 ```swift
-    open class func createUsersWithListInput(body: [User]) -> Observable<Void>
+    open func createUsersWithListInput(body: [User]) -> Observable<Void>
 ```
 
 Creates list of users with given input array
@@ -132,7 +132,7 @@ No authorization required
 
 # **deleteUser**
 ```swift
-    open class func deleteUser(username: String) -> Observable<Void>
+    open func deleteUser(username: String) -> Observable<Void>
 ```
 
 Delete user
@@ -172,7 +172,7 @@ No authorization required
 
 # **getUserByName**
 ```swift
-    open class func getUserByName(username: String) -> Observable<User>
+    open func getUserByName(username: String) -> Observable<User>
 ```
 
 Get user by user name
@@ -210,7 +210,7 @@ No authorization required
 
 # **loginUser**
 ```swift
-    open class func loginUser(username: String, password: String) -> Observable<String>
+    open func loginUser(username: String, password: String) -> Observable<String>
 ```
 
 Logs user into the system
@@ -250,7 +250,7 @@ No authorization required
 
 # **logoutUser**
 ```swift
-    open class func logoutUser() -> Observable<Void>
+    open func logoutUser() -> Observable<Void>
 ```
 
 Logs out current logged in user session
@@ -284,7 +284,7 @@ No authorization required
 
 # **updateUser**
 ```swift
-    open class func updateUser(username: String, body: User) -> Observable<Void>
+    open func updateUser(username: String, body: User) -> Observable<Void>
 ```
 
 Updated user

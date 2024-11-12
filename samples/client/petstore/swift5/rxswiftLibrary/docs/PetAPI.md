@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 # **addPet**
 ```swift
-    open class func addPet(body: Pet) -> Observable<Void>
+    open func addPet(body: Pet) -> Observable<Void>
 ```
 
 Add a new pet to the store
@@ -55,7 +55,7 @@ Void (empty response body)
 
 # **deletePet**
 ```swift
-    open class func deletePet(petId: Int64, apiKey: String? = nil) -> Observable<Void>
+    open func deletePet(petId: Int64, apiKey: String? = nil) -> Observable<Void>
 ```
 
 Deletes a pet
@@ -95,7 +95,7 @@ Void (empty response body)
 
 # **findPetsByStatus**
 ```swift
-    open class func findPetsByStatus(status: [Status_findPetsByStatus]) -> Observable<[Pet]>
+    open func findPetsByStatus(status: [Status_findPetsByStatus]) -> Observable<[Pet]>
 ```
 
 Finds Pets by status
@@ -135,7 +135,7 @@ Name | Type | Description  | Notes
 
 # **findPetsByTags**
 ```swift
-    open class func findPetsByTags(tags: [String]) -> Observable<[Pet]>
+    open func findPetsByTags(tags: [String]) -> Observable<[Pet]>
 ```
 
 Finds Pets by tags
@@ -175,7 +175,7 @@ Name | Type | Description  | Notes
 
 # **getPetById**
 ```swift
-    open class func getPetById(petId: Int64) -> Observable<Pet>
+    open func getPetById(petId: Int64) -> Observable<Pet>
 ```
 
 Find pet by ID
@@ -215,7 +215,7 @@ Name | Type | Description  | Notes
 
 # **updatePet**
 ```swift
-    open class func updatePet(body: Pet) -> Observable<Void>
+    open func updatePet(body: Pet) -> Observable<Void>
 ```
 
 Update an existing pet
@@ -253,7 +253,7 @@ Void (empty response body)
 
 # **updatePetWithForm**
 ```swift
-    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil) -> Observable<Void>
+    open func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil) -> Observable<Void>
 ```
 
 Updates a pet in the store with form data
@@ -295,7 +295,7 @@ Void (empty response body)
 
 # **uploadFile**
 ```swift
-    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil) -> Observable<ApiResponse>
+    open func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil) -> Observable<ApiResponse>
 ```
 
 uploads an image
@@ -337,7 +337,7 @@ Name | Type | Description  | Notes
 
 # **uploadFileWithRequiredFile**
 ```swift
-    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil) -> Observable<ApiResponse>
+    open func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil) -> Observable<ApiResponse>
 ```
 
 uploads an image (required)

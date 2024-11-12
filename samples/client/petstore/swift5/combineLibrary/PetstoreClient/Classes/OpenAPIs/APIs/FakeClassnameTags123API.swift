@@ -14,6 +14,22 @@ import AnyCodable
 #endif
 
 open class FakeClassnameTags123API {
+    private let basePath: String
+    private let customHeaders: [String: String]
+    private let credential: URLCredential?
+    private let requestBuilderFactory: RequestBuilderFactory
+
+    public init(
+        basePath: String = PetstoreClientAPI.basePath,
+        customHeaders: [String: String] = PetstoreClientAPI.customHeaders,
+        credential: URLCredential? = PetstoreClientAPI.credential,
+        requestBuilderFactory: RequestBuilderFactory = PetstoreClientAPI.requestBuilderFactory
+    ) {
+        self.basePath = basePath
+        self.customHeaders = customHeaders
+        self.credential = credential
+        self.requestBuilderFactory = requestBuilderFactory
+    }
 
     /**
      To test class name in snake case
@@ -23,7 +39,7 @@ open class FakeClassnameTags123API {
      */
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func testClassname(body: Client) -> AnyPublisher<Client, Error> {
+    open func testClassname(body: Client) -> AnyPublisher<Client, Error> {
         let requestBuilder = testClassnameWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
         return Future<Client, Error> { promise in
@@ -53,9 +69,9 @@ open class FakeClassnameTags123API {
      - parameter body: (body) client model 
      - returns: RequestBuilder<Client> 
      */
-    open class func testClassnameWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
+    open func testClassnameWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
         let localVariablePath = "/fake_classname_test"
-        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableURLString = basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -64,10 +80,13 @@ open class FakeClassnameTags123API {
             "Content-Type": "application/json",
         ]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        var localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        for (header, value) in customHeaders {
+            localVariableHeaderParameters[header] = value
+        }
 
-        let localVariableRequestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Client>.Type = requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, credential: credential)
     }
 }

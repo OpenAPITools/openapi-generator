@@ -14,6 +14,22 @@ extension PetstoreClientAPI {
 
 
 open class UserAPI {
+    private let basePath: String
+    private let customHeaders: [String: String]
+    private let credential: URLCredential?
+    private let requestBuilderFactory: RequestBuilderFactory
+
+    public init(
+        basePath: String = PetstoreClientAPI.basePath,
+        customHeaders: [String: String] = PetstoreClientAPI.customHeaders,
+        credential: URLCredential? = PetstoreClientAPI.credential,
+        requestBuilderFactory: RequestBuilderFactory = PetstoreClientAPI.requestBuilderFactory
+    ) {
+        self.basePath = basePath
+        self.customHeaders = customHeaders
+        self.credential = credential
+        self.requestBuilderFactory = requestBuilderFactory
+    }
 
     /**
      Create user
@@ -23,7 +39,7 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func createUser(body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+    open func createUser(body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
         return createUserWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case .success:
@@ -41,9 +57,9 @@ open class UserAPI {
      - parameter body: (body) Created user object 
      - returns: RequestBuilder<Void> 
      */
-    open class func createUserWithRequestBuilder(body: User) -> RequestBuilder<Void> {
+    open func createUserWithRequestBuilder(body: User) -> RequestBuilder<Void> {
         let localVariablePath = "/user"
-        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableURLString = basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -52,11 +68,14 @@ open class UserAPI {
             :
         ]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        var localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        for (header, value) in customHeaders {
+            localVariableHeaderParameters[header] = value
+        }
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, credential: credential)
     }
 
     /**
@@ -67,7 +86,7 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func createUsersWithArrayInput(body: [User], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+    open func createUsersWithArrayInput(body: [User], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
         return createUsersWithArrayInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case .success:
@@ -84,9 +103,9 @@ open class UserAPI {
      - parameter body: (body) List of user object 
      - returns: RequestBuilder<Void> 
      */
-    open class func createUsersWithArrayInputWithRequestBuilder(body: [User]) -> RequestBuilder<Void> {
+    open func createUsersWithArrayInputWithRequestBuilder(body: [User]) -> RequestBuilder<Void> {
         let localVariablePath = "/user/createWithArray"
-        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableURLString = basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -95,11 +114,14 @@ open class UserAPI {
             :
         ]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        var localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        for (header, value) in customHeaders {
+            localVariableHeaderParameters[header] = value
+        }
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, credential: credential)
     }
 
     /**
@@ -110,7 +132,7 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func createUsersWithListInput(body: [User], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+    open func createUsersWithListInput(body: [User], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
         return createUsersWithListInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case .success:
@@ -127,9 +149,9 @@ open class UserAPI {
      - parameter body: (body) List of user object 
      - returns: RequestBuilder<Void> 
      */
-    open class func createUsersWithListInputWithRequestBuilder(body: [User]) -> RequestBuilder<Void> {
+    open func createUsersWithListInputWithRequestBuilder(body: [User]) -> RequestBuilder<Void> {
         let localVariablePath = "/user/createWithList"
-        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableURLString = basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -138,11 +160,14 @@ open class UserAPI {
             :
         ]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        var localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        for (header, value) in customHeaders {
+            localVariableHeaderParameters[header] = value
+        }
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, credential: credential)
     }
 
     /**
@@ -153,7 +178,7 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func deleteUser(username: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+    open func deleteUser(username: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
         return deleteUserWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
             switch result {
             case .success:
@@ -171,12 +196,12 @@ open class UserAPI {
      - parameter username: (path) The name that needs to be deleted 
      - returns: RequestBuilder<Void> 
      */
-    open class func deleteUserWithRequestBuilder(username: String) -> RequestBuilder<Void> {
+    open func deleteUserWithRequestBuilder(username: String) -> RequestBuilder<Void> {
         var localVariablePath = "/user/{username}"
         let usernamePreEscape = "\(APIHelper.mapValueToPathItem(username))"
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{username}", with: usernamePostEscape, options: .literal, range: nil)
-        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableURLString = basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -185,11 +210,14 @@ open class UserAPI {
             :
         ]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        var localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        for (header, value) in customHeaders {
+            localVariableHeaderParameters[header] = value
+        }
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, credential: credential)
     }
 
     /**
@@ -200,7 +228,7 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func getUserByName(username: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: User?, _ error: Error?) -> Void)) -> RequestTask {
+    open func getUserByName(username: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: User?, _ error: Error?) -> Void)) -> RequestTask {
         return getUserByNameWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -217,12 +245,12 @@ open class UserAPI {
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
      - returns: RequestBuilder<User> 
      */
-    open class func getUserByNameWithRequestBuilder(username: String) -> RequestBuilder<User> {
+    open func getUserByNameWithRequestBuilder(username: String) -> RequestBuilder<User> {
         var localVariablePath = "/user/{username}"
         let usernamePreEscape = "\(APIHelper.mapValueToPathItem(username))"
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{username}", with: usernamePostEscape, options: .literal, range: nil)
-        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableURLString = basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -231,11 +259,14 @@ open class UserAPI {
             :
         ]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        var localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        for (header, value) in customHeaders {
+            localVariableHeaderParameters[header] = value
+        }
 
-        let localVariableRequestBuilder: RequestBuilder<User>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<User>.Type = requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, credential: credential)
     }
 
     /**
@@ -247,7 +278,7 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func loginUser(username: String, password: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: String?, _ error: Error?) -> Void)) -> RequestTask {
+    open func loginUser(username: String, password: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: String?, _ error: Error?) -> Void)) -> RequestTask {
         return loginUserWithRequestBuilder(username: username, password: password).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -266,9 +297,9 @@ open class UserAPI {
      - parameter password: (query) The password for login in clear text 
      - returns: RequestBuilder<String> 
      */
-    open class func loginUserWithRequestBuilder(username: String, password: String) -> RequestBuilder<String> {
+    open func loginUserWithRequestBuilder(username: String, password: String) -> RequestBuilder<String> {
         let localVariablePath = "/user/login"
-        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableURLString = basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -281,11 +312,14 @@ open class UserAPI {
             :
         ]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        var localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        for (header, value) in customHeaders {
+            localVariableHeaderParameters[header] = value
+        }
 
-        let localVariableRequestBuilder: RequestBuilder<String>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<String>.Type = requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, credential: credential)
     }
 
     /**
@@ -295,7 +329,7 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func logoutUser(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+    open func logoutUser(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
         return logoutUserWithRequestBuilder().execute(apiResponseQueue) { result in
             switch result {
             case .success:
@@ -311,9 +345,9 @@ open class UserAPI {
      - GET /user/logout
      - returns: RequestBuilder<Void> 
      */
-    open class func logoutUserWithRequestBuilder() -> RequestBuilder<Void> {
+    open func logoutUserWithRequestBuilder() -> RequestBuilder<Void> {
         let localVariablePath = "/user/logout"
-        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableURLString = basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -322,11 +356,14 @@ open class UserAPI {
             :
         ]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        var localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        for (header, value) in customHeaders {
+            localVariableHeaderParameters[header] = value
+        }
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, credential: credential)
     }
 
     /**
@@ -338,7 +375,7 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func updateUser(username: String, body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+    open func updateUser(username: String, body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
         return updateUserWithRequestBuilder(username: username, body: body).execute(apiResponseQueue) { result in
             switch result {
             case .success:
@@ -357,12 +394,12 @@ open class UserAPI {
      - parameter body: (body) Updated user object 
      - returns: RequestBuilder<Void> 
      */
-    open class func updateUserWithRequestBuilder(username: String, body: User) -> RequestBuilder<Void> {
+    open func updateUserWithRequestBuilder(username: String, body: User) -> RequestBuilder<Void> {
         var localVariablePath = "/user/{username}"
         let usernamePreEscape = "\(APIHelper.mapValueToPathItem(username))"
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{username}", with: usernamePostEscape, options: .literal, range: nil)
-        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableURLString = basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -371,11 +408,14 @@ open class UserAPI {
             :
         ]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        var localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        for (header, value) in customHeaders {
+            localVariableHeaderParameters[header] = value
+        }
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, credential: credential)
     }
 }
 }

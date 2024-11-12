@@ -11,6 +11,22 @@ import AnyCodable
 #endif
 
 open class DefaultAPI {
+    private let basePath: String
+    private let customHeaders: [String: String]
+    private let credential: URLCredential?
+    private let requestBuilderFactory: RequestBuilderFactory
+
+    public init(
+        basePath: String = PetstoreClientAPI.basePath,
+        customHeaders: [String: String] = PetstoreClientAPI.customHeaders,
+        credential: URLCredential? = PetstoreClientAPI.credential,
+        requestBuilderFactory: RequestBuilderFactory = PetstoreClientAPI.requestBuilderFactory
+    ) {
+        self.basePath = basePath
+        self.customHeaders = customHeaders
+        self.credential = credential
+        self.requestBuilderFactory = requestBuilderFactory
+    }
 
     /**
 
@@ -18,7 +34,7 @@ open class DefaultAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func rootGet(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Fruit?, _ error: Error?) -> Void)) -> RequestTask {
+    open func rootGet(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Fruit?, _ error: Error?) -> Void)) -> RequestTask {
         return rootGetWithRequestBuilder().execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -33,9 +49,9 @@ open class DefaultAPI {
      - GET /
      - returns: RequestBuilder<Fruit> 
      */
-    open class func rootGetWithRequestBuilder() -> RequestBuilder<Fruit> {
+    open func rootGetWithRequestBuilder() -> RequestBuilder<Fruit> {
         let localVariablePath = "/"
-        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableURLString = basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -44,10 +60,13 @@ open class DefaultAPI {
             :
         ]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        var localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        for (header, value) in customHeaders {
+            localVariableHeaderParameters[header] = value
+        }
 
-        let localVariableRequestBuilder: RequestBuilder<Fruit>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Fruit>.Type = requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, credential: credential)
     }
 }

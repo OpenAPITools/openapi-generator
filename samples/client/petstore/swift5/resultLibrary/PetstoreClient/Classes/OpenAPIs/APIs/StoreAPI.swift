@@ -11,6 +11,22 @@ import AnyCodable
 #endif
 
 internal class StoreAPI {
+    private let basePath: String
+    private let customHeaders: [String: String]
+    private let credential: URLCredential?
+    private let requestBuilderFactory: RequestBuilderFactory
+
+    internal init(
+        basePath: String = PetstoreClientAPI.basePath,
+        customHeaders: [String: String] = PetstoreClientAPI.customHeaders,
+        credential: URLCredential? = PetstoreClientAPI.credential,
+        requestBuilderFactory: RequestBuilderFactory = PetstoreClientAPI.requestBuilderFactory
+    ) {
+        self.basePath = basePath
+        self.customHeaders = customHeaders
+        self.credential = credential
+        self.requestBuilderFactory = requestBuilderFactory
+    }
 
     /**
      Delete purchase order by ID
@@ -20,7 +36,7 @@ internal class StoreAPI {
      - parameter completion: completion handler to receive the result
      */
     @discardableResult
-    internal class func deleteOrder(orderId: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+    internal func deleteOrder(orderId: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
         return deleteOrderWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
             switch result {
             case .success:
@@ -38,12 +54,12 @@ internal class StoreAPI {
      - parameter orderId: (path) ID of the order that needs to be deleted 
      - returns: RequestBuilder<Void> 
      */
-    internal class func deleteOrderWithRequestBuilder(orderId: String) -> RequestBuilder<Void> {
+    internal func deleteOrderWithRequestBuilder(orderId: String) -> RequestBuilder<Void> {
         var localVariablePath = "/store/order/{order_id}"
         let orderIdPreEscape = "\(APIHelper.mapValueToPathItem(orderId))"
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableURLString = basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -52,11 +68,14 @@ internal class StoreAPI {
             :
         ]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        var localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        for (header, value) in customHeaders {
+            localVariableHeaderParameters[header] = value
+        }
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, credential: credential)
     }
 
     /**
@@ -66,7 +85,7 @@ internal class StoreAPI {
      - parameter completion: completion handler to receive the result
      */
     @discardableResult
-    internal class func getInventory(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[String: Int], ErrorResponse>) -> Void)) -> RequestTask {
+    internal func getInventory(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[String: Int], ErrorResponse>) -> Void)) -> RequestTask {
         return getInventoryWithRequestBuilder().execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -86,9 +105,9 @@ internal class StoreAPI {
        - name: api_key
      - returns: RequestBuilder<[String: Int]> 
      */
-    internal class func getInventoryWithRequestBuilder() -> RequestBuilder<[String: Int]> {
+    internal func getInventoryWithRequestBuilder() -> RequestBuilder<[String: Int]> {
         let localVariablePath = "/store/inventory"
-        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableURLString = basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -97,11 +116,14 @@ internal class StoreAPI {
             :
         ]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        var localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        for (header, value) in customHeaders {
+            localVariableHeaderParameters[header] = value
+        }
 
-        let localVariableRequestBuilder: RequestBuilder<[String: Int]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<[String: Int]>.Type = requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, credential: credential)
     }
 
     /**
@@ -112,7 +134,7 @@ internal class StoreAPI {
      - parameter completion: completion handler to receive the result
      */
     @discardableResult
-    internal class func getOrderById(orderId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Order, ErrorResponse>) -> Void)) -> RequestTask {
+    internal func getOrderById(orderId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Order, ErrorResponse>) -> Void)) -> RequestTask {
         return getOrderByIdWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -130,12 +152,12 @@ internal class StoreAPI {
      - parameter orderId: (path) ID of pet that needs to be fetched 
      - returns: RequestBuilder<Order> 
      */
-    internal class func getOrderByIdWithRequestBuilder(orderId: Int64) -> RequestBuilder<Order> {
+    internal func getOrderByIdWithRequestBuilder(orderId: Int64) -> RequestBuilder<Order> {
         var localVariablePath = "/store/order/{order_id}"
         let orderIdPreEscape = "\(APIHelper.mapValueToPathItem(orderId))"
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableURLString = basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -144,11 +166,14 @@ internal class StoreAPI {
             :
         ]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        var localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        for (header, value) in customHeaders {
+            localVariableHeaderParameters[header] = value
+        }
 
-        let localVariableRequestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Order>.Type = requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, credential: credential)
     }
 
     /**
@@ -159,7 +184,7 @@ internal class StoreAPI {
      - parameter completion: completion handler to receive the result
      */
     @discardableResult
-    internal class func placeOrder(body: Order, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Order, ErrorResponse>) -> Void)) -> RequestTask {
+    internal func placeOrder(body: Order, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Order, ErrorResponse>) -> Void)) -> RequestTask {
         return placeOrderWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -176,9 +201,9 @@ internal class StoreAPI {
      - parameter body: (body) order placed for purchasing the pet 
      - returns: RequestBuilder<Order> 
      */
-    internal class func placeOrderWithRequestBuilder(body: Order) -> RequestBuilder<Order> {
+    internal func placeOrderWithRequestBuilder(body: Order) -> RequestBuilder<Order> {
         let localVariablePath = "/store/order"
-        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableURLString = basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -187,10 +212,13 @@ internal class StoreAPI {
             :
         ]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        var localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        for (header, value) in customHeaders {
+            localVariableHeaderParameters[header] = value
+        }
 
-        let localVariableRequestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Order>.Type = requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, credential: credential)
     }
 }

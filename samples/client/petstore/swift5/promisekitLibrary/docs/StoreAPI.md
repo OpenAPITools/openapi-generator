@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 # **deleteOrder**
 ```swift
-    open class func deleteOrder( orderId: String) -> Promise<Void>
+    open func deleteOrder( orderId: String) -> Promise<Void>
 ```
 
 Delete purchase order by ID
@@ -27,7 +27,7 @@ import PetstoreClient
 let orderId = "orderId_example" // String | ID of the order that needs to be deleted
 
 // Delete purchase order by ID
-StoreAPI.deleteOrder(orderId: orderId).then {
+StoreAPI().deleteOrder(orderId: orderId).then {
          // when the promise is fulfilled
      }.always {
          // regardless of whether the promise is fulfilled, or rejected
@@ -59,7 +59,7 @@ No authorization required
 
 # **getInventory**
 ```swift
-    open class func getInventory() -> Promise<[String: Int]>
+    open func getInventory() -> Promise<[String: Int]>
 ```
 
 Returns pet inventories by status
@@ -73,7 +73,7 @@ import PetstoreClient
 
 
 // Returns pet inventories by status
-StoreAPI.getInventory().then {
+StoreAPI().getInventory().then {
          // when the promise is fulfilled
      }.always {
          // regardless of whether the promise is fulfilled, or rejected
@@ -102,7 +102,7 @@ This endpoint does not need any parameter.
 
 # **getOrderById**
 ```swift
-    open class func getOrderById( orderId: Int64) -> Promise<Order>
+    open func getOrderById( orderId: Int64) -> Promise<Order>
 ```
 
 Find purchase order by ID
@@ -117,7 +117,7 @@ import PetstoreClient
 let orderId = 987 // Int64 | ID of pet that needs to be fetched
 
 // Find purchase order by ID
-StoreAPI.getOrderById(orderId: orderId).then {
+StoreAPI().getOrderById(orderId: orderId).then {
          // when the promise is fulfilled
      }.always {
          // regardless of whether the promise is fulfilled, or rejected
@@ -149,7 +149,7 @@ No authorization required
 
 # **placeOrder**
 ```swift
-    open class func placeOrder( body: Order) -> Promise<Order>
+    open func placeOrder( body: Order) -> Promise<Order>
 ```
 
 Place an order for a pet
@@ -162,7 +162,7 @@ import PetstoreClient
 let body = Order(id: 123, petId: 123, quantity: 123, shipDate: Date(), status: "status_example", complete: false) // Order | order placed for purchasing the pet
 
 // Place an order for a pet
-StoreAPI.placeOrder(body: body).then {
+StoreAPI().placeOrder(body: body).then {
          // when the promise is fulfilled
      }.always {
          // regardless of whether the promise is fulfilled, or rejected

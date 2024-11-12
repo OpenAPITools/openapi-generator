@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 # **deleteOrder**
 ```swift
-    open class func deleteOrder(orderId: String) -> Observable<Void>
+    open func deleteOrder(orderId: String) -> Observable<Void>
 ```
 
 Delete purchase order by ID
@@ -52,7 +52,7 @@ No authorization required
 
 # **getInventory**
 ```swift
-    open class func getInventory() -> Observable<[String: Int]>
+    open func getInventory() -> Observable<[String: Int]>
 ```
 
 Returns pet inventories by status
@@ -88,7 +88,7 @@ This endpoint does not need any parameter.
 
 # **getOrderById**
 ```swift
-    open class func getOrderById(orderId: Int64) -> Observable<Order>
+    open func getOrderById(orderId: Int64) -> Observable<Order>
 ```
 
 Find purchase order by ID
@@ -128,7 +128,7 @@ No authorization required
 
 # **placeOrder**
 ```swift
-    open class func placeOrder(body: Order) -> Observable<Order>
+    open func placeOrder(body: Order) -> Observable<Order>
 ```
 
 Place an order for a pet

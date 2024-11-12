@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 # **testClassname**
 ```swift
-    open class func testClassname(body: Client, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<TestClassname>
+    open func testClassname(body: Client, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<TestClassname>
 ```
 
 To test class name in snake case
@@ -24,7 +24,7 @@ import PetstoreClient
 let body = Client(client: "client_example") // Client | client model
 
 // To test class name in snake case
-FakeClassnameTags123API.testClassname(body: body).whenComplete { result in
+FakeClassnameTags123API().testClassname(body: body).whenComplete { result in
     switch result {
     case .failure(let error):
     // process error

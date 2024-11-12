@@ -12,6 +12,22 @@ import AnyCodable
 #endif
 
 open class StoreAPI {
+    private let basePath: String
+    private let customHeaders: [String: String]
+    private let credential: URLCredential?
+    private let requestBuilderFactory: RequestBuilderFactory
+
+    public init(
+        basePath: String = PetstoreClientAPI.basePath,
+        customHeaders: [String: String] = PetstoreClientAPI.customHeaders,
+        credential: URLCredential? = PetstoreClientAPI.credential,
+        requestBuilderFactory: RequestBuilderFactory = PetstoreClientAPI.requestBuilderFactory
+    ) {
+        self.basePath = basePath
+        self.customHeaders = customHeaders
+        self.credential = credential
+        self.requestBuilderFactory = requestBuilderFactory
+    }
 
     /**
      Delete purchase order by ID
@@ -19,7 +35,7 @@ open class StoreAPI {
      - parameter orderId: (path) ID of the order that needs to be deleted 
      - returns: Promise<Void>
      */
-    open class func deleteOrder( orderId: String) -> Promise<Void> {
+    open func deleteOrder( orderId: String) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         deleteOrderWithRequestBuilder(orderId: orderId).execute { result in
             switch result {
@@ -39,12 +55,12 @@ open class StoreAPI {
      - parameter orderId: (path) ID of the order that needs to be deleted 
      - returns: RequestBuilder<Void> 
      */
-    open class func deleteOrderWithRequestBuilder(orderId: String) -> RequestBuilder<Void> {
+    open func deleteOrderWithRequestBuilder(orderId: String) -> RequestBuilder<Void> {
         var localVariablePath = "/store/order/{order_id}"
         let orderIdPreEscape = "\(APIHelper.mapValueToPathItem(orderId))"
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableURLString = basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -53,11 +69,14 @@ open class StoreAPI {
             :
         ]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        var localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        for (header, value) in customHeaders {
+            localVariableHeaderParameters[header] = value
+        }
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, credential: credential)
     }
 
     /**
@@ -65,7 +84,7 @@ open class StoreAPI {
      
      - returns: Promise<[String: Int]>
      */
-    open class func getInventory() -> Promise<[String: Int]> {
+    open func getInventory() -> Promise<[String: Int]> {
         let deferred = Promise<[String: Int]>.pending()
         getInventoryWithRequestBuilder().execute { result in
             switch result {
@@ -87,9 +106,9 @@ open class StoreAPI {
        - name: api_key
      - returns: RequestBuilder<[String: Int]> 
      */
-    open class func getInventoryWithRequestBuilder() -> RequestBuilder<[String: Int]> {
+    open func getInventoryWithRequestBuilder() -> RequestBuilder<[String: Int]> {
         let localVariablePath = "/store/inventory"
-        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableURLString = basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -98,11 +117,14 @@ open class StoreAPI {
             :
         ]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        var localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        for (header, value) in customHeaders {
+            localVariableHeaderParameters[header] = value
+        }
 
-        let localVariableRequestBuilder: RequestBuilder<[String: Int]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<[String: Int]>.Type = requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, credential: credential)
     }
 
     /**
@@ -111,7 +133,7 @@ open class StoreAPI {
      - parameter orderId: (path) ID of pet that needs to be fetched 
      - returns: Promise<Order>
      */
-    open class func getOrderById( orderId: Int64) -> Promise<Order> {
+    open func getOrderById( orderId: Int64) -> Promise<Order> {
         let deferred = Promise<Order>.pending()
         getOrderByIdWithRequestBuilder(orderId: orderId).execute { result in
             switch result {
@@ -131,12 +153,12 @@ open class StoreAPI {
      - parameter orderId: (path) ID of pet that needs to be fetched 
      - returns: RequestBuilder<Order> 
      */
-    open class func getOrderByIdWithRequestBuilder(orderId: Int64) -> RequestBuilder<Order> {
+    open func getOrderByIdWithRequestBuilder(orderId: Int64) -> RequestBuilder<Order> {
         var localVariablePath = "/store/order/{order_id}"
         let orderIdPreEscape = "\(APIHelper.mapValueToPathItem(orderId))"
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableURLString = basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -145,11 +167,14 @@ open class StoreAPI {
             :
         ]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        var localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        for (header, value) in customHeaders {
+            localVariableHeaderParameters[header] = value
+        }
 
-        let localVariableRequestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Order>.Type = requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, credential: credential)
     }
 
     /**
@@ -158,7 +183,7 @@ open class StoreAPI {
      - parameter body: (body) order placed for purchasing the pet 
      - returns: Promise<Order>
      */
-    open class func placeOrder( body: Order) -> Promise<Order> {
+    open func placeOrder( body: Order) -> Promise<Order> {
         let deferred = Promise<Order>.pending()
         placeOrderWithRequestBuilder(body: body).execute { result in
             switch result {
@@ -177,9 +202,9 @@ open class StoreAPI {
      - parameter body: (body) order placed for purchasing the pet 
      - returns: RequestBuilder<Order> 
      */
-    open class func placeOrderWithRequestBuilder(body: Order) -> RequestBuilder<Order> {
+    open func placeOrderWithRequestBuilder(body: Order) -> RequestBuilder<Order> {
         let localVariablePath = "/store/order"
-        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableURLString = basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -188,10 +213,13 @@ open class StoreAPI {
             :
         ]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        var localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+        for (header, value) in customHeaders {
+            localVariableHeaderParameters[header] = value
+        }
 
-        let localVariableRequestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Order>.Type = requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, credential: credential)
     }
 }
