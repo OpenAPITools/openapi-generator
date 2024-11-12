@@ -148,16 +148,16 @@ import {{packageName}}.infrastructure.ITransformForStorage
 
     @Serializer(forClass = {{{nameInPascalCase}}}::class)
     internal object {{nameInPascalCase}}Serializer : KSerializer<{{nameInPascalCase}}> {
-        override val descriptor = {{{dataType}}}.serializer().descriptor
+        override val descriptor = {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}kotlin.String{{/isContainer}}.serializer().descriptor
 
         override fun deserialize(decoder: Decoder): {{nameInPascalCase}} {
-            val value = decoder.decodeSerializableValue({{{dataType}}}.serializer())
+            val value = decoder.decodeSerializableValue({{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}kotlin.String{{/isContainer}}.serializer())
             return {{nameInPascalCase}}.values().firstOrNull { it.value == value }
                 ?: {{nameInPascalCase}}.{{#allowableValues}}{{#enumVars}}{{#-last}}{{&name}}{{/-last}}{{/enumVars}}{{/allowableValues}}
         }
 
         override fun serialize(encoder: Encoder, value: {{nameInPascalCase}}) {
-            encoder.encodeSerializableValue({{{dataType}}}.serializer(), value.value)
+            encoder.encodeSerializableValue({{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}kotlin.String{{/isContainer}}.serializer(), value.value)
         }
     }
     {{/enumUnknownDefaultCase}}
