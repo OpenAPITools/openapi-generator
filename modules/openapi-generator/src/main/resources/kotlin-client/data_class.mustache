@@ -146,7 +146,6 @@ import {{packageName}}.infrastructure.ITransformForStorage
     {{#kotlinx_serialization}}
     {{#enumUnknownDefaultCase}}
 
-    @Serializer(forClass = {{{nameInPascalCase}}}::class)
     internal object {{nameInPascalCase}}Serializer : KSerializer<{{nameInPascalCase}}> {
         override val descriptor = {{{dataType}}}.serializer().descriptor
 

@@ -97,7 +97,6 @@ import kotlinx.serialization.*
     }
 }{{#kotlinx_serialization}}{{#enumUnknownDefaultCase}}
 
-@Serializer(forClass = {{classname}}::class)
 internal object {{classname}}Serializer : KSerializer<{{classname}}> {
     override val descriptor = {{{dataType}}}.serializer().descriptor
 
