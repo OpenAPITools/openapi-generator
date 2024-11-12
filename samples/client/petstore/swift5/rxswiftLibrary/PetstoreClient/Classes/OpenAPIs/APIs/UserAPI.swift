@@ -6,6 +6,9 @@
 //
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 import RxSwift
 #if canImport(AnyCodable)
 import AnyCodable
@@ -37,8 +40,10 @@ open class UserAPI {
      - returns: Observable<Void>
      */
     open func createUser(body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
-        return Observable.create { observer -> Disposable in
-            let requestTask = createUserWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+        return Observable.create { [weak self] observer -> Disposable in
+            let requestTask: RequestTask?
+            if let self {
+                requestTask = createUserWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -46,10 +51,13 @@ open class UserAPI {
                     observer.onError(error)
                 }
                 observer.onCompleted()
+                }
+            } else {
+                requestTask = nil
             }
             
             return Disposables.create {
-                requestTask.cancel()
+                requestTask?.cancel()
             }
         }
     }
@@ -90,8 +98,10 @@ open class UserAPI {
      - returns: Observable<Void>
      */
     open func createUsersWithArrayInput(body: [User], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
-        return Observable.create { observer -> Disposable in
-            let requestTask = createUsersWithArrayInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+        return Observable.create { [weak self] observer -> Disposable in
+            let requestTask: RequestTask?
+            if let self {
+                requestTask = createUsersWithArrayInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -99,10 +109,13 @@ open class UserAPI {
                     observer.onError(error)
                 }
                 observer.onCompleted()
+                }
+            } else {
+                requestTask = nil
             }
             
             return Disposables.create {
-                requestTask.cancel()
+                requestTask?.cancel()
             }
         }
     }
@@ -142,8 +155,10 @@ open class UserAPI {
      - returns: Observable<Void>
      */
     open func createUsersWithListInput(body: [User], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
-        return Observable.create { observer -> Disposable in
-            let requestTask = createUsersWithListInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+        return Observable.create { [weak self] observer -> Disposable in
+            let requestTask: RequestTask?
+            if let self {
+                requestTask = createUsersWithListInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -151,10 +166,13 @@ open class UserAPI {
                     observer.onError(error)
                 }
                 observer.onCompleted()
+                }
+            } else {
+                requestTask = nil
             }
             
             return Disposables.create {
-                requestTask.cancel()
+                requestTask?.cancel()
             }
         }
     }
@@ -194,8 +212,10 @@ open class UserAPI {
      - returns: Observable<Void>
      */
     open func deleteUser(username: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
-        return Observable.create { observer -> Disposable in
-            let requestTask = deleteUserWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
+        return Observable.create { [weak self] observer -> Disposable in
+            let requestTask: RequestTask?
+            if let self {
+                requestTask = deleteUserWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -203,10 +223,13 @@ open class UserAPI {
                     observer.onError(error)
                 }
                 observer.onCompleted()
+                }
+            } else {
+                requestTask = nil
             }
             
             return Disposables.create {
-                requestTask.cancel()
+                requestTask?.cancel()
             }
         }
     }
@@ -250,8 +273,10 @@ open class UserAPI {
      - returns: Observable<User>
      */
     open func getUserByName(username: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<User> {
-        return Observable.create { observer -> Disposable in
-            let requestTask = getUserByNameWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
+        return Observable.create { [weak self] observer -> Disposable in
+            let requestTask: RequestTask?
+            if let self {
+                requestTask = getUserByNameWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body)
@@ -259,10 +284,13 @@ open class UserAPI {
                     observer.onError(error)
                 }
                 observer.onCompleted()
+                }
+            } else {
+                requestTask = nil
             }
             
             return Disposables.create {
-                requestTask.cancel()
+                requestTask?.cancel()
             }
         }
     }
@@ -306,8 +334,10 @@ open class UserAPI {
      - returns: Observable<String>
      */
     open func loginUser(username: String, password: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<String> {
-        return Observable.create { observer -> Disposable in
-            let requestTask = loginUserWithRequestBuilder(username: username, password: password).execute(apiResponseQueue) { result in
+        return Observable.create { [weak self] observer -> Disposable in
+            let requestTask: RequestTask?
+            if let self {
+                requestTask = loginUserWithRequestBuilder(username: username, password: password).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body)
@@ -315,10 +345,13 @@ open class UserAPI {
                     observer.onError(error)
                 }
                 observer.onCompleted()
+                }
+            } else {
+                requestTask = nil
             }
             
             return Disposables.create {
-                requestTask.cancel()
+                requestTask?.cancel()
             }
         }
     }
@@ -363,8 +396,10 @@ open class UserAPI {
      - returns: Observable<Void>
      */
     open func logoutUser(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
-        return Observable.create { observer -> Disposable in
-            let requestTask = logoutUserWithRequestBuilder().execute(apiResponseQueue) { result in
+        return Observable.create { [weak self] observer -> Disposable in
+            let requestTask: RequestTask?
+            if let self {
+                requestTask = logoutUserWithRequestBuilder().execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -372,10 +407,13 @@ open class UserAPI {
                     observer.onError(error)
                 }
                 observer.onCompleted()
+                }
+            } else {
+                requestTask = nil
             }
             
             return Disposables.create {
-                requestTask.cancel()
+                requestTask?.cancel()
             }
         }
     }
@@ -415,8 +453,10 @@ open class UserAPI {
      - returns: Observable<Void>
      */
     open func updateUser(username: String, body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
-        return Observable.create { observer -> Disposable in
-            let requestTask = updateUserWithRequestBuilder(username: username, body: body).execute(apiResponseQueue) { result in
+        return Observable.create { [weak self] observer -> Disposable in
+            let requestTask: RequestTask?
+            if let self {
+                requestTask = updateUserWithRequestBuilder(username: username, body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -424,10 +464,13 @@ open class UserAPI {
                     observer.onError(error)
                 }
                 observer.onCompleted()
+                }
+            } else {
+                requestTask = nil
             }
             
             return Disposables.create {
-                requestTask.cancel()
+                requestTask?.cancel()
             }
         }
     }

@@ -6,6 +6,9 @@
 //
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 import RxSwift
 #if canImport(AnyCodable)
 import AnyCodable
@@ -37,8 +40,10 @@ open class StoreAPI {
      - returns: Observable<Void>
      */
     open func deleteOrder(orderId: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
-        return Observable.create { observer -> Disposable in
-            let requestTask = deleteOrderWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
+        return Observable.create { [weak self] observer -> Disposable in
+            let requestTask: RequestTask?
+            if let self {
+                requestTask = deleteOrderWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -46,10 +51,13 @@ open class StoreAPI {
                     observer.onError(error)
                 }
                 observer.onCompleted()
+                }
+            } else {
+                requestTask = nil
             }
             
             return Disposables.create {
-                requestTask.cancel()
+                requestTask?.cancel()
             }
         }
     }
@@ -92,8 +100,10 @@ open class StoreAPI {
      - returns: Observable<[String: Int]>
      */
     open func getInventory(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<[String: Int]> {
-        return Observable.create { observer -> Disposable in
-            let requestTask = getInventoryWithRequestBuilder().execute(apiResponseQueue) { result in
+        return Observable.create { [weak self] observer -> Disposable in
+            let requestTask: RequestTask?
+            if let self {
+                requestTask = getInventoryWithRequestBuilder().execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body)
@@ -101,10 +111,13 @@ open class StoreAPI {
                     observer.onError(error)
                 }
                 observer.onCompleted()
+                }
+            } else {
+                requestTask = nil
             }
             
             return Disposables.create {
-                requestTask.cancel()
+                requestTask?.cancel()
             }
         }
     }
@@ -147,8 +160,10 @@ open class StoreAPI {
      - returns: Observable<Order>
      */
     open func getOrderById(orderId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Order> {
-        return Observable.create { observer -> Disposable in
-            let requestTask = getOrderByIdWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
+        return Observable.create { [weak self] observer -> Disposable in
+            let requestTask: RequestTask?
+            if let self {
+                requestTask = getOrderByIdWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body)
@@ -156,10 +171,13 @@ open class StoreAPI {
                     observer.onError(error)
                 }
                 observer.onCompleted()
+                }
+            } else {
+                requestTask = nil
             }
             
             return Disposables.create {
-                requestTask.cancel()
+                requestTask?.cancel()
             }
         }
     }
@@ -203,8 +221,10 @@ open class StoreAPI {
      - returns: Observable<Order>
      */
     open func placeOrder(body: Order, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Order> {
-        return Observable.create { observer -> Disposable in
-            let requestTask = placeOrderWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+        return Observable.create { [weak self] observer -> Disposable in
+            let requestTask: RequestTask?
+            if let self {
+                requestTask = placeOrderWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body)
@@ -212,10 +232,13 @@ open class StoreAPI {
                     observer.onError(error)
                 }
                 observer.onCompleted()
+                }
+            } else {
+                requestTask = nil
             }
             
             return Disposables.create {
-                requestTask.cancel()
+                requestTask?.cancel()
             }
         }
     }

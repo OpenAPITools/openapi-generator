@@ -6,6 +6,9 @@
 //
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 import RxSwift
 #if canImport(AnyCodable)
 import AnyCodable
@@ -37,8 +40,10 @@ open class FakeClassnameTags123API {
      - returns: Observable<Client>
      */
     open func testClassname(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Client> {
-        return Observable.create { observer -> Disposable in
-            let requestTask = testClassnameWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+        return Observable.create { [weak self] observer -> Disposable in
+            let requestTask: RequestTask?
+            if let self {
+                requestTask = testClassnameWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body)
@@ -46,10 +51,13 @@ open class FakeClassnameTags123API {
                     observer.onError(error)
                 }
                 observer.onCompleted()
+                }
+            } else {
+                requestTask = nil
             }
             
             return Disposables.create {
-                requestTask.cancel()
+                requestTask?.cancel()
             }
         }
     }
