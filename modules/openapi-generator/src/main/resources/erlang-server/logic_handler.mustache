@@ -8,6 +8,9 @@
         | {true, iodata()}
         | {created, iodata()}
         | {see_other, iodata()}.
+-type provide_callback_return() ::
+        stop
+        | cowboy_req:resp_body().
 -type api_key_callback() ::
     fun(({{packageName}}_api:operation_id(), binary()) -> {true, context()} | {false, iodata()}).
 -type accept_callback() ::
