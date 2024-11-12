@@ -68,7 +68,7 @@ data class Order (
      *
      * Values: placed,approved,delivered,unknown_default_open_api
      */
-    @Serializable(with = OrderSerializer::class)
+    @Serializable(with = StatusSerializer::class)
     enum class Status(val value: kotlin.String) {
         @SerialName(value = "placed") placed("placed"),
         @SerialName(value = "approved") approved("approved"),

@@ -70,7 +70,7 @@ data class Pet (
      *
      * Values: available,pending,sold,unknown_default_open_api
      */
-    @Serializable(with = PetSerializer::class)
+    @Serializable(with = StatusSerializer::class)
     enum class Status(val value: kotlin.String) {
         @SerialName(value = "available") available("available"),
         @SerialName(value = "pending") pending("pending"),

@@ -111,7 +111,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
      */
     {{^multiplatform}}
     {{#kotlinx_serialization}}
-    {{#serializableModel}}@KSerializable{{/serializableModel}}{{^serializableModel}}@Serializable{{#enumUnknownDefaultCase}}(with = {{classname}}Serializer::class){{/enumUnknownDefaultCase}}{{/serializableModel}}
+    {{#serializableModel}}@KSerializable{{/serializableModel}}{{^serializableModel}}@Serializable{{#enumUnknownDefaultCase}}(with = {{{nameInPascalCase}}}Serializer::class){{/enumUnknownDefaultCase}}{{/serializableModel}}
     {{/kotlinx_serialization}}
     {{#moshi}}
     @JsonClass(generateAdapter = false)
