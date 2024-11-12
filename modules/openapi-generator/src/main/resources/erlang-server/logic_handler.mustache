@@ -22,7 +22,8 @@
 -type context() :: #{_ := _}.
 
 -export_type([context/0, api_key_callback/0,
-              accept_callback_return/0, accept_callback/0, provide_callback/0]).
+              accept_callback_return/0, provide_callback_return/0,
+              accept_callback/0, provide_callback/0]).
 
 -optional_callbacks([api_key_callback/2]).
 
