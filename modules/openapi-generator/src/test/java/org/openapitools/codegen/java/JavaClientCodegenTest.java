@@ -1776,7 +1776,7 @@ public class JavaClientCodegenTest {
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
-        assertThat(files).hasSize(27);
+        assertThat(files).hasSize(33);
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/Child.java"))
                 .content().contains("public class Child extends Person {");
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/Adult.java"))

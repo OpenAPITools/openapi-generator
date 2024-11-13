@@ -755,6 +755,9 @@ public class OpenAPINormalizer {
             return schema;
         }
 
+        // process rule to refactor properties into allOf sub-schema
+        schema = processRefactorAllOfWithPropertiesOnly(schema);
+
         for (Object item : schema.getAllOf()) {
             if (!(item instanceof Schema)) {
                 throw new RuntimeException("Error! allOf schema is not of the type Schema: " + item);
@@ -762,8 +765,6 @@ public class OpenAPINormalizer {
             // normalize allOf sub schemas one by one
             normalizeSchema((Schema) item, visitedSchemas);
         }
-        // process rules here
-        schema = processRefactorAllOfWithPropertiesOnly(schema);
 
         return schema;
     }
@@ -1325,9 +1326,8 @@ public class OpenAPINormalizer {
         schema.setTitle(null);
 
         // at this point the schema becomes a simple allOf (no properties) with an additional schema containing
-        // the properties
-
-        return schema;
+        // the properties. Normalize it before returning.
+        return normalizeSchema(schema, new HashSet<>());
     }
 
     /**
