@@ -7,7 +7,8 @@ pub mod user;
 pub trait ApiKeyAuthHeader {
     type Claims;
 
-    async fn extract_token_from_header(
+    /// Extracting Claims from Header. Return None if the Claims is invalid.
+    async fn extract_claims_from_header(
         &self,
         headers: &axum::http::header::HeaderMap,
         key: &str,

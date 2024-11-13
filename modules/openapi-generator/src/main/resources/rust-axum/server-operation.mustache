@@ -61,10 +61,10 @@ where
     // Authentication
 {{/x-has-auth-methods}}
 {{#x-has-cookie-auth-methods}}
-    let claims_in_cookie = api_impl.as_ref().extract_token_from_cookie(&cookies, "{{x-api-key-cookie-name}}").await;
+    let claims_in_cookie = api_impl.as_ref().extract_claims_from_cookie(&cookies, "{{x-api-key-cookie-name}}").await;
 {{/x-has-cookie-auth-methods}}
 {{#x-has-header-auth-methods}}
-    let claims_in_header = api_impl.as_ref().extract_token_from_header(&headers, "{{x-api-key-header-name}}").await;
+    let claims_in_header = api_impl.as_ref().extract_claims_from_header(&headers, "{{x-api-key-header-name}}").await;
 {{/x-has-header-auth-methods}}
 {{#x-has-auth-methods}}
     let claims = None
