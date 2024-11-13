@@ -79,7 +79,7 @@ public interface StoreApi {
      * 
      *
      * @param orderDto order placed for purchasing the pet (required)
-     * @return Created (status code 200)
+     * @return successful operation (status code 200)
      *         or Invalid Order (status code 400)
      */
     @HttpExchange(

@@ -307,7 +307,7 @@ paths:
         required: true
       responses:
         "200":
-          description: Created
+          description: successful operation
           content:
             application/xml:
               schema:
