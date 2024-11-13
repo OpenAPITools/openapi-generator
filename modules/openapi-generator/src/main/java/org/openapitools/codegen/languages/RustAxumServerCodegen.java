@@ -673,10 +673,10 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 if (s.isApiKey && (s.isKeyInCookie || s.isKeyInHeader)) {
                     if (s.isKeyInCookie) {
                         op.vendorExtensions.put("x-has-cookie-auth-methods", true);
-                        op.vendorExtensions.put("x-api-key-cookie-name", toModelName(s.keyParamName));
+                        op.vendorExtensions.put("x-api-key-cookie-name", s.keyParamName);
                     } else {
                         op.vendorExtensions.put("x-has-header-auth-methods", true);
-                        op.vendorExtensions.put("x-api-key-header-name", toModelName(s.keyParamName));
+                        op.vendorExtensions.put("x-api-key-header-name", s.keyParamName);
                     }
 
                     op.vendorExtensions.put("x-has-auth-methods", true);

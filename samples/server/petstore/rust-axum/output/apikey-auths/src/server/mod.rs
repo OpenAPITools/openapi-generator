@@ -244,7 +244,7 @@ where
     // Authentication
     let claims_in_cookie = api_impl
         .as_ref()
-        .extract_claims_from_cookie(&cookies, "XApiKey")
+        .extract_claims_from_cookie(&cookies, "X-API-Key")
         .await;
     let claims = None.or(claims_in_cookie);
     let Some(claims) = claims else {

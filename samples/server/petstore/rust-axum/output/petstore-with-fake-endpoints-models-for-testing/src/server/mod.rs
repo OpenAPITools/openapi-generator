@@ -1662,7 +1662,7 @@ where
     // Authentication
     let claims_in_header = api_impl
         .as_ref()
-        .extract_claims_from_header(&headers, "ApiKey")
+        .extract_claims_from_header(&headers, "api_key")
         .await;
     let claims = None.or(claims_in_header);
     let Some(claims) = claims else {
@@ -2051,7 +2051,7 @@ where
     // Authentication
     let claims_in_header = api_impl
         .as_ref()
-        .extract_claims_from_header(&headers, "ApiKey")
+        .extract_claims_from_header(&headers, "api_key")
         .await;
     let claims = None.or(claims_in_header);
     let Some(claims) = claims else {
