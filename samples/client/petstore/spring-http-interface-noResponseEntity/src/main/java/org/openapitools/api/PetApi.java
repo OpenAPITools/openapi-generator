@@ -28,10 +28,10 @@ public interface PetApi {
      * 
      *
      * @param petDto Pet object that needs to be added to the store (required)
-     * @return successful operation (status code 201)
+     * @return successful operation (status code 200)
      *         or Invalid input (status code 405)
      */
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
         method = "POST",
         value = "/pet",
@@ -49,10 +49,10 @@ public interface PetApi {
      *
      * @param petId Pet id to delete (required)
      * @param apiKey  (optional)
-     * @return successful operation (status code 204)
+     * @return successful operation (status code 200)
      *         or Invalid pet value (status code 400)
      */
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
         method = "DELETE",
         value = "/pet/{petId}",
@@ -146,12 +146,12 @@ public interface PetApi {
      * 
      *
      * @param petDto Pet object that needs to be added to the store (required)
-     * @return successful operation (status code 204)
+     * @return successful operation (status code 200)
      *         or Invalid ID supplied (status code 400)
      *         or Pet not found (status code 404)
      *         or Validation exception (status code 405)
      */
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
         method = "PUT",
         value = "/pet",
@@ -170,10 +170,9 @@ public interface PetApi {
      * @param petId ID of pet that needs to be updated (required)
      * @param name Updated name of the pet (optional)
      * @param status Updated status of the pet (optional)
-     * @return Success (status code 200)
-     *         or Invalid input (status code 405)
+     * @return Invalid input (status code 405)
      */
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     @HttpExchange(
         method = "POST",
         value = "/pet/{petId}",

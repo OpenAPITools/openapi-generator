@@ -82,10 +82,10 @@ public interface StoreApi {
      * 
      *
      * @param orderDto order placed for purchasing the pet (required)
-     * @return Created (status code 201)
+     * @return Created (status code 200)
      *         or Invalid Order (status code 400)
      */
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
         method = "POST",
         value = "/store/order",

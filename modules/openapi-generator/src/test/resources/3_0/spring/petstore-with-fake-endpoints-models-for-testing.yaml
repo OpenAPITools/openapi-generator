@@ -26,7 +26,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/Pet"
       responses:
-        "201":
+        "200":
           description: successful operation
         "405":
           description: Invalid input
@@ -43,7 +43,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/Pet"
       responses:
-        "204":
+        "200":
           description: successful operation
         "400":
           description: Invalid ID supplied
@@ -199,8 +199,6 @@ paths:
                   description: Updated status of the pet
                   type: string
       responses:
-        "200":
-          description: Success
         "405":
           description: Invalid input
       security:
@@ -227,7 +225,7 @@ paths:
             type: integer
             format: int64
       responses:
-        "204":
+        "200":
           description: successful operation
         "400":
           description: Invalid pet value
@@ -308,7 +306,7 @@ paths:
         description: order placed for purchasing the pet
         required: true
       responses:
-        "201":
+        "200":
           description: Created
           content:
             application/xml:
