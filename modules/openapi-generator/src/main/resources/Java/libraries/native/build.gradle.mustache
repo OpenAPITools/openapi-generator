@@ -85,6 +85,9 @@ ext {
     {{#hasFormParamsInSpec}}
     httpmime_version = "4.5.13"
     {{/hasFormParamsInSpec}}
+    {{#useReflectionEqualsHashCode}}
+    commons_lang3_version = "3.17.0"
+    {{/useReflectionEqualsHashCode}}
 }
 
 dependencies {
@@ -107,6 +110,9 @@ dependencies {
     {{#hasFormParamsInSpec}}
     implementation "org.apache.httpcomponents:httpmime:$httpmime_version"
     {{/hasFormParamsInSpec}}
+    {{#useReflectionEqualsHashCode}}
+    implementation "org.apache.commons:commons-lang3:$commons_lang3_version"
+    {{/useReflectionEqualsHashCode}}
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
 }
 
