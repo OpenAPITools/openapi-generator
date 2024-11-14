@@ -78,7 +78,6 @@ data class Pet (
         @SerialName(value = "unknown_default_open_api") unknown_default_open_api("unknown_default_open_api");
     }
 
-    @Serializer(forClass = Status::class)
     internal object StatusSerializer : KSerializer<Status> {
         override val descriptor = kotlin.String.serializer().descriptor
 
