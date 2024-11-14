@@ -14,7 +14,7 @@ open class PetAPI {
      Add a new pet to the store
      
      - parameter body: (body) Pet object that needs to be added to the store 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Observable<Void>
      */
     open class func addPet(body: Pet, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Observable<Void> {
@@ -45,7 +45,7 @@ open class PetAPI {
        - type: apiKey api_key_query (QUERY)
        - name: api_key_query
      - parameter body: (body) Pet object that needs to be added to the store 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
     open class func addPetWithRequestBuilder(body: Pet, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Void> {
@@ -71,7 +71,7 @@ open class PetAPI {
      
      - parameter petId: (path) Pet id to delete 
      - parameter apiKey: (header)  (optional)
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Observable<Void>
      */
     open class func deletePet(petId: Int64, apiKey: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Observable<Void> {
@@ -100,7 +100,7 @@ open class PetAPI {
        - name: petstore_auth
      - parameter petId: (path) Pet id to delete 
      - parameter apiKey: (header)  (optional)
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
     open class func deletePetWithRequestBuilder(petId: Int64, apiKey: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Void> {
@@ -137,7 +137,7 @@ open class PetAPI {
      Finds Pets by status
      
      - parameter status: (query) Status values that need to be considered for filter 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Observable<[Pet]>
      */
     open class func findPetsByStatus(status: [Status_findPetsByStatus], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Observable<[Pet]> {
@@ -166,7 +166,7 @@ open class PetAPI {
        - type: oauth2
        - name: petstore_auth
      - parameter status: (query) Status values that need to be considered for filter 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<[Pet]> 
      */
     open class func findPetsByStatusWithRequestBuilder(status: [Status_findPetsByStatus], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<[Pet]> {
@@ -194,7 +194,7 @@ open class PetAPI {
      Finds Pets by tags
      
      - parameter tags: (query) Tags to filter by 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Observable<[Pet]>
      */
     @available(*, deprecated, message: "This operation is deprecated.")
@@ -224,7 +224,7 @@ open class PetAPI {
        - type: oauth2
        - name: petstore_auth
      - parameter tags: (query) Tags to filter by 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<[Pet]> 
      */
     @available(*, deprecated, message: "This operation is deprecated.")
@@ -253,7 +253,7 @@ open class PetAPI {
      Find pet by ID
      
      - parameter petId: (path) ID of pet to return 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Observable<Pet>
      */
     open class func getPetById(petId: Int64, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Observable<Pet> {
@@ -282,7 +282,7 @@ open class PetAPI {
        - type: apiKey api_key (HEADER)
        - name: api_key
      - parameter petId: (path) ID of pet to return 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Pet> 
      */
     open class func getPetByIdWithRequestBuilder(petId: Int64, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Pet> {
@@ -310,7 +310,7 @@ open class PetAPI {
      Update an existing pet
      
      - parameter body: (body) Pet object that needs to be added to the store 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Observable<Void>
      */
     open class func updatePet(body: Pet, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Observable<Void> {
@@ -338,7 +338,7 @@ open class PetAPI {
        - type: oauth2
        - name: petstore_auth
      - parameter body: (body) Pet object that needs to be added to the store 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
     open class func updatePetWithRequestBuilder(body: Pet, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Void> {
@@ -365,7 +365,7 @@ open class PetAPI {
      - parameter petId: (path) ID of pet that needs to be updated 
      - parameter name: (form) Updated name of the pet (optional)
      - parameter status: (form) Updated status of the pet (optional)
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Observable<Void>
      */
     open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Observable<Void> {
@@ -395,7 +395,7 @@ open class PetAPI {
      - parameter petId: (path) ID of pet that needs to be updated 
      - parameter name: (form) Updated name of the pet (optional)
      - parameter status: (form) Updated status of the pet (optional)
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
     open class func updatePetWithFormWithRequestBuilder(petId: Int64, name: String? = nil, status: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Void> {
@@ -431,7 +431,7 @@ open class PetAPI {
      - parameter petId: (path) ID of pet to update 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
      - parameter file: (form) file to upload (optional)
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Observable<ApiResponse>
      */
     open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Observable<ApiResponse> {
@@ -461,7 +461,7 @@ open class PetAPI {
      - parameter petId: (path) ID of pet to update 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
      - parameter file: (form) file to upload (optional)
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ApiResponse> 
      */
     open class func uploadFileWithRequestBuilder(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<ApiResponse> {
@@ -497,7 +497,7 @@ open class PetAPI {
      - parameter petId: (path) ID of pet to update 
      - parameter requiredFile: (form) file to upload 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Observable<ApiResponse>
      */
     open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Observable<ApiResponse> {
@@ -527,7 +527,7 @@ open class PetAPI {
      - parameter petId: (path) ID of pet to update 
      - parameter requiredFile: (form) file to upload 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ApiResponse> 
      */
     open class func uploadFileWithRequiredFileWithRequestBuilder(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<ApiResponse> {

@@ -16,7 +16,7 @@ open class AnotherFakeAPI {
      To test special tags
      
      - parameter body: (body) client model 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<Client, Error>
      */
     #if canImport(Combine)
@@ -49,7 +49,7 @@ open class AnotherFakeAPI {
      - PATCH /another-fake/dummy
      - To test special tags and operation ID starting with number
      - parameter body: (body) client model 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Client> 
      */
     open class func call123testSpecialTagsWithRequestBuilder(body: Client, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Client> {

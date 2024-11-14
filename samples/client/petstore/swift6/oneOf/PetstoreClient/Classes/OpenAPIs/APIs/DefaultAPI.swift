@@ -28,7 +28,7 @@ open class DefaultAPI {
 
     /**
      - GET /
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Fruit> 
      */
     open class func rootGetWithRequestBuilder(apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Fruit> {

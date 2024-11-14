@@ -11,7 +11,7 @@ open class DefaultAPI {
 
     /**
 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Banana
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -21,7 +21,7 @@ open class DefaultAPI {
 
     /**
      - GET /
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Banana> 
      */
     open class func rootGetWithRequestBuilder(apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Banana> {

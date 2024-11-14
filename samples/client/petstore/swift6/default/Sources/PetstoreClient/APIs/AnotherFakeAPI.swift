@@ -14,7 +14,7 @@ open class AnotherFakeAPI {
      
      - parameter uuidTest: (header) to test uuid example value 
      - parameter body: (body) client model 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Client
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -28,7 +28,7 @@ open class AnotherFakeAPI {
      - To test special tags and operation ID starting with number
      - parameter uuidTest: (header) to test uuid example value 
      - parameter body: (body) client model 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Client> 
      */
     open class func call123testSpecialTagsWithRequestBuilder(uuidTest: UUID, body: Client, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Client> {

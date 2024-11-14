@@ -13,7 +13,7 @@ internal class AnotherFakeAPI {
      To test special tags
      
      - parameter body: (body) client model 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the result
      */
     @discardableResult
@@ -33,7 +33,7 @@ internal class AnotherFakeAPI {
      - PATCH /another-fake/dummy
      - To test special tags and operation ID starting with number
      - parameter body: (body) client model 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Client> 
      */
     internal class func call123testSpecialTagsWithRequestBuilder(body: Client, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Client> {
