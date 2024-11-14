@@ -12,7 +12,7 @@ import Foundation
     /**
 
      - parameter body: (body) Input boolean as post body (optional)
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -55,7 +55,7 @@ import Foundation
     /**
 
      - parameter body: (body) Input composite as post body (optional)
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -98,7 +98,7 @@ import Foundation
     /**
 
      - parameter body: (body) Input number as post body (optional)
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -141,7 +141,7 @@ import Foundation
     /**
 
      - parameter body: (body) Input string as post body (optional)
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -184,7 +184,7 @@ import Foundation
     /**
 
      - parameter body: (body)  
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -228,7 +228,7 @@ import Foundation
 
      - parameter query: (query)  
      - parameter body: (body)  
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -275,7 +275,7 @@ import Foundation
      To test \"client\" model
      
      - parameter body: (body) client model 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -333,7 +333,7 @@ import Foundation
      - parameter dateTime: (form) None (optional)
      - parameter password: (form) None (optional)
      - parameter callback: (form) None (optional)
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -486,7 +486,7 @@ import Foundation
      - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
      - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to .dollar)
      - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .efg)
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -557,7 +557,7 @@ import Foundation
      - parameter stringGroup: (query) String in group parameters (optional)
      - parameter booleanGroup: (header) Boolean in group parameters (optional)
      - parameter int64Group: (query) Integer in group parameters (optional)
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -614,7 +614,7 @@ import Foundation
      test inline additionalProperties
      
      - parameter param: (body) request body 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -659,7 +659,7 @@ import Foundation
      
      - parameter param: (form) field1 
      - parameter param2: (form) field2 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult

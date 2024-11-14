@@ -16,7 +16,7 @@ open class PetAPI {
      Add a new pet to the store
      
      - parameter body: (body) Pet object that needs to be added to the store 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -67,7 +67,7 @@ open class PetAPI {
      
      - parameter petId: (path) Pet id to delete 
      - parameter apiKey: (header)  (optional)
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -127,7 +127,7 @@ open class PetAPI {
      Finds Pets by status
      
      - parameter status: (query) Status values that need to be considered for filter 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -178,7 +178,7 @@ open class PetAPI {
      Finds Pets by tags
      
      - parameter tags: (query) Tags to filter by 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @available(*, deprecated, message: "This operation is deprecated.")
@@ -231,7 +231,7 @@ open class PetAPI {
      Find pet by ID
      
      - parameter petId: (path) ID of pet to return 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -282,7 +282,7 @@ open class PetAPI {
      Update an existing pet
      
      - parameter body: (body) Pet object that needs to be added to the store 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -331,7 +331,7 @@ open class PetAPI {
      - parameter petId: (path) ID of pet that needs to be updated 
      - parameter name: (form) Updated name of the pet (optional)
      - parameter status: (form) Updated status of the pet (optional)
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -391,7 +391,7 @@ open class PetAPI {
      - parameter petId: (path) ID of pet to update 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
      - parameter file: (form) file to upload (optional)
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -451,7 +451,7 @@ open class PetAPI {
      - parameter petId: (path) ID of pet to update 
      - parameter requiredFile: (form) file to upload 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult

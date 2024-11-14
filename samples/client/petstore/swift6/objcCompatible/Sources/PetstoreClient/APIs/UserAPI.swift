@@ -13,7 +13,7 @@ import Foundation
      Create user
      
      - parameter body: (body) Created user object 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -58,7 +58,7 @@ import Foundation
      Creates list of users with given input array
      
      - parameter body: (body) List of user object 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -102,7 +102,7 @@ import Foundation
      Creates list of users with given input array
      
      - parameter body: (body) List of user object 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -146,7 +146,7 @@ import Foundation
      Delete user
      
      - parameter username: (path) The name that needs to be deleted 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -194,7 +194,7 @@ import Foundation
      Get user by user name
      
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -242,7 +242,7 @@ import Foundation
      
      - parameter username: (query) The user name for login 
      - parameter password: (query) The password for login in clear text 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -291,7 +291,7 @@ import Foundation
     /**
      Logs out current logged in user session
      
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -335,7 +335,7 @@ import Foundation
      
      - parameter username: (path) name that need to be deleted 
      - parameter body: (body) Updated user object 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult

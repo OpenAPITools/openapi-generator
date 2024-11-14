@@ -13,7 +13,7 @@ import Foundation
      Delete purchase order by ID
      
      - parameter orderId: (path) ID of the order that needs to be deleted 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -60,7 +60,7 @@ import Foundation
     /**
      Returns pet inventories by status
      
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -107,7 +107,7 @@ import Foundation
      Find purchase order by ID
      
      - parameter orderId: (path) ID of pet that needs to be fetched 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -155,7 +155,7 @@ import Foundation
      Place an order for a pet
      
      - parameter body: (body) order placed for purchasing the pet 
-     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
