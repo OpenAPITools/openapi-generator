@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -88,19 +90,12 @@ public class GrandparentAnimal {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    GrandparentAnimal grandparentAnimal = (GrandparentAnimal) o;
-    return Objects.equals(this.petType, grandparentAnimal.petType);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(petType);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override

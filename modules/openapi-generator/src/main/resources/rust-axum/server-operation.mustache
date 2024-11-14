@@ -1,6 +1,6 @@
 /// {{{operationId}}} - {{{httpMethod}}} {{{basePathWithoutHost}}}{{{path}}}
 #[tracing::instrument(skip_all)]
-async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}<I, A>(
+async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}<I, A{{#havingAuthMethod}}, C{{/havingAuthMethod}}>(
   method: Method,
   host: Host,
   cookies: CookieJar,
@@ -54,25 +54,33 @@ async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::{{classFilename}}::{{classnamePascalCase}}{{#vendorExtensions}}{{#x-has-cookie-auth-methods}}+ apis::CookieAuthentication{{/x-has-cookie-auth-methods}}{{#x-has-header-auth-methods}}+ apis::ApiKeyAuthHeader{{/x-has-header-auth-methods}}{{/vendorExtensions}},
+    A: apis::{{classFilename}}::{{classnamePascalCase}}{{#havingAuthMethod}}<Claims = C>{{/havingAuthMethod}}{{#vendorExtensions}}{{#x-has-cookie-auth-methods}}+ apis::CookieAuthentication<Claims = C>{{/x-has-cookie-auth-methods}}{{#x-has-header-auth-methods}}+ apis::ApiKeyAuthHeader<Claims = C>{{/x-has-header-auth-methods}}{{/vendorExtensions}},
 {
 {{#vendorExtensions}}
 {{#x-has-auth-methods}}
     // Authentication
 {{/x-has-auth-methods}}
 {{#x-has-cookie-auth-methods}}
-    let token_in_cookie = api_impl.as_ref().extract_token_from_cookie(&cookies, "{{x-api-key-cookie-name}}");
+    let claims_in_cookie = api_impl.as_ref().extract_claims_from_cookie(&cookies, "{{x-api-key-cookie-name}}").await;
 {{/x-has-cookie-auth-methods}}
 {{#x-has-header-auth-methods}}
-    let token_in_header = api_impl.as_ref().extract_token_from_header(&headers, "{{x-api-key-header-name}}");
+    let claims_in_header = api_impl.as_ref().extract_claims_from_header(&headers, "{{x-api-key-header-name}}").await;
 {{/x-has-header-auth-methods}}
 {{#x-has-auth-methods}}
-    if let ({{#x-has-cookie-auth-methods}}None,{{/x-has-cookie-auth-methods}}{{#x-has-header-auth-methods}}None,{{/x-has-header-auth-methods}}) = ({{#x-has-cookie-auth-methods}}&token_in_cookie,{{/x-has-cookie-auth-methods}}{{#x-has-header-auth-methods}}&token_in_header,{{/x-has-header-auth-methods}}) {
+    let claims = None
+          {{#x-has-cookie-auth-methods}}
+             .or(claims_in_cookie)
+          {{/x-has-cookie-auth-methods}}
+          {{#x-has-header-auth-methods}}
+             .or(claims_in_header)
+          {{/x-has-header-auth-methods}}
+          ;
+    let Some(claims) = claims else {
         return Response::builder()
-                    .status(StatusCode::UNAUTHORIZED)
-                    .body(Body::empty())
-                    .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
-    }
+                        .status(StatusCode::UNAUTHORIZED)
+                        .body(Body::empty())
+                        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
+    };
 {{/x-has-auth-methods}}
 {{/vendorExtensions}}
 
@@ -182,12 +190,9 @@ where
       host,
       cookies,
       {{#vendorExtensions}}
-        {{#x-has-cookie-auth-methods}}
-          token_in_cookie,
-        {{/x-has-cookie-auth-methods}}
-        {{#x-has-header-auth-methods}}
-          token_in_header,
-        {{/x-has-header-auth-methods}}
+        {{#x-has-auth-methods}}
+        claims,
+        {{/x-has-auth-methods}}
       {{/vendorExtensions}}
       {{#headerParams.size}}
         header_params,

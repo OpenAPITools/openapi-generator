@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -106,20 +108,12 @@ public class SpecialModelName {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    SpecialModelName specialModelName = (SpecialModelName) o;
-    return Objects.equals(this.$specialPropertyName, specialModelName.$specialPropertyName) &&
-        Objects.equals(this.specialModelName, specialModelName.specialModelName);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash($specialPropertyName, specialModelName);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override
