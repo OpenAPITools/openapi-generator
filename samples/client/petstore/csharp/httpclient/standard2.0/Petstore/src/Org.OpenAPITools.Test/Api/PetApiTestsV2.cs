@@ -293,7 +293,7 @@ namespace Org.OpenAPITools.Test.Api
 		#region Add
 
 		/// <summary>
-		/// Test AddPet with an existent Id. The current server beavior is to update the Pet.
+		/// Test AddPet with an existent Id. The current server behavior is to update the Pet.
 		/// </summary>
 		[Fact]
 		public void AddPet_GivenExistentId_UpdateThePet()
@@ -308,7 +308,7 @@ namespace Org.OpenAPITools.Test.Api
 		#region AddAsync
 
 		/// <summary>
-		/// Test AddPetAsync with an existent Id. The current server beavior is to update the Pet.
+		/// Test AddPetAsync with an existent Id. The current server behavior is to update the Pet.
 		/// </summary>
 		[Fact]
 		public async Task AddPetAsync_GivenExistentId_UpdateThePet()
@@ -334,7 +334,7 @@ namespace Org.OpenAPITools.Test.Api
 		}
 
 		/// <summary>
-		/// Test UpdatePet with a not existent Id. The current server beavior is to create the Pet.
+		/// Test UpdatePet with a not existent Id. The current server behavior is to create the Pet.
 		/// </summary>
 		[Fact]
 		public void UpdatePet_GivenNotExistentId_UpdateThePet()
@@ -417,7 +417,7 @@ namespace Org.OpenAPITools.Test.Api
 		}
 
 		/// <summary>
-		/// Test UpdatePetAsync with a not existent Id. The current server beavior is to create the Pet.
+		/// Test UpdatePetAsync with a not existent Id. The current server behavior is to create the Pet.
 		/// </summary>
 		[Fact]
 		public async Task UpdatePetAsync_GivenNotExistentId_UpdateThePet()
@@ -503,7 +503,7 @@ namespace Org.OpenAPITools.Test.Api
 		}
 
 		/// <summary>
-		/// Test DeletePet with a not existent Id. The current server beavior is to return 404.
+		/// Test DeletePet with a not existent Id. The current server behavior is to return 404.
 		/// </summary>
 		[Fact]
 		public void DeletePet_GivenNotExistentId_ThrowsApiException()
@@ -533,7 +533,7 @@ namespace Org.OpenAPITools.Test.Api
 		}
 
 		/// <summary>
-		/// Test DeletePet with a not existent Id. The current server beavior is to return 404.
+		/// Test DeletePet with a not existent Id. The current server behavior is to return 404.
 		/// </summary>
 		[Fact]
 		public async Task DeletePetAsync_GivenNotExistentId_ThrowsApiException()

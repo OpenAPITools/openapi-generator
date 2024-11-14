@@ -49,7 +49,7 @@ class TestManual(unittest.TestCase):
 
     def testDateTimeQueryWithDateTimeFormat(self):
         api_instance = openapi_client.QueryApi()
-        datetime_format_backup = api_instance.api_client.configuration.datetime_format # backup dateime_format
+        datetime_format_backup = api_instance.api_client.configuration.datetime_format # backup datetime_format
         api_instance.api_client.configuration.datetime_format = "%Y-%m-%d %a %H:%M:%S%Z"
         datetime_query = datetime.datetime.fromisoformat('2013-10-20T19:20:30-05:00') # datetime |  (optional)
         date_query = datetime.date(2013, 10, 20) # date |  (optional)
@@ -87,7 +87,7 @@ class TestManual(unittest.TestCase):
         except ValueError as err:
             self.assertEqual("Error due to additional fields (not defined in NumberPropertiesOnly) in the input: float", str(err))
 
-    def testApplicatinOctetStreamBinaryBodyParameter(self):
+    def testApplicationOctetStreamBinaryBodyParameter(self):
         api_instance = openapi_client.BodyApi()
         binary_body = base64.b64decode(self.gif_base64)
         api_response = api_instance.test_body_application_octetstream_binary(binary_body)
@@ -96,7 +96,7 @@ class TestManual(unittest.TestCase):
         self.assertEqual(e.headers["Content-Type"], 'application/octet-stream')
         self.assertEqual(bytes(e.body, "utf-8"), b'GIF89a\x01\x00\x01\x00\xef\xbf\xbd\x01\x00\xef\xbf\xbd\xef\xbf\xbd\xef\xbf\xbd\x00\x00\x00!\xef\xbf\xbd\x04\x01\n\x00\x01\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02L\x01\x00;')
 
-    def testApplicatinOctetStreamBinaryBodyParameterWithFile(self):
+    def testApplicationOctetStreamBinaryBodyParameterWithFile(self):
         api_instance = openapi_client.BodyApi()
         try:
             api_response = api_instance.test_body_application_octetstream_binary("invalid_file_path")
@@ -175,7 +175,7 @@ class TestManual(unittest.TestCase):
         assert pet2.category is not None
         self.assertEqual(pet2.category.id, 1)
 
-    def echoServerResponseParaserTest(self):
+    def echoServerResponseParserTest(self):
         s = """POST /echo/body/Pet/response_string HTTP/1.1
 Host: localhost:3000
 Accept-Encoding: identity

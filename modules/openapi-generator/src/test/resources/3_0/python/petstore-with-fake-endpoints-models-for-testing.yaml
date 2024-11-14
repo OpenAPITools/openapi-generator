@@ -861,7 +861,7 @@ paths:
             format: int64
       responses:
         '400':
-          description: Someting wrong
+          description: Something wrong
   /fake/outer/number:
     post:
       tags:
@@ -2108,7 +2108,7 @@ components:
             - 'Description for 56'
           x-enum-varnames:
             - FortyTwo
-            - Eigtheen
+            - Eighteen
             - FiftySix
         enum_string_vendor_ext:
           type: string

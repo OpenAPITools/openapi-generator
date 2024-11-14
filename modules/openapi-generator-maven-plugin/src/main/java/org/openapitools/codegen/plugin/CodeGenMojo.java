@@ -865,7 +865,7 @@ public class CodeGenMojo extends AbstractMojo {
             }
 
             // Apply Parameter Name Mappings
-            if (parameterNameMappings != null && (configOptions == null || !configOptions.containsKey("paramter-name-mappings"))) {
+            if (parameterNameMappings != null && (configOptions == null || !configOptions.containsKey("parameter-name-mappings"))) {
                 applyParameterNameMappingsKvpList(parameterNameMappings, configurator);
             }
 
