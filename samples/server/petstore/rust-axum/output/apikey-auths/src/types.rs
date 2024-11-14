@@ -643,6 +643,7 @@ where
         }
     }
 }
+
 impl<'a, T> validator::ValidateArgs<'a> for Nullable<T>
 where
     T: validator::ValidateArgs<'a>,
@@ -655,6 +656,7 @@ where
         }
     }
 }
+
 impl<T> validator::ValidateEmail for Nullable<T>
 where
     T: validator::ValidateEmail,
@@ -666,6 +668,7 @@ where
         }
     }
 }
+
 impl<T> validator::ValidateUrl for Nullable<T>
 where
     T: validator::ValidateUrl,
@@ -677,6 +680,7 @@ where
         }
     }
 }
+
 impl<T> validator::ValidateContains for Nullable<T>
 where
     T: validator::ValidateContains,
@@ -688,6 +692,7 @@ where
         }
     }
 }
+
 impl<T> validator::ValidateRequired for Nullable<T>
 where
     T: validator::ValidateRequired,
@@ -696,6 +701,7 @@ where
         self.is_present()
     }
 }
+
 impl<T> validator::ValidateRegex for Nullable<T>
 where
     T: validator::ValidateRegex,
@@ -707,6 +713,7 @@ where
         }
     }
 }
+
 impl<T, I> validator::ValidateRange<I> for Nullable<T>
 where
     T: validator::ValidateRange<I>,
@@ -726,6 +733,7 @@ where
         }
     }
 }
+
 impl<T, I> validator::ValidateLength<I> for Nullable<T>
 where
     T: validator::ValidateLength<I>,
@@ -739,11 +747,12 @@ where
         }
     }
 }
-impl<T> Into<Option<T>> for Nullable<T> {
-    fn into(self) -> Option<T> {
-        match self {
-            Self::Present(x) => Some(x),
-            Self::Null => None,
+
+impl<T> From<Nullable<T>> for Option<T> {
+    fn from(value: Nullable<T>) -> Option<T> {
+        match value {
+            Nullable::Present(x) => Some(x),
+            Nullable::Null => None,
         }
     }
 }
