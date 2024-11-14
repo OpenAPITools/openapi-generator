@@ -16,7 +16,7 @@ open class StoreAPI {
      Delete purchase order by ID
      
      - parameter orderId: (path) ID of the order that needs to be deleted 
-     - parameter apiConfiguration: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -36,7 +36,7 @@ open class StoreAPI {
      - DELETE /store/order/{order_id}
      - For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      - parameter orderId: (path) ID of the order that needs to be deleted 
-     - parameter apiConfiguration: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
     open class func deleteOrderWithRequestBuilder(orderId: String, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Void> {
@@ -63,7 +63,7 @@ open class StoreAPI {
     /**
      Returns pet inventories by status
      
-     - parameter apiConfiguration: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -85,7 +85,7 @@ open class StoreAPI {
      - API Key:
        - type: apiKey api_key (HEADER)
        - name: api_key
-     - parameter apiConfiguration: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
      - returns: RequestBuilder<[String: Int]> 
      */
     open class func getInventoryWithRequestBuilder(apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<[String: Int]> {
@@ -110,7 +110,7 @@ open class StoreAPI {
      Find purchase order by ID
      
      - parameter orderId: (path) ID of pet that needs to be fetched 
-     - parameter apiConfiguration: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -130,7 +130,7 @@ open class StoreAPI {
      - GET /store/order/{order_id}
      - For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
      - parameter orderId: (path) ID of pet that needs to be fetched 
-     - parameter apiConfiguration: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
      - returns: RequestBuilder<Order> 
      */
     open class func getOrderByIdWithRequestBuilder(orderId: Int64, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Order> {
@@ -158,7 +158,7 @@ open class StoreAPI {
      Place an order for a pet
      
      - parameter body: (body) order placed for purchasing the pet 
-     - parameter apiConfiguration: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
@@ -177,7 +177,7 @@ open class StoreAPI {
      Place an order for a pet
      - POST /store/order
      - parameter body: (body) order placed for purchasing the pet 
-     - parameter apiConfiguration: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The PetstoreClientAPIConfiguration that contains the configuration for the http request.
      - returns: RequestBuilder<Order> 
      */
     open class func placeOrderWithRequestBuilder(body: Order, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Order> {

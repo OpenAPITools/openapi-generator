@@ -13,9 +13,9 @@ import Combine
 #endif
 
 open class FakeAPI {
-    public let openAPIClient: OpenAPIClient
-    public init(openAPIClient: OpenAPIClient = OpenAPIClient.shared) {
-        self.openAPIClient = openAPIClient
+    public let apiConfiguration: PetstoreClientAPIConfiguration
+    public init(apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) {
+        self.apiConfiguration = apiConfiguration
     }
 
     /**
@@ -141,8 +141,8 @@ open class FakeAPI {
      */
     open func fakeOuterBooleanSerializeWithRequestBuilder(body: Bool? = nil) -> RequestBuilder<Bool> {
         let localVariablePath = "/fake/outer/boolean"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -152,9 +152,9 @@ open class FakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Bool>.Type = openAPIClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Bool>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -280,8 +280,8 @@ open class FakeAPI {
      */
     open func fakeOuterCompositeSerializeWithRequestBuilder(body: OuterComposite? = nil) -> RequestBuilder<OuterComposite> {
         let localVariablePath = "/fake/outer/composite"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -291,9 +291,9 @@ open class FakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<OuterComposite>.Type = openAPIClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<OuterComposite>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -419,8 +419,8 @@ open class FakeAPI {
      */
     open func fakeOuterNumberSerializeWithRequestBuilder(body: Double? = nil) -> RequestBuilder<Double> {
         let localVariablePath = "/fake/outer/number"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -430,9 +430,9 @@ open class FakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Double>.Type = openAPIClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Double>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -558,8 +558,8 @@ open class FakeAPI {
      */
     open func fakeOuterStringSerializeWithRequestBuilder(body: String? = nil) -> RequestBuilder<String> {
         let localVariablePath = "/fake/outer/string"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -569,9 +569,9 @@ open class FakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<String>.Type = openAPIClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<String>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -697,8 +697,8 @@ open class FakeAPI {
      */
     open func testBodyWithFileSchemaWithRequestBuilder(body: FileSchemaTestClass) -> RequestBuilder<Void> {
         let localVariablePath = "/fake/body-with-file-schema"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -708,9 +708,9 @@ open class FakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -842,12 +842,12 @@ open class FakeAPI {
      */
     open func testBodyWithQueryParamsWithRequestBuilder(query: String, body: User) -> RequestBuilder<Void> {
         let localVariablePath = "/fake/body-with-query-params"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "query": (wrappedValue: query.encodeToJSON(codableHelper: openAPIClient.codableHelper), isExplode: false),
+            "query": (wrappedValue: query.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -856,9 +856,9 @@ open class FakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -991,8 +991,8 @@ open class FakeAPI {
      */
     open func testClientModelWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
         let localVariablePath = "/fake"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -1002,9 +1002,9 @@ open class FakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Client>.Type = openAPIClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Client>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -1231,22 +1231,22 @@ open class FakeAPI {
      */
     open func testEndpointParametersWithRequestBuilder(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: Data? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> RequestBuilder<Void> {
         let localVariablePath = "/fake"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableFormParams: [String: Any?] = [
-            "integer": integer?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "int32": int32?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "int64": int64?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "number": number.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "float": float?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "double": double.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "string": string?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "pattern_without_delimiter": patternWithoutDelimiter.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "byte": byte.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "binary": binary?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "date": date?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "dateTime": dateTime?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "password": password?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "callback": callback?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
+            "integer": integer?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "int32": int32?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "int64": int64?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "number": number.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "float": float?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "double": double.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "string": string?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "pattern_without_delimiter": patternWithoutDelimiter.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "byte": byte.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "binary": binary?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "date": date?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "dateTime": dateTime?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "password": password?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "callback": callback?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
@@ -1260,9 +1260,9 @@ open class FakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -1511,10 +1511,10 @@ open class FakeAPI {
      */
     open func testEnumParametersWithRequestBuilder(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) -> RequestBuilder<Void> {
         let localVariablePath = "/fake"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableFormParams: [String: Any?] = [
-            "enum_form_string_array": enumFormStringArray?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "enum_form_string": enumFormString?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
+            "enum_form_string_array": enumFormStringArray?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "enum_form_string": enumFormString?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
@@ -1522,23 +1522,23 @@ open class FakeAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "enum_query_string_array": (wrappedValue: enumQueryStringArray?.encodeToJSON(codableHelper: openAPIClient.codableHelper), isExplode: false),
-            "enum_query_string": (wrappedValue: enumQueryString?.encodeToJSON(codableHelper: openAPIClient.codableHelper), isExplode: false),
-            "enum_query_integer": (wrappedValue: enumQueryInteger?.encodeToJSON(codableHelper: openAPIClient.codableHelper), isExplode: false),
-            "enum_query_double": (wrappedValue: enumQueryDouble?.encodeToJSON(codableHelper: openAPIClient.codableHelper), isExplode: false),
+            "enum_query_string_array": (wrappedValue: enumQueryStringArray?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "enum_query_string": (wrappedValue: enumQueryString?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "enum_query_integer": (wrappedValue: enumQueryInteger?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "enum_query_double": (wrappedValue: enumQueryDouble?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
             "Content-Type": "application/x-www-form-urlencoded",
-            "enum_header_string_array": enumHeaderStringArray?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "enum_header_string": enumHeaderString?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
+            "enum_header_string_array": enumHeaderStringArray?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "enum_header_string": enumHeaderString?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -1706,27 +1706,27 @@ open class FakeAPI {
      */
     open func testGroupParametersWithRequestBuilder(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil) -> RequestBuilder<Void> {
         let localVariablePath = "/fake"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "required_string_group": (wrappedValue: requiredStringGroup.encodeToJSON(codableHelper: openAPIClient.codableHelper), isExplode: false),
-            "required_int64_group": (wrappedValue: requiredInt64Group.encodeToJSON(codableHelper: openAPIClient.codableHelper), isExplode: false),
-            "string_group": (wrappedValue: stringGroup?.encodeToJSON(codableHelper: openAPIClient.codableHelper), isExplode: false),
-            "int64_group": (wrappedValue: int64Group?.encodeToJSON(codableHelper: openAPIClient.codableHelper), isExplode: false),
+            "required_string_group": (wrappedValue: requiredStringGroup.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "required_int64_group": (wrappedValue: requiredInt64Group.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "string_group": (wrappedValue: stringGroup?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "int64_group": (wrappedValue: int64Group?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
-            "required_boolean_group": requiredBooleanGroup.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "boolean_group": booleanGroup?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
+            "required_boolean_group": requiredBooleanGroup.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "boolean_group": booleanGroup?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -1858,8 +1858,8 @@ open class FakeAPI {
      */
     open func testInlineAdditionalPropertiesWithRequestBuilder(param: [String: String]) -> RequestBuilder<Void> {
         let localVariablePath = "/fake/inline-additionalProperties"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: param, codableHelper: openAPIClient.codableHelper)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: param, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -1869,9 +1869,9 @@ open class FakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -2010,10 +2010,10 @@ open class FakeAPI {
      */
     open func testJsonFormDataWithRequestBuilder(param: String, param2: String) -> RequestBuilder<Void> {
         let localVariablePath = "/fake/jsonFormData"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableFormParams: [String: Any?] = [
-            "param": param.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "param2": param2.encodeToJSON(codableHelper: openAPIClient.codableHelper),
+            "param": param.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "param2": param2.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
@@ -2027,8 +2027,8 @@ open class FakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, apiConfiguration: apiConfiguration)
     }
 }
