@@ -90,6 +90,8 @@ pub enum UpdateUserResponse {
 #[async_trait]
 #[allow(clippy::ptr_arg)]
 pub trait User {
+    type Claims;
+
     /// Create user.
     ///
     /// CreateUser - POST /v2/user
@@ -98,7 +100,7 @@ pub trait User {
         method: Method,
         host: Host,
         cookies: CookieJar,
-        token_in_header: Option<String>,
+        claims: Self::Claims,
         body: models::User,
     ) -> Result<CreateUserResponse, ()>;
 
@@ -110,7 +112,7 @@ pub trait User {
         method: Method,
         host: Host,
         cookies: CookieJar,
-        token_in_header: Option<String>,
+        claims: Self::Claims,
         body: Vec<models::User>,
     ) -> Result<CreateUsersWithArrayInputResponse, ()>;
 
@@ -122,7 +124,7 @@ pub trait User {
         method: Method,
         host: Host,
         cookies: CookieJar,
-        token_in_header: Option<String>,
+        claims: Self::Claims,
         body: Vec<models::User>,
     ) -> Result<CreateUsersWithListInputResponse, ()>;
 
@@ -134,7 +136,7 @@ pub trait User {
         method: Method,
         host: Host,
         cookies: CookieJar,
-        token_in_header: Option<String>,
+        claims: Self::Claims,
         path_params: models::DeleteUserPathParams,
     ) -> Result<DeleteUserResponse, ()>;
 
@@ -168,7 +170,7 @@ pub trait User {
         method: Method,
         host: Host,
         cookies: CookieJar,
-        token_in_header: Option<String>,
+        claims: Self::Claims,
     ) -> Result<LogoutUserResponse, ()>;
 
     /// Updated user.
@@ -179,7 +181,7 @@ pub trait User {
         method: Method,
         host: Host,
         cookies: CookieJar,
-        token_in_header: Option<String>,
+        claims: Self::Claims,
         path_params: models::UpdateUserPathParams,
         body: models::User,
     ) -> Result<UpdateUserResponse, ()>;

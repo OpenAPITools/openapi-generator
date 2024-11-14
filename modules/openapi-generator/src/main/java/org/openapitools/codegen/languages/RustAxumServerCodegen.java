@@ -84,6 +84,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
 
     // Grouping (Method, Operation) by Path.
     private final Map<String, ArrayList<MethodOperation>> pathMethodOpMap = new HashMap<>();
+    private boolean havingAuthMethods = false;
 
     // Logger
     private final Logger LOGGER = LoggerFactory.getLogger(RustAxumServerCodegen.class);
@@ -595,21 +596,26 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
 
     @Override
     public OperationsMap postProcessOperationsWithModels(final OperationsMap operationsMap, List<ModelMap> allModels) {
-        OperationMap operations = operationsMap.getOperations();
+        final OperationMap operations = operationsMap.getOperations();
         operations.put("classnamePascalCase", camelize(operations.getClassname()));
-        List<CodegenOperation> operationList = operations.getOperation();
 
-        for (CodegenOperation op : operationList) {
-            postProcessOperationWithModels(op);
+        final boolean hasAuthMethod = operations.getOperation().stream()
+                .map(this::postProcessOperationWithModels)
+                .reduce(false, (a, b) -> a || b);
+        if (hasAuthMethod) {
+            operations.put("havingAuthMethod", true);
+            operations.getOperation().forEach(op -> op.vendorExtensions.put("havingAuthMethod", true));
+            this.havingAuthMethods = true;
         }
 
         return operationsMap;
     }
 
-    private void postProcessOperationWithModels(final CodegenOperation op) {
+    private boolean postProcessOperationWithModels(final CodegenOperation op) {
         boolean consumesJson = false;
         boolean consumesPlainText = false;
         boolean consumesFormUrlEncoded = false;
+        boolean hasAuthMethod = false;
 
         if (op.consumes != null) {
             for (Map<String, String> consume : op.consumes) {
@@ -666,17 +672,20 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             for (CodegenSecurity s : op.authMethods) {
                 if (s.isApiKey && (s.isKeyInCookie || s.isKeyInHeader)) {
                     if (s.isKeyInCookie) {
-                        op.vendorExtensions.put("x-has-cookie-auth-methods", "true");
-                        op.vendorExtensions.put("x-api-key-cookie-name", toModelName(s.keyParamName));
+                        op.vendorExtensions.put("x-has-cookie-auth-methods", true);
+                        op.vendorExtensions.put("x-api-key-cookie-name", s.keyParamName);
                     } else {
-                        op.vendorExtensions.put("x-has-header-auth-methods", "true");
-                        op.vendorExtensions.put("x-api-key-header-name", toModelName(s.keyParamName));
+                        op.vendorExtensions.put("x-has-header-auth-methods", true);
+                        op.vendorExtensions.put("x-api-key-header-name", s.keyParamName);
                     }
 
-                    op.vendorExtensions.put("x-has-auth-methods", "true");
+                    op.vendorExtensions.put("x-has-auth-methods", true);
+                    hasAuthMethod = true;
                 }
             }
         }
+
+        return hasAuthMethod;
     }
 
     @Override
@@ -772,6 +781,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 .sorted(Comparator.comparing(a -> a.path))
                 .collect(Collectors.toList());
         bundle.put("pathMethodOps", pathMethodOps);
+        if (havingAuthMethods) bundle.put("havingAuthMethods", true);
 
         return super.postProcessSupportingFileData(bundle);
     }
