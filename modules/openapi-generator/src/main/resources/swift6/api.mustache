@@ -224,7 +224,7 @@ extension {{projectName}}API {
      {{{.}}}
      {{/summary}}{{#allParams}}
      - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{/allParams}}{{#apiStaticMethod}}
-     - parameter apiConfiguration: The {{projectName}}APIConfiguration that contains the configuration for the http request.{{/apiStaticMethod}}
+     - parameter apiConfiguration: The configuration for the http request.{{/apiStaticMethod}}
      - parameter completion: completion handler to receive the result
      */
     {{#isDeprecated}}
