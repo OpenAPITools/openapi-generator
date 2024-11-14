@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -20,6 +22,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -194,6 +198,7 @@ public class XmlItem {
    * @return attributeString
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "string", value = "")
   @JsonProperty(JSON_PROPERTY_ATTRIBUTE_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -220,6 +225,7 @@ public class XmlItem {
    * @return attributeNumber
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty(JSON_PROPERTY_ATTRIBUTE_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -246,6 +252,7 @@ public class XmlItem {
    * @return attributeInteger
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "-2", value = "")
   @JsonProperty(JSON_PROPERTY_ATTRIBUTE_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -272,6 +279,7 @@ public class XmlItem {
    * @return attributeBoolean
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "true", value = "")
   @JsonProperty(JSON_PROPERTY_ATTRIBUTE_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -306,6 +314,7 @@ public class XmlItem {
    * @return wrappedArray
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -332,6 +341,7 @@ public class XmlItem {
    * @return nameString
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "string", value = "")
   @JsonProperty(JSON_PROPERTY_NAME_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -358,6 +368,7 @@ public class XmlItem {
    * @return nameNumber
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty(JSON_PROPERTY_NAME_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -384,6 +395,7 @@ public class XmlItem {
    * @return nameInteger
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "-2", value = "")
   @JsonProperty(JSON_PROPERTY_NAME_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -410,6 +422,7 @@ public class XmlItem {
    * @return nameBoolean
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "true", value = "")
   @JsonProperty(JSON_PROPERTY_NAME_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -444,6 +457,7 @@ public class XmlItem {
    * @return nameArray
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_NAME_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -478,6 +492,7 @@ public class XmlItem {
    * @return nameWrappedArray
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_NAME_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -504,6 +519,7 @@ public class XmlItem {
    * @return prefixString
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "string", value = "")
   @JsonProperty(JSON_PROPERTY_PREFIX_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -530,6 +546,7 @@ public class XmlItem {
    * @return prefixNumber
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty(JSON_PROPERTY_PREFIX_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -556,6 +573,7 @@ public class XmlItem {
    * @return prefixInteger
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "-2", value = "")
   @JsonProperty(JSON_PROPERTY_PREFIX_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -582,6 +600,7 @@ public class XmlItem {
    * @return prefixBoolean
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "true", value = "")
   @JsonProperty(JSON_PROPERTY_PREFIX_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -616,6 +635,7 @@ public class XmlItem {
    * @return prefixArray
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PREFIX_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -650,6 +670,7 @@ public class XmlItem {
    * @return prefixWrappedArray
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PREFIX_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -676,6 +697,7 @@ public class XmlItem {
    * @return namespaceString
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "string", value = "")
   @JsonProperty(JSON_PROPERTY_NAMESPACE_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -702,6 +724,7 @@ public class XmlItem {
    * @return namespaceNumber
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty(JSON_PROPERTY_NAMESPACE_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -728,6 +751,7 @@ public class XmlItem {
    * @return namespaceInteger
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "-2", value = "")
   @JsonProperty(JSON_PROPERTY_NAMESPACE_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -754,6 +778,7 @@ public class XmlItem {
    * @return namespaceBoolean
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "true", value = "")
   @JsonProperty(JSON_PROPERTY_NAMESPACE_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -788,6 +813,7 @@ public class XmlItem {
    * @return namespaceArray
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_NAMESPACE_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -822,6 +848,7 @@ public class XmlItem {
    * @return namespaceWrappedArray
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -848,6 +875,7 @@ public class XmlItem {
    * @return prefixNsString
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "string", value = "")
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -874,6 +902,7 @@ public class XmlItem {
    * @return prefixNsNumber
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -900,6 +929,7 @@ public class XmlItem {
    * @return prefixNsInteger
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "-2", value = "")
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -926,6 +956,7 @@ public class XmlItem {
    * @return prefixNsBoolean
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "true", value = "")
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -960,6 +991,7 @@ public class XmlItem {
    * @return prefixNsArray
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -994,6 +1026,7 @@ public class XmlItem {
    * @return prefixNsWrappedArray
    */
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -1011,47 +1044,12 @@ public class XmlItem {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    XmlItem xmlItem = (XmlItem) o;
-    return Objects.equals(this.attributeString, xmlItem.attributeString) &&
-        Objects.equals(this.attributeNumber, xmlItem.attributeNumber) &&
-        Objects.equals(this.attributeInteger, xmlItem.attributeInteger) &&
-        Objects.equals(this.attributeBoolean, xmlItem.attributeBoolean) &&
-        Objects.equals(this.wrappedArray, xmlItem.wrappedArray) &&
-        Objects.equals(this.nameString, xmlItem.nameString) &&
-        Objects.equals(this.nameNumber, xmlItem.nameNumber) &&
-        Objects.equals(this.nameInteger, xmlItem.nameInteger) &&
-        Objects.equals(this.nameBoolean, xmlItem.nameBoolean) &&
-        Objects.equals(this.nameArray, xmlItem.nameArray) &&
-        Objects.equals(this.nameWrappedArray, xmlItem.nameWrappedArray) &&
-        Objects.equals(this.prefixString, xmlItem.prefixString) &&
-        Objects.equals(this.prefixNumber, xmlItem.prefixNumber) &&
-        Objects.equals(this.prefixInteger, xmlItem.prefixInteger) &&
-        Objects.equals(this.prefixBoolean, xmlItem.prefixBoolean) &&
-        Objects.equals(this.prefixArray, xmlItem.prefixArray) &&
-        Objects.equals(this.prefixWrappedArray, xmlItem.prefixWrappedArray) &&
-        Objects.equals(this.namespaceString, xmlItem.namespaceString) &&
-        Objects.equals(this.namespaceNumber, xmlItem.namespaceNumber) &&
-        Objects.equals(this.namespaceInteger, xmlItem.namespaceInteger) &&
-        Objects.equals(this.namespaceBoolean, xmlItem.namespaceBoolean) &&
-        Objects.equals(this.namespaceArray, xmlItem.namespaceArray) &&
-        Objects.equals(this.namespaceWrappedArray, xmlItem.namespaceWrappedArray) &&
-        Objects.equals(this.prefixNsString, xmlItem.prefixNsString) &&
-        Objects.equals(this.prefixNsNumber, xmlItem.prefixNsNumber) &&
-        Objects.equals(this.prefixNsInteger, xmlItem.prefixNsInteger) &&
-        Objects.equals(this.prefixNsBoolean, xmlItem.prefixNsBoolean) &&
-        Objects.equals(this.prefixNsArray, xmlItem.prefixNsArray) &&
-        Objects.equals(this.prefixNsWrappedArray, xmlItem.prefixNsWrappedArray);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(attributeString, attributeNumber, attributeInteger, attributeBoolean, wrappedArray, nameString, nameNumber, nameInteger, nameBoolean, nameArray, nameWrappedArray, prefixString, prefixNumber, prefixInteger, prefixBoolean, prefixArray, prefixWrappedArray, namespaceString, namespaceNumber, namespaceInteger, namespaceBoolean, namespaceArray, namespaceWrappedArray, prefixNsString, prefixNsNumber, prefixNsInteger, prefixNsBoolean, prefixNsArray, prefixNsWrappedArray);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override

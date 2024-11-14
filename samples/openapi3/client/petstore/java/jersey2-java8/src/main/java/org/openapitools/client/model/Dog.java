@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -122,21 +124,12 @@ public class Dog extends Animal {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Dog dog = (Dog) o;
-    return Objects.equals(this.breed, dog.breed)&&
-        Objects.equals(this.additionalProperties, dog.additionalProperties) &&
-        super.equals(o);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(breed, super.hashCode(), additionalProperties);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override
