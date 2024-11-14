@@ -24,6 +24,7 @@ lazy val root = (project in file(".")).
       "com.github.scribejava" % "scribejava-apis" % "8.3.1" % "compile",
       "org.tomitribe" % "tomitribe-http-signatures" % "1.7" % "compile",
       "jakarta.annotation" % "jakarta.annotation-api" % "2.1.0" % "compile",
+        "org.apache.commons" % "commons-lang3" % "3.17.0" % "compile",
       "org.junit.jupiter" % "junit-jupiter-api" % "5.8.2" % "test"
     )
   )

@@ -39,6 +39,8 @@ pub enum PostMakePaymentResponse {
 #[async_trait]
 #[allow(clippy::ptr_arg)]
 pub trait Payments {
+    type Claims;
+
     /// Get payment method by id.
     ///
     /// GetPaymentMethodById - GET /v71/paymentMethods/{id}
@@ -68,7 +70,7 @@ pub trait Payments {
         method: Method,
         host: Host,
         cookies: CookieJar,
-        token_in_cookie: Option<String>,
+        claims: Self::Claims,
         body: Option<models::Payment>,
     ) -> Result<PostMakePaymentResponse, ()>;
 }

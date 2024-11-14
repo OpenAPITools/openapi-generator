@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -148,21 +150,12 @@ public class ComplexQuadrilateral {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    ComplexQuadrilateral complexQuadrilateral = (ComplexQuadrilateral) o;
-    return Objects.equals(this.shapeType, complexQuadrilateral.shapeType) &&
-        Objects.equals(this.quadrilateralType, complexQuadrilateral.quadrilateralType)&&
-        Objects.equals(this.additionalProperties, complexQuadrilateral.additionalProperties);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(shapeType, quadrilateralType, additionalProperties);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override

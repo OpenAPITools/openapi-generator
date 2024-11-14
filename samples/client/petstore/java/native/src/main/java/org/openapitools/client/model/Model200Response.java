@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
@@ -102,20 +104,12 @@ public class Model200Response {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Model200Response _200response = (Model200Response) o;
-    return Objects.equals(this.name, _200response.name) &&
-        Objects.equals(this.propertyClass, _200response.propertyClass);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, propertyClass);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override
