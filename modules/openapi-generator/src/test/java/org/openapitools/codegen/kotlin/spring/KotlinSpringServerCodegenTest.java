@@ -749,7 +749,7 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
-    public void givenMultipartFormArray_whenGenerateDelegate_thenParameterIsCreatedAsListOfResource() throws IOException {
+    public void givenMultipartFormArray_whenGenerateDelegate_thenParameterIsCreatedAsListOfMultipartFile() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
@@ -778,7 +778,7 @@ public class KotlinSpringServerCodegenTest {
         Path outputFilepath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApiDelegate.kt");
 
         assertFileContains(outputFilepath, "additionalMetadata: kotlin.String?");
-        assertFileContains(outputFilepath, "images: List<Resource>");
+        assertFileContains(outputFilepath, "images: List<MultipartFile>");
     }
 
     @Test
@@ -811,7 +811,7 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(outputFilepath,
                            "@Parameter(description = \"Additional data to pass to server\") @RequestParam(value = \"additionalMetadata\", required = false) additionalMetadata: kotlin.String?");
         assertFileContains(outputFilepath,
-                           "@Parameter(description = \"image to upload\") @Valid @RequestPart(\"image\", required = false) image: org.springframework.core.io.Resource?");
+                           "@Parameter(description = \"image to upload\") @Valid @RequestPart(\"image\", required = false) image: org.springframework.web.multipart.MultipartFile");
 
     }
 
