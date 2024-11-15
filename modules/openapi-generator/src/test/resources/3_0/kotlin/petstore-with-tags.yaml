@@ -329,6 +329,32 @@ paths:
         - petstore_auth:
             - write:pets
             - read:pets
+  /pet/{petId}/getImage:
+    get:
+      tags:
+        - pet tag
+      summary: Get an image
+      operationId: getImage
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to get image
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
   /store/inventory:
     get:
       tags:
