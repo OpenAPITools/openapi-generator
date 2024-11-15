@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.context.request.NativeWebRequest
-import org.springframework.core.io.Resource
+import org.springframework.web.multipart.MultipartFile
 
 import java.util.Optional
 
@@ -69,6 +69,6 @@ interface PetApiDelegate {
      */
     fun uploadFile(petId: kotlin.Long,
         additionalMetadata: kotlin.String?,
-        file: Resource?): ResponseEntity<ModelApiResponse>
+        file: MultipartFile?): ResponseEntity<ModelApiResponse>
 
 }
