@@ -66,13 +66,17 @@ PathApi <- R6::R6Class(
     TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath = function(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, data_file = NULL, ...) {
       local_var_response <- self$TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
 
@@ -157,17 +161,17 @@ PathApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-          write(local_var_resp$response, data_file)
+          private$WriteFile(local_var_resp$response, data_file, local_var_accepts)
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("openapi")),
+          private$Deserialize(local_var_resp),
           error = function(e) {
             stop("Failed to deserialize response")
           }
         )
         local_var_resp$content <- deserialized_resp_obj
-        local_var_resp
+        return(local_var_resp)
       } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
         ApiResponse$new(paste("Server returned ", local_var_resp$status_code, " response status code."), local_var_resp)
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
@@ -176,8 +180,29 @@ PathApi <- R6::R6Class(
         if (is.null(local_var_resp$response) || local_var_resp$response == "") {
           local_var_resp$response <- "API server error"
         }
-        local_var_resp
+        return(local_var_resp)
       }
+    }
+  ),
+  private = list(
+    WriteFile = function(x, file, accepts) {
+      if (private$IsBinary(accepts)) {
+        writeBin(x, file)
+      } else {
+        base::write(x, file)
+      }
+    },
+
+    IsBinary = function(accepts) {
+      return(any(grepl("gzip", as.character(accepts))))
+    },
+
+    Deserialize = function(local_var_resp) {
+      text <- local_var_resp$response_as_text()
+      if (is.na(text)) {
+        return(local_var_resp$response)
+      }
+      return(self$api_client$deserialize(text, "object", loadNamespace("k8s.client")))
     }
   )
 )

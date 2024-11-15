@@ -193,13 +193,17 @@ FakeApi <- R6::R6Class(
     add_pet_optional = function(pet = NULL, data_file = NULL, ...) {
       local_var_response <- self$add_pet_optional_with_http_info(pet, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
 
@@ -256,11 +260,11 @@ FakeApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-          write(local_var_resp$response, data_file)
+          private$WriteFile(local_var_resp$response, data_file, local_var_accepts)
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response_as_text(), "Pet", loadNamespace("petstore")),
+          private$Deserialize(local_var_resp),
           error = function(e) {
             rlang::abort(message = "Failed to deserialize response",
                          .subclass = "ApiException",
@@ -268,7 +272,7 @@ FakeApi <- R6::R6Class(
           }
         )
         local_var_resp$content <- deserialized_resp_obj
-        local_var_resp
+        return(local_var_resp)
       } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
         local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
@@ -308,13 +312,17 @@ FakeApi <- R6::R6Class(
     fake_data_file = function(dummy, var_data_file = NULL, data_file = NULL, ...) {
       local_var_response <- self$fake_data_file_with_http_info(dummy, var_data_file, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
 
@@ -374,11 +382,11 @@ FakeApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-          write(local_var_resp$response, data_file)
+          private$WriteFile(local_var_resp$response, data_file, local_var_accepts)
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response_as_text(), "User", loadNamespace("petstore")),
+          private$Deserialize(local_var_resp),
           error = function(e) {
             rlang::abort(message = "Failed to deserialize response",
                          .subclass = "ApiException",
@@ -386,7 +394,7 @@ FakeApi <- R6::R6Class(
           }
         )
         local_var_resp$content <- deserialized_resp_obj
-        local_var_resp
+        return(local_var_resp)
       } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
         local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
@@ -424,13 +432,17 @@ FakeApi <- R6::R6Class(
     fake_path_array = function(path_array, ...) {
       local_var_response <- self$fake_path_array_with_http_info(path_array, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
 
@@ -486,7 +498,7 @@ FakeApi <- R6::R6Class(
 
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         local_var_resp$content <- NULL
-        local_var_resp
+        return(local_var_resp)
       } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
         local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
@@ -524,13 +536,17 @@ FakeApi <- R6::R6Class(
     fake_regular_expression = function(reg_exp_test, ...) {
       local_var_response <- self$fake_regular_expression_with_http_info(reg_exp_test, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
 
@@ -590,7 +606,7 @@ FakeApi <- R6::R6Class(
 
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         local_var_resp$content <- NULL
-        local_var_resp
+        return(local_var_resp)
       } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
         local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
@@ -629,13 +645,17 @@ FakeApi <- R6::R6Class(
     fake_set_query = function(set_dummy, array_dummy, ...) {
       local_var_response <- self$fake_set_query_with_http_info(set_dummy, array_dummy, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
 
@@ -713,7 +733,7 @@ FakeApi <- R6::R6Class(
 
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         local_var_resp$content <- NULL
-        local_var_resp
+        return(local_var_resp)
       } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
         local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
@@ -739,6 +759,27 @@ FakeApi <- R6::R6Class(
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
+    }
+  ),
+  private = list(
+    WriteFile = function(x, file, accepts) {
+      if (private$IsBinary(accepts)) {
+        writeBin(x, file)
+      } else {
+        base::write(x, file)
+      }
+    },
+
+    IsBinary = function(accepts) {
+      return(any(grepl("gzip", as.character(accepts))))
+    },
+
+    Deserialize = function(local_var_resp) {
+      text <- local_var_resp$response_as_text()
+      if (is.na(text)) {
+        return(local_var_resp$response)
+      }
+      return(self$api_client$deserialize(text, "object", loadNamespace("k8s.client")))
     }
   )
 )

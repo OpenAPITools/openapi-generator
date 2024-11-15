@@ -280,13 +280,17 @@ UserApi <- R6::R6Class(
     CreateUser = function(user, ...) {
       local_var_response <- self$CreateUserWithHttpInfo(user, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
 
@@ -348,7 +352,7 @@ UserApi <- R6::R6Class(
 
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         local_var_resp$content <- NULL
-        local_var_resp
+        return(local_var_resp)
       } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
         local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
@@ -386,13 +390,17 @@ UserApi <- R6::R6Class(
     CreateUsersWithArrayInput = function(user, ...) {
       local_var_response <- self$CreateUsersWithArrayInputWithHttpInfo(user, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
 
@@ -457,7 +465,7 @@ UserApi <- R6::R6Class(
 
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         local_var_resp$content <- NULL
-        local_var_resp
+        return(local_var_resp)
       } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
         local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
@@ -495,13 +503,17 @@ UserApi <- R6::R6Class(
     CreateUsersWithListInput = function(user, ...) {
       local_var_response <- self$CreateUsersWithListInputWithHttpInfo(user, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
 
@@ -566,7 +578,7 @@ UserApi <- R6::R6Class(
 
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         local_var_resp$content <- NULL
-        local_var_resp
+        return(local_var_resp)
       } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
         local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
@@ -604,13 +616,17 @@ UserApi <- R6::R6Class(
     DeleteUser = function(username, ...) {
       local_var_response <- self$DeleteUserWithHttpInfo(username, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
 
@@ -670,7 +686,7 @@ UserApi <- R6::R6Class(
 
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         local_var_resp$content <- NULL
-        local_var_resp
+        return(local_var_resp)
       } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
         local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
@@ -709,13 +725,17 @@ UserApi <- R6::R6Class(
     GetUserByName = function(username, data_file = NULL, ...) {
       local_var_response <- self$GetUserByNameWithHttpInfo(username, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
 
@@ -773,11 +793,11 @@ UserApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-          write(local_var_resp$response, data_file)
+          private$WriteFile(local_var_resp$response, data_file, local_var_accepts)
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response_as_text(), "User", loadNamespace("petstore")),
+          private$Deserialize(local_var_resp),
           error = function(e) {
             rlang::abort(message = "Failed to deserialize response",
                          .subclass = "ApiException",
@@ -785,7 +805,7 @@ UserApi <- R6::R6Class(
           }
         )
         local_var_resp$content <- deserialized_resp_obj
-        local_var_resp
+        return(local_var_resp)
       } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
         local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
@@ -825,13 +845,17 @@ UserApi <- R6::R6Class(
     LoginUser = function(username, password, data_file = NULL, ...) {
       local_var_response <- self$LoginUserWithHttpInfo(username, password, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
 
@@ -904,11 +928,11 @@ UserApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-          write(local_var_resp$response, data_file)
+          private$WriteFile(local_var_resp$response, data_file, local_var_accepts)
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("petstore")),
+          private$Deserialize(local_var_resp),
           error = function(e) {
             rlang::abort(message = "Failed to deserialize response",
                          .subclass = "ApiException",
@@ -916,7 +940,7 @@ UserApi <- R6::R6Class(
           }
         )
         local_var_resp$content <- deserialized_resp_obj
-        local_var_resp
+        return(local_var_resp)
       } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
         local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
@@ -953,13 +977,17 @@ UserApi <- R6::R6Class(
     LogoutUser = function(...) {
       local_var_response <- self$LogoutUserWithHttpInfo(...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
 
@@ -1006,7 +1034,7 @@ UserApi <- R6::R6Class(
 
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         local_var_resp$content <- NULL
-        local_var_resp
+        return(local_var_resp)
       } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
         local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
@@ -1045,13 +1073,17 @@ UserApi <- R6::R6Class(
     UpdateUser = function(username, user, ...) {
       local_var_response <- self$UpdateUserWithHttpInfo(username, user, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
 
@@ -1126,7 +1158,7 @@ UserApi <- R6::R6Class(
 
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         local_var_resp$content <- NULL
-        local_var_resp
+        return(local_var_resp)
       } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
         local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
@@ -1152,6 +1184,27 @@ UserApi <- R6::R6Class(
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
+    }
+  ),
+  private = list(
+    WriteFile = function(x, file, accepts) {
+      if (private$IsBinary(accepts)) {
+        writeBin(x, file)
+      } else {
+        base::write(x, file)
+      }
+    },
+
+    IsBinary = function(accepts) {
+      return(any(grepl("gzip", as.character(accepts))))
+    },
+
+    Deserialize = function(local_var_resp) {
+      text <- local_var_resp$response_as_text()
+      if (is.na(text)) {
+        return(local_var_resp$response)
+      }
+      return(self$api_client$deserialize(text, "object", loadNamespace("k8s.client")))
     }
   )
 )
