@@ -1019,35 +1019,35 @@ public class DefaultCodegen implements CodegenConfig {
             for (Map.Entry<String, PathItem> entry : openAPI.getPaths().entrySet()) {
                 String pathStr = entry.getKey();
                 PathItem path = entry.getValue();
-                List<Operation> getOps = divideOperationsByContentType(pathStr, PathItem.HttpMethod.GET, path.getGet());
+                List<Operation> getOps = divideOperationsByContentType(openAPI, pathStr, PathItem.HttpMethod.GET, path.getGet());
                 if (!getOps.isEmpty()) {
                     path.addExtension("x-get", getOps);
                 }
-                List<Operation> putOps = divideOperationsByContentType(pathStr, PathItem.HttpMethod.PUT, path.getPut());
+                List<Operation> putOps = divideOperationsByContentType(openAPI, pathStr, PathItem.HttpMethod.PUT, path.getPut());
                 if (!putOps.isEmpty()) {
                     path.addExtension("x-put", putOps);
                 }
-                List<Operation> postOps = divideOperationsByContentType(pathStr, PathItem.HttpMethod.POST, path.getPost());
+                List<Operation> postOps = divideOperationsByContentType(openAPI, pathStr, PathItem.HttpMethod.POST, path.getPost());
                 if (!postOps.isEmpty()) {
                     path.addExtension("x-post", postOps);
                 }
-                List<Operation> deleteOps = divideOperationsByContentType(pathStr, PathItem.HttpMethod.DELETE, path.getDelete());
+                List<Operation> deleteOps = divideOperationsByContentType(openAPI, pathStr, PathItem.HttpMethod.DELETE, path.getDelete());
                 if (!deleteOps.isEmpty()) {
                     path.addExtension("x-delete", deleteOps);
                 }
-                List<Operation> optionsOps = divideOperationsByContentType(pathStr, PathItem.HttpMethod.OPTIONS, path.getOptions());
+                List<Operation> optionsOps = divideOperationsByContentType(openAPI, pathStr, PathItem.HttpMethod.OPTIONS, path.getOptions());
                 if (!optionsOps.isEmpty()) {
                     path.addExtension("x-options", optionsOps);
                 }
-                List<Operation> headOps = divideOperationsByContentType(pathStr, PathItem.HttpMethod.HEAD, path.getHead());
+                List<Operation> headOps = divideOperationsByContentType(openAPI, pathStr, PathItem.HttpMethod.HEAD, path.getHead());
                 if (!headOps.isEmpty()) {
                     path.addExtension("x-head", headOps);
                 }
-                List<Operation> patchOps = divideOperationsByContentType(pathStr, PathItem.HttpMethod.PATCH, path.getPatch());
+                List<Operation> patchOps = divideOperationsByContentType(openAPI, pathStr, PathItem.HttpMethod.PATCH, path.getPatch());
                 if (!patchOps.isEmpty()) {
                     path.addExtension("x-patch", patchOps);
                 }
-                List<Operation> traceOps = divideOperationsByContentType(pathStr, PathItem.HttpMethod.TRACE, path.getTrace());
+                List<Operation> traceOps = divideOperationsByContentType(openAPI, pathStr, PathItem.HttpMethod.TRACE, path.getTrace());
                 if (!traceOps.isEmpty()) {
                     path.addExtension("x-trace", traceOps);
                 }
@@ -1135,14 +1135,17 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    private List<Operation> divideOperationsByContentType(String path, PathItem.HttpMethod httpMethod, Operation op) {
+    private List<Operation> divideOperationsByContentType(OpenAPI openAPI, String path, PathItem.HttpMethod httpMethod, Operation op) {
 
         if (op == null) {
             return Collections.emptyList();
         }
 
+        var operationIndexes = new HashMap<String, Integer>();
+        operationIndexes.put(getOrGenerateOperationId(op, path, httpMethod.name()), 0);
+
         var additionalOps = new ArrayList<Operation>();
-        divideOperationByRequestBody(path, httpMethod, op, additionalOps);
+        divideOperationByRequestBody(openAPI, path, httpMethod, op, additionalOps, operationIndexes);
 
         // Check responses content types and divide operations by them
 
@@ -1150,9 +1153,11 @@ public class DefaultCodegen implements CodegenConfig {
         if (responses == null || responses.isEmpty()) {
             return additionalOps;
         }
+        var unwrappedResponses = new ApiResponses();
         var allPossibleContentTypes = new ArrayList<String>();
         for (var responseEntry : responses.entrySet()) {
-            var apiResponse = responseEntry.getValue();
+            var apiResponse = ModelUtils.getReferencedApiResponse(openAPI, responseEntry.getValue());
+            unwrappedResponses.put(responseEntry.getKey(), apiResponse);
             if (apiResponse.getContent() == null) {
                 continue;
             }
@@ -1166,6 +1171,8 @@ public class DefaultCodegen implements CodegenConfig {
         if (allPossibleContentTypes.isEmpty() || allPossibleContentTypes.size() == 1) {
             return additionalOps;
         }
+        op.setResponses(unwrappedResponses);
+        responses = unwrappedResponses;
 
         var apiResponsesByContentType = new HashMap<String, ApiResponses>();
         for (var contentType : allPossibleContentTypes) {
@@ -1184,7 +1191,7 @@ public class DefaultCodegen implements CodegenConfig {
                     .description(response.getDescription())
                     .headers(response.getHeaders())
                     .links(response.getLinks())
-                    .extensions(response.getExtensions())
+                    .extensions(response.getExtensions() != null ? new LinkedHashMap<>(response.getExtensions()) : new LinkedHashMap<>())
                     .$ref(response.get$ref())
                     .content(new Content()
                         .addMediaType(contentType, mediaType)
@@ -1194,21 +1201,34 @@ public class DefaultCodegen implements CodegenConfig {
             apiResponsesByContentType.put(contentType, apiResponses);
         }
 
+        var addedContentTypes = new ArrayList<String>();
         var finalAdditionalOps = new ArrayList<Operation>();
-        divideOperationByResponses(path, httpMethod, op, apiResponsesByContentType, finalAdditionalOps);
+        divideOperationByResponses(path, httpMethod, op, apiResponsesByContentType, finalAdditionalOps, addedContentTypes, operationIndexes);
         for (var additionalOp : additionalOps) {
             finalAdditionalOps.add(additionalOp);
-            divideOperationByResponses(path, httpMethod, additionalOp, apiResponsesByContentType, finalAdditionalOps);
+            divideOperationByResponses(path, httpMethod, additionalOp, apiResponsesByContentType, finalAdditionalOps, addedContentTypes, operationIndexes);
+        }
+
+        // remove correct processed contentTypes
+        apiResponsesByContentType.entrySet().removeIf(stringMediaTypeEntry -> addedContentTypes.contains(stringMediaTypeEntry.getKey()));
+
+        if (!apiResponsesByContentType.isEmpty()) {
+            appendCommonResponseMediaTypes(op, apiResponsesByContentType.values());
+            for (var additionalOp : additionalOps) {
+                appendCommonResponseMediaTypes(additionalOp, apiResponsesByContentType.values());
+            }
         }
 
         return finalAdditionalOps;
     }
 
-    private void divideOperationByRequestBody(String path, PathItem.HttpMethod httpMethod, Operation op, List<Operation> additionalOps) {
-        RequestBody body = op.getRequestBody();
+    private void divideOperationByRequestBody(OpenAPI openAPI, String path, PathItem.HttpMethod httpMethod, Operation op,
+                                              List<Operation> additionalOps, Map<String, Integer> operationIndexes) {
+        RequestBody body = ModelUtils.getReferencedRequestBody(openAPI, op.getRequestBody());
         if (body == null || body.getContent() == null) {
             return;
         }
+        op.setRequestBody(body);
         Content content = body.getContent();
         if (content.size() <= 1) {
             return;
@@ -1224,28 +1244,34 @@ public class DefaultCodegen implements CodegenConfig {
             var foundSameOpSignature = false;
             // group by response content type
             if (groupByResponseContentType) {
-                for (var additionalOp : additionalOps) {
-                    RequestBody additionalBody = additionalOp.getRequestBody();
-                    if (additionalBody == null || additionalBody.getContent() == null) {
-                        return;
+                if (firstEntry.getValue().equals(mediaType)) {
+                    if (!groupByRequestAndResponseContentType) {
+                        foundSameOpSignature = true;
                     }
-                    for (var addContentEntry : additionalBody.getContent().entrySet()) {
-                        if (addContentEntry.getValue().equals(mediaType)) {
-                            foundSameOpSignature = true;
+                } else {
+                    for (var additionalOp : additionalOps) {
+                        RequestBody additionalBody = ModelUtils.getReferencedRequestBody(openAPI, additionalOp.getRequestBody());
+                        if (additionalBody == null || additionalBody.getContent() == null) {
+                            return;
+                        }
+                        for (var addContentEntry : additionalBody.getContent().entrySet()) {
+                            if (addContentEntry.getValue().equals(mediaType)) {
+                                foundSameOpSignature = true;
+                                break;
+                            }
+                        }
+                        if (foundSameOpSignature) {
+                            additionalBody.getContent().put(contentType, mediaType);
                             break;
                         }
-                    }
-                    if (foundSameOpSignature) {
-                        additionalBody.getContent().put(contentType, mediaType);
-                        break;
                     }
                 }
             }
 
-            mediaTypesToRemove.add(contentType);
             if (groupByResponseContentType && foundSameOpSignature) {
                 continue;
             }
+            mediaTypesToRemove.add(contentType);
 
             var apiResponsesCopy = new ApiResponses();
             apiResponsesCopy.putAll(op.getResponses());
@@ -1254,9 +1280,9 @@ public class DefaultCodegen implements CodegenConfig {
                 .deprecated(op.getDeprecated())
                 .callbacks(op.getCallbacks())
                 .description(op.getDescription())
-                .extensions(op.getExtensions())
+                .extensions(op.getExtensions() != null ? new LinkedHashMap<>(op.getExtensions()) : new LinkedHashMap<>())
                 .externalDocs(op.getExternalDocs())
-                .operationId(getOrGenerateOperationId(op, path, httpMethod.name()))
+                .operationId(calcOperationId(path, httpMethod, op, operationIndexes))
                 .parameters(op.getParameters())
                 .responses(apiResponsesCopy)
                 .security(op.getSecurity())
@@ -1276,13 +1302,33 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    private String calcOperationId(String path, PathItem.HttpMethod httpMethod, Operation op, Map<String, Integer> operationIndexes) {
+        var operationId = getOrGenerateOperationId(op, path, httpMethod.name());
+        var index = operationIndexes.get(operationId);
+        if (index != null) {
+            index++;
+            operationId += "_" + index;
+            operationIndexes.put(operationId, index);
+        } else {
+            operationIndexes.put(operationId, 0);
+        }
+        return operationId;
+    }
+
     private void divideOperationByResponses(
         String path,
         PathItem.HttpMethod httpMethod,
         Operation op,
         Map<String, ApiResponses> apiResponsesByContentType,
-        List<Operation> additionalOps
+        List<Operation> additionalOps,
+        List<String> addedContentTypes,
+        Map<String, Integer> operationIndexes
     ) {
+
+        if (!groupByResponseContentType) {
+            return;
+        }
+
         var isFirst = true;
         for (var entry : apiResponsesByContentType.entrySet()) {
             var contentType = entry.getKey();
@@ -1295,6 +1341,7 @@ public class DefaultCodegen implements CodegenConfig {
                 && !requestBody.getContent().containsKey(contentType)) {
                 continue;
             }
+            addedContentTypes.add(contentType);
             if (isFirst) {
                 op.setResponses(apiResponses);
                 isFirst = false;
@@ -1307,7 +1354,7 @@ public class DefaultCodegen implements CodegenConfig {
                 .description(op.getDescription())
                 .extensions(op.getExtensions())
                 .externalDocs(op.getExternalDocs())
-                .operationId(getOrGenerateOperationId(op, path, httpMethod.name()))
+                .operationId(calcOperationId(path, httpMethod, op, operationIndexes))
                 .parameters(op.getParameters())
                 .responses(apiResponses)
                 .security(op.getSecurity())
@@ -1316,6 +1363,30 @@ public class DefaultCodegen implements CodegenConfig {
                 .tags(op.getTags())
                 .requestBody(requestBody)
             );
+        }
+    }
+
+    private void appendCommonResponseMediaTypes(Operation op, Collection<ApiResponses> commonResponsesList) {
+        if (commonResponsesList.isEmpty()) {
+            return;
+        }
+
+        for (var commonResponses : commonResponsesList) {
+            var adOpResponses = op.getResponses();
+            for (var responseEntry : adOpResponses.entrySet()) {
+                var content = responseEntry.getValue().getContent();
+                var commonResponse = commonResponses.get(responseEntry.getKey());
+                if (commonResponse != null && commonResponse.getContent() != null) {
+                    if (content == null) {
+                        content = new Content();
+                    }
+                    for (var commonResponseEntry : commonResponse.getContent().entrySet()) {
+                        if (!content.containsKey(commonResponseEntry.getKey())) {
+                            content.addMediaType(commonResponseEntry.getKey(), commonResponseEntry.getValue());
+                        }
+                    }
+                }
+            }
         }
     }
 

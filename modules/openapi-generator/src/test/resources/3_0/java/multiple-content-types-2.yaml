@@ -1,0 +1,71 @@
+openapi: 3.0.3
+info:
+  version: "1"
+  title: Multiple Content Types for same request
+paths:
+  /pet:
+    post:
+      tags:
+        - pet
+      summary: Add a new pet to the store
+      description: ''
+      operationId: addPet
+      responses:
+        '200':
+          $ref: "#/components/responses/200"
+        '405':
+          description: Invalid input
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+components:
+  responses:
+    '200':
+      description: successful operation
+      content:
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Pet'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Pet'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/MySchema'
+  requestBodies:
+    Pet:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Pet'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Pet'
+        text/json:
+          schema:
+            $ref: '#/components/schemas/MySchema'
+      description: Pet object that needs to be added to the store
+      required: true
+  schemas:
+    MySchema:
+      type: object
+      properties:
+        id:
+          type: string
+    Pet:
+      title: a Pet
+      description: A pet for sale in the pet store
+      type: object
+      required:
+        - name
+        - photoUrls
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          example: doggie
