@@ -2393,7 +2393,7 @@ public class JavaClientCodegenTest {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("java")
-                .setLibrary(JavaClientCodegen.APACHE)
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
                 .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
                 .setInputSpec("src/test/resources/3_0/java/enum_with_default.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
