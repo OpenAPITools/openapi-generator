@@ -759,4 +759,17 @@ public class JavaMicronautClientCodegenTest extends AbstractMicronautCodegenTest
                 "    );"
         );
     }
+
+    @Test
+    public void testMultipleContentTypesWithRefs() {
+
+        var codegen = new JavaMicronautClientCodegen();
+        codegen.setGroupByRequestAndResponseContentType(true);
+        codegen.setGroupByResponseContentType(true);
+        String outputPath = generateFiles(codegen, "src/test/resources/3_0/java/multiple-content-types-2.yaml", CodegenConstants.APIS, CodegenConstants.MODELS);
+
+        assertFileContains(outputPath + "/src/main/java/org/openapitools/api/DefaultApi.java",
+            ""
+        );
+    }
 }
