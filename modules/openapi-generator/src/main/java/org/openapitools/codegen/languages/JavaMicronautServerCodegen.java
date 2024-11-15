@@ -12,7 +12,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+/**
+ * @deprecated WARNING! This generator is outdated. Please use the official generator for Micronaut:
+ *      <a href="https://github.com/micronaut-projects/micronaut-openapi">micronaut-openapi</a> with the help of the plugin for
+ *      <a href="https://github.com/micronaut-projects/micronaut-gradle-plugin">Gradle</a> and
+ *      <a href="https://github.com/micronaut-projects/micronaut-maven-plugin">Maven</a>.
+ */
+@SuppressWarnings("removal")
+@Deprecated(forRemoval = true)
 public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
     public static final String OPT_CONTROLLER_PACKAGE = "controllerPackage";
     public static final String OPT_GENERATE_CONTROLLER_FROM_EXAMPLES = "generateControllerFromExamples";

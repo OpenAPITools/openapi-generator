@@ -2,6 +2,15 @@
 title: Documentation for the java-micronaut-server Generator
 ---
 
+---
+**NOTE**
+
+This generator is outdated. Please use the official generator for Micronaut:
+[micronaut-openapi](https://github.com/micronaut-projects/micronaut-openapi">micronaut-openapi) with the help of the plugin for
+[Gradle](https://github.com/micronaut-projects/micronaut-gradle-plugin) and
+[Maven](https://github.com/micronaut-projects/micronaut-maven-plugin).
+---
+
 ## METADATA
 
 | Property | Value | Notes |
