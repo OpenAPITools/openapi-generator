@@ -25,6 +25,7 @@ import org.openapitools.codegen.meta.features.ParameterFeature;
 import org.openapitools.codegen.meta.features.SchemaSupportFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.meta.features.WireFormatFeature;
+import org.openapitools.codegen.model.ModelsMap;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -70,6 +71,25 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     protected final DateTimeFormatter OFFSET_DATE_TIME_FORMAT = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
     protected final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.ROOT);
     protected final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
+    protected final List<String> UNQUOTED_DATATYPES = Arrays.asList(
+        "int",
+        "integer",
+        "long",
+        "short",
+        "byte",
+        "float",
+        "double",
+        "number",
+        "decimal",
+        "boolean",
+        "Int64",
+        "Int32",
+        "UInt8",
+        "Float32",
+        "Float64",
+        "Bool"
+    );
+
 
     public AbstractJuliaCodegen() {
         super();
@@ -548,5 +568,29 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
                 .put("escapeDollar", new EscapeChar("(?<!\\\\)\\$", "\\\\\\$"));
+    }
+
+    // override with any special post-processing
+    @Override
+    @SuppressWarnings("static-method")
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        objs = super.postProcessModels(objs);
+        return postProcessModelsEnum(objs);
+    }
+
+    /**
+     * Return the enum value in the language specified format
+     * e.g. status becomes "status"
+     *
+     * @param value    enum variable name
+     * @param datatype data type
+     * @return the sanitized value for enum
+     */
+    public String toEnumValue(String value, String datatype) {
+        if (datatype != null && UNQUOTED_DATATYPES.contains(datatype)) {
+            return value;
+        } else {
+            return "\"" + escapeText(value) + "\"";
+        }
     }
 }

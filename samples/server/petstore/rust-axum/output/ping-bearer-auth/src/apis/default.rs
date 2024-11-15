@@ -25,5 +25,5 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<PingGetResponse, String>;
+    ) -> Result<PingGetResponse, ()>;
 }

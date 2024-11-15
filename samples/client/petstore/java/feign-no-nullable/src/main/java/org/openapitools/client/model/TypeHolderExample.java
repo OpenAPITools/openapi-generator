@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -20,6 +22,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -79,6 +83,7 @@ public class TypeHolderExample {
    * @return stringItem
    */
   @javax.annotation.Nonnull
+  @ApiModelProperty(example = "what", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_STRING_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -105,6 +110,7 @@ public class TypeHolderExample {
    * @return numberItem
    */
   @javax.annotation.Nonnull
+  @ApiModelProperty(example = "1.234", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -131,6 +137,7 @@ public class TypeHolderExample {
    * @return floatItem
    */
   @javax.annotation.Nonnull
+  @ApiModelProperty(example = "1.234", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_FLOAT_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -157,6 +164,7 @@ public class TypeHolderExample {
    * @return integerItem
    */
   @javax.annotation.Nonnull
+  @ApiModelProperty(example = "-2", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -183,6 +191,7 @@ public class TypeHolderExample {
    * @return boolItem
    */
   @javax.annotation.Nonnull
+  @ApiModelProperty(example = "true", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -217,6 +226,7 @@ public class TypeHolderExample {
    * @return arrayItem
    */
   @javax.annotation.Nonnull
+  @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -234,24 +244,12 @@ public class TypeHolderExample {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    TypeHolderExample typeHolderExample = (TypeHolderExample) o;
-    return Objects.equals(this.stringItem, typeHolderExample.stringItem) &&
-        Objects.equals(this.numberItem, typeHolderExample.numberItem) &&
-        Objects.equals(this.floatItem, typeHolderExample.floatItem) &&
-        Objects.equals(this.integerItem, typeHolderExample.integerItem) &&
-        Objects.equals(this.boolItem, typeHolderExample.boolItem) &&
-        Objects.equals(this.arrayItem, typeHolderExample.arrayItem);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(stringItem, numberItem, floatItem, integerItem, boolItem, arrayItem);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override

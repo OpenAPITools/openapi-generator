@@ -7,9 +7,9 @@
 - [ ] Pull Request title clearly describes the work in the pull request and Pull Request description provides details about how to validate the work. Missing information here may result in delayed response from the community.
 - [ ] Run the following to [build the project](https://github.com/OpenAPITools/openapi-generator#14---build-projects) and update samples:
   ```
-  ./mvnw clean package 
-  ./bin/generate-samples.sh ./bin/configs/*.yaml
-  ./bin/utils/export_docs_generators.sh
+  ./mvnw clean package || exit
+  ./bin/generate-samples.sh ./bin/configs/*.yaml || exit
+  ./bin/utils/export_docs_generators.sh || exit
   ``` 
   (For Windows users, please run the script in [Git BASH](https://gitforwindows.org/))
   Commit all changed files. 

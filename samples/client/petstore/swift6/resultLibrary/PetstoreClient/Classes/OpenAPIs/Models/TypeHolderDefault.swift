@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct TypeHolderDefault: Codable, JSONEncodable {
+internal struct TypeHolderDefault: Sendable, Codable, JSONEncodable {
 
     internal private(set) var stringItem: String = "what"
     internal private(set) var numberItem: Double

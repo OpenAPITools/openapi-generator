@@ -9,7 +9,7 @@ import Foundation
 
 @objcMembers public class MapTest: NSObject, Codable, JSONEncodable {
 
-    public enum MapOfEnumString: String, Codable, CaseIterable {
+    public enum MapOfEnumString: String, Sendable, Codable, CaseIterable {
         case upper = "UPPER"
         case lower = "lower"
     }

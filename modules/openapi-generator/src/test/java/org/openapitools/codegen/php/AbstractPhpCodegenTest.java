@@ -176,4 +176,13 @@ public class AbstractPhpCodegenTest {
         CodegenProperty cp1 = cm1.vars.get(0);
         Assert.assertEquals(cp1.getDefaultValue(), "'VALUE'");
     }
+
+    @Test(description = "Enum value with quotes (#17582)")
+    public void testEnumPropertyWithQuotes() {
+        Assert.assertEquals(codegen.toEnumValue("enum-value", "string"), "'enum-value'");
+        Assert.assertEquals(codegen.toEnumValue("won't fix", "string"), "'won\\'t fix'");
+        Assert.assertEquals(codegen.toEnumValue("\"", "string"), "'\"'");
+        Assert.assertEquals(codegen.toEnumValue("1.0", "float"), "1.0");
+        Assert.assertEquals(codegen.toEnumValue("1", "int"), "1");
+    }
 }

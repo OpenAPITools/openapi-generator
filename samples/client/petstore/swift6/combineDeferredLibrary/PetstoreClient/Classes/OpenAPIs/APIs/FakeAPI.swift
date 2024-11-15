@@ -518,7 +518,7 @@ open class FakeAPI {
     /**
      * enum for parameter enumHeaderStringArray
      */
-    public enum EnumHeaderStringArray_testEnumParameters: String, CaseIterable {
+    public enum EnumHeaderStringArray_testEnumParameters: String, Sendable, CaseIterable {
         case greaterThan = ">"
         case dollar = "$"
     }
@@ -526,7 +526,7 @@ open class FakeAPI {
     /**
      * enum for parameter enumHeaderString
      */
-    public enum EnumHeaderString_testEnumParameters: String, CaseIterable {
+    public enum EnumHeaderString_testEnumParameters: String, Sendable, CaseIterable {
         case abc = "_abc"
         case efg = "-efg"
         case xyz = "(xyz)"
@@ -535,7 +535,7 @@ open class FakeAPI {
     /**
      * enum for parameter enumQueryStringArray
      */
-    public enum EnumQueryStringArray_testEnumParameters: String, CaseIterable {
+    public enum EnumQueryStringArray_testEnumParameters: String, Sendable, CaseIterable {
         case greaterThan = ">"
         case dollar = "$"
     }
@@ -543,7 +543,7 @@ open class FakeAPI {
     /**
      * enum for parameter enumQueryString
      */
-    public enum EnumQueryString_testEnumParameters: String, CaseIterable {
+    public enum EnumQueryString_testEnumParameters: String, Sendable, CaseIterable {
         case abc = "_abc"
         case efg = "-efg"
         case xyz = "(xyz)"
@@ -552,7 +552,7 @@ open class FakeAPI {
     /**
      * enum for parameter enumQueryInteger
      */
-    public enum EnumQueryInteger_testEnumParameters: Int, CaseIterable {
+    public enum EnumQueryInteger_testEnumParameters: Int, Sendable, CaseIterable {
         case _1 = 1
         case number2 = -2
     }
@@ -560,7 +560,7 @@ open class FakeAPI {
     /**
      * enum for parameter enumQueryDouble
      */
-    public enum EnumQueryDouble_testEnumParameters: Double, CaseIterable {
+    public enum EnumQueryDouble_testEnumParameters: Double, Sendable, CaseIterable {
         case _11 = 1.1
         case number12 = -1.2
     }
@@ -568,7 +568,7 @@ open class FakeAPI {
     /**
      * enum for parameter enumFormStringArray
      */
-    public enum EnumFormStringArray_testEnumParameters: String, CaseIterable {
+    public enum EnumFormStringArray_testEnumParameters: String, Sendable, CaseIterable {
         case greaterThan = ">"
         case dollar = "$"
     }
@@ -576,7 +576,7 @@ open class FakeAPI {
     /**
      * enum for parameter enumFormString
      */
-    public enum EnumFormString_testEnumParameters: String, CaseIterable {
+    public enum EnumFormString_testEnumParameters: String, Sendable, CaseIterable {
         case abc = "_abc"
         case efg = "-efg"
         case xyz = "(xyz)"

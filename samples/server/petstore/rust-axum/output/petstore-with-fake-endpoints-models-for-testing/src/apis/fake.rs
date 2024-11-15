@@ -125,7 +125,7 @@ pub trait Fake {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Call123exampleResponse, String>;
+    ) -> Result<Call123exampleResponse, ()>;
 
     /// FakeOuterBooleanSerialize - POST /v2/fake/outer/boolean
     async fn fake_outer_boolean_serialize(
@@ -134,7 +134,7 @@ pub trait Fake {
         host: Host,
         cookies: CookieJar,
         body: Option<models::OuterBoolean>,
-    ) -> Result<FakeOuterBooleanSerializeResponse, String>;
+    ) -> Result<FakeOuterBooleanSerializeResponse, ()>;
 
     /// FakeOuterCompositeSerialize - POST /v2/fake/outer/composite
     async fn fake_outer_composite_serialize(
@@ -143,7 +143,7 @@ pub trait Fake {
         host: Host,
         cookies: CookieJar,
         body: Option<models::OuterComposite>,
-    ) -> Result<FakeOuterCompositeSerializeResponse, String>;
+    ) -> Result<FakeOuterCompositeSerializeResponse, ()>;
 
     /// FakeOuterNumberSerialize - POST /v2/fake/outer/number
     async fn fake_outer_number_serialize(
@@ -152,7 +152,7 @@ pub trait Fake {
         host: Host,
         cookies: CookieJar,
         body: Option<models::OuterNumber>,
-    ) -> Result<FakeOuterNumberSerializeResponse, String>;
+    ) -> Result<FakeOuterNumberSerializeResponse, ()>;
 
     /// FakeOuterStringSerialize - POST /v2/fake/outer/string
     async fn fake_outer_string_serialize(
@@ -161,7 +161,7 @@ pub trait Fake {
         host: Host,
         cookies: CookieJar,
         body: Option<models::OuterString>,
-    ) -> Result<FakeOuterStringSerializeResponse, String>;
+    ) -> Result<FakeOuterStringSerializeResponse, ()>;
 
     /// FakeResponseWithNumericalDescription - GET /v2/fake/response-with-numerical-description
     async fn fake_response_with_numerical_description(
@@ -169,7 +169,7 @@ pub trait Fake {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<FakeResponseWithNumericalDescriptionResponse, String>;
+    ) -> Result<FakeResponseWithNumericalDescriptionResponse, ()>;
 
     /// HyphenParam - GET /v2/fake/hyphenParam/{hyphen-param}
     async fn hyphen_param(
@@ -178,7 +178,7 @@ pub trait Fake {
         host: Host,
         cookies: CookieJar,
         path_params: models::HyphenParamPathParams,
-    ) -> Result<HyphenParamResponse, String>;
+    ) -> Result<HyphenParamResponse, ()>;
 
     /// TestBodyWithQueryParams - PUT /v2/fake/body-with-query-params
     async fn test_body_with_query_params(
@@ -188,7 +188,7 @@ pub trait Fake {
         cookies: CookieJar,
         query_params: models::TestBodyWithQueryParamsQueryParams,
         body: models::User,
-    ) -> Result<TestBodyWithQueryParamsResponse, String>;
+    ) -> Result<TestBodyWithQueryParamsResponse, ()>;
 
     /// To test \"client\" model.
     ///
@@ -199,7 +199,7 @@ pub trait Fake {
         host: Host,
         cookies: CookieJar,
         body: models::Client,
-    ) -> Result<TestClientModelResponse, String>;
+    ) -> Result<TestClientModelResponse, ()>;
 
     /// Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트.
     ///
@@ -210,7 +210,7 @@ pub trait Fake {
         host: Host,
         cookies: CookieJar,
         body: models::TestEndpointParametersRequest,
-    ) -> Result<TestEndpointParametersResponse, String>;
+    ) -> Result<TestEndpointParametersResponse, ()>;
 
     /// To test enum parameters.
     ///
@@ -223,7 +223,7 @@ pub trait Fake {
         header_params: models::TestEnumParametersHeaderParams,
         query_params: models::TestEnumParametersQueryParams,
         body: Option<models::TestEnumParametersRequest>,
-    ) -> Result<TestEnumParametersResponse, String>;
+    ) -> Result<TestEnumParametersResponse, ()>;
 
     /// test inline additionalProperties.
     ///
@@ -234,7 +234,7 @@ pub trait Fake {
         host: Host,
         cookies: CookieJar,
         body: std::collections::HashMap<String, String>,
-    ) -> Result<TestInlineAdditionalPropertiesResponse, String>;
+    ) -> Result<TestInlineAdditionalPropertiesResponse, ()>;
 
     /// test json serialization of form data.
     ///
@@ -245,5 +245,5 @@ pub trait Fake {
         host: Host,
         cookies: CookieJar,
         body: models::TestJsonFormDataRequest,
-    ) -> Result<TestJsonFormDataResponse, String>;
+    ) -> Result<TestJsonFormDataResponse, ()>;
 }

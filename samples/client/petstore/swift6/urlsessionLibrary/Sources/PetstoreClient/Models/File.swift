@@ -13,10 +13,10 @@ public typealias File = PetstoreClientAPI.File
 extension PetstoreClientAPI {
 
 /** Must be named &#x60;File&#x60; for test. */
-public final class File: Codable, JSONEncodable, Hashable {
+public final class File: @unchecked Sendable, Codable, JSONEncodable, Hashable {
 
     /** Test capitalization */
-    public var sourceURI: String?
+    public private(set) var sourceURI: String?
 
     public init(sourceURI: String? = nil) {
         self.sourceURI = sourceURI

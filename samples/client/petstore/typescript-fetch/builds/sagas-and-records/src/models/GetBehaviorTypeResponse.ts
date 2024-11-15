@@ -73,11 +73,11 @@ export function GetBehaviorTypeResponseFromJSONTyped(json: any, ignoreDiscrimina
     };
 }
 
-  export function GetBehaviorTypeResponseToJSON(json: any): GetBehaviorTypeResponse {
-      return GetBehaviorTypeResponseToJSONTyped(json, false);
-  }
+export function GetBehaviorTypeResponseToJSON(json: any): GetBehaviorTypeResponse {
+    return GetBehaviorTypeResponseToJSONTyped(json, false);
+}
 
-  export function GetBehaviorTypeResponseToJSONTyped(value?: GetBehaviorTypeResponse | null, ignoreDiscriminator: boolean = false): any {
+export function GetBehaviorTypeResponseToJSONTyped(value?: GetBehaviorTypeResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

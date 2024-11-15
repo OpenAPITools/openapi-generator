@@ -12,10 +12,10 @@ public typealias ReadOnlyFirst = PetstoreClientAPI.ReadOnlyFirst
 
 extension PetstoreClientAPI {
 
-public final class ReadOnlyFirst: Codable, JSONEncodable, Hashable {
+public final class ReadOnlyFirst: @unchecked Sendable, Codable, JSONEncodable, Hashable {
 
-    public var bar: String?
-    public var baz: String?
+    public private(set) var bar: String?
+    public private(set) var baz: String?
 
     public init(bar: String? = nil, baz: String? = nil) {
         self.bar = bar

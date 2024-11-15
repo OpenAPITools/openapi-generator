@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
@@ -73,19 +75,12 @@ public class QuadrilateralInterface {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    QuadrilateralInterface quadrilateralInterface = (QuadrilateralInterface) o;
-    return Objects.equals(this.quadrilateralType, quadrilateralInterface.quadrilateralType);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(quadrilateralType);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override
