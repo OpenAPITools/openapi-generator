@@ -774,10 +774,14 @@ public class KotlinSpringServerCodegenTest {
 
         generator.opts(input).generate();
 
-        Path outputFilepath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApiDelegate.kt");
+        Path delegateFile = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApiDelegate.kt");
 
-        assertFileContains(outputFilepath, "additionalMetadata: kotlin.String?");
-        assertFileContains(outputFilepath, "images: List<MultipartFile>");
+        assertFileContains(delegateFile, "additionalMetadata: kotlin.String?");
+        assertFileContains(delegateFile, "images: List<MultipartFile>");
+
+        Path controllerFile = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApi.kt");
+
+        assertFileContains(controllerFile, "images: Array<org.springframework.web.multipart.MultipartFile>");
     }
 
     @Test
