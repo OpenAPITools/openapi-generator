@@ -13,12 +13,12 @@ open class FakeAPI {
      creates an XmlItem
      
      - parameter xmlItem: (body) XmlItem Body 
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func createXmlItem(xmlItem: XmlItem, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
-        return try await createXmlItemWithRequestBuilder(xmlItem: xmlItem, openAPIClient: openAPIClient).execute().body
+    open class func createXmlItem(xmlItem: XmlItem, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await createXmlItemWithRequestBuilder(xmlItem: xmlItem, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -26,13 +26,13 @@ open class FakeAPI {
      - POST /fake/create_xml_item
      - this route creates an XmlItem
      - parameter xmlItem: (body) XmlItem Body 
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func createXmlItemWithRequestBuilder(xmlItem: XmlItem, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
+    open class func createXmlItemWithRequestBuilder(xmlItem: XmlItem, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/fake/create_xml_item"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: xmlItem, codableHelper: openAPIClient.codableHelper)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: xmlItem, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -42,33 +42,33 @@ open class FakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, apiConfiguration: apiConfiguration)
     }
 
     /**
 
      - parameter body: (body) Input boolean as post body (optional)
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Bool
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func fakeOuterBooleanSerialize(body: Bool? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> Bool {
-        return try await fakeOuterBooleanSerializeWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute().body
+    open class func fakeOuterBooleanSerialize(body: Bool? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> Bool {
+        return try await fakeOuterBooleanSerializeWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      - POST /fake/outer/boolean
      - Test serialization of outer boolean types
      - parameter body: (body) Input boolean as post body (optional)
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Bool> 
      */
-    open class func fakeOuterBooleanSerializeWithRequestBuilder(body: Bool? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Bool> {
+    open class func fakeOuterBooleanSerializeWithRequestBuilder(body: Bool? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Bool> {
         let localVariablePath = "/fake/outer/boolean"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -78,33 +78,33 @@ open class FakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Bool>.Type = openAPIClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Bool>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, apiConfiguration: apiConfiguration)
     }
 
     /**
 
      - parameter body: (body) Input composite as post body (optional)
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: OuterComposite
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> OuterComposite {
-        return try await fakeOuterCompositeSerializeWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute().body
+    open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> OuterComposite {
+        return try await fakeOuterCompositeSerializeWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      - POST /fake/outer/composite
      - Test serialization of object with outer number type
      - parameter body: (body) Input composite as post body (optional)
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<OuterComposite> 
      */
-    open class func fakeOuterCompositeSerializeWithRequestBuilder(body: OuterComposite? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<OuterComposite> {
+    open class func fakeOuterCompositeSerializeWithRequestBuilder(body: OuterComposite? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<OuterComposite> {
         let localVariablePath = "/fake/outer/composite"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -114,33 +114,33 @@ open class FakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<OuterComposite>.Type = openAPIClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<OuterComposite>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, apiConfiguration: apiConfiguration)
     }
 
     /**
 
      - parameter body: (body) Input number as post body (optional)
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Double
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func fakeOuterNumberSerialize(body: Double? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> Double {
-        return try await fakeOuterNumberSerializeWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute().body
+    open class func fakeOuterNumberSerialize(body: Double? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> Double {
+        return try await fakeOuterNumberSerializeWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      - POST /fake/outer/number
      - Test serialization of outer number types
      - parameter body: (body) Input number as post body (optional)
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Double> 
      */
-    open class func fakeOuterNumberSerializeWithRequestBuilder(body: Double? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Double> {
+    open class func fakeOuterNumberSerializeWithRequestBuilder(body: Double? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Double> {
         let localVariablePath = "/fake/outer/number"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -150,33 +150,33 @@ open class FakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Double>.Type = openAPIClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Double>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, apiConfiguration: apiConfiguration)
     }
 
     /**
 
      - parameter body: (body) Input string as post body (optional)
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: String
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func fakeOuterStringSerialize(body: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> String {
-        return try await fakeOuterStringSerializeWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute().body
+    open class func fakeOuterStringSerialize(body: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> String {
+        return try await fakeOuterStringSerializeWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      - POST /fake/outer/string
      - Test serialization of outer string types
      - parameter body: (body) Input string as post body (optional)
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<String> 
      */
-    open class func fakeOuterStringSerializeWithRequestBuilder(body: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<String> {
+    open class func fakeOuterStringSerializeWithRequestBuilder(body: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<String> {
         let localVariablePath = "/fake/outer/string"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -186,33 +186,33 @@ open class FakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<String>.Type = openAPIClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<String>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, apiConfiguration: apiConfiguration)
     }
 
     /**
 
      - parameter body: (body)  
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func testBodyWithFileSchema(body: FileSchemaTestClass, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
-        return try await testBodyWithFileSchemaWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute().body
+    open class func testBodyWithFileSchema(body: FileSchemaTestClass, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await testBodyWithFileSchemaWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      - PUT /fake/body-with-file-schema
      - For this test, the body for this request much reference a schema named `File`.
      - parameter body: (body)  
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func testBodyWithFileSchemaWithRequestBuilder(body: FileSchemaTestClass, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
+    open class func testBodyWithFileSchemaWithRequestBuilder(body: FileSchemaTestClass, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/fake/body-with-file-schema"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -222,38 +222,38 @@ open class FakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, apiConfiguration: apiConfiguration)
     }
 
     /**
 
      - parameter query: (query)  
      - parameter body: (body)  
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func testBodyWithQueryParams(query: String, body: User, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
-        return try await testBodyWithQueryParamsWithRequestBuilder(query: query, body: body, openAPIClient: openAPIClient).execute().body
+    open class func testBodyWithQueryParams(query: String, body: User, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await testBodyWithQueryParamsWithRequestBuilder(query: query, body: body, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      - PUT /fake/body-with-query-params
      - parameter query: (query)  
      - parameter body: (body)  
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func testBodyWithQueryParamsWithRequestBuilder(query: String, body: User, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
+    open class func testBodyWithQueryParamsWithRequestBuilder(query: String, body: User, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/fake/body-with-query-params"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "query": (wrappedValue: query.encodeToJSON(codableHelper: openAPIClient.codableHelper), isExplode: false),
+            "query": (wrappedValue: query.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -262,21 +262,21 @@ open class FakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, apiConfiguration: apiConfiguration)
     }
 
     /**
      To test \"client\" model
      
      - parameter body: (body) client model 
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Client
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func testClientModel(body: Client, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> Client {
-        return try await testClientModelWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute().body
+    open class func testClientModel(body: Client, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> Client {
+        return try await testClientModelWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -284,13 +284,13 @@ open class FakeAPI {
      - PATCH /fake
      - To test \"client\" model
      - parameter body: (body) client model 
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Client> 
      */
-    open class func testClientModelWithRequestBuilder(body: Client, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Client> {
+    open class func testClientModelWithRequestBuilder(body: Client, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Client> {
         let localVariablePath = "/fake"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -300,9 +300,9 @@ open class FakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Client>.Type = openAPIClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Client>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -322,12 +322,12 @@ open class FakeAPI {
      - parameter dateTime: (form) None (optional)
      - parameter password: (form) None (optional)
      - parameter callback: (form) None (optional)
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
-        return try await testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback, openAPIClient: openAPIClient).execute().body
+    open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -351,27 +351,27 @@ open class FakeAPI {
      - parameter dateTime: (form) None (optional)
      - parameter password: (form) None (optional)
      - parameter callback: (form) None (optional)
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func testEndpointParametersWithRequestBuilder(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
+    open class func testEndpointParametersWithRequestBuilder(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/fake"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableFormParams: [String: Any?] = [
-            "integer": integer?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "int32": int32?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "int64": int64?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "number": number.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "float": float?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "double": double.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "string": string?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "pattern_without_delimiter": patternWithoutDelimiter.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "byte": byte.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "binary": binary?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "date": date?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "dateTime": dateTime?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "password": password?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "callback": callback?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
+            "integer": integer?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "int32": int32?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "int64": int64?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "number": number.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "float": float?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "double": double.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "string": string?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "pattern_without_delimiter": patternWithoutDelimiter.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "byte": byte.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "binary": binary?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "date": date?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "dateTime": dateTime?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "password": password?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "callback": callback?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
@@ -385,9 +385,9 @@ open class FakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -468,12 +468,12 @@ open class FakeAPI {
      - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
      - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to .dollar)
      - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .efg)
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
-        return try await testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, openAPIClient: openAPIClient).execute().body
+    open class func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -488,15 +488,15 @@ open class FakeAPI {
      - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
      - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to .dollar)
      - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .efg)
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func testEnumParametersWithRequestBuilder(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
+    open class func testEnumParametersWithRequestBuilder(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/fake"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableFormParams: [String: Any?] = [
-            "enum_form_string_array": enumFormStringArray?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "enum_form_string": enumFormString?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
+            "enum_form_string_array": enumFormStringArray?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "enum_form_string": enumFormString?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
@@ -504,23 +504,23 @@ open class FakeAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "enum_query_string_array": (wrappedValue: enumQueryStringArray?.encodeToJSON(codableHelper: openAPIClient.codableHelper), isExplode: false),
-            "enum_query_string": (wrappedValue: enumQueryString?.encodeToJSON(codableHelper: openAPIClient.codableHelper), isExplode: false),
-            "enum_query_integer": (wrappedValue: enumQueryInteger?.encodeToJSON(codableHelper: openAPIClient.codableHelper), isExplode: false),
-            "enum_query_double": (wrappedValue: enumQueryDouble?.encodeToJSON(codableHelper: openAPIClient.codableHelper), isExplode: false),
+            "enum_query_string_array": (wrappedValue: enumQueryStringArray?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "enum_query_string": (wrappedValue: enumQueryString?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "enum_query_integer": (wrappedValue: enumQueryInteger?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "enum_query_double": (wrappedValue: enumQueryDouble?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
             "Content-Type": "application/x-www-form-urlencoded",
-            "enum_header_string_array": enumHeaderStringArray?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "enum_header_string": enumHeaderString?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
+            "enum_header_string_array": enumHeaderStringArray?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "enum_header_string": enumHeaderString?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -532,12 +532,12 @@ open class FakeAPI {
      - parameter stringGroup: (query) String in group parameters (optional)
      - parameter booleanGroup: (header) Boolean in group parameters (optional)
      - parameter int64Group: (query) Integer in group parameters (optional)
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
-        return try await testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group, openAPIClient: openAPIClient).execute().body
+    open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -550,57 +550,57 @@ open class FakeAPI {
      - parameter stringGroup: (query) String in group parameters (optional)
      - parameter booleanGroup: (header) Boolean in group parameters (optional)
      - parameter int64Group: (query) Integer in group parameters (optional)
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func testGroupParametersWithRequestBuilder(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
+    open class func testGroupParametersWithRequestBuilder(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/fake"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "required_string_group": (wrappedValue: requiredStringGroup.encodeToJSON(codableHelper: openAPIClient.codableHelper), isExplode: false),
-            "required_int64_group": (wrappedValue: requiredInt64Group.encodeToJSON(codableHelper: openAPIClient.codableHelper), isExplode: false),
-            "string_group": (wrappedValue: stringGroup?.encodeToJSON(codableHelper: openAPIClient.codableHelper), isExplode: false),
-            "int64_group": (wrappedValue: int64Group?.encodeToJSON(codableHelper: openAPIClient.codableHelper), isExplode: false),
+            "required_string_group": (wrappedValue: requiredStringGroup.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "required_int64_group": (wrappedValue: requiredInt64Group.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "string_group": (wrappedValue: stringGroup?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "int64_group": (wrappedValue: int64Group?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
-            "required_boolean_group": requiredBooleanGroup.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "boolean_group": booleanGroup?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
+            "required_boolean_group": requiredBooleanGroup.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "boolean_group": booleanGroup?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, apiConfiguration: apiConfiguration)
     }
 
     /**
      test inline additionalProperties
      
      - parameter param: (body) request body 
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func testInlineAdditionalProperties(param: [String: String], openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
-        return try await testInlineAdditionalPropertiesWithRequestBuilder(param: param, openAPIClient: openAPIClient).execute().body
+    open class func testInlineAdditionalProperties(param: [String: String], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await testInlineAdditionalPropertiesWithRequestBuilder(param: param, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      test inline additionalProperties
      - POST /fake/inline-additionalProperties
      - parameter param: (body) request body 
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func testInlineAdditionalPropertiesWithRequestBuilder(param: [String: String], openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
+    open class func testInlineAdditionalPropertiesWithRequestBuilder(param: [String: String], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/fake/inline-additionalProperties"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: param, codableHelper: openAPIClient.codableHelper)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: param, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -610,9 +610,9 @@ open class FakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -620,12 +620,12 @@ open class FakeAPI {
      
      - parameter param: (form) field1 
      - parameter param2: (form) field2 
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func testJsonFormData(param: String, param2: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
-        return try await testJsonFormDataWithRequestBuilder(param: param, param2: param2, openAPIClient: openAPIClient).execute().body
+    open class func testJsonFormData(param: String, param2: String, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await testJsonFormDataWithRequestBuilder(param: param, param2: param2, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -633,15 +633,15 @@ open class FakeAPI {
      - GET /fake/jsonFormData
      - parameter param: (form) field1 
      - parameter param2: (form) field2 
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func testJsonFormDataWithRequestBuilder(param: String, param2: String, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
+    open class func testJsonFormDataWithRequestBuilder(param: String, param2: String, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/fake/jsonFormData"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableFormParams: [String: Any?] = [
-            "param": param.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "param2": param2.encodeToJSON(codableHelper: openAPIClient.codableHelper),
+            "param": param.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "param2": param2.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
@@ -655,9 +655,9 @@ open class FakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -667,12 +667,12 @@ open class FakeAPI {
      - parameter http: (query)  
      - parameter url: (query)  
      - parameter context: (query)  
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func testQueryParameterCollectionFormat(pipe: [String], ioutil: [String], http: [String], url: [String], context: [String], openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) {
-        return try await testQueryParameterCollectionFormatWithRequestBuilder(pipe: pipe, ioutil: ioutil, http: http, url: url, context: context, openAPIClient: openAPIClient).execute().body
+    open class func testQueryParameterCollectionFormat(pipe: [String], ioutil: [String], http: [String], url: [String], context: [String], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await testQueryParameterCollectionFormatWithRequestBuilder(pipe: pipe, ioutil: ioutil, http: http, url: url, context: context, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -683,21 +683,21 @@ open class FakeAPI {
      - parameter http: (query)  
      - parameter url: (query)  
      - parameter context: (query)  
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func testQueryParameterCollectionFormatWithRequestBuilder(pipe: [String], ioutil: [String], http: [String], url: [String], context: [String], openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
+    open class func testQueryParameterCollectionFormatWithRequestBuilder(pipe: [String], ioutil: [String], http: [String], url: [String], context: [String], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/fake/test-query-parameters"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "pipe": (wrappedValue: pipe.encodeToJSON(codableHelper: openAPIClient.codableHelper), isExplode: false),
-            "ioutil": (wrappedValue: ioutil.encodeToJSON(codableHelper: openAPIClient.codableHelper), isExplode: false),
-            "http": (wrappedValue: http.encodeToJSON(codableHelper: openAPIClient.codableHelper), isExplode: false),
-            "url": (wrappedValue: url.encodeToJSON(codableHelper: openAPIClient.codableHelper), isExplode: false),
-            "context": (wrappedValue: context.encodeToJSON(codableHelper: openAPIClient.codableHelper), isExplode: true),
+            "pipe": (wrappedValue: pipe.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "ioutil": (wrappedValue: ioutil.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "http": (wrappedValue: http.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "url": (wrappedValue: url.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "context": (wrappedValue: context.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -706,8 +706,8 @@ open class FakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, apiConfiguration: apiConfiguration)
     }
 }

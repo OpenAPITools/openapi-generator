@@ -15,7 +15,7 @@ import Alamofire{{/useAlamofire}}
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum {{projectName}}API {}
 {{/swiftUseApiNamespace}}
 
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class OpenAPIClient: @unchecked Sendable {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class {{projectName}}APIConfiguration: @unchecked Sendable {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var basePath: String{{#useVapor}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var customHeaders: HTTPHeaders
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var apiClient: Vapor.Client?
@@ -79,7 +79,7 @@ import Alamofire{{/useAlamofire}}
         self.stringResponseSerializer = stringResponseSerializer{{/useAlamofire}}{{/useVapor}}
     }
 
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static let shared = OpenAPIClient()
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static let shared = {{projectName}}APIConfiguration()
 }{{^useVapor}}
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class RequestBuilder<T>: @unchecked Sendable {
@@ -90,20 +90,20 @@ import Alamofire{{/useAlamofire}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let URLString: String
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let requestTask: RequestTask = RequestTask()
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let requiresAuthentication: Bool
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let openAPIClient: OpenAPIClient
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let apiConfiguration: {{projectName}}APIConfiguration
 
     /// Optional block to obtain a reference to the request's progress instance when available.
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var onProgressReady: ((Progress) -> Void)?
 
-    required {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, openAPIClient: OpenAPIClient = OpenAPIClient.shared) {
+    required {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, apiConfiguration: {{projectName}}APIConfiguration = {{projectName}}APIConfiguration.shared) {
         self.method = method
         self.URLString = URLString
         self.parameters = parameters
         self.headers = headers
         self.requiresAuthentication = requiresAuthentication
-        self.openAPIClient = openAPIClient
+        self.apiConfiguration = apiConfiguration
 
-        addHeaders(openAPIClient.customHeaders)
+        addHeaders(apiConfiguration.customHeaders)
         addCredential()
     }
 
@@ -163,7 +163,7 @@ import Alamofire{{/useAlamofire}}
     }
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func addCredential() {
-        credential = openAPIClient.credential
+        credential = apiConfiguration.credential
     }
 }
 

@@ -27,7 +27,7 @@ public class BearerOpenAPIInterceptor: OpenAPIInterceptor {
             newUrlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
             
             // Change the global headers
-            requestBuilder.openAPIClient.customHeaders["Authorization"] = "Bearer \(token)"
+            requestBuilder.apiConfiguration.customHeaders["Authorization"] = "Bearer \(token)"
             
             completion(.success(newUrlRequest))
         }
@@ -44,7 +44,7 @@ public class BearerOpenAPIInterceptor: OpenAPIInterceptor {
             if wasTokenRefreshed, let newToken = newToken {
                 
                 // Change the global headers
-                requestBuilder.openAPIClient.customHeaders["Authorization"] = "Bearer \(newToken)"
+                requestBuilder.apiConfiguration.customHeaders["Authorization"] = "Bearer \(newToken)"
                 
                 completion(.retry)
             } else {
