@@ -998,6 +998,7 @@ Here is a list of template creators:
    * Groovy: @victorgit
    * Go: @wing328 [:heart:](https://www.patreon.com/wing328)
    * Go (rewritten in 2.3.0): @antihax
+   * Godot (GDScript): @Goutte [:heart:](https://liberapay.com/Goutte)
    * Haskell (http-client): @jonschoning
    * Java (Feign): @davidkiss
    * Java (Retrofit): @0legg
