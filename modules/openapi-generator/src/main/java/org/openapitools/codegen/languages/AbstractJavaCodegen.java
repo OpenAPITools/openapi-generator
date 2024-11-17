@@ -2367,4 +2367,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public boolean isTypeErasedGenerics() {
         return true;
     }
+
+    @Override
+    public boolean supportsDividingOperationsByContentType() {
+        return true;
+    }
 }
