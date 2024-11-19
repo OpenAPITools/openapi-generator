@@ -139,7 +139,7 @@ public class ApiClient extends JavaTimeFormatter {
     */
     public static RestClient.Builder buildRestClientBuilder(ObjectMapper mapper) {
         Consumer<List<HttpMessageConverter<?>>> messageConverters = converters -> {
-            converters.add(new MappingJackson2HttpMessageConverter(mapper));
+            converters.add(0, new MappingJackson2HttpMessageConverter(mapper));
         };
 
         return RestClient.builder().messageConverters(messageConverters);
