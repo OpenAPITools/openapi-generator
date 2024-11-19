@@ -23,15 +23,15 @@ use crate::{models, types::*};
             #[validate(
                 {{#maxLength}}
                     {{#minLength}}
-                    length(min = {{minLength}}usize, max = {{maxLength}}usize),
+                    length(min = {{minLength}}, max = {{maxLength}}),
                     {{/minLength}}
                     {{^minLength}}
-                    length(max = {{maxLength}}usize),
+                    length(max = {{maxLength}}),
                     {{/minLength}}
                 {{/maxLength}}
                 {{^maxLength}}
                     {{#minLength}}
-                    length(min = {{minLength}}usize),
+                    length(min = {{minLength}}),
                     {{/minLength}}
                 {{/maxLength}}
                 {{#pattern}}
@@ -57,15 +57,15 @@ use crate::{models, types::*};
                 {{/minimum}}
                 {{#maxItems}}
                     {{#minItems}}
-                    length(min = {{minItems}}usize, max = {{maxItems}}usize),
+                    length(min = {{minItems}}u64, max = {{maxItems}}u64),
                     {{/minItems}}
                     {{^minItems}}
-                    length(max = {{maxItems}}usize),
+                    length(max = {{maxItems}}u64),
                     {{/minItems}}
                 {{/maxItems}}
                 {{^maxItems}}
                     {{#minItems}}
-                    length(min = {{minItems}}usize),
+                    length(min = {{minItems}}u64),
                     {{/minItems}}
                 {{/maxItems}}
                 )]
@@ -115,15 +115,15 @@ use crate::{models, types::*};
                 #[validate(
                     {{#maxLength}}
                         {{#minLength}}
-                        length(min = {{minLength}}usize, max = {{maxLength}}usize),
+                        length(min = {{minLength}}, max = {{maxLength}}),
                         {{/minLength}}
                         {{^minLength}}
-                        length(max = {{maxLength}}usize),
+                        length(max = {{maxLength}}),
                         {{/minLength}}
                     {{/maxLength}}
                     {{^maxLength}}
                         {{#minLength}}
-                        length(min = {{minLength}}usize),
+                        length(min = {{minLength}}),
                         {{/minLength}}
                     {{/maxLength}}
                     {{#pattern}}
@@ -149,15 +149,15 @@ use crate::{models, types::*};
                     {{/minimum}}
                     {{#maxItems}}
                         {{#minItems}}
-                        length(min = {{minItems}}usize, max = {{maxItems}}usize),
+                        length(min = {{minItems}}u64, max = {{maxItems}}u64),
                         {{/minItems}}
                         {{^minItems}}
-                        length(max = {{maxItems}}usize),
+                        length(max = {{maxItems}}u64),
                         {{/minItems}}
                     {{/maxItems}}
                     {{^maxItems}}
                         {{#minItems}}
-                        length(min = {{minItems}}usize),
+                        length(min = {{minItems}}u64),
                         {{/minItems}}
                     {{/maxItems}}
                     )]
@@ -219,15 +219,15 @@ use crate::{models, types::*};
                 #[validate(
                     {{#maxLength}}
                         {{#minLength}}
-                        length(min = {{minLength}}usize, max = {{maxLength}}usize),
+                        length(min = {{minLength}}, max = {{maxLength}}),
                         {{/minLength}}
                         {{^minLength}}
-                        length(max = {{maxLength}}usize),
+                        length(max = {{maxLength}}),
                         {{/minLength}}
                     {{/maxLength}}
                     {{^maxLength}}
                         {{#minLength}}
-                        length(min = {{minLength}}usize),
+                        length(min = {{minLength}}),
                         {{/minLength}}
                     {{/maxLength}}
                     {{#pattern}}
@@ -253,15 +253,15 @@ use crate::{models, types::*};
                     {{/minimum}}
                     {{#maxItems}}
                         {{#minItems}}
-                        length(min = {{minItems}}usize, max = {{maxItems}}usize),
+                        length(min = {{minItems}}u64, max = {{maxItems}}u64),
                         {{/minItems}}
                         {{^minItems}}
-                        length(max = {{maxItems}}usize),
+                        length(max = {{maxItems}}u64),
                         {{/minItems}}
                     {{/maxItems}}
                     {{^maxItems}}
                         {{#minItems}}
-                        length(min = {{minItems}}usize),
+                        length(min = {{minItems}}u64),
                         {{/minItems}}
                     {{/maxItems}}
                     )]
@@ -623,15 +623,15 @@ pub struct {{{classname}}} {
     #[validate(
         {{#maxLength}}
             {{#minLength}}
-            length(min = {{minLength}}usize, max = {{maxLength}}usize),
+            length(min = {{minLength}}, max = {{maxLength}}),
             {{/minLength}}
             {{^minLength}}
-            length(max = {{maxLength}}usize),
+            length(max = {{maxLength}}),
             {{/minLength}}
         {{/maxLength}}
         {{^maxLength}}
             {{#minLength}}
-            length(min = {{minLength}}usize),
+            length(min = {{minLength}}),
             {{/minLength}}
         {{/maxLength}}
         {{#pattern}}
@@ -657,15 +657,15 @@ pub struct {{{classname}}} {
         {{/minimum}}
         {{#maxItems}}
             {{#minItems}}
-            length(min = {{minItems}}usize, max = {{maxItems}}usize),
+            length(min = {{minItems}}u64, max = {{maxItems}}u64),
             {{/minItems}}
             {{^minItems}}
-            length(max = {{maxItems}}usize),
+            length(max = {{maxItems}}u64),
             {{/minItems}}
         {{/maxItems}}
         {{^maxItems}}
             {{#minItems}}
-            length(min = {{minItems}}usize),
+            length(min = {{minItems}}u64),
             {{/minItems}}
         {{/maxItems}}
         )]

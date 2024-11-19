@@ -12,7 +12,7 @@ use crate::{models, types::*};
 pub struct AnyOfGetQueryParams {
     /// list of any of objects
     #[serde(rename = "any-of")]
-    #[validate(length(min = 1))]
+    #[validate(length(min = 1u64))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub any_of: Option<Vec<models::AnyOfObject>>,
 }
@@ -1806,17 +1806,17 @@ pub struct NullableTest {
     pub nullable_array: Option<Nullable<Vec<String>>>,
 
     #[serde(rename = "min_item_test")]
-    #[validate(length(min = 1))]
+    #[validate(length(min = 1u64))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub min_item_test: Option<Vec<i32>>,
 
     #[serde(rename = "max_item_test")]
-    #[validate(length(max = 2))]
+    #[validate(length(max = 2u64))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub max_item_test: Option<Vec<i32>>,
 
     #[serde(rename = "min_max_item_test")]
-    #[validate(length(min = 1, max = 3))]
+    #[validate(length(min = 1u64, max = 3u64))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub min_max_item_test: Option<Vec<i32>>,
 }
