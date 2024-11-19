@@ -58,10 +58,25 @@ TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter <- R6::R6Clas
     },
 
     #' @description
-    #' To JSON String
-    #'
-    #' @return TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter in JSON format
+    #' Convert to a list. This method was misnamed, it actually returns a list. Use `toList()` instead.
     toJSON = function() {
+      .Deprecated(new = "toList", msg = "Use the '$toList()' method instead since that is more learly named. Use '$toJSONstring()' to get a JSON string")
+      return(self$toList())
+    },
+
+    #' @description
+    #' Convert to a List
+    #'
+    #' Convert the R6 object to a list to work more easily with other tooling.
+    #'
+    #' @return TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter as a base R list.
+    #' @examples
+    #' # convert array of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter (x) to a data frame
+    #' \dontrun{
+    #' df <- x |> purrr::map_dfr(\(y)y$toList())
+    #' df
+    #' }
+    toList = function() {
       TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterObject <- list()
       if (!is.null(self$`size`)) {
         TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterObject[["size"]] <-
@@ -79,7 +94,7 @@ TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter <- R6::R6Clas
         TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterObject[["name"]] <-
           self$`name`
       }
-      TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterObject
+      return(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterObject)
     },
 
     #' @description
@@ -106,45 +121,19 @@ TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter <- R6::R6Clas
 
     #' @description
     #' To JSON String
-    #'
+    #' 
+    #' @param minify Logical. If `TRUE` remove all indentation and white space
+    #' @param ... Parameters passed to `jsonlite::toJSON`
     #' @return TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter in JSON format
-    toJSONString = function() {
-      jsoncontent <- c(
-        if (!is.null(self$`size`)) {
-          sprintf(
-          '"size":
-            "%s"
-                    ',
-          self$`size`
-          )
-        },
-        if (!is.null(self$`color`)) {
-          sprintf(
-          '"color":
-            "%s"
-                    ',
-          self$`color`
-          )
-        },
-        if (!is.null(self$`id`)) {
-          sprintf(
-          '"id":
-            %d
-                    ',
-          self$`id`
-          )
-        },
-        if (!is.null(self$`name`)) {
-          sprintf(
-          '"name":
-            "%s"
-                    ',
-          self$`name`
-          )
-        }
-      )
-      jsoncontent <- paste(jsoncontent, collapse = ",")
-      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+    toJSONString = function(minify = TRUE, ...) {
+      json_obj <- self$toList()
+      
+
+      json_string <- jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA, ...)
+      if (minify) {
+        return(jsonlite::minify(json_string))
+      }
+      return(json_string)
     },
 
     #' @description

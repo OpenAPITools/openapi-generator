@@ -97,10 +97,25 @@ Special <- R6::R6Class(
     },
 
     #' @description
-    #' To JSON String
-    #'
-    #' @return Special in JSON format
+    #' Convert to a list. This method was misnamed, it actually returns a list. Use `toList()` instead.
     toJSON = function() {
+      .Deprecated(new = "toList", msg = "Use the '$toList()' method instead since that is more learly named. Use '$toJSONstring()' to get a JSON string")
+      return(self$toList())
+    },
+
+    #' @description
+    #' Convert to a List
+    #'
+    #' Convert the R6 object to a list to work more easily with other tooling.
+    #'
+    #' @return Special as a base R list.
+    #' @examples
+    #' # convert array of Special (x) to a data frame
+    #' \dontrun{
+    #' df <- x |> purrr::map_dfr(\(y)y$toList())
+    #' df
+    #' }
+    toList = function() {
       SpecialObject <- list()
       if (!is.null(self$`set_test`)) {
         SpecialObject[["set_test"]] <-
@@ -134,7 +149,7 @@ Special <- R6::R6Class(
         SpecialObject[[key]] <- self$additional_properties[[key]]
       }
 
-      SpecialObject
+      return(SpecialObject)
     },
 
     #' @description
@@ -180,74 +195,22 @@ Special <- R6::R6Class(
 
     #' @description
     #' To JSON String
-    #'
+    #' 
+    #' @param minify Logical. If `TRUE` remove all indentation and white space
+    #' @param ... Parameters passed to `jsonlite::toJSON`
     #' @return Special in JSON format
-    toJSONString = function() {
-      jsoncontent <- c(
-        if (!is.null(self$`set_test`)) {
-          sprintf(
-          '"set_test":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`set_test`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
-        if (!is.null(self$`item_self`)) {
-          sprintf(
-          '"self":
-            %d
-                    ',
-          self$`item_self`
-          )
-        },
-        if (!is.null(self$`item_private`)) {
-          sprintf(
-          '"private":
-            "%s"
-                    ',
-          self$`item_private`
-          )
-        },
-        if (!is.null(self$`item_super`)) {
-          sprintf(
-          '"super":
-            "%s"
-                    ',
-          self$`item_super`
-          )
-        },
-        if (!is.null(self$`123_number`)) {
-          sprintf(
-          '"123_number":
-            "%s"
-                    ',
-          self$`123_number`
-          )
-        },
-        if (!is.null(self$`array[test]`)) {
-          sprintf(
-          '"array[test]":
-            "%s"
-                    ',
-          self$`array[test]`
-          )
-        },
-        if (!is.null(self$`empty_string`)) {
-          sprintf(
-          '"empty_string":
-            "%s"
-                    ',
-          self$`empty_string`
-          )
-        }
-      )
-      jsoncontent <- paste(jsoncontent, collapse = ",")
-      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
-      json_obj <- jsonlite::fromJSON(json_string)
+    toJSONString = function(minify = TRUE, ...) {
+      json_obj <- self$toList()
+      
       for (key in names(self$additional_properties)) {
         json_obj[[key]] <- self$additional_properties[[key]]
       }
-      json_string <- as.character(jsonlite::minify(jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA)))
+
+      json_string <- jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA, ...)
+      if (minify) {
+        return(jsonlite::minify(json_string))
+      }
+      return(json_string)
     },
 
     #' @description

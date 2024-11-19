@@ -53,10 +53,25 @@ Date <- R6::R6Class(
     },
 
     #' @description
-    #' To JSON String
-    #'
-    #' @return Date in JSON format
+    #' Convert to a list. This method was misnamed, it actually returns a list. Use `toList()` instead.
     toJSON = function() {
+      .Deprecated(new = "toList", msg = "Use the '$toList()' method instead since that is more learly named. Use '$toJSONstring()' to get a JSON string")
+      return(self$toList())
+    },
+
+    #' @description
+    #' Convert to a List
+    #'
+    #' Convert the R6 object to a list to work more easily with other tooling.
+    #'
+    #' @return Date as a base R list.
+    #' @examples
+    #' # convert array of Date (x) to a data frame
+    #' \dontrun{
+    #' df <- x |> purrr::map_dfr(\(y)y$toList())
+    #' df
+    #' }
+    toList = function() {
       DateObject <- list()
       if (!is.null(self$`className`)) {
         DateObject[["className"]] <-
@@ -70,7 +85,7 @@ Date <- R6::R6Class(
         DateObject[["url_property"]] <-
           self$`url_property`
       }
-      DateObject
+      return(DateObject)
     },
 
     #' @description
@@ -98,37 +113,19 @@ Date <- R6::R6Class(
 
     #' @description
     #' To JSON String
-    #'
+    #' 
+    #' @param minify Logical. If `TRUE` remove all indentation and white space
+    #' @param ... Parameters passed to `jsonlite::toJSON`
     #' @return Date in JSON format
-    toJSONString = function() {
-      jsoncontent <- c(
-        if (!is.null(self$`className`)) {
-          sprintf(
-          '"className":
-            "%s"
-                    ',
-          self$`className`
-          )
-        },
-        if (!is.null(self$`percent`)) {
-          sprintf(
-          '"percent_description":
-            "%s"
-                    ',
-          self$`percent`
-          )
-        },
-        if (!is.null(self$`url_property`)) {
-          sprintf(
-          '"url_property":
-            "%s"
-                    ',
-          self$`url_property`
-          )
-        }
-      )
-      jsoncontent <- paste(jsoncontent, collapse = ",")
-      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+    toJSONString = function(minify = TRUE, ...) {
+      json_obj <- self$toList()
+      
+
+      json_string <- jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA, ...)
+      if (minify) {
+        return(jsonlite::minify(json_string))
+      }
+      return(json_string)
     },
 
     #' @description

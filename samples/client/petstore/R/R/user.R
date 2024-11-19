@@ -104,10 +104,25 @@ User <- R6::R6Class(
     },
 
     #' @description
-    #' To JSON String
-    #'
-    #' @return User in JSON format
+    #' Convert to a list. This method was misnamed, it actually returns a list. Use `toList()` instead.
     toJSON = function() {
+      .Deprecated(new = "toList", msg = "Use the '$toList()' method instead since that is more learly named. Use '$toJSONstring()' to get a JSON string")
+      return(self$toList())
+    },
+
+    #' @description
+    #' Convert to a List
+    #'
+    #' Convert the R6 object to a list to work more easily with other tooling.
+    #'
+    #' @return User as a base R list.
+    #' @examples
+    #' # convert array of User (x) to a data frame
+    #' \dontrun{
+    #' df <- x |> purrr::map_dfr(\(y)y$toList())
+    #' df
+    #' }
+    toList = function() {
       UserObject <- list()
       if (!is.null(self$`id`)) {
         UserObject[["id"]] <-
@@ -145,7 +160,7 @@ User <- R6::R6Class(
         UserObject[[key]] <- self$additional_properties[[key]]
       }
 
-      UserObject
+      return(UserObject)
     },
 
     #' @description
@@ -191,82 +206,22 @@ User <- R6::R6Class(
 
     #' @description
     #' To JSON String
-    #'
+    #' 
+    #' @param minify Logical. If `TRUE` remove all indentation and white space
+    #' @param ... Parameters passed to `jsonlite::toJSON`
     #' @return User in JSON format
-    toJSONString = function() {
-      jsoncontent <- c(
-        if (!is.null(self$`id`)) {
-          sprintf(
-          '"id":
-            %d
-                    ',
-          self$`id`
-          )
-        },
-        if (!is.null(self$`username`)) {
-          sprintf(
-          '"username":
-            "%s"
-                    ',
-          self$`username`
-          )
-        },
-        if (!is.null(self$`firstName`)) {
-          sprintf(
-          '"firstName":
-            "%s"
-                    ',
-          self$`firstName`
-          )
-        },
-        if (!is.null(self$`lastName`)) {
-          sprintf(
-          '"lastName":
-            "%s"
-                    ',
-          self$`lastName`
-          )
-        },
-        if (!is.null(self$`email`)) {
-          sprintf(
-          '"email":
-            "%s"
-                    ',
-          self$`email`
-          )
-        },
-        if (!is.null(self$`password`)) {
-          sprintf(
-          '"password":
-            "%s"
-                    ',
-          self$`password`
-          )
-        },
-        if (!is.null(self$`phone`)) {
-          sprintf(
-          '"phone":
-            "%s"
-                    ',
-          self$`phone`
-          )
-        },
-        if (!is.null(self$`userStatus`)) {
-          sprintf(
-          '"userStatus":
-            %d
-                    ',
-          self$`userStatus`
-          )
-        }
-      )
-      jsoncontent <- paste(jsoncontent, collapse = ",")
-      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
-      json_obj <- jsonlite::fromJSON(json_string)
+    toJSONString = function(minify = TRUE, ...) {
+      json_obj <- self$toList()
+      
       for (key in names(self$additional_properties)) {
         json_obj[[key]] <- self$additional_properties[[key]]
       }
-      json_string <- as.character(jsonlite::minify(jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA)))
+
+      json_string <- jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA, ...)
+      if (minify) {
+        return(jsonlite::minify(json_string))
+      }
+      return(json_string)
     },
 
     #' @description
