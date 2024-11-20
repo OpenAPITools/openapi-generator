@@ -66,7 +66,11 @@ PathApi <- R6::R6Class(
     TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath = function(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, data_file = NULL, ...) {
       local_var_response <- self$TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {

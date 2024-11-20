@@ -396,7 +396,11 @@ PetApi <- R6::R6Class(
     add_pet = function(pet, data_file = NULL, ...) {
       local_var_response <- self$add_pet_with_http_info(pet, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -517,7 +521,11 @@ PetApi <- R6::R6Class(
     delete_pet = function(pet_id, api_key = NULL, ...) {
       local_var_response <- self$delete_pet_with_http_info(pet_id, api_key, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -625,7 +633,11 @@ PetApi <- R6::R6Class(
     find_pets_by_status = function(status, data_file = NULL, ...) {
       local_var_response <- self$find_pets_by_status_with_http_info(status, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -751,7 +763,11 @@ PetApi <- R6::R6Class(
     find_pets_by_tags = function(tags, data_file = NULL, ...) {
       local_var_response <- self$find_pets_by_tags_with_http_info(tags, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -865,7 +881,11 @@ PetApi <- R6::R6Class(
     get_pet_by_id = function(pet_id, data_file = NULL, ...) {
       local_var_response <- self$get_pet_by_id_with_http_info(pet_id, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -989,7 +1009,11 @@ PetApi <- R6::R6Class(
       }
 
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -1119,7 +1143,11 @@ PetApi <- R6::R6Class(
       }
 
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -1242,7 +1270,11 @@ PetApi <- R6::R6Class(
     update_pet = function(pet, data_file = NULL, ...) {
       local_var_response <- self$update_pet_with_http_info(pet, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -1363,7 +1395,11 @@ PetApi <- R6::R6Class(
     update_pet_with_form = function(pet_id, name = NULL, status = NULL, ...) {
       local_var_response <- self$update_pet_with_form_with_http_info(pet_id, name, status, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -1472,7 +1508,11 @@ PetApi <- R6::R6Class(
     upload_file = function(pet_id, additional_metadata = NULL, file = NULL, data_file = NULL, ...) {
       local_var_response <- self$upload_file_with_http_info(pet_id, additional_metadata, file, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {

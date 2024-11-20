@@ -171,7 +171,11 @@ StoreApi <- R6::R6Class(
     delete_order = function(order_id, ...) {
       local_var_response <- self$delete_order_with_http_info(order_id, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -271,7 +275,11 @@ StoreApi <- R6::R6Class(
     get_inventory = function(data_file = NULL, ...) {
       local_var_response <- self$get_inventory_with_http_info(data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -377,7 +385,11 @@ StoreApi <- R6::R6Class(
     get_order_by_id = function(order_id, data_file = NULL, ...) {
       local_var_response <- self$get_order_by_id_with_http_info(order_id, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -504,7 +516,11 @@ StoreApi <- R6::R6Class(
     place_order = function(order, data_file = NULL, ...) {
       local_var_response <- self$place_order_with_http_info(order, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {

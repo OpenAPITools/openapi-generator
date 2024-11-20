@@ -280,7 +280,11 @@ UserApi <- R6::R6Class(
     CreateUser = function(user, ...) {
       local_var_response <- self$CreateUserWithHttpInfo(user, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -386,7 +390,11 @@ UserApi <- R6::R6Class(
     CreateUsersWithArrayInput = function(user, ...) {
       local_var_response <- self$CreateUsersWithArrayInputWithHttpInfo(user, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -495,7 +503,11 @@ UserApi <- R6::R6Class(
     CreateUsersWithListInput = function(user, ...) {
       local_var_response <- self$CreateUsersWithListInputWithHttpInfo(user, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -604,7 +616,11 @@ UserApi <- R6::R6Class(
     DeleteUser = function(username, ...) {
       local_var_response <- self$DeleteUserWithHttpInfo(username, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -709,7 +725,11 @@ UserApi <- R6::R6Class(
     GetUserByName = function(username, data_file = NULL, ...) {
       local_var_response <- self$GetUserByNameWithHttpInfo(username, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -825,7 +845,11 @@ UserApi <- R6::R6Class(
     LoginUser = function(username, password, data_file = NULL, ...) {
       local_var_response <- self$LoginUserWithHttpInfo(username, password, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -953,7 +977,11 @@ UserApi <- R6::R6Class(
     LogoutUser = function(...) {
       local_var_response <- self$LogoutUserWithHttpInfo(...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -1045,7 +1073,11 @@ UserApi <- R6::R6Class(
     UpdateUser = function(username, user, ...) {
       local_var_response <- self$UpdateUserWithHttpInfo(username, user, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {

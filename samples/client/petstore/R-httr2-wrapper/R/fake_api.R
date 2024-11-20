@@ -193,7 +193,11 @@ FakeApi <- R6::R6Class(
     add_pet_optional = function(pet = NULL, data_file = NULL, ...) {
       local_var_response <- self$add_pet_optional_with_http_info(pet, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -308,7 +312,11 @@ FakeApi <- R6::R6Class(
     fake_data_file = function(dummy, var_data_file = NULL, data_file = NULL, ...) {
       local_var_response <- self$fake_data_file_with_http_info(dummy, var_data_file, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -424,7 +432,11 @@ FakeApi <- R6::R6Class(
     fake_path_array = function(path_array, ...) {
       local_var_response <- self$fake_path_array_with_http_info(path_array, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -524,7 +536,11 @@ FakeApi <- R6::R6Class(
     fake_regular_expression = function(reg_exp_test, ...) {
       local_var_response <- self$fake_regular_expression_with_http_info(reg_exp_test, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -629,7 +645,11 @@ FakeApi <- R6::R6Class(
     fake_set_query = function(set_dummy, array_dummy, ...) {
       local_var_response <- self$fake_set_query_with_http_info(set_dummy, array_dummy, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {

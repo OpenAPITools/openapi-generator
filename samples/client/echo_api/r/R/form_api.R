@@ -97,7 +97,11 @@ FormApi <- R6::R6Class(
     TestFormIntegerBooleanString = function(integer_form = NULL, boolean_form = NULL, string_form = NULL, data_file = NULL, ...) {
       local_var_response <- self$TestFormIntegerBooleanStringWithHttpInfo(integer_form, boolean_form, string_form, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -191,7 +195,11 @@ FormApi <- R6::R6Class(
     TestFormObjectMultipart = function(marker, data_file = NULL, ...) {
       local_var_response <- self$TestFormObjectMultipartWithHttpInfo(marker, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -288,7 +296,11 @@ FormApi <- R6::R6Class(
     TestFormOneof = function(form1 = NULL, form2 = NULL, form3 = NULL, form4 = NULL, id = NULL, name = NULL, data_file = NULL, ...) {
       local_var_response <- self$TestFormOneofWithHttpInfo(form1, form2, form3, form4, id, name, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {

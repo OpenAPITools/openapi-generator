@@ -184,7 +184,11 @@ BodyApi <- R6::R6Class(
     TestBinaryGif = function(data_file = NULL, ...) {
       local_var_response <- self$TestBinaryGifWithHttpInfo(data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -269,7 +273,11 @@ BodyApi <- R6::R6Class(
     TestBodyApplicationOctetstreamBinary = function(body = NULL, data_file = NULL, ...) {
       local_var_response <- self$TestBodyApplicationOctetstreamBinaryWithHttpInfo(body, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -362,7 +370,11 @@ BodyApi <- R6::R6Class(
     TestBodyMultipartFormdataArrayOfBinary = function(files, data_file = NULL, ...) {
       local_var_response <- self$TestBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -454,7 +466,11 @@ BodyApi <- R6::R6Class(
     TestBodyMultipartFormdataSingleBinary = function(my_file = NULL, data_file = NULL, ...) {
       local_var_response <- self$TestBodyMultipartFormdataSingleBinaryWithHttpInfo(my_file, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -542,7 +558,11 @@ BodyApi <- R6::R6Class(
     TestEchoBodyAllOfPet = function(pet = NULL, data_file = NULL, ...) {
       local_var_response <- self$TestEchoBodyAllOfPetWithHttpInfo(pet, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -635,7 +655,11 @@ BodyApi <- R6::R6Class(
     TestEchoBodyFreeFormObjectResponseString = function(body = NULL, data_file = NULL, ...) {
       local_var_response <- self$TestEchoBodyFreeFormObjectResponseStringWithHttpInfo(body, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -728,7 +752,11 @@ BodyApi <- R6::R6Class(
     TestEchoBodyPet = function(pet = NULL, data_file = NULL, ...) {
       local_var_response <- self$TestEchoBodyPetWithHttpInfo(pet, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -821,7 +849,11 @@ BodyApi <- R6::R6Class(
     TestEchoBodyPetResponseString = function(pet = NULL, data_file = NULL, ...) {
       local_var_response <- self$TestEchoBodyPetResponseStringWithHttpInfo(pet, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -914,7 +946,11 @@ BodyApi <- R6::R6Class(
     TestEchoBodyStringEnum = function(body = NULL, data_file = NULL, ...) {
       local_var_response <- self$TestEchoBodyStringEnumWithHttpInfo(body, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
@@ -1007,7 +1043,11 @@ BodyApi <- R6::R6Class(
     TestEchoBodyTagResponseString = function(tag = NULL, data_file = NULL, ...) {
       local_var_response <- self$TestEchoBodyTagResponseStringWithHttpInfo(tag, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        if (is.raw(local_var_response$content)) {
+          return(local_var_response)
+        } else {
+          return(local_var_response$content)
+        }
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
         local_var_response
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
