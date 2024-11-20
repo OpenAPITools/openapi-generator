@@ -234,8 +234,11 @@ StoreApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         local_var_resp$content <- NULL
         return(local_var_resp)
-      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
-        local_var_error_msg <- local_var_resp$response
+      } 
+      
+      local_var_error_msg <- local_var_resp$ResponseAsText()      
+      if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        
         if (local_var_error_msg == "") {
           local_var_error_msg <- paste("Server returned ", local_var_resp$status_code, " response status code.")
         }
@@ -243,7 +246,6 @@ StoreApi <- R6::R6Class(
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
-        local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api client exception encountered."
         }
@@ -251,7 +253,6 @@ StoreApi <- R6::R6Class(
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
-        local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api server exception encountered."
         }
@@ -339,8 +340,11 @@ StoreApi <- R6::R6Class(
         )
         local_var_resp$content <- deserialized_resp_obj
         return(local_var_resp)
-      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
-        local_var_error_msg <- local_var_resp$response
+      } 
+      
+      local_var_error_msg <- local_var_resp$ResponseAsText()      
+      if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        
         if (local_var_error_msg == "") {
           local_var_error_msg <- paste("Server returned ", local_var_resp$status_code, " response status code.")
         }
@@ -348,7 +352,6 @@ StoreApi <- R6::R6Class(
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
-        local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api client exception encountered."
         }
@@ -356,7 +359,6 @@ StoreApi <- R6::R6Class(
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
-        local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api server exception encountered."
         }
@@ -466,8 +468,11 @@ StoreApi <- R6::R6Class(
         )
         local_var_resp$content <- deserialized_resp_obj
         return(local_var_resp)
-      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
-        local_var_error_msg <- local_var_resp$response
+      } 
+      
+      local_var_error_msg <- local_var_resp$ResponseAsText()      
+      if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        
         if (local_var_error_msg == "") {
           local_var_error_msg <- paste("Server returned ", local_var_resp$status_code, " response status code.")
         }
@@ -475,7 +480,6 @@ StoreApi <- R6::R6Class(
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
-        local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api client exception encountered."
         }
@@ -483,7 +487,6 @@ StoreApi <- R6::R6Class(
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
-        local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api server exception encountered."
         }
@@ -583,8 +586,11 @@ StoreApi <- R6::R6Class(
         )
         local_var_resp$content <- deserialized_resp_obj
         return(local_var_resp)
-      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
-        local_var_error_msg <- local_var_resp$response
+      } 
+      
+      local_var_error_msg <- local_var_resp$ResponseAsText()      
+      if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        
         if (local_var_error_msg == "") {
           local_var_error_msg <- paste("Server returned ", local_var_resp$status_code, " response status code.")
         }
@@ -592,7 +598,6 @@ StoreApi <- R6::R6Class(
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
-        local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api client exception encountered."
         }
@@ -600,7 +605,6 @@ StoreApi <- R6::R6Class(
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
-        local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api server exception encountered."
         }
@@ -648,7 +652,7 @@ StoreApi <- R6::R6Class(
     #' @param return_type The target return type for the endpoint (e.g., `"object"`). If `NULL` text will be left as-is.
     #' @return If the raw response is corecable to text, return the text. Otherwise return the raw resposne.
     Deserialize = function(local_var_resp, return_type = NULL) {
-      text <- local_var_resp$response_as_text()
+      text <- local_var_resp$ResponseAsText()
       if (is.na(text)) {
         return(local_var_resp$response)
       } else if (is.null(return_type)) {

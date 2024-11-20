@@ -51,7 +51,7 @@ ApiResponse <- R6::R6Class(
     #'
     #' @param from_encoding The encoding of the raw response.
     #' @param to_encoding The target encoding of the return value.
-    response_as_text = function(from_encoding = "", to_encoding = "UTF-8") {
+    ResponseAsText = function(from_encoding = "", to_encoding = "UTF-8") {
       if (is.null(self$response)) {
         self$response <- charToRaw(jsonlite::toJSON("NULL"))
       }
