@@ -59,7 +59,11 @@ NestedOneOf <- R6::R6Class(
       }
       if (!is.null(self$`nested_pig`)) {
         NestedOneOfObject[["nested_pig"]] <-
-          self$`nested_pig`$toJSON()
+          if (length(names(self$`nested_pig`$toJSON())) == 0L && is.character(jsonlite::fromJSON(self$`nested_pig`$toJSON()))) {
+            jsonlite::fromJSON(self$`nested_pig`$toJSON())
+          } else {
+            self$`nested_pig`$toJSON()
+          }
       }
       for (key in names(self$additional_properties)) {
         NestedOneOfObject[[key]] <- self$additional_properties[[key]]

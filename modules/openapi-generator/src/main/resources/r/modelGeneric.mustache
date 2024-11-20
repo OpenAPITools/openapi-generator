@@ -234,7 +234,11 @@
           self$`{{name}}`
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}
-          self$`{{name}}`$toJSON()
+          if (length(names(self$`{{name}}`$toJSON())) == 0L && is.character(jsonlite::fromJSON(self$`{{name}}`$toJSON()))) {
+            jsonlite::fromJSON(self$`{{name}}`$toJSON())
+          } else {
+            self$`{{name}}`$toJSON()
+          }
           {{/isPrimitiveType}}
           {{/isContainer}}
       }
