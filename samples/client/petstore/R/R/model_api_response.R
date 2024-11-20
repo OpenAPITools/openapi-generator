@@ -139,9 +139,9 @@ ModelApiResponse <- R6::R6Class(
 
       json_string <- jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA, ...)
       if (minify) {
-        return(jsonlite::minify(json_string))
+        json_string <- jsonlite::minify(json_string)
       }
-      return(json_string)
+      return(as.character(json_string))
     },
 
     #' @description
