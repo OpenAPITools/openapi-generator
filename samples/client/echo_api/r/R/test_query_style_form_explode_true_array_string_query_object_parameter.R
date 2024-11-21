@@ -30,7 +30,7 @@ TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter <- R6::R6Class(
     },
 
     #' @description
-    #' Convert to a list. This method was misnamed, it actually returns a list. Use `toSimpleType()` instead.
+    #' Convert to an R object. This method is deprecated. Use `toSimpleType()` instead.
     toJSON = function() {
       .Deprecated(new = "toSimpleType", msg = "Use the '$toSimpleType()' method instead since that is more learly named. Use '$toJSONString()' to get a JSON string")
       return(self$toSimpleType())
