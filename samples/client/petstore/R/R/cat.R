@@ -60,10 +60,10 @@ Cat <- R6::R6Class(
     },
 
     #' @description
-    #' Convert to a list. This method was misnamed, it actually returns a list. Use `toList()` instead.
+    #' Convert to a list. This method was misnamed, it actually returns a list. Use `toSimpleType()` instead.
     toJSON = function() {
-      .Deprecated(new = "toList", msg = "Use the '$toList()' method instead since that is more learly named. Use '$toJSONstring()' to get a JSON string")
-      return(self$toList())
+      .Deprecated(new = "toSimpleType", msg = "Use the '$toSimpleType()' method instead since that is more learly named. Use '$toJSONString()' to get a JSON string")
+      return(self$toSimpleType())
     },
 
     #' @description
@@ -79,6 +79,14 @@ Cat <- R6::R6Class(
     #' df
     #' }
     toList = function() {
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert Cat to a base R type
+    #'
+    #' @return A base R type, e.g. a list or numeric/character array.
+    toSimpleType = function() {
       CatObject <- list()
       if (!is.null(self$`className`)) {
         CatObject[["className"]] <-
@@ -128,21 +136,15 @@ Cat <- R6::R6Class(
     #' @description
     #' To JSON String
     #' 
-    #' @param minify Logical. If `TRUE` remove all indentation and white space
     #' @param ... Parameters passed to `jsonlite::toJSON`
     #' @return Cat in JSON format
-    toJSONString = function(minify = TRUE, ...) {
-      json_obj <- self$toList()
-      
+    toJSONString = function(...) {
+      simple <- self$toSimpleType()
       for (key in names(self$additional_properties)) {
-        json_obj[[key]] <- self$additional_properties[[key]]
+        simple[[key]] <- self$additional_properties[[key]]
       }
-
-      json_string <- jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA, ...)
-      if (minify) {
-        json_string <- jsonlite::minify(json_string)
-      }
-      return(as.character(json_string))
+      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
+      return(as.character(jsonlite::minify(json)))
     },
 
     #' @description

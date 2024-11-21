@@ -87,10 +87,10 @@ DefaultValue <- R6::R6Class(
     },
 
     #' @description
-    #' Convert to a list. This method was misnamed, it actually returns a list. Use `toList()` instead.
+    #' Convert to a list. This method was misnamed, it actually returns a list. Use `toSimpleType()` instead.
     toJSON = function() {
-      .Deprecated(new = "toList", msg = "Use the '$toList()' method instead since that is more learly named. Use '$toJSONstring()' to get a JSON string")
-      return(self$toList())
+      .Deprecated(new = "toSimpleType", msg = "Use the '$toSimpleType()' method instead since that is more learly named. Use '$toJSONString()' to get a JSON string")
+      return(self$toSimpleType())
     },
 
     #' @description
@@ -106,10 +106,18 @@ DefaultValue <- R6::R6Class(
     #' df
     #' }
     toList = function() {
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert DefaultValue to a base R type
+    #'
+    #' @return A base R type, e.g. a list or numeric/character array.
+    toSimpleType = function() {
       DefaultValueObject <- list()
       if (!is.null(self$`array_string_enum_ref_default`)) {
         DefaultValueObject[["array_string_enum_ref_default"]] <-
-          lapply(self$`array_string_enum_ref_default`, function(x) x$toList())
+          lapply(self$`array_string_enum_ref_default`, function(x) x$toSimpleType())
       }
       if (!is.null(self$`array_string_enum_default`)) {
         DefaultValueObject[["array_string_enum_default"]] <-
@@ -179,18 +187,12 @@ DefaultValue <- R6::R6Class(
     #' @description
     #' To JSON String
     #' 
-    #' @param minify Logical. If `TRUE` remove all indentation and white space
     #' @param ... Parameters passed to `jsonlite::toJSON`
     #' @return DefaultValue in JSON format
-    toJSONString = function(minify = TRUE, ...) {
-      json_obj <- self$toList()
-      
-
-      json_string <- jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA, ...)
-      if (minify) {
-        json_string <- jsonlite::minify(json_string)
-      }
-      return(as.character(json_string))
+    toJSONString = function(...) {
+      simple <- self$toSimpleType()
+      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
+      return(as.character(jsonlite::minify(json)))
     },
 
     #' @description

@@ -46,7 +46,7 @@ ApiClient  <- R6::R6Class(
   "ApiClient",
   public = list(
     # base path of all requests
-    base_path = "http://localhost/v2",
+    base_path = "http://petstore.swagger.io/v2",
     # user agent in the HTTP request
     user_agent = "PetstoreAgent",
     # default headers in the HTTP request

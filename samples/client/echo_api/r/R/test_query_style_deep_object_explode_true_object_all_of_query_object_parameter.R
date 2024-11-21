@@ -58,10 +58,10 @@ TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter <- R6::R6Clas
     },
 
     #' @description
-    #' Convert to a list. This method was misnamed, it actually returns a list. Use `toList()` instead.
+    #' Convert to a list. This method was misnamed, it actually returns a list. Use `toSimpleType()` instead.
     toJSON = function() {
-      .Deprecated(new = "toList", msg = "Use the '$toList()' method instead since that is more learly named. Use '$toJSONstring()' to get a JSON string")
-      return(self$toList())
+      .Deprecated(new = "toSimpleType", msg = "Use the '$toSimpleType()' method instead since that is more learly named. Use '$toJSONString()' to get a JSON string")
+      return(self$toSimpleType())
     },
 
     #' @description
@@ -77,6 +77,14 @@ TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter <- R6::R6Clas
     #' df
     #' }
     toList = function() {
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter to a base R type
+    #'
+    #' @return A base R type, e.g. a list or numeric/character array.
+    toSimpleType = function() {
       TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterObject <- list()
       if (!is.null(self$`size`)) {
         TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterObject[["size"]] <-
@@ -122,18 +130,12 @@ TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter <- R6::R6Clas
     #' @description
     #' To JSON String
     #' 
-    #' @param minify Logical. If `TRUE` remove all indentation and white space
     #' @param ... Parameters passed to `jsonlite::toJSON`
     #' @return TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter in JSON format
-    toJSONString = function(minify = TRUE, ...) {
-      json_obj <- self$toList()
-      
-
-      json_string <- jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA, ...)
-      if (minify) {
-        json_string <- jsonlite::minify(json_string)
-      }
-      return(as.character(json_string))
+    toJSONString = function(...) {
+      simple <- self$toSimpleType()
+      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
+      return(as.character(jsonlite::minify(json)))
     },
 
     #' @description
