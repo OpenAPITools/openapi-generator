@@ -37,12 +37,14 @@ extension CaseIterableDefaultsLast {
 
 /// A flexible type that can be encoded (`.encodeNull` or `.encodeValue`)
 /// or not encoded (`.encodeNothing`). Intended for request payloads.
-public enum NullEncodable<Wrapped: Hashable>: Hashable {
+public enum NullEncodable<Wrapped> {
     case encodeNothing
     case encodeNull
     case encodeValue(Wrapped)
 }
 
+extension NullEncodable: Equatable where Wrapped: Equatable {}
+extension NullEncodable: Hashable where Wrapped: Hashable {}
 extension NullEncodable: Sendable where Wrapped: Sendable {}
 
 extension NullEncodable: Codable where Wrapped: Codable {
