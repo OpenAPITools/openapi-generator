@@ -157,11 +157,11 @@ FormApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-          private$WriteFile(local_var_resp, data_file)
+          self$api_client$WriteFile(local_var_resp, data_file)
         }
 
         deserialized_resp_obj <- tryCatch(
-          private$Deserialize(local_var_resp, "character"),
+          self$api_client$DeserializeResponse(local_var_resp, "character"),
           error = function(e) {
             stop("Failed to deserialize response")
           }
@@ -170,7 +170,7 @@ FormApi <- R6::R6Class(
         return(local_var_resp)
       } 
       
-      local_var_error_msg <- local_var_resp$ResponseAsText()      
+      local_var_error_msg <- local_var_resp$response_as_text()      
       if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
         ApiResponse$new(paste("Server returned ", local_var_resp$status_code, " response status code."), local_var_resp)
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
@@ -252,11 +252,11 @@ FormApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-          private$WriteFile(local_var_resp, data_file)
+          self$api_client$WriteFile(local_var_resp, data_file)
         }
 
         deserialized_resp_obj <- tryCatch(
-          private$Deserialize(local_var_resp, "character"),
+          self$api_client$DeserializeResponse(local_var_resp, "character"),
           error = function(e) {
             stop("Failed to deserialize response")
           }
@@ -265,7 +265,7 @@ FormApi <- R6::R6Class(
         return(local_var_resp)
       } 
       
-      local_var_error_msg <- local_var_resp$ResponseAsText()      
+      local_var_error_msg <- local_var_resp$response_as_text()      
       if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
         ApiResponse$new(paste("Server returned ", local_var_resp$status_code, " response status code."), local_var_resp)
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
@@ -363,11 +363,11 @@ FormApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-          private$WriteFile(local_var_resp, data_file)
+          self$api_client$WriteFile(local_var_resp, data_file)
         }
 
         deserialized_resp_obj <- tryCatch(
-          private$Deserialize(local_var_resp, "character"),
+          self$api_client$DeserializeResponse(local_var_resp, "character"),
           error = function(e) {
             stop("Failed to deserialize response")
           }
@@ -376,7 +376,7 @@ FormApi <- R6::R6Class(
         return(local_var_resp)
       } 
       
-      local_var_error_msg <- local_var_resp$ResponseAsText()      
+      local_var_error_msg <- local_var_resp$response_as_text()      
       if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
         ApiResponse$new(paste("Server returned ", local_var_resp$status_code, " response status code."), local_var_resp)
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
@@ -387,53 +387,6 @@ FormApi <- R6::R6Class(
         }
         return(local_var_resp)
       }
-    }
-  ),
-  private = list(
-    #' @description
-    #' Write response to a file
-    #' 
-    #' The function will write out data. 
-    #' 
-    #' 1. If binary data is detected it will use `writeBin`
-    #' 2. If the raw response is coercable to text, the text will be written to a file
-    #' 3. If the raw response is not coercable to text, the raw response will be written
-    #' 
-    #' @param local_var_resp The API response
-    #' @param file The name of the data file to save the result
-    WriteFile = function(local_var_resp, file) {
-      if (private$IsBinary(local_var_resp$response)) {
-        writeBin(local_var_resp$response, file)
-      } else {
-        response <- private$Deserialize(local_var_resp)
-        base::write(response, file)
-      }
-    },
-
-    #' @description
-    #' Check response for binary content
-    #' 
-    #' @param local_var_resp The API response
-    IsBinary = function(x) {
-      # ref: https://stackoverflow.com/a/17098690/1785752
-      b <- readBin(x, "int", n = 1000, size=1, signed=FALSE)
-      return(max(b) > 128)
-    },
-
-    #' @description
-    #' Deserialize the response
-    #' 
-    #' @param local_var_resp The API response
-    #' @param return_type The target return type for the endpoint (e.g., `"object"`). If `NULL` text will be left as-is.
-    #' @return If the raw response is corecable to text, return the text. Otherwise return the raw resposne.
-    Deserialize = function(local_var_resp, return_type = NULL) {
-      text <- local_var_resp$ResponseAsText()
-      if (is.na(text)) {
-        return(local_var_resp$response)
-      } else if (is.null(return_type)) {
-        return(text)
-      }
-      return(self$api_client$deserialize(text, return_type, loadNamespace("openapi")))
     }
   )
 )
