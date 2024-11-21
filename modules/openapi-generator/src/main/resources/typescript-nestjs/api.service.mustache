@@ -102,23 +102,13 @@ export class {{classname}} {
     public {{nickname}}({{#allParams}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/allParams}}): Observable<AxiosResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
     public {{nickname}}({{#allParams}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/allParams}}): Observable<any> {
     {{/useSingleRequestParameter}}
-{{#allParams.0}}
-{{#useSingleRequestParameter}}
-        const {
-        {{#allParams}}
-            {{paramName}},
-        {{/allParams}}
-        } = requestParameters;
-
-{{/useSingleRequestParameter}}
-{{/allParams.0}}
 {{#allParams}}
 {{#required}}
         {{#isConstEnumParam}}
         let {{paramName}} = {{{dataType}}};
         {{/isConstEnumParam}}
         {{^isConstEnumParam}}
-        if ({{paramName}} === null || {{paramName}} === undefined) {
+        if ({{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}} === null || {{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}} === undefined) {
             throw new Error('Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
         }
 
@@ -129,24 +119,24 @@ export class {{classname}} {
         let queryParameters = new URLSearchParams();
 {{#queryParams}}
         {{#isArray}}
-        if ({{paramName}}) {
+        if ({{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}}) {
         {{#isCollectionFormatMulti}}
-            {{paramName}}.forEach((element) => {
+            {{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}}.forEach((element) => {
                 queryParameters.append('{{baseName}}', <any>element);
             })
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
-            queryParameters['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']);
+            queryParameters['{{baseName}}'] = {{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}}.join(COLLECTION_FORMATS['{{collectionFormat}}']);
         {{/isCollectionFormatMulti}}
         }
         {{/isArray}}
         {{^isArray}}
-        if ({{paramName}} !== undefined && {{paramName}} !== null) {
+        if ({{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}} !== undefined && {{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}} !== null) {
         {{#isDateTime}}
-            queryParameters.append('{{baseName}}', (<any>{{paramName}}).toISOString());
+            queryParameters.append('{{baseName}}', (<any>{{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}}).toISOString());
         {{/isDateTime}}
         {{^isDateTime}}
-            queryParameters.append('{{baseName}}', <any>{{paramName}});
+            queryParameters.append('{{baseName}}', <any>{{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}});
         {{/isDateTime}}
         }
         {{/isArray}}
@@ -156,13 +146,13 @@ export class {{classname}} {
         let headers = {...this.defaultHeaders};
 {{#headerParams}}
         {{#isArray}}
-        if ({{paramName}}) {
-            headers['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']);
+        if ({{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}}) {
+            headers['{{baseName}}'] = {{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}}.join(COLLECTION_FORMATS['{{collectionFormat}}']);
         }
         {{/isArray}}
         {{^isArray}}
-        if ({{paramName}} !== undefined && {{paramName}} !== null) {
-            headers['{{baseName}}'] = String({{paramName}});
+        if ({{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}} !== undefined && {{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}} !== null) {
+            headers['{{baseName}}'] = String({{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}});
         }
         {{/isArray}}
 {{/headerParams}}
@@ -256,20 +246,20 @@ export class {{classname}} {
 {{#formParams}}
 
         {{#isArray}}
-        if ({{paramName}}) {
+        if ({{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}}) {
         {{#isCollectionFormatMulti}}
-            {{paramName}}.forEach((element) => {
+            {{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}}.forEach((element) => {
                 formParams!.append('{{baseName}}', <any>element);
             })
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
-            formParams!.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
+            formParams!.append('{{baseName}}', {{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
         {{/isCollectionFormatMulti}}
         }
         {{/isArray}}
         {{^isArray}}
-        if ({{paramName}} !== undefined) {
-            formParams!.append('{{baseName}}', <any>{{paramName}});
+        if ({{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}} !== undefined) {
+            formParams!.append('{{baseName}}', <any>{{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}});
         }
         {{/isArray}}
 {{/formParams}}
@@ -282,7 +272,7 @@ export class {{classname}} {
                 }
 
                 return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.basePath}{{{path}}}`,{{#isBodyAllowed}}
-                    {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams!.toString() : formParams!{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
+                    {{#bodyParam}}{{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams!.toString() : formParams!{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
                     {
         {{#hasQueryParams}}
                         params: queryParameters,
