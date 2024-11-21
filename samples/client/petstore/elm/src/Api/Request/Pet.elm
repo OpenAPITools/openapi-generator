@@ -89,7 +89,10 @@ deletePet petId_path apiKey_header =
         (Json.Decode.succeed ())
 
 
-{-| Finds Pets by status. Multiple status values can be provided with comma separated strings
+{-| Finds Pets by status
+
+Multiple status values can be provided with comma separated strings
+
 -}
 findPetsByStatus : List Status -> Api.Request (List Api.Data.Pet)
 findPetsByStatus status_query =
@@ -103,7 +106,10 @@ findPetsByStatus status_query =
         (Json.Decode.list Api.Data.petDecoder)
 
 
-{-| Finds Pets by tags. Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+{-| Finds Pets by tags
+
+Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+
 -}
 findPetsByTags : List String -> Api.Request (List Api.Data.Pet)
 findPetsByTags tags_query =
@@ -117,7 +123,10 @@ findPetsByTags tags_query =
         (Json.Decode.list Api.Data.petDecoder)
 
 
-{-| Find pet by ID. Returns a single pet
+{-| Find pet by ID
+
+Returns a single pet
+
 -}
 getPetById : Int -> Api.Request Api.Data.Pet
 getPetById petId_path =

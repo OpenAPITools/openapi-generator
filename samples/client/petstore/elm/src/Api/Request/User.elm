@@ -31,7 +31,11 @@ import Http
 import Json.Decode
 import Json.Encode
 
-{-| Create user. This can only be done by the logged in user.
+
+{-| Create user
+
+This can only be done by the logged in user.
+
 -}
 createUser : Api.Data.User -> Api.Request ()
 createUser user_body =
@@ -73,7 +77,10 @@ createUsersWithListInput user_body =
         (Json.Decode.succeed ())
 
 
-{-| Delete user. This can only be done by the logged in user.
+{-| Delete user
+
+This can only be done by the logged in user.
+
 -}
 deleteUser : String -> Api.Request ()
 deleteUser username_path =
@@ -129,7 +136,10 @@ logoutUser =
         (Json.Decode.succeed ())
 
 
-{-| Updated user. This can only be done by the logged in user.
+{-| Updated user
+
+This can only be done by the logged in user.
+
 -}
 updateUser : String -> Api.Data.User -> Api.Request ()
 updateUser username_path user_body =

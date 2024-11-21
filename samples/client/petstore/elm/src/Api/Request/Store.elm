@@ -27,7 +27,11 @@ import Http
 import Json.Decode
 import Json.Encode
 
-{-| Delete purchase order by ID. For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+
+{-| Delete purchase order by ID
+
+For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+
 -}
 deleteOrder : String -> Api.Request ()
 deleteOrder orderId_path =
@@ -41,7 +45,10 @@ deleteOrder orderId_path =
         (Json.Decode.succeed ())
 
 
-{-| Returns pet inventories by status. Returns a map of status codes to quantities
+{-| Returns pet inventories by status
+
+Returns a map of status codes to quantities
+
 -}
 getInventory : Api.Request (Dict.Dict String Int)
 getInventory =
@@ -55,7 +62,10 @@ getInventory =
         (Json.Decode.dict Json.Decode.int)
 
 
-{-| Find purchase order by ID. For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
+{-| Find purchase order by ID
+
+For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
+
 -}
 getOrderById : Int -> Api.Request Api.Data.Order_
 getOrderById orderId_path =

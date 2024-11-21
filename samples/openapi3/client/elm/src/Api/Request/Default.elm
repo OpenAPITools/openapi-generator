@@ -54,7 +54,6 @@ stringFromHeaderType model =
 
 
 
-
 type Enumeration
     = EnumerationA
     | EnumerationB
@@ -80,7 +79,6 @@ stringFromEnumeration model =
 
         EnumerationC ->
             "c"
-
 
 
 
