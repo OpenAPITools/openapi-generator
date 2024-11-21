@@ -115,6 +115,7 @@ NestedOneOf <- R6::R6Class(
     #' @param ... Parameters passed to `jsonlite::toJSON`
     #' @return NestedOneOf in JSON format
     toJSONString = function(minify = TRUE, ...) {
+      browser()
       json_obj <- self$toList()
       
       for (key in names(self$additional_properties)) {
