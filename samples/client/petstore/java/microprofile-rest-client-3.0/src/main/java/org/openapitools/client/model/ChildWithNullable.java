@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 import java.util.Objects;
 import java.util.Arrays;
 import org.openapitools.client.model.ParentWithNullable;
-import org.openapitools.jackson.nullable.JsonNullable;
 import java.lang.reflect.Type;
 import jakarta.json.bind.annotation.JsonbTypeDeserializer;
 import jakarta.json.bind.annotation.JsonbTypeSerializer;
@@ -69,20 +68,9 @@ public class ChildWithNullable extends ParentWithNullable {
         super.equals(o);
   }
 
-  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
-    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
-  }
-
   @Override
   public int hashCode() {
     return Objects.hash(otherProperty, super.hashCode());
-  }
-
-  private static <T> int hashCodeNullable(JsonNullable<T> a) {
-    if (a == null) {
-      return 1;
-    }
-    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   /**
