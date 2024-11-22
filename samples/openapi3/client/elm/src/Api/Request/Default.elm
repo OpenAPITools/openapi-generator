@@ -54,7 +54,6 @@ stringFromHeaderType model =
 
 
 
-
 type Enumeration
     = EnumerationA
     | EnumerationB
@@ -80,7 +79,6 @@ stringFromEnumeration model =
 
         EnumerationC ->
             "c"
-
 
 
 
@@ -160,6 +158,8 @@ queryGet string_query int_query enum_query =
         (Json.Decode.succeed ())
 
 
+{-| Secured endpoint
+-}
 securedPost : String -> Api.Request ()
 securedPost auth_token =
     Api.request
