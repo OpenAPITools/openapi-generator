@@ -17,6 +17,31 @@ tags:
     description: Access to Petstore orders
   - name: user
     description: Operations about user
+webhooks:
+  /fake/webhooks/sources/deleted:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: inline schema in webhooks
+              required:
+                - event_timestamp
+                - event_type
+                - event
+              properties:
+                event_timestamp:
+                  type: string
+                  format: date-time
+                event_type:
+                  type: string
+                event:
+                  type: object
+                  required:
+                    - event_id
+                  properties:
+                    event_id:
+                      type: string
 paths:
   /pet:
     post:
