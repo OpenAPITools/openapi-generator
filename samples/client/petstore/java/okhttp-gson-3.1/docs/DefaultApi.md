@@ -61,4 +61,9 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+| **405** | Invalid input |  -  |
 

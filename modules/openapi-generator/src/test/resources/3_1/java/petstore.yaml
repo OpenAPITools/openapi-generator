@@ -42,6 +42,11 @@ webhooks:
                   properties:
                     event_id:
                       type: string
+      responses:
+        '200':
+          description: successful operation
+        '405':
+          description: Invalid input
 paths:
   /pet:
     post:

@@ -78,6 +78,13 @@ public class DefaultApi {
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+        <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
+     </table>
      */
     public okhttp3.Call fakeWebhooksSourcesDeletedPostCall(FakeWebhooksSourcesDeletedPostRequest fakeWebhooksSourcesDeletedPostRequest, final ApiCallback _callback) throws ApiException {
         String basePath = null;
@@ -134,6 +141,13 @@ public class DefaultApi {
      * 
      * @param fakeWebhooksSourcesDeletedPostRequest  (optional)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+        <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
+     </table>
      */
     public void fakeWebhooksSourcesDeletedPost(FakeWebhooksSourcesDeletedPostRequest fakeWebhooksSourcesDeletedPostRequest) throws ApiException {
         fakeWebhooksSourcesDeletedPostWithHttpInfo(fakeWebhooksSourcesDeletedPostRequest);
@@ -145,6 +159,13 @@ public class DefaultApi {
      * @param fakeWebhooksSourcesDeletedPostRequest  (optional)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+        <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
+     </table>
      */
     public ApiResponse<Void> fakeWebhooksSourcesDeletedPostWithHttpInfo(FakeWebhooksSourcesDeletedPostRequest fakeWebhooksSourcesDeletedPostRequest) throws ApiException {
         okhttp3.Call localVarCall = fakeWebhooksSourcesDeletedPostValidateBeforeCall(fakeWebhooksSourcesDeletedPostRequest, null);
@@ -158,6 +179,13 @@ public class DefaultApi {
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+        <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
+     </table>
      */
     public okhttp3.Call fakeWebhooksSourcesDeletedPostAsync(FakeWebhooksSourcesDeletedPostRequest fakeWebhooksSourcesDeletedPostRequest, final ApiCallback<Void> _callback) throws ApiException {
 

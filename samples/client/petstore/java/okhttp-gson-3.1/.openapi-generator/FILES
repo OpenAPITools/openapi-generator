@@ -98,5 +98,3 @@ src/main/java/org/openapitools/client/model/SimpleModelWithArrayProperty.java
 src/main/java/org/openapitools/client/model/StringOrInt.java
 src/main/java/org/openapitools/client/model/Tag.java
 src/main/java/org/openapitools/client/model/User.java
-src/test/java/org/openapitools/client/model/FakeWebhooksSourcesDeletedPostRequestEventTest.java
-src/test/java/org/openapitools/client/model/FakeWebhooksSourcesDeletedPostRequestTest.java
