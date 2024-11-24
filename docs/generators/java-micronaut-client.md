@@ -2,15 +2,6 @@
 title: Documentation for the java-micronaut-client Generator
 ---
 
----
-**NOTE**
-
-This generator is outdated. Please use the official generator for Micronaut:
-[micronaut-openapi](https://github.com/micronaut-projects/micronaut-openapi">micronaut-openapi) with the help of the plugin for
-[Gradle](https://github.com/micronaut-projects/micronaut-gradle-plugin) and
-[Maven](https://github.com/micronaut-projects/micronaut-maven-plugin).
----
-
 ## METADATA
 
 | Property | Value | Notes |
@@ -20,7 +11,7 @@ This generator is outdated. Please use the official generator for Micronaut:
 | generator type | CLIENT | |
 | generator language | Java | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates a Java Micronaut Client. | |
+| helpTxt | Generates a Java Micronaut Client. IMPORTANT: this generator has been deprecated. Please use the official one instead: https://github.com/micronaut-projects/micronaut-openapi. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.

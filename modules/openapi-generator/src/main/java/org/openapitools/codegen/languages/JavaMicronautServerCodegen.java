@@ -93,7 +93,7 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates a Java Micronaut Server.";
+        return "Generates a Java Micronaut Server. IMPORTANT: this generator has been deprecated. Please use the official one instead: https://github.com/micronaut-projects/micronaut-openapi.";
     }
 
     @Override
