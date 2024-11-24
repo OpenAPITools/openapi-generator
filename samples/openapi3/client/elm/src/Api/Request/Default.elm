@@ -136,14 +136,14 @@ maybeGet =
 
 
 paramSanitizeTestPost : Maybe String -> Api.Request ()
-paramSanitizeTestPost name with spaces =
+paramSanitizeTestPost nameWithSpaces =
     Api.request
         "POST"
         "/param-sanitize-test"
         []
         []
         []
-        (Just <| Http.multipartBody <| List.filterMap identity [ Maybe.map (Http.stringPart "name with spaces") name with spaces ])
+        (Just <| Http.multipartBody <| List.filterMap identity [ Maybe.map (Http.stringPart "name with spaces") nameWithSpaces ])
         (Json.Decode.succeed ())
 
 
