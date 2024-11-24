@@ -22,6 +22,9 @@ public class HasOnlyReadOnly  implements Serializable {
   private String bar;
   private String foo;
 
+  public HasOnlyReadOnly() {
+  }
+
   /**
    **/
   public HasOnlyReadOnly bar(String bar) {

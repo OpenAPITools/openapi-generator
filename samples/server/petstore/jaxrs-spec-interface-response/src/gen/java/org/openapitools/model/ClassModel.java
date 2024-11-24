@@ -22,6 +22,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class ClassModel  implements Serializable {
   private String propertyClass;
 
+  public ClassModel() {
+  }
+
   /**
    **/
   public ClassModel propertyClass(String propertyClass) {
