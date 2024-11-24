@@ -21,6 +21,12 @@ paths:
                 type: array
                 items:
                     type: string
+      - name: QueryArray
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
       responses:
         '200':
           description: Some return value
