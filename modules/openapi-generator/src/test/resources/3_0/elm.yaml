@@ -126,6 +126,19 @@ paths:
               schema:
                 type: string
                 format: uuid
+  /param-sanitize-test:
+    post:
+      responses:
+        '405':
+          description: Invalid input
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                "name with spaces":
+                  type: string
 components:
   schemas:
     Absent:
