@@ -11,7 +11,7 @@ title: Documentation for the java-micronaut-server Generator
 | generator type | SERVER | |
 | generator language | Java | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates a Java Micronaut Server. | |
+| helpTxt | Generates a Java Micronaut Server. IMPORTANT: this generator has been deprecated. Please use the official one instead: https://github.com/micronaut-projects/micronaut-openapi. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
