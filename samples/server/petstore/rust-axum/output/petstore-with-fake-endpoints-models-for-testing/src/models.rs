@@ -309,7 +309,7 @@ impl Animal {
     pub fn new(class_name: String) -> Animal {
         Animal {
             class_name,
-            color: Some("red".to_string()),
+            color: Some(r#"red"#.to_string()),
         }
     }
 }
@@ -1460,7 +1460,7 @@ impl Cat {
     pub fn new(class_name: String) -> Cat {
         Cat {
             class_name,
-            color: Some("red".to_string()),
+            color: Some(r#"red"#.to_string()),
             declawed: None,
         }
     }
@@ -2041,7 +2041,7 @@ impl Dog {
     pub fn new(class_name: String) -> Dog {
         Dog {
             class_name,
-            color: Some("red".to_string()),
+            color: Some(r#"red"#.to_string()),
             breed: None,
         }
     }
@@ -5858,7 +5858,7 @@ impl TestEnumParametersRequest {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> TestEnumParametersRequest {
         TestEnumParametersRequest {
-            enum_form_string: Some("-efg".to_string()),
+            enum_form_string: Some(r#"-efg"#.to_string()),
         }
     }
 }
