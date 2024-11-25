@@ -89,7 +89,7 @@ where
     // Header parameters
     let header_params = {
   {{/-first}}
-                let header_{{{paramName}}} = headers.get(HeaderName::from_static("{{{baseName}}}"));
+                let header_{{{paramName}}} = headers.get(HeaderName::from_static("{{{nameInLowerCase}}}"));
 
                 let header_{{{paramName}}} = match header_{{{paramName}}} {
                     Some(v) => match header::IntoHeaderValue::<{{{dataType}}}>::try_from((*v).clone()) {
@@ -272,7 +272,7 @@ where
                                                     {
                                                       let mut response_headers = response.headers_mut().unwrap();
                                                       response_headers.insert(
-                                                          HeaderName::from_static("{{{baseName}}}"),
+                                                          HeaderName::from_static("{{{nameInLowerCase}}}"),
                                                           {{name}}
                                                       );
                                                     }
