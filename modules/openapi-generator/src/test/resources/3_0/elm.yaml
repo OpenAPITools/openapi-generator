@@ -126,11 +126,21 @@ paths:
               schema:
                 type: string
                 format: uuid
-  /param-sanitize-test:
+  /param-sanitize/{test id}:
     post:
       responses:
         '405':
           description: Invalid input
+      parameters:
+        - name: "query with spaces"
+          in: query
+          schema:
+            type: string
+        - name: "test id"
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/x-www-form-urlencoded:
