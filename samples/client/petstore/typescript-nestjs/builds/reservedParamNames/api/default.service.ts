@@ -29,14 +29,14 @@ export interface DefaultServiceTestReservedParamNamesRequest {
      * @type {string}
      * @memberof DefaultServiceTestReservedParamNames
      */
-    readonly from: string
+    readonly 'from': string
 
     /**
      * Might conflict with headers const
      * @type {string}
      * @memberof DefaultServiceTestReservedParamNames
      */
-    readonly headers: string
+    readonly 'headers': string
 }
 
 
