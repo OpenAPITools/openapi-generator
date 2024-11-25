@@ -102,7 +102,9 @@ DefaultValue <- R6::R6Class(
     #' @examples
     #' # convert array of DefaultValue (x) to a data frame
     #' \dontrun{
-    #' df <- x |> purrr::map_dfr(\(y)y$toList())
+    #' library(purrr)
+    #' library(tibble)
+    #' df <- x |> map(\(y)y$toList()) |> map(as_tibble) |> list_rbind()
     #' df
     #' }
     toList = function() {
