@@ -475,6 +475,25 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         return super.getTypeDeclaration(p);
     }
 
+    @Override
+    public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
+        // params should be lowerCamelCase
+        name = camelize(toVarName(name), LOWERCASE_FIRST_LETTER);
+
+        // escape reserved words
+        if (isReservedWord(name)) {
+            LOGGER.warn("{} (reserved word) cannot be used as parameter name. Renamed to {}_", name, name);
+            name = name + "_";
+        }
+
+        return name;
+    }
+
     private static class RemoveWhitespaceLambda implements Mustache.Lambda {
         @Override
         public void execute(final Template.Fragment fragment, final Writer writer) throws IOException {
