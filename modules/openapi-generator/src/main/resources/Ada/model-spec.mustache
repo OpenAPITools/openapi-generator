@@ -1,43 +1,52 @@
 {{>licenseInfo}}
-{{#imports}}with {{import}};
-{{/imports}}
 with {{openApiPackageName}}.Streams;
 with Ada.Containers.Vectors;
+{{#adaImports}}with {{name}};
+{{/adaImports}}
 package {{package}}.Models is
-   pragma Style_Checks ("-mr");
+   pragma Style_Checks ("-bmrIu");
 
 {{#orderedModels}}{{#model}}{{^isArray}}
 {{#title}}   --  ------------------------------
    --  {{title}}{{#description}}
    --  {{#lambdaAdaComment}}{{description}}{{/lambdaAdaComment}}{{/description}}
-   --  ------------------------------{{/title}}
+   --  ------------------------------{{/title}}{{#isEnum}}{{^vendorExtensions.x-is-imported-type}}
+   type {{classname}} is ({{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}});
+{{/vendorExtensions.x-is-imported-type}}
+
+   function To_{{classname}} (Value : in String) return {{vendorExtensions.x-ada-type-name}};
+
+   function To_String (Value : in {{classname}}) return String;
+{{/isEnum}}{{^isEnum}}{{^vendorExtensions.x-is-imported-type}}{{#hasVars}}
    type {{classname}} is
      record
        {{#vars}}
-       {{name}} : {{dataType}};
+       {{name}} : {{#isArray}}{{#vendorExtensions.x-ada-vector-type-name}}{{.}}{{/vendorExtensions.x-ada-vector-type-name}}{{^vendorExtensions.x-ada-vector-type-name}}{{dataType}}{{/vendorExtensions.x-ada-vector-type-name}};{{/isArray}}{{^isArray}}{{#vendorExtensions.x-ada-type-name}}{{.}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{dataType}}{{/vendorExtensions.x-ada-type-name}};{{/isArray}}
        {{/vars}}
      end record;
-
+{{/hasVars}}{{^hasVars}}
+   type {{classname}} is new {{dataType}};
+{{/hasVars}}{{/vendorExtensions.x-is-imported-type}}{{/isEnum}}
+{{^vendorExtensions.x-is-imported-type}}{{^vendorExtensions.x-ada-no-vector}}
    package {{classname}}_Vectors is
       new Ada.Containers.Vectors (Index_Type   => Positive,
-                                  Element_Type => {{classname}});
+                                  Element_Type => {{#vendorExtensions.x-ada-type-name}}{{.}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{classname}}{{/vendorExtensions.x-ada-type-name}});{{/vendorExtensions.x-ada-no-vector}}{{/vendorExtensions.x-is-imported-type}}
 
    procedure Serialize (Into  : in out {{openApiPackageName}}.Streams.Output_Stream'Class;
                         Name  : in String;
-                        Value : in {{classname}});
-
+                        Value : in {{vendorExtensions.x-ada-type-name}});
+{{^vendorExtensions.x-ada-no-vector}}
    procedure Serialize (Into  : in out {{openApiPackageName}}.Streams.Output_Stream'Class;
                         Name  : in String;
-                        Value : in {{classname}}_Vectors.Vector);
-
+                        Value : in {{#vendorExtensions.x-ada-vector-type-name}}{{.}}{{/vendorExtensions.x-ada-vector-type-name}}{{^vendorExtensions.x-ada-vector-type-name}}{{classname}}_Vectors.Vector{{/vendorExtensions.x-ada-vector-type-name}});
+{{/vendorExtensions.x-ada-no-vector}}
    procedure Deserialize (From  : in {{openApiPackageName}}.Value_Type;
                           Name  : in String;
-                          Value : out {{classname}});
-
+                          Value : out {{vendorExtensions.x-ada-type-name}});
+{{^vendorExtensions.x-ada-no-vector}}
    procedure Deserialize (From  : in {{openApiPackageName}}.Value_Type;
                           Name  : in String;
-                          Value : out {{classname}}_Vectors.Vector);
-
+                          Value : in out {{#vendorExtensions.x-ada-vector-type-name}}{{.}}{{/vendorExtensions.x-ada-vector-type-name}}{{^vendorExtensions.x-ada-vector-type-name}}{{classname}}_Vectors.Vector{{/vendorExtensions.x-ada-vector-type-name}});{{/vendorExtensions.x-ada-no-vector}}
 {{/isArray}}{{#isArray}}
    subtype {{classname}} is {{arrayModelType}}_Type_Vectors.Vector;
 {{/isArray}}{{/model}}

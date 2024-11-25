@@ -21,7 +21,7 @@ var _ MappedNullable = &MapOfFileTest{}
 // MapOfFileTest test map of file in a property
 type MapOfFileTest struct {
 	// a property to test map of file
-	PropTest *map[string]os.File `json:"prop_test,omitempty"`
+	PropTest *map[string]*os.File `json:"prop_test,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -45,9 +45,9 @@ func NewMapOfFileTestWithDefaults() *MapOfFileTest {
 }
 
 // GetPropTest returns the PropTest field value if set, zero value otherwise.
-func (o *MapOfFileTest) GetPropTest() map[string]os.File {
-	if o == nil || isNil(o.PropTest) {
-		var ret map[string]os.File
+func (o *MapOfFileTest) GetPropTest() map[string]*os.File {
+	if o == nil || IsNil(o.PropTest) {
+		var ret map[string]*os.File
 		return ret
 	}
 	return *o.PropTest
@@ -55,8 +55,8 @@ func (o *MapOfFileTest) GetPropTest() map[string]os.File {
 
 // GetPropTestOk returns a tuple with the PropTest field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MapOfFileTest) GetPropTestOk() (*map[string]os.File, bool) {
-	if o == nil || isNil(o.PropTest) {
+func (o *MapOfFileTest) GetPropTestOk() (*map[string]*os.File, bool) {
+	if o == nil || IsNil(o.PropTest) {
 		return nil, false
 	}
 	return o.PropTest, true
@@ -64,15 +64,15 @@ func (o *MapOfFileTest) GetPropTestOk() (*map[string]os.File, bool) {
 
 // HasPropTest returns a boolean if a field has been set.
 func (o *MapOfFileTest) HasPropTest() bool {
-	if o != nil && !isNil(o.PropTest) {
+	if o != nil && !IsNil(o.PropTest) {
 		return true
 	}
 
 	return false
 }
 
-// SetPropTest gets a reference to the given map[string]os.File and assigns it to the PropTest field.
-func (o *MapOfFileTest) SetPropTest(v map[string]os.File) {
+// SetPropTest gets a reference to the given map[string]*os.File and assigns it to the PropTest field.
+func (o *MapOfFileTest) SetPropTest(v map[string]*os.File) {
 	o.PropTest = &v
 }
 
@@ -86,7 +86,7 @@ func (o MapOfFileTest) MarshalJSON() ([]byte, error) {
 
 func (o MapOfFileTest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.PropTest) {
+	if !IsNil(o.PropTest) {
 		toSerialize["prop_test"] = o.PropTest
 	}
 
@@ -97,16 +97,20 @@ func (o MapOfFileTest) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *MapOfFileTest) UnmarshalJSON(bytes []byte) (err error) {
+func (o *MapOfFileTest) UnmarshalJSON(data []byte) (err error) {
 	varMapOfFileTest := _MapOfFileTest{}
 
-	if err = json.Unmarshal(bytes, &varMapOfFileTest); err == nil {
-		*o = MapOfFileTest(varMapOfFileTest)
+	err = json.Unmarshal(data, &varMapOfFileTest)
+
+	if err != nil {
+		return err
 	}
+
+	*o = MapOfFileTest(varMapOfFileTest)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "prop_test")
 		o.AdditionalProperties = additionalProperties
 	}

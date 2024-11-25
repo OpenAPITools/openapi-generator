@@ -38,7 +38,7 @@ impl <T: fmt::Debug> error::Error for Error<T> {
             Error::Serde(e) => e,
             Error::Io(e) => e,
             Error::ResponseError(_) => return None,
-	    Error::AWSV4SignatureError(_) => return None,
+            Error::AWSV4SignatureError(_) => return None,
         })
     }
 }

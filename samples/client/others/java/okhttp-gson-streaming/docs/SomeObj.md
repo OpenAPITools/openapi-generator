@@ -19,7 +19,11 @@
 
 | Name | Value |
 |---- | -----|
-| SOMEOBJIDENTIFIER | &quot;SomeObjIdentifier&quot; |
+| SOME_OBJ_IDENTIFIER | &quot;SomeObjIdentifier&quot; |
 
+
+## Implemented Interfaces
+
+* Serializable
 
 

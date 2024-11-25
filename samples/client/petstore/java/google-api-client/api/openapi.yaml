@@ -47,7 +47,8 @@ paths:
       - pet
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
     put:
       operationId: updatePet
       requestBody:
@@ -82,7 +83,8 @@ paths:
       - pet
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /pet/findByStatus:
     get:
       description: Multiple status values can be provided with comma separated strings
@@ -127,7 +129,9 @@ paths:
       summary: Finds Pets by status
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
   /pet/findByTags:
     get:
       deprecated: true
@@ -172,7 +176,9 @@ paths:
       summary: Finds Pets by tags
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
   /pet/{petId}:
     delete:
       operationId: deletePet
@@ -202,7 +208,8 @@ paths:
       summary: Deletes a pet
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts:
+      - application/json
     get:
       description: Returns a single pet
       operationId: getPetById
@@ -235,7 +242,9 @@ paths:
       summary: Find pet by ID
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
     post:
       operationId: updatePetWithForm
       parameters:
@@ -263,7 +272,8 @@ paths:
       tags:
       - pet
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /pet/{petId}/uploadImage:
     post:
       operationId: uploadFile
@@ -295,7 +305,8 @@ paths:
       tags:
       - pet
       x-content-type: multipart/form-data
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /store/inventory:
     get:
       description: Returns a map of status codes to quantities
@@ -315,7 +326,8 @@ paths:
       summary: Returns pet inventories by status
       tags:
       - store
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /store/order:
     post:
       operationId: placeOrder
@@ -344,7 +356,9 @@ paths:
       - store
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
   /store/order/{order_id}:
     delete:
       description: For valid response try integer IDs with value < 1000. Anything
@@ -367,7 +381,8 @@ paths:
       summary: Delete purchase order by ID
       tags:
       - store
-      x-accepts: application/json
+      x-accepts:
+      - application/json
     get:
       description: For valid response try integer IDs with value <= 5 or > 10. Other
         values will generate exceptions
@@ -401,7 +416,9 @@ paths:
       summary: Find purchase order by ID
       tags:
       - store
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
   /user:
     post:
       description: This can only be done by the logged in user.
@@ -422,7 +439,8 @@ paths:
       - user
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /user/createWithArray:
     post:
       operationId: createUsersWithArrayInput
@@ -444,7 +462,8 @@ paths:
       - user
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /user/createWithList:
     post:
       operationId: createUsersWithListInput
@@ -466,7 +485,8 @@ paths:
       - user
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /user/login:
     get:
       operationId: loginUser
@@ -510,7 +530,9 @@ paths:
       summary: Logs user into the system
       tags:
       - user
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
   /user/logout:
     get:
       operationId: logoutUser
@@ -521,7 +543,8 @@ paths:
       summary: Logs out current logged in user session
       tags:
       - user
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /user/{username}:
     delete:
       description: This can only be done by the logged in user.
@@ -543,7 +566,8 @@ paths:
       summary: Delete user
       tags:
       - user
-      x-accepts: application/json
+      x-accepts:
+      - application/json
     get:
       operationId: getUserByName
       parameters:
@@ -572,7 +596,9 @@ paths:
       summary: Get user by user name
       tags:
       - user
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
     put:
       description: This can only be done by the logged in user.
       operationId: updateUser
@@ -602,7 +628,8 @@ paths:
       - user
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /fake_classname_test:
     patch:
       description: To test class name in snake case
@@ -628,7 +655,8 @@ paths:
       - fake_classname_tags 123#$%^
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /fake:
     delete:
       description: Fake endpoint to test group parameters (optional)
@@ -677,7 +705,8 @@ paths:
       tags:
       - fake
       x-group-parameters: true
-      x-accepts: application/json
+      x-accepts:
+      - application/json
     get:
       description: To test enum parameters
       operationId: testEnumParameters
@@ -762,7 +791,8 @@ paths:
       tags:
       - fake
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: application/json
+      x-accepts:
+      - application/json
     patch:
       description: To test "client" model
       operationId: testClientModel
@@ -785,7 +815,8 @@ paths:
       - fake
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
     post:
       description: |-
         Fake endpoint for testing various parameters
@@ -816,7 +847,8 @@ paths:
       tags:
       - fake
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /fake/outer/number:
     post:
       description: Test serialization of outer number types
@@ -839,7 +871,8 @@ paths:
       - fake
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: '*/*'
+      x-accepts:
+      - '*/*'
   /fake/outer/string:
     post:
       description: Test serialization of outer string types
@@ -862,7 +895,8 @@ paths:
       - fake
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: '*/*'
+      x-accepts:
+      - '*/*'
   /fake/outer/boolean:
     post:
       description: Test serialization of outer boolean types
@@ -885,7 +919,8 @@ paths:
       - fake
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: '*/*'
+      x-accepts:
+      - '*/*'
   /fake/outer/composite:
     post:
       description: Test serialization of object with outer number type
@@ -908,7 +943,8 @@ paths:
       - fake
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: '*/*'
+      x-accepts:
+      - '*/*'
   /fake/jsonFormData:
     get:
       operationId: testJsonFormData
@@ -926,7 +962,8 @@ paths:
       tags:
       - fake
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /fake/inline-additionalProperties:
     post:
       operationId: testInlineAdditionalProperties
@@ -948,7 +985,8 @@ paths:
       - fake
       x-codegen-request-body-name: param
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /fake/body-with-query-params:
     put:
       operationId: testBodyWithQueryParams
@@ -972,7 +1010,8 @@ paths:
       - fake
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /fake/create_xml_item:
     post:
       description: this route creates an XmlItem
@@ -1008,11 +1047,20 @@ paths:
       - fake
       x-codegen-request-body-name: XmlItem
       x-content-type: application/xml
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /another-fake/dummy:
     patch:
       description: To test special tags and operation ID starting with number
       operationId: 123_test_@#$%_special_tags
+      parameters:
+      - description: to test uuid example value
+        in: header
+        name: uuid_test
+        required: true
+        schema:
+          format: uuid
+          type: string
       requestBody:
         content:
           application/json:
@@ -1032,7 +1080,8 @@ paths:
       - $another-fake?
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /fake/body-with-file-schema:
     put:
       description: "For this test, the body for this request much reference a schema\
@@ -1052,7 +1101,8 @@ paths:
       - fake
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /fake/test-query-parameters:
     put:
       description: To test the collection format in query parameters
@@ -1106,7 +1156,8 @@ paths:
           description: Success
       tags:
       - fake
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /fake/{petId}/uploadImageWithRequiredFile:
     post:
       operationId: uploadFileWithRequiredFile
@@ -1139,7 +1190,8 @@ paths:
       tags:
       - pet
       x-content-type: multipart/form-data
-      x-accepts: application/json
+      x-accepts:
+      - application/json
 components:
   schemas:
     Order:
@@ -1364,15 +1416,29 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Dog_allOf'
+      - properties:
+          breed:
+            type: string
+        type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Cat_allOf'
+      - properties:
+          declawed:
+            type: boolean
+        type: object
     BigCat:
       allOf:
       - $ref: '#/components/schemas/Cat'
-      - $ref: '#/components/schemas/BigCat_allOf'
+      - properties:
+          kind:
+            enum:
+            - lions
+            - tigers
+            - leopards
+            - jaguars
+            type: string
+        type: object
     Animal:
       discriminator:
         propertyName: className
@@ -2165,29 +2231,6 @@ components:
       required:
       - requiredFile
       type: object
-    Dog_allOf:
-      properties:
-        breed:
-          type: string
-      type: object
-      example: null
-    Cat_allOf:
-      properties:
-        declawed:
-          type: boolean
-      type: object
-      example: null
-    BigCat_allOf:
-      properties:
-        kind:
-          enum:
-          - lions
-          - tigers
-          - leopards
-          - jaguars
-          type: string
-      type: object
-      example: null
   securitySchemes:
     petstore_auth:
       flows:

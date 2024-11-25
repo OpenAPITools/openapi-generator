@@ -9,7 +9,7 @@ import rx.Single;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class AnotherFakeApi {
 
     private final org.openapitools.client.api.AnotherFakeApi delegate;
@@ -25,46 +25,46 @@ public class AnotherFakeApi {
     /**
     * To test special tags
     * To test special tags and operation ID starting with number
-    * @param body client model (required)
+    * @param client client model (required)
     * @param resultHandler Asynchronous result handler
     */
-    public void call123testSpecialTags(Client body, Handler<AsyncResult<Client>> resultHandler) {
-        delegate.call123testSpecialTags(body, resultHandler);
+    public void call123testSpecialTags(Client client, Handler<AsyncResult<Client>> resultHandler) {
+        delegate.call123testSpecialTags(client, resultHandler);
     }
 
     /**
     * To test special tags
     * To test special tags and operation ID starting with number
-    * @param body client model (required)
+    * @param client client model (required)
     * @param authInfo call specific auth overrides
     * @param resultHandler Asynchronous result handler
     */
-    public void call123testSpecialTags(Client body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Client>> resultHandler) {
-        delegate.call123testSpecialTags(body, authInfo, resultHandler);
+    public void call123testSpecialTags(Client client, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Client>> resultHandler) {
+        delegate.call123testSpecialTags(client, authInfo, resultHandler);
     }
 
     /**
     * To test special tags
     * To test special tags and operation ID starting with number
-    * @param body client model (required)
+    * @param client client model (required)
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<Client> rxCall123testSpecialTags(Client body) {
+    public Single<Client> rxCall123testSpecialTags(Client client) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.call123testSpecialTags(body, fut)
+            delegate.call123testSpecialTags(client, fut)
         ));
     }
 
     /**
     * To test special tags
     * To test special tags and operation ID starting with number
-    * @param body client model (required)
+    * @param client client model (required)
     * @param authInfo call specific auth overrides
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<Client> rxCall123testSpecialTags(Client body, ApiClient.AuthInfo authInfo) {
+    public Single<Client> rxCall123testSpecialTags(Client client, ApiClient.AuthInfo authInfo) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.call123testSpecialTags(body, authInfo, fut)
+            delegate.call123testSpecialTags(client, authInfo, fut)
         ));
     }
 

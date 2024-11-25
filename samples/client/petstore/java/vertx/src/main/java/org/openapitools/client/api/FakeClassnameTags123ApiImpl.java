@@ -19,7 +19,7 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class FakeClassnameTags123ApiImpl implements FakeClassnameTags123Api {
 
     private ApiClient apiClient;
@@ -43,26 +43,26 @@ public class FakeClassnameTags123ApiImpl implements FakeClassnameTags123Api {
     /**
     * To test class name in snake case
     * To test class name in snake case
-        * @param body client model (required)
+        * @param client client model (required)
     * @param resultHandler Asynchronous result handler
     */
-    public void testClassname(Client body, Handler<AsyncResult<Client>> resultHandler) {
-        testClassname(body, null, resultHandler);
+    public void testClassname(Client client, Handler<AsyncResult<Client>> resultHandler) {
+        testClassname(client, null, resultHandler);
     }
 
     /**
     * To test class name in snake case
     * To test class name in snake case
-    * @param body client model (required)
+    * @param client client model (required)
     * @param authInfo per call authentication override.
     * @param resultHandler Asynchronous result handler
     */
-    public void testClassname(Client body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Client>> resultHandler) {
-        Object localVarBody = body;
+    public void testClassname(Client client, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Client>> resultHandler) {
+        Object localVarBody = client;
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'body' when calling testClassname"));
+        // verify the required parameter 'client' is set
+        if (client == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'client' when calling testClassname"));
             return;
         }
         

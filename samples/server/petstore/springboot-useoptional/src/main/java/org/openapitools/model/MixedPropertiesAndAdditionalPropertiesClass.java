@@ -25,55 +25,54 @@ import javax.annotation.Generated;
  * MixedPropertiesAndAdditionalPropertiesClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass {
 
-  @JsonProperty("uuid")
-  private UUID uuid;
+  private Optional<UUID> uuid = Optional.empty();
 
-  @JsonProperty("dateTime")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime dateTime;
+  private Optional<OffsetDateTime> dateTime = Optional.empty();
 
-  @JsonProperty("map")
   @Valid
-  private Map<String, Animal> map = null;
+  private Map<String, Animal> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.uuid = Optional.of(uuid);
     return this;
   }
 
   /**
    * Get uuid
    * @return uuid
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
-  public UUID getUuid() {
+  @JsonProperty("uuid")
+  public Optional<UUID> getUuid() {
     return uuid;
   }
 
-  public void setUuid(UUID uuid) {
+  public void setUuid(Optional<UUID> uuid) {
     this.uuid = uuid;
   }
 
   public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
-    this.dateTime = dateTime;
+    this.dateTime = Optional.of(dateTime);
     return this;
   }
 
   /**
    * Get dateTime
    * @return dateTime
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
-  public OffsetDateTime getDateTime() {
+  @JsonProperty("dateTime")
+  public Optional<OffsetDateTime> getDateTime() {
     return dateTime;
   }
 
-  public void setDateTime(OffsetDateTime dateTime) {
+  public void setDateTime(Optional<OffsetDateTime> dateTime) {
     this.dateTime = dateTime;
   }
 
@@ -93,9 +92,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   /**
    * Get map
    * @return map
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("map")
   public Map<String, Animal> getMap() {
     return map;
   }
@@ -144,5 +144,75 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private MixedPropertiesAndAdditionalPropertiesClass instance;
+
+    public Builder() {
+      this(new MixedPropertiesAndAdditionalPropertiesClass());
+    }
+
+    protected Builder(MixedPropertiesAndAdditionalPropertiesClass instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(MixedPropertiesAndAdditionalPropertiesClass value) { 
+      this.instance.setUuid(value.uuid);
+      this.instance.setDateTime(value.dateTime);
+      this.instance.setMap(value.map);
+      return this;
+    }
+
+    public MixedPropertiesAndAdditionalPropertiesClass.Builder uuid(UUID uuid) {
+      this.instance.uuid(uuid);
+      return this;
+    }
+    
+    public MixedPropertiesAndAdditionalPropertiesClass.Builder dateTime(OffsetDateTime dateTime) {
+      this.instance.dateTime(dateTime);
+      return this;
+    }
+    
+    public MixedPropertiesAndAdditionalPropertiesClass.Builder map(Map<String, Animal> map) {
+      this.instance.map(map);
+      return this;
+    }
+    
+    /**
+    * returns a built MixedPropertiesAndAdditionalPropertiesClass instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public MixedPropertiesAndAdditionalPropertiesClass build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static MixedPropertiesAndAdditionalPropertiesClass.Builder builder() {
+    return new MixedPropertiesAndAdditionalPropertiesClass.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public MixedPropertiesAndAdditionalPropertiesClass.Builder toBuilder() {
+    MixedPropertiesAndAdditionalPropertiesClass.Builder builder = new MixedPropertiesAndAdditionalPropertiesClass.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

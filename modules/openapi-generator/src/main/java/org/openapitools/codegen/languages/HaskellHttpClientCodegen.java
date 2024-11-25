@@ -19,7 +19,6 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.io.FilenameUtils;
@@ -37,7 +36,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -147,14 +145,17 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     final private static Pattern CONTAINS_JSON_MIME_PATTERN = Pattern.compile("(?i)application/.*json(;.*)?");
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "haskell-http-client";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Haskell http-client library.";
     }
@@ -367,11 +368,17 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         }
     }
 
-    public void setDateTimeFormat(String value) { setStringProp(PROP_DATETIME_FORMAT, value); }
+    public void setDateTimeFormat(String value) {
+        setStringProp(PROP_DATETIME_FORMAT, value);
+    }
 
-    public void setDateTimeParseFormat(String value) { setStringProp(PROP_DATETIME_PARSE_FORMAT, value); }
+    public void setDateTimeParseFormat(String value) {
+        setStringProp(PROP_DATETIME_PARSE_FORMAT, value);
+    }
 
-    public void setDateFormat(String value) { setStringProp(PROP_DATE_FORMAT, value); }
+    public void setDateFormat(String value) {
+        setStringProp(PROP_DATE_FORMAT, value);
+    }
 
     public void setCabalPackage(String value) {
         setStringProp(PROP_CABAL_PACKAGE, value);
@@ -406,7 +413,9 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         this.useKatip = value;
     }
 
-    public void setCustomTestInstanceModule(String value) { setStringProp(PROP_CUSTOM_TEST_INSTANCE_MODULE, value); }
+    public void setCustomTestInstanceModule(String value) {
+        setStringProp(PROP_CUSTOM_TEST_INSTANCE_MODULE, value);
+    }
 
     private void setStringProp(String key, String value) {
         if (StringUtils.isBlank(value)) {
@@ -426,6 +435,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
         if (StringUtils.isEmpty(System.getenv("HASKELL_POST_PROCESS_FILE"))) {
             LOGGER.info("Hint: Environment variable HASKELL_POST_PROCESS_FILE not defined so the Haskell code may not be properly formatted. To define it, try 'export HASKELL_POST_PROCESS_FILE=\"$HOME/.local/bin/hfmt -w\"' (Linux/Mac)");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'HASKELL_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(PROP_ALLOW_FROMJSON_NULLS)) {
@@ -542,7 +553,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public void preprocessOpenAPI(OpenAPI openAPI) {
         String baseTitle = openAPI.getInfo().getTitle();
 
-        if (baseTitle == null) {
+        if (StringUtils.isBlank(baseTitle)) {
             baseTitle = "OpenAPI";
         } else {
             baseTitle = baseTitle.trim();
@@ -645,11 +656,10 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return "(Map.Map String " + getTypeDeclaration(inner) + ")";
         }
         return super.getTypeDeclaration(p);
@@ -671,7 +681,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
-            Schema additionalProperties2 = getAdditionalProperties(p);
+            Schema additionalProperties2 = ModelUtils.getAdditionalProperties(p);
             String type = additionalProperties2.getType();
             if (null == type) {
                 LOGGER.error("No Type defined for Additional Schema {}\n\tIn Schema: {}", additionalProperties2, p);
@@ -679,8 +689,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             String inner = getSchemaType(additionalProperties2);
             return "(Map.Map Text " + inner + ")";
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            return getSchemaType(ap.getItems());
+            return getSchemaType(ModelUtils.getSchemaItems(p));
         } else {
             return null;
         }
@@ -737,10 +746,15 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             param.vendorExtensions.put(VENDOR_EXTENSION_X_IS_BODY_OR_FORM_PARAM, param.isBodyParam || param.isFormParam);
             if (!StringUtils.isBlank(param.collectionFormat)) {
                 param.vendorExtensions.put(VENDOR_EXTENSION_X_COLLECTION_FORMAT, mapCollectionFormat(param.collectionFormat));
-            } else if (!param.isBodyParam && (param.isArray || param.dataType.startsWith("["))) { // param.isArray is sometimes false for list types
-                // defaulting due to https://github.com/wing328/openapi-generator/issues/72
-                param.collectionFormat = "csv";
-                param.vendorExtensions.put(VENDOR_EXTENSION_X_COLLECTION_FORMAT, mapCollectionFormat(param.collectionFormat));
+            } else if (!param.isBodyParam) {
+                if (param.isArray || param.dataType.startsWith("[")) { // param.isArray is sometimes false for list types
+                    // defaulting due to https://github.com/wing328/openapi-generator/issues/72
+                    param.collectionFormat = "csv";
+                    param.vendorExtensions.put(VENDOR_EXTENSION_X_COLLECTION_FORMAT, mapCollectionFormat(param.collectionFormat));
+                }
+            }
+            if (param.isQueryParam && (isJsonMimeType(param.contentType) || ContainsJsonMimeType(param.contentType))) {
+                param.vendorExtensions.put(X_MEDIA_IS_JSON, "true");
             }
             if (!param.required) {
                 op.vendorExtensions.put(VENDOR_EXTENSION_X_HAS_OPTIONAL_PARAMS, true);
@@ -1169,12 +1183,19 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     @Override
     public String toVarName(String name) {
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         return toVarName("", name);
     }
 
     public String toVarName(String prefix, String name) {
         boolean hasPrefix = !StringUtils.isBlank(prefix);
         name = underscore(sanitizeName(name.replaceAll("-", "_")));
+        if (name.equals("_")) {
+            name = "underscore";
+        }
         name = camelize(name, hasPrefix ? UPPERCASE_FIRST_CHAR : LOWERCASE_FIRST_LETTER);
 
         if (hasPrefix) {
@@ -1190,6 +1211,10 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     @Override
     public String toParamName(String name) {
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         return toVarName(name);
     }
 
@@ -1203,6 +1228,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         return toTypeName("Model", name);
     }
 
+    @Override
     public String toApiName(String name) {
         if (name.length() == 0) {
             return "Default";
@@ -1260,7 +1286,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                return "\"" + escapeText((String) p.getDefault()) + "\"";
+                return "\"" + escapeText((String.valueOf(p.getDefault()))) + "\"";
             }
         } else if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
@@ -1423,6 +1449,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     // override with any special text escaping logic
+    @Override
     @SuppressWarnings("static-method")
     public String escapeText(String input) {
         if (input == null) {
@@ -1436,8 +1463,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         // finally escalate characters avoiding code injection
         return escapeUnsafeCharacters(
                 StringEscapeUtils.unescapeJava(
-                        StringEscapeUtils.escapeJava(input)
-                                .replace("\\/", "/"))
+                                StringEscapeUtils.escapeJava(input)
+                                        .replace("\\/", "/"))
                         .replaceAll("[\\t\\n\\r]", " ")
                         .replace("\\", "\\\\")
                         .replace("\"", "\\\""));
@@ -1445,6 +1472,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -1455,26 +1483,16 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
         // only process files with hs extension
         if ("hs".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = haskellPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[] {haskellPostProcessFile, file.toString()});
         }
     }
+
     static boolean ContainsJsonMimeType(String mime) {
-            return mime != null && CONTAINS_JSON_MIME_PATTERN.matcher(mime).matches();
+        return mime != null && CONTAINS_JSON_MIME_PATTERN.matcher(mime).matches();
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.HASKELL; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.HASKELL;
+    }
 }

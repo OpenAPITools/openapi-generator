@@ -5,12 +5,14 @@ git_push.sh
 shard.yml
 spec/spec_helper.cr
 src/petstore.cr
+src/petstore/api/fake_api.cr
 src/petstore/api/pet_api.cr
 src/petstore/api/store_api.cr
 src/petstore/api/user_api.cr
 src/petstore/api_client.cr
 src/petstore/api_error.cr
 src/petstore/configuration.cr
+src/petstore/models/another_property_name_mapping.cr
 src/petstore/models/api_response.cr
 src/petstore/models/category.cr
 src/petstore/models/format_test.cr

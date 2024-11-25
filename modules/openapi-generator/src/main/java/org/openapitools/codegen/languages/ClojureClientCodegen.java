@@ -21,7 +21,6 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -165,15 +164,17 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (p instanceof ArraySchema) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
-
+        if (ModelUtils.isArraySchema(p)) {
+            Schema inner = ModelUtils.getSchemaItems(p);
             return "(s/coll-of " + getTypeDeclaration(inner) + ")";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
-
-            return "(s/map-of string? " + getTypeDeclaration(inner) + ")";
+            Object ap = p.getAdditionalProperties();
+            // additionalProperties is either a Schema or a Boolean
+            if (ap instanceof Schema) {
+                Schema inner = (Schema) ap;
+                return "(s/map-of string? " + getTypeDeclaration(inner) + ")";
+            }
+            return "(s/map-of string? s/any?)";
         }
 
         // If it's a type we defined, we want to append the spec suffix
@@ -197,6 +198,10 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String toModelName(String name) {
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         return dashize(name);
     }
 
@@ -338,11 +343,19 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String toParamName(String name) {
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         return toVarName(name);
     }
 
     @Override
     public String toVarName(String name) {
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         name = name.replaceAll("[^a-zA-Z0-9_-]+", ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         return name;
     }

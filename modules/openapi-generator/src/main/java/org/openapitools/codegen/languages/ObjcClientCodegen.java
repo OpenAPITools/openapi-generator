@@ -17,8 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -48,13 +48,13 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String CORE_DATA = "coreData";
 
     protected Set<String> foundationClasses = new HashSet<>();
-    protected String podName = "OpenAPIClient";
-    protected String podVersion = "1.0.0";
-    protected String classPrefix = "OAI";
-    protected String authorName = "OpenAPI";
-    protected String authorEmail = "team@openapitools.org";
-    protected String license = DEFAULT_LICENSE;
-    protected String gitRepoURL = "https://github.com/openapitools/openapi-generator";
+    @Setter protected String podName = "OpenAPIClient";
+    @Setter protected String podVersion = "1.0.0";
+    @Setter protected String classPrefix = "OAI";
+    @Setter protected String authorName = "OpenAPI";
+    @Setter protected String authorEmail = "team@openapitools.org";
+    @Setter protected String license = DEFAULT_LICENSE;
+    @Setter protected String gitRepoURL = "https://github.com/openapitools/openapi-generator";
     protected String[] specialWords = {"new", "copy"};
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
@@ -370,8 +370,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             String innerTypeDeclaration = getTypeDeclaration(inner);
             if (innerTypeDeclaration.endsWith("*")) {
                 innerTypeDeclaration = innerTypeDeclaration.substring(0, innerTypeDeclaration.length() - 1);
@@ -392,7 +391,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                 return getSchemaType(p) + "<" + innerTypeDeclaration + ">*";
             }
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
 
             String innerTypeDeclaration = getTypeDeclaration(inner);
 
@@ -627,34 +626,6 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         return camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
     }
 
-    public void setClassPrefix(String classPrefix) {
-        this.classPrefix = classPrefix;
-    }
-
-    public void setPodName(String podName) {
-        this.podName = podName;
-    }
-
-    public void setPodVersion(String podVersion) {
-        this.podVersion = podVersion;
-    }
-
-    public void setAuthorEmail(String authorEmail) {
-        this.authorEmail = authorEmail;
-    }
-
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
-    }
-
-    public void setGitRepoURL(String gitRepoURL) {
-        this.gitRepoURL = gitRepoURL;
-    }
-
-    public void setLicense(String license) {
-        this.license = license;
-    }
-
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
@@ -699,7 +670,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                return "@\"" + (String) p.getDefault() + "\"";
+                return "@\"" + String.valueOf(p.getDefault()) + "\"";
             }
         } else if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {

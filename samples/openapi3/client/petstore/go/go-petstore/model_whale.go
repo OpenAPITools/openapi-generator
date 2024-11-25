@@ -12,6 +12,7 @@ package petstore
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // checks if the Whale type satisfies the MappedNullable interface at compile time
@@ -47,7 +48,7 @@ func NewWhaleWithDefaults() *Whale {
 
 // GetHasBaleen returns the HasBaleen field value if set, zero value otherwise.
 func (o *Whale) GetHasBaleen() bool {
-	if o == nil || isNil(o.HasBaleen) {
+	if o == nil || IsNil(o.HasBaleen) {
 		var ret bool
 		return ret
 	}
@@ -57,7 +58,7 @@ func (o *Whale) GetHasBaleen() bool {
 // GetHasBaleenOk returns a tuple with the HasBaleen field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Whale) GetHasBaleenOk() (*bool, bool) {
-	if o == nil || isNil(o.HasBaleen) {
+	if o == nil || IsNil(o.HasBaleen) {
 		return nil, false
 	}
 	return o.HasBaleen, true
@@ -65,7 +66,7 @@ func (o *Whale) GetHasBaleenOk() (*bool, bool) {
 
 // HasHasBaleen returns a boolean if a field has been set.
 func (o *Whale) HasHasBaleen() bool {
-	if o != nil && !isNil(o.HasBaleen) {
+	if o != nil && !IsNil(o.HasBaleen) {
 		return true
 	}
 
@@ -79,7 +80,7 @@ func (o *Whale) SetHasBaleen(v bool) {
 
 // GetHasTeeth returns the HasTeeth field value if set, zero value otherwise.
 func (o *Whale) GetHasTeeth() bool {
-	if o == nil || isNil(o.HasTeeth) {
+	if o == nil || IsNil(o.HasTeeth) {
 		var ret bool
 		return ret
 	}
@@ -89,7 +90,7 @@ func (o *Whale) GetHasTeeth() bool {
 // GetHasTeethOk returns a tuple with the HasTeeth field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Whale) GetHasTeethOk() (*bool, bool) {
-	if o == nil || isNil(o.HasTeeth) {
+	if o == nil || IsNil(o.HasTeeth) {
 		return nil, false
 	}
 	return o.HasTeeth, true
@@ -97,7 +98,7 @@ func (o *Whale) GetHasTeethOk() (*bool, bool) {
 
 // HasHasTeeth returns a boolean if a field has been set.
 func (o *Whale) HasHasTeeth() bool {
-	if o != nil && !isNil(o.HasTeeth) {
+	if o != nil && !IsNil(o.HasTeeth) {
 		return true
 	}
 
@@ -133,6 +134,7 @@ func (o *Whale) SetClassName(v string) {
 	o.ClassName = v
 }
 
+
 func (o Whale) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -143,10 +145,10 @@ func (o Whale) MarshalJSON() ([]byte, error) {
 
 func (o Whale) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.HasBaleen) {
+	if !IsNil(o.HasBaleen) {
 		toSerialize["hasBaleen"] = o.HasBaleen
 	}
-	if !isNil(o.HasTeeth) {
+	if !IsNil(o.HasTeeth) {
 		toSerialize["hasTeeth"] = o.HasTeeth
 	}
 	toSerialize["className"] = o.ClassName
@@ -158,16 +160,58 @@ func (o Whale) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *Whale) UnmarshalJSON(bytes []byte) (err error) {
+func (o *Whale) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"className",
+	}
+
+	// defaultValueFuncMap captures the default values for required properties.
+	// These values are used when required properties are missing from the payload.
+	defaultValueFuncMap := map[string]func() interface{} {
+	}
+	var defaultValueApplied bool
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if value, exists := allProperties[requiredProperty]; !exists || value == "" {
+			if _, ok := defaultValueFuncMap[requiredProperty]; ok {
+				allProperties[requiredProperty] = defaultValueFuncMap[requiredProperty]()
+				defaultValueApplied = true
+			}
+		}
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	if defaultValueApplied {
+		data, err = json.Marshal(allProperties)
+		if err != nil{
+			return err
+		}
+	}
 	varWhale := _Whale{}
 
-	if err = json.Unmarshal(bytes, &varWhale); err == nil {
-		*o = Whale(varWhale)
+	err = json.Unmarshal(data, &varWhale)
+
+	if err != nil {
+		return err
 	}
+
+	*o = Whale(varWhale)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "hasBaleen")
 		delete(additionalProperties, "hasTeeth")
 		delete(additionalProperties, "className")

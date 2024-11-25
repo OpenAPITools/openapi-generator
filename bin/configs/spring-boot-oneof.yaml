@@ -8,3 +8,4 @@ additionalProperties:
   artifactId: springboot-oneof
   snapshotVersion: "true"
   hideGenerationTimestamp: "true"
+  generateBuilders: true

@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,13 +36,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -50,57 +52,67 @@ import org.openapitools.client.JSON;
 /**
  * AdditionalPropertiesClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
   public static final String SERIALIZED_NAME_MAP_STRING = "map_string";
   @SerializedName(SERIALIZED_NAME_MAP_STRING)
-  private Map<String, String> mapString = null;
+  @javax.annotation.Nullable
+  private Map<String, String> mapString = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_NUMBER = "map_number";
   @SerializedName(SERIALIZED_NAME_MAP_NUMBER)
-  private Map<String, BigDecimal> mapNumber = null;
+  @javax.annotation.Nullable
+  private Map<String, BigDecimal> mapNumber = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_INTEGER = "map_integer";
   @SerializedName(SERIALIZED_NAME_MAP_INTEGER)
-  private Map<String, Integer> mapInteger = null;
+  @javax.annotation.Nullable
+  private Map<String, Integer> mapInteger = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_BOOLEAN = "map_boolean";
   @SerializedName(SERIALIZED_NAME_MAP_BOOLEAN)
-  private Map<String, Boolean> mapBoolean = null;
+  @javax.annotation.Nullable
+  private Map<String, Boolean> mapBoolean = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_ARRAY_INTEGER = "map_array_integer";
   @SerializedName(SERIALIZED_NAME_MAP_ARRAY_INTEGER)
-  private Map<String, List<Integer>> mapArrayInteger = null;
+  @javax.annotation.Nullable
+  private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_ARRAY_ANYTYPE = "map_array_anytype";
   @SerializedName(SERIALIZED_NAME_MAP_ARRAY_ANYTYPE)
-  private Map<String, List<Object>> mapArrayAnytype = null;
+  @javax.annotation.Nullable
+  private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_MAP_STRING = "map_map_string";
   @SerializedName(SERIALIZED_NAME_MAP_MAP_STRING)
-  private Map<String, Map<String, String>> mapMapString = null;
+  @javax.annotation.Nullable
+  private Map<String, Map<String, String>> mapMapString = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_MAP_ANYTYPE = "map_map_anytype";
   @SerializedName(SERIALIZED_NAME_MAP_MAP_ANYTYPE)
-  private Map<String, Map<String, Object>> mapMapAnytype = null;
+  @javax.annotation.Nullable
+  private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
   public static final String SERIALIZED_NAME_ANYTYPE1 = "anytype_1";
   @SerializedName(SERIALIZED_NAME_ANYTYPE1)
+  @javax.annotation.Nullable
   private Object anytype1;
 
   public static final String SERIALIZED_NAME_ANYTYPE2 = "anytype_2";
   @SerializedName(SERIALIZED_NAME_ANYTYPE2)
+  @javax.annotation.Nullable
   private Object anytype2;
 
   public static final String SERIALIZED_NAME_ANYTYPE3 = "anytype_3";
   @SerializedName(SERIALIZED_NAME_ANYTYPE3)
+  @javax.annotation.Nullable
   private Object anytype3;
 
   public AdditionalPropertiesClass() {
   }
 
-  public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
-    
+  public AdditionalPropertiesClass mapString(@javax.annotation.Nullable Map<String, String> mapString) {
     this.mapString = mapString;
     return this;
   }
@@ -113,24 +125,21 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapString
    * @return mapString
-  **/
+   */
   @javax.annotation.Nullable
-
   public Map<String, String> getMapString() {
     return mapString;
   }
 
-
-  public void setMapString(Map<String, String> mapString) {
+  public void setMapString(@javax.annotation.Nullable Map<String, String> mapString) {
     this.mapString = mapString;
   }
 
 
-  public AdditionalPropertiesClass mapNumber(Map<String, BigDecimal> mapNumber) {
-    
+  public AdditionalPropertiesClass mapNumber(@javax.annotation.Nullable Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
     return this;
   }
@@ -143,24 +152,21 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapNumber
    * @return mapNumber
-  **/
+   */
   @javax.annotation.Nullable
-
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
   }
 
-
-  public void setMapNumber(Map<String, BigDecimal> mapNumber) {
+  public void setMapNumber(@javax.annotation.Nullable Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
   }
 
 
-  public AdditionalPropertiesClass mapInteger(Map<String, Integer> mapInteger) {
-    
+  public AdditionalPropertiesClass mapInteger(@javax.annotation.Nullable Map<String, Integer> mapInteger) {
     this.mapInteger = mapInteger;
     return this;
   }
@@ -173,24 +179,21 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapInteger
    * @return mapInteger
-  **/
+   */
   @javax.annotation.Nullable
-
   public Map<String, Integer> getMapInteger() {
     return mapInteger;
   }
 
-
-  public void setMapInteger(Map<String, Integer> mapInteger) {
+  public void setMapInteger(@javax.annotation.Nullable Map<String, Integer> mapInteger) {
     this.mapInteger = mapInteger;
   }
 
 
-  public AdditionalPropertiesClass mapBoolean(Map<String, Boolean> mapBoolean) {
-    
+  public AdditionalPropertiesClass mapBoolean(@javax.annotation.Nullable Map<String, Boolean> mapBoolean) {
     this.mapBoolean = mapBoolean;
     return this;
   }
@@ -203,24 +206,21 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapBoolean
    * @return mapBoolean
-  **/
+   */
   @javax.annotation.Nullable
-
   public Map<String, Boolean> getMapBoolean() {
     return mapBoolean;
   }
 
-
-  public void setMapBoolean(Map<String, Boolean> mapBoolean) {
+  public void setMapBoolean(@javax.annotation.Nullable Map<String, Boolean> mapBoolean) {
     this.mapBoolean = mapBoolean;
   }
 
 
-  public AdditionalPropertiesClass mapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
-    
+  public AdditionalPropertiesClass mapArrayInteger(@javax.annotation.Nullable Map<String, List<Integer>> mapArrayInteger) {
     this.mapArrayInteger = mapArrayInteger;
     return this;
   }
@@ -233,24 +233,21 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapArrayInteger
    * @return mapArrayInteger
-  **/
+   */
   @javax.annotation.Nullable
-
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
   }
 
-
-  public void setMapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
+  public void setMapArrayInteger(@javax.annotation.Nullable Map<String, List<Integer>> mapArrayInteger) {
     this.mapArrayInteger = mapArrayInteger;
   }
 
 
-  public AdditionalPropertiesClass mapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
-    
+  public AdditionalPropertiesClass mapArrayAnytype(@javax.annotation.Nullable Map<String, List<Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
     return this;
   }
@@ -263,24 +260,21 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapArrayAnytype
    * @return mapArrayAnytype
-  **/
+   */
   @javax.annotation.Nullable
-
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
   }
 
-
-  public void setMapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
+  public void setMapArrayAnytype(@javax.annotation.Nullable Map<String, List<Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
   }
 
 
-  public AdditionalPropertiesClass mapMapString(Map<String, Map<String, String>> mapMapString) {
-    
+  public AdditionalPropertiesClass mapMapString(@javax.annotation.Nullable Map<String, Map<String, String>> mapMapString) {
     this.mapMapString = mapMapString;
     return this;
   }
@@ -293,24 +287,21 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapMapString
    * @return mapMapString
-  **/
+   */
   @javax.annotation.Nullable
-
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
   }
 
-
-  public void setMapMapString(Map<String, Map<String, String>> mapMapString) {
+  public void setMapMapString(@javax.annotation.Nullable Map<String, Map<String, String>> mapMapString) {
     this.mapMapString = mapMapString;
   }
 
 
-  public AdditionalPropertiesClass mapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
-    
+  public AdditionalPropertiesClass mapMapAnytype(@javax.annotation.Nullable Map<String, Map<String, Object>> mapMapAnytype) {
     this.mapMapAnytype = mapMapAnytype;
     return this;
   }
@@ -323,84 +314,73 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapMapAnytype
    * @return mapMapAnytype
-  **/
+   */
   @javax.annotation.Nullable
-
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;
   }
 
-
-  public void setMapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
+  public void setMapMapAnytype(@javax.annotation.Nullable Map<String, Map<String, Object>> mapMapAnytype) {
     this.mapMapAnytype = mapMapAnytype;
   }
 
 
-  public AdditionalPropertiesClass anytype1(Object anytype1) {
-    
+  public AdditionalPropertiesClass anytype1(@javax.annotation.Nullable Object anytype1) {
     this.anytype1 = anytype1;
     return this;
   }
 
-   /**
+  /**
    * Get anytype1
    * @return anytype1
-  **/
+   */
   @javax.annotation.Nullable
-
   public Object getAnytype1() {
     return anytype1;
   }
 
-
-  public void setAnytype1(Object anytype1) {
+  public void setAnytype1(@javax.annotation.Nullable Object anytype1) {
     this.anytype1 = anytype1;
   }
 
 
-  public AdditionalPropertiesClass anytype2(Object anytype2) {
-    
+  public AdditionalPropertiesClass anytype2(@javax.annotation.Nullable Object anytype2) {
     this.anytype2 = anytype2;
     return this;
   }
 
-   /**
+  /**
    * Get anytype2
    * @return anytype2
-  **/
+   */
   @javax.annotation.Nullable
-
   public Object getAnytype2() {
     return anytype2;
   }
 
-
-  public void setAnytype2(Object anytype2) {
+  public void setAnytype2(@javax.annotation.Nullable Object anytype2) {
     this.anytype2 = anytype2;
   }
 
 
-  public AdditionalPropertiesClass anytype3(Object anytype3) {
-    
+  public AdditionalPropertiesClass anytype3(@javax.annotation.Nullable Object anytype3) {
     this.anytype3 = anytype3;
     return this;
   }
 
-   /**
+  /**
    * Get anytype3
    * @return anytype3
-  **/
+   */
   @javax.annotation.Nullable
-
   public Object getAnytype3() {
     return anytype3;
   }
 
-
-  public void setAnytype3(Object anytype3) {
+  public void setAnytype3(@javax.annotation.Nullable Object anytype3) {
     this.anytype3 = anytype3;
   }
 
@@ -486,26 +466,27 @@ public class AdditionalPropertiesClass {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Object and throws an exception if issues found
-  *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to AdditionalPropertiesClass
-  */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
-      if (jsonObj == null) {
-        if (!AdditionalPropertiesClass.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to AdditionalPropertiesClass
+   */
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!AdditionalPropertiesClass.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in AdditionalPropertiesClass is not found in the empty JSON string", AdditionalPropertiesClass.openapiRequiredFields.toString()));
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!AdditionalPropertiesClass.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `AdditionalPropertiesClass` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `AdditionalPropertiesClass` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
+        JsonObject jsonObj = jsonElement.getAsJsonObject();
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
@@ -528,31 +509,31 @@ public class AdditionalPropertiesClass {
 
            @Override
            public AdditionalPropertiesClass read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
-             validateJsonObject(jsonObj);
-             return thisAdapter.fromJsonTree(jsonObj);
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
+             return thisAdapter.fromJsonTree(jsonElement);
            }
 
        }.nullSafe();
     }
   }
 
- /**
-  * Create an instance of AdditionalPropertiesClass given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of AdditionalPropertiesClass
-  * @throws IOException if the JSON string is invalid with respect to AdditionalPropertiesClass
-  */
+  /**
+   * Create an instance of AdditionalPropertiesClass given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of AdditionalPropertiesClass
+   * @throws IOException if the JSON string is invalid with respect to AdditionalPropertiesClass
+   */
   public static AdditionalPropertiesClass fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, AdditionalPropertiesClass.class);
   }
 
- /**
-  * Convert an instance of AdditionalPropertiesClass to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of AdditionalPropertiesClass to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

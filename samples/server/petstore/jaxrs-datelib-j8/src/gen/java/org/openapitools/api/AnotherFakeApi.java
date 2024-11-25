@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
 import org.openapitools.model.Client;
+import java.util.UUID;
 
 import java.util.Map;
 import java.util.List;
@@ -29,7 +30,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the another-fake API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class AnotherFakeApi  {
    private final AnotherFakeApiService delegate;
 
@@ -40,7 +41,7 @@ public class AnotherFakeApi  {
          String implClass = servletContext.getInitParameter("AnotherFakeApi.implementation");
          if (implClass != null && !"".equals(implClass.trim())) {
             try {
-               delegate = (AnotherFakeApiService) Class.forName(implClass).newInstance();
+               delegate = (AnotherFakeApiService) Class.forName(implClass).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                throw new RuntimeException(e);
             }
@@ -62,8 +63,8 @@ public class AnotherFakeApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Client.class)
     })
-    public Response call123testSpecialTags(@ApiParam(value = "client model", required = true) @NotNull @Valid  Client body,@Context SecurityContext securityContext)
+    public Response call123testSpecialTags(@ApiParam(value = "to test uuid example value" ,required=true)@HeaderParam("uuid_test") UUID uuidTest,@ApiParam(value = "client model", required = true) @NotNull @Valid  Client body,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.call123testSpecialTags(body, securityContext);
+        return delegate.call123testSpecialTags(uuidTest, body, securityContext);
     }
 }

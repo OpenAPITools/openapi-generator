@@ -1,0 +1,16 @@
+{{#required}}
+    {{#isFile}}
+        multipartFile("{{baseName}}", {{#isContainer}}ArrayValues({{{paramName}}}{{#collectionFormat}}, {{collectionFormat.toUpperCase}}{{/collectionFormat}}){{/isContainer}}{{^isContainer}}{{{paramName}}}{{/isContainer}})
+    {{/isFile}}
+    {{^isFile}}
+        multipart("{{baseName}}", {{paramName}})
+    {{/isFile}}
+{{/required}}
+{{^required}}
+    {{#isFile}}
+        {{paramName}}.map(multipartFile("{{baseName}}", _))
+    {{/isFile}}
+    {{^isFile}}
+        {{paramName}}.map(multipart("{{baseName}}", {{#isContainer}}ArrayValues(_{{#collectionFormat}}, {{collectionFormat.toUpperCase}}{{/collectionFormat}}){{/isContainer}}{{^isContainer}}_{{/isContainer}}))
+    {{/isFile}}
+{{/required}}

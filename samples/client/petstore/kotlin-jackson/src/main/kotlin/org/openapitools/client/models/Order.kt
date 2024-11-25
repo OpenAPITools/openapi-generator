@@ -16,6 +16,7 @@
 package org.openapitools.client.models
 
 
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
@@ -32,23 +33,23 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class Order (
 
-    @field:JsonProperty("id")
+    @get:JsonProperty("id")
     val id: kotlin.Long? = null,
 
-    @field:JsonProperty("petId")
+    @get:JsonProperty("petId")
     val petId: kotlin.Long? = null,
 
-    @field:JsonProperty("quantity")
+    @get:JsonProperty("quantity")
     val quantity: kotlin.Int? = null,
 
-    @field:JsonProperty("shipDate")
+    @get:JsonProperty("shipDate")
     val shipDate: java.time.OffsetDateTime? = null,
 
     /* Order Status */
-    @field:JsonProperty("status")
+    @get:JsonProperty("status")
     val status: Order.Status? = null,
 
-    @field:JsonProperty("complete")
+    @get:JsonProperty("complete")
     val complete: kotlin.Boolean? = false
 
 ) {
@@ -56,12 +57,14 @@ data class Order (
     /**
      * Order Status
      *
-     * Values: PLACED,APPROVED,DELIVERED
+     * Values: PLACED,APPROVED,DELIVERED,UNKNOWN_DEFAULT_OPEN_API
      */
     enum class Status(val value: kotlin.String) {
         @JsonProperty(value = "placed") PLACED("placed"),
         @JsonProperty(value = "approved") APPROVED("approved"),
-        @JsonProperty(value = "delivered") DELIVERED("delivered");
+        @JsonProperty(value = "delivered") DELIVERED("delivered"),
+        @JsonProperty(value = "unknown_default_open_api") @JsonEnumDefaultValue UNKNOWN_DEFAULT_OPEN_API("unknown_default_open_api");
     }
+
 }
 

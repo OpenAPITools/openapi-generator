@@ -1,0 +1,55 @@
+{{>partial_header}}
+{{#nrt}}
+#nullable enable
+
+{{/nrt}}
+using System;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using {{packageName}}.{{clientPackage}};
+
+namespace {{packageName}}.Extensions
+{
+    /// <summary>
+    /// Extension methods for IHostBuilder
+    /// </summary>
+    {{>visibility}} static class IHostBuilderExtensions
+    {
+        {{^hasAuthMethods}}
+        /// <summary>
+        /// Add the api to your host builder.
+        /// </summary>
+        /// <param name="builder"></param>
+        public static IHostBuilder Configure{{apiName}}(this IHostBuilder builder)
+        {
+            builder.ConfigureServices((context, services) => 
+            {
+                HostConfiguration config = new HostConfiguration(services);
+
+                IServiceCollectionExtensions.Add{{apiName}}(services, config);
+            });
+
+            return builder;
+        }
+
+        {{/hasAuthMethods}}
+        /// <summary>
+        /// Add the api to your host builder.
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="options"></param>
+        public static IHostBuilder Configure{{apiName}}(this IHostBuilder builder, Action<HostBuilderContext, IServiceCollection, HostConfiguration> options)
+        {
+            builder.ConfigureServices((context, services) => 
+            {
+                HostConfiguration config = new HostConfiguration(services);
+
+                options(context, services, config);
+
+                IServiceCollectionExtensions.Add{{apiName}}(services, config);
+            });
+
+            return builder;
+        }
+    }
+}

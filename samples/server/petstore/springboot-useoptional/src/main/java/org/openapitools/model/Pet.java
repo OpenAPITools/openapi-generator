@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,25 +28,20 @@ import javax.annotation.Generated;
  * Pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class Pet {
 
-  @JsonProperty("id")
-  private Long id;
+  private Optional<Long> id = Optional.empty();
 
-  @JsonProperty("category")
-  private Category category;
+  private Optional<Category> category = Optional.empty();
 
-  @JsonProperty("name")
   private String name;
 
-  @JsonProperty("photoUrls")
   @Valid
   private Set<String> photoUrls = new LinkedHashSet<>();
 
-  @JsonProperty("tags")
   @Valid
-  private List<Tag> tags = null;
+  private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -84,44 +80,58 @@ public class Pet {
     }
   }
 
-  @JsonProperty("status")
-  private StatusEnum status;
+  @Deprecated
+  private Optional<StatusEnum> status = Optional.empty();
+
+  public Pet() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Pet(String name, Set<String> photoUrls) {
+    this.name = name;
+    this.photoUrls = photoUrls;
+  }
 
   public Pet id(Long id) {
-    this.id = id;
+    this.id = Optional.of(id);
     return this;
   }
 
   /**
    * Get id
    * @return id
-  */
+   */
   
   @ApiModelProperty(value = "")
-  public Long getId() {
+  @JsonProperty("id")
+  public Optional<Long> getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(Optional<Long> id) {
     this.id = id;
   }
 
   public Pet category(Category category) {
-    this.category = category;
+    this.category = Optional.of(category);
     return this;
   }
 
   /**
    * Get category
    * @return category
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
-  public Category getCategory() {
+  @JsonProperty("category")
+  public Optional<Category> getCategory() {
     return category;
   }
 
-  public void setCategory(Category category) {
+  public void setCategory(Optional<Category> category) {
     this.category = category;
   }
 
@@ -133,9 +143,10 @@ public class Pet {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull 
   @ApiModelProperty(example = "doggie", required = true, value = "")
+  @JsonProperty("name")
   public String getName() {
     return name;
   }
@@ -150,6 +161,9 @@ public class Pet {
   }
 
   public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new LinkedHashSet<>();
+    }
     this.photoUrls.add(photoUrlsItem);
     return this;
   }
@@ -157,9 +171,10 @@ public class Pet {
   /**
    * Get photoUrls
    * @return photoUrls
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("photoUrls")
   public Set<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -169,7 +184,7 @@ public class Pet {
     this.photoUrls = photoUrls;
   }
 
-  public Pet tags(List<Tag> tags) {
+  public Pet tags(List<@Valid Tag> tags) {
     this.tags = tags;
     return this;
   }
@@ -185,33 +200,41 @@ public class Pet {
   /**
    * Get tags
    * @return tags
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
-  public List<Tag> getTags() {
+  @JsonProperty("tags")
+  public List<@Valid Tag> getTags() {
     return tags;
   }
 
-  public void setTags(List<Tag> tags) {
+  public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
 
   public Pet status(StatusEnum status) {
-    this.status = status;
+    this.status = Optional.of(status);
     return this;
   }
 
   /**
    * pet status in the store
    * @return status
-  */
+   * @deprecated
+   */
   
   @ApiModelProperty(value = "pet status in the store")
-  public StatusEnum getStatus() {
+  @JsonProperty("status")
+  @Deprecated
+  public Optional<StatusEnum> getStatus() {
     return status;
   }
 
-  public void setStatus(StatusEnum status) {
+  /**
+   * @deprecated
+   */
+  @Deprecated
+  public void setStatus(Optional<StatusEnum> status) {
     this.status = status;
   }
 
@@ -261,5 +284,94 @@ public class Pet {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private Pet instance;
+
+    public Builder() {
+      this(new Pet());
+    }
+
+    protected Builder(Pet instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(Pet value) { 
+      this.instance.setId(value.id);
+      this.instance.setCategory(value.category);
+      this.instance.setName(value.name);
+      this.instance.setPhotoUrls(value.photoUrls);
+      this.instance.setTags(value.tags);
+      this.instance.setStatus(value.status);
+      return this;
+    }
+
+    public Pet.Builder id(Long id) {
+      this.instance.id(id);
+      return this;
+    }
+    
+    public Pet.Builder category(Category category) {
+      this.instance.category(category);
+      return this;
+    }
+    
+    public Pet.Builder name(String name) {
+      this.instance.name(name);
+      return this;
+    }
+    
+    public Pet.Builder photoUrls(Set<String> photoUrls) {
+      this.instance.photoUrls(photoUrls);
+      return this;
+    }
+    
+    public Pet.Builder tags(List<@Valid Tag> tags) {
+      this.instance.tags(tags);
+      return this;
+    }
+    
+    @Deprecated
+    public Pet.Builder status(StatusEnum status) {
+      this.instance.status(status);
+      return this;
+    }
+    
+    /**
+    * returns a built Pet instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Pet build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static Pet.Builder builder() {
+    return new Pet.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Pet.Builder toBuilder() {
+    Pet.Builder builder = new Pet.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

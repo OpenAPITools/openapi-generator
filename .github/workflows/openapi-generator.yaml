@@ -15,14 +15,14 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 8
-        uses: actions/setup-java@v3
+      - uses: actions/checkout@v4
+      - name: Set up JDK 11
+        uses: actions/setup-java@v4
         with:
-          java-version: 8
+          java-version: 11
           distribution: 'temurin'
       - name: Cache maven dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         env:
           cache-name: cache-maven-repository
         with:
@@ -36,10 +36,12 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
       - name: Run maven
-        run: mvn --no-snapshot-updates --batch-mode --quiet install -DskipTests -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+        run: ./mvnw clean --no-snapshot-updates --batch-mode --quiet install -DskipTests -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+        env:
+          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
       - run: ls -la  modules/openapi-generator-cli/target
       - name: Upload openapi-generator-cli.jar artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target/openapi-generator-cli.jar
@@ -51,14 +53,14 @@ jobs:
     needs:
       - build
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 8
-        uses: actions/setup-java@v3
+      - uses: actions/checkout@v4
+      - name: Set up JDK 11
+        uses: actions/setup-java@v4
         with:
-          java-version: 8
+          java-version: 11
           distribution: 'temurin'
       - name: Cache maven dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         env:
           cache-name: cache-maven-repository
         with:
@@ -72,10 +74,12 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
       - name: Run unit tests
-        run: mvn --no-snapshot-updates --batch-mode --quiet --fail-at-end test -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+        run: ./mvnw clean --no-snapshot-updates --batch-mode --quiet --fail-at-end test -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+        env:
+          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
       - name: Publish unit test reports
         if: ${{ always() }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: surefire-test-results
           path: '**/surefire-reports/TEST-*.xml'
@@ -86,14 +90,14 @@ jobs:
     needs:
       - build
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 8
-        uses: actions/setup-java@v3
+      - uses: actions/checkout@v4
+      - name: Set up JDK 11
+        uses: actions/setup-java@v4
         with:
-          java-version: 8
+          java-version: 11
           distribution: 'temurin'
       - name: Download openapi-generator-cli.jar artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target
@@ -125,19 +129,53 @@ jobs:
       - build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 8
-        uses: actions/setup-java@v3
+      - uses: actions/checkout@v4
+      - name: Set up JDK 11
+        uses: actions/setup-java@v4
         with:
-          java-version: 8
+          java-version: 11
           distribution: 'temurin'
       - name: Download openapi-generator-cli.jar artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target
+      - name: Delete samples that are entirely generated
+        run: |
+          rm -rf samples/client/petstore/csharp/generichost/latest/Tags
+
+          rm -rf samples/client/petstore/csharp/generichost/net8/AllOf
+          rm -rf samples/client/petstore/csharp/generichost/net8/AnyOf
+          rm -rf samples/client/petstore/csharp/generichost/net8/AnyOfNoCompare
+          rm -rf samples/client/petstore/csharp/generichost/net8/FormModels
+          rm -rf samples/client/petstore/csharp/generichost/net8/NullReferenceTypes
+          rm -rf samples/client/petstore/csharp/generichost/net8/OneOf
+          rm -rf samples/client/petstore/csharp/generichost/net8/Petstore
+          rm -rf samples/client/petstore/csharp/generichost/net8/SourceGeneration
+          rm -rf samples/client/petstore/csharp/generichost/net8/UseDateTimeForDate
+
+          rm -rf samples/client/petstore/csharp/generichost/standard2.0/Petstore
+
+          rm -rf samples/client/petstore/csharp/generichost/net4.8/AllOf
+          rm -rf samples/client/petstore/csharp/generichost/net4.8/AnyOf
+          rm -rf samples/client/petstore/csharp/generichost/net4.8/AnyOfNoCompare
+          rm -rf samples/client/petstore/csharp/generichost/net4.8/FormModels
+          rm -rf samples/client/petstore/csharp/generichost/net4.8/OneOf
+          rm -rf samples/client/petstore/csharp/generichost/net4.8/Petstore
+          rm -rf samples/client/petstore/csharp/generichost/net4.8/UseDateTimeForDate
+
+          rm -rf samples/client/petstore/csharp/generichost/net4.7/AllOf
+          rm -rf samples/client/petstore/csharp/generichost/net4.7/AnyOf
+          rm -rf samples/client/petstore/csharp/generichost/net4.7/AnyOfNoCompare
+          rm -rf samples/client/petstore/csharp/generichost/net4.7/FormModels
+          rm -rf samples/client/petstore/csharp/generichost/net4.7/OneOf
+          rm -rf samples/client/petstore/csharp/generichost/net4.7/Petstore
+          rm -rf samples/client/petstore/csharp/generichost/net4.7/UseDateTimeForDate
       - name: Generate samples
-        run: bash bin/generate-samples.sh
+        run: |
+          bash bin/generate-samples.sh
+          # when a sample is deleted, you have to generate it twice for all files to get created
+          bash bin/generate-samples.sh
       - name: Verify git status
         run: |
           if [[ "$(git status --porcelain)" != "" ]]; then

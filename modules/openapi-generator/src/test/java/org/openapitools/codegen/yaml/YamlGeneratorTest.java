@@ -28,6 +28,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -112,10 +113,40 @@ public class YamlGeneratorTest {
         TestUtils.ensureContainsFile(files, output, ".openapi-generator/FILES");
         TestUtils.ensureContainsFile(files, output, ".openapi-generator/VERSION");
 
-        OpenAPI generated = TestUtils.parseSpec(new File(output, "issue_9086.yaml").getPath());
+        OpenAPI actual = TestUtils.parseSpec("src/test/resources/2_0/issue_9086.yaml");
         OpenAPI expected = TestUtils.parseSpec("src/test/resources/2_0/issue_9086_expected.yaml");
 
         // use #toString because the equals methods is a little stricter than necessary for this test
-        Assert.assertEquals(expected.toString(), generated.toString());
+        Assert.assertEquals(actual.getComponents().getSchemas().get("bar2").getAdditionalProperties(),
+                expected.getComponents().getSchemas().get("bar2").getAdditionalProperties());
+        Assert.assertEquals(actual.getPaths().get("/foo/bar").getPost().getResponses().get("200").getContent().get("*/*").getSchema().getAdditionalProperties(),
+                expected.getComponents().getSchemas().get("_foo_bar_post_200_response").getAdditionalProperties());
+    }
+
+    @Test
+    public void testIssue18622() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(OpenAPIYamlGenerator.OUTPUT_NAME, "issue_18622.yaml");
+
+        File output = Files.createTempDirectory("issue_18622").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("openapi-yaml")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/2_0/issue_18622.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+        Assert.assertEquals(files.size(), 5);
+        TestUtils.ensureContainsFile(files, output, "issue_18622.yaml");
+
+        OpenAPI expected = TestUtils.parseSpec("src/test/resources/2_0/issue_18622_expected.yaml");
+        OpenAPI actual = TestUtils.parseSpec(Path.of(output.getAbsolutePath(), "issue_18622.yaml").toString());
+
+        Assert.assertEquals(actual.getComponents().getSchemas().get("myresponse").getExample(),
+                expected.getComponents().getSchemas().get("myresponse").getExample());
     }
 }

@@ -1,0 +1,5 @@
+{{!
+    Assumed Mustache context is one EntrySet element from the media-type-name-to-CodegenMediaType map
+    at operation->requestBody->content.
+}}{{!
+}}{{>paramDeclType}} {{paramName}}{{#lambda.helidonMediaTypeSuffix}}{{key}}{{/lambda.helidonMediaTypeSuffix}}

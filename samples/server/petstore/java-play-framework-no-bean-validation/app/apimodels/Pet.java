@@ -3,6 +3,7 @@ package apimodels;
 import apimodels.Category;
 import apimodels.Tag;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
@@ -11,7 +12,7 @@ import java.util.Objects;
 /**
  * A pet for sale in the pet store
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Pet   {
   @JsonProperty("id")
@@ -122,7 +123,10 @@ public class Pet   {
   }
 
   public Pet addPhotoUrlsItem(String photoUrlsItem) {
-    photoUrls.add(photoUrlsItem);
+    if (this.photoUrls == null) {
+      this.photoUrls = new ArrayList<>();
+    }
+    this.photoUrls.add(photoUrlsItem);
     return this;
   }
 
@@ -144,10 +148,10 @@ public class Pet   {
   }
 
   public Pet addTagsItem(Tag tagsItem) {
-    if (tags == null) {
-      tags = new ArrayList<>();
+    if (this.tags == null) {
+      this.tags = new ArrayList<>();
     }
-    tags.add(tagsItem);
+    this.tags.add(tagsItem);
     return this;
   }
 

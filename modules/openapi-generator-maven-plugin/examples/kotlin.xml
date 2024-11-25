@@ -15,7 +15,7 @@
 				<groupId>org.openapitools</groupId>
 				<artifactId>openapi-generator-maven-plugin</artifactId>
 				<!-- RELEASE_VERSION -->
-				<version>6.3.0-SNAPSHOT</version>
+				<version>7.11.0-SNAPSHOT</version>
 				<!-- /RELEASE_VERSION -->
 				<executions>
 					<execution>
@@ -26,6 +26,7 @@
 						<configuration>
 							<!-- specify the swagger yaml -->
 							<inputSpec>${project.basedir}/swagger.yaml</inputSpec>
+							<cleanupOutput>true</cleanupOutput>
 
 							<!-- target to generate kotlin client code -->
 							<generatorName>kotlin</generatorName>
@@ -231,7 +232,7 @@
 	<properties>
 		<swagger-annotations-version>1.5.8</swagger-annotations-version>
 		<jersey-version>2.27</jersey-version>
-		<jackson-version>2.9.10</jackson-version>
+		<jackson-version>2.15.2</jackson-version>
 		<jackson-databind-nullable-version>0.2.0</jackson-databind-nullable-version>
 		<jodatime-version>2.7</jodatime-version>
 		<maven-plugin-version>1.0.0</maven-plugin-version>

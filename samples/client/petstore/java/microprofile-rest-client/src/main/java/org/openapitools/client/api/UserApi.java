@@ -36,7 +36,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  *
  */
 
-@RegisterRestClient(configKey="petstore")
+@RegisterRestClient(configKey="user-api")
 @RegisterProvider(ApiExceptionMapper.class)
 @Path("/user")
 public interface UserApi  {
@@ -49,23 +49,30 @@ public interface UserApi  {
      */
     @POST
     
-    public void createUser(User body) throws ApiException, ProcessingException;
+    @Consumes({ "application/json" })
+    void createUser(User user) throws ApiException, ProcessingException;
 
     /**
      * Creates list of users with given input array
+     *
+     * 
      *
      */
     @POST
     @Path("/createWithArray")
-    public void createUsersWithArrayInput(List<User> body) throws ApiException, ProcessingException;
+    @Consumes({ "application/json" })
+    void createUsersWithArrayInput(List<User> user) throws ApiException, ProcessingException;
 
     /**
      * Creates list of users with given input array
      *
+     * 
+     *
      */
     @POST
     @Path("/createWithList")
-    public void createUsersWithListInput(List<User> body) throws ApiException, ProcessingException;
+    @Consumes({ "application/json" })
+    void createUsersWithListInput(List<User> user) throws ApiException, ProcessingException;
 
     /**
      * Delete user
@@ -75,33 +82,39 @@ public interface UserApi  {
      */
     @DELETE
     @Path("/{username}")
-    public void deleteUser(@PathParam("username") String username) throws ApiException, ProcessingException;
+    void deleteUser(@PathParam("username") String username) throws ApiException, ProcessingException;
 
     /**
      * Get user by user name
+     *
+     * 
      *
      */
     @GET
     @Path("/{username}")
     @Produces({ "application/xml", "application/json" })
-    public User getUserByName(@PathParam("username") String username) throws ApiException, ProcessingException;
+    User getUserByName(@PathParam("username") String username) throws ApiException, ProcessingException;
 
     /**
      * Logs user into the system
+     *
+     * 
      *
      */
     @GET
     @Path("/login")
     @Produces({ "application/xml", "application/json" })
-    public String loginUser(@QueryParam("username") String username, @QueryParam("password") String password) throws ApiException, ProcessingException;
+    String loginUser(@QueryParam("username") String username, @QueryParam("password") String password) throws ApiException, ProcessingException;
 
     /**
      * Logs out current logged in user session
      *
+     * 
+     *
      */
     @GET
     @Path("/logout")
-    public void logoutUser() throws ApiException, ProcessingException;
+    void logoutUser() throws ApiException, ProcessingException;
 
     /**
      * Updated user
@@ -111,5 +124,6 @@ public interface UserApi  {
      */
     @PUT
     @Path("/{username}")
-    public void updateUser(@PathParam("username") String username, User body) throws ApiException, ProcessingException;
+    @Consumes({ "application/json" })
+    void updateUser(@PathParam("username") String username, User user) throws ApiException, ProcessingException;
 }

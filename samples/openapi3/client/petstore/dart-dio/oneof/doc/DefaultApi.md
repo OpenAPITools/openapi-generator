@@ -26,7 +26,7 @@ final api = Openapi().getDefaultApi();
 try {
     final response = api.rootGet();
     print(response);
-} catch on DioError (e) {
+} catch on DioException (e) {
     print('Exception when calling DefaultApi->rootGet: $e\n');
 }
 ```

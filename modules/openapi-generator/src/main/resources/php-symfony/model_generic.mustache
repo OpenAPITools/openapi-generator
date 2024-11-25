@@ -6,15 +6,17 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}
      * Constructor
      * @param array|null $data Associated array of property values initializing the model
      */
-    public function __construct(array $data = null)
+    public function __construct(?array $data = null)
     {
         {{#parentSchema}}
         parent::__construct($data);
 
         {{/parentSchema}}
-        {{#vars}}
-        $this->{{name}} = $data['{{name}}'] ?? null;
-        {{/vars}}
+        if (is_array($data)) {
+            {{#vars}}
+            $this->{{name}} = array_key_exists('{{name}}', $data) ? $data['{{name}}'] : $this->{{name}};
+            {{/vars}}
+        }
     }
     {{#vars}}
 
@@ -29,17 +31,90 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}
     }
 
     /**
-     * Sets {{name}}.
-     *
-     * @param {{{vendorExtensions.x-comment-type}}} ${{name}}{{#description}}  {{{.}}}{{/description}}
-     *
-     * @return $this
-     */
+    * Sets {{name}}.
+    *
+    * @param {{{vendorExtensions.x-comment-type}}} ${{name}}{{#description}}  {{{.}}}{{/description}}
+    *
+    * @return $this
+    */
     public function {{setter}}({{#vendorExtensions.x-parameter-type}}{{vendorExtensions.x-parameter-type}} {{/vendorExtensions.x-parameter-type}}${{name}}{{^required}} = null{{/required}}): self
     {
         $this->{{name}} = ${{name}};
 
         return $this;
     }
+
+    {{#isEnumRef}}
+    /**
+    * Gets {{name}} for serialization.
+    *
+    * @return string|null
+    */
+    public function getSerialized{{nameInPascalCase}}(): string|null
+    {
+        return !is_null($this->{{name}}?->value) ? (string) $this->{{name}}->value : null;
+    }
+
+    /**
+    * Sets {{name}}.
+    *
+    * @param string|{{{vendorExtensions.x-comment-type}}} ${{name}}{{#description}}  {{{.}}}{{/description}}
+    *
+    * @return $this
+    */
+    public function setDeserialized{{nameInPascalCase}}(string|{{#vendorExtensions.x-comment-type}}{{vendorExtensions.x-comment-type}} {{/vendorExtensions.x-comment-type}}${{name}}{{^required}} = null{{/required}}): self
+    {
+        if (is_string(${{name}})) {
+            ${{name}} = {{baseType}}::tryFrom(${{name}});
+        }
+
+        $this->{{name}} = ${{name}};
+
+        return $this;
+    }
+    {{/isEnumRef}}
+
+    {{#isContainer}}
+    {{#items}}
+    {{#isEnumRef}}
+    /**
+    * Gets {{name}} for serialization.
+    *
+    * @return array
+    */
+    public function getSerialized{{nameInPascalCase}}(): array
+    {
+        return array_map(
+            static fn ($value) => $value?->value ? (string) $value->value : null,
+            $this->{{name}} ?? []
+        );
+    }
+
+    /**
+    * Sets {{name}}.
+    *
+    * @param {{^required}}?{{/required}}array ${{name}}{{#description}}  {{{.}}}{{/description}}
+    *
+    * @return $this
+    */
+    public function setDeserialized{{nameInPascalCase}}({{^required}}?{{/required}}array ${{name}}{{^required}} = []{{/required}}): self
+    {
+        $this->{{name}} = array_map(
+            static function ($value) {
+                if (is_string($value)) {
+                    $value = {{baseType}}::tryFrom($value);
+                }
+
+                return $value;
+            },
+            ${{name}} ?? []
+        );
+
+        return $this;
+    }
+    {{/isEnumRef}}
+    {{/items}}
+    {{/isContainer}}
+
     {{/vars}}
 }

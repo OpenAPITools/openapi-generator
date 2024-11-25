@@ -341,6 +341,11 @@ sub update_params_for_auth {
         if (!defined($auth)) {
             # TODO show warning about auth setting not defined
         }
+        elsif ($auth eq 'petstore_auth') {
+            if ($self->{config}{access_token}) {
+                $header_params->{'Authorization'} = 'Bearer ' . $self->{config}{access_token};
+            }
+        }
         elsif ($auth eq 'api_key') {
             my $api_key = $self->get_api_key_with_prefix('api_key');
             if ($api_key) {
@@ -353,23 +358,18 @@ sub update_params_for_auth {
                 $query_params->{'api_key_query'} = $api_key;
             }
         }
+        elsif ($auth eq 'http_basic_test') {
+            if ($self->{config}{username} || $self->{config}{password}) {
+                $header_params->{'Authorization'} = 'Basic ' . encode_base64($self->{config}{username} . ":" . $self->{config}{password});
+            }
+        }
         elsif ($auth eq 'bearer_test') {
             # this endpoint requires Bearer (JWT) authentication (access token)
             if ($self->{config}{access_token}) {
                 $header_params->{'Authorization'} = 'Bearer ' . $self->{config}{access_token};
             }
         }
-        elsif ($auth eq 'http_basic_test') {
-            if ($self->{config}{username} || $self->{config}{password}) {
-                $header_params->{'Authorization'} = 'Basic ' . encode_base64($self->{config}{username} . ":" . $self->{config}{password});
-            }
-        }
         elsif ($auth eq 'http_signature_test') {
-        }
-        elsif ($auth eq 'petstore_auth') {
-            if ($self->{config}{access_token}) {
-                $header_params->{'Authorization'} = 'Bearer ' . $self->{config}{access_token};
-            }
         }
         else {
            # TODO show warning about security definition not found

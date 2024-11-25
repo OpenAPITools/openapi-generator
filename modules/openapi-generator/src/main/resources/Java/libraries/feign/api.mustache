@@ -10,12 +10,15 @@ import {{modelPackage}}.ApiResponse;
 {{#imports}}import {{import}};
 {{/imports}}
 
-{{^fullJavaUtil}}
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-{{/fullJavaUtil}}
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
+
+{{/useBeanValidation}}
 import feign.*;
 
 {{>generatedAnnotation}}
@@ -44,8 +47,8 @@ public interface {{classname}} extends ApiClient.Api {
 {{/isDeprecated}}
   @RequestLine("{{httpMethod}} {{{path}}}{{#hasQueryParams}}?{{/hasQueryParams}}{{#queryParams}}{{baseName}}={{=<% %>=}}{<%paramName%>}<%={{ }}=%>{{^-last}}&{{/-last}}{{/queryParams}}")
   @Headers({
-{{#vendorExtensions.x-content-type}}    "Content-Type: {{vendorExtensions.x-content-type}}",
-{{/vendorExtensions.x-content-type}}    "Accept: {{vendorExtensions.x-accepts}}",{{#headerParams}}
+{{#vendorExtensions.x-content-type}}    "Content-Type: {{{vendorExtensions.x-content-type}}}",
+{{/vendorExtensions.x-content-type}}    "Accept: {{#vendorExtensions.x-accepts}}{{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-accepts}}",{{#headerParams}}
     "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{^-last}},
     {{/-last}}{{/headerParams}}
   })
@@ -74,8 +77,8 @@ public interface {{classname}} extends ApiClient.Api {
 {{/isDeprecated}}
   @RequestLine("{{httpMethod}} {{{path}}}{{#hasQueryParams}}?{{/hasQueryParams}}{{#queryParams}}{{baseName}}={{=<% %>=}}{<%paramName%>}<%={{ }}=%>{{^-last}}&{{/-last}}{{/queryParams}}")
   @Headers({
-{{#vendorExtensions.x-content-type}}    "Content-Type: {{vendorExtensions.x-content-type}}",
-{{/vendorExtensions.x-content-type}}    "Accept: {{vendorExtensions.x-accepts}}",{{#headerParams}}
+{{#vendorExtensions.x-content-type}}    "Content-Type: {{{vendorExtensions.x-content-type}}}",
+{{/vendorExtensions.x-content-type}}    "Accept: {{#vendorExtensions.x-accepts}}{{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-accepts}}",{{#headerParams}}
     "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{^-last}},
     {{/-last}}{{/headerParams}}
   })
@@ -119,8 +122,8 @@ public interface {{classname}} extends ApiClient.Api {
   {{/isDeprecated}}
   @RequestLine("{{httpMethod}} {{{path}}}?{{#queryParams}}{{baseName}}={{=<% %>=}}{<%paramName%>}<%={{ }}=%>{{^-last}}&{{/-last}}{{/queryParams}}")
   @Headers({
-{{#vendorExtensions.x-content-type}}  "Content-Type: {{vendorExtensions.x-content-type}}",
-{{/vendorExtensions.x-content-type}}  "Accept: {{vendorExtensions.x-accepts}}",{{#headerParams}}
+{{#vendorExtensions.x-content-type}}  "Content-Type: {{{vendorExtensions.x-content-type}}}",
+{{/vendorExtensions.x-content-type}}  "Accept: {{#vendorExtensions.x-accepts}}{{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-accepts}}",{{#headerParams}}
       "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{^-last}},
       {{/-last}}{{/headerParams}}
   })
@@ -159,8 +162,8 @@ public interface {{classname}} extends ApiClient.Api {
   {{/isDeprecated}}
       @RequestLine("{{httpMethod}} {{{path}}}?{{#queryParams}}{{baseName}}={{=<% %>=}}{<%paramName%>}<%={{ }}=%>{{^-last}}&{{/-last}}{{/queryParams}}")
       @Headers({
-  {{#vendorExtensions.x-content-type}}  "Content-Type: {{vendorExtensions.x-content-type}}",
-  {{/vendorExtensions.x-content-type}}  "Accept: {{vendorExtensions.x-accepts}}",{{#headerParams}}
+  {{#vendorExtensions.x-content-type}}  "Content-Type: {{{vendorExtensions.x-content-type}}}",
+  {{/vendorExtensions.x-content-type}}  "Accept: {{#vendorExtensions.x-accepts}}{{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-accepts}}",{{#headerParams}}
           "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{^-last}},
       {{/-last}}{{/headerParams}}
       })

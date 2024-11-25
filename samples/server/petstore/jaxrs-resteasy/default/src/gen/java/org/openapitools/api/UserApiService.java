@@ -5,7 +5,6 @@ import org.openapitools.model.*;
 
 
 import java.util.Date;
-import java.util.List;
 import org.openapitools.model.User;
 
 import java.util.List;
@@ -13,16 +12,18 @@ import org.openapitools.api.NotFoundException;
 
 import java.io.InputStream;
 
+import javax.validation.constraints.*;
+import javax.validation.Valid;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public interface UserApiService {
       Response createUser(User body,SecurityContext securityContext)
       throws NotFoundException;
-      Response createUsersWithArrayInput(List<User> body,SecurityContext securityContext)
+      Response createUsersWithArrayInput(List<@Valid User> body,SecurityContext securityContext)
       throws NotFoundException;
-      Response createUsersWithListInput(List<User> body,SecurityContext securityContext)
+      Response createUsersWithListInput(List<@Valid User> body,SecurityContext securityContext)
       throws NotFoundException;
       Response deleteUser(String username,SecurityContext securityContext)
       throws NotFoundException;

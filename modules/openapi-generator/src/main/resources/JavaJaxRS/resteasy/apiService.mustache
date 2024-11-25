@@ -13,6 +13,10 @@ import {{package}}.NotFoundException;
 
 import java.io.InputStream;
 
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
+{{/useBeanValidation}}
 import {{javaxPackage}}.ws.rs.core.Response;
 import {{javaxPackage}}.ws.rs.core.SecurityContext;
 

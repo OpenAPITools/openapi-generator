@@ -68,3 +68,73 @@
   image: "img/companies/bumpsh.png"
   infoLink: "https://bump.sh/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
   bronze: true
+-
+  caption: "bileto"
+  image: "img/companies/bileto.png"
+  infoLink: "https://www.bileto.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  bronze: true
+-
+  caption: "BairesDev"
+  image: "img/companies/bairesdev.png"
+  infoLink: "https://www.bairesdev.com/sponsoring-open-source-projects/"
+  bronze: true
+-
+  caption: "dmTECH"
+  image: "img/companies/dmtech.jpeg"
+  infoLink: "https://www.dmtech.de/"
+  bronze: true
+-
+  caption: "Adyen"
+  image: "img/companies/adyen.png"
+  infoLink: "https://adyen.com/"
+  bronze: true
+-
+  caption: "Fornex"
+  image: "img/companies/fornex.png"
+  infoLink: "https://fornex.com/"
+  bronze: true
+-
+  caption: "Alloy Automation"
+  image: "img/companies/alloyautomation.png"
+  infoLink: "https://runalloy.com/signup?utm_source=github&utm_medium=referral&utm_campaign=1524_openapigenerator"
+  bronze: true
+-
+  caption: "sss Twitter"
+  image: "img/companies/ssstwitter.png"
+  infoLink: "https://ssstwitter.com/?utm_source=github&utm_medium=referral&utm_campaign=sponsor"
+  bronze: true
+-
+  caption: "Svix"
+  image: "img/companies/svix.png"
+  infoLink: "https://www.svix.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship"
+  bronze: true
+-
+  caption: "LITSLINK"
+  image: "img/companies/litslink.png"
+  infoLink: "https://litslink.com/services/artificial-intelligence/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship"
+  bronze: true
+-
+  caption: "Designli"
+  image: "img/companies/designli.jpg"
+  infoLink: "https://designli.co?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship"
+  bronze: true
+-
+  caption: "it@m"
+  image: "img/companies/itm.png"
+  infoLink: "https://opensource.muenchen.de/software/openapi-generator.html?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship"
+  bronze: true
+-
+  caption: "Kong"
+  image: "img/companies/kong.png"
+  infoLink: "https://konghq.com/products/kong-konnect?utm_medium=referral&utm_source=github&utm_campaign=platform&utm_content=openapi-generator"
+  bronze: true
+-
+  caption: "Route4Me"
+  image: "img/companies/route4me.png"
+  infoLink: "https://route4me.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship"
+  bronze: true
+-
+  caption: "Dotcom-Monitor"
+  image: "img/companies/dm.png"
+  infoLink: "https://www.dotcom-monitor.com/sponsoring-open-source-projects/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship"
+  bronze: true

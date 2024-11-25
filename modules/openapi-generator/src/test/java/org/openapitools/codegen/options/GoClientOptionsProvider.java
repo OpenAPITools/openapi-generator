@@ -36,6 +36,10 @@ public class GoClientOptionsProvider implements OptionsProvider {
     public static final boolean GENERATE_INTERFACES_VALUE = true;
     public static final boolean DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_VALUE = true;
     public static final boolean USE_ONE_OF_DISCRIMINATOR_LOOKUP_VALUE = true;
+    public static final boolean WITH_GO_MOD_VALUE = true;
+    public static final boolean GENERATE_MARSHAL_JSON_VALUE = true;
+    public static final boolean GENERATE_UNMARSHAL_JSON_VALUE = true;
+    public static final boolean USE_DEFAULT_VALUES_FOR_REQUIRED_VARS_VALUE = true;
 
     @Override
     public String getLanguage() {
@@ -56,8 +60,12 @@ public class GoClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT, "true")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
                 .put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, "true")
+                .put(CodegenConstants.WITH_GO_MOD, "true")
+                .put(CodegenConstants.GENERATE_MARSHAL_JSON, "true")
+                .put(CodegenConstants.GENERATE_UNMARSHAL_JSON, "true")
                 .put("generateInterfaces", "true")
                 .put("structPrefix", "true")
+                .put(CodegenConstants.USE_DEFAULT_VALUES_FOR_REQUIRED_VARS, "true")
                 .build();
     }
 

@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.ModelFile;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -33,7 +34,7 @@ import javax.validation.Valid;
   FileSchemaTestClass.JSON_PROPERTY_FILE,
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class FileSchemaTestClass  implements Serializable {
   public static final String JSON_PROPERTY_FILE = "file";
   @JsonProperty(JSON_PROPERTY_FILE)
@@ -41,7 +42,7 @@ public class FileSchemaTestClass  implements Serializable {
 
   public static final String JSON_PROPERTY_FILES = "files";
   @JsonProperty(JSON_PROPERTY_FILES)
-  private List<ModelFile> files = null;
+  private List<@Valid ModelFile> files = new ArrayList<>();
 
   public FileSchemaTestClass _file(ModelFile _file) {
     this._file = _file;
@@ -63,7 +64,7 @@ public class FileSchemaTestClass  implements Serializable {
     this._file = _file;
   }
 
-  public FileSchemaTestClass files(List<ModelFile> files) {
+  public FileSchemaTestClass files(List<@Valid ModelFile> files) {
     this.files = files;
     return this;
   }
@@ -83,11 +84,11 @@ public class FileSchemaTestClass  implements Serializable {
   @JsonProperty(value = "files")
   @ApiModelProperty(value = "")
   @Valid 
-  public List<ModelFile> getFiles() {
+  public List<@Valid ModelFile> getFiles() {
     return files;
   }
 
-  public void setFiles(List<ModelFile> files) {
+  public void setFiles(List<@Valid ModelFile> files) {
     this.files = files;
   }
 

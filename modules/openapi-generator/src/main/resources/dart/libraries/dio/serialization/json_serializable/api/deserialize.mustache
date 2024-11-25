@@ -1,1 +1,2 @@
-_responseData = deserialize<{{{returnType}}}, {{{returnBaseType}}}>(_response.data!, '{{{returnType}}}', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<{{{returnType}}}, {{{returnBaseType}}}>(rawData, '{{{returnType}}}', growable: true);

@@ -7,6 +7,19 @@ additionalProperties:
   responseAs: Result
   podAuthors: ""
   podSummary: PetstoreClient
+  sortParamsByRequiredFlag: false
+  enumUnknownDefaultCase: true
+  nonPublicApi: true
+  readonlyProperties: true
+  hashableModels: false
   projectName: PetstoreClient
   podHomepage: https://github.com/openapitools/openapi-generator
-  removeMigrationProjectNameClass: true
+nameMappings:
+  _type: underscoreType
+  type_: typeWithUnderscore
+  -type: dashType
+parameterNameMappings:
+  _type: underscoreType
+  type_: typeWithUnderscore
+  -type: dashType
+

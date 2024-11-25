@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public interface PetApi extends ApiClient.Api {
 
 
@@ -83,7 +83,7 @@ public interface PetApi extends ApiClient.Api {
    */
   @RequestLine("GET /pet/findByStatus?status={status}")
   @Headers({
-    "Accept: application/json",
+    "Accept: application/json,application/xml",
   })
   List<Pet> findPetsByStatus(@Param("status") List<String> status);
 
@@ -96,7 +96,7 @@ public interface PetApi extends ApiClient.Api {
    */
   @RequestLine("GET /pet/findByStatus?status={status}")
   @Headers({
-    "Accept: application/json",
+    "Accept: application/json,application/xml",
   })
   ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(@Param("status") List<String> status);
 
@@ -118,7 +118,7 @@ public interface PetApi extends ApiClient.Api {
    */
   @RequestLine("GET /pet/findByStatus?status={status}")
   @Headers({
-  "Accept: application/json",
+  "Accept: application/json,application/xml",
   })
   List<Pet> findPetsByStatus(@QueryMap(encoded=true) FindPetsByStatusQueryParams queryParams);
 
@@ -136,7 +136,7 @@ public interface PetApi extends ApiClient.Api {
       */
       @RequestLine("GET /pet/findByStatus?status={status}")
       @Headers({
-    "Accept: application/json",
+    "Accept: application/json,application/xml",
       })
    ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(@QueryMap(encoded=true) FindPetsByStatusQueryParams queryParams);
 
@@ -162,7 +162,7 @@ public interface PetApi extends ApiClient.Api {
   @Deprecated
   @RequestLine("GET /pet/findByTags?tags={tags}")
   @Headers({
-    "Accept: application/json",
+    "Accept: application/json,application/xml",
   })
   Set<Pet> findPetsByTags(@Param("tags") Set<String> tags);
 
@@ -177,7 +177,7 @@ public interface PetApi extends ApiClient.Api {
   @Deprecated
   @RequestLine("GET /pet/findByTags?tags={tags}")
   @Headers({
-    "Accept: application/json",
+    "Accept: application/json,application/xml",
   })
   ApiResponse<Set<Pet>> findPetsByTagsWithHttpInfo(@Param("tags") Set<String> tags);
 
@@ -201,7 +201,7 @@ public interface PetApi extends ApiClient.Api {
   @Deprecated
   @RequestLine("GET /pet/findByTags?tags={tags}")
   @Headers({
-  "Accept: application/json",
+  "Accept: application/json,application/xml",
   })
   Set<Pet> findPetsByTags(@QueryMap(encoded=true) FindPetsByTagsQueryParams queryParams);
 
@@ -221,7 +221,7 @@ public interface PetApi extends ApiClient.Api {
           @Deprecated
       @RequestLine("GET /pet/findByTags?tags={tags}")
       @Headers({
-    "Accept: application/json",
+    "Accept: application/json,application/xml",
       })
    ApiResponse<Set<Pet>> findPetsByTagsWithHttpInfo(@QueryMap(encoded=true) FindPetsByTagsQueryParams queryParams);
 
@@ -245,7 +245,7 @@ public interface PetApi extends ApiClient.Api {
    */
   @RequestLine("GET /pet/{petId}")
   @Headers({
-    "Accept: application/json",
+    "Accept: application/json,application/xml",
   })
   Pet getPetById(@Param("petId") Long petId);
 
@@ -258,7 +258,7 @@ public interface PetApi extends ApiClient.Api {
    */
   @RequestLine("GET /pet/{petId}")
   @Headers({
-    "Accept: application/json",
+    "Accept: application/json,application/xml",
   })
   ApiResponse<Pet> getPetByIdWithHttpInfo(@Param("petId") Long petId);
 

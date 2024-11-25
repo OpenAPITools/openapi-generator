@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("Enum_Test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class EnumTest {
 
   /**
@@ -63,8 +63,7 @@ public class EnumTest {
     }
   }
 
-  @JsonProperty("enum_string")
-  private EnumStringEnum enumString;
+  private Optional<EnumStringEnum> enumString = Optional.empty();
 
   /**
    * Gets or Sets enumStringRequired
@@ -103,7 +102,6 @@ public class EnumTest {
     }
   }
 
-  @JsonProperty("enum_string_required")
   private EnumStringRequiredEnum enumStringRequired;
 
   /**
@@ -141,8 +139,7 @@ public class EnumTest {
     }
   }
 
-  @JsonProperty("enum_integer")
-  private EnumIntegerEnum enumInteger;
+  private Optional<EnumIntegerEnum> enumInteger = Optional.empty();
 
   /**
    * Gets or Sets enumNumber
@@ -179,28 +176,38 @@ public class EnumTest {
     }
   }
 
-  @JsonProperty("enum_number")
-  private EnumNumberEnum enumNumber;
+  private Optional<EnumNumberEnum> enumNumber = Optional.empty();
 
-  @JsonProperty("outerEnum")
-  private OuterEnum outerEnum;
+  private Optional<OuterEnum> outerEnum = Optional.empty();
+
+  public EnumTest() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public EnumTest(EnumStringRequiredEnum enumStringRequired) {
+    this.enumStringRequired = enumStringRequired;
+  }
 
   public EnumTest enumString(EnumStringEnum enumString) {
-    this.enumString = enumString;
+    this.enumString = Optional.of(enumString);
     return this;
   }
 
   /**
    * Get enumString
    * @return enumString
-  */
+   */
   
   @ApiModelProperty(value = "")
-  public EnumStringEnum getEnumString() {
+  @JsonProperty("enum_string")
+  public Optional<EnumStringEnum> getEnumString() {
     return enumString;
   }
 
-  public void setEnumString(EnumStringEnum enumString) {
+  public void setEnumString(Optional<EnumStringEnum> enumString) {
     this.enumString = enumString;
   }
 
@@ -212,9 +219,10 @@ public class EnumTest {
   /**
    * Get enumStringRequired
    * @return enumStringRequired
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("enum_string_required")
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
@@ -224,59 +232,62 @@ public class EnumTest {
   }
 
   public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
-    this.enumInteger = enumInteger;
+    this.enumInteger = Optional.of(enumInteger);
     return this;
   }
 
   /**
    * Get enumInteger
    * @return enumInteger
-  */
+   */
   
   @ApiModelProperty(value = "")
-  public EnumIntegerEnum getEnumInteger() {
+  @JsonProperty("enum_integer")
+  public Optional<EnumIntegerEnum> getEnumInteger() {
     return enumInteger;
   }
 
-  public void setEnumInteger(EnumIntegerEnum enumInteger) {
+  public void setEnumInteger(Optional<EnumIntegerEnum> enumInteger) {
     this.enumInteger = enumInteger;
   }
 
   public EnumTest enumNumber(EnumNumberEnum enumNumber) {
-    this.enumNumber = enumNumber;
+    this.enumNumber = Optional.of(enumNumber);
     return this;
   }
 
   /**
    * Get enumNumber
    * @return enumNumber
-  */
+   */
   
   @ApiModelProperty(value = "")
-  public EnumNumberEnum getEnumNumber() {
+  @JsonProperty("enum_number")
+  public Optional<EnumNumberEnum> getEnumNumber() {
     return enumNumber;
   }
 
-  public void setEnumNumber(EnumNumberEnum enumNumber) {
+  public void setEnumNumber(Optional<EnumNumberEnum> enumNumber) {
     this.enumNumber = enumNumber;
   }
 
   public EnumTest outerEnum(OuterEnum outerEnum) {
-    this.outerEnum = outerEnum;
+    this.outerEnum = Optional.of(outerEnum);
     return this;
   }
 
   /**
    * Get outerEnum
    * @return outerEnum
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
-  public OuterEnum getOuterEnum() {
+  @JsonProperty("outerEnum")
+  public Optional<OuterEnum> getOuterEnum() {
     return outerEnum;
   }
 
-  public void setOuterEnum(OuterEnum outerEnum) {
+  public void setOuterEnum(Optional<OuterEnum> outerEnum) {
     this.outerEnum = outerEnum;
   }
 
@@ -324,5 +335,87 @@ public class EnumTest {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private EnumTest instance;
+
+    public Builder() {
+      this(new EnumTest());
+    }
+
+    protected Builder(EnumTest instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(EnumTest value) { 
+      this.instance.setEnumString(value.enumString);
+      this.instance.setEnumStringRequired(value.enumStringRequired);
+      this.instance.setEnumInteger(value.enumInteger);
+      this.instance.setEnumNumber(value.enumNumber);
+      this.instance.setOuterEnum(value.outerEnum);
+      return this;
+    }
+
+    public EnumTest.Builder enumString(EnumStringEnum enumString) {
+      this.instance.enumString(enumString);
+      return this;
+    }
+    
+    public EnumTest.Builder enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
+      this.instance.enumStringRequired(enumStringRequired);
+      return this;
+    }
+    
+    public EnumTest.Builder enumInteger(EnumIntegerEnum enumInteger) {
+      this.instance.enumInteger(enumInteger);
+      return this;
+    }
+    
+    public EnumTest.Builder enumNumber(EnumNumberEnum enumNumber) {
+      this.instance.enumNumber(enumNumber);
+      return this;
+    }
+    
+    public EnumTest.Builder outerEnum(OuterEnum outerEnum) {
+      this.instance.outerEnum(outerEnum);
+      return this;
+    }
+    
+    /**
+    * returns a built EnumTest instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public EnumTest build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static EnumTest.Builder builder() {
+    return new EnumTest.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public EnumTest.Builder toBuilder() {
+    EnumTest.Builder builder = new EnumTest.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

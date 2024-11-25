@@ -176,7 +176,7 @@ class {{{classname}}} {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, '{{{returnType}}}') as List)
         .cast<{{{returnBaseType}}}>()
-        .{{#uniqueItems}}toSet(){{/uniqueItems}}{{^uniqueItems}}toList(){{/uniqueItems}};
+        .{{#uniqueItems}}toSet(){{/uniqueItems}}{{^uniqueItems}}toList(growable: false){{/uniqueItems}};
     {{/isArray}}
     {{^isArray}}
     {{#isMap}}

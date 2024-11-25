@@ -24,11 +24,12 @@ import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
 
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 import com.typesafe.config.Config;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class PetApiController extends Controller {
     private final PetApiControllerImpInterface imp;
     private final ObjectMapper mapper;
@@ -58,7 +59,7 @@ public class PetApiController extends Controller {
 
     @ApiAction
     public CompletionStage<Result> deletePet(Http.Request request, Long petId) throws Exception {
-        String valueapiKey = request.header("api_key").get();
+        String valueapiKey = request.header("api_key").orElse(null);
         String apiKey;
         if (valueapiKey != null) {
             apiKey = valueapiKey;

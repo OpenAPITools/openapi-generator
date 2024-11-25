@@ -18,6 +18,8 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -31,6 +33,10 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
 
     public TypeScriptAureliaClientCodegen() {
         super();
+
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .securityFeatures(EnumSet.of(SecurityFeature.ApiKey)));
 
         apiTemplateFiles.put("api.mustache", ".ts");
 
@@ -50,22 +56,6 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
     @Override
     public String getHelp() {
         return "Generates a TypeScript client library for the Aurelia framework (beta).";
-    }
-
-    public String getNpmName() {
-        return npmName;
-    }
-
-    public void setNpmName(String npmName) {
-        this.npmName = npmName;
-    }
-
-    public String getNpmVersion() {
-        return npmVersion;
-    }
-
-    public void setNpmVersion(String npmVersion) {
-        this.npmVersion = npmVersion;
     }
 
     @Override

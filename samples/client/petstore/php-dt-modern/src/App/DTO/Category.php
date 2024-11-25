@@ -16,7 +16,7 @@ class Category
 
     #[DTA\Data(field: "name", nullable: true)]
     #[DTA\Validator("Scalar", ["type" => "string"])]
-    #[DTA\Validator("Regex", ["pattern" => "/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/"])]
+    #[DTA\Validator("Match", ["pattern" => "/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/"])]
     public string|null $name = null;
 
 }

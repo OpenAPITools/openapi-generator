@@ -6,11 +6,10 @@ package {{package}};
 
 import {{invokerPackage}}.Configuration;
 
-import org.junit.Test;
-import org.junit.Ignore;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -23,34 +22,26 @@ import io.vertx.ext.unit.Async;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
-{{^fullJavaUtil}}
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-{{/fullJavaUtil}}
 
 /**
  * API tests for {{classname}}
  */
-@RunWith(VertxUnitRunner.class)
-@Ignore
+@Disabled
 public class {{classname}}Test {
 
     private {{classname}} api;
 
-    @Rule
-    public RunTestOnContext rule = new RunTestOnContext();
-
-    @BeforeClass
+    @BeforeAll
     public void setupApiClient() {
-        JsonObject config = new JsonObject();
-        Vertx vertx = rule.vertx();
-        Configuration.setupDefaultApiClient(vertx, config);
-
         api = new {{classname}}Impl();
     }
-    {{#operations}}{{#operation}}
+
+    {{#operations}}
+    {{#operation}}
     /**
      * {{summary}}
      * {{notes}}
@@ -68,5 +59,6 @@ public class {{classname}}Test {
             async.complete();
         });
     }
-    {{/operation}}{{/operations}}
+    {{/operation}}
+    {{/operations}}
 }

@@ -14,6 +14,7 @@ import javax.validation.constraints.*;
 import org.hibernate.validator.constraints.*;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import javax.xml.bind.annotation.*;
@@ -29,24 +30,15 @@ import javax.annotation.Generated;
 @JacksonXmlRootElement(localName = "Order")
 @XmlRootElement(name = "Order")
 @XmlAccessorType(XmlAccessType.FIELD)
-
-@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen")
+@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class Order {
 
-  @JsonProperty("id")
-  @JacksonXmlProperty(localName = "id")
   private Long id;
 
-  @JsonProperty("petId")
-  @JacksonXmlProperty(localName = "petId")
   private Long petId;
 
-  @JsonProperty("quantity")
-  @JacksonXmlProperty(localName = "quantity")
   private Integer quantity;
 
-  @JsonProperty("shipDate")
-  @JacksonXmlProperty(localName = "shipDate")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private Date shipDate;
 
@@ -87,12 +79,8 @@ public class Order {
     }
   }
 
-  @JsonProperty("status")
-  @JacksonXmlProperty(localName = "status")
   private StatusEnum status;
 
-  @JsonProperty("complete")
-  @JacksonXmlProperty(localName = "complete")
   private Boolean complete = false;
 
   public Order id(Long id) {
@@ -103,9 +91,11 @@ public class Order {
   /**
    * Get id
    * @return id
-  */
+   */
   
-  @Schema(name = "id", required = false)
+  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("id")
+  @JacksonXmlProperty(localName = "id")
   public Long getId() {
     return id;
   }
@@ -122,9 +112,11 @@ public class Order {
   /**
    * Get petId
    * @return petId
-  */
+   */
   
-  @Schema(name = "petId", required = false)
+  @Schema(name = "petId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("petId")
+  @JacksonXmlProperty(localName = "petId")
   public Long getPetId() {
     return petId;
   }
@@ -141,9 +133,11 @@ public class Order {
   /**
    * Get quantity
    * @return quantity
-  */
+   */
   
-  @Schema(name = "quantity", required = false)
+  @Schema(name = "quantity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("quantity")
+  @JacksonXmlProperty(localName = "quantity")
   public Integer getQuantity() {
     return quantity;
   }
@@ -160,9 +154,11 @@ public class Order {
   /**
    * Get shipDate
    * @return shipDate
-  */
+   */
   @Valid 
-  @Schema(name = "shipDate", required = false)
+  @Schema(name = "shipDate", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("shipDate")
+  @JacksonXmlProperty(localName = "shipDate")
   public Date getShipDate() {
     return shipDate;
   }
@@ -179,9 +175,11 @@ public class Order {
   /**
    * Order Status
    * @return status
-  */
+   */
   
-  @Schema(name = "status", description = "Order Status", required = false)
+  @Schema(name = "status", description = "Order Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("status")
+  @JacksonXmlProperty(localName = "status")
   public StatusEnum getStatus() {
     return status;
   }
@@ -198,9 +196,11 @@ public class Order {
   /**
    * Get complete
    * @return complete
-  */
+   */
   
-  @Schema(name = "complete", required = false)
+  @Schema(name = "complete", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("complete")
+  @JacksonXmlProperty(localName = "complete")
   public Boolean getComplete() {
     return complete;
   }

@@ -1,0 +1,36 @@
+package {{packageName}}
+
+import io.javalin.Javalin
+import io.javalin.community.routing.dsl.routing
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}import {{apiPackage}}.{{classname}}
+import {{apiPackage}}.{{classname}}ServiceImpl
+{{/operations}}
+{{/apis}}
+
+fun main() {
+    {{#apis}}
+    {{#operations}}
+    val {{classname}} = {{classname}}({{classname}}ServiceImpl())
+    {{/operations}}
+    {{/apis}}
+
+    val app = Javalin
+        .create { config ->
+            config.routing {
+                {{#apis}}
+                {{#operations}}
+                {{#operation}}
+                {{#lowercase}}{{httpMethod}}{{/lowercase}}("{{{path}}}", {{classname}}::{{operationId}})
+                {{/operation}}
+                {{/operations}}
+
+                {{/apis}}
+            }
+        }
+
+    app.start({{serverPort}})
+}
+{{/apiInfo}}

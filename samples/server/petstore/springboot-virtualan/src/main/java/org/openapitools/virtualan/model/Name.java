@@ -19,20 +19,27 @@ import javax.annotation.Generated;
  */
 
 @Schema(name = "Name", description = "Model for testing model name same as property name")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class Name {
 
-  @JsonProperty("name")
   private Integer name;
 
-  @JsonProperty("snake_case")
   private Integer snakeCase;
 
-  @JsonProperty("property")
   private String property;
 
-  @JsonProperty("123Number")
   private Integer _123number;
+
+  public Name() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Name(Integer name) {
+    this.name = name;
+  }
 
   public Name name(Integer name) {
     this.name = name;
@@ -42,9 +49,10 @@ public class Name {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull 
-  @Schema(name = "name", required = true)
+  @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("name")
   public Integer getName() {
     return name;
   }
@@ -61,9 +69,10 @@ public class Name {
   /**
    * Get snakeCase
    * @return snakeCase
-  */
+   */
   
-  @Schema(name = "snake_case", accessMode = Schema.AccessMode.READ_ONLY, required = false)
+  @Schema(name = "snake_case", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("snake_case")
   public Integer getSnakeCase() {
     return snakeCase;
   }
@@ -80,9 +89,10 @@ public class Name {
   /**
    * Get property
    * @return property
-  */
+   */
   
-  @Schema(name = "property", required = false)
+  @Schema(name = "property", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("property")
   public String getProperty() {
     return property;
   }
@@ -99,9 +109,10 @@ public class Name {
   /**
    * Get _123number
    * @return _123number
-  */
+   */
   
-  @Schema(name = "123Number", accessMode = Schema.AccessMode.READ_ONLY, required = false)
+  @Schema(name = "123Number", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("123Number")
   public Integer get123number() {
     return _123number;
   }

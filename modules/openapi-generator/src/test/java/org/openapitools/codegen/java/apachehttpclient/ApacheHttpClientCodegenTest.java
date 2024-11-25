@@ -56,7 +56,7 @@ public class ApacheHttpClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 41);
+        Assert.assertEquals(files.size(), 42);
         validateJavaSourceFiles(files);
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/api/DefaultApi.java"),
@@ -88,6 +88,30 @@ public class ApacheHttpClientCodegenTest {
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/api/DefaultApi.java"),
             "localVarQueryParams.addAll(apiClient.parameterToPairs(\"multi\", \"values\", queryObject.getValues()))"
+        );
+    }
+
+    @Test
+    void testApacheHttpClientQueryParamHandlingUniqueItemsStringEnum() throws IOException {
+        // Arrange
+        var output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        var configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.APACHE)
+                .setInputSpec("src/test/resources/3_0/unique-items-string-enum.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        // Act
+        var files = generator.opts(clientOptInput).generate();
+
+        // Assert
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/model/GetUsersRequestV1.java"),
+                "for (RolesEnum _item : getRoles()) {"
         );
     }
 }

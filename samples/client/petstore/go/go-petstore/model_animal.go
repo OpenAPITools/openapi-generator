@@ -12,6 +12,8 @@ package petstore
 
 import (
 	"encoding/json"
+	"bytes"
+	"fmt"
 )
 
 // checks if the Animal type satisfies the MappedNullable interface at compile time
@@ -22,6 +24,8 @@ type Animal struct {
 	ClassName string `json:"className"`
 	Color *string `json:"color,omitempty"`
 }
+
+type _Animal Animal
 
 // NewAnimal instantiates a new Animal object
 // This constructor will assign default values to properties that have it defined,
@@ -71,7 +75,7 @@ func (o *Animal) SetClassName(v string) {
 
 // GetColor returns the Color field value if set, zero value otherwise.
 func (o *Animal) GetColor() string {
-	if o == nil || isNil(o.Color) {
+	if o == nil || IsNil(o.Color) {
 		var ret string
 		return ret
 	}
@@ -81,7 +85,7 @@ func (o *Animal) GetColor() string {
 // GetColorOk returns a tuple with the Color field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Animal) GetColorOk() (*string, bool) {
-	if o == nil || isNil(o.Color) {
+	if o == nil || IsNil(o.Color) {
 		return nil, false
 	}
 	return o.Color, true
@@ -89,7 +93,7 @@ func (o *Animal) GetColorOk() (*string, bool) {
 
 // HasColor returns a boolean if a field has been set.
 func (o *Animal) HasColor() bool {
-	if o != nil && !isNil(o.Color) {
+	if o != nil && !IsNil(o.Color) {
 		return true
 	}
 
@@ -112,10 +116,47 @@ func (o Animal) MarshalJSON() ([]byte, error) {
 func (o Animal) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["className"] = o.ClassName
-	if !isNil(o.Color) {
+	if !IsNil(o.Color) {
 		toSerialize["color"] = o.Color
 	}
 	return toSerialize, nil
+}
+
+func (o *Animal) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"className",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varAnimal := _Animal{}
+
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varAnimal)
+
+	if err != nil {
+		return err
+	}
+
+	*o = Animal(varAnimal)
+
+	return err
 }
 
 type NullableAnimal struct {

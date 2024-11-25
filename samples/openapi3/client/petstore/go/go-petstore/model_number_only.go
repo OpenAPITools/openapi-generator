@@ -44,7 +44,7 @@ func NewNumberOnlyWithDefaults() *NumberOnly {
 
 // GetJustNumber returns the JustNumber field value if set, zero value otherwise.
 func (o *NumberOnly) GetJustNumber() float32 {
-	if o == nil || isNil(o.JustNumber) {
+	if o == nil || IsNil(o.JustNumber) {
 		var ret float32
 		return ret
 	}
@@ -54,7 +54,7 @@ func (o *NumberOnly) GetJustNumber() float32 {
 // GetJustNumberOk returns a tuple with the JustNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *NumberOnly) GetJustNumberOk() (*float32, bool) {
-	if o == nil || isNil(o.JustNumber) {
+	if o == nil || IsNil(o.JustNumber) {
 		return nil, false
 	}
 	return o.JustNumber, true
@@ -62,7 +62,7 @@ func (o *NumberOnly) GetJustNumberOk() (*float32, bool) {
 
 // HasJustNumber returns a boolean if a field has been set.
 func (o *NumberOnly) HasJustNumber() bool {
-	if o != nil && !isNil(o.JustNumber) {
+	if o != nil && !IsNil(o.JustNumber) {
 		return true
 	}
 
@@ -84,7 +84,7 @@ func (o NumberOnly) MarshalJSON() ([]byte, error) {
 
 func (o NumberOnly) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.JustNumber) {
+	if !IsNil(o.JustNumber) {
 		toSerialize["JustNumber"] = o.JustNumber
 	}
 
@@ -95,16 +95,20 @@ func (o NumberOnly) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *NumberOnly) UnmarshalJSON(bytes []byte) (err error) {
+func (o *NumberOnly) UnmarshalJSON(data []byte) (err error) {
 	varNumberOnly := _NumberOnly{}
 
-	if err = json.Unmarshal(bytes, &varNumberOnly); err == nil {
-		*o = NumberOnly(varNumberOnly)
+	err = json.Unmarshal(data, &varNumberOnly)
+
+	if err != nil {
+		return err
 	}
+
+	*o = NumberOnly(varNumberOnly)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "JustNumber")
 		o.AdditionalProperties = additionalProperties
 	}

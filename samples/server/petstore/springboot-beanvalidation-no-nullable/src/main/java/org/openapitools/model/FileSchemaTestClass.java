@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -21,15 +22,13 @@ import javax.annotation.Generated;
  * FileSchemaTestClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class FileSchemaTestClass {
 
-  @JsonProperty("file")
   private File file;
 
-  @JsonProperty("files")
   @Valid
-  private List<File> files = null;
+  private List<@Valid File> files = new ArrayList<>();
 
   public FileSchemaTestClass file(File file) {
     this.file = file;
@@ -39,9 +38,10 @@ public class FileSchemaTestClass {
   /**
    * Get file
    * @return file
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("file")
   public File getFile() {
     return file;
   }
@@ -50,7 +50,7 @@ public class FileSchemaTestClass {
     this.file = file;
   }
 
-  public FileSchemaTestClass files(List<File> files) {
+  public FileSchemaTestClass files(List<@Valid File> files) {
     this.files = files;
     return this;
   }
@@ -66,14 +66,15 @@ public class FileSchemaTestClass {
   /**
    * Get files
    * @return files
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
-  public List<File> getFiles() {
+  @JsonProperty("files")
+  public List<@Valid File> getFiles() {
     return files;
   }
 
-  public void setFiles(List<File> files) {
+  public void setFiles(List<@Valid File> files) {
     this.files = files;
   }
 

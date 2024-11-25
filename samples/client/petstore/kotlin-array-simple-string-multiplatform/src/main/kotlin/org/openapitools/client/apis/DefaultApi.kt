@@ -53,7 +53,8 @@ open class DefaultApi(
             RequestMethod.GET,
             "/{ids}".replace("{" + "ids" + "}", ids.joinToString(",")),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
         )
 
         return request(

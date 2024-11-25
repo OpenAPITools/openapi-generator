@@ -20,20 +20,37 @@ import javax.annotation.Generated;
  */
 
 @ApiModel(description = "Model for testing model name same as property name")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class Name {
 
-  @JsonProperty("name")
   private Integer name;
 
-  @JsonProperty("snake_case")
   private Integer snakeCase;
 
-  @JsonProperty("property")
   private String property;
 
-  @JsonProperty("123Number")
   private Integer _123number;
+
+  public Name() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Name(Integer name) {
+    this.name = name;
+  }
+
+  /**
+   * Constructor with all args parameters
+   */
+  public Name(Integer name, Integer snakeCase, String property, Integer _123number) {
+      this.name = name;
+      this.snakeCase = snakeCase;
+      this.property = property;
+      this._123number = _123number;
+  }
 
   public Name name(Integer name) {
     this.name = name;
@@ -43,9 +60,10 @@ public class Name {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("name")
   public Integer getName() {
     return name;
   }
@@ -62,9 +80,10 @@ public class Name {
   /**
    * Get snakeCase
    * @return snakeCase
-  */
+   */
   
   @ApiModelProperty(readOnly = true, value = "")
+  @JsonProperty("snake_case")
   public Integer getSnakeCase() {
     return snakeCase;
   }
@@ -81,9 +100,10 @@ public class Name {
   /**
    * Get property
    * @return property
-  */
+   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("property")
   public String getProperty() {
     return property;
   }
@@ -100,9 +120,10 @@ public class Name {
   /**
    * Get _123number
    * @return _123number
-  */
+   */
   
   @ApiModelProperty(readOnly = true, value = "")
+  @JsonProperty("123Number")
   public Integer get123number() {
     return _123number;
   }

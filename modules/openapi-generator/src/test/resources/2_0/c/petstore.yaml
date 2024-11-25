@@ -715,3 +715,28 @@ definitions:
         type: string
       message:
         type: string
+  another_model:
+    description: to test mapping features
+    type: object
+    properties:
+      another_property:
+        type: integer
+        format: int32
+      uuid_property:
+        type: string
+        format: uuid
+        default: 1111-2222-3333-4444
+  model_with_set_propertes:
+    description: to test set properties
+    type: object
+    properties:
+      tag_set:
+        type: array
+        uniqueItems: true
+        items:
+          $ref: '#/definitions/Tag'
+      string_set:
+        type: array
+        uniqueItems: true
+        items:
+          type: string

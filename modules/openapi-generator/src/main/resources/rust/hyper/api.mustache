@@ -1,44 +1,46 @@
 {{>partial_header}}
-use std::rc::Rc;
+use std::sync::Arc;
 use std::borrow::Borrow;
 use std::pin::Pin;
 #[allow(unused_imports)]
 use std::option::Option;
 
 use hyper;
+use hyper_util::client::legacy::connect::Connect;
 use futures::Future;
 
+use crate::models;
 use super::{Error, configuration};
 use super::request as __internal_request;
 
-pub struct {{{classname}}}Client<C: hyper::client::connect::Connect>
+pub struct {{{classname}}}Client<C: Connect>
     where C: Clone + std::marker::Send + Sync + 'static {
-    configuration: Rc<configuration::Configuration<C>>,
+    configuration: Arc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::connect::Connect> {{{classname}}}Client<C>
+impl<C: Connect> {{{classname}}}Client<C>
     where C: Clone + std::marker::Send + Sync {
-    pub fn new(configuration: Rc<configuration::Configuration<C>>) -> {{{classname}}}Client<C> {
+    pub fn new(configuration: Arc<configuration::Configuration<C>>) -> {{{classname}}}Client<C> {
         {{{classname}}}Client {
             configuration,
         }
     }
 }
 
-pub trait {{{classname}}} {
+pub trait {{{classname}}}: Send + Sync {
 {{#operations}}
 {{#operation}}
-    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}{{^isUuid}}&str{{/isUuid}}{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> Pin<Box<dyn Future<Output = Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error>>>>;
+    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}{{^isUuid}}&str{{/isUuid}}{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> Pin<Box<dyn Future<Output = Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error>> + Send>>;
 {{/operation}}
 {{/operations}}
 }
 
-impl<C: hyper::client::connect::Connect>{{{classname}}} for {{{classname}}}Client<C>
+impl<C: Connect>{{{classname}}} for {{{classname}}}Client<C>
     where C: Clone + std::marker::Send + Sync {
  {{#operations}}
  {{#operation}}
     #[allow(unused_mut)]
-    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}{{^isUuid}}&str{{/isUuid}}{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> Pin<Box<dyn Future<Output = Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{.}}}{{/returnType}}, Error>>>> {
+    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}{{^isUuid}}&str{{/isUuid}}{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> Pin<Box<dyn Future<Output = Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{.}}}{{/returnType}}, Error>> + Send>> {
         let mut req = __internal_request::Request::new(hyper::Method::{{{httpMethod.toUpperCase}}}, "{{{path}}}".to_string())
         {{#hasAuthMethods}}
         {{#authMethods}}
@@ -49,9 +51,9 @@ impl<C: hyper::client::connect::Connect>{{{classname}}} for {{{classname}}}Clien
                 param_name: "{{{keyParamName}}}".to_owned(),
             }))
         {{/isApiKey}}
-        {{#isBasic}}
+        {{#isBasicBasic}}
             .with_auth(__internal_request::Auth::Basic)
-        {{/isBasic}}
+        {{/isBasicBasic}}
         {{#isOAuth}}
             .with_auth(__internal_request::Auth::Oauth)
         {{/isOAuth}}

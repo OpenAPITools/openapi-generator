@@ -123,13 +123,14 @@ export type ApiKeyConfiguration = string;
 export type HttpBasicConfiguration = { "username": string, "password": string };
 export type HttpBearerConfiguration = { tokenProvider: TokenProvider };
 export type OAuth2Configuration = { accessToken: string };
+export type HttpSignatureConfiguration = unknown; // TODO: Implement
 
 export type AuthMethodsConfiguration = {
     {{^useInversify}}
     "default"?: SecurityAuthentication,
     {{/useInversify}}
     {{#authMethods}}
-    "{{name}}"?: {{#isApiKey}}ApiKeyConfiguration{{/isApiKey}}{{#isBasicBasic}}HttpBasicConfiguration{{/isBasicBasic}}{{#isBasicBearer}}HttpBearerConfiguration{{/isBasicBearer}}{{#isOAuth}}OAuth2Configuration{{/isOAuth}}{{^-last}},{{/-last}}
+    "{{name}}"?: {{#isApiKey}}ApiKeyConfiguration{{/isApiKey}}{{#isBasicBasic}}HttpBasicConfiguration{{/isBasicBasic}}{{#isBasicBearer}}HttpBearerConfiguration{{/isBasicBearer}}{{#isOAuth}}OAuth2Configuration{{/isOAuth}}{{#isHttpSignature}}HttpSignatureConfiguration{{/isHttpSignature}}{{^-last}},{{/-last}}
     {{/authMethods}}
 }
 

@@ -17,7 +17,7 @@ This runs all tests and packages the library.
 * Supports Mapper using API model classes.
 * Supports SQLite types.
 
-<a name="documentation-for-models"></a>
+<a id="documentation-for-models"></a>
 ## Documentation for Models
 
  - [org.openapitools.database.models.ApiResponse](docs/ApiResponse.md)

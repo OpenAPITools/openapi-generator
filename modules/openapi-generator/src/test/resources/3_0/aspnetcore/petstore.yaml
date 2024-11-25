@@ -18,6 +18,18 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /test:
+    get:
+      summary: Test API
+      parameters:
+        - in: query
+          name: testQuery
+          schema:
+            $ref: '#/components/schemas/TestEnum'
+          required: false
+      responses:
+        '200':
+          description: OK
   /pet:
     post:
       tags:
@@ -582,6 +594,20 @@ paths:
       responses:
         default:
           description: successful operation
+  /fake/nullable_example_test:
+    get:
+      tags:
+        - fake
+      summary: Fake endpoint to test nullable example (object)
+      description: ''
+      operationId: fake_nullable_example_test
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestNullable'
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
@@ -620,6 +646,19 @@ components:
       name: api_key
       in: header
   schemas:
+    TestEnum:
+      type: string
+      enum:
+        - A
+        - B
+    TestNullable:
+      type: object
+      properties:
+        name:
+          type: string
+        nullableName:
+          type: string
+          nullable: true
     Order:
       title: Pet Order
       description: An order for a pets from the pet store
@@ -752,3 +791,32 @@ components:
           type: string
         message:
           type: string
+    Dog:
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          properties:
+            breed:
+              type: string
+    Cat:
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          properties:
+            declawed:
+              type: boolean
+    Animal:
+      type: object
+      discriminator:
+        propertyName: className
+        mapping:
+          DOG: '#/components/schemas/Dog'
+          CAT: '#/components/schemas/Cat'
+      required:
+        - className
+      properties:
+        className:
+          type: string
+        color:
+          type: string
+          default: red

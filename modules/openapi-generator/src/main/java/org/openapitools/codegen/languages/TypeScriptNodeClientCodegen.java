@@ -18,11 +18,13 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -45,11 +47,14 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     private static final String DEFAULT_MODEL_FILENAME_DIRECTORY_PREFIX = "./";
     private static final String DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX = "../";
 
+    @Getter @Setter
     protected String npmRepository = null;
     protected String apiSuffix = "Api";
 
     public TypeScriptNodeClientCodegen() {
         super();
+
+        modifyFeatureSet(features -> features.includeSecurityFeatures(SecurityFeature.BearerToken));
 
         typeMapping.put("file", "RequestFile");
         // RequestFile is defined as: `type RequestFile = string | Buffer | ReadStream | RequestDetailedFile;`
@@ -233,14 +238,6 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         return operations;
     }
 
-    public String getNpmRepository() {
-        return npmRepository;
-    }
-
-    public void setNpmRepository(String npmRepository) {
-        this.npmRepository = npmRepository;
-    }
-
     @Override
     public void processOpts() {
         super.processOpts();
@@ -330,10 +327,10 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         super.addAdditionPropertiesToCodeGenModel(codegenModel, schema);
-        Schema additionalProperties = getAdditionalProperties(schema);
+        Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
         codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
         if ("array".equalsIgnoreCase(codegenModel.additionalPropertiesType)) {
-            codegenModel.additionalPropertiesType += '<' + getSchemaType(((ArraySchema) additionalProperties).getItems()) + '>';
+            codegenModel.additionalPropertiesType += '<' + getSchemaType((ModelUtils.getSchemaItems(additionalProperties))) + '>';
         }
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
@@ -351,5 +348,4 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     public String toEnumDefaultValue(String value, String datatype) {
         return datatype + "." + value;
     }
-
 }

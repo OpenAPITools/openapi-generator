@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-@objc open class PetAPI : NSObject {
+@objcMembers open class PetAPI : NSObject {
 
     /**
      Add a new pet to the store
@@ -34,12 +34,12 @@ import AnyCodable
     /**
      Add a new pet to the store
      - POST /pet
-     - API Key:
-       - type: apiKey api_key_query (QUERY)
-       - name: api_key_query
      - OAuth:
        - type: oauth2
        - name: petstore_auth
+     - API Key:
+       - type: apiKey api_key_query (QUERY)
+       - name: api_key_query
      - parameter body: (body) Pet object that needs to be added to the store 
      - returns: RequestBuilder<Void> 
      */
@@ -51,7 +51,7 @@ import AnyCodable
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: Any?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -309,7 +309,7 @@ import AnyCodable
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: Any?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)

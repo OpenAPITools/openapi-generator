@@ -14,13 +14,13 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -32,13 +32,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -46,59 +48,55 @@ import org.openapitools.client.JSON;
 /**
  * ArrayOfInlineAllOfArrayAllofDogPropertyInner
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
   public static final String SERIALIZED_NAME_BREED = "breed";
   @SerializedName(SERIALIZED_NAME_BREED)
+  @javax.annotation.Nullable
   private String breed;
 
   public static final String SERIALIZED_NAME_COLOR = "color";
   @SerializedName(SERIALIZED_NAME_COLOR)
+  @javax.annotation.Nullable
   private String color;
 
   public ArrayOfInlineAllOfArrayAllofDogPropertyInner() {
   }
 
-  public ArrayOfInlineAllOfArrayAllofDogPropertyInner breed(String breed) {
-    
+  public ArrayOfInlineAllOfArrayAllofDogPropertyInner breed(@javax.annotation.Nullable String breed) {
     this.breed = breed;
     return this;
   }
 
-   /**
+  /**
    * Get breed
    * @return breed
-  **/
+   */
   @javax.annotation.Nullable
-
   public String getBreed() {
     return breed;
   }
 
-
-  public void setBreed(String breed) {
+  public void setBreed(@javax.annotation.Nullable String breed) {
     this.breed = breed;
   }
 
 
-  public ArrayOfInlineAllOfArrayAllofDogPropertyInner color(String color) {
-    
+  public ArrayOfInlineAllOfArrayAllofDogPropertyInner color(@javax.annotation.Nullable String color) {
     this.color = color;
     return this;
   }
 
-   /**
+  /**
    * Get color
    * @return color
-  **/
+   */
   @javax.annotation.Nullable
-
   public String getColor() {
     return color;
   }
 
-
-  public void setColor(String color) {
+  public void setColor(@javax.annotation.Nullable String color) {
     this.color = color;
   }
 
@@ -203,18 +201,19 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Object and throws an exception if issues found
-  *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to ArrayOfInlineAllOfArrayAllofDogPropertyInner
-  */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
-      if (jsonObj == null) {
-        if (!ArrayOfInlineAllOfArrayAllofDogPropertyInner.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to ArrayOfInlineAllOfArrayAllofDogPropertyInner
+   */
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!ArrayOfInlineAllOfArrayAllofDogPropertyInner.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in ArrayOfInlineAllOfArrayAllofDogPropertyInner is not found in the empty JSON string", ArrayOfInlineAllOfArrayAllofDogPropertyInner.openapiRequiredFields.toString()));
         }
       }
+        JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("breed") != null && !jsonObj.get("breed").isJsonNull()) && !jsonObj.get("breed").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `breed` to be a primitive type in the JSON string but got `%s`", jsonObj.get("breed").toString()));
       }
@@ -251,7 +250,12 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -260,8 +264,9 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
 
            @Override
            public ArrayOfInlineAllOfArrayAllofDogPropertyInner read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
-             validateJsonObject(jsonObj);
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
+             JsonObject jsonObj = jsonElement.getAsJsonObject();
              // store additional fields in the deserialized instance
              ArrayOfInlineAllOfArrayAllofDogPropertyInner instance = thisAdapter.fromJsonTree(jsonObj);
              for (Map.Entry<String, JsonElement> entry : jsonObj.entrySet()) {
@@ -289,22 +294,22 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
     }
   }
 
- /**
-  * Create an instance of ArrayOfInlineAllOfArrayAllofDogPropertyInner given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of ArrayOfInlineAllOfArrayAllofDogPropertyInner
-  * @throws IOException if the JSON string is invalid with respect to ArrayOfInlineAllOfArrayAllofDogPropertyInner
-  */
+  /**
+   * Create an instance of ArrayOfInlineAllOfArrayAllofDogPropertyInner given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of ArrayOfInlineAllOfArrayAllofDogPropertyInner
+   * @throws IOException if the JSON string is invalid with respect to ArrayOfInlineAllOfArrayAllofDogPropertyInner
+   */
   public static ArrayOfInlineAllOfArrayAllofDogPropertyInner fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ArrayOfInlineAllOfArrayAllofDogPropertyInner.class);
   }
 
- /**
-  * Convert an instance of ArrayOfInlineAllOfArrayAllofDogPropertyInner to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of ArrayOfInlineAllOfArrayAllofDogPropertyInner to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

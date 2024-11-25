@@ -1,0 +1,29 @@
+{{>licenseInfo}}
+package {{apiPackage}}
+
+import cats.effect.*
+import cats.implicits.*
+import io.circe.{Decoder, Encoder}
+import org.http4s.{EntityDecoder, EntityEncoder, Response}
+import org.http4s.circe as http4sCirce
+import {{modelPackage}}.*
+
+object JsonSupports {
+
+  implicit def circeJsonEncoder[F[*]: Concurrent, A](using Encoder[A]): EntityEncoder[F, A] =
+    http4sCirce.jsonEncoderOf[F, A]
+  implicit def circeJsonDecoder[F[*]: Concurrent, A](using Decoder[A]): EntityDecoder[F, A] =
+    http4sCirce.jsonOf[F, A]
+
+  def parseJson[F[*]: Concurrent, T](
+      className: String,
+      r: Response[F]
+  )(implicit decoder: Decoder[T]): F[T] = r.attemptAs[T].value.flatMap {
+    case Right(value) => Concurrent[F].pure(value)
+    case Left(error)  => Concurrent[F].raiseError(
+      _FailedRequest(r.status.code, s"Invalid json for class[$className]: error $error")
+    )
+  }
+
+}
+

@@ -2,16 +2,16 @@
 # ModelWithEnumPropertyHavingDefault
 
 ## Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**propertyName** | [**inline**](#PropertyName) |  | 
+| Name | Type | Description | Notes |
+| ------------ | ------------- | ------------- | ------------- |
+| **propertyName** | [**inline**](#PropertyName) |  |  |
 
 
-<a name="PropertyName"></a>
+<a id="PropertyName"></a>
 ## Enum: propertyName
-Name | Value
----- | -----
-propertyName | VALUE
+| Name | Value |
+| ---- | ----- |
+| propertyName | VALUE |
 
 
 

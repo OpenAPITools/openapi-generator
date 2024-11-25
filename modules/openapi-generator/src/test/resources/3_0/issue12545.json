@@ -1,0 +1,73 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.0",
+    "title": "OpenAPI Petstore"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "description": "get all pets in a household",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Household"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Household": {
+        "title": "Household",
+        "type" : "object",
+        "required": [
+          "pets"
+        ],
+        "properties": {
+          "pets": {
+            "type": "array",
+            "title": "pets",
+            "items" : {
+              "title": "petItems",
+              "oneOf" : [ {
+                "$ref" : "#/components/schemas/Dog"
+              }, {
+                "$ref" : "#/components/schemas/Cat"
+              } ]
+            }
+          }
+        }
+      },
+      "Dog": {
+        "type" : "object",
+        "title": "Dog",
+        "properties" : {
+          "type" : {
+            "type" : "string",
+            "enum" : [ "dog" ]
+          }
+        },
+        "required" : [ "type" ]
+      },
+      "Cat": {
+        "type" : "object",
+        "title": "Cat",
+        "properties" : {
+          "type" : {
+            "type" : "string",
+            "enum" : [ "cat" ]
+          }
+        },
+        "required" : [ "type" ]
+      }
+    }
+  }
+}

@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.0.0
 info:
   description: "This is a sample server Petstore server. For this sample, you can\
     \ use the api key `special-key` to test the authorization filters."
@@ -7,6 +7,9 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
   title: OpenAPI Petstore
   version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
 servers:
 - url: http://petstore.swagger.io/v2
 tags:
@@ -17,22 +20,54 @@ tags:
 - description: Operations about user
   name: user
 paths:
+  /fake/query_param_default:
+    get:
+      description: ""
+      operationId: fake_query_param_default
+      parameters:
+      - description: has default value
+        explode: true
+        in: query
+        name: hasDefault
+        required: false
+        schema:
+          default: Hello World
+          type: string
+        style: form
+      - description: no default value
+        explode: true
+        in: query
+        name: noDefault
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "400":
+          description: Invalid username supplied
+        "404":
+          description: User not found
+      summary: test query parameter default value
+      tags:
+      - fake
+      x-openapi-router-controller: openapi_server.controllers.fake_controller
   /pet:
     post:
+      description: ""
       operationId: add_pet
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Pet'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Pet'
-        description: Pet object that needs to be added to the store
-        required: true
+        $ref: '#/components/requestBodies/Pet'
       responses:
+        "200":
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+          description: successful operation
         "405":
-          content: {}
           description: Invalid input
       security:
       - petstore_auth:
@@ -41,29 +76,30 @@ paths:
       summary: Add a new pet to the store
       tags:
       - pet
-      x-codegen-request-body-name: body
       x-openapi-router-controller: openapi_server.controllers.pet_controller
     put:
+      description: ""
+      externalDocs:
+        description: API documentation for the updatePet operation
+        url: http://petstore.swagger.io/v2/doc/updatePet
       operationId: update_pet
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Pet'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Pet'
-        description: Pet object that needs to be added to the store
-        required: true
+        $ref: '#/components/requestBodies/Pet'
       responses:
+        "200":
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+          description: successful operation
         "400":
-          content: {}
           description: Invalid ID supplied
         "404":
-          content: {}
           description: Pet not found
         "405":
-          content: {}
           description: Validation exception
       security:
       - petstore_auth:
@@ -72,14 +108,14 @@ paths:
       summary: Update an existing pet
       tags:
       - pet
-      x-codegen-request-body-name: body
       x-openapi-router-controller: openapi_server.controllers.pet_controller
   /pet/findByStatus:
     get:
       description: Multiple status values can be provided with comma separated strings
       operationId: find_pets_by_status
       parameters:
-      - description: Status values that need to be considered for filter
+      - deprecated: true
+        description: Status values that need to be considered for filter
         explode: false
         in: query
         name: status
@@ -109,11 +145,9 @@ paths:
                 type: array
           description: successful operation
         "400":
-          content: {}
           description: Invalid status value
       security:
       - petstore_auth:
-        - write:pets
         - read:pets
       summary: Finds Pets by status
       tags:
@@ -151,11 +185,9 @@ paths:
                 type: array
           description: successful operation
         "400":
-          content: {}
           description: Invalid tag value
       security:
       - petstore_auth:
-        - write:pets
         - read:pets
       summary: Finds Pets by tags
       tags:
@@ -163,22 +195,27 @@ paths:
       x-openapi-router-controller: openapi_server.controllers.pet_controller
   /pet/{petId}:
     delete:
+      description: ""
       operationId: delete_pet
       parameters:
-      - in: header
+      - explode: false
+        in: header
         name: api_key
+        required: false
         schema:
           type: string
+        style: simple
       - description: Pet id to delete
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       responses:
         "400":
-          content: {}
           description: Invalid pet value
       security:
       - petstore_auth:
@@ -193,12 +230,14 @@ paths:
       operationId: get_pet_by_id
       parameters:
       - description: ID of pet to return
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       responses:
         "200":
           content:
@@ -210,10 +249,8 @@ paths:
                 $ref: '#/components/schemas/Pet'
           description: successful operation
         "400":
-          content: {}
           description: Invalid ID supplied
         "404":
-          content: {}
           description: Pet not found
       security:
       - api_key: []
@@ -222,15 +259,18 @@ paths:
       - pet
       x-openapi-router-controller: openapi_server.controllers.pet_controller
     post:
+      description: ""
       operationId: update_pet_with_form
       parameters:
       - description: ID of pet that needs to be updated
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -238,7 +278,6 @@ paths:
               $ref: '#/components/schemas/updatePetWithForm_request'
       responses:
         "405":
-          content: {}
           description: Invalid input
       security:
       - petstore_auth:
@@ -250,15 +289,18 @@ paths:
       x-openapi-router-controller: openapi_server.controllers.pet_controller
   /pet/{petId}/uploadImage:
     post:
+      description: ""
       operationId: upload_file
       parameters:
       - description: ID of pet to update
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       requestBody:
         content:
           multipart/form-data:
@@ -301,10 +343,11 @@ paths:
       x-openapi-router-controller: openapi_server.controllers.store_controller
   /store/order:
     post:
+      description: ""
       operationId: place_order
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: '#/components/schemas/Order'
         description: order placed for purchasing the pet
@@ -320,12 +363,10 @@ paths:
                 $ref: '#/components/schemas/Order'
           description: successful operation
         "400":
-          content: {}
           description: Invalid Order
       summary: Place an order for a pet
       tags:
       - store
-      x-codegen-request-body-name: body
       x-openapi-router-controller: openapi_server.controllers.store_controller
   /store/order/{orderId}:
     delete:
@@ -334,17 +375,17 @@ paths:
       operationId: delete_order
       parameters:
       - description: ID of the order that needs to be deleted
+        explode: false
         in: path
         name: orderId
         required: true
         schema:
           type: string
+        style: simple
       responses:
         "400":
-          content: {}
           description: Invalid ID supplied
         "404":
-          content: {}
           description: Order not found
       summary: Delete purchase order by ID
       tags:
@@ -356,6 +397,7 @@ paths:
       operationId: get_order_by_id
       parameters:
       - description: ID of pet that needs to be fetched
+        explode: false
         in: path
         name: orderId
         required: true
@@ -364,6 +406,7 @@ paths:
           maximum: 5
           minimum: 1
           type: integer
+        style: simple
       responses:
         "200":
           content:
@@ -375,10 +418,8 @@ paths:
                 $ref: '#/components/schemas/Order'
           description: successful operation
         "400":
-          content: {}
           description: Invalid ID supplied
         "404":
-          content: {}
           description: Order not found
       summary: Find purchase order by ID
       tags:
@@ -390,78 +431,72 @@ paths:
       operationId: create_user
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: '#/components/schemas/User'
         description: Created user object
         required: true
       responses:
         default:
-          content: {}
           description: successful operation
+      security:
+      - api_key: []
       summary: Create user
       tags:
       - user
-      x-codegen-request-body-name: body
       x-openapi-router-controller: openapi_server.controllers.user_controller
   /user/createWithArray:
     post:
+      description: ""
       operationId: create_users_with_array_input
       requestBody:
-        content:
-          '*/*':
-            schema:
-              items:
-                $ref: '#/components/schemas/User'
-              type: array
-        description: List of user object
-        required: true
+        $ref: '#/components/requestBodies/UserArray'
       responses:
         default:
-          content: {}
           description: successful operation
+      security:
+      - api_key: []
       summary: Creates list of users with given input array
       tags:
       - user
-      x-codegen-request-body-name: body
       x-openapi-router-controller: openapi_server.controllers.user_controller
   /user/createWithList:
     post:
+      description: ""
       operationId: create_users_with_list_input
       requestBody:
-        content:
-          '*/*':
-            schema:
-              items:
-                $ref: '#/components/schemas/User'
-              type: array
-        description: List of user object
-        required: true
+        $ref: '#/components/requestBodies/UserArray'
       responses:
         default:
-          content: {}
           description: successful operation
+      security:
+      - api_key: []
       summary: Creates list of users with given input array
       tags:
       - user
-      x-codegen-request-body-name: body
       x-openapi-router-controller: openapi_server.controllers.user_controller
   /user/login:
     get:
+      description: ""
       operationId: login_user
       parameters:
       - description: The user name for login
+        explode: true
         in: query
         name: username
         required: true
         schema:
+          pattern: "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$"
           type: string
+        style: form
       - description: The password for login in clear text
+        explode: true
         in: query
         name: password
         required: true
         schema:
           type: string
+        style: form
       responses:
         "200":
           content:
@@ -473,18 +508,29 @@ paths:
                 type: string
           description: successful operation
           headers:
+            Set-Cookie:
+              description: Cookie authentication key for use with the `api_key` apiKey
+                authentication.
+              explode: false
+              schema:
+                example: AUTH_KEY=abcde12345; Path=/; HttpOnly
+                type: string
+              style: simple
             X-Rate-Limit:
               description: calls per hour allowed by the user
+              explode: false
               schema:
                 format: int32
                 type: integer
+              style: simple
             X-Expires-After:
               description: date in UTC when token expires
+              explode: false
               schema:
                 format: date-time
                 type: string
+              style: simple
         "400":
-          content: {}
           description: Invalid username/password supplied
       summary: Logs user into the system
       tags:
@@ -492,11 +538,13 @@ paths:
       x-openapi-router-controller: openapi_server.controllers.user_controller
   /user/logout:
     get:
+      description: ""
       operationId: logout_user
       responses:
         default:
-          content: {}
           description: successful operation
+      security:
+      - api_key: []
       summary: Logs out current logged in user session
       tags:
       - user
@@ -507,31 +555,36 @@ paths:
       operationId: delete_user
       parameters:
       - description: The name that needs to be deleted
+        explode: false
         in: path
         name: username
         required: true
         schema:
           type: string
+        style: simple
       responses:
         "400":
-          content: {}
           description: Invalid username supplied
         "404":
-          content: {}
           description: User not found
+      security:
+      - api_key: []
       summary: Delete user
       tags:
       - user
       x-openapi-router-controller: openapi_server.controllers.user_controller
     get:
+      description: ""
       operationId: get_user_by_name
       parameters:
       - description: The name that needs to be fetched. Use user1 for testing.
+        explode: false
         in: path
         name: username
         required: true
         schema:
           type: string
+        style: simple
       responses:
         "200":
           content:
@@ -543,10 +596,8 @@ paths:
                 $ref: '#/components/schemas/User'
           description: successful operation
         "400":
-          content: {}
           description: Invalid username supplied
         "404":
-          content: {}
           description: User not found
       summary: Get user by user name
       tags:
@@ -557,31 +608,52 @@ paths:
       operationId: update_user
       parameters:
       - description: name that need to be deleted
+        explode: false
         in: path
         name: username
         required: true
         schema:
           type: string
+        style: simple
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: '#/components/schemas/User'
         description: Updated user object
         required: true
       responses:
         "400":
-          content: {}
           description: Invalid user supplied
         "404":
-          content: {}
           description: User not found
+      security:
+      - api_key: []
       summary: Updated user
       tags:
       - user
-      x-codegen-request-body-name: body
       x-openapi-router-controller: openapi_server.controllers.user_controller
 components:
+  requestBodies:
+    UserArray:
+      content:
+        application/json:
+          schema:
+            items:
+              $ref: '#/components/schemas/User'
+            type: array
+      description: List of user object
+      required: true
+    Pet:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Pet'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Pet'
+      description: Pet object that needs to be added to the store
+      required: true
   schemas:
     Order:
       description: An order for a pets from the pet store
@@ -636,6 +708,7 @@ components:
           title: id
           type: integer
         name:
+          pattern: "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$"
           title: name
           type: string
       title: Pet category
@@ -747,6 +820,7 @@ components:
             name: tag
             wrapped: true
         status:
+          deprecated: true
           description: pet status in the store
           enum:
           - available
@@ -780,6 +854,45 @@ components:
           type: string
       title: An uploaded response
       type: object
+    TestEnum:
+      enum:
+      - ONE
+      - TWO
+      - THREE
+      - foUr
+      title: TestEnum
+      type: string
+    TestEnumWithDefault:
+      default: ZWEI
+      enum:
+      - EIN
+      - ZWEI
+      - DREI
+      title: TestEnumWithDefault
+      type: string
+    TestModel:
+      properties:
+        test_enum:
+          $ref: '#/components/schemas/TestEnum'
+        test_string:
+          example: Just some string
+          type: string
+        test_enum_with_default:
+          $ref: '#/components/schemas/TestEnumWithDefault'
+        test_string_with_default:
+          default: ahoy matey
+          example: More string
+          type: string
+        test_inline_defined_enum_with_default:
+          default: B
+          enum:
+          - A
+          - B
+          - C
+          type: string
+      required:
+      - test_enum
+      type: object
     updatePetWithForm_request:
       properties:
         name:
@@ -808,11 +921,10 @@ components:
             write:pets: modify pets in your account
             read:pets: read your pets
       type: oauth2
-      x-tokenInfoFunc: openapi_server.controllers.security_controller_.info_from_petstore_auth
-      x-scopeValidateFunc: openapi_server.controllers.security_controller_.validate_scope_petstore_auth
+      x-tokenInfoFunc: openapi_server.controllers.security_controller.info_from_petstore_auth
+      x-scopeValidateFunc: openapi_server.controllers.security_controller.validate_scope_petstore_auth
     api_key:
       in: header
       name: api_key
       type: apiKey
-      x-apikeyInfoFunc: openapi_server.controllers.security_controller_.info_from_api_key
-x-original-swagger-version: "2.0"
+      x-apikeyInfoFunc: openapi_server.controllers.security_controller.info_from_api_key

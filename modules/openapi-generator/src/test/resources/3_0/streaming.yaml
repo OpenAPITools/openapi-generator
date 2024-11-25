@@ -77,3 +77,7 @@ components:
           type: boolean
         type:
           type: string
+    SimpleOneOf:
+      oneOf:
+        - type: string
+        - type: integer

@@ -85,12 +85,7 @@ paths:
         required: true
         schema:
           items:
-            default: available
-            enum:
-            - available
-            - pending
-            - sold
-            type: string
+            $ref: '#/components/schemas/findPetsByStatus_status_parameter_inner'
           type: array
         style: form
       responses:
@@ -597,64 +592,38 @@ paths:
         name: enum_header_string_array
         schema:
           items:
-            default: $
-            enum:
-            - '>'
-            - $
-            type: string
+            $ref: '#/components/schemas/testEnumParameters_enum_header_string_array_parameter_inner'
           type: array
         style: simple
       - description: Header parameter enum test (string)
         in: header
         name: enum_header_string
         schema:
-          default: -efg
-          enum:
-          - _abc
-          - -efg
-          - (xyz)
-          type: string
+          $ref: '#/components/schemas/testEnumParameters_enum_header_string_parameter'
       - description: Query parameter enum test (string array)
         explode: false
         in: query
         name: enum_query_string_array
         schema:
           items:
-            default: $
-            enum:
-            - '>'
-            - $
-            type: string
+            $ref: '#/components/schemas/testEnumParameters_enum_header_string_array_parameter_inner'
           type: array
         style: form
       - description: Query parameter enum test (string)
         in: query
         name: enum_query_string
         schema:
-          default: -efg
-          enum:
-          - _abc
-          - -efg
-          - (xyz)
-          type: string
+          $ref: '#/components/schemas/testEnumParameters_enum_header_string_parameter'
       - description: Query parameter enum test (double)
         in: query
         name: enum_query_integer
         schema:
-          enum:
-          - 1
-          - -2
-          format: int32
-          type: integer
+          $ref: '#/components/schemas/testEnumParameters_enum_query_integer_parameter'
       - description: Query parameter enum test (double)
         in: query
         name: enum_query_double
         schema:
-          enum:
-          - 1.1
-          - -1.2
-          format: double
-          type: number
+          $ref: '#/components/schemas/testEnumParameters_enum_query_double_parameter'
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -943,12 +912,7 @@ components:
           format: date-time
           type: string
         status:
-          description: Order Status
-          enum:
-          - placed
-          - approved
-          - delivered
-          type: string
+          $ref: '#/components/schemas/Order_status'
         complete:
           default: false
           type: boolean
@@ -1056,12 +1020,7 @@ components:
             name: tag
             wrapped: true
         status:
-          description: pet status in the store
-          enum:
-          - available
-          - pending
-          - sold
-          type: string
+          $ref: '#/components/schemas/Pet_status'
       required:
       - name
       - photoUrls
@@ -1139,11 +1098,17 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Dog_allOf'
+      - properties:
+          breed:
+            type: string
+        type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Cat_allOf'
+      - properties:
+          declawed:
+            type: boolean
+        type: object
     Animal:
       discriminator:
         propertyName: className
@@ -1228,29 +1193,13 @@ components:
     Enum_Test:
       properties:
         enum_string:
-          enum:
-          - UPPER
-          - lower
-          - ""
-          type: string
+          $ref: '#/components/schemas/Enum_Test_enum_string'
         enum_string_required:
-          enum:
-          - UPPER
-          - lower
-          - ""
-          type: string
+          $ref: '#/components/schemas/Enum_Test_enum_string'
         enum_integer:
-          enum:
-          - 1
-          - -1
-          format: int32
-          type: integer
+          $ref: '#/components/schemas/Enum_Test_enum_integer'
         enum_number:
-          enum:
-          - 1.1
-          - -1.2
-          format: double
-          type: number
+          $ref: '#/components/schemas/testEnumParameters_enum_query_double_parameter'
         outerEnum:
           $ref: '#/components/schemas/OuterEnum'
       required:
@@ -1348,18 +1297,12 @@ components:
         map_map_of_enum:
           additionalProperties:
             additionalProperties:
-              enum:
-              - UPPER
-              - lower
-              type: string
+              $ref: '#/components/schemas/MapTest_map_map_of_enum_value_value'
             type: object
           type: object
         map_of_enum_string:
           additionalProperties:
-            enum:
-            - UPPER
-            - lower
-            type: string
+            $ref: '#/components/schemas/MapTest_map_map_of_enum_value_value'
           type: object
       type: object
     ArrayTest:
@@ -1383,10 +1326,7 @@ components:
           type: array
         array_of_enum:
           items:
-            enum:
-            - UPPER
-            - lower
-            type: string
+            $ref: '#/components/schemas/MapTest_map_map_of_enum_value_value'
           type: array
       type: object
     NumberOnly:
@@ -1413,24 +1353,15 @@ components:
     EnumArrays:
       properties:
         just_symbol:
-          enum:
-          - '>='
-          - $
-          type: string
+          $ref: '#/components/schemas/EnumArrays_just_symbol'
         array_enum:
           items:
-            enum:
-            - fish
-            - crab
-            type: string
+            $ref: '#/components/schemas/EnumArrays_array_enum_inner'
           type: array
         array_array_enum:
           items:
             items:
-              enum:
-              - Cat
-              - Dog
-              type: string
+              $ref: '#/components/schemas/EnumArrays_array_array_enum_inner_inner'
             type: array
           type: array
       type: object
@@ -1461,6 +1392,13 @@ components:
     OuterBoolean:
       type: boolean
       x-codegen-body-parameter-name: boolean_post_body
+    findPetsByStatus_status_parameter_inner:
+      default: available
+      enum:
+      - available
+      - pending
+      - sold
+      type: string
     updatePetWithForm_request:
       properties:
         name:
@@ -1480,17 +1418,44 @@ components:
           format: binary
           type: string
       type: object
+    testEnumParameters_request_enum_form_string:
+      default: -efg
+      description: Form parameter enum test (string)
+      enum:
+      - _abc
+      - -efg
+      - (xyz)
+      type: string
     testEnumParameters_request:
       properties:
         enum_form_string:
-          default: -efg
-          description: Form parameter enum test (string)
-          enum:
-          - _abc
-          - -efg
-          - (xyz)
-          type: string
+          $ref: '#/components/schemas/testEnumParameters_request_enum_form_string'
       type: object
+    testEnumParameters_enum_header_string_array_parameter_inner:
+      default: $
+      enum:
+      - '>'
+      - $
+      type: string
+    testEnumParameters_enum_header_string_parameter:
+      default: -efg
+      enum:
+      - _abc
+      - -efg
+      - (xyz)
+      type: string
+    testEnumParameters_enum_query_integer_parameter:
+      enum:
+      - 1
+      - -2
+      format: int32
+      type: integer
+    testEnumParameters_enum_query_double_parameter:
+      enum:
+      - 1.1
+      - -1.2
+      format: double
+      type: number
     testEndpointParameters_request:
       properties:
         integer:
@@ -1576,18 +1541,52 @@ components:
       - param
       - param2
       type: object
-    Dog_allOf:
-      properties:
-        breed:
-          type: string
-      type: object
-      example: null
-    Cat_allOf:
-      properties:
-        declawed:
-          type: boolean
-      type: object
-      example: null
+    Order_status:
+      description: Order Status
+      enum:
+      - placed
+      - approved
+      - delivered
+      type: string
+    Pet_status:
+      description: pet status in the store
+      enum:
+      - available
+      - pending
+      - sold
+      type: string
+    Enum_Test_enum_string:
+      enum:
+      - UPPER
+      - lower
+      - ""
+      type: string
+    Enum_Test_enum_integer:
+      enum:
+      - 1
+      - -1
+      format: int32
+      type: integer
+    MapTest_map_map_of_enum_value_value:
+      enum:
+      - UPPER
+      - lower
+      type: string
+    EnumArrays_just_symbol:
+      enum:
+      - '>='
+      - $
+      type: string
+    EnumArrays_array_enum_inner:
+      enum:
+      - fish
+      - crab
+      type: string
+    EnumArrays_array_array_enum_inner_inner:
+      enum:
+      - Cat
+      - Dog
+      type: string
   securitySchemes:
     petstore_auth:
       flows:

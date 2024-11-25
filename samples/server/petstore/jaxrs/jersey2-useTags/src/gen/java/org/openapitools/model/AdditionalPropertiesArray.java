@@ -31,7 +31,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   AdditionalPropertiesArray.JSON_PROPERTY_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class AdditionalPropertiesArray extends HashMap<String, List>  {
   public static final String JSON_PROPERTY_NAME = "name";
   @JsonProperty(JSON_PROPERTY_NAME)
@@ -67,13 +67,12 @@ public class AdditionalPropertiesArray extends HashMap<String, List>  {
       return false;
     }
     AdditionalPropertiesArray additionalPropertiesArray = (AdditionalPropertiesArray) o;
-    return Objects.equals(this.name, additionalPropertiesArray.name) &&
-        super.equals(o);
+    return super.equals(o) && Objects.equals(this.name, additionalPropertiesArray.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, super.hashCode());
+    return Objects.hash(super.hashCode(), name);
   }
 
   @Override

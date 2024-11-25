@@ -22,7 +22,7 @@
         <micronaut.version>3.4.3</micronaut.version>
         <exec.mainClass>org.openapitools.Application</exec.mainClass>
         <micronaut.runtime>netty</micronaut.runtime>
-        <swagger-annotations-version>2.2.0</swagger-annotations-version>
+        <swagger-annotations-version>2.2.7</swagger-annotations-version>
     </properties>
 
     <repositories>

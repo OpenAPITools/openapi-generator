@@ -31,7 +31,12 @@ import java.text.DateFormat
     httpClientEngine: HttpClientEngine? = null,
     httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
     jsonBlock: GsonBuilder.() -> Unit = ApiClient.JSON_DEFAULT,
-    ) : ApiClient(baseUrl, httpClientEngine, httpClientConfig, jsonBlock) {
+    ) : ApiClient(
+        baseUrl,
+        httpClientEngine,
+        httpClientConfig,
+        jsonBlock,
+    ) {
 
         /**
         * Delete purchase order by ID
@@ -54,7 +59,8 @@ import java.text.DateFormat
             RequestMethod.DELETE,
             "/store/order/{orderId}".replace("{" + "orderId" + "}", "$orderId"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
             )
 
             return request(
@@ -85,7 +91,8 @@ import java.text.DateFormat
             RequestMethod.GET,
             "/store/inventory",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
             )
 
             return request(
@@ -117,7 +124,8 @@ import java.text.DateFormat
             RequestMethod.GET,
             "/store/order/{orderId}".replace("{" + "orderId" + "}", "$orderId"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
             )
 
             return request(
@@ -148,7 +156,8 @@ import java.text.DateFormat
             RequestMethod.POST,
             "/store/order",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
             )
 
             return jsonRequest(

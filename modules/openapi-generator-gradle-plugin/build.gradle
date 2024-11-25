@@ -3,12 +3,12 @@ import io.github.gradlenexus.publishplugin.ReleaseNexusStagingRepository
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("com.gradle.plugin-publish") version "1.0.0"
+    id("com.gradle.plugin-publish") version "1.1.0"
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
     id("java-gradle-plugin")
     id("maven-publish")
     id("org.gradle.kotlin.kotlin-dsl") version "2.4.1"
-    id("org.jetbrains.kotlin.jvm") version "1.7.10"
+    id("org.jetbrains.kotlin.jvm") version "1.9.0"
     id("signing")
 }
 
@@ -26,8 +26,8 @@ specifications as part of your build. Other tasks are available as command line 
 java {
     withSourcesJar()
     withJavadocJar()
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 repositories {
@@ -41,7 +41,7 @@ repositories {
 
 dependencies {
     implementation("org.openapitools:openapi-generator:$openApiGeneratorVersion")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-testng:1.7.10")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-testng:1.9.0")
 }
 
 tasks.named("test", Test).configure {
@@ -63,7 +63,7 @@ tasks.named("test", Test).configure {
 
 tasks.withType(KotlinCompile).configureEach {
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 }
 

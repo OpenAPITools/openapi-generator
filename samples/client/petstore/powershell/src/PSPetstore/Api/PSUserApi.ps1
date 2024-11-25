@@ -133,7 +133,7 @@ function New-PSUsersWithArrayInput {
             throw "Error! The required parameter `User` missing when calling createUsersWithArrayInput."
         }
 
-        $LocalVarBodyParameter = $User | ConvertTo-Json -Depth 100
+        $LocalVarBodyParameter = ConvertTo-Json @($User) -Depth 100
 
         $LocalVarResult = Invoke-PSApiClient -Method 'POST' `
                                 -Uri $LocalVarUri `
@@ -208,7 +208,7 @@ function New-PSUsersWithListInput {
             throw "Error! The required parameter `User` missing when calling createUsersWithListInput."
         }
 
-        $LocalVarBodyParameter = $User | ConvertTo-Json -Depth 100
+        $LocalVarBodyParameter = ConvertTo-Json @($User) -Depth 100
 
         $LocalVarResult = Invoke-PSApiClient -Method 'POST' `
                                 -Uri $LocalVarUri `

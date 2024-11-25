@@ -1,0 +1,9 @@
+{{#required}}
+{{>WritePropertyHelper}}
+{{/required}}
+{{^required}}
+if ({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}Option.IsSet)
+    {{#lambda.indent1}}
+    {{>WritePropertyHelper}}
+    {{/lambda.indent1}}
+{{/required}}

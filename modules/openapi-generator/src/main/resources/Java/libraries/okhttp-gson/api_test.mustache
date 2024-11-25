@@ -8,7 +8,6 @@ import {{invokerPackage}}.ApiException;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-{{^fullJavaUtil}}
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,8 +15,12 @@ import java.util.Map;
 {{#supportStreaming}}
 import java.io.InputStream;
 {{/supportStreaming}}
-{{/fullJavaUtil}}
 
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
+
+{{/useBeanValidation}}
 /**
  * API tests for {{classname}}
  */

@@ -17,12 +17,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("Order")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class Order  implements Serializable {
-  private @Valid Long id;
-  private @Valid Long petId;
-  private @Valid Integer quantity;
-  private @Valid Date shipDate;
+  private Long id;
+  private Long petId;
+  private Integer quantity;
+  private Date shipDate;
   public enum StatusEnum {
 
     PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));
@@ -48,7 +48,7 @@ public class Order  implements Serializable {
      * Convert a String into String, as specified in the
      * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
      */
-	public static StatusEnum fromString(String s) {
+    public static StatusEnum fromString(String s) {
         for (StatusEnum b : StatusEnum.values()) {
             // using Objects.toString() to be safe if value type non-object type
             // because types like 'int' etc. will be auto-boxed
@@ -57,8 +57,8 @@ public class Order  implements Serializable {
             }
         }
         throw new IllegalArgumentException("Unexpected string value '" + s + "'");
-	}
-	
+    }
+
     @JsonCreator
     public static StatusEnum fromValue(String value) {
         for (StatusEnum b : StatusEnum.values()) {
@@ -70,8 +70,11 @@ public class Order  implements Serializable {
     }
 }
 
-  private @Valid StatusEnum status;
-  private @Valid Boolean complete = false;
+  private StatusEnum status;
+  private Boolean complete = false;
+
+  public Order() {
+  }
 
   /**
    **/

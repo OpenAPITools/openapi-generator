@@ -44,7 +44,7 @@ func NewNullableAllOfWithDefaults() *NullableAllOf {
 
 // GetChild returns the Child field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *NullableAllOf) GetChild() NullableAllOfChild {
-	if o == nil || isNil(o.Child.Get()) {
+	if o == nil || IsNil(o.Child.Get()) {
 		var ret NullableAllOfChild
 		return ret
 	}
@@ -105,16 +105,20 @@ func (o NullableAllOf) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *NullableAllOf) UnmarshalJSON(bytes []byte) (err error) {
+func (o *NullableAllOf) UnmarshalJSON(data []byte) (err error) {
 	varNullableAllOf := _NullableAllOf{}
 
-	if err = json.Unmarshal(bytes, &varNullableAllOf); err == nil {
-		*o = NullableAllOf(varNullableAllOf)
+	err = json.Unmarshal(data, &varNullableAllOf)
+
+	if err != nil {
+		return err
 	}
+
+	*o = NullableAllOf(varNullableAllOf)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "child")
 		o.AdditionalProperties = additionalProperties
 	}

@@ -1,6 +1,11 @@
 # coding: utf-8
 
 from typing import Dict, List  # noqa: F401
+import importlib
+import pkgutil
+
+from {{apiPackage}}.{{classFilename}}_{{baseSuffix}} import Base{{classname}}
+import {{fastapiImplementationPackage}}
 
 from fastapi import (  # noqa: F401
     APIRouter,
@@ -9,6 +14,7 @@ from fastapi import (  # noqa: F401
     Depends,
     Form,
     Header,
+    HTTPException,
     Path,
     Query,
     Response,
@@ -24,11 +30,15 @@ from {{modelPackage}}.extra_models import TokenModel  # noqa: F401
 
 router = APIRouter()
 
+ns_pkg = {{fastapiImplementationPackage}}
+for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
+    importlib.import_module(name)
+
 
 {{#operations}}
 {{#operation}}
 @router.{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}(
-    "{{path}}",
+    "{{{path}}}",
     responses={
         {{#responses}}
         {{code}}: {{=<% %>=}}{<%#dataType%>"model": <%dataType%>, "description": "<%message%>"<%/dataType%><%^dataType%>"description": "<%message%>"<%/dataType%>}<%={{ }}=%>,
@@ -56,7 +66,9 @@ async def {{operationId}}(
     {{/hasAuthMethods}}
 ) -> {{returnType}}{{^returnType}}None{{/returnType}}:
     {{#notes}}"""{{.}}"""
-    ...{{/notes}}{{^notes}}...{{/notes}}
+    {{/notes}}if not Base{{classname}}.subclasses:
+        raise HTTPException(status_code=500, detail="Not implemented")
+    return await Base{{classname}}.subclasses[0]().{{operationId}}({{#allParams}}{{>impl_argument}}{{^-last}}, {{/-last}}{{/allParams}})
 {{^-last}}
 
 

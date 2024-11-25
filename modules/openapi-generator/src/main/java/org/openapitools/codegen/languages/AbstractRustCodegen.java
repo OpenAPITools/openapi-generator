@@ -2,10 +2,10 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.GeneratorLanguage;
+import io.swagger.v3.oas.models.media.FileSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +42,9 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.RUST; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.RUST;
+    }
 
     @Override
     public String escapeQuotationMark(String input) {
@@ -65,19 +67,20 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
      * Determine the best fitting Rust type for an integer property. This is intended for use when a specific format
      * has not been defined in the specification. Where the minimum or maximum is not known then the returned type
      * will default to having at least 32 bits.
-     * @param minimum The minimum value as set in the specification.
+     *
+     * @param minimum          The minimum value as set in the specification.
      * @param exclusiveMinimum If the minimum value itself is excluded by the specification.
-     * @param maximum The maximum value as set in the specification.
+     * @param maximum          The maximum value as set in the specification.
      * @param exclusiveMaximum If the maximum value itself is excluded by the specification.
-     * @param preferUnsigned Use unsigned types where the effective minimum is greater than or equal to zero.
+     * @param preferUnsigned   Use unsigned types where the effective minimum is greater than or equal to zero.
      * @return The Rust data type name.
      */
     @VisibleForTesting
     public String bestFittingIntegerType(@Nullable BigInteger minimum,
-                                  boolean exclusiveMinimum,
-                                  @Nullable BigInteger maximum,
-                                  boolean exclusiveMaximum,
-                                  boolean preferUnsigned) {
+                                         boolean exclusiveMinimum,
+                                         @Nullable BigInteger maximum,
+                                         boolean exclusiveMaximum,
+                                         boolean preferUnsigned) {
         if (exclusiveMinimum) {
             minimum = Optional.ofNullable(minimum).map(min -> min.add(BigInteger.ONE)).orElse(null);
         }
@@ -127,7 +130,8 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
 
     /**
      * Determine if an integer property can be guaranteed to fit into an unsigned data type.
-     * @param minimum The minimum value as set in the specification.
+     *
+     * @param minimum          The minimum value as set in the specification.
      * @param exclusiveMinimum If boundary values are excluded by the specification.
      * @return True if the effective minimum is greater than or equal to zero.
      */
@@ -141,7 +145,7 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         }).orElse(false);
     }
 
-    public enum CasingType {CAMEL_CASE, SNAKE_CASE};
+    public enum CasingType {CAMEL_CASE, SNAKE_CASE}
 
     /**
      * General purpose sanitizing function for Rust identifiers (fields, variables, structs, parameters, etc.).<br>
@@ -151,10 +155,11 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
      *     <li>Cannot use reserved words (but can sometimes prefix with "r#")
      *     <li>Cannot begin with a number
      * </ul>
-     * @param name The input string
-     * @param casingType Which casing type to apply
-     * @param escapePrefix Prefix to escape words beginning with numbers or reserved words
-     * @param type The type of identifier (used for logging)
+     *
+     * @param name                The input string
+     * @param casingType          Which casing type to apply
+     * @param escapePrefix        Prefix to escape words beginning with numbers or reserved words
+     * @param type                The type of identifier (used for logging)
      * @param allowRawIdentifiers Raw identifiers can't always be used, because of filename vs import mismatch.
      * @return Sanitized string
      */
@@ -214,7 +219,7 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
                 name = casingFunction.apply(escapePrefix + '_' + name);
             } else {
                 name = "r#" + name;
-            };
+            }
         }
 
         // If the name had to be modified (not just because of casing), log the change
@@ -226,12 +231,97 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
     }
 
     @Override
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            Schema inner = ModelUtils.getSchemaItems(p);
+            String innerType = getTypeDeclaration(inner);
+            return typeMapping.get("array") + "<" + innerType + ">";
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = ModelUtils.getAdditionalProperties(p);
+            String innerType = getTypeDeclaration(inner);
+            StringBuilder typeDeclaration = new StringBuilder(typeMapping.get("map")).append("<").append(typeMapping.get("string")).append(", ");
+            typeDeclaration.append(innerType).append(">");
+            return typeDeclaration.toString();
+        } else if (!org.apache.commons.lang3.StringUtils.isEmpty(p.get$ref())) {
+            String datatype;
+            try {
+                datatype = "models::" + toModelName(ModelUtils.getSimpleRef(p.get$ref()));
+            } catch (Exception e) {
+                LOGGER.warn("Error obtaining the datatype from schema (model):{}. Datatype default to Object", p);
+                datatype = "Object";
+                LOGGER.error(e.getMessage(), e);
+            }
+            return datatype;
+        } else if (p instanceof FileSchema) {
+            return typeMapping.get("file");
+        }
+
+        String oasType = getSchemaType(p);
+        if (typeMapping.containsKey(oasType)) {
+            return typeMapping.get(oasType);
+        }
+
+        if (typeMapping.containsValue(oasType)) {
+            return oasType;
+        }
+
+        if (languageSpecificPrimitives.contains(oasType)) {
+            return oasType;
+        }
+
+        return "models::" + toModelName(oasType);
+    }
+
+    @Override
+    public CodegenModel fromModel(String name, Schema model) {
+        LOGGER.trace("Creating model from schema: {}", model);
+
+        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
+        CodegenModel mdl = super.fromModel(name, model);
+
+        mdl.vendorExtensions.put("x-upper-case-name", name.toUpperCase(Locale.ROOT));
+        if (!org.apache.commons.lang3.StringUtils.isEmpty(model.get$ref())) {
+            Schema schema = allDefinitions.get(ModelUtils.getSimpleRef(model.get$ref()));
+            mdl.dataType = typeMapping.get(schema.getType());
+        }
+        if (ModelUtils.isArraySchema(model)) {
+            if (typeMapping.containsKey(mdl.arrayModelType)) {
+                mdl.arrayModelType = typeMapping.get(mdl.arrayModelType);
+            } else {
+                mdl.arrayModelType = toModelName(mdl.arrayModelType);
+            }
+        } else if ((!mdl.anyOf.isEmpty()) || (!mdl.oneOf.isEmpty())) {
+            mdl.dataType = getSchemaType(model);
+        }
+
+        Schema additionalProperties = ModelUtils.getAdditionalProperties(model);
+
+        if (additionalProperties != null) {
+            mdl.additionalPropertiesType = getTypeDeclaration(additionalProperties);
+        }
+
+        LOGGER.trace("Created model: {}", mdl);
+
+        return mdl;
+    }
+
+    @Override
     public String toVarName(String name) {
+        // obtain the name from nameMapping directly if provided
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         return sanitizeIdentifier(name, CasingType.SNAKE_CASE, "param", "field/variable", true);
     }
 
     @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         return sanitizeIdentifier(name, CasingType.SNAKE_CASE, "param", "parameter", true);
     }
 
@@ -268,9 +358,12 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
     }
 
     //// Enum naming ////
-
     @Override
     public String toEnumVarName(String name, String datatype) {
+        if (enumNameMapping.containsKey(name)) {
+            return enumNameMapping.get(name);
+        }
+
         // Empty strings need to be mapped to "Empty"
         // https://github.com/OpenAPITools/openapi-generator/issues/13453
         if (Strings.isNullOrEmpty(name)) {
@@ -283,7 +376,7 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
     @Override
     public String toEnumName(CodegenProperty property) {
         // Note: Strangely this function is only used for inline enums, schema enums go through the toModelName function
-        String name = property.name;
+        String name = property.baseName;
         if (!Strings.isNullOrEmpty(enumSuffix)) {
             name = name + "_" + enumSuffix;
         }
@@ -334,4 +427,16 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         return toApiName(name);
     }
 
+    @Override
+    public String addRegularExpressionDelimiter(String pattern) {
+        return pattern;
+    }
+
+    @Override
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
+        return "r#" + name;
+    }
 }

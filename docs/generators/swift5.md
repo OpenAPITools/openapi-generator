@@ -26,12 +26,13 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |generateModelAdditionalProperties|Generate model additional properties (default: true)| |true|
 |hashableModels|Make hashable models (default: true)| |true|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
-|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
-|lenientTypeCast|Accept and cast values for simple types (string-&gt;bool, string-&gt;int, int-&gt;string)| |false|
+|identifiableModels|Make models conform to Identifiable when an id is present (default: true)| |true|
+|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
 |library|Library template (sub-template) to use|<dl><dt>**urlsession**</dt><dd>[DEFAULT] HTTP client: URLSession</dd><dt>**alamofire**</dt><dd>HTTP client: Alamofire</dd><dt>**vapor**</dt><dd>HTTP client: Vapor</dd></dl>|urlsession|
 |mapFileBinaryToData|[WARNING] This option will be removed and enabled by default in the future once we've enhanced the code to work with `Data` in all the different situations. Map File and Binary to Data (default: false)| |false|
 |nonPublicApi|Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.(default: false)| |null|
 |objcCompatible|Add additional properties and methods for Objective-C compatibility (default: false)| |null|
+|oneOfUnknownDefaultCase|Add unknownDefault case to oneOf enum (default: false)| |false|
 |podAuthors|Authors used for Podspec| |null|
 |podDescription|Description used for Podspec| |null|
 |podDocumentationURL|Documentation URL used for Podspec| |null|
@@ -45,7 +46,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |projectName|Project name in Xcode| |null|
 |readonlyProperties|Make properties readonly (default: false)| |null|
-|removeMigrationProjectNameClass|Make properties removeMigrationProjectNameClass (default: false)| |null|
 |responseAs|Optionally use libraries to manage response.  Currently PromiseKit, RxSwift, Result, Combine, AsyncAwait are available.| |null|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
@@ -74,6 +74,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 <ul class="column-ul">
 <li>Any</li>
+<li>AnyCodable</li>
 <li>AnyObject</li>
 <li>Bool</li>
 <li>Character</li>
@@ -344,6 +345,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_Password|✓|OAS2,OAS3
 |OAuth2_ClientCredentials|✓|OAS2,OAS3
 |OAuth2_AuthorizationCode|✓|OAS2,OAS3
+|SignatureAuth|✗|OAS3
+|AWSV4Signature|✗|ToolingExtension
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

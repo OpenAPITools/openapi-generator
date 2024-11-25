@@ -15,7 +15,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**uploadFileWithRequiredFile**](PetApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required) |
 
 
-<a name="addPet"></a>
+<a id="addPet"></a>
 # **addPet**
 > addPet(pet)
 
@@ -38,7 +38,6 @@ public class Example {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
     defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
     
-
     // Configure OAuth2 access token for authorization: petstore_auth
     OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
     petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
@@ -70,7 +69,7 @@ null (empty response body)
 
 ### Authorization
 
-[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -82,7 +81,7 @@ null (empty response body)
 |-------------|-------------|------------------|
 | **405** | Invalid input |  -  |
 
-<a name="deletePet"></a>
+<a id="deletePet"></a>
 # **deletePet**
 > deletePet(petId, apiKey)
 
@@ -150,7 +149,7 @@ null (empty response body)
 |-------------|-------------|------------------|
 | **400** | Invalid pet value |  -  |
 
-<a name="findPetsByStatus"></a>
+<a id="findPetsByStatus"></a>
 # **findPetsByStatus**
 > List&lt;Pet&gt; findPetsByStatus(status)
 
@@ -173,7 +172,6 @@ public class Example {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
     defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
     
-
     // Configure OAuth2 access token for authorization: petstore_auth
     OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
     petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
@@ -206,7 +204,7 @@ public class Example {
 
 ### Authorization
 
-[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -219,7 +217,7 @@ public class Example {
 | **200** | successful operation |  -  |
 | **400** | Invalid status value |  -  |
 
-<a name="findPetsByTags"></a>
+<a id="findPetsByTags"></a>
 # **findPetsByTags**
 > List&lt;Pet&gt; findPetsByTags(tags)
 
@@ -242,7 +240,6 @@ public class Example {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
     defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
     
-
     // Configure OAuth2 access token for authorization: petstore_auth
     OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
     petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
@@ -275,7 +272,7 @@ public class Example {
 
 ### Authorization
 
-[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -288,7 +285,7 @@ public class Example {
 | **200** | successful operation |  -  |
 | **400** | Invalid tag value |  -  |
 
-<a name="getPetById"></a>
+<a id="getPetById"></a>
 # **getPetById**
 > Pet getPetById(petId)
 
@@ -359,7 +356,7 @@ public class Example {
 | **400** | Invalid ID supplied |  -  |
 | **404** | Pet not found |  -  |
 
-<a name="updatePet"></a>
+<a id="updatePet"></a>
 # **updatePet**
 > updatePet(pet)
 
@@ -382,7 +379,6 @@ public class Example {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
     defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
     
-
     // Configure OAuth2 access token for authorization: petstore_auth
     OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
     petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
@@ -414,7 +410,7 @@ null (empty response body)
 
 ### Authorization
 
-[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -428,7 +424,7 @@ null (empty response body)
 | **404** | Pet not found |  -  |
 | **405** | Validation exception |  -  |
 
-<a name="updatePetWithForm"></a>
+<a id="updatePetWithForm"></a>
 # **updatePetWithForm**
 > updatePetWithForm(petId, name, status)
 
@@ -498,9 +494,9 @@ null (empty response body)
 |-------------|-------------|------------------|
 | **405** | Invalid input |  -  |
 
-<a name="uploadFile"></a>
+<a id="uploadFile"></a>
 # **uploadFile**
-> ModelApiResponse uploadFile(petId, additionalMetadata, _file)
+> ModelApiResponse uploadFile(petId, contentType, additionalMetadata, _file)
 
 uploads an image
 
@@ -527,10 +523,11 @@ public class Example {
 
     PetApi apiInstance = new PetApi(defaultClient);
     Long petId = 56L; // Long | ID of pet to update
+    String contentType = "contentType_example"; // String | Content type header parameter
     String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
     File _file = new File("/path/to/file"); // File | file to upload
     try {
-      ModelApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, _file);
+      ModelApiResponse result = apiInstance.uploadFile(petId, contentType, additionalMetadata, _file);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling PetApi#uploadFile");
@@ -548,6 +545,7 @@ public class Example {
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **petId** | **Long**| ID of pet to update | |
+| **contentType** | **String**| Content type header parameter | [optional] |
 | **additionalMetadata** | **String**| Additional data to pass to server | [optional] |
 | **_file** | **File**| file to upload | [optional] |
 
@@ -569,7 +567,7 @@ public class Example {
 |-------------|-------------|------------------|
 | **200** | successful operation |  -  |
 
-<a name="uploadFileWithRequiredFile"></a>
+<a id="uploadFileWithRequiredFile"></a>
 # **uploadFileWithRequiredFile**
 > ModelApiResponse uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
 

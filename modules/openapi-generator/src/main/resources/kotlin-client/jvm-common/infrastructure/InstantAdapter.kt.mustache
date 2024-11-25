@@ -1,0 +1,56 @@
+package {{packageName}}.infrastructure
+
+{{#moshi}}
+import com.squareup.moshi.FromJson
+import com.squareup.moshi.ToJson
+{{/moshi}}
+{{#gson}}
+import com.google.gson.TypeAdapter
+import com.google.gson.stream.JsonReader
+import com.google.gson.stream.JsonWriter
+import com.google.gson.stream.JsonToken.NULL
+import java.io.IOException
+{{/gson}}
+import kotlinx.datetime.Instant
+
+{{#moshi}}
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class InstantAdapter {
+    @ToJson
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun toJson(value: Instant): String {
+        return value.toString()
+    }
+
+    @FromJson
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun fromJson(value: String): Instant {
+        return Instant.parse(value)
+    }
+
+}
+{{/moshi}}
+{{#gson}}
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class InstantAdapter : TypeAdapter<Instant>() {
+    @Throws(IOException::class)
+    override fun write(out: JsonWriter?, value: Instant?) {
+        if (value == null) {
+            out?.nullValue()
+        } else {
+            out?.value(value.toString())
+        }
+    }
+
+    @Throws(IOException::class)
+    override fun read(out: JsonReader?): Instant? {
+        out ?: return null
+
+        when (out.peek()) {
+            NULL -> {
+                out.nextNull()
+                return null
+            }
+            else -> {
+                return Instant.parse(out.nextString())
+            }
+        }
+    }
+}
+{{/gson}}

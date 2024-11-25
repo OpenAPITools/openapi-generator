@@ -19,7 +19,7 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <!-- RELEASE_VERSION -->
-                <version>6.3.0-SNAPSHOT</version>
+                <version>7.11.0-SNAPSHOT</version>
                 <!-- /RELEASE_VERSION -->
                 <dependencies>
                     <dependency>
@@ -27,15 +27,45 @@
                         <artifactId>sample-schema</artifactId>
                         <version>${project.parent.version}</version>
                     </dependency>
+                    <dependency>
+                        <groupId>${project.groupId}</groupId>
+                        <artifactId>sample-external-ref-schema</artifactId>
+                        <version>${project.parent.version}</version>
+                    </dependency>
                 </dependencies>
                 <executions>
                     <execution>
+                        <id>default</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
                             <!-- specify the OpenAPI spec -->
                             <inputSpec>openapi.yaml</inputSpec>
+
+                            <!-- target to generate java client code -->
+                            <generatorName>java</generatorName>
+
+                            <!-- hint: if you want to generate java server code, e.g. based on Spring Boot,
+                                 you can use the following target: <generatorName>spring</generatorName> -->
+
+                            <!-- pass any necessary config options -->
+                            <configOptions>
+                                <dateLibrary>joda</dateLibrary>
+                            </configOptions>
+
+                            <!-- override the default library to jersey2 -->
+                            <library>jersey2</library>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>external-ref</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <!-- specify the OpenAPI spec -->
+                            <inputSpec>external-ref/petstore.yaml</inputSpec>
 
                             <!-- target to generate java client code -->
                             <generatorName>java</generatorName>
@@ -59,8 +89,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <proc>none</proc>
                 </configuration>
             </plugin>
@@ -147,7 +177,7 @@
         <dependency>
             <groupId>com.github.scribejava</groupId>
             <artifactId>scribejava-apis</artifactId>
-            <version>8.3.1</version>
+            <version>8.3.3</version>
         </dependency>
         <dependency>
             <groupId>org.tomitribe</groupId>

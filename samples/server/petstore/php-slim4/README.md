@@ -90,12 +90,22 @@ $ composer phplint
 
 ## Show errors
 
-Switch your app environment to development in `public/.htaccess` file:
+Switch your app environment to development
+- When using with some webserver => in `public/.htaccess` file:
 ```ini
 ## .htaccess
 <IfModule mod_env.c>
     SetEnv APP_ENV 'development'
 </IfModule>
+```
+
+- Or when using whatever else, set `APP_ENV` environment variable like this:
+```bash
+export APP_ENV=development
+```
+or simply
+```bash
+export APP_ENV=dev
 ```
 
 ## Mock Server
@@ -186,15 +196,15 @@ Class | Method | HTTP request | Description
 
 ## Authentication
 
-### Security schema `api_key`
-> Important! To make ApiKey authentication work you need to extend [\OpenAPIServer\Auth\AbstractAuthenticator](./lib/Auth/AbstractAuthenticator.php) class by [\OpenAPIServer\Auth\ApiKeyAuthenticator](./src/Auth/ApiKeyAuthenticator.php) class.
-
 ### Security schema `petstore_auth`
 > Important! To make OAuth authentication work you need to extend [\OpenAPIServer\Auth\AbstractAuthenticator](./lib/Auth/AbstractAuthenticator.php) class by [\OpenAPIServer\Auth\OAuthAuthenticator](./src/Auth/OAuthAuthenticator.php) class.
 
 Scope list:
 * `write:pets` - modify pets in your account
 * `read:pets` - read your pets
+
+### Security schema `api_key`
+> Important! To make ApiKey authentication work you need to extend [\OpenAPIServer\Auth\AbstractAuthenticator](./lib/Auth/AbstractAuthenticator.php) class by [\OpenAPIServer\Auth\ApiKeyAuthenticator](./src/Auth/ApiKeyAuthenticator.php) class.
 
 ### Advanced middleware configuration
 Ref to used Slim Token Middleware [dyorg/slim-token-authentication](https://github.com/dyorg/slim-token-authentication/tree/1.x#readme)

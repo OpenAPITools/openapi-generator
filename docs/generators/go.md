@@ -21,14 +21,18 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
 |enumClassPrefix|Prefix enum with class name| |false|
 |generateInterfaces|Generate interfaces for api classes| |false|
+|generateMarshalJSON|Generate MarshalJSON method| |true|
+|generateUnmarshalJSON|Generate UnmarshalJSON method| |true|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |isGoSubmodule|whether the generated Go module is a submodule| |false|
 |packageName|Go package name (convention: lowercase).| |openapi|
 |packageVersion|Go package version.| |1.0.0|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |structPrefix|whether to prefix struct with the class name. e.g. DeletePetOpts =&gt; PetApiDeletePetOpts| |false|
+|useDefaultValuesForRequiredVars|Use default values for required variables when available| |false|
 |useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.| |false|
 |withAWSV4Signature|whether to include AWS v4 signature support| |false|
+|withGoMod|Generate go.mod and go.sum| |true|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 
 ## IMPORT MAPPING
@@ -146,7 +150,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Uuid|✗|
 |Array|✓|OAS2,OAS3
 |Null|✗|OAS3
-|AnyType|✗|OAS2,OAS3
+|AnyType|✓|OAS2,OAS3
 |Object|✓|OAS2,OAS3
 |Maps|✓|ToolingExtension
 |CollectionFormat|✓|OAS2
@@ -207,9 +211,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Composite|✓|OAS2,OAS3
 |Polymorphism|✗|OAS2,OAS3
 |Union|✗|OAS3
-|allOf|✗|OAS2,OAS3
-|anyOf|✗|OAS3
-|oneOf|✗|OAS3
+|allOf|✓|OAS2,OAS3
+|anyOf|✓|OAS3
+|oneOf|✓|OAS3
 |not|✗|OAS3
 
 ### Security Feature
@@ -218,11 +222,13 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |BasicAuth|✓|OAS2,OAS3
 |ApiKey|✓|OAS2,OAS3
 |OpenIDConnect|✗|OAS3
-|BearerToken|✗|OAS3
+|BearerToken|✓|OAS3
 |OAuth2_Implicit|✓|OAS2,OAS3
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
+|SignatureAuth|✓|OAS3
+|AWSV4Signature|✓|ToolingExtension
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

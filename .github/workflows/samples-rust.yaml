@@ -3,12 +3,16 @@ name: Samples Rust
 on:
   push:
     paths:
-      - 'samples/client/petstore/rust/**'
-      - 'samples/server/petstore/rust-server/**'
+      - "samples/client/others/rust/**"
+      - "samples/server/petstore/rust-server/**"
+      - "samples/client/petstore/rust-server/**"
+      - "samples/server/petstore/rust-axum/**"
   pull_request:
     paths:
-      - 'samples/client/petstore/rust/**'
-      - 'samples/server/petstore/rust-server/**'
+      - "samples/client/others/rust/**"
+      - "samples/client/petstore/rust/**"
+      - "samples/server/petstore/rust-server/**"
+      - "samples/server/petstore/rust-axum/**"
 
 jobs:
   build:
@@ -19,13 +23,15 @@ jobs:
       matrix:
         sample:
           # these folders contain sub-projects of rust clients, servers
+          - samples/client/others/rust/
           - samples/client/petstore/rust/
           - samples/server/petstore/rust-server/
+          - samples/server/petstore/rust-axum/
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
       - name: Build
         working-directory: ${{ matrix.sample }}
-        run: cargo build
+        run: cargo build --all-targets --all-features

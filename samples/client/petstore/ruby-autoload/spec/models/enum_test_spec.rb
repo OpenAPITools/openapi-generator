@@ -27,7 +27,7 @@ describe Petstore::EnumTest do
   end
   describe 'test attribute "enum_string"' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
       # validator = Petstore::EnumTest::EnumAttributeValidator.new('String', ["UPPER", "lower", ""])
       # validator.allowable_values.each do |value|
       #   expect { instance.enum_string = value }.not_to raise_error
@@ -37,7 +37,7 @@ describe Petstore::EnumTest do
 
   describe 'test attribute "enum_string_required"' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
       # validator = Petstore::EnumTest::EnumAttributeValidator.new('String', ["UPPER", "lower", ""])
       # validator.allowable_values.each do |value|
       #   expect { instance.enum_string_required = value }.not_to raise_error
@@ -47,7 +47,7 @@ describe Petstore::EnumTest do
 
   describe 'test attribute "enum_integer"' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
       # validator = Petstore::EnumTest::EnumAttributeValidator.new('Integer', [1, -1])
       # validator.allowable_values.each do |value|
       #   expect { instance.enum_integer = value }.not_to raise_error
@@ -57,7 +57,7 @@ describe Petstore::EnumTest do
 
   describe 'test attribute "enum_number"' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
       # validator = Petstore::EnumTest::EnumAttributeValidator.new('Float', [1.1, -1.2])
       # validator.allowable_values.each do |value|
       #   expect { instance.enum_number = value }.not_to raise_error
@@ -67,25 +67,25 @@ describe Petstore::EnumTest do
 
   describe 'test attribute "outer_enum"' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
   describe 'test attribute "outer_enum_integer"' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
   describe 'test attribute "outer_enum_default_value"' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
   describe 'test attribute "outer_enum_integer_default_value"' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 

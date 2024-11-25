@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-@objc open class StoreAPI : NSObject {
+@objcMembers open class StoreAPI : NSObject {
 
     /**
      Delete purchase order by ID

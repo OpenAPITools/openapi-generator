@@ -31,7 +31,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
   Tag.JSON_PROPERTY_NAME
 })
 @JsonTypeName("Tag")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 @Introspected
 public class Tag {
     public static final String JSON_PROPERTY_ID = "id";
@@ -51,9 +51,9 @@ public class Tag {
     /**
      * Get id
      * @return id
-     **/
+     */
     @Nullable
-    @Schema(name = "id", required = false)
+    @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Long getId() {
@@ -74,9 +74,9 @@ public class Tag {
     /**
      * Get name
      * @return name
-     **/
+     */
     @Nullable
-    @Schema(name = "name", required = false)
+    @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getName() {
@@ -129,3 +129,4 @@ public class Tag {
     }
 
 }
+

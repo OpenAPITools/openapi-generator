@@ -30,6 +30,7 @@ import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
 
 import java.io.File;
 import java.util.List;
@@ -54,6 +55,8 @@ public interface CodegenConfig {
     Map<String, String> serverVariableOverrides();
 
     Map<String, Object> vendorExtensions();
+
+    Map<String, String> templateOutputDirs();
 
     String testPackage();
 
@@ -145,7 +148,17 @@ public interface CodegenConfig {
 
     Map<String, String> inlineSchemaNameMapping();
 
-    Map<String, String> inlineSchemaNameDefault();
+    Map<String, String> inlineSchemaOption();
+
+    Map<String, String> nameMapping();
+
+    Map<String, String> parameterNameMapping();
+
+    Map<String, String> modelNameMapping();
+
+    Map<String, String> enumNameMapping();
+
+    Map<String, String> operationIdNameMapping();
 
     Map<String, String> openapiNormalizer();
 
@@ -162,6 +175,8 @@ public interface CodegenConfig {
     Map<String, String> modelDocTemplateFiles();
 
     Set<String> languageSpecificPrimitives();
+
+    Set<String> openapiGeneratorIgnoreList();
 
     Map<String, String> reservedWordsMappings();
 
@@ -205,15 +220,23 @@ public interface CodegenConfig {
 
     OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels);
 
+    WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels);
+
     Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs);
 
     void postProcessModelProperty(CodegenModel model, CodegenProperty property);
+
+    void postProcessResponseWithProperty(CodegenResponse response, CodegenProperty property);
 
     void postProcessParameter(CodegenParameter parameter);
 
     String modelFilename(String templateName, String modelName);
 
+    String modelFilename(String templateName, String modelName, String outputDir);
+
     String apiFilename(String templateName, String tag);
+
+    String apiFilename(String templateName, String tag, String outputDir);
 
     String apiTestFilename(String templateName, String tag);
 
@@ -232,6 +255,10 @@ public interface CodegenConfig {
     boolean isSkipOperationExample();
 
     void setSkipOperationExample(boolean skipOperationExample);
+
+    boolean isSkipSortingOperations();
+
+    void setSkipSortingOperations(boolean skipSortingOperations);
 
     public boolean isHideGenerationTimestamp();
 
@@ -327,12 +354,16 @@ public interface CodegenConfig {
     */
     String generatorLanguageVersion();
 
+    boolean isTypeErasedGenerics();
+
     List<VendorExtension> getSupportedVendorExtensions();
 
     boolean getUseInlineModelResolver();
 
     boolean getAddSuffixToDuplicateOperationNicknames();
 
-    boolean getUseOpenAPINormalizer();
+    boolean getUseOpenapiNormalizer();
+
+    Set<String> getOpenapiGeneratorIgnoreList();
 
 }

@@ -906,6 +906,40 @@ paths:
       summary: test json serialization of form data
       tags:
       - fake
+  /fake/additionalProperties-reference:
+    post:
+      description: ""
+      operationId: testAdditionalPropertiesReference
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreeFormObject'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test referenced additionalProperties
+      tags:
+      - fake
+  /fake/stringMap-reference:
+    post:
+      description: ""
+      operationId: testStringMapReference
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapOfString'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test referenced string map
+      tags:
+      - fake
   /fake/inline-additionalProperties:
     post:
       description: ""
@@ -923,6 +957,23 @@ paths:
         "200":
           description: successful operation
       summary: test inline additionalProperties
+      tags:
+      - fake
+  /fake/inline-freeform-additionalProperties:
+    post:
+      description: ""
+      operationId: testInlineFreeformAdditionalProperties
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/testInlineFreeformAdditionalProperties_request'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test inline free-form additionalProperties
       tags:
       - fake
   /fake/body-with-query-params:
@@ -1139,6 +1190,81 @@ paths:
           description: OK
       tags:
       - fake
+  /fake/deep_object_anyof_test:
+    get:
+      operationId: test_query_deep_object_anyof
+      parameters:
+      - explode: false
+        in: query
+        name: filter
+        required: false
+        schema:
+          $ref: '#/components/schemas/FilterAny'
+        style: deepObject
+      responses:
+        "200":
+          description: OK
+      tags:
+      - fake
+  /fake/parameter-name-mapping:
+    get:
+      operationId: getParameterNameMapping
+      parameters:
+      - description: _type
+        explode: false
+        in: header
+        name: _type
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      - description: type
+        explode: true
+        in: query
+        name: type
+        required: true
+        schema:
+          type: string
+        style: form
+      - description: type_
+        explode: false
+        in: header
+        name: type_
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: http debug option (to test parameter naming option)
+        explode: true
+        in: query
+        name: http_debug_option
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          description: OK
+      summary: parameter name mapping test
+      tags:
+      - fake
+  /fake/wrapped-integer-ref:
+    post:
+      operationId: someOpsRequiringRefInt
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/someOpsRequiringRefInt_request'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+          description: success
 components:
   requestBodies:
     UserArray:
@@ -1168,13 +1294,68 @@ components:
       description: Pet object that needs to be added to the store
       required: true
   schemas:
+    FilterTypeRegex:
+      properties:
+        type:
+          enum:
+          - set
+          - range
+          type: string
+        regex:
+          type: string
+      required:
+      - type
+      type: object
+    FilterTypeRange:
+      properties:
+        type:
+          enum:
+          - set
+          - range
+          type: string
+        data:
+          items:
+            type: string
+          type: array
+      required:
+      - type
+      type: object
+    FilterAny:
+      anyOf:
+      - $ref: '#/components/schemas/FilterTypeRegex'
+      - $ref: '#/components/schemas/FilterTypeRange'
+      discriminator:
+        mapping:
+          set: '#/components/schemas/FilterTypeRegex'
+          range: '#/components/schemas/FilterTypeRange'
+        propertyName: type
+    MapWithDateTime:
+      additionalProperties:
+        items:
+          format: date-time
+          type: string
+        type: array
+      type: object
     Foo:
       example:
         bar: bar
+        map:
+          key:
+          - 2000-01-23T04:56:07.000+00:00
+          - 2000-01-23T04:56:07.000+00:00
       properties:
         bar:
           default: bar
           type: string
+        map:
+          additionalProperties:
+            items:
+              format: date-time
+              type: string
+            type: array
+          type: object
+      required:
+      - bar
       type: object
     Bar:
       default: bar
@@ -1409,12 +1590,18 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Dog_allOf'
+      - properties:
+          breed:
+            type: string
+        type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
       - $ref: '#/components/schemas/Address'
-      - $ref: '#/components/schemas/Cat_allOf'
+      - properties:
+          declawed:
+            type: boolean
+        type: object
     Address:
       additionalProperties:
         type: integer
@@ -1495,6 +1682,10 @@ components:
           description: A string starting with 'image_' (case insensitive) and one
             to three digits following i.e. Image_01.
           pattern: "/^image_\\d{1,3}$/i"
+          type: string
+        pattern_with_backtick:
+          pattern: "^$|^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\\
+            .[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
           type: string
       required:
       - byte
@@ -1697,6 +1888,15 @@ components:
             - crab
             type: string
           type: array
+      type: object
+    FreeFormObject:
+      additionalProperties: true
+      description: A schema consisting only of additional properties
+      type: object
+    MapOfString:
+      additionalProperties:
+        type: string
+      description: A schema consisting only of additional properties of type string
       type: object
     OuterEnum:
       enum:
@@ -1984,10 +2184,20 @@ components:
       items:
         type: string
       type: array
+    AnyOfPrimitiveType:
+      anyOf:
+      - $ref: '#/components/schemas/OneOfPrimitiveTypeChild'
+      - format: int32
+        type: integer
+      - $ref: '#/components/schemas/OneOfArrayOfString'
     DuplicatedPropChild:
       allOf:
       - $ref: '#/components/schemas/DuplicatedPropParent'
-      - $ref: '#/components/schemas/DuplicatedPropChild_allOf'
+      - properties:
+          dup-prop:
+            description: A discriminator value
+            type: string
+        type: object
     DuplicatedPropParent:
       description: parent model with duplicated property
       discriminator:
@@ -2014,10 +2224,49 @@ components:
       - type: string
       - format: date-time
         type: string
+    AllOfPrimitiveTypes:
+      allOf:
+      - properties:
+          test:
+            format: date-time
+            type: string
+        type: object
+    PropertyNameMapping:
+      properties:
+        http_debug_operation:
+          type: string
+        _type:
+          type: string
+        type:
+          type: string
+        type_:
+          type: string
+    IncidentData:
+      nullable: true
+      oneOf:
+      - items:
+          type: object
+        type: array
+      - type: object
+    IDsWrapper:
+      properties:
+        id:
+          type: integer
+      type: object
+    OneOfWithComplexType:
+      oneOf:
+      - type: string
+      - items:
+          type: string
+        type: array
     _foo_get_default_response:
       example:
         string:
           bar: bar
+          map:
+            key:
+            - 2000-01-23T04:56:07.000+00:00
+            - 2000-01-23T04:56:07.000+00:00
       properties:
         string:
           $ref: '#/components/schemas/Foo'
@@ -2145,6 +2394,12 @@ components:
       - param
       - param2
       type: object
+    testInlineFreeformAdditionalProperties_request:
+      additionalProperties: true
+      properties:
+        someProperty:
+          type: string
+      type: object
     uploadFileWithRequiredFile_request:
       properties:
         additionalMetadata:
@@ -2157,25 +2412,15 @@ components:
       required:
       - requiredFile
       type: object
-    Dog_allOf:
+    someOpsRequiringRefInt_request:
       properties:
-        breed:
-          type: string
+        MyIDs:
+          items:
+            $ref: '#/components/schemas/IDsWrapper/properties/id'
+          type: array
+      required:
+      - ids
       type: object
-      example: null
-    Cat_allOf:
-      properties:
-        declawed:
-          type: boolean
-      type: object
-      example: null
-    DuplicatedPropChild_allOf:
-      properties:
-        dup-prop:
-          description: A discriminator value
-          type: string
-      type: object
-      example: null
   securitySchemes:
     petstore_auth:
       flows:

@@ -15,6 +15,7 @@ package org.openapitools.model;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.ModelFile;
 import com.fasterxml.jackson.annotation.*;
@@ -32,14 +33,14 @@ import javax.annotation.Generated;
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
 @JsonTypeName("FileSchemaTestClass")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 @Introspected
 public class FileSchemaTestClass {
     public static final String JSON_PROPERTY_FILE = "file";
     private ModelFile _file;
 
     public static final String JSON_PROPERTY_FILES = "files";
-    private List<ModelFile> files = null;
+    private List<@Valid ModelFile> files = null;
 
     public FileSchemaTestClass() {
     }
@@ -51,7 +52,7 @@ public class FileSchemaTestClass {
     /**
      * Get _file
      * @return _file
-     **/
+     */
     @Valid
     @Nullable
     @JsonProperty(JSON_PROPERTY_FILE)
@@ -66,7 +67,7 @@ public class FileSchemaTestClass {
         this._file = _file;
     }
 
-    public FileSchemaTestClass files(List<ModelFile> files) {
+    public FileSchemaTestClass files(List<@Valid ModelFile> files) {
         this.files = files;
         return this;
     }
@@ -82,17 +83,17 @@ public class FileSchemaTestClass {
     /**
      * Get files
      * @return files
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_FILES)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public List<ModelFile> getFiles() {
+    public List<@Valid ModelFile> getFiles() {
         return files;
     }
 
     @JsonProperty(JSON_PROPERTY_FILES)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setFiles(List<ModelFile> files) {
+    public void setFiles(List<@Valid ModelFile> files) {
         this.files = files;
     }
 
@@ -136,3 +137,4 @@ public class FileSchemaTestClass {
     }
 
 }
+

@@ -15,7 +15,7 @@ public struct Order: Codable, JSONEncodable, Hashable {
     public enum Status: String, Codable, CaseIterable {
         case placed = "placed"
         case approved = "approved"
-        case delivered = "delivered"
+        case shipped = "delivered"
     }
     public var id: Int64?
     public var petId: Int64?
@@ -56,3 +56,6 @@ public struct Order: Codable, JSONEncodable, Hashable {
     }
 }
 
+
+@available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
+extension Order: Identifiable {}

@@ -1,0 +1,14 @@
+generatorName: kotlin-spring
+outputDir: samples/server/petstore/kotlin-spring-default
+library: spring-boot
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
+# comment out below to use default settings
+#additionalProperties:
+#  documentationProvider: none
+#  annotationLibrary: none
+#  useSwaggerUI: "false"
+#  serviceImplementation: "true"
+#  serializableModel: "true"
+#  beanValidations: "true"
+#  useSpringBoot3: "true"

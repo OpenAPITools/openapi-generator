@@ -4,8 +4,8 @@ import 'package:openapi/openapi.dart';
 import 'package:test/test.dart';
 
 void main() {
-  Openapi client;
-  DioAdapter tester;
+  late Openapi client;
+  late DioAdapter tester;
 
   setUp(() {
     client = Openapi(dio: Dio());
@@ -31,7 +31,7 @@ void main() {
 
       expect(response.statusCode, 200);
       expect(response.data, isNotNull);
-      expect(response.data.length, 3);
+      expect(response.data, hasLength(3));
     });
   });
 }

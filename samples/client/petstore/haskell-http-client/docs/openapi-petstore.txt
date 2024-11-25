@@ -897,17 +897,6 @@ BigCat :: !Text -> !Maybe Text -> !Maybe Bool -> !Maybe E'Kind -> BigCat
 --   fields, if any)
 mkBigCat :: Text -> BigCat
 
--- | BigCatAllOf
-data BigCatAllOf
-BigCatAllOf :: !Maybe E'Kind -> BigCatAllOf
-
--- | "kind"
-[bigCatAllOfKind] :: BigCatAllOf -> !Maybe E'Kind
-
--- | Construct a value of type <a>BigCatAllOf</a> (by applying it's
---   required fields, if any)
-mkBigCatAllOf :: BigCatAllOf
-
 -- | Capitalization
 data Capitalization
 Capitalization :: !Maybe Text -> !Maybe Text -> !Maybe Text -> !Maybe Text -> !Maybe Text -> !Maybe Text -> Capitalization
@@ -950,17 +939,6 @@ Cat :: !Text -> !Maybe Text -> !Maybe Bool -> Cat
 -- | Construct a value of type <a>Cat</a> (by applying it's required
 --   fields, if any)
 mkCat :: Text -> Cat
-
--- | CatAllOf
-data CatAllOf
-CatAllOf :: !Maybe Bool -> CatAllOf
-
--- | "declawed"
-[catAllOfDeclawed] :: CatAllOf -> !Maybe Bool
-
--- | Construct a value of type <a>CatAllOf</a> (by applying it's required
---   fields, if any)
-mkCatAllOf :: CatAllOf
 
 -- | Category
 data Category
@@ -1014,17 +992,6 @@ Dog :: !Text -> !Maybe Text -> !Maybe Text -> Dog
 -- | Construct a value of type <a>Dog</a> (by applying it's required
 --   fields, if any)
 mkDog :: Text -> Dog
-
--- | DogAllOf
-data DogAllOf
-DogAllOf :: !Maybe Text -> DogAllOf
-
--- | "breed"
-[dogAllOfBreed] :: DogAllOf -> !Maybe Text
-
--- | Construct a value of type <a>DogAllOf</a> (by applying it's required
---   fields, if any)
-mkDogAllOf :: DogAllOf
 
 -- | EnumArrays
 data EnumArrays
@@ -1846,6 +1813,10 @@ fromOuterEnum :: OuterEnum -> Text
 
 -- | parse <a>OuterEnum</a> enum
 toOuterEnum :: Text -> Either String OuterEnum
+data AuthOAuthPetstoreAuth
+
+-- | secret
+AuthOAuthPetstoreAuth :: Text -> AuthOAuthPetstoreAuth
 data AuthApiKeyApiKey
 
 -- | secret
@@ -1858,10 +1829,6 @@ data AuthBasicHttpBasicTest
 
 -- | username password
 AuthBasicHttpBasicTest :: ByteString -> ByteString -> AuthBasicHttpBasicTest
-data AuthOAuthPetstoreAuth
-
--- | secret
-AuthOAuthPetstoreAuth :: Text -> AuthOAuthPetstoreAuth
 instance GHC.Show.Show OpenAPIPetstore.Model.AdditionalMetadata
 instance GHC.Classes.Eq OpenAPIPetstore.Model.AdditionalMetadata
 instance GHC.Show.Show OpenAPIPetstore.Model.ApiKey
@@ -1980,8 +1947,6 @@ instance GHC.Classes.Eq OpenAPIPetstore.Model.Capitalization
 instance GHC.Show.Show OpenAPIPetstore.Model.Capitalization
 instance GHC.Classes.Eq OpenAPIPetstore.Model.Cat
 instance GHC.Show.Show OpenAPIPetstore.Model.Cat
-instance GHC.Classes.Eq OpenAPIPetstore.Model.CatAllOf
-instance GHC.Show.Show OpenAPIPetstore.Model.CatAllOf
 instance GHC.Classes.Eq OpenAPIPetstore.Model.Category
 instance GHC.Show.Show OpenAPIPetstore.Model.Category
 instance GHC.Classes.Eq OpenAPIPetstore.Model.ClassModel
@@ -1990,8 +1955,6 @@ instance GHC.Classes.Eq OpenAPIPetstore.Model.Client
 instance GHC.Show.Show OpenAPIPetstore.Model.Client
 instance GHC.Classes.Eq OpenAPIPetstore.Model.Dog
 instance GHC.Show.Show OpenAPIPetstore.Model.Dog
-instance GHC.Classes.Eq OpenAPIPetstore.Model.DogAllOf
-instance GHC.Show.Show OpenAPIPetstore.Model.DogAllOf
 instance GHC.Classes.Eq OpenAPIPetstore.Model.File
 instance GHC.Show.Show OpenAPIPetstore.Model.File
 instance GHC.Classes.Eq OpenAPIPetstore.Model.FileSchemaTestClass
@@ -2103,8 +2066,6 @@ instance GHC.Enum.Bounded OpenAPIPetstore.Model.E'Kind
 instance GHC.Classes.Ord OpenAPIPetstore.Model.E'Kind
 instance GHC.Classes.Eq OpenAPIPetstore.Model.E'Kind
 instance GHC.Show.Show OpenAPIPetstore.Model.E'Kind
-instance GHC.Classes.Eq OpenAPIPetstore.Model.BigCatAllOf
-instance GHC.Show.Show OpenAPIPetstore.Model.BigCatAllOf
 instance GHC.Classes.Eq OpenAPIPetstore.Model.BigCat
 instance GHC.Show.Show OpenAPIPetstore.Model.BigCat
 instance GHC.Enum.Enum OpenAPIPetstore.Model.E'Status
@@ -2135,18 +2096,18 @@ instance GHC.Classes.Eq OpenAPIPetstore.Model.OuterEnum
 instance GHC.Show.Show OpenAPIPetstore.Model.OuterEnum
 instance GHC.Classes.Eq OpenAPIPetstore.Model.EnumTest
 instance GHC.Show.Show OpenAPIPetstore.Model.EnumTest
+instance GHC.Show.Show OpenAPIPetstore.Model.AuthOAuthPetstoreAuth
+instance GHC.Classes.Eq OpenAPIPetstore.Model.AuthOAuthPetstoreAuth
 instance GHC.Show.Show OpenAPIPetstore.Model.AuthApiKeyApiKey
 instance GHC.Classes.Eq OpenAPIPetstore.Model.AuthApiKeyApiKey
 instance GHC.Show.Show OpenAPIPetstore.Model.AuthApiKeyApiKeyQuery
 instance GHC.Classes.Eq OpenAPIPetstore.Model.AuthApiKeyApiKeyQuery
 instance GHC.Show.Show OpenAPIPetstore.Model.AuthBasicHttpBasicTest
 instance GHC.Classes.Eq OpenAPIPetstore.Model.AuthBasicHttpBasicTest
-instance GHC.Show.Show OpenAPIPetstore.Model.AuthOAuthPetstoreAuth
-instance GHC.Classes.Eq OpenAPIPetstore.Model.AuthOAuthPetstoreAuth
-instance OpenAPIPetstore.Core.AuthMethod OpenAPIPetstore.Model.AuthOAuthPetstoreAuth
 instance OpenAPIPetstore.Core.AuthMethod OpenAPIPetstore.Model.AuthBasicHttpBasicTest
 instance OpenAPIPetstore.Core.AuthMethod OpenAPIPetstore.Model.AuthApiKeyApiKeyQuery
 instance OpenAPIPetstore.Core.AuthMethod OpenAPIPetstore.Model.AuthApiKeyApiKey
+instance OpenAPIPetstore.Core.AuthMethod OpenAPIPetstore.Model.AuthOAuthPetstoreAuth
 instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.EnumTest
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.EnumTest
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.OuterEnum
@@ -2175,8 +2136,6 @@ instance Web.Internal.HttpApiData.FromHttpApiData OpenAPIPetstore.Model.E'Status
 instance OpenAPIPetstore.MimeTypes.MimeRender OpenAPIPetstore.MimeTypes.MimeMultipartFormData OpenAPIPetstore.Model.E'Status
 instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.BigCat
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.BigCat
-instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.BigCatAllOf
-instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.BigCatAllOf
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.E'Kind
 instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.E'Kind
 instance Web.Internal.HttpApiData.ToHttpApiData OpenAPIPetstore.Model.E'Kind
@@ -2269,8 +2228,6 @@ instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.FileSchemaTest
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.FileSchemaTestClass
 instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.File
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.File
-instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.DogAllOf
-instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.DogAllOf
 instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.Dog
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.Dog
 instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.Client
@@ -2279,8 +2236,6 @@ instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.ClassModel
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.ClassModel
 instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.Category
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.Category
-instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.CatAllOf
-instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.CatAllOf
 instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.Cat
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.Cat
 instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.Capitalization
@@ -2906,9 +2861,6 @@ bigCatDeclawedL :: Lens_' BigCat (Maybe Bool)
 -- | <a>bigCatKind</a> Lens
 bigCatKindL :: Lens_' BigCat (Maybe E'Kind)
 
--- | <a>bigCatAllOfKind</a> Lens
-bigCatAllOfKindL :: Lens_' BigCatAllOf (Maybe E'Kind)
-
 -- | <a>capitalizationSmallCamel</a> Lens
 capitalizationSmallCamelL :: Lens_' Capitalization (Maybe Text)
 
@@ -2936,9 +2888,6 @@ catColorL :: Lens_' Cat (Maybe Text)
 -- | <a>catDeclawed</a> Lens
 catDeclawedL :: Lens_' Cat (Maybe Bool)
 
--- | <a>catAllOfDeclawed</a> Lens
-catAllOfDeclawedL :: Lens_' CatAllOf (Maybe Bool)
-
 -- | <a>categoryId</a> Lens
 categoryIdL :: Lens_' Category (Maybe Integer)
 
@@ -2959,9 +2908,6 @@ dogColorL :: Lens_' Dog (Maybe Text)
 
 -- | <a>dogBreed</a> Lens
 dogBreedL :: Lens_' Dog (Maybe Text)
-
--- | <a>dogAllOfBreed</a> Lens
-dogAllOfBreedL :: Lens_' DogAllOf (Maybe Text)
 
 -- | <a>enumArraysJustSymbol</a> Lens
 enumArraysJustSymbolL :: Lens_' EnumArrays (Maybe E'JustSymbol)

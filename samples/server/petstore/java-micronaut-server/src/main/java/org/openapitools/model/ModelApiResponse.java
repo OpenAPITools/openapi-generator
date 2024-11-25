@@ -33,7 +33,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
   ModelApiResponse.JSON_PROPERTY_MESSAGE
 })
 @JsonTypeName("ApiResponse")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 @Introspected
 public class ModelApiResponse {
     public static final String JSON_PROPERTY_CODE = "code";
@@ -56,9 +56,9 @@ public class ModelApiResponse {
     /**
      * Get code
      * @return code
-     **/
+     */
     @Nullable
-    @Schema(name = "code", required = false)
+    @Schema(name = "code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_CODE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Integer getCode() {
@@ -79,9 +79,9 @@ public class ModelApiResponse {
     /**
      * Get type
      * @return type
-     **/
+     */
     @Nullable
-    @Schema(name = "type", required = false)
+    @Schema(name = "type", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_TYPE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getType() {
@@ -102,9 +102,9 @@ public class ModelApiResponse {
     /**
      * Get message
      * @return message
-     **/
+     */
     @Nullable
-    @Schema(name = "message", required = false)
+    @Schema(name = "message", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_MESSAGE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getMessage() {
@@ -159,3 +159,4 @@ public class ModelApiResponse {
     }
 
 }
+

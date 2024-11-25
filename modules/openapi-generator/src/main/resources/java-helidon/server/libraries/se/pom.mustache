@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.helidon.applications</groupId>
@@ -19,7 +19,9 @@
 
     <properties>
         <mainClass>{{{invokerPackage}}}.Main</mainClass>
-        <version.jackson.databind.nullable>0.2.3</version.jackson.databind.nullable>
+{{#openApiNullable}}
+        <version.jackson.databind.nullable>0.2.6</version.jackson.databind.nullable>
+{{/openApiNullable}}
     </properties>
 
     <dependencies>
@@ -32,17 +34,31 @@
             <artifactId>helidon-webserver</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.helidon.media</groupId>
-            <artifactId>helidon-media-jsonp</artifactId>
+            <groupId>io.helidon.{{^x-helidon-v3}}http.{{/x-helidon-v3}}media</groupId>
+            <artifactId>helidon-{{^x-helidon-v3}}http-{{/x-helidon-v3}}media-jsonp</artifactId>
         </dependency>
-        <dependency>
+{{^x-helidon-v3}}{{!
+}}        <dependency>
+            <groupId>io.helidon.http.media</groupId>
+            <artifactId>helidon-http-media-multipart</artifactId>
+        </dependency>
+{{/x-helidon-v3}}{{!
+}}{{#x-helidon-v3}}{{!
+}}        <dependency>
             <groupId>io.helidon.media</groupId>
             <artifactId>helidon-media-multipart</artifactId>
         </dependency>
-        <dependency>
+{{/x-helidon-v3}}{{!
+}}        <dependency>
             <groupId>io.helidon.config</groupId>
             <artifactId>helidon-config-yaml</artifactId>
         </dependency>
+        {{^x-helidon-v3}}
+        <dependency>
+            <groupId>io.helidon.webserver.observe</groupId>
+            <artifactId>helidon-webserver-observe-health</artifactId>
+        </dependency>
+        {{/x-helidon-v3}}
         <dependency>
             <groupId>io.helidon.health</groupId>
             <artifactId>helidon-health</artifactId>
@@ -51,10 +67,28 @@
             <groupId>io.helidon.health</groupId>
             <artifactId>helidon-health-checks</artifactId>
         </dependency>
+        {{^x-helidon-v3}}
+        <dependency>
+            <groupId>io.helidon.webserver.observe</groupId>
+            <artifactId>helidon-webserver-observe-metrics</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.helidon.metrics</groupId>
+            <artifactId>helidon-metrics-system-meters</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.helidon.logging</groupId>
+            <artifactId>helidon-logging-jul</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        {{/x-helidon-v3}}
+        {{#x-helidon-v3}}
         <dependency>
             <groupId>io.helidon.metrics</groupId>
             <artifactId>helidon-metrics</artifactId>
         </dependency>
+        {{/x-helidon-v3}}
         <dependency>
             <groupId>io.helidon.openapi</groupId>
             <artifactId>helidon-openapi</artifactId>
@@ -68,15 +102,14 @@
 {{/openApiNullable}}
 {{#jackson}}
         <dependency>
-            <groupId>io.helidon.media</groupId>
-            <artifactId>helidon-media-jackson</artifactId>
+            <groupId>io.helidon.{{^x-helidon-v3}}http.{{/x-helidon-v3}}media</groupId>
+            <artifactId>helidon-{{^x-helidon-v3}}http-{{/x-helidon-v3}}media-jackson</artifactId>
         </dependency>
 {{/jackson}}
 {{#jsonb}}
         <dependency>
-            <groupId>io.helidon.media</groupId>
-            <artifactId>helidon-media-jsonb</artifactId>
-            <version>${helidon.version}</version>
+            <groupId>io.helidon.{{#x-helidon-v3}}http.{{/x-helidon-v3}}media</groupId>
+            <artifactId>helidon-{{#x-helidon-v3}}http-{{/x-helidon-v3}}media-jsonb</artifactId>
         </dependency>
 {{/jsonb}}
         <dependency>
@@ -89,6 +122,13 @@
             <artifactId>helidon-webclient</artifactId>
             <scope>test</scope>
         </dependency>
+{{^x-helidon-v3}}
+        <dependency>
+            <groupId>io.helidon.webserver.testing.junit5</groupId>
+            <artifactId>helidon-webserver-testing-junit5</artifactId>
+            <scope>test</scope>
+        </dependency>
+{{/x-helidon-v3}}
     </dependencies>
 
     <build>

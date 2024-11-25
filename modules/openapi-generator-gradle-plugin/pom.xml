@@ -4,9 +4,9 @@
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
         <!-- RELEASE_VERSION -->
-        <version>6.3.0-SNAPSHOT</version>
+        <version>7.11.0-SNAPSHOT</version>
         <!-- /RELEASE_VERSION -->
-        <relativePath>../..</relativePath>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -17,7 +17,8 @@
 
     <properties>
         <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-        <gradleVersion>7.6</gradleVersion>
+        <gradleVersion>7.6.4</gradleVersion>
+        <gradle-tooling.version>7.4.2</gradle-tooling.version>
     </properties>
 
     <pluginRepositories>
@@ -77,10 +78,26 @@
                 <groupId>org.fortasoft</groupId>
                 <artifactId>gradle-maven-plugin</artifactId>
                 <version>1.0.8</version>
+
+                <!-- The plugin is no longer supported, so dependency has to be overridden -->
+                <!-- https://github.com/LendingClub/gradle-maven-plugin/issues/39 -->
+                <dependencies>
+                    <dependency>
+                        <groupId>org.gradle</groupId>
+                        <artifactId>gradle-tooling-api</artifactId>
+                        <version>${gradle-tooling.version}</version>
+                    </dependency>
+                </dependencies>
+
                 <configuration>
                     <gradleVersion>${gradleVersion}</gradleVersion>
                     <args>
                         <arg>-P openApiGeneratorVersion=${project.version}</arg>
+                        <!--
+                        <arg>-Psigning.keyId=${env.SIGNING_KEY}</arg>
+                        <arg>-Psigning.password=${env.SIGNING_PASSPHRASE}</arg>
+                        <arg>-Psigning.secretKeyRingFile=${env.TRAVIS_BUILD_DIR}/sec.gpg</arg>
+                        -->
                     </args>
                 </configuration>
                 <executions>
@@ -100,13 +117,6 @@
                         </configuration>
                     </execution>
                 </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.gradle</groupId>
-                        <artifactId>gradle-tooling-api</artifactId>
-                        <version>${gradleVersion}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>

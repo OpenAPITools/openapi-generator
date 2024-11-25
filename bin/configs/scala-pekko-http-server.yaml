@@ -1,0 +1,7 @@
+generatorName: scala-akka-http-server
+outputDir: samples/server/petstore/scala-pekko-http-server
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/scala-akka-http-server
+additionalProperties:
+  artifactId: openapi-scala-pekko-http-server
+  useApachePekko: true

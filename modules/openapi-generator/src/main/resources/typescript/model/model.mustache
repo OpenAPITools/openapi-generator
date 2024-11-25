@@ -12,6 +12,10 @@ import { HttpFile } from '../http/http{{importFileExtension}}';
 */
 {{/description}}
 {{^isEnum}}
+{{#oneOf}}
+{{#-first}}{{>model/modelOneOf}}{{/-first}}
+{{/oneOf}}
+{{^oneOf}}
 export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{#vars}}
 {{#description}}
@@ -19,18 +23,30 @@ export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
     * {{{.}}}
     */
 {{/description}}
-    '{{name}}'{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}};
+    '{{name}}'{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}} | null{{/isNullable}};
 {{/vars}}
 
     {{#discriminator}}
-    static readonly discriminator: string | undefined = "{{discriminatorName}}";
+    static {{#parent}}override {{/parent}}readonly discriminator: string | undefined = "{{discriminatorName}}";
     {{/discriminator}}
     {{^discriminator}}
-    static readonly discriminator: string | undefined = undefined;
+    static {{#parent}}override {{/parent}}readonly discriminator: string | undefined = undefined;
     {{/discriminator}}
+    {{#hasDiscriminatorWithNonEmptyMapping}}
+
+    static {{#parent}}override {{/parent}}readonly mapping: {[index: string]: string} | undefined = {
+    {{#discriminator.mappedModels}}
+        "{{mappingName}}": "{{modelName}}",
+    {{/discriminator.mappedModels}}
+    };
+    {{/hasDiscriminatorWithNonEmptyMapping}}
+    {{^hasDiscriminatorWithNonEmptyMapping}}
+
+    static {{#parent}}override {{/parent}}readonly mapping: {[index: string]: string} | undefined = undefined;
+    {{/hasDiscriminatorWithNonEmptyMapping}}
 
     {{^isArray}}
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static {{#parent}}override {{/parent}}readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {{#vars}}
         {
             "name": "{{name}}",
@@ -42,7 +58,7 @@ export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
         {{/vars}}
     ];
 
-    static getAttributeTypeMap() {
+    static {{#parent}}override {{/parent}}getAttributeTypeMap() {
         {{#parent}}
         return super.getAttributeTypeMap().concat({{classname}}.attributeTypeMap);
         {{/parent}}
@@ -66,19 +82,31 @@ export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
         {{/discriminatorName}}
     }
 }
-
 {{#hasEnums}}
 
 {{#vars}}
 {{#isEnum}}
-export type {{classname}}{{enumName}} ={{#allowableValues}}{{#values}} "{{.}}" {{^-last}}|{{/-last}}{{/values}}{{/allowableValues}};
+export enum {{classname}}{{enumName}} {
+    {{#allowableValues}}
+    {{#enumVars}}
+    {{name}} = {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+    {{/allowableValues}}
+}
 {{/isEnum}}
 {{/vars}}
 
 {{/hasEnums}}
+{{/oneOf}}
 {{/isEnum}}
 {{#isEnum}}
-export type {{classname}} ={{#allowableValues}}{{#values}} "{{.}}" {{^-last}}|{{/-last}}{{/values}}{{/allowableValues}};
+export enum {{classname}} {
+    {{#allowableValues}}
+    {{#enumVars}}
+    {{name}} = {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+    {{/allowableValues}}
+}
 {{/isEnum}}
 {{/model}}
 {{/models}}

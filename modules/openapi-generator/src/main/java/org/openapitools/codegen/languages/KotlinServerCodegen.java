@@ -18,41 +18,48 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.mustache.CamelCaseLambda;
+import org.openapitools.codegen.templating.mustache.LowercaseLambda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanValidationFeatures {
 
-    public static final String INTERFACE_ONLY = "interfaceOnly";
-    public static final String USE_COROUTINES = "useCoroutines";
-    public static final String RETURN_RESPONSE = "returnResponse";
     public static final String DEFAULT_LIBRARY = Constants.KTOR;
     private final Logger LOGGER = LoggerFactory.getLogger(KotlinServerCodegen.class);
 
+    @Getter @Setter
     private Boolean autoHeadFeatureEnabled = true;
+    @Getter @Setter
     private Boolean conditionalHeadersFeatureEnabled = false;
+    @Getter @Setter
     private Boolean hstsFeatureEnabled = true;
+    @Getter @Setter
     private Boolean corsFeatureEnabled = false;
+    @Getter @Setter
     private Boolean compressionFeatureEnabled = true;
-    private Boolean locationsFeatureEnabled = true;
+    @Getter @Setter
+    private Boolean resourcesFeatureEnabled = true;
+    @Getter @Setter
     private Boolean metricsFeatureEnabled = true;
     private boolean interfaceOnly = false;
     private boolean useBeanValidation = false;
     private boolean useCoroutines = false;
+    private boolean useMutiny = false;
     private boolean returnResponse = false;
+    @Setter private boolean omitGradleWrapper = false;
 
     // This is here to potentially warn the user when an option is not supported by the target framework.
     private Map<String, List<String>> optionsSupportedPerFramework = new ImmutableMap.Builder<String, List<String>>()
@@ -62,8 +69,16 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
                     Constants.HSTS,
                     Constants.CORS,
                     Constants.COMPRESSION,
-                    Constants.LOCATIONS,
-                    Constants.METRICS
+                    Constants.RESOURCES,
+                    Constants.METRICS,
+                    Constants.OMIT_GRADLE_WRAPPER
+            ))
+            .put(Constants.JAXRS_SPEC, Arrays.asList(
+                    USE_BEANVALIDATION,
+                    Constants.USE_COROUTINES,
+                    Constants.USE_MUTINY,
+                    Constants.RETURN_RESPONSE,
+                    Constants.INTERFACE_ONLY
             ))
             .build();
 
@@ -113,92 +128,42 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
         supportedLibraries.put(Constants.KTOR, "ktor framework");
         supportedLibraries.put(Constants.JAXRS_SPEC, "JAX-RS spec only");
+        supportedLibraries.put(Constants.JAVALIN5, "Javalin 5");
+        supportedLibraries.put(Constants.JAVALIN6, "Javalin 6");
 
         // TODO: Configurable server engine. Defaults to netty in build.gradle.
-        CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC);
-        library.setDefault(DEFAULT_LIBRARY);
-        library.setEnum(supportedLibraries);
-
-        cliOptions.add(library);
-
+        addOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC, DEFAULT_LIBRARY, supportedLibraries);
         addSwitch(Constants.AUTOMATIC_HEAD_REQUESTS, Constants.AUTOMATIC_HEAD_REQUESTS_DESC, getAutoHeadFeatureEnabled());
         addSwitch(Constants.CONDITIONAL_HEADERS, Constants.CONDITIONAL_HEADERS_DESC, getConditionalHeadersFeatureEnabled());
         addSwitch(Constants.HSTS, Constants.HSTS_DESC, getHstsFeatureEnabled());
         addSwitch(Constants.CORS, Constants.CORS_DESC, getCorsFeatureEnabled());
         addSwitch(Constants.COMPRESSION, Constants.COMPRESSION_DESC, getCompressionFeatureEnabled());
-        addSwitch(Constants.LOCATIONS, Constants.LOCATIONS_DESC, getLocationsFeatureEnabled());
+        addSwitch(Constants.RESOURCES, Constants.RESOURCES_DESC, getResourcesFeatureEnabled());
         addSwitch(Constants.METRICS, Constants.METRICS_DESC, getMetricsFeatureEnabled());
-
-        cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files. This option is currently supported only when using jaxrs-spec library.").defaultValue(String.valueOf(interfaceOnly)));
-        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations. This option is currently supported only when using jaxrs-spec library.", useBeanValidation));
-        cliOptions.add(CliOption.newBoolean(USE_COROUTINES, "Whether to use the Coroutines. This option is currently supported only when using jaxrs-spec library.", useCoroutines));
-        cliOptions.add(CliOption.newBoolean(RETURN_RESPONSE, "Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true. This option is currently supported only when using jaxrs-spec library.").defaultValue(String.valueOf(returnResponse)));
+        addSwitch(Constants.INTERFACE_ONLY, Constants.INTERFACE_ONLY_DESC, interfaceOnly);
+        addSwitch(USE_BEANVALIDATION, Constants.USE_BEANVALIDATION_DESC, useBeanValidation);
+        addSwitch(Constants.USE_COROUTINES, Constants.USE_COROUTINES_DESC, useCoroutines);
+        addSwitch(Constants.USE_MUTINY, Constants.USE_MUTINY_DESC, useMutiny);
+        addSwitch(Constants.RETURN_RESPONSE, Constants.RETURN_RESPONSE_DESC, returnResponse);
+        addSwitch(Constants.OMIT_GRADLE_WRAPPER, Constants.OMIT_GRADLE_WRAPPER_DESC, omitGradleWrapper);
+        addSwitch(USE_JAKARTA_EE, Constants.USE_JAKARTA_EE_DESC, useJakartaEe);
     }
 
-    public Boolean getAutoHeadFeatureEnabled() {
-        return autoHeadFeatureEnabled;
-    }
-
-    public void setAutoHeadFeatureEnabled(Boolean autoHeadFeatureEnabled) {
-        this.autoHeadFeatureEnabled = autoHeadFeatureEnabled;
-    }
-
-    public Boolean getCompressionFeatureEnabled() {
-        return compressionFeatureEnabled;
-    }
-
-    public void setCompressionFeatureEnabled(Boolean compressionFeatureEnabled) {
-        this.compressionFeatureEnabled = compressionFeatureEnabled;
-    }
-
-    public Boolean getConditionalHeadersFeatureEnabled() {
-        return conditionalHeadersFeatureEnabled;
-    }
-
-    public void setConditionalHeadersFeatureEnabled(Boolean conditionalHeadersFeatureEnabled) {
-        this.conditionalHeadersFeatureEnabled = conditionalHeadersFeatureEnabled;
-    }
-
-    public Boolean getCorsFeatureEnabled() {
-        return corsFeatureEnabled;
-    }
-
-    public void setCorsFeatureEnabled(Boolean corsFeatureEnabled) {
-        this.corsFeatureEnabled = corsFeatureEnabled;
-    }
-
+    @Override
     public String getHelp() {
         return "Generates a Kotlin server.";
     }
 
-    public Boolean getHstsFeatureEnabled() {
-        return hstsFeatureEnabled;
+    public boolean getOmitGradleWrapper() {
+        return omitGradleWrapper;
     }
 
-    public void setHstsFeatureEnabled(Boolean hstsFeatureEnabled) {
-        this.hstsFeatureEnabled = hstsFeatureEnabled;
-    }
-
-    public Boolean getLocationsFeatureEnabled() {
-        return locationsFeatureEnabled;
-    }
-
-    public void setLocationsFeatureEnabled(Boolean locationsFeatureEnabled) {
-        this.locationsFeatureEnabled = locationsFeatureEnabled;
-    }
-
-    public Boolean getMetricsFeatureEnabled() {
-        return metricsFeatureEnabled;
-    }
-
-    public void setMetricsFeatureEnabled(Boolean metricsEnabled) {
-        this.metricsFeatureEnabled = metricsEnabled;
-    }
-
+    @Override
     public String getName() {
         return "kotlin-server";
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
@@ -215,29 +180,40 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
         }
 
-        if (additionalProperties.containsKey(INTERFACE_ONLY)) {
-            interfaceOnly = Boolean.parseBoolean(additionalProperties.get(INTERFACE_ONLY).toString());
+        if (additionalProperties.containsKey(Constants.INTERFACE_ONLY)) {
+            interfaceOnly = Boolean.parseBoolean(additionalProperties.get(Constants.INTERFACE_ONLY).toString());
             if (!interfaceOnly) {
-                additionalProperties.remove(INTERFACE_ONLY);
+                additionalProperties.remove(Constants.INTERFACE_ONLY);
             }
         }
 
-        if (additionalProperties.containsKey(USE_COROUTINES)) {
-            useCoroutines = Boolean.parseBoolean(additionalProperties.get(USE_COROUTINES).toString());
+        if (additionalProperties.containsKey(Constants.USE_COROUTINES)) {
+            useCoroutines = Boolean.parseBoolean(additionalProperties.get(Constants.USE_COROUTINES).toString());
             if (!useCoroutines) {
-                additionalProperties.remove(USE_COROUTINES);
+                additionalProperties.remove(Constants.USE_COROUTINES);
             }
         }
 
-        if (additionalProperties.containsKey(RETURN_RESPONSE)) {
-            returnResponse = Boolean.parseBoolean(additionalProperties.get(RETURN_RESPONSE).toString());
+        if (additionalProperties.containsKey(Constants.USE_MUTINY)) {
+            useMutiny = Boolean.parseBoolean(additionalProperties.get(Constants.USE_MUTINY).toString());
+            if (!useMutiny) {
+                additionalProperties.remove(Constants.USE_MUTINY);
+            }
+        }
+
+        if (additionalProperties.containsKey(Constants.RETURN_RESPONSE)) {
+            returnResponse = Boolean.parseBoolean(additionalProperties.get(Constants.RETURN_RESPONSE).toString());
             if (!returnResponse) {
-                additionalProperties.remove(RETURN_RESPONSE);
+                additionalProperties.remove(Constants.RETURN_RESPONSE);
             }
         }
 
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
             setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
+        }
+
+        if (additionalProperties.containsKey(Constants.OMIT_GRADLE_WRAPPER)) {
+            setOmitGradleWrapper(Boolean.parseBoolean(additionalProperties.get(Constants.OMIT_GRADLE_WRAPPER).toString()));
         }
 
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
@@ -279,10 +255,10 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             additionalProperties.put(Constants.COMPRESSION, getCompressionFeatureEnabled());
         }
 
-        if (additionalProperties.containsKey(Constants.LOCATIONS)) {
-            setLocationsFeatureEnabled(convertPropertyToBooleanAndWriteBack(Constants.LOCATIONS));
+        if (additionalProperties.containsKey(Constants.RESOURCES)) {
+            setResourcesFeatureEnabled(convertPropertyToBooleanAndWriteBack(Constants.RESOURCES));
         } else {
-            additionalProperties.put(Constants.LOCATIONS, getLocationsFeatureEnabled());
+            additionalProperties.put(Constants.RESOURCES, getResourcesFeatureEnabled());
         }
 
         if (additionalProperties.containsKey(Constants.METRICS)) {
@@ -296,19 +272,25 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
-        if (library.equals(Constants.KTOR)) {
+        if (isKtor()) {
             supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
         }
 
-        supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
+        String gradleBuildFile = "build.gradle";
+
+        if (isJavalin() || isKtor()) {
+            gradleBuildFile = "build.gradle.kts";
+        }
+
+        supportingFiles.add(new SupportingFile(gradleBuildFile + ".mustache", "", gradleBuildFile));
         supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
         supportingFiles.add(new SupportingFile("gradle.properties", "", "gradle.properties"));
 
-        if (library.equals(Constants.KTOR)) {
+        if (isKtor()) {
             supportingFiles.add(new SupportingFile("AppMain.kt.mustache", packageFolder, "AppMain.kt"));
             supportingFiles.add(new SupportingFile("Configuration.kt.mustache", packageFolder, "Configuration.kt"));
 
-            if (generateApis && locationsFeatureEnabled) {
+            if (generateApis && resourcesFeatureEnabled) {
                 supportingFiles.add(new SupportingFile("Paths.kt.mustache", packageFolder, "Paths.kt"));
             }
 
@@ -318,6 +300,19 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             final String infrastructureFolder = (sourceFolder + File.separator + packageName + File.separator + "infrastructure").replace(".", File.separator);
 
             supportingFiles.add(new SupportingFile("ApiKeyAuth.kt.mustache", infrastructureFolder, "ApiKeyAuth.kt"));
+
+            if (!getOmitGradleWrapper()) {
+                supportingFiles.add(new SupportingFile("gradle-wrapper.properties", "gradle" + File.separator + "wrapper", "gradle-wrapper.properties"));
+            }
+
+        } else if (isJavalin()) {
+            supportingFiles.add(new SupportingFile("Main.kt.mustache", packageFolder, "Main.kt"));
+            apiTemplateFiles.put("service.mustache", "Service.kt");
+            apiTemplateFiles.put("serviceImpl.mustache", "ServiceImpl.kt");
+            additionalProperties.put("lowercase", new LowercaseLambda());
+            additionalProperties.put("camelcase", new CamelCaseLambda());
+            typeMapping.put("file", "io.javalin.http.UploadedFile");
+            importMapping.put("io.javalin.http.UploadedFile", "io.javalin.http.UploadedFile");
         }
     }
 
@@ -329,6 +324,9 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     public static class Constants {
         public final static String KTOR = "ktor";
         public final static String JAXRS_SPEC = "jaxrs-spec";
+
+        public final static String JAVALIN5 = "javalin5";
+        public final static String JAVALIN6 = "javalin6";
         public final static String AUTOMATIC_HEAD_REQUESTS = "featureAutoHead";
         public final static String AUTOMATIC_HEAD_REQUESTS_DESC = "Automatically provide responses to HEAD requests for existing routes that have the GET verb defined.";
         public final static String CONDITIONAL_HEADERS = "featureConditionalHeaders";
@@ -339,10 +337,22 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         public final static String CORS_DESC = "Ktor by default provides an interceptor for implementing proper support for Cross-Origin Resource Sharing (CORS). See enable-cors.org.";
         public final static String COMPRESSION = "featureCompression";
         public final static String COMPRESSION_DESC = "Adds ability to compress outgoing content using gzip, deflate or custom encoder and thus reduce size of the response.";
-        public final static String LOCATIONS = "featureLocations";
-        public final static String LOCATIONS_DESC = "Generates routes in a typed way, for both: constructing URLs and reading the parameters.";
+        public final static String RESOURCES = "featureResources";
+        public final static String RESOURCES_DESC = "Generates routes in a typed way, for both: constructing URLs and reading the parameters.";
         public final static String METRICS = "featureMetrics";
         public final static String METRICS_DESC = "Enables metrics feature.";
+        public static final String INTERFACE_ONLY = "interfaceOnly";
+        public static final String INTERFACE_ONLY_DESC = "Whether to generate only API interface stubs without the server files. This option is currently supported only when using jaxrs-spec library.";
+        public static final String USE_BEANVALIDATION_DESC = "Use BeanValidation API annotations. This option is currently supported only when using jaxrs-spec library.";
+        public static final String USE_COROUTINES = "useCoroutines";
+        public static final String USE_COROUTINES_DESC = "Whether to use the Coroutines. This option is currently supported only when using jaxrs-spec library.";
+        public static final String RETURN_RESPONSE = "returnResponse";
+        public static final String RETURN_RESPONSE_DESC = "Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true. This option is currently supported only when using jaxrs-spec library.";
+        public static final String USE_JAKARTA_EE_DESC = "whether to use Jakarta EE namespace instead of javax";
+        public static final String USE_MUTINY = "useMutiny";
+        public static final String USE_MUTINY_DESC = "Whether to use Mutiny (should not be used with useCoroutines). This option is currently supported only when using jaxrs-spec library.";
+        public static final String OMIT_GRADLE_WRAPPER = "omitGradleWrapper";
+        public static final String OMIT_GRADLE_WRAPPER_DESC = "Whether to omit Gradle wrapper for creating a sub project.";
     }
 
     @Override
@@ -355,5 +365,60 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
         System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F     #");
         System.out.println("################################################################################");
+    }
+
+    @Override
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
+        // The following processing breaks the JAX-RS spec, so we only do this for the other libs.
+        if (operations != null && !Objects.equals(library, Constants.JAXRS_SPEC)) {
+            List<CodegenOperation> ops = operations.getOperation();
+            ops.forEach(operation -> {
+                List<CodegenResponse> responses = operation.responses;
+                if (responses != null) {
+                    responses.forEach(resp -> {
+
+                        if ("0".equals(resp.code)) {
+                            resp.code = "200";
+                        }
+
+                        doDataTypeAssignment(resp.dataType, new DataTypeAssigner() {
+                            @Override
+                            public void setReturnType(final String returnType) {
+                                resp.dataType = returnType;
+                            }
+
+                            @Override
+                            public void setReturnContainer(final String returnContainer) {
+                                resp.containerType = returnContainer;
+                            }
+                        });
+                    });
+                }
+
+                doDataTypeAssignment(operation.returnType, new DataTypeAssigner() {
+
+                    @Override
+                    public void setReturnType(final String returnType) {
+                        operation.returnType = returnType;
+                    }
+
+                    @Override
+                    public void setReturnContainer(final String returnContainer) {
+                        operation.returnContainer = returnContainer;
+                    }
+                });
+            });
+        }
+
+        return objs;
+    }
+
+    private boolean isJavalin() {
+        return Constants.JAVALIN5.equals(library) || Constants.JAVALIN6.equals(library);
+    }
+
+    private boolean isKtor() {
+        return Constants.KTOR.equals(library);
     }
 }

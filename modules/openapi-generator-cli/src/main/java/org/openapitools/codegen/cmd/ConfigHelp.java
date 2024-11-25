@@ -77,8 +77,23 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
     @Option(name = {"--inline-schema-name-mappings"}, title = "inline schema name mappings", description = "displays the inline schema name mappings (none)")
     private Boolean inlineSchemaNameMappings;
 
-    @Option(name = {"--inline-schema-name-defaults"}, title = "inline schema name defaults", description = "default values used when naming inline schema name")
-    private Boolean inlineSchemaNameDefaults;
+    @Option(name = {"--inline-schema-options"}, title = "inline schema options", description = "options for handling inline schemas in inline model resolver")
+    private Boolean inlineSchemaOptions;
+
+    @Option(name = {"--name-mappings"}, title = "property name mappings", description = "displays the property name mappings (none)")
+    private Boolean nameMappings;
+
+    @Option(name = {"--parameter-name-mappings"}, title = "parameter name mappings", description = "displays the parameter name mappings (none)")
+    private Boolean parameterNameMappings;
+
+    @Option(name = {"--model-name-mappings"}, title = "model name mappings", description = "displays the model name mappings (none)")
+    private Boolean modelNameMappings;
+
+    @Option(name = {"--enum-name-mappings"}, title = "enum name mappings", description = "displays the enum name mappings (none)")
+    private Boolean enumNameMappings;
+
+    @Option(name = {"--operation-id-name-mappings"}, title = "operation id name mappings", description = "displays the operation id name mappings (none)")
+    private Boolean operationIdNameMappings;
 
     @Option(name = {"--openapi-normalizer"}, title = "openapi normalizer rules", description = "displays the OpenAPI normalizer rules (none)")
     private Boolean openapiNormalizer;
@@ -88,6 +103,9 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
 
     @Option(name = {"--language-specific-primitive"}, title = "language specific primitives", description = "displays the language specific primitives (types which require no additional imports, or which may conflict with user defined model names)")
     private Boolean languageSpecificPrimitives;
+
+    @Option(name = {"--openapi-generator-ignore-list"}, title = "openapi generator ignore list", description = "displays the openapi generator ignore list")
+    private Boolean openapiGeneratorIgnoreList;
 
     @Option(name = {"--reserved-words"}, title = "language specific reserved words", description = "displays the reserved words which may result in renamed model or property names")
     private Boolean reservedWords;
@@ -485,15 +503,75 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
             sb.append(newline);
         }
 
-        if (Boolean.TRUE.equals(inlineSchemaNameDefaults)) {
-            sb.append(newline).append("INLINE SCHEMA NAME DEFAULTS").append(newline).append(newline);
-            Map<String, String> map = config.inlineSchemaNameDefault()
+        if (Boolean.TRUE.equals(inlineSchemaOptions)) {
+            sb.append(newline).append("INLINE SCHEMA OPTIONS").append(newline).append(newline);
+            Map<String, String> map = config.inlineSchemaOption()
                     .entrySet()
                     .stream()
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> {
                         throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a, b));
                     }, TreeMap::new));
-            writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "Inline scheme naming convention", "Defaulted to");
+            writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "Inline scheme options", "Defaulted to");
+            sb.append(newline);
+        }
+
+        if (Boolean.TRUE.equals(nameMappings)) {
+            sb.append(newline).append("PROPERTY NAME MAPPING").append(newline).append(newline);
+            Map<String, String> map = config.nameMapping()
+                    .entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> {
+                        throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a, b));
+                    }, TreeMap::new));
+            writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "property name", "Mapped to");
+            sb.append(newline);
+        }
+
+        if (Boolean.TRUE.equals(parameterNameMappings)) {
+            sb.append(newline).append("PARAMETER NAME MAPPING").append(newline).append(newline);
+            Map<String, String> map = config.parameterNameMapping()
+                    .entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> {
+                        throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a, b));
+                    }, TreeMap::new));
+            writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "parameter name", "Mapped to");
+            sb.append(newline);
+        }
+
+        if (Boolean.TRUE.equals(modelNameMappings)) {
+            sb.append(newline).append("MODEL NAME MAPPING").append(newline).append(newline);
+            Map<String, String> map = config.modelNameMapping()
+                    .entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> {
+                        throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a, b));
+                    }, TreeMap::new));
+            writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "model name", "Mapped to");
+            sb.append(newline);
+        }
+
+        if (Boolean.TRUE.equals(enumNameMappings)) {
+            sb.append(newline).append("ENUM NAME MAPPING").append(newline).append(newline);
+            Map<String, String> map = config.enumNameMapping()
+                    .entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> {
+                        throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a, b));
+                    }, TreeMap::new));
+            writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "enum name", "Mapped to");
+            sb.append(newline);
+        }
+
+        if (Boolean.TRUE.equals(operationIdNameMappings)) {
+            sb.append(newline).append("OPERATION ID MAPPING").append(newline).append(newline);
+            Map<String, String> map = config.operationIdNameMapping()
+                    .entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> {
+                        throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a, b));
+                    }, TreeMap::new));
+            writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "operation id name", "Mapped to");
             sb.append(newline);
         }
 
@@ -524,6 +602,13 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
         if (Boolean.TRUE.equals(languageSpecificPrimitives)) {
             sb.append(newline).append("LANGUAGE PRIMITIVES").append(newline).append(newline);
             String[] arr = config.languageSpecificPrimitives().stream().sorted().toArray(String[]::new);
+            writePlainTextFromArray(sb, arr, optIndent);
+            sb.append(newline);
+        }
+
+        if (Boolean.TRUE.equals(openapiGeneratorIgnoreList)) {
+            sb.append(newline).append("OPENAPI GENERATOR IGNORE LIST").append(newline).append(newline);
+            String[] arr = config.openapiGeneratorIgnoreList().stream().sorted().toArray(String[]::new);
             writePlainTextFromArray(sb, arr, optIndent);
             sb.append(newline);
         }

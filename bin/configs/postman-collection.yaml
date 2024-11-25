@@ -1,0 +1,4 @@
+generatorName: postman-collection
+outputDir: samples/schema/postman-collection
+inputSpec: modules/openapi-generator/src/test/resources/3_0/postman-collection/SampleProject.yaml
+templateDir: modules/openapi-generator/src/main/resources/postman-collection

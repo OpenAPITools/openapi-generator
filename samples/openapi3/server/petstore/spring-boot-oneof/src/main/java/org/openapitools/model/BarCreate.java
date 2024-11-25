@@ -26,17 +26,25 @@ import javax.annotation.Generated;
 
 
 @JsonTypeName("Bar_Create")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class BarCreate extends Entity {
 
-  @JsonProperty("barPropA")
   private String barPropA;
 
-  @JsonProperty("fooPropB")
   private String fooPropB;
 
-  @JsonProperty("foo")
   private FooRefOrValue foo;
+
+  public BarCreate() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public BarCreate(String atType) {
+    super(atType);
+  }
 
   public BarCreate barPropA(String barPropA) {
     this.barPropA = barPropA;
@@ -46,9 +54,10 @@ public class BarCreate extends Entity {
   /**
    * Get barPropA
    * @return barPropA
-  */
+   */
   
-  @Schema(name = "barPropA", required = false)
+  @Schema(name = "barPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("barPropA")
   public String getBarPropA() {
     return barPropA;
   }
@@ -65,9 +74,10 @@ public class BarCreate extends Entity {
   /**
    * Get fooPropB
    * @return fooPropB
-  */
+   */
   
-  @Schema(name = "fooPropB", required = false)
+  @Schema(name = "fooPropB", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("fooPropB")
   public String getFooPropB() {
     return fooPropB;
   }
@@ -84,9 +94,10 @@ public class BarCreate extends Entity {
   /**
    * Get foo
    * @return foo
-  */
+   */
   @Valid 
-  @Schema(name = "foo", required = false)
+  @Schema(name = "foo", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("foo")
   public FooRefOrValue getFoo() {
     return foo;
   }
@@ -95,31 +106,31 @@ public class BarCreate extends Entity {
     this.foo = foo;
   }
 
+
   public BarCreate href(String href) {
-    super.setHref(href);
+    super.href(href);
     return this;
   }
 
   public BarCreate id(String id) {
-    super.setId(id);
+    super.id(id);
     return this;
   }
 
   public BarCreate atSchemaLocation(String atSchemaLocation) {
-    super.setAtSchemaLocation(atSchemaLocation);
+    super.atSchemaLocation(atSchemaLocation);
     return this;
   }
 
   public BarCreate atBaseType(String atBaseType) {
-    super.setAtBaseType(atBaseType);
+    super.atBaseType(atBaseType);
     return this;
   }
 
   public BarCreate atType(String atType) {
-    super.setAtType(atType);
+    super.atType(atType);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -162,5 +173,108 @@ public class BarCreate extends Entity {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder extends Entity.Builder {
+
+    private BarCreate instance;
+
+    public Builder() {
+      this(new BarCreate());
+    }
+
+    protected Builder(BarCreate instance) {
+      super(instance); // the parent builder shares the same instance
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(BarCreate value) { 
+      super.copyOf(value);
+      this.instance.setBarPropA(value.barPropA);
+      this.instance.setFooPropB(value.fooPropB);
+      this.instance.setFoo(value.foo);
+      return this;
+    }
+
+    public BarCreate.Builder barPropA(String barPropA) {
+      this.instance.barPropA(barPropA);
+      return this;
+    }
+    
+    public BarCreate.Builder fooPropB(String fooPropB) {
+      this.instance.fooPropB(fooPropB);
+      return this;
+    }
+    
+    public BarCreate.Builder foo(FooRefOrValue foo) {
+      this.instance.foo(foo);
+      return this;
+    }
+    
+    @Override
+    public BarCreate.Builder href(String href) {
+      this.instance.href(href);
+      return this;
+    }
+    
+    @Override
+    public BarCreate.Builder id(String id) {
+      this.instance.id(id);
+      return this;
+    }
+    
+    @Override
+    public BarCreate.Builder atSchemaLocation(String atSchemaLocation) {
+      this.instance.atSchemaLocation(atSchemaLocation);
+      return this;
+    }
+    
+    @Override
+    public BarCreate.Builder atBaseType(String atBaseType) {
+      this.instance.atBaseType(atBaseType);
+      return this;
+    }
+    
+    @Override
+    public BarCreate.Builder atType(String atType) {
+      this.instance.atType(atType);
+      return this;
+    }
+    
+    /**
+    * returns a built BarCreate instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public BarCreate build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        super.build();
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static BarCreate.Builder builder() {
+    return new BarCreate.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public BarCreate.Builder toBuilder() {
+    BarCreate.Builder builder = new BarCreate.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

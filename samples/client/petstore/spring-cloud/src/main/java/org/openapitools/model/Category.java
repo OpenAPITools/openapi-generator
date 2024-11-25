@@ -20,13 +20,11 @@ import javax.annotation.Generated;
  */
 
 @ApiModel(description = "A category for a pet")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class Category {
 
-  @JsonProperty("id")
   private Long id;
 
-  @JsonProperty("name")
   private String name;
 
   public Category id(Long id) {
@@ -37,9 +35,10 @@ public class Category {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -56,9 +55,10 @@ public class Category {
   /**
    * Get name
    * @return name
-  */
+   */
   @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
   @ApiModelProperty(value = "")
+  @JsonProperty("name")
   public String getName() {
     return name;
   }

@@ -30,24 +30,32 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ModelReturn.JSON_PROPERTY_RETURN
 })
 @JsonTypeName("Return")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class ModelReturn {
   public static final String JSON_PROPERTY_RETURN = "return";
+  @javax.annotation.Nullable
   private Integer _return;
 
   public ModelReturn() {
   }
 
-  public ModelReturn _return(Integer _return) {
+  /**
+   * Constructor with all args parameters
+   */
+  public ModelReturn(@JsonProperty(JSON_PROPERTY_RETURN) Integer _return) {
+    this._return = _return;
+  }
+
+  public ModelReturn _return(@javax.annotation.Nullable Integer _return) {
     
     this._return = _return;
     return this;
   }
 
-   /**
+  /**
    * Get _return
    * @return _return
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_RETURN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -59,10 +67,9 @@ public class ModelReturn {
 
   @JsonProperty(JSON_PROPERTY_RETURN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setReturn(Integer _return) {
+  public void setReturn(@javax.annotation.Nullable Integer _return) {
     this._return = _return;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -100,6 +107,60 @@ public class ModelReturn {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  public static class Builder {
+
+    private ModelReturn instance;
+
+    public Builder() {
+      this(new ModelReturn());
+    }
+
+    protected Builder(ModelReturn instance) {
+      this.instance = instance;
+    }
+
+    public ModelReturn.Builder _return(Integer _return) {
+      this.instance._return = _return;
+      return this;
+    }
+
+
+    /**
+    * returns a built ModelReturn instance.
+    *
+    * The builder is not reusable.
+    */
+    public ModelReturn build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ModelReturn.Builder builder() {
+    return new ModelReturn.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ModelReturn.Builder toBuilder() {
+    return new ModelReturn.Builder()
+      ._return(getReturn());
+  }
+
 
 }
 

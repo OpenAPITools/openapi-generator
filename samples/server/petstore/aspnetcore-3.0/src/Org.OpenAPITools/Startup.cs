@@ -76,7 +76,6 @@ namespace Org.OpenAPITools
                         NamingStrategy = new CamelCaseNamingStrategy()
                     });
                 });
-
             services
                 .AddSwaggerGen(c =>
                 {
@@ -101,7 +100,7 @@ namespace Org.OpenAPITools
                         Version = "1.0.0",
                     });
                     c.CustomSchemaIds(type => type.FriendlyId(true));
-                    c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{Assembly.GetEntryAssembly().GetName().Name}.xml");
+                    c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{Assembly.GetExecutingAssembly().GetName().Name}.xml");
                     // Sets the basePath property in the OpenAPI document generated
                     c.DocumentFilter<BasePathFilter>("/v2");
 

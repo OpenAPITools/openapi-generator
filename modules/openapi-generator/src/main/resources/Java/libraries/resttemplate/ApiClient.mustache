@@ -1,3 +1,5 @@
+{{>licenseInfo}}
+
 package {{invokerPackage}};
 
 {{#withXml}}
@@ -31,6 +33,8 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -62,6 +66,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
+import java.util.function.Supplier;
 {{#jsr310}}
 import java.time.OffsetDateTime;
 {{/jsr310}}
@@ -81,7 +86,9 @@ import {{invokerPackage}}.auth.OAuth;
 {{/hasOAuthMethods}}
 
 {{>generatedAnnotation}}
+{{#generateClientAsBean}}
 @Component("{{invokerPackage}}.ApiClient")
+{{/generateClientAsBean}}
 public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
@@ -102,6 +109,10 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     private HttpHeaders defaultHeaders = new HttpHeaders();
     private MultiValueMap<String, String> defaultCookies = new LinkedMultiValueMap<String, String>();
 
+    private int maxAttemptsForRetry = {{maxAttemptsForRetry}};
+
+    private long waitTimeMillis = {{waitTimeMillis}};
+
     private String basePath = "{{basePath}}";
 
     private RestTemplate restTemplate;
@@ -115,7 +126,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         init();
     }
 
+   {{#generateClientAsBean}}
     @Autowired
+    {{/generateClientAsBean}}
     public ApiClient(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
         init();
@@ -134,8 +147,8 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
         // Setup authentications (key: authentication name, value: authentication).
         authentications = new HashMap<String, Authentication>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
-        authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{^isBasicBasic}}
-        authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
+        authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{#isBasicBearer}}
+        authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
         authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
         authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}
         // Prevent the authentications from being modified.
@@ -163,6 +176,46 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     }
 
     /**
+     * Get the max attempts for retry
+     *
+     * @return int the max attempts
+     */
+    public int getMaxAttemptsForRetry() {
+        return maxAttemptsForRetry;
+    }
+
+    /**
+     * Set the max attempts for retry
+     *
+     * @param maxAttemptsForRetry the max attempts for retry
+     * @return ApiClient this client
+     */
+    public ApiClient setMaxAttemptsForRetry(int maxAttemptsForRetry) {
+        this.maxAttemptsForRetry = maxAttemptsForRetry;
+        return this;
+    }
+
+    /**
+     * Get the wait time in milliseconds
+     *
+     * @return long wait time in milliseconds
+     */
+    public long getWaitTimeMillis() {
+        return waitTimeMillis;
+    }
+
+    /**
+     * Set the wait time in milliseconds
+     *
+     * @param waitTimeMillis the wait time in milliseconds
+     * @return ApiClient this client
+     */
+    public ApiClient setWaitTimeMillis(long waitTimeMillis) {
+        this.waitTimeMillis = waitTimeMillis;
+        return this;
+    }
+
+    /**
      * Get authentications (key: authentication name, value: authentication).
      *
      * @return Map the currently configured authentication types
@@ -183,14 +236,23 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
     {{#hasHttpBearerMethods}}
     /**
-     * Helper method to set token for HTTP bearer authentication.
+     * Helper method to set access token for the first Bearer authentication.
      *
-     * @param bearerToken the token
+     * @param bearerToken Bearer token
      */
     public void setBearerToken(String bearerToken) {
+        setBearerToken(() -> bearerToken);
+    }
+
+    /**
+     * Helper method to set the supplier of access tokens for Bearer authentication.
+     *
+     * @param tokenSupplier The supplier of bearer tokens
+     */
+    public void setBearerToken(Supplier<String> tokenSupplier) {
         for (Authentication auth : authentications.values()) {
             if (auth instanceof HttpBearerAuth) {
-                ((HttpBearerAuth) auth).setBearerToken(bearerToken);
+                ((HttpBearerAuth) auth).setBearerToken(tokenSupplier);
                 return;
             }
         }
@@ -271,9 +333,18 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      * @param accessToken Access token
      */
     public void setAccessToken(String accessToken) {
+        setAccessToken(() -> accessToken);
+    }
+
+    /**
+     * Helper method to set the supplier of access tokens for OAuth2 authentication.
+     *
+     * @param tokenSupplier The supplier of bearer tokens
+     */
+    public void setAccessToken(Supplier<String> tokenSupplier) {
         for (Authentication auth : authentications.values()) {
             if (auth instanceof OAuth) {
-                ((OAuth) auth).setAccessToken(accessToken);
+                ((OAuth) auth).setAccessToken(tokenSupplier);
                 return;
             }
         }
@@ -692,7 +763,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
             throw new RestClientException("Could not build URL: " + builder.toUriString(), ex);
         }
 
-        final BodyBuilder requestBuilder = RequestEntity.method(method, uri);
+        final BodyBuilder requestBuilder = RequestEntity.method(method, UriComponentsBuilder.fromHttpUrl(basePath).toUriString() + finalUri, uriParams);
         if (accept != null) {
             requestBuilder.accept(accept.toArray(new MediaType[accept.size()]));
         }
@@ -707,7 +778,36 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
         RequestEntity<Object> requestEntity = requestBuilder.body(selectBody(body, formParams, contentType));
 
-        ResponseEntity<T> responseEntity = restTemplate.exchange(requestEntity, returnType);
+        ResponseEntity<T> responseEntity = null;
+        int attempts = 0;
+        while (attempts < maxAttemptsForRetry) {
+            try {
+                responseEntity = restTemplate.exchange(requestEntity, returnType);
+                break;
+            } catch (HttpServerErrorException | HttpClientErrorException ex) {
+                if (ex instanceof HttpServerErrorException
+                        || ((HttpClientErrorException) ex)
+                        .getStatusCode()
+                        .equals(HttpStatus.TOO_MANY_REQUESTS)) {
+                    attempts++;
+                    if (attempts < maxAttemptsForRetry) {
+                        try {
+                            Thread.sleep(waitTimeMillis);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
+                    } else {
+                        throw ex;
+                    }
+                } else {
+                    throw ex;
+                }
+            }
+        }
+
+        if (responseEntity == null) {
+            throw new RestClientException("ResponseEntity is null");
+        }
 
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
             return responseEntity;
@@ -825,7 +925,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         }
 
         private void logResponse(ClientHttpResponse response) throws IOException {
-            log.info("HTTP Status Code: " + response.getRawStatusCode());
+            log.info("HTTP Status Code: " + response.getStatusCode().value());
             log.info("Status Text: " + response.getStatusText());
             log.info("HTTP Headers: " + headersToString(response.getHeaders()));
             log.info("Response Body: " + bodyToString(response.getBody()));

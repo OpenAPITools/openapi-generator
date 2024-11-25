@@ -18,27 +18,10 @@
 package org.openapitools.codegen.options;
 
 import com.google.common.collect.ImmutableMap;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.TypeScriptAureliaClientCodegen;
-import org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen;
 
 import java.util.Map;
 
-public class TypeScriptAureliaClientOptionsProvider implements OptionsProvider {
-    public static final String SORT_PARAMS_VALUE = "false";
-    public static final String SORT_MODEL_PROPERTIES_VALUE = "false";
-    public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
-    public static final Boolean SUPPORTS_ES6_VALUE = false;
-    public static final Boolean NULL_SAFE_ADDITIONAL_PROPS_VALUE = false;
-    public static final String ENUM_NAME_SUFFIX = "Enum";
-    public static final String ENUM_PROPERTY_NAMING_VALUE = "PascalCase";
-    public static final String MODEL_PROPERTY_NAMING_VALUE = "camelCase";
-    public static final String PARAM_NAMING_VALUE = "camelCase";
-    private static final String NPM_NAME = "npmName";
-    private static final String NPM_VERSION = "1.0.0";
-    public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
-    public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
-    public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
+public class TypeScriptAureliaClientOptionsProvider implements TypeScriptSharedClientOptionsProvider {
 
     @Override
     public String getLanguage() {
@@ -47,29 +30,8 @@ public class TypeScriptAureliaClientOptionsProvider implements OptionsProvider {
 
     @Override
     public Map<String, String> createOptions() {
-        ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
-        return builder.put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
-                .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, SORT_MODEL_PROPERTIES_VALUE)
-                .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
-                .put(CodegenConstants.ENUM_PROPERTY_NAMING, ENUM_PROPERTY_NAMING_VALUE)
-                .put(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING_VALUE)
-                .put(CodegenConstants.PARAM_NAMING, PARAM_NAMING_VALUE)
-                .put(CodegenConstants.SUPPORTS_ES6, String.valueOf(SUPPORTS_ES6_VALUE))
-                .put(AbstractTypeScriptClientCodegen.NULL_SAFE_ADDITIONAL_PROPS, String.valueOf(NULL_SAFE_ADDITIONAL_PROPS_VALUE))
-                .put(CodegenConstants.ENUM_NAME_SUFFIX, ENUM_NAME_SUFFIX)
-                .put(TypeScriptAureliaClientCodegen.NPM_NAME, NPM_NAME)
-                .put(TypeScriptAureliaClientCodegen.NPM_VERSION, NPM_VERSION)
-                .put(TypeScriptAureliaClientCodegen.SNAPSHOT, Boolean.FALSE.toString())
-                .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
-                .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
-                .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
-                .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
-                .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
+        return ImmutableMap.<String, String>builder()
+                .putAll(TypeScriptSharedClientOptionsProvider.super.createOptions())
                 .build();
-    }
-
-    @Override
-    public boolean isServer() {
-        return false;
     }
 }

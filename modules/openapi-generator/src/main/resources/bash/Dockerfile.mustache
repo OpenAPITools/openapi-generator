@@ -39,9 +39,9 @@ For convenience, you can export the following environment variables:\n\
 {{#x-codegen-host-env}}$(tput setaf 3){{x-codegen-host-env}}$(tput sgr0) - server URL, e.g. https://example.com:8080\n\{{/x-codegen-host-env}}
 {{#hasAuthMethods}}
 {{#authMethods}}
-{{#isBasic}}
+{{#isBasicBasic}}
 {{#x-codegen-basicauth-env}}$(tput setaf 3){{x-codegen-basicauth-env}}$(tput sgr0) - basic authentication credentials, e.g.: "username:password"\n\{{/x-codegen-basicauth-env}}
-{{/isBasic}}
+{{/isBasicBasic}}
 {{#isApiKey}}
 {{#x-codegen-apikey-env}}$(tput setaf 3){{x-codegen-apikey-env}}$(tput sgr0) - access token, e.g. "ASDASHJDG63456asdASSD"\n\{{/x-codegen-apikey-env}}
 {{/isApiKey}}

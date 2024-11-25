@@ -13,7 +13,7 @@
  */
 
 
-import {Api} from './';
+import {Api} from './index';
 import {List} from 'immutable';
 import {all, fork, put, takeLatest} from "redux-saga/effects";
 import {apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords";
@@ -26,7 +26,7 @@ import {
     User,
     UserRecord,
     userRecordUtils,
-} from '../models';
+} from '../models/index';
 
 const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "api_userApi"});
 
@@ -65,7 +65,7 @@ export function *createUserSaga() {
     yield takeLatest(createUser, createUserSagaImp);
 }
 
-export function *createUserSagaImp(_action_: Action<PayloadCreateUser>) {
+export function *createUserSagaImp(_action_: Action<PayloadCreateUser>): any {
     const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
         const {
@@ -74,14 +74,14 @@ export function *createUserSagaImp(_action_: Action<PayloadCreateUser>) {
 
         yield put(createUserRequest(_action_.payload));
 
-        const response = yield apiCall(Api.userApi, Api.userApi.createUser,
+        const response = yield apiCall(Api.userApi, Api.userApi['createUser'],
             userRecordUtils.toApi(body),
         );
 
             yield put(createUserSuccess());
 
         return undefined;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(createUserFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -107,7 +107,7 @@ export function *createUsersWithArrayInputSaga() {
     yield takeLatest(createUsersWithArrayInput, createUsersWithArrayInputSagaImp);
 }
 
-export function *createUsersWithArrayInputSagaImp(_action_: Action<PayloadCreateUsersWithArrayInput>) {
+export function *createUsersWithArrayInputSagaImp(_action_: Action<PayloadCreateUsersWithArrayInput>): any {
     const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
         const {
@@ -116,14 +116,14 @@ export function *createUsersWithArrayInputSagaImp(_action_: Action<PayloadCreate
 
         yield put(createUsersWithArrayInputRequest(_action_.payload));
 
-        const response = yield apiCall(Api.userApi, Api.userApi.createUsersWithArrayInput,
+        const response = yield apiCall(Api.userApi, Api.userApi['createUsersWithArrayInput'],
             userRecordUtils.toApiArray(body),
         );
 
             yield put(createUsersWithArrayInputSuccess());
 
         return undefined;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(createUsersWithArrayInputFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -149,7 +149,7 @@ export function *createUsersWithListInputSaga() {
     yield takeLatest(createUsersWithListInput, createUsersWithListInputSagaImp);
 }
 
-export function *createUsersWithListInputSagaImp(_action_: Action<PayloadCreateUsersWithListInput>) {
+export function *createUsersWithListInputSagaImp(_action_: Action<PayloadCreateUsersWithListInput>): any {
     const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
         const {
@@ -158,14 +158,14 @@ export function *createUsersWithListInputSagaImp(_action_: Action<PayloadCreateU
 
         yield put(createUsersWithListInputRequest(_action_.payload));
 
-        const response = yield apiCall(Api.userApi, Api.userApi.createUsersWithListInput,
+        const response = yield apiCall(Api.userApi, Api.userApi['createUsersWithListInput'],
             userRecordUtils.toApiArray(body),
         );
 
             yield put(createUsersWithListInputSuccess());
 
         return undefined;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(createUsersWithListInputFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -191,7 +191,7 @@ export function *deleteUserSaga() {
     yield takeLatest(deleteUser, deleteUserSagaImp);
 }
 
-export function *deleteUserSagaImp(_action_: Action<PayloadDeleteUser>) {
+export function *deleteUserSagaImp(_action_: Action<PayloadDeleteUser>): any {
     const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
         const {
@@ -200,14 +200,14 @@ export function *deleteUserSagaImp(_action_: Action<PayloadDeleteUser>) {
 
         yield put(deleteUserRequest(_action_.payload));
 
-        const response = yield apiCall(Api.userApi, Api.userApi.deleteUser,
+        const response = yield apiCall(Api.userApi, Api.userApi['deleteUser'],
             username,
         );
 
             yield put(deleteUserSuccess());
 
         return undefined;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(deleteUserFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -244,7 +244,7 @@ export function *getUserByNameSagaImp(_action_: Action<PayloadGetUserByName>) {
 
         yield put(getUserByNameRequest(requestPayload));
 
-        const response: Required<User> = yield apiCall(Api.userApi, Api.userApi.getUserByName,
+        const response: Required<User> = yield apiCall(Api.userApi, Api.userApi['getUserByName'],
             username,
         );
 
@@ -260,7 +260,7 @@ export function *getUserByNameSagaImp(_action_: Action<PayloadGetUserByName>) {
         }
 
         return successReturnValue;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(getUserByNameFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -297,7 +297,7 @@ export function *loginUserSagaImp(_action_: Action<PayloadLoginUser>) {
 
         yield put(loginUserRequest(_action_.payload));
 
-        const response: Required<string> = yield apiCall(Api.userApi, Api.userApi.loginUser,
+        const response: Required<string> = yield apiCall(Api.userApi, Api.userApi['loginUser'],
             username,
             password,
         );
@@ -306,7 +306,7 @@ export function *loginUserSagaImp(_action_: Action<PayloadLoginUser>) {
             yield put(loginUserSuccess(response));
 
         return response;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(loginUserFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -329,19 +329,19 @@ export function *logoutUserSaga() {
     yield takeLatest(logoutUser, logoutUserSagaImp);
 }
 
-export function *logoutUserSagaImp(_action_: Action<PayloadLogoutUser>) {
+export function *logoutUserSagaImp(_action_: Action<PayloadLogoutUser>): any {
     const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
 
         yield put(logoutUserRequest());
 
-        const response = yield apiCall(Api.userApi, Api.userApi.logoutUser,
+        const response = yield apiCall(Api.userApi, Api.userApi['logoutUser'],
         );
 
             yield put(logoutUserSuccess());
 
         return undefined;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(logoutUserFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -378,7 +378,7 @@ export function *updateUserSagaImp(_action_: Action<PayloadUpdateUser>) {
 
         yield put(updateUserRequest(_action_.payload));
 
-        const response: Required<DefaultMetaOnlyResponse> = yield apiCall(Api.userApi, Api.userApi.updateUser,
+        const response: Required<DefaultMetaOnlyResponse> = yield apiCall(Api.userApi, Api.userApi['updateUser'],
             username,
             userRecordUtils.toApi(body),
         );
@@ -386,7 +386,7 @@ export function *updateUserSagaImp(_action_: Action<PayloadUpdateUser>) {
             yield put(updateUserSuccess());
 
         return undefined;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(updateUserFailure({error, requestPayload: _action_.payload}));
         return error;

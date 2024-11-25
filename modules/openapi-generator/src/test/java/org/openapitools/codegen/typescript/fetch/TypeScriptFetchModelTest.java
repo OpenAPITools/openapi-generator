@@ -35,12 +35,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /*
 import static io.swagger.codegen.CodegenConstants.IS_ENUM_EXT_NAME;
@@ -56,11 +51,11 @@ public class TypeScriptFetchModelTest {
     public void simpleModelTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
-                .addProperties("name", new StringSchema())
-                .addProperties("createdAt", new DateTimeSchema())
-                .addProperties("birthDate", new DateSchema())
-                .addProperties("active", new BooleanSchema())
+                .addProperty("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperty("name", new StringSchema())
+                .addProperty("createdAt", new DateTimeSchema())
+                .addProperty("birthDate", new DateSchema())
+                .addProperty("active", new BooleanSchema())
                 .addRequiredItem("id")
                 .addRequiredItem("name");
 
@@ -125,11 +120,11 @@ public class TypeScriptFetchModelTest {
     public void simpleModelWithStringDateTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
-                .addProperties("name", new StringSchema())
-                .addProperties("createdAt", new DateTimeSchema())
-                .addProperties("birthDate", new DateSchema())
-                .addProperties("active", new BooleanSchema())
+                .addProperty("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperty("name", new StringSchema())
+                .addProperty("createdAt", new DateTimeSchema())
+                .addProperty("birthDate", new DateSchema())
+                .addProperty("active", new BooleanSchema())
                 .addRequiredItem("id")
                 .addRequiredItem("name");
 
@@ -212,11 +207,11 @@ public class TypeScriptFetchModelTest {
 
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("id", integerSchema)
-                .addProperties("name", stringSchema)
-                .addProperties("createdAt", dateTimeSchema)
-                .addProperties("birthDate", dateSchema)
-                .addProperties("active", booleanSchema)
+                .addProperty("id", integerSchema)
+                .addProperty("name", stringSchema)
+                .addProperty("createdAt", dateTimeSchema)
+                .addProperty("birthDate", dateSchema)
+                .addProperty("active", booleanSchema)
                 .addRequiredItem("id")
                 .addRequiredItem("name");
 
@@ -255,8 +250,8 @@ public class TypeScriptFetchModelTest {
     public void listPropertyTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
-                .addProperties("urls", new ArraySchema().items(new StringSchema()))
+                .addProperty("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperty("urls", new ArraySchema().items(new StringSchema()))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
@@ -289,7 +284,7 @@ public class TypeScriptFetchModelTest {
     public void complexPropertyTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("children", new Schema().$ref("#/definitions/Children"));
+                .addProperty("children", new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -313,7 +308,7 @@ public class TypeScriptFetchModelTest {
     public void complexListPropertyTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("children", new ArraySchema()
+                .addProperty("children", new ArraySchema()
                         .items(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
@@ -480,4 +475,5 @@ public class TypeScriptFetchModelTest {
         final Map<String, Schema> schemaBefore = openAPI.getComponents().getSchemas();
         Assert.assertEquals(schemaBefore.keySet(), Sets.newHashSet("club", "owner"));
     }
+
 }

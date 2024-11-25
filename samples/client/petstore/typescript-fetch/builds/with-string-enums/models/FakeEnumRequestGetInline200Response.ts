@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -86,10 +86,8 @@ export enum FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum {
 /**
  * Check if a given object implements the FakeEnumRequestGetInline200Response interface.
  */
-export function instanceOfFakeEnumRequestGetInline200Response(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfFakeEnumRequestGetInline200Response(value: object): value is FakeEnumRequestGetInline200Response {
+    return true;
 }
 
 export function FakeEnumRequestGetInline200ResponseFromJSON(json: any): FakeEnumRequestGetInline200Response {
@@ -97,31 +95,33 @@ export function FakeEnumRequestGetInline200ResponseFromJSON(json: any): FakeEnum
 }
 
 export function FakeEnumRequestGetInline200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FakeEnumRequestGetInline200Response {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'stringEnum': !exists(json, 'string-enum') ? undefined : json['string-enum'],
-        'nullableStringEnum': !exists(json, 'nullable-string-enum') ? undefined : json['nullable-string-enum'],
-        'numberEnum': !exists(json, 'number-enum') ? undefined : json['number-enum'],
-        'nullableNumberEnum': !exists(json, 'nullable-number-enum') ? undefined : json['nullable-number-enum'],
+        'stringEnum': json['string-enum'] == null ? undefined : json['string-enum'],
+        'nullableStringEnum': json['nullable-string-enum'] == null ? undefined : json['nullable-string-enum'],
+        'numberEnum': json['number-enum'] == null ? undefined : json['number-enum'],
+        'nullableNumberEnum': json['nullable-number-enum'] == null ? undefined : json['nullable-number-enum'],
     };
 }
 
-export function FakeEnumRequestGetInline200ResponseToJSON(value?: FakeEnumRequestGetInline200Response | null): any {
-    if (value === undefined) {
-        return undefined;
+export function FakeEnumRequestGetInline200ResponseToJSON(json: any): FakeEnumRequestGetInline200Response {
+    return FakeEnumRequestGetInline200ResponseToJSONTyped(json, false);
+}
+
+export function FakeEnumRequestGetInline200ResponseToJSONTyped(value?: FakeEnumRequestGetInline200Response | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'string-enum': value.stringEnum,
-        'nullable-string-enum': value.nullableStringEnum,
-        'number-enum': value.numberEnum,
-        'nullable-number-enum': value.nullableNumberEnum,
+        'string-enum': value['stringEnum'],
+        'nullable-string-enum': value['nullableStringEnum'],
+        'number-enum': value['numberEnum'],
+        'nullable-number-enum': value['nullableNumberEnum'],
     };
 }
 

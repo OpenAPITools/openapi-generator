@@ -3,6 +3,7 @@ package org.openapitools.api;
 import org.openapitools.model.Client;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -44,5 +45,5 @@ public interface AnotherFakeApi  {
     @ApiOperation(value = "To test special tags", tags={ "$another-fake?" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    public Client call123testSpecialTags(@Valid Client body);
+    public Client call123testSpecialTags(@HeaderParam("uuid_test")  @NotNull UUID uuidTest, @Valid Client body);
 }

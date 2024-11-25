@@ -16,6 +16,7 @@ import java.util.Objects;
 import java.util.Arrays;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,7 +41,7 @@ import javax.annotation.Generated;
   Pet.JSON_PROPERTY_STATUS
 })
 @JsonTypeName("Pet")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 @Introspected
 public class Pet {
     public static final String JSON_PROPERTY_ID = "id";
@@ -56,7 +57,7 @@ public class Pet {
     private Set<String> photoUrls = new LinkedHashSet<>();
 
     public static final String JSON_PROPERTY_TAGS = "tags";
-    private List<Tag> tags = null;
+    private List<@Valid Tag> tags = null;
 
     /**
      * pet status in the store
@@ -105,7 +106,7 @@ public class Pet {
     /**
      * Get id
      * @return id
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -127,7 +128,7 @@ public class Pet {
     /**
      * Get category
      * @return category
-     **/
+     */
     @Valid
     @Nullable
     @JsonProperty(JSON_PROPERTY_CATEGORY)
@@ -150,7 +151,7 @@ public class Pet {
     /**
      * Get name
      * @return name
-     **/
+     */
     @NotNull
     @JsonProperty(JSON_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -177,7 +178,7 @@ public class Pet {
     /**
      * Get photoUrls
      * @return photoUrls
-     **/
+     */
     @NotNull
     @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -192,7 +193,7 @@ public class Pet {
         this.photoUrls = photoUrls;
     }
 
-    public Pet tags(List<Tag> tags) {
+    public Pet tags(List<@Valid Tag> tags) {
         this.tags = tags;
         return this;
     }
@@ -208,17 +209,17 @@ public class Pet {
     /**
      * Get tags
      * @return tags
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_TAGS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public List<Tag> getTags() {
+    public List<@Valid Tag> getTags() {
         return tags;
     }
 
     @JsonProperty(JSON_PROPERTY_TAGS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setTags(List<Tag> tags) {
+    public void setTags(List<@Valid Tag> tags) {
         this.tags = tags;
     }
 
@@ -230,7 +231,7 @@ public class Pet {
     /**
      * pet status in the store
      * @return status
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_STATUS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -292,3 +293,4 @@ public class Pet {
     }
 
 }
+

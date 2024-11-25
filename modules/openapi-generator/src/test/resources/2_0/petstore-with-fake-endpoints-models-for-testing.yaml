@@ -1019,6 +1019,13 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/Client'
+        - in: header
+          name: uuid_test
+          description: to test uuid example value
+          required: true
+          default: 1111-2222-3333-4444
+          type: string
+          format: uuid
       responses:
         '200':
           description: successful operation

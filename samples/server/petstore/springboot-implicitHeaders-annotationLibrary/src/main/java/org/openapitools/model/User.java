@@ -17,31 +17,23 @@ import javax.annotation.Generated;
  * A User who is purchasing from the pet store
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class User {
 
-  @JsonProperty("id")
   private Long id;
 
-  @JsonProperty("username")
   private String username;
 
-  @JsonProperty("firstName")
   private String firstName;
 
-  @JsonProperty("lastName")
   private String lastName;
 
-  @JsonProperty("email")
   private String email;
 
-  @JsonProperty("password")
   private String password;
 
-  @JsonProperty("phone")
   private String phone;
 
-  @JsonProperty("userStatus")
   private Integer userStatus;
 
   public User id(Long id) {
@@ -52,8 +44,9 @@ public class User {
   /**
    * Get id
    * @return id
-  */
+   */
   
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -70,8 +63,9 @@ public class User {
   /**
    * Get username
    * @return username
-  */
+   */
   
+  @JsonProperty("username")
   public String getUsername() {
     return username;
   }
@@ -88,8 +82,9 @@ public class User {
   /**
    * Get firstName
    * @return firstName
-  */
+   */
   
+  @JsonProperty("firstName")
   public String getFirstName() {
     return firstName;
   }
@@ -106,8 +101,9 @@ public class User {
   /**
    * Get lastName
    * @return lastName
-  */
+   */
   
+  @JsonProperty("lastName")
   public String getLastName() {
     return lastName;
   }
@@ -124,8 +120,9 @@ public class User {
   /**
    * Get email
    * @return email
-  */
+   */
   
+  @JsonProperty("email")
   public String getEmail() {
     return email;
   }
@@ -142,8 +139,9 @@ public class User {
   /**
    * Get password
    * @return password
-  */
+   */
   
+  @JsonProperty("password")
   public String getPassword() {
     return password;
   }
@@ -160,8 +158,9 @@ public class User {
   /**
    * Get phone
    * @return phone
-  */
+   */
   
+  @JsonProperty("phone")
   public String getPhone() {
     return phone;
   }
@@ -178,8 +177,9 @@ public class User {
   /**
    * User Status
    * @return userStatus
-  */
+   */
   
+  @JsonProperty("userStatus")
   public Integer getUserStatus() {
     return userStatus;
   }

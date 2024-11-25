@@ -1,0 +1,12 @@
+generatorName: rust-axum
+outputDir: samples/server/petstore/rust-axum/output/multipart-v3
+inputSpec: modules/openapi-generator/src/test/resources/3_0/rust-server/multipart-v3.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust-axum
+generateAliasAsModel: true
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  allowBlockingResponseSerialize: "true"
+  packageName: multipart-v3
+globalProperties:
+  skipFormModel: false
+enablePostProcessFile: true

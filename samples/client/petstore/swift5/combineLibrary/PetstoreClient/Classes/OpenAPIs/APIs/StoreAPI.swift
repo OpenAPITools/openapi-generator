@@ -24,9 +24,10 @@ open class StoreAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deleteOrder(orderId: String) -> AnyPublisher<Void, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = deleteOrderWithRequestBuilder(orderId: orderId)
+        let requestTask = requestBuilder.requestTask
         return Future<Void, Error> { promise in
-            requestTask = deleteOrderWithRequestBuilder(orderId: orderId).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -36,7 +37,7 @@ open class StoreAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -78,9 +79,10 @@ open class StoreAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getInventory() -> AnyPublisher<[String: Int], Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = getInventoryWithRequestBuilder()
+        let requestTask = requestBuilder.requestTask
         return Future<[String: Int], Error> { promise in
-            requestTask = getInventoryWithRequestBuilder().execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -90,7 +92,7 @@ open class StoreAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -132,9 +134,10 @@ open class StoreAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getOrderById(orderId: Int64) -> AnyPublisher<Order, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = getOrderByIdWithRequestBuilder(orderId: orderId)
+        let requestTask = requestBuilder.requestTask
         return Future<Order, Error> { promise in
-            requestTask = getOrderByIdWithRequestBuilder(orderId: orderId).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -144,7 +147,7 @@ open class StoreAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -187,9 +190,10 @@ open class StoreAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func placeOrder(body: Order) -> AnyPublisher<Order, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = placeOrderWithRequestBuilder(body: body)
+        let requestTask = requestBuilder.requestTask
         return Future<Order, Error> { promise in
-            requestTask = placeOrderWithRequestBuilder(body: body).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -199,7 +203,7 @@ open class StoreAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }

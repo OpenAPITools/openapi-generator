@@ -4,7 +4,7 @@
   {{&description}}
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
     {{#vars}}{{#atom}}{{&baseName}}{{/atom}}{{^-last}},
     {{/-last}}{{/vars}}
@@ -14,22 +14,21 @@
     {{#vars}}{{#atom}}{{&baseName}}{{/atom}} => {{{datatype}}}{{#isNullable}} | nil{{/isNullable}}{{^isNullable}}{{^required}} | nil{{/required}}{{/isNullable}}{{^-last}},
     {{/-last}}{{/vars}}
   }
-end
 
-defimpl Poison.Decoder, for: {{&moduleName}}.Model.{{&classname}} do
 {{#hasComplexVars}}
-  import {{&moduleName}}.Deserializer
-  def decode(value, options) do
+  alias {{&moduleName}}.Deserializer
+
+  def decode(value) do
     value
     {{#vars}}
     {{^isPrimitiveType}}
-    {{#baseType}}|> deserialize({{#atom}}{{&baseName}}{{/atom}}, {{#isArray}}:list, {{&moduleName}}.Model.{{{items.baseType}}}{{/isArray}}{{#isMap}}:map, {{&moduleName}}.Model.{{{items.baseType}}}{{/isMap}}{{#isDate}}:date, nil{{/isDate}}{{#isDateTime}}:date, nil{{/isDateTime}}{{^isDate}}{{^isDateTime}}{{^isMap}}{{^isArray}}:struct, {{moduleName}}.Model.{{baseType}}{{/isArray}}{{/isMap}}{{/isDateTime}}{{/isDate}}, options)
+    {{#baseType}} |> Deserializer.deserialize({{#atom}}{{&baseName}}{{/atom}}, {{#isArray}}:list, {{&moduleName}}.Model.{{{items.baseType}}}{{/isArray}}{{#isMap}}:map, {{&moduleName}}.Model.{{{items.baseType}}}{{/isMap}}{{#isDate}}:date, nil{{/isDate}}{{#isDateTime}}:datetime, nil{{/isDateTime}}{{^isDate}}{{^isDateTime}}{{^isMap}}{{^isArray}}:struct, {{moduleName}}.Model.{{baseType}}{{/isArray}}{{/isMap}}{{/isDateTime}}{{/isDate}})
     {{/baseType}}
     {{/isPrimitiveType}}
     {{/vars}}
 {{/hasComplexVars}}
 {{^hasComplexVars}}
-  def decode(value, _options) do
+  def decode(value) do
     value
 {{/hasComplexVars}}
   end

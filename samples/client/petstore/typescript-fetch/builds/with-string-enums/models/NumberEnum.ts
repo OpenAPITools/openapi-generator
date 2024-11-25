@@ -24,6 +24,17 @@ export enum NumberEnum {
 }
 
 
+export function instanceOfNumberEnum(value: any): boolean {
+    for (const key in NumberEnum) {
+        if (Object.prototype.hasOwnProperty.call(NumberEnum, key)) {
+            if (NumberEnum[key as keyof typeof NumberEnum] === value) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 export function NumberEnumFromJSON(json: any): NumberEnum {
     return NumberEnumFromJSONTyped(json, false);
 }
@@ -34,5 +45,9 @@ export function NumberEnumFromJSONTyped(json: any, ignoreDiscriminator: boolean)
 
 export function NumberEnumToJSON(value?: NumberEnum | null): any {
     return value as any;
+}
+
+export function NumberEnumToJSONTyped(value: any, ignoreDiscriminator: boolean): NumberEnum {
+    return value as NumberEnum;
 }
 

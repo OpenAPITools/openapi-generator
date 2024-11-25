@@ -30,6 +30,8 @@ export class Pet {
 
     static readonly discriminator: string | undefined = undefined;
 
+    static readonly mapping: {[index: string]: string} | undefined = undefined;
+
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
             "name": "id",
@@ -76,6 +78,9 @@ export class Pet {
     }
 }
 
-
-export type PetStatusEnum = "available" | "pending" | "sold" ;
+export enum PetStatusEnum {
+    Available = 'available',
+    Pending = 'pending',
+    Sold = 'sold'
+}
 

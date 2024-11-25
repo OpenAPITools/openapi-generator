@@ -45,7 +45,7 @@ func NewReadOnlyFirstWithDefaults() *ReadOnlyFirst {
 
 // GetBar returns the Bar field value if set, zero value otherwise.
 func (o *ReadOnlyFirst) GetBar() string {
-	if o == nil || isNil(o.Bar) {
+	if o == nil || IsNil(o.Bar) {
 		var ret string
 		return ret
 	}
@@ -55,7 +55,7 @@ func (o *ReadOnlyFirst) GetBar() string {
 // GetBarOk returns a tuple with the Bar field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ReadOnlyFirst) GetBarOk() (*string, bool) {
-	if o == nil || isNil(o.Bar) {
+	if o == nil || IsNil(o.Bar) {
 		return nil, false
 	}
 	return o.Bar, true
@@ -63,7 +63,7 @@ func (o *ReadOnlyFirst) GetBarOk() (*string, bool) {
 
 // HasBar returns a boolean if a field has been set.
 func (o *ReadOnlyFirst) HasBar() bool {
-	if o != nil && !isNil(o.Bar) {
+	if o != nil && !IsNil(o.Bar) {
 		return true
 	}
 
@@ -77,7 +77,7 @@ func (o *ReadOnlyFirst) SetBar(v string) {
 
 // GetBaz returns the Baz field value if set, zero value otherwise.
 func (o *ReadOnlyFirst) GetBaz() string {
-	if o == nil || isNil(o.Baz) {
+	if o == nil || IsNil(o.Baz) {
 		var ret string
 		return ret
 	}
@@ -87,7 +87,7 @@ func (o *ReadOnlyFirst) GetBaz() string {
 // GetBazOk returns a tuple with the Baz field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ReadOnlyFirst) GetBazOk() (*string, bool) {
-	if o == nil || isNil(o.Baz) {
+	if o == nil || IsNil(o.Baz) {
 		return nil, false
 	}
 	return o.Baz, true
@@ -95,7 +95,7 @@ func (o *ReadOnlyFirst) GetBazOk() (*string, bool) {
 
 // HasBaz returns a boolean if a field has been set.
 func (o *ReadOnlyFirst) HasBaz() bool {
-	if o != nil && !isNil(o.Baz) {
+	if o != nil && !IsNil(o.Baz) {
 		return true
 	}
 
@@ -117,8 +117,10 @@ func (o ReadOnlyFirst) MarshalJSON() ([]byte, error) {
 
 func (o ReadOnlyFirst) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	// skip: bar is readOnly
-	if !isNil(o.Baz) {
+	if !IsNil(o.Bar) {
+		toSerialize["bar"] = o.Bar
+	}
+	if !IsNil(o.Baz) {
 		toSerialize["baz"] = o.Baz
 	}
 
@@ -129,16 +131,20 @@ func (o ReadOnlyFirst) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *ReadOnlyFirst) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ReadOnlyFirst) UnmarshalJSON(data []byte) (err error) {
 	varReadOnlyFirst := _ReadOnlyFirst{}
 
-	if err = json.Unmarshal(bytes, &varReadOnlyFirst); err == nil {
-		*o = ReadOnlyFirst(varReadOnlyFirst)
+	err = json.Unmarshal(data, &varReadOnlyFirst)
+
+	if err != nil {
+		return err
 	}
+
+	*o = ReadOnlyFirst(varReadOnlyFirst)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "bar")
 		delete(additionalProperties, "baz")
 		o.AdditionalProperties = additionalProperties

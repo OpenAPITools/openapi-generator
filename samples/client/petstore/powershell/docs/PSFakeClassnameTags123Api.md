@@ -1,4 +1,4 @@
-# PSPetstore.PSPetstore/Api.PSFakeClassnameTags123Api
+# PSPetstore.PSPetstore\Api.PSFakeClassnameTags123Api
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -7,7 +7,7 @@ Method | HTTP request | Description
 [**Test-PSClassname**](PSFakeClassnameTags123Api.md#Test-PSClassname) | **PATCH** /fake_classname_test | To test class name in snake case
 
 
-<a name="Test-PSClassname"></a>
+<a id="Test-PSClassname"></a>
 # **Test-PSClassname**
 > Client Test-PSClassname<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Client] <PSCustomObject><br>
@@ -21,9 +21,9 @@ To test class name in snake case
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
 $Configuration = Get-Configuration
 # Configure API key authorization: api_key_query
-$Configuration.ApiKey.api_key_query = "YOUR_API_KEY"
+$Configuration.ApiKey.api_key_query_name = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$Configuration.ApiKeyPrefix.api_key_query = "Bearer"
+#$Configuration.ApiKeyPrefix.api_key_query_name = "Bearer"
 
 $Client = Initialize-Client -Client "MyClient" # Client | client model
 

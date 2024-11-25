@@ -1,0 +1,7 @@
+// {{{name}}} ({{{dataType}}}) pattern
+Regex regex{{{name}}} = new Regex(@"{{{vendorExtensions.x-regex}}}"{{#vendorExtensions.x-modifiers}}{{#-first}}, {{/-first}}RegexOptions.{{{.}}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}});
+{{#lambda.copy}}this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}} != null && {{/lambda.copy}}
+if ({{#lambda.first}}{{^required}}{{#lambda.paste}}{{/lambda.paste}}  {{/required}}{{#isNullable}}{{#lambda.paste}}{{/lambda.paste}}{{/isNullable}}{{/lambda.first}}!regex{{{name}}}.Match(this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}}{{#isUuid}}.ToString(){{#lambda.first}}{{^required}}{{nrt!}}  {{/required}}{{#isNullable}}!  {{/isNullable}}{{/lambda.first}}{{/isUuid}}).Success)
+{
+    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, must match a pattern of " + regex{{{name}}}, new [] { "{{{name}}}" });
+}

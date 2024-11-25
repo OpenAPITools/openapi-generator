@@ -38,7 +38,7 @@ Note that the class needs to be annotated with one of Micronaut's [scope annotat
 
 More information can be found inside [Inversion of Control guide section](https://docs.micronaut.io/latest/guide/#ioc).
 
-<a name="deleteOrder"></a>
+<a id="deleteOrder"></a>
 # **deleteOrder**
 ```java
 Mono<Void> StoreApi.deleteOrder(orderId)
@@ -62,7 +62,7 @@ For valid response try integer IDs with value &lt; 1000. Anything above 1000 or 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="getInventory"></a>
+<a id="getInventory"></a>
 # **getInventory**
 ```java
 Mono<Map<String, Integer>> StoreApi.getInventory()
@@ -84,7 +84,7 @@ Returns a map of status codes to quantities
  - **Content-Type**: Not defined
  - **Accept**: `application/json`
 
-<a name="getOrderById"></a>
+<a id="getOrderById"></a>
 # **getOrderById**
 ```java
 Mono<Order> StoreApi.getOrderById(orderId)
@@ -109,7 +109,7 @@ For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other val
  - **Content-Type**: Not defined
  - **Accept**: `application/xml`, `application/json`
 
-<a name="placeOrder"></a>
+<a id="placeOrder"></a>
 # **placeOrder**
 ```java
 Mono<Order> StoreApi.placeOrder(_body)

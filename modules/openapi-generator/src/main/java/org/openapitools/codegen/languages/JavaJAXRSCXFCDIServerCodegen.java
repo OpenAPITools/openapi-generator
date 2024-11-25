@@ -19,8 +19,11 @@ package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationsMap;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Generates a Java JAXRS Server according to JAXRS 2.0 specification, assuming an
@@ -50,6 +53,8 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen imp
 
         // Use standard types
         typeMapping.put("DateTime", "java.util.Date");
+        typeMapping.put("binary", "java.io.InputStream");
+        typeMapping.put("file", "java.io.InputStream");
 
         // Updated template directory
         embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "cxf-cdi";
@@ -63,13 +68,6 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen imp
     @Override
     public void processOpts() {
         super.processOpts();
-
-        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
-        }
-
-        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
-
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 
@@ -97,12 +95,15 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen imp
     }
 
     @Override
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        objs = super.postProcessOperationsWithModels(objs, allModels);
+        removeImport(objs, "java.util.List");
+        return objs;
+    }
+
+    @Override
     public String getHelp() {
         return "Generates a Java JAXRS Server according to JAXRS 2.0 specification, assuming an "
                 + "Apache CXF runtime and a Java EE runtime with CDI enabled.";
-    }
-
-    public void setUseBeanValidation(boolean useBeanValidation) {
-        this.useBeanValidation = useBeanValidation;
     }
 }

@@ -1,0 +1,15 @@
+{{>partial_header}}
+{{#models}}
+{{#model}}
+{{#isAlias}}
+{{>partial_model_alias}}
+{{/isAlias}}{{^isAlias}}{{#oneOf}}{{#-first}}
+{{>partial_model_oneof}}
+{{/-first}}{{/oneOf}}{{^oneOf}}{{#anyOf}}{{#-first}}
+{{>partial_model_anyof}}
+{{/-first}}{{/anyOf}}{{^anyOf}}{{#hasVars}}
+{{>partial_model_single}}
+{{/hasVars}}{{^hasVars}}
+{{>partial_model_alias}}
+{{/hasVars}}
+{{/anyOf}}{{/oneOf}}{{/isAlias}}{{/model}}{{/models}}

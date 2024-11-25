@@ -36,7 +36,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 @Controller
 @Tag(name = "User", description = "The User API")
 public class UserController {
@@ -93,7 +93,7 @@ public class UserController {
     @Produces(value = {})
     @Consumes(value = {"application/json"})
     public Mono<Void> createUsersWithArrayInput(
-        @Body @NotNull List<User> user
+        @Body @NotNull List<@Valid User> user
     ) {
         // TODO implement createUsersWithArrayInput();
         return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
@@ -123,7 +123,7 @@ public class UserController {
     @Produces(value = {})
     @Consumes(value = {"application/json"})
     public Mono<Void> createUsersWithListInput(
-        @Body @NotNull List<User> user
+        @Body @NotNull List<@Valid User> user
     ) {
         // TODO implement createUsersWithListInput();
         return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));

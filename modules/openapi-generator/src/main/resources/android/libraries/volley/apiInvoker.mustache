@@ -196,9 +196,9 @@ public class ApiInvoker {
     {{#isApiKey}}
     INSTANCE.authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));
     {{/isApiKey}}
-    {{#isBasic}}
+    {{#isBasicBasic}}
     INSTANCE.authentications.put("{{name}}", new HttpBasicAuth());
-    {{/isBasic}}
+    {{/isBasicBasic}}
     {{#isOAuth}}
     // TODO: comment out below as OAuth does not exist
     //INSTANCE.authentications.put("{{name}}", new OAuth());

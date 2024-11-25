@@ -35,7 +35,7 @@ type Request a =
         }
 
 
-request : String -> String -> List ( String, String ) -> List (String, Maybe String) -> List (String, Maybe String) -> Maybe Json.Encode.Value -> Json.Decode.Decoder a -> Request a
+request : String -> String -> List ( String, String ) -> List (String, Maybe String) -> List (String, Maybe String) -> Maybe Http.Body -> Json.Decode.Decoder a -> Request a
 request method path pathParams queryParams headerParams body decoder =
     Request
         { method = method
@@ -43,7 +43,7 @@ request method path pathParams queryParams headerParams body decoder =
         , basePath = "http://localhost:9000"
         , pathParams = interpolatePath path pathParams
         , queryParams = queries queryParams
-        , body = Maybe.withDefault Http.emptyBody (Maybe.map Http.jsonBody body)
+        , body = Maybe.withDefault Http.emptyBody body
         , decoder = decoder
         , timeout = Nothing
         , tracker = Nothing

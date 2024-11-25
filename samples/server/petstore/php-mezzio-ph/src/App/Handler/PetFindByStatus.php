@@ -31,9 +31,9 @@ class PetFindByStatus
      *
      * @throws PHException\HttpCode 501 if the method is not implemented
      *
-     * @return \App\DTO\Collection19
+     * @return \App\DTO\Collection3
      */
-    public function findPetsByStatus(ServerRequestInterface $request): \App\DTO\Collection19
+    public function findPetsByStatus(ServerRequestInterface $request): \App\DTO\Collection3
     {
         //TODO implement method
         /** @var \App\DTO\FindPetsByStatusQueryData $queryData */

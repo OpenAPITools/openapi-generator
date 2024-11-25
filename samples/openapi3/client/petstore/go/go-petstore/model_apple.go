@@ -44,7 +44,7 @@ func NewAppleWithDefaults() *Apple {
 
 // GetCultivar returns the Cultivar field value if set, zero value otherwise.
 func (o *Apple) GetCultivar() string {
-	if o == nil || isNil(o.Cultivar) {
+	if o == nil || IsNil(o.Cultivar) {
 		var ret string
 		return ret
 	}
@@ -54,7 +54,7 @@ func (o *Apple) GetCultivar() string {
 // GetCultivarOk returns a tuple with the Cultivar field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Apple) GetCultivarOk() (*string, bool) {
-	if o == nil || isNil(o.Cultivar) {
+	if o == nil || IsNil(o.Cultivar) {
 		return nil, false
 	}
 	return o.Cultivar, true
@@ -62,7 +62,7 @@ func (o *Apple) GetCultivarOk() (*string, bool) {
 
 // HasCultivar returns a boolean if a field has been set.
 func (o *Apple) HasCultivar() bool {
-	if o != nil && !isNil(o.Cultivar) {
+	if o != nil && !IsNil(o.Cultivar) {
 		return true
 	}
 
@@ -84,7 +84,7 @@ func (o Apple) MarshalJSON() ([]byte, error) {
 
 func (o Apple) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.Cultivar) {
+	if !IsNil(o.Cultivar) {
 		toSerialize["cultivar"] = o.Cultivar
 	}
 
@@ -95,16 +95,20 @@ func (o Apple) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *Apple) UnmarshalJSON(bytes []byte) (err error) {
+func (o *Apple) UnmarshalJSON(data []byte) (err error) {
 	varApple := _Apple{}
 
-	if err = json.Unmarshal(bytes, &varApple); err == nil {
-		*o = Apple(varApple)
+	err = json.Unmarshal(data, &varApple)
+
+	if err != nil {
+		return err
 	}
+
+	*o = Apple(varApple)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "cultivar")
 		o.AdditionalProperties = additionalProperties
 	}

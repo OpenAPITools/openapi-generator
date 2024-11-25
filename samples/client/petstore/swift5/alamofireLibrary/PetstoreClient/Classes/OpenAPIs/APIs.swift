@@ -5,14 +5,9 @@
 //
 
 import Foundation
-
-// We reverted the change of PetstoreClientAPI to PetstoreClient introduced in https://github.com/OpenAPITools/openapi-generator/pull/9624
-// Because it was causing the following issue https://github.com/OpenAPITools/openapi-generator/issues/9953
-// If you are affected by this issue, please consider removing the following two lines,
-// By setting the option removeMigrationProjectNameClass to true in the generator
-@available(*, deprecated, renamed: "PetstoreClientAPI")
-public typealias PetstoreClient = PetstoreClientAPI
-
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 open class PetstoreClientAPI {
     public static var basePath = "http://petstore.swagger.io:80/v2"
     public static var customHeaders: [String: String] = [:]
@@ -41,6 +36,7 @@ open class RequestBuilder<T> {
         self.requiresAuthentication = requiresAuthentication
 
         addHeaders(PetstoreClientAPI.customHeaders)
+        addCredential()
     }
 
     open func addHeaders(_ aHeaders: [String: String]) {
@@ -61,9 +57,8 @@ open class RequestBuilder<T> {
         return self
     }
 
-    open func addCredential() -> Self {
+    open func addCredential() {
         credential = PetstoreClientAPI.credential
-        return self
     }
 }
 

@@ -21,28 +21,28 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("List")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class ModelList {
 
-  @JsonProperty("123-list")
-  private String _123list;
+  private Optional<String> _123list = Optional.empty();
 
   public ModelList _123list(String _123list) {
-    this._123list = _123list;
+    this._123list = Optional.of(_123list);
     return this;
   }
 
   /**
    * Get _123list
    * @return _123list
-  */
+   */
   
   @ApiModelProperty(value = "")
-  public String get123list() {
+  @JsonProperty("123-list")
+  public Optional<String> get123list() {
     return _123list;
   }
 
-  public void set123list(String _123list) {
+  public void set123list(Optional<String> _123list) {
     this._123list = _123list;
   }
 
@@ -82,5 +82,63 @@ public class ModelList {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private ModelList instance;
+
+    public Builder() {
+      this(new ModelList());
+    }
+
+    protected Builder(ModelList instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(ModelList value) { 
+      this.instance.set123list(value._123list);
+      return this;
+    }
+
+    public ModelList.Builder _123list(String _123list) {
+      this.instance._123list(_123list);
+      return this;
+    }
+    
+    /**
+    * returns a built ModelList instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public ModelList build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static ModelList.Builder builder() {
+    return new ModelList.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ModelList.Builder toBuilder() {
+    ModelList.Builder builder = new ModelList.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

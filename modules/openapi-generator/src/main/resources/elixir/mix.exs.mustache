@@ -4,12 +4,14 @@ defmodule {{moduleName}}.Mixfile do
   def project do
     [
       app: {{#atom}}{{#underscored}}{{packageName}}{{/underscored}}{{/atom}},
-      version: "{{appVersion}}",
+      version: "{{packageVersion}}",
       elixir: "~> {{supportedElixirVersion}}",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       package: package(),
-      description: "{{appDescription}}",
+      description: """
+      {{appDescription}}
+      """,
       deps: deps()
     ]
   end

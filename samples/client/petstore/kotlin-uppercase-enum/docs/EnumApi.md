@@ -2,12 +2,12 @@
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**getEnum**](EnumApi.md#getEnum) | **GET** /enum | Get enums
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**getEnum**](EnumApi.md#getEnum) | **GET** /enum | Get enums |
 
 
-<a name="getEnum"></a>
+<a id="getEnum"></a>
 # **getEnum**
 > PetEnum getEnum()
 

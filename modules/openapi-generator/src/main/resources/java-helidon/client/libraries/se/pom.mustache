@@ -17,6 +17,12 @@
     <version>{{artifactVersion}}</version>
     <packaging>jar</packaging>
 
+    <properties>
+{{#openApiNullable}}
+        <version.jackson.databind.nullable>0.2.6</version.jackson.databind.nullable>
+{{/openApiNullable}}
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>io.helidon.webclient</groupId>
@@ -30,19 +36,21 @@
             <groupId>{{x-helidon-rootJavaEEDepPrefix}}.json</groupId>
             <artifactId>{{x-helidon-rootJavaEEDepPrefix}}.json-api</artifactId>
         </dependency>
+{{#openApiNullable}}
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>${version.jackson.databind.nullable}</version>
+        </dependency>
+{{/openApiNullable}}
 {{#jackson}}
         <dependency>
-            <groupId>io.helidon.media</groupId>
-            <artifactId>helidon-media-jackson</artifactId>
+            <groupId>io.helidon.{{^x-helidon-v3}}http.{{/x-helidon-v3}}media</groupId>
+            <artifactId>helidon-{{^x-helidon-v3}}http-{{/x-helidon-v3}}media-jackson</artifactId>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-json-jackson</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openapitools</groupId>
-            <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.2.2</version>
         </dependency>
 {{/jackson}}
 {{#jsonb}}
@@ -53,6 +61,10 @@
         <dependency>
             <groupId>{{x-helidon-rootJavaEEDepPrefix}}.json.bind</groupId>
             <artifactId>{{x-helidon-rootJavaEEDepPrefix}}.json.bind-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.helidon.http.media</groupId>
+            <artifactId>helidon-http1media-jsonb</artifactId>
         </dependency>
 {{/jsonb}}
         <dependency>

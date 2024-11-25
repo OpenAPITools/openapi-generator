@@ -26,8 +26,8 @@ abstract class Animal  {
   static const String discriminatorFieldName = r'className';
 
   static const Map<String, Type> discriminatorMapping = {
-    r'Cat': Cat,
-    r'Dog': Dog,
+    r'CAT': Cat,
+    r'DOG': Dog,
   };
 
   @BuiltValueSerializer(custom: true)
@@ -37,10 +37,10 @@ abstract class Animal  {
 extension AnimalDiscriminatorExt on Animal {
     String? get discriminatorValue {
         if (this is Cat) {
-            return r'Cat';
+            return r'CAT';
         }
         if (this is Dog) {
-            return r'Dog';
+            return r'DOG';
         }
         return null;
     }
@@ -48,10 +48,10 @@ extension AnimalDiscriminatorExt on Animal {
 extension AnimalBuilderDiscriminatorExt on AnimalBuilder {
     String? get discriminatorValue {
         if (this is CatBuilder) {
-            return r'Cat';
+            return r'CAT';
         }
         if (this is DogBuilder) {
-            return r'Dog';
+            return r'DOG';
         }
         return null;
     }
@@ -108,9 +108,9 @@ class _$AnimalSerializer implements PrimitiveSerializer<Animal> {
     final discIndex = serializedList.indexOf(Animal.discriminatorFieldName) + 1;
     final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
     switch (discValue) {
-      case r'Cat':
+      case r'CAT':
         return serializers.deserialize(serialized, specifiedType: FullType(Cat)) as Cat;
-      case r'Dog':
+      case r'DOG':
         return serializers.deserialize(serialized, specifiedType: FullType(Dog)) as Dog;
       default:
         return serializers.deserialize(serialized, specifiedType: FullType($Animal)) as $Animal;

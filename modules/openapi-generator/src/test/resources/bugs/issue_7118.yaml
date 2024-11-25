@@ -1,0 +1,38 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI Petstore
+  description: "sample to get all user id as string list and string set"
+  version: 1.0.0
+tags: []
+paths:
+  /users/id?type=set:
+    get:
+      operationId: getUserIdSet
+      tags:
+      - users
+      responses:
+        '200':
+          description: response
+          content:
+            application/json:
+              schema:
+                type: array
+                "uniqueItems": true
+                "items":
+                  "type": "string"
+
+  /users/id?type=list:
+    get:
+      operationId: getUserIdList
+      tags:
+        - users
+      responses:
+        '200':
+          description: response
+          content:
+            application/json:
+              schema:
+                type: array
+                "uniqueItems": false
+                "items":
+                  "type": "string"

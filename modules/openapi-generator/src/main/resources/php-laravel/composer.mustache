@@ -5,7 +5,19 @@
   {{#artifactVersion}}
   "version": "{{.}}",
   {{/artifactVersion}}
-  "license": "MIT",
+  "keywords": [
+    "openapi",
+    "php",
+    "api"
+  ],
+  "homepage": "{{{artifactUrl}}}",
+  "license": "{{{licenseName}}}",
+  "authors": [
+    {
+        "name": "{{{developerOrganization}}}",
+        "homepage": "{{{developerOrganizationUrl}}}"
+    }
+  ],
   "type": "project",
   "require": {
     "php": "^7.2.5",

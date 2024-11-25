@@ -47,7 +47,8 @@ paths:
       - pet
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: pet
     put:
@@ -84,7 +85,8 @@ paths:
       - pet
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: pet
   /pet/findByStatus:
@@ -131,7 +133,9 @@ paths:
       summary: Finds Pets by status
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
       x-tags:
       - tag: pet
   /pet/findByTags:
@@ -178,7 +182,9 @@ paths:
       summary: Finds Pets by tags
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
       x-tags:
       - tag: pet
   /pet/{petId}:
@@ -210,7 +216,8 @@ paths:
       summary: Deletes a pet
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: pet
     get:
@@ -245,7 +252,9 @@ paths:
       summary: Find pet by ID
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
       x-tags:
       - tag: pet
     post:
@@ -275,7 +284,8 @@ paths:
       tags:
       - pet
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: pet
   /pet/{petId}/uploadImage:
@@ -309,7 +319,8 @@ paths:
       tags:
       - pet
       x-content-type: multipart/form-data
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: pet
   /store/inventory:
@@ -331,7 +342,8 @@ paths:
       summary: Returns pet inventories by status
       tags:
       - store
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: store
   /store/order:
@@ -362,7 +374,9 @@ paths:
       - store
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
       x-tags:
       - tag: store
   /store/order/{order_id}:
@@ -387,7 +401,8 @@ paths:
       summary: Delete purchase order by ID
       tags:
       - store
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: store
     get:
@@ -423,7 +438,9 @@ paths:
       summary: Find purchase order by ID
       tags:
       - store
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
       x-tags:
       - tag: store
   /user:
@@ -446,7 +463,8 @@ paths:
       - user
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: user
   /user/createWithArray:
@@ -470,7 +488,8 @@ paths:
       - user
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: user
   /user/createWithList:
@@ -494,7 +513,8 @@ paths:
       - user
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: user
   /user/login:
@@ -540,7 +560,9 @@ paths:
       summary: Logs user into the system
       tags:
       - user
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
       x-tags:
       - tag: user
   /user/logout:
@@ -553,7 +575,8 @@ paths:
       summary: Logs out current logged in user session
       tags:
       - user
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: user
   /user/{username}:
@@ -577,7 +600,8 @@ paths:
       summary: Delete user
       tags:
       - user
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: user
     get:
@@ -608,7 +632,9 @@ paths:
       summary: Get user by user name
       tags:
       - user
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
       x-tags:
       - tag: user
     put:
@@ -640,7 +666,8 @@ paths:
       - user
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: user
   /fake_classname_test:
@@ -668,7 +695,8 @@ paths:
       - fake_classname_tags 123#$%^
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake_classname_tags 123#$%^
   /fake:
@@ -719,7 +747,8 @@ paths:
       tags:
       - fake
       x-group-parameters: true
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
     get:
@@ -806,7 +835,8 @@ paths:
       tags:
       - fake
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
     patch:
@@ -831,7 +861,8 @@ paths:
       - fake
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
     post:
@@ -864,7 +895,8 @@ paths:
       tags:
       - fake
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
   /fake/outer/number:
@@ -889,7 +921,8 @@ paths:
       - fake
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: '*/*'
+      x-accepts:
+      - '*/*'
       x-tags:
       - tag: fake
   /fake/outer/string:
@@ -914,7 +947,8 @@ paths:
       - fake
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: '*/*'
+      x-accepts:
+      - '*/*'
       x-tags:
       - tag: fake
   /fake/outer/boolean:
@@ -939,7 +973,8 @@ paths:
       - fake
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: '*/*'
+      x-accepts:
+      - '*/*'
       x-tags:
       - tag: fake
   /fake/outer/composite:
@@ -964,7 +999,8 @@ paths:
       - fake
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: '*/*'
+      x-accepts:
+      - '*/*'
       x-tags:
       - tag: fake
   /fake/jsonFormData:
@@ -984,7 +1020,8 @@ paths:
       tags:
       - fake
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
   /fake/inline-additionalProperties:
@@ -1008,7 +1045,8 @@ paths:
       - fake
       x-codegen-request-body-name: param
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
   /fake/body-with-query-params:
@@ -1034,7 +1072,8 @@ paths:
       - fake
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
   /fake/create_xml_item:
@@ -1072,13 +1111,22 @@ paths:
       - fake
       x-codegen-request-body-name: XmlItem
       x-content-type: application/xml
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
   /another-fake/dummy:
     patch:
       description: To test special tags and operation ID starting with number
       operationId: 123_test_@#$%_special_tags
+      parameters:
+      - description: to test uuid example value
+        in: header
+        name: uuid_test
+        required: true
+        schema:
+          format: uuid
+          type: string
       requestBody:
         content:
           application/json:
@@ -1098,7 +1146,8 @@ paths:
       - $another-fake?
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: $another-fake?
   /fake/body-with-file-schema:
@@ -1120,7 +1169,8 @@ paths:
       - fake
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
   /fake/test-query-parameters:
@@ -1176,7 +1226,8 @@ paths:
           description: Success
       tags:
       - fake
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
   /fake/{petId}/uploadImageWithRequiredFile:
@@ -1211,7 +1262,8 @@ paths:
       tags:
       - pet
       x-content-type: multipart/form-data
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: pet
 components:
@@ -1438,15 +1490,29 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Dog_allOf'
+      - properties:
+          breed:
+            type: string
+        type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Cat_allOf'
+      - properties:
+          declawed:
+            type: boolean
+        type: object
     BigCat:
       allOf:
       - $ref: '#/components/schemas/Cat'
-      - $ref: '#/components/schemas/BigCat_allOf'
+      - properties:
+          kind:
+            enum:
+            - lions
+            - tigers
+            - leopards
+            - jaguars
+            type: string
+        type: object
     Animal:
       discriminator:
         propertyName: className
@@ -2239,29 +2305,6 @@ components:
       required:
       - requiredFile
       type: object
-    Dog_allOf:
-      properties:
-        breed:
-          type: string
-      type: object
-      example: null
-    Cat_allOf:
-      properties:
-        declawed:
-          type: boolean
-      type: object
-      example: null
-    BigCat_allOf:
-      properties:
-        kind:
-          enum:
-          - lions
-          - tigers
-          - leopards
-          - jaguars
-          type: string
-      type: object
-      example: null
   securitySchemes:
     petstore_auth:
       flows:

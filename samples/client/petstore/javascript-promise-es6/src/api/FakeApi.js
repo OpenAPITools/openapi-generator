@@ -20,6 +20,7 @@ import HealthCheckResult from '../model/HealthCheckResult';
 import OuterComposite from '../model/OuterComposite';
 import OuterObjectWithEnumProperty from '../model/OuterObjectWithEnumProperty';
 import Pet from '../model/Pet';
+import TestInlineFreeformAdditionalPropertiesRequest from '../model/TestInlineFreeformAdditionalPropertiesRequest';
 import User from '../model/User';
 
 /**
@@ -85,8 +86,8 @@ export default class FakeApi {
      * test http signature authentication
      * @param {module:model/Pet} pet Pet object that needs to be added to the store
      * @param {Object} opts Optional parameters
-     * @param {String} opts.query1 query parameter
-     * @param {String} opts.header1 header parameter
+     * @param {String} [query1] query parameter
+     * @param {String} [header1] header parameter
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     fakeHttpSignatureTestWithHttpInfo(pet, opts) {
@@ -138,7 +139,7 @@ export default class FakeApi {
     /**
      * Test serialization of outer boolean types
      * @param {Object} opts Optional parameters
-     * @param {Boolean} opts.body Input boolean as post body
+     * @param {Boolean} [body] Input boolean as post body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link Boolean} and HTTP response
      */
     fakeOuterBooleanSerializeWithHttpInfo(opts) {
@@ -182,7 +183,7 @@ export default class FakeApi {
     /**
      * Test serialization of object with outer number type
      * @param {Object} opts Optional parameters
-     * @param {module:model/OuterComposite} opts.outerComposite Input composite as post body
+     * @param {module:model/OuterComposite} [outerComposite] Input composite as post body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/OuterComposite} and HTTP response
      */
     fakeOuterCompositeSerializeWithHttpInfo(opts) {
@@ -226,7 +227,7 @@ export default class FakeApi {
     /**
      * Test serialization of outer number types
      * @param {Object} opts Optional parameters
-     * @param {Number} opts.body Input number as post body
+     * @param {Number} [body] Input number as post body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link Number} and HTTP response
      */
     fakeOuterNumberSerializeWithHttpInfo(opts) {
@@ -270,7 +271,7 @@ export default class FakeApi {
     /**
      * Test serialization of outer string types
      * @param {Object} opts Optional parameters
-     * @param {String} opts.body Input string as post body
+     * @param {String} [body] Input string as post body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link String} and HTTP response
      */
     fakeOuterStringSerializeWithHttpInfo(opts) {
@@ -350,6 +351,53 @@ export default class FakeApi {
      */
     fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty) {
       return this.fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * test referenced additionalProperties
+     * 
+     * @param {Object.<String, {String: Object}>} requestBody request body
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
+     */
+    testAdditionalPropertiesReferenceWithHttpInfo(requestBody) {
+      let postBody = requestBody;
+      // verify the required parameter 'requestBody' is set
+      if (requestBody === undefined || requestBody === null) {
+        throw new Error("Missing the required parameter 'requestBody' when calling testAdditionalPropertiesReference");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = [];
+      let returnType = null;
+      return this.apiClient.callApi(
+        '/fake/additionalProperties-reference', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * test referenced additionalProperties
+     * 
+     * @param {Object.<String, {String: Object}>} requestBody request body
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     */
+    testAdditionalPropertiesReference(requestBody) {
+      return this.testAdditionalPropertiesReferenceWithHttpInfo(requestBody)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -551,16 +599,16 @@ export default class FakeApi {
      * @param {String} patternWithoutDelimiter None
      * @param {Blob} _byte None
      * @param {Object} opts Optional parameters
-     * @param {Number} opts.integer None
-     * @param {Number} opts.int32 None
-     * @param {Number} opts.int64 None
-     * @param {Number} opts._float None
-     * @param {String} opts.string None
-     * @param {File} opts.binary None
-     * @param {Date} opts.date None
-     * @param {Date} opts.dateTime None
-     * @param {String} opts.password None
-     * @param {String} opts.callback None
+     * @param {Number} [integer] None
+     * @param {Number} [int32] None
+     * @param {Number} [int64] None
+     * @param {Number} [_float] None
+     * @param {String} [string] None
+     * @param {File} [binary] None
+     * @param {Date} [date] None
+     * @param {Date} [dateTime] None
+     * @param {String} [password] None
+     * @param {String} [callback] None
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, opts) {
@@ -649,15 +697,15 @@ export default class FakeApi {
      * To test enum parameters
      * To test enum parameters
      * @param {Object} opts Optional parameters
-     * @param {Array.<module:model/String>} opts.enumHeaderStringArray Header parameter enum test (string array)
-     * @param {module:model/String} opts.enumHeaderString Header parameter enum test (string) (default to '-efg')
-     * @param {Array.<module:model/String>} opts.enumQueryStringArray Query parameter enum test (string array)
-     * @param {module:model/String} opts.enumQueryString Query parameter enum test (string) (default to '-efg')
-     * @param {module:model/Number} opts.enumQueryInteger Query parameter enum test (double)
-     * @param {module:model/Number} opts.enumQueryDouble Query parameter enum test (double)
-     * @param {Array.<module:model/EnumClass>} opts.enumQueryModelArray 
-     * @param {Array.<module:model/String>} opts.enumFormStringArray Form parameter enum test (string array) (default to '$')
-     * @param {module:model/String} opts.enumFormString Form parameter enum test (string) (default to '-efg')
+     * @param {Array.<module:model/String>} [enumHeaderStringArray] Header parameter enum test (string array)
+     * @param {module:model/String} [enumHeaderString = '-efg')] Header parameter enum test (string)
+     * @param {Array.<module:model/String>} [enumQueryStringArray] Query parameter enum test (string array)
+     * @param {module:model/String} [enumQueryString = '-efg')] Query parameter enum test (string)
+     * @param {module:model/Number} [enumQueryInteger] Query parameter enum test (double)
+     * @param {module:model/Number} [enumQueryDouble] Query parameter enum test (double)
+     * @param {Array.<module:model/EnumClass>} [enumQueryModelArray] 
+     * @param {Array.<module:model/String>} [enumFormStringArray = '$')] Form parameter enum test (string array)
+     * @param {module:model/String} [enumFormString = '-efg')] Form parameter enum test (string)
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     testEnumParametersWithHttpInfo(opts) {
@@ -723,9 +771,9 @@ export default class FakeApi {
      * @param {Boolean} requiredBooleanGroup Required Boolean in group parameters
      * @param {Number} requiredInt64Group Required Integer in group parameters
      * @param {Object} opts Optional parameters
-     * @param {Number} opts.stringGroup String in group parameters
-     * @param {Boolean} opts.booleanGroup Boolean in group parameters
-     * @param {Number} opts.int64Group Integer in group parameters
+     * @param {Number} [stringGroup] String in group parameters
+     * @param {Boolean} [booleanGroup] Boolean in group parameters
+     * @param {Number} [int64Group] Integer in group parameters
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, opts) {
@@ -838,6 +886,53 @@ export default class FakeApi {
 
 
     /**
+     * test inline free-form additionalProperties
+     * 
+     * @param {module:model/TestInlineFreeformAdditionalPropertiesRequest} testInlineFreeformAdditionalPropertiesRequest request body
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
+     */
+    testInlineFreeformAdditionalPropertiesWithHttpInfo(testInlineFreeformAdditionalPropertiesRequest) {
+      let postBody = testInlineFreeformAdditionalPropertiesRequest;
+      // verify the required parameter 'testInlineFreeformAdditionalPropertiesRequest' is set
+      if (testInlineFreeformAdditionalPropertiesRequest === undefined || testInlineFreeformAdditionalPropertiesRequest === null) {
+        throw new Error("Missing the required parameter 'testInlineFreeformAdditionalPropertiesRequest' when calling testInlineFreeformAdditionalProperties");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = [];
+      let returnType = null;
+      return this.apiClient.callApi(
+        '/fake/inline-freeform-additionalProperties', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * test inline free-form additionalProperties
+     * 
+     * @param {module:model/TestInlineFreeformAdditionalPropertiesRequest} testInlineFreeformAdditionalPropertiesRequest request body
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     */
+    testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest) {
+      return this.testInlineFreeformAdditionalPropertiesWithHttpInfo(testInlineFreeformAdditionalPropertiesRequest)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
      * test json serialization of form data
      * 
      * @param {String} param field1
@@ -901,7 +996,7 @@ export default class FakeApi {
      * @param {Array.<String>} context 
      * @param {String} allowEmpty 
      * @param {Object} opts Optional parameters
-     * @param {Object.<String, {String: String}>} opts.language 
+     * @param {Object.<String, {String: String}>} [language] 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, allowEmpty, opts) {
@@ -973,6 +1068,53 @@ export default class FakeApi {
      */
     testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, opts) {
       return this.testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, allowEmpty, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * test referenced string map
+     * 
+     * @param {Object.<String, {String: String}>} requestBody request body
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
+     */
+    testStringMapReferenceWithHttpInfo(requestBody) {
+      let postBody = requestBody;
+      // verify the required parameter 'requestBody' is set
+      if (requestBody === undefined || requestBody === null) {
+        throw new Error("Missing the required parameter 'requestBody' when calling testStringMapReference");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = [];
+      let returnType = null;
+      return this.apiClient.callApi(
+        '/fake/stringMap-reference', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * test referenced string map
+     * 
+     * @param {Object.<String, {String: String}>} requestBody request body
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     */
+    testStringMapReference(requestBody) {
+      return this.testStringMapReferenceWithHttpInfo(requestBody)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

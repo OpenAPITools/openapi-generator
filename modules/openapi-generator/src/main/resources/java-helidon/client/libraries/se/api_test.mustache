@@ -11,15 +11,16 @@ import {{invokerPackage}}.ApiResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-{{^fullJavaUtil}}
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-{{/fullJavaUtil}}
 
-import io.helidon.common.reactive.Single;
+{{#x-helidon-v3}}import io.helidon.common.reactive.Single;
 import io.helidon.webclient.WebClientResponse;
+{{/x-helidon-v3}}{{^x-helidon-v3}}{{!
+}}import io.helidon.webclient.api.HttpClientResponse;
+{{/x-helidon-v3}}
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;

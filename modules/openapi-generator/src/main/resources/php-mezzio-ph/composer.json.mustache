@@ -1,9 +1,22 @@
 {
     "name": "{{#lambda.lowercase}}{{gitUserId}}/{{gitRepoId}}{{/lambda.lowercase}}",
     "description": "{{description}}",
-    "license": "unlicense",
     "version": "{{artifactVersion}}",
     "type": "project",
+    "keywords": [
+        "openapi",
+        "php",
+        "sdk",
+        "api"
+    ],
+    "homepage": "{{{artifactUrl}}}",
+    "license": "{{{licenseName}}}",
+    "authors": [
+        {
+            "name": "{{{developerOrganization}}}",
+            "homepage": "{{{developerOrganizationUrl}}}"
+        }
+    ],
     "require": {
         "php": "^7.3 || ^8.0",
         "ext-yaml": "^2.0",

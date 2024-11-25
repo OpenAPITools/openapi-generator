@@ -7,6 +7,7 @@ import org.wso2.msf4j.formparam.FormDataParam;
 import org.wso2.msf4j.formparam.FileInfo;
 
 import org.openapitools.model.Client;
+import java.util.UUID;
 
 import java.util.List;
 import org.openapitools.api.NotFoundException;
@@ -16,8 +17,9 @@ import java.io.InputStream;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public abstract class AnotherFakeApiService {
-    public abstract Response call123testSpecialTags(Client body
+    public abstract Response call123testSpecialTags(UUID uuidTest
+ ,Client body
  ) throws NotFoundException;
 }

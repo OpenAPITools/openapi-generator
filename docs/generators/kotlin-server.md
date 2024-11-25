@@ -22,28 +22,30 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |apiSuffix|suffix for api classes| |Api|
 |artifactId|Generated artifact id (name of jar).| |kotlin-server|
 |artifactVersion|Generated artifact's package version.| |1.0.0|
-|enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |camelCase|
+|enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |original|
 |featureAutoHead|Automatically provide responses to HEAD requests for existing routes that have the GET verb defined.| |true|
 |featureCORS|Ktor by default provides an interceptor for implementing proper support for Cross-Origin Resource Sharing (CORS). See enable-cors.org.| |false|
 |featureCompression|Adds ability to compress outgoing content using gzip, deflate or custom encoder and thus reduce size of the response.| |true|
 |featureConditionalHeaders|Avoid sending content if client already has same content, by checking ETag or LastModified properties.| |false|
 |featureHSTS|Avoid sending content if client already has same content, by checking ETag or LastModified properties.| |true|
-|featureLocations|Generates routes in a typed way, for both: constructing URLs and reading the parameters.| |true|
 |featureMetrics|Enables metrics feature.| |true|
+|featureResources|Generates routes in a typed way, for both: constructing URLs and reading the parameters.| |true|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
 |interfaceOnly|Whether to generate only API interface stubs without the server files. This option is currently supported only when using jaxrs-spec library.| |false|
-|library|library template (sub-template)|<dl><dt>**ktor**</dt><dd>ktor framework</dd><dt>**jaxrs-spec**</dt><dd>JAX-RS spec only</dd></dl>|ktor|
+|library|library template (sub-template)|<dl><dt>**ktor**</dt><dd>ktor framework</dd><dt>**jaxrs-spec**</dt><dd>JAX-RS spec only</dd><dt>**javalin5**</dt><dd>Javalin 5</dd><dt>**javalin6**</dt><dd>Javalin 6</dd></dl>|ktor|
 |modelMutable|Create mutable models| |false|
+|omitGradleWrapper|Whether to omit Gradle wrapper for creating a sub project.| |false|
 |packageName|Generated artifact package name.| |org.openapitools.server|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
 |returnResponse|Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true. This option is currently supported only when using jaxrs-spec library.| |false|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |null|
-|serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson' or 'jackson'| |moshi|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |null|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |null|
 |sourceFolder|source folder for generated code| |src/main/kotlin|
 |useBeanValidation|Use BeanValidation API annotations. This option is currently supported only when using jaxrs-spec library.| |false|
 |useCoroutines|Whether to use the Coroutines. This option is currently supported only when using jaxrs-spec library.| |false|
+|useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
+|useMutiny|Whether to use Mutiny (should not be used with useCoroutines). This option is currently supported only when using jaxrs-spec library.| |false|
 
 ## IMPORT MAPPING
 
@@ -278,6 +280,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
+|SignatureAuth|✗|OAS3
+|AWSV4Signature|✗|ToolingExtension
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

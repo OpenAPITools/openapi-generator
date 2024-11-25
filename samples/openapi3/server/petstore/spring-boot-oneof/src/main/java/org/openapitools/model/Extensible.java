@@ -18,17 +18,25 @@ import javax.annotation.Generated;
  * Extensible
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class Extensible {
 
-  @JsonProperty("@schemaLocation")
   private String atSchemaLocation;
 
-  @JsonProperty("@baseType")
   private String atBaseType;
 
-  @JsonProperty("@type")
   private String atType;
+
+  public Extensible() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Extensible(String atType) {
+    this.atType = atType;
+  }
 
   public Extensible atSchemaLocation(String atSchemaLocation) {
     this.atSchemaLocation = atSchemaLocation;
@@ -38,9 +46,10 @@ public class Extensible {
   /**
    * A URI to a JSON-Schema file that defines additional attributes and relationships
    * @return atSchemaLocation
-  */
+   */
   
-  @Schema(name = "@schemaLocation", description = "A URI to a JSON-Schema file that defines additional attributes and relationships", required = false)
+  @Schema(name = "@schemaLocation", description = "A URI to a JSON-Schema file that defines additional attributes and relationships", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("@schemaLocation")
   public String getAtSchemaLocation() {
     return atSchemaLocation;
   }
@@ -57,9 +66,10 @@ public class Extensible {
   /**
    * When sub-classing, this defines the super-class
    * @return atBaseType
-  */
+   */
   
-  @Schema(name = "@baseType", description = "When sub-classing, this defines the super-class", required = false)
+  @Schema(name = "@baseType", description = "When sub-classing, this defines the super-class", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("@baseType")
   public String getAtBaseType() {
     return atBaseType;
   }
@@ -76,9 +86,10 @@ public class Extensible {
   /**
    * When sub-classing, this defines the sub-class Extensible name
    * @return atType
-  */
+   */
   @NotNull 
-  @Schema(name = "@type", description = "When sub-classing, this defines the sub-class Extensible name", required = true)
+  @Schema(name = "@type", description = "When sub-classing, this defines the sub-class Extensible name", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("@type")
   public String getAtType() {
     return atType;
   }
@@ -127,5 +138,75 @@ public class Extensible {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private Extensible instance;
+
+    public Builder() {
+      this(new Extensible());
+    }
+
+    protected Builder(Extensible instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(Extensible value) { 
+      this.instance.setAtSchemaLocation(value.atSchemaLocation);
+      this.instance.setAtBaseType(value.atBaseType);
+      this.instance.setAtType(value.atType);
+      return this;
+    }
+
+    public Extensible.Builder atSchemaLocation(String atSchemaLocation) {
+      this.instance.atSchemaLocation(atSchemaLocation);
+      return this;
+    }
+    
+    public Extensible.Builder atBaseType(String atBaseType) {
+      this.instance.atBaseType(atBaseType);
+      return this;
+    }
+    
+    public Extensible.Builder atType(String atType) {
+      this.instance.atType(atType);
+      return this;
+    }
+    
+    /**
+    * returns a built Extensible instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Extensible build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static Extensible.Builder builder() {
+    return new Extensible.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Extensible.Builder toBuilder() {
+    Extensible.Builder builder = new Extensible.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

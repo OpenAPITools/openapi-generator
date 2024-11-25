@@ -24,19 +24,15 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("Order")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class OrderDto {
 
-  @JsonProperty("id")
   private Long id;
 
-  @JsonProperty("petId")
   private Long petId;
 
-  @JsonProperty("quantity")
   private Integer quantity;
 
-  @JsonProperty("shipDate")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime shipDate;
 
@@ -77,10 +73,8 @@ public class OrderDto {
     }
   }
 
-  @JsonProperty("status")
   private StatusEnum status;
 
-  @JsonProperty("complete")
   private Boolean complete = false;
 
   public OrderDto id(Long id) {
@@ -91,9 +85,10 @@ public class OrderDto {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -110,9 +105,10 @@ public class OrderDto {
   /**
    * Get petId
    * @return petId
-  */
+   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("petId")
   public Long getPetId() {
     return petId;
   }
@@ -129,9 +125,10 @@ public class OrderDto {
   /**
    * Get quantity
    * @return quantity
-  */
+   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("quantity")
   public Integer getQuantity() {
     return quantity;
   }
@@ -148,9 +145,10 @@ public class OrderDto {
   /**
    * Get shipDate
    * @return shipDate
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("shipDate")
   public OffsetDateTime getShipDate() {
     return shipDate;
   }
@@ -167,9 +165,10 @@ public class OrderDto {
   /**
    * Order Status
    * @return status
-  */
+   */
   
   @ApiModelProperty(value = "Order Status")
+  @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
   }
@@ -186,9 +185,10 @@ public class OrderDto {
   /**
    * Get complete
    * @return complete
-  */
+   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("complete")
   public Boolean getComplete() {
     return complete;
   }

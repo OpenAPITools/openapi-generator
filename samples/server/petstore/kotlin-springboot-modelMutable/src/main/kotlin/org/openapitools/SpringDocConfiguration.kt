@@ -10,7 +10,6 @@ import io.swagger.v3.oas.models.info.License
 import io.swagger.v3.oas.models.Components
 import io.swagger.v3.oas.models.security.SecurityScheme
 
-@jakarta.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"])
 @Configuration
 class SpringDocConfiguration {
 
@@ -30,13 +29,13 @@ class SpringDocConfiguration {
             )
             .components(
                 Components()
+                    .addSecuritySchemes("petstore_auth", SecurityScheme()
+                        .type(SecurityScheme.Type.OAUTH2)
+                    )
                     .addSecuritySchemes("api_key", SecurityScheme()
                         .type(SecurityScheme.Type.APIKEY)
                         .`in`(SecurityScheme.In.HEADER)
                         .name("api_key")
-                    )
-                    .addSecuritySchemes("petstore_auth", SecurityScheme()
-                        .type(SecurityScheme.Type.OAUTH2)
                     )
             )
     }

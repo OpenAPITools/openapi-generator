@@ -566,6 +566,41 @@ paths:
           description: User not found
       security:
         - api_key: []
+  /fake/parameter-name-mapping:
+    get:
+      tags:
+        - fake
+      summary: parameter name mapping test
+      operationId: getParameterNameMapping
+      parameters:
+        - name: _type
+          in: header 
+          description: _type
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: type
+          in: query
+          description: type
+          required: true
+          schema:
+            type: string
+        - name: type_
+          in: header 
+          description: type_
+          required: true
+          schema:
+            type: string
+        - name: http_debug_option
+          in: query
+          description: http debug option (to test parameter naming option)
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
@@ -758,3 +793,13 @@ components:
             type: string
           type: array
       type: object
+    PropertyNameMapping:
+      properties: 
+        http_debug_operation: 
+          type: string
+        _type:
+          type: string
+        type:
+          type: string
+        type_:
+          type: string

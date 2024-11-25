@@ -37,8 +37,8 @@ public class TypeScriptNestjsModelTest {
     public void simpleModelTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
-                .addProperties("name", new StringSchema())
+                .addProperty("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperty("name", new StringSchema())
                 .addProperties("createdAt", new DateTimeSchema())
                 .addProperties("birthDate", new DateSchema())
                 .addRequiredItem("id")

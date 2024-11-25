@@ -11,13 +11,11 @@ import javax.ws.rs.core.GenericType;
 {{#imports}}import {{import}};
 {{/imports}}
 
-{{^fullJavaUtil}}
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-{{/fullJavaUtil}}
 {{>generatedAnnotation}}
 {{#operations}}
 public class {{classname}} {
@@ -63,7 +61,8 @@ public class {{classname}} {
    * @throws ApiException if fails to make API call
    {{#responses.0}}
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        {{#responses}}
        <tr><td> {{code}} </td><td> {{message}} </td><td> {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} </td></tr>
@@ -97,7 +96,8 @@ public class {{classname}} {
    * @throws ApiException if fails to make API call
    {{#responses.0}}
    * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        {{#responses}}
        <tr><td> {{code}} </td><td> {{message}} </td><td> {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} </td></tr>
@@ -128,10 +128,10 @@ public class {{classname}} {
       .replaceAll("\\{" + "{{baseName}}" + "\\}", apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
     // query params
-    {{javaUtilPrefix}}List<Pair> localVarQueryParams = new {{javaUtilPrefix}}ArrayList<Pair>();
-    {{javaUtilPrefix}}Map<String, String> localVarHeaderParams = new {{javaUtilPrefix}}HashMap<String, String>();
-    {{javaUtilPrefix}}Map<String, String> localVarCookieParams = new {{javaUtilPrefix}}HashMap<String, String>();
-    {{javaUtilPrefix}}Map<String, Object> localVarFormParams = new {{javaUtilPrefix}}HashMap<String, Object>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     {{#queryParams}}
     localVarQueryParams.addAll(apiClient.parameterToPairs("{{#collectionFormat}}{{{collectionFormat}}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));
@@ -202,7 +202,8 @@ public class {{classname}} {
      * @throws ApiException if fails to make API call
      {{#responses.0}}
      * @http.response.details
-       <table summary="Response Details" border="1">
+       <table border="1">
+       <caption>Response Details</caption>
          <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
          {{#responses}}
          <tr><td> {{code}} </td><td> {{message}} </td><td> {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} </td></tr>
@@ -222,7 +223,8 @@ public class {{classname}} {
      * @throws ApiException if fails to make API call
      {{#responses.0}}
      * @http.response.details
-       <table summary="Response Details" border="1">
+       <table border="1">
+       <caption>Response Details</caption>
          <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
          {{#responses}}
          <tr><td> {{code}} </td><td> {{message}} </td><td> {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} </td></tr>

@@ -19,7 +19,7 @@ class StoreInventory
     #[PHA\Get()]
     // TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
     #[PHA\Producer("application/json", PHProducer\Transfer::class)]
-    public function getInventory(ServerRequestInterface $request): \App\DTO\Collection34
+    public function getInventory(ServerRequestInterface $request): \App\DTO\Collection8
     {
         //TODO implement method
         throw new PHException\HttpCode(501, "Not implemented");

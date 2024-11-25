@@ -16,6 +16,7 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.*;
 
@@ -59,7 +60,7 @@ import javax.annotation.Generated;
   XmlItem.JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY
 })
 @JsonTypeName("XmlItem")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 @Introspected
 public class XmlItem {
     public static final String JSON_PROPERTY_ATTRIBUTE_STRING = "attribute_string";
@@ -159,7 +160,7 @@ public class XmlItem {
     /**
      * Get attributeString
      * @return attributeString
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_ATTRIBUTE_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -181,7 +182,7 @@ public class XmlItem {
     /**
      * Get attributeNumber
      * @return attributeNumber
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_ATTRIBUTE_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -203,7 +204,7 @@ public class XmlItem {
     /**
      * Get attributeInteger
      * @return attributeInteger
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_ATTRIBUTE_INTEGER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -225,7 +226,7 @@ public class XmlItem {
     /**
      * Get attributeBoolean
      * @return attributeBoolean
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_ATTRIBUTE_BOOLEAN)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -255,7 +256,7 @@ public class XmlItem {
     /**
      * Get wrappedArray
      * @return wrappedArray
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_WRAPPED_ARRAY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -277,7 +278,7 @@ public class XmlItem {
     /**
      * Get nameString
      * @return nameString
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_NAME_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -299,7 +300,7 @@ public class XmlItem {
     /**
      * Get nameNumber
      * @return nameNumber
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_NAME_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -321,7 +322,7 @@ public class XmlItem {
     /**
      * Get nameInteger
      * @return nameInteger
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_NAME_INTEGER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -343,7 +344,7 @@ public class XmlItem {
     /**
      * Get nameBoolean
      * @return nameBoolean
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_NAME_BOOLEAN)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -373,7 +374,7 @@ public class XmlItem {
     /**
      * Get nameArray
      * @return nameArray
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_NAME_ARRAY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -403,7 +404,7 @@ public class XmlItem {
     /**
      * Get nameWrappedArray
      * @return nameWrappedArray
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_NAME_WRAPPED_ARRAY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -425,7 +426,7 @@ public class XmlItem {
     /**
      * Get prefixString
      * @return prefixString
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_PREFIX_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -447,7 +448,7 @@ public class XmlItem {
     /**
      * Get prefixNumber
      * @return prefixNumber
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_PREFIX_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -469,7 +470,7 @@ public class XmlItem {
     /**
      * Get prefixInteger
      * @return prefixInteger
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_PREFIX_INTEGER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -491,7 +492,7 @@ public class XmlItem {
     /**
      * Get prefixBoolean
      * @return prefixBoolean
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_PREFIX_BOOLEAN)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -521,7 +522,7 @@ public class XmlItem {
     /**
      * Get prefixArray
      * @return prefixArray
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_PREFIX_ARRAY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -551,7 +552,7 @@ public class XmlItem {
     /**
      * Get prefixWrappedArray
      * @return prefixWrappedArray
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_PREFIX_WRAPPED_ARRAY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -573,7 +574,7 @@ public class XmlItem {
     /**
      * Get namespaceString
      * @return namespaceString
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_NAMESPACE_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -595,7 +596,7 @@ public class XmlItem {
     /**
      * Get namespaceNumber
      * @return namespaceNumber
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_NAMESPACE_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -617,7 +618,7 @@ public class XmlItem {
     /**
      * Get namespaceInteger
      * @return namespaceInteger
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_NAMESPACE_INTEGER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -639,7 +640,7 @@ public class XmlItem {
     /**
      * Get namespaceBoolean
      * @return namespaceBoolean
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_NAMESPACE_BOOLEAN)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -669,7 +670,7 @@ public class XmlItem {
     /**
      * Get namespaceArray
      * @return namespaceArray
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_NAMESPACE_ARRAY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -699,7 +700,7 @@ public class XmlItem {
     /**
      * Get namespaceWrappedArray
      * @return namespaceWrappedArray
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -721,7 +722,7 @@ public class XmlItem {
     /**
      * Get prefixNsString
      * @return prefixNsString
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_PREFIX_NS_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -743,7 +744,7 @@ public class XmlItem {
     /**
      * Get prefixNsNumber
      * @return prefixNsNumber
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_PREFIX_NS_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -765,7 +766,7 @@ public class XmlItem {
     /**
      * Get prefixNsInteger
      * @return prefixNsInteger
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_PREFIX_NS_INTEGER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -787,7 +788,7 @@ public class XmlItem {
     /**
      * Get prefixNsBoolean
      * @return prefixNsBoolean
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_PREFIX_NS_BOOLEAN)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -817,7 +818,7 @@ public class XmlItem {
     /**
      * Get prefixNsArray
      * @return prefixNsArray
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_PREFIX_NS_ARRAY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -847,7 +848,7 @@ public class XmlItem {
     /**
      * Get prefixNsWrappedArray
      * @return prefixNsWrappedArray
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -955,3 +956,4 @@ public class XmlItem {
     }
 
 }
+

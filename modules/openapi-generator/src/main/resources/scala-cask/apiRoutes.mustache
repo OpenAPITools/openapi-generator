@@ -1,0 +1,66 @@
+//> using scala "3.3.1"
+//> using lib "com.lihaoyi::cask:0.8.3"
+//> using lib "com.lihaoyi::scalatags:0.12.0"
+{{>licenseInfo}}
+
+// this is generated from apiRoutes.mustache
+package {{apiPackage}}
+
+import {{modelPackage}}.*
+
+import upickle.default.{ReadWriter => RW, macroRW}
+import upickle.default.*
+import scala.util.Try
+
+{{#imports}}import {{import}}
+{{/imports}}
+
+class {{classname}}Routes(service : {{classname}}Service[Try]) extends cask.Routes {
+
+{{#route-groups}}
+    // route group for {{methodName}}
+    {{caskAnnotation}}("{{pathPrefix}}", true)
+    def {{methodName}}(request: cask.Request{{>apiRoutesQueryParamsTyped}}) = {
+        request.remainingPathSegments match {
+    {{#operations}}
+            case Seq({{>pathExtractor}}) => {{operationId}}({{>pathExtractorParams}}request{{>queryParams}})
+    {{/operations}}
+            case _          => cask.Response("Not Found", statusCode = 404)
+        }
+    }
+{{/route-groups}}
+
+{{#operations}}
+    {{#operation}}
+        /** {{summary}}
+         * {{description}}
+         */
+        {{vendorExtensions.x-annotation}}("{{vendorExtensions.x-cask-path}}")
+        def {{operationId}}({{{vendorExtensions.x-cask-path-typed}}}) = {
+        {{#authMethods}}
+            // auth method {{name}} : {{type}}, keyParamName: {{keyParamName}}
+        {{/authMethods}}
+
+        def failFast = request.queryParams.keySet.contains("failFast")
+
+        val result = {{>parseHttpParams}}
+
+        {{#vendorExtensions.x-import-response-implicits}}
+        import {{vendorExtensions.x-response-type}}.{given, *} // this brings in upickle in the case of union (oneOf) types
+        {{/vendorExtensions.x-import-response-implicits}}
+
+        (result : @unchecked) match {
+          case Left(error) => cask.Response(error, 500)
+        {{#responses}}
+            {{#dataType}}
+          case Right(value : {{dataType}}) => cask.Response(data = write(value), {{code}}, headers = Seq("Content-Type" -> "application/json"))
+            {{/dataType}}
+        {{/responses}}
+          case Right(other) => cask.Response(s"$other", 200)
+        }
+      }
+    {{/operation}}
+{{/operations}}
+
+    initialize()
+}

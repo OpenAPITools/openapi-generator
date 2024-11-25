@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.FileDto;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -24,15 +25,13 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("FileSchemaTestClass")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class FileSchemaTestClassDto {
 
-  @JsonProperty("file")
   private FileDto file;
 
-  @JsonProperty("files")
   @Valid
-  private List<FileDto> files = null;
+  private List<@Valid FileDto> files = new ArrayList<>();
 
   public FileSchemaTestClassDto file(FileDto file) {
     this.file = file;
@@ -42,9 +41,10 @@ public class FileSchemaTestClassDto {
   /**
    * Get file
    * @return file
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("file")
   public FileDto getFile() {
     return file;
   }
@@ -53,7 +53,7 @@ public class FileSchemaTestClassDto {
     this.file = file;
   }
 
-  public FileSchemaTestClassDto files(List<FileDto> files) {
+  public FileSchemaTestClassDto files(List<@Valid FileDto> files) {
     this.files = files;
     return this;
   }
@@ -69,14 +69,15 @@ public class FileSchemaTestClassDto {
   /**
    * Get files
    * @return files
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
-  public List<FileDto> getFiles() {
+  @JsonProperty("files")
+  public List<@Valid FileDto> getFiles() {
     return files;
   }
 
-  public void setFiles(List<FileDto> files) {
+  public void setFiles(List<@Valid FileDto> files) {
     this.files = files;
   }
 

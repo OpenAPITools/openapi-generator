@@ -1,7 +1,10 @@
+{{>licenseInfo}}
+
 package {{invokerPackage}};
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 {{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
 {{/openApiNullable}}
@@ -24,16 +27,22 @@ public class JSON {
   private ObjectMapper mapper;
 
   public JSON() {
-    mapper = new ObjectMapper();
-    mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    mapper.configure(MapperFeature.ALLOW_COERCION_OF_SCALARS, false);
-    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
-    mapper.configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, true);
-    mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-    mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
-    mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
-    mapper.setDateFormat(new RFC3339DateFormat());
-    mapper.registerModule(new JavaTimeModule());
+    mapper = JsonMapper.builder()
+        .serializationInclusion(JsonInclude.Include.NON_NULL)
+        .disable(MapperFeature.ALLOW_COERCION_OF_SCALARS)
+        {{#failOnUnknownProperties}}
+        .enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+        {{/failOnUnknownProperties}}
+        {{^failOnUnknownProperties}}
+        .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+        {{/failOnUnknownProperties}}
+        .enable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE)
+        .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+        .enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING)
+        .enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING)
+        .defaultDateFormat(new RFC3339DateFormat())
+        .addModule(new JavaTimeModule())
+        .build();
     {{#joda}}
     mapper.registerModule(new JodaModule());
     {{/joda}}
@@ -79,6 +88,7 @@ public class JSON {
   /**
    * Helper class to register the discriminator mappings.
    */
+  {{>generatedAnnotation}}
   private static class ClassDiscriminatorMapping {
     // The model class name.
     Class<?> modelClass;

@@ -5,30 +5,7 @@
     {{/description}}
      * @var {{{vendorExtensions.x-comment-type}}}
      * @SerializedName("{{baseName}}")
-{{#required}}
-     * @Assert\NotNull()
-     {{^isPrimitiveType}}
-     * @Assert\Valid()
-     {{/isPrimitiveType}}
-{{/required}}
-{{#isEnum}}
-    {{#isContainer}}
-     * @Assert\All({
-    {{#items}}
-     *   @Assert\Choice({ {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}} })
-    {{/items}}
-     * })
-    {{/isContainer}}
-    {{^isContainer}}
-     * @Assert\Choice({ {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}} })
-    {{/isContainer}}
-{{/isEnum}}
 {{#isContainer}}
-     * @Assert\All({
-    {{#items}}
-     *   @Assert\Type("{{dataType}}")
-    {{/items}}
-     * })
      {{#isMap}}
      {{#items}}
      * @Type("array<string, {{dataType}}>")
@@ -36,66 +13,107 @@
      {{/isMap}}
      {{^isMap}}
      {{#items}}
+     {{#isEnumRef}}
+     * @Accessor(getter="getSerialized{{nameInPascalCase}}", setter="setDeserialized{{nameInPascalCase}}")
+     * @Type("array<string>")
+     {{/isEnumRef}}
+     {{^isEnumRef}}
      * @Type("array<{{dataType}}>")
+     {{/isEnumRef}}
      {{/items}}
      {{/isMap}}
 {{/isContainer}}
 {{^isContainer}}
     {{#isDate}}
-     * @Assert\Date()
      * @Type("DateTime<'Y-m-d'>")
     {{/isDate}}
     {{#isDateTime}}
-     * @Assert\DateTime()
      * @Type("DateTime")
+    {{/isDateTime}}
+    {{#isEnumRef}}
+    * @Accessor(getter="getSerialized{{nameInPascalCase}}", setter="setDeserialized{{nameInPascalCase}}")
+    * @Type("string")
+    {{/isEnumRef}}
+    {{^isDate}}
+    {{^isDateTime}}
+    {{^isEnumRef}}
+     * @Type("{{dataType}}")
+    {{/isEnumRef}}
+    {{/isDateTime}}
+    {{/isDate}}
+{{/isContainer}}
+    */
+{{#required}}
+    #[Assert\NotNull]
+    {{^isPrimitiveType}}
+    #[Assert\Valid]
+    {{/isPrimitiveType}}
+{{/required}}
+{{#isEnum}}
+    {{#isContainer}}
+    #[Assert\All([
+        {{#items}}
+        new Assert\Choice([{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]),
+        {{/items}}
+    ])]
+    {{/isContainer}}
+    {{^isContainer}}
+    #[Assert\Choice([{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])]
+    {{/isContainer}}
+{{/isEnum}}
+{{#isContainer}}
+    #[Assert\All([
+        {{#items}}
+        new Assert\Type("{{dataType}}"),
+        {{/items}}
+    ])]
+{{/isContainer}}
+{{^isContainer}}
+    {{#isDate}}
+    #[Assert\Type("\DateTime")]
+    {{/isDate}}
+    {{#isDateTime}}
+    #[Assert\Type("\DateTime")]
     {{/isDateTime}}
     {{^isDate}}
     {{^isDateTime}}
-     * @Assert\Type("{{dataType}}")
-     * @Type("{{dataType}}")
+    {{^isEnumRef}}
+    #[Assert\Type("{{dataType}}")]
+    {{/isEnumRef}}
     {{/isDateTime}}
     {{/isDate}}
 {{/isContainer}}
 {{#hasValidation}}
     {{#maxLength}}
-     * @Assert\Length(
-     *   max = {{.}}
-     * )
+    #[Assert\Length(max: {{.}})]
     {{/maxLength}}
     {{#minLength}}
-     * @Assert\Length(
-     *   min = {{.}}
-     * )
+    #[Assert\Length(min: {{.}})]
     {{/minLength}}
     {{#minimum}}
     {{#exclusiveMinimum}}
-     * @Assert\GreaterThan({{minimum}})
+    #[Assert\GreaterThan({{minimum}})]
     {{/exclusiveMinimum}}
     {{^exclusiveMinimum}}
-     * @Assert\GreaterThanOrEqual({{minimum}})
+    #[Assert\GreaterThanOrEqual({{minimum}})]
     {{/exclusiveMinimum}}
     {{/minimum}}
     {{#maximum}}
     {{#exclusiveMaximum}}
-     * @Assert\LessThan({{maximum}})
+    #[Assert\LessThan({{maximum}})]
     {{/exclusiveMaximum}}
     {{^exclusiveMaximum}}
-     * @Assert\LessThanOrEqual({{maximum}})
+    #[Assert\LessThanOrEqual({{maximum}})]
     {{/exclusiveMaximum}}
     {{/maximum}}
     {{#pattern}}
-     * @Assert\Regex("/{{.}}/")
+    #[Assert\Regex("/{{.}}/")]
     {{/pattern}}
     {{#maxItems}}
-     * @Assert\Count(
-     *   max = {{.}}
-     * )
+    #[Assert\Count(max: {{.}})]
     {{/maxItems}}
     {{#minItems}}
-     * @Assert\Count(
-     *   min = {{.}}
-     * )
+    #[Assert\Count(min: {{.}})]
     {{/minItems}}
 {{/hasValidation}}
-     */
-    protected {{{vendorExtensions.x-parameter-type}}} ${{name}} = null;
+    protected {{{vendorExtensions.x-parameter-type}}} ${{name}} = {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}};

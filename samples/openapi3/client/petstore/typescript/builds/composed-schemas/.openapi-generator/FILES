@@ -1,3 +1,4 @@
+.gitattributes
 .gitignore
 DefaultApi.md
 README.md
@@ -12,9 +13,7 @@ http/isomorphic-fetch.ts
 index.ts
 middleware.ts
 models/Cat.ts
-models/CatAllOf.ts
 models/Dog.ts
-models/DogAllOf.ts
 models/FilePostRequest.ts
 models/ObjectSerializer.ts
 models/PetByAge.ts

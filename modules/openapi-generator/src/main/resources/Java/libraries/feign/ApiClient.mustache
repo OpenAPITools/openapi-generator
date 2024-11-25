@@ -1,7 +1,10 @@
+{{>licenseInfo}}
+
 package {{invokerPackage}};
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -94,16 +97,14 @@ public class ApiClient {
     for(String authName : authNames) {
       log.log(Level.FINE, "Creating authentication {0}", authName);
       {{#hasAuthMethods}}
-      RequestInterceptor auth;
+      RequestInterceptor auth = null;
       {{#authMethods}}if ("{{name}}".equals(authName)) {
-      {{#isBasic}}
       {{#isBasicBasic}}
         auth = new HttpBasicAuth();
       {{/isBasicBasic}}
-      {{^isBasicBasic}}
+      {{#isBasicBearer}}
         auth = new HttpBearerAuth("{{scheme}}");
-      {{/isBasicBasic}}
-      {{/isBasic}}
+      {{/isBasicBearer}}
       {{#isApiKey}}
         auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}");
       {{/isApiKey}}
@@ -113,7 +114,9 @@ public class ApiClient {
       } else {{/authMethods}}{
         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
       }
-      addAuthorization(authName, auth);
+      if (auth != null) {
+        addAuthorization(authName, auth);
+      }
       {{/hasAuthMethods}}
       {{^hasAuthMethods}}
       throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
@@ -170,7 +173,12 @@ public class ApiClient {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     objectMapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
+    {{#failOnUnknownProperties}}
+    objectMapper.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+    {{/failOnUnknownProperties}}
+    {{^failOnUnknownProperties}}
     objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+    {{/failOnUnknownProperties}}
     objectMapper.disable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE);
     objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     objectMapper.setDateFormat(new RFC3339DateFormat());
@@ -263,6 +271,15 @@ public class ApiClient {
   public void setBearerToken(String bearerToken) {
     HttpBearerAuth apiAuthorization =  getAuthorization(HttpBearerAuth.class);
     apiAuthorization.setBearerToken(bearerToken);
+  }
+
+  /**
+   * Helper method to configure the supplier of bearer tokens.
+   * @param tokenSupplier the supplier of bearer tokens.
+   */
+  public void setBearerToken(Supplier<String> tokenSupplier) {
+    HttpBearerAuth apiAuthorization =  getAuthorization(HttpBearerAuth.class);
+    apiAuthorization.setBearerToken(tokenSupplier);
   }
 
   /**

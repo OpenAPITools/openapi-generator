@@ -31,6 +31,7 @@ namespace OpenAPI\Server\Model;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\Accessor;
 use JMS\Serializer\Annotation\SerializedName;
 
 /**
@@ -47,28 +48,30 @@ class Category
         /**
      * @var int|null
      * @SerializedName("id")
-     * @Assert\Type("int")
      * @Type("int")
-     */
+    */
+    #[Assert\Type("int")]
     protected ?int $id = null;
 
     /**
      * @var string|null
      * @SerializedName("name")
-     * @Assert\Type("string")
      * @Type("string")
-     * @Assert\Regex("/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/")
-     */
+    */
+    #[Assert\Type("string")]
+    #[Assert\Regex("/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/")]
     protected ?string $name = null;
 
     /**
      * Constructor
      * @param array|null $data Associated array of property values initializing the model
      */
-    public function __construct(array $data = null)
+    public function __construct(?array $data = null)
     {
-        $this->id = $data['id'] ?? null;
-        $this->name = $data['name'] ?? null;
+        if (is_array($data)) {
+            $this->id = array_key_exists('id', $data) ? $data['id'] : $this->id;
+            $this->name = array_key_exists('name', $data) ? $data['name'] : $this->name;
+        }
     }
 
     /**
@@ -82,18 +85,21 @@ class Category
     }
 
     /**
-     * Sets id.
-     *
-     * @param int|null $id
-     *
-     * @return $this
-     */
+    * Sets id.
+    *
+    * @param int|null $id
+    *
+    * @return $this
+    */
     public function setId(?int $id = null): self
     {
         $this->id = $id;
 
         return $this;
     }
+
+
+
 
     /**
      * Gets name.
@@ -106,18 +112,21 @@ class Category
     }
 
     /**
-     * Sets name.
-     *
-     * @param string|null $name
-     *
-     * @return $this
-     */
+    * Sets name.
+    *
+    * @param string|null $name
+    *
+    * @return $this
+    */
     public function setName(?string $name = null): self
     {
         $this->name = $name;
 
         return $this;
     }
+
+
+
 }
 
 

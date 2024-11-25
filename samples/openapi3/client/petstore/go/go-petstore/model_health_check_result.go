@@ -44,7 +44,7 @@ func NewHealthCheckResultWithDefaults() *HealthCheckResult {
 
 // GetNullableMessage returns the NullableMessage field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *HealthCheckResult) GetNullableMessage() string {
-	if o == nil || isNil(o.NullableMessage.Get()) {
+	if o == nil || IsNil(o.NullableMessage.Get()) {
 		var ret string
 		return ret
 	}
@@ -105,16 +105,20 @@ func (o HealthCheckResult) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *HealthCheckResult) UnmarshalJSON(bytes []byte) (err error) {
+func (o *HealthCheckResult) UnmarshalJSON(data []byte) (err error) {
 	varHealthCheckResult := _HealthCheckResult{}
 
-	if err = json.Unmarshal(bytes, &varHealthCheckResult); err == nil {
-		*o = HealthCheckResult(varHealthCheckResult)
+	err = json.Unmarshal(data, &varHealthCheckResult)
+
+	if err != nil {
+		return err
 	}
+
+	*o = HealthCheckResult(varHealthCheckResult)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "NullableMessage")
 		o.AdditionalProperties = additionalProperties
 	}

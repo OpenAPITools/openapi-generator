@@ -1,3 +1,5 @@
+{{>licenseInfo}}
+
 package {{invokerPackage}};
 
 import {{apiPackage}}.*;
@@ -32,7 +34,12 @@ public class ApiClient {
     // A reasonable default object mapper. Client can pass in a chosen ObjectMapper anyway, this is just for reasonable defaults.
     private static ObjectMapper createDefaultObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper()
+            {{#failOnUnknownProperties}}
+            .enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            {{/failOnUnknownProperties}}
+            {{^failOnUnknownProperties}}
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            {{/failOnUnknownProperties}}
             .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
             .setDateFormat(new RFC3339DateFormat());
         {{#joda}}

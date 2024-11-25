@@ -17,11 +17,11 @@
     <version>{{artifactVersion}}</version>
     <packaging>jar</packaging>
 
-{{#openApiNullable}}
     <properties>
-        <version.jackson.databind.nullable>0.2.3</version.jackson.databind.nullable>
-    </properties>
+{{#openApiNullable}}
+        <version.jackson.databind.nullable>0.2.6</version.jackson.databind.nullable>
 {{/openApiNullable}}
+    </properties>
 
     <dependencies>
         <dependency>
@@ -68,11 +68,20 @@
             <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
         </dependency>
+{{^x-helidon-useMpTesting}}
         <dependency>
             <groupId>io.helidon.microprofile.tests</groupId>
             <artifactId>helidon-microprofile-tests-junit5</artifactId>
             <scope>test</scope>
         </dependency>
+{{/x-helidon-useMpTesting}}
+{{#x-helidon-useMpTesting}}
+        <dependency>
+            <groupId>io.helidon.microprofile.testing</groupId>
+            <artifactId>helidon-microprofile-testing-junit5</artifactId>
+            <scope>test</scope>
+        </dependency>
+{{/x-helidon-useMpTesting}}
     </dependencies>
 
     <build>
@@ -87,8 +96,14 @@
                 </executions>
             </plugin>
             <plugin>
+{{^x-helidon-useSmallRyeJandexPlugin}}
                 <groupId>org.jboss.jandex</groupId>
                 <artifactId>jandex-maven-plugin</artifactId>
+{{/x-helidon-useSmallRyeJandexPlugin}}
+{{#x-helidon-useSmallRyeJandexPlugin}}
+                <groupId>io.smallrye</groupId>
+                <artifactId>jandex-maven-plugin</artifactId>
+{{/x-helidon-useSmallRyeJandexPlugin}}
                 <executions>
                     <execution>
                         <id>make-index</id>

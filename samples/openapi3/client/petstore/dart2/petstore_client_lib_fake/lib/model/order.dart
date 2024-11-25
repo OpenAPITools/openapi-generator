@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.12
+// @dart=2.18
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -60,12 +60,12 @@ class Order {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Order &&
-     other.id == id &&
-     other.petId == petId &&
-     other.quantity == quantity &&
-     other.shipDate == shipDate &&
-     other.status == status &&
-     other.complete == complete;
+    other.id == id &&
+    other.petId == petId &&
+    other.quantity == quantity &&
+    other.shipDate == shipDate &&
+    other.status == status &&
+    other.complete == complete;
 
   @override
   int get hashCode =>
@@ -133,7 +133,7 @@ class Order {
         id: mapValueOfType<int>(json, r'id'),
         petId: mapValueOfType<int>(json, r'petId'),
         quantity: mapValueOfType<int>(json, r'quantity'),
-        shipDate: mapDateTime(json, r'shipDate', ''),
+        shipDate: mapDateTime(json, r'shipDate', r''),
         status: OrderStatusEnum.fromJson(json[r'status']),
         complete: mapValueOfType<bool>(json, r'complete') ?? false,
       );
@@ -141,7 +141,7 @@ class Order {
     return null;
   }
 
-  static List<Order>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<Order> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <Order>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -172,12 +172,10 @@ class Order {
   static Map<String, List<Order>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<Order>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = Order.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = Order.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;
@@ -214,7 +212,7 @@ class OrderStatusEnum {
 
   static OrderStatusEnum? fromJson(dynamic value) => OrderStatusEnumTypeTransformer().decode(value);
 
-  static List<OrderStatusEnum>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<OrderStatusEnum> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <OrderStatusEnum>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {

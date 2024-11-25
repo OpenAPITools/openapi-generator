@@ -4,10 +4,7 @@ import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.*;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.TypeScriptClientCodegen;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -15,7 +12,6 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -74,7 +70,7 @@ public class TypeScriptClientCodegenTest {
             .uniqueItems(true);
         final Schema model = new ObjectSchema()
             .description("an object has an array with uniqueItems")
-            .addProperties("uniqueArray", uniqueArray)
+            .addProperty("uniqueArray", uniqueArray)
             .addRequiredItem("uniqueArray");
 
         final DefaultCodegen codegen = new TypeScriptClientCodegen();
@@ -92,7 +88,7 @@ public class TypeScriptClientCodegenTest {
         inner.setAdditionalProperties(true);
 
         final Schema root = new ObjectSchema()
-            .addProperties("inner", inner);
+            .addProperty("inner", inner);
 
         final DefaultCodegen codegen = new TypeScriptClientCodegen();
         final OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", root);
@@ -119,7 +115,7 @@ public class TypeScriptClientCodegenTest {
 
         final ModelsMap processedModels = codegen.postProcessModels(models);
         final List<Map<String, String>> tsImports = (List<Map<String, String>>) processedModels.getModels().get(0).get("tsImports");
-        Assert.assertEquals(tsImports.get(0).get("filename"), "../models/ApiResponse".replace("/", File.separator));
+        Assert.assertEquals(tsImports.get(0).get("filename"), "../models/ApiResponse");
         Assert.assertEquals(tsImports.get(0).get("classname"), "ApiResponse");
     }
 
@@ -157,5 +153,30 @@ public class TypeScriptClientCodegenTest {
         } catch (Exception ex) {
             Assert.fail("Exception was thrown.");
         }
+    }
+
+    @Test
+    public void arrayItemsCanBeNullable() throws Exception {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/array-nullable-items.yaml");
+        final DefaultCodegen codegen = new TypeScriptClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        final ArraySchema schema = (ArraySchema) openAPI.getComponents().getSchemas().get("ArrayWithNullableItemsModel")
+            .getProperties()
+            .get("foo");
+        Assert.assertEquals(codegen.getTypeDeclaration(schema), "Array<string | null>");
+    }
+
+    @Test
+    public void testAdditionalPropertiesPutForConfigValues() throws Exception {
+        String licenseName = "Apache 2.0";
+
+        TypeScriptClientCodegen codegen = new TypeScriptClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.LICENSE_NAME, licenseName);
+        codegen.processOpts();
+
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        codegen.preprocessOpenAPI(openAPI);
+
+        Assert.assertEquals(codegen.getLicenseName(), licenseName);
     }
 }

@@ -1,0 +1,33 @@
+name: Samples Postman
+
+on:
+  pull_request:
+    paths:
+      - samples/schema/postman-collection/python/**
+      - samples/schema/postman-collection/postman.json
+      - .github/workflows/samples-postman.yaml
+jobs:
+  build:
+    name: Test Python client
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          # schema
+          - samples/schema/postman-collection
+        python-version:
+          - "3.12"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install
+        working-directory: ${{ matrix.sample }}
+        run: |
+          pip install -r python/requirements.txt
+          pip install -r python/test-requirements.txt
+      - name: Test
+        working-directory: ${{ matrix.sample }}
+        run: python -m pytest

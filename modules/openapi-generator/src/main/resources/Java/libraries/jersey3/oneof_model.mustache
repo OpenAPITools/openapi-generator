@@ -26,7 +26,7 @@ import {{invokerPackage}}.JSON;
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{>xmlAnnotation}}
 @JsonDeserialize(using = {{classname}}.{{classname}}Deserializer.class)
 @JsonSerialize(using = {{classname}}.{{classname}}Serializer.class)
-public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-implements}}, {{{.}}}{{/vendorExtensions.x-implements}} {
+public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-implements}} implements {{{.}}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-implements}} {
     private static final Logger log = Logger.getLogger({{classname}}.class.getName());
 
     public static class {{classname}}Serializer extends StdSerializer<{{classname}}> {
@@ -60,7 +60,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             {{#useOneOfDiscriminatorLookup}}
             {{#discriminator}}
             {{classname}} new{{classname}} = new {{classname}}();
-            Map<String,Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
+            Map<String, Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
             String discriminatorValue = (String)result2.get("{{{propertyBaseName}}}");
             switch (discriminatorValue) {
             {{#mappedModels}}
@@ -78,37 +78,80 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
             int match = 0;
             JsonToken token = tree.traverse(jp.getCodec()).nextToken();
+            {{#composedSchemas}}
             {{#oneOf}}
-            // deserialize {{{.}}}
+            // deserialize {{{dataType}}}{{#isNullable}} (nullable){{/isNullable}}
             try {
+                {{^isArray}}
                 boolean attemptParsing = true;
-                // ensure that we respect type coercion as set on the client ObjectMapper
-                if ({{{.}}}.class.equals(Integer.class) || {{{.}}}.class.equals(Long.class) || {{{.}}}.class.equals(Float.class) || {{{.}}}.class.equals(Double.class) || {{{.}}}.class.equals(Boolean.class) || {{{.}}}.class.equals(String.class)) {
-                    attemptParsing = typeCoercion;
-                    if (!attemptParsing) {
-                        attemptParsing |= (({{{.}}}.class.equals(Integer.class) || {{{.}}}.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= (({{{.}}}.class.equals(Float.class) || {{{.}}}.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= ({{{.}}}.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= ({{{.}}}.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                        {{#isNullable}}
-                        attemptParsing |= (token == JsonToken.VALUE_NULL);
-                        {{/isNullable}}
-                    }
+                {{#isPrimitiveType}}
+                attemptParsing = typeCoercion; //respect type coercion setting
+                if (!attemptParsing) {
+                    {{#isString}}
+                    attemptParsing |= (token == JsonToken.VALUE_STRING);
+                    {{/isString}}
+                    {{#isInteger}}
+                    attemptParsing |= (token == JsonToken.VALUE_NUMBER_INT);
+                    {{/isInteger}}
+                    {{#isLong}}
+                    attemptParsing |= (token == JsonToken.VALUE_NUMBER_INT);
+                    {{/isLong}}
+                    {{#isShort}}
+                    attemptParsing |= (token == JsonToken.VALUE_NUMBER_INT);
+                    {{/isShort}}
+                    {{#isFloat}}
+                    attemptParsing |= (token == JsonToken.VALUE_NUMBER_FLOAT);
+                    {{/isFloat}}
+                    {{#isDouble}}
+                    attemptParsing |= (token == JsonToken.VALUE_NUMBER_FLOAT);
+                    {{/isDouble}}
+                    {{#isNumber}}
+                    attemptParsing |= (token == JsonToken.VALUE_NUMBER_FLOAT);
+                    {{/isNumber}}
+                    {{#isDecimal}}
+                    attemptParsing |= (token == JsonToken.VALUE_NUMBER_FLOAT);
+                    {{/isDecimal}}
+                    {{#isBoolean}}
+                    attemptParsing |= (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE);
+                    {{/isBoolean}}
+                    {{#isNullable}}
+                    attemptParsing |= (token == JsonToken.VALUE_NULL);
+                    {{/isNullable}}
                 }
+                {{/isPrimitiveType}}
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs({{{.}}}.class);
+                    {{#isMap}}
+                    final TypeReference<{{{dataType}}}> ref = new TypeReference<{{{dataType}}}>(){};
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(ref);
+                    {{/isMap}}
+                    {{^isMap}}
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs({{{dataType}}}.class);
+                    {{/isMap}}
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
                     match++;
-                    log.log(Level.FINER, "Input data matches schema '{{{.}}}'");
+                    log.log(Level.FINER, "Input data matches schema '{{{dataType}}}'");
                 }
+                {{/isArray}}
+                {{#isArray}}
+                if (token == JsonToken.START_ARRAY) {
+                    final TypeReference<{{{dataType}}}> ref = new TypeReference<{{{dataType}}}>(){};
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(ref);
+                    // TODO: there is no validation against JSON schema constraints
+                    // (min, max, enum, pattern...), this does not perform a strict JSON
+                    // validation, which means the 'match' count may be higher than it should be.
+                    match++;
+                    log.log(Level.FINER, "Input data matches schema '{{{dataType}}}'");
+                }
+                {{/isArray}}
             } catch (Exception e) {
                 // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema '{{{.}}}'", e);
+                log.log(Level.FINER, "Input data does not match schema '{{{dataType}}}'", e);
             }
 
             {{/oneOf}}
+            {{/composedSchemas}}
             if (match == 1) {
                 {{classname}} ret = new {{classname}}();
                 ret.setActualInstance(deserialized);
@@ -132,7 +175,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, GenericType<?>> schemas = new HashMap<>();
 
     public {{classname}}() {
         super("oneOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
@@ -152,13 +195,17 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         return Objects.hash(getActualInstance(), isNullable(), getSchemaType(), additionalProperties);
     }
     {{/additionalPropertiesType}}
+    {{#composedSchemas}}
     {{#oneOf}}
-    public {{classname}}({{{.}}} o) {
+    {{^vendorExtensions.x-duplicated-data-type}}
+    public {{classname}}({{{baseType}}} o) {
         super("oneOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
         setActualInstance(o);
     }
+    {{/vendorExtensions.x-duplicated-data-type}}
 
     {{/oneOf}}
+    {{/composedSchemas}}
     static {
         {{#oneOf}}
         schemas.put("{{{.}}}", new GenericType<{{{.}}}>() {
@@ -167,7 +214,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         JSON.registerDescendants({{classname}}.class, Collections.unmodifiableMap(schemas));
         {{#discriminator}}
         // Initialize and register the discriminator mappings.
-        Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
+        Map<String, Class<?>> mappings = new HashMap<>();
         {{#mappedModels}}
         mappings.put("{{mappingName}}", {{modelName}}.class);
         {{/mappedModels}}
@@ -177,7 +224,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     }
 
     @Override
-    public Map<String, GenericType> getSchemas() {
+    public Map<String, GenericType<?>> getSchemas() {
         return {{classname}}.schemas;
     }
 
@@ -198,13 +245,17 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         }
 
         {{/isNullable}}
+        {{#composedSchemas}}
         {{#oneOf}}
-        if (JSON.isInstanceOf({{{.}}}.class, instance, new HashSet<Class<?>>())) {
+        {{^vendorExtensions.x-duplicated-data-type}}
+        if (JSON.isInstanceOf({{{baseType}}}.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
 
+        {{/vendorExtensions.x-duplicated-data-type}}
         {{/oneOf}}
+        {{/composedSchemas}}
         throw new RuntimeException("Invalid instance type. Must be {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}");
     }
 
@@ -219,17 +270,21 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         return super.getActualInstance();
     }
 
+    {{#composedSchemas}}
     {{#oneOf}}
+    {{^vendorExtensions.x-duplicated-data-type-ignoring-erasure}}
     /**
-     * Get the actual instance of `{{{.}}}`. If the actual instance is not `{{{.}}}`,
+     * Get the actual instance of `{{{dataType}}}`. If the actual instance is not `{{{dataType}}}`,
      * the ClassCastException will be thrown.
      *
-     * @return The actual instance of `{{{.}}}`
-     * @throws ClassCastException if the instance is not `{{{.}}}`
+     * @return The actual instance of `{{{dataType}}}`
+     * @throws ClassCastException if the instance is not `{{{dataType}}}`
      */
-    public {{{.}}} get{{{.}}}() throws ClassCastException {
-        return ({{{.}}})super.getActualInstance();
+    public {{{dataType}}} get{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}() throws ClassCastException {
+        return ({{{dataType}}})super.getActualInstance();
     }
 
+    {{/vendorExtensions.x-duplicated-data-type-ignoring-erasure}}
     {{/oneOf}}
+    {{/composedSchemas}}
 }

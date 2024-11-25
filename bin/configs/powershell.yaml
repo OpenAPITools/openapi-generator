@@ -14,3 +14,7 @@ additionalProperties:
   projectUri: https://github.com/OpenAPITools/openapi-generator
   releaseNotes: 'This is a sample project'
   tags: 'PetStore,powershell,sdk'
+nameMappings:
+  name_mapping: SomethingElse
+modelNameMappings:
+  model-mapping: NewModel

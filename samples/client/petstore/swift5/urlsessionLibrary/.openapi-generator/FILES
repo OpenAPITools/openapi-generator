@@ -27,12 +27,10 @@ Sources/PetstoreClient/Models/ArrayOfNumberOnly.swift
 Sources/PetstoreClient/Models/ArrayTest.swift
 Sources/PetstoreClient/Models/Capitalization.swift
 Sources/PetstoreClient/Models/Cat.swift
-Sources/PetstoreClient/Models/CatAllOf.swift
 Sources/PetstoreClient/Models/Category.swift
 Sources/PetstoreClient/Models/ClassModel.swift
 Sources/PetstoreClient/Models/Client.swift
 Sources/PetstoreClient/Models/Dog.swift
-Sources/PetstoreClient/Models/DogAllOf.swift
 Sources/PetstoreClient/Models/EnumArrays.swift
 Sources/PetstoreClient/Models/EnumClass.swift
 Sources/PetstoreClient/Models/EnumTest.swift
@@ -72,12 +70,10 @@ docs/ArrayOfNumberOnly.md
 docs/ArrayTest.md
 docs/Capitalization.md
 docs/Cat.md
-docs/CatAllOf.md
 docs/Category.md
 docs/ClassModel.md
 docs/Client.md
 docs/Dog.md
-docs/DogAllOf.md
 docs/EnumArrays.md
 docs/EnumClass.md
 docs/EnumTest.md

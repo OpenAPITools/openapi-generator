@@ -20,7 +20,10 @@ var _ MappedNullable = &AdditionalPropertiesAnyType{}
 // AdditionalPropertiesAnyType struct for AdditionalPropertiesAnyType
 type AdditionalPropertiesAnyType struct {
 	Name *string `json:"name,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _AdditionalPropertiesAnyType AdditionalPropertiesAnyType
 
 // NewAdditionalPropertiesAnyType instantiates a new AdditionalPropertiesAnyType object
 // This constructor will assign default values to properties that have it defined,
@@ -41,7 +44,7 @@ func NewAdditionalPropertiesAnyTypeWithDefaults() *AdditionalPropertiesAnyType {
 
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *AdditionalPropertiesAnyType) GetName() string {
-	if o == nil || isNil(o.Name) {
+	if o == nil || IsNil(o.Name) {
 		var ret string
 		return ret
 	}
@@ -51,7 +54,7 @@ func (o *AdditionalPropertiesAnyType) GetName() string {
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesAnyType) GetNameOk() (*string, bool) {
-	if o == nil || isNil(o.Name) {
+	if o == nil || IsNil(o.Name) {
 		return nil, false
 	}
 	return o.Name, true
@@ -59,7 +62,7 @@ func (o *AdditionalPropertiesAnyType) GetNameOk() (*string, bool) {
 
 // HasName returns a boolean if a field has been set.
 func (o *AdditionalPropertiesAnyType) HasName() bool {
-	if o != nil && !isNil(o.Name) {
+	if o != nil && !IsNil(o.Name) {
 		return true
 	}
 
@@ -81,10 +84,36 @@ func (o AdditionalPropertiesAnyType) MarshalJSON() ([]byte, error) {
 
 func (o AdditionalPropertiesAnyType) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.Name) {
+	if !IsNil(o.Name) {
 		toSerialize["name"] = o.Name
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *AdditionalPropertiesAnyType) UnmarshalJSON(data []byte) (err error) {
+	varAdditionalPropertiesAnyType := _AdditionalPropertiesAnyType{}
+
+	err = json.Unmarshal(data, &varAdditionalPropertiesAnyType)
+
+	if err != nil {
+		return err
+	}
+
+	*o = AdditionalPropertiesAnyType(varAdditionalPropertiesAnyType)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableAdditionalPropertiesAnyType struct {

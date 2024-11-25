@@ -14,7 +14,7 @@ using namespace {{modelNamespace}};{{/hasModelImport}}
 const std::string {{classname}}::base = "{{basePathWithoutHost}}";
 
 {{classname}}::{{classname}}(const std::shared_ptr<Pistache::Rest::Router>& rtr)
-    : router(rtr)
+    : ApiBase(rtr)
 {
 }
 
@@ -33,6 +33,12 @@ void {{classname}}::setupRoutes() {
     router->addCustomHandler(Routes::bind(&{{classname}}::{{classnameSnakeLowerCase}}_default_handler, this));
 }
 
+void {{classname}}::handleParsingException(const std::exception& ex, Pistache::Http::ResponseWriter &response) const noexcept
+{
+    std::pair<Pistache::Http::Code, std::string> codeAndError = handleParsingException(ex);
+    response.send(codeAndError.first, codeAndError.second);
+}
+
 std::pair<Pistache::Http::Code, std::string> {{classname}}::handleParsingException(const std::exception& ex) const noexcept
 {
     try {
@@ -44,6 +50,12 @@ std::pair<Pistache::Http::Code, std::string> {{classname}}::handleParsingExcepti
     } catch (std::exception &e) {
         return std::make_pair(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
+}
+
+void {{classname}}::handleOperationException(const std::exception& ex, Pistache::Http::ResponseWriter &response) const noexcept
+{
+    std::pair<Pistache::Http::Code, std::string> codeAndError = handleOperationException(ex);
+    response.send(codeAndError.first, codeAndError.second);
 }
 
 std::pair<Pistache::Http::Code, std::string> {{classname}}::handleOperationException(const std::exception& ex) const noexcept
@@ -102,8 +114,7 @@ void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Reque
         {{paramName}} = request.body();
     {{/isPrimitiveType}}
     } catch (std::exception &e) {
-        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleParsingException(e);
-        response.send(errorInfo.first, errorInfo.second);
+        this->handleParsingException(e, response);
         return;
     }
 
@@ -120,8 +131,7 @@ void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Reque
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
-        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
-        response.send(errorInfo.first, errorInfo.second);
+        this->handleOperationException(e, response);
         return;
     }
 

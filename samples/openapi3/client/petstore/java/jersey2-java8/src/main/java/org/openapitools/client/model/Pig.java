@@ -13,12 +13,13 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import java.util.Objects;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -29,6 +30,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Arrays;
 import org.openapitools.client.model.BasquePig;
 import org.openapitools.client.model.DanishPig;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -61,7 +63,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 @JsonDeserialize(using = Pig.PigDeserializer.class)
 @JsonSerialize(using = Pig.PigSerializer.class)
 public class Pig extends AbstractOpenApiSchema {
@@ -96,7 +98,7 @@ public class Pig extends AbstractOpenApiSchema {
             JsonNode tree = jp.readValueAsTree();
             Object deserialized = null;
             Pig newPig = new Pig();
-            Map<String,Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
+            Map<String, Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
             String discriminatorValue = (String)result2.get("className");
             switch (discriminatorValue) {
                 case "BasquePig":
@@ -117,16 +119,6 @@ public class Pig extends AbstractOpenApiSchema {
             // deserialize BasquePig
             try {
                 boolean attemptParsing = true;
-                // ensure that we respect type coercion as set on the client ObjectMapper
-                if (BasquePig.class.equals(Integer.class) || BasquePig.class.equals(Long.class) || BasquePig.class.equals(Float.class) || BasquePig.class.equals(Double.class) || BasquePig.class.equals(Boolean.class) || BasquePig.class.equals(String.class)) {
-                    attemptParsing = typeCoercion;
-                    if (!attemptParsing) {
-                        attemptParsing |= ((BasquePig.class.equals(Integer.class) || BasquePig.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((BasquePig.class.equals(Float.class) || BasquePig.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (BasquePig.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (BasquePig.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                    }
-                }
                 if (attemptParsing) {
                     deserialized = tree.traverse(jp.getCodec()).readValueAs(BasquePig.class);
                     // TODO: there is no validation against JSON schema constraints
@@ -143,16 +135,6 @@ public class Pig extends AbstractOpenApiSchema {
             // deserialize DanishPig
             try {
                 boolean attemptParsing = true;
-                // ensure that we respect type coercion as set on the client ObjectMapper
-                if (DanishPig.class.equals(Integer.class) || DanishPig.class.equals(Long.class) || DanishPig.class.equals(Float.class) || DanishPig.class.equals(Double.class) || DanishPig.class.equals(Boolean.class) || DanishPig.class.equals(String.class)) {
-                    attemptParsing = typeCoercion;
-                    if (!attemptParsing) {
-                        attemptParsing |= ((DanishPig.class.equals(Integer.class) || DanishPig.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((DanishPig.class.equals(Float.class) || DanishPig.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (DanishPig.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (DanishPig.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                    }
-                }
                 if (attemptParsing) {
                     deserialized = tree.traverse(jp.getCodec()).readValueAs(DanishPig.class);
                     // TODO: there is no validation against JSON schema constraints
@@ -184,7 +166,7 @@ public class Pig extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, GenericType<?>> schemas = new HashMap<>();
 
     public Pig() {
         super("oneOf", Boolean.FALSE);
@@ -203,7 +185,7 @@ public class Pig extends AbstractOpenApiSchema {
   @JsonAnySetter
   public Pig putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<String, Object>();
+        this.additionalProperties = new HashMap<>();
     }
     this.additionalProperties.put(key, value);
     return this;
@@ -256,7 +238,7 @@ public class Pig extends AbstractOpenApiSchema {
         });
         JSON.registerDescendants(Pig.class, Collections.unmodifiableMap(schemas));
         // Initialize and register the discriminator mappings.
-        Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
+        Map<String, Class<?>> mappings = new HashMap<>();
         mappings.put("BasquePig", BasquePig.class);
         mappings.put("DanishPig", DanishPig.class);
         mappings.put("Pig", Pig.class);
@@ -264,7 +246,7 @@ public class Pig extends AbstractOpenApiSchema {
     }
 
     @Override
-    public Map<String, GenericType> getSchemas() {
+    public Map<String, GenericType<?>> getSchemas() {
         return Pig.schemas;
     }
 
@@ -278,12 +260,12 @@ public class Pig extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(BasquePig.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(BasquePig.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(DanishPig.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(DanishPig.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }

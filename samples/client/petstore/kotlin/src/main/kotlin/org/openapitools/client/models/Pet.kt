@@ -19,6 +19,7 @@ import org.openapitools.client.models.Category
 import org.openapitools.client.models.Tag
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import java.io.Serializable
 
 /**
@@ -64,10 +65,12 @@ data class Pet (
      *
      * Values: available,pending,sold
      */
+    @JsonClass(generateAdapter = false)
     enum class Status(val value: kotlin.String) {
         @Json(name = "available") available("available"),
         @Json(name = "pending") pending("pending"),
         @Json(name = "sold") sold("sold");
     }
+
 }
 

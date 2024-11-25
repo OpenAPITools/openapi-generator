@@ -2,7 +2,6 @@ package {{packageName}}.infrastructure
 
 {{#kotlinx_serialization}}
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.Serializer
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
@@ -16,17 +15,16 @@ import com.squareup.moshi.ToJson
 import java.util.UUID
 
 {{#moshi}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}class UUIDAdapter {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class UUIDAdapter {
     @ToJson
-    fun toJson(uuid: UUID) = uuid.toString()
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun toJson(uuid: UUID): String = uuid.toString()
 
     @FromJson
-    fun fromJson(s: String): UUID = UUID.fromString(s)
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun fromJson(s: String): UUID = UUID.fromString(s)
 }
 {{/moshi}}
 {{#kotlinx_serialization}}
-@Serializer(forClass = UUID::class)
-{{#nonPublicApi}}internal {{/nonPublicApi}}object UUIDAdapter : KSerializer<UUID> {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}object UUIDAdapter : KSerializer<UUID> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("UUID", PrimitiveKind.STRING)
 
     override fun serialize(encoder: Encoder, value: UUID) {

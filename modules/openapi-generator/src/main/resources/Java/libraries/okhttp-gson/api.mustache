@@ -27,6 +27,7 @@ import java.io.IOException;
 
 {{#useBeanValidation}}
 import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
 {{/useBeanValidation}}
 {{#performBeanValidation}}
 import {{javaxPackage}}.validation.ConstraintViolation;
@@ -42,7 +43,6 @@ import java.lang.reflect.Type;
 {{/imports}}
 
 import java.lang.reflect.Type;
-{{^fullJavaUtil}}
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,8 +50,6 @@ import java.util.Map;
 {{#supportStreaming}}
 import java.io.InputStream;
 {{/supportStreaming}}
-{{/fullJavaUtil}}
-import {{javaxPackage}}.ws.rs.core.GenericType;
 
 {{#operations}}
 public class {{classname}} {
@@ -100,7 +98,8 @@ public class {{classname}} {
      * @throws ApiException If fail to serialize the request body object
      {{#responses.0}}
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         {{#responses}}
         <tr><td> {{code}} </td><td> {{message}} </td><td> {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} </td></tr>
@@ -156,11 +155,11 @@ public class {{classname}} {
         {{/allParams}}
         {{/dynamicOperations}}
 
-        {{javaUtilPrefix}}List<Pair> localVarQueryParams = new {{javaUtilPrefix}}ArrayList<Pair>();
-        {{javaUtilPrefix}}List<Pair> localVarCollectionQueryParams = new {{javaUtilPrefix}}ArrayList<Pair>();
-        {{javaUtilPrefix}}Map<String, String> localVarHeaderParams = new {{javaUtilPrefix}}HashMap<String, String>();
-        {{javaUtilPrefix}}Map<String, String> localVarCookieParams = new {{javaUtilPrefix}}HashMap<String, String>();
-        {{javaUtilPrefix}}Map<String, Object> localVarFormParams = new {{javaUtilPrefix}}HashMap<String, Object>();
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         {{#formParams}}
         if ({{paramName}} != null) {
@@ -171,22 +170,37 @@ public class {{classname}} {
         {{^dynamicOperations}}
         {{#queryParams}}
         if ({{paramName}} != null) {
-            {{#collectionFormat}}localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("{{{.}}}", {{/collectionFormat}}{{^collectionFormat}}localVarQueryParams.addAll(localVarApiClient.parameterToPair({{/collectionFormat}}"{{baseName}}", {{paramName}}));
+            {{#isFreeFormObject}}localVarQueryParams.addAll(localVarApiClient.freeFormParameterToPairs({{paramName}}));{{/isFreeFormObject}}{{^isFreeFormObject}}{{#collectionFormat}}localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("{{{.}}}", {{/collectionFormat}}{{^collectionFormat}}localVarQueryParams.addAll(localVarApiClient.parameterToPair({{/collectionFormat}}"{{baseName}}", {{paramName}}));{{/isFreeFormObject}}
         }
 
         {{/queryParams}}
-        {{#headerParams}}
-        if ({{paramName}} != null) {
-            localVarHeaderParams.put("{{baseName}}", localVarApiClient.parameterToString({{paramName}}));
-        }
+        {{#constantParams}}
+        {{#isQueryParam}}
+        // Set client side default value of Query Param "{{baseName}}".
+        localVarCollectionQueryParams.add(new Pair("{{baseName}}", {{#_enum}}"{{{.}}}"{{/_enum}}));
 
-        {{/headerParams}}
+        {{/isQueryParam}}
+        {{/constantParams}}
+        {{#constantParams}}
+        {{#isHeaderParam}}
+        // Set client side default value of Header Param "{{baseName}}".
+        localVarHeaderParams.put("{{baseName}}", {{#_enum}}"{{{.}}}"{{/_enum}});
+
+        {{/isHeaderParam}}
+        {{/constantParams}}
         {{#cookieParams}}
         if ({{paramName}} != null) {
             localVarCookieParams.put("{{baseName}}", localVarApiClient.parameterToString({{paramName}}));
         }
 
         {{/cookieParams}}
+        {{#constantParams}}
+        {{#isCookieParam}}
+        // Set client side default value of Cookie Param "{{baseName}}".
+        localVarCookieParams.put("{{baseName}}", {{#_enum}}"{{{.}}}"{{/_enum}});
+
+        {{/isCookieParam}}
+        {{/constantParams}}
         {{/dynamicOperations}}
         {{#dynamicOperations}}
         localVarPath = localVarApiClient.fillParametersFromOperation(operation, paramMap, localVarPath, localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarCookieParams);
@@ -211,6 +225,15 @@ public class {{classname}} {
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
+        {{^dynamicOperations}}
+        {{#headerParams}}
+
+        if ({{paramName}} != null) {
+            localVarHeaderParams.put("{{baseName}}", localVarApiClient.parameterToString({{paramName}}));
+        }
+
+        {{/headerParams}}
+        {{/dynamicOperations}}
 
         String[] localVarAuthNames = new String[] { {{#withAWSV4Signature}}"AWS4Auth"{{/withAWSV4Signature}}{{#authMethods}}{{#-first}}{{#withAWSV4Signature}}, {{/withAWSV4Signature}}{{/-first}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}} };
         return localVarApiClient.buildCall(basePath, localVarPath, {{^dynamicOperations}}"{{httpMethod}}"{{/dynamicOperations}}{{#dynamicOperations}}apiOperation.getMethod(){{/dynamicOperations}}, localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
@@ -268,7 +291,8 @@ public class {{classname}} {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      {{#responses.0}}
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         {{#responses}}
         <tr><td> {{code}} </td><td> {{message}} </td><td> {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} </td></tr>
@@ -308,7 +332,8 @@ public class {{classname}} {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      {{#responses.0}}
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         {{#responses}}
         <tr><td> {{code}} </td><td> {{message}} </td><td> {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} </td></tr>
@@ -376,7 +401,8 @@ public class {{classname}} {
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      {{#responses.0}}
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         {{#responses}}
         <tr><td> {{code}} </td><td> {{message}} </td><td> {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} </td></tr>
@@ -436,7 +462,8 @@ public class {{classname}} {
          * @throws ApiException If fail to serialize the request body object
          {{#responses.0}}
          * @http.response.details
-         <table summary="Response Details" border="1">
+         <table border="1">
+       <caption>Response Details</caption>
             <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
             {{#responses}}
             <tr><td> {{code}} </td><td> {{message}} </td><td> {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} </td></tr>
@@ -460,7 +487,8 @@ public class {{classname}} {
          * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
          {{#responses.0}}
          * @http.response.details
-         <table summary="Response Details" border="1">
+         <table border="1">
+       <caption>Response Details</caption>
             <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
             {{#responses}}
             <tr><td> {{code}} </td><td> {{message}} </td><td> {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} </td></tr>
@@ -492,7 +520,8 @@ public class {{classname}} {
          * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
          {{#responses.0}}
          * @http.response.details
-         <table summary="Response Details" border="1">
+         <table border="1">
+       <caption>Response Details</caption>
             <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
             {{#responses}}
             <tr><td> {{code}} </td><td> {{message}} </td><td> {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} </td></tr>
@@ -524,7 +553,8 @@ public class {{classname}} {
          * @throws ApiException If fail to process the API call, e.g. serializing the request body object
          {{#responses.0}}
          * @http.response.details
-         <table summary="Response Details" border="1">
+         <table border="1">
+       <caption>Response Details</caption>
             <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
             {{#responses}}
             <tr><td> {{code}} </td><td> {{message}} </td><td> {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} </td></tr>
@@ -550,7 +580,8 @@ public class {{classname}} {
      * @return API{{operationId}}Request
      {{#responses.0}}
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         {{#responses}}
         <tr><td> {{code}} </td><td> {{message}} </td><td> {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} </td></tr>

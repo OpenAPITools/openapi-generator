@@ -53,7 +53,7 @@ if [[ ${#files[@]} -eq 1 && "${files[0]}" != *'*'* ]]; then
     java ${JAVA_OPTS} -jar "$executable" generate -c ${files[0]} ${args[@]}
 else
     echo "Please press CTRL+C to stop or the script will continue in 5 seconds."
-    sleep 5
+    #sleep 5
     if [ ${#files[@]} -eq 0 ]; then
       files=("${root}"/bin/configs/*.yaml)
     fi

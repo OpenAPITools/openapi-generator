@@ -1,4 +1,0 @@
-pytest~=7.1.0
-pytest-cov>=2.8.1
-pytest-randomly>=1.2.3
-pytest-aiohttp>=0.3.0

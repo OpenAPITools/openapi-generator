@@ -20,28 +20,28 @@ import javax.annotation.Generated;
  */
 
 @ApiModel(description = "Model for testing model with \"_class\" property")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class ClassModel {
 
-  @JsonProperty("_class")
-  private String propertyClass;
+  private Optional<String> propertyClass = Optional.empty();
 
   public ClassModel propertyClass(String propertyClass) {
-    this.propertyClass = propertyClass;
+    this.propertyClass = Optional.of(propertyClass);
     return this;
   }
 
   /**
    * Get propertyClass
    * @return propertyClass
-  */
+   */
   
   @ApiModelProperty(value = "")
-  public String getPropertyClass() {
+  @JsonProperty("_class")
+  public Optional<String> getPropertyClass() {
     return propertyClass;
   }
 
-  public void setPropertyClass(String propertyClass) {
+  public void setPropertyClass(Optional<String> propertyClass) {
     this.propertyClass = propertyClass;
   }
 
@@ -81,5 +81,63 @@ public class ClassModel {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private ClassModel instance;
+
+    public Builder() {
+      this(new ClassModel());
+    }
+
+    protected Builder(ClassModel instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(ClassModel value) { 
+      this.instance.setPropertyClass(value.propertyClass);
+      return this;
+    }
+
+    public ClassModel.Builder propertyClass(String propertyClass) {
+      this.instance.propertyClass(propertyClass);
+      return this;
+    }
+    
+    /**
+    * returns a built ClassModel instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public ClassModel build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static ClassModel.Builder builder() {
+    return new ClassModel.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ClassModel.Builder toBuilder() {
+    ClassModel.Builder builder = new ClassModel.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

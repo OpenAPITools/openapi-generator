@@ -60,11 +60,6 @@ bool OpenAPIOrder::EnumFromString(const FString& EnumAsString, OpenAPIOrder::Sta
 	return FromString(EnumAsString, EnumValue);
 }
 
-inline FStringFormatArg ToStringFormatArg(const OpenAPIOrder::StatusEnum& Value)
-{
-	return FStringFormatArg(ToString(Value));
-}
-
 inline void WriteJsonValue(JsonWriter& Writer, const OpenAPIOrder::StatusEnum& Value)
 {
 	WriteJsonValue(Writer, ToString(Value));

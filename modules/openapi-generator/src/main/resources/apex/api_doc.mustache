@@ -26,14 +26,14 @@ Method | HTTP request | Description
 {{classname}} api = new {{classname}}();
 {{#hasAuthMethods}}
 {{classPrefix}}Client client = api.getClient();
-{{#authMethods}}{{#isBasic}}
+{{#authMethods}}{{#isBasicBasic}}
 // Configure HTTP basic authorization: {{{name}}}
 HttpBasicAuth {{{name}}} = (HttpBasicAuth) client.getAuthentication('{{{name}}}');
 {{{name}}}.setUsername('YOUR USERNAME');
 {{{name}}}.setPassword('YOUR PASSWORD');
 
 // You can also set your username and password in one line
-{{{name}}}.setCredentials('YOUR USERNAME', 'YOUR PASSWORD');{{/isBasic}}{{#isApiKey}}
+{{{name}}}.setCredentials('YOUR USERNAME', 'YOUR PASSWORD');{{/isBasicBasic}}{{#isApiKey}}
 // Configure API key authorization: {{{name}}}
 ApiKeyAuth {{{name}}} = (ApiKeyAuth) client.getAuthentication('{{{name}}}');
 {{{name}}}.setApiKey('YOUR API KEY');{{/isApiKey}}{{#isOAuth}}

@@ -4,6 +4,8 @@ test
 
 - API version: 1.0.0
 
+- Generator version: 7.11.0-SNAPSHOT
+
 test
 
 
@@ -144,16 +146,15 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [ChildSchema](docs/ChildSchema.md)
- - [ChildSchemaAllOf](docs/ChildSchemaAllOf.md)
  - [MySchemaNameCharacters](docs/MySchemaNameCharacters.md)
- - [MySchemaNameCharactersAllOf](docs/MySchemaNameCharactersAllOf.md)
  - [Parent](docs/Parent.md)
 
 
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
-All endpoints do not require authorization.
-Authentication schemes defined for the API:
+Endpoints do not require authorization.
+
 
 ## Recommendation
 

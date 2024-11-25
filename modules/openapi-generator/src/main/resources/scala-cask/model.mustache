@@ -1,0 +1,36 @@
+{{>licenseInfo}}
+// this model was generated using model.mustache
+package {{modelPackage}}
+{{#imports}}import {{import}}
+{{/imports}}
+
+import scala.util.control.NonFatal
+
+// see https://com-lihaoyi.github.io/upickle/
+import upickle.default.{ReadWriter => RW, macroRW}
+import upickle.default.*
+
+{{#models}}
+{{#model}}
+
+{{#vendorExtensions.x-has-one-of}}
+
+type {{classname}} = {{#oneOf}}{{{.}}}{{^-last}} | {{/-last}}{{/oneOf}}
+object {{{classname}}} {
+
+    given RW[{{{classname}}}] = RW.merge({{#oneOf}}summon[RW[{{{.}}}]]{{^-last}}, {{/-last}}{{/oneOf}})
+}
+
+{{/vendorExtensions.x-has-one-of}}
+{{^vendorExtensions.x-has-one-of}}
+    {{#isEnum}}
+        {{>modelEnum}}
+    {{/isEnum}}
+    {{^isEnum}}
+        {{>modelClass}}
+    {{/isEnum}}
+{{/vendorExtensions.x-has-one-of}}
+
+
+{{/model}}
+{{/models}}

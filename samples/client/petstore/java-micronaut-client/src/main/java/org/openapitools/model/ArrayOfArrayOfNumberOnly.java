@@ -16,6 +16,7 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.*;
 
@@ -31,7 +32,7 @@ import javax.annotation.Generated;
   ArrayOfArrayOfNumberOnly.JSON_PROPERTY_ARRAY_ARRAY_NUMBER
 })
 @JsonTypeName("ArrayOfArrayOfNumberOnly")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 @Introspected
 public class ArrayOfArrayOfNumberOnly {
     public static final String JSON_PROPERTY_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
@@ -55,7 +56,7 @@ public class ArrayOfArrayOfNumberOnly {
     /**
      * Get arrayArrayNumber
      * @return arrayArrayNumber
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -107,3 +108,4 @@ public class ArrayOfArrayOfNumberOnly {
     }
 
 }
+

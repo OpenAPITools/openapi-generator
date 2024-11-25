@@ -1,0 +1,11 @@
+generatorName: rust-axum
+outputDir: samples/server/petstore/rust-axum/output/rust-axum-header-uuid
+inputSpec: modules/openapi-generator/src/test/resources/3_0/rust-axum/rust-axum-header-uuid.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust-axum
+generateAliasAsModel: true
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  packageName: rust-axum-header-uui
+globalProperties:
+  skipFormModel: "false"
+enablePostProcessFile: true

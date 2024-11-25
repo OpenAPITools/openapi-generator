@@ -170,6 +170,38 @@ components:
           type: integer
       oneOf:
         - $ref: '#/components/schemas/FruitType'
+    FruitTypeEnum:
+      type: string
+      enum: [APPLE, BANANA]
+    FruitOneOfEnumMappingDisc:
+      type: object
+      properties:
+        fruitType:
+          $ref: "#/components/schemas/FruitTypeEnum"
+      required:
+        - fruitType
+      oneOf:
+        - $ref: '#/components/schemas/AppleOneOfEnumMappingDisc'
+        - $ref: '#/components/schemas/BananaOneOfEnumMappingDisc'
+      discriminator:
+        propertyName: fruitType
+        mapping:
+          APPLE: '#/components/schemas/AppleOneOfEnumMappingDisc'
+          BANANA: '#/components/schemas/BananaOneOfEnumMappingDisc'
+    AppleOneOfEnumMappingDisc:
+      type: object
+      required:
+        - seeds
+      properties:
+        seeds:
+          type: integer
+    BananaOneOfEnumMappingDisc:
+      type: object
+      required:
+        - length
+      properties:
+        length:
+          type: integer
     FruitGrandparentDisc:
       oneOf:
         - $ref: '#/components/schemas/AppleGrandparentDisc'

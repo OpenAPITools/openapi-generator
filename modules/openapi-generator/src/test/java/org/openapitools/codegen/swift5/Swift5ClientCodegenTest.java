@@ -19,9 +19,6 @@ package org.openapitools.codegen.swift5;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.Swift5ClientCodegen;
@@ -166,6 +163,42 @@ public class Swift5ClientCodegenTest {
         Assert.assertEquals(op.bodyParam.dataType, "OpenAPIDateWithoutTime");
     }
 
+    @Test(description = "type from languageSpecificPrimitives should not be prefixed", enabled = true)
+    public void prefixExceptionTest() {
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
+        codegen.setModelNamePrefix("API");
+
+        final String result = codegen.toModelName("AnyCodable");
+        Assert.assertEquals(result, "AnyCodable");
+    }
+
+    @Test(description = "type from languageSpecificPrimitives should not be suffixed", enabled = true)
+    public void suffixExceptionTest() {
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
+        codegen.setModelNameSuffix("API");
+
+        final String result = codegen.toModelName("AnyCodable");
+        Assert.assertEquals(result, "AnyCodable");
+    }
+
+    @Test(description = "Other types should be prefixed", enabled = true)
+    public void prefixTest() {
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
+        codegen.setModelNamePrefix("API");
+
+        final String result = codegen.toModelName("MyType");
+        Assert.assertEquals(result, "APIMyType");
+    }
+
+    @Test(description = "Other types should be suffixed", enabled = true)
+    public void suffixTest() {
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
+        codegen.setModelNameSuffix("API");
+
+        final String result = codegen.toModelName("MyType");
+        Assert.assertEquals(result, "MyTypeAPI");
+    }
+
     @Test(enabled = true)
     public void testDefaultPodAuthors() throws Exception {
         // Given
@@ -219,7 +252,7 @@ public class Swift5ClientCodegenTest {
             List<File> files = generator.opts(clientOptInput).generate();
             Assert.assertTrue(files.size() > 0, "No files generated");
         } finally {
-           output.delete();
+           output.deleteOnExit();
         }
     }
 
@@ -252,8 +285,36 @@ public class Swift5ClientCodegenTest {
             List<File> files = generator.opts(clientOptInput).generate();
             Assert.assertTrue(files.size() > 0, "No files generated");
         } finally {
-            output.delete();
+            output.deleteOnExit();
         }
+    }
+
+    @Test(description = "optional form parameters when using oneOf schema", enabled = true)
+    public void oneOfFormParameterTest() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_15511.yaml");
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.processOpts();
+        final String path = "/as/token.oauth2";
+        final Operation p = openAPI.getPaths().get(path).getPost();
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
+
+        Assert.assertEquals(op.formParams.size(), 6);
+
+        Assert.assertEquals(op.formParams.get(0).baseName, "client_id");
+        Assert.assertEquals(op.formParams.get(1).baseName, "grant_type");
+        Assert.assertEquals(op.formParams.get(2).baseName, "password");
+        Assert.assertEquals(op.formParams.get(3).baseName, "scope");
+        Assert.assertEquals(op.formParams.get(4).baseName, "username");
+        Assert.assertEquals(op.formParams.get(5).baseName, "refresh_token");
+
+        Assert.assertEquals(op.formParams.get(0).required, false);
+        Assert.assertEquals(op.formParams.get(1).required, false);
+        Assert.assertEquals(op.formParams.get(2).required, false);
+        Assert.assertEquals(op.formParams.get(3).required, false);
+        Assert.assertEquals(op.formParams.get(4).required, false);
+        Assert.assertEquals(op.formParams.get(5).required, false);
+
     }
 
 }

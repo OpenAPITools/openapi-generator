@@ -1,9 +1,22 @@
 package {{invokerPackage}}
 
+import groovy.json.JsonBuilder
+import groovy.json.JsonGenerator
+import groovyx.net.http.ChainedHttpConfig
+import groovyx.net.http.ContentTypes
+import groovyx.net.http.NativeHandlers
+import groovyx.net.http.ToServer
+
 import static groovyx.net.http.HttpBuilder.configure
 import static java.net.URI.create
 
 class ApiUtils {
+
+    static def jsonGenerator = new JsonGenerator.Options()
+            .addConverter(Enum) { Enum u, String key ->
+                u.toString()
+            }
+            .build()
 
     void invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType, method, container, type)  {
         def (url, uriPath) = buildUrlAndUriPath(basePath, versionPath, resourcePath)
@@ -11,6 +24,18 @@ class ApiUtils {
         def http = configure {
             request.uri = url
             request.uri.path = uriPath
+            request.encoder(ContentTypes.JSON, { final ChainedHttpConfig config, final ToServer ts ->
+                final ChainedHttpConfig.ChainedRequest request = config.getChainedRequest();
+                if (NativeHandlers.Encoders.handleRawUpload(config, ts)) {
+                    return;
+                }
+
+                final Object body = NativeHandlers.Encoders.checkNull(request.actualBody());
+                final String json = ((body instanceof String || body instanceof GString)
+                        ? body.toString()
+                        : new JsonBuilder(body, jsonGenerator).toString());
+                ts.toServer(NativeHandlers.Encoders.stringToStream(json, request.actualCharset()));
+            })
         }
         .invokeMethod(String.valueOf(method).toLowerCase()) {
             request.uri.query = queryParams

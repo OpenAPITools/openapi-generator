@@ -1,0 +1,88 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: /
+  - url: '{protocolAndBaseURL}'
+    variables:
+      protocolAndBaseURL:
+        default: 'https://localhost'
+paths:
+  /user:
+    get:
+      tags:
+        - user
+      summary: Get User By Id
+      operationId: getUserById
+      parameters:
+        - in: query
+          name: id
+          description: Unique Id of an User
+          schema:
+            type: integer
+            default: 10
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Object4"
+
+components:
+  schemas:
+
+    Object1:
+      type: object
+      properties:
+        responseType:
+          type: string
+        requestId:
+          type: string
+        success:
+          type: boolean
+          default: true
+      required:
+        - responseType
+        - requestId
+        - success
+      discriminator:
+        propertyName: responseType
+
+    Object2:
+      allOf:
+        - $ref: '#/components/schemas/Object1'
+        - type: object
+
+    Type1:
+      type: object
+      properties:
+        pageSize:
+          minimum: 1
+          type: integer
+          format: int32
+        rowCount:
+          minimum: 0
+          type: integer
+          format: int32
+      required:
+        - pageSize
+        - rowCount
+
+    Object3:
+      allOf:
+        - $ref: '#/components/schemas/Object2'
+      properties:
+        pageInfo:
+          $ref: '#/components/schemas/Type1'
+      required:
+        - pageInfo
+
+    Object4:
+      allOf:
+        - $ref: '#/components/schemas/Object3'
+        - type: object
+          properties:
+            data:
+              type: string

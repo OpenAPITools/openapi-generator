@@ -1,0 +1,61 @@
+        for {
+{{#pathParams}}
+    {{#isString}}
+            {{paramName}} <- Parsed({{paramName}})
+    {{/isString}}
+    {{^isString}}
+            {{paramName}} <- Parsed({{paramName}})
+    {{/isString}}
+{{/pathParams}}
+{{#headerParams}}
+            {{#required}}
+                {{paramName}} <- request.headerSingleValueRequired("{{paramName}}")
+            {{/required}}
+            {{^required}}
+                {{paramName}} <- request.headerSingleValueOptional("{{paramName}}")
+            {{/required}}
+{{/headerParams}}
+{{#formParams}}
+    {{#required}}
+        {{paramName}} <- {{#isFile}}request.formValueAsFileRequired("{{paramName}}"){{/isFile}}{{^isFile}}request.formSingleValueRequired("{{paramName}}"){{/isFile}}
+    {{/required}}
+    {{^required}}
+        {{paramName}} <- {{#isFile}}request.formValueAsFileOptional("{{paramName}}"){{/isFile}}{{^isFile}}request.formSingleValueOptional("{{paramName}}"){{/isFile}}
+    {{/required}}
+{{/formParams}}
+{{#bodyParams}}
+    {{#vendorExtensions.x-consumes-json}}
+        {{#isArray}}
+            {{paramName}} <- Parsed.fromTry({{vendorExtensions.x-container-type}}Data.manyFromJsonStringValidated(request.bodyAsString)).mapError(e => s"Error parsing json as an array of {{vendorExtensions.x-container-type}} from >${request.bodyAsString}< : ${e}") /* array */
+        {{/isArray}}
+        {{^isArray}}
+          {{#isMap}}
+            {{#vendorExtensions.x-deserialize-asModelMap}}
+                {{paramName}} <- Parsed.eval(read[Map[String, {{vendorExtensions.x-container-type}}](request.bodyAsString)).mapError(e => s"Error parsing json as a string map of {{vendorExtensions.x-container-type}} from >${request.bodyAsString}< : ${e}")  /* x-deserialize-asModelMap */
+            {{/vendorExtensions.x-deserialize-asModelMap}}
+            {{^vendorExtensions.x-deserialize-asModelMap}}
+                {{paramName}} <- Parsed.eval(read[Map[String, {{vendorExtensions.x-container-type}}]](request.bodyAsString)).mapError(e => s"Error parsing json as a string map of {{vendorExtensions.x-container-type}} from >${request.bodyAsString}< : ${e}")  /* not x-deserialize-asModelMap */
+            {{/vendorExtensions.x-deserialize-asModelMap}}
+          {{/isMap}}
+          {{^isMap}}
+              {{paramName}}Json <- Parsed.fromTry(request.bodyAsJson)
+              {{paramName}}Data <- Parsed.eval({{vendorExtensions.x-container-type}}Data.fromJson({{paramName}}Json)) /* not array or map */
+              {{paramName}}{{^required}}Opt{{/required}} <- Parsed.fromTry({{vendorExtensions.x-container-type}}Data.validated({{paramName}}Data, failFast))
+              {{^required}}
+              {{paramName}} = Option({{paramName}}Opt)
+              {{/required}}
+          {{/isMap}}
+        {{/isArray}}
+    {{/vendorExtensions.x-consumes-json}}
+    {{^vendorExtensions.x-consumes-json}}
+        {{#vendorExtensions.x-consumes-xml}}
+            {{paramName}} <- Parsed.fail("TODO - xml deserialisation not yet supported. see src/main/resources/scala-cask/parseHttpParams.mustache in https://github.com/OpenAPITools/openapi-generator")
+        {{/vendorExtensions.x-consumes-xml}}
+        {{^vendorExtensions.x-consumes-xml}}
+            {{paramName}} <- Parsed.fail("TODO - content deserialisation. see src/main/resources/scala-cask/parseHttpParams.mustache in https://github.com/OpenAPITools/openapi-generator")
+        {{/vendorExtensions.x-consumes-xml}}
+    {{/vendorExtensions.x-consumes-json}}
+{{/bodyParams}}
+            resultTry <- Parsed.eval(service.{{operationId}}({{{vendorExtensions.x-param-list}}}))
+            result <- Parsed.fromTry(resultTry)
+        } yield result

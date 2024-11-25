@@ -1,0 +1,59 @@
+				{{#vendorExtensions.x-swift-enumerate-multipart}}
+				{{^mapFileBinaryToData}}try {{/mapFileBinaryToData}}{{paramName}}{{^required}}?{{/required}}.enumerated().forEach { index, {{paramName}} in
+					{{#mapFileBinaryToData}}
+					let filename = "\({{paramName}})\(index)"
+					{{/mapFileBinaryToData}}
+					{{^mapFileBinaryToData}}
+					let filename = {{paramName}}.lastPathComponent
+					{{/mapFileBinaryToData}}
+					let {{paramName}}Header = "--\(multipartBoundary)\r\n"
+					    .appending("Content-Disposition:form-data; name=\"{{paramName}}\"; filename=\"\(filename)\"\r\n")
+					{{#contentType}}
+					    .appending("Content-Type: {{{contentType}}}\r\n")
+					{{/contentType}}
+					    .appending("\r\n")
+					multipartData.append({{paramName}}Header.data(using: .utf8) ?? Data())
+					multipartData.append({{#items}}{{> toData}}{{/items}}) 
+					multipartData.append("\r\n".data(using: .utf8) ?? Data())
+				}
+				{{/vendorExtensions.x-swift-enumerate-multipart}}
+				{{^vendorExtensions.x-swift-enumerate-multipart}}
+				{{#required}}
+				let {{paramName}}Header = "--\(multipartBoundary)\r\n"
+				{{#isFile}}
+				    .appending("Content-Disposition:form-data; name=\"{{paramName}}\"; filename=\"{{paramName}}\"\r\n")
+				{{/isFile}}
+				{{^isFile}}
+				    .appending("Content-Disposition:form-data; name=\"{{paramName}}\"\r\n")
+				{{/isFile}}
+				{{#contentType}}
+				    .appending("Content-Type: {{{contentType}}}\r\n")
+				{{/contentType}}
+				    .appending("\r\n")
+				multipartData.append({{paramName}}Header.data(using: .utf8) ?? Data())
+				multipartData.append({{> toData}})
+				{{^-last}}
+				multipartData.append("\r\n".data(using: .utf8) ?? Data())
+				{{/-last}}
+				{{/required}}
+				{{^required}}
+				if let {{paramName}} = {{paramName}} {
+					let {{paramName}}Header = "--\(multipartBoundary)\r\n"
+					{{#isFile}}
+					    .appending("Content-Disposition:form-data; name=\"{{paramName}}\"; filename=\"{{paramName}}\"\r\n")
+					{{/isFile}}
+					{{^isFile}}
+					    .appending("Content-Disposition:form-data; name=\"{{paramName}}\"\r\n")
+					{{/isFile}}
+					{{#contentType}}
+					    .appending("Content-Type: {{{contentType}}}\r\n")
+					{{/contentType}}
+					    .appending("\r\n")
+					multipartData.append({{paramName}}Header.data(using: .utf8) ?? Data())
+					multipartData.append({{> toData}})
+					{{^-last}}
+					multipartData.append("\r\n".data(using: .utf8) ?? Data())
+					{{/-last}}
+				}
+				{{/required}}
+				{{/vendorExtensions.x-swift-enumerate-multipart}}

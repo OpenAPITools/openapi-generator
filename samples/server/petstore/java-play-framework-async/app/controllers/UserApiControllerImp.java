@@ -1,6 +1,5 @@
 package controllers;
 
-import java.util.List;
 import java.time.OffsetDateTime;
 import apimodels.User;
 
@@ -14,7 +13,8 @@ import play.libs.Files.TemporaryFile;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
 import javax.validation.constraints.*;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
+import javax.validation.Valid;
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class UserApiControllerImp extends UserApiControllerImpInterface {
     @Override
     public void createUser(Http.Request request, User body) throws Exception {
@@ -22,12 +22,12 @@ public class UserApiControllerImp extends UserApiControllerImpInterface {
     }
 
     @Override
-    public void createUsersWithArrayInput(Http.Request request, List<User> body) throws Exception {
+    public void createUsersWithArrayInput(Http.Request request, List<@Valid User> body) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public void createUsersWithListInput(Http.Request request, List<User> body) throws Exception {
+    public void createUsersWithListInput(Http.Request request, List<@Valid User> body) throws Exception {
         //Do your magic!!!
     }
 

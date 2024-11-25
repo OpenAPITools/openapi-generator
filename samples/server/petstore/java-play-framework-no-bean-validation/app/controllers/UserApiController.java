@@ -1,6 +1,5 @@
 package controllers;
 
-import java.util.List;
 import java.time.OffsetDateTime;
 import apimodels.User;
 
@@ -23,7 +22,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class UserApiController extends Controller {
     private final UserApiControllerImpInterface imp;
     private final ObjectMapper mapper;

@@ -38,7 +38,7 @@ describe 'FakeApi' do
   # @return [HealthCheckResult]
   describe 'fake_health_get test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
@@ -51,7 +51,7 @@ describe 'FakeApi' do
   # @return [nil]
   describe 'fake_http_signature_test test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
@@ -62,7 +62,7 @@ describe 'FakeApi' do
   # @return [Boolean]
   describe 'fake_outer_boolean_serialize test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
@@ -73,7 +73,7 @@ describe 'FakeApi' do
   # @return [OuterComposite]
   describe 'fake_outer_composite_serialize test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
@@ -84,7 +84,7 @@ describe 'FakeApi' do
   # @return [Float]
   describe 'fake_outer_number_serialize test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
@@ -95,7 +95,7 @@ describe 'FakeApi' do
   # @return [String]
   describe 'fake_outer_string_serialize test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
@@ -106,7 +106,7 @@ describe 'FakeApi' do
   # @return [OuterObjectWithEnumProperty]
   describe 'fake_property_enum_integer_serialize test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
@@ -117,29 +117,29 @@ describe 'FakeApi' do
   # @return [nil]
   describe 'test_body_with_binary test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
   # unit tests for test_body_with_file_schema
   # For this test, the body for this request must reference a schema named &#x60;File&#x60;.
-  # @param file_schema_test_class 
+  # @param file_schema_test_class
   # @param [Hash] opts the optional parameters
   # @return [nil]
   describe 'test_body_with_file_schema test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
   # unit tests for test_body_with_query_params
-  # @param query 
-  # @param user 
+  # @param query
+  # @param user
   # @param [Hash] opts the optional parameters
   # @return [nil]
   describe 'test_body_with_query_params test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
@@ -151,13 +151,13 @@ describe 'FakeApi' do
   # @return [Client]
   describe 'test_client_model test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
   # unit tests for test_endpoint_parameters
-  # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-  # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+  # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+  # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
   # @param number None
   # @param double None
   # @param pattern_without_delimiter None
@@ -176,7 +176,7 @@ describe 'FakeApi' do
   # @return [nil]
   describe 'test_endpoint_parameters test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
@@ -190,13 +190,13 @@ describe 'FakeApi' do
   # @option opts [String] :enum_query_string Query parameter enum test (string)
   # @option opts [Integer] :enum_query_integer Query parameter enum test (double)
   # @option opts [Float] :enum_query_double Query parameter enum test (double)
-  # @option opts [Array<EnumClass>] :enum_query_model_array 
+  # @option opts [Array<EnumClass>] :enum_query_model_array
   # @option opts [Array<String>] :enum_form_string_array Form parameter enum test (string array)
   # @option opts [String] :enum_form_string Form parameter enum test (string)
   # @return [nil]
   describe 'test_enum_parameters test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
@@ -213,49 +213,49 @@ describe 'FakeApi' do
   # @return [nil]
   describe 'test_group_parameters test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
   # unit tests for test_inline_additional_properties
   # test inline additionalProperties
-  # 
+  #
   # @param request_body request body
   # @param [Hash] opts the optional parameters
   # @return [nil]
   describe 'test_inline_additional_properties test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
   # unit tests for test_json_form_data
   # test json serialization of form data
-  # 
+  #
   # @param param field1
   # @param param2 field2
   # @param [Hash] opts the optional parameters
   # @return [nil]
   describe 'test_json_form_data test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
   # unit tests for test_query_parameter_collection_format
   # To test the collection format in query parameters
-  # @param pipe 
-  # @param ioutil 
-  # @param http 
-  # @param url 
-  # @param context 
-  # @param allow_empty 
+  # @param pipe
+  # @param ioutil
+  # @param http
+  # @param url
+  # @param context
+  # @param allow_empty
   # @param [Hash] opts the optional parameters
-  # @option opts [Hash<String, String>] :language 
+  # @option opts [Hash<String, String>] :language
   # @return [nil]
   describe 'test_query_parameter_collection_format test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 

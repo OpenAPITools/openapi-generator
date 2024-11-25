@@ -4,13 +4,12 @@ import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
 
-@Serializable
-class Base64ByteArray(val value: ByteArray) {
-    @Serializer(Base64ByteArray::class)
-    companion object : KSerializer<Base64ByteArray> {
-        override val descriptor = PrimitiveSerialDescriptor("Base64ByteArray", PrimitiveKind.STRING)
-        override fun serialize(encoder: Encoder, obj: Base64ByteArray) = encoder.encodeString(obj.value.encodeBase64())
-        override fun deserialize(decoder: Decoder) = Base64ByteArray(decoder.decodeString().decodeBase64Bytes())
+@Serializable(Base64ByteArray.Companion::class)
+{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class Base64ByteArray({{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val value: ByteArray) {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}companion object : KSerializer<Base64ByteArray> {
+        override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Base64ByteArray", PrimitiveKind.STRING)
+        override fun serialize(encoder: Encoder, value: Base64ByteArray): Unit = encoder.encodeString(value.value.encodeBase64())
+        override fun deserialize(decoder: Decoder): Base64ByteArray = Base64ByteArray(decoder.decodeString().decodeBase64Bytes())
     }
 
     override fun equals(other: Any?): Boolean {

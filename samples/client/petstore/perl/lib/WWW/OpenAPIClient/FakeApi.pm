@@ -49,6 +49,55 @@ sub new {
 
 
 #
+# fake_big_decimal_map
+#
+# 
+#
+{
+    my $params = {
+    };
+    __PACKAGE__->method_documentation->{ 'fake_big_decimal_map' } = {
+        summary => '',
+        params => $params,
+        returns => 'FakeBigDecimalMap200Response',
+        };
+}
+# @return FakeBigDecimalMap200Response
+#
+sub fake_big_decimal_map {
+    my ($self, %args) = @_;
+
+    # parse inputs
+    my $_resource_path = '/fake/BigDecimalMap';
+
+    my $_method = 'GET';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept('*/*');
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+
+    my $_body_data;
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    my $response = $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    if (!$response) {
+        return;
+    }
+    my $_response_object = $self->{api_client}->deserialize('FakeBigDecimalMap200Response', $response);
+    return $_response_object;
+}
+
+#
 # fake_health_get
 #
 # Health check endpoint
@@ -483,6 +532,67 @@ sub fake_property_enum_integer_serialize {
     }
     my $_response_object = $self->{api_client}->deserialize('OuterObjectWithEnumProperty', $response);
     return $_response_object;
+}
+
+#
+# test_additional_properties_reference
+#
+# test referenced additionalProperties
+#
+# @param HASH[string,object] $request_body request body (required)
+{
+    my $params = {
+    'request_body' => {
+        data_type => 'HASH[string,object]',
+        description => 'request body',
+        required => '1',
+    },
+    };
+    __PACKAGE__->method_documentation->{ 'test_additional_properties_reference' } = {
+        summary => 'test referenced additionalProperties',
+        params => $params,
+        returns => undef,
+        };
+}
+# @return void
+#
+sub test_additional_properties_reference {
+    my ($self, %args) = @_;
+
+    # verify the required parameter 'request_body' is set
+    unless (exists $args{'request_body'}) {
+      croak("Missing the required parameter 'request_body' when calling test_additional_properties_reference");
+    }
+
+    # parse inputs
+    my $_resource_path = '/fake/additionalProperties-reference';
+
+    my $_method = 'POST';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept();
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
+
+    my $_body_data;
+    # body params
+    if ( exists $args{'request_body'}) {
+        $_body_data = $args{'request_body'};
+    }
+
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    return;
 }
 
 #
@@ -1296,6 +1406,67 @@ sub test_inline_additional_properties {
 }
 
 #
+# test_inline_freeform_additional_properties
+#
+# test inline free-form additionalProperties
+#
+# @param TestInlineFreeformAdditionalPropertiesRequest $test_inline_freeform_additional_properties_request request body (required)
+{
+    my $params = {
+    'test_inline_freeform_additional_properties_request' => {
+        data_type => 'TestInlineFreeformAdditionalPropertiesRequest',
+        description => 'request body',
+        required => '1',
+    },
+    };
+    __PACKAGE__->method_documentation->{ 'test_inline_freeform_additional_properties' } = {
+        summary => 'test inline free-form additionalProperties',
+        params => $params,
+        returns => undef,
+        };
+}
+# @return void
+#
+sub test_inline_freeform_additional_properties {
+    my ($self, %args) = @_;
+
+    # verify the required parameter 'test_inline_freeform_additional_properties_request' is set
+    unless (exists $args{'test_inline_freeform_additional_properties_request'}) {
+      croak("Missing the required parameter 'test_inline_freeform_additional_properties_request' when calling test_inline_freeform_additional_properties");
+    }
+
+    # parse inputs
+    my $_resource_path = '/fake/inline-freeform-additionalProperties';
+
+    my $_method = 'POST';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept();
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
+
+    my $_body_data;
+    # body params
+    if ( exists $args{'test_inline_freeform_additional_properties_request'}) {
+        $_body_data = $args{'test_inline_freeform_additional_properties_request'};
+    }
+
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    return;
+}
+
+#
 # test_json_form_data
 #
 # test json serialization of form data
@@ -1362,6 +1533,67 @@ sub test_json_form_data {
     }
 
     my $_body_data;
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    return;
+}
+
+#
+# test_nullable
+#
+# test nullable parent property
+#
+# @param ChildWithNullable $child_with_nullable request body (required)
+{
+    my $params = {
+    'child_with_nullable' => {
+        data_type => 'ChildWithNullable',
+        description => 'request body',
+        required => '1',
+    },
+    };
+    __PACKAGE__->method_documentation->{ 'test_nullable' } = {
+        summary => 'test nullable parent property',
+        params => $params,
+        returns => undef,
+        };
+}
+# @return void
+#
+sub test_nullable {
+    my ($self, %args) = @_;
+
+    # verify the required parameter 'child_with_nullable' is set
+    unless (exists $args{'child_with_nullable'}) {
+      croak("Missing the required parameter 'child_with_nullable' when calling test_nullable");
+    }
+
+    # parse inputs
+    my $_resource_path = '/fake/nullable';
+
+    my $_method = 'POST';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept();
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
+
+    my $_body_data;
+    # body params
+    if ( exists $args{'child_with_nullable'}) {
+        $_body_data = $args{'child_with_nullable'};
+    }
+
     # authentication setting, if any
     my $auth_settings = [qw()];
 

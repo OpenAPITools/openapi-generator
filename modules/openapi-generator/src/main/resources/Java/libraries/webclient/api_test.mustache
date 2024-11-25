@@ -4,21 +4,25 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-{{^fullJavaUtil}}
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-{{/fullJavaUtil}}
 
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
+
+{{/useBeanValidation}}
 /**
  * API tests for {{classname}}
  */
-@Ignore
+@Disabled
 public class {{classname}}Test {
 
     private final {{classname}} api = new {{classname}}();
@@ -31,10 +35,11 @@ public class {{classname}}Test {
      */
     @Test
     public void {{operationId}}Test()  {
+        // uncomment below to test the function
         {{#allParams}}
-        {{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}} = null;
+        //{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}} = null;
         {{/allParams}}
-        {{#returnType}}{{{.}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{^vendorExtensions.x-webclient-blocking}}{{#isArray}}{{#uniqueItems}}.collect(Collectors.toSet()){{/uniqueItems}}{{^uniqueItems}}.collectList(){{/uniqueItems}}.block(){{/isArray}}{{^isArray}}.block(){{/isArray}}{{/vendorExtensions.x-webclient-blocking}};
+        //{{#returnType}}{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{.}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{.}}}{{/isResponseFile}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{^vendorExtensions.x-webclient-blocking}}{{#vendorExtensions.x-webclient-return-except-list-of-string}}{{#uniqueItems}}.collect(Collectors.toSet()){{/uniqueItems}}{{^uniqueItems}}.collectList(){{/uniqueItems}}.block(){{/vendorExtensions.x-webclient-return-except-list-of-string}}{{^vendorExtensions.x-webclient-return-except-list-of-string}}.block(){{/vendorExtensions.x-webclient-return-except-list-of-string}}{{/vendorExtensions.x-webclient-blocking}};
 
         // TODO: test validations
     }

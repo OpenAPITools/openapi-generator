@@ -1,0 +1,8 @@
+apis/DefaultApi.ts
+apis/index.ts
+index.ts
+models/TestA.ts
+models/TestB.ts
+models/TestResponse.ts
+models/index.ts
+runtime.ts

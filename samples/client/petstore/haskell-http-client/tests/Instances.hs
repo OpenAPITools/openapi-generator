@@ -243,14 +243,6 @@ genBigCat n =
     <*> arbitraryReducedMaybe n -- bigCatDeclawed :: Maybe Bool
     <*> arbitraryReducedMaybe n -- bigCatKind :: Maybe E'Kind
   
-instance Arbitrary BigCatAllOf where
-  arbitrary = sized genBigCatAllOf
-
-genBigCatAllOf :: Int -> Gen BigCatAllOf
-genBigCatAllOf n =
-  BigCatAllOf
-    <$> arbitraryReducedMaybe n -- bigCatAllOfKind :: Maybe E'Kind
-  
 instance Arbitrary Capitalization where
   arbitrary = sized genCapitalization
 
@@ -273,14 +265,6 @@ genCat n =
     <$> arbitrary -- catClassName :: Text
     <*> arbitraryReducedMaybe n -- catColor :: Maybe Text
     <*> arbitraryReducedMaybe n -- catDeclawed :: Maybe Bool
-  
-instance Arbitrary CatAllOf where
-  arbitrary = sized genCatAllOf
-
-genCatAllOf :: Int -> Gen CatAllOf
-genCatAllOf n =
-  CatAllOf
-    <$> arbitraryReducedMaybe n -- catAllOfDeclawed :: Maybe Bool
   
 instance Arbitrary Category where
   arbitrary = sized genCategory
@@ -316,14 +300,6 @@ genDog n =
     <$> arbitrary -- dogClassName :: Text
     <*> arbitraryReducedMaybe n -- dogColor :: Maybe Text
     <*> arbitraryReducedMaybe n -- dogBreed :: Maybe Text
-  
-instance Arbitrary DogAllOf where
-  arbitrary = sized genDogAllOf
-
-genDogAllOf :: Int -> Gen DogAllOf
-genDogAllOf n =
-  DogAllOf
-    <$> arbitraryReducedMaybe n -- dogAllOfBreed :: Maybe Text
   
 instance Arbitrary EnumArrays where
   arbitrary = sized genEnumArrays
@@ -494,6 +470,23 @@ genPet n =
     <*> arbitraryReducedMaybe n -- petTags :: Maybe [Tag]
     <*> arbitraryReducedMaybe n -- petStatus :: Maybe E'Status2
   
+instance Arbitrary PetFilter where
+  arbitrary = sized genPetFilter
+
+genPetFilter :: Int -> Gen PetFilter
+genPetFilter n =
+  PetFilter
+    <$> arbitraryReducedMaybe n -- petFilterTags :: Maybe [Text]
+    <*> arbitraryReducedMaybe n -- petFilterStatus :: Maybe [Text]
+  
+instance Arbitrary PetOrder where
+  arbitrary = sized genPetOrder
+
+genPetOrder :: Int -> Gen PetOrder
+genPetOrder n =
+  PetOrder
+    <$> arbitraryReducedMaybe n -- petOrderName :: Maybe E'Name
+  
 instance Arbitrary ReadOnlyFirst where
   arbitrary = sized genReadOnlyFirst
 
@@ -502,14 +495,6 @@ genReadOnlyFirst n =
   ReadOnlyFirst
     <$> arbitraryReducedMaybe n -- readOnlyFirstBar :: Maybe Text
     <*> arbitraryReducedMaybe n -- readOnlyFirstBaz :: Maybe Text
-  
-instance Arbitrary SpecialModelName where
-  arbitrary = sized genSpecialModelName
-
-genSpecialModelName :: Int -> Gen SpecialModelName
-genSpecialModelName n =
-  SpecialModelName
-    <$> arbitraryReducedMaybe n -- specialModelNameSpecialPropertyName :: Maybe Integer
   
 instance Arbitrary Tag where
   arbitrary = sized genTag
@@ -627,6 +612,9 @@ instance Arbitrary E'JustSymbol where
   arbitrary = arbitraryBoundedEnum
 
 instance Arbitrary E'Kind where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary E'Name where
   arbitrary = arbitraryBoundedEnum
 
 instance Arbitrary E'Status where

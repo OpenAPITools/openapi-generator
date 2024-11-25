@@ -8,7 +8,6 @@ import com.google.gson.reflect.TypeToken;
 {{#imports}}import {{import}};
 {{/imports}}
 
-{{^fullJavaUtil}}
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -25,12 +24,23 @@ import io.restassured.response.Response;
 {{#swagger1AnnotationLibrary}}
 import io.swagger.annotations.*;
 {{/swagger1AnnotationLibrary}}
+{{#swagger2AnnotationLibrary}}
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.enums.*;
+import io.swagger.v3.oas.annotations.media.*;
+import io.swagger.v3.oas.annotations.responses.*;
+import io.swagger.v3.oas.annotations.security.*;
+{{/swagger2AnnotationLibrary}}
+
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
+{{/useBeanValidation}}
 
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
-{{/fullJavaUtil}}
 {{#gson}}
 import {{invokerPackage}}.JSON;
 {{/gson}}
@@ -39,6 +49,9 @@ import static io.restassured.http.Method.*;
 {{#swagger1AnnotationLibrary}}
 @Api(value = "{{{baseName}}}")
 {{/swagger1AnnotationLibrary}}
+{{#swagger2AnnotationLibrary}}
+@Tag(name = "{{{baseName}}}")
+{{/swagger2AnnotationLibrary}}
 public class {{classname}} {
 
     private Supplier<RequestSpecBuilder> reqSpecSupplier;
@@ -80,6 +93,14 @@ public class {{classname}} {
     @ApiResponses(value = { {{#responses}}
             @ApiResponse(code = {{{code}}}, message = "{{{message}}}") {{^-last}},{{/-last}}{{/responses}} })
 {{/swagger1AnnotationLibrary}}
+{{#swagger2AnnotationLibrary}}
+    @Operation(summary = "{{{summary}}}",
+            description = "{{{notes}}}",
+            operationId = "{{{operationId}}}",
+            tags = { {{#tags}}{{#name}}"{{{.}}}"{{/name}}{{^-last}}, {{/-last}}{{/tags}} })
+    @ApiResponses(value = { {{#responses}}
+            @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}") {{^-last}},{{/-last}}{{/responses}} })
+{{/swagger2AnnotationLibrary}}
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
@@ -125,7 +146,7 @@ public class {{classname}} {
     public static class {{operationIdCamelCase}}Oper implements Oper {
 
         public static final Method REQ_METHOD = {{httpMethod}};
-        public static final String REQ_URI = "{{path}}";
+        public static final String REQ_URI = "{{{path}}}";
 
         private RequestSpecBuilder reqSpec;
         private ResponseSpecBuilder respSpec;
@@ -134,17 +155,15 @@ public class {{classname}} {
             this.reqSpec = reqSpec;
             {{#vendorExtensions}}
             {{#x-content-type}}
-            reqSpec.setContentType("{{x-content-type}}");
+            reqSpec.setContentType("{{{x-content-type}}}");
             {{/x-content-type}}
-            {{#x-accepts}}
-            reqSpec.setAccept("{{x-accepts}}");
-            {{/x-accepts}}
+            reqSpec.setAccept("{{#x-accepts}}{{{.}}}{{^-last}},{{/-last}}{{/x-accepts}}");
             {{/vendorExtensions}}
             this.respSpec = new ResponseSpecBuilder();
         }
 
         /**
-         * {{httpMethod}} {{path}}
+         * {{httpMethod}} {{{path}}}
          * @param handler handler
          * @param <T> type
          * @return type
@@ -156,7 +175,7 @@ public class {{classname}} {
         {{#returnType}}
 
         /**
-         * {{httpMethod}} {{path}}
+         * {{httpMethod}} {{{path}}}
          * @param handler handler
          * @return {{returnType}}
          */

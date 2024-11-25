@@ -20,7 +20,6 @@ package org.openapitools.codegen.languages;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
@@ -106,11 +105,14 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
                         GlobalFeature.MultiServer
                 )
                 .includeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
+                        SchemaSupportFeature.Polymorphism,
+                        SchemaSupportFeature.oneOf
                 )
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
+                .includeDataTypeFeatures(
+                        DataTypeFeature.AnyType)
         );
 
         apiPackage = "org.openapitools.client.api";
@@ -159,6 +161,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         typeMapping.put("long", "int64_t");
         typeMapping.put("boolean", "bool");
         typeMapping.put("array", "std::vector");
+        typeMapping.put("set", "std::set");
         typeMapping.put("map", "std::map");
         typeMapping.put("file", "HttpContent");
         typeMapping.put("object", "Object");
@@ -171,9 +174,11 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         super.importMapping = new HashMap<>();
         importMapping.put("std::vector", "#include <vector>");
         importMapping.put("std::map", "#include <map>");
+        importMapping.put("std::set", "#include <set>");
         importMapping.put("std::string", "#include <string>");
         importMapping.put("HttpContent", "#include \"HttpContent.h\"");
         importMapping.put("Object", "#include \"Object.h\"");
+        importMapping.put("AnyType", "#include \"AnyType.h\"");
         importMapping.put("utility::string_t", "#include <cpprest/details/basic_types.h>");
         importMapping.put("utility::datetime", "#include <cpprest/details/basic_types.h>");
     }
@@ -214,11 +219,14 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
         importMapping.put("HttpContent", "#include \"" + packageName + "/" + "HttpContent.h\"");
         importMapping.put("Object", "#include \"" + packageName + "/" + "Object.h\"");
+        importMapping.put("AnyType", "#include \"" + packageName + "/" + "AnyType.h\"");
 
         supportingFiles.add(new SupportingFile("modelbase-header.mustache", getHeaderFolder(), "ModelBase.h"));
         supportingFiles.add(new SupportingFile("modelbase-source.mustache", getSourceFolder(), "ModelBase.cpp"));
         supportingFiles.add(new SupportingFile("object-header.mustache", getHeaderFolder(), "Object.h"));
         supportingFiles.add(new SupportingFile("object-source.mustache", getSourceFolder(), "Object.cpp"));
+        supportingFiles.add(new SupportingFile("anytype-header.mustache", getHeaderFolder(), "AnyType.h"));
+        supportingFiles.add(new SupportingFile("anytype-source.mustache", getSourceFolder(), "AnyType.cpp"));
         supportingFiles.add(new SupportingFile("apiclient-header.mustache", getHeaderFolder(), "ApiClient.h"));
         supportingFiles.add(new SupportingFile("apiclient-source.mustache", getSourceFolder(), "ApiClient.cpp"));
         supportingFiles.add(new SupportingFile("apiconfiguration-header.mustache", getHeaderFolder(), "ApiConfiguration.h"));
@@ -294,7 +302,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
             ApiResponse methodResponse = findMethodResponse(operation.getResponses());
 
             if (methodResponse != null) {
-                Schema response = ModelUtils.getSchemaFromResponse(methodResponse);
+                Schema response = ModelUtils.getSchemaFromResponse(openAPI, methodResponse);
                 response = unaliasSchema(response);
                 if (response != null) {
                     CodegenProperty cm = fromProperty("response", response, false);
@@ -367,11 +375,10 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         String openAPIType = getSchemaType(p);
 
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "<utility::string_t, " + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isFileSchema(p) || ModelUtils.isBinarySchema(p)) {
             return "std::shared_ptr<" + openAPIType + ">";
@@ -404,11 +411,10 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
             }
             return "0";
         } else if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType(getAdditionalProperties(p));
+            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "std::map<utility::string_t, " + inner + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            String inner = getSchemaType(ap.getItems());
+            String inner = getSchemaType(ModelUtils.getSchemaItems(p));
             if (!languageSpecificPrimitives.contains(inner)) {
                 inner = "std::shared_ptr<" + inner + ">";
             }
@@ -417,7 +423,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
             return "new " + toModelName(ModelUtils.getSimpleRef(p.get$ref())) + "()";
         } else if (ModelUtils.isStringSchema(p)) {
             return "utility::conversions::to_string_t(\"\")";
-        } else if (isFreeFormObject(p)) {
+        } else if (ModelUtils.isFreeFormObject(p, openAPI)) {
             return "new Object()";
         }
 

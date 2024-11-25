@@ -8,6 +8,7 @@
 # ! openapi-generator (https://openapi-generator.tech)
 # ! FROM OPENAPI SPECIFICATION IN JSON.
 # !
+# ! Generator version: 7.11.0-SNAPSHOT
 # !
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -95,6 +96,7 @@ declare -a result_color_table=( "$WHITE" "$WHITE" "$GREEN" "$YELLOW" "$WHITE" "$
 # 0 - optional
 # 1 - required
 declare -A operation_parameters_minimum_occurrences
+operation_parameters_minimum_occurrences["call123TestSpecialTags:::uuid_test"]=1
 operation_parameters_minimum_occurrences["call123TestSpecialTags:::body"]=1
 operation_parameters_minimum_occurrences["createXmlItem:::XmlItem"]=1
 operation_parameters_minimum_occurrences["fakeOuterBooleanSerialize:::body"]=0
@@ -178,6 +180,7 @@ operation_parameters_minimum_occurrences["updateUser:::body"]=1
 # N - N values
 # 0 - unlimited
 declare -A operation_parameters_maximum_occurrences
+operation_parameters_maximum_occurrences["call123TestSpecialTags:::uuid_test"]=0
 operation_parameters_maximum_occurrences["call123TestSpecialTags:::body"]=0
 operation_parameters_maximum_occurrences["createXmlItem:::XmlItem"]=0
 operation_parameters_maximum_occurrences["fakeOuterBooleanSerialize:::body"]=0
@@ -258,6 +261,7 @@ operation_parameters_maximum_occurrences["updateUser:::body"]=0
 # The type of collection for specifying multiple values for parameter:
 # - multi, csv, ssv, tsv
 declare -A operation_parameters_collection_type
+operation_parameters_collection_type["call123TestSpecialTags:::uuid_test"]=""
 operation_parameters_collection_type["call123TestSpecialTags:::body"]=""
 operation_parameters_collection_type["createXmlItem:::XmlItem"]=""
 operation_parameters_collection_type["fakeOuterBooleanSerialize:::body"]=""
@@ -489,20 +493,24 @@ header_arguments_to_curl() {
 #
 ##############################################################################
 body_parameters_to_json() {
-    local body_json="-d '{"
-    local count=0
-    for key in "${!body_parameters[@]}"; do
-        if [[ $((count++)) -gt 0 ]]; then
-            body_json+=", "
-        fi
-        body_json+="\"${key}\": ${body_parameters[${key}]}"
-    done
-    body_json+="}'"
-
-    if [[ "${#body_parameters[@]}" -eq 0 ]]; then
-        echo ""
+    if [[ $RAW_BODY == "1" ]]; then
+        echo "-d '${body_parameters["RAW_BODY"]}'"
     else
-        echo "${body_json}"
+        local body_json="-d '{"
+        local count=0
+        for key in "${!body_parameters[@]}"; do
+            if [[ $((count++)) -gt 0 ]]; then
+                body_json+=", "
+            fi
+            body_json+="\"${key}\": ${body_parameters[${key}]}"
+        done
+        body_json+="}'"
+
+        if [[ "${#body_parameters[@]}" -eq 0 ]]; then
+            echo ""
+        else
+            echo "${body_json}"
+        fi
     fi
 }
 
@@ -742,18 +750,18 @@ ${BOLD}${WHITE}Usage${OFF}
 EOF
     echo -e "${BOLD}${WHITE}Authentication methods${OFF}"
     echo -e ""
-    echo -e "  - ${BLUE}Api-key${OFF} - add '${RED}api_key:<api-key>${OFF}' after ${YELLOW}<operation>${OFF}"
-    echo -e "              or export ${RED}PETSTORE_API_KEY='<api-key>'${OFF}"
-    echo -e "  - ${BLUE}Api-key${OFF} - add '${RED}api_key_query=<api-key>${OFF}' after ${YELLOW}<operation>${OFF}"
-    echo -e "              or export ${RED}PETSTORE_API_KEY='<api-key>'${OFF}"
-    echo -e "  - ${BLUE}Basic AUTH${OFF} - add '-u <username>:<password>' before ${YELLOW}<operation>${OFF}"
-    echo -e "                 or export ${RED}PETSTORE_BASIC_AUTH='<username>:<password>'${OFF}"
     echo -e "  - ${MAGENTA}OAuth2 (flow: implicit)${OFF}"
     echo -e "      Authorization URL: "
     echo -e "        * http://petstore.swagger.io/api/oauth/dialog"
     echo -e "      Scopes:"
     echo -e "        * write:pets - modify pets in your account"
     echo -e "        * read:pets - read your pets"
+    echo -e "  - ${BLUE}Api-key${OFF} - add '${RED}api_key:<api-key>${OFF}' after ${YELLOW}<operation>${OFF}"
+    echo -e "              or export ${RED}PETSTORE_API_KEY='<api-key>'${OFF}"
+    echo -e "  - ${BLUE}Api-key${OFF} - add '${RED}api_key_query=<api-key>${OFF}' after ${YELLOW}<operation>${OFF}"
+    echo -e "              or export ${RED}PETSTORE_API_KEY='<api-key>'${OFF}"
+    echo -e "  - ${BLUE}Basic AUTH${OFF} - add '-u <username>:<password>' before ${YELLOW}<operation>${OFF}"
+    echo -e "                 or export ${RED}PETSTORE_BASIC_AUTH='<username>:<password>'${OFF}"
     echo ""
     echo -e "${BOLD}${WHITE}Operations (grouped by tags)${OFF}"
     echo ""
@@ -889,6 +897,7 @@ print_call123TestSpecialTags_help() {
     echo -e "To test special tags and operation ID starting with number" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}uuid_test${OFF} ${BLUE}[string]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - to test uuid example value ${YELLOW}Specify as: uuid_test:value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - client model" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
@@ -3837,6 +3846,16 @@ case $key in
     if [[ "$operation" ]]; then
         IFS='==' read -r body_key sep body_value <<< "$key"
         body_parameters[${body_key}]="\"${body_value}\""
+    fi
+    ;;
+    --body=*)
+    # Parse value of body as argument and convert it into only
+    # the raw body content
+    if [[ "$operation" ]]; then
+        IFS='--body=' read -r body_value <<< "$key"
+        body_value=${body_value##--body=}
+        body_parameters["RAW_BODY"]="${body_value}"
+        RAW_BODY=1
     fi
     ;;
     *:=*)

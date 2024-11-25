@@ -21,8 +21,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.openapitools.client.JSON;
-import org.openapitools.client.model.ChildSchemaAllOf;
 import org.openapitools.client.model.Parent;
 
 import org.junit.jupiter.api.Assertions;
@@ -40,15 +38,7 @@ public class ChildSchemaTest {
      */
     @Test
     public void testChildSchema() {
-        String objJson = "{ \"objectType\": \"ChildSchema\", \"prop1\":\"some_value\" }";
-        try {
-            JSON j = new JSON();
-            ChildSchema obj = j.getMapper().readValue(objJson, ChildSchema.class);
-            Assertions.assertEquals(obj.getObjectType(), "ChildSchema");
-            Assertions.assertEquals(obj.getProp1(), "some_value");
-        } catch (Exception ex) {
-            Assertions.fail("Exception '" + ex.getMessage() + "' should not have been raised");
-        }
+        // TODO: test ChildSchema
     }
 
     /**

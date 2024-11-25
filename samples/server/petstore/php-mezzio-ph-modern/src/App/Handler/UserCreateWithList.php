@@ -19,11 +19,11 @@ class UserCreateWithList
     #[PHA\Post()]
     // TODO check if consumer is valid, if it has correct priority and if it can be moved to class annotation
     #[PHA\Consumer("application/json", PHConsumer\Json::class)]
-    #[PHA\Attribute(PHAttribute\Transfer::class, ["type" => \App\DTO\Collection36::class, "objectAttr" => "bodyData"])]
+    #[PHA\Attribute(PHAttribute\Transfer::class, ["type" => \App\DTO\Collection10::class, "objectAttr" => "bodyData"])]
     public function createUsersWithListInput(ServerRequestInterface $request)
     {
         //TODO implement method
-        /** @var \App\DTO\Collection36 $bodyData */
+        /** @var \App\DTO\Collection10 $bodyData */
         $bodyData = $request->getAttribute("bodyData");
         throw new PHException\HttpCode(501, "Not implemented");
     }

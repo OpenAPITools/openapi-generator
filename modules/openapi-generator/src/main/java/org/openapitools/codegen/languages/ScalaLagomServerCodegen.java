@@ -133,6 +133,11 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
 
     @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         // should be the same as variable name
         return toVarName(name);
     }

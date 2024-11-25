@@ -19,6 +19,8 @@
 #define StoreApi_H_
 
 
+#include "ApiBase.h"
+
 #include <pistache/http.h>
 #include <pistache/router.h>
 #include <pistache/http_headers.h>
@@ -33,11 +35,11 @@
 namespace org::openapitools::server::api
 {
 
-class  StoreApi {
+class  StoreApi : public ApiBase {
 public:
     explicit StoreApi(const std::shared_ptr<Pistache::Rest::Router>& rtr);
-    virtual ~StoreApi() = default;
-    void init();
+    ~StoreApi() override = default;
+    void init() override;
 
     static const std::string base;
 
@@ -50,7 +52,12 @@ private:
     void place_order_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
     void store_api_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
 
-    const std::shared_ptr<Pistache::Rest::Router> router;
+    /// <summary>
+    /// Helper function to handle unexpected Exceptions during Parameter parsing and validation.
+    /// May be overridden to return custom error formats. This is called inside a catch block.
+    /// Important: When overriding, do not call `throw ex;`, but instead use `throw;`.
+    /// </summary>
+    virtual void handleParsingException(const std::exception& ex, Pistache::Http::ResponseWriter &response) const noexcept;
 
     /// <summary>
     /// Helper function to handle unexpected Exceptions during Parameter parsing and validation.
@@ -58,6 +65,13 @@ private:
     /// Important: When overriding, do not call `throw ex;`, but instead use `throw;`.
     /// </summary>
     virtual std::pair<Pistache::Http::Code, std::string> handleParsingException(const std::exception& ex) const noexcept;
+
+    /// <summary>
+    /// Helper function to handle unexpected Exceptions during processing of the request in handler functions.
+    /// May be overridden to return custom error formats. This is called inside a catch block.
+    /// Important: When overriding, do not call `throw ex;`, but instead use `throw;`.
+    /// </summary>
+    virtual void handleOperationException(const std::exception& ex, Pistache::Http::ResponseWriter &response) const noexcept;
 
     /// <summary>
     /// Helper function to handle unexpected Exceptions during processing of the request in handler functions.

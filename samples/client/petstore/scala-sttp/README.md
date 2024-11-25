@@ -2,6 +2,7 @@
 
 OpenAPI Petstore
 - API version: 1.0.0
+  - Generator version: 7.11.0-SNAPSHOT
 
 This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
 
@@ -65,6 +66,7 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*FakeApi* | **getParameterNameMapping** | **GET** /fake/parameter-name-mapping | parameter name mapping test
 *PetApi* | **addPet** | **POST** /pet | Add a new pet to the store
 *PetApi* | **deletePet** | **DELETE** /pet/${petId} | Deletes a pet
 *PetApi* | **findPetsByStatus** | **GET** /pet/findByStatus | Finds Pets by status
@@ -94,13 +96,17 @@ Class | Method | HTTP request | Description
  - [EnumTest](EnumTest.md)
  - [Order](Order.md)
  - [Pet](Pet.md)
+ - [PropertyNameMapping](PropertyNameMapping.md)
  - [Tag](Tag.md)
  - [User](User.md)
 
 
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
+
 Authentication schemes defined for the API:
+<a id="api_key"></a>
 ### api_key
 
 - **Type**: API key

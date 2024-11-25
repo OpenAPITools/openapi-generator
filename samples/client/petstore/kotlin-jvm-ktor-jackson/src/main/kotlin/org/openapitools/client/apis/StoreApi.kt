@@ -29,7 +29,12 @@ import com.fasterxml.jackson.databind.ObjectMapper
     httpClientEngine: HttpClientEngine? = null,
     httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
     jsonBlock: ObjectMapper.() -> Unit = ApiClient.JSON_DEFAULT,
-    ) : ApiClient(baseUrl, httpClientEngine, httpClientConfig, jsonBlock) {
+    ) : ApiClient(
+        baseUrl,
+        httpClientEngine,
+        httpClientConfig,
+        jsonBlock,
+    ) {
 
         /**
         * Delete purchase order by ID
@@ -52,7 +57,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
             RequestMethod.DELETE,
             "/store/order/{orderId}".replace("{" + "orderId" + "}", "$orderId"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
             )
 
             return request(
@@ -83,7 +89,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
             RequestMethod.GET,
             "/store/inventory",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
             )
 
             return request(
@@ -115,7 +122,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
             RequestMethod.GET,
             "/store/order/{orderId}".replace("{" + "orderId" + "}", "$orderId"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
             )
 
             return request(
@@ -146,7 +154,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
             RequestMethod.POST,
             "/store/order",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
             )
 
             return jsonRequest(

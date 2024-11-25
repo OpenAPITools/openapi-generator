@@ -32,7 +32,12 @@ import java.text.DateFormat
     httpClientEngine: HttpClientEngine? = null,
     httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
     jsonBlock: GsonBuilder.() -> Unit = ApiClient.JSON_DEFAULT,
-    ) : ApiClient(baseUrl, httpClientEngine, httpClientConfig, jsonBlock) {
+    ) : ApiClient(
+        baseUrl,
+        httpClientEngine,
+        httpClientConfig,
+        jsonBlock,
+    ) {
 
         /**
         * Add a new pet to the store
@@ -54,7 +59,8 @@ import java.text.DateFormat
             RequestMethod.POST,
             "/pet",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
             )
 
             return jsonRequest(
@@ -87,7 +93,8 @@ import java.text.DateFormat
             RequestMethod.DELETE,
             "/pet/{petId}".replace("{" + "petId" + "}", "$petId"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
             )
 
             return request(
@@ -120,7 +127,8 @@ import java.text.DateFormat
             RequestMethod.GET,
             "/pet/findByStatus",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
             )
 
             return request(
@@ -153,7 +161,8 @@ import java.text.DateFormat
             RequestMethod.GET,
             "/pet/findByTags",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
             )
 
             return request(
@@ -185,7 +194,8 @@ import java.text.DateFormat
             RequestMethod.GET,
             "/pet/{petId}".replace("{" + "petId" + "}", "$petId"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
             )
 
             return request(
@@ -215,7 +225,8 @@ import java.text.DateFormat
             RequestMethod.PUT,
             "/pet",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
             )
 
             return jsonRequest(
@@ -239,8 +250,8 @@ import java.text.DateFormat
 
             val localVariableBody = 
                         ParametersBuilder().also {
-                        name?.apply { it.append("name", name.toString()) }
-                        status?.apply { it.append("status", status.toString()) }
+                        name?.apply { it.append("name", name) }
+                        status?.apply { it.append("status", status) }
                         }.build()
 
             val localVariableQuery = mutableMapOf<String, List<String>>()
@@ -251,7 +262,8 @@ import java.text.DateFormat
             RequestMethod.POST,
             "/pet/{petId}".replace("{" + "petId" + "}", "$petId"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
             )
 
             return urlEncodedFormRequest(
@@ -288,7 +300,8 @@ import java.text.DateFormat
             RequestMethod.POST,
             "/pet/{petId}/uploadImage".replace("{" + "petId" + "}", "$petId"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
             )
 
             return multipartFormRequest(

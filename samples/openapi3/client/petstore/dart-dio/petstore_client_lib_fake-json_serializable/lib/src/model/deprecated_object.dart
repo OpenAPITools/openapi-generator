@@ -8,6 +8,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'deprecated_object.g.dart';
 
 
+@Deprecated('DeprecatedObject has been deprecated')
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -25,7 +26,7 @@ class DeprecatedObject {
     
     name: r'name',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -33,13 +34,15 @@ class DeprecatedObject {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is DeprecatedObject &&
-     other.name == name;
 
-  @override
-  int get hashCode =>
-    name.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is DeprecatedObject &&
+      other.name == name;
+
+    @override
+    int get hashCode =>
+        name.hashCode;
 
   factory DeprecatedObject.fromJson(Map<String, dynamic> json) => _$DeprecatedObjectFromJson(json);
 

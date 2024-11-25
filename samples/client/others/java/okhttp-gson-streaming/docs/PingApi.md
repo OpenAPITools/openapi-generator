@@ -8,7 +8,7 @@ All URIs are relative to *http://localhost:8082*
 | [**postPing**](PingApi.md#postPing) | **POST** /ping |  |
 
 
-<a name="getPing"></a>
+<a id="getPing"></a>
 # **getPing**
 > SomeObj getPing(petId).name(name).status(status).execute();
 
@@ -75,7 +75,7 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | OK |  -  |
 
-<a name="postPing"></a>
+<a id="postPing"></a>
 # **postPing**
 > SomeObj postPing(someObj)
 

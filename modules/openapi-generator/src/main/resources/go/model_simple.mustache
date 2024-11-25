@@ -3,16 +3,14 @@ var _ MappedNullable = &{{classname}}{}
 
 // {{classname}} {{{description}}}{{^description}}struct for {{{classname}}}{{/description}}
 type {{classname}} struct {
-{{#parent}}
-{{^isMap}}
+{{#parentModel.name}}
 {{^isArray}}
-	{{{parent}}}
+	{{{parentModel.classname}}}
 {{/isArray}}
-{{/isMap}}
 {{#isArray}}
-	Items {{{parent}}}
+	Items {{{parentModel.classname}}}
 {{/isArray}}
-{{/parent}}
+{{/parentModel.name}}
 {{#vars}}
 {{^-first}}
 {{/-first}}
@@ -22,7 +20,7 @@ type {{classname}} struct {
 {{#deprecated}}
 	// Deprecated
 {{/deprecated}}
-	{{name}} {{^required}}{{^isNullable}}{{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{/isNullable}}{{/required}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+	{{name}} {{^required}}{{^isNullable}}{{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{/isNullable}}{{/required}}{{{dataType}}}{{{vendorExtensions.x-go-datatag}}}
 {{/vars}}
 {{#isAdditionalPropertiesTrue}}
 	AdditionalProperties map[string]interface{}
@@ -32,6 +30,12 @@ type {{classname}} struct {
 {{#isAdditionalPropertiesTrue}}
 type _{{{classname}}} {{{classname}}}
 
+{{/isAdditionalPropertiesTrue}}
+{{^isAdditionalPropertiesTrue}}
+{{#hasRequired}}
+type _{{{classname}}} {{{classname}}}
+
+{{/hasRequired}}
 {{/isAdditionalPropertiesTrue}}
 // New{{classname}} instantiates a new {{classname}} object
 // This constructor will assign default values to properties that have it defined,
@@ -125,7 +129,7 @@ func (o *{{classname}}) Get{{name}}() {{vendorExtensions.x-go-base-type}} {
 // Deprecated
 {{/deprecated}}
 func (o *{{classname}}) Get{{name}}Ok() ({{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{vendorExtensions.x-go-base-type}}, bool) {
-	if o == nil{{#isNullable}}{{#vendorExtensions.x-golang-is-container}} || isNil(o.{{name}}){{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
+	if o == nil{{#isNullable}}{{#vendorExtensions.x-golang-is-container}} || IsNil(o.{{name}}){{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
 {{^isFreeFormObject}}
 		return nil, false
 	{{/isFreeFormObject}}
@@ -164,6 +168,17 @@ func (o *{{classname}}) Set{{name}}(v {{vendorExtensions.x-go-base-type}}) {
 {{/isNullable}}
 }
 
+{{#useDefaultValuesForRequiredVars}}
+{{^isReadOnly}}
+{{#defaultValue}}
+// GetDefault{{{nameInPascalCase}}} returns the default value {{{defaultValue}}} of the {{{name}}} field.
+func (o *{{classname}}) GetDefault{{nameInPascalCase}}() interface{}  {
+	return {{{defaultValue}}}
+}
+{{/defaultValue}}
+{{/isReadOnly}}
+
+{{/useDefaultValuesForRequiredVars}}
 {{/required}}
 {{^required}}
 // Get{{name}} returns the {{name}} field value if set, zero value otherwise{{#isNullable}} (both if not set or set to explicit null){{/isNullable}}.
@@ -171,7 +186,7 @@ func (o *{{classname}}) Set{{name}}(v {{vendorExtensions.x-go-base-type}}) {
 // Deprecated
 {{/deprecated}}
 func (o *{{classname}}) Get{{name}}() {{vendorExtensions.x-go-base-type}} {
-	if o == nil{{^isNullable}} || isNil(o.{{name}}){{/isNullable}}{{#isNullable}}{{^vendorExtensions.x-golang-is-container}} || isNil(o.{{name}}.Get()){{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
+	if o == nil{{^isNullable}} || IsNil(o.{{name}}){{/isNullable}}{{#isNullable}}{{^vendorExtensions.x-golang-is-container}} || IsNil(o.{{name}}.Get()){{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
 		var ret {{vendorExtensions.x-go-base-type}}
 		return ret
 	}
@@ -197,7 +212,7 @@ func (o *{{classname}}) Get{{name}}() {{vendorExtensions.x-go-base-type}} {
 // Deprecated
 {{/deprecated}}
 func (o *{{classname}}) Get{{name}}Ok() ({{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{vendorExtensions.x-go-base-type}}, bool) {
-	if o == nil{{^isNullable}} || isNil(o.{{name}}){{/isNullable}}{{#isNullable}}{{#vendorExtensions.x-golang-is-container}} || isNil(o.{{name}}){{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
+	if o == nil{{^isNullable}} || IsNil(o.{{name}}){{/isNullable}}{{#isNullable}}{{#vendorExtensions.x-golang-is-container}} || IsNil(o.{{name}}){{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
 	{{^isFreeFormObject}}
 		return nil, false
 	{{/isFreeFormObject}}
@@ -220,7 +235,7 @@ func (o *{{classname}}) Get{{name}}Ok() ({{^isArray}}{{^isFreeFormObject}}*{{/is
 
 // Has{{name}} returns a boolean if a field has been set.
 func (o *{{classname}}) Has{{name}}() bool {
-	if o != nil && {{^isNullable}}!isNil(o.{{name}}){{/isNullable}}{{#isNullable}}{{#vendorExtensions.x-golang-is-container}}isNil(o.{{name}}){{/vendorExtensions.x-golang-is-container}}{{^vendorExtensions.x-golang-is-container}}o.{{name}}.IsSet(){{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
+	if o != nil && {{^isNullable}}!IsNil(o.{{name}}){{/isNullable}}{{#isNullable}}{{#vendorExtensions.x-golang-is-container}}!IsNil(o.{{name}}){{/vendorExtensions.x-golang-is-container}}{{^vendorExtensions.x-golang-is-container}}o.{{name}}.IsSet(){{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
 		return true
 	}
 
@@ -260,6 +275,7 @@ func (o *{{classname}}) Unset{{name}}() {
 
 {{/required}}
 {{/vars}}
+{{#vendorExtensions.x-go-generate-marshal-json}}
 func (o {{classname}}) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -268,6 +284,7 @@ func (o {{classname}}) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
+{{/vendorExtensions.x-go-generate-marshal-json}}
 func (o {{classname}}) ToMap() (map[string]interface{}, error) {
 	toSerialize := {{#isArray}}make([]interface{}, len(o.Items)){{/isArray}}{{^isArray}}map[string]interface{}{}{{/isArray}}
 	{{#parent}}
@@ -295,35 +312,39 @@ func (o {{classname}}) ToMap() (map[string]interface{}, error) {
 	{{#vendorExtensions.x-golang-is-container}}
 	{{! support for container fields is not ideal at this point because of lack of Nullable* types}}
 	if o.{{name}} != nil {
-		toSerialize["{{baseName}}"] = o.{{name}}
+		toSerialize["{{{baseName}}}"] = o.{{name}}
 	}
 	{{/vendorExtensions.x-golang-is-container}}
 	{{^vendorExtensions.x-golang-is-container}}
 	{{#required}}
-	toSerialize["{{baseName}}"] = o.{{name}}.Get()
+	toSerialize["{{{baseName}}}"] = o.{{name}}.Get()
 	{{/required}}
 	{{^required}}
 	if o.{{name}}.IsSet() {
-		toSerialize["{{baseName}}"] = o.{{name}}.Get()
+		toSerialize["{{{baseName}}}"] = o.{{name}}.Get()
 	}
 	{{/required}}
 	{{/vendorExtensions.x-golang-is-container}}
 	{{/isNullable}}
 	{{! if argument is not nullable, don't set it if it is nil}}
 	{{^isNullable}}
-	{{^isReadOnly}}
 	{{#required}}
-	toSerialize["{{baseName}}"] = o.{{name}}
+	{{#useDefaultValuesForRequiredVars}}
+	{{^isReadOnly}}
+	{{#defaultValue}}
+	if _, exists := toSerialize["{{{baseName}}}"]; !exists {
+		toSerialize["{{{baseName}}}"] = o.GetDefault{{nameInPascalCase}}()
+	}
+	{{/defaultValue}}
+	{{/isReadOnly}}
+	{{/useDefaultValuesForRequiredVars}}
+	toSerialize["{{{baseName}}}"] = o.{{name}}
 	{{/required}}
 	{{^required}}
-	if !isNil(o.{{name}}) {
-		toSerialize["{{baseName}}"] = o.{{name}}
+	if !IsNil(o.{{name}}) {
+		toSerialize["{{{baseName}}}"] = o.{{name}}
 	}
 	{{/required}}
-	{{/isReadOnly}}
-	{{#isReadOnly}}
-	// skip: {{baseName}} is readOnly
-	{{/isReadOnly}}
 	{{/isNullable}}
 	{{/vars}}
 	{{#isAdditionalPropertiesTrue}}
@@ -336,8 +357,74 @@ func (o {{classname}}) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
+{{#vendorExtensions.x-go-generate-unmarshal-json}}
 {{#isAdditionalPropertiesTrue}}
-func (o *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
+func (o *{{{classname}}}) UnmarshalJSON(data []byte) (err error) {
+{{/isAdditionalPropertiesTrue}}
+{{^isAdditionalPropertiesTrue}}
+{{#hasRequired}}
+func (o *{{{classname}}}) UnmarshalJSON(data []byte) (err error) {
+{{/hasRequired}}
+{{/isAdditionalPropertiesTrue}}
+{{#hasRequired}}
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+{{#requiredVars}}
+		"{{baseName}}",
+{{/requiredVars}}
+	}
+
+{{#useDefaultValuesForRequiredVars}}
+	// defaultValueFuncMap captures the default values for required properties.
+	// These values are used when required properties are missing from the payload.
+	defaultValueFuncMap := map[string]func() interface{} {
+{{#requiredVars}}
+{{#defaultValue}}
+{{^isReadOnly}}
+		"{{baseName}}": o.GetDefault{{nameInPascalCase}},
+{{/isReadOnly}}
+{{/defaultValue}}
+{{/requiredVars}}
+	}
+	var defaultValueApplied bool
+{{/useDefaultValuesForRequiredVars}}
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		{{#useDefaultValuesForRequiredVars}}
+		if value, exists := allProperties[requiredProperty]; !exists || value == "" {
+			if _, ok := defaultValueFuncMap[requiredProperty]; ok {
+				allProperties[requiredProperty] = defaultValueFuncMap[requiredProperty]()
+				defaultValueApplied = true
+			}
+		}
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
+		{{/useDefaultValuesForRequiredVars}}
+		{{^useDefaultValuesForRequiredVars}}
+		if _, exists := allProperties[requiredProperty]; !exists {
+		{{/useDefaultValuesForRequiredVars}}
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	{{#useDefaultValuesForRequiredVars}}
+	if defaultValueApplied {
+		data, err = json.Marshal(allProperties)
+		if err != nil{
+			return err
+		}
+	}
+	{{/useDefaultValuesForRequiredVars}}
+{{/hasRequired}}
+{{#isAdditionalPropertiesTrue}}
 {{#parent}}
 {{^isMap}}
 	type {{classname}}WithoutEmbeddedStruct struct {
@@ -350,13 +437,13 @@ func (o *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
 	{{#deprecated}}
 		// Deprecated
 	{{/deprecated}}
-		{{name}} {{^required}}{{^isNullable}}{{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{/isNullable}}{{/required}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+		{{name}} {{^required}}{{^isNullable}}{{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{/isNullable}}{{/required}}{{{dataType}}}{{{vendorExtensions.x-go-datatag}}}
 	{{/vars}}
 	}
 
 	var{{{classname}}}WithoutEmbeddedStruct := {{{classname}}}WithoutEmbeddedStruct{}
 
-	err = json.Unmarshal(bytes, &var{{{classname}}}WithoutEmbeddedStruct)
+	err = json.Unmarshal(data, &var{{{classname}}}WithoutEmbeddedStruct)
 	if err == nil {
 		var{{{classname}}} := _{{{classname}}}{}
 		{{#vars}}
@@ -369,7 +456,7 @@ func (o *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
 
 	var{{{classname}}} := _{{{classname}}}{}
 
-	err = json.Unmarshal(bytes, &var{{{classname}}})
+	err = json.Unmarshal(data, &var{{{classname}}})
 	if err == nil {
 		o.{{{parent}}} = var{{{classname}}}.{{{parent}}}
 	} else {
@@ -378,7 +465,7 @@ func (o *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		{{#vars}}
 		delete(additionalProperties, "{{{baseName}}}")
 		{{/vars}}
@@ -409,13 +496,17 @@ func (o *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
 {{#isMap}}
 	var{{{classname}}} := _{{{classname}}}{}
 
-	if err = json.Unmarshal(bytes, &var{{{classname}}}); err == nil {
-		*o = {{{classname}}}(var{{{classname}}})
+	err = json.Unmarshal(data, &var{{{classname}}})
+
+	if err != nil {
+		return err
 	}
+
+	*o = {{{classname}}}(var{{{classname}}})
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		{{#vars}}
 		delete(additionalProperties, "{{{baseName}}}")
 		{{/vars}}
@@ -428,13 +519,17 @@ func (o *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
 {{^parent}}
 	var{{{classname}}} := _{{{classname}}}{}
 
-	if err = json.Unmarshal(bytes, &var{{{classname}}}); err == nil {
-		*o = {{{classname}}}(var{{{classname}}})
+	err = json.Unmarshal(data, &var{{{classname}}})
+
+	if err != nil {
+		return err
 	}
+
+	*o = {{{classname}}}(var{{{classname}}})
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		{{#vars}}
 		delete(additionalProperties, "{{{baseName}}}")
 		{{/vars}}
@@ -443,13 +538,35 @@ func (o *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
 
 	return err
 {{/parent}}
+{{/isAdditionalPropertiesTrue}}
+{{#isAdditionalPropertiesTrue}}
 }
 
 {{/isAdditionalPropertiesTrue}}
+{{^isAdditionalPropertiesTrue}}
+{{#hasRequired}}
+	var{{{classname}}} := _{{{classname}}}{}
+
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&var{{{classname}}})
+
+	if err != nil {
+		return err
+	}
+
+	*o = {{{classname}}}(var{{{classname}}})
+
+	return err
+}
+
+{{/hasRequired}}
+{{/isAdditionalPropertiesTrue}}
 {{#isArray}}
-func (o *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
-	return json.Unmarshal(bytes, &o.Items)
+func (o *{{{classname}}}) UnmarshalJSON(data []byte) (err error) {
+	return json.Unmarshal(data, &o.Items)
 }
 
 {{/isArray}}
+{{/vendorExtensions.x-go-generate-unmarshal-json}}
 {{>nullable_model}}

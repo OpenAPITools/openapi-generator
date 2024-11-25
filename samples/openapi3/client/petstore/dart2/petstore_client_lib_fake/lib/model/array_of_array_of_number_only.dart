@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.12
+// @dart=2.18
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -20,7 +20,7 @@ class ArrayOfArrayOfNumberOnly {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ArrayOfArrayOfNumberOnly &&
-     other.arrayArrayNumber == arrayArrayNumber;
+    _deepEquality.equals(other.arrayArrayNumber, arrayArrayNumber);
 
   @override
   int get hashCode =>
@@ -65,7 +65,7 @@ class ArrayOfArrayOfNumberOnly {
     return null;
   }
 
-  static List<ArrayOfArrayOfNumberOnly>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<ArrayOfArrayOfNumberOnly> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <ArrayOfArrayOfNumberOnly>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -96,12 +96,10 @@ class ArrayOfArrayOfNumberOnly {
   static Map<String, List<ArrayOfArrayOfNumberOnly>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<ArrayOfArrayOfNumberOnly>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = ArrayOfArrayOfNumberOnly.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = ArrayOfArrayOfNumberOnly.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

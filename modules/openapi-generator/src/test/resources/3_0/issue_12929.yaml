@@ -1,0 +1,80 @@
+openapi: 3.0.1
+info:
+  title: "test"
+  version: "1"
+servers:
+- {url: /}
+paths:
+  /v1/program/{programId}/enrollment/{sourceAccountNumber}/fruits:
+    post:
+      operationId: addFruit
+      parameters:
+      - name: programId
+        in: path
+        required: true
+        schema: {pattern: '^[a-z0-9-]*$', type: string}
+      - name: sourceAccountNumber
+        in: path
+        required: true
+        schema: {pattern: '^[a-z0-9_-]*$', type: string}
+      requestBody:
+        content:
+          application/xml:
+            schema: {$ref: '#/components/schemas/FruitInfo'}
+        required: true
+      responses:
+        '401': 
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+components:
+  schemas:
+    FruitInfo:
+      type: object
+      properties:
+        model: {maxLength: 255, minLength: 0, type: string }
+        installDate: {type: string, format: date-time}
+        manufacturer: {maxLength: 255, minLength: 0, type: string}
+        uuid: {maxLength: 36, minLength: 0,type: string }
+        fruitType:
+          type: string
+          enum: [CHERRY, APPLE, GENERIC]
+        fruitTypeSpecificFields: {$ref: '#/components/schemas/SpecificFields'}
+      xml: {name: fruitInfo}
+    SpecificFields:
+      type: object
+      discriminator:
+        propertyName: name
+        mapping: {AppleSpecificFields: '#/components/schemas/AppleSpecificFields',
+          CherrySpecificFields: '#/components/schemas/CherrySpecificFields', GenericFruitFields: '#/components/schemas/GenericFruitFields'}
+      oneOf:
+      - {$ref: '#/components/schemas/AppleSpecificFields'}
+      - {$ref: '#/components/schemas/CherrySpecificFields'}
+      - {$ref: '#/components/schemas/GenericFruitFields'}
+    CherrySpecificFields:
+      type: object
+      allOf:
+      - {$ref: '#/components/schemas/SpecificFields'}
+      - type: object
+        properties:
+          chargeCapacity: {type: number,  format: double}
+          dischargeCapacity: {type: number, format: double}
+          storageCapacity: {type: number, format: double}
+    AppleSpecificFields:
+      type: object
+      allOf:
+      - {$ref: '#/components/schemas/SpecificFields'}
+      - type: object
+        properties:
+          evseType:
+            type: string
+            enum: [ONE, TWO, THREE]
+    GenericFruitFields:
+      type: object
+      allOf:
+      - {$ref: '#/components/schemas/SpecificFields'}
+      - type: object
+        properties:
+          category: {maxLength: 255, minLength: 0, type: string}

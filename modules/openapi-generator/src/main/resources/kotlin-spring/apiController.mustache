@@ -6,18 +6,27 @@ import java.util.Optional
 
 {{>generatedAnnotation}}
 @Controller{{#beanQualifiers}}("{{package}}.{{classname}}Controller"){{/beanQualifiers}}
+{{#useRequestMappingOnController}}
 {{=<% %>=}}
 @RequestMapping("\${openapi.<%title%>.base-path:<%>defaultBasePath%>}")
 <%={{ }}=%>
+{{/useRequestMappingOnController}}
 {{#operations}}
 class {{classname}}Controller(
-        @org.springframework.beans.factory.annotation.Autowired(required = false) delegate: {{classname}}Delegate?
+        {{#skipDefaultDelegateInterface}}
+        private val delegate: {{classname}}Delegate
+        {{/skipDefaultDelegateInterface}}
+        {{^skipDefaultDelegateInterface}}
+        delegate: {{classname}}Delegate?
+        {{/skipDefaultDelegateInterface}}
 ) : {{classname}} {
-    private val delegate: {{classname}}Delegate
+{{^skipDefaultDelegateInterface}}
+    private lateinit var delegate: {{classname}}Delegate
 
     init {
         this.delegate = Optional.ofNullable(delegate).orElse(object : {{classname}}Delegate {})
     }
+{{/skipDefaultDelegateInterface}}
 
     override fun getDelegate(): {{classname}}Delegate = delegate
 }

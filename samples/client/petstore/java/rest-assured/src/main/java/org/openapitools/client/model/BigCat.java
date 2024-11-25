@@ -29,20 +29,20 @@ import org.hibernate.validator.constraints.*;
 /**
  * BigCat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class BigCat extends Cat {
   /**
    * Gets or Sets kind
    */
   @JsonAdapter(KindEnum.Adapter.class)
   public enum KindEnum {
-    LIONS("lions"),
+    LIONS(String.valueOf("lions")),
     
-    TIGERS("tigers"),
+    TIGERS(String.valueOf("tigers")),
     
-    LEOPARDS("leopards"),
+    LEOPARDS(String.valueOf("leopards")),
     
-    JAGUARS("jaguars");
+    JAGUARS(String.valueOf("jaguars"));
 
     private String value;
 
@@ -84,22 +84,23 @@ public class BigCat extends Cat {
 
   public static final String SERIALIZED_NAME_KIND = "kind";
   @SerializedName(SERIALIZED_NAME_KIND)
+  @javax.annotation.Nullable
   private KindEnum kind;
 
   public BigCat() {
 
   }
 
-  public BigCat kind(KindEnum kind) {
+  public BigCat kind(@javax.annotation.Nullable KindEnum kind) {
     
     this.kind = kind;
     return this;
   }
 
-   /**
+  /**
    * Get kind
    * @return kind
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -108,10 +109,21 @@ public class BigCat extends Cat {
   }
 
 
-  public void setKind(KindEnum kind) {
+  public void setKind(@javax.annotation.Nullable KindEnum kind) {
     this.kind = kind;
   }
 
+  @Override
+  public BigCat className(@javax.annotation.Nonnull String className) {
+    this.setClassName(className);
+    return this;
+  }
+
+  @Override
+  public BigCat color(@javax.annotation.Nullable String color) {
+    this.setColor(color);
+    return this;
+  }
 
   @Override
   public boolean equals(Object o) {

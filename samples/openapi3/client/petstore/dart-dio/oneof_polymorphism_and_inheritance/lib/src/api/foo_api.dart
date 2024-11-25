@@ -4,6 +4,7 @@
 
 import 'dart:async';
 
+import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
@@ -32,7 +33,7 @@ class FooApi {
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [FooRefOrValue] as data
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<FooRefOrValue>> createFoo({ 
     Foo? foo,
     CancelToken? cancelToken,
@@ -63,14 +64,15 @@ class FooApi {
       _bodyData = foo == null ? null : _serializers.serialize(foo, specifiedType: _type);
 
     } catch(error, stackTrace) {
-      throw DioError(
+      throw DioException(
          requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
-        type: DioErrorType.other,
+        type: DioExceptionType.unknown,
         error: error,
-      )..stackTrace = stackTrace;
+        stackTrace: stackTrace,
+      );
     }
 
     final _response = await _dio.request<Object>(
@@ -82,22 +84,23 @@ class FooApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    FooRefOrValue _responseData;
+    FooRefOrValue? _responseData;
 
     try {
-      const _responseType = FullType(FooRefOrValue);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(FooRefOrValue),
       ) as FooRefOrValue;
 
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.other,
+        type: DioExceptionType.unknown,
         error: error,
-      )..stackTrace = stackTrace;
+        stackTrace: stackTrace,
+      );
     }
 
     return Response<FooRefOrValue>(
@@ -124,7 +127,7 @@ class FooApi {
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [BuiltList<FooRefOrValue>] as data
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<BuiltList<FooRefOrValue>>> getAllFoos({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -154,22 +157,23 @@ class FooApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    BuiltList<FooRefOrValue> _responseData;
+    BuiltList<FooRefOrValue>? _responseData;
 
     try {
-      const _responseType = FullType(BuiltList, [FullType(FooRefOrValue)]);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(BuiltList, [FullType(FooRefOrValue)]),
       ) as BuiltList<FooRefOrValue>;
 
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.other,
+        type: DioExceptionType.unknown,
         error: error,
-      )..stackTrace = stackTrace;
+        stackTrace: stackTrace,
+      );
     }
 
     return Response<BuiltList<FooRefOrValue>>(

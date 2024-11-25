@@ -22,10 +22,9 @@ import javax.annotation.Generated;
 
 @ApiModel(description = "Model for testing model with \"_class\" property")
 @JsonTypeName("ClassModel")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class ClassModelDto {
 
-  @JsonProperty("_class")
   private String propertyClass;
 
   public ClassModelDto propertyClass(String propertyClass) {
@@ -36,9 +35,10 @@ public class ClassModelDto {
   /**
    * Get propertyClass
    * @return propertyClass
-  */
+   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("_class")
   public String getPropertyClass() {
     return propertyClass;
   }

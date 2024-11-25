@@ -12,6 +12,8 @@ package petstore
 
 import (
 	"encoding/json"
+	"bytes"
+	"fmt"
 )
 
 // checks if the Pet type satisfies the MappedNullable interface at compile time
@@ -27,6 +29,8 @@ type Pet struct {
 	// pet status in the store
 	Status *string `json:"status,omitempty"`
 }
+
+type _Pet Pet
 
 // NewPet instantiates a new Pet object
 // This constructor will assign default values to properties that have it defined,
@@ -49,7 +53,7 @@ func NewPetWithDefaults() *Pet {
 
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *Pet) GetId() int64 {
-	if o == nil || isNil(o.Id) {
+	if o == nil || IsNil(o.Id) {
 		var ret int64
 		return ret
 	}
@@ -59,7 +63,7 @@ func (o *Pet) GetId() int64 {
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Pet) GetIdOk() (*int64, bool) {
-	if o == nil || isNil(o.Id) {
+	if o == nil || IsNil(o.Id) {
 		return nil, false
 	}
 	return o.Id, true
@@ -67,7 +71,7 @@ func (o *Pet) GetIdOk() (*int64, bool) {
 
 // HasId returns a boolean if a field has been set.
 func (o *Pet) HasId() bool {
-	if o != nil && !isNil(o.Id) {
+	if o != nil && !IsNil(o.Id) {
 		return true
 	}
 
@@ -81,7 +85,7 @@ func (o *Pet) SetId(v int64) {
 
 // GetCategory returns the Category field value if set, zero value otherwise.
 func (o *Pet) GetCategory() Category {
-	if o == nil || isNil(o.Category) {
+	if o == nil || IsNil(o.Category) {
 		var ret Category
 		return ret
 	}
@@ -91,7 +95,7 @@ func (o *Pet) GetCategory() Category {
 // GetCategoryOk returns a tuple with the Category field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Pet) GetCategoryOk() (*Category, bool) {
-	if o == nil || isNil(o.Category) {
+	if o == nil || IsNil(o.Category) {
 		return nil, false
 	}
 	return o.Category, true
@@ -99,7 +103,7 @@ func (o *Pet) GetCategoryOk() (*Category, bool) {
 
 // HasCategory returns a boolean if a field has been set.
 func (o *Pet) HasCategory() bool {
-	if o != nil && !isNil(o.Category) {
+	if o != nil && !IsNil(o.Category) {
 		return true
 	}
 
@@ -161,7 +165,7 @@ func (o *Pet) SetPhotoUrls(v []string) {
 
 // GetTags returns the Tags field value if set, zero value otherwise.
 func (o *Pet) GetTags() []Tag {
-	if o == nil || isNil(o.Tags) {
+	if o == nil || IsNil(o.Tags) {
 		var ret []Tag
 		return ret
 	}
@@ -171,7 +175,7 @@ func (o *Pet) GetTags() []Tag {
 // GetTagsOk returns a tuple with the Tags field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Pet) GetTagsOk() ([]Tag, bool) {
-	if o == nil || isNil(o.Tags) {
+	if o == nil || IsNil(o.Tags) {
 		return nil, false
 	}
 	return o.Tags, true
@@ -179,7 +183,7 @@ func (o *Pet) GetTagsOk() ([]Tag, bool) {
 
 // HasTags returns a boolean if a field has been set.
 func (o *Pet) HasTags() bool {
-	if o != nil && !isNil(o.Tags) {
+	if o != nil && !IsNil(o.Tags) {
 		return true
 	}
 
@@ -193,7 +197,7 @@ func (o *Pet) SetTags(v []Tag) {
 
 // GetStatus returns the Status field value if set, zero value otherwise.
 func (o *Pet) GetStatus() string {
-	if o == nil || isNil(o.Status) {
+	if o == nil || IsNil(o.Status) {
 		var ret string
 		return ret
 	}
@@ -203,7 +207,7 @@ func (o *Pet) GetStatus() string {
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Pet) GetStatusOk() (*string, bool) {
-	if o == nil || isNil(o.Status) {
+	if o == nil || IsNil(o.Status) {
 		return nil, false
 	}
 	return o.Status, true
@@ -211,7 +215,7 @@ func (o *Pet) GetStatusOk() (*string, bool) {
 
 // HasStatus returns a boolean if a field has been set.
 func (o *Pet) HasStatus() bool {
-	if o != nil && !isNil(o.Status) {
+	if o != nil && !IsNil(o.Status) {
 		return true
 	}
 
@@ -233,21 +237,59 @@ func (o Pet) MarshalJSON() ([]byte, error) {
 
 func (o Pet) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.Id) {
+	if !IsNil(o.Id) {
 		toSerialize["id"] = o.Id
 	}
-	if !isNil(o.Category) {
+	if !IsNil(o.Category) {
 		toSerialize["category"] = o.Category
 	}
 	toSerialize["name"] = o.Name
 	toSerialize["photoUrls"] = o.PhotoUrls
-	if !isNil(o.Tags) {
+	if !IsNil(o.Tags) {
 		toSerialize["tags"] = o.Tags
 	}
-	if !isNil(o.Status) {
+	if !IsNil(o.Status) {
 		toSerialize["status"] = o.Status
 	}
 	return toSerialize, nil
+}
+
+func (o *Pet) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"name",
+		"photoUrls",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varPet := _Pet{}
+
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varPet)
+
+	if err != nil {
+		return err
+	}
+
+	*o = Pet(varPet)
+
+	return err
 }
 
 type NullablePet struct {

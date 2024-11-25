@@ -5,8 +5,10 @@ import org.openapitools.client.EncodingUtils;
 import org.openapitools.client.model.ApiResponse;
 
 import java.math.BigDecimal;
+import org.openapitools.client.model.ChildWithNullable;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
+import org.openapitools.client.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.openapitools.client.model.HealthCheckResult;
@@ -15,6 +17,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
 
 import java.util.ArrayList;
@@ -23,8 +26,33 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public interface FakeApi extends ApiClient.Api {
+
+
+  /**
+   * 
+   * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+   * @return FakeBigDecimalMap200Response
+   */
+  @RequestLine("GET /fake/BigDecimalMap")
+  @Headers({
+    "Accept: */*",
+  })
+  FakeBigDecimalMap200Response fakeBigDecimalMap();
+
+  /**
+   * 
+   * Similar to <code>fakeBigDecimalMap</code> but it also returns the http response headers .
+   * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("GET /fake/BigDecimalMap")
+  @Headers({
+    "Accept: */*",
+  })
+  ApiResponse<FakeBigDecimalMap200Response> fakeBigDecimalMapWithHttpInfo();
+
 
 
   /**
@@ -283,6 +311,33 @@ public interface FakeApi extends ApiClient.Api {
     "Accept: */*",
   })
   ApiResponse<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerializeWithHttpInfo(OuterObjectWithEnumProperty outerObjectWithEnumProperty);
+
+
+
+  /**
+   * test referenced additionalProperties
+   * 
+   * @param requestBody request body (required)
+   */
+  @RequestLine("POST /fake/additionalProperties-reference")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  void testAdditionalPropertiesReference(Map<String, Object> requestBody);
+
+  /**
+   * test referenced additionalProperties
+   * Similar to <code>testAdditionalPropertiesReference</code> but it also returns the http response headers .
+   * 
+   * @param requestBody request body (required)
+   */
+  @RequestLine("POST /fake/additionalProperties-reference")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  ApiResponse<Void> testAdditionalPropertiesReferenceWithHttpInfo(Map<String, Object> requestBody);
 
 
 
@@ -785,6 +840,33 @@ public interface FakeApi extends ApiClient.Api {
 
 
   /**
+   * test inline free-form additionalProperties
+   * 
+   * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
+   */
+  @RequestLine("POST /fake/inline-freeform-additionalProperties")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  void testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest);
+
+  /**
+   * test inline free-form additionalProperties
+   * Similar to <code>testInlineFreeformAdditionalProperties</code> but it also returns the http response headers .
+   * 
+   * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
+   */
+  @RequestLine("POST /fake/inline-freeform-additionalProperties")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  ApiResponse<Void> testInlineFreeformAdditionalPropertiesWithHttpInfo(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest);
+
+
+
+  /**
    * test json serialization of form data
    * 
    * @param param field1 (required)
@@ -810,6 +892,33 @@ public interface FakeApi extends ApiClient.Api {
     "Accept: application/json",
   })
   ApiResponse<Void> testJsonFormDataWithHttpInfo(@Param("param") String param, @Param("param2") String param2);
+
+
+
+  /**
+   * test nullable parent property
+   * 
+   * @param childWithNullable request body (required)
+   */
+  @RequestLine("POST /fake/nullable")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  void testNullable(ChildWithNullable childWithNullable);
+
+  /**
+   * test nullable parent property
+   * Similar to <code>testNullable</code> but it also returns the http response headers .
+   * 
+   * @param childWithNullable request body (required)
+   */
+  @RequestLine("POST /fake/nullable")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  ApiResponse<Void> testNullableWithHttpInfo(ChildWithNullable childWithNullable);
 
 
 
@@ -933,4 +1042,31 @@ public interface FakeApi extends ApiClient.Api {
       return this;
     }
   }
+
+  /**
+   * test referenced string map
+   * 
+   * @param requestBody request body (required)
+   */
+  @RequestLine("POST /fake/stringMap-reference")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  void testStringMapReference(Map<String, String> requestBody);
+
+  /**
+   * test referenced string map
+   * Similar to <code>testStringMapReference</code> but it also returns the http response headers .
+   * 
+   * @param requestBody request body (required)
+   */
+  @RequestLine("POST /fake/stringMap-reference")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  ApiResponse<Void> testStringMapReferenceWithHttpInfo(Map<String, String> requestBody);
+
+
 }

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
@@ -13,8 +14,12 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import jakarta.xml.bind.annotation.*;
 
 import java.util.*;
 import jakarta.annotation.Generated;
@@ -24,25 +29,23 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "Pet", description = "A pet for sale in the pet store")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@JacksonXmlRootElement(localName = "Pet")
+@XmlRootElement(name = "Pet")
+@XmlAccessorType(XmlAccessType.FIELD)
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class Pet {
 
-  @JsonProperty("id")
   private Long id;
 
-  @JsonProperty("category")
   private Category category;
 
-  @JsonProperty("name")
   private String name;
 
-  @JsonProperty("photoUrls")
   @Valid
   private List<String> photoUrls = new ArrayList<>();
 
-  @JsonProperty("tags")
   @Valid
-  private List<Tag> tags = null;
+  private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -81,8 +84,32 @@ public class Pet {
     }
   }
 
-  @JsonProperty("status")
+  @Deprecated
   private StatusEnum status;
+
+  public Pet() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Pet(String name, List<String> photoUrls) {
+    this.name = name;
+    this.photoUrls = photoUrls;
+  }
+
+  /**
+   * Constructor with all args parameters
+   */
+  public Pet(Long id, Category category, String name, List<String> photoUrls, List<@Valid Tag> tags, StatusEnum status) {
+      this.id = id;
+      this.category = category;
+      this.name = name;
+      this.photoUrls = photoUrls;
+      this.tags = tags;
+      this.status = status;
+  }
 
   public Pet id(Long id) {
     this.id = id;
@@ -92,9 +119,12 @@ public class Pet {
   /**
    * Get id
    * @return id
-  */
+   */
   
-  @Schema(name = "id", required = false)
+  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("id")
+  @JacksonXmlProperty(localName = "id")
+  @XmlElement(name = "id")
   public Long getId() {
     return id;
   }
@@ -111,9 +141,12 @@ public class Pet {
   /**
    * Get category
    * @return category
-  */
+   */
   @Valid 
-  @Schema(name = "category", required = false)
+  @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("category")
+  @JacksonXmlProperty(localName = "Category")
+  @XmlElement(name = "Category")
   public Category getCategory() {
     return category;
   }
@@ -130,9 +163,12 @@ public class Pet {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull 
-  @Schema(name = "name", example = "doggie", required = true)
+  @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("name")
+  @JacksonXmlProperty(localName = "name")
+  @XmlElement(name = "name")
   public String getName() {
     return name;
   }
@@ -147,6 +183,9 @@ public class Pet {
   }
 
   public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new ArrayList<>();
+    }
     this.photoUrls.add(photoUrlsItem);
     return this;
   }
@@ -154,9 +193,14 @@ public class Pet {
   /**
    * Get photoUrls
    * @return photoUrls
-  */
+   */
   @NotNull 
-  @Schema(name = "photoUrls", required = true)
+  @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("photoUrls")
+  @JacksonXmlProperty(localName = "photoUrl")
+  @JacksonXmlElementWrapper(localName = "photoUrl", useWrapping = true)
+  @XmlElement(name = "photoUrl")
+  @XmlElementWrapper(name = "photoUrl")
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -165,7 +209,7 @@ public class Pet {
     this.photoUrls = photoUrls;
   }
 
-  public Pet tags(List<Tag> tags) {
+  public Pet tags(List<@Valid Tag> tags) {
     this.tags = tags;
     return this;
   }
@@ -181,14 +225,19 @@ public class Pet {
   /**
    * Get tags
    * @return tags
-  */
+   */
   @Valid 
-  @Schema(name = "tags", required = false)
-  public List<Tag> getTags() {
+  @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("tags")
+  @JacksonXmlProperty(localName = "Tag")
+  @JacksonXmlElementWrapper(localName = "tag", useWrapping = true)
+  @XmlElement(name = "Tag")
+  @XmlElementWrapper(name = "tag")
+  public List<@Valid Tag> getTags() {
     return tags;
   }
 
-  public void setTags(List<Tag> tags) {
+  public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
 
@@ -200,13 +249,22 @@ public class Pet {
   /**
    * pet status in the store
    * @return status
-  */
+   * @deprecated
+   */
   
-  @Schema(name = "status", description = "pet status in the store", required = false)
+  @Schema(name = "status", description = "pet status in the store", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("status")
+  @JacksonXmlProperty(localName = "status")
+  @XmlElement(name = "status")
+  @Deprecated
   public StatusEnum getStatus() {
     return status;
   }
 
+  /**
+   * @deprecated
+   */
+  @Deprecated
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
@@ -257,5 +315,94 @@ public class Pet {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private Pet instance;
+
+    public Builder() {
+      this(new Pet());
+    }
+
+    protected Builder(Pet instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(Pet value) { 
+      this.instance.setId(value.id);
+      this.instance.setCategory(value.category);
+      this.instance.setName(value.name);
+      this.instance.setPhotoUrls(value.photoUrls);
+      this.instance.setTags(value.tags);
+      this.instance.setStatus(value.status);
+      return this;
+    }
+
+    public Pet.Builder id(Long id) {
+      this.instance.id(id);
+      return this;
+    }
+    
+    public Pet.Builder category(Category category) {
+      this.instance.category(category);
+      return this;
+    }
+    
+    public Pet.Builder name(String name) {
+      this.instance.name(name);
+      return this;
+    }
+    
+    public Pet.Builder photoUrls(List<String> photoUrls) {
+      this.instance.photoUrls(photoUrls);
+      return this;
+    }
+    
+    public Pet.Builder tags(List<@Valid Tag> tags) {
+      this.instance.tags(tags);
+      return this;
+    }
+    
+    @Deprecated
+    public Pet.Builder status(StatusEnum status) {
+      this.instance.status(status);
+      return this;
+    }
+    
+    /**
+    * returns a built Pet instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Pet build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static Pet.Builder builder() {
+    return new Pet.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Pet.Builder toBuilder() {
+    Pet.Builder builder = new Pet.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

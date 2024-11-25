@@ -48,7 +48,7 @@ func NewDuplicatedPropChildWithDefaults() *DuplicatedPropChild {
 
 // GetDupProp returns the DupProp field value if set, zero value otherwise.
 func (o *DuplicatedPropChild) GetDupProp() string {
-	if o == nil || isNil(o.DupProp) {
+	if o == nil || IsNil(o.DupProp) {
 		var ret string
 		return ret
 	}
@@ -58,7 +58,7 @@ func (o *DuplicatedPropChild) GetDupProp() string {
 // GetDupPropOk returns a tuple with the DupProp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *DuplicatedPropChild) GetDupPropOk() (*string, bool) {
-	if o == nil || isNil(o.DupProp) {
+	if o == nil || IsNil(o.DupProp) {
 		return nil, false
 	}
 	return o.DupProp, true
@@ -66,7 +66,7 @@ func (o *DuplicatedPropChild) GetDupPropOk() (*string, bool) {
 
 // HasDupProp returns a boolean if a field has been set.
 func (o *DuplicatedPropChild) HasDupProp() bool {
-	if o != nil && !isNil(o.DupProp) {
+	if o != nil && !IsNil(o.DupProp) {
 		return true
 	}
 
@@ -96,7 +96,7 @@ func (o DuplicatedPropChild) ToMap() (map[string]interface{}, error) {
 	if errDuplicatedPropParent != nil {
 		return map[string]interface{}{}, errDuplicatedPropParent
 	}
-	if !isNil(o.DupProp) {
+	if !IsNil(o.DupProp) {
 		toSerialize["dup-prop"] = o.DupProp
 	}
 
@@ -107,7 +107,7 @@ func (o DuplicatedPropChild) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *DuplicatedPropChild) UnmarshalJSON(bytes []byte) (err error) {
+func (o *DuplicatedPropChild) UnmarshalJSON(data []byte) (err error) {
 	type DuplicatedPropChildWithoutEmbeddedStruct struct {
 		// A discriminator value
 		DupProp *string `json:"dup-prop,omitempty"`
@@ -115,7 +115,7 @@ func (o *DuplicatedPropChild) UnmarshalJSON(bytes []byte) (err error) {
 
 	varDuplicatedPropChildWithoutEmbeddedStruct := DuplicatedPropChildWithoutEmbeddedStruct{}
 
-	err = json.Unmarshal(bytes, &varDuplicatedPropChildWithoutEmbeddedStruct)
+	err = json.Unmarshal(data, &varDuplicatedPropChildWithoutEmbeddedStruct)
 	if err == nil {
 		varDuplicatedPropChild := _DuplicatedPropChild{}
 		varDuplicatedPropChild.DupProp = varDuplicatedPropChildWithoutEmbeddedStruct.DupProp
@@ -126,7 +126,7 @@ func (o *DuplicatedPropChild) UnmarshalJSON(bytes []byte) (err error) {
 
 	varDuplicatedPropChild := _DuplicatedPropChild{}
 
-	err = json.Unmarshal(bytes, &varDuplicatedPropChild)
+	err = json.Unmarshal(data, &varDuplicatedPropChild)
 	if err == nil {
 		o.DuplicatedPropParent = varDuplicatedPropChild.DuplicatedPropParent
 	} else {
@@ -135,7 +135,7 @@ func (o *DuplicatedPropChild) UnmarshalJSON(bytes []byte) (err error) {
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "dup-prop")
 
 		// remove fields from embedded structs

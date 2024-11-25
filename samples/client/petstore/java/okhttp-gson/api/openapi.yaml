@@ -50,7 +50,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/_foo_get_default_response'
           description: response
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /pet:
     post:
       description: ""
@@ -61,7 +62,6 @@ paths:
         "405":
           description: Invalid input
       security:
-      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -69,7 +69,8 @@ paths:
       tags:
       - pet
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
     put:
       description: ""
       operationId: updatePet
@@ -83,7 +84,6 @@ paths:
         "405":
           description: Validation exception
       security:
-      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -91,7 +91,8 @@ paths:
       tags:
       - pet
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
     servers:
     - url: http://petstore.swagger.io/v2
     - url: http://path-server-test.petstore.local/v2
@@ -133,14 +134,15 @@ paths:
         "400":
           description: Invalid status value
       security:
-      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
       summary: Finds Pets by status
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
   /pet/findByTags:
     get:
       deprecated: true
@@ -175,14 +177,15 @@ paths:
         "400":
           description: Invalid tag value
       security:
-      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
       summary: Finds Pets by tags
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
   /pet/{petId}:
     delete:
       description: ""
@@ -214,7 +217,8 @@ paths:
       summary: Deletes a pet
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts:
+      - application/json
     get:
       description: Returns a single pet
       operationId: getPetById
@@ -236,7 +240,8 @@ paths:
                 $ref: '#/components/schemas/Pet'
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
+                allOf:
+                - $ref: '#/components/schemas/Pet'
           description: successful operation
         "400":
           description: Invalid ID supplied
@@ -247,7 +252,9 @@ paths:
       summary: Find pet by ID
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
     post:
       description: ""
       operationId: updatePetWithForm
@@ -277,7 +284,8 @@ paths:
       tags:
       - pet
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /pet/{petId}/uploadImage:
     post:
       description: ""
@@ -291,6 +299,14 @@ paths:
         schema:
           format: int64
           type: integer
+        style: simple
+      - description: Content type header parameter
+        explode: false
+        in: header
+        name: Content-Type
+        required: false
+        schema:
+          type: string
         style: simple
       requestBody:
         content:
@@ -312,7 +328,8 @@ paths:
       tags:
       - pet
       x-content-type: multipart/form-data
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /store/inventory:
     get:
       description: Returns a map of status codes to quantities
@@ -332,7 +349,8 @@ paths:
       summary: Returns pet inventories by status
       tags:
       - store
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /store/order:
     post:
       description: ""
@@ -360,7 +378,9 @@ paths:
       tags:
       - store
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
   /store/order/{order_id}:
     delete:
       description: For valid response try integer IDs with value < 1000. Anything
@@ -383,7 +403,8 @@ paths:
       summary: Delete purchase order by ID
       tags:
       - store
-      x-accepts: application/json
+      x-accepts:
+      - application/json
     get:
       description: For valid response try integer IDs with value <= 5 or > 10. Other
         values will generate exceptions
@@ -417,7 +438,9 @@ paths:
       summary: Find purchase order by ID
       tags:
       - store
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
   /user:
     post:
       description: This can only be done by the logged in user.
@@ -436,7 +459,8 @@ paths:
       tags:
       - user
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /user/createWithArray:
     post:
       description: ""
@@ -450,7 +474,8 @@ paths:
       tags:
       - user
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /user/createWithList:
     post:
       description: ""
@@ -464,7 +489,8 @@ paths:
       tags:
       - user
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /user/login:
     get:
       description: ""
@@ -516,7 +542,9 @@ paths:
       summary: Logs user into the system
       tags:
       - user
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
   /user/logout:
     get:
       description: ""
@@ -527,7 +555,8 @@ paths:
       summary: Logs out current logged in user session
       tags:
       - user
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /user/{username}:
     delete:
       description: This can only be done by the logged in user.
@@ -549,7 +578,8 @@ paths:
       summary: Delete user
       tags:
       - user
-      x-accepts: application/json
+      x-accepts:
+      - application/json
     get:
       description: ""
       operationId: getUserByName
@@ -579,7 +609,9 @@ paths:
       summary: Get user by user name
       tags:
       - user
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
     put:
       description: This can only be done by the logged in user.
       operationId: updateUser
@@ -608,7 +640,8 @@ paths:
       tags:
       - user
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /fake_classname_test:
     patch:
       description: To test class name in snake case
@@ -628,7 +661,8 @@ paths:
       tags:
       - fake_classname_tags 123#$%^
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /fake:
     delete:
       description: Fake endpoint to test group parameters (optional)
@@ -693,7 +727,8 @@ paths:
       tags:
       - fake
       x-group-parameters: true
-      x-accepts: application/json
+      x-accepts:
+      - application/json
     get:
       description: To test enum parameters
       operationId: testEnumParameters
@@ -790,7 +825,8 @@ paths:
       tags:
       - fake
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: application/json
+      x-accepts:
+      - application/json
     patch:
       description: To test "client" model
       operationId: testClientModel
@@ -807,7 +843,8 @@ paths:
       tags:
       - fake
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
     post:
       description: |
         Fake endpoint for testing various parameters
@@ -835,7 +872,8 @@ paths:
       tags:
       - fake
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /fake/outer/number:
     post:
       description: Test serialization of outer number types
@@ -856,7 +894,8 @@ paths:
       tags:
       - fake
       x-content-type: application/json
-      x-accepts: '*/*'
+      x-accepts:
+      - '*/*'
   /fake/outer/string:
     post:
       description: Test serialization of outer string types
@@ -877,7 +916,8 @@ paths:
       tags:
       - fake
       x-content-type: application/json
-      x-accepts: '*/*'
+      x-accepts:
+      - '*/*'
   /fake/outer/boolean:
     post:
       description: Test serialization of outer boolean types
@@ -898,7 +938,8 @@ paths:
       tags:
       - fake
       x-content-type: application/json
-      x-accepts: '*/*'
+      x-accepts:
+      - '*/*'
   /fake/outer/composite:
     post:
       description: Test serialization of object with outer number type
@@ -919,7 +960,8 @@ paths:
       tags:
       - fake
       x-content-type: application/json
-      x-accepts: '*/*'
+      x-accepts:
+      - '*/*'
   /fake/jsonFormData:
     get:
       description: ""
@@ -936,7 +978,72 @@ paths:
       tags:
       - fake
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+  /fake/additionalProperties-reference:
+    post:
+      description: ""
+      operationId: testAdditionalPropertiesReference
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreeFormObject'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test referenced additionalProperties
+      tags:
+      - fake
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /fake/oneOfWIthSameErasure:
+    get:
+      description: "Test route, this shouldn't cause a compiler error"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_fake_oneOfWIthSameErasure_get_200_response'
+          description: successful response
+      x-accepts:
+      - application/json
+  /fake/anyOfWIthSameErasure:
+    get:
+      description: "Test route, this shouldn't cause a compiler error"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_fake_anyOfWIthSameErasure_get_200_response'
+          description: successful response
+      x-accepts:
+      - application/json
+  /fake/stringMap-reference:
+    post:
+      description: ""
+      operationId: testStringMapReference
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapOfString'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test referenced string map
+      tags:
+      - fake
+      x-content-type: application/json
+      x-accepts:
+      - application/json
   /fake/inline-additionalProperties:
     post:
       description: ""
@@ -957,7 +1064,28 @@ paths:
       tags:
       - fake
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+  /fake/inline-freeform-additionalProperties:
+    post:
+      description: ""
+      operationId: testInlineFreeformAdditionalProperties
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/testInlineFreeformAdditionalProperties_request'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test inline free-form additionalProperties
+      tags:
+      - fake
+      x-content-type: application/json
+      x-accepts:
+      - application/json
   /fake/body-with-query-params:
     put:
       operationId: testBodyWithQueryParams
@@ -981,7 +1109,8 @@ paths:
       tags:
       - fake
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /another-fake/dummy:
     patch:
       description: To test special tags and operation ID starting with number
@@ -999,7 +1128,8 @@ paths:
       tags:
       - $another-fake?
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /fake/body-with-file-schema:
     put:
       description: "For this test, the body for this request much reference a schema\
@@ -1017,7 +1147,44 @@ paths:
       tags:
       - fake
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+  /fake/get-free-form-object:
+    get:
+      description: Get a free form object or Json string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FreeFormObjectTestClass'
+          description: Success
+      tags:
+      - fake
+      x-accepts:
+      - application/json
+  /fake/free-form-query-parameters:
+    get:
+      parameters:
+      - explode: true
+        in: query
+        name: fixed
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: free-form
+        required: false
+        schema:
+          type: object
+        style: form
+      responses:
+        "200":
+          description: OK
+      x-accepts:
+      - application/json
   /fake/test-query-parameters:
     put:
       description: To test the collection format in query parameters
@@ -1073,7 +1240,8 @@ paths:
           description: Success
       tags:
       - fake
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /fake/{petId}/uploadImageWithRequiredFile:
     post:
       description: ""
@@ -1108,7 +1276,8 @@ paths:
       tags:
       - pet
       x-content-type: multipart/form-data
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /fake/health:
     get:
       responses:
@@ -1121,7 +1290,8 @@ paths:
       summary: Health check endpoint
       tags:
       - fake
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /fake/array-of-enums:
     get:
       operationId: getArrayOfEnums
@@ -1135,9 +1305,248 @@ paths:
       summary: Array of Enums
       tags:
       - fake
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+  /fake/parameter-name-mapping:
+    get:
+      operationId: getParameterNameMapping
+      parameters:
+      - description: _type
+        explode: false
+        in: header
+        name: _type
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      - description: type
+        explode: true
+        in: query
+        name: type
+        required: true
+        schema:
+          type: string
+        style: form
+      - description: type_
+        explode: false
+        in: header
+        name: type_
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: OK
+      summary: parameter name mapping test
+      tags:
+      - fake
+      x-accepts:
+      - application/json
+  /fake/parameter-string-number:
+    get:
+      operationId: getParameterStringNumber
+      parameters:
+      - description: string number
+        explode: false
+        in: header
+        name: string_number
+        required: true
+        schema:
+          format: number
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: OK
+      summary: parameter string number
+      tags:
+      - another_fake
+      x-accepts:
+      - application/json
+  /fake/parameter-array-number:
+    get:
+      operationId: getParameterArrayNumber
+      parameters:
+      - description: array integer
+        explode: false
+        in: header
+        name: array
+        required: true
+        schema:
+          default:
+          - 1
+          items:
+            type: integer
+          type: array
+        style: simple
+      responses:
+        "200":
+          description: OK
+      summary: parameter array number default value
+      tags:
+      - another_fake
+      x-accepts:
+      - application/json
+  /fake/null-request-body:
+    get:
+      operationId: null-request-body
+      parameters:
+      - explode: false
+        in: header
+        name: Accept-Language
+        required: false
+        schema:
+          example: application/json
+          type: string
+        style: simple
+      requestBody:
+        content:
+          text/plain:
+            examples:
+              Generar Orden por External ID:
+                value: |-
+                  {
+                      "external_reference": "{{external_order_ref}}",
+                      "notification_url": "www.yourserver.com/yourendpoint",
+                      "sponsor_id": 446566691,
+                      "items": [
+                          {
+                              "title": "Papas frita",
+                              "currency_id": "{{currency_id}}",
+                              "unit_price": 6000,
+                              "quantity": 1
+                          },
+                          {
+                              "title": "Gaseosa",
+                              "currency_id": "{{currency_id}}",
+                              "unit_price": 3000,
+                              "quantity": 1
+                          }
+                      ]/*,
+                      "taxes": [
+                          {
+                              "value": 0,
+                              "type": "IVA"
+                          }
+                      ]*/
+                  }
+      responses:
+        "200":
+          description: ""
+      summary: null request body
+      tags:
+      - another_fake
+      x-accepts:
+      - application/json
+  /fake/pet/{petId}/uploadImage:
+    post:
+      description: ""
+      operationId: fake-upload-ref-request-bodies
+      parameters:
+      - description: ID of pet to update
+        explode: false
+        in: path
+        name: petId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      requestBody:
+        $ref: '#/components/requestBodies/upload_body'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+          description: successful operation
+      security:
+      - petstore_auth:
+        - write:pets
+        - read:pets
+      summary: fake reference parameter
+      tags:
+      - fake
+      x-content-type: multipart/form-data
+      x-accepts:
+      - application/json
+  /fake/pet/{petId}/reference/parameter:
+    post:
+      description: ""
+      operationId: fake-ref-parameter
+      parameters:
+      - description: to test oneOf in parameter $ref
+        explode: false
+        in: path
+        name: petId
+        required: true
+        schema:
+          $ref: '#/components/schemas/fake_ref_parameter_petId_parameter'
+        style: simple
+      responses:
+        "200":
+          description: successful operation
+      summary: fake reference parameter
+      tags:
+      - fake
+      x-accepts:
+      - application/json
+  /values:
+    get:
+      description: ""
+      operationId: getSomeValues
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Variable'
+          description: successful operation
+        "400":
+          description: Invalid Value
+      summary: Get some primitive variable values
+      tags:
+      - values
+      x-accepts:
+      - application/json
+  /internal/only:
+    get:
+      description: ""
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Variable'
+          description: successful operation
+        "400":
+          description: Invalid Value
+      summary: internal only
+      tags:
+      - values
+      x-internal: true
+      x-accepts:
+      - application/json
 components:
+  parameters:
+    pet_id:
+      description: to test oneOf in parameter $ref
+      explode: false
+      in: path
+      name: petId
+      required: true
+      schema:
+        $ref: '#/components/schemas/fake_ref_parameter_petId_parameter'
+      style: simple
   requestBodies:
+    upload_body:
+      content:
+        multipart/form-data:
+          schema:
+            $ref: '#/components/schemas/uploadFile_request'
     UserArray:
       content:
         application/json:
@@ -1165,7 +1574,8 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Pet'
+            allOf:
+            - $ref: '#/components/schemas/Pet'
         application/xml:
           schema:
             $ref: '#/components/schemas/Pet'
@@ -1416,12 +1826,18 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Dog_allOf'
+      - properties:
+          breed:
+            type: string
+        type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
       - $ref: '#/components/schemas/Address'
-      - $ref: '#/components/schemas/Cat_allOf'
+      - properties:
+          declawed:
+            type: boolean
+        type: object
     Address:
       additionalProperties:
         type: integer
@@ -1739,11 +2155,22 @@ components:
             type: string
           type: array
       type: object
+    FreeFormObject:
+      additionalProperties: true
+      description: A schema consisting only of additional properties
+      type: object
+    MapOfString:
+      additionalProperties:
+        type: string
+      description: A schema consisting only of additional properties of type string
+      type: object
     OuterEnum:
       enum:
       - placed
       - approved
       - delivered
+      - s
+      - S
       nullable: true
       type: string
     OuterEnumInteger:
@@ -1805,6 +2232,16 @@ components:
           items:
             $ref: '#/components/schemas/File'
           type: array
+      type: object
+    FreeFormObjectTestClass:
+      example:
+        name: name
+        properties: FreeFormObjectTestClass_properties
+      properties:
+        name:
+          type: string
+        properties:
+          $ref: '#/components/schemas/FreeFormObjectTestClass_properties'
       type: object
     File:
       description: Must be named `File` for test.
@@ -1922,6 +2359,13 @@ components:
       - $ref: '#/components/schemas/whale'
       - $ref: '#/components/schemas/zebra'
       - $ref: '#/components/schemas/Pig'
+    mammal_anyof:
+      anyOf:
+      - $ref: '#/components/schemas/whale'
+      - $ref: '#/components/schemas/zebra'
+      - $ref: '#/components/schemas/Pig'
+      discriminator:
+        propertyName: className
     whale:
       properties:
         hasBaleen:
@@ -1977,8 +2421,8 @@ components:
           type: string
     fruitReq:
       additionalProperties: false
+      nullable: true
       oneOf:
-      - type: "null"
       - $ref: '#/components/schemas/appleReq'
       - $ref: '#/components/schemas/bananaReq'
     appleReq:
@@ -2027,8 +2471,8 @@ components:
         in OAS schema >= 3.1.
       discriminator:
         propertyName: shapeType
+      nullable: true
       oneOf:
-      - type: "null"
       - $ref: '#/components/schemas/Triangle'
       - $ref: '#/components/schemas/Quadrilateral'
     NullableShape:
@@ -2204,6 +2648,225 @@ components:
       required:
       - enum_str_type
       type: object
+    ArrayDefault:
+      properties:
+        WithDefaultEmptyBracket:
+          default: []
+          items:
+            type: string
+          type: array
+        WithoutDefault:
+          items:
+            type: string
+          type: array
+    Variable:
+      description: Value object
+      example:
+        name: variable_1
+        value: Scalar
+      properties:
+        name:
+          example: variable_1
+          type: string
+        value:
+          $ref: '#/components/schemas/Value'
+      required:
+      - name
+      - value
+    Value:
+      oneOf:
+      - $ref: '#/components/schemas/Scalar'
+      - $ref: '#/components/schemas/Array'
+    Scalar:
+      description: Values of scalar type
+      oneOf:
+      - maxLength: 1089
+        type: string
+      - type: number
+      - type: boolean
+    ScalarAnyOf:
+      anyOf:
+      - maxLength: 1089
+        type: string
+      - type: number
+      - type: boolean
+      description: Values of scalar type using anyOf
+    Array:
+      description: Values of array type
+      items:
+        $ref: '#/components/schemas/Scalar'
+      minItems: 1
+      type: array
+    AllOfRefToString:
+      allOf:
+      - $ref: '#/components/schemas/OuterString'
+      description: testing allOf with a ref to string
+    NewPet:
+      properties:
+        id:
+          format: int64
+          type: integer
+          x-is-unique: true
+        category_ref_to_inline_allof_string:
+          $ref: '#/components/schemas/AllOfRefToString'
+        category_inline_allof_string:
+          allOf:
+          - $ref: '#/components/schemas/OuterString'
+          description: testing allOf with a ref to string
+        category_inline_allof:
+          $ref: '#/components/schemas/NewPet_category_inline_allof'
+        category_allOf_ref:
+          allOf:
+          - $ref: '#/components/schemas/Category'
+        category_allOf_ref_description:
+          allOf:
+          - $ref: '#/components/schemas/Category'
+          description: |
+            Adding description to property using allOf
+        category_allOf_ref_description_readonly:
+          allOf:
+          - $ref: '#/components/schemas/Category'
+          description: |
+            Adding description to readonly property using allOf
+          readOnly: true
+        name:
+          example: doggie
+          type: string
+        photoUrls:
+          items:
+            type: string
+          type: array
+          xml:
+            name: photoUrl
+            wrapped: true
+        tags:
+          items:
+            allOf:
+            - $ref: '#/components/schemas/Tag'
+          type: array
+          xml:
+            name: tag
+            wrapped: true
+        status:
+          description: pet status in the store
+          enum:
+          - available
+          - pending
+          - sold
+          type: string
+      required:
+      - name
+      - photoUrls
+      type: object
+    PropertyNameCollision:
+      properties:
+        _type:
+          type: string
+        type:
+          type: string
+        type_:
+          type: string
+      type: object
+      x-internal: false
+    InteralOnly:
+      properties:
+        type:
+          type: string
+      type: object
+      x-internal: true
+    AllOfModelArrayAnyOf:
+      allOf:
+      - $ref: '#/components/schemas/Category'
+      - properties:
+          linkListColumn1:
+            $ref: '#/components/schemas/AllOfModelArrayAnyOf_allOf_linkListColumn1'
+          attributes:
+            $ref: '#/components/schemas/AllOfModelArrayAnyOf_allOf_attributes'
+        type: object
+    PetUsingAllOf:
+      properties:
+        id:
+          format: int64
+          type: integer
+          x-is-unique: true
+        category:
+          allOf:
+          - $ref: '#/components/schemas/Category'
+          description: |
+            multi line description
+            2nd line
+            last line
+        name:
+          example: doggie
+          type: string
+        photoUrls:
+          items:
+            type: string
+          type: array
+          xml:
+            name: photoUrl
+            wrapped: true
+        tags:
+          items:
+            allOf:
+            - $ref: '#/components/schemas/Tag'
+          type: array
+          xml:
+            name: tag
+            wrapped: true
+        status:
+          description: pet status in the store
+          enum:
+          - available
+          - pending
+          - sold
+          type: string
+      required:
+      - name
+      - photoUrls
+      type: object
+    PetComposition:
+      allOf:
+      - $ref: '#/components/schemas/Pet'
+    PetRef:
+      properties:
+        id:
+          $ref: '#/components/schemas/Pet/properties/id'
+        category:
+          $ref: '#/components/schemas/Pet/properties/category'
+        name:
+          $ref: '#/components/schemas/Pet/properties/name'
+        photoUrls:
+          $ref: '#/components/schemas/Pet/properties/photoUrls'
+        tags:
+          $ref: '#/components/schemas/Pet/properties/tags'
+        status:
+          $ref: '#/components/schemas/Pet/properties/status'
+      required:
+      - name
+      - photoUrls
+      type: object
+      xml:
+        name: Pet
+    ArrayOneOf:
+      oneOf:
+      - type: integer
+      - items:
+          type: string
+        type: array
+    ArrayAnyOf:
+      anyOf:
+      - type: integer
+      - items:
+          type: string
+        type: array
+    ModelWithOneOfAnyOfProperties:
+      properties:
+        oneof_prop:
+          $ref: '#/components/schemas/ArrayOneOf'
+        anyof_prop:
+          $ref: '#/components/schemas/ArrayAnyOf'
+      type: object
     _foo_get_default_response:
       example:
         string:
@@ -2337,6 +3000,28 @@ components:
       - param
       - param2
       type: object
+    _fake_oneOfWIthSameErasure_get_200_response:
+      oneOf:
+      - items:
+          type: string
+        type: array
+      - items:
+          type: integer
+        type: array
+    _fake_anyOfWIthSameErasure_get_200_response:
+      anyOf:
+      - items:
+          type: string
+        type: array
+      - items:
+          type: integer
+        type: array
+    testInlineFreeformAdditionalProperties_request:
+      additionalProperties: true
+      properties:
+        someProperty:
+          type: string
+      type: object
     uploadFileWithRequiredFile_request:
       properties:
         additionalMetadata:
@@ -2349,32 +3034,69 @@ components:
       required:
       - requiredFile
       type: object
-    Dog_allOf:
-      properties:
-        breed:
-          type: string
-      type: object
-      example: null
-    Cat_allOf:
-      properties:
-        declawed:
-          type: boolean
-      type: object
-      example: null
-    ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf:
-      properties:
-        breed:
-          type: string
-      type: object
-    ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf_1:
-      properties:
-        color:
-          type: string
-      type: object
+    fake_ref_parameter_petId_parameter:
+      oneOf:
+      - type: string
+      - type: integer
+    FreeFormObjectTestClass_properties:
+      oneOf:
+      - type: string
+      - additionalProperties: true
+        type: object
     ArrayOfInlineAllOf_array_allof_dog_property_inner:
       allOf:
-      - $ref: '#/components/schemas/ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf'
-      - $ref: '#/components/schemas/ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf_1'
+      - properties:
+          breed:
+            type: string
+        type: object
+      - properties:
+          color:
+            type: string
+        type: object
+    NewPet_category_inline_allof_allOf_category_tag:
+      properties:
+        id:
+          format: int64
+          type: integer
+        name:
+          type: string
+      type: object
+    NewPet_category_inline_allof:
+      allOf:
+      - properties:
+          id:
+            format: int64
+            type: integer
+          name:
+            default: default-name
+            type: string
+          category_tag:
+            $ref: '#/components/schemas/NewPet_category_inline_allof_allOf_category_tag'
+        required:
+        - name
+        type: object
+    AllOfModelArrayAnyOf_allOf_linkListColumn1_value:
+      anyOf:
+      - $ref: '#/components/schemas/User'
+      - $ref: '#/components/schemas/Tag'
+    AllOfModelArrayAnyOf_allOf_linkListColumn1:
+      properties:
+        value:
+          items:
+            $ref: '#/components/schemas/AllOfModelArrayAnyOf_allOf_linkListColumn1_value'
+          type: array
+      required:
+      - value
+      type: object
+    AllOfModelArrayAnyOf_allOf_attributes_C:
+      oneOf:
+      - $ref: '#/components/schemas/Pet'
+      - $ref: '#/components/schemas/Order'
+    AllOfModelArrayAnyOf_allOf_attributes:
+      properties:
+        C:
+          $ref: '#/components/schemas/AllOfModelArrayAnyOf_allOf_attributes_C'
+      type: object
   securitySchemes:
     petstore_auth:
       flows:
@@ -2398,8 +3120,5 @@ components:
     bearer_test:
       bearerFormat: JWT
       scheme: bearer
-      type: http
-    http_signature_test:
-      scheme: signature
       type: http
 

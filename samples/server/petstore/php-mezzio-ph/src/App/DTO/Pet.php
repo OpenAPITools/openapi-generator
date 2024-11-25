@@ -34,17 +34,17 @@ class Pet
 
     /**
      * @DTA\Data(field="photoUrls")
-     * @DTA\Strategy(name="Object", options={"type":\App\DTO\Collection32::class})
-     * @DTA\Validator(name="TypeCompliant", options={"type":\App\DTO\Collection32::class})
-     * @var \App\DTO\Collection32|null
+     * @DTA\Strategy(name="Object", options={"type":\App\DTO\Collection::class})
+     * @DTA\Validator(name="TypeCompliant", options={"type":\App\DTO\Collection::class})
+     * @var \App\DTO\Collection|null
      */
     public $photo_urls;
 
     /**
      * @DTA\Data(field="tags", nullable=true)
-     * @DTA\Strategy(name="Object", options={"type":\App\DTO\Collection33::class})
-     * @DTA\Validator(name="TypeCompliant", options={"type":\App\DTO\Collection33::class})
-     * @var \App\DTO\Collection33|null
+     * @DTA\Strategy(name="Object", options={"type":\App\DTO\Collection1::class})
+     * @DTA\Validator(name="TypeCompliant", options={"type":\App\DTO\Collection1::class})
+     * @var \App\DTO\Collection1|null
      */
     public $tags;
 

@@ -23,8 +23,7 @@ ApiResponse <- R6::R6Class(
     status_code = NULL,
     status_code_desc = NULL,
     headers = NULL,
-    #' Initialize a new ApiResponse class.
-    #'
+
     #' @description
     #' Initialize a new ApiResponse class.
     #'
@@ -33,7 +32,6 @@ ApiResponse <- R6::R6Class(
     #' @param status_code The HTTP response status code.
     #' @param status_code_desc The brief description of the HTTP response status code.
     #' @param headers The HTTP response headers.
-    #' @export
     initialize = function(content = NULL,
                           response = NULL,
                           status_code = NULL,
@@ -44,6 +42,21 @@ ApiResponse <- R6::R6Class(
       self$status_code <- status_code
       self$status_code_desc <- status_code_desc
       self$headers <- headers
+    },
+
+
+    #' @description
+    #' The response is stored as a raw vector. Use this to access the response after
+    #' converting it to text. If the response is not coercible to text NA is returned.
+    #'
+    #' @param from_encoding The encoding of the raw response.
+    #' @param to_encoding The target encoding of the return value.
+    response_as_text = function(from_encoding = "", to_encoding = "UTF-8") {
+      if (is.null(self$response)) {
+        self$response <- charToRaw(jsonlite::toJSON("NULL"))
+      }
+      text_response <- iconv(readBin(self$response, character()), from = from_encoding, to = to_encoding)
+      return(text_response)
     }
   )
 )

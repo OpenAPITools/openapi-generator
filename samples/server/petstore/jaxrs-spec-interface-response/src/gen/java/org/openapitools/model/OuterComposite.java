@@ -17,11 +17,14 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("OuterComposite")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class OuterComposite  implements Serializable {
-  private @Valid BigDecimal myNumber;
-  private @Valid String myString;
-  private @Valid Boolean myBoolean;
+  private BigDecimal myNumber;
+  private String myString;
+  private Boolean myBoolean;
+
+  public OuterComposite() {
+  }
 
   /**
    **/
@@ -33,7 +36,7 @@ public class OuterComposite  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("my_number")
-  public BigDecimal getMyNumber() {
+  @Valid public BigDecimal getMyNumber() {
     return myNumber;
   }
 

@@ -16,6 +16,7 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.SingleRefType;
@@ -30,7 +31,7 @@ import javax.validation.Valid;
   AllOfWithSingleRef.JSON_PROPERTY_USERNAME,
   AllOfWithSingleRef.JSON_PROPERTY_SINGLE_REF_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class AllOfWithSingleRef   {
   public static final String JSON_PROPERTY_USERNAME = "username";
   @JsonProperty(JSON_PROPERTY_USERNAME)
@@ -71,7 +72,7 @@ public class AllOfWithSingleRef   {
    **/
   @JsonProperty(value = "SingleRefType")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public SingleRefType getSingleRefType() {
     return singleRefType;
   }

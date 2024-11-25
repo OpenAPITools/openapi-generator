@@ -1,13 +1,13 @@
 {{>licenseInfo}}
-{{#imports}}with {{import}};
-{{/imports}}
 pragma Warnings (Off, "*is not referenced");
 pragma Warnings (Off, "*no entities of*are referenced");
 with {{openApiPackageName}}.Servers;
 with {{package}}.Models;
 with Security.Permissions;
+{{#adaImports}}with {{name}};
+{{/adaImports}}
 package {{package}}.Skeletons is
-   pragma Style_Checks ("-mr");
+   pragma Style_Checks ("-bmrIu");
    pragma Warnings (Off, "*use clause for package*");
    use {{package}}.Models;
    type Server_Type is limited interface;
@@ -25,9 +25,9 @@ package {{package}}.Skeletons is
    --  {{#lambdaAdaComment}}{{unescapedNotes}}{{/lambdaAdaComment}}{{/vendorExtensions.x-has-notes}}
    procedure {{operationId}}
       (Server : in out Server_Type{{#hasParams}};{{/hasParams}}
-       {{#allParams}}{{paramName}} : in {{dataType}}{{^-last}};
-       {{/-last}}{{/allParams}}{{#returnType}};
-       Result  : out {{.}}{{/returnType}};
+       {{#allParams}}{{paramName}} : in {{#vendorExtensions.x-ada-type-name}}{{vendorExtensions.x-ada-type-name}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{dataType}}{{/vendorExtensions.x-ada-type-name}}{{^-last}};
+       {{/-last}}{{/allParams}}{{#returnProperty}};
+       Result  : out {{#vendorExtensions.x-ada-type-name}}{{.}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{dataType}}{{/vendorExtensions.x-ada-type-name}}{{/returnProperty}};
        Context : in out {{openApiPackageName}}.Servers.Context_Type) is abstract;
 {{/operation}}
 {{/operations}}
@@ -93,20 +93,20 @@ package {{package}}.Skeletons is
          --  {{summary}}
          {{#hasParams}}
          procedure {{operationId}}
-            ({{#allParams}}{{paramName}} : in {{dataType}}{{^-last}};
-             {{/-last}}{{/allParams}}{{#returnType}};
-             Result  : out {{.}}{{/returnType}};
+            ({{#allParams}}{{paramName}} : in {{#vendorExtensions.x-ada-type-name}}{{vendorExtensions.x-ada-type-name}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{dataType}}{{/vendorExtensions.x-ada-type-name}}{{^-last}};
+             {{/-last}}{{/allParams}}{{#returnProperty}};
+       Result  : out {{#vendorExtensions.x-ada-type-name}}{{.}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{dataType}}{{/vendorExtensions.x-ada-type-name}}{{/returnProperty}};
              Context : in out {{openApiPackageName}}.Servers.Context_Type);
          {{/hasParams}}
          {{^hasParams}}
-         {{#returnType}}
+         {{#returnProperty}}
          procedure {{operationId}}
-            (Result  : out {{returnType}};
+            (Result  : out {{#vendorExtensions.x-ada-type-name}}{{.}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{dataType}}{{/vendorExtensions.x-ada-type-name}};
              Context : in out {{openApiPackageName}}.Servers.Context_Type);
-         {{/returnType}}
-         {{^returnType}}
+         {{/returnProperty}}
+         {{^returnProperty}}
          procedure {{operationId}} (Context : in out {{openApiPackageName}}.Servers.Context_Type);
-         {{/returnType}}
+         {{/returnProperty}}
          {{/hasParams}}
 
 {{/operation}}

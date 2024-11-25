@@ -6,21 +6,33 @@ use aws_sigv4::http_request::{sign, SigningSettings, SigningParams, SignableRequ
 use http;
 use secrecy::{SecretString, ExposeSecret};
 {{/withAWSV4Signature}}
+{{#supportTokenSource}}
+use std::sync::Arc;
+use google_cloud_token::TokenSource;
+use async_trait::async_trait;
+{{/supportTokenSource}}
 
 #[derive(Debug, Clone)]
 pub struct Configuration {
     pub base_path: String,
     pub user_agent: Option<String>,
-    pub client: {{#supportMiddleware}}reqwest_middleware::ClientWithMiddleware{{/supportMiddleware}}{{^supportMiddleware}}reqwest::Client{{/supportMiddleware}},
+    pub client: {{#supportMiddleware}}reqwest_middleware::ClientWithMiddleware{{/supportMiddleware}}{{^supportMiddleware}}reqwest{{^supportAsync}}::blocking{{/supportAsync}}::Client{{/supportMiddleware}},
+    {{^supportTokenSource}}
     pub basic_auth: Option<BasicAuth>,
     pub oauth_access_token: Option<String>,
     pub bearer_access_token: Option<String>,
     pub api_key: Option<ApiKey>,
+    {{/supportTokenSource}}
     {{#withAWSV4Signature}}
     pub aws_v4_key: Option<AWSv4Key>,
     {{/withAWSV4Signature}}
-    // TODO: take an oauth2 token source, similar to the go one
+    {{#supportAsync}}
+    {{#supportTokenSource}}
+    pub token_source: Arc<dyn TokenSource>,
+    {{/supportTokenSource}}
+    {{/supportAsync}}
 }
+{{^supportTokenSource}}
 
 pub type BasicAuth = (String, Option<String>);
 
@@ -29,6 +41,7 @@ pub struct ApiKey {
     pub prefix: Option<String>,
     pub key: String,
 }
+{{/supportTokenSource}}
 
 {{#withAWSV4Signature}}
 #[derive(Debug, Clone)]
@@ -64,7 +77,7 @@ impl AWSv4Key {
 		                         value.to_str().expect("header value should be a string").to_string()));
             }
         }
-	return Ok(additional_headers);
+	Ok(additional_headers)
     }
 }
 {{/withAWSV4Signature}}
@@ -80,12 +93,30 @@ impl Default for Configuration {
         Configuration {
             base_path: "{{{basePath}}}".to_owned(),
             user_agent: {{#httpUserAgent}}Some("{{{.}}}".to_owned()){{/httpUserAgent}}{{^httpUserAgent}}Some("OpenAPI-Generator/{{{version}}}/rust".to_owned()){{/httpUserAgent}},
-            client: {{#supportMiddleware}}reqwest_middleware::ClientBuilder::new(reqwest::Client::new()).build(){{/supportMiddleware}}{{^supportMiddleware}}reqwest::Client::new(){{/supportMiddleware}},
+            client: {{#supportMiddleware}}reqwest_middleware::ClientBuilder::new(reqwest{{^supportAsync}}::blocking{{/supportAsync}}::Client::new()).build(){{/supportMiddleware}}{{^supportMiddleware}}reqwest{{^supportAsync}}::blocking{{/supportAsync}}::Client::new(){{/supportMiddleware}},
+            {{^supportTokenSource}}
             basic_auth: None,
             oauth_access_token: None,
             bearer_access_token: None,
             api_key: None,
-{{#withAWSV4Signature}}            aws_v4_key: None,{{/withAWSV4Signature}}
+            {{/supportTokenSource}}
+            {{#withAWSV4Signature}}
+            aws_v4_key: None,
+            {{/withAWSV4Signature}}
+            {{#supportTokenSource}}
+            token_source: Arc::new(NoopTokenSource{}),
+            {{/supportTokenSource}}
         }
     }
 }
+{{#supportTokenSource}}
+#[derive(Debug)]
+struct NoopTokenSource{}
+
+#[async_trait]
+impl TokenSource for NoopTokenSource {
+    async fn token(&self) -> Result<String, Box<dyn std::error::Error + Send + Sync>> {
+        panic!("This is dummy token source. You can use TokenSourceProvider from 'google_cloud_auth' crate, or any other compatible crate.")
+    }
+}
+{{/supportTokenSource}}

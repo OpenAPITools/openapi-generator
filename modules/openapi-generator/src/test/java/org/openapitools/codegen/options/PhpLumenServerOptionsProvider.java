@@ -37,6 +37,11 @@ public class PhpLumenServerOptionsProvider implements OptionsProvider {
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
     public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
+    public static final String LICENSE_VALUE = "mit";
+    public static final String DEVELOPER_ORGANIZATION_URL_VALUE = "http://github.com/openapitools/openapi-generator";
+    public static final String ARTIFACTURL_VALUE = "https://anotherUrl.com";
+    public static final String DEVELOPER_ORGANIZATION_VALUE = "openapi generator contributors";
+    public static final String COMPOSER_PACKAGE_NAME_VALUE = "package/name";
 
     @Override
     public String getLanguage() {
@@ -61,6 +66,11 @@ public class PhpLumenServerOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
                 .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
+                .put(CodegenConstants.LICENSE_NAME, LICENSE_VALUE)
+                .put(CodegenConstants.DEVELOPER_ORGANIZATION_URL, DEVELOPER_ORGANIZATION_URL_VALUE)
+                .put(CodegenConstants.ARTIFACT_URL, ARTIFACTURL_VALUE)
+                .put(CodegenConstants.DEVELOPER_ORGANIZATION, DEVELOPER_ORGANIZATION_VALUE)
+                .put(CodegenConstants.COMPOSER_PACKAGE_NAME, COMPOSER_PACKAGE_NAME_VALUE)
                 .build();
     }
 

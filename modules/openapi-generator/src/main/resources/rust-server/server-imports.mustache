@@ -19,12 +19,11 @@ use mime_multipart::{read_multipart_body, Node, Part};
 {{/apiUsesMultipartRelated}}
 {{#apiUsesMultipartFormData}}
 use multipart::server::Multipart;
-use multipart::server::save::SaveResult;
+use multipart::server::save::{PartialReason, SaveResult};
 {{/apiUsesMultipartFormData}}
 
 #[allow(unused_imports)]
-use crate::models;
-use crate::header;
+use crate::{models, header, AuthenticationApi};
 
 pub use crate::context;
 

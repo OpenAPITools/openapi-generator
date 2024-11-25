@@ -1,0 +1,36 @@
+openapi: 3.0.0
+servers:
+  - url: 'http://petstore.helidon.io:8080/format'
+info:
+  description: >-
+    This spec is mainly for testing Petstore server and contains fake endpoints,
+    models. Please do not use this for any other purpose. For this sample, you can use the api key
+    `special-key` to test the authorization filters. Special characters: "
+    \
+  version: 1.0.0
+  title: OpenAPI Petstore
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: format
+    description: Format tester
+paths:
+  /format:
+    get:
+      operationId: simple
+      responses:
+        "200":
+          content: {}
+          description: success
+      tags:
+        - format
+
+components:
+  schemas:
+    format_test:
+      properties:
+        byte:
+          format: byte
+          pattern: "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$"
+          type: string

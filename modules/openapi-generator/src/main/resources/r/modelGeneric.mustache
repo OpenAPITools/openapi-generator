@@ -34,8 +34,7 @@
     `_discriminator_property_name` = '{{discriminator.propertyName}}',
     {{#discriminator.mappedModels}}{{#-first}}`_discriminator_mapping_name` = c({{/-first}}'{{mappingName}}' = '{{modelName}}'{{^-last}}, {{/-last}}{{#-last}}),{{/-last}}{{/discriminator.mappedModels}}
     {{/discriminator}}
-    #' Initialize a new {{{classname}}} class.
-    #'
+
     #' @description
     #' Initialize a new {{{classname}}} class.
     #'
@@ -49,7 +48,6 @@
     #' @param additional_properties additional properties (optional)
     {{/isAdditionalPropertiesTrue}}
     #' @param ... Other optional arguments.
-    #' @export
     initialize = function({{#requiredVars}}`{{name}}`, {{/requiredVars}}{{#optionalVars}}`{{name}}` = {{{defaultValue}}}{{^defaultValue}}NULL{{/defaultValue}}, {{/optionalVars}}{{#isAdditionalPropertiesTrue}}additional_properties = NULL, {{/isAdditionalPropertiesTrue}}...) {
       {{#requiredVars}}
       if (!missing(`{{name}}`)) {
@@ -203,13 +201,11 @@
       }
       {{/isAdditionalPropertiesTrue}}
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return {{{classname}}} in JSON format
-    #' @export
     toJSON = function() {
       {{classname}}Object <- list()
       {{#vars}}
@@ -251,14 +247,12 @@
       {{/isAdditionalPropertiesTrue}}
       {{classname}}Object
     },
-    #' Deserialize JSON string into an instance of {{{classname}}}
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of {{{classname}}}
     #'
     #' @param input_json the JSON input
     #' @return the instance of {{{classname}}}
-    #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       {{#vars}}
@@ -289,9 +283,9 @@
         self$`{{name}}` <- this_object$`{{baseName}}`
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
-        {{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}}_object <- {{dataType}}$new()
-        {{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}}_object$fromJSON(jsonlite::toJSON(this_object${{baseName}}, auto_unbox = TRUE, digits = NA))
-        self$`{{name}}` <- {{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}}_object
+        `{{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}}_object` <- {{dataType}}$new()
+        `{{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}}_object`$fromJSON(jsonlite::toJSON(this_object$`{{baseName}}`, auto_unbox = TRUE, digits = NA))
+        self$`{{name}}` <- `{{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}}_object`
         {{/isPrimitiveType}}
         {{/isContainer}}
       }
@@ -307,13 +301,11 @@
       {{/isAdditionalPropertiesTrue}}
       self
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
     #' @return {{{classname}}} in JSON format
-    #' @export
     toJSONString = function() {
       jsoncontent <- c(
       {{#vars}}
@@ -330,7 +322,7 @@
           {{/isArray}}
           {{#isMap}}
           {{#isPrimitiveType}}
-            {{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}{{^isBoolean}}"{{/isBoolean}}%s{{^isBoolean}}"{{/isBoolean}}{{/isNumeric}}
+            {{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}{{^isBoolean}}{{/isBoolean}}%s{{^isBoolean}}{{/isBoolean}}{{/isNumeric}}
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}%s
           {{/isPrimitiveType}}
@@ -383,14 +375,12 @@
       json_string <- as.character(jsonlite::minify(jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA)))
       {{/isAdditionalPropertiesTrue}}
     },
-    #' Deserialize JSON string into an instance of {{{classname}}}
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of {{{classname}}}
     #'
     #' @param input_json the JSON input
     #' @return the instance of {{{classname}}}
-    #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       {{#vars}}
@@ -421,7 +411,7 @@
       self$`{{name}}` <- this_object$`{{name}}`
       {{/isPrimitiveType}}
       {{^isPrimitiveType}}
-      self$`{{name}}` <- {{dataType}}$new()$fromJSON(jsonlite::toJSON(this_object${{name}}, auto_unbox = TRUE, digits = NA))
+      self$`{{name}}` <- {{dataType}}$new()$fromJSON(jsonlite::toJSON(this_object$`{{name}}`, auto_unbox = TRUE, digits = NA))
       {{/isPrimitiveType}}
       {{/isContainer}}
       {{/vars}}
@@ -436,13 +426,11 @@
       {{/isAdditionalPropertiesTrue}}
       self
     },
-    #' Validate JSON input with respect to {{classname}}
-    #'
+
     #' @description
     #' Validate JSON input with respect to {{classname}} and throw an exception if invalid
     #'
     #' @param input the JSON input
-    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
       {{#requiredVars}}
@@ -515,23 +503,19 @@
       }
       {{/requiredVars}}
     },
-    #' To string (JSON format)
-    #'
+
     #' @description
     #' To string (JSON format)
     #'
     #' @return String representation of {{{classname}}}
-    #' @export
     toString = function() {
       self$toJSONString()
     },
-    #' Return true if the values in all fields are valid.
-    #'
+
     #' @description
     #' Return true if the values in all fields are valid.
     #'
     #' @return true if the values in all fields are valid.
-    #' @export
     isValid = function() {
       {{#allVars}}
       {{^isNullable}}
@@ -590,13 +574,11 @@
       {{/allVars}}
       TRUE
     },
-    #' Return a list of invalid fields (if any).
-    #'
+
     #' @description
     #' Return a list of invalid fields (if any).
     #'
     #' @return A list of invalid fields (if any).
-    #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
       {{#allVars}}
@@ -656,12 +638,9 @@
       {{/allVars}}
       invalid_fields
     },
-    #' Print the object
-    #'
+
     #' @description
     #' Print the object
-    #'
-    #' @export
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)

@@ -12,14 +12,27 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 {{/jackson}}
 
 import io.helidon.common.GenericType;
-import io.helidon.common.http.MediaType;
+{{#x-helidon-v3}}{{!
+}}import io.helidon.common.http.MediaType;
 import io.helidon.common.reactive.Single;
+{{/x-helidon-v3}}{{^x-helidon-v3}}{{!
+}}import io.helidon.common.media.type.MediaTypes;
+{{/x-helidon-v3}}
 import io.helidon.config.Config;
-import io.helidon.media.common.MediaSupport;
+{{#x-helidon-v3}}{{!
+}}import io.helidon.media.common.MediaSupport;
+{{/x-helidon-v3}}{{^x-helidon-v3}}{{!
+}}import io.helidon.http.Method;
+import io.helidon.http.media.MediaSupport;
+{{/x-helidon-v3}}
 {{#jsonb}}import io.helidon.media.jsonb.JsonbSupport;{{/jsonb}}
-{{#jackson}}import io.helidon.media.jackson.JacksonSupport;{{/jackson}}
-import io.helidon.webclient.WebClientRequestBuilder;
+{{#jackson}}import io.helidon{{^x-helidon-v3}}.http{{/x-helidon-v3}}.media.jackson.JacksonSupport;{{/jackson}}
+{{#x-helidon-v3}}import io.helidon.webclient.WebClientRequestBuilder;
 import io.helidon.webclient.WebClientResponse;
+{{/x-helidon-v3}}{{!
+}}{{^x-helidon-v3}}import io.helidon.webclient.api.HttpClientRequest;
+import io.helidon.webclient.api.HttpClientResponse;
+{{/x-helidon-v3}}
 
 import {{invokerPackage}}.ApiClient;
 
@@ -67,7 +80,7 @@ public class {{classname}}Impl implements {{classname}} {
     {{#requiredParams}}
     Objects.requireNonNull({{paramName}}, "Required parameter '{{paramName}}' not specified");
     {{/requiredParams}}
-    WebClientRequestBuilder webClientRequestBuilder = {{operationId}}RequestBuilder({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+    {{#x-helidon-v3}}WebClientRequestBuilder{{/x-helidon-v3}}{{^x-helidon-v3}}HttpClientRequest{{/x-helidon-v3}} webClientRequestBuilder = {{operationId}}RequestBuilder({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
     return {{operationId}}Submit(webClientRequestBuilder{{#allParams}}, {{paramName}}{{/allParams}});
   }
 
@@ -76,16 +89,16 @@ public class {{classname}}Impl implements {{classname}} {
    * Optional customization point for subclasses.
    *
    {{#allParams}}
-   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/isContainer}}{{/required}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}
    {{/allParams}}
-   * @return WebClientRequestBuilder for {{operationId}}
+   * @return {{#x-helidon-v3}}WebClientRequestBuilder{{/x-helidon-v3}}{{^x-helidon-v3}}HttpClientRequest{{/x-helidon-v3}} for {{operationId}}
    */
-  protected WebClientRequestBuilder {{operationId}}RequestBuilder({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
-    WebClientRequestBuilder webClientRequestBuilder = apiClient.webClient()
-            .method("{{httpMethod}}");
+  protected {{#x-helidon-v3}}WebClientRequestBuilder{{/x-helidon-v3}}{{^x-helidon-v3}}HttpClientRequest{{/x-helidon-v3}} {{operationId}}RequestBuilder({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
+    {{#x-helidon-v3}}WebClientRequestBuilder{{/x-helidon-v3}}{{^x-helidon-v3}}HttpClientRequest{{/x-helidon-v3}} webClientRequestBuilder = apiClient.webClient()
+            .method({{#x-helidon-v3}}"{{/x-helidon-v3}}{{^x-helidon-v3}}Method.{{/x-helidon-v3}}{{httpMethod}}{{#x-helidon-v3}}"{{/x-helidon-v3}});
 
     {{#hasQueryParams}}
-    {{javaUtilPrefix}}List<Pair> queryParams = new {{javaUtilPrefix}}ArrayList<>();
+    List<Pair> queryParams = new ArrayList<>();
         {{#queryParams}}
             {{#collectionFormat}}
     queryParams.addAll(ApiClient.parameterToPairs("{{{collectionFormat}}}", "{{baseName}}", {{paramName}}));
@@ -119,10 +132,10 @@ public class {{classname}}Impl implements {{classname}} {
 
     {{/hasQueryParams}}
     {{#hasHeaderParams}}
-    WebClientRequestHeaders headers = webClientRequestBuilder.headers();
+    {{#x-helidon-v3}}Web{{/x-helidon-v3}}ClientRequestHeaders headers = webClientRequestBuilder.headers();
         {{#headerParams}}
     if ({{paramName}} != null) {
-      headers.put("{{baseName}}", {{paramName}}{{^isString}}.toString(){{/isString}});
+      headers.{{#x-helidon-v3}}put{{/x-helidon-v3}}{{^x-helidon-v3}}add(HeaderNames.create{{/x-helidon-v3}}("{{baseName}}"{{^x-helidon-v3}}){{/x-helidon-v3}}, {{paramName}}{{^isString}}.toString(){{/isString}});
     }
         {{/headerParams}}
 
@@ -133,7 +146,7 @@ public class {{classname}}Impl implements {{classname}} {
             .add("{{{baseName}}}=" + {{{paramName}}})
         {{/cookieParams}}
             .toString();
-    webClientRequestBuilder.headers().add("Cookie", cookies);
+    webClientRequestBuilder.headers().add({{^x-helidon-v3}}HeaderNames.create({{/x-helidon-v3}}"Cookie"{{^x-helidon-v3}}){{/x-helidon-v3}}, cookies);
 
     {{/hasCookieParams}}
     {{#hasPathParams}}
@@ -145,12 +158,12 @@ public class {{classname}}Impl implements {{classname}} {
     {{/hasPathParams}}
     webClientRequestBuilder.path({{#hasPathParams}}path{{/hasPathParams}}{{^hasPathParams}}"{{{path}}}"{{/hasPathParams}});
     {{#bodyParam}}
-    webClientRequestBuilder.contentType(MediaType.APPLICATION_JSON);
+    webClientRequestBuilder.contentType(MediaType{{^x-helidon-v3}}s{{/x-helidon-v3}}.APPLICATION_JSON);
     {{/bodyParam}}
     {{#hasFormParams}}
-    webClientRequestBuilder.contentType(MediaType.APPLICATION_FORM_URLENCODED);
+    webClientRequestBuilder.contentType(MediaType{{^x-helidon-v3}}s{{/x-helidon-v3}}.APPLICATION_FORM_URLENCODED);
     {{/hasFormParams}}
-    webClientRequestBuilder.accept(MediaType.APPLICATION_JSON);
+    webClientRequestBuilder.accept(MediaType{{^x-helidon-v3}}s{{/x-helidon-v3}}.APPLICATION_JSON);
 
     return webClientRequestBuilder;
   }
@@ -161,11 +174,11 @@ public class {{classname}}Impl implements {{classname}} {
    *
    * @param webClientRequestBuilder the request builder to use for submitting the request
    {{#allParams}}
-   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/isContainer}}{{/required}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}
    {{/allParams}}
    * @return {@code {{>operationResponseSig}}} for the submitted request
    */
-  protected {{>operationResponseSig}} {{operationId}}Submit(WebClientRequestBuilder webClientRequestBuilder{{#allParams}}, {{{dataType}}} {{paramName}}{{/allParams}}) {
+  protected {{>operationResponseSig}} {{operationId}}Submit({{#x-helidon-v3}}WebClientRequestBuilder{{/x-helidon-v3}}{{^x-helidon-v3}}HttpClientRequest{{/x-helidon-v3}} webClientRequestBuilder{{#allParams}}, {{{dataType}}} {{paramName}}{{/allParams}}) {
     {{#hasFormParams}}
     String formParams = new StringJoiner("&")
         {{#formParams}}
@@ -173,7 +186,7 @@ public class {{classname}}Impl implements {{classname}} {
         {{/formParams}}
             .toString();
     {{/hasFormParams}}
-    Single<WebClientResponse> webClientResponse = webClientRequestBuilder.submit({{#bodyParam}}{{paramName}}{{/bodyParam}}{{#hasFormParams}}formParams{{/hasFormParams}});
+    {{#x-helidon-v3}}Single<WebClientResponse>{{/x-helidon-v3}}{{^x-helidon-v3}}HttpClientResponse{{/x-helidon-v3}} webClientResponse = webClientRequestBuilder.{{#x-helidon-v3}}submit{{/x-helidon-v3}}{{^x-helidon-v3}}{{#bodyParam}}submit{{/bodyParam}}{{#hasFormParams}}submit{{/hasFormParams}}{{^bodyParam}}{{^hasFormParams}}request{{/hasFormParams}}{{/bodyParam}}{{/x-helidon-v3}}({{#bodyParam}}{{paramName}}{{/bodyParam}}{{#hasFormParams}}formParams{{/hasFormParams}});
     return ApiResponse.create(RESPONSE_TYPE_{{operationId}}, webClientResponse);
   }
 

@@ -28,27 +28,6 @@ export interface TokenProvider {
 }
 
 /**
- * Applies apiKey authentication to the request context.
- */
-@injectable()
-export class ApiKeyAuthentication implements SecurityAuthentication {
-    /**
-     * Configures this api key authentication with the necessary properties
-     *
-     * @param apiKey: The api key to be used for every request
-     */
-    public constructor(@inject(AuthApiKey) @named("api_key") private apiKey: string) {}
-
-    public getName(): string {
-        return "api_key";
-    }
-
-    public applySecurityAuthentication(context: RequestContext) {
-        context.setHeaderParam("api_key", this.apiKey);
-    }
-}
-
-/**
  * Applies oauth2 authentication to the request context.
  */
 @injectable()
@@ -69,25 +48,47 @@ export class PetstoreAuthAuthentication implements SecurityAuthentication {
     }
 }
 
+/**
+ * Applies apiKey authentication to the request context.
+ */
+@injectable()
+export class ApiKeyAuthentication implements SecurityAuthentication {
+    /**
+     * Configures this api key authentication with the necessary properties
+     *
+     * @param apiKey: The api key to be used for every request
+     */
+    public constructor(@inject(AuthApiKey) @named("api_key") private apiKey: string) {}
+
+    public getName(): string {
+        return "api_key";
+    }
+
+    public applySecurityAuthentication(context: RequestContext) {
+        context.setHeaderParam("api_key", this.apiKey);
+    }
+}
+
 
 export type AuthMethods = {
-    "api_key"?: SecurityAuthentication,
-    "petstore_auth"?: SecurityAuthentication
+    "petstore_auth"?: SecurityAuthentication,
+    "api_key"?: SecurityAuthentication
 }
 
 export const authMethodServices = {
-    "api_key": ApiKeyAuthentication,
-    "petstore_auth": PetstoreAuthAuthentication
+    "petstore_auth": PetstoreAuthAuthentication,
+    "api_key": ApiKeyAuthentication
 }
 
 export type ApiKeyConfiguration = string;
 export type HttpBasicConfiguration = { "username": string, "password": string };
 export type HttpBearerConfiguration = { tokenProvider: TokenProvider };
 export type OAuth2Configuration = { accessToken: string };
+export type HttpSignatureConfiguration = unknown; // TODO: Implement
 
 export type AuthMethodsConfiguration = {
-    "api_key"?: ApiKeyConfiguration,
-    "petstore_auth"?: OAuth2Configuration
+    "petstore_auth"?: OAuth2Configuration,
+    "api_key"?: ApiKeyConfiguration
 }
 
 /**
@@ -101,15 +102,15 @@ export function configureAuthMethods(config: AuthMethodsConfiguration | undefine
         return authMethods;
     }
 
-    if (config["api_key"]) {
-        authMethods["api_key"] = new ApiKeyAuthentication(
-            config["api_key"]
-        );
-    }
-
     if (config["petstore_auth"]) {
         authMethods["petstore_auth"] = new PetstoreAuthAuthentication(
             config["petstore_auth"]["accessToken"]
+        );
+    }
+
+    if (config["api_key"]) {
+        authMethods["api_key"] = new ApiKeyAuthentication(
+            config["api_key"]
         );
     }
 

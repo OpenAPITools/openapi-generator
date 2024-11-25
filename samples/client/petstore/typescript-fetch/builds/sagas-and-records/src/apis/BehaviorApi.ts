@@ -17,13 +17,13 @@ import * as runtime from '../runtime';
 import type {
   GetBehaviorPermissionsResponse,
   GetBehaviorTypeResponse,
-} from '../models';
+} from '../models/index';
 import {
     GetBehaviorPermissionsResponseFromJSON,
     GetBehaviorPermissionsResponseToJSON,
     GetBehaviorTypeResponseFromJSON,
     GetBehaviorTypeResponseToJSON,
-} from '../models';
+} from '../models/index';
 
 export interface GetBehaviorPermissionsRequest {
     behaviorId: number;
@@ -42,8 +42,11 @@ export class BehaviorApi extends runtime.BaseAPI {
      * Get permissions for the behavior
      */
     async getBehaviorPermissionsRaw(requestParameters: GetBehaviorPermissionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetBehaviorPermissionsResponse>> {
-        if (requestParameters.behaviorId === null || requestParameters.behaviorId === undefined) {
-            throw new runtime.RequiredError('behaviorId','Required parameter requestParameters.behaviorId was null or undefined when calling getBehaviorPermissions.');
+        if (requestParameters['behaviorId'] == null) {
+            throw new runtime.RequiredError(
+                'behaviorId',
+                'Required parameter "behaviorId" was null or undefined when calling getBehaviorPermissions().'
+            );
         }
 
         const queryParameters: any = {};
@@ -51,7 +54,7 @@ export class BehaviorApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/fake_behavior/{behavior-id}/permissions`.replace(`{${"behavior-id"}}`, encodeURIComponent(String(requestParameters.behaviorId))),
+            path: `/fake_behavior/{behavior-id}/permissions`.replace(`{${"behavior-id"}}`, encodeURIComponent(String(requestParameters['behaviorId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -72,8 +75,11 @@ export class BehaviorApi extends runtime.BaseAPI {
      * Get the type of behavior
      */
     async getBehaviorTypeRaw(requestParameters: GetBehaviorTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetBehaviorTypeResponse>> {
-        if (requestParameters.behaviorId === null || requestParameters.behaviorId === undefined) {
-            throw new runtime.RequiredError('behaviorId','Required parameter requestParameters.behaviorId was null or undefined when calling getBehaviorType.');
+        if (requestParameters['behaviorId'] == null) {
+            throw new runtime.RequiredError(
+                'behaviorId',
+                'Required parameter "behaviorId" was null or undefined when calling getBehaviorType().'
+            );
         }
 
         const queryParameters: any = {};
@@ -81,7 +87,7 @@ export class BehaviorApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/fake_behavior/{behavior-id}/type`.replace(`{${"behavior-id"}}`, encodeURIComponent(String(requestParameters.behaviorId))),
+            path: `/fake_behavior/{behavior-id}/type`.replace(`{${"behavior-id"}}`, encodeURIComponent(String(requestParameters['behaviorId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

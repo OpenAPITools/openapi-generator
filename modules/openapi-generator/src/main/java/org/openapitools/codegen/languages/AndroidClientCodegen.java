@@ -17,8 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -28,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.HashSet;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -39,21 +41,26 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     public static final String ANDROID_GRADLE_VERSION = "androidGradleVersion";
     public static final String ANDROID_SDK_VERSION = "androidSdkVersion";
     public static final String ANDROID_BUILD_TOOLS_VERSION = "androidBuildToolsVersion";
+    @Getter @Setter
     protected String invokerPackage = "org.openapitools.client";
-    protected String groupId = "org.openapitools";
-    protected String artifactId = "openapi-android-client";
-    protected String artifactVersion = "1.0.0";
+    @Setter protected String groupId = "org.openapitools";
+    @Setter protected String artifactId = "openapi-android-client";
+    @Setter protected String artifactVersion = "1.0.0";
     protected String projectFolder = "src/main";
-    protected String sourceFolder = projectFolder + "/java";
+    @Setter protected String sourceFolder = projectFolder + "/java";
+    @Getter @Setter
     protected Boolean useAndroidMavenGradlePlugin = true;
+    @Getter @Setter
     protected String androidGradleVersion;
+    @Getter @Setter
     protected String androidSdkVersion;
+    @Getter @Setter
     protected String androidBuildToolsVersion;
-    protected Boolean serializableModel = false;
+    @Setter protected Boolean serializableModel = false;
 
     // requestPackage and authPackage are used by the "volley" template/library
-    protected String requestPackage = "org.openapitools.client.request";
-    protected String authPackage = "org.openapitools.client.auth";
+    @Setter protected String requestPackage = "org.openapitools.client.request";
+    @Setter protected String authPackage = "org.openapitools.client.auth";
     protected String gradleWrapperPackage = "gradle.wrapper";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
@@ -67,14 +74,9 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
                 .excludeWireFormatFeatures(
                         WireFormatFeature.PROTOBUF
                 )
-                .excludeSecurityFeatures(
-                        SecurityFeature.OpenIDConnect,
-                        SecurityFeature.OAuth2_Password,
-                        SecurityFeature.OAuth2_AuthorizationCode,
-                        SecurityFeature.OAuth2_ClientCredentials,
-                        SecurityFeature.OAuth2_Implicit,
-                        SecurityFeature.BearerToken
-                )
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.ApiKey))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
                         GlobalFeature.Callbacks,
@@ -225,11 +227,10 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
 
             return getSchemaType(p) + "<String, " + getTypeDeclaration(inner) + ">";
         }
@@ -458,8 +459,6 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         if (additionalProperties.containsKey(USE_ANDROID_MAVEN_GRADLE_PLUGIN)) {
             this.setUseAndroidMavenGradlePlugin(Boolean.valueOf((String) additionalProperties
                     .get(USE_ANDROID_MAVEN_GRADLE_PLUGIN)));
-        } else {
-            additionalProperties.put(USE_ANDROID_MAVEN_GRADLE_PLUGIN, useAndroidMavenGradlePlugin);
         }
 
         if (additionalProperties.containsKey(ANDROID_GRADLE_VERSION)) {
@@ -482,8 +481,9 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
             this.setSerializableModel(Boolean.valueOf(additionalProperties.get(CodegenConstants.SERIALIZABLE_MODEL).toString()));
         }
 
-        // need to put back serializableModel (boolean) into additionalProperties as value in additionalProperties is string
+        // need to put back boolean properties into additionalProperties as the values in additionalProperties are strings
         additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
+        additionalProperties.put(USE_ANDROID_MAVEN_GRADLE_PLUGIN, useAndroidMavenGradlePlugin);
 
         //make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
@@ -501,74 +501,6 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         } else {
             throw new IllegalArgumentException("Invalid 'library' option specified: '" + getLibrary() + "'. Must be 'httpclient' or 'volley' (default)");
         }
-    }
-
-    public Boolean getUseAndroidMavenGradlePlugin() {
-        return useAndroidMavenGradlePlugin;
-    }
-
-    public String getAndroidGradleVersion() {
-        return androidGradleVersion;
-    }
-
-    public String getAndroidSdkVersion() {
-        return androidSdkVersion;
-    }
-
-    public String getAndroidBuildToolsVersion() {
-        return androidBuildToolsVersion;
-    }
-
-    public void setUseAndroidMavenGradlePlugin(Boolean useAndroidMavenGradlePlugin) {
-        this.useAndroidMavenGradlePlugin = useAndroidMavenGradlePlugin;
-    }
-
-    public void setAndroidGradleVersion(String androidGradleVersion) {
-        this.androidGradleVersion = androidGradleVersion;
-    }
-
-    public void setAndroidSdkVersion(String androidSdkVersion) {
-        this.androidSdkVersion = androidSdkVersion;
-    }
-
-    public void setAndroidBuildToolsVersion(String androidBuildToolsVersion) {
-        this.androidBuildToolsVersion = androidBuildToolsVersion;
-    }
-
-    public String getInvokerPackage() {
-        return invokerPackage;
-    }
-
-    public void setInvokerPackage(String invokerPackage) {
-        this.invokerPackage = invokerPackage;
-    }
-
-    public void setRequestPackage(String requestPackage) {
-        this.requestPackage = requestPackage;
-    }
-
-    public void setAuthPackage(String authPackage) {
-        this.authPackage = authPackage;
-    }
-
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
-    }
-
-    public void setArtifactId(String artifactId) {
-        this.artifactId = artifactId;
-    }
-
-    public void setArtifactVersion(String artifactVersion) {
-        this.artifactVersion = artifactVersion;
-    }
-
-    public void setSourceFolder(String sourceFolder) {
-        this.sourceFolder = sourceFolder;
-    }
-
-    public void setSerializableModel(Boolean serializableModel) {
-        this.serializableModel = serializableModel;
     }
 
     @Override
@@ -591,7 +523,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
-        // supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
+        supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
         supportingFiles.add(new SupportingFile("build.mustache", "", "build.gradle"));
         supportingFiles.add(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
         supportingFiles.add(new SupportingFile("apiInvoker.mustache",

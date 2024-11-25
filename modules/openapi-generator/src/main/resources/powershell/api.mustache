@@ -146,19 +146,34 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         if (!${{{paramName}}}) {
             throw "Error! The required parameter `{{paramName}}` missing when calling {{operationId}}."
         }
+        {{#isFile}}
+        $LocalVarFormParameters['{{baseName}}'] = ${{{paramName}}} | Foreach-Object { [System.IO.FileInfo]$executionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($_) }
+        {{/isFile}}
+        {{^isFile}}
         $LocalVarFormParameters['{{baseName}}'] = ${{{paramName}}}
+        {{/isFile}}
 
         {{/isNullable}}
         {{/required}}
         {{^required}}
         {{^isNullable}}
         if (${{{paramName}}}) {
+        {{#isFile}}
+            $LocalVarFormParameters['{{baseName}}'] = ${{{paramName}}} | Foreach-Object { [System.IO.FileInfo]$executionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($_) }
+        {{/isFile}}
+        {{^isFile}}
             $LocalVarFormParameters['{{baseName}}'] = ${{{paramName}}}
+        {{/isFile}}
         }
 
         {{/isNullable}}
         {{#isNullable}}
+        {{#isFile}}
+        $LocalVarFormParameters['{{baseName}}'] = ${{{paramName}}} | Foreach-Object { [System.IO.FileInfo]$executionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($_) }
+        {{/isFile}}
+        {{^isFile}}
         $LocalVarFormParameters['{{baseName}}'] = ${{{paramName}}}
+        {{/isFile}}
 
         {{/isNullable}}
         {{/required}}
@@ -172,21 +187,31 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
 
         {{/isNullable}}
         {{/required}}
+        {{#isArray}}
+        $LocalVarBodyParameter = ConvertTo-Json @(${{{paramName}}}) -Depth 100
+        {{/isArray}}
+        {{^isArray}}
         $LocalVarBodyParameter = ${{{paramName}}} | ConvertTo-Json -Depth 100
+        {{/isArray}}
 
         {{/bodyParam}}
         {{#authMethods}}
         {{#isApiKey}}
+        if ($Configuration["ApiKeyPrefix"] -and $Configuration["ApiKeyPrefix"]["{{{keyParamName}}}"]) {
+            $apiKeyPrefix = $Configuration["ApiKeyPrefix"]["{{{keyParamName}}}"]
+        } else {
+            $apiKeyPrefix = ""
+        }
         {{#isKeyInHeader}}
-        if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["{{{name}}}"]) {
-            $LocalVarHeaderParameters['{{{name}}}'] = $Configuration["ApiKey"]["{{{name}}}"]
-            Write-Verbose ("Using API key '{{{name}}}' in the header for authentication in {0}" -f $MyInvocation.MyCommand)
+        if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["{{{keyParamName}}}"]) {
+            $LocalVarHeaderParameters['{{{keyParamName}}}'] = $apiKeyPrefix + $Configuration["ApiKey"]["{{{keyParamName}}}"]
+            Write-Verbose ("Using API key '{{{keyParamName}}}' in the header for authentication in {0}" -f $MyInvocation.MyCommand)
         }
         {{/isKeyInHeader}}
         {{#isKeyInQuery}}
-        if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["{{{name}}}"]) {
-            $LocalVarQueryParameters['{{{name}}}'] = $Configuration["ApiKey"]["{{{name}}}"]
-            Write-Verbose ("Using API key `{{{name}}}` in the URL query for authentication in {0}" -f $MyInvocation.MyCommand)
+        if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["{{{keyParamName}}}"]) {
+            $LocalVarQueryParameters['{{{keyParamName}}}'] = $apiKeyPrefix + $Configuration["ApiKey"]["{{{keyParamName}}}"]
+            Write-Verbose ("Using API key `{{{keyParamName}}}` in the URL query for authentication in {0}" -f $MyInvocation.MyCommand)
         }
         {{/isKeyInQuery}}
         {{#isKeyInCookie}}

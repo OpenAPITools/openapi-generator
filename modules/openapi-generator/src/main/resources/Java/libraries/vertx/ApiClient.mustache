@@ -1,3 +1,5 @@
+{{>licenseInfo}}
+
 package {{invokerPackage}};
 
 import {{invokerPackage}}.auth.Authentication;
@@ -79,7 +81,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         // Build object mapper
         this.objectMapper = new ObjectMapper();
         this.objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        this.objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        this.objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, {{failOnUnknownProperties}});
         this.objectMapper.configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, false);
         this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         this.objectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
@@ -93,8 +95,8 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
         // Setup authentications (key: authentication name, value: authentication).
         this.authentications = new HashMap<>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
-        authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{^isBasicBasic}}
-        authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
+        authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{#isBasicBearer}}
+        authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
         authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
         authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}
         // Prevent the authentications from being modified.
@@ -680,54 +682,54 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
         private final Map<String, Authentication> authentications = new LinkedHashMap<>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
 
-        public void add{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Authentication(String username, String password) {
+        public void add{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication(String username, String password) {
             HttpBasicAuth auth = new HttpBasicAuth();
             auth.setUsername(username);
             auth.setPassword(password);
             authentications.put("{{name}}", auth);
-        }{{/isBasicBasic}}{{^isBasicBasic}}
+        }{{/isBasicBasic}}{{#isBasicBearer}}
 
-        public void add{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Authentication(String bearerToken) {
+        public void add{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication(String bearerToken) {
            HttpBearerAuth auth = new
            HttpBearerAuth("{{scheme}}");
            auth.setBearerToken(bearerToken);
            authentications.put("{{name}}", auth);
-        }{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
+        }{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
 
-        public void add{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Authentication(String apikey, String apiKeyPrefix) {
+        public void add{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication(String apikey, String apiKeyPrefix) {
            ApiKeyAuth auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}},"{{keyParamName}}");
            auth.setApiKey(apikey);
            auth.setApiKeyPrefix(apiKeyPrefix);
            authentications.put("{{name}}", auth);
         }{{/isApiKey}}{{#isOAuth}}
 
-        public void add{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Authentication(String accessToken) {
+        public void add{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication(String accessToken) {
            OAuth auth = new OAuth();
            auth.setAccessToken(accessToken);
            authentications.put("{{name}}", auth);
         }{{/isOAuth}}{{/authMethods}}{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
 
-        public static AuthInfo for{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}(String username, String password) {
+        public static AuthInfo for{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}(String username, String password) {
             AuthInfo authInfo = new AuthInfo();
-            authInfo.add{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Authentication(username, password);
+            authInfo.add{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication(username, password);
             return authInfo;
-        }{{/isBasicBasic}}{{^isBasicBasic}}
+        }{{/isBasicBasic}}{{#isBasicBearer}}
 
-        public static AuthInfo for{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Authentication(String bearerToken) {
+        public static AuthInfo for{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication(String bearerToken) {
             AuthInfo authInfo = new AuthInfo();
-            authInfo.add{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Authentication(bearerToken);
+            authInfo.add{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication(bearerToken);
             return authInfo;
-        }{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
+        }{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
 
-        public static AuthInfo for{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Authentication(String apikey, String apiKeyPrefix) {
+        public static AuthInfo for{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication(String apikey, String apiKeyPrefix) {
             AuthInfo authInfo = new AuthInfo();
-            authInfo.add{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Authentication(apikey, apiKeyPrefix);
+            authInfo.add{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication(apikey, apiKeyPrefix);
             return authInfo;
         }{{/isApiKey}}{{#isOAuth}}
 
-        public static AuthInfo for{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Authentication(String accessToken) {
+        public static AuthInfo for{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication(String accessToken) {
             AuthInfo authInfo = new AuthInfo();
-            authInfo.add{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Authentication(accessToken);
+            authInfo.add{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication(accessToken);
             return authInfo;
         }{{/isOAuth}}{{/authMethods}}
     }

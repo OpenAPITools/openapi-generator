@@ -2,11 +2,11 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.servers.Server;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -21,11 +21,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -45,20 +43,24 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     public static final String PUB_AUTHOR = "pubAuthor";
     public static final String PUB_AUTHOR_EMAIL = "pubAuthorEmail";
     public static final String PUB_HOMEPAGE = "pubHomepage";
+    public static final String PUB_REPOSITORY = "pubRepository";
+    public static final String PUB_PUBLISH_TO = "pubPublishTo";
     public static final String USE_ENUM_EXTENSION = "useEnumExtension";
 
-    protected String pubLibrary = "openapi.api";
-    protected String pubName = "openapi";
-    protected String pubVersion = "1.0.0";
-    protected String pubDescription = "OpenAPI API client";
-    protected String pubAuthor = "Author";
-    protected String pubAuthorEmail = "author@homepage";
-    protected String pubHomepage = "homepage";
-    protected boolean useEnumExtension = false;
-    protected String sourceFolder = "src";
+    @Setter protected String pubLibrary = "openapi.api";
+    @Setter protected String pubName = "openapi";
+    @Setter protected String pubVersion = "1.0.0";
+    @Setter protected String pubDescription = "OpenAPI API client";
+    @Setter protected String pubAuthor = "Author";
+    @Setter protected String pubAuthorEmail = "author@homepage";
+    @Setter protected String pubHomepage = "homepage";
+    @Setter protected String pubRepository = null;
+    @Setter protected String pubPublishTo = null;
+    @Setter protected boolean useEnumExtension = false;
+    @Setter protected String sourceFolder = "src";
     protected String libPath = "lib" + File.separator;
-    protected String apiDocPath = "doc" + File.separator;
-    protected String modelDocPath = "doc" + File.separator;
+    protected String apiDocPath = "doc/";
+    protected String modelDocPath = "doc/";
     protected String apiTestPath = "test" + File.separator;
     protected String modelTestPath = "test" + File.separator;
 
@@ -191,6 +193,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         addOption(PUB_AUTHOR, "Author name in generated pubspec", pubAuthor);
         addOption(PUB_AUTHOR_EMAIL, "Email address of the author in generated pubspec", pubAuthorEmail);
         addOption(PUB_HOMEPAGE, "Homepage in generated pubspec", pubHomepage);
+        addOption(PUB_REPOSITORY, "Repository in generated pubspec", pubRepository);
+        addOption(PUB_PUBLISH_TO, "Publish_to in generated pubspec", pubPublishTo);
         addOption(USE_ENUM_EXTENSION, "Allow the 'x-enum-values' extension for enums", String.valueOf(useEnumExtension));
         addOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC, sourceFolder);
     }
@@ -207,7 +211,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates a Dart 2.x client library.";
+        return "Generates a Dart client library.";
     }
 
     @Override
@@ -224,6 +228,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         if (StringUtils.isEmpty(System.getenv("DART_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable DART_POST_PROCESS_FILE not defined so the Dart code may not be properly formatted. To define it, try `export DART_POST_PROCESS_FILE=\"/usr/local/bin/dartfmt -w\"` (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'DART_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(PUB_NAME)) {
@@ -273,6 +279,20 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         } else {
             //not set, use to be passed to template
             additionalProperties.put(PUB_HOMEPAGE, pubHomepage);
+        }
+
+        if (additionalProperties.containsKey(PUB_REPOSITORY)) {
+            this.setPubRepository((String) additionalProperties.get(PUB_REPOSITORY));
+        } else {
+            //not set, use to be passed to template
+            additionalProperties.put(PUB_REPOSITORY, pubRepository);
+        }
+
+        if (additionalProperties.containsKey(PUB_PUBLISH_TO)) {
+            this.setPubPublishTo((String) additionalProperties.get(PUB_PUBLISH_TO));
+        } else {
+            //not set, use to be passed to template
+            additionalProperties.put(PUB_PUBLISH_TO, pubPublishTo);
         }
 
         if (additionalProperties.containsKey(USE_ENUM_EXTENSION)) {
@@ -353,10 +373,17 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public String toVarName(String name) {
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         // replace - with _ e.g. created-at => created_at
         name = name.replace("-", "_");
 
         // always need to replace leading underscores first
+        if (name.equals("_")) {
+            return "underscore";
+        }
         name = name.replaceAll("^_", "");
 
         // if it's all upper case, do nothing
@@ -389,12 +416,20 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public String toParamName(String name) {
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         // should be the same as variable name
         return toVarName(name);
     }
 
     @Override
     public String toModelName(final String name) {
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         String sanitizedName = sanitizeName(name);
 
         if (!StringUtils.isEmpty(modelNamePrefix)) {
@@ -493,13 +528,13 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         Schema<?> schema = unaliasSchema(p);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
-            Schema<?> items = getSchemaItems((ArraySchema) schema);
+            Schema<?> items = ModelUtils.getSchemaItems(schema);
             return getSchemaType(target) + "<" + getTypeDeclaration(items) + ">";
         }
         if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
             // additionalproperties: true
-            Schema<?> inner = getAdditionalProperties(target);
+            Schema<?> inner = ModelUtils.getAdditionalProperties(target);
             if (inner == null) {
                 LOGGER.error("`{}` (map property) does not have a proper inner type defined. Default to type:string", p.getName());
                 inner = new StringSchema().description("TODO default missing map inner type to string");
@@ -556,8 +591,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     public CodegenProperty fromProperty(String name, Schema p, boolean required) {
         final CodegenProperty property = super.fromProperty(name, p, required);
 
-        // Handle composed properties
-        if (ModelUtils.isComposedSchema(p)) {
+        // Handle composed properties and it's NOT allOf with a single ref only
+        if (ModelUtils.isComposedSchema(p) && !(ModelUtils.isAllOf(p) && p.getAllOf().size() == 1)) {
             ComposedSchema composed = (ComposedSchema) p;
 
             // Count the occurrences of allOf/anyOf/oneOf with exactly one child element
@@ -693,6 +728,10 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public String toEnumVarName(String value, String datatype) {
+        if (enumNameMapping.containsKey(value)) {
+            return enumNameMapping.get(value);
+        }
+
         if (value.length() == 0) {
             return "empty";
         }
@@ -714,7 +753,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                 "int".equalsIgnoreCase(datatype)) {
             return value;
         } else {
-            return "'" + escapeText(value) + "'";
+            return "'" + escapeTextInSingleQuotes(value) + "'";
         }
     }
 
@@ -739,42 +778,6 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         }
 
         return operationId;
-    }
-
-    public void setPubLibrary(String pubLibrary) {
-        this.pubLibrary = pubLibrary;
-    }
-
-    public void setPubName(String pubName) {
-        this.pubName = pubName;
-    }
-
-    public void setPubVersion(String pubVersion) {
-        this.pubVersion = pubVersion;
-    }
-
-    public void setPubDescription(String pubDescription) {
-        this.pubDescription = pubDescription;
-    }
-
-    public void setPubAuthor(String pubAuthor) {
-        this.pubAuthor = pubAuthor;
-    }
-
-    public void setPubAuthorEmail(String pubAuthorEmail) {
-        this.pubAuthorEmail = pubAuthorEmail;
-    }
-
-    public void setPubHomepage(String pubHomepage) {
-        this.pubHomepage = pubHomepage;
-    }
-
-    public void setUseEnumExtension(boolean useEnumExtension) {
-        this.useEnumExtension = useEnumExtension;
-    }
-
-    public void setSourceFolder(String sourceFolder) {
-        this.sourceFolder = sourceFolder;
     }
 
     @Override
@@ -803,20 +806,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         // process all files with dart extension
         if ("dart".equals(FilenameUtils.getExtension(file.toString()))) {
             // currently supported is "dartfmt -w" and "dart format"
-            String command = dartPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[] {dartPostProcessFile, file.toString()});
         }
     }
 

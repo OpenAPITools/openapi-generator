@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * Simplified identifier of an item
  * @export
@@ -36,12 +36,10 @@ export interface ItemId {
 /**
  * Check if a given object implements the ItemId interface.
  */
-export function instanceOfItemId(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "id" in value;
-    isInstance = isInstance && "type" in value;
-
-    return isInstance;
+export function instanceOfItemId(value: object): value is ItemId {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
+    return true;
 }
 
 export function ItemIdFromJSON(json: any): ItemId {
@@ -49,7 +47,7 @@ export function ItemIdFromJSON(json: any): ItemId {
 }
 
 export function ItemIdFromJSONTyped(json: any, ignoreDiscriminator: boolean): ItemId {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
@@ -59,17 +57,19 @@ export function ItemIdFromJSONTyped(json: any, ignoreDiscriminator: boolean): It
     };
 }
 
-export function ItemIdToJSON(value?: ItemId | null): any {
-    if (value === undefined) {
-        return undefined;
+export function ItemIdToJSON(json: any): ItemId {
+    return ItemIdToJSONTyped(json, false);
+}
+
+export function ItemIdToJSONTyped(value?: ItemId | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'id': value.id,
-        'type': value.type,
+        'id': value['id'],
+        'type': value['type'],
     };
 }
 

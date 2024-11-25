@@ -6,6 +6,7 @@ api/openapi.yaml
 build.gradle
 build.sbt
 docs/PingApi.md
+docs/SimpleOneOf.md
 docs/SomeObj.md
 git_push.sh
 gradle.properties
@@ -35,4 +36,5 @@ src/main/java/org/openapitools/client/auth/Authentication.java
 src/main/java/org/openapitools/client/auth/HttpBasicAuth.java
 src/main/java/org/openapitools/client/auth/HttpBearerAuth.java
 src/main/java/org/openapitools/client/model/AbstractOpenApiSchema.java
+src/main/java/org/openapitools/client/model/SimpleOneOf.java
 src/main/java/org/openapitools/client/model/SomeObj.java

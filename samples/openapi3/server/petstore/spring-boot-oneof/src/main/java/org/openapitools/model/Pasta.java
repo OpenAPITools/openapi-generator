@@ -23,11 +23,21 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class Pasta extends Entity {
 
-  @JsonProperty("vendor")
   private String vendor;
+
+  public Pasta() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Pasta(String atType) {
+    super(atType);
+  }
 
   public Pasta vendor(String vendor) {
     this.vendor = vendor;
@@ -37,9 +47,10 @@ public class Pasta extends Entity {
   /**
    * Get vendor
    * @return vendor
-  */
+   */
   
-  @Schema(name = "vendor", required = false)
+  @Schema(name = "vendor", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("vendor")
   public String getVendor() {
     return vendor;
   }
@@ -48,31 +59,31 @@ public class Pasta extends Entity {
     this.vendor = vendor;
   }
 
+
   public Pasta href(String href) {
-    super.setHref(href);
+    super.href(href);
     return this;
   }
 
   public Pasta id(String id) {
-    super.setId(id);
+    super.id(id);
     return this;
   }
 
   public Pasta atSchemaLocation(String atSchemaLocation) {
-    super.setAtSchemaLocation(atSchemaLocation);
+    super.atSchemaLocation(atSchemaLocation);
     return this;
   }
 
   public Pasta atBaseType(String atBaseType) {
-    super.setAtBaseType(atBaseType);
+    super.atBaseType(atBaseType);
     return this;
   }
 
   public Pasta atType(String atType) {
-    super.setAtType(atType);
+    super.atType(atType);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -111,5 +122,96 @@ public class Pasta extends Entity {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder extends Entity.Builder {
+
+    private Pasta instance;
+
+    public Builder() {
+      this(new Pasta());
+    }
+
+    protected Builder(Pasta instance) {
+      super(instance); // the parent builder shares the same instance
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(Pasta value) { 
+      super.copyOf(value);
+      this.instance.setVendor(value.vendor);
+      return this;
+    }
+
+    public Pasta.Builder vendor(String vendor) {
+      this.instance.vendor(vendor);
+      return this;
+    }
+    
+    @Override
+    public Pasta.Builder href(String href) {
+      this.instance.href(href);
+      return this;
+    }
+    
+    @Override
+    public Pasta.Builder id(String id) {
+      this.instance.id(id);
+      return this;
+    }
+    
+    @Override
+    public Pasta.Builder atSchemaLocation(String atSchemaLocation) {
+      this.instance.atSchemaLocation(atSchemaLocation);
+      return this;
+    }
+    
+    @Override
+    public Pasta.Builder atBaseType(String atBaseType) {
+      this.instance.atBaseType(atBaseType);
+      return this;
+    }
+    
+    @Override
+    public Pasta.Builder atType(String atType) {
+      this.instance.atType(atType);
+      return this;
+    }
+    
+    /**
+    * returns a built Pasta instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Pasta build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        super.build();
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static Pasta.Builder builder() {
+    return new Pasta.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Pasta.Builder toBuilder() {
+    Pasta.Builder builder = new Pasta.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

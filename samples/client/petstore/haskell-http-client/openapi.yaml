@@ -167,21 +167,68 @@ paths:
       summary: Finds Pets by tags
       tags:
       - pet
+  /pet/find:
+    get:
+      operationId: findPets
+      parameters:
+      - content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetFilter'
+        in: query
+        name: filter
+        required: false
+      - content:
+          application/json:
+            schema:
+              items:
+                $ref: '#/components/schemas/PetOrder'
+              type: array
+        in: query
+        name: order_by
+        required: false
+      responses:
+        "200":
+          content:
+            application/xml:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Pet'
+                type: array
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Pet'
+                type: array
+          description: successful operation
+        "400":
+          description: Invalid status value
+      security:
+      - petstore_auth:
+        - read:pets
+      summary: Finds Pets
+      tags:
+      - pet
   /pet/{petId}:
     delete:
       operationId: deletePet
       parameters:
-      - in: header
+      - explode: false
+        in: header
         name: api_key
+        required: false
         schema:
           type: string
+        style: simple
       - description: Pet id to delete
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       responses:
         "200":
           content: {}
@@ -201,12 +248,14 @@ paths:
       operationId: getPetById
       parameters:
       - description: ID of pet to return
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       responses:
         "200":
           content:
@@ -232,12 +281,14 @@ paths:
       operationId: updatePetWithForm
       parameters:
       - description: ID of pet that needs to be updated
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -259,12 +310,14 @@ paths:
       operationId: uploadFile
       parameters:
       - description: ID of pet to update
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       requestBody:
         content:
           multipart/form-data:
@@ -337,11 +390,13 @@ paths:
       operationId: deleteOrder
       parameters:
       - description: ID of the order that needs to be deleted
+        explode: false
         in: path
         name: order_id
         required: true
         schema:
           type: string
+        style: simple
       responses:
         "400":
           content: {}
@@ -358,6 +413,7 @@ paths:
       operationId: getOrderById
       parameters:
       - description: ID of pet that needs to be fetched
+        explode: false
         in: path
         name: order_id
         required: true
@@ -366,6 +422,7 @@ paths:
           maximum: 5
           minimum: 1
           type: integer
+        style: simple
       responses:
         "200":
           content:
@@ -449,17 +506,21 @@ paths:
       operationId: loginUser
       parameters:
       - description: The user name for login
+        explode: true
         in: query
         name: username
         required: true
         schema:
           type: string
+        style: form
       - description: The password for login in clear text
+        explode: true
         in: query
         name: password
         required: true
         schema:
           type: string
+        style: form
       responses:
         "200":
           content:
@@ -473,14 +534,18 @@ paths:
           headers:
             X-Rate-Limit:
               description: calls per hour allowed by the user
+              explode: false
               schema:
                 format: int32
                 type: integer
+              style: simple
             X-Expires-After:
               description: date in UTC when token expires
+              explode: false
               schema:
                 format: date-time
                 type: string
+              style: simple
         "400":
           content: {}
           description: Invalid username/password supplied
@@ -503,11 +568,13 @@ paths:
       operationId: deleteUser
       parameters:
       - description: The name that needs to be deleted
+        explode: false
         in: path
         name: username
         required: true
         schema:
           type: string
+        style: simple
       responses:
         "400":
           content: {}
@@ -522,11 +589,13 @@ paths:
       operationId: getUserByName
       parameters:
       - description: The name that needs to be fetched. Use user1 for testing.
+        explode: false
         in: path
         name: username
         required: true
         schema:
           type: string
+        style: simple
       responses:
         "200":
           content:
@@ -551,11 +620,13 @@ paths:
       operationId: updateUser
       parameters:
       - description: name that need to be deleted
+        explode: false
         in: path
         name: username
         required: true
         schema:
           type: string
+        style: simple
       requestBody:
         content:
           '*/*':
@@ -604,40 +675,55 @@ paths:
       operationId: testGroupParameters
       parameters:
       - description: Required String in group parameters
+        explode: true
         in: query
         name: required_string_group
         required: true
         schema:
           type: integer
+        style: form
       - description: Required Boolean in group parameters
+        explode: false
         in: header
         name: required_boolean_group
         required: true
         schema:
           type: boolean
+        style: simple
       - description: Required Integer in group parameters
+        explode: true
         in: query
         name: required_int64_group
         required: true
         schema:
           format: int64
           type: integer
+        style: form
       - description: String in group parameters
+        explode: true
         in: query
         name: string_group
+        required: false
         schema:
           type: integer
+        style: form
       - description: Boolean in group parameters
+        explode: false
         in: header
         name: boolean_group
+        required: false
         schema:
           type: boolean
+        style: simple
       - description: Integer in group parameters
+        explode: true
         in: query
         name: int64_group
+        required: false
         schema:
           format: int64
           type: integer
+        style: form
       responses:
         "400":
           content: {}
@@ -654,6 +740,7 @@ paths:
         explode: false
         in: header
         name: enum_header_string_array
+        required: false
         schema:
           items:
             default: $
@@ -664,8 +751,10 @@ paths:
           type: array
         style: simple
       - description: Header parameter enum test (string)
+        explode: false
         in: header
         name: enum_header_string
+        required: false
         schema:
           default: -efg
           enum:
@@ -673,10 +762,12 @@ paths:
           - -efg
           - (xyz)
           type: string
+        style: simple
       - description: Query parameter enum test (string array)
         explode: false
         in: query
         name: enum_query_string_array
+        required: false
         schema:
           items:
             default: $
@@ -687,8 +778,10 @@ paths:
           type: array
         style: form
       - description: Query parameter enum test (string)
+        explode: true
         in: query
         name: enum_query_string
+        required: false
         schema:
           default: -efg
           enum:
@@ -696,24 +789,31 @@ paths:
           - -efg
           - (xyz)
           type: string
+        style: form
       - description: Query parameter enum test (double)
+        explode: true
         in: query
         name: enum_query_integer
+        required: false
         schema:
           enum:
           - 1
           - -2
           format: int32
           type: integer
+        style: form
       - description: Query parameter enum test (double)
+        explode: true
         in: query
         name: enum_query_double
+        required: false
         schema:
           enum:
           - 1.1
           - -1.2
           format: double
           type: number
+        style: form
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -903,11 +1003,13 @@ paths:
     put:
       operationId: testBodyWithQueryParams
       parameters:
-      - in: query
+      - explode: true
+        in: query
         name: query
         required: true
         schema:
           type: string
+        style: form
       requestBody:
         content:
           application/json:
@@ -959,6 +1061,16 @@ paths:
     patch:
       description: To test special tags and operation ID starting with number
       operationId: 123_test_@#$%_special_tags
+      parameters:
+      - description: to test uuid example value
+        explode: false
+        in: header
+        name: uuid_test
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
       requestBody:
         content:
           application/json:
@@ -1008,15 +1120,18 @@ paths:
           items:
             type: string
           type: array
-        style: form
-      - in: query
+        style: pipeDelimited
+      - explode: true
+        in: query
         name: ioutil
         required: true
         schema:
           items:
             type: string
           type: array
-      - in: query
+        style: form
+      - explode: false
+        in: query
         name: http
         required: true
         schema:
@@ -1053,12 +1168,14 @@ paths:
       operationId: uploadFileWithRequiredFile
       parameters:
       - description: ID of pet to update
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       requestBody:
         content:
           multipart/form-data:
@@ -1232,6 +1349,25 @@ components:
       type: object
       xml:
         name: Pet
+    PetFilter:
+      properties:
+        tags:
+          items:
+            type: string
+          type: array
+        status:
+          items:
+            type: string
+          type: array
+      type: object
+    PetOrder:
+      properties:
+        name:
+          enum:
+          - asc
+          - desc
+          type: string
+      type: object
     ApiResponse:
       example:
         code: 0
@@ -1246,14 +1382,6 @@ components:
         message:
           type: string
       type: object
-    $special[model.name]:
-      properties:
-        $special[property.name]:
-          format: int64
-          type: integer
-      type: object
-      xml:
-        name: "$special[model.name]"
     Return:
       description: Model for testing reserved words
       properties:
@@ -1303,15 +1431,29 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Dog_allOf'
+      - properties:
+          breed:
+            type: string
+        type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Cat_allOf'
+      - properties:
+          declawed:
+            type: boolean
+        type: object
     BigCat:
       allOf:
       - $ref: '#/components/schemas/Cat'
-      - $ref: '#/components/schemas/BigCat_allOf'
+      - properties:
+          kind:
+            enum:
+            - lions
+            - tigers
+            - leopards
+            - jaguars
+            type: string
+        type: object
     Animal:
       discriminator:
         propertyName: className
@@ -2104,29 +2246,6 @@ components:
       required:
       - requiredFile
       type: object
-    Dog_allOf:
-      properties:
-        breed:
-          type: string
-      type: object
-      example: null
-    Cat_allOf:
-      properties:
-        declawed:
-          type: boolean
-      type: object
-      example: null
-    BigCat_allOf:
-      properties:
-        kind:
-          enum:
-          - lions
-          - tigers
-          - leopards
-          - jaguars
-          type: string
-      type: object
-      example: null
   securitySchemes:
     petstore_auth:
       flows:
@@ -2147,4 +2266,3 @@ components:
     http_basic_test:
       scheme: basic
       type: http
-x-original-swagger-version: "2.0"

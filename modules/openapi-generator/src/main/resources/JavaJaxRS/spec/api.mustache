@@ -20,6 +20,9 @@ import java.util.List;
 {{#useBeanValidation}}import {{javaxPackage}}.validation.constraints.*;
 import {{javaxPackage}}.validation.Valid;{{/useBeanValidation}}
 
+/**
+* Represents a collection of functions to interact with the API endpoints.
+*/
 @Path("{{commonPath}}"){{#useSwaggerAnnotations}}
 @Api(description = "the {{{baseName}}} API"){{/useSwaggerAnnotations}}{{#hasConsumes}}
 @Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}{{#hasProduces}}

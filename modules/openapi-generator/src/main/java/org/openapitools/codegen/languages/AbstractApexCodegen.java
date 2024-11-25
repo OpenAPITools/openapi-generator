@@ -19,11 +19,11 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.base.Strings;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelsMap;
@@ -39,7 +39,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 public abstract class AbstractApexCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractApexCodegen.class);
 
-    protected Boolean serializableModel = false;
+    @Setter protected Boolean serializableModel = false;
 
     public AbstractApexCodegen() {
         super();
@@ -188,16 +188,15 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             if (inner == null) {
-                LOGGER.warn("{}(array property) does not have a proper inner type defined", ap.getName());
+                LOGGER.warn("{}(array property) does not have a proper inner type defined", p.getName());
                 // TODO maybe better defaulting to StringProperty than returning null
                 return null;
             }
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
 
             if (inner == null) {
                 LOGGER.warn("{}(map property) does not have a proper inner type defined", p.getName());
@@ -210,31 +209,22 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public String getAlias(String name) {
-        if (typeAliases != null && typeAliases.containsKey(name)) {
-            return typeAliases.get(name);
-        }
-        return name;
-    }
-
-    @Override
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            final ArraySchema ap = (ArraySchema) p;
             final String pattern = "new ArrayList<%s>()";
-            if (ap.getItems() == null) {
+            if (ModelUtils.getSchemaItems(p) == null) {
                 return null;
             }
 
-            return String.format(Locale.ROOT, pattern, getTypeDeclaration(ap.getItems()));
+            return String.format(Locale.ROOT, pattern, getTypeDeclaration(ModelUtils.getSchemaItems(p)));
         } else if (ModelUtils.isMapSchema(p)) {
             final MapSchema ap = (MapSchema) p;
             final String pattern = "new HashMap<%s>()";
-            if (getAdditionalProperties(ap) == null) {
+            if (ModelUtils.getAdditionalProperties(ap) == null) {
                 return null;
             }
 
-            return String.format(Locale.ROOT, pattern, String.format(Locale.ROOT, "String, %s", getTypeDeclaration(getAdditionalProperties(ap))));
+            return String.format(Locale.ROOT, pattern, String.format(Locale.ROOT, "String, %s", getTypeDeclaration(ModelUtils.getAdditionalProperties(ap))));
         } else if (ModelUtils.isLongSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString() + "l";
@@ -262,7 +252,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             return "null";
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                String _default = (String) p.getDefault();
+                String _default = String.valueOf(p.getDefault());
                 if (p.getEnum() == null) {
                     return "\"" + escapeText(_default) + "\"";
                 } else {
@@ -318,7 +308,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
 
         if (ModelUtils.isArraySchema(p)) {
             example = "new " + getTypeDeclaration(p) + "{" + toExampleValue(
-                    ((ArraySchema) p).getItems()) + "}";
+                    ModelUtils.getSchemaItems(p)) + "}";
         } else if (ModelUtils.isBooleanSchema(p)) {
             example = String.valueOf(!"false".equals(example));
         } else if (ModelUtils.isByteArraySchema(p)) {
@@ -367,7 +357,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         } else if (ModelUtils.isLongSchema(p)) {
             example = example.isEmpty() ? "123456789L" : example + "L";
         } else if (ModelUtils.isMapSchema(p)) {
-            example = "new " + getTypeDeclaration(p) + "{'key'=>" + toExampleValue(getAdditionalProperties(p)) + "}";
+            example = "new " + getTypeDeclaration(p) + "{'key'=>" + toExampleValue(ModelUtils.getAdditionalProperties(p)) + "}";
 
         } else if (ModelUtils.isPasswordSchema(p)) {
             example = example.isEmpty() ? "password123" : escapeText(example);
@@ -573,7 +563,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         if (op.getHasExamples()) {
             // prepare examples for Apex test classes
             ApiResponse apiResponse = findMethodResponse(operation.getResponses());
-            final Schema responseSchema = ModelUtils.getSchemaFromResponse(apiResponse);
+            final Schema responseSchema = ModelUtils.getSchemaFromResponse(openAPI, apiResponse);
             String deserializedExample = toExampleValue(responseSchema);
             for (Map<String, String> example : op.examples) {
                 example.put("example", escapeText(example.get("example")));
@@ -635,10 +625,6 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         return packageName;
     }
 
-
-    public void setSerializableModel(Boolean serializableModel) {
-        this.serializableModel = serializableModel;
-    }
 
     private String sanitizePath(String p) {
         //prefer replace a ", instead of a fuLL URL encode for readability

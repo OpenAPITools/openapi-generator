@@ -35,7 +35,7 @@ public class TypeScriptClientModelTest {
 
     @Test(description = "convert an any of with array oneof model")
     public void objectPropertyAnyOfWithArrayOneOfModelTest() {
-        final Schema schema = new ObjectSchema().addProperties("value",
+        final Schema schema = new ObjectSchema().addProperty("value",
                 new ComposedSchema().addAnyOfItem(new StringSchema()).addAnyOfItem(new ArraySchema()
                         .items(new ComposedSchema()
                                 .addOneOfItem(new StringSchema())

@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,25 +30,20 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("Pet")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class PetDto {
 
-  @JsonProperty("id")
   private Long id;
 
-  @JsonProperty("category")
   private CategoryDto category;
 
-  @JsonProperty("name")
   private String name;
 
-  @JsonProperty("photoUrls")
   @Valid
   private Set<String> photoUrls = new LinkedHashSet<>();
 
-  @JsonProperty("tags")
   @Valid
-  private List<TagDto> tags = null;
+  private List<@Valid TagDto> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -86,8 +82,20 @@ public class PetDto {
     }
   }
 
-  @JsonProperty("status")
+  @Deprecated
   private StatusEnum status;
+
+  public PetDto() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public PetDto(String name, Set<String> photoUrls) {
+    this.name = name;
+    this.photoUrls = photoUrls;
+  }
 
   public PetDto id(Long id) {
     this.id = id;
@@ -97,9 +105,10 @@ public class PetDto {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -116,9 +125,10 @@ public class PetDto {
   /**
    * Get category
    * @return category
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("category")
   public CategoryDto getCategory() {
     return category;
   }
@@ -135,9 +145,10 @@ public class PetDto {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull 
   @ApiModelProperty(example = "doggie", required = true, value = "")
+  @JsonProperty("name")
   public String getName() {
     return name;
   }
@@ -152,6 +163,9 @@ public class PetDto {
   }
 
   public PetDto addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new LinkedHashSet<>();
+    }
     this.photoUrls.add(photoUrlsItem);
     return this;
   }
@@ -159,9 +173,10 @@ public class PetDto {
   /**
    * Get photoUrls
    * @return photoUrls
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("photoUrls")
   public Set<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -171,7 +186,7 @@ public class PetDto {
     this.photoUrls = photoUrls;
   }
 
-  public PetDto tags(List<TagDto> tags) {
+  public PetDto tags(List<@Valid TagDto> tags) {
     this.tags = tags;
     return this;
   }
@@ -187,14 +202,15 @@ public class PetDto {
   /**
    * Get tags
    * @return tags
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
-  public List<TagDto> getTags() {
+  @JsonProperty("tags")
+  public List<@Valid TagDto> getTags() {
     return tags;
   }
 
-  public void setTags(List<TagDto> tags) {
+  public void setTags(List<@Valid TagDto> tags) {
     this.tags = tags;
   }
 
@@ -206,13 +222,20 @@ public class PetDto {
   /**
    * pet status in the store
    * @return status
-  */
+   * @deprecated
+   */
   
   @ApiModelProperty(value = "pet status in the store")
+  @JsonProperty("status")
+  @Deprecated
   public StatusEnum getStatus() {
     return status;
   }
 
+  /**
+   * @deprecated
+   */
+  @Deprecated
   public void setStatus(StatusEnum status) {
     this.status = status;
   }

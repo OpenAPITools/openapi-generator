@@ -31,6 +31,7 @@ namespace OpenAPI\Server\Model;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\Accessor;
 use JMS\Serializer\Annotation\SerializedName;
 
 /**
@@ -47,47 +48,47 @@ class Pet
         /**
      * @var int|null
      * @SerializedName("id")
-     * @Assert\Type("int")
      * @Type("int")
-     */
+    */
+    #[Assert\Type("int")]
     protected ?int $id = null;
 
     /**
      * @var Category|null
      * @SerializedName("category")
-     * @Assert\Type("OpenAPI\Server\Model\Category")
      * @Type("OpenAPI\Server\Model\Category")
-     */
+    */
+    #[Assert\Type("OpenAPI\Server\Model\Category")]
     protected ?Category $category = null;
 
     /**
      * @var string|null
      * @SerializedName("name")
-     * @Assert\NotNull()
-     * @Assert\Type("string")
      * @Type("string")
-     */
+    */
+    #[Assert\NotNull]
+    #[Assert\Type("string")]
     protected ?string $name = null;
 
     /**
-     * @var array|null
+     * @var string[]|null
      * @SerializedName("photoUrls")
-     * @Assert\NotNull()
-     * @Assert\All({
-     *   @Assert\Type("string")
-     * })
      * @Type("array<string>")
-     */
+    */
+    #[Assert\NotNull]
+    #[Assert\All([
+        new Assert\Type("string"),
+    ])]
     protected ?array $photoUrls = null;
 
     /**
-     * @var array|null
+     * @var Tag[]|null
      * @SerializedName("tags")
-     * @Assert\All({
-     *   @Assert\Type("OpenAPI\Server\Model\Tag")
-     * })
      * @Type("array<OpenAPI\Server\Model\Tag>")
-     */
+    */
+    #[Assert\All([
+        new Assert\Type("OpenAPI\Server\Model\Tag"),
+    ])]
     protected ?array $tags = null;
 
     /**
@@ -95,24 +96,26 @@ class Pet
      *
      * @var string|null
      * @SerializedName("status")
-     * @Assert\Choice({ "available", "pending", "sold" })
-     * @Assert\Type("string")
      * @Type("string")
-     */
+    */
+    #[Assert\Choice(['available', 'pending', 'sold'])]
+    #[Assert\Type("string")]
     protected ?string $status = null;
 
     /**
      * Constructor
      * @param array|null $data Associated array of property values initializing the model
      */
-    public function __construct(array $data = null)
+    public function __construct(?array $data = null)
     {
-        $this->id = $data['id'] ?? null;
-        $this->category = $data['category'] ?? null;
-        $this->name = $data['name'] ?? null;
-        $this->photoUrls = $data['photoUrls'] ?? null;
-        $this->tags = $data['tags'] ?? null;
-        $this->status = $data['status'] ?? null;
+        if (is_array($data)) {
+            $this->id = array_key_exists('id', $data) ? $data['id'] : $this->id;
+            $this->category = array_key_exists('category', $data) ? $data['category'] : $this->category;
+            $this->name = array_key_exists('name', $data) ? $data['name'] : $this->name;
+            $this->photoUrls = array_key_exists('photoUrls', $data) ? $data['photoUrls'] : $this->photoUrls;
+            $this->tags = array_key_exists('tags', $data) ? $data['tags'] : $this->tags;
+            $this->status = array_key_exists('status', $data) ? $data['status'] : $this->status;
+        }
     }
 
     /**
@@ -126,18 +129,21 @@ class Pet
     }
 
     /**
-     * Sets id.
-     *
-     * @param int|null $id
-     *
-     * @return $this
-     */
+    * Sets id.
+    *
+    * @param int|null $id
+    *
+    * @return $this
+    */
     public function setId(?int $id = null): self
     {
         $this->id = $id;
 
         return $this;
     }
+
+
+
 
     /**
      * Gets category.
@@ -150,18 +156,21 @@ class Pet
     }
 
     /**
-     * Sets category.
-     *
-     * @param Category|null $category
-     *
-     * @return $this
-     */
+    * Sets category.
+    *
+    * @param Category|null $category
+    *
+    * @return $this
+    */
     public function setCategory(?Category $category = null): self
     {
         $this->category = $category;
 
         return $this;
     }
+
+
+
 
     /**
      * Gets name.
@@ -174,12 +183,12 @@ class Pet
     }
 
     /**
-     * Sets name.
-     *
-     * @param string|null $name
-     *
-     * @return $this
-     */
+    * Sets name.
+    *
+    * @param string|null $name
+    *
+    * @return $this
+    */
     public function setName(?string $name): self
     {
         $this->name = $name;
@@ -187,10 +196,13 @@ class Pet
         return $this;
     }
 
+
+
+
     /**
      * Gets photoUrls.
      *
-     * @return array|null
+     * @return string[]|null
      */
     public function getPhotoUrls(): ?array
     {
@@ -198,12 +210,12 @@ class Pet
     }
 
     /**
-     * Sets photoUrls.
-     *
-     * @param array|null $photoUrls
-     *
-     * @return $this
-     */
+    * Sets photoUrls.
+    *
+    * @param string[]|null $photoUrls
+    *
+    * @return $this
+    */
     public function setPhotoUrls(?array $photoUrls): self
     {
         $this->photoUrls = $photoUrls;
@@ -211,10 +223,13 @@ class Pet
         return $this;
     }
 
+
+
+
     /**
      * Gets tags.
      *
-     * @return array|null
+     * @return Tag[]|null
      */
     public function getTags(): ?array
     {
@@ -222,18 +237,21 @@ class Pet
     }
 
     /**
-     * Sets tags.
-     *
-     * @param array|null $tags
-     *
-     * @return $this
-     */
+    * Sets tags.
+    *
+    * @param Tag[]|null $tags
+    *
+    * @return $this
+    */
     public function setTags(?array $tags = null): self
     {
         $this->tags = $tags;
 
         return $this;
     }
+
+
+
 
     /**
      * Gets status.
@@ -246,18 +264,21 @@ class Pet
     }
 
     /**
-     * Sets status.
-     *
-     * @param string|null $status  pet status in the store
-     *
-     * @return $this
-     */
+    * Sets status.
+    *
+    * @param string|null $status  pet status in the store
+    *
+    * @return $this
+    */
     public function setStatus(?string $status = null): self
     {
         $this->status = $status;
 
         return $this;
     }
+
+
+
 }
 
 

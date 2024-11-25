@@ -58,7 +58,7 @@ public:
     {{/required}}
     {{/allParams}}
     */{{/hasParams}}
-    {{#isDeprecated}}Q_DECL_DEPRECATED {{/isDeprecated}}void {{nickname}}({{#allParams}}{{#required}}const {{{dataType}}} &{{/required}}{{^required}}const ::{{cppNamespace}}::OptionalParam<{{{dataType}}}> &{{/required}}{{paramName}}{{^required}} = ::{{cppNamespace}}::OptionalParam<{{{dataType}}}>(){{/required}}{{^-last}}, {{/-last}}{{/allParams}});
+    {{#isDeprecated}}Q_DECL_DEPRECATED {{/isDeprecated}}{{#makeOperationsVirtual}}virtual {{/makeOperationsVirtual}}void {{nickname}}({{#allParams}}{{#required}}const {{{dataType}}} &{{/required}}{{^required}}const ::{{cppNamespace}}::OptionalParam<{{{dataType}}}> &{{/required}}{{paramName}}{{^required}} = ::{{cppNamespace}}::OptionalParam<{{{dataType}}}>(){{/required}}{{^-last}}, {{/-last}}{{/allParams}});
 {{/operation}}{{/operations}}
 
 private:
@@ -85,22 +85,27 @@ private:
 {{#operations}}{{#operation}}
     void {{nickname}}Callback({{prefix}}HttpRequestWorker *worker);{{/operation}}{{/operations}}
 
-signals:
+Q_SIGNALS:
 {{#operations}}{{#operation}}
     void {{nickname}}Signal({{#returnType}}{{{.}}} summary{{/returnType}});{{/operation}}{{/operations}}
+{{#operations}}{{#operation}}{{#addDownloadProgress}}
+    void {{nickname}}Progress(qint64 bytesReceived, qint64 bytesTotal);{{/addDownloadProgress}}{{/operation}}{{/operations}}
 {{#operations}}{{#operation}}
     void {{nickname}}SignalFull({{prefix}}HttpRequestWorker *worker{{#returnType}}, {{{.}}} summary{{/returnType}});{{/operation}}{{/operations}}
 {{#operations}}{{#operation}}
-    void {{nickname}}SignalE({{#returnType}}{{{.}}} summary, {{/returnType}}QNetworkReply::NetworkError error_type, QString error_str);{{/operation}}{{/operations}}
+    Q_DECL_DEPRECATED_X("Use {{nickname}}SignalError() instead")
+    void {{nickname}}SignalE({{#returnType}}{{{.}}} summary, {{/returnType}}QNetworkReply::NetworkError error_type, QString error_str);
+    void {{nickname}}SignalError({{#returnType}}{{{.}}} summary, {{/returnType}}QNetworkReply::NetworkError error_type, const QString &error_str);{{/operation}}{{/operations}}
 {{#operations}}{{#operation}}
-    void {{nickname}}SignalEFull({{prefix}}HttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);{{/operation}}{{/operations}}
+    Q_DECL_DEPRECATED_X("Use {{nickname}}SignalErrorFull() instead")
+    void {{nickname}}SignalEFull({{prefix}}HttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void {{nickname}}SignalErrorFull({{prefix}}HttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);{{/operation}}{{/operations}}
 
     void abortRequestsSignal();
     void allPendingRequestsCompleted();
 
-public slots:
+public Q_SLOTS:
     void tokenAvailable();
-    
 };
 
 {{#cppNamespaceDeclarations}}

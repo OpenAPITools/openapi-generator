@@ -32,6 +32,7 @@ import java.util.concurrent.CompletableFuture;
 
 {{#useBeanValidation}}
 import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
 import com.typesafe.config.Config;
 {{/useBeanValidation}}
 
@@ -196,7 +197,7 @@ public class {{classname}}Controller extends Controller {
         }
         {{/collectionFormat}}
         {{^collectionFormat}}
-        String value{{paramName}} = request.header("{{baseName}}").get();
+        String value{{paramName}} = request.header("{{baseName}}").orElse(null);
         {{{dataType}}} {{paramName}};
         if (value{{paramName}} != null) {
             {{paramName}} = {{>conversionBegin}}value{{paramName}}{{>conversionEnd}};

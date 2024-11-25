@@ -21,7 +21,7 @@ import {{packageName}}.infrastructure.LocalDateTimeAdapter
 import {{packageName}}.infrastructure.LocalDateAdapter
 import {{packageName}}.infrastructure.ByteArrayAdapter
 
-class GsonRequest<T>(
+{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class GsonRequest<T>(
     method: Int,
     url: String,
     private val body: Any?,
@@ -35,7 +35,7 @@ class GsonRequest<T>(
     errorListener: Response.ErrorListener
 ) : Request<T>(method, url, errorListener) {
 
-    val gsonBuilder: GsonBuilder = GsonBuilder()
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val gsonBuilder: GsonBuilder = GsonBuilder()
         .registerTypeAdapter(OffsetDateTime::class.java, OffsetDateTimeAdapter())
         .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
         .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
@@ -46,7 +46,7 @@ class GsonRequest<T>(
             }
         }
 
-    val gson: Gson by lazy {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val gson: Gson by lazy {
         gsonBuilder.create()
     }
 

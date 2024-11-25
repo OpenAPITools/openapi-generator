@@ -4,6 +4,9 @@ import 'package:built_value/serializer.dart';
 
 part '{{classFilename}}.g.dart';
 
+{{#isDeprecated}}
+@Deprecated('{{{classname}}} has been deprecated')
+{{/isDeprecated}}
 class {{classname}} extends EnumClass {
 
   {{#allowableValues}}

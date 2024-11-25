@@ -17,6 +17,7 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  * 
@@ -51,5 +52,8 @@ data class Apa (
     @Json(name = "gepa")
     val gepa: java.math.BigDecimal? = null
 
-)
+) {
+
+
+}
 

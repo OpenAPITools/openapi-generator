@@ -4,20 +4,27 @@
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
         <!-- RELEASE_VERSION -->
-        <version>6.3.0-SNAPSHOT</version>
+        <version>7.11.0-SNAPSHOT</version>
         <!-- /RELEASE_VERSION -->
-        <relativePath>../..</relativePath>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
     <artifactId>openapi-generator-online</artifactId>
     <packaging>jar</packaging>
     <name>openapi-generator-online</name>
     <properties>
-        <spring-boot.version>2.7.5</spring-boot.version>
+        <spring-boot.version>2.5.14</spring-boot.version>
         <springfox-version>3.0.0</springfox-version>
         <sonar.exclusions>**/org/openapitools/codegen/online/**/*</sonar.exclusions>
     </properties>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.fasterxml.jackson</groupId>
+                <artifactId>jackson-bom</artifactId>
+                <version>${jackson.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -127,8 +134,8 @@
         </dependency>
 
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>

@@ -9,7 +9,6 @@ index.ts
 model/abstract-flat-stock-pick-order-base-dto.ts
 model/abstract-user-dto.ts
 model/branch-dto.ts
-model/flat-stock-pick-order-dto-all-of.ts
 model/flat-stock-pick-order-dto.ts
 model/index.ts
 model/internal-authenticated-user-dto.ts

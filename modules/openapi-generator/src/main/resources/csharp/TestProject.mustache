@@ -11,90 +11,25 @@
 {{#version}}The version of the OpenAPI document: {{{.}}}{{/version}}
 {{#infoEmail}}Contact: {{{.}}}{{/infoEmail}}
 -->
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{19F1DEBC-DE5E-4517-8062-F000CD499087}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>{{testPackageName}}</RootNamespace>
     <AssemblyName>{{testPackageName}}</AssemblyName>
-    {{^supportsUWP}}
-    <TargetFrameworkVersion>{{targetFramework}}</TargetFrameworkVersion>
-    {{/supportsUWP}}
-    {{#supportsUWP}}
-    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
-    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
-    {{/supportsUWP}}
+    <TargetFramework{{#multiTarget}}s{{/multiTarget}}>{{testTargetFramework}}</TargetFramework{{#multiTarget}}s{{/multiTarget}}>
+    <IsPackable>false</IsPackable>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Newtonsoft.Json">
-        <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\Newtonsoft.Json.{{newtonsoft-json.version}}\lib\{{newtonsoft-json.targetFramework}}\Newtonsoft.Json.dll</HintPath>
-        <HintPath Condition="Exists('..\packages')">..\packages\Newtonsoft.Json.{{newtonsoft-json.version}}\lib\{{newtonsoft-json.targetFramework}}\Newtonsoft.Json.dll</HintPath>
-        <HintPath Condition="Exists('..\..\packages')">..\..\packages\Newtonsoft.Json.{{newtonsoft-json.version}}\lib\{{newtonsoft-json.targetFramework}}\Newtonsoft.Json.dll</HintPath>
-        <HintPath Condition="Exists('{{binRelativePath}}')">{{binRelativePath}}\Newtonsoft.Json.{{newtonsoft-json.version}}\lib\{{newtonsoft-json.targetFramework}}\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="JsonSubTypes">
-        <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\JsonSubTypes.{{json-subtypes.version}}\lib\{{json-subtypes.targetFramework}}\JsonSubTypes.dll</HintPath>
-        <HintPath Condition="Exists('..\packages')">..\packages\JsonSubTypes.{{json-subtypes.version}}\lib\{{json-subtypes.targetFramework}}\JsonSubTypes.dll</HintPath>
-        <HintPath Condition="Exists('..\..\packages')">..\..\packages\JsonSubTypes.{{json-subtypes.version}}\lib\{{json-subtypes.targetFramework}}\JsonSubTypes.dll</HintPath>
-        <HintPath Condition="Exists('{{binRelativePath}}')">{{binRelativePath}}\JsonSubTypes.{{json-subtypes.version}}\lib\{{json-subtypes.targetFramework}}\JsonSubTypes.dll</HintPath>
-    </Reference>
-    <Reference Include="RestSharp">
-        <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\RestSharp.{{restsharp.version}}\lib\{{restsharp.targetFramework}}\RestSharp.dll</HintPath>
-        <HintPath Condition="Exists('..\packages')">..\packages\RestSharp.{{restsharp.version}}\lib\{{restsharp.targetFramework}}\RestSharp.dll</HintPath>
-        <HintPath Condition="Exists('..\..\packages')">..\..\packages\RestSharp.{{restsharp.version}}\lib\{{restsharp.targetFramework}}\RestSharp.dll</HintPath>
-        <HintPath Condition="Exists('{{binRelativePath}}')">{{binRelativePath}}\RestSharp.{{restsharp.version}}\lib\{{restsharp.targetFramework}}\RestSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
-        <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\NUnit.{{nunit.version}}\lib\{{nunit.targetFramework}}\nunit.framework.dll</HintPath>
-        <HintPath Condition="Exists('..\packages')">..\packages\NUnit.{{nunit.version}}\lib\{{nunit.targetFramework}}\nunit.framework.dll</HintPath>
-        <HintPath Condition="Exists('..\..\packages')">..\..\packages\NUnit.{{nunit.version}}\lib\{{nunit.targetFramework}}\nunit.framework.dll</HintPath>
-        <HintPath Condition="Exists('{{binRelativePath}}')">{{binRelativePath}}\NUnit.{{nunit.version}}\lib\{{nunit.targetFramework}}\nunit.framework.dll</HintPath>
-    </Reference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.2" />
+    <PackageReference Include="xunit" Version="2.4.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="**\*.cs"
-             Exclude="obj\**"/>
-  </ItemGroup>
-  <ItemGroup>
-      <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MsBuildToolsPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-      <ProjectReference Include="..\{{packageName}}\{{packageName}}.csproj">
-          <Project>{{packageGuid}}</Project>
-          <Name>{{packageName}}</Name>
-      </ProjectReference>
+    <ProjectReference Include="..\{{packageName}}\{{packageName}}.csproj">
+      <Project>{{packageGuid}}</Project>
+      <Name>{{packageName}}</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

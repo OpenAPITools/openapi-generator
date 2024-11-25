@@ -1,6 +1,7 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
+import org.openapitools.client.BaseApi;
 
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
@@ -28,55 +29,44 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-@Component("org.openapitools.client.api.PetApi")
-public class PetApi {
-    private ApiClient apiClient;
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+public class PetApi extends BaseApi {
 
     public PetApi() {
-        this(new ApiClient());
+        super(new ApiClient());
     }
 
-    @Autowired
     public PetApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
-    }
-
-    public ApiClient getApiClient() {
-        return apiClient;
-    }
-
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        super(apiClient);
     }
 
     /**
      * Add a new pet to the store
      * 
-     * <p><b>200</b> - successful operation
+     * <p><b>200</b> - Successful operation
      * <p><b>405</b> - Invalid input
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void addPet(Pet body) throws RestClientException {
-        addPetWithHttpInfo(body);
+    public void addPet(Pet pet) throws RestClientException {
+        addPetWithHttpInfo(pet);
     }
 
     /**
      * Add a new pet to the store
      * 
-     * <p><b>200</b> - successful operation
+     * <p><b>200</b> - Successful operation
      * <p><b>405</b> - Invalid input
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> addPetWithHttpInfo(Pet body) throws RestClientException {
-        Object localVarPostBody = body;
+    public ResponseEntity<Void> addPetWithHttpInfo(Pet pet) throws RestClientException {
+        Object localVarPostBody = pet;
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling addPet");
+        // verify the required parameter 'pet' is set
+        if (pet == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'pet' when calling addPet");
         }
         
 
@@ -100,7 +90,7 @@ public class PetApi {
     /**
      * Deletes a pet
      * 
-     * <p><b>200</b> - successful operation
+     * <p><b>200</b> - Successful operation
      * <p><b>400</b> - Invalid pet value
      * @param petId Pet id to delete (required)
      * @param apiKey  (optional)
@@ -113,7 +103,7 @@ public class PetApi {
     /**
      * Deletes a pet
      * 
-     * <p><b>200</b> - successful operation
+     * <p><b>200</b> - Successful operation
      * <p><b>400</b> - Invalid pet value
      * @param petId Pet id to delete (required)
      * @param apiKey  (optional)
@@ -187,6 +177,7 @@ public class PetApi {
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "status", status));
+        
 
         final String[] localVarAccepts = { 
             "application/xml", "application/json"
@@ -241,6 +232,7 @@ public class PetApi {
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "tags", tags));
+        
 
         final String[] localVarAccepts = { 
             "application/xml", "application/json"
@@ -310,34 +302,34 @@ public class PetApi {
     /**
      * Update an existing pet
      * 
-     * <p><b>200</b> - successful operation
+     * <p><b>200</b> - Successful operation
      * <p><b>400</b> - Invalid ID supplied
      * <p><b>404</b> - Pet not found
      * <p><b>405</b> - Validation exception
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void updatePet(Pet body) throws RestClientException {
-        updatePetWithHttpInfo(body);
+    public void updatePet(Pet pet) throws RestClientException {
+        updatePetWithHttpInfo(pet);
     }
 
     /**
      * Update an existing pet
      * 
-     * <p><b>200</b> - successful operation
+     * <p><b>200</b> - Successful operation
      * <p><b>400</b> - Invalid ID supplied
      * <p><b>404</b> - Pet not found
      * <p><b>405</b> - Validation exception
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> updatePetWithHttpInfo(Pet body) throws RestClientException {
-        Object localVarPostBody = body;
+    public ResponseEntity<Void> updatePetWithHttpInfo(Pet pet) throws RestClientException {
+        Object localVarPostBody = pet;
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling updatePet");
+        // verify the required parameter 'pet' is set
+        if (pet == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'pet' when calling updatePet");
         }
         
 
@@ -361,6 +353,7 @@ public class PetApi {
     /**
      * Updates a pet in the store with form data
      * 
+     * <p><b>200</b> - Successful operation
      * <p><b>405</b> - Invalid input
      * @param petId ID of pet that needs to be updated (required)
      * @param name Updated name of the pet (optional)
@@ -374,6 +367,7 @@ public class PetApi {
     /**
      * Updates a pet in the store with form data
      * 
+     * <p><b>200</b> - Successful operation
      * <p><b>405</b> - Invalid input
      * @param petId ID of pet that needs to be updated (required)
      * @param name Updated name of the pet (optional)
@@ -539,5 +533,30 @@ public class PetApi {
 
         ParameterizedTypeReference<ModelApiResponse> localReturnType = new ParameterizedTypeReference<ModelApiResponse>() {};
         return apiClient.invokeAPI("/fake/{petId}/uploadImageWithRequiredFile", HttpMethod.POST, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+
+    @Override
+    public <T> ResponseEntity<T> invokeAPI(String url, HttpMethod method, Object request, ParameterizedTypeReference<T> returnType) throws RestClientException {
+        String localVarPath = url.replace(apiClient.getBasePath(), "");
+        Object localVarPostBody = request;
+
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { 
+            "application/json"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "multipart/form-data"
+         };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] { "petstore_auth" };
+
+        return apiClient.invokeAPI(localVarPath, method, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, returnType);
     }
 }

@@ -17,8 +17,14 @@
   "main": "./dist/index.js",
   "type": "commonjs",
   "exports": {
-    ".": "./dist/index.js"
+    ".": {
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.js"
+    }
   },
+  "files": [
+    "dist"
+  ],
   "typings": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc",

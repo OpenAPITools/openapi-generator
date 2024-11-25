@@ -22,7 +22,6 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import java.io.File;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Map;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.ClientModificationFeature;
@@ -68,6 +67,7 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
         languageSpecificPrimitives.add("ArrayList");
         languageSpecificPrimitives.add("File");
         languageSpecificPrimitives.add("Map");
+        languageSpecificPrimitives.add("List");
 
         // this must not be OS-specific
         sourceFolder = projectFolder + "/groovy";
@@ -151,11 +151,6 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
     public String escapeQuotationMark(String input) {
         // remove ' to avoid code injection
         return input.replace("'", "");
-    }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
     @Override

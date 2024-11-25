@@ -20,12 +20,11 @@ package org.openapitools.codegen.languages;
 import com.samskivert.mustache.Escapers;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.ClientModificationFeature;
@@ -42,6 +41,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -53,15 +53,63 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     public static final String HTTP_SUPPORT_OPTION = "httpSupport";
     public static final String OPENAPI_PACKAGE_NAME_OPTION = "openApiName";
 
+    // Common media types.
+    private static final String APPLICATION_XML = "application/xml";
+    private static final String TEXT_XML = "text/xml";
+    private static final String APPLICATION_OCTET_STREAM = "application/octet-stream";
+    private static final String TEXT_PLAIN = "text/plain";
+    private static final String APPLICATION_JSON = "application/json";
+    private static final String APPLICATION_X_WWW_FORM_URLENCODED = "application/x-www-form-urlencoded";
+
+    // RFC 7807 Support
+    private static final String APPLICATION_PROBLEM_JSON = "application/problem+json";
+    private static final String APPLICATION_PROBLEM_XML = "application/problem+xml";
+
+    // RFC 7386 support
+    private static final String APPLICATION_MERGE_PATCH_JSON = "application/merge-patch+json";
+
+    // Extension attributes used by the Ada code generator
+    // "x-ada-type-name" allows to override the name generated for a type/object.
+    // It can be a full qualified Ada type name and the type can be defined in an external package.
+    // In that case, we don't generate the Ada type but use its external definition.  Only the
+    // Serialize/Deserialize are generated in the model.  If there is an inconsistency, this will
+    // be detected at compilation time.
+    // "x-ada-no-vector" instructs to not instantiate the Vectors package for the given model type.
+    // "x-ada-serialize-op" allows to control the name of the serialize operation for the field.
+    private static final String X_ADA_TYPE_NAME = "x-ada-type-name";
+    private static final String X_ADA_VECTOR_TYPE_NAME = "x-ada-vector-type-name";
+    private static final String X_ADA_NO_VECTOR = "x-ada-no-vector";
+    private static final String X_ADA_SERIALIZE_OP = "x-ada-serialize-op";
+
     protected String packageName = "defaultPackage";
     protected String projectName = "defaultProject";
     protected List<ModelMap> orderedModels;
     protected final Map<String, List<String>> modelDepends;
     protected final Map<String, String> nullableTypeMapping;
     protected final Map<String, String> operationsScopes;
+    protected final List<List<String>> mediaGroups;
+    protected final List<List<NameBinding>> mediaLists;
+    protected final Map<String, String> mediaToVariableName;
+    protected final List<NameBinding> mediaVariables;
+    protected final List<NameBinding> adaImports;
+    protected final Set<String> adaImportSet = new TreeSet<>();
     protected int scopeIndex = 0;
     protected String httpClientPackageName = "Curl";
     protected String openApiPackageName = "Swagger";
+
+    private static final String bytesType = "swagger::ByteArray";
+
+    static class NameBinding {
+        public int position;
+        public String name;
+        public String value;
+
+        NameBinding(int pos, String name, String value) {
+            this.position = pos;
+            this.name = name;
+            this.value = value;
+        }
+    }
 
     public AbstractAdaCodegen() {
         super();
@@ -169,12 +217,20 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         typeMapping.put("integer", "Integer");
         typeMapping.put("boolean", "Boolean");
 
+        typeMapping.put("binary", bytesType);
+        typeMapping.put("ByteArray", bytesType);
+
         // Mapping to convert an Ada required type to an optional type (nullable).
         nullableTypeMapping = new HashMap<>();
 
         modelDepends = new HashMap<>();
         orderedModels = new ArrayList<>();
         operationsScopes = new HashMap<>();
+        mediaGroups = new ArrayList<>();
+        mediaLists = new ArrayList<>();
+        mediaToVariableName = new HashMap<>();
+        mediaVariables = new ArrayList<>();
+        adaImports = new ArrayList<>();
         super.importMapping = new HashMap<>();
 
         // CLI options
@@ -221,8 +277,11 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         typeMapping.put("number", openApiPackageName + ".Number");
         typeMapping.put("UUID", openApiPackageName + ".UString");
         typeMapping.put("URI", openApiPackageName + ".UString");
-        typeMapping.put("file", openApiPackageName + ".Http_Content_Type");
-        typeMapping.put("binary", openApiPackageName + ".Binary");
+        typeMapping.put("file", openApiPackageName + ".Blob_Ref");
+        typeMapping.put("binary", openApiPackageName + ".Blob_Ref");
+        typeMapping.put("float", openApiPackageName + ".Number");
+        typeMapping.put("double", openApiPackageName + ".Number");
+        importMapping.put("File", openApiPackageName + ".File");
 
         // Mapping to convert an Ada required type to an optional type (nullable).
         nullableTypeMapping.put(openApiPackageName + ".Date", openApiPackageName + ".Nullable_Date");
@@ -233,6 +292,10 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         nullableTypeMapping.put("Boolean", openApiPackageName + ".Nullable_Boolean");
         nullableTypeMapping.put(openApiPackageName + ".Object", openApiPackageName + ".Object");
 
+        mediaToVariableName.put(TEXT_PLAIN, openApiPackageName + ".Mime_Text");
+        mediaToVariableName.put(APPLICATION_JSON, openApiPackageName + ".Mime_Json");
+        mediaToVariableName.put(APPLICATION_XML, openApiPackageName + ".Mime_Xml");
+        mediaToVariableName.put(APPLICATION_X_WWW_FORM_URLENCODED, openApiPackageName + ".Mime_Form");
     }
 
     public String toFilename(String name) {
@@ -299,11 +362,21 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toVarName(String name) {
+        // obtain the name from nameMapping directly if provided
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         return toAdaIdentifier(sanitizeName(name), "P_");
     }
 
     @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         return toAdaIdentifier(super.toParamName(name), "P_");
     }
 
@@ -353,7 +426,11 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toEnumVarName(String value, String datatype) {
-        String var = null;
+        if (enumNameMapping.containsKey(value)) {
+            return enumNameMapping.get(value);
+        }
+
+        String var;
         if (value.isEmpty()) {
             var = "EMPTY";
         }
@@ -385,13 +462,14 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         return var;
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public CodegenProperty fromProperty(String name, Schema p, boolean required) {
         CodegenProperty property = super.fromProperty(name, p, required);
         if (property != null) {
-            String nameInCamelCase = property.nameInCamelCase;
-            nameInCamelCase = sanitizeName(nameInCamelCase);
-            property.nameInCamelCase = nameInCamelCase;
+            String nameInPascalCase = property.nameInPascalCase;
+            nameInPascalCase = sanitizeName(nameInPascalCase);
+            property.nameInPascalCase = nameInPascalCase;
         }
         return property;
     }
@@ -442,6 +520,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
      * @return a string value used as the `dataType` field for model templates,
      * `returnType` for api templates
      */
+    @SuppressWarnings("rawtypes")
     @Override
     public String getTypeDeclaration(Schema p) {
         String schemaType = getSchemaType(p);
@@ -451,12 +530,16 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         }
 
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
-            return getTypeDeclaration(inner) + "_Vectors.Vector";
+            Schema inner = ModelUtils.getSchemaItems(p);
+            String itemType = getTypeDeclaration(inner);
+            if (itemType.startsWith("OpenAPI.")) {
+                return itemType + "_Vector";
+            } else {
+                return itemType + "_Vectors.Vector";
+            }
         }
         if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             String name = getTypeDeclaration(inner) + "_Map";
             if (name.startsWith(openApiPackageName)) {
                 return name;
@@ -480,44 +563,6 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         return modelPackage + ".Models." + modelType;
     }
 
-    private boolean isStreamType(CodegenProperty parameter) {
-        boolean isStreamType = parameter.isString || parameter.isBoolean || parameter.isDate
-                || parameter.isDateTime || parameter.isInteger || parameter.isLong
-                || (parameter.isFreeFormObject && !parameter.isMap);
-
-        return isStreamType;
-    }
-
-    private boolean isModelType(CodegenProperty parameter) {
-        boolean isModel = parameter.dataType.startsWith(modelPackage);
-        if (!isModel && !parameter.isPrimitiveType && !parameter.isDate
-                && !parameter.isFreeFormObject
-                && !parameter.isString && !parameter.isContainer && !parameter.isFile
-                && !parameter.dataType.startsWith(openApiPackageName)) {
-            isModel = true;
-        }
-        return isModel;
-    }
-
-    private boolean isStreamType(CodegenParameter parameter) {
-        boolean isStreamType = parameter.isString || parameter.isBoolean || parameter.isDate
-                || parameter.isDateTime || parameter.isInteger || parameter.isLong
-                || (parameter.isFreeFormObject && !parameter.isMap);
-
-        return isStreamType;
-    }
-
-    private boolean isModelType(CodegenParameter parameter) {
-        boolean isModel = parameter.dataType.startsWith(modelPackage);
-        if (!isModel && !parameter.isPrimitiveType && !parameter.isDate
-                && !parameter.isFreeFormObject
-                && !parameter.isString && !parameter.isContainer && !parameter.isFile
-                && !parameter.dataType.startsWith(openApiPackageName)) {
-            isModel = true;
-        }
-        return isModel;
-    }
-
     /**
      * Overrides postProcessParameter to add a vendor extension "x-is-model-type".
      * This boolean indicates that the parameter comes from the model package.
@@ -536,46 +581,9 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         parameter.vendorExtensions.put("x-is-stream-type", isStreamType(parameter));
     }
 
-    /**
-     * Post process the media types (produces and consumes) for Ada code generator.
-     * <p>
-     * For each media type, add an adaMediaType member that gives the Ada enum constant
-     * for the corresponding type.
-     *
-     * @param types the list of media types.
-     * @return the number of media types.
-     */
-    protected int postProcessMediaTypes(List<Map<String, String>> types) {
-        int count = 0;
-        if (types != null) {
-            for (Map<String, String> media : types) {
-                String mt = media.get("mediaType");
-                if (mt != null) {
-                    mt = mt.replace('/', '_');
-                    media.put("adaMediaType", mt.toUpperCase(Locale.ROOT));
-                    count++;
-                }
-            }
-        }
-        return count;
-    }
-
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
-
-        if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
-            ApiResponse methodResponse = findMethodResponse(operation.getResponses());
-            if (methodResponse != null && ModelUtils.getSchemaFromResponse(methodResponse) != null) {
-                CodegenProperty cm = fromProperty("response", ModelUtils.getSchemaFromResponse(methodResponse), false);
-                op.vendorExtensions.put("x-codegen-response", cm);
-                op.vendorExtensions.put("x-is-model-type", isModelType(cm));
-                op.vendorExtensions.put("x-is-stream-type", isStreamType(cm));
-                if ("HttpContent".equals(cm.dataType)) {
-                    op.vendorExtensions.put("x-codegen-response-ishttpcontent", true);
-                }
-            }
-        }
 
         // Add a vendor extension attribute that provides a map of auth methods and the scopes
         // which are expected by the operation.  This map is then used by postProcessOperationsWithModels
@@ -592,96 +600,323 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
             }
             op.vendorExtensions.put("x-scopes", scopes);
         }
-        return op;
-    }
 
-    private Map<String, List<String>> getAuthScopes(List<SecurityRequirement> securities, Map<String, SecurityScheme> securitySchemes) {
-        final Map<String, List<String>> scopes = new HashMap<>();
-        Optional.ofNullable(securitySchemes).ifPresent(_securitySchemes -> {
-            for (SecurityRequirement requirement : securities) {
-                for (String key : requirement.keySet()) {
-                    Optional.ofNullable(securitySchemes.get(key))
-                            .ifPresent(securityScheme -> scopes.put(key, requirement.get(key)));
+        // Determine the types that this operation produces. `getProducesInfo`
+        // simply lists all the types, and then we collect the list of media types
+        // for the operation and keep the global index assigned to that list in x-produces-media-index.
+        Set<String> produces = getProducesInfo(openAPI, operation);
+        boolean producesPlainText = false;
+        if (produces != null && !produces.isEmpty()) {
+            List<String> mediaList = new ArrayList<>();
+            List<Map<String, String>> c = new ArrayList<>();
+            for (String mimeType : produces) {
+                Map<String, String> mediaType = new HashMap<>();
+
+                if (isMimetypePlain(mimeType)) {
+                    producesPlainText = true;
+                }
+
+                mediaType.put("mediaType", mimeType);
+                c.add(mediaType);
+                mediaList.add(mimeType);
+            }
+            op.produces = c;
+            op.hasProduces = true;
+            op.vendorExtensions.put("x-produces-media-index", collectMediaList(mediaList));
+        }
+
+        for (CodegenResponse rsp : op.responses) {
+
+            if (rsp.dataType != null) {
+
+                // Write out the type of data we actually expect this response
+                // to make.
+                if (producesPlainText) {
+                    // Plain text means that there is not structured data in
+                    // this response. So it'll either be a UTF-8 encoded string
+                    // 'plainText' or some generic 'bytes'.
+                    //
+                    // Note that we don't yet distinguish between string/binary
+                    // and string/bytes - that is we don't auto-detect whether
+                    // base64 encoding should be done. They both look like
+                    // 'producesBytes'.
+                    if (bytesType.equals(rsp.dataType)) {
+                        rsp.vendorExtensions.put("x-produces-bytes", true);
+                    } else {
+                        rsp.vendorExtensions.put("x-produces-plain-text", true);
+                    }
                 }
             }
-        });
-        return scopes;
+        }
+
+        return op;
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        // This is run after the postProcessModels
+
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> operationList = operations.getOperation();
 
-        for (CodegenOperation op1 : operationList) {
-            if (op1.summary != null) {
-                op1.summary = op1.summary.trim();
-            }
-            if (op1.notes != null) {
-                op1.notes = op1.notes.trim();
-            }
-            op1.vendorExtensions.put("x-has-uniq-produces", postProcessMediaTypes(op1.produces) == 1);
-            op1.vendorExtensions.put("x-has-uniq-consumes", postProcessMediaTypes(op1.consumes) == 1);
-            op1.vendorExtensions.put("x-has-notes", op1.notes != null && op1.notes.length() > 0);
+        for (CodegenOperation op : operationList) {
+            postProcessOperationWithModels(op, allModels);
+        }
 
-            // Set the file parameter type for both allParams and formParams.
-            for (CodegenParameter p : op1.allParams) {
-                if (p.isFormParam && p.isFile) {
-                    p.dataType = openApiPackageName + ".File_Part_Type";
-                }
-                // Convert optional parameters to use the Nullable_<T> type.
-                if (!p.required && nullableTypeMapping.containsKey(p.dataType)) {
-                    p.dataType = nullableTypeMapping.get(p.dataType);
+        // Build the adaImports variable to create a list of Ada specific packages that must be imported.
+        adaImportSet.remove(openApiPackageName);
+        for (String adaImport : adaImportSet) {
+            adaImports.add(new NameBinding(0, adaImport, adaImport));
+        }
+        additionalProperties.put("adaImports", adaImports);
+
+        // Add the media list variables.
+        additionalProperties.put("mediaVariables", mediaVariables);
+        additionalProperties.put("mediaLists", mediaLists);
+
+        return objs;
+    }
+
+    private void postProcessOperationWithModels(CodegenOperation op, List<ModelMap> allModels) {
+
+        if (op.consumes != null) {
+            List<String> mediaList = new ArrayList<>();
+            for (Map<String, String> consume : op.consumes) {
+                String mediaType = consume.get("mediaType");
+                if (mediaType != null) {
+                    mediaList.add(mediaType.toLowerCase(Locale.ROOT));
+                    if (isMimetypeWwwFormUrlEncoded(mediaType)) {
+                        additionalProperties.put("usesUrlEncodedForm", true);
+                    } else if (isMimetypeMultipartFormData(mediaType)) {
+                        op.vendorExtensions.put("x-consumes-multipart", true);
+                        additionalProperties.put("apiUsesMultipartFormData", true);
+                        additionalProperties.put("apiUsesMultipart", true);
+                    } else if (isMimetypeMultipartRelated(mediaType)) {
+                        op.vendorExtensions.put("x-consumes-multipart-related", true);
+                        additionalProperties.put("apiUsesMultipartRelated", true);
+                        additionalProperties.put("apiUsesMultipart", true);
+                    }
                 }
             }
-            for (CodegenParameter p : op1.formParams) {
-                if (p.isFile) {
-                    p.dataType = openApiPackageName + ".File_Part_Type";
-                }
+            op.vendorExtensions.put("x-consumes-media-index", collectMediaList(mediaList));
+        }
+
+        if (op.summary != null) {
+            op.summary = op.summary.trim();
+        }
+        if (op.notes != null) {
+            op.notes = op.notes.trim();
+        }
+        op.vendorExtensions.put("x-has-notes", op.notes != null && op.notes.length() > 0);
+        final String prefix = modelPackage() + ".Models";
+
+        // Set the file parameter type for both allParams and formParams.
+        for (CodegenParameter p : op.allParams) {
+            if (p.isFormParam && p.isFile) {
+                p.dataType = openApiPackageName + ".File_Part_Type";
+            }
+            // Convert optional parameters to use the Nullable_<T> type.
+            if (!p.required && nullableTypeMapping.containsKey(p.dataType)) {
+                p.dataType = nullableTypeMapping.get(p.dataType);
             }
 
-            // Given the operation scopes and the auth methods, build a list of auth methods that only
-            // describe the auth methods and scopes required by the operation.
-            final Map<String, List<String>> scopes = (Map<String, List<String>>) op1.vendorExtensions.get("x-scopes");
-            List<CodegenSecurity> opScopes = postProcessAuthMethod(op1.authMethods, scopes);
-            if (opScopes != null) {
-                op1.vendorExtensions.put("x-auth-scopes", opScopes);
-            }
-
-            /*
-             * Scan the path parameter to construct a x-path-index that tells the index of
-             * the path parameter.
-             */
-            for (CodegenParameter p : op1.pathParams) {
-                String path = op1.path;
-                int pos = 0;
-                int index = 0;
-                while (pos >= 0 && pos < path.length()) {
-                    int last;
-                    pos = path.indexOf('{', pos);
-                    if (pos < 0) {
-                        break;
-                    }
-                    pos++;
-                    last = path.indexOf('}', pos);
-                    index++;
-                    if (last < 0) {
-                        break;
-                    }
-                    if (path.substring(pos, last).equals(p.baseName)) {
-                        break;
-                    }
-                    pos = last + 1;
+            String dataType;
+            if (p.vendorExtensions.containsKey(X_ADA_TYPE_NAME)) {
+                dataType = (String) p.vendorExtensions.get(X_ADA_TYPE_NAME);
+            } else {
+                CodegenProperty schema = p.getSchema();
+                if (schema != null) {
+                    dataType = (String) schema.vendorExtensions.get(X_ADA_TYPE_NAME);
+                } else {
+                    dataType = p.dataType;
                 }
-                p.vendorExtensions.put("x-path-index", index);
+                p.vendorExtensions.put(X_ADA_TYPE_NAME, dataType);
+            }
+            String pkgName = useType(dataType);
+            if (pkgName != null && !pkgName.startsWith(prefix)) {
+                adaImportSet.add(pkgName);
+            }
+            p.vendorExtensions.put("x-is-imported-type", pkgName != null);
+            p.vendorExtensions.put("x-is-model-type", isModelType(p));
+            p.vendorExtensions.put("x-is-stream-type", isStreamType(p));
+        }
+        for (CodegenParameter p : op.formParams) {
+            if (p.isFile) {
+                p.dataType = openApiPackageName + ".File_Part_Type";
             }
         }
-        return objs;
+
+        // Given the operation scopes and the auth methods, build a list of auth methods that only
+        // describe the auth methods and scopes required by the operation.
+        final Map<String, List<String>> scopes = (Map<String, List<String>>) op.vendorExtensions.get("x-scopes");
+        List<CodegenSecurity> opScopes = postProcessAuthMethod(op.authMethods, scopes);
+        if (opScopes != null) {
+            op.vendorExtensions.put("x-auth-scopes", opScopes);
+        }
+
+        CodegenProperty returnProperty = op.returnProperty;
+        CodegenProperty returnType = null;
+        if (returnProperty != null) {
+            CodegenProperty itemType = returnProperty.getItems();
+            returnType = itemType;
+            if (itemType != null) {
+                String dataType;
+                if (itemType.vendorExtensions.containsKey(X_ADA_VECTOR_TYPE_NAME)) {
+                    dataType = (String) itemType.vendorExtensions.get(X_ADA_VECTOR_TYPE_NAME);
+                    returnProperty.vendorExtensions.put(X_ADA_TYPE_NAME, dataType);
+                }
+                returnProperty.vendorExtensions.put("x-is-model-type", isModelType(itemType));
+                returnProperty.vendorExtensions.put("x-is-stream-type", isStreamType(itemType));
+            } else {
+                if (!returnProperty.vendorExtensions.containsKey(X_ADA_TYPE_NAME)) {
+                    returnProperty.vendorExtensions.put(X_ADA_TYPE_NAME, returnProperty.dataType);
+                }
+                returnProperty.vendorExtensions.put("x-is-model-type", isModelType(returnProperty));
+                returnProperty.vendorExtensions.put("x-is-stream-type", isStreamType(returnProperty));
+            }
+        }
+
+        for (CodegenResponse rsp : op.responses) {
+
+            if (rsp.dataType != null) {
+                String dataType = rsp.dataType;
+                if (returnType != null) {
+                    if (returnType.vendorExtensions.containsKey(X_ADA_VECTOR_TYPE_NAME)) {
+                        dataType = (String) returnType.vendorExtensions.get(X_ADA_VECTOR_TYPE_NAME);
+                        rsp.vendorExtensions.put(X_ADA_TYPE_NAME, dataType);
+                    }
+                    rsp.vendorExtensions.put("x-is-model-type", isModelType(returnType));
+                    rsp.vendorExtensions.put("x-is-stream-type", isStreamType(returnType));
+                    rsp.vendorExtensions.put("x-is-nullable", returnType.isNull);
+
+                    // Convert optional members to use the Nullable_<T> type.
+                    Boolean required = returnType.getHasRequired();
+                    if (!Boolean.TRUE.equals(required) && nullableTypeMapping.containsKey(dataType)) {
+                        rsp.dataType = nullableTypeMapping.get(dataType);
+                        rsp.vendorExtensions.put("x-is-required", false);
+                    } else {
+                        rsp.vendorExtensions.put("x-is-required", true);
+                    }
+                    if (!rsp.vendorExtensions.containsKey(X_ADA_SERIALIZE_OP)) {
+                        if (returnType.isLong && !required) {
+                            rsp.vendorExtensions.put(X_ADA_SERIALIZE_OP, "Write_Entity");
+                        } else if (rsp.isLong && "int64".equals(returnType.dataFormat)) {
+                            rsp.vendorExtensions.put(X_ADA_SERIALIZE_OP, "Write_Long_Entity");
+                        } else {
+                            rsp.vendorExtensions.put(X_ADA_SERIALIZE_OP, "Write_Entity");
+                        }
+                    }
+                    rsp.vendorExtensions.put("x-scz-return", true);
+                } else {
+                    rsp.vendorExtensions.put("x-scz-no-return", true);
+                    if (returnProperty != null) {
+                        if (!rsp.vendorExtensions.containsKey(X_ADA_TYPE_NAME)) {
+                            rsp.vendorExtensions.put(X_ADA_TYPE_NAME, returnProperty.dataType);
+                        }
+                        rsp.vendorExtensions.put("x-is-model-type", isModelType(returnProperty));
+                        rsp.vendorExtensions.put("x-is-stream-type", isStreamType(returnProperty));
+                        rsp.vendorExtensions.put("x-is-nullable", returnProperty.isNull);
+
+                        // Convert optional members to use the Nullable_<T> type.
+                        Boolean required = returnProperty.getHasRequired();
+                        if (!Boolean.TRUE.equals(required) && nullableTypeMapping.containsKey(dataType)) {
+                            rsp.dataType = nullableTypeMapping.get(dataType);
+                            rsp.vendorExtensions.put("x-is-required", false);
+                        } else {
+                            rsp.vendorExtensions.put("x-is-required", true);
+                        }
+                        if (!rsp.vendorExtensions.containsKey(X_ADA_SERIALIZE_OP)) {
+                            if (returnProperty.isLong && !required) {
+                                rsp.vendorExtensions.put(X_ADA_SERIALIZE_OP, "Write_Entity");
+                            } else if (rsp.isLong && "int64".equals(returnProperty.dataFormat)) {
+                                rsp.vendorExtensions.put(X_ADA_SERIALIZE_OP, "Write_Long_Entity");
+                            } else {
+                                rsp.vendorExtensions.put(X_ADA_SERIALIZE_OP, "Write_Entity");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /*
+         * Scan the path parameter to construct a x-path-index that tells the index of
+         * the path parameter.
+         */
+        for (CodegenParameter p : op.pathParams) {
+            String path = op.path;
+            int pos = 0;
+            int index = 0;
+            while (pos >= 0 && pos < path.length()) {
+                int last;
+                pos = path.indexOf('{', pos);
+                if (pos < 0) {
+                    break;
+                }
+                pos++;
+                last = path.indexOf('}', pos);
+                index++;
+                if (last < 0) {
+                    break;
+                }
+                if (path.substring(pos, last).equals(p.baseName)) {
+                    break;
+                }
+                pos = last + 1;
+            }
+            p.vendorExtensions.put("x-path-index", index);
+        }
+    }
+
+    /**
+     * Helper class to sort the model according to their dependencies and names.
+     */
+    static class ModelDepend implements Comparable<ModelDepend> {
+        final List<String> depend;
+        final ModelMap model;
+        final String name;
+
+        ModelDepend(ModelMap model, List<String> depend, String name) {
+            this.model = model;
+            this.depend = depend;
+            this.name = name;
+        }
+
+        @Override
+        public int compareTo(ModelDepend second) {
+
+            if (depend != null && depend.contains(second.name)) {
+                //LOGGER.debug("Compare " + name + " with " + second.name + "=1");
+                return 1;
+            }
+            if (second.depend != null && second.depend.contains(name)) {
+                //LOGGER.debug("Compare " + name + " with " + second.name + "=-1");
+                return -1;
+            }
+            if (depend != null && depend.size() != (second.depend == null ? 0 : second.depend.size())) {
+                //LOGGER.debug("Compare " + name + " with " + second.name + "=D"
+                //        + (depend.size() - second.depend.size()));
+                return depend.size() - second.depend.size();
+            }
+            //LOGGER.debug("Compare " + name + " with " + second.name + "=<name>");
+            return name.compareTo(second.name);
+        }
     }
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
+        // This is run first, before the operations.
+        // remove model imports to avoid error
+        List<Map<String, String>> imports = objs.getImports();
+        final String prefix = modelPackage() + ".Models";
+        Iterator<Map<String, String>> iterator = imports.iterator();
+        while (iterator.hasNext()) {
+            String _import = iterator.next().get("import");
+            if (_import.startsWith(prefix))
+                iterator.remove();
+        }
+
         // Collect the model dependencies.
         for (ModelMap model : objs.getModels()) {
             CodegenModel m = model.getModel();
@@ -689,19 +924,56 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
             for (CodegenProperty p : m.vars) {
                 boolean isModel = false;
                 CodegenProperty item = p;
+                String dataType = null;
+                String arrayDataType = null;
+                if (p.vendorExtensions.containsKey(X_ADA_TYPE_NAME)) {
+                    dataType = (String) p.vendorExtensions.get(X_ADA_TYPE_NAME);
+                    LOGGER.info("Data type {} mapped to {}", p.dataType, dataType);
+                }
+                arrayDataType = (String) p.vendorExtensions.get(X_ADA_VECTOR_TYPE_NAME);
                 if (p.isContainer) {
                     item = p.items;
                 }
-                if (item != null && !item.isString && !item.isPrimitiveType && !item.isContainer && !item.isInteger) {
-                    if (!d.contains(item.dataType)) {
+                boolean isStreamType = isStreamType(p);
+                if (!isStreamType && item != null && !item.isString && !item.isPrimitiveType && !item.isContainer && !item.isInteger) {
+                    if (dataType == null) {
+                        dataType = item.dataType;
+                        if (dataType.startsWith(modelPackage + ".Models.") || item.isFreeFormObject) {
+                            p.vendorExtensions.put(X_ADA_TYPE_NAME, dataType);
+                        } else {
+                            p.vendorExtensions.put(X_ADA_TYPE_NAME, modelPackage + ".Models." + dataType);
+                        }
+                        LOGGER.debug("Setting ada-type name {} for datatype {}", modelPackage + ".Models." + dataType,
+                                dataType);
+                    }
+                    if (!d.contains(dataType)) {
                         // LOGGER.info("Model " + m.name + " uses " + p.datatype);
-                        d.add(item.dataType);
+                        d.add(dataType);
                     }
                     isModel = true;
                 }
+                Boolean noVector = Boolean.FALSE;
+                if (p.vendorExtensions.get(X_ADA_NO_VECTOR) instanceof Boolean) {
+                    noVector = (Boolean) p.vendorExtensions.get(X_ADA_NO_VECTOR);
+                }
+                p.vendorExtensions.put(X_ADA_NO_VECTOR, noVector);
                 p.vendorExtensions.put("x-is-model-type", isModel);
-                p.vendorExtensions.put("x-is-stream-type", isStreamType(p));
+                p.vendorExtensions.put("x-is-stream-type", isStreamType);
+                String pkgImport = useType(dataType);
+                p.vendorExtensions.put("x-is-imported-type", pkgImport != null);
+                if (pkgImport != null) {
+                    adaImportSet.add(pkgImport);
+                }
                 Boolean required = p.getRequired();
+                if (!p.vendorExtensions.containsKey(X_ADA_SERIALIZE_OP)) {
+                    if (p.isLong && !required) {
+                        p.vendorExtensions.put(X_ADA_SERIALIZE_OP, "Write_Entity");
+                    } else if (p.isLong && "int64".equals(p.dataFormat)) {
+                        p.vendorExtensions.put(X_ADA_SERIALIZE_OP, "Write_Long_Entity");
+                    } else {
+                        p.vendorExtensions.put(X_ADA_SERIALIZE_OP, "Write_Entity");
+                    }
+                }
 
                 // Convert optional members to use the Nullable_<T> type.
                 if (!Boolean.TRUE.equals(required) && nullableTypeMapping.containsKey(p.dataType)) {
@@ -710,53 +982,53 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 } else {
                     p.vendorExtensions.put("x-is-required", true);
                 }
+                p.vendorExtensions.put("x-is-nullable", p.isNullable);
             }
+            String name = (String) m.vendorExtensions.get(X_ADA_TYPE_NAME);
+            if (name == null) {
+                name = modelPackage + ".Models." + m.classname;
+                m.vendorExtensions.put(X_ADA_TYPE_NAME, name);
+            }
+            String pkgName = useType(name);
+            if (pkgName != null) {
+                adaImportSet.add(pkgName);
+            }
+            m.vendorExtensions.put(X_ADA_TYPE_NAME, name);
+
+            m.vendorExtensions.put("x-is-imported-type", pkgName != null);
             // let us work with fully qualified names only
-            modelDepends.put(modelPackage + ".Models." + m.classname, d);
+            modelDepends.put(name, d);
             orderedModels.add(model);
         }
 
+        objs.setImports(imports);
+
         // Sort models using dependencies:
-        //   List revisedOrderedModels <- ()
-        //   if you have N model, do N passes. In each pass look for an independent model
-        //   cycle over orderedModels
-        //     if I find a model that has no dependencies, or all of its dependencies are in revisedOrderedModels, consider it the independentModel
-        //   put the independentModel at the end of revisedOrderedModels, and remove it from orderedModels
-        //
-        List<ModelMap> revisedOrderedModels = new ArrayList<>();
-        List<String> collectedModelNames = new ArrayList<>();
-        int sizeOrderedModels = orderedModels.size();
-        for (int i = 0; i < sizeOrderedModels; i++) {
-            ModelMap independentModel = null;
-            String independentModelName = null;
-            for (ModelMap model : orderedModels) {
-                // let us work with fully qualified names only
-                String modelName = modelPackage + ".Models." + model.getModel().classname;
-                boolean dependent = false;
-                for (String dependency : modelDepends.get(modelName)) {
-                    if (!collectedModelNames.contains(dependency)) {
-                        dependent = true;
-                    }
-                }
-                if (!dependent) {
-                    // this model was independent
-                    independentModel = model;
-                    independentModelName = modelName;
-                }
-            }
-            if (null != independentModel) {
-                // I have find an independentModel. Add it to revisedOrderedModels, and remove from orderedModels
-                revisedOrderedModels.add(independentModel);
-                collectedModelNames.add(independentModelName);
-                orderedModels.remove(independentModel);
-            }
+        TreeSet<ModelDepend> sorted = new TreeSet<>();
+        for (ModelMap model : orderedModels) {
+            String modelName = modelPackage + ".Models." + model.getModel().classname;
+            sorted.add(new ModelDepend(model, modelDepends.get(modelName), modelName));
         }
-        // bookkeeping:
-        // if I still have elements in orderedModels:
-        //   if it's NOT last time I postProcessModels(), it means there are some dependencies that were not considered yet. That's not a problem
-        //   if it's last iteration, there are circular dependencies.
-        //  In any case, I add models still in orderedModels to revisedOrderedModels
-        revisedOrderedModels.addAll(orderedModels);
+
+        // The comparison method in ModelDepend does not provide a total order
+        // we have to adjust the sorted list to make sure the dependent models are
+        // written last.
+        ArrayList<ModelDepend> models = new ArrayList<>();
+        for (ModelDepend item : sorted) {
+            int pos = models.size();
+            for (int i = 0; i < models.size(); i++) {
+                ModelDepend second = models.get(i);
+                if (second.depend != null && second.depend.contains(item.name)) {
+                    pos = i;
+                    break;
+                }
+            }
+            models.add(pos, item);
+        }
+        List<ModelMap> revisedOrderedModels = new ArrayList<>();
+        for (ModelDepend model : models) {
+            revisedOrderedModels.add(model.model);
+        }
         orderedModels = revisedOrderedModels;
 
         return postProcessModelsEnum(objs);
@@ -766,18 +1038,6 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         objs.put("orderedModels", orderedModels);
         generateJSONSpecFile(objs);
-        /* TODO do we still need the SWAGGER_HOST logic below
-        Swagger swagger = (Swagger) objs.get("swagger");
-        if (swagger != null) {
-            String host = swagger.getBasePath();
-            try {
-                swagger.setHost("SWAGGER_HOST");
-                objs.put("swagger-json", Json.pretty().writeValueAsString(swagger).replace("\r\n", "\n"));
-            } catch (JsonProcessingException e) {
-                LOGGER.error(e.getMessage(), e);
-            }
-            swagger.setHost(host);
-        }*/
 
         /**
          * Collect the scopes to generate unique identifiers for each of them.
@@ -786,6 +1046,32 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         postProcessAuthMethod(authMethods, null);
 
         return super.postProcessSupportingFileData(objs);
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
+
+        if (file == null) {
+            return;
+        }
+
+        // only process files with .ads or .adb extension
+        String extension = FilenameUtils.getExtension(file.toString());
+        if ("ads".equals(extension) || "adb".equals(extension)) {
+
+            String commandPrefix = System.getenv("ADA_POST_PROCESS_FILE");
+            if (StringUtils.isEmpty(commandPrefix)) {
+                commandPrefix = "gnatpp";
+            }
+            String[] commandArr = new String[]{commandPrefix, "--no-compact", "--quiet", file.toString()};
+            this.executePostProcessor(commandArr);
+        }
+    }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.ADA;
     }
 
     /**
@@ -829,27 +1115,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 List<String> opScopes = (scopes == null) ? null : scopes.get(authMethod.name);
                 authMethod.name = camelize(sanitizeName(authMethod.name), LOWERCASE_FIRST_LETTER);
                 if (opScopes != null) {
-                    CodegenSecurity opSecurity = new CodegenSecurity();
-                    opSecurity.name = authMethod.name;
-                    opSecurity.type = authMethod.type;
-                    opSecurity.isBasic = authMethod.isBasic;
-                    opSecurity.isApiKey = authMethod.isApiKey;
-                    opSecurity.isKeyInCookie = authMethod.isKeyInCookie;
-                    opSecurity.isKeyInHeader = authMethod.isKeyInHeader;
-                    opSecurity.isKeyInQuery = authMethod.isKeyInQuery;
-                    opSecurity.flow = authMethod.flow;
-                    opSecurity.tokenUrl = authMethod.tokenUrl;
-                    List<Map<String, Object>> opAuthScopes = new ArrayList<>();
-                    for (String opScopeName : opScopes) {
-                        for (Map<String, Object> scope : authMethod.scopes) {
-                            String name = (String) scope.get("scope");
-                            if (opScopeName.equals(name)) {
-                                opAuthScopes.add(scope);
-                                break;
-                            }
-                        }
-                    }
-                    opSecurity.scopes = opAuthScopes;
+                    CodegenSecurity opSecurity = authMethod.filterByScopeNames(opScopes);
                     result.add(opSecurity);
                 }
             }
@@ -857,6 +1123,149 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         return result;
     }
 
-    @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ADA; }
+    private boolean isStreamType(CodegenProperty parameter) {
+        return parameter.isString || parameter.isBoolean || parameter.isDate
+                || parameter.isDateTime || parameter.isInteger || parameter.isLong
+                || (parameter.isFreeFormObject && !parameter.isMap);
+    }
+
+    private boolean isModelType(CodegenProperty parameter) {
+        boolean isModel = parameter.dataType.startsWith(modelPackage);
+        if (!isModel && !parameter.isPrimitiveType && !parameter.isDate
+                && !parameter.isFreeFormObject
+                && !parameter.isString && !parameter.isContainer && !parameter.isFile
+                && !parameter.dataType.startsWith(openApiPackageName)) {
+            isModel = true;
+        }
+        return isModel;
+    }
+
+    private boolean isStreamType(CodegenParameter parameter) {
+        return parameter.isString || parameter.isBoolean || parameter.isDate
+                || parameter.isDateTime || parameter.isInteger || parameter.isLong
+                || (parameter.isFreeFormObject && !parameter.isMap);
+    }
+
+    private boolean isModelType(CodegenParameter parameter) {
+        boolean isModel = parameter.dataType.startsWith(modelPackage);
+        if (!isModel && !parameter.isPrimitiveType && !parameter.isDate
+                && !parameter.isFreeFormObject
+                && !parameter.isString && !parameter.isContainer && !parameter.isFile
+                && !parameter.dataType.startsWith(openApiPackageName)) {
+            isModel = true;
+        }
+        return isModel;
+    }
+
+    private Map<String, List<String>> getAuthScopes(List<SecurityRequirement> securities, Map<String, SecurityScheme> securitySchemes) {
+        final Map<String, List<String>> scopes = new HashMap<>();
+        Optional.ofNullable(securitySchemes).ifPresent(_securitySchemes -> {
+            for (SecurityRequirement requirement : securities) {
+                for (String key : requirement.keySet()) {
+                    Optional.ofNullable(securitySchemes.get(key))
+                            .ifPresent(securityScheme -> scopes.put(key, requirement.get(key)));
+                }
+            }
+        });
+        return scopes;
+    }
+
+    /**
+     * Check if the Ada type name is imported from another package.
+     *
+     * @param name the Ada full qualified type name.
+     * @return true if this Ada type is imported.
+     */
+    private String useType(String name) {
+        if (name == null) {
+            return null;
+        }
+        int pos = name.lastIndexOf('.');
+        if (pos <= 0) {
+            return null;
+        }
+
+        String pkg = name.substring(0, pos);
+        if (pkg.equals(modelPackage + ".Models")) {
+            return null;
+        }
+
+        return pkg;
+    }
+
+    private boolean isMimetypeXml(String mimetype) {
+        return mimetype.toLowerCase(Locale.ROOT).startsWith(APPLICATION_XML) ||
+                mimetype.toLowerCase(Locale.ROOT).startsWith(APPLICATION_PROBLEM_XML) ||
+                mimetype.toLowerCase(Locale.ROOT).startsWith(TEXT_XML);
+    }
+
+    private boolean isMimetypeJson(String mimetype) {
+        return mimetype.toLowerCase(Locale.ROOT).startsWith(APPLICATION_JSON) ||
+                mimetype.toLowerCase(Locale.ROOT).startsWith(APPLICATION_MERGE_PATCH_JSON) ||
+                mimetype.toLowerCase(Locale.ROOT).startsWith(APPLICATION_PROBLEM_JSON);
+    }
+
+    private boolean isMimetypeWwwFormUrlEncoded(String mimetype) {
+        return mimetype.toLowerCase(Locale.ROOT).startsWith(APPLICATION_X_WWW_FORM_URLENCODED);
+    }
+
+    private boolean isMimetypeMultipartFormData(String mimetype) {
+        return mimetype.toLowerCase(Locale.ROOT).startsWith("multipart/form-data");
+    }
+
+    private boolean isMimetypeOctetStream(String mimetype) {
+        return mimetype.toLowerCase(Locale.ROOT).startsWith(APPLICATION_OCTET_STREAM);
+    }
+
+    private boolean isMimetypeMultipartRelated(String mimetype) {
+        return mimetype.toLowerCase(Locale.ROOT).startsWith("multipart/related");
+    }
+
+    private boolean isMimetypeUnknown(String mimetype) {
+        return "*/*".equals(mimetype);
+    }
+
+    /**
+     * Do we have any special handling for this mimetype?
+     */
+    private boolean isMimetypePlain(String mimetype) {
+        return !(isMimetypeUnknown(mimetype) ||
+                isMimetypeXml(mimetype) ||
+                isMimetypeJson(mimetype) ||
+                isMimetypeWwwFormUrlEncoded(mimetype) ||
+                isMimetypeMultipartFormData(mimetype) ||
+                isMimetypeMultipartRelated(mimetype));
+    }
+
+    /**
+     * Collect the list of media types to emit unique arrays of media types.
+     * An array represents a list of media types and it can be referenced by several operations.
+     * These arrays are emitted at the top of the client/server body packages.
+     *
+     * @param mediaList the list of media types.
+     * @return the unique index assigned to that media list.
+     */
+    private int collectMediaList(List<String> mediaList) {
+        for (int i = 0; i < mediaGroups.size(); i++) {
+            if (mediaList.equals(mediaGroups.get(i))) {
+                return i + 1;
+            }
+        }
+
+        mediaGroups.add(mediaList);
+        List<NameBinding> varList = new ArrayList<>();
+        int pos = 0;
+        for (String media : mediaList) {
+            String varName = mediaToVariableName.get(media);
+            if (varName == null) {
+                varName = "Mime_" + (mediaVariables.size() + 1);
+                mediaVariables.add(new NameBinding(mediaVariables.size() + 1, varName, media));
+                varName = varName + "'Access";
+            }
+            pos++;
+            varList.add(new NameBinding(pos, varName, media));
+        }
+        mediaLists.add(varList);
+        return mediaGroups.size();
+    }
 }

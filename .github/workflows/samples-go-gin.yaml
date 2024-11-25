@@ -1,0 +1,31 @@
+name: Samples Go 
+
+on:
+  push:
+    paths:
+      - 'samples/server/petstore/go-gin-api-server/**'
+      - 'samples/server/petstore/go-gin-api-server-interface-only/**'
+  pull_request:
+    paths:
+      - 'samples/server/petstore/go-gin-api-server/**'
+      - 'samples/server/petstore/go-gin-api-server-interface-only/**'
+
+jobs:
+  build:
+    name: Build Go 
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          - samples/server/petstore/go-gin-api-server/
+          - samples/server/petstore/go-gin-api-server-interface-only/
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "stable"
+      - run: go version
+      - name: Run test
+        working-directory: ${{ matrix.sample }}
+        run: go test -mod=mod -v

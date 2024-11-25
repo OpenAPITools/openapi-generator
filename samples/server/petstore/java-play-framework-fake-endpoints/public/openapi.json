@@ -59,7 +59,7 @@
         "tags" : [ "pet" ],
         "x-codegen-request-body-name" : "body",
         "x-content-type" : "application/json",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       },
       "put" : {
         "operationId" : "updatePet",
@@ -104,7 +104,7 @@
         "tags" : [ "pet" ],
         "x-codegen-request-body-name" : "body",
         "x-content-type" : "application/json",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     },
     "/pet/findByStatus" : {
@@ -159,7 +159,7 @@
         } ],
         "summary" : "Finds Pets by status",
         "tags" : [ "pet" ],
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json", "application/xml" ]
       }
     },
     "/pet/findByTags" : {
@@ -216,7 +216,7 @@
         } ],
         "summary" : "Finds Pets by tags",
         "tags" : [ "pet" ],
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json", "application/xml" ]
       }
     },
     "/pet/{petId}" : {
@@ -253,7 +253,7 @@
         } ],
         "summary" : "Deletes a pet",
         "tags" : [ "pet" ],
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       },
       "get" : {
         "description" : "Returns a single pet",
@@ -298,7 +298,7 @@
         } ],
         "summary" : "Find pet by ID",
         "tags" : [ "pet" ],
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json", "application/xml" ]
       },
       "post" : {
         "operationId" : "updatePetWithForm",
@@ -333,7 +333,7 @@
         "summary" : "Updates a pet in the store with form data",
         "tags" : [ "pet" ],
         "x-content-type" : "application/x-www-form-urlencoded",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     },
     "/pet/{petId}/uploadImage" : {
@@ -376,7 +376,7 @@
         "summary" : "uploads an image",
         "tags" : [ "pet" ],
         "x-content-type" : "multipart/form-data",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     },
     "/store/inventory" : {
@@ -404,7 +404,7 @@
         } ],
         "summary" : "Returns pet inventories by status",
         "tags" : [ "store" ],
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     },
     "/store/order" : {
@@ -446,7 +446,7 @@
         "tags" : [ "store" ],
         "x-codegen-request-body-name" : "body",
         "x-content-type" : "*/*",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json", "application/xml" ]
       }
     },
     "/store/order/{order_id}" : {
@@ -474,7 +474,7 @@
         },
         "summary" : "Delete purchase order by ID",
         "tags" : [ "store" ],
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       },
       "get" : {
         "description" : "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions",
@@ -518,7 +518,7 @@
         },
         "summary" : "Find purchase order by ID",
         "tags" : [ "store" ],
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json", "application/xml" ]
       }
     },
     "/user" : {
@@ -546,7 +546,7 @@
         "tags" : [ "user" ],
         "x-codegen-request-body-name" : "body",
         "x-content-type" : "*/*",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     },
     "/user/createWithArray" : {
@@ -576,7 +576,7 @@
         "tags" : [ "user" ],
         "x-codegen-request-body-name" : "body",
         "x-content-type" : "*/*",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     },
     "/user/createWithList" : {
@@ -606,7 +606,7 @@
         "tags" : [ "user" ],
         "x-codegen-request-body-name" : "body",
         "x-content-type" : "*/*",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     },
     "/user/login" : {
@@ -668,7 +668,7 @@
         },
         "summary" : "Logs user into the system",
         "tags" : [ "user" ],
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json", "application/xml" ]
       }
     },
     "/user/logout" : {
@@ -682,7 +682,7 @@
         },
         "summary" : "Logs out current logged in user session",
         "tags" : [ "user" ],
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     },
     "/user/{username}" : {
@@ -710,7 +710,7 @@
         },
         "summary" : "Delete user",
         "tags" : [ "user" ],
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       },
       "get" : {
         "operationId" : "getUserByName",
@@ -750,7 +750,7 @@
         },
         "summary" : "Get user by user name",
         "tags" : [ "user" ],
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json", "application/xml" ]
       },
       "put" : {
         "description" : "This can only be done by the logged in user.",
@@ -789,7 +789,7 @@
         "tags" : [ "user" ],
         "x-codegen-request-body-name" : "body",
         "x-content-type" : "*/*",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     },
     "/fake_classname_test" : {
@@ -826,7 +826,7 @@
         "tags" : [ "fake_classname_tags 123#$%^" ],
         "x-codegen-request-body-name" : "body",
         "x-content-type" : "application/json",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     },
     "/fake" : {
@@ -890,7 +890,7 @@
         "summary" : "Fake endpoint to test group parameters (optional)",
         "tags" : [ "fake" ],
         "x-group-parameters" : true,
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       },
       "get" : {
         "description" : "To test enum parameters",
@@ -982,7 +982,7 @@
         "summary" : "To test enum parameters",
         "tags" : [ "fake" ],
         "x-content-type" : "application/x-www-form-urlencoded",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       },
       "patch" : {
         "description" : "To test \"client\" model",
@@ -1014,7 +1014,7 @@
         "tags" : [ "fake" ],
         "x-codegen-request-body-name" : "body",
         "x-content-type" : "application/json",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       },
       "post" : {
         "description" : "Fake endpoint for testing various parameters\n 假端點\n 偽のエンドポイント\n 가짜 엔드 포인트",
@@ -1045,7 +1045,7 @@
         "summary" : "Fake endpoint for testing various parameters\n 假端點\n 偽のエンドポイント\n 가짜 엔드 포인트",
         "tags" : [ "fake" ],
         "x-content-type" : "application/x-www-form-urlencoded",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     },
     "/fake/outer/number" : {
@@ -1078,7 +1078,7 @@
         "tags" : [ "fake" ],
         "x-codegen-request-body-name" : "body",
         "x-content-type" : "*/*",
-        "x-accepts" : "*/*"
+        "x-accepts" : [ "*/*" ]
       }
     },
     "/fake/outer/string" : {
@@ -1111,7 +1111,7 @@
         "tags" : [ "fake" ],
         "x-codegen-request-body-name" : "body",
         "x-content-type" : "*/*",
-        "x-accepts" : "*/*"
+        "x-accepts" : [ "*/*" ]
       }
     },
     "/fake/outer/boolean" : {
@@ -1144,7 +1144,7 @@
         "tags" : [ "fake" ],
         "x-codegen-request-body-name" : "body",
         "x-content-type" : "*/*",
-        "x-accepts" : "*/*"
+        "x-accepts" : [ "*/*" ]
       }
     },
     "/fake/outer/composite" : {
@@ -1177,7 +1177,7 @@
         "tags" : [ "fake" ],
         "x-codegen-request-body-name" : "body",
         "x-content-type" : "*/*",
-        "x-accepts" : "*/*"
+        "x-accepts" : [ "*/*" ]
       }
     },
     "/fake/jsonFormData" : {
@@ -1202,7 +1202,7 @@
         "summary" : "test json serialization of form data",
         "tags" : [ "fake" ],
         "x-content-type" : "application/x-www-form-urlencoded",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     },
     "/fake/inline-additionalProperties" : {
@@ -1232,7 +1232,7 @@
         "tags" : [ "fake" ],
         "x-codegen-request-body-name" : "param",
         "x-content-type" : "application/json",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     },
     "/fake/body-with-query-params" : {
@@ -1265,7 +1265,7 @@
         "tags" : [ "fake" ],
         "x-codegen-request-body-name" : "body",
         "x-content-type" : "application/json",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     },
     "/fake/create_xml_item" : {
@@ -1318,13 +1318,23 @@
         "tags" : [ "fake" ],
         "x-codegen-request-body-name" : "XmlItem",
         "x-content-type" : "application/xml",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     },
     "/another-fake/dummy" : {
       "patch" : {
         "description" : "To test special tags and operation ID starting with number",
         "operationId" : "123_test_@#$%_special_tags",
+        "parameters" : [ {
+          "description" : "to test uuid example value",
+          "in" : "header",
+          "name" : "uuid_test",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
         "requestBody" : {
           "content" : {
             "application/json" : {
@@ -1352,7 +1362,7 @@
         "tags" : [ "$another-fake?" ],
         "x-codegen-request-body-name" : "body",
         "x-content-type" : "application/json",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     },
     "/fake/body-with-file-schema" : {
@@ -1378,7 +1388,7 @@
         "tags" : [ "fake" ],
         "x-codegen-request-body-name" : "body",
         "x-content-type" : "application/json",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     },
     "/fake/test-query-parameters" : {
@@ -1450,7 +1460,7 @@
           }
         },
         "tags" : [ "fake" ],
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     },
     "/fake/{petId}/uploadImageWithRequiredFile" : {
@@ -1494,7 +1504,7 @@
         "summary" : "uploads an image (required)",
         "tags" : [ "pet" ],
         "x-content-type" : "multipart/form-data",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     }
   },
@@ -1791,21 +1801,37 @@
         "allOf" : [ {
           "$ref" : "#/components/schemas/Animal"
         }, {
-          "$ref" : "#/components/schemas/Dog_allOf"
+          "properties" : {
+            "breed" : {
+              "type" : "string"
+            }
+          },
+          "type" : "object"
         } ]
       },
       "Cat" : {
         "allOf" : [ {
           "$ref" : "#/components/schemas/Animal"
         }, {
-          "$ref" : "#/components/schemas/Cat_allOf"
+          "properties" : {
+            "declawed" : {
+              "type" : "boolean"
+            }
+          },
+          "type" : "object"
         } ]
       },
       "BigCat" : {
         "allOf" : [ {
           "$ref" : "#/components/schemas/Cat"
         }, {
-          "$ref" : "#/components/schemas/BigCat_allOf"
+          "properties" : {
+            "kind" : {
+              "enum" : [ "lions", "tigers", "leopards", "jaguars" ],
+              "type" : "string"
+            }
+          },
+          "type" : "object"
         } ]
       },
       "Animal" : {
@@ -2849,34 +2875,6 @@
         },
         "required" : [ "requiredFile" ],
         "type" : "object"
-      },
-      "Dog_allOf" : {
-        "properties" : {
-          "breed" : {
-            "type" : "string"
-          }
-        },
-        "type" : "object",
-        "example" : null
-      },
-      "Cat_allOf" : {
-        "properties" : {
-          "declawed" : {
-            "type" : "boolean"
-          }
-        },
-        "type" : "object",
-        "example" : null
-      },
-      "BigCat_allOf" : {
-        "properties" : {
-          "kind" : {
-            "enum" : [ "lions", "tigers", "leopards", "jaguars" ],
-            "type" : "string"
-          }
-        },
-        "type" : "object",
-        "example" : null
       }
     },
     "securitySchemes" : {

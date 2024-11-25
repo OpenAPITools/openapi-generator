@@ -1,24 +1,23 @@
+      final rawResponse = _response.data;
       {{#isResponseFile}}
-      _responseData = _response.data as {{{returnType}}};
+      _responseData = rawResponse == null ? null : rawResponse as {{{returnType}}};
       {{/isResponseFile}}
       {{^isResponseFile}}
       {{#returnSimpleType}}
       {{#returnTypeIsPrimitive}}
-      _responseData = _response.data as {{{returnType}}};
+      _responseData = rawResponse == null ? null : rawResponse as {{{returnType}}};
       {{/returnTypeIsPrimitive}}
-      {{^returnTypeIsPrimitive}}
-      const _responseType = FullType({{{returnType}}});
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
+      {{^returnTypeIsPrimitive}}      
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType({{{returnType}}}),
       ) as {{{returnType}}};
       {{/returnTypeIsPrimitive}}
       {{/returnSimpleType}}
-      {{^returnSimpleType}}
-      const _responseType = FullType(Built{{#isArray}}{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}{{/isArray}}{{#isMap}}Map{{/isMap}}, [{{#isMap}}FullType(String), {{/isMap}}FullType({{{returnBaseType}}})]);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
+      {{^returnSimpleType}}      
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Built{{#isArray}}{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}{{/isArray}}{{#isMap}}Map{{/isMap}}, [{{#isMap}}FullType(String), {{/isMap}}FullType({{{returnBaseType}}})]),
       ) as {{{returnType}}};
       {{/returnSimpleType}}
       {{/isResponseFile}}

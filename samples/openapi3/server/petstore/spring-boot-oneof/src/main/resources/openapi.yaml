@@ -25,7 +25,8 @@ paths:
       summary: GET all Foos
       tags:
       - Foo
-      x-accepts: application/json;charset=utf-8
+      x-accepts:
+      - application/json;charset=utf-8
       x-tags:
       - tag: Foo
     post:
@@ -43,7 +44,8 @@ paths:
       tags:
       - Foo
       x-content-type: application/json;charset=utf-8
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: Foo
   /bar:
@@ -66,7 +68,8 @@ paths:
       tags:
       - Bar
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: Bar
 components:
@@ -189,7 +192,9 @@ components:
       allOf:
       - $ref: '#/components/schemas/Entity'
       example:
-        foo: null
+        foo:
+          fooPropA: fooPropA
+          fooPropB: fooPropB
         id: id
         fooPropB: fooPropB
         barPropA: barPropA
@@ -231,4 +236,39 @@ components:
       properties:
         toppings:
           type: string
+      type: object
+    FruitType:
+      enum:
+      - APPLE
+      - BANANA
+      type: string
+    Fruit:
+      discriminator:
+        mapping:
+          APPLE: '#/components/schemas/Apple'
+          BANANA: '#/components/schemas/Banana'
+        propertyName: fruitType
+      oneOf:
+      - $ref: '#/components/schemas/Apple'
+      - $ref: '#/components/schemas/Banana'
+      properties:
+        fruitType:
+          $ref: '#/components/schemas/FruitType'
+      required:
+      - fruitType
+      type: object
+      x-one-of-name: Fruit
+    Apple:
+      properties:
+        seeds:
+          type: integer
+      required:
+      - seeds
+      type: object
+    Banana:
+      properties:
+        length:
+          type: integer
+      required:
+      - length
       type: object

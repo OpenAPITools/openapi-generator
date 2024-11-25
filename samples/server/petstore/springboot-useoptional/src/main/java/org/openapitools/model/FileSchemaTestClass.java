@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -22,36 +23,35 @@ import javax.annotation.Generated;
  * FileSchemaTestClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class FileSchemaTestClass {
 
-  @JsonProperty("file")
-  private File file;
+  private Optional<File> file = Optional.empty();
 
-  @JsonProperty("files")
   @Valid
-  private List<File> files = null;
+  private List<@Valid File> files = new ArrayList<>();
 
   public FileSchemaTestClass file(File file) {
-    this.file = file;
+    this.file = Optional.of(file);
     return this;
   }
 
   /**
    * Get file
    * @return file
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
-  public File getFile() {
+  @JsonProperty("file")
+  public Optional<File> getFile() {
     return file;
   }
 
-  public void setFile(File file) {
+  public void setFile(Optional<File> file) {
     this.file = file;
   }
 
-  public FileSchemaTestClass files(List<File> files) {
+  public FileSchemaTestClass files(List<@Valid File> files) {
     this.files = files;
     return this;
   }
@@ -67,14 +67,15 @@ public class FileSchemaTestClass {
   /**
    * Get files
    * @return files
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
-  public List<File> getFiles() {
+  @JsonProperty("files")
+  public List<@Valid File> getFiles() {
     return files;
   }
 
-  public void setFiles(List<File> files) {
+  public void setFiles(List<@Valid File> files) {
     this.files = files;
   }
 
@@ -116,5 +117,69 @@ public class FileSchemaTestClass {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private FileSchemaTestClass instance;
+
+    public Builder() {
+      this(new FileSchemaTestClass());
+    }
+
+    protected Builder(FileSchemaTestClass instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(FileSchemaTestClass value) { 
+      this.instance.setFile(value.file);
+      this.instance.setFiles(value.files);
+      return this;
+    }
+
+    public FileSchemaTestClass.Builder file(File file) {
+      this.instance.file(file);
+      return this;
+    }
+    
+    public FileSchemaTestClass.Builder files(List<@Valid File> files) {
+      this.instance.files(files);
+      return this;
+    }
+    
+    /**
+    * returns a built FileSchemaTestClass instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public FileSchemaTestClass build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static FileSchemaTestClass.Builder builder() {
+    return new FileSchemaTestClass.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public FileSchemaTestClass.Builder toBuilder() {
+    FileSchemaTestClass.Builder builder = new FileSchemaTestClass.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

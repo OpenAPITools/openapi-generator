@@ -1,0 +1,15 @@
+﻿{{#useAuthentication}}
+
+namespace {{packageName}}.{{apiPackage}};
+
+{{#useRecords}}
+public record LoginRequest(string Username, string Password);
+{{/useRecords}}
+{{^useRecords}}
+public class LoginRequest
+{
+    public string Username { get; set; }
+    public string Password { get; set; }
+}
+{{/useRecords}}
+{{/useAuthentication}}

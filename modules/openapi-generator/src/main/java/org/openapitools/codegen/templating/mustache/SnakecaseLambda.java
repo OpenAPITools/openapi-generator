@@ -21,7 +21,6 @@ import com.samskivert.mustache.Template;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Locale;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 

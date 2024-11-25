@@ -18,13 +18,12 @@ use secrecy::{SecretString, ExposeSecret};
 pub struct Configuration {
     pub base_path: String,
     pub user_agent: Option<String>,
-    pub client: reqwest::Client,
+    pub client: reqwest::blocking::Client,
     pub basic_auth: Option<BasicAuth>,
     pub oauth_access_token: Option<String>,
     pub bearer_access_token: Option<String>,
     pub api_key: Option<ApiKey>,
     pub aws_v4_key: Option<AWSv4Key>,
-    // TODO: take an oauth2 token source, similar to the go one
 }
 
 pub type BasicAuth = (String, Option<String>);
@@ -68,7 +67,7 @@ impl AWSv4Key {
 		                         value.to_str().expect("header value should be a string").to_string()));
             }
         }
-	return Ok(additional_headers);
+	Ok(additional_headers)
     }
 }
 
@@ -83,7 +82,7 @@ impl Default for Configuration {
         Configuration {
             base_path: "http://petstore.swagger.io/v2".to_owned(),
             user_agent: Some("OpenAPI-Generator/1.0.0/rust".to_owned()),
-            client: reqwest::Client::new(),
+            client: reqwest::blocking::Client::new(),
             basic_auth: None,
             oauth_access_token: None,
             bearer_access_token: None,

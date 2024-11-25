@@ -19,14 +19,24 @@ import javax.annotation.Generated;
  * Tag
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class Tag {
 
-  @JsonProperty("id")
   private Long id;
 
-  @JsonProperty("name")
   private String name;
+
+  public Tag() {
+    super();
+  }
+
+  /**
+   * Constructor with all args parameters
+   */
+  public Tag(Long id, String name) {
+      this.id = id;
+      this.name = name;
+  }
 
   public Tag id(Long id) {
     this.id = id;
@@ -36,9 +46,10 @@ public class Tag {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -55,9 +66,10 @@ public class Tag {
   /**
    * Get name
    * @return name
-  */
+   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("name")
   public String getName() {
     return name;
   }

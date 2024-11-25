@@ -23,7 +23,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
 
   @ApiModelProperty(value = "")
   @Valid
-  private Map<String, Animal> map = null;
+  private Map<String, Animal> map = new HashMap<>();
  /**
    * Get uuid
    * @return uuid
@@ -92,9 +92,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
       return false;
     }
     MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass = (MixedPropertiesAndAdditionalPropertiesClass) o;
-    return Objects.equals(uuid, mixedPropertiesAndAdditionalPropertiesClass.uuid) &&
-        Objects.equals(dateTime, mixedPropertiesAndAdditionalPropertiesClass.dateTime) &&
-        Objects.equals(map, mixedPropertiesAndAdditionalPropertiesClass.map);
+    return Objects.equals(this.uuid, mixedPropertiesAndAdditionalPropertiesClass.uuid) &&
+        Objects.equals(this.dateTime, mixedPropertiesAndAdditionalPropertiesClass.dateTime) &&
+        Objects.equals(this.map, mixedPropertiesAndAdditionalPropertiesClass.map);
   }
 
   @Override

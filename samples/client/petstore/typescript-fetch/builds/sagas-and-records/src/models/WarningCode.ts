@@ -25,6 +25,17 @@ export const WarningCode = {
 export type WarningCode = typeof WarningCode[keyof typeof WarningCode];
 
 
+export function instanceOfWarningCode(value: any): boolean {
+    for (const key in WarningCode) {
+        if (Object.prototype.hasOwnProperty.call(WarningCode, key)) {
+            if (WarningCode[key as keyof typeof WarningCode] === value) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 export function WarningCodeFromJSON(json: any): WarningCode {
     return WarningCodeFromJSONTyped(json, false);
 }
@@ -35,5 +46,9 @@ export function WarningCodeFromJSONTyped(json: any, ignoreDiscriminator: boolean
 
 export function WarningCodeToJSON(value?: WarningCode | null): any {
     return value as any;
+}
+
+export function WarningCodeToJSONTyped(value: any, ignoreDiscriminator: boolean): WarningCode {
+    return value as WarningCode;
 }
 

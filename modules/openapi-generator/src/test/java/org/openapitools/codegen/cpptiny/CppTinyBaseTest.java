@@ -36,7 +36,7 @@ public class CppTinyBaseTest {
 
         // Arrange
         Schema schemaModel = testSchema();
-        schemaModel.addProperties("id", new IntegerSchema().format("int64"));
+        schemaModel.addProperty("id", new IntegerSchema().format("int64"));
 
 
         // Then we generated a codemodel, with the cpp tiny code generator.

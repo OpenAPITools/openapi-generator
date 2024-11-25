@@ -25,7 +25,7 @@ class HealthCheckResult {
     
     name: r'NullableMessage',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -33,13 +33,15 @@ class HealthCheckResult {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is HealthCheckResult &&
-     other.nullableMessage == nullableMessage;
 
-  @override
-  int get hashCode =>
-    (nullableMessage == null ? 0 : nullableMessage.hashCode);
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is HealthCheckResult &&
+      other.nullableMessage == nullableMessage;
+
+    @override
+    int get hashCode =>
+        (nullableMessage == null ? 0 : nullableMessage.hashCode);
 
   factory HealthCheckResult.fromJson(Map<String, dynamic> json) => _$HealthCheckResultFromJson(json);
 

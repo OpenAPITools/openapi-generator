@@ -197,7 +197,7 @@ bool OpenAPIUserApi::CreateUsersWithListInputResponse::FromJson(const TSharedPtr
 FString OpenAPIUserApi::DeleteUserRequest::ComputePath() const
 {
 	TMap<FString, FStringFormatArg> PathParams = { 
-	{ TEXT("username"), ToStringFormatArg(Username) } };
+	{ TEXT("username"), FStringFormatArg(ToUrlString(Username)) } };
 
 	FString Path = FString::Format(TEXT("/user/{username}"), PathParams);
 
@@ -235,7 +235,7 @@ bool OpenAPIUserApi::DeleteUserResponse::FromJson(const TSharedPtr<FJsonValue>& 
 FString OpenAPIUserApi::GetUserByNameRequest::ComputePath() const
 {
 	TMap<FString, FStringFormatArg> PathParams = { 
-	{ TEXT("username"), ToStringFormatArg(Username) } };
+	{ TEXT("username"), FStringFormatArg(ToUrlString(Username)) } };
 
 	FString Path = FString::Format(TEXT("/user/{username}"), PathParams);
 
@@ -348,7 +348,7 @@ bool OpenAPIUserApi::LogoutUserResponse::FromJson(const TSharedPtr<FJsonValue>& 
 FString OpenAPIUserApi::UpdateUserRequest::ComputePath() const
 {
 	TMap<FString, FStringFormatArg> PathParams = { 
-	{ TEXT("username"), ToStringFormatArg(Username) } };
+	{ TEXT("username"), FStringFormatArg(ToUrlString(Username)) } };
 
 	FString Path = FString::Format(TEXT("/user/{username}"), PathParams);
 

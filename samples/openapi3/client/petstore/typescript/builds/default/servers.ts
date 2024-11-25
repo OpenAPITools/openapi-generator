@@ -14,9 +14,11 @@ export class ServerConfiguration<T extends { [key: string]: string }> implements
     public constructor(private url: string, private variableConfiguration: T) {}
 
     /**
-     * Sets the value of the variables of this server.
+     * Sets the value of the variables of this server. Variables are included in 
+     * the `url` of this ServerConfiguration in the form `{variableName}`
      *
-     * @param variableConfiguration a partial variable configuration for the variables contained in the url
+     * @param variableConfiguration a partial variable configuration for the 
+     * variables contained in the url
      */
     public setVariables(variableConfiguration: Partial<T>) {
         Object.assign(this.variableConfiguration, variableConfiguration);
@@ -28,9 +30,8 @@ export class ServerConfiguration<T extends { [key: string]: string }> implements
 
     private getUrl() {
         let replacedUrl = this.url;
-        for (const key in this.variableConfiguration) {
-            var re = new RegExp("{" + key + "}","g");
-            replacedUrl = replacedUrl.replace(re, this.variableConfiguration[key]);
+        for (const [key, value] of Object.entries(this.variableConfiguration)) {
+            replacedUrl = replacedUrl.replaceAll(`{${key}}`, value);
         }
         return replacedUrl
     }

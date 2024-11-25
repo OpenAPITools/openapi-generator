@@ -2,7 +2,6 @@ README.md
 build.gradle
 docs/Animal.md
 docs/Bird.md
-docs/BirdAllOf.md
 docs/BirdApi.md
 gradle/wrapper/gradle-wrapper.jar
 gradle/wrapper/gradle-wrapper.properties
@@ -30,4 +29,3 @@ src/main/kotlin/org/openapitools/client/infrastructure/URIAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/UUIDAdapter.kt
 src/main/kotlin/org/openapitools/client/models/Animal.kt
 src/main/kotlin/org/openapitools/client/models/Bird.kt
-src/main/kotlin/org/openapitools/client/models/BirdAllOf.kt

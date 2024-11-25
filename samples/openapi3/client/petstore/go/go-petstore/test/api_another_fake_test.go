@@ -1,7 +1,7 @@
 /*
 OpenAPI Petstore
 
-Testing AnotherFakeApiService
+Testing AnotherFakeAPIService
 
 */
 
@@ -17,16 +17,16 @@ import (
 	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
-func Test_petstore_AnotherFakeApiService(t *testing.T) {
+func Test_petstore_AnotherFakeAPIService(t *testing.T) {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
 
-	t.Run("Test AnotherFakeApiService Call123TestSpecialTags", func(t *testing.T) {
+	t.Run("Test AnotherFakeAPIService Call123TestSpecialTags", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		resp, httpRes, err := apiClient.AnotherFakeApi.Call123TestSpecialTags(context.Background()).Execute()
+		resp, httpRes, err := apiClient.AnotherFakeAPI.Call123TestSpecialTags(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

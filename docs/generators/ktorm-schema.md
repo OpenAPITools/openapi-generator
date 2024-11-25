@@ -23,7 +23,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |artifactId|Generated artifact id (name of jar).| |ktorm|
 |artifactVersion|Generated artifact's package version.| |1.0.0|
 |defaultDatabaseName|Default database name for all queries| |sqlite.db|
-|enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |camelCase|
+|enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |original|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
 |identifierNamingConvention|Naming convention of Ktorm identifiers(table names and column names). This is not related to database name which is defined by defaultDatabaseName option|<dl><dt>**original**</dt><dd>Do not transform original names</dd><dt>**snake_case**</dt><dd>Use snake_case names</dd></dl>|original|
 |importModelPackageName|Package name of the imported models| |org.openapitools.database.models|
@@ -368,6 +368,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
+|SignatureAuth|✗|OAS3
+|AWSV4Signature|✗|ToolingExtension
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

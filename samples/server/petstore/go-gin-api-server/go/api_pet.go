@@ -10,48 +10,66 @@
 package petstoreserver
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 )
 
-// AddPet - Add a new pet to the store
-func AddPet(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+type PetAPI struct {
 }
 
-// DeletePet - Deletes a pet
-func DeletePet(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+// Post /v2/pet
+// Add a new pet to the store 
+func (api *PetAPI) AddPet(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
 }
 
-// FindPetsByStatus - Finds Pets by status
-func FindPetsByStatus(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+// Delete /v2/pet/:petId
+// Deletes a pet 
+func (api *PetAPI) DeletePet(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
 }
 
-// FindPetsByTags - Finds Pets by tags
+// Get /v2/pet/findByStatus
+// Finds Pets by status 
+func (api *PetAPI) FindPetsByStatus(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
+}
+
+// Get /v2/pet/findByTags
+// Finds Pets by tags 
 // Deprecated
-func FindPetsByTags(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+func (api *PetAPI) FindPetsByTags(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
 }
 
-// GetPetById - Find pet by ID
-func GetPetById(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+// Get /v2/pet/:petId
+// Find pet by ID 
+func (api *PetAPI) GetPetById(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
 }
 
-// UpdatePet - Update an existing pet
-func UpdatePet(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+// Put /v2/pet
+// Update an existing pet 
+func (api *PetAPI) UpdatePet(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
 }
 
-// UpdatePetWithForm - Updates a pet in the store with form data
-func UpdatePetWithForm(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+// Post /v2/pet/:petId
+// Updates a pet in the store with form data 
+func (api *PetAPI) UpdatePetWithForm(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
 }
 
-// UploadFile - uploads an image
-func UploadFile(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+// Post /v2/pet/:petId/uploadImage
+// uploads an image 
+func (api *PetAPI) UploadFile(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
 }
+

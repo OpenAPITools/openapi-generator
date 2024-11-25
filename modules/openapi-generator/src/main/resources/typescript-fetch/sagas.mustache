@@ -2,10 +2,10 @@
 /* eslint-disable */
 {{>licenseInfo}}
 
-import {Api} from './';
+import {Api} from './index{{importFileExtension}}';
 import {List} from 'immutable';
 import {all, fork, put, takeLatest} from "redux-saga/effects";
-import {apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords";
+import {apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords{{importFileExtension}}";
 import {Action} from "redux-ts-simple";
 
 {{#imports.0}}
@@ -18,7 +18,7 @@ import {
     {{#passthroughImports}}
     {{.}},
     {{/passthroughImports}}
-} from '../models';
+} from '../models/index{{importFileExtension}}';
 {{/imports.0}}
 {{#hasEnums}}
 {{#operations}}
@@ -28,7 +28,7 @@ import {
 
 import {
     {{operationIdCamelCase}}{{enumName}},
-} from './{{classname}}';
+} from './{{classname}}{{importFileExtension}}';
 {{/isEnum}}
 {{/allParams}}
 {{/operation}}
@@ -89,7 +89,7 @@ export function *{{nickname}}Saga() {
     yield takeLatest({{nickname}}, {{nickname}}SagaImp);
 }
 
-export function *{{nickname}}SagaImp(_action_: Action<Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}>) {
+export function *{{nickname}}SagaImp(_action_: Action<Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}>){{^returnType}}: any{{/returnType}} {
     const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
 {{#returnTypeSupportsEntities}}
@@ -105,7 +105,7 @@ export function *{{nickname}}SagaImp(_action_: Action<Payload{{#lambda.titlecase
 
         yield put({{nickname}}Request({{#allParams.0}}{{#returnTypeSupportsEntities}}requestPayload{{/returnTypeSupportsEntities}}{{^returnTypeSupportsEntities}}_action_.payload{{/returnTypeSupportsEntities}}{{/allParams.0}}));
 
-        const response{{#returnType}}: Required<{{{returnType}}}>{{/returnType}} = yield apiCall(Api.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}, Api.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.{{nickname}},
+        const response{{#returnType}}: Required<{{{returnType}}}>{{/returnType}} = yield apiCall(Api.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}, Api.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}['{{nickname}}'],
 {{#allParams.0}}
 {{#allParams}}
 {{#isUniqueId}}
@@ -233,7 +233,7 @@ export function *{{nickname}}SagaImp(_action_: Action<Payload{{#lambda.titlecase
 {{^returnType}}
         return undefined;
 {{/returnType}}
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put({{nickname}}Failure({error, requestPayload: _action_.payload}));
         return error;

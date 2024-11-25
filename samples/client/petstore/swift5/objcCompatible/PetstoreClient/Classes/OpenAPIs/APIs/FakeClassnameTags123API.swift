@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-@objc open class FakeClassnameTags123API : NSObject {
+@objcMembers open class FakeClassnameTags123API : NSObject {
 
     /**
      To test class name in snake case
@@ -49,7 +49,7 @@ import AnyCodable
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: Any?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)

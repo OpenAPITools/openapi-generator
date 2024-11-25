@@ -219,7 +219,7 @@ __PACKAGE__->class_documentation({description => 'Just a string to inform instan
 }                                 );
 
 __PACKAGE__->method_documentation({
-    'nullable_message' => {
+    'system_message' => {
         datatype => 'string',
         base_name => 'NullableMessage',
         description => '',
@@ -229,11 +229,11 @@ __PACKAGE__->method_documentation({
 });
 
 __PACKAGE__->openapi_types( {
-    'nullable_message' => 'string'
+    'system_message' => 'string'
 } );
 
 __PACKAGE__->attribute_map( {
-    'nullable_message' => 'NullableMessage'
+    'system_message' => 'NullableMessage'
 } );
 
 __PACKAGE__->mk_accessors(keys %{__PACKAGE__->attribute_map});

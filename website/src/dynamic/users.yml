@@ -49,6 +49,16 @@
   infoLink: "https://www.askul.co.jp/"
   pinned: true
 -
+  caption: aspectivo
+  image: "img/companies/aspectivo.png"
+  infoLink: "https://aspectivo.ai/"
+  pinned: false 
+-
+  caption: Amazon Web Services (AWS)
+  image: "img/companies/aws.png"
+  infoLink: "https://aws.amazon.com/"
+  pinned: false 
+-
   caption: "b<>com"
   image: "img/companies/b-com.png"
   infoLink: "https://b-com.com/en"
@@ -109,6 +119,11 @@
   infoLink: "https://www.camptocamp.com/en"
   pinned: false
 -
+  caption: Carlsberg Group
+  image: "img/companies/carlsberggroup.png"
+  infoLink: "https://www.carlsberggroup.com/"
+  pinned: false
+-
   caption: Cisco 
   image: "img/companies/cisco.png"
   infoLink: "https://www.cisco.com"
@@ -122,6 +137,11 @@
   caption: "CoinAPI"
   image: "img/companies/coinapi.png"
   infoLink: "https://www.coinapi.io/"
+  pinned: false
+-
+  caption: ConfigCat
+  image: "img/companies/configcat.svg"
+  infoLink: "https://configcat.com/"
   pinned: false
 -
   caption: Commencis
@@ -159,6 +179,16 @@
   infoLink: "https://www.deeproute.ai/"
   pinned: false
 -
+  caption: Develocity
+  image: "img/companies/develocity.png"
+  infoLink: "https://gradle.com/"
+  pinned: false
+-
+  caption: "dmTECH GmbH"
+  image: "img/companies/dmtech.jpeg"
+  infoLink: "https://www.dmTECH.de"
+  pinned: false
+-
   caption: "dwango"
   image: "img/companies/dwango.png"
   infoLink: "https://dwango.co.jp/"
@@ -192,6 +222,11 @@
   caption: "Fenergo"
   image: "img/companies/fenergo.png"
   infoLink: "https://www.fenergo.com/"
+  pinned: false
+-
+  caption: "Flipkart"
+  image: "img/companies/flipkart.png"
+  infoLink: "https://www.flipkart.com/"
   pinned: false
 -
   caption: FiNC Technologies
@@ -244,11 +279,6 @@
   infoLink: "https://www.godaddy.com/"
   pinned: false
 -
-  caption: Gradle Enterprise
-  image: "img/companies/gradle-enterprise.png"
-  infoLink: "https://gradle.com/"
-  pinned: false
--
   caption: "Gumtree"
   image: "img/companies/gumtree.png"
   infoLink: "https://gumtree.com/"
@@ -277,6 +307,11 @@
   caption: Klarna
   image: "img/companies/klarna.svg"
   infoLink: "https://www.klarna.com/us/"
+  pinned: false
+-
+  caption: "Landeshauptstadt München - it@M"
+  image: "img/companies/it-at-m.png"
+  infoLink: "https://opensource.muenchen.de/software/openapi-generator.html"
   pinned: false
 -
   caption: "Linode"
@@ -384,6 +419,11 @@
   infoLink: "https://www.paxos.com/"
   pinned: false
 -
+  caption: "Passgenau Digital"
+  image: "img/companies/passgenau_digital.svg"
+  infoLink: "https://passgenau.digital/en"
+  pinned: false
+-
   caption: "PLAID, Inc."
   image: "img/companies/plaidcojp.jpg"
   infoLink: "https://plaid.co.jp/"
@@ -392,6 +432,11 @@
   caption: Plaid
   image: "img/companies/plaid.png"
   infoLink: "https://www.plaid.com/"
+  pinned: false
+-
+  caption: Pinterest 
+  image: "img/companies/pinterest.png"
+  infoLink: "https://www.pinterest.com/"
   pinned: false
 -
   caption: Ponicode
@@ -454,6 +499,16 @@
   infoLink: "https://restunited.com/"
   pinned: false
 -
+  caption: Robocorp
+  image: "img/companies/robocorp.svg"
+  infoLink: "https://www.robocorp.com"
+  pinned: false
+-
+  caption: "SearchApi"
+  image: "img/companies/searchapi.png"
+  infoLink: "https://www.searchapi.io/"
+  pinned: false
+-
   caption: "Shotstack"
   image: "img/companies/shotstack.svg"
   infoLink: "https://shotstack.io"
@@ -479,9 +534,19 @@
   infoLink: "http://www.stingray.com/"
   pinned: true
 -
+  caption: SumUp
+  image: "img/companies/sumup.png"
+  infoLink: "https://www.sumup.com/"
+  pinned: false
+-
   caption: Suva
   image: "img/companies/suva.svg"
   infoLink: "https://www.suva.ch/"
+  pinned: false
+-
+  caption: Svix
+  image: "img/companies/svix.png"
+  infoLink: "https://www.svix.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship"
   pinned: false
 -
   caption: Telstra
@@ -494,14 +559,19 @@
   infoLink: "https://www.tencent.com/"
   pinned: false
 -
+  caption: The University of Aizu
+  image: "img/companies/uoa.png"
+  infoLink: "https://www.u-aizu.ac.jp/en/"
+  pinned: false
+-
   caption: TileDB
   image: "img/companies/tiledb.png"
   infoLink: "https://www.tiledb.com/"
   pinned: false
 -
-  caption: The University of Aizu
-  image: "img/companies/uoa.png"
-  infoLink: "https://www.u-aizu.ac.jp/en/"
+  caption: TINQIN 
+  image: "img/companies/tinqin.png"
+  infoLink: "https://www.tinqin.com/"
   pinned: false
 -
   caption: "TravelTime platform"
@@ -564,6 +634,11 @@
   infoLink: "https://www.wbt-solutions.de/"
   pinned: false
 -
+  caption: we-make.ai
+  image: "img/companies/wemakeai.svg"
+  infoLink: "https://we-make.ai/"
+  pinned: false
+-
   caption: Woleet
   image: "img/companies/woleet.png"
   infoLink: "https://woleet.io"
@@ -603,7 +678,6 @@
   image: "img/companies/zozo-technologies.png"
   infoLink: "https://tech.zozo.com/en/"
   pinned: false
-
 -
   caption: 3DS OUTSCALE
   image: "img/companies/outscale.png"

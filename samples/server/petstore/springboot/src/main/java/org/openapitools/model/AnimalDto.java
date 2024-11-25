@@ -10,9 +10,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.model.BigCatDto;
-import org.openapitools.model.CatDto;
-import org.openapitools.model.DogDto;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -37,15 +34,23 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = DogDto.class, name = "Dog")
 })
 
-@JsonTypeName("Animal")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class AnimalDto {
 
-  @JsonProperty("className")
   private String className;
 
-  @JsonProperty("color")
   private String color = "red";
+
+  public AnimalDto() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public AnimalDto(String className) {
+    this.className = className;
+  }
 
   public AnimalDto className(String className) {
     this.className = className;
@@ -55,9 +60,10 @@ public class AnimalDto {
   /**
    * Get className
    * @return className
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("className")
   public String getClassName() {
     return className;
   }
@@ -74,9 +80,10 @@ public class AnimalDto {
   /**
    * Get color
    * @return color
-  */
+   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("color")
   public String getColor() {
     return color;
   }

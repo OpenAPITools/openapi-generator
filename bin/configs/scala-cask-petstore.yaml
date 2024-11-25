@@ -1,0 +1,13 @@
+generatorName: scala-cask
+outputDir: samples/server/petstore/scala-cask
+inputSpec: modules/openapi-generator/src/test/resources/3_0/scala-cask/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/scala-cask
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  artifactId: scala-cask-petstore
+  groupId: "cask.groupId"
+  package: "sample.cask"
+  modelPackage: "sample.cask.model"
+  apiPackage: "sample.cask.api"
+  gitRepoId: "sample-cask-repo"
+  gitUserId: "sample-cask-user"

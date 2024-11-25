@@ -60,20 +60,20 @@ public:
     /**
     * @param[in]  order_id QString [required]
     */
-    void deleteOrder(const QString &order_id);
+    virtual void deleteOrder(const QString &order_id);
 
 
-    void getInventory();
+    virtual void getInventory();
 
     /**
     * @param[in]  order_id qint64 [required]
     */
-    void getOrderById(const qint64 &order_id);
+    virtual void getOrderById(const qint64 &order_id);
 
     /**
     * @param[in]  pfx_order PFXOrder [required]
     */
-    void placeOrder(const PFXOrder &pfx_order);
+    virtual void placeOrder(const PFXOrder &pfx_order);
 
 
 private:
@@ -103,34 +103,50 @@ private:
     void getOrderByIdCallback(PFXHttpRequestWorker *worker);
     void placeOrderCallback(PFXHttpRequestWorker *worker);
 
-signals:
+Q_SIGNALS:
 
     void deleteOrderSignal();
     void getInventorySignal(QMap<QString, qint32> summary);
     void getOrderByIdSignal(PFXOrder summary);
     void placeOrderSignal(PFXOrder summary);
 
+
     void deleteOrderSignalFull(PFXHttpRequestWorker *worker);
     void getInventorySignalFull(PFXHttpRequestWorker *worker, QMap<QString, qint32> summary);
     void getOrderByIdSignalFull(PFXHttpRequestWorker *worker, PFXOrder summary);
     void placeOrderSignalFull(PFXHttpRequestWorker *worker, PFXOrder summary);
 
+    Q_DECL_DEPRECATED_X("Use deleteOrderSignalError() instead")
     void deleteOrderSignalE(QNetworkReply::NetworkError error_type, QString error_str);
+    void deleteOrderSignalError(QNetworkReply::NetworkError error_type, const QString &error_str);
+    Q_DECL_DEPRECATED_X("Use getInventorySignalError() instead")
     void getInventorySignalE(QMap<QString, qint32> summary, QNetworkReply::NetworkError error_type, QString error_str);
+    void getInventorySignalError(QMap<QString, qint32> summary, QNetworkReply::NetworkError error_type, const QString &error_str);
+    Q_DECL_DEPRECATED_X("Use getOrderByIdSignalError() instead")
     void getOrderByIdSignalE(PFXOrder summary, QNetworkReply::NetworkError error_type, QString error_str);
+    void getOrderByIdSignalError(PFXOrder summary, QNetworkReply::NetworkError error_type, const QString &error_str);
+    Q_DECL_DEPRECATED_X("Use placeOrderSignalError() instead")
     void placeOrderSignalE(PFXOrder summary, QNetworkReply::NetworkError error_type, QString error_str);
+    void placeOrderSignalError(PFXOrder summary, QNetworkReply::NetworkError error_type, const QString &error_str);
 
+    Q_DECL_DEPRECATED_X("Use deleteOrderSignalErrorFull() instead")
     void deleteOrderSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void deleteOrderSignalErrorFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);
+    Q_DECL_DEPRECATED_X("Use getInventorySignalErrorFull() instead")
     void getInventorySignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void getInventorySignalErrorFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);
+    Q_DECL_DEPRECATED_X("Use getOrderByIdSignalErrorFull() instead")
     void getOrderByIdSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void getOrderByIdSignalErrorFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);
+    Q_DECL_DEPRECATED_X("Use placeOrderSignalErrorFull() instead")
     void placeOrderSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void placeOrderSignalErrorFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);
 
     void abortRequestsSignal();
     void allPendingRequestsCompleted();
 
-public slots:
+public Q_SLOTS:
     void tokenAvailable();
-    
 };
 
 } // namespace test_namespace

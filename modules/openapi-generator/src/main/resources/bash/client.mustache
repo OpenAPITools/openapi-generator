@@ -8,8 +8,11 @@
 # ! openapi-generator (https://openapi-generator.tech)
 # ! FROM OPENAPI SPECIFICATION IN JSON.
 # !
-{{^hideGenerationTimestamp}}# ! Generated on: {{generatedDate}}
-{{/hideGenerationTimestamp}}# !
+{{^hideGenerationTimestamp}}
+# ! Generated on: {{generatedDate}}
+{{/hideGenerationTimestamp}}
+# ! Generator version: {{generatorVersion}}
+# !
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 #
@@ -330,20 +333,24 @@ header_arguments_to_curl() {
 #
 ##############################################################################
 body_parameters_to_json() {
-    local body_json="-d '{"
-    local count=0
-    for key in "${!body_parameters[@]}"; do
-        if [[ $((count++)) -gt 0 ]]; then
-            body_json+=", "
-        fi
-        body_json+="\"${key}\": ${body_parameters[${key}]}"
-    done
-    body_json+="}'"
-
-    if [[ "${#body_parameters[@]}" -eq 0 ]]; then
-        echo ""
+    if [[ $RAW_BODY == "1" ]]; then
+        echo "-d '${body_parameters["RAW_BODY"]}'"
     else
-        echo "${body_json}"
+        local body_json="-d '{"
+        local count=0
+        for key in "${!body_parameters[@]}"; do
+            if [[ $((count++)) -gt 0 ]]; then
+                body_json+=", "
+            fi
+            body_json+="\"${key}\": ${body_parameters[${key}]}"
+        done
+        body_json+="}'"
+
+        if [[ "${#body_parameters[@]}" -eq 0 ]]; then
+            echo ""
+        else
+            echo "${body_json}"
+        fi
     fi
 }
 
@@ -587,10 +594,10 @@ EOF
     echo -e "${BOLD}${WHITE}Authentication methods${OFF}"
     echo -e ""
 {{#authMethods}}
-{{#isBasic}}
+{{#isBasicBasic}}
     echo -e "  - ${BLUE}Basic AUTH${OFF} - add '-u <username>:<password>' before ${YELLOW}<operation>${OFF}"
     {{#x-codegen-basicauth-env}}echo -e "                 or export ${RED}{{x-codegen-basicauth-env}}='<username>:<password>'${OFF}"{{/x-codegen-basicauth-env}}
-{{/isBasic}}
+{{/isBasicBasic}}
 {{#isApiKey}}
 {{#isKeyInHeader}}
     echo -e "  - ${BLUE}Api-key${OFF} - add '${RED}{{keyParamName}}:<api-key>${OFF}' after ${YELLOW}<operation>${OFF}"
@@ -693,7 +700,7 @@ print_version() {
 ##############################################################################
 print_{{operationId}}_help() {
     echo ""
-    echo -e "${BOLD}${WHITE}{{operationId}} - {{{summary}}}{{#authMethods}}${OFF}${BLUE}(AUTH - {{#isBasic}}BASIC{{/isBasic}}{{#isApiKey}}{{#isKeyInHeader}}HEADER{{/isKeyInHeader}}{{#isKeyInQuery}}QUERY{{/isKeyInQuery}}{{/isApiKey}}{{#isOAuth}}OAuth2{{/isOAuth}}){{/authMethods}}${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}{{operationId}} - {{{summary}}}{{#authMethods}}${OFF}${BLUE}(AUTH - {{#isBasicBasic}}BASIC{{/isBasicBasic}}{{#isApiKey}}{{#isKeyInHeader}}HEADER{{/isKeyInHeader}}{{#isKeyInQuery}}QUERY{{/isKeyInQuery}}{{/isApiKey}}{{#isOAuth}}OAuth2{{/isOAuth}}){{/authMethods}}${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
 {{#vendorExtensions}}
 {{#x-bash-codegen-description}}
@@ -1000,6 +1007,16 @@ case $key in
     if [[ "$operation" ]]; then
         IFS='==' read -r body_key sep body_value <<< "$key"
         body_parameters[${body_key}]="\"${body_value}\""
+    fi
+    ;;
+    --body=*)
+    # Parse value of body as argument and convert it into only
+    # the raw body content
+    if [[ "$operation" ]]; then
+        IFS='--body=' read -r body_value <<< "$key"
+        body_value=${body_value##--body=}
+        body_parameters["RAW_BODY"]="${body_value}"
+        RAW_BODY=1
     fi
     ;;
     *:=*)

@@ -1,0 +1,28 @@
+{{#isDeprecated}}
+@available(*, deprecated, message: "Deprecated API parameter")
+{{/isDeprecated}}
+public struct {{{classname}}}: Codable {
+{{#allVars}}
+{{#isEnum}}
+{{> modelInlineEnumDeclaration}}
+{{/isEnum}}
+{{/allVars}}
+{{#allVars}}
+{{#isEnum}}
+    {{#description}}/// {{{.}}}
+    {{/description}}public var {{{name}}}: {{{datatypeWithEnum}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}
+{{/isEnum}}
+{{^isEnum}}
+    {{#description}}/// {{{.}}}
+    {{/description}}public var {{{name}}}: {{{datatype}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}
+{{/isEnum}}
+{{/allVars}}
+{{#hasVars}}
+
+    public init({{#allVars}}{{{name}}}: {{{datatypeWithEnum}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{^defaultValue}}{{^required}} = nil{{/required}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/allVars}}) {
+        {{#allVars}}
+        self.{{{name}}} = {{{name}}}
+        {{/allVars}}
+    }
+{{/hasVars}}
+}

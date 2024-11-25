@@ -1,0 +1,52 @@
+{{>licenseInfo}}
+// this model was generated using modelData.mustache
+package {{modelPackage}}
+{{#imports}}import {{import}}
+{{/imports}}
+import scala.util.control.NonFatal
+import scala.util.*
+
+// see https://com-lihaoyi.github.io/upickle/
+import upickle.default.{ReadWriter => RW, macroRW}
+import upickle.default.*
+
+{{#models}}
+{{#model}}
+
+{{#vendorExtensions.x-has-one-of}}
+type {{{classname}}}Data = {{#oneOf}}{{{.}}}Data{{^-last}} | {{/-last}}{{/oneOf}}
+
+object {{{classname}}}Data {
+
+  def validated(d8a : {{{classname}}}Data, failFast: Boolean) : Try[{{{classname}}}] = {
+    d8a match {
+      {{#oneOf}}
+      case value : {{{.}}}Data => value.validated(failFast)
+      {{/oneOf}}
+    }
+  }
+
+  def fromJsonString(jason : String) = fromJson {
+    try {
+      read[ujson.Value](jason)
+    } catch {
+      case NonFatal(e) => sys.error(s"Error parsing json '$jason': $e")
+    }
+  }
+
+  def fromJson(jason : ujson.Value) : {{{classname}}}Data = {
+      val attempt = {{#oneOf}}{{^-first}}.orElse({{/-first}} Try({{{.}}}Data.fromJson(jason)) {{^-first}}) /* not first */{{/-first}} {{/oneOf}}
+      attempt.get
+  }
+}
+{{/vendorExtensions.x-has-one-of}}
+{{^vendorExtensions.x-has-one-of}}
+    {{#isEnum}}
+        {{>modelDataEnum}}
+    {{/isEnum}}
+    {{^isEnum}}
+        {{>modelDataClass}}
+    {{/isEnum}}
+{{/vendorExtensions.x-has-one-of}}
+{{/model}}
+{{/models}}

@@ -1,6 +1,5 @@
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -129,6 +128,9 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
         systemIncludes.add("QDate");
         systemIncludes.add("QDateTime");
         systemIncludes.add("QByteArray");
+
+        reservedWords.add("signals");
+        reservedWords.add("slots");
     }
 
     @Override
@@ -186,11 +188,10 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
         String openAPIType = getSchemaType(p);
 
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "<QString, " + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isBinarySchema(p)) {
             return getSchemaType(p);
@@ -226,11 +227,10 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
             }
             return "0";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return "QMap<QString, " + getTypeDeclaration(inner) + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return "QList<" + getTypeDeclaration(inner) + ">()";
         } else if (ModelUtils.isStringSchema(p)) {
             return "QString(\"\")";
@@ -364,11 +364,6 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
             }
         }
         return objs;
-    }
-
-    @Override
-    public String toEnumValue(String value, String datatype) {
-        return escapeText(value);
     }
 
     @Override

@@ -16,6 +16,7 @@ Module : OpenAPIPetstore.Model
 {-# LANGUAGE DeriveFoldable #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DeriveTraversable #-}
+{-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
@@ -123,6 +124,9 @@ newtype EnumQueryStringArray = EnumQueryStringArray { unEnumQueryStringArray :: 
 -- ** File2
 newtype File2 = File2 { unFile2 :: FilePath } deriving (P.Eq, P.Show)
 
+-- ** Filter
+newtype Filter = Filter { unFilter :: PetFilter } deriving (P.Eq, P.Show)
+
 -- ** Http
 newtype Http = Http { unHttp :: [Text] } deriving (P.Eq, P.Show)
 
@@ -143,6 +147,9 @@ newtype Name2 = Name2 { unName2 :: Text } deriving (P.Eq, P.Show)
 
 -- ** Number
 newtype Number = Number { unNumber :: Double } deriving (P.Eq, P.Show)
+
+-- ** OrderBy
+newtype OrderBy = OrderBy { unOrderBy :: [PetOrder] } deriving (P.Eq, P.Show)
 
 -- ** OrderId
 newtype OrderId = OrderId { unOrderId :: Integer } deriving (P.Eq, P.Show)
@@ -224,6 +231,9 @@ newtype Url = Url { unUrl :: [Text] } deriving (P.Eq, P.Show)
 
 -- ** Username
 newtype Username = Username { unUsername :: Text } deriving (P.Eq, P.Show)
+
+-- ** UuidTest
+newtype UuidTest = UuidTest { unUuidTest :: Text } deriving (P.Eq, P.Show)
 
 -- * Models
 
@@ -694,34 +704,6 @@ mkBigCat bigCatClassName =
   , bigCatKind = Nothing
   }
 
--- ** BigCatAllOf
--- | BigCatAllOf
-data BigCatAllOf = BigCatAllOf
-  { bigCatAllOfKind :: !(Maybe E'Kind) -- ^ "kind"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON BigCatAllOf
-instance A.FromJSON BigCatAllOf where
-  parseJSON = A.withObject "BigCatAllOf" $ \o ->
-    BigCatAllOf
-      <$> (o .:? "kind")
-
--- | ToJSON BigCatAllOf
-instance A.ToJSON BigCatAllOf where
-  toJSON BigCatAllOf {..} =
-   _omitNulls
-      [ "kind" .= bigCatAllOfKind
-      ]
-
-
--- | Construct a value of type 'BigCatAllOf' (by applying it's required fields, if any)
-mkBigCatAllOf
-  :: BigCatAllOf
-mkBigCatAllOf =
-  BigCatAllOf
-  { bigCatAllOfKind = Nothing
-  }
-
 -- ** Capitalization
 -- | Capitalization
 data Capitalization = Capitalization
@@ -805,34 +787,6 @@ mkCat catClassName =
   { catClassName
   , catColor = Nothing
   , catDeclawed = Nothing
-  }
-
--- ** CatAllOf
--- | CatAllOf
-data CatAllOf = CatAllOf
-  { catAllOfDeclawed :: !(Maybe Bool) -- ^ "declawed"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CatAllOf
-instance A.FromJSON CatAllOf where
-  parseJSON = A.withObject "CatAllOf" $ \o ->
-    CatAllOf
-      <$> (o .:? "declawed")
-
--- | ToJSON CatAllOf
-instance A.ToJSON CatAllOf where
-  toJSON CatAllOf {..} =
-   _omitNulls
-      [ "declawed" .= catAllOfDeclawed
-      ]
-
-
--- | Construct a value of type 'CatAllOf' (by applying it's required fields, if any)
-mkCatAllOf
-  :: CatAllOf
-mkCatAllOf =
-  CatAllOf
-  { catAllOfDeclawed = Nothing
   }
 
 -- ** Category
@@ -960,34 +914,6 @@ mkDog dogClassName =
   { dogClassName
   , dogColor = Nothing
   , dogBreed = Nothing
-  }
-
--- ** DogAllOf
--- | DogAllOf
-data DogAllOf = DogAllOf
-  { dogAllOfBreed :: !(Maybe Text) -- ^ "breed"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON DogAllOf
-instance A.FromJSON DogAllOf where
-  parseJSON = A.withObject "DogAllOf" $ \o ->
-    DogAllOf
-      <$> (o .:? "breed")
-
--- | ToJSON DogAllOf
-instance A.ToJSON DogAllOf where
-  toJSON DogAllOf {..} =
-   _omitNulls
-      [ "breed" .= dogAllOfBreed
-      ]
-
-
--- | Construct a value of type 'DogAllOf' (by applying it's required fields, if any)
-mkDogAllOf
-  :: DogAllOf
-mkDogAllOf =
-  DogAllOf
-  { dogAllOfBreed = Nothing
   }
 
 -- ** EnumArrays
@@ -1614,6 +1540,66 @@ mkPet petName petPhotoUrls =
   , petStatus = Nothing
   }
 
+-- ** PetFilter
+-- | PetFilter
+data PetFilter = PetFilter
+  { petFilterTags :: !(Maybe [Text]) -- ^ "tags"
+  , petFilterStatus :: !(Maybe [Text]) -- ^ "status"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON PetFilter
+instance A.FromJSON PetFilter where
+  parseJSON = A.withObject "PetFilter" $ \o ->
+    PetFilter
+      <$> (o .:? "tags")
+      <*> (o .:? "status")
+
+-- | ToJSON PetFilter
+instance A.ToJSON PetFilter where
+  toJSON PetFilter {..} =
+   _omitNulls
+      [ "tags" .= petFilterTags
+      , "status" .= petFilterStatus
+      ]
+
+
+-- | Construct a value of type 'PetFilter' (by applying it's required fields, if any)
+mkPetFilter
+  :: PetFilter
+mkPetFilter =
+  PetFilter
+  { petFilterTags = Nothing
+  , petFilterStatus = Nothing
+  }
+
+-- ** PetOrder
+-- | PetOrder
+data PetOrder = PetOrder
+  { petOrderName :: !(Maybe E'Name) -- ^ "name"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON PetOrder
+instance A.FromJSON PetOrder where
+  parseJSON = A.withObject "PetOrder" $ \o ->
+    PetOrder
+      <$> (o .:? "name")
+
+-- | ToJSON PetOrder
+instance A.ToJSON PetOrder where
+  toJSON PetOrder {..} =
+   _omitNulls
+      [ "name" .= petOrderName
+      ]
+
+
+-- | Construct a value of type 'PetOrder' (by applying it's required fields, if any)
+mkPetOrder
+  :: PetOrder
+mkPetOrder =
+  PetOrder
+  { petOrderName = Nothing
+  }
+
 -- ** ReadOnlyFirst
 -- | ReadOnlyFirst
 data ReadOnlyFirst = ReadOnlyFirst
@@ -1644,34 +1630,6 @@ mkReadOnlyFirst =
   ReadOnlyFirst
   { readOnlyFirstBar = Nothing
   , readOnlyFirstBaz = Nothing
-  }
-
--- ** SpecialModelName
--- | SpecialModelName
-data SpecialModelName = SpecialModelName
-  { specialModelNameSpecialPropertyName :: !(Maybe Integer) -- ^ "$special[property.name]"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON SpecialModelName
-instance A.FromJSON SpecialModelName where
-  parseJSON = A.withObject "SpecialModelName" $ \o ->
-    SpecialModelName
-      <$> (o .:? "$special[property.name]")
-
--- | ToJSON SpecialModelName
-instance A.ToJSON SpecialModelName where
-  toJSON SpecialModelName {..} =
-   _omitNulls
-      [ "$special[property.name]" .= specialModelNameSpecialPropertyName
-      ]
-
-
--- | Construct a value of type 'SpecialModelName' (by applying it's required fields, if any)
-mkSpecialModelName
-  :: SpecialModelName
-mkSpecialModelName =
-  SpecialModelName
-  { specialModelNameSpecialPropertyName = Nothing
   }
 
 -- ** Tag
@@ -2302,6 +2260,34 @@ toE'Kind = \case
   s -> P.Left $ "toE'Kind: enum parse failure: " P.++ P.show s
 
 
+-- ** E'Name
+
+-- | Enum of 'Text'
+data E'Name
+  = E'Name'Asc -- ^ @"asc"@
+  | E'Name'Desc -- ^ @"desc"@
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+
+instance A.ToJSON E'Name where toJSON = A.toJSON . fromE'Name
+instance A.FromJSON E'Name where parseJSON o = P.either P.fail (pure . P.id) . toE'Name =<< A.parseJSON o
+instance WH.ToHttpApiData E'Name where toQueryParam = WH.toQueryParam . fromE'Name
+instance WH.FromHttpApiData E'Name where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toE'Name
+instance MimeRender MimeMultipartFormData E'Name where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'E'Name' enum
+fromE'Name :: E'Name -> Text
+fromE'Name = \case
+  E'Name'Asc -> "asc"
+  E'Name'Desc -> "desc"
+
+-- | parse 'E'Name' enum
+toE'Name :: Text -> P.Either String E'Name
+toE'Name = \case
+  "asc" -> P.Right E'Name'Asc
+  "desc" -> P.Right E'Name'Desc
+  s -> P.Left $ "toE'Name: enum parse failure: " P.++ P.show s
+
+
 -- ** E'Status
 
 -- | Enum of 'Text' .
@@ -2430,6 +2416,19 @@ toOuterEnum = \case
 
 -- * Auth Methods
 
+-- ** AuthOAuthPetstoreAuth
+data AuthOAuthPetstoreAuth =
+  AuthOAuthPetstoreAuth Text -- ^ secret
+  deriving (P.Eq, P.Show, P.Typeable)
+
+instance AuthMethod AuthOAuthPetstoreAuth where
+  applyAuthMethod _ a@(AuthOAuthPetstoreAuth secret) req =
+    P.pure $
+    if (P.typeOf a `P.elem` rAuthTypes req)
+      then req `setHeader` toHeader ("Authorization", "Bearer " <> secret)
+           & L.over rAuthTypesL (P.filter (/= P.typeOf a))
+      else req
+
 -- ** AuthApiKeyApiKey
 data AuthApiKeyApiKey =
   AuthApiKeyApiKey Text -- ^ secret
@@ -2469,18 +2468,5 @@ instance AuthMethod AuthBasicHttpBasicTest where
            & L.over rAuthTypesL (P.filter (/= P.typeOf a))
       else req
     where cred = BC.append "Basic " (B64.encode $ BC.concat [ user, ":", pw ])
-
--- ** AuthOAuthPetstoreAuth
-data AuthOAuthPetstoreAuth =
-  AuthOAuthPetstoreAuth Text -- ^ secret
-  deriving (P.Eq, P.Show, P.Typeable)
-
-instance AuthMethod AuthOAuthPetstoreAuth where
-  applyAuthMethod _ a@(AuthOAuthPetstoreAuth secret) req =
-    P.pure $
-    if (P.typeOf a `P.elem` rAuthTypes req)
-      then req `setHeader` toHeader ("Authorization", "Bearer " <> secret)
-           & L.over rAuthTypesL (P.filter (/= P.typeOf a))
-      else req
 
 

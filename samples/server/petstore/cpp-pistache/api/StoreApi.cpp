@@ -22,7 +22,7 @@ using namespace org::openapitools::server::model;
 const std::string StoreApi::base = "/v2";
 
 StoreApi::StoreApi(const std::shared_ptr<Pistache::Rest::Router>& rtr)
-    : router(rtr)
+    : ApiBase(rtr)
 {
 }
 
@@ -42,6 +42,12 @@ void StoreApi::setupRoutes() {
     router->addCustomHandler(Routes::bind(&StoreApi::store_api_default_handler, this));
 }
 
+void StoreApi::handleParsingException(const std::exception& ex, Pistache::Http::ResponseWriter &response) const noexcept
+{
+    std::pair<Pistache::Http::Code, std::string> codeAndError = handleParsingException(ex);
+    response.send(codeAndError.first, codeAndError.second);
+}
+
 std::pair<Pistache::Http::Code, std::string> StoreApi::handleParsingException(const std::exception& ex) const noexcept
 {
     try {
@@ -53,6 +59,12 @@ std::pair<Pistache::Http::Code, std::string> StoreApi::handleParsingException(co
     } catch (std::exception &e) {
         return std::make_pair(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
+}
+
+void StoreApi::handleOperationException(const std::exception& ex, Pistache::Http::ResponseWriter &response) const noexcept
+{
+    std::pair<Pistache::Http::Code, std::string> codeAndError = handleOperationException(ex);
+    response.send(codeAndError.first, codeAndError.second);
 }
 
 std::pair<Pistache::Http::Code, std::string> StoreApi::handleOperationException(const std::exception& ex) const noexcept
@@ -72,8 +84,7 @@ void StoreApi::delete_order_handler(const Pistache::Rest::Request &request, Pist
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
-        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
-        response.send(errorInfo.first, errorInfo.second);
+        this->handleOperationException(e, response);
         return;
     }
 
@@ -92,8 +103,7 @@ void StoreApi::get_inventory_handler(const Pistache::Rest::Request &, Pistache::
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
-        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
-        response.send(errorInfo.first, errorInfo.second);
+        this->handleOperationException(e, response);
         return;
     }
 
@@ -114,8 +124,7 @@ void StoreApi::get_order_by_id_handler(const Pistache::Rest::Request &request, P
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
-        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
-        response.send(errorInfo.first, errorInfo.second);
+        this->handleOperationException(e, response);
         return;
     }
 
@@ -136,8 +145,7 @@ void StoreApi::place_order_handler(const Pistache::Rest::Request &request, Pista
         nlohmann::json::parse(request.body()).get_to(body);
         body.validate();
     } catch (std::exception &e) {
-        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleParsingException(e);
-        response.send(errorInfo.first, errorInfo.second);
+        this->handleParsingException(e, response);
         return;
     }
 
@@ -147,8 +155,7 @@ void StoreApi::place_order_handler(const Pistache::Rest::Request &request, Pista
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
-        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
-        response.send(errorInfo.first, errorInfo.second);
+        this->handleOperationException(e, response);
         return;
     }
 

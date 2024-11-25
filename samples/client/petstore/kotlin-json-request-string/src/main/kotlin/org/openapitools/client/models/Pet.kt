@@ -68,29 +68,29 @@ data class Pet (
     /**
      * pet status in the store
      *
-     * Values: available,pending,sold,unknownDefaultOpenApi
+     * Values: available,pending,sold,unknown_default_open_api
      */
-    @Serializable(with = PetSerializer::class)
+    @Serializable(with = StatusSerializer::class)
     enum class Status(val value: kotlin.String) {
         @SerialName(value = "available") available("available"),
         @SerialName(value = "pending") pending("pending"),
         @SerialName(value = "sold") sold("sold"),
-        @SerialName(value = "unknown_default_open_api") unknownDefaultOpenApi("unknown_default_open_api");
+        @SerialName(value = "unknown_default_open_api") unknown_default_open_api("unknown_default_open_api");
     }
 
-    @Serializer(forClass = Status::class)
     internal object StatusSerializer : KSerializer<Status> {
         override val descriptor = kotlin.String.serializer().descriptor
 
         override fun deserialize(decoder: Decoder): Status {
             val value = decoder.decodeSerializableValue(kotlin.String.serializer())
             return Status.values().firstOrNull { it.value == value }
-                ?: Status.unknownDefaultOpenApi
+                ?: Status.unknown_default_open_api
         }
 
         override fun serialize(encoder: Encoder, value: Status) {
             encoder.encodeSerializableValue(kotlin.String.serializer(), value.value)
         }
     }
+
 }
 

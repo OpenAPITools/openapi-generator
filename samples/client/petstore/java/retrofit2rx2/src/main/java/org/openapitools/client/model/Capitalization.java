@@ -25,45 +25,51 @@ import java.io.IOException;
 /**
  * Capitalization
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class Capitalization {
   public static final String SERIALIZED_NAME_SMALL_CAMEL = "smallCamel";
   @SerializedName(SERIALIZED_NAME_SMALL_CAMEL)
+  @javax.annotation.Nullable
   private String smallCamel;
 
   public static final String SERIALIZED_NAME_CAPITAL_CAMEL = "CapitalCamel";
   @SerializedName(SERIALIZED_NAME_CAPITAL_CAMEL)
+  @javax.annotation.Nullable
   private String capitalCamel;
 
   public static final String SERIALIZED_NAME_SMALL_SNAKE = "small_Snake";
   @SerializedName(SERIALIZED_NAME_SMALL_SNAKE)
+  @javax.annotation.Nullable
   private String smallSnake;
 
   public static final String SERIALIZED_NAME_CAPITAL_SNAKE = "Capital_Snake";
   @SerializedName(SERIALIZED_NAME_CAPITAL_SNAKE)
+  @javax.annotation.Nullable
   private String capitalSnake;
 
   public static final String SERIALIZED_NAME_SC_A_E_T_H_FLOW_POINTS = "SCA_ETH_Flow_Points";
   @SerializedName(SERIALIZED_NAME_SC_A_E_T_H_FLOW_POINTS)
+  @javax.annotation.Nullable
   private String scAETHFlowPoints;
 
   public static final String SERIALIZED_NAME_A_T_T_N_A_M_E = "ATT_NAME";
   @SerializedName(SERIALIZED_NAME_A_T_T_N_A_M_E)
+  @javax.annotation.Nullable
   private String ATT_NAME;
 
   public Capitalization() {
   }
 
-  public Capitalization smallCamel(String smallCamel) {
+  public Capitalization smallCamel(@javax.annotation.Nullable String smallCamel) {
     
     this.smallCamel = smallCamel;
     return this;
   }
 
-   /**
+  /**
    * Get smallCamel
    * @return smallCamel
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getSmallCamel() {
@@ -71,21 +77,20 @@ public class Capitalization {
   }
 
 
-  public void setSmallCamel(String smallCamel) {
+  public void setSmallCamel(@javax.annotation.Nullable String smallCamel) {
     this.smallCamel = smallCamel;
   }
 
-
-  public Capitalization capitalCamel(String capitalCamel) {
+  public Capitalization capitalCamel(@javax.annotation.Nullable String capitalCamel) {
     
     this.capitalCamel = capitalCamel;
     return this;
   }
 
-   /**
+  /**
    * Get capitalCamel
    * @return capitalCamel
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getCapitalCamel() {
@@ -93,21 +98,20 @@ public class Capitalization {
   }
 
 
-  public void setCapitalCamel(String capitalCamel) {
+  public void setCapitalCamel(@javax.annotation.Nullable String capitalCamel) {
     this.capitalCamel = capitalCamel;
   }
 
-
-  public Capitalization smallSnake(String smallSnake) {
+  public Capitalization smallSnake(@javax.annotation.Nullable String smallSnake) {
     
     this.smallSnake = smallSnake;
     return this;
   }
 
-   /**
+  /**
    * Get smallSnake
    * @return smallSnake
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getSmallSnake() {
@@ -115,21 +119,20 @@ public class Capitalization {
   }
 
 
-  public void setSmallSnake(String smallSnake) {
+  public void setSmallSnake(@javax.annotation.Nullable String smallSnake) {
     this.smallSnake = smallSnake;
   }
 
-
-  public Capitalization capitalSnake(String capitalSnake) {
+  public Capitalization capitalSnake(@javax.annotation.Nullable String capitalSnake) {
     
     this.capitalSnake = capitalSnake;
     return this;
   }
 
-   /**
+  /**
    * Get capitalSnake
    * @return capitalSnake
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getCapitalSnake() {
@@ -137,21 +140,20 @@ public class Capitalization {
   }
 
 
-  public void setCapitalSnake(String capitalSnake) {
+  public void setCapitalSnake(@javax.annotation.Nullable String capitalSnake) {
     this.capitalSnake = capitalSnake;
   }
 
-
-  public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
+  public Capitalization scAETHFlowPoints(@javax.annotation.Nullable String scAETHFlowPoints) {
     
     this.scAETHFlowPoints = scAETHFlowPoints;
     return this;
   }
 
-   /**
+  /**
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getScAETHFlowPoints() {
@@ -159,21 +161,20 @@ public class Capitalization {
   }
 
 
-  public void setScAETHFlowPoints(String scAETHFlowPoints) {
+  public void setScAETHFlowPoints(@javax.annotation.Nullable String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
 
-
-  public Capitalization ATT_NAME(String ATT_NAME) {
+  public Capitalization ATT_NAME(@javax.annotation.Nullable String ATT_NAME) {
     
     this.ATT_NAME = ATT_NAME;
     return this;
   }
 
-   /**
+  /**
    * Name of the pet 
    * @return ATT_NAME
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getATTNAME() {
@@ -181,10 +182,9 @@ public class Capitalization {
   }
 
 
-  public void setATTNAME(String ATT_NAME) {
+  public void setATTNAME(@javax.annotation.Nullable String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
-
 
   @Override
   public boolean equals(Object o) {

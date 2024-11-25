@@ -32,9 +32,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Type/Alias | Imports |
 | ---------- | ------- |
+|AnyType|#include &quot;AnyType.h&quot;|
 |HttpContent|#include &quot;HttpContent.h&quot;|
 |Object|#include &quot;Object.h&quot;|
 |std::map|#include &lt;map&gt;|
+|std::set|#include &lt;set&gt;|
 |std::string|#include &lt;string&gt;|
 |std::vector|#include &lt;vector&gt;|
 |utility::datetime|#include &lt;cpprest/details/basic_types.h&gt;|
@@ -63,6 +65,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## RESERVED WORDS
 
 <ul class="column-ul">
+<li>NULL</li>
 <li>alignas</li>
 <li>alignof</li>
 <li>and</li>
@@ -183,7 +186,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Uuid|✗|
 |Array|✓|OAS2,OAS3
 |Null|✗|OAS3
-|AnyType|✗|OAS2,OAS3
+|AnyType|✓|OAS2,OAS3
 |Object|✓|OAS2,OAS3
 |Maps|✓|ToolingExtension
 |CollectionFormat|✓|OAS2
@@ -246,7 +249,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Union|✗|OAS3
 |allOf|✗|OAS2,OAS3
 |anyOf|✗|OAS3
-|oneOf|✗|OAS3
+|oneOf|✓|OAS3
 |not|✗|OAS3
 
 ### Security Feature
@@ -260,6 +263,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
+|SignatureAuth|✗|OAS3
+|AWSV4Signature|✗|ToolingExtension
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

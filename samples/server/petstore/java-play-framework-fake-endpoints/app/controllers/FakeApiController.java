@@ -28,11 +28,12 @@ import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 import com.typesafe.config.Config;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class FakeApiController extends Controller {
     private final FakeApiControllerImpInterface imp;
     private final ObjectMapper mapper;
@@ -327,7 +328,7 @@ public class FakeApiController extends Controller {
                 enumHeaderStringArray.add(curParam);
             }
         }
-        String valueenumHeaderString = request.header("enum_header_string").get();
+        String valueenumHeaderString = request.header("enum_header_string").orElse(null);
         String enumHeaderString;
         if (valueenumHeaderString != null) {
             enumHeaderString = valueenumHeaderString;
@@ -367,14 +368,14 @@ public class FakeApiController extends Controller {
         } else {
             int64Group = null;
         }
-        String valuerequiredBooleanGroup = request.header("required_boolean_group").get();
+        String valuerequiredBooleanGroup = request.header("required_boolean_group").orElse(null);
         Boolean requiredBooleanGroup;
         if (valuerequiredBooleanGroup != null) {
             requiredBooleanGroup = Boolean.valueOf(valuerequiredBooleanGroup);
         } else {
             throw new IllegalArgumentException("'required_boolean_group' parameter is required");
         }
-        String valuebooleanGroup = request.header("boolean_group").get();
+        String valuebooleanGroup = request.header("boolean_group").orElse(null);
         Boolean booleanGroup;
         if (valuebooleanGroup != null) {
             booleanGroup = Boolean.valueOf(valuebooleanGroup);

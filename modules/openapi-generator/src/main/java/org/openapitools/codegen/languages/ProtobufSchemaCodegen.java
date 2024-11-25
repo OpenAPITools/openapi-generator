@@ -16,9 +16,9 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.exceptions.ProtoBufIndexComputationException;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -56,7 +56,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     private final Logger LOGGER = LoggerFactory.getLogger(ProtobufSchemaCodegen.class);
 
-    protected String packageName = "openapitools";
+    @Setter protected String packageName = "openapitools";
 
     private boolean numberedFieldNumberList = false;
 
@@ -67,10 +67,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         return CodegenType.SCHEMA;
     }
 
+    @Override
     public String getName() {
         return "protobuf-schema";
     }
 
+    @Override
     public String getHelp() {
         return "Generates gRPC and protocol buffer schema files (beta)";
     }
@@ -235,9 +237,9 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         }
 
         if (allowableValues.containsKey("values")) {
-            List<String> values = (List<String>) allowableValues.get("values");
-            for (String value : values) {
-                value = prefix + "_" + value;
+            List<Object> values = (List<Object>) allowableValues.get("values");
+            for (Object value : values) {
+                value = prefix + "_" + String.valueOf(value);
             }
         }
     }
@@ -435,7 +437,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
+                if (Pattern.compile("\r\n|\r|\n").matcher(String.valueOf(p.getDefault())).find())
                     return "'''" + p.getDefault() + "'''";
                 else
                     return "'" + p.getDefault() + "'";
@@ -485,10 +487,6 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         return underscore(name) + "_service";
     }
 
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
     @Override
     public String toModelFilename(String name) {
         // underscore the model file name
@@ -505,7 +503,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     public String toModelName(String name) {
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         // remove dollar sign
-        name = name.replaceAll("$", "");
+        name = name.replace("$", "");
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
@@ -608,11 +606,10 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "<string, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);

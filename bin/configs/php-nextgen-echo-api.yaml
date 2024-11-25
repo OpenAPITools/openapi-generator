@@ -1,0 +1,6 @@
+generatorName: php-nextgen
+outputDir: samples/client/echo_api/php-nextgen
+inputSpec: modules/openapi-generator/src/test/resources/3_0/echo_api.yaml
+templateDir: modules/openapi-generator/src/main/resources/php-nextgen
+additionalProperties:
+  hideGenerationTimestamp: "true"

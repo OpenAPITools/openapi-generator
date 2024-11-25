@@ -21,6 +21,7 @@ import com.google.common.annotations.VisibleForTesting;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
@@ -44,12 +45,28 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
      * Mustache template for the JAX-RS Codegen.
      */
     protected static final String JAXRS_TEMPLATE_DIRECTORY_NAME = "JavaJaxRS";
+    protected static final String X_MICROPROFILE_OPEN_API_RETURN_SCHEMA_CONTAINER = "x-microprofile-open-api-return-schema-container";
+    protected static final String X_MICROPROFILE_OPEN_API_RETURN_UNIQUE_ITEMS = "x-microprofile-open-api-return-unique-items";
+    protected static final String X_MICROPROFILE_OPEN_API_SCHEMA_TYPE = "x-microprofile-open-api-schema-type";
+    protected static final String SCHEMA_TYPE_ARRAY = "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.ARRAY";
+    protected static final Map<String,String> ARRAY_OF_MICROPROFILE_OPEN_API_SCHEMA_TYPES;
+    static {
+        final Map<String, String> schemaTypes = new HashMap<>();
+        schemaTypes.put("integer", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.INTEGER");
+        schemaTypes.put("number", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.NUMBER");
+        schemaTypes.put("boolean", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.BOOLEAN");
+        schemaTypes.put("string", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.STRING");
+        schemaTypes.put("object", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.OBJECT");
+        schemaTypes.put("array", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.ARRAY");
+        ARRAY_OF_MICROPROFILE_OPEN_API_SCHEMA_TYPES = Collections.unmodifiableMap(schemaTypes);
+    }
+
+    @Setter
     protected String implFolder = "src/main/java";
     protected String testResourcesFolder = "src/test/resources";
     protected String title = "OpenAPI Server";
     protected String serverPort = "8080";
 
-    protected boolean useBeanValidation = true;
     protected boolean useTags = false;
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaJAXRSServerCodegen.class);
@@ -63,6 +80,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         dateLibrary = "legacy"; //TODO: add joda support to all jax-rs
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
+        useBeanValidation = true;
 
         // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
@@ -74,7 +92,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
 
         additionalProperties.put("title", title);
         // java inflector uses the jackson lib
-        additionalProperties.put(JACKSON, "true");
+        this.jackson = true;
 
         cliOptions.add(new CliOption(CodegenConstants.IMPL_FOLDER, CodegenConstants.IMPL_FOLDER_DESC).defaultValue(implFolder));
         cliOptions.add(new CliOption("title", "a title describing the application").defaultValue(title));
@@ -97,19 +115,9 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {
-            implFolder = (String) additionalProperties.get(CodegenConstants.IMPL_FOLDER);
-        }
-
-        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
-        }
-
-        if (additionalProperties.containsKey(USE_TAGS)) {
-            setUseTags(convertPropertyToBoolean(USE_TAGS));
-        }
-
-        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+        convertPropertyToStringAndWriteBack(CodegenConstants.IMPL_FOLDER, this::setImplFolder);
+        convertPropertyToBooleanAndWriteBack(USE_BEANVALIDATION, this::setUseBeanValidation);
+        convertPropertyToBooleanAndWriteBack(USE_TAGS, this::setUseTags);
     }
 
     @Override
@@ -233,10 +241,17 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
 
                         if ("array".equals(resp.containerType)) {
                             resp.containerType = "List";
+                            resp.vendorExtensions.put(X_MICROPROFILE_OPEN_API_RETURN_SCHEMA_CONTAINER, SCHEMA_TYPE_ARRAY);
                         } else if ("set".equals(resp.containerType)) {
                             resp.containerType = "Set";
+                            resp.vendorExtensions.put(X_MICROPROFILE_OPEN_API_RETURN_SCHEMA_CONTAINER, SCHEMA_TYPE_ARRAY);
+                            resp.vendorExtensions.put(X_MICROPROFILE_OPEN_API_RETURN_UNIQUE_ITEMS, true);
                         } else if ("map".equals(resp.containerType)) {
                             resp.containerType = "Map";
+                        }
+
+                        if (resp.getResponseHeaders() != null) {
+                            handleHeaders(resp.getResponseHeaders());
                         }
                     }
                 }
@@ -269,6 +284,17 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
             objs.put("commonPath", "/".equals(commonPath) ? StringUtils.EMPTY : commonPath);
         }
         return objs;
+    }
+
+    private static void handleHeaders(List<CodegenParameter> headers) {
+        for (CodegenParameter header : headers) {
+            if (header.getSchema() != null && header.getSchema().getOpenApiType() != null) {
+                final String schemaType = ARRAY_OF_MICROPROFILE_OPEN_API_SCHEMA_TYPES.get(header.getSchema().getOpenApiType());
+                if (schemaType != null) {
+                    header.vendorExtensions.put(X_MICROPROFILE_OPEN_API_SCHEMA_TYPE, schemaType);
+                }
+            }
+        }
     }
 
     @Override

@@ -91,7 +91,7 @@ public class OpenApiSchemaValidationsTest {
         );
 
         if (withProperties) {
-            schema.addProperties("other", new ArraySchema()
+            schema.addProperty("other", new ArraySchema()
                     .items(new Schema().$ref("#/definitions/Other")));
         }
 
@@ -107,7 +107,7 @@ public class OpenApiSchemaValidationsTest {
         );
 
         if (withProperties) {
-            schema.addProperties("other", new ArraySchema()
+            schema.addProperty("other", new ArraySchema()
                     .items(new Schema().$ref("#/definitions/Other")));
         }
 
@@ -122,7 +122,7 @@ public class OpenApiSchemaValidationsTest {
         );
 
         if (withProperties) {
-            schema.addProperties("other", new ArraySchema()
+            schema.addProperty("other", new ArraySchema()
                     .items(new Schema().$ref("#/definitions/Other")));
         }
 

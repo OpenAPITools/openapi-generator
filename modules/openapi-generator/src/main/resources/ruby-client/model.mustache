@@ -17,8 +17,15 @@ module {{moduleName}}
 {{>partial_oneof_module}}
 {{/-first}}
 {{/oneOf}}
+{{#anyOf}}
+{{#-first}}
+{{>partial_anyof_module}}
+{{/-first}}
+{{/anyOf}}
 {{^oneOf}}
+{{^anyOf}}
 {{>partial_model_generic}}
+{{/anyOf}}
 {{/oneOf}}
 {{/isEnum}}
 {{/model}}

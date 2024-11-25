@@ -35,6 +35,10 @@ void PFXPetApi::initializeServerConfigs() {
     QUrl("http://petstore.swagger.io/v2"),
     "No description provided",
     QMap<QString, PFXServerVariable>()));
+    defaultConf.append(PFXServerConfiguration(
+    QUrl("http://localhost:8080/v2"),
+    "No description provided",
+    QMap<QString, PFXServerVariable>()));
     _serverConfigs.insert("addPet", defaultConf);
     _serverIndices.insert("addPet", 0);
     _serverConfigs.insert("allPets", defaultConf);
@@ -128,15 +132,9 @@ int PFXPetApi::addServerConfiguration(const QString &operation, const QUrl &url,
     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
     */
 void PFXPetApi::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables) {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
     for (auto keyIt = _serverIndices.keyBegin(); keyIt != _serverIndices.keyEnd(); keyIt++) {
         setServerIndex(*keyIt, addServerConfiguration(*keyIt, url, description, variables));
     }
-#else
-    for (auto &e : _serverIndices.keys()) {
-        setServerIndex(e, addServerConfiguration(e, url, description, variables));
-    }
-#endif
 }
 
 /**
@@ -162,7 +160,7 @@ void PFXPetApi::enableResponseCompression() {
 }
 
 void PFXPetApi::abortRequests() {
-    emit abortRequestsSignal();
+    Q_EMIT abortRequestsSignal();
 }
 
 QString PFXPetApi::getParamStylePrefix(const QString &style) {
@@ -242,21 +240,16 @@ void PFXPetApi::addPet(const PFXPet &pfx_pet) {
         QByteArray output = pfx_pet.asJson().toUtf8();
         input.request_body.append(output);
     }
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::addPetCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
     _OauthMethod = 1;
@@ -277,9 +270,9 @@ void PFXPetApi::addPet(const PFXPet &pfx_pet) {
 
     connect(_latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::addPetCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
-    connect(_latestWorker, &QObject::destroyed, [this](){
+    connect(_latestWorker, &QObject::destroyed, this, [this] {
         if(findChildren<PFXHttpRequestWorker*>().count() == 0){
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
 
@@ -301,8 +294,8 @@ void PFXPetApi::addPetCallback(PFXHttpRequestWorker *worker) {
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit addPetSignal();
-        emit addPetSignalFull(worker);
+        Q_EMIT addPetSignal();
+        Q_EMIT addPetSignalFull(worker);
     } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
         connect(&_implicitFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
         QStringList scope;
@@ -312,12 +305,38 @@ void PFXPetApi::addPetCallback(PFXHttpRequestWorker *worker) {
         QString authorizationUrl("http://petstore.swagger.io/api/oauth/dialog");
         //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
         _implicitFlow.setVariables(authorizationUrl, scopeStr, "state" , "http://127.0.0.1:9999", "clientId");
-        emit _implicitFlow.authenticationNeeded();
+        Q_EMIT _implicitFlow.authenticationNeeded();
 
 
     } else {
-        emit addPetSignalE(error_type, error_str);
-        emit addPetSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
+        Q_EMIT addPetSignalE(error_type, error_str);
+        Q_EMIT addPetSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        Q_EMIT addPetSignalError(error_type, error_str);
+        Q_EMIT addPetSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -330,21 +349,16 @@ void PFXPetApi::allPets() {
     PFXHttpRequestInput input(fullPath, "GET");
 
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::allPetsCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
 
@@ -371,11 +385,37 @@ void PFXPetApi::allPetsCallback(PFXHttpRequestWorker *worker) {
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit allPetsSignal(output);
-        emit allPetsSignalFull(worker, output);
+        Q_EMIT allPetsSignal(output);
+        Q_EMIT allPetsSignalFull(worker, output);
     } else {
-        emit allPetsSignalE(output, error_type, error_str);
-        emit allPetsSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
+        Q_EMIT allPetsSignalE(output, error_type, error_str);
+        Q_EMIT allPetsSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        Q_EMIT allPetsSignalError(output, error_type, error_str);
+        Q_EMIT allPetsSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -408,21 +448,16 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const ::test_namespace::Optional
             input.headers.insert("api_key", ::test_namespace::toStringValue(api_key.value()));
         }
         }
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::deletePetCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
     _OauthMethod = 1;
@@ -443,9 +478,9 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const ::test_namespace::Optional
 
     connect(_latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::deletePetCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
-    connect(_latestWorker, &QObject::destroyed, [this](){
+    connect(_latestWorker, &QObject::destroyed, this, [this] {
         if(findChildren<PFXHttpRequestWorker*>().count() == 0){
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
 
@@ -467,8 +502,8 @@ void PFXPetApi::deletePetCallback(PFXHttpRequestWorker *worker) {
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit deletePetSignal();
-        emit deletePetSignalFull(worker);
+        Q_EMIT deletePetSignal();
+        Q_EMIT deletePetSignalFull(worker);
     } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
         connect(&_implicitFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
         QStringList scope;
@@ -478,12 +513,38 @@ void PFXPetApi::deletePetCallback(PFXHttpRequestWorker *worker) {
         QString authorizationUrl("http://petstore.swagger.io/api/oauth/dialog");
         //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
         _implicitFlow.setVariables(authorizationUrl, scopeStr, "state" , "http://127.0.0.1:9999", "clientId");
-        emit _implicitFlow.authenticationNeeded();
+        Q_EMIT _implicitFlow.authenticationNeeded();
 
 
     } else {
-        emit deletePetSignalE(error_type, error_str);
-        emit deletePetSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
+        Q_EMIT deletePetSignalE(error_type, error_str);
+        Q_EMIT deletePetSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        Q_EMIT deletePetSignalError(error_type, error_str);
+        Q_EMIT deletePetSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -582,21 +643,16 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
     PFXHttpRequestInput input(fullPath, "GET");
 
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::findPetsByStatusCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
     _OauthMethod = 1;
@@ -617,9 +673,9 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
 
     connect(_latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::findPetsByStatusCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
-    connect(_latestWorker, &QObject::destroyed, [this](){
+    connect(_latestWorker, &QObject::destroyed, this, [this] {
         if(findChildren<PFXHttpRequestWorker*>().count() == 0){
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
 
@@ -651,8 +707,8 @@ void PFXPetApi::findPetsByStatusCallback(PFXHttpRequestWorker *worker) {
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit findPetsByStatusSignal(output);
-        emit findPetsByStatusSignalFull(worker, output);
+        Q_EMIT findPetsByStatusSignal(output);
+        Q_EMIT findPetsByStatusSignalFull(worker, output);
     } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
         connect(&_implicitFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
         QStringList scope;
@@ -662,12 +718,38 @@ void PFXPetApi::findPetsByStatusCallback(PFXHttpRequestWorker *worker) {
         QString authorizationUrl("http://petstore.swagger.io/api/oauth/dialog");
         //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
         _implicitFlow.setVariables(authorizationUrl, scopeStr, "state" , "http://127.0.0.1:9999", "clientId");
-        emit _implicitFlow.authenticationNeeded();
+        Q_EMIT _implicitFlow.authenticationNeeded();
 
 
     } else {
-        emit findPetsByStatusSignalE(output, error_type, error_str);
-        emit findPetsByStatusSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
+        Q_EMIT findPetsByStatusSignalE(output, error_type, error_str);
+        Q_EMIT findPetsByStatusSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        Q_EMIT findPetsByStatusSignalError(output, error_type, error_str);
+        Q_EMIT findPetsByStatusSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -766,21 +848,16 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
     PFXHttpRequestInput input(fullPath, "GET");
 
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::findPetsByTagsCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
     _OauthMethod = 1;
@@ -801,9 +878,9 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
 
     connect(_latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::findPetsByTagsCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
-    connect(_latestWorker, &QObject::destroyed, [this](){
+    connect(_latestWorker, &QObject::destroyed, this, [this] {
         if(findChildren<PFXHttpRequestWorker*>().count() == 0){
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
 
@@ -835,8 +912,8 @@ void PFXPetApi::findPetsByTagsCallback(PFXHttpRequestWorker *worker) {
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit findPetsByTagsSignal(output);
-        emit findPetsByTagsSignalFull(worker, output);
+        Q_EMIT findPetsByTagsSignal(output);
+        Q_EMIT findPetsByTagsSignalFull(worker, output);
     } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
         connect(&_implicitFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
         QStringList scope;
@@ -846,12 +923,38 @@ void PFXPetApi::findPetsByTagsCallback(PFXHttpRequestWorker *worker) {
         QString authorizationUrl("http://petstore.swagger.io/api/oauth/dialog");
         //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
         _implicitFlow.setVariables(authorizationUrl, scopeStr, "state" , "http://127.0.0.1:9999", "clientId");
-        emit _implicitFlow.authenticationNeeded();
+        Q_EMIT _implicitFlow.authenticationNeeded();
 
 
     } else {
-        emit findPetsByTagsSignalE(output, error_type, error_str);
-        emit findPetsByTagsSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
+        Q_EMIT findPetsByTagsSignalE(output, error_type, error_str);
+        Q_EMIT findPetsByTagsSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        Q_EMIT findPetsByTagsSignalError(output, error_type, error_str);
+        Q_EMIT findPetsByTagsSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -882,21 +985,16 @@ void PFXPetApi::getPetById(const qint64 &pet_id) {
     PFXHttpRequestInput input(fullPath, "GET");
 
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::getPetByIdCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
 
@@ -914,11 +1012,37 @@ void PFXPetApi::getPetByIdCallback(PFXHttpRequestWorker *worker) {
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit getPetByIdSignal(output);
-        emit getPetByIdSignalFull(worker, output);
+        Q_EMIT getPetByIdSignal(output);
+        Q_EMIT getPetByIdSignalFull(worker, output);
     } else {
-        emit getPetByIdSignalE(output, error_type, error_str);
-        emit getPetByIdSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
+        Q_EMIT getPetByIdSignalE(output, error_type, error_str);
+        Q_EMIT getPetByIdSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        Q_EMIT getPetByIdSignalError(output, error_type, error_str);
+        Q_EMIT getPetByIdSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -936,21 +1060,16 @@ void PFXPetApi::updatePet(const PFXPet &pfx_pet) {
         QByteArray output = pfx_pet.asJson().toUtf8();
         input.request_body.append(output);
     }
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::updatePetCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
     _OauthMethod = 1;
@@ -971,9 +1090,9 @@ void PFXPetApi::updatePet(const PFXPet &pfx_pet) {
 
     connect(_latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::updatePetCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
-    connect(_latestWorker, &QObject::destroyed, [this](){
+    connect(_latestWorker, &QObject::destroyed, this, [this] {
         if(findChildren<PFXHttpRequestWorker*>().count() == 0){
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
 
@@ -995,8 +1114,8 @@ void PFXPetApi::updatePetCallback(PFXHttpRequestWorker *worker) {
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit updatePetSignal();
-        emit updatePetSignalFull(worker);
+        Q_EMIT updatePetSignal();
+        Q_EMIT updatePetSignalFull(worker);
     } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
         connect(&_implicitFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
         QStringList scope;
@@ -1006,12 +1125,38 @@ void PFXPetApi::updatePetCallback(PFXHttpRequestWorker *worker) {
         QString authorizationUrl("http://petstore.swagger.io/api/oauth/dialog");
         //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
         _implicitFlow.setVariables(authorizationUrl, scopeStr, "state" , "http://127.0.0.1:9999", "clientId");
-        emit _implicitFlow.authenticationNeeded();
+        Q_EMIT _implicitFlow.authenticationNeeded();
 
 
     } else {
-        emit updatePetSignalE(error_type, error_str);
-        emit updatePetSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
+        Q_EMIT updatePetSignalE(error_type, error_str);
+        Q_EMIT updatePetSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        Q_EMIT updatePetSignalError(error_type, error_str);
+        Q_EMIT updatePetSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -1046,21 +1191,16 @@ void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const ::test_namespace::
         input.add_var("status", ::test_namespace::toStringValue(status.value()));
     }
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::updatePetWithFormCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
     _OauthMethod = 1;
@@ -1081,9 +1221,9 @@ void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const ::test_namespace::
 
     connect(_latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::updatePetWithFormCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
-    connect(_latestWorker, &QObject::destroyed, [this](){
+    connect(_latestWorker, &QObject::destroyed, this, [this] {
         if(findChildren<PFXHttpRequestWorker*>().count() == 0){
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
 
@@ -1105,8 +1245,8 @@ void PFXPetApi::updatePetWithFormCallback(PFXHttpRequestWorker *worker) {
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit updatePetWithFormSignal();
-        emit updatePetWithFormSignalFull(worker);
+        Q_EMIT updatePetWithFormSignal();
+        Q_EMIT updatePetWithFormSignalFull(worker);
     } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
         connect(&_implicitFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
         QStringList scope;
@@ -1116,12 +1256,38 @@ void PFXPetApi::updatePetWithFormCallback(PFXHttpRequestWorker *worker) {
         QString authorizationUrl("http://petstore.swagger.io/api/oauth/dialog");
         //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
         _implicitFlow.setVariables(authorizationUrl, scopeStr, "state" , "http://127.0.0.1:9999", "clientId");
-        emit _implicitFlow.authenticationNeeded();
+        Q_EMIT _implicitFlow.authenticationNeeded();
 
 
     } else {
-        emit updatePetWithFormSignalE(error_type, error_str);
-        emit updatePetWithFormSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
+        Q_EMIT updatePetWithFormSignalE(error_type, error_str);
+        Q_EMIT updatePetWithFormSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        Q_EMIT updatePetWithFormSignalError(error_type, error_str);
+        Q_EMIT updatePetWithFormSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -1156,21 +1322,16 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const ::test_namespace::Optiona
         input.add_file("file", file.value().local_filename, file.value().request_filename, file.value().mime_type);
     }
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::uploadFileCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
     _OauthMethod = 1;
@@ -1191,9 +1352,9 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const ::test_namespace::Optiona
 
     connect(_latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::uploadFileCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
-    connect(_latestWorker, &QObject::destroyed, [this](){
+    connect(_latestWorker, &QObject::destroyed, this, [this] {
         if(findChildren<PFXHttpRequestWorker*>().count() == 0){
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
 
@@ -1216,8 +1377,8 @@ void PFXPetApi::uploadFileCallback(PFXHttpRequestWorker *worker) {
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit uploadFileSignal(output);
-        emit uploadFileSignalFull(worker, output);
+        Q_EMIT uploadFileSignal(output);
+        Q_EMIT uploadFileSignalFull(worker, output);
     } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
         connect(&_implicitFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
         QStringList scope;
@@ -1227,12 +1388,38 @@ void PFXPetApi::uploadFileCallback(PFXHttpRequestWorker *worker) {
         QString authorizationUrl("http://petstore.swagger.io/api/oauth/dialog");
         //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
         _implicitFlow.setVariables(authorizationUrl, scopeStr, "state" , "http://127.0.0.1:9999", "clientId");
-        emit _implicitFlow.authenticationNeeded();
+        Q_EMIT _implicitFlow.authenticationNeeded();
 
 
     } else {
-        emit uploadFileSignalE(output, error_type, error_str);
-        emit uploadFileSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
+        Q_EMIT uploadFileSignalE(output, error_type, error_str);
+        Q_EMIT uploadFileSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        Q_EMIT uploadFileSignalError(output, error_type, error_str);
+        Q_EMIT uploadFileSignalErrorFull(worker, error_type, error_str);
     }
 }
 

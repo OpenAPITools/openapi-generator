@@ -47,10 +47,13 @@ public class DartDioClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setPubAuthor(DartDioClientOptionsProvider.PUB_AUTHOR_VALUE);
         verify(clientCodegen).setPubAuthorEmail(DartDioClientOptionsProvider.PUB_AUTHOR_EMAIL_VALUE);
         verify(clientCodegen).setPubHomepage(DartDioClientOptionsProvider.PUB_HOMEPAGE_VALUE);
+        verify(clientCodegen).setPubRepository(DartDioClientOptionsProvider.PUB_REPOSITORY_VALUE);
+        verify(clientCodegen).setPubPublishTo(DartDioClientOptionsProvider.PUB_PUBLISH_TO_VALUE);
         verify(clientCodegen).setSourceFolder(DartDioClientOptionsProvider.SOURCE_FOLDER_VALUE);
         verify(clientCodegen).setUseEnumExtension(Boolean.parseBoolean(DartDioClientOptionsProvider.USE_ENUM_EXTENSION));
         verify(clientCodegen).setDateLibrary(DartDioClientCodegen.DATE_LIBRARY_DEFAULT);
         verify(clientCodegen).setLibrary(DartDioClientCodegen.SERIALIZATION_LIBRARY_DEFAULT);
+        verify(clientCodegen).setEqualityCheckMethod(DartDioClientCodegen.EQUALITY_CHECK_METHOD_DEFAULT);
         verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(DartDioClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
     }
 }

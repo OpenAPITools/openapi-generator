@@ -58,7 +58,7 @@ void OAIStoreApiRequest::deleteOrderRequest(const QString& order_idstr){
     fromStringValue(order_idstr, order_id);
     
 
-    emit deleteOrder(order_id);
+    Q_EMIT deleteOrder(order_id);
 }
 
 
@@ -69,7 +69,7 @@ void OAIStoreApiRequest::getInventoryRequest(){
     
 
 
-    emit getInventory();
+    Q_EMIT getInventory();
 }
 
 
@@ -82,7 +82,7 @@ void OAIStoreApiRequest::getOrderByIdRequest(const QString& order_idstr){
     fromStringValue(order_idstr, order_id);
     
 
-    emit getOrderById(order_id);
+    Q_EMIT getOrderById(order_id);
 }
 
 
@@ -100,7 +100,7 @@ void OAIStoreApiRequest::placeOrderRequest(){
     ::OpenAPI::fromJsonValue(body, obj);
     
 
-    emit placeOrder(body);
+    Q_EMIT placeOrder(body);
 }
 
 

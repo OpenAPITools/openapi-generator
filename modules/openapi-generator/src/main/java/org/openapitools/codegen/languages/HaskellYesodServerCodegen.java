@@ -19,9 +19,10 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -33,7 +34,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -49,35 +49,24 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
 
     private final Logger LOGGER = LoggerFactory.getLogger(HaskellYesodServerCodegen.class);
 
+    @Getter @Setter
     protected String projectName;
+    @Getter @Setter
     protected String apiModuleName;
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "haskell-yesod";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a haskell-yesod server.";
-    }
-
-    public String getProjectName() {
-        return projectName;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
-    public String getApiModuleName() {
-        return apiModuleName;
-    }
-
-    public void setApiModuleName(String apiModuleName) {
-        this.apiModuleName = apiModuleName;
     }
 
     public HaskellYesodServerCodegen() {
@@ -107,12 +96,6 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
         specialCharReplacements.put("-", "Dash");
         specialCharReplacements.put(">", "GreaterThan");
         specialCharReplacements.put("<", "LessThan");
-
-        // backslash and double quote need double the escapement for both Java and Haskell
-        specialCharReplacements.remove("\\");
-        specialCharReplacements.remove("\"");
-        specialCharReplacements.put("\\\\", "Back_Slash");
-        specialCharReplacements.put("\\\"", "Double_Quote");
 
         outputFolder = "generated-code" + File.separator + "haskell-yesod";
         apiTemplateFiles.put("api.mustache", ".hs");
@@ -205,6 +188,8 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
 
         if (StringUtils.isEmpty(System.getenv("HASKELL_POST_PROCESS_FILE"))) {
             LOGGER.info("Hint: Environment variable HASKELL_POST_PROCESS_FILE not defined so the Haskell code may not be properly formatted. To define it, try 'export HASKELL_POST_PROCESS_FILE=\"$HOME/.local/bin/hfmt -w\"' (Linux/Mac)");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'HASKELL_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(PROJECT_NAME)) {
@@ -286,7 +271,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
             String c = (String) replacementChar;
             Map<String, Object> o = new HashMap<>();
             o.put("char", c);
-            o.put("replacement", "'" + specialCharReplacements.get(c));
+            o.put("replacement", specialCharReplacements.get(c));
             replacements.add(o);
         }
         additionalProperties.put("specialCharReplacements", replacements);
@@ -301,11 +286,10 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return "(Map.Map String " + getTypeDeclaration(inner) + ")";
         }
         return fixModelChars(super.getTypeDeclaration(p));
@@ -340,7 +324,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
-            Schema additionalProperties2 = getAdditionalProperties(p);
+            Schema additionalProperties2 = ModelUtils.getAdditionalProperties(p);
             String type = additionalProperties2.getType();
             if (null == type) {
                 LOGGER.error("No Type defined for Additional Property {}\n\tIn Property: {}", additionalProperties2, p);
@@ -348,8 +332,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
             String inner = getSchemaType(additionalProperties2);
             return "(Map.Map Text " + inner + ")";
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            String inner = getSchemaType(ap.getItems());
+            String inner = getSchemaType(ModelUtils.getSchemaItems(p));
             // Return only the inner type; the wrapping with QueryList is done
             // somewhere else, where we have access to the collection format.
             return inner;
@@ -530,29 +513,6 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
         }
     }
 
-    private String fixOperatorChars(String string) {
-        StringBuilder sb = new StringBuilder();
-        String name = string;
-        //Check if it is a reserved word, in which case the underscore is added when property name is generated.
-        if (string.startsWith("_")) {
-            if (reservedWords.contains(string.substring(1))) {
-                name = string.substring(1);
-            } else if (reservedWordsMappings.containsValue(string)) {
-                name = LEADING_UNDERSCORE.matcher(string).replaceFirst("");
-            }
-        }
-        for (char c : name.toCharArray()) {
-            String cString = String.valueOf(c);
-            if (specialCharReplacements.containsKey(cString)) {
-                sb.append("'");
-                sb.append(specialCharReplacements.get(cString));
-            } else {
-                sb.append(c);
-            }
-        }
-        return sb.toString();
-    }
-
     // Remove characters from a string that do not belong in a model classname
     private String fixModelChars(String string) {
         return string.replace(".", "").replace("-", "");
@@ -574,7 +534,8 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
         // From the model name, compute the prefix for the fields.
         String prefix = camelize(model.classname, LOWERCASE_FIRST_LETTER);
         for (CodegenProperty prop : model.vars) {
-            prop.name = toVarName(prefix + camelize(fixOperatorChars(prop.name)));
+            prop.name = toVarName(prefix + camelize(prop.name));
+            prop.vendorExtensions.put("x-base-name-string-literal", "\"" + escapeText(prop.getBaseName()) + "\"");
         }
 
         // Create newtypes for things with non-object types
@@ -585,8 +546,6 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
             model.vendorExtensions.put("x-custom-newtype", newtype);
         }
 
-        // Provide the prefix as a vendor extension, so that it can be used in the ToJSON and FromJSON instances.
-        model.vendorExtensions.put("x-prefix", prefix);
         model.vendorExtensions.put("x-data", dataOrNewtype);
 
         return model;
@@ -605,6 +564,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -615,20 +575,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
 
         // only process files with hs extension
         if ("hs".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = haskellPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[] {haskellPostProcessFile, file.toString()});
         }
     }
 

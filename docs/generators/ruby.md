@@ -27,13 +27,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |gemDescription|gem description. | |This gem maps to a REST API|
 |gemHomepage|gem homepage. | |https://openapi-generator.tech|
 |gemLicense|gem license. | |unlicense|
+|gemMetadata|gem metadata.| |{}|
 |gemName|gem name (convention: underscore_case).| |openapi_client|
 |gemRequiredRubyVersion|gem required Ruby version. | |&gt;= 2.4|
 |gemSummary|gem summary. | |A ruby wrapper for the REST APIs|
 |gemVersion|gem version.| |1.0.0|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
-|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
-|library|HTTP library template (sub-template) to use|<dl><dt>**faraday**</dt><dd>Faraday &gt;= 1.0.1 (https://github.com/lostisland/faraday)</dd><dt>**typhoeus**</dt><dd>Typhoeus &gt;= 1.0.1 (https://github.com/typhoeus/typhoeus)</dd></dl>|typhoeus|
+|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
+|library|HTTP library template (sub-template) to use|<dl><dt>**faraday**</dt><dd>Faraday &gt;= 1.0.1 (https://github.com/lostisland/faraday)</dd><dt>**httpx**</dt><dd>HTTPX &gt;= 1.0.0 (https://gitlab.com/os85/httpx)</dd><dt>**typhoeus**</dt><dd>Typhoeus &gt;= 1.0.1 (https://github.com/typhoeus/typhoeus)</dd></dl>|typhoeus|
 |moduleName|top module name (convention: CamelCase, usually corresponding to gem name).| |OpenAPIClient|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
@@ -235,6 +236,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
+|SignatureAuth|✗|OAS3
+|AWSV4Signature|✗|ToolingExtension
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

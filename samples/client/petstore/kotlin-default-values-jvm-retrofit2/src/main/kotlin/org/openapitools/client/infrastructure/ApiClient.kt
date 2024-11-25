@@ -7,6 +7,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
+import retrofit2.CallAdapter
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import com.squareup.moshi.Moshi
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -16,8 +17,13 @@ class ApiClient(
     private var baseUrl: String = defaultBasePath,
     private val okHttpClientBuilder: OkHttpClient.Builder? = null,
     private val serializerBuilder: Moshi.Builder = Serializer.moshiBuilder,
-    private val callFactory : Call.Factory? = null,
-    private val converterFactory: Converter.Factory? = null,
+    private val callFactory: Call.Factory? = null,
+    private val callAdapterFactories: List<CallAdapter.Factory> = listOf(
+    ),
+    private val converterFactories: List<Converter.Factory> = listOf(
+        ScalarsConverterFactory.create(),
+        MoshiConverterFactory.create(serializerBuilder.build()),
+    )
 ) {
     private val apiAuthorizations = mutableMapOf<String, Interceptor>()
     var logger: ((String) -> Unit)? = null
@@ -25,11 +31,14 @@ class ApiClient(
     private val retrofitBuilder: Retrofit.Builder by lazy {
         Retrofit.Builder()
             .baseUrl(baseUrl)
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(MoshiConverterFactory.create(serializerBuilder.build()))
             .apply {
-                if (converterFactory != null) {
-                    addConverterFactory(converterFactory)
+                callAdapterFactories.forEach {
+                    addCallAdapterFactory(it)
+                }
+            }
+            .apply {
+                converterFactories.forEach {
+                    addConverterFactory(it)
                 }
             }
     }
@@ -83,7 +92,7 @@ class ApiClient(
 
     private inline fun <T, reified U> Iterable<T>.runOnFirst(callback: U.() -> Unit) {
         for (element in this) {
-            if (element is U)  {
+            if (element is U) {
                 callback.invoke(element)
                 break
             }
@@ -92,7 +101,7 @@ class ApiClient(
 
     companion object {
         @JvmStatic
-        protected val baseUrlKey = "org.openapitools.client.baseUrl"
+        protected val baseUrlKey: String = "org.openapitools.client.baseUrl"
 
         @JvmStatic
         val defaultBasePath: String by lazy {

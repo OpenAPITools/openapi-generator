@@ -32,13 +32,14 @@
 #include "ApiResponse.h"
 #include "Pet.h"
 #include <string>
+#include <vector>
 
 namespace org::openapitools::server::api
 {
 
 using namespace org::openapitools::server::model;
 
-class PetApiImpl : public org::openapitools::server::api::PetApi {
+class  PetApiImpl : public org::openapitools::server::api::PetApi {
 public:
     explicit PetApiImpl(const std::shared_ptr<Pistache::Rest::Router>& rtr);
     ~PetApiImpl() override = default;

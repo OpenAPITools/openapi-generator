@@ -9,6 +9,7 @@ import org.openapitools.codegen.model.ModelMap;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class ProcessUtils {
@@ -242,6 +243,61 @@ public class ProcessUtils {
     }
 
     /**
+     * Returns true if the specified OAS model has at least one operation with OpenIdConnect authentication.
+     *
+     * @param openAPI An instance of OpenAPI
+     * @return True if at least one operation has OpenIdConnect security scheme defined
+     */
+    public static boolean hasOpenIdConnectMethods(OpenAPI openAPI) {
+        final Map<String, SecurityScheme> securitySchemes = getSecuritySchemes(openAPI);
+        if (securitySchemes != null) {
+            for (Map.Entry<String, SecurityScheme> scheme : securitySchemes.entrySet()) {
+                if (SecurityScheme.Type.OPENIDCONNECT.equals(scheme.getValue().getType())) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns a list of OpenIdConnect Codegen security objects
+     *
+     * @param authMethods List of auth methods.
+     * @return A list of OpenIdConnect Codegen security objects
+     */
+    public static List<CodegenSecurity> getOpenIdConnectMethods(List<CodegenSecurity> authMethods) {
+        List<CodegenSecurity> oauthMethods = new ArrayList<>();
+
+        for (CodegenSecurity cs : authMethods) {
+            if (Boolean.TRUE.equals(cs.isOpenId)) {
+                oauthMethods.add(cs);
+            }
+        }
+
+        return oauthMethods;
+    }
+
+    /**
+     * Returns a list of OpenIdConnect Codegen security objects
+     *
+     * @param authMethods List of auth methods.
+     * @return A list of OpenIdConnect Codegen security objects
+     */
+    public static boolean hasOpenIdConnectMethods(List<CodegenSecurity> authMethods) {
+
+        for (CodegenSecurity cs : authMethods) {
+            if (Boolean.TRUE.equals(cs.isOpenId)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    /**
      * Returns true if the specified OAS model has at least one operation with HTTP bearer authentication.
      *
      * @param openAPI An instance of OpenAPI
@@ -251,7 +307,7 @@ public class ProcessUtils {
         final Map<String, SecurityScheme> securitySchemes = getSecuritySchemes(openAPI);
         if (securitySchemes != null) {
             for (Map.Entry<String, SecurityScheme> scheme : securitySchemes.entrySet()) {
-                if (SecurityScheme.Type.HTTP.equals(scheme.getValue().getType()) && "bearer".equals(scheme.getValue().getScheme())) {
+                if (SecurityScheme.Type.HTTP.equals(scheme.getValue().getType()) && "bearer".equals(scheme.getValue().getScheme().strip().toLowerCase(Locale.ROOT))) {
                     return true;
                 }
             }
@@ -270,7 +326,7 @@ public class ProcessUtils {
         final Map<String, SecurityScheme> securitySchemes = getSecuritySchemes(openAPI);
         if (securitySchemes != null) {
             for (Map.Entry<String, SecurityScheme> scheme : securitySchemes.entrySet()) {
-                if (SecurityScheme.Type.HTTP.equals(scheme.getValue().getType()) && "basic".equals(scheme.getValue().getScheme())) {
+                if (SecurityScheme.Type.HTTP.equals(scheme.getValue().getType()) && "basic".equals(scheme.getValue().getScheme().strip().toLowerCase(Locale.ROOT))) {
                     return true;
                 }
             }
@@ -289,7 +345,7 @@ public class ProcessUtils {
         final Map<String, SecurityScheme> securitySchemes = getSecuritySchemes(openAPI);
         if (securitySchemes != null) {
             for (Map.Entry<String, SecurityScheme> scheme : securitySchemes.entrySet()) {
-                if (SecurityScheme.Type.HTTP.equals(scheme.getValue().getType()) && "signature".equals(scheme.getValue().getScheme())) {
+                if (SecurityScheme.Type.HTTP.equals(scheme.getValue().getType()) && "signature".equals(scheme.getValue().getScheme().strip().toLowerCase(Locale.ROOT))) {
                     return true;
                 }
             }

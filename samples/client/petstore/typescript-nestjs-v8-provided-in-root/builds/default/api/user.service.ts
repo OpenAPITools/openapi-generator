@@ -11,12 +11,13 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { Inject, Injectable, Optional } from '@nestjs/common';
+import { Injectable, Optional } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { AxiosResponse } from 'axios';
-import { Observable } from 'rxjs';
+import { Observable, from, of, switchMap } from 'rxjs';
 import { User } from '../model/user';
 import { Configuration } from '../configuration';
+import { COLLECTION_FORMATS } from '../variables';
 
 
 @Injectable()
@@ -25,10 +26,12 @@ export class UserService {
     protected basePath = 'http://petstore.swagger.io/v2';
     public defaultHeaders: Record<string,string> = {};
     public configuration = new Configuration();
+    protected httpClient: HttpService;
 
-    constructor(protected httpClient: HttpService, @Optional() configuration: Configuration) {
+    constructor(httpClient: HttpService, @Optional() configuration: Configuration) {
         this.configuration = configuration || this.configuration;
         this.basePath = configuration?.basePath || this.basePath;
+        this.httpClient = configuration?.httpClient || httpClient;
     }
 
     /**
@@ -49,15 +52,16 @@ export class UserService {
      */
     public createUser(user: User, ): Observable<AxiosResponse<any>>;
     public createUser(user: User, ): Observable<any> {
-
         if (user === null || user === undefined) {
             throw new Error('Required parameter user was null or undefined when calling createUser.');
         }
 
         let headers = {...this.defaultHeaders};
 
+        let accessTokenObservable: Observable<any> = of(null);
+
         // authentication (api_key) required
-        if (this.configuration.apiKeys["api_key"]) {
+        if (this.configuration.apiKeys?.["api_key"]) {
             headers['api_key'] = this.configuration.apiKeys["api_key"];
         }
 
@@ -77,12 +81,20 @@ export class UserService {
         if (httpContentTypeSelected != undefined) {
             headers['Content-Type'] = httpContentTypeSelected;
         }
-        return this.httpClient.post<any>(`${this.basePath}/user`,
-            user,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers
-            }
+        return accessTokenObservable.pipe(
+            switchMap((accessToken) => {
+                if (accessToken) {
+                    headers['Authorization'] = `Bearer ${accessToken}`;
+                }
+
+                return this.httpClient.post<any>(`${this.basePath}/user`,
+                    user,
+                    {
+                        withCredentials: this.configuration.withCredentials,
+                        headers: headers
+                    }
+                );
+            })
         );
     }
     /**
@@ -94,15 +106,16 @@ export class UserService {
      */
     public createUsersWithArrayInput(user: Array<User>, ): Observable<AxiosResponse<any>>;
     public createUsersWithArrayInput(user: Array<User>, ): Observable<any> {
-
         if (user === null || user === undefined) {
             throw new Error('Required parameter user was null or undefined when calling createUsersWithArrayInput.');
         }
 
         let headers = {...this.defaultHeaders};
 
+        let accessTokenObservable: Observable<any> = of(null);
+
         // authentication (api_key) required
-        if (this.configuration.apiKeys["api_key"]) {
+        if (this.configuration.apiKeys?.["api_key"]) {
             headers['api_key'] = this.configuration.apiKeys["api_key"];
         }
 
@@ -122,12 +135,20 @@ export class UserService {
         if (httpContentTypeSelected != undefined) {
             headers['Content-Type'] = httpContentTypeSelected;
         }
-        return this.httpClient.post<any>(`${this.basePath}/user/createWithArray`,
-            user,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers
-            }
+        return accessTokenObservable.pipe(
+            switchMap((accessToken) => {
+                if (accessToken) {
+                    headers['Authorization'] = `Bearer ${accessToken}`;
+                }
+
+                return this.httpClient.post<any>(`${this.basePath}/user/createWithArray`,
+                    user,
+                    {
+                        withCredentials: this.configuration.withCredentials,
+                        headers: headers
+                    }
+                );
+            })
         );
     }
     /**
@@ -139,15 +160,16 @@ export class UserService {
      */
     public createUsersWithListInput(user: Array<User>, ): Observable<AxiosResponse<any>>;
     public createUsersWithListInput(user: Array<User>, ): Observable<any> {
-
         if (user === null || user === undefined) {
             throw new Error('Required parameter user was null or undefined when calling createUsersWithListInput.');
         }
 
         let headers = {...this.defaultHeaders};
 
+        let accessTokenObservable: Observable<any> = of(null);
+
         // authentication (api_key) required
-        if (this.configuration.apiKeys["api_key"]) {
+        if (this.configuration.apiKeys?.["api_key"]) {
             headers['api_key'] = this.configuration.apiKeys["api_key"];
         }
 
@@ -167,12 +189,20 @@ export class UserService {
         if (httpContentTypeSelected != undefined) {
             headers['Content-Type'] = httpContentTypeSelected;
         }
-        return this.httpClient.post<any>(`${this.basePath}/user/createWithList`,
-            user,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers
-            }
+        return accessTokenObservable.pipe(
+            switchMap((accessToken) => {
+                if (accessToken) {
+                    headers['Authorization'] = `Bearer ${accessToken}`;
+                }
+
+                return this.httpClient.post<any>(`${this.basePath}/user/createWithList`,
+                    user,
+                    {
+                        withCredentials: this.configuration.withCredentials,
+                        headers: headers
+                    }
+                );
+            })
         );
     }
     /**
@@ -184,15 +214,16 @@ export class UserService {
      */
     public deleteUser(username: string, ): Observable<AxiosResponse<any>>;
     public deleteUser(username: string, ): Observable<any> {
-
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling deleteUser.');
         }
 
         let headers = {...this.defaultHeaders};
 
+        let accessTokenObservable: Observable<any> = of(null);
+
         // authentication (api_key) required
-        if (this.configuration.apiKeys["api_key"]) {
+        if (this.configuration.apiKeys?.["api_key"]) {
             headers['api_key'] = this.configuration.apiKeys["api_key"];
         }
 
@@ -207,11 +238,19 @@ export class UserService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-        return this.httpClient.delete<any>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers
-            }
+        return accessTokenObservable.pipe(
+            switchMap((accessToken) => {
+                if (accessToken) {
+                    headers['Authorization'] = `Bearer ${accessToken}`;
+                }
+
+                return this.httpClient.delete<any>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
+                    {
+                        withCredentials: this.configuration.withCredentials,
+                        headers: headers
+                    }
+                );
+            })
         );
     }
     /**
@@ -223,12 +262,13 @@ export class UserService {
      */
     public getUserByName(username: string, ): Observable<AxiosResponse<User>>;
     public getUserByName(username: string, ): Observable<any> {
-
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling getUserByName.');
         }
 
         let headers = {...this.defaultHeaders};
+
+        let accessTokenObservable: Observable<any> = of(null);
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
@@ -243,11 +283,19 @@ export class UserService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-        return this.httpClient.get<User>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers
-            }
+        return accessTokenObservable.pipe(
+            switchMap((accessToken) => {
+                if (accessToken) {
+                    headers['Authorization'] = `Bearer ${accessToken}`;
+                }
+
+                return this.httpClient.get<User>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
+                    {
+                        withCredentials: this.configuration.withCredentials,
+                        headers: headers
+                    }
+                );
+            })
         );
     }
     /**
@@ -260,7 +308,6 @@ export class UserService {
      */
     public loginUser(username: string, password: string, ): Observable<AxiosResponse<string>>;
     public loginUser(username: string, password: string, ): Observable<any> {
-
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling loginUser.');
         }
@@ -279,6 +326,8 @@ export class UserService {
 
         let headers = {...this.defaultHeaders};
 
+        let accessTokenObservable: Observable<any> = of(null);
+
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
             'application/xml',
@@ -292,12 +341,20 @@ export class UserService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-        return this.httpClient.get<string>(`${this.basePath}/user/login`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers
-            }
+        return accessTokenObservable.pipe(
+            switchMap((accessToken) => {
+                if (accessToken) {
+                    headers['Authorization'] = `Bearer ${accessToken}`;
+                }
+
+                return this.httpClient.get<string>(`${this.basePath}/user/login`,
+                    {
+                        params: queryParameters,
+                        withCredentials: this.configuration.withCredentials,
+                        headers: headers
+                    }
+                );
+            })
         );
     }
     /**
@@ -308,11 +365,12 @@ export class UserService {
      */
     public logoutUser(): Observable<AxiosResponse<any>>;
     public logoutUser(): Observable<any> {
-
         let headers = {...this.defaultHeaders};
 
+        let accessTokenObservable: Observable<any> = of(null);
+
         // authentication (api_key) required
-        if (this.configuration.apiKeys["api_key"]) {
+        if (this.configuration.apiKeys?.["api_key"]) {
             headers['api_key'] = this.configuration.apiKeys["api_key"];
         }
 
@@ -327,11 +385,19 @@ export class UserService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-        return this.httpClient.get<any>(`${this.basePath}/user/logout`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers
-            }
+        return accessTokenObservable.pipe(
+            switchMap((accessToken) => {
+                if (accessToken) {
+                    headers['Authorization'] = `Bearer ${accessToken}`;
+                }
+
+                return this.httpClient.get<any>(`${this.basePath}/user/logout`,
+                    {
+                        withCredentials: this.configuration.withCredentials,
+                        headers: headers
+                    }
+                );
+            })
         );
     }
     /**
@@ -344,7 +410,6 @@ export class UserService {
      */
     public updateUser(username: string, user: User, ): Observable<AxiosResponse<any>>;
     public updateUser(username: string, user: User, ): Observable<any> {
-
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling updateUser.');
         }
@@ -355,8 +420,10 @@ export class UserService {
 
         let headers = {...this.defaultHeaders};
 
+        let accessTokenObservable: Observable<any> = of(null);
+
         // authentication (api_key) required
-        if (this.configuration.apiKeys["api_key"]) {
+        if (this.configuration.apiKeys?.["api_key"]) {
             headers['api_key'] = this.configuration.apiKeys["api_key"];
         }
 
@@ -376,12 +443,20 @@ export class UserService {
         if (httpContentTypeSelected != undefined) {
             headers['Content-Type'] = httpContentTypeSelected;
         }
-        return this.httpClient.put<any>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
-            user,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers
-            }
+        return accessTokenObservable.pipe(
+            switchMap((accessToken) => {
+                if (accessToken) {
+                    headers['Authorization'] = `Bearer ${accessToken}`;
+                }
+
+                return this.httpClient.put<any>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
+                    user,
+                    {
+                        withCredentials: this.configuration.withCredentials,
+                        headers: headers
+                    }
+                );
+            })
         );
     }
 }

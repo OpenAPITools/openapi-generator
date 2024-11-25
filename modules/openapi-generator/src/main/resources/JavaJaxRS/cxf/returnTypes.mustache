@@ -1,4 +1,4 @@
 {{#useGenericResponse}}Response{{/useGenericResponse}}{{! non-generic response:
 }}{{^useGenericResponse}}{{!
-}}{{{returnType}}}{{!
+}}{{#isResponseFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<InputStream>{{/collectionFormat}}{{^collectionFormat}}InputStream{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}{{!
 }}{{/useGenericResponse}}

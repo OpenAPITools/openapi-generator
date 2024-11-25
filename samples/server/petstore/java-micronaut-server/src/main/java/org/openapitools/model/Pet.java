@@ -15,6 +15,7 @@ package org.openapitools.model;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
@@ -39,7 +40,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
   Pet.JSON_PROPERTY_STATUS
 })
 @JsonTypeName("Pet")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 @Introspected
 public class Pet {
     public static final String JSON_PROPERTY_ID = "id";
@@ -55,7 +56,7 @@ public class Pet {
     private List<String> photoUrls = new ArrayList<>();
 
     public static final String JSON_PROPERTY_TAGS = "tags";
-    private List<Tag> tags = null;
+    private List<@Valid Tag> tags = null;
 
     /**
      * pet status in the store
@@ -107,9 +108,9 @@ public class Pet {
     /**
      * Get id
      * @return id
-     **/
+     */
     @Nullable
-    @Schema(name = "id", required = false)
+    @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Long getId() {
@@ -130,10 +131,10 @@ public class Pet {
     /**
      * Get category
      * @return category
-     **/
+     */
     @Valid
     @Nullable
-    @Schema(name = "category", required = false)
+    @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_CATEGORY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Category getCategory() {
@@ -154,9 +155,9 @@ public class Pet {
     /**
      * Get name
      * @return name
-     **/
+     */
     @NotNull
-    @Schema(name = "name", example = "doggie", required = true)
+    @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
     @JsonProperty(JSON_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public String getName() {
@@ -182,9 +183,9 @@ public class Pet {
     /**
      * Get photoUrls
      * @return photoUrls
-     **/
+     */
     @NotNull
-    @Schema(name = "photoUrls", required = true)
+    @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
     @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public List<String> getPhotoUrls() {
@@ -197,7 +198,7 @@ public class Pet {
         this.photoUrls = photoUrls;
     }
 
-    public Pet tags(List<Tag> tags) {
+    public Pet tags(List<@Valid Tag> tags) {
         this.tags = tags;
         return this;
     }
@@ -213,18 +214,18 @@ public class Pet {
     /**
      * Get tags
      * @return tags
-     **/
+     */
     @Nullable
-    @Schema(name = "tags", required = false)
+    @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_TAGS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public List<Tag> getTags() {
+    public List<@Valid Tag> getTags() {
         return tags;
     }
 
     @JsonProperty(JSON_PROPERTY_TAGS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setTags(List<Tag> tags) {
+    public void setTags(List<@Valid Tag> tags) {
         this.tags = tags;
     }
 
@@ -236,9 +237,9 @@ public class Pet {
     /**
      * pet status in the store
      * @return status
-     **/
+     */
     @Nullable
-    @Schema(name = "status", description = "pet status in the store", required = false)
+    @Schema(name = "status", description = "pet status in the store", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_STATUS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public StatusEnum getStatus() {
@@ -299,3 +300,4 @@ public class Pet {
     }
 
 }
+

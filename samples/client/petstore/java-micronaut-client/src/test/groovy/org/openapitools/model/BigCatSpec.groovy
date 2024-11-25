@@ -1,6 +1,5 @@
 package org.openapitools.model
 
-import org.openapitools.model.BigCatAllOf
 import org.openapitools.model.Cat
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import spock.lang.Specification

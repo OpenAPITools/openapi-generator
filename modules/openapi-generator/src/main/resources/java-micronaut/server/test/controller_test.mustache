@@ -26,14 +26,12 @@ import reactor.core.publisher.Mono;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-{{^fullJavaUtil}}
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.HashSet;
-{{/fullJavaUtil}}
 
 
 /**
@@ -148,8 +146,8 @@ public class {{classname}}Test {
         {{closebrace}}{{closebrace}}{{/pathParams.0}});
         {{!Create the request with body and uri}}
         MutableHttpRequest<?> request = HttpRequest.{{httpMethod}}{{#vendorExtensions.methodAllowsBody}}{{#bodyParam}}(uri, body){{/bodyParam}}{{#isMultipart}}{{^formParams}}(uri, body){{/formParams}}{{/isMultipart}}{{#formParams.0}}(uri, form){{/formParams.0}}{{^bodyParam}}{{^isMultipart}}{{^formParams}}(uri, null){{/formParams}}{{/isMultipart}}{{/bodyParam}}{{/vendorExtensions.methodAllowsBody}}{{^vendorExtensions.methodAllowsBody}}(uri){{/vendorExtensions.methodAllowsBody}}{{!Fill in all the request parameters}}{{#vendorExtensions.x-contentType}}
-            .contentType("{{vendorExtensions.x-contentType}}"){{/vendorExtensions.x-contentType}}{{#vendorExtensions.x-accepts}}
-            .accept("{{vendorExtensions.x-accepts}}"){{/vendorExtensions.x-accepts}}{{#headerParams}}
+            .contentType("{{{vendorExtensions.x-contentType}}}"){{/vendorExtensions.x-contentType}}{{#vendorExtensions.x-accepts}}
+            .accept("{{{vendorExtensions.x-accepts}}}"){{/vendorExtensions.x-accepts}}{{#headerParams}}
             .header("{{{baseName}}}", {{^isString}}String.valueOf({{/isString}}{{{example}}}{{^isString}}){{/isString}}){{/headerParams}}{{#cookieParams}}
             .cookie(Cookie.of("{{{baseName}}}", {{{example}}})){{/cookieParams}};
         {{!Fill in the query parameters}}

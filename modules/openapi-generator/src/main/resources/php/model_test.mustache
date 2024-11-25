@@ -69,17 +69,17 @@ class {{classname}}Test extends TestCase
     public function test{{classname}}()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 {{#vars}}
 
     /**
      * Test attribute "{{name}}"
      */
-    public function testProperty{{nameInCamelCase}}()
+    public function testProperty{{nameInPascalCase}}()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 {{/vars}}
 }

@@ -24,9 +24,10 @@ open class UserAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func createUser(body: User) -> AnyPublisher<Void, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = createUserWithRequestBuilder(body: body)
+        let requestTask = requestBuilder.requestTask
         return Future<Void, Error> { promise in
-            requestTask = createUserWithRequestBuilder(body: body).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -36,7 +37,7 @@ open class UserAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -76,9 +77,10 @@ open class UserAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func createUsersWithArrayInput(body: [User]) -> AnyPublisher<Void, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = createUsersWithArrayInputWithRequestBuilder(body: body)
+        let requestTask = requestBuilder.requestTask
         return Future<Void, Error> { promise in
-            requestTask = createUsersWithArrayInputWithRequestBuilder(body: body).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -88,7 +90,7 @@ open class UserAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -127,9 +129,10 @@ open class UserAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func createUsersWithListInput(body: [User]) -> AnyPublisher<Void, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = createUsersWithListInputWithRequestBuilder(body: body)
+        let requestTask = requestBuilder.requestTask
         return Future<Void, Error> { promise in
-            requestTask = createUsersWithListInputWithRequestBuilder(body: body).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -139,7 +142,7 @@ open class UserAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -178,9 +181,10 @@ open class UserAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deleteUser(username: String) -> AnyPublisher<Void, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = deleteUserWithRequestBuilder(username: username)
+        let requestTask = requestBuilder.requestTask
         return Future<Void, Error> { promise in
-            requestTask = deleteUserWithRequestBuilder(username: username).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -190,7 +194,7 @@ open class UserAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -233,9 +237,10 @@ open class UserAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getUserByName(username: String) -> AnyPublisher<User, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = getUserByNameWithRequestBuilder(username: username)
+        let requestTask = requestBuilder.requestTask
         return Future<User, Error> { promise in
-            requestTask = getUserByNameWithRequestBuilder(username: username).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -245,7 +250,7 @@ open class UserAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -288,9 +293,10 @@ open class UserAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func loginUser(username: String, password: String) -> AnyPublisher<String, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = loginUserWithRequestBuilder(username: username, password: password)
+        let requestTask = requestBuilder.requestTask
         return Future<String, Error> { promise in
-            requestTask = loginUserWithRequestBuilder(username: username, password: password).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -300,7 +306,7 @@ open class UserAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -344,9 +350,10 @@ open class UserAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func logoutUser() -> AnyPublisher<Void, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = logoutUserWithRequestBuilder()
+        let requestTask = requestBuilder.requestTask
         return Future<Void, Error> { promise in
-            requestTask = logoutUserWithRequestBuilder().execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -356,7 +363,7 @@ open class UserAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -395,9 +402,10 @@ open class UserAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func updateUser(username: String, body: User) -> AnyPublisher<Void, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = updateUserWithRequestBuilder(username: username, body: body)
+        let requestTask = requestBuilder.requestTask
         return Future<Void, Error> { promise in
-            requestTask = updateUserWithRequestBuilder(username: username, body: body).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -407,7 +415,7 @@ open class UserAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }

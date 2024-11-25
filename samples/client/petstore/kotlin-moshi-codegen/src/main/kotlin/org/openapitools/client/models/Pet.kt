@@ -61,10 +61,12 @@ data class Pet (
      *
      * Values: available,pending,sold
      */
+    @JsonClass(generateAdapter = false)
     enum class Status(val value: kotlin.String) {
         @Json(name = "available") available("available"),
         @Json(name = "pending") pending("pending"),
         @Json(name = "sold") sold("sold");
     }
+
 }
 

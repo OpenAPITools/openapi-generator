@@ -5,3 +5,10 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/javascript/petstore-
 templateDir: modules/openapi-generator/src/main/resources/Javascript
 additionalProperties:
   appName: PetstoreClient
+modelNameMappings:
+  HealthCheckResult: HealthCheckStatus
+parameterNameMappings:
+  query_1: queryOne
+# the following has no effect as js client gen use baseName directly
+nameMappings:
+  NullableMessage: nullable_field

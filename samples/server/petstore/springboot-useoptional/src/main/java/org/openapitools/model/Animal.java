@@ -9,9 +9,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.model.BigCat;
-import org.openapitools.model.Cat;
-import org.openapitools.model.Dog;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -36,14 +33,23 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = Dog.class, name = "Dog")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class Animal {
 
-  @JsonProperty("className")
   private String className;
 
-  @JsonProperty("color")
-  private String color = "red";
+  private Optional<String> color = Optional.of("red");
+
+  public Animal() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Animal(String className) {
+    this.className = className;
+  }
 
   public Animal className(String className) {
     this.className = className;
@@ -53,9 +59,10 @@ public class Animal {
   /**
    * Get className
    * @return className
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("className")
   public String getClassName() {
     return className;
   }
@@ -65,21 +72,22 @@ public class Animal {
   }
 
   public Animal color(String color) {
-    this.color = color;
+    this.color = Optional.of(color);
     return this;
   }
 
   /**
    * Get color
    * @return color
-  */
+   */
   
   @ApiModelProperty(value = "")
-  public String getColor() {
+  @JsonProperty("color")
+  public Optional<String> getColor() {
     return color;
   }
 
-  public void setColor(String color) {
+  public void setColor(Optional<String> color) {
     this.color = color;
   }
 
@@ -121,5 +129,69 @@ public class Animal {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private Animal instance;
+
+    public Builder() {
+      this(new Animal());
+    }
+
+    protected Builder(Animal instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(Animal value) { 
+      this.instance.setClassName(value.className);
+      this.instance.setColor(value.color);
+      return this;
+    }
+
+    public Animal.Builder className(String className) {
+      this.instance.className(className);
+      return this;
+    }
+    
+    public Animal.Builder color(String color) {
+      this.instance.color(color);
+      return this;
+    }
+    
+    /**
+    * returns a built Animal instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Animal build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static Animal.Builder builder() {
+    return new Animal.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Animal.Builder toBuilder() {
+    Animal.Builder builder = new Animal.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

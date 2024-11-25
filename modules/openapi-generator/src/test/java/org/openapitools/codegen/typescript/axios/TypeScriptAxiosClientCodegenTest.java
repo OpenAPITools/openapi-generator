@@ -89,7 +89,7 @@ public class TypeScriptAxiosClientCodegenTest {
         codegen.additionalProperties().put("npmName", "@openapi/typescript-axios-petstore");
         codegen.additionalProperties().put("snapshot", false);
         codegen.additionalProperties().put("npmVersion", "1.0.0-SNAPSHOT");
-        codegen.setSupportsES6(true);
+        codegen.additionalProperties().put("supportsES6", true);
 
         codegen.processOpts();
 
@@ -104,11 +104,30 @@ public class TypeScriptAxiosClientCodegenTest {
         codegen.additionalProperties().put("npmName", "@openapi/typescript-axios-petstore");
         codegen.additionalProperties().put("snapshot", false);
         codegen.additionalProperties().put("npmVersion", "1.0.0-SNAPSHOT");
-        codegen.setSupportsES6(false);
+        codegen.additionalProperties().put("supportsES6", false);
 
         codegen.processOpts();
 
         assertThat(codegen.supportingFiles()).contains(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
         assertThat(codegen.supportingFiles()).doesNotContain(new SupportingFile("tsconfig.esm.mustache", "", "tsconfig.esm.json"));
+    }
+
+    @Test
+    public void testAppliesDefaultAxiosVersion() {
+        TypeScriptAxiosClientCodegen codegen = new TypeScriptAxiosClientCodegen();
+
+        codegen.processOpts();
+
+        assertEquals(codegen.additionalProperties().get("axiosVersion"), TypeScriptAxiosClientCodegen.DEFAULT_AXIOS_VERSION);
+    }
+
+    @Test
+    public void testAppliesCustomAxiosVersion() {
+        TypeScriptAxiosClientCodegen codegen = new TypeScriptAxiosClientCodegen();
+        codegen.additionalProperties().put("axiosVersion", "^1.2.3");
+
+        codegen.processOpts();
+
+        assertEquals(codegen.additionalProperties().get("axiosVersion"), "^1.2.3");
     }
 }

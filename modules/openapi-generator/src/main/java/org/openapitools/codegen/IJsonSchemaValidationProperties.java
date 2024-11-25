@@ -9,10 +9,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.features.SchemaSupportFeature;
 import org.openapitools.codegen.utils.ModelUtils;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Schema;
 
 public interface IJsonSchemaValidationProperties {
     CodegenProperty getContains();
@@ -104,9 +106,21 @@ public interface IJsonSchemaValidationProperties {
 
     void setIsMap(boolean isMap);
 
+    /**
+     * Tells if the datatype is a generic inner parameter of a <code>std::optional</code> for C++, or <code>Optional</code> (Java)<br>
+     *  to resolve cases (detected in issue #6726) where :<br>
+     *     - <code>categoryOneOf</code> is a parameter of class <code>GetAccountVideos_categoryOneOf_parameter</code>, a model parameter that correctly prefixed by its namespace: <code>org::openapitools::server::model::GetAccountVideos_categoryOneOf_parameter</code><br>
+     *     - but that <code>GetAccountVideos_categoryOneOf_parameter</code> class is inside an <code>std::optional</code><br>
+     *     <br>
+     *   Then a correct generation of that parameter can be (for C++) <code>const std::optional&lt;org::openapitools::server::model::GetAccountVideos_categoryOneOf_parameter&gt; &amp;categoryOneOf</code><br>
+         *   but using #isModel alone without #isOptional in mustache might produce <code>const org::openapitools::server::model::std::optional&lt;org::openapitools::server::model::GetAccountVideos_categoryOneOf_parameter&gt; &amp;categoryOneOf</code> instead, that do not compile.
+     */
+    boolean getIsOptional();
+    void setIsOptional(boolean isOptional);
+
     boolean getIsArray();
 
-    void setIsArray(boolean isShort);
+    void setIsArray(boolean isArray);
 
     boolean getIsShort();
 
@@ -151,6 +165,10 @@ public interface IJsonSchemaValidationProperties {
 
     void setIsNull(boolean isNull);
 
+    boolean getIsVoid();
+
+    void setIsVoid(boolean isVoid);
+
     boolean getHasValidation();
 
     void setHasValidation(boolean hasValidation);
@@ -175,7 +193,7 @@ public interface IJsonSchemaValidationProperties {
 
     boolean getIsString();
 
-    void setIsString(boolean isNumber);
+    void setIsString(boolean isString);
 
     boolean getIsNumber();
 
@@ -184,6 +202,10 @@ public interface IJsonSchemaValidationProperties {
     boolean getIsAnyType();
 
     void setIsAnyType(boolean isAnyType);
+
+    boolean getIsFreeFormObject();
+
+    void setIsFreeFormObject(boolean isFreeFormObject);
 
     String getRef();
 
@@ -215,23 +237,60 @@ public interface IJsonSchemaValidationProperties {
 
     String getFormat();
 
+    void setDataType(String dataType);
+
+    String getDataType();
+
+    void setIsFloat(boolean isFloat);
+
+    boolean getIsFloat();
+
+    void setIsDouble(boolean isDouble);
+
+    boolean getIsDouble();
+
+    void setIsInteger(boolean isInteger);
+
+    boolean getIsInteger();
+
+    void setIsLong(boolean isLong);
+
+    boolean getIsLong();
+
+    void setIsBinary(boolean isBinary);
+
+    boolean getIsBinary();
+
+    void setIsByteArray(boolean isByteArray);
+
+    boolean getIsByteArray();
+
+    void setIsDecimal(boolean isDecimal);
+
+    boolean getIsDecimal();
+
+    void setIsUuid(boolean isUuid);
+
+    boolean getIsUuid();
+
+    void setIsEnum(boolean isEnum);
+
+    boolean getIsEnum();
+
     /**
      * Syncs all the schema's type properties into the IJsonSchemaValidationProperties instance
      * for now this only supports types without format information
      * TODO: in the future move the format handling in here too
+     *
      * @param p the schema which contains the type info
      */
-    default void setTypeProperties(Schema p) {
-        if (ModelUtils.isTypeObjectSchema(p)) {
-            setIsMap(true);
-            if (ModelUtils.isModelWithPropertiesOnly(p)) {
-                setIsModel(true);
-            }
+    default void setTypeProperties(Schema p, OpenAPI openAPI) {
+        if (ModelUtils.isModelWithPropertiesOnly(p)) {
+            setIsModel(true);
         } else if (ModelUtils.isArraySchema(p)) {
             setIsArray(true);
         } else if (ModelUtils.isFileSchema(p) && !ModelUtils.isStringSchema(p)) {
             // swagger v2 only, type file
-            ;
         } else if (ModelUtils.isStringSchema(p)) {
             setIsString(true);
             if (ModelUtils.isByteArraySchema(p)) {
@@ -246,6 +305,8 @@ public interface IJsonSchemaValidationProperties {
             } else if (ModelUtils.isURISchema(p)) {
                 ;
             } else if (ModelUtils.isEmailSchema(p)) {
+                ;
+            } else if (ModelUtils.isPasswordSchema(p)) {
                 ;
             } else if (ModelUtils.isDateSchema(p)) {
                 ;
@@ -276,9 +337,14 @@ public interface IJsonSchemaValidationProperties {
             setIsNull(true);
         } else if (ModelUtils.isAnyType(p)) {
             setIsAnyType(true);
-            if (ModelUtils.isModelWithPropertiesOnly(p)) {
-                setIsModel(true);
-            }
+        } else if (ModelUtils.isFreeFormObject(p, openAPI)) {
+            setIsFreeFormObject(true);
+            // TODO: remove below later after updating generators to properly use isFreeFormObject
+            setIsMap(true);
+        } else if (ModelUtils.isMapSchema(p)) {
+            setIsMap(true);
+        } else if (ModelUtils.isTypeObjectSchema(p)) {
+            setIsMap(true);
         }
     }
 
@@ -287,21 +353,21 @@ public interface IJsonSchemaValidationProperties {
      */
     default String getBaseType() {
         return null;
-    };
+    }
 
     /**
      * @return complex type that can contain type parameters - like {@code List<Items>} for Java
      */
     default String getComplexType() {
         return getBaseType();
-    };
+    }
 
     /**
      * Recursively collect all necessary imports to include so that the type may be resolved.
      *
      * @param importContainerType whether or not to include the container types in the returned imports.
-     * @param importBaseType whether or not to include the base types in the returned imports.
-     * @param featureSet the generator feature set, used to determine if composed schemas should be added
+     * @param importBaseType      whether or not to include the base types in the returned imports.
+     * @param featureSet          the generator feature set, used to determine if composed schemas should be added
      * @return all of the imports
      */
     default Set<String> getImports(boolean importContainerType, boolean importBaseType, FeatureSet featureSet) {

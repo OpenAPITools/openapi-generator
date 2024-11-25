@@ -3,7 +3,6 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:openapi/src/model/dog_all_of.dart';
 import 'package:openapi/src/model/animal.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -17,7 +16,10 @@ part 'dog.g.dart';
 /// * [color] 
 /// * [breed] 
 @BuiltValue()
-abstract class Dog implements Animal, DogAllOf, Built<Dog, DogBuilder> {
+abstract class Dog implements Animal, Built<Dog, DogBuilder> {
+  @BuiltValueField(wireName: r'breed')
+  String? get breed;
+
   Dog._();
 
   factory Dog([void updates(DogBuilder b)]) = _$Dog;
@@ -42,11 +44,6 @@ class _$DogSerializer implements PrimitiveSerializer<Dog> {
     Dog object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'className';
-    yield serializers.serialize(
-      object.className,
-      specifiedType: const FullType(String),
-    );
     if (object.color != null) {
       yield r'color';
       yield serializers.serialize(
@@ -61,6 +58,11 @@ class _$DogSerializer implements PrimitiveSerializer<Dog> {
         specifiedType: const FullType(String),
       );
     }
+    yield r'className';
+    yield serializers.serialize(
+      object.className,
+      specifiedType: const FullType(String),
+    );
   }
 
   @override
@@ -84,13 +86,6 @@ class _$DogSerializer implements PrimitiveSerializer<Dog> {
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
-        case r'className':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.className = valueDes;
-          break;
         case r'color':
           final valueDes = serializers.deserialize(
             value,
@@ -104,6 +99,13 @@ class _$DogSerializer implements PrimitiveSerializer<Dog> {
             specifiedType: const FullType(String),
           ) as String;
           result.breed = valueDes;
+          break;
+        case r'className':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.className = valueDes;
           break;
         default:
           unhandled.add(key);

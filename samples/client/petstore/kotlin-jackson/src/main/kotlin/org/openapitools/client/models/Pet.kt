@@ -18,6 +18,7 @@ package org.openapitools.client.models
 import org.openapitools.client.models.Category
 import org.openapitools.client.models.Tag
 
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
@@ -34,23 +35,23 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class Pet (
 
-    @field:JsonProperty("name")
+    @get:JsonProperty("name")
     val name: kotlin.String,
 
-    @field:JsonProperty("photoUrls")
+    @get:JsonProperty("photoUrls")
     val photoUrls: kotlin.collections.List<kotlin.String>,
 
-    @field:JsonProperty("id")
+    @get:JsonProperty("id")
     val id: kotlin.Long? = null,
 
-    @field:JsonProperty("category")
+    @get:JsonProperty("category")
     val category: Category? = null,
 
-    @field:JsonProperty("tags")
+    @get:JsonProperty("tags")
     val tags: kotlin.collections.List<Tag>? = null,
 
     /* pet status in the store */
-    @field:JsonProperty("status")
+    @get:JsonProperty("status")
     val status: Pet.Status? = null
 
 ) {
@@ -58,12 +59,14 @@ data class Pet (
     /**
      * pet status in the store
      *
-     * Values: AVAILABLE,PENDING,SOLD
+     * Values: AVAILABLE,PENDING,SOLD,UNKNOWN_DEFAULT_OPEN_API
      */
     enum class Status(val value: kotlin.String) {
         @JsonProperty(value = "available") AVAILABLE("available"),
         @JsonProperty(value = "pending") PENDING("pending"),
-        @JsonProperty(value = "sold") SOLD("sold");
+        @JsonProperty(value = "sold") SOLD("sold"),
+        @JsonProperty(value = "unknown_default_open_api") @JsonEnumDefaultValue UNKNOWN_DEFAULT_OPEN_API("unknown_default_open_api");
     }
+
 }
 

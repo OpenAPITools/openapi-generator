@@ -1,6 +1,6 @@
 generatorName: python-fastapi
 outputDir: samples/server/petstore/python-fastapi
-inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_0/python-fastapi/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/python-fastapi
 sourceFolder: "src"
 additionalProperties:

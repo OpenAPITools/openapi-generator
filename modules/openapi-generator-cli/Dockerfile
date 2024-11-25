@@ -1,4 +1,4 @@
-FROM openjdk:11.0-jre-buster
+FROM eclipse-temurin:17.0.9_9-jre-focal
 
 ADD target/openapi-generator-cli.jar /opt/openapi-generator/modules/openapi-generator-cli/target/openapi-generator-cli.jar
 

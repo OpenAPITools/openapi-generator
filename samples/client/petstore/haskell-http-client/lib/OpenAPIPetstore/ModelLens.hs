@@ -252,15 +252,6 @@ bigCatKindL f BigCat{..} = (\bigCatKind -> BigCat { bigCatKind, ..} ) <$> f bigC
 
 
 
--- * BigCatAllOf
-
--- | 'bigCatAllOfKind' Lens
-bigCatAllOfKindL :: Lens_' BigCatAllOf (Maybe E'Kind)
-bigCatAllOfKindL f BigCatAllOf{..} = (\bigCatAllOfKind -> BigCatAllOf { bigCatAllOfKind, ..} ) <$> f bigCatAllOfKind
-{-# INLINE bigCatAllOfKindL #-}
-
-
-
 -- * Capitalization
 
 -- | 'capitalizationSmallCamel' Lens
@@ -314,15 +305,6 @@ catDeclawedL f Cat{..} = (\catDeclawed -> Cat { catDeclawed, ..} ) <$> f catDecl
 
 
 
--- * CatAllOf
-
--- | 'catAllOfDeclawed' Lens
-catAllOfDeclawedL :: Lens_' CatAllOf (Maybe Bool)
-catAllOfDeclawedL f CatAllOf{..} = (\catAllOfDeclawed -> CatAllOf { catAllOfDeclawed, ..} ) <$> f catAllOfDeclawed
-{-# INLINE catAllOfDeclawedL #-}
-
-
-
 -- * Category
 
 -- | 'categoryId' Lens
@@ -371,15 +353,6 @@ dogColorL f Dog{..} = (\dogColor -> Dog { dogColor, ..} ) <$> f dogColor
 dogBreedL :: Lens_' Dog (Maybe Text)
 dogBreedL f Dog{..} = (\dogBreed -> Dog { dogBreed, ..} ) <$> f dogBreed
 {-# INLINE dogBreedL #-}
-
-
-
--- * DogAllOf
-
--- | 'dogAllOfBreed' Lens
-dogAllOfBreedL :: Lens_' DogAllOf (Maybe Text)
-dogAllOfBreedL f DogAllOf{..} = (\dogAllOfBreed -> DogAllOf { dogAllOfBreed, ..} ) <$> f dogAllOfBreed
-{-# INLINE dogAllOfBreedL #-}
 
 
 
@@ -740,6 +713,29 @@ petStatusL f Pet{..} = (\petStatus -> Pet { petStatus, ..} ) <$> f petStatus
 
 
 
+-- * PetFilter
+
+-- | 'petFilterTags' Lens
+petFilterTagsL :: Lens_' PetFilter (Maybe [Text])
+petFilterTagsL f PetFilter{..} = (\petFilterTags -> PetFilter { petFilterTags, ..} ) <$> f petFilterTags
+{-# INLINE petFilterTagsL #-}
+
+-- | 'petFilterStatus' Lens
+petFilterStatusL :: Lens_' PetFilter (Maybe [Text])
+petFilterStatusL f PetFilter{..} = (\petFilterStatus -> PetFilter { petFilterStatus, ..} ) <$> f petFilterStatus
+{-# INLINE petFilterStatusL #-}
+
+
+
+-- * PetOrder
+
+-- | 'petOrderName' Lens
+petOrderNameL :: Lens_' PetOrder (Maybe E'Name)
+petOrderNameL f PetOrder{..} = (\petOrderName -> PetOrder { petOrderName, ..} ) <$> f petOrderName
+{-# INLINE petOrderNameL #-}
+
+
+
 -- * ReadOnlyFirst
 
 -- | 'readOnlyFirstBar' Lens
@@ -751,15 +747,6 @@ readOnlyFirstBarL f ReadOnlyFirst{..} = (\readOnlyFirstBar -> ReadOnlyFirst { re
 readOnlyFirstBazL :: Lens_' ReadOnlyFirst (Maybe Text)
 readOnlyFirstBazL f ReadOnlyFirst{..} = (\readOnlyFirstBaz -> ReadOnlyFirst { readOnlyFirstBaz, ..} ) <$> f readOnlyFirstBaz
 {-# INLINE readOnlyFirstBazL #-}
-
-
-
--- * SpecialModelName
-
--- | 'specialModelNameSpecialPropertyName' Lens
-specialModelNameSpecialPropertyNameL :: Lens_' SpecialModelName (Maybe Integer)
-specialModelNameSpecialPropertyNameL f SpecialModelName{..} = (\specialModelNameSpecialPropertyName -> SpecialModelName { specialModelNameSpecialPropertyName, ..} ) <$> f specialModelNameSpecialPropertyName
-{-# INLINE specialModelNameSpecialPropertyNameL #-}
 
 
 

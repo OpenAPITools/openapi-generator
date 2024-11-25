@@ -44,7 +44,7 @@ func NewFooGetDefaultResponseWithDefaults() *FooGetDefaultResponse {
 
 // GetString returns the String field value if set, zero value otherwise.
 func (o *FooGetDefaultResponse) GetString() Foo {
-	if o == nil || isNil(o.String) {
+	if o == nil || IsNil(o.String) {
 		var ret Foo
 		return ret
 	}
@@ -54,7 +54,7 @@ func (o *FooGetDefaultResponse) GetString() Foo {
 // GetStringOk returns a tuple with the String field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *FooGetDefaultResponse) GetStringOk() (*Foo, bool) {
-	if o == nil || isNil(o.String) {
+	if o == nil || IsNil(o.String) {
 		return nil, false
 	}
 	return o.String, true
@@ -62,7 +62,7 @@ func (o *FooGetDefaultResponse) GetStringOk() (*Foo, bool) {
 
 // HasString returns a boolean if a field has been set.
 func (o *FooGetDefaultResponse) HasString() bool {
-	if o != nil && !isNil(o.String) {
+	if o != nil && !IsNil(o.String) {
 		return true
 	}
 
@@ -84,7 +84,7 @@ func (o FooGetDefaultResponse) MarshalJSON() ([]byte, error) {
 
 func (o FooGetDefaultResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.String) {
+	if !IsNil(o.String) {
 		toSerialize["string"] = o.String
 	}
 
@@ -95,16 +95,20 @@ func (o FooGetDefaultResponse) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *FooGetDefaultResponse) UnmarshalJSON(bytes []byte) (err error) {
+func (o *FooGetDefaultResponse) UnmarshalJSON(data []byte) (err error) {
 	varFooGetDefaultResponse := _FooGetDefaultResponse{}
 
-	if err = json.Unmarshal(bytes, &varFooGetDefaultResponse); err == nil {
-		*o = FooGetDefaultResponse(varFooGetDefaultResponse)
+	err = json.Unmarshal(data, &varFooGetDefaultResponse)
+
+	if err != nil {
+		return err
 	}
+
+	*o = FooGetDefaultResponse(varFooGetDefaultResponse)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "string")
 		o.AdditionalProperties = additionalProperties
 	}

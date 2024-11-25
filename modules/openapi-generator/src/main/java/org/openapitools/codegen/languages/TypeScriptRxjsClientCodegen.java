@@ -18,8 +18,9 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.model.ModelMap;
@@ -38,6 +39,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_PROGRESS_SUBSCRIBER = "withProgressSubscriber";
 
+    @Getter @Setter
     protected String npmRepository = null;
     protected Set<String> reservedParamNames = new HashSet<>();
 
@@ -77,14 +79,6 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         return "Generates a TypeScript client library using Rxjs API.";
     }
 
-    public String getNpmRepository() {
-        return npmRepository;
-    }
-
-    public void setNpmRepository(String npmRepository) {
-        this.npmRepository = npmRepository;
-    }
-
     @Override
     public void processOpts() {
         super.processOpts();
@@ -117,7 +111,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration(getAdditionalProperties(schema));
+        codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
@@ -145,7 +139,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             }
         }
 
-         return objs;
+        return objs;
     }
 
     @Override
@@ -264,10 +258,10 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
                 hasRequiredParams = true;
             }
 
-            for (CodegenParameter p: op.allParams) {
+            for (CodegenParameter p : op.allParams) {
                 String paramNameAlternative = null;
 
-                if(this.reservedParamNames.contains(p.paramName)){
+                if (this.reservedParamNames.contains(p.paramName)) {
                     paramNameAlternative = p.paramName + "Alias";
                     LOGGER.info("param: {} isReserved ––> {}", p.paramName, paramNameAlternative);
                 }
@@ -423,8 +417,13 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     }
 
     @Override
-    protected void addImport(ComposedSchema composed, Schema childSchema, CodegenModel model, String modelName) {
+    protected void addImport(Schema composed, Schema childSchema, CodegenModel model, String modelName) {
         // import everything (including child schema of a composed schema)
         addImport(model, modelName);
+    }
+
+    @Override
+    protected String getLicenseNameDefaultValue() {
+        return null;
     }
 }

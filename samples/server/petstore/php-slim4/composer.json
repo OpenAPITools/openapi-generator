@@ -7,6 +7,20 @@
       "no-api": true
     }
   ],
+  "description": "",
+  "keywords": [
+    "openapi",
+    "php",
+    "api"
+  ],
+  "homepage": "https://openapi-generator.tech",
+  "license": "unlicense",
+  "authors": [
+    {
+      "name": "OpenAPI",
+      "homepage": "https://openapi-generator.tech"
+    }
+  ],
   "require": {
     "php": "^7.4 || ^8.0",
     "dyorg/slim-token-authentication": "dev-slim4",

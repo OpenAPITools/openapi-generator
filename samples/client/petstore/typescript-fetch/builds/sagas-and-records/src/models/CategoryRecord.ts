@@ -50,7 +50,7 @@ knownRecordFactories.set(CategoryRecordEntityProps.recType, CategoryRecordEntity
 class CategoryRecordUtils extends ApiRecordUtils<Category, CategoryRecord> {
     public normalize(apiObject: Category, asEntity?: boolean): Category {
         (apiObject as any).recType = asEntity ? CategoryRecordEntityProps.recType : CategoryRecordProps.recType;
-        if (apiObject.id) { (apiObject as any).id = apiObject.id.toString(); } 
+        if (apiObject['id']) { (apiObject as any)['id'] = apiObject['id'].toString(); } 
         return apiObject;
     }
 
@@ -67,8 +67,8 @@ class CategoryRecordUtils extends ApiRecordUtils<Category, CategoryRecord> {
 
         const {
             recType,
-		    ...unchangedProperties
-		} = entity;
+            ...unchangedProperties
+        } = entity;
 
         const entityProperties = {
         }
@@ -94,7 +94,7 @@ class CategoryRecordUtils extends ApiRecordUtils<Category, CategoryRecord> {
 
     public toApi(record: CategoryRecord): Category {
         const apiObject = super.toApi(record);
-        if (record.id) { apiObject.id = parseFloat(record.id); } 
+        if (record['id']) { apiObject['id'] = parseFloat(record['id']); } 
         return apiObject;
     }
 }

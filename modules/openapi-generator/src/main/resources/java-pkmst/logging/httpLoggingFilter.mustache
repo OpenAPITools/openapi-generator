@@ -80,7 +80,7 @@ public class HttpLoggingFilter implements Filter {
                 .append(bufferedResponse.getStatus())
                 .append("] [Response Time(ms):").append(elapsedTime)
                 .append("]");
-		String [] nonLoggingPaths = {"/v2/api-docs","/swagger-resources","/configuration/security","/swagger-ui.html","/webjars"};
+        String [] nonLoggingPaths = {"/v2/api-docs","/swagger-resources","/configuration/security","/swagger-ui.html","/webjars"};
         String urlPath = httpServletRequest.getRequestURL().toString();
         if (! ( Arrays.stream(nonLoggingPaths).parallel().anyMatch(urlPath::contains) )){
              log.info(logMessage.toString());

@@ -21,7 +21,7 @@ tasks.withType<KotlinCompile> {
 }
 
 plugins {
-    val kotlinVersion = "1.6.21"
+    val kotlinVersion = "1.9.25"
     id("org.jetbrains.kotlin.jvm") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.jpa") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
@@ -31,24 +31,23 @@ plugins {
 
 dependencies {
     val kotlinxCoroutinesVersion = "1.6.1"
-    compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    compile("org.jetbrains.kotlin:kotlin-reflect")
-    compile("org.springframework.boot:spring-boot-starter-webflux")
-    compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
-    compile("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$kotlinxCoroutinesVersion")
-    compile("org.springdoc:springdoc-openapi-webflux-ui:1.6.8")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$kotlinxCoroutinesVersion")
+    implementation("org.springdoc:springdoc-openapi-webflux-ui:1.6.8")
 
-    compile("com.google.code.findbugs:jsr305:3.0.2")
-    compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
-    compile("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
-    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
-    compile("com.fasterxml.jackson.module:jackson-module-kotlin")
-    compile("jakarta.validation:jakarta.validation-api")
-    compile("jakarta.annotation:jakarta.annotation-api:2.1.0")
-
-    testCompile("org.jetbrains.kotlin:kotlin-test-junit5")
-    testCompile("org.springframework.boot:spring-boot-starter-test") {
+    implementation("com.google.code.findbugs:jsr305:3.0.2")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("javax.validation:validation-api")
+    implementation("javax.annotation:javax.annotation-api:1.3.2")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "junit")
     }
-    testCompile("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinxCoroutinesVersion")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinxCoroutinesVersion")
 }

@@ -5,29 +5,30 @@
 //
 
 import Foundation
-open class PetstoreClientAPI {
-    public static var basePath = "http://petstore.swagger.io:80/v2"
-    public static var customHeaders: [String: String] = [:]
-    public static var credential: URLCredential?
-    public static var requestBuilderFactory: RequestBuilderFactory = URLSessionRequestBuilderFactory()
-    public static var apiResponseQueue: DispatchQueue = .main
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+internal class PetstoreClientAPI {
+    internal static var basePath = "http://petstore.swagger.io:80/v2"
+    internal static var customHeaders: [String: String] = [:]
+    internal static var credential: URLCredential?
+    internal static var requestBuilderFactory: RequestBuilderFactory = URLSessionRequestBuilderFactory()
+    internal static var apiResponseQueue: DispatchQueue = .main
 }
 
-open class RequestBuilder<T> {
+internal class RequestBuilder<T> {
     var credential: URLCredential?
     var headers: [String: String]
-    public let parameters: [String: Any]?
-    public let method: String
-    public let URLString: String
-    public let requestTask: RequestTask = RequestTask()
-    public let requiresAuthentication: Bool
+    internal let parameters: [String: Any]?
+    internal let method: String
+    internal let URLString: String
+    internal let requestTask: RequestTask = RequestTask()
+    internal let requiresAuthentication: Bool
 
     /// Optional block to obtain a reference to the request's progress instance when available.
-    /// With the URLSession http client the request's progress only works on iOS 11.0, macOS 10.13, macCatalyst 13.0, tvOS 11.0, watchOS 4.0.
-    /// If you need to get the request's progress in older OS versions, please use Alamofire http client.
-    public var onProgressReady: ((Progress) -> Void)?
+    internal var onProgressReady: ((Progress) -> Void)?
 
-    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool) {
+    required internal init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool) {
         self.method = method
         self.URLString = URLString
         self.parameters = parameters
@@ -35,33 +36,33 @@ open class RequestBuilder<T> {
         self.requiresAuthentication = requiresAuthentication
 
         addHeaders(PetstoreClientAPI.customHeaders)
+        addCredential()
     }
 
-    open func addHeaders(_ aHeaders: [String: String]) {
+    internal func addHeaders(_ aHeaders: [String: String]) {
         for (header, value) in aHeaders {
             headers[header] = value
         }
     }
 
     @discardableResult
-    open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+    internal func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         return requestTask
     }
 
-    public func addHeader(name: String, value: String) -> Self {
+    internal func addHeader(name: String, value: String) -> Self {
         if !value.isEmpty {
             headers[name] = value
         }
         return self
     }
 
-    open func addCredential() -> Self {
+    internal func addCredential() {
         credential = PetstoreClientAPI.credential
-        return self
     }
 }
 
-public protocol RequestBuilderFactory {
+internal protocol RequestBuilderFactory {
     func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type
     func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type
 }

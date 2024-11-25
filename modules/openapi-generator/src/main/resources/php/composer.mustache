@@ -1,9 +1,9 @@
 {
     {{#composerPackageName}}
-    "name": "{{.}}",
+    "name": "{{{.}}}",
     {{/composerPackageName}}
     {{#artifactVersion}}
-    "version": "{{.}}",
+    "version": "{{{.}}}",
     {{/artifactVersion}}
     "description": "{{{appDescription}}}",
     "keywords": [
@@ -15,12 +15,12 @@
         "rest",
         "api"
     ],
-    "homepage": "https://openapi-generator.tech",
-    "license": "unlicense",
+    "homepage": "{{{artifactUrl}}}",
+    "license": "{{{licenseName}}}",
     "authors": [
         {
-            "name": "OpenAPI-Generator contributors",
-            "homepage": "https://openapi-generator.tech"
+            "name": "{{{developerOrganization}}}",
+            "homepage": "{{{developerOrganizationUrl}}}"
         }
     ],
     "require": {
@@ -36,9 +36,9 @@
         "friendsofphp/php-cs-fixer": "^3.5"
     },
     "autoload": {
-        "psr-4": { "{{escapedInvokerPackage}}\\" : "{{srcBasePath}}/" }
+        "psr-4": { "{{{escapedInvokerPackage}}}\\" : "{{{srcBasePath}}}/" }
     },
     "autoload-dev": {
-        "psr-4": { "{{escapedInvokerPackage}}\\Test\\" : "{{testBasePath}}/" }
+        "psr-4": { "{{{escapedInvokerPackage}}}\\Test\\" : "{{{testBasePath}}}/" }
     }
 }

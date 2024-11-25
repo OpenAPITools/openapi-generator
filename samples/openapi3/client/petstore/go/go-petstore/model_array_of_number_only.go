@@ -44,7 +44,7 @@ func NewArrayOfNumberOnlyWithDefaults() *ArrayOfNumberOnly {
 
 // GetArrayNumber returns the ArrayNumber field value if set, zero value otherwise.
 func (o *ArrayOfNumberOnly) GetArrayNumber() []float32 {
-	if o == nil || isNil(o.ArrayNumber) {
+	if o == nil || IsNil(o.ArrayNumber) {
 		var ret []float32
 		return ret
 	}
@@ -54,7 +54,7 @@ func (o *ArrayOfNumberOnly) GetArrayNumber() []float32 {
 // GetArrayNumberOk returns a tuple with the ArrayNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ArrayOfNumberOnly) GetArrayNumberOk() ([]float32, bool) {
-	if o == nil || isNil(o.ArrayNumber) {
+	if o == nil || IsNil(o.ArrayNumber) {
 		return nil, false
 	}
 	return o.ArrayNumber, true
@@ -62,7 +62,7 @@ func (o *ArrayOfNumberOnly) GetArrayNumberOk() ([]float32, bool) {
 
 // HasArrayNumber returns a boolean if a field has been set.
 func (o *ArrayOfNumberOnly) HasArrayNumber() bool {
-	if o != nil && !isNil(o.ArrayNumber) {
+	if o != nil && !IsNil(o.ArrayNumber) {
 		return true
 	}
 
@@ -84,7 +84,7 @@ func (o ArrayOfNumberOnly) MarshalJSON() ([]byte, error) {
 
 func (o ArrayOfNumberOnly) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.ArrayNumber) {
+	if !IsNil(o.ArrayNumber) {
 		toSerialize["ArrayNumber"] = o.ArrayNumber
 	}
 
@@ -95,16 +95,20 @@ func (o ArrayOfNumberOnly) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *ArrayOfNumberOnly) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ArrayOfNumberOnly) UnmarshalJSON(data []byte) (err error) {
 	varArrayOfNumberOnly := _ArrayOfNumberOnly{}
 
-	if err = json.Unmarshal(bytes, &varArrayOfNumberOnly); err == nil {
-		*o = ArrayOfNumberOnly(varArrayOfNumberOnly)
+	err = json.Unmarshal(data, &varArrayOfNumberOnly)
+
+	if err != nil {
+		return err
 	}
+
+	*o = ArrayOfNumberOnly(varArrayOfNumberOnly)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "ArrayNumber")
 		o.AdditionalProperties = additionalProperties
 	}

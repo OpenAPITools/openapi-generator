@@ -950,6 +950,26 @@ paths:
             schema:
               $ref: '#/components/schemas/OuterComposite'
         description: Input composite as post body
+  /fake/BigDecimalMap:
+    get:
+      tags:
+        - fake
+      description: for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+      operationId: fakeBigDecimalMap
+      responses:
+        '200':
+          description: successful operation
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties:
+                  someId:
+                    type: number
+                  someMap:
+                    type: object
+                    additionalProperties:
+                      type: number
   /fake/jsonFormData:
     get:
       tags:
@@ -975,6 +995,40 @@ paths:
               required:
                 - param
                 - param2
+  /fake/additionalProperties-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced additionalProperties
+      description: ''
+      operationId: testAdditionalPropertiesReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreeFormObject'
+        description: request body
+        required: true
+  /fake/stringMap-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced string map
+      description: ''
+      operationId: testStringMapReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapOfString'
+        description: request body
+        required: true
   /fake/inline-additionalProperties:
     post:
       tags:
@@ -994,6 +1048,44 @@ paths:
                 type: string
         description: request body
         required: true
+  /fake/inline-freeform-additionalProperties:
+    post:
+      tags:
+        - fake
+      summary: test inline free-form additionalProperties
+      description: ''
+      operationId: testInlineFreeformAdditionalProperties
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                someProperty:
+                  type: string
+              additionalProperties: true
+        description: request body
+        required: true
+  /fake/nullable:
+    post:
+      tags:
+        - fake
+      summary: test nullable parent property
+      description: ""
+      operationId: testNullable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChildWithNullable'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
   /fake/body-with-query-params:
     put:
       tags:
@@ -1393,10 +1485,11 @@ components:
         photoUrls:
           type: array
           xml:
-            name: photoUrl
             wrapped: true
           items:
             type: string
+            xml:
+              name: photoUrl
           uniqueItems: true
         tags:
           type: array
@@ -1484,6 +1577,9 @@ components:
       type: object
       discriminator:
         propertyName: className
+        mapping:
+          DOG: '#/components/schemas/Dog'
+          CAT: '#/components/schemas/Cat'
       required:
         - className
       properties:
@@ -1759,6 +1855,15 @@ components:
             enum:
               - fish
               - crab
+    FreeFormObject:
+      type: object
+      description: A schema consisting only of additional properties
+      additionalProperties: true
+    MapOfString:
+      type: object
+      description: A schema consisting only of additional properties of type string
+      additionalProperties:
+        type: string
     OuterEnum:
       nullable: true
       type: string
@@ -1803,6 +1908,25 @@ components:
     OuterBoolean:
       type: boolean
       x-codegen-body-parameter-name: boolean_post_body
+    ParentWithNullable:
+      type: object
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+          enum:
+            - ChildWithNullable
+        nullableProperty:
+          type: string
+          nullable: true
+    ChildWithNullable:
+      allOf:
+        - $ref: '#/components/schemas/ParentWithNullable'
+        - type: object
+          properties:
+            otherProperty:
+              type: string
     StringBooleanMap:
       additionalProperties:
         type: boolean

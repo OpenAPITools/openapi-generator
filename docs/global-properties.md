@@ -5,23 +5,22 @@ title: Global Properties
 
 ## Available Global Properties
 
-| Property | Description | Acceptable value |
-| -------- | ------------| ---------------- |
-| debugOpenAPI | Dumps JSON formatted and fully parsed OpenAPI document during generation | none |
-| debugModels | Dumps JSON formatted template-bound model information during generation | none |
-| debugOperations | Dumps JSON formatted template-bound operation information during generation | none |
-| debugSupportingFiles | Dumps JSON formatted Supporting File information during generation | none |
-| verbose | Defines the verbosity | `true` or `false` |
-| generateAliasAsModel | Defines whether primitive types defined at the model/schema level will be wrapped in a model | `true` or `false` |
-| org.openapitools.codegen.utils.oncelogger.enabled | Enable/disable the "OnceLogger" which reduces noise for select repeated logs | `true` or `false` |
-| supportingFiles | Allows the user to define which supporting files will be generated. Prefer using the more robust `.openapi-generator-ignore`. | no value, or a comma-separated string of file names |
-| models | Allows the user to define which models will be generated. Prefer using the more robust `.openapi-generator-ignore`. | no value, or a comma-separated string of model names |
-| apis | Allows the user to define which apis will be generated. Prefer using the more robust `.openapi-generator-ignore`. | no value, or a comma-separated string of api names |
-| apiDocs | Allows the user to define if api docs will be generated. Prefer using the more robust `.openapi-generator-ignore`. | `true` or `false` |
-| modelDocs | Allows the user to define if model docs will be generated. Prefer using the more robust `.openapi-generator-ignore`. | `true` or `false` |
-| apiTests | Allows the user to define if api tests will be generated. Prefer using the more robust `.openapi-generator-ignore`. | `true` or `false` |
-| modelTests | Allows the user to define if model tests will be generated. Prefer using the more robust `.openapi-generator-ignore`. | `true` or `false` |
-| withXml | Allows the user to control support of XML generated constructs, where supported | none |
+| Property                                          | Description                                                                                                                   | Acceptable value                                     |
+|---------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------|
+| debugOpenAPI                                      | Dumps JSON formatted and fully parsed OpenAPI document during generation                                                      | none                                                 |
+| debugModels                                       | Dumps JSON formatted template-bound model information during generation                                                       | none                                                 |
+| debugOperations                                   | Dumps JSON formatted template-bound operation information during generation                                                   | none                                                 |
+| debugSupportingFiles                              | Dumps JSON formatted Supporting File information during generation                                                            | none                                                 |
+| verbose                                           | Defines the verbosity                                                                                                         | `true` or `false`                                    |
+| generateAliasAsModel                              | Defines whether primitive types defined at the model/schema level will be wrapped in a model                                  | `true` or `false`                                    |
+| org.openapitools.codegen.utils.oncelogger.enabled | Enable/disable the "OnceLogger" which reduces noise for select repeated logs                                                  | `true` or `false`                                    |
+| supportingFiles                                   | Allows the user to define which supporting files will be generated. Prefer using the more robust `.openapi-generator-ignore`. | no value, or a colon-separated string of file names  |
+| models                                            | Allows the user to define which models will be generated. Prefer using the more robust `.openapi-generator-ignore`.           | no value, or a colon-separated string of model names |
+| apis                                              | Allows the user to define which apis will be generated. Prefer using the more robust `.openapi-generator-ignore`.             | no value, or a colon-separated string of api names   |
+| apiDocs                                           | Allows the user to define if api docs will be generated. Prefer using the more robust `.openapi-generator-ignore`.            | `true` or `false`                                    |
+| modelDocs                                         | Allows the user to define if model docs will be generated. Prefer using the more robust `.openapi-generator-ignore`.          | `true` or `false`                                    |
+| apiTests                                          | Allows the user to define if api tests will be generated. Prefer using the more robust `.openapi-generator-ignore`.           | `true` or `false`                                    |
+| modelTests                                        | Allows the user to define if model tests will be generated. Prefer using the more robust `.openapi-generator-ignore`.         | `true` or `false`                                    |
 
 
 ## Note on Global Property declaration

@@ -28,7 +28,7 @@ namespace {{apiNamespace}}
 {{#hasModelImport}}
 using namespace {{modelNamespace}};{{/hasModelImport}}
 
-class {{classname}}Impl : public {{apiNamespace}}::{{classname}} {
+class {{declspec}} {{classname}}Impl : public {{apiNamespace}}::{{classname}} {
 public:
     explicit {{classname}}Impl(const std::shared_ptr<Pistache::Rest::Router>& rtr);
     ~{{classname}}Impl() override = default;

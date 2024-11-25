@@ -22,7 +22,7 @@ using namespace org::openapitools::server::model;
 const std::string UserApi::base = "/v2";
 
 UserApi::UserApi(const std::shared_ptr<Pistache::Rest::Router>& rtr)
-    : router(rtr)
+    : ApiBase(rtr)
 {
 }
 
@@ -46,6 +46,12 @@ void UserApi::setupRoutes() {
     router->addCustomHandler(Routes::bind(&UserApi::user_api_default_handler, this));
 }
 
+void UserApi::handleParsingException(const std::exception& ex, Pistache::Http::ResponseWriter &response) const noexcept
+{
+    std::pair<Pistache::Http::Code, std::string> codeAndError = handleParsingException(ex);
+    response.send(codeAndError.first, codeAndError.second);
+}
+
 std::pair<Pistache::Http::Code, std::string> UserApi::handleParsingException(const std::exception& ex) const noexcept
 {
     try {
@@ -57,6 +63,12 @@ std::pair<Pistache::Http::Code, std::string> UserApi::handleParsingException(con
     } catch (std::exception &e) {
         return std::make_pair(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
+}
+
+void UserApi::handleOperationException(const std::exception& ex, Pistache::Http::ResponseWriter &response) const noexcept
+{
+    std::pair<Pistache::Http::Code, std::string> codeAndError = handleOperationException(ex);
+    response.send(codeAndError.first, codeAndError.second);
 }
 
 std::pair<Pistache::Http::Code, std::string> UserApi::handleOperationException(const std::exception& ex) const noexcept
@@ -76,8 +88,7 @@ void UserApi::create_user_handler(const Pistache::Rest::Request &request, Pistac
         nlohmann::json::parse(request.body()).get_to(body);
         body.validate();
     } catch (std::exception &e) {
-        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleParsingException(e);
-        response.send(errorInfo.first, errorInfo.second);
+        this->handleParsingException(e, response);
         return;
     }
 
@@ -87,8 +98,7 @@ void UserApi::create_user_handler(const Pistache::Rest::Request &request, Pistac
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
-        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
-        response.send(errorInfo.first, errorInfo.second);
+        this->handleOperationException(e, response);
         return;
     }
 
@@ -109,8 +119,7 @@ void UserApi::create_users_with_array_input_handler(const Pistache::Rest::Reques
         for (const auto& validationParam : body)
              validationParam.validate();
     } catch (std::exception &e) {
-        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleParsingException(e);
-        response.send(errorInfo.first, errorInfo.second);
+        this->handleParsingException(e, response);
         return;
     }
 
@@ -120,8 +129,7 @@ void UserApi::create_users_with_array_input_handler(const Pistache::Rest::Reques
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
-        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
-        response.send(errorInfo.first, errorInfo.second);
+        this->handleOperationException(e, response);
         return;
     }
 
@@ -142,8 +150,7 @@ void UserApi::create_users_with_list_input_handler(const Pistache::Rest::Request
         for (const auto& validationParam : body)
              validationParam.validate();
     } catch (std::exception &e) {
-        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleParsingException(e);
-        response.send(errorInfo.first, errorInfo.second);
+        this->handleParsingException(e, response);
         return;
     }
 
@@ -153,8 +160,7 @@ void UserApi::create_users_with_list_input_handler(const Pistache::Rest::Request
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
-        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
-        response.send(errorInfo.first, errorInfo.second);
+        this->handleOperationException(e, response);
         return;
     }
 
@@ -175,8 +181,7 @@ void UserApi::delete_user_handler(const Pistache::Rest::Request &request, Pistac
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
-        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
-        response.send(errorInfo.first, errorInfo.second);
+        this->handleOperationException(e, response);
         return;
     }
 
@@ -197,8 +202,7 @@ void UserApi::get_user_by_name_handler(const Pistache::Rest::Request &request, P
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
-        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
-        response.send(errorInfo.first, errorInfo.second);
+        this->handleOperationException(e, response);
         return;
     }
 
@@ -235,8 +239,7 @@ void UserApi::login_user_handler(const Pistache::Rest::Request &request, Pistach
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
-        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
-        response.send(errorInfo.first, errorInfo.second);
+        this->handleOperationException(e, response);
         return;
     }
 
@@ -255,8 +258,7 @@ void UserApi::logout_user_handler(const Pistache::Rest::Request &, Pistache::Htt
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
-        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
-        response.send(errorInfo.first, errorInfo.second);
+        this->handleOperationException(e, response);
         return;
     }
 
@@ -279,8 +281,7 @@ void UserApi::update_user_handler(const Pistache::Rest::Request &request, Pistac
         nlohmann::json::parse(request.body()).get_to(body);
         body.validate();
     } catch (std::exception &e) {
-        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleParsingException(e);
-        response.send(errorInfo.first, errorInfo.second);
+        this->handleParsingException(e, response);
         return;
     }
 
@@ -290,8 +291,7 @@ void UserApi::update_user_handler(const Pistache::Rest::Request &request, Pistac
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
-        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
-        response.send(errorInfo.first, errorInfo.second);
+        this->handleOperationException(e, response);
         return;
     }
 

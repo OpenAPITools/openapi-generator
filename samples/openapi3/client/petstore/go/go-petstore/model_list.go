@@ -44,7 +44,7 @@ func NewListWithDefaults() *List {
 
 // GetVar123List returns the Var123List field value if set, zero value otherwise.
 func (o *List) GetVar123List() string {
-	if o == nil || isNil(o.Var123List) {
+	if o == nil || IsNil(o.Var123List) {
 		var ret string
 		return ret
 	}
@@ -54,7 +54,7 @@ func (o *List) GetVar123List() string {
 // GetVar123ListOk returns a tuple with the Var123List field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *List) GetVar123ListOk() (*string, bool) {
-	if o == nil || isNil(o.Var123List) {
+	if o == nil || IsNil(o.Var123List) {
 		return nil, false
 	}
 	return o.Var123List, true
@@ -62,7 +62,7 @@ func (o *List) GetVar123ListOk() (*string, bool) {
 
 // HasVar123List returns a boolean if a field has been set.
 func (o *List) HasVar123List() bool {
-	if o != nil && !isNil(o.Var123List) {
+	if o != nil && !IsNil(o.Var123List) {
 		return true
 	}
 
@@ -84,7 +84,7 @@ func (o List) MarshalJSON() ([]byte, error) {
 
 func (o List) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.Var123List) {
+	if !IsNil(o.Var123List) {
 		toSerialize["123-list"] = o.Var123List
 	}
 
@@ -95,16 +95,20 @@ func (o List) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *List) UnmarshalJSON(bytes []byte) (err error) {
+func (o *List) UnmarshalJSON(data []byte) (err error) {
 	varList := _List{}
 
-	if err = json.Unmarshal(bytes, &varList); err == nil {
-		*o = List(varList)
+	err = json.Unmarshal(data, &varList)
+
+	if err != nil {
+		return err
 	}
+
+	*o = List(varList)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "123-list")
 		o.AdditionalProperties = additionalProperties
 	}

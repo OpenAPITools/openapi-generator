@@ -4,6 +4,7 @@ import org.openapitools.api.*;
 import org.openapitools.model.*;
 
 import org.openapitools.model.Client;
+import java.util.UUID;
 
 import java.util.List;
 import org.openapitools.api.NotFoundException;
@@ -16,10 +17,11 @@ import org.wso2.msf4j.formparam.FileInfo;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class AnotherFakeApiServiceImpl extends AnotherFakeApiService {
     @Override
-    public Response call123testSpecialTags(Client body
+    public Response call123testSpecialTags(UUID uuidTest
+, Client body
  ) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();

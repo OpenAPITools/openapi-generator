@@ -37,7 +37,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
   User.JSON_PROPERTY_USER_STATUS
 })
 @JsonTypeName("User")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 @Introspected
 public class User {
     public static final String JSON_PROPERTY_ID = "id";
@@ -75,9 +75,9 @@ public class User {
     /**
      * Get id
      * @return id
-     **/
+     */
     @Nullable
-    @Schema(name = "id", required = false)
+    @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Long getId() {
@@ -98,9 +98,9 @@ public class User {
     /**
      * Get username
      * @return username
-     **/
+     */
     @Nullable
-    @Schema(name = "username", required = false)
+    @Schema(name = "username", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_USERNAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getUsername() {
@@ -121,9 +121,9 @@ public class User {
     /**
      * Get firstName
      * @return firstName
-     **/
+     */
     @Nullable
-    @Schema(name = "firstName", required = false)
+    @Schema(name = "firstName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_FIRST_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getFirstName() {
@@ -144,9 +144,9 @@ public class User {
     /**
      * Get lastName
      * @return lastName
-     **/
+     */
     @Nullable
-    @Schema(name = "lastName", required = false)
+    @Schema(name = "lastName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_LAST_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getLastName() {
@@ -167,9 +167,9 @@ public class User {
     /**
      * Get email
      * @return email
-     **/
+     */
     @Nullable
-    @Schema(name = "email", required = false)
+    @Schema(name = "email", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_EMAIL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getEmail() {
@@ -190,9 +190,9 @@ public class User {
     /**
      * Get password
      * @return password
-     **/
+     */
     @Nullable
-    @Schema(name = "password", required = false)
+    @Schema(name = "password", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_PASSWORD)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getPassword() {
@@ -213,9 +213,9 @@ public class User {
     /**
      * Get phone
      * @return phone
-     **/
+     */
     @Nullable
-    @Schema(name = "phone", required = false)
+    @Schema(name = "phone", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_PHONE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getPhone() {
@@ -236,9 +236,9 @@ public class User {
     /**
      * User Status
      * @return userStatus
-     **/
+     */
     @Nullable
-    @Schema(name = "userStatus", description = "User Status", required = false)
+    @Schema(name = "userStatus", description = "User Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_USER_STATUS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Integer getUserStatus() {
@@ -303,3 +303,4 @@ public class User {
     }
 
 }
+

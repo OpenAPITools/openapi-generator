@@ -59,6 +59,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>fun</li>
 <li>if</li>
 <li>let</li>
+<li>maybe</li>
 <li>not</li>
 <li>of</li>
 <li>or</li>
@@ -178,6 +179,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
+|SignatureAuth|✗|OAS3
+|AWSV4Signature|✗|ToolingExtension
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

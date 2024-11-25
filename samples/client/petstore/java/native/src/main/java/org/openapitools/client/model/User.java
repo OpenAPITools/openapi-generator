@@ -13,21 +13,28 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.StringJoiner;
 import java.util.Objects;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.StringJoiner;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Arrays;
+import org.openapitools.jackson.nullable.JsonNullable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.openapitools.jackson.nullable.JsonNullable;
+import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * User
  */
@@ -39,50 +46,74 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   User.JSON_PROPERTY_EMAIL,
   User.JSON_PROPERTY_PASSWORD,
   User.JSON_PROPERTY_PHONE,
-  User.JSON_PROPERTY_USER_STATUS
+  User.JSON_PROPERTY_USER_STATUS,
+  User.JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS,
+  User.JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE,
+  User.JSON_PROPERTY_ANY_TYPE_PROP,
+  User.JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class User {
   public static final String JSON_PROPERTY_ID = "id";
+  @javax.annotation.Nullable
   private Long id;
 
   public static final String JSON_PROPERTY_USERNAME = "username";
+  @javax.annotation.Nullable
   private String username;
 
   public static final String JSON_PROPERTY_FIRST_NAME = "firstName";
+  @javax.annotation.Nullable
   private String firstName;
 
   public static final String JSON_PROPERTY_LAST_NAME = "lastName";
+  @javax.annotation.Nullable
   private String lastName;
 
   public static final String JSON_PROPERTY_EMAIL = "email";
+  @javax.annotation.Nullable
   private String email;
 
   public static final String JSON_PROPERTY_PASSWORD = "password";
+  @javax.annotation.Nullable
   private String password;
 
   public static final String JSON_PROPERTY_PHONE = "phone";
+  @javax.annotation.Nullable
   private String phone;
 
   public static final String JSON_PROPERTY_USER_STATUS = "userStatus";
+  @javax.annotation.Nullable
   private Integer userStatus;
+
+  public static final String JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS = "objectWithNoDeclaredProps";
+  @javax.annotation.Nullable
+  private Object objectWithNoDeclaredProps;
+
+  public static final String JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE = "objectWithNoDeclaredPropsNullable";
+  private JsonNullable<Object> objectWithNoDeclaredPropsNullable = JsonNullable.<Object>undefined();
+
+  public static final String JSON_PROPERTY_ANY_TYPE_PROP = "anyTypeProp";
+  private JsonNullable<Object> anyTypeProp = JsonNullable.<Object>of(null);
+
+  public static final String JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE = "anyTypePropNullable";
+  private JsonNullable<Object> anyTypePropNullable = JsonNullable.<Object>of(null);
 
   public User() { 
   }
 
-  public User id(Long id) {
+  public User id(@javax.annotation.Nullable Long id) {
     this.id = id;
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Long getId() {
     return id;
   }
@@ -90,24 +121,23 @@ public class User {
 
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setId(Long id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
 
-  public User username(String username) {
+  public User username(@javax.annotation.Nullable String username) {
     this.username = username;
     return this;
   }
 
-   /**
+  /**
    * Get username
    * @return username
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_USERNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getUsername() {
     return username;
   }
@@ -115,24 +145,23 @@ public class User {
 
   @JsonProperty(JSON_PROPERTY_USERNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUsername(String username) {
+  public void setUsername(@javax.annotation.Nullable String username) {
     this.username = username;
   }
 
 
-  public User firstName(String firstName) {
+  public User firstName(@javax.annotation.Nullable String firstName) {
     this.firstName = firstName;
     return this;
   }
 
-   /**
+  /**
    * Get firstName
    * @return firstName
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FIRST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getFirstName() {
     return firstName;
   }
@@ -140,24 +169,23 @@ public class User {
 
   @JsonProperty(JSON_PROPERTY_FIRST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setFirstName(String firstName) {
+  public void setFirstName(@javax.annotation.Nullable String firstName) {
     this.firstName = firstName;
   }
 
 
-  public User lastName(String lastName) {
+  public User lastName(@javax.annotation.Nullable String lastName) {
     this.lastName = lastName;
     return this;
   }
 
-   /**
+  /**
    * Get lastName
    * @return lastName
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_LAST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getLastName() {
     return lastName;
   }
@@ -165,24 +193,23 @@ public class User {
 
   @JsonProperty(JSON_PROPERTY_LAST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setLastName(String lastName) {
+  public void setLastName(@javax.annotation.Nullable String lastName) {
     this.lastName = lastName;
   }
 
 
-  public User email(String email) {
+  public User email(@javax.annotation.Nullable String email) {
     this.email = email;
     return this;
   }
 
-   /**
+  /**
    * Get email
    * @return email
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_EMAIL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getEmail() {
     return email;
   }
@@ -190,24 +217,23 @@ public class User {
 
   @JsonProperty(JSON_PROPERTY_EMAIL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEmail(String email) {
+  public void setEmail(@javax.annotation.Nullable String email) {
     this.email = email;
   }
 
 
-  public User password(String password) {
+  public User password(@javax.annotation.Nullable String password) {
     this.password = password;
     return this;
   }
 
-   /**
+  /**
    * Get password
    * @return password
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getPassword() {
     return password;
   }
@@ -215,24 +241,23 @@ public class User {
 
   @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPassword(String password) {
+  public void setPassword(@javax.annotation.Nullable String password) {
     this.password = password;
   }
 
 
-  public User phone(String phone) {
+  public User phone(@javax.annotation.Nullable String phone) {
     this.phone = phone;
     return this;
   }
 
-   /**
+  /**
    * Get phone
    * @return phone
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PHONE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getPhone() {
     return phone;
   }
@@ -240,24 +265,23 @@ public class User {
 
   @JsonProperty(JSON_PROPERTY_PHONE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPhone(String phone) {
+  public void setPhone(@javax.annotation.Nullable String phone) {
     this.phone = phone;
   }
 
 
-  public User userStatus(Integer userStatus) {
+  public User userStatus(@javax.annotation.Nullable Integer userStatus) {
     this.userStatus = userStatus;
     return this;
   }
 
-   /**
+  /**
    * User Status
    * @return userStatus
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_USER_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Integer getUserStatus() {
     return userStatus;
   }
@@ -265,8 +289,128 @@ public class User {
 
   @JsonProperty(JSON_PROPERTY_USER_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUserStatus(Integer userStatus) {
+  public void setUserStatus(@javax.annotation.Nullable Integer userStatus) {
     this.userStatus = userStatus;
+  }
+
+
+  public User objectWithNoDeclaredProps(@javax.annotation.Nullable Object objectWithNoDeclaredProps) {
+    this.objectWithNoDeclaredProps = objectWithNoDeclaredProps;
+    return this;
+  }
+
+  /**
+   * test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.
+   * @return objectWithNoDeclaredProps
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Object getObjectWithNoDeclaredProps() {
+    return objectWithNoDeclaredProps;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setObjectWithNoDeclaredProps(@javax.annotation.Nullable Object objectWithNoDeclaredProps) {
+    this.objectWithNoDeclaredProps = objectWithNoDeclaredProps;
+  }
+
+
+  public User objectWithNoDeclaredPropsNullable(@javax.annotation.Nullable Object objectWithNoDeclaredPropsNullable) {
+    this.objectWithNoDeclaredPropsNullable = JsonNullable.<Object>of(objectWithNoDeclaredPropsNullable);
+    return this;
+  }
+
+  /**
+   * test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.
+   * @return objectWithNoDeclaredPropsNullable
+   */
+  @javax.annotation.Nullable
+  @JsonIgnore
+  public Object getObjectWithNoDeclaredPropsNullable() {
+        return objectWithNoDeclaredPropsNullable.orElse(null);
+  }
+
+  @JsonProperty(JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public JsonNullable<Object> getObjectWithNoDeclaredPropsNullable_JsonNullable() {
+    return objectWithNoDeclaredPropsNullable;
+  }
+  
+  @JsonProperty(JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE)
+  public void setObjectWithNoDeclaredPropsNullable_JsonNullable(JsonNullable<Object> objectWithNoDeclaredPropsNullable) {
+    this.objectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
+  }
+
+  public void setObjectWithNoDeclaredPropsNullable(@javax.annotation.Nullable Object objectWithNoDeclaredPropsNullable) {
+    this.objectWithNoDeclaredPropsNullable = JsonNullable.<Object>of(objectWithNoDeclaredPropsNullable);
+  }
+
+
+  public User anyTypeProp(@javax.annotation.Nullable Object anyTypeProp) {
+    this.anyTypeProp = JsonNullable.<Object>of(anyTypeProp);
+    return this;
+  }
+
+  /**
+   * test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
+   * @return anyTypeProp
+   */
+  @javax.annotation.Nullable
+  @JsonIgnore
+  public Object getAnyTypeProp() {
+        return anyTypeProp.orElse(null);
+  }
+
+  @JsonProperty(JSON_PROPERTY_ANY_TYPE_PROP)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public JsonNullable<Object> getAnyTypeProp_JsonNullable() {
+    return anyTypeProp;
+  }
+  
+  @JsonProperty(JSON_PROPERTY_ANY_TYPE_PROP)
+  public void setAnyTypeProp_JsonNullable(JsonNullable<Object> anyTypeProp) {
+    this.anyTypeProp = anyTypeProp;
+  }
+
+  public void setAnyTypeProp(@javax.annotation.Nullable Object anyTypeProp) {
+    this.anyTypeProp = JsonNullable.<Object>of(anyTypeProp);
+  }
+
+
+  public User anyTypePropNullable(@javax.annotation.Nullable Object anyTypePropNullable) {
+    this.anyTypePropNullable = JsonNullable.<Object>of(anyTypePropNullable);
+    return this;
+  }
+
+  /**
+   * test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.
+   * @return anyTypePropNullable
+   */
+  @javax.annotation.Nullable
+  @JsonIgnore
+  public Object getAnyTypePropNullable() {
+        return anyTypePropNullable.orElse(null);
+  }
+
+  @JsonProperty(JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public JsonNullable<Object> getAnyTypePropNullable_JsonNullable() {
+    return anyTypePropNullable;
+  }
+  
+  @JsonProperty(JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE)
+  public void setAnyTypePropNullable_JsonNullable(JsonNullable<Object> anyTypePropNullable) {
+    this.anyTypePropNullable = anyTypePropNullable;
+  }
+
+  public void setAnyTypePropNullable(@javax.annotation.Nullable Object anyTypePropNullable) {
+    this.anyTypePropNullable = JsonNullable.<Object>of(anyTypePropNullable);
   }
 
 
@@ -275,26 +419,23 @@ public class User {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    User user = (User) o;
-    return Objects.equals(this.id, user.id) &&
-        Objects.equals(this.username, user.username) &&
-        Objects.equals(this.firstName, user.firstName) &&
-        Objects.equals(this.lastName, user.lastName) &&
-        Objects.equals(this.email, user.email) &&
-        Objects.equals(this.password, user.password) &&
-        Objects.equals(this.phone, user.phone) &&
-        Objects.equals(this.userStatus, user.userStatus);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+  }
+
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, username, firstName, lastName, email, password, phone, userStatus);
+    return HashCodeBuilder.reflectionHashCode(this);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override
@@ -309,6 +450,10 @@ public class User {
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
     sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
     sb.append("    userStatus: ").append(toIndentedString(userStatus)).append("\n");
+    sb.append("    objectWithNoDeclaredProps: ").append(toIndentedString(objectWithNoDeclaredProps)).append("\n");
+    sb.append("    objectWithNoDeclaredPropsNullable: ").append(toIndentedString(objectWithNoDeclaredPropsNullable)).append("\n");
+    sb.append("    anyTypeProp: ").append(toIndentedString(anyTypeProp)).append("\n");
+    sb.append("    anyTypePropNullable: ").append(toIndentedString(anyTypePropNullable)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -324,6 +469,14 @@ public class User {
     return o.toString().replace("\n", "\n    ");
   }
 
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
 
   /**
    * Convert the instance into URL query string.
@@ -332,53 +485,204 @@ public class User {
    * @return URL query string
    */
   public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
     if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
       prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
     }
 
     StringJoiner joiner = new StringJoiner("&");
 
     // add `id` to the URL query string
     if (getId() != null) {
-      joiner.add(String.format("%s[id]=%s", prefix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `username` to the URL query string
     if (getUsername() != null) {
-      joiner.add(String.format("%s[username]=%s", prefix, URLEncoder.encode(String.valueOf(getUsername()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%susername%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getUsername()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `firstName` to the URL query string
     if (getFirstName() != null) {
-      joiner.add(String.format("%s[firstName]=%s", prefix, URLEncoder.encode(String.valueOf(getFirstName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sfirstName%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFirstName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `lastName` to the URL query string
     if (getLastName() != null) {
-      joiner.add(String.format("%s[lastName]=%s", prefix, URLEncoder.encode(String.valueOf(getLastName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%slastName%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getLastName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `email` to the URL query string
     if (getEmail() != null) {
-      joiner.add(String.format("%s[email]=%s", prefix, URLEncoder.encode(String.valueOf(getEmail()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%semail%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEmail()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `password` to the URL query string
     if (getPassword() != null) {
-      joiner.add(String.format("%s[password]=%s", prefix, URLEncoder.encode(String.valueOf(getPassword()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%spassword%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPassword()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `phone` to the URL query string
     if (getPhone() != null) {
-      joiner.add(String.format("%s[phone]=%s", prefix, URLEncoder.encode(String.valueOf(getPhone()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sphone%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPhone()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `userStatus` to the URL query string
     if (getUserStatus() != null) {
-      joiner.add(String.format("%s[userStatus]=%s", prefix, URLEncoder.encode(String.valueOf(getUserStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%suserStatus%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getUserStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `objectWithNoDeclaredProps` to the URL query string
+    if (getObjectWithNoDeclaredProps() != null) {
+      joiner.add(String.format("%sobjectWithNoDeclaredProps%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getObjectWithNoDeclaredProps()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `objectWithNoDeclaredPropsNullable` to the URL query string
+    if (getObjectWithNoDeclaredPropsNullable() != null) {
+      joiner.add(String.format("%sobjectWithNoDeclaredPropsNullable%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getObjectWithNoDeclaredPropsNullable()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `anyTypeProp` to the URL query string
+    if (getAnyTypeProp() != null) {
+      joiner.add(String.format("%sanyTypeProp%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAnyTypeProp()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `anyTypePropNullable` to the URL query string
+    if (getAnyTypePropNullable() != null) {
+      joiner.add(String.format("%sanyTypePropNullable%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAnyTypePropNullable()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private User instance;
+
+    public Builder() {
+      this(new User());
+    }
+
+    protected Builder(User instance) {
+      this.instance = instance;
+    }
+
+    public User.Builder id(Long id) {
+      this.instance.id = id;
+      return this;
+    }
+    public User.Builder username(String username) {
+      this.instance.username = username;
+      return this;
+    }
+    public User.Builder firstName(String firstName) {
+      this.instance.firstName = firstName;
+      return this;
+    }
+    public User.Builder lastName(String lastName) {
+      this.instance.lastName = lastName;
+      return this;
+    }
+    public User.Builder email(String email) {
+      this.instance.email = email;
+      return this;
+    }
+    public User.Builder password(String password) {
+      this.instance.password = password;
+      return this;
+    }
+    public User.Builder phone(String phone) {
+      this.instance.phone = phone;
+      return this;
+    }
+    public User.Builder userStatus(Integer userStatus) {
+      this.instance.userStatus = userStatus;
+      return this;
+    }
+    public User.Builder objectWithNoDeclaredProps(Object objectWithNoDeclaredProps) {
+      this.instance.objectWithNoDeclaredProps = objectWithNoDeclaredProps;
+      return this;
+    }
+    public User.Builder objectWithNoDeclaredPropsNullable(Object objectWithNoDeclaredPropsNullable) {
+      this.instance.objectWithNoDeclaredPropsNullable = JsonNullable.<Object>of(objectWithNoDeclaredPropsNullable);
+      return this;
+    }
+    public User.Builder objectWithNoDeclaredPropsNullable(JsonNullable<Object> objectWithNoDeclaredPropsNullable) {
+      this.instance.objectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
+      return this;
+    }
+    public User.Builder anyTypeProp(Object anyTypeProp) {
+      this.instance.anyTypeProp = JsonNullable.<Object>of(anyTypeProp);
+      return this;
+    }
+    public User.Builder anyTypeProp(JsonNullable<Object> anyTypeProp) {
+      this.instance.anyTypeProp = anyTypeProp;
+      return this;
+    }
+    public User.Builder anyTypePropNullable(Object anyTypePropNullable) {
+      this.instance.anyTypePropNullable = JsonNullable.<Object>of(anyTypePropNullable);
+      return this;
+    }
+    public User.Builder anyTypePropNullable(JsonNullable<Object> anyTypePropNullable) {
+      this.instance.anyTypePropNullable = anyTypePropNullable;
+      return this;
+    }
+
+
+    /**
+    * returns a built User instance.
+    *
+    * The builder is not reusable.
+    */
+    public User build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static User.Builder builder() {
+    return new User.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public User.Builder toBuilder() {
+    return new User.Builder()
+      .id(getId())
+      .username(getUsername())
+      .firstName(getFirstName())
+      .lastName(getLastName())
+      .email(getEmail())
+      .password(getPassword())
+      .phone(getPhone())
+      .userStatus(getUserStatus())
+      .objectWithNoDeclaredProps(getObjectWithNoDeclaredProps())
+      .objectWithNoDeclaredPropsNullable(getObjectWithNoDeclaredPropsNullable())
+      .anyTypeProp(getAnyTypeProp())
+      .anyTypePropNullable(getAnyTypePropNullable());
+  }
+
 }
 

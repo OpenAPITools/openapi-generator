@@ -25,6 +25,7 @@ import org.hibernate.validator.constraints.*;
 {{#withXml}}
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 {{/withXml}}
 {{/jackson}}
 {{#swagger2AnnotationLibrary}}
@@ -45,6 +46,12 @@ import {{javaxPackage}}.annotation.Generated;
 
 {{#models}}
 {{#model}}
+{{#additionalPropertiesType}}
+import java.util.Map;
+import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+{{/additionalPropertiesType}}
 {{#isEnum}}
 {{>enumOuterClass}}
 {{/isEnum}}

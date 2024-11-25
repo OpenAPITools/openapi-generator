@@ -4,7 +4,10 @@
 // https://openapi-generator.tech
 //
 
-import Foundation{{#useAlamofire}}
+import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif{{#useAlamofire}}
 import Alamofire{{/useAlamofire}}
 
 protocol JSONEncodable {
@@ -98,18 +101,18 @@ extension NullEncodable: Codable where Wrapped: Codable {
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} convenience init(response: HTTPURLResponse, body: T, bodyData: Data?) {
         let rawHeader = response.allHeaderFields
-        var header = [String: String]()
+        var responseHeader = [String: String]()
         for (key, value) in rawHeader {
             if let key = key.base as? String, let value = value as? String {
-                header[key] = value
+                responseHeader[key] = value
             }
         }
-        self.init(statusCode: response.statusCode, header: header, body: body, bodyData: bodyData)
+        self.init(statusCode: response.statusCode, header: responseHeader, body: body, bodyData: bodyData)
     }
 }
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} final class RequestTask{{#useAsyncAwait}}: @unchecked Sendable{{/useAsyncAwait}} {
-    private var lock = NSRecursiveLock()
+    private let lock = NSRecursiveLock()
 {{#useAlamofire}}
     private var request: Request?
 
@@ -127,9 +130,9 @@ extension NullEncodable: Codable where Wrapped: Codable {
     }
 {{/useAlamofire}}
 {{^useAlamofire}}
-    private var task: URLSessionTask?
+    private var task: URLSessionDataTaskProtocol?
 
-    internal func set(task: URLSessionTask) {
+    internal func set(task: URLSessionDataTaskProtocol) {
         lock.lock()
         defer { lock.unlock() }
         self.task = task

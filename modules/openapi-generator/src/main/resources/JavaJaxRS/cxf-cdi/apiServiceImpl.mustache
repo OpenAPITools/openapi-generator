@@ -12,6 +12,11 @@ import java.util.List;
 
 import java.io.InputStream;
 
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
+{{/useBeanValidation}}
+
 import {{javaxPackage}}.enterprise.context.RequestScoped;
 import {{javaxPackage}}.ws.rs.core.Response;
 import {{javaxPackage}}.ws.rs.core.SecurityContext;

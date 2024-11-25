@@ -28,6 +28,9 @@ import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -205,10 +208,10 @@ public class UserApi {
         }
 
          /**
-         * @param body (List&lt;User&gt;) List of user object (required)
+         * @param body (List&lt;@Valid User&gt;) List of user object (required)
          * @return operation
          */
-        public CreateUsersWithArrayInputOper body(List<User> body) {
+        public CreateUsersWithArrayInputOper body(List<@Valid User> body) {
             reqSpec.setBody(body);
             return this;
         }
@@ -266,10 +269,10 @@ public class UserApi {
         }
 
          /**
-         * @param body (List&lt;User&gt;) List of user object (required)
+         * @param body (List&lt;@Valid User&gt;) List of user object (required)
          * @return operation
          */
-        public CreateUsersWithListInputOper body(List<User> body) {
+        public CreateUsersWithListInputOper body(List<@Valid User> body) {
             reqSpec.setBody(body);
             return this;
         }
@@ -373,7 +376,7 @@ public class UserApi {
 
         public GetUserByNameOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setAccept("application/json");
+            reqSpec.setAccept("application/json,application/xml");
             this.respSpec = new ResponseSpecBuilder();
         }
 
@@ -447,7 +450,7 @@ public class UserApi {
 
         public LoginUserOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setAccept("application/json");
+            reqSpec.setAccept("application/json,application/xml");
             this.respSpec = new ResponseSpecBuilder();
         }
 

@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.12
+// @dart=2.18
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -29,8 +29,8 @@ class FileSchemaTestClass {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is FileSchemaTestClass &&
-     other.file == file &&
-     other.files == files;
+    other.file == file &&
+    _deepEquality.equals(other.files, files);
 
   @override
   int get hashCode =>
@@ -72,13 +72,13 @@ class FileSchemaTestClass {
 
       return FileSchemaTestClass(
         file: ModelFile.fromJson(json[r'file']),
-        files: ModelFile.listFromJson(json[r'files']) ?? const [],
+        files: ModelFile.listFromJson(json[r'files']),
       );
     }
     return null;
   }
 
-  static List<FileSchemaTestClass>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<FileSchemaTestClass> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <FileSchemaTestClass>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -109,12 +109,10 @@ class FileSchemaTestClass {
   static Map<String, List<FileSchemaTestClass>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<FileSchemaTestClass>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = FileSchemaTestClass.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = FileSchemaTestClass.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

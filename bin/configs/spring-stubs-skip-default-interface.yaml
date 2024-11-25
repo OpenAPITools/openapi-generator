@@ -1,6 +1,6 @@
 generatorName: spring
 outputDir: samples/openapi3/client/petstore/spring-stubs-skip-default-interface
-inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
   groupId: org.openapitools.openapi3

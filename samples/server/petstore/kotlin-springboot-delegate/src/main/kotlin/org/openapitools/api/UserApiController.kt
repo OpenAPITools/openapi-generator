@@ -4,13 +4,12 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
 import java.util.Optional
 
-@jakarta.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"])
+@javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.11.0-SNAPSHOT")
 @Controller
-@RequestMapping("\${openapi.openAPIPetstore.base-path:/v2}")
 class UserApiController(
-        @org.springframework.beans.factory.annotation.Autowired(required = false) delegate: UserApiDelegate?
+        delegate: UserApiDelegate?
 ) : UserApi {
-    private val delegate: UserApiDelegate
+    private lateinit var delegate: UserApiDelegate
 
     init {
         this.delegate = Optional.ofNullable(delegate).orElse(object : UserApiDelegate {})

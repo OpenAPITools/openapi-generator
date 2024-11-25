@@ -12,13 +12,14 @@ Name | Type | Description | Notes
 **Double** | Pointer to **float64** |  | [optional] 
 **String** | Pointer to **string** |  | [optional] 
 **Byte** | **string** |  | 
-**Binary** | Pointer to **os.File** |  | [optional] 
+**Binary** | Pointer to ***os.File** |  | [optional] 
 **Date** | **string** |  | 
 **DateTime** | Pointer to **time.Time** |  | [optional] 
 **Uuid** | Pointer to **string** |  | [optional] 
 **Password** | **string** |  | 
 **PatternWithDigits** | Pointer to **string** | A string that is a 10 digit number. Can have leading zeros. | [optional] 
 **PatternWithDigitsAndDelimiter** | Pointer to **string** | A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01. | [optional] 
+**PatternWithBacktick** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
@@ -231,20 +232,20 @@ SetByte sets Byte field to given value.
 
 ### GetBinary
 
-`func (o *FormatTest) GetBinary() os.File`
+`func (o *FormatTest) GetBinary() *os.File`
 
 GetBinary returns the Binary field if non-nil, zero value otherwise.
 
 ### GetBinaryOk
 
-`func (o *FormatTest) GetBinaryOk() (*os.File, bool)`
+`func (o *FormatTest) GetBinaryOk() (**os.File, bool)`
 
 GetBinaryOk returns a tuple with the Binary field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBinary
 
-`func (o *FormatTest) SetBinary(v os.File)`
+`func (o *FormatTest) SetBinary(v *os.File)`
 
 SetBinary sets Binary field to given value.
 
@@ -393,6 +394,31 @@ SetPatternWithDigitsAndDelimiter sets PatternWithDigitsAndDelimiter field to giv
 `func (o *FormatTest) HasPatternWithDigitsAndDelimiter() bool`
 
 HasPatternWithDigitsAndDelimiter returns a boolean if a field has been set.
+
+### GetPatternWithBacktick
+
+`func (o *FormatTest) GetPatternWithBacktick() string`
+
+GetPatternWithBacktick returns the PatternWithBacktick field if non-nil, zero value otherwise.
+
+### GetPatternWithBacktickOk
+
+`func (o *FormatTest) GetPatternWithBacktickOk() (*string, bool)`
+
+GetPatternWithBacktickOk returns a tuple with the PatternWithBacktick field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPatternWithBacktick
+
+`func (o *FormatTest) SetPatternWithBacktick(v string)`
+
+SetPatternWithBacktick sets PatternWithBacktick field to given value.
+
+### HasPatternWithBacktick
+
+`func (o *FormatTest) HasPatternWithBacktick() bool`
+
+HasPatternWithBacktick returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

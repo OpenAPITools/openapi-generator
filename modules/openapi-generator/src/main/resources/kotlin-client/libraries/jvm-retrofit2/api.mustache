@@ -59,19 +59,17 @@ import kotlinx.serialization.*
 {{/imports}}
 
 {{#operations}}
+{{#x-kotlin-import-models}}
+import {{{modelPackage}}}.*
+
+{{/x-kotlin-import-models}}
 {{#x-kotlin-multipart-import}}
 {{^isMultipart}}
 import okhttp3.MultipartBody
 
 {{/isMultipart}}
 {{/x-kotlin-multipart-import}}
-{{#operation}}
-{{#isResponseFile}}
-import okhttp3.ResponseBody
-
-{{/isResponseFile}}
-{{/operation}}
-interface {{classname}} {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}interface {{classname}} {
     {{#operation}}
     {{#allParams}}
     {{#isEnum}}
@@ -79,7 +77,7 @@ interface {{classname}} {
     /**
     * enum for parameter {{paramName}}
     */
-    {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{enumName}}_{{operationId}}(val value: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}kotlin.String{{/isContainer}}) {
+    {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}enum class {{enumName}}{{operationIdCamelCase}}({{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val value: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}kotlin.String{{/isContainer}}) {
     {{^enumUnknownDefaultCase}}
         {{#allowableValues}}
             {{#enumVars}}
@@ -151,14 +149,12 @@ interface {{classname}} {
     {{^formParams}}
     {{#prioritizedContentTypes}}
     {{#-first}}
-    @Headers({
-        "Content-Type:{{{mediaType}}}"
-    })
+    @Headers("Content-Type:{{{mediaType}}}")
     {{/-first}}
     {{/prioritizedContentTypes}}
     {{/formParams}}
     @{{httpMethod}}("{{{path}}}")
-    {{^doNotUseRxAndCoroutines}}{{#useCoroutines}}suspend {{/useCoroutines}}{{/doNotUseRxAndCoroutines}}fun {{operationId}}({{^allParams}}){{/allParams}}{{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/allParams}}: {{^doNotUseRxAndCoroutines}}{{#useRxJava}}Observable<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{^returnType}}Unit{{/returnType}}{{/isResponseFile}}>{{/useRxJava}}{{#useRxJava2}}{{#returnType}}Single<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>{{/returnType}}{{^returnType}}Completable{{/returnType}}{{/useRxJava2}}{{#useRxJava3}}{{#returnType}}Single<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>{{/returnType}}{{^returnType}}Completable{{/returnType}}{{/useRxJava3}}{{#useCoroutines}}Response<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{^returnType}}Unit{{/returnType}}{{/isResponseFile}}>{{/useCoroutines}}{{/doNotUseRxAndCoroutines}}{{#doNotUseRxAndCoroutines}}Call<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{^returnType}}Unit{{/returnType}}{{/isResponseFile}}>{{/doNotUseRxAndCoroutines}}
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}{{^doNotUseRxAndCoroutines}}{{#useCoroutines}}suspend {{/useCoroutines}}{{/doNotUseRxAndCoroutines}}fun {{operationId}}({{^allParams}}){{/allParams}}{{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/allParams}}: {{^doNotUseRxAndCoroutines}}{{#useRxJava}}Observable<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{^returnType}}Unit{{/returnType}}{{/isResponseFile}}>{{/useRxJava}}{{#useRxJava2}}{{#returnType}}Single<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>{{/returnType}}{{^returnType}}Completable{{/returnType}}{{/useRxJava2}}{{#useRxJava3}}{{#returnType}}Single<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>{{/returnType}}{{^returnType}}Completable{{/returnType}}{{/useRxJava3}}{{#useCoroutines}}Response<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{^returnType}}Unit{{/returnType}}{{/isResponseFile}}>{{/useCoroutines}}{{/doNotUseRxAndCoroutines}}{{#doNotUseRxAndCoroutines}}Call<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{^returnType}}Unit{{/returnType}}{{/isResponseFile}}>{{/doNotUseRxAndCoroutines}}
 
     {{/operation}}
 }

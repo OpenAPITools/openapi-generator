@@ -47,7 +47,8 @@ paths:
       - pet
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: pet
     put:
@@ -84,7 +85,8 @@ paths:
       - pet
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: pet
   /pet/findByStatus:
@@ -132,7 +134,42 @@ paths:
       tags:
       - pet
       x-spring-paginated: true
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
+      x-tags:
+      - tag: pet
+  /pet/all:
+    get:
+      operationId: listAllPets
+      responses:
+        "200":
+          content:
+            application/xml:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Pet'
+                type: array
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Pet'
+                type: array
+          description: successful operation
+        "400":
+          content: {}
+          description: Invalid status value
+      security:
+      - petstore_auth:
+        - write:pets
+        - read:pets
+      summary: List all pets
+      tags:
+      - pet
+      x-spring-paginated: true
+      x-accepts:
+      - application/json
+      - application/xml
       x-tags:
       - tag: pet
   /pet/findByTags:
@@ -177,24 +214,31 @@ paths:
       tags:
       - pet
       x-spring-paginated: true
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
       x-tags:
       - tag: pet
   /pet/{petId}:
     delete:
       operationId: deletePet
       parameters:
-      - in: header
+      - explode: false
+        in: header
         name: api_key
+        required: false
         schema:
           type: string
+        style: simple
       - description: Pet id to delete
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       responses:
         "200":
           content: {}
@@ -209,7 +253,8 @@ paths:
       summary: Deletes a pet
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: pet
     get:
@@ -217,12 +262,14 @@ paths:
       operationId: getPetById
       parameters:
       - description: ID of pet to return
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       responses:
         "200":
           content:
@@ -244,19 +291,23 @@ paths:
       summary: Find pet by ID
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
       x-tags:
       - tag: pet
     post:
       operationId: updatePetWithForm
       parameters:
       - description: ID of pet that needs to be updated
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -274,7 +325,8 @@ paths:
       tags:
       - pet
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: pet
   /pet/{petId}/uploadImage:
@@ -282,12 +334,14 @@ paths:
       operationId: uploadFile
       parameters:
       - description: ID of pet to update
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       requestBody:
         content:
           multipart/form-data:
@@ -308,7 +362,8 @@ paths:
       tags:
       - pet
       x-content-type: multipart/form-data
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: pet
   /store/inventory:
@@ -330,7 +385,8 @@ paths:
       summary: Returns pet inventories by status
       tags:
       - store
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: store
   /store/order:
@@ -361,7 +417,9 @@ paths:
       - store
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
       x-tags:
       - tag: store
   /store/order/{order_id}:
@@ -371,11 +429,13 @@ paths:
       operationId: deleteOrder
       parameters:
       - description: ID of the order that needs to be deleted
+        explode: false
         in: path
         name: order_id
         required: true
         schema:
           type: string
+        style: simple
       responses:
         "400":
           content: {}
@@ -386,7 +446,8 @@ paths:
       summary: Delete purchase order by ID
       tags:
       - store
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: store
     get:
@@ -395,6 +456,7 @@ paths:
       operationId: getOrderById
       parameters:
       - description: ID of pet that needs to be fetched
+        explode: false
         in: path
         name: order_id
         required: true
@@ -403,6 +465,7 @@ paths:
           maximum: 5
           minimum: 1
           type: integer
+        style: simple
       responses:
         "200":
           content:
@@ -422,7 +485,9 @@ paths:
       summary: Find purchase order by ID
       tags:
       - store
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
       x-tags:
       - tag: store
   /user:
@@ -445,7 +510,8 @@ paths:
       - user
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: user
   /user/createWithArray:
@@ -469,7 +535,8 @@ paths:
       - user
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: user
   /user/createWithList:
@@ -493,7 +560,8 @@ paths:
       - user
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: user
   /user/login:
@@ -501,17 +569,21 @@ paths:
       operationId: loginUser
       parameters:
       - description: The user name for login
+        explode: true
         in: query
         name: username
         required: true
         schema:
           type: string
+        style: form
       - description: The password for login in clear text
+        explode: true
         in: query
         name: password
         required: true
         schema:
           type: string
+        style: form
       responses:
         "200":
           content:
@@ -525,21 +597,27 @@ paths:
           headers:
             X-Rate-Limit:
               description: calls per hour allowed by the user
+              explode: false
               schema:
                 format: int32
                 type: integer
+              style: simple
             X-Expires-After:
               description: date in UTC when token expires
+              explode: false
               schema:
                 format: date-time
                 type: string
+              style: simple
         "400":
           content: {}
           description: Invalid username/password supplied
       summary: Logs user into the system
       tags:
       - user
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
       x-tags:
       - tag: user
   /user/logout:
@@ -552,7 +630,8 @@ paths:
       summary: Logs out current logged in user session
       tags:
       - user
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: user
   /user/{username}:
@@ -561,11 +640,13 @@ paths:
       operationId: deleteUser
       parameters:
       - description: The name that needs to be deleted
+        explode: false
         in: path
         name: username
         required: true
         schema:
           type: string
+        style: simple
       responses:
         "400":
           content: {}
@@ -576,18 +657,21 @@ paths:
       summary: Delete user
       tags:
       - user
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: user
     get:
       operationId: getUserByName
       parameters:
       - description: The name that needs to be fetched. Use user1 for testing.
+        explode: false
         in: path
         name: username
         required: true
         schema:
           type: string
+        style: simple
       responses:
         "200":
           content:
@@ -607,7 +691,9 @@ paths:
       summary: Get user by user name
       tags:
       - user
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
       x-tags:
       - tag: user
     put:
@@ -615,11 +701,13 @@ paths:
       operationId: updateUser
       parameters:
       - description: name that need to be deleted
+        explode: false
         in: path
         name: username
         required: true
         schema:
           type: string
+        style: simple
       requestBody:
         content:
           '*/*':
@@ -639,7 +727,8 @@ paths:
       - user
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: user
   /fake_classname_test:
@@ -667,7 +756,8 @@ paths:
       - fake_classname_tags 123#$%^
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake_classname_tags 123#$%^
   /fake:
@@ -676,40 +766,55 @@ paths:
       operationId: testGroupParameters
       parameters:
       - description: Required String in group parameters
+        explode: true
         in: query
         name: required_string_group
         required: true
         schema:
           type: integer
+        style: form
       - description: Required Boolean in group parameters
+        explode: false
         in: header
         name: required_boolean_group
         required: true
         schema:
           type: boolean
+        style: simple
       - description: Required Integer in group parameters
+        explode: true
         in: query
         name: required_int64_group
         required: true
         schema:
           format: int64
           type: integer
+        style: form
       - description: String in group parameters
+        explode: true
         in: query
         name: string_group
+        required: false
         schema:
           type: integer
+        style: form
       - description: Boolean in group parameters
+        explode: false
         in: header
         name: boolean_group
+        required: false
         schema:
           type: boolean
+        style: simple
       - description: Integer in group parameters
+        explode: true
         in: query
         name: int64_group
+        required: false
         schema:
           format: int64
           type: integer
+        style: form
       responses:
         "400":
           content: {}
@@ -718,7 +823,8 @@ paths:
       tags:
       - fake
       x-group-parameters: true
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
     get:
@@ -729,6 +835,7 @@ paths:
         explode: false
         in: header
         name: enum_header_string_array
+        required: false
         schema:
           items:
             default: $
@@ -739,8 +846,10 @@ paths:
           type: array
         style: simple
       - description: Header parameter enum test (string)
+        explode: false
         in: header
         name: enum_header_string
+        required: false
         schema:
           default: -efg
           enum:
@@ -748,10 +857,12 @@ paths:
           - -efg
           - (xyz)
           type: string
+        style: simple
       - description: Query parameter enum test (string array)
         explode: false
         in: query
         name: enum_query_string_array
+        required: false
         schema:
           items:
             default: $
@@ -762,8 +873,10 @@ paths:
           type: array
         style: form
       - description: Query parameter enum test (string)
+        explode: true
         in: query
         name: enum_query_string
+        required: false
         schema:
           default: -efg
           enum:
@@ -771,24 +884,31 @@ paths:
           - -efg
           - (xyz)
           type: string
+        style: form
       - description: Query parameter enum test (double)
+        explode: true
         in: query
         name: enum_query_integer
+        required: false
         schema:
           enum:
           - 1
           - -2
           format: int32
           type: integer
+        style: form
       - description: Query parameter enum test (double)
+        explode: true
         in: query
         name: enum_query_double
+        required: false
         schema:
           enum:
           - 1.1
           - -1.2
           format: double
           type: number
+        style: form
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -805,7 +925,8 @@ paths:
       tags:
       - fake
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
     patch:
@@ -830,7 +951,8 @@ paths:
       - fake
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
     post:
@@ -863,7 +985,8 @@ paths:
       tags:
       - fake
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
   /fake/outer/number:
@@ -888,7 +1011,8 @@ paths:
       - fake
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: '*/*'
+      x-accepts:
+      - '*/*'
       x-tags:
       - tag: fake
   /fake/outer/string:
@@ -913,7 +1037,8 @@ paths:
       - fake
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: '*/*'
+      x-accepts:
+      - '*/*'
       x-tags:
       - tag: fake
   /fake/outer/boolean:
@@ -938,7 +1063,8 @@ paths:
       - fake
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: '*/*'
+      x-accepts:
+      - '*/*'
       x-tags:
       - tag: fake
   /fake/outer/composite:
@@ -963,7 +1089,8 @@ paths:
       - fake
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: '*/*'
+      x-accepts:
+      - '*/*'
       x-tags:
       - tag: fake
   /fake/jsonFormData:
@@ -983,7 +1110,8 @@ paths:
       tags:
       - fake
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
   /fake/inline-additionalProperties:
@@ -1007,18 +1135,21 @@ paths:
       - fake
       x-codegen-request-body-name: param
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
   /fake/body-with-query-params:
     put:
       operationId: testBodyWithQueryParams
       parameters:
-      - in: query
+      - explode: true
+        in: query
         name: query
         required: true
         schema:
           type: string
+        style: form
       requestBody:
         content:
           application/json:
@@ -1033,7 +1164,8 @@ paths:
       - fake
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
   /fake/create_xml_item:
@@ -1071,7 +1203,8 @@ paths:
       - fake
       x-codegen-request-body-name: XmlItem
       x-content-type: application/xml
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
   /another-fake/dummy:
@@ -1097,7 +1230,8 @@ paths:
       - $another-fake?
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: $another-fake?
   /fake/body-with-file-schema:
@@ -1119,7 +1253,8 @@ paths:
       - fake
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
   /fake/test-query-parameters:
@@ -1136,14 +1271,17 @@ paths:
             type: string
           type: array
         style: form
-      - in: query
+      - explode: true
+        in: query
         name: ioutil
         required: true
         schema:
           items:
             type: string
           type: array
-      - in: query
+        style: form
+      - explode: false
+        in: query
         name: http
         required: true
         schema:
@@ -1175,7 +1313,8 @@ paths:
           description: Success
       tags:
       - fake
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
   /fake/{petId}/uploadImageWithRequiredFile:
@@ -1183,12 +1322,14 @@ paths:
       operationId: uploadFileWithRequiredFile
       parameters:
       - description: ID of pet to update
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       requestBody:
         content:
           multipart/form-data:
@@ -1210,9 +1351,164 @@ paths:
       tags:
       - pet
       x-content-type: multipart/form-data
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: pet
+  /versioning/headers:
+    post:
+      operationId: versioningHeaders
+      parameters:
+      - explode: false
+        in: header
+        name: VersionWithDefaultValue
+        required: true
+        schema:
+          default: V1
+          type: string
+          x-version-param: true
+        style: simple
+        x-version-param: true
+      - explode: false
+        in: header
+        name: VersionNoDefaultValue
+        required: true
+        schema:
+          type: string
+          x-version-param: true
+        style: simple
+        x-version-param: true
+      - description: ID of pet to update
+        explode: false
+        in: path
+        name: petId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+          description: successful operation
+      tags:
+      - versioning
+      x-accepts:
+      - '*/*'
+      x-tags:
+      - tag: versioning
+  /versioning/query-params:
+    post:
+      operationId: versioningQueryParams
+      parameters:
+      - explode: true
+        in: query
+        name: VersionWithDefaultValue
+        required: true
+        schema:
+          default: V1
+          type: string
+          x-version-param: true
+        style: form
+        x-version-param: true
+      - explode: true
+        in: query
+        name: VersionNoDefaultValue
+        required: true
+        schema:
+          type: string
+          x-version-param: true
+        style: form
+        x-version-param: true
+      - description: ID of pet to update
+        explode: false
+        in: path
+        name: petId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+          description: successful operation
+      tags:
+      - versioning
+      x-accepts:
+      - '*/*'
+      x-tags:
+      - tag: versioning
+  /versioning/mix:
+    post:
+      operationId: versioningMix
+      parameters:
+      - explode: true
+        in: query
+        name: VersionWithDefaultValueQuery
+        required: true
+        schema:
+          default: V1
+          type: string
+          x-version-param: true
+        style: form
+        x-version-param: true
+      - explode: true
+        in: query
+        name: VersionNoDefaultValueQuery
+        required: true
+        schema:
+          type: string
+          x-version-param: true
+        style: form
+        x-version-param: true
+      - explode: false
+        in: header
+        name: VersionWithDefaultValueHeader
+        required: true
+        schema:
+          default: V1
+          type: string
+          x-version-param: true
+        style: simple
+        x-version-param: true
+      - explode: false
+        in: header
+        name: VersionNoDefaultValueHeader
+        required: true
+        schema:
+          type: string
+          x-version-param: true
+        style: simple
+        x-version-param: true
+      - description: ID of pet to update
+        explode: false
+        in: path
+        name: petId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+          description: successful operation
+      tags:
+      - versioning
+      x-accepts:
+      - '*/*'
+      x-tags:
+      - tag: versioning
 components:
   schemas:
     Order:
@@ -1379,7 +1675,7 @@ components:
         message:
           type: string
       type: object
-    $special[model.name]:
+    _special_model_name_:
       properties:
         $special[property.name]:
           format: int64
@@ -1436,11 +1732,17 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Dog_allOf'
+      - properties:
+          breed:
+            type: string
+        type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Cat_allOf'
+      - properties:
+          declawed:
+            type: boolean
+        type: object
     Animal:
       discriminator:
         propertyName: className
@@ -1460,13 +1762,13 @@ components:
     format_test:
       properties:
         integer:
-          maximum: 100
-          minimum: 10
+          maximum: 100.0
+          minimum: 10.0
           type: integer
         int32:
           format: int32
-          maximum: 200
-          minimum: 20
+          maximum: 200.0
+          minimum: 20.0
           type: integer
         int64:
           format: int64
@@ -2105,7 +2407,6 @@ components:
         status:
           description: Updated status of the pet
           type: string
-      type: object
     uploadFile_request:
       properties:
         additionalMetadata:
@@ -2115,7 +2416,6 @@ components:
           description: file to upload
           format: binary
           type: string
-      type: object
     testEnumParameters_request:
       properties:
         enum_form_string_array:
@@ -2135,7 +2435,6 @@ components:
           - -efg
           - (xyz)
           type: string
-      type: object
     testEndpointParameters_request:
       properties:
         integer:
@@ -2208,7 +2507,6 @@ components:
       - double
       - number
       - pattern_without_delimiter
-      type: object
     testJsonFormData_request:
       properties:
         param:
@@ -2220,7 +2518,6 @@ components:
       required:
       - param
       - param2
-      type: object
     uploadFileWithRequiredFile_request:
       properties:
         additionalMetadata:
@@ -2232,19 +2529,6 @@ components:
           type: string
       required:
       - requiredFile
-      type: object
-    Dog_allOf:
-      properties:
-        breed:
-          type: string
-      type: object
-      example: null
-    Cat_allOf:
-      properties:
-        declawed:
-          type: boolean
-      type: object
-      example: null
   securitySchemes:
     petstore_auth:
       flows:
@@ -2265,4 +2549,3 @@ components:
     http_basic_test:
       scheme: basic
       type: http
-x-original-swagger-version: "2.0"

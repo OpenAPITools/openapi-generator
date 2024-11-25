@@ -18,16 +18,21 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|avoidBoxedModels|If set, `Box&lt;T&gt;` will not be used for models| |false|
 |bestFitInt|Use best fitting integer type where minimum or maximum is set| |false|
 |enumNameSuffix|Suffix that will be appended to all enum names.| ||
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
-|library|library template (sub-template) to use.|<dl><dt>**hyper**</dt><dd>HTTP client: Hyper.</dd><dt>**reqwest**</dt><dd>HTTP client: Reqwest.</dd></dl>|reqwest|
+|library|library template (sub-template) to use.|<dl><dt>**hyper**</dt><dd>HTTP client: Hyper (v1.x).</dd><dt>**hyper0x**</dt><dd>HTTP client: Hyper (v0.x).</dd><dt>**reqwest**</dt><dd>HTTP client: Reqwest.</dd><dt>**reqwest-trait**</dt><dd>HTTP client: Reqwest (trait based).</dd></dl>|reqwest|
+|mockall|Adds `#[automock]` from the mockall crate to api traits. This option is for 'reqwest-trait' library only| |false|
 |packageName|Rust package name (convention: lowercase).| |openapi|
 |packageVersion|Rust package version.| |1.0.0|
 |preferUnsignedInt|Prefer unsigned integers where minimum value is &gt;= 0| |false|
 |supportAsync|If set, generate async function call instead. This option is for 'reqwest' library only| |true|
-|supportMiddleware|If set, add support for reqwest-middleware. This option is for 'reqwest' library only| |false|
-|supportMultipleResponses|If set, return type wraps an enum of all possible 2xx schemas. This option is for 'reqwest' library only| |false|
+|supportMiddleware|If set, add support for reqwest-middleware. This option is for 'reqwest' and 'reqwest-trait' library only| |false|
+|supportMultipleResponses|If set, return type wraps an enum of all possible 2xx schemas. This option is for 'reqwest' and 'reqwest-trait' library only| |false|
+|supportTokenSource|If set, add support for google-cloud-token. This option is for 'reqwest' and 'reqwest-trait' library only and requires the 'supportAsync' option| |false|
+|topLevelApiClient|Creates a top level `Api` trait and `ApiClient` struct that contain all Apis. This option is for 'reqwest-trait' library only| |false|
+|useBonBuilder|Use the bon crate for building parameter types. This option is for the 'reqwest-trait' library only| |false|
 |useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |false|
 |withAWSV4Signature|whether to include AWS v4 signature support| |false|
 
@@ -214,7 +219,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Union|✗|OAS3
 |allOf|✗|OAS2,OAS3
 |anyOf|✗|OAS3
-|oneOf|✗|OAS3
+|oneOf|✓|OAS3
 |not|✗|OAS3
 
 ### Security Feature
@@ -223,11 +228,13 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |BasicAuth|✓|OAS2,OAS3
 |ApiKey|✓|OAS2,OAS3
 |OpenIDConnect|✗|OAS3
-|BearerToken|✗|OAS3
+|BearerToken|✓|OAS3
 |OAuth2_Implicit|✓|OAS2,OAS3
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
+|SignatureAuth|✗|OAS3
+|AWSV4Signature|✓|ToolingExtension
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public interface StoreApi extends ApiClient.Api {
 
 
@@ -74,7 +74,7 @@ public interface StoreApi extends ApiClient.Api {
    */
   @RequestLine("GET /store/order/{orderId}")
   @Headers({
-    "Accept: application/json",
+    "Accept: application/json,application/xml",
   })
   Order getOrderById(@Param("orderId") Long orderId);
 
@@ -87,7 +87,7 @@ public interface StoreApi extends ApiClient.Api {
    */
   @RequestLine("GET /store/order/{orderId}")
   @Headers({
-    "Accept: application/json",
+    "Accept: application/json,application/xml",
   })
   ApiResponse<Order> getOrderByIdWithHttpInfo(@Param("orderId") Long orderId);
 
@@ -102,7 +102,7 @@ public interface StoreApi extends ApiClient.Api {
   @RequestLine("POST /store/order")
   @Headers({
     "Content-Type: */*",
-    "Accept: application/json",
+    "Accept: application/json,application/xml",
   })
   Order placeOrder(Order body);
 
@@ -116,7 +116,7 @@ public interface StoreApi extends ApiClient.Api {
   @RequestLine("POST /store/order")
   @Headers({
     "Content-Type: */*",
-    "Accept: application/json",
+    "Accept: application/json,application/xml",
   })
   ApiResponse<Order> placeOrderWithHttpInfo(Order body);
 

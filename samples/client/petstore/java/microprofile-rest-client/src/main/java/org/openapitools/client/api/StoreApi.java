@@ -35,7 +35,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  *
  */
 
-@RegisterRestClient(configKey="petstore")
+@RegisterRestClient(configKey="store-api")
 @RegisterProvider(ApiExceptionMapper.class)
 @Path("/store")
 public interface StoreApi  {
@@ -48,7 +48,7 @@ public interface StoreApi  {
      */
     @DELETE
     @Path("/order/{orderId}")
-    public void deleteOrder(@PathParam("orderId") String orderId) throws ApiException, ProcessingException;
+    void deleteOrder(@PathParam("orderId") String orderId) throws ApiException, ProcessingException;
 
     /**
      * Returns pet inventories by status
@@ -59,7 +59,7 @@ public interface StoreApi  {
     @GET
     @Path("/inventory")
     @Produces({ "application/json" })
-    public Map<String, Integer> getInventory() throws ApiException, ProcessingException;
+    Map<String, Integer> getInventory() throws ApiException, ProcessingException;
 
     /**
      * Find purchase order by ID
@@ -70,14 +70,17 @@ public interface StoreApi  {
     @GET
     @Path("/order/{orderId}")
     @Produces({ "application/xml", "application/json" })
-    public Order getOrderById(@PathParam("orderId") Long orderId) throws ApiException, ProcessingException;
+    Order getOrderById(@PathParam("orderId") Long orderId) throws ApiException, ProcessingException;
 
     /**
      * Place an order for a pet
      *
+     * 
+     *
      */
     @POST
     @Path("/order")
+    @Consumes({ "application/json" })
     @Produces({ "application/xml", "application/json" })
-    public Order placeOrder(Order body) throws ApiException, ProcessingException;
+    Order placeOrder(Order order) throws ApiException, ProcessingException;
 }

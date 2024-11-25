@@ -147,7 +147,7 @@ func NewConfiguration() *Configuration {
 			},
 		},
 		OperationServers: map[string]ServerConfigurations{
-			"PetApiService.AddPet": {
+			"PetAPIService.AddPet": {
 				{
 					URL: "http://petstore.swagger.io/v2",
 					Description: "No description provided",
@@ -157,7 +157,7 @@ func NewConfiguration() *Configuration {
 					Description: "No description provided",
 				},
 			},
-			"PetApiService.UpdatePet": {
+			"PetAPIService.UpdatePet": {
 				{
 					URL: "http://petstore.swagger.io/v2",
 					Description: "No description provided",

@@ -27,7 +27,7 @@ describe Petstore::EnumArrays do
   end
   describe 'test attribute "just_symbol"' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
       # validator = Petstore::EnumTest::EnumAttributeValidator.new('String', [">=", "$"])
       # validator.allowable_values.each do |value|
       #   expect { instance.just_symbol = value }.not_to raise_error
@@ -37,7 +37,7 @@ describe Petstore::EnumArrays do
 
   describe 'test attribute "array_enum"' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
       # validator = Petstore::EnumTest::EnumAttributeValidator.new('Array<String>', ["fish", "crab"])
       # validator.allowable_values.each do |value|
       #   expect { instance.array_enum = value }.not_to raise_error

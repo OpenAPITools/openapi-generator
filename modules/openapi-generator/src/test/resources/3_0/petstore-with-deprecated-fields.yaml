@@ -144,6 +144,7 @@ paths:
       operationId: getPetById
       parameters:
         - name: petId
+          deprecated: true
           in: path
           description: ID of pet to return
           required: true
@@ -426,6 +427,7 @@ paths:
             pattern: '^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$'
         - name: password
           in: query
+          deprecated: true
           description: The password for login in clear text
           required: true
           schema:

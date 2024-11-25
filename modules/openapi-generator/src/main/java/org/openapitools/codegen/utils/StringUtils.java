@@ -20,7 +20,6 @@ import java.util.regex.Pattern;
 import static org.openapitools.codegen.utils.CamelizeOption.UPPERCASE_FIRST_CHAR;
 
 public class StringUtils {
-
     /**
      * Set the cache size (entry count) of the sanitizedNameCache, camelizedWordsCache and underscoreWordsCache.
      */
@@ -139,7 +138,7 @@ public class StringUtils {
             // Replace all slashes with dots (package separator)
             Matcher m = camelizeSlashPattern.matcher(word);
             while (m.find()) {
-                word = m.replaceFirst("." + m.group(1)/*.toUpperCase()*/);
+                word = m.replaceFirst("." + m.group(1).replace("\\", "\\\\")/*.toUpperCase()*/);
                 m = camelizeSlashPattern.matcher(word);
             }
 
@@ -283,5 +282,33 @@ public class StringUtils {
             if (result != null) return result;
             throw new RuntimeException("Word '" + name + "' could not be escaped.");
         });
+    }
+
+    /**
+     * Return a unique string based on a set of processed strings.
+     *
+     * @param processedStrings a set of strings that have been processed
+     * @param input            input to be checked for uniqueness
+     * @return a unique string
+     */
+    public static String getUniqueString(Set<String> processedStrings, String input) {
+        if (input == null) {
+            return null;
+        }
+
+        String uniqueName = input;
+        // check for input uniqueness
+        int counter = 0;
+
+        if (processedStrings.contains(uniqueName)) {
+            // look for next unique next, e.g. getName_7
+            while (processedStrings.contains(uniqueName)) {
+                uniqueName = uniqueName + "_" + counter;
+                counter++;
+            }
+        }
+
+        processedStrings.add(uniqueName);
+        return uniqueName;
     }
 }

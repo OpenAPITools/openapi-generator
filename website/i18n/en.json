@@ -458,6 +458,10 @@
         "title": "Config Options for scala-akka",
         "sidebar_label": "scala-akka"
       },
+      "generators/scala-pekko": {
+        "title": "Config Options for scala-pekko",
+        "sidebar_label": "scala-pekko"
+      },
       "generators/scala-finch": {
         "title": "Config Options for scala-finch",
         "sidebar_label": "scala-finch"

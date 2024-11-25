@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.12
+// @dart=2.18
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -20,7 +20,7 @@ class Foo {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Foo &&
-     other.bar == bar;
+    other.bar == bar;
 
   @override
   int get hashCode =>
@@ -61,7 +61,7 @@ class Foo {
     return null;
   }
 
-  static List<Foo>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<Foo> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <Foo>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -92,12 +92,10 @@ class Foo {
   static Map<String, List<Foo>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<Foo>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = Foo.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = Foo.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

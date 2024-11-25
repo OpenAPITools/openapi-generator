@@ -32,6 +32,7 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.config.MergedSpecBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,6 +57,13 @@ public class Generate extends OpenApiGeneratorCommand {
     @Option(name = {"-i", "--input-spec"}, title = "spec file",
             description = "location of the OpenAPI spec, as URL or file (required if not loaded via config using -c)")
     private String spec;
+
+    @Option(name = "--input-spec-root-directory", title = "Folder with spec(s)",
+            description = "Local root folder with spec file(s)")
+    private String inputSpecRootDirectory;
+
+    @Option(name = "--merged-spec-filename", title = "Name of resulted merged specs file (used along with --input-spec-root-directory option)")
+    private String mergedFileName;
 
     @Option(name = {"-t", "--template-dir"}, title = "template directory",
             description = "folder containing the template files")
@@ -153,6 +161,13 @@ public class Generate extends OpenApiGeneratorCommand {
     private List<String> languageSpecificPrimitives = new ArrayList<>();
 
     @Option(
+            name = {"--openapi-generator-ignore-list"},
+            title = ".openapi-generaotr-ignore list",
+            description = "specifies entries in the .openapi-generator-ignore file relative/path/to/file1,relative/path/to/file2. For example: README.md,pom.xml"
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> openapiGeneratorIgnoreList = new ArrayList<>();
+
+    @Option(
             name = {"--import-mappings"},
             title = "import mappings",
             description = "specifies mappings between a given class and the import that should be used for that class in the format of type=import,type=import."
@@ -174,11 +189,46 @@ public class Generate extends OpenApiGeneratorCommand {
     private List<String> inlineSchemaNameMappings = new ArrayList<>();
 
     @Option(
-            name = {"--inline-schema-name-defaults"},
-            title = "inline schema name defaults",
-            description = "specifies the default values used when naming inline schema as such array items in the format of arrayItemSuffix=_inner,mapItemSuffix=_value. "
-                    + " ONLY arrayItemSuffix, mapItemSuffix are supported at the moment. `SKIP_SCHEMA_REUSE=true` is a special value to skip reusing inline schemas.")
-    private List<String> inlineSchemaNameDefaults = new ArrayList<>();
+            name = {"--inline-schema-options"},
+            title = "inline schema options",
+            description = "specifies the options for handling inline schemas in the inline model resolver."
+                    + " Please refer to https://github.com/OpenAPITools/openapi-generator/blob/master/docs/customization.md for a list of options.")
+    private List<String> inlineSchemaOptions = new ArrayList<>();
+
+    @Option(
+            name = {"--name-mappings"},
+            title = "property name mappings",
+            description = "specifies mappings between the property name and the new name in the format of prop_name=PropName,prop_name2=PropName2."
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> nameMappings = new ArrayList<>();
+
+    @Option(
+            name = {"--parameter-name-mappings"},
+            title = "parameter name mappings",
+            description = "specifies mappings between the parameter name and the new name in the format of param_name=paramName,param_name2=paramName2."
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> parameterNameMappings = new ArrayList<>();
+
+    @Option(
+            name = {"--model-name-mappings"},
+            title = "model name mappings",
+            description = "specifies mappings between the model name and the new name in the format of model_name=AnotherName,model_name2=OtherName2."
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> modelNameMappings = new ArrayList<>();
+
+    @Option(
+            name = {"--enum-name-mappings"},
+            title = "enum name mappings",
+            description = "specifies mappings between the enum name and the new name in the format of enum_name=AnotherName,enum_name2=OtherName2."
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> enumNameMappings = new ArrayList<>();
+
+    @Option(
+            name = {"--operation-id-name-mappings"},
+            title = "operation id name mappings",
+            description = "specifies mappings between the operation id name and the new name in the format of operation_id_name=AnotherName,operation_id_name2=OtherName2."
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> operationIdNameMappings = new ArrayList<>();
 
     @Option(
             name = {"--openapi-normalizer"},
@@ -283,6 +333,12 @@ public class Generate extends OpenApiGeneratorCommand {
 
     @Override
     public void execute() {
+        if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
+            spec = new MergedSpecBuilder(inputSpecRootDirectory, StringUtils.isBlank(mergedFileName) ? "_merged_spec" : mergedFileName)
+                .buildMergedSpec();
+            System.out.println("Merge input spec would be used - " + spec);
+        }
+
         if (logToStderr != null) {
             LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
             Stream.of(Logger.ROOT_LOGGER_NAME, "io.swagger", "org.openapitools")
@@ -453,11 +509,17 @@ public class Generate extends OpenApiGeneratorCommand {
         applyImportMappingsKvpList(importMappings, configurator);
         applySchemaMappingsKvpList(schemaMappings, configurator);
         applyInlineSchemaNameMappingsKvpList(inlineSchemaNameMappings, configurator);
-        applyInlineSchemaNameDefaultsKvpList(inlineSchemaNameDefaults, configurator);
-        applyOpenAPINormalizerKvpList(openapiNormalizer, configurator);
+        applyInlineSchemaOptionsKvpList(inlineSchemaOptions, configurator);
+        applyNameMappingsKvpList(nameMappings, configurator);
+        applyParameterNameMappingsKvpList(parameterNameMappings, configurator);
+        applyModelNameMappingsKvpList(modelNameMappings, configurator);
+        applyEnumNameMappingsKvpList(enumNameMappings, configurator);
+        applyOperationIdNameMappingsKvpList(operationIdNameMappings, configurator);
+        applyOpenapiNormalizerKvpList(openapiNormalizer, configurator);
         applyTypeMappingsKvpList(typeMappings, configurator);
         applyAdditionalPropertiesKvpList(additionalProperties, configurator);
         applyLanguageSpecificPrimitivesCsvList(languageSpecificPrimitives, configurator);
+        applyOpenapiGeneratorIgnoreListCsvList(openapiGeneratorIgnoreList, configurator);
         applyReservedWordsMappingsKvpList(reservedWordsMappings, configurator);
         applyServerVariablesKvpList(serverVariableOverrides, configurator);
 

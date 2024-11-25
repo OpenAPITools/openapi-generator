@@ -1,7 +1,6 @@
 package org.openapitools.api.impl;
 
 import org.openapitools.api.*;
-import java.util.List;
 import java.time.OffsetDateTime;
 import org.openapitools.model.User;
 
@@ -15,7 +14,8 @@ import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+import javax.validation.Valid;
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class UserApiServiceImpl extends UserApiService {
     @Override
     public Response createUser(User body, SecurityContext securityContext) throws NotFoundException {
@@ -23,12 +23,12 @@ public class UserApiServiceImpl extends UserApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response createUsersWithArrayInput(List<User> body, SecurityContext securityContext) throws NotFoundException {
+    public Response createUsersWithArrayInput(List<@Valid User> body, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response createUsersWithListInput(List<User> body, SecurityContext securityContext) throws NotFoundException {
+    public Response createUsersWithListInput(List<@Valid User> body, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }

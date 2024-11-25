@@ -12,12 +12,13 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { ResponseMeta } from './ResponseMeta';
 import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
+    ResponseMetaToJSONTyped,
 } from './ResponseMeta';
 
 /**
@@ -34,20 +35,18 @@ export interface PetRegionsResponse {
     meta: ResponseMeta;
     /**
      * An array of all 15-minute time slots in 24 hours.
-     * @type {Array<Array<number>>}
+     * @type {Array<Array<number | null>>}
      * @memberof PetRegionsResponse
      */
-    data?: Array<Array<number>>;
+    data?: Array<Array<number | null>>;
 }
 
 /**
  * Check if a given object implements the PetRegionsResponse interface.
  */
-export function instanceOfPetRegionsResponse(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "meta" in value;
-
-    return isInstance;
+export function instanceOfPetRegionsResponse(value: object): value is PetRegionsResponse {
+    if (!('meta' in value) || value['meta'] === undefined) return false;
+    return true;
 }
 
 export function PetRegionsResponseFromJSON(json: any): PetRegionsResponse {
@@ -55,27 +54,29 @@ export function PetRegionsResponseFromJSON(json: any): PetRegionsResponse {
 }
 
 export function PetRegionsResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): PetRegionsResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
         'meta': ResponseMetaFromJSON(json['meta']),
-        'data': !exists(json, 'data') ? undefined : json['data'],
+        'data': json['data'] == null ? undefined : json['data'],
     };
 }
 
-export function PetRegionsResponseToJSON(value?: PetRegionsResponse | null): any {
-    if (value === undefined) {
-        return undefined;
+export function PetRegionsResponseToJSON(json: any): PetRegionsResponse {
+    return PetRegionsResponseToJSONTyped(json, false);
+}
+
+export function PetRegionsResponseToJSONTyped(value?: PetRegionsResponse | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'meta': ResponseMetaToJSON(value.meta),
-        'data': value.data,
+        'meta': ResponseMetaToJSON(value['meta']),
+        'data': value['data'],
     };
 }
 

@@ -17,9 +17,8 @@ import org.openapitools.client.ApiException;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
-import java.util.Set;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +31,7 @@ import java.util.concurrent.CompletableFuture;
 /**
  * API tests for PetApi
  */
-@Ignore
+@Disabled
 public class PetApiTest {
 
     private final PetApi api = new PetApi();
@@ -100,8 +99,8 @@ public class PetApiTest {
      */
     @Test
     public void findPetsByTagsTest() throws ApiException {
-        Set<String> tags = null;
-        CompletableFuture<Set<Pet>> response = 
+        List<String> tags = null;
+        CompletableFuture<List<Pet>> response = 
         api.findPetsByTags(tags);
         
         // TODO: test validations

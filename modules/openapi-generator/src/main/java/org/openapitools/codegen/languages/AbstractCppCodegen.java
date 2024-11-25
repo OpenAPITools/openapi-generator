@@ -37,13 +37,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 abstract public class AbstractCppCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractCppCodegen.class);
@@ -61,7 +60,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         /*
          * Reserved words.  Override this with reserved words specific to your language
          */
-        setReservedWordsLowerCase(
+        reservedWords = new HashSet<>(
                 Arrays.asList(
                         "alignas",
                         "alignof",
@@ -112,6 +111,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
                         "noexcept",
                         "not",
                         "not_eq",
+                        "NULL",
                         "nullptr",
                         "operator",
                         "or",
@@ -156,8 +156,8 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
                 RESERVED_WORD_PREFIX_DESC,
                 this.reservedWordPrefix);
         addOption(VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION,
-                  VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_DESC,
-                  Boolean.toString(this.variableNameFirstCharacterUppercase));
+                VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_DESC,
+                Boolean.toString(this.variableNameFirstCharacterUppercase));
     }
 
     @Override
@@ -185,18 +185,23 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public String toModelName(String type) {
-        if (type == null) {
-            LOGGER.warn("Model name can't be null. Default to 'UnknownModel'.");
-            type = "UnknownModel";
+    public String toModelName(String name) {
+        // obtain the name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
         }
 
-        if (typeMapping.keySet().contains(type) || typeMapping.values().contains(type)
-                || importMapping.values().contains(type) || defaultIncludes.contains(type)
-                || languageSpecificPrimitives.contains(type)) {
-            return type;
+        if (name == null) {
+            LOGGER.warn("Model name can't be null. Default to 'UnknownModel'.");
+            name = "UnknownModel";
+        }
+
+        if (typeMapping.keySet().contains(name) || typeMapping.values().contains(name)
+                || importMapping.values().contains(name) || defaultIncludes.contains(name)
+                || languageSpecificPrimitives.contains(name)) {
+            return name;
         } else {
-            String sanitizedName = sanitizeName(modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1));
+            String sanitizedName = sanitizeName(modelNamePrefix + Character.toUpperCase(name.charAt(0)) + name.substring(1));
             sanitizedName = sanitizedName.replaceFirst("^([^_a-zA-Z])", reservedWordPrefix + "$1");
             return sanitizedName;
         }
@@ -209,6 +214,11 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toVarName(String name) {
+        // obtain the name from nameMapping directly if provided
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         if (typeMapping.keySet().contains(name) || typeMapping.values().contains(name)
                 || importMapping.values().contains(name) || defaultIncludes.contains(name)
                 || languageSpecificPrimitives.contains(name)) {
@@ -252,6 +262,11 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         if (isReservedWord(name) || name.matches("^\\d.*")) {
             return escapeReservedWord(name);
         }
@@ -263,7 +278,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     @Override
     public CodegenProperty fromProperty(String name, Schema p, boolean required) {
         CodegenProperty property = super.fromProperty(name, p, required);
-        String nameInCamelCase = property.nameInCamelCase;
+        String nameInCamelCase = property.nameInPascalCase;
         if (nameInCamelCase.length() > 1) {
             nameInCamelCase = sanitizeName(Character.toLowerCase(nameInCamelCase.charAt(0)) + nameInCamelCase.substring(1));
         } else {
@@ -299,6 +314,8 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         if (StringUtils.isEmpty(System.getenv("CPP_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable CPP_POST_PROCESS_FILE not defined so the C++ code may not be properly formatted. To define it, try 'export CPP_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'CPP_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(RESERVED_WORD_PREFIX_OPTION)) {
@@ -316,11 +333,12 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
-                .put("multiline_comment_4", new IndentedLambda(4, " ", "///"));
+                .put("multiline_comment_4", new IndentedLambda(4, " ", "///", false, false));
     }
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -330,21 +348,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         }
         // only process files with cpp extension
         if ("cpp".equals(FilenameUtils.getExtension(file.toString())) || "h".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = cppPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                p.waitFor();
-                int exitValue = p.exitValue();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[] {cppPostProcessFile, file.toString()});
         }
     }
 
@@ -373,15 +377,15 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
                 s.url = server.getUrl();
                 s.variables = new ArrayList<CodegenServerVariable>();
                 ServerVariables serverVars = server.getVariables();
-                if(serverVars != null){
-                serverVars.forEach((key,value) -> {
-                    CodegenServerVariable codegenServerVar= new CodegenServerVariable();
-                    ServerVariable ServerVar = value;
-                    codegenServerVar.name = key;
-                    codegenServerVar.description = ServerVar.getDescription();
-                    codegenServerVar.defaultValue = ServerVar.getDefault();
-                    codegenServerVar.enumValues = ServerVar.getEnum();
-                    s.variables.add(codegenServerVar);
+                if (serverVars != null) {
+                    serverVars.forEach((key, value) -> {
+                        CodegenServerVariable codegenServerVar = new CodegenServerVariable();
+                        ServerVariable ServerVar = value;
+                        codegenServerVar.name = key;
+                        codegenServerVar.description = ServerVar.getDescription();
+                        codegenServerVar.defaultValue = ServerVar.getDefault();
+                        codegenServerVar.enumValues = ServerVar.getEnum();
+                        s.variables.add(codegenServerVar);
                     });
                 }
                 CodegenServerList.add(s);
@@ -395,7 +399,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
             // cannot handle inheritance from maps and arrays in C++
-            if((cm.isArray || cm.isMap ) && (cm.parentModel == null)) {
+            if ((cm.isArray || cm.isMap) && (cm.parentModel == null)) {
                 cm.parent = null;
             }
         }
@@ -403,7 +407,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs){
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         Map<String, ModelsMap> models = super.postProcessAllModels(objs);
         for (final String key : models.keySet()) {
             CodegenModel mo = ModelUtils.getModelByName(key, models);
@@ -414,27 +418,27 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
 
     private void addForwardDeclarations(CodegenModel parentModel, Map<String, ModelsMap> objs) {
         List<String> forwardDeclarations = new ArrayList<>();
-        if(!parentModel.hasVars) {
+        if (!parentModel.hasVars) {
             return;
         }
-        for(CodegenProperty property : parentModel.vars){
-            if(!( (property.isContainer && property.mostInnerItems.isModel) || (property.isModel) ) ){
+        for (CodegenProperty property : parentModel.vars) {
+            if (!((property.isContainer && property.mostInnerItems.isModel) || (property.isModel))) {
                 continue;
             }
-            String childPropertyType = property.isContainer? property.mostInnerItems.baseType : property.baseType;
-            for(final String key : objs.keySet()) {
+            String childPropertyType = property.isContainer ? property.mostInnerItems.baseType : property.baseType;
+            for (final String key : objs.keySet()) {
                 CodegenModel childModel = ModelUtils.getModelByName(key, objs);
-                if( !childPropertyType.equals(childModel.classname) || childPropertyType.equals(parentModel.classname) || !childModel.hasVars ){
+                if (!childPropertyType.equals(childModel.classname) || childPropertyType.equals(parentModel.classname) || !childModel.hasVars) {
                     continue;
                 }
 
                 String forwardDecl = "class " + childPropertyType + ";";
-                if(!forwardDeclarations.contains(forwardDecl)) {
+                if (!forwardDeclarations.contains(forwardDecl)) {
                     forwardDeclarations.add(forwardDecl);
                 }
             }
         }
-        if(!forwardDeclarations.isEmpty()){
+        if (!forwardDeclarations.isEmpty()) {
             parentModel.vendorExtensions.put("x-has-forward-declarations", true);
             parentModel.vendorExtensions.put("x-forward-declarations", forwardDeclarations);
         }
@@ -442,5 +446,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.C_PLUS_PLUS; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.C_PLUS_PLUS;
+    }
 }

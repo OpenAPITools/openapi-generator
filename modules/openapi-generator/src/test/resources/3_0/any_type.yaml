@@ -39,7 +39,7 @@ components:
         any_value_nullable:
           nullable: true
           description: inline any value nullable
-        map_any_value:
+        map_free_form_object:
           additionalProperties: {}
         map_any_value_with_desc:
           additionalProperties: 

@@ -30,7 +30,12 @@ import com.fasterxml.jackson.databind.ObjectMapper
     httpClientEngine: HttpClientEngine? = null,
     httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
     jsonBlock: ObjectMapper.() -> Unit = ApiClient.JSON_DEFAULT,
-    ) : ApiClient(baseUrl, httpClientEngine, httpClientConfig, jsonBlock) {
+    ) : ApiClient(
+        baseUrl,
+        httpClientEngine,
+        httpClientConfig,
+        jsonBlock,
+    ) {
 
         /**
         * Add a new pet to the store
@@ -52,7 +57,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
             RequestMethod.POST,
             "/pet",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
             )
 
             return jsonRequest(
@@ -85,7 +91,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
             RequestMethod.DELETE,
             "/pet/{petId}".replace("{" + "petId" + "}", "$petId"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
             )
 
             return request(
@@ -118,7 +125,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
             RequestMethod.GET,
             "/pet/findByStatus",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
             )
 
             return request(
@@ -151,7 +159,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
             RequestMethod.GET,
             "/pet/findByTags",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
             )
 
             return request(
@@ -183,7 +192,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
             RequestMethod.GET,
             "/pet/{petId}".replace("{" + "petId" + "}", "$petId"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
             )
 
             return request(
@@ -213,7 +223,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
             RequestMethod.PUT,
             "/pet",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
             )
 
             return jsonRequest(
@@ -237,8 +248,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 
             val localVariableBody = 
                         ParametersBuilder().also {
-                        name?.apply { it.append("name", name.toString()) }
-                        status?.apply { it.append("status", status.toString()) }
+                        name?.apply { it.append("name", name) }
+                        status?.apply { it.append("status", status) }
                         }.build()
 
             val localVariableQuery = mutableMapOf<String, List<String>>()
@@ -249,7 +260,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
             RequestMethod.POST,
             "/pet/{petId}".replace("{" + "petId" + "}", "$petId"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
             )
 
             return urlEncodedFormRequest(
@@ -286,7 +298,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
             RequestMethod.POST,
             "/pet/{petId}/uploadImage".replace("{" + "petId" + "}", "$petId"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
             )
 
             return multipartFormRequest(

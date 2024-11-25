@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.12
+// @dart=2.18
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -26,9 +26,9 @@ class ArrayTest {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ArrayTest &&
-     other.arrayOfString == arrayOfString &&
-     other.arrayArrayOfInteger == arrayArrayOfInteger &&
-     other.arrayArrayOfModel == arrayArrayOfModel;
+    _deepEquality.equals(other.arrayOfString, arrayOfString) &&
+    _deepEquality.equals(other.arrayArrayOfInteger, arrayArrayOfInteger) &&
+    _deepEquality.equals(other.arrayArrayOfModel, arrayArrayOfModel);
 
   @override
   int get hashCode =>
@@ -67,8 +67,8 @@ class ArrayTest {
       }());
 
       return ArrayTest(
-        arrayOfString: json[r'array_of_string'] is List
-            ? (json[r'array_of_string'] as List).cast<String>()
+        arrayOfString: json[r'array_of_string'] is Iterable
+            ? (json[r'array_of_string'] as Iterable).cast<String>().toList(growable: false)
             : const [],
         arrayArrayOfInteger: json[r'array_array_of_integer'] is List
           ? (json[r'array_array_of_integer'] as List).map((e) =>
@@ -77,7 +77,7 @@ class ArrayTest {
           :  const [],
         arrayArrayOfModel: json[r'array_array_of_model'] is List
           ? (json[r'array_array_of_model'] as List).map((e) =>
-              ReadOnlyFirst.listFromJson(json[r'array_array_of_model']) ?? const []
+              ReadOnlyFirst.listFromJson(json[r'array_array_of_model'])
             ).toList()
           :  const [],
       );
@@ -85,7 +85,7 @@ class ArrayTest {
     return null;
   }
 
-  static List<ArrayTest>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<ArrayTest> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <ArrayTest>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -116,12 +116,10 @@ class ArrayTest {
   static Map<String, List<ArrayTest>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<ArrayTest>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = ArrayTest.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = ArrayTest.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

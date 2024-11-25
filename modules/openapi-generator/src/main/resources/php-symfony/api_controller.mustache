@@ -97,10 +97,14 @@ class {{controllerName}} extends Controller
         $security{{name}} = $request->cookies->get('{{keyParamName}}');
         {{/isKeyInCookie}}
         {{/isApiKey}}
-        {{#isBasic}}
+        {{#isBasicBasic}}
         // HTTP basic authentication required
         $security{{name}} = $request->headers->get('authorization');
-        {{/isBasic}}
+        {{/isBasicBasic}}
+        {{#isBasicBearer}}
+        // HTTP bearer authentication required
+        $security{{name}} = $request->headers->get('authorization');
+        {{/isBasicBearer}}
         {{#isOAuth}}
         // Oauth required
         $security{{name}} = $request->headers->get('authorization');
@@ -148,11 +152,11 @@ class {{controllerName}} extends Controller
             {{#allParams}}
             {{^isFile}}
             {{#isBodyParam}}
-            $inputFormat = $request->getMimeType($request->getContentType());
-            ${{paramName}} = $this->deserialize(${{paramName}}, '{{#isContainer}}{{#items}}array<{{dataType}}>{{/items}}{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}', $inputFormat);
+            $inputFormat = $request->getMimeType($request->getContentTypeFormat());
+            ${{paramName}} = $this->deserialize(${{paramName}}, '{{#isContainer}}{{#items}}array<{{dataType}}>{{/items}}{{/isContainer}}{{^isContainer}}{{#isEnumRef}}\{{modelPackage}}\{{dataType}}{{/isEnumRef}}{{^isEnumRef}}{{dataType}}{{/isEnumRef}}{{/isContainer}}', $inputFormat);
             {{/isBodyParam}}
             {{^isBodyParam}}
-            ${{paramName}} = $this->deserialize(${{paramName}}, '{{#isContainer}}array<{{collectionFormat}}{{^collectionFormat}}csv{{/collectionFormat}},{{dataType}}>{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}', 'string');
+            ${{paramName}} = $this->deserialize(${{paramName}}, '{{#isContainer}}array<{{collectionFormat}}{{^collectionFormat}}csv{{/collectionFormat}},{{dataType}}>{{/isContainer}}{{^isContainer}}{{#isEnumRef}}\{{modelPackage}}\{{dataType}}{{/isEnumRef}}{{^isEnumRef}}{{dataType}}{{/isEnumRef}}{{/isContainer}}', 'string');
             {{/isBodyParam}}
             {{/isFile}}
             {{/allParams}}
@@ -178,17 +182,12 @@ class {{controllerName}} extends Controller
 
             {{#returnType}}$result = {{/returnType}}$handler->{{operationId}}({{#allParams}}${{paramName}}, {{/allParams}}$responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '{{#responses}}{{#isDefault}}{{message}}{{/isDefault}}{{/responses}}';
-
-            // Find a more specific message, if available
-            switch ($responseCode) {
+            $message = match($responseCode) {
             {{#responses}}
-                case {{code}}:
-                    $message = '{{message}}';
-                    break;
+                {{code}} => '{{message}}',
             {{/responses}}
-            }
+                default => '{{#responses}}{{#isDefault}}{{message}}{{/isDefault}}{{/responses}}',
+            };
 
             return new Response(
                 {{#returnType}}$result !== null ?$this->serialize($result, $responseFormat):''{{/returnType}}{{^returnType}}''{{/returnType}},

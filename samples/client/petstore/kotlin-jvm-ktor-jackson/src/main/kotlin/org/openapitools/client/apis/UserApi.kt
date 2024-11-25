@@ -29,7 +29,12 @@ import com.fasterxml.jackson.databind.ObjectMapper
     httpClientEngine: HttpClientEngine? = null,
     httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
     jsonBlock: ObjectMapper.() -> Unit = ApiClient.JSON_DEFAULT,
-    ) : ApiClient(baseUrl, httpClientEngine, httpClientConfig, jsonBlock) {
+    ) : ApiClient(
+        baseUrl,
+        httpClientEngine,
+        httpClientConfig,
+        jsonBlock,
+    ) {
 
         /**
         * Create user
@@ -51,7 +56,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
             RequestMethod.POST,
             "/user",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
             )
 
             return jsonRequest(
@@ -81,7 +87,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
             RequestMethod.POST,
             "/user/createWithArray",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
             )
 
             return jsonRequest(
@@ -111,7 +118,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
             RequestMethod.POST,
             "/user/createWithList",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
             )
 
             return jsonRequest(
@@ -142,7 +150,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
             RequestMethod.DELETE,
             "/user/{username}".replace("{" + "username" + "}", "$username"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
             )
 
             return request(
@@ -174,7 +183,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
             RequestMethod.GET,
             "/user/{username}".replace("{" + "username" + "}", "$username"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
             )
 
             return request(
@@ -209,7 +219,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
             RequestMethod.GET,
             "/user/login",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
             )
 
             return request(
@@ -239,7 +250,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
             RequestMethod.GET,
             "/user/logout",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
             )
 
             return request(
@@ -270,7 +282,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
             RequestMethod.PUT,
             "/user/{username}".replace("{" + "username" + "}", "$username"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
             )
 
             return jsonRequest(

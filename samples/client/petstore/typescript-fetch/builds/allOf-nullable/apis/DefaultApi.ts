@@ -16,11 +16,11 @@
 import * as runtime from '../runtime';
 import type {
   Club,
-} from '../models';
+} from '../models/index';
 import {
     ClubFromJSON,
     ClubToJSON,
-} from '../models';
+} from '../models/index';
 
 export interface ListRequest {
     personId: string;
@@ -34,8 +34,11 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      */
     async listRaw(requestParameters: ListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Club>> {
-        if (requestParameters.personId === null || requestParameters.personId === undefined) {
-            throw new runtime.RequiredError('personId','Required parameter requestParameters.personId was null or undefined when calling list.');
+        if (requestParameters['personId'] == null) {
+            throw new runtime.RequiredError(
+                'personId',
+                'Required parameter "personId" was null or undefined when calling list().'
+            );
         }
 
         const queryParameters: any = {};
@@ -43,7 +46,7 @@ export class DefaultApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/person/display/{personId}`.replace(`{${"personId"}}`, encodeURIComponent(String(requestParameters.personId))),
+            path: `/person/display/{personId}`.replace(`{${"personId"}}`, encodeURIComponent(String(requestParameters['personId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

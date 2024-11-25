@@ -2,16 +2,18 @@ package apimodels;
 
 import apimodels.ModelFile;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
 import java.util.Objects;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 /**
  * FileSchemaTestClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class FileSchemaTestClass   {
   @JsonProperty("file")
@@ -22,7 +24,7 @@ public class FileSchemaTestClass   {
   @JsonProperty("files")
   @Valid
 
-  private List<ModelFile> files = null;
+  private List<@Valid ModelFile> files = null;
 
   public FileSchemaTestClass _file(ModelFile _file) {
     this._file = _file;
@@ -41,16 +43,16 @@ public class FileSchemaTestClass   {
     this._file = _file;
   }
 
-  public FileSchemaTestClass files(List<ModelFile> files) {
+  public FileSchemaTestClass files(List<@Valid ModelFile> files) {
     this.files = files;
     return this;
   }
 
   public FileSchemaTestClass addFilesItem(ModelFile filesItem) {
-    if (files == null) {
-      files = new ArrayList<>();
+    if (this.files == null) {
+      this.files = new ArrayList<>();
     }
-    files.add(filesItem);
+    this.files.add(filesItem);
     return this;
   }
 
@@ -58,11 +60,11 @@ public class FileSchemaTestClass   {
    * Get files
    * @return files
   **/
-  public List<ModelFile> getFiles() {
+  public List<@Valid ModelFile> getFiles() {
     return files;
   }
 
-  public void setFiles(List<ModelFile> files) {
+  public void setFiles(List<@Valid ModelFile> files) {
     this.files = files;
   }
 

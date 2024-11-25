@@ -26,6 +26,7 @@ paths:
 components:
   schemas:
     bar2:
+      additionalProperties: false
       example:
         "n": 4.56
       properties:
@@ -34,6 +35,7 @@ components:
           type: number
       type: object
     _foo_bar_post_200_response:
+      additionalProperties: false
       example:
         "n": 1.23
       properties:

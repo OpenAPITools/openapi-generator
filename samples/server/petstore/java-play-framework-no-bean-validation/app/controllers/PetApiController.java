@@ -23,7 +23,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class PetApiController extends Controller {
     private final PetApiControllerImpInterface imp;
     private final ObjectMapper mapper;
@@ -48,7 +48,7 @@ public class PetApiController extends Controller {
 
     @ApiAction
     public Result deletePet(Http.Request request, Long petId) throws Exception {
-        String valueapiKey = request.header("api_key").get();
+        String valueapiKey = request.header("api_key").orElse(null);
         String apiKey;
         if (valueapiKey != null) {
             apiKey = valueapiKey;

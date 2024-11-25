@@ -22,7 +22,7 @@ info:
 paths:
   /xml:
     post:
-      summary: Post an array
+      summary: Post an array.  It's important we test apostrophes, so include one here.
       description: ''
       requestBody:
         content:
@@ -449,6 +449,70 @@ paths:
       responses:
         '200':
           description: Success
+  /multiple-path-params-with-very-long-path-to-test-formatting/{path_param_a}/{path_param_b}:
+    get:
+      parameters:
+        - name: path_param_a
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/StringObject'
+        - name: path_param_b
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/StringObject'
+      responses:
+        '200':
+          description: Success
+  /get-with-bool:
+    get:
+      operationId: GetWithBooleanParameter
+      description: Get with a boolean parameter
+      parameters:
+        - name: iambool
+          description: Let's check apostrophes get encoded properly!
+          in: query
+          required: true
+          schema:
+            type: boolean
+      responses:
+        200:
+          description: 'OK'
+  /operation-two-first-letter-headers:
+    post:
+      operationId: TwoFirstLetterHeaders
+      description: Check we don't barf if two boolean parameters have the same first letter
+      parameters:
+        - name: x-header-one
+          in: header
+          schema:
+            type: boolean
+        - name: x-header-two
+          in: header
+          schema:
+            type: boolean
+      responses:
+        200:
+          description: OK
+  /form-test:
+    post:
+      summary: Test a Form Post
+      operationId: FormTest
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                requiredArray:
+                  type: array
+                  items:
+                    type: string
+        required: true
+      responses:
+        '200':
+          description: OK
 
 components:
   securitySchemes:
@@ -461,6 +525,15 @@ components:
           scopes:
             test.read: Allowed to read state.
             test.write: Allowed to change state.
+    additionalAuthScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'http://example.org'
+          tokenUrl: 'http://example.org'
+          scopes:
+            additional.test.read: Allowed to read state.
+            additional.test.write: Allowed to change state.
   schemas:
     AnyOfProperty:
       description: Test containing an anyOf object
@@ -471,6 +544,11 @@ components:
           $ref: '#/components/schemas/12345AnyOfObject'
       required:
       - requiredAnyOf
+    AdditionalPropertiesReferencedAnyOfObject:
+      description: Check that an object with only additional properties that references another object (e.g. an anyOf object) isn't treated as freeForm
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/AnyOfProperty'
     AnyOfObject:
       description: Test a model containing an anyOf
       anyOf:
@@ -480,6 +558,12 @@ components:
         - BAR
       - type: string
         description: Alternate option
+    AnyOfHashMapObject:
+      description: Test a model containing an anyOf of a hash map
+      anyOf:
+      - type: string
+      - additionalProperties:
+          type: string
     12345AnyOfObject:
       description: Test a model containing an anyOf that starts with a number
       anyOf:
@@ -608,6 +692,15 @@ components:
       type: boolean
     OptionalObjectHeader:
       type: integer
+    AdditionalPropertiesWithNullable:
+      type: object
+      properties:
+        nullableString:
+          $ref: '#/components/schemas/NullableObject'
+        nullableMap:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/NullableObject'
     AdditionalPropertiesWithList:
       type: object
       maxProperties: 1
@@ -615,6 +708,9 @@ components:
         type: list
         items:
           type: string
+    NullableObject:
+      type: string
+      nullable: true
     NullableTest:
       type: object
       required:
@@ -639,6 +735,22 @@ components:
           items:
             type: string
           nullable: true
+        min_item_test:
+          type: array
+          items:
+            type: integer
+          minItems: 1
+        max_item_test:
+          type: array
+          items:
+            type: integer
+          maxItems: 2
+        min_max_item_test:
+          type: array
+          items:
+            type: integer
+          minItems: 1
+          maxItems: 3
     StringEnum:
       type: string
       enum:

@@ -13,13 +13,13 @@ package petstore
 import (
 	"bytes"
 	"context"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 )
 
 
-type AnotherFakeApi interface {
+type AnotherFakeAPI interface {
 
 	/*
 	Call123TestSpecialTags To test special tags
@@ -36,13 +36,20 @@ type AnotherFakeApi interface {
 	Call123TestSpecialTagsExecute(r ApiCall123TestSpecialTagsRequest) (*Client, *http.Response, error)
 }
 
-// AnotherFakeApiService AnotherFakeApi service
-type AnotherFakeApiService service
+// AnotherFakeAPIService AnotherFakeAPI service
+type AnotherFakeAPIService service
 
 type ApiCall123TestSpecialTagsRequest struct {
 	ctx context.Context
-	ApiService AnotherFakeApi
+	ApiService AnotherFakeAPI
+	uuidTest *string
 	body *Client
+}
+
+// to test uuid example value
+func (r ApiCall123TestSpecialTagsRequest) UuidTest(uuidTest string) ApiCall123TestSpecialTagsRequest {
+	r.uuidTest = &uuidTest
+	return r
 }
 
 // client model
@@ -63,7 +70,7 @@ To test special tags and operation ID starting with number
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiCall123TestSpecialTagsRequest
 */
-func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx context.Context) ApiCall123TestSpecialTagsRequest {
+func (a *AnotherFakeAPIService) Call123TestSpecialTags(ctx context.Context) ApiCall123TestSpecialTagsRequest {
 	return ApiCall123TestSpecialTagsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -72,7 +79,7 @@ func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx context.Context) ApiC
 
 // Execute executes the request
 //  @return Client
-func (a *AnotherFakeApiService) Call123TestSpecialTagsExecute(r ApiCall123TestSpecialTagsRequest) (*Client, *http.Response, error) {
+func (a *AnotherFakeAPIService) Call123TestSpecialTagsExecute(r ApiCall123TestSpecialTagsRequest) (*Client, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
@@ -80,7 +87,7 @@ func (a *AnotherFakeApiService) Call123TestSpecialTagsExecute(r ApiCall123TestSp
 		localVarReturnValue  *Client
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AnotherFakeApiService.Call123TestSpecialTags")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AnotherFakeAPIService.Call123TestSpecialTags")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -90,6 +97,9 @@ func (a *AnotherFakeApiService) Call123TestSpecialTagsExecute(r ApiCall123TestSp
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if r.uuidTest == nil {
+		return localVarReturnValue, nil, reportError("uuidTest is required and must be specified")
+	}
 	if r.body == nil {
 		return localVarReturnValue, nil, reportError("body is required and must be specified")
 	}
@@ -111,6 +121,7 @@ func (a *AnotherFakeApiService) Call123TestSpecialTagsExecute(r ApiCall123TestSp
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "uuid_test", r.uuidTest, "", "")
 	// body params
 	localVarPostBody = r.body
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
@@ -123,9 +134,9 @@ func (a *AnotherFakeApiService) Call123TestSpecialTagsExecute(r ApiCall123TestSp
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
