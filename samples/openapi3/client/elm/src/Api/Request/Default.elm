@@ -16,6 +16,7 @@
 module Api.Request.Default exposing
     ( headerPost, HeaderType(..), headerTypeVariants
     , maybeGet
+    , paramSanitizeTestIdPost
     , pathStringIntegerEnumerationGet, Enumeration(..), enumerationVariants
     , queryGet, Enum(..), enumVariants
     , securedPost
@@ -132,6 +133,18 @@ maybeGet =
         []
         Nothing
         Api.Data.maybeDecoder
+
+
+paramSanitizeTestIdPost : String -> Maybe String -> Maybe String -> Api.Request ()
+paramSanitizeTestIdPost testId_path queryWithSpaces_query nameWithSpaces =
+    Api.request
+        "POST"
+        "/param-sanitize/{test id}"
+        [ ( "test id", identity testId_path ) ]
+        [ ( "query with spaces", Maybe.map identity queryWithSpaces_query ) ]
+        []
+        (Just <| Http.multipartBody <| List.filterMap identity [ Maybe.map (Http.stringPart "name with spaces") nameWithSpaces ])
+        (Json.Decode.succeed ())
 
 
 pathStringIntegerEnumerationGet : String -> Int -> Enumeration -> Api.Request ()
