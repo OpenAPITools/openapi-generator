@@ -27,6 +27,7 @@ import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbSubtype;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeInfo;
+import jakarta.json.bind.annotation.JsonbCreator;
 
 /**
   * Model for testing model name starting with number

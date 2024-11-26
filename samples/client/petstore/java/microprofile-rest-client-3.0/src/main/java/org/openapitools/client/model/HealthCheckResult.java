@@ -27,6 +27,7 @@ import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbSubtype;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeInfo;
+import jakarta.json.bind.annotation.JsonbCreator;
 
 /**
   * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.

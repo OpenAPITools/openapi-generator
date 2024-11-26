@@ -32,6 +32,7 @@ import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbSubtype;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeInfo;
+import jakarta.json.bind.annotation.JsonbCreator;
 
 /**
   * A pet for sale in the pet store

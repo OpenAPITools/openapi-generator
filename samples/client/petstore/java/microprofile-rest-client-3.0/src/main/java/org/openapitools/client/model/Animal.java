@@ -27,6 +27,7 @@ import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbSubtype;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeInfo;
+import jakarta.json.bind.annotation.JsonbCreator;
 
 @JsonbTypeInfo(key = "className", value = {
   @JsonbSubtype(alias = "CAT", type = Cat.class),
