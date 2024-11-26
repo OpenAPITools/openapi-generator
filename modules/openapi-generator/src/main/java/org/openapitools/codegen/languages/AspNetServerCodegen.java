@@ -79,7 +79,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     protected int serverPort = 8080;
     protected String serverHost = "0.0.0.0";
     protected CliOption swashbuckleVersion = new CliOption(SWASHBUCKLE_VERSION, "Swashbuckle version: 3.0.0 (deprecated), 4.0.0 (deprecated), 5.0.0 (deprecated), 6.4.0");
-    protected CliOption aspnetCoreVersion = new CliOption(ASPNET_CORE_VERSION, "ASP.NET Core version: 9.0, 6.0, 5.0, 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)");
+    protected CliOption aspnetCoreVersion = new CliOption(ASPNET_CORE_VERSION, "ASP.NET Core version: 6.0, 5.0, 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)");
     private CliOption classModifier = new CliOption(CLASS_MODIFIER, "Class Modifier for controller classes: Empty string or abstract.");
     private CliOption operationModifier = new CliOption(OPERATION_MODIFIER, "Operation Modifier can be virtual or abstract");
     private CliOption modelClassModifier = new CliOption(MODEL_CLASS_MODIFIER, "Model Class Modifier can be nothing or partial");
@@ -193,7 +193,6 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         aspnetCoreVersion.addEnum("6.0", "ASP.NET Core 6.0");
         aspnetCoreVersion.addEnum("7.0", "ASP.NET Core 7.0");
         aspnetCoreVersion.addEnum("8.0", "ASP.NET Core 8.0");
-        aspnetCoreVersion.addEnum("9.0", "ASP.NET Core 9.0");
         aspnetCoreVersion.setDefault("8.0");
         aspnetCoreVersion.setOptValue(aspnetCoreVersion.getDefault());
         cliOptions.add(aspnetCoreVersion);
