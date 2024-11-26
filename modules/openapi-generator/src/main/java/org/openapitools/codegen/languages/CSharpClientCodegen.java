@@ -111,6 +111,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected boolean netStandard = Boolean.FALSE;
     protected boolean supportsFileParameters = Boolean.TRUE;
     protected boolean supportsDateOnly = Boolean.FALSE;
+    protected boolean useIntForTimeout = Boolean.FALSE;
 
     @Setter protected boolean validatable = Boolean.TRUE;
     @Setter protected boolean equatable = Boolean.FALSE;
@@ -120,6 +121,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     private static final String OPERATION_PARAMETER_SORTING_KEY = "operationParameterSorting";
     private static final String MODEL_PROPERTY_SORTING_KEY = "modelPropertySorting";
+    private static final String USE_INT_FOR_TIMEOUT = "useIntForTimeout";
+
     enum SortingMethod {
         DEFAULT,
         ALPHABETICAL,
@@ -235,6 +238,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addOption(CSharpClientCodegen.MODEL_PROPERTY_SORTING_KEY,
                 "One of legacy, alphabetical, default.",
                 this.modelPropertySorting.toString().toLowerCase(Locale.ROOT));
+
+        addOption(CSharpClientCodegen.USE_INT_FOR_TIMEOUT,
+                "Use int for Timeout (fall back to v7.9.0 templates). This option (for restsharp only) will be deprecated so please migrated to TimeSpan instead.",
+                String.valueOf(this.useIntForTimeout));
 
         CliOption framework = new CliOption(
                 CodegenConstants.DOTNET_FRAMEWORK,
@@ -841,6 +848,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         syncBooleanProperty(additionalProperties, "supportsFileParameters", this::setSupportsFileParameters, this.supportsFileParameters);
         syncBooleanProperty(additionalProperties, "useSourceGeneration", this::setUseSourceGeneration, this.useSourceGeneration);
         syncBooleanProperty(additionalProperties, "supportsDateOnly", this::setSupportsDateOnly, this.supportsDateOnly);
+        syncBooleanProperty(additionalProperties, "useIntForTimeout", this::setUseIntForTimeout, this.useIntForTimeout);
 
         final String testPackageName = testPackageName();
         String packageFolder = sourceFolder + File.separator + packageName;
@@ -989,9 +997,22 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public void addSupportingFiles(final String clientPackageDir, final String packageFolder,
                                    final AtomicReference<Boolean> excludeTests, final String testPackageFolder, final String testPackageName, final String modelPackageDir, final String authPackageDir) {
+        if (RESTSHARP.equals(getLibrary())) { // restsharp
+            if (useIntForTimeout) { // option to fall back to int for Timeout using v7.9.0 template
+                supportingFiles.add(new SupportingFile("ApiClient.v790.mustache", clientPackageDir, "ApiClient.cs"));
+                supportingFiles.add(new SupportingFile("IReadableConfiguration.v790.mustache", clientPackageDir, "IReadableConfiguration.cs"));
+                supportingFiles.add(new SupportingFile("Configuration.v790.mustache", clientPackageDir, "Configuration.cs"));
+            } else {
+                supportingFiles.add(new SupportingFile("ApiClient.mustache", clientPackageDir, "ApiClient.cs"));
+                supportingFiles.add(new SupportingFile("IReadableConfiguration.mustache", clientPackageDir, "IReadableConfiguration.cs"));
+                supportingFiles.add(new SupportingFile("Configuration.mustache", clientPackageDir, "Configuration.cs"));
+            }
+        } else { // other libs, e.g. httpclient
+            supportingFiles.add(new SupportingFile("ApiClient.mustache", clientPackageDir, "ApiClient.cs"));
+            supportingFiles.add(new SupportingFile("IReadableConfiguration.mustache", clientPackageDir, "IReadableConfiguration.cs"));
+            supportingFiles.add(new SupportingFile("Configuration.mustache", clientPackageDir, "Configuration.cs"));
+        }
         supportingFiles.add(new SupportingFile("IApiAccessor.mustache", clientPackageDir, "IApiAccessor.cs"));
-        supportingFiles.add(new SupportingFile("Configuration.mustache", clientPackageDir, "Configuration.cs"));
-        supportingFiles.add(new SupportingFile("ApiClient.mustache", clientPackageDir, "ApiClient.cs"));
         supportingFiles.add(new SupportingFile("ApiException.mustache", clientPackageDir, "ApiException.cs"));
         supportingFiles.add(new SupportingFile("ApiResponse.mustache", clientPackageDir, "ApiResponse.cs"));
         supportingFiles.add(new SupportingFile("ExceptionFactory.mustache", clientPackageDir, "ExceptionFactory.cs"));
@@ -1017,8 +1038,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             supportingFiles.add(new SupportingFile("RetryConfiguration.mustache", clientPackageDir, "RetryConfiguration.cs"));
         }
 
-        supportingFiles.add(new SupportingFile("IReadableConfiguration.mustache",
-                clientPackageDir, "IReadableConfiguration.cs"));
         supportingFiles.add(new SupportingFile("GlobalConfiguration.mustache",
                 clientPackageDir, "GlobalConfiguration.cs"));
 
@@ -1185,6 +1204,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public void setSupportsDateOnly(Boolean supportsDateOnly) {
         this.supportsDateOnly = supportsDateOnly;
+    }
+
+    public void setUseIntForTimeout(Boolean useIntForTimeout) {
+        this.useIntForTimeout = useIntForTimeout;
     }
 
     public void setSupportsRetry(Boolean supportsRetry) {

@@ -100,6 +100,7 @@ elif [ "$NODE_INDEX" = "3" ]; then
   (cd samples/client/petstore/typescript-rxjs/builds/with-npm-version && mvn integration-test)
   (cd samples/client/petstore/typescript-axios/builds/with-npm-version && mvn integration-test)
   (cd samples/client/petstore/typescript-axios/tests/default && mvn integration-test)
+  (cd samples/client/petstore/typescript-axios/tests/with-complex-headers && mvn integration-test)
   (cd samples/client/petstore/javascript-flowtyped && mvn integration-test)
   (cd samples/client/petstore/javascript-es6 && mvn integration-test)
   (cd samples/client/petstore/javascript-promise-es6 && mvn integration-test)

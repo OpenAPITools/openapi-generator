@@ -1123,6 +1123,20 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * This method escapes text to be used in a single quoted string
+     * @param input the input string
+     * @return the escaped string
+     */
+    public String escapeTextInSingleQuotes(String input) {
+        if (input == null) {
+            return null;
+        }
+
+        return escapeText(input).replace("'", "\\'");
+    }
+
+
+    /**
      * Escape characters while allowing new lines
      *
      * @param input String to be escaped
@@ -4311,7 +4325,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (baseItem != null) {
             // set both datatype and datetypeWithEnum as only the inner type is enum
-            property.datatypeWithEnum = property.datatypeWithEnum.replace(", " + baseItem.baseType, ", " + toEnumName(baseItem));
+            property.datatypeWithEnum = property.datatypeWithEnum.replace(baseItem.baseType + ">", toEnumName(baseItem) + ">");
 
             // naming the enum with respect to the language enum naming convention
             // e.g. remove [], {} from array/map of enum
@@ -5703,8 +5717,6 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    private final Map<String, Integer> seenOperationIds = new HashMap<String, Integer>();
-
     /**
      * Add operation to group
      *
@@ -5725,18 +5737,13 @@ public class DefaultCodegen implements CodegenConfig {
         }
         // check for operationId uniqueness
         String uniqueName = co.operationId;
-        int counter = seenOperationIds.getOrDefault(uniqueName, 0);
-        while (seenOperationIds.containsKey(uniqueName)) {
-            uniqueName = co.operationId + "_" + counter;
-            counter++;
-        }
+        int counter = 0;
         for (CodegenOperation op : opList) {
             if (uniqueName.equals(op.operationId)) {
                 uniqueName = co.operationId + "_" + counter;
                 counter++;
             }
         }
-        seenOperationIds.put(co.operationId, counter);
         if (!co.operationId.equals(uniqueName)) {
             LOGGER.warn("generated unique operationId `{}`", uniqueName);
         }

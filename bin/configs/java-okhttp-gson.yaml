@@ -11,9 +11,10 @@ parameterNameMappings:
   type_: typeWithUnderscore
 additionalProperties:
   artifactId: petstore-okhttp-gson
-  hideGenerationTimestamp: "true"
-  useOneOfDiscriminatorLookup: "true"
+  hideGenerationTimestamp: true
+  useOneOfDiscriminatorLookup: true
   disallowAdditionalPropertiesIfNotPresent: false
+  useReflectionEqualsHashCode:: true
 enumNameMappings:
   s: LOWER_CASE_S
   S: UPPER_CASE_S

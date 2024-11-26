@@ -72,10 +72,10 @@ namespace Org.OpenAPITools.Client
         string TempFolderPath { get; }
 
         /// <summary>
-        /// Gets the HTTP connection timeout (in milliseconds)
+        /// Gets the HTTP connection timeout.
         /// </summary>
         /// <value>HTTP connection timeout.</value>
-        int Timeout { get; }
+        TimeSpan Timeout { get; }
 
         /// <summary>
         /// Gets the proxy.

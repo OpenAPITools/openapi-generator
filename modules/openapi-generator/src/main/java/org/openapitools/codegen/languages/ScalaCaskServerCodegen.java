@@ -18,6 +18,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.RequestBody;
 import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -31,6 +32,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -125,7 +128,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         // mapped to String as a workaround
         typeMapping.put("binary", "String");
 
-        typeMapping.put("object", "Value");
+        typeMapping.put("object", AdditionalPropertiesType);
 
         cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC));
@@ -139,7 +142,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
             String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
-            return "Map[String, " + inner + "]() ";
+            return "Map[String, " + inner + "]()";
         } else if (ModelUtils.isFreeFormObject(p, openAPI)) {
             // We're opinionated in this template to use ujson
             return "ujson.Null";
@@ -150,8 +153,12 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
     @Override
     public String getSchemaType(Schema p) {
         if (ModelUtils.isFreeFormObject(p, openAPI)) {
+            if (ModelUtils.isMapSchema(p)) {
+                final String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
+                return "Map[String, " + inner + "]";
+            }
             // We're opinionated in this template to use ujson
-            return "Value";
+            return AdditionalPropertiesType;
         }
         return super.getSchemaType(p);
     }
@@ -246,7 +253,6 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         importMapping.put("LocalDate", "java.time.LocalDate");
         importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
         importMapping.put("LocalTime", "java.time.LocalTime");
-        importMapping.put("Value", "ujson.Value");
         importMapping.put(AdditionalPropertiesType, "ujson.Value");
     }
 
@@ -267,19 +273,6 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         } else {
             return defaultRetValue;
         }
-    }
-
-
-    static String formatMap(Map<?, ?> map) {
-        StringBuilder mapAsString = new StringBuilder("{");
-        for (Object key : map.keySet().stream().sorted().collect(Collectors.toList())) {
-            mapAsString.append(key + " -- " + map.get(key) + ",\n");
-        }
-        if (mapAsString.length() > 1) {
-            mapAsString.delete(mapAsString.length() - 2, mapAsString.length());
-        }
-        mapAsString.append("}");
-        return mapAsString.toString();
     }
 
     @Override
@@ -316,8 +309,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
     @Override
     public String apiFileFolder() {
-        final String folder = outputFolder + "/jvm/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
-        return folder;
+        return outputFolder + "/jvm/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
     }
 
     @Override
@@ -327,6 +319,22 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
     public String apiInterfaceFileFolder() {
         return outputFolder + "/shared/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
+    }
+
+    static String asMethod(final String input) {
+        // Remove all non-alphanumeric characters using regex
+        String alphanumeric = input.replaceAll("[^a-zA-Z0-9]", "");
+
+        // Ensure the method name doesn't start with a digit
+        if (alphanumeric.isEmpty()) {
+            throw new IllegalArgumentException("Input string does not contain any valid alphanumeric characters");
+        }
+
+        if (Character.isDigit(alphanumeric.charAt(0))) {
+            alphanumeric = "_" + alphanumeric;
+        }
+
+        return alphanumeric;
     }
 
     static String capitalise(String p) {
@@ -387,6 +395,12 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
     }
 
 
+    /**
+     * This class is used in pathExtractorParams.mustache.
+     *
+     * It exposes some methods which make it more readable
+     * for that mustache snippet, and also isolates the logic needed for the path extractors
+     */
     public static class ParamPart {
         final CodegenParameter param;
         final String name;
@@ -409,7 +423,9 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
     }
 
     /**
-     * Cask will compile but 'initialize' can throw a route overlap exception:
+     * This data structure is here to manually identify and fix routes which will overlap (e.g. GET /foo/bar and GET /foo/bazz)
+     *
+     * If we added these as individual routes, then Cask itself will compile, but calling 'initialize' throws a route overlap exception:
      * <p>
      * {{{
      * Routes overlap with wildcards: get /user/logout, get /user/:username, get /user/login
@@ -470,14 +486,24 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
          *
          * @return the CodegenParameters
          */
-        public List<CodegenParameter> getGroupQueryParams() {
-            List<CodegenParameter> list = operations.stream().flatMap(op -> op.queryParams.stream()).map(p -> {
-                        final CodegenParameter copy = p.copy();
-                        copy.vendorExtensions.put("x-default-value", defaultValue(p));
-                        copy.required = false; // all our query params are optional for our work-around as it's a super-set of a few different routes
-                        copy.dataType = asScalaDataType(copy, false, true, true);
-                        copy.defaultValue = defaultValue(copy);
-                        return copy;
+        public Collection<CodegenParameter> getGroupQueryParams() {
+
+            // wow is this a pain to do in Java ... I just wanted to have distinct items of a list
+            // based on their name.
+            Set<String> alreadySeen = new HashSet<>();
+
+            List<CodegenParameter> list = operations.stream().flatMap(op -> op.queryParams.stream()).flatMap(p -> {
+                        if (alreadySeen.add(p.paramName)) {
+                            final CodegenParameter copy = p.copy();
+                            copy.vendorExtensions.put("x-default-value", defaultValue(p));
+                            copy.required = false; // all our query params are optional for our work-around as it's a super-set of a few different routes
+                            copy.dataType = asScalaDataType(copy, false, true, true);
+                            copy.defaultValue = defaultValue(copy);
+                            return Arrays.asList(copy).stream();
+                        } else {
+                            final List<CodegenParameter> empty = Collections.emptyList();
+                            return empty.stream();
+                        }
                     }
             ).collect(Collectors.toList());
 
@@ -498,7 +524,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
             List<String> stripped = Arrays.stream(pathPrefix.split("/", -1))
                     .map(ScalaCaskServerCodegen::capitalise).collect(Collectors.toList());
 
-            methodName = "routeWorkAroundFor" + capitalise(httpMethod) + String.join("", stripped);
+            methodName = asMethod("routeWorkAroundFor" + capitalise(httpMethod) + String.join("", stripped));
         }
 
         public void add(CodegenOperation op) {
@@ -552,6 +578,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
             String prefix = nonParamPathPrefix(op);
             String key = op.httpMethod + " " + prefix;
             if (!op.pathParams.isEmpty()) {
+
                 final ScalaCaskServerCodegen.OperationGroup group = groupedByPrefix.getOrDefault(key, new ScalaCaskServerCodegen.OperationGroup(op.httpMethod, prefix));
                 group.add(op);
                 groupedByPrefix.put(key, group);
@@ -603,6 +630,25 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         final Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         final List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
 
+
+        /**
+         * In this case, there is a import set to 'null':
+         *
+         * {{{
+         * ...
+         *       responses:
+         *         "200":
+         *           content:
+         *             application/json:
+         *               schema:
+         *                 format: byte
+         *                 type: string
+         *  }}}
+         */
+        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+        var filtered = imports.stream().filter(entry -> entry.get("import") != null).collect(Collectors.toList());
+        objs.put("imports", filtered);
+
         objs.put("route-groups", createRouteGroups(operationList));
 
         operationList.forEach(ScalaCaskServerCodegen::postProcessOperation);
@@ -611,6 +657,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
+        super.postProcessModels(objs);
         objs.getModels().stream().map(ModelMap::getModel).forEach(this::postProcessModel);
         return objs;
     }
@@ -632,17 +679,21 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         model.getAllVars().forEach(this::setDefaultValueForCodegenProperty);
         model.getVars().forEach(this::setDefaultValueForCodegenProperty);
 
-        model.getVars().forEach(ScalaCaskServerCodegen::postProcessProperty);
-        model.getAllVars().forEach(ScalaCaskServerCodegen::postProcessProperty);
+        model.getVars().forEach(this::postProcessProperty);
+        model.getAllVars().forEach(this::postProcessProperty);
+
+
+        model.vendorExtensions.put("x-has-one-of", model.oneOf != null && !model.oneOf.isEmpty());
     }
 
-    private static void postProcessOperation(CodegenOperation op) {
+    private static void postProcessOperation(final CodegenOperation op) {
         // force http method to lower case
         op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
 
         /* Put in 'x-consumes-json' and 'x-consumes-xml' */
         op.vendorExtensions.put("x-consumes-json", consumesMimetype(op, "application/json"));
         op.vendorExtensions.put("x-consumes-xml", consumesMimetype(op, "application/xml"));
+        op.vendorExtensions.put("x-handlerName", "on" + capitalise(op.operationId));
 
         op.bodyParams.stream().filter((b) -> b.isBodyParam).forEach((p) -> {
             p.vendorExtensions.put("x-consumes-json", consumesMimetype(op, "application/json"));
@@ -666,37 +717,260 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         op.vendorExtensions.put("x-cask-path-typed", routeArgs(op));
         op.vendorExtensions.put("x-query-args", queryArgs(op));
 
-        List<String> responses = op.responses.stream().map(r -> r.dataType).filter(Objects::nonNull).collect(Collectors.toList());
-        op.vendorExtensions.put("x-response-type", responses.isEmpty() ? "Unit" : String.join(" | ", responses));
+        LinkedHashSet<String> responses = op.responses.stream().map(r -> r.dataType)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+
+        var responseType = responses.isEmpty() ? "Unit" : String.join(" | ", responses);
+        op.vendorExtensions.put("x-import-response-implicits", importResponseImplicits(op));
+        op.vendorExtensions.put("x-response-type", responseType);
     }
 
-    private static void postProcessProperty(CodegenProperty p) {
-        p.vendorExtensions.put("x-datatype-model", asScalaDataType(p, p.required, false));
+    /**
+     * We need to bring the response type into scope in order to use the upickle implicits
+     * only if the response type has a 'oneOf' type, which means it's a union type with a
+     * companion object containing the ReadWriter
+     *
+     * @param op
+     * @return true if we need to provide an import
+     */
+    private static boolean importResponseImplicits(final CodegenOperation op) {
+        final Set<String> importBlacklist = Set.of("File");
+
+        boolean doImport = false;
+        for (var response : op.responses) {
+            // we should ignore generic types like Seq[...] or Map[..] types
+            var isPolymorphic = response.dataType != null && response.dataType.contains("[");
+            if (response.isModel && !importBlacklist.contains(response.dataType) && !isPolymorphic) {
+                doImport = true;
+                break;
+            }
+        }
+        return doImport;
+    }
+
+    /**
+     * primitive or enum types don't have Data representations
+     * @param p the property
+     * @return if this property need to have '.asModel' or '.asData' called on it?
+     */
+    private static boolean doesNotNeedMapping(final CodegenProperty p, final Set<String> typesWhichDoNotNeedMapping) {
+        // ermph. Apparently 'isPrimitive' can be false while 'isNumeric' is true.
+
+        /*
+         * if dataType == Value then it doesn't need mapping -- this can happen with properties like ths:
+         * {{{
+         *    example:
+         *      items: {}
+         *      type: array
+         * }}}
+         */
+
+        // we can't use !p.isModel, since 'isModel' is false (apparently) for models within arrays
+        return p.isPrimitiveType || p.isEnum || p.isEnumRef || p.isNumeric || isByteArray(p) || typesWhichDoNotNeedMapping.contains(p.dataType);
+    }
+
+    /**
+     * There's a weird edge-case where fields can be declared like this:
+     *
+     * {{{
+     *   someField:
+     *   format: byte
+     *   type: string
+     * }}
+     */
+    private static boolean isByteArray(final CodegenProperty p) {
+        return "byte".equalsIgnoreCase(p.dataFormat); // &&
+    }
+
+    private static boolean wrapInOptional(CodegenProperty p) {
+        return !p.required && !p.isArray && !p.isMap;
+    }
+
+    /**
+     * this parameter is used to create the function:
+     * {{{
+     * class <Thing> {
+     *    ...
+     *    def asData = <Thing>Data(
+     *      someProp = ... <-- how do we turn this property into a model property?
+     *    )
+     * }
+     * }}}
+     *
+     * and then back again
+     */
+    private static String asDataCode(final CodegenProperty p, final Set<String> typesWhichDoNotNeedMapping) {
+        String code = "";
+
+        String dv = defaultValueNonOption(p, p.defaultValue);
+
+        if (doesNotNeedMapping(p, typesWhichDoNotNeedMapping)) {
+            if (wrapInOptional(p)) {
+                code = String.format(Locale.ROOT, "%s.getOrElse(%s) /*  1 */", p.name, dv);
+            } else {
+                code = String.format(Locale.ROOT, "%s /* 2 */", p.name);
+            }
+        } else {
+            if (wrapInOptional(p)) {
+                if (isByteArray(p)) {
+                    code = String.format(Locale.ROOT, "%s.getOrElse(%s) /* 3 */", p.name, dv);
+                } else {
+                    code = String.format(Locale.ROOT, "%s.map(_.asData).getOrElse(%s) /* 4 */", p.name, dv);
+                }
+            } else if (p.isArray) {
+                if (isByteArray(p)) {
+                    code = String.format(Locale.ROOT, "%s /* 5 */", p.name);
+                } else if (!isObjectArray(p)) {
+                    code = String.format(Locale.ROOT, "%s /* 5.1 */", p.name);
+                } else {
+                    code = String.format(Locale.ROOT, "%s.map(_.asData) /* 6 */", p.name);
+                }
+            } else if (p.isMap) {
+                code = String.format(Locale.ROOT, "%s /* 7 */", p.name);
+            } else {
+                code = String.format(Locale.ROOT, "%s.asData /* 8 */", p.name);
+            }
+        }
+        return code;
+    }
+
+    /**
+     *
+     * {{{
+     * class <Thing>Data {
+     *    ...
+     *    def asModel = <Thing>(
+     *      someProp = ... <-- how do we turn this property into a model property?
+     *    )
+     * }
+     * }}}
+     *
+     * @param p
+     * @return
+     */
+    private static String asModelCode(final CodegenProperty p, final Set<String> typesWhichDoNotNeedMapping) {
+        String code = "";
+
+        if (doesNotNeedMapping(p, typesWhichDoNotNeedMapping)) {
+            if (wrapInOptional(p)) {
+                code = String.format(Locale.ROOT, "Option(%s) /* 1 */", p.name);
+            } else {
+                code = String.format(Locale.ROOT, "%s /* 2 */", p.name);
+            }
+        } else {
+            if (wrapInOptional(p)) {
+                if (isByteArray(p)) {
+                    code = String.format(Locale.ROOT, "Option(%s) /* 3 */", p.name);
+                } else {
+                    code = String.format(Locale.ROOT, "Option(%s).map(_.asModel) /* 4 */", p.name);
+                }
+            } else if (p.isArray) {
+                code = String.format(Locale.ROOT, "%s.map(_.asModel) /* 5 */", p.name);
+            } else if (p.isMap) {
+                code = String.format(Locale.ROOT, "%s /* 5.1 */", p.name);
+            } else {
+                code = String.format(Locale.ROOT, "%s.asModel /* 6 */", p.name);
+            }
+        }
+        return code;
+    }
+
+
+    private static String fixBackTicks(String text) {
+        // Create a regular expression pattern to find text between backticks
+        Pattern pattern = Pattern.compile("`([^`]+)`");
+        Matcher matcher = pattern.matcher(text);
+
+        // Use a StringBuffer to construct the result
+        StringBuffer result = new StringBuffer();
+
+        // Loop through all matches
+        while (matcher.find()) {
+            // Extract the text between backticks
+            String extractedText = matcher.group(1);
+
+            // Replace it with the capitalized version
+            matcher.appendReplacement(result, capitalise(extractedText));
+        }
+
+        // Append the remaining part of the string
+        matcher.appendTail(result);
+
+        return result.toString();
+    }
+
+    private String ensureNonKeyword(String text) {
+        if (isReservedWord(text)) {
+            return "`" + text + "`";
+        }
+        return text;
+    }
+
+    private static boolean hasItemModel(final CodegenProperty p) {
+        return p.items != null && p.items.isModel;
+    }
+
+    private static boolean isObjectArray(final CodegenProperty p) {
+        return p.isArray && hasItemModel(p);
+    }
+
+    private void postProcessProperty(final CodegenProperty p) {
+
+        p.vendorExtensions.put("x-datatype-model", asScalaDataType(p, p.required, false, wrapInOptional(p)));
         p.vendorExtensions.put("x-defaultValue-model", defaultValue(p, p.required, p.defaultValue));
-        String dataTypeData = asScalaDataType(p, p.required, true);
+        final String dataTypeData = asScalaDataType(p, p.required, true);
         p.vendorExtensions.put("x-datatype-data", dataTypeData);
-
-
         p.vendorExtensions.put("x-containertype-data", containerType(dataTypeData));
-
         p.vendorExtensions.put("x-defaultValue-data", defaultValueNonOption(p, p.defaultValue));
+
+        /*
+         * Fix enum values which may be reserved words
+         */
+        if (p._enum != null) {
+            p._enum = p._enum.stream().map(this::ensureNonKeyword).collect(Collectors.toList());
+        }
+
+        /*
+         * This is a fix for the enum property "type" declared like this:
+         * {{{
+         *         type:
+         *           enum:
+         *             - foo
+         *           type: string
+         * }}}
+         */
+        if (p.datatypeWithEnum != null && p.datatypeWithEnum.matches(".*[^a-zA-Z0-9_\\]\\[].*")) {
+            p.datatypeWithEnum = fixBackTicks(p.datatypeWithEnum);
+        }
+
+        // We have two data models: a "data transfer" model: A "<Foo>Data" model for unvalidated data and a "<Foo>" model
+        // which has passed validation.
+        //
+        // The <model> has a '.asData' method, and the data model has a '.asModel' function which we can use to map
+        // between the two.
+        //
+        // annoying, we can't just answer the question "p.isModel" to see if it's one of our modes we need to map.
+        // instead it seems we have to figure out the answer by determining if it is NOT a type which has to be mapped.
+        var typesWhichShouldNotBeMapped = importMapping.keySet().stream()
+                .flatMap(key -> Stream.of(
+                        key,
+                        String.format(Locale.ROOT, "List[%s]", key),
+                        String.format(Locale.ROOT, "Seq[%s]", key),
+                        String.format(Locale.ROOT, "Set[%s]", key)
+                )).collect(Collectors.toSet());
+        typesWhichShouldNotBeMapped.add("byte");
+
+        // when deserialising map objects, the logic is tricky.
+        p.vendorExtensions.put("x-deserialize-asModelMap", p.isMap && hasItemModel(p));
 
         // the 'asModel' logic for modelData.mustache
         //
         // if it's optional (not required), then wrap the value in Option()
         // ... unless it's a map or array, in which case it can just be empty
         //
-        p.vendorExtensions.put("x-wrap-in-optional", !p.required && !p.isArray && !p.isMap);
-
-        // if it's an array or optional, we need to map it as a model -- unless it's a map,
-        // in which case we have to map the values
-        boolean hasItemModel = p.items != null && p.items.isModel;
-        boolean isObjectArray = p.isArray && hasItemModel;
-        boolean isOptionalObj = !p.required && p.isModel;
-        p.vendorExtensions.put("x-map-asModel", (isOptionalObj || isObjectArray) && !p.isMap);
-
-        // when deserialising map objects, the logic is tricky.
-        p.vendorExtensions.put("x-deserialize-asModelMap", p.isMap && hasItemModel);
+        p.vendorExtensions.put("x-asData", asDataCode(p, typesWhichShouldNotBeMapped));
+        p.vendorExtensions.put("x-asModel", asModelCode(p, typesWhichShouldNotBeMapped));
 
         // for some reason, an openapi spec with pattern field like this:
         // pattern: '^[A-Za-z]+$'
@@ -705,6 +979,20 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         if (p.pattern != null && p.pattern.startsWith("/") && p.pattern.endsWith("/")) {
             p.pattern = p.pattern.substring(1, p.pattern.length() - 1);
         }
+
+        // in our model class definition laid out in modelClass.mustache, we use 'Option' for non-required
+        // properties only when they don't have a sensible 'empty' value (e.g. maps and lists).
+        //
+        // that is to say, we're trying to avoid having:
+        //
+        //   someOptionalField : Option[Seq[Foo]]
+        //
+        // when we could just have e.g.
+        //
+        //   someOptionalField : Seq[Foo]
+        //
+        // with an empty value
+        p.vendorExtensions.put("x-model-needs-option", wrapInOptional(p));
 
     }
 
@@ -782,6 +1070,21 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
      * @return true if the property is numeric
      */
     private static boolean isNumeric(IJsonSchemaValidationProperties p) {
+
+
+        /**
+         * This is nice. I've seen an example of a property defined as such:
+         *   round:
+         *     maximum: 4294967295
+         *     minimum: 0
+         *     type: long
+         *
+         * which returns false for isLong and isNumeric, but dataType is set to "Long"
+         */
+        if ("Long".equalsIgnoreCase(p.getDataType())) {
+            return true;
+        }
+
         if (p instanceof CodegenParameter) {
             return ((CodegenParameter)p).isNumeric;
         } else if (p instanceof CodegenProperty) {
@@ -829,8 +1132,8 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
         // Customize type for freeform objects
         if (ModelUtils.isFreeFormObject(schema, openAPI)) {
-            property.dataType = "Value";
-            property.baseType = "Value";
+            property.dataType = AdditionalPropertiesType;
+            property.baseType = AdditionalPropertiesType;
         }
 
         return property;
@@ -839,7 +1142,11 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
     @Override
     public String getTypeDeclaration(Schema schema) {
         if (ModelUtils.isFreeFormObject(schema, openAPI)) {
-            return "Value";
+            if (ModelUtils.isMapSchema(schema)) {
+                String inner = getSchemaType(ModelUtils.getAdditionalProperties(schema));
+                return "Map[String, " + inner + "]";
+            }
+            return AdditionalPropertiesType;
         }
         return super.getTypeDeclaration(schema);
     }
@@ -849,6 +1156,11 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         String result = super.toModelImport(name);
         if (importMapping.containsKey(name)) {
             result = importMapping.get(name);
+        }
+        // we seem to get a weird 'import foo.bar.Array[Byte]' for fields which are declared as strings w/ format 'byte'
+        // this test is to "fix" imports which may be e.g. "import foo.bar.Array[Byte]" by removing them
+        if (name.contains("[")) {
+            result = null;
         }
         return result;
     }
@@ -887,6 +1199,21 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
     }
 
     private static String asScalaDataType(final IJsonSchemaValidationProperties param, boolean required, boolean useJason, boolean allowOptional) {
+
+        /*
+         * BUG: 'getIsModel()' is returning false (GAH!!!) for a nested, in-line property such as this:
+         * {{{
+         *         objectValue:
+         *           type: object
+         *           additionalProperties: true
+         *           properties:
+         *             nestedProperty:
+         *               type: string
+         *               example: "Nested example"
+         *  }}}
+         * Not sure how to go about fixing that ... there doesn't seem to be any obvious properties set on the param
+         * which would indicate it's actually a model type
+         */
         String dataType = (param.getIsModel() && useJason) ? param.getDataType() + "Data" : param.getDataType();
 
         final String dataSuffix = useJason && param.getItems() != null && param.getItems().getIsModel() ? "Data" : "";

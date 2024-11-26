@@ -53,11 +53,15 @@ namespace {{packageName}}.{{clientPackage}}
             }
             else
             {
-                {{#lambda.indent1}}{{#lambda.pasteLine}}{{/lambda.pasteLine}}{{/lambda.indent1}}
+                {{#lambda.indentAll1}}
+                {{#lambda.paste}}
+                {{/lambda.paste}}
+                {{/lambda.indentAll1}}
             }
             {{/hasApiKeyMethods}}
             {{^hasApiKeyMethods}}
-            {{#lambda.pasteLine}}{{/lambda.pasteLine}}
+            {{#lambda.paste}}
+            {{/lambda.paste}}
             {{/hasApiKeyMethods}}
 
             foreach(Channel<TTokenBase> tokens in AvailableTokens.Values)

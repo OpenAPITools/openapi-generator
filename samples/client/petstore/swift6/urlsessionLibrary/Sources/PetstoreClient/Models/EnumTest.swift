@@ -12,31 +12,31 @@ public typealias EnumTest = PetstoreClientAPI.EnumTest
 
 extension PetstoreClientAPI {
 
-public final class EnumTest: Codable, JSONEncodable, Hashable {
+public final class EnumTest: @unchecked Sendable, Codable, JSONEncodable, Hashable {
 
-    public enum EnumString: String, Codable, CaseIterable {
+    public enum EnumString: String, Sendable, Codable, CaseIterable {
         case upper = "UPPER"
         case lower = "lower"
         case empty = ""
     }
-    public enum EnumStringRequired: String, Codable, CaseIterable {
+    public enum EnumStringRequired: String, Sendable, Codable, CaseIterable {
         case upper = "UPPER"
         case lower = "lower"
         case empty = ""
     }
-    public enum EnumInteger: Int, Codable, CaseIterable {
+    public enum EnumInteger: Int, Sendable, Codable, CaseIterable {
         case _1 = 1
         case number1 = -1
     }
-    public enum EnumNumber: Double, Codable, CaseIterable {
+    public enum EnumNumber: Double, Sendable, Codable, CaseIterable {
         case _11 = 1.1
         case number12 = -1.2
     }
-    public var enumString: EnumString?
-    public var enumStringRequired: EnumStringRequired
-    public var enumInteger: EnumInteger?
-    public var enumNumber: EnumNumber?
-    public var outerEnum: OuterEnum?
+    public private(set) var enumString: EnumString?
+    public private(set) var enumStringRequired: EnumStringRequired
+    public private(set) var enumInteger: EnumInteger?
+    public private(set) var enumNumber: EnumNumber?
+    public private(set) var outerEnum: OuterEnum?
 
     public init(enumString: EnumString? = nil, enumStringRequired: EnumStringRequired, enumInteger: EnumInteger? = nil, enumNumber: EnumNumber? = nil, outerEnum: OuterEnum? = nil) {
         self.enumString = enumString

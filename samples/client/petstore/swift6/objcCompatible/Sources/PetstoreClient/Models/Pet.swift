@@ -9,7 +9,7 @@ import Foundation
 
 @objcMembers public class Pet: NSObject, Codable, JSONEncodable {
 
-    public enum Status: String, Codable, CaseIterable {
+    public enum Status: String, Sendable, Codable, CaseIterable {
         case available = "available"
         case pending = "pending"
         case sold = "sold"

@@ -313,7 +313,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op10GetResponse, String>;
+    ) -> Result<Op10GetResponse, ()>;
 
     /// Op11Get - GET /op11
     async fn op11_get(
@@ -321,7 +321,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op11GetResponse, String>;
+    ) -> Result<Op11GetResponse, ()>;
 
     /// Op12Get - GET /op12
     async fn op12_get(
@@ -329,7 +329,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op12GetResponse, String>;
+    ) -> Result<Op12GetResponse, ()>;
 
     /// Op13Get - GET /op13
     async fn op13_get(
@@ -337,7 +337,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op13GetResponse, String>;
+    ) -> Result<Op13GetResponse, ()>;
 
     /// Op14Get - GET /op14
     async fn op14_get(
@@ -345,7 +345,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op14GetResponse, String>;
+    ) -> Result<Op14GetResponse, ()>;
 
     /// Op15Get - GET /op15
     async fn op15_get(
@@ -353,7 +353,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op15GetResponse, String>;
+    ) -> Result<Op15GetResponse, ()>;
 
     /// Op16Get - GET /op16
     async fn op16_get(
@@ -361,7 +361,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op16GetResponse, String>;
+    ) -> Result<Op16GetResponse, ()>;
 
     /// Op17Get - GET /op17
     async fn op17_get(
@@ -369,7 +369,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op17GetResponse, String>;
+    ) -> Result<Op17GetResponse, ()>;
 
     /// Op18Get - GET /op18
     async fn op18_get(
@@ -377,7 +377,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op18GetResponse, String>;
+    ) -> Result<Op18GetResponse, ()>;
 
     /// Op19Get - GET /op19
     async fn op19_get(
@@ -385,7 +385,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op19GetResponse, String>;
+    ) -> Result<Op19GetResponse, ()>;
 
     /// Op1Get - GET /op1
     async fn op1_get(
@@ -393,7 +393,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op1GetResponse, String>;
+    ) -> Result<Op1GetResponse, ()>;
 
     /// Op20Get - GET /op20
     async fn op20_get(
@@ -401,7 +401,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op20GetResponse, String>;
+    ) -> Result<Op20GetResponse, ()>;
 
     /// Op21Get - GET /op21
     async fn op21_get(
@@ -409,7 +409,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op21GetResponse, String>;
+    ) -> Result<Op21GetResponse, ()>;
 
     /// Op22Get - GET /op22
     async fn op22_get(
@@ -417,7 +417,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op22GetResponse, String>;
+    ) -> Result<Op22GetResponse, ()>;
 
     /// Op23Get - GET /op23
     async fn op23_get(
@@ -425,7 +425,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op23GetResponse, String>;
+    ) -> Result<Op23GetResponse, ()>;
 
     /// Op24Get - GET /op24
     async fn op24_get(
@@ -433,7 +433,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op24GetResponse, String>;
+    ) -> Result<Op24GetResponse, ()>;
 
     /// Op25Get - GET /op25
     async fn op25_get(
@@ -441,7 +441,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op25GetResponse, String>;
+    ) -> Result<Op25GetResponse, ()>;
 
     /// Op26Get - GET /op26
     async fn op26_get(
@@ -449,7 +449,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op26GetResponse, String>;
+    ) -> Result<Op26GetResponse, ()>;
 
     /// Op27Get - GET /op27
     async fn op27_get(
@@ -457,7 +457,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op27GetResponse, String>;
+    ) -> Result<Op27GetResponse, ()>;
 
     /// Op28Get - GET /op28
     async fn op28_get(
@@ -465,7 +465,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op28GetResponse, String>;
+    ) -> Result<Op28GetResponse, ()>;
 
     /// Op29Get - GET /op29
     async fn op29_get(
@@ -473,7 +473,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op29GetResponse, String>;
+    ) -> Result<Op29GetResponse, ()>;
 
     /// Op2Get - GET /op2
     async fn op2_get(
@@ -481,7 +481,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op2GetResponse, String>;
+    ) -> Result<Op2GetResponse, ()>;
 
     /// Op30Get - GET /op30
     async fn op30_get(
@@ -489,7 +489,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op30GetResponse, String>;
+    ) -> Result<Op30GetResponse, ()>;
 
     /// Op31Get - GET /op31
     async fn op31_get(
@@ -497,7 +497,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op31GetResponse, String>;
+    ) -> Result<Op31GetResponse, ()>;
 
     /// Op32Get - GET /op32
     async fn op32_get(
@@ -505,7 +505,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op32GetResponse, String>;
+    ) -> Result<Op32GetResponse, ()>;
 
     /// Op33Get - GET /op33
     async fn op33_get(
@@ -513,7 +513,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op33GetResponse, String>;
+    ) -> Result<Op33GetResponse, ()>;
 
     /// Op34Get - GET /op34
     async fn op34_get(
@@ -521,7 +521,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op34GetResponse, String>;
+    ) -> Result<Op34GetResponse, ()>;
 
     /// Op35Get - GET /op35
     async fn op35_get(
@@ -529,7 +529,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op35GetResponse, String>;
+    ) -> Result<Op35GetResponse, ()>;
 
     /// Op36Get - GET /op36
     async fn op36_get(
@@ -537,7 +537,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op36GetResponse, String>;
+    ) -> Result<Op36GetResponse, ()>;
 
     /// Op37Get - GET /op37
     async fn op37_get(
@@ -545,7 +545,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op37GetResponse, String>;
+    ) -> Result<Op37GetResponse, ()>;
 
     /// Op3Get - GET /op3
     async fn op3_get(
@@ -553,7 +553,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op3GetResponse, String>;
+    ) -> Result<Op3GetResponse, ()>;
 
     /// Op4Get - GET /op4
     async fn op4_get(
@@ -561,7 +561,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op4GetResponse, String>;
+    ) -> Result<Op4GetResponse, ()>;
 
     /// Op5Get - GET /op5
     async fn op5_get(
@@ -569,7 +569,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op5GetResponse, String>;
+    ) -> Result<Op5GetResponse, ()>;
 
     /// Op6Get - GET /op6
     async fn op6_get(
@@ -577,7 +577,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op6GetResponse, String>;
+    ) -> Result<Op6GetResponse, ()>;
 
     /// Op7Get - GET /op7
     async fn op7_get(
@@ -585,7 +585,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op7GetResponse, String>;
+    ) -> Result<Op7GetResponse, ()>;
 
     /// Op8Get - GET /op8
     async fn op8_get(
@@ -593,7 +593,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op8GetResponse, String>;
+    ) -> Result<Op8GetResponse, ()>;
 
     /// Op9Get - GET /op9
     async fn op9_get(
@@ -601,5 +601,5 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<Op9GetResponse, String>;
+    ) -> Result<Op9GetResponse, ()>;
 }

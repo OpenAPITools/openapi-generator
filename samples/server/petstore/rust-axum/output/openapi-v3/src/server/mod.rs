@@ -602,7 +602,7 @@ where
 {
     // Header parameters
     let header_params = {
-        let header_x_header = headers.get(HeaderName::from_static("x_header"));
+        let header_x_header = headers.get(HeaderName::from_static("x-header"));
 
         let header_x_header = match header_x_header {
             Some(v) => match header::IntoHeaderValue::<String>::try_from((*v).clone()) {
@@ -1471,7 +1471,7 @@ where
 
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(HeaderName::from_static(""), success_info);
+                    response_headers.insert(HeaderName::from_static("success-info"), success_info);
                 }
                 if let Some(bool_header) = bool_header {
                     let bool_header = match header::IntoHeaderValue(bool_header).try_into() {
@@ -1485,7 +1485,8 @@ where
 
                     {
                         let mut response_headers = response.headers_mut().unwrap();
-                        response_headers.insert(HeaderName::from_static(""), bool_header);
+                        response_headers
+                            .insert(HeaderName::from_static("bool-header"), bool_header);
                     }
                 }
                 if let Some(object_header) = object_header {
@@ -1500,7 +1501,8 @@ where
 
                     {
                         let mut response_headers = response.headers_mut().unwrap();
-                        response_headers.insert(HeaderName::from_static(""), object_header);
+                        response_headers
+                            .insert(HeaderName::from_static("object-header"), object_header);
                     }
                 }
                 let mut response = response.status(200);
@@ -1541,7 +1543,8 @@ where
 
                     {
                         let mut response_headers = response.headers_mut().unwrap();
-                        response_headers.insert(HeaderName::from_static(""), further_info);
+                        response_headers
+                            .insert(HeaderName::from_static("further-info"), further_info);
                     }
                 }
                 if let Some(failure_info) = failure_info {
@@ -1556,7 +1559,8 @@ where
 
                     {
                         let mut response_headers = response.headers_mut().unwrap();
-                        response_headers.insert(HeaderName::from_static(""), failure_info);
+                        response_headers
+                            .insert(HeaderName::from_static("failure-info"), failure_info);
                     }
                 }
                 let mut response = response.status(412);
@@ -1706,7 +1710,7 @@ where
 {
     // Header parameters
     let header_params = {
-        let header_x_header_one = headers.get(HeaderName::from_static("x_header_one"));
+        let header_x_header_one = headers.get(HeaderName::from_static("x-header-one"));
 
         let header_x_header_one = match header_x_header_one {
             Some(v) => match header::IntoHeaderValue::<bool>::try_from((*v).clone()) {
@@ -1723,7 +1727,7 @@ where
             },
             None => None,
         };
-        let header_x_header_two = headers.get(HeaderName::from_static("x_header_two"));
+        let header_x_header_two = headers.get(HeaderName::from_static("x-header-two"));
 
         let header_x_header_two = match header_x_header_two {
             Some(v) => match header::IntoHeaderValue::<bool>::try_from((*v).clone()) {

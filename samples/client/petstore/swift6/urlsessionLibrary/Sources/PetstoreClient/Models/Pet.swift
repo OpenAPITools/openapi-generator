@@ -12,20 +12,20 @@ public typealias Pet = PetstoreClientAPI.Pet
 
 extension PetstoreClientAPI {
 
-public final class Pet: Codable, JSONEncodable, Hashable {
+public final class Pet: @unchecked Sendable, Codable, JSONEncodable, Hashable {
 
-    public enum Status: String, Codable, CaseIterable {
+    public enum Status: String, Sendable, Codable, CaseIterable {
         case available = "available"
         case pending = "pending"
         case sold = "sold"
     }
-    public var id: Int64?
-    public var category: Category?
-    public var name: String
-    public var photoUrls: [String]
-    public var tags: [Tag]?
+    public private(set) var id: Int64?
+    public private(set) var category: Category?
+    public private(set) var name: String
+    public private(set) var photoUrls: [String]
+    public private(set) var tags: [Tag]?
     /** pet status in the store */
-    public var status: NullEncodable<Status>
+    public private(set) var status: NullEncodable<Status>
 
     public init(id: Int64? = nil, category: Category? = nil, name: String, photoUrls: [String], tags: [Tag]? = nil, status: NullEncodable<Status> = .encodeNull) {
         self.id = id
@@ -82,3 +82,6 @@ public final class Pet: Codable, JSONEncodable, Hashable {
 }
 
 }
+
+@available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
+extension PetstoreClientAPI.Pet: Identifiable {}

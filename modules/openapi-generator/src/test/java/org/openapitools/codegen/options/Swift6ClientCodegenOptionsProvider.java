@@ -48,6 +48,7 @@ public class Swift6ClientCodegenOptionsProvider implements OptionsProvider {
     public static final String USE_BACKTICKS_ESCAPES_VALUE = "false";
     public static final String GENERATE_MODEL_ADDITIONAL_PROPERTIES_VALUE = "true";
     public static final String HASHABLE_MODELS_VALUE = "true";
+    public static final String IDENTIFIABLE_MODELS_VALUE = "true";
     public static final String USE_JSON_ENCODABLE_VALUE = "true";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
@@ -98,15 +99,16 @@ public class Swift6ClientCodegenOptionsProvider implements OptionsProvider {
                 .put(Swift6ClientCodegen.GENERATE_MODEL_ADDITIONAL_PROPERTIES,
                         GENERATE_MODEL_ADDITIONAL_PROPERTIES_VALUE)
                 .put(Swift6ClientCodegen.HASHABLE_MODELS, HASHABLE_MODELS_VALUE)
+                .put(Swift6ClientCodegen.IDENTIFIABLE_MODELS, IDENTIFIABLE_MODELS_VALUE)
                 .put(Swift6ClientCodegen.USE_JSON_ENCODABLE, USE_JSON_ENCODABLE_VALUE)
                 .put(Swift6ClientCodegen.MAP_FILE_BINARY_TO_DATA, "false")
                 .put(Swift6ClientCodegen.USE_CUSTOM_DATE_WITHOUT_TIME, "false")
                 .put(Swift6ClientCodegen.VALIDATABLE, "true")
                 .put(Swift6ClientCodegen.ONE_OF_UNKNOWN_DEFAULT_CASE, "false")
                 .put(Swift6ClientCodegen.USE_CLASSES, "false")
-                .put(Swift6ClientCodegen.API_STATIC_METHOD, 
+                .put(Swift6ClientCodegen.API_STATIC_METHOD,
                         API_STATIC_METHOD_VALUE)
-                .put(Swift6ClientCodegen.COMBINE_DEFERRED, 
+                .put(Swift6ClientCodegen.COMBINE_DEFERRED,
                         COMBINE_DEFERRED_VALUE)
                 .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
                 .build();

@@ -56,9 +56,17 @@ function check_required(o::User)
 end
 
 function OpenAPI.validate_property(::Type{ User }, name::Symbol, val)
+
     if name === Symbol("id")
         OpenAPI.validate_param(name, "User", :format, val, "int64")
     end
+
+
+
+
+
+
+
     if name === Symbol("userStatus")
         OpenAPI.validate_param(name, "User", :format, val, "int32")
     end

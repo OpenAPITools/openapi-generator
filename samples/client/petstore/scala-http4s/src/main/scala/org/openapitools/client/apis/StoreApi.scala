@@ -20,7 +20,7 @@ import org.openapitools.client.models.*
 trait StoreApiEndpoints[F[*]] {
 
   def deleteOrder(orderId: String): F[Unit]
-  def getInventory()(implicit auth: _Authorization.ApiKey): F[Map[String, Int]]
+  def getInventory()(using auth: _Authorization.ApiKey): F[Map[String, Int]]
   def getOrderById(orderId: Long): F[Order]
   def placeOrder(order: Order): F[Order]
 
@@ -55,7 +55,7 @@ class StoreApiEndpointsImpl[F[*]: Concurrent](
     }
   }
 
-  override def getInventory()(implicit auth: _Authorization.ApiKey): F[Map[String, Int]] = {
+  override def getInventory()(using auth: _Authorization.ApiKey): F[Map[String, Int]] = {
     val requestHeaders = Seq(
       Some("Content-Type" -> "application/json")
     ).flatten

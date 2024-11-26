@@ -6,21 +6,22 @@
 
 import Foundation
 
-public struct StringRule: @unchecked Sendable {
+public struct StringRule: Sendable {
     public var minLength: Int?
     public var maxLength: Int?
     public var pattern: String?
 }
 
-public struct NumericRule<T: Comparable & Numeric>: @unchecked Sendable {
+public struct NumericRule<T: Comparable & Numeric> {
     public var minimum: T?
     public var exclusiveMinimum = false
     public var maximum: T?
     public var exclusiveMaximum = false
     public var multipleOf: T?
 }
+extension NumericRule: Sendable where T: Sendable {}
 
-public struct ArrayRule: @unchecked Sendable {
+public struct ArrayRule: Sendable {
     public var minItems: Int?
     public var maxItems: Int?
     public var uniqueItems: Bool

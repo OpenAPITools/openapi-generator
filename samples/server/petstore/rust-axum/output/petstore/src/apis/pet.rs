@@ -91,6 +91,8 @@ pub enum UploadFileResponse {
 #[async_trait]
 #[allow(clippy::ptr_arg)]
 pub trait Pet {
+    type Claims;
+
     /// Add a new pet to the store.
     ///
     /// AddPet - POST /v2/pet
@@ -100,7 +102,7 @@ pub trait Pet {
         host: Host,
         cookies: CookieJar,
         body: models::Pet,
-    ) -> Result<AddPetResponse, String>;
+    ) -> Result<AddPetResponse, ()>;
 
     /// Deletes a pet.
     ///
@@ -112,7 +114,7 @@ pub trait Pet {
         cookies: CookieJar,
         header_params: models::DeletePetHeaderParams,
         path_params: models::DeletePetPathParams,
-    ) -> Result<DeletePetResponse, String>;
+    ) -> Result<DeletePetResponse, ()>;
 
     /// Finds Pets by status.
     ///
@@ -123,7 +125,7 @@ pub trait Pet {
         host: Host,
         cookies: CookieJar,
         query_params: models::FindPetsByStatusQueryParams,
-    ) -> Result<FindPetsByStatusResponse, String>;
+    ) -> Result<FindPetsByStatusResponse, ()>;
 
     /// Finds Pets by tags.
     ///
@@ -134,7 +136,7 @@ pub trait Pet {
         host: Host,
         cookies: CookieJar,
         query_params: models::FindPetsByTagsQueryParams,
-    ) -> Result<FindPetsByTagsResponse, String>;
+    ) -> Result<FindPetsByTagsResponse, ()>;
 
     /// Find pet by ID.
     ///
@@ -144,8 +146,9 @@ pub trait Pet {
         method: Method,
         host: Host,
         cookies: CookieJar,
+        claims: Self::Claims,
         path_params: models::GetPetByIdPathParams,
-    ) -> Result<GetPetByIdResponse, String>;
+    ) -> Result<GetPetByIdResponse, ()>;
 
     /// Update an existing pet.
     ///
@@ -156,7 +159,7 @@ pub trait Pet {
         host: Host,
         cookies: CookieJar,
         body: models::Pet,
-    ) -> Result<UpdatePetResponse, String>;
+    ) -> Result<UpdatePetResponse, ()>;
 
     /// Updates a pet in the store with form data.
     ///
@@ -168,7 +171,7 @@ pub trait Pet {
         cookies: CookieJar,
         path_params: models::UpdatePetWithFormPathParams,
         body: Option<models::UpdatePetWithFormRequest>,
-    ) -> Result<UpdatePetWithFormResponse, String>;
+    ) -> Result<UpdatePetWithFormResponse, ()>;
 
     /// uploads an image.
     ///
@@ -180,5 +183,5 @@ pub trait Pet {
         cookies: CookieJar,
         path_params: models::UploadFilePathParams,
         body: Multipart,
-    ) -> Result<UploadFileResponse, String>;
+    ) -> Result<UploadFileResponse, ()>;
 }

@@ -65,11 +65,11 @@ export function MatchingPartsFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-  export function MatchingPartsToJSON(json: any): MatchingParts {
-      return MatchingPartsToJSONTyped(json, false);
-  }
+export function MatchingPartsToJSON(json: any): MatchingParts {
+    return MatchingPartsToJSONTyped(json, false);
+}
 
-  export function MatchingPartsToJSONTyped(value?: MatchingParts | null, ignoreDiscriminator: boolean = false): any {
+export function MatchingPartsToJSONTyped(value?: MatchingParts | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

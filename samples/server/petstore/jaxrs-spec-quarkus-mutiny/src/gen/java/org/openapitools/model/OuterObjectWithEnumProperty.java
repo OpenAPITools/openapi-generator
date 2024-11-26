@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("OuterObjectWithEnumProperty")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class OuterObjectWithEnumProperty  implements Serializable {
   private OuterEnumInteger value;
 
@@ -24,6 +24,13 @@ public class OuterObjectWithEnumProperty  implements Serializable {
   }
 
   public OuterObjectWithEnumProperty() {
+  }
+
+  @JsonCreator
+  public OuterObjectWithEnumProperty(
+    @JsonProperty(required = true, value = "value") OuterEnumInteger value
+  ) {
+    this.value = value;
   }
 
   /**
@@ -35,12 +42,12 @@ public class OuterObjectWithEnumProperty  implements Serializable {
 
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
-  @JsonProperty("value")
+  @JsonProperty(required = true, value = "value")
   @NotNull public OuterEnumInteger getValue() {
     return value;
   }
 
-  @JsonProperty("value")
+  @JsonProperty(required = true, value = "value")
   public void setValue(OuterEnumInteger value) {
     this.value = value;
   }

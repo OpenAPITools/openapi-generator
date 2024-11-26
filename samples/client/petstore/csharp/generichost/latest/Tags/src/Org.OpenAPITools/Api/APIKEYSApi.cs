@@ -44,8 +44,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">Api Key ID.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IGetApiKeysId_1ApiResponse"/>&gt;</returns>
-        Task<IGetApiKeysId_1ApiResponse> GetApiKeysId_1Async(int id, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns><see cref="Task"/>&lt;<see cref="IGetApiKeysIdApiResponse"/>&gt;</returns>
+        Task<IGetApiKeysIdApiResponse> GetApiKeysIdAsync(int id, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Show API Key
@@ -55,14 +55,14 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <param name="id">Api Key ID.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IGetApiKeysId_1ApiResponse"/>?&gt;</returns>
-        Task<IGetApiKeysId_1ApiResponse?> GetApiKeysId_1OrDefaultAsync(int id, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns><see cref="Task"/>&lt;<see cref="IGetApiKeysIdApiResponse"/>?&gt;</returns>
+        Task<IGetApiKeysIdApiResponse?> GetApiKeysIdOrDefaultAsync(int id, System.Threading.CancellationToken cancellationToken = default);
     }
 
     /// <summary>
-    /// The <see cref="IGetApiKeysId_1ApiResponse"/>
+    /// The <see cref="IGetApiKeysIdApiResponse"/>
     /// </summary>
-    public interface IGetApiKeysId_1ApiResponse : Org.OpenAPITools.Client.IApiResponse
+    public interface IGetApiKeysIdApiResponse : Org.OpenAPITools.Client.IApiResponse
     {
         /// <summary>
         /// Returns true if the response is 400 BadRequest
@@ -79,21 +79,21 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs>? OnGetApiKeysId_1;
+        public event EventHandler<ApiResponseEventArgs>? OnGetApiKeysId;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
-        public event EventHandler<ExceptionEventArgs>? OnErrorGetApiKeysId_1;
+        public event EventHandler<ExceptionEventArgs>? OnErrorGetApiKeysId;
 
-        internal void ExecuteOnGetApiKeysId_1(APIKEYSApi.GetApiKeysId_1ApiResponse apiResponse)
+        internal void ExecuteOnGetApiKeysId(APIKEYSApi.GetApiKeysIdApiResponse apiResponse)
         {
-            OnGetApiKeysId_1?.Invoke(this, new ApiResponseEventArgs(apiResponse));
+            OnGetApiKeysId?.Invoke(this, new ApiResponseEventArgs(apiResponse));
         }
 
-        internal void ExecuteOnErrorGetApiKeysId_1(Exception exception)
+        internal void ExecuteOnErrorGetApiKeysId(Exception exception)
         {
-            OnErrorGetApiKeysId_1?.Invoke(this, new ExceptionEventArgs(exception));
+            OnErrorGetApiKeysId?.Invoke(this, new ExceptionEventArgs(exception));
         }
     }
 
@@ -144,17 +144,17 @@ namespace Org.OpenAPITools.Api
             ApiKeyProvider = apiKeyProvider;
         }
 
-        partial void FormatGetApiKeysId_1(ref int id);
+        partial void FormatGetApiKeysId(ref int id);
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="id"></param>
-        private void AfterGetApiKeysId_1DefaultImplementation(IGetApiKeysId_1ApiResponse apiResponseLocalVar, int id)
+        private void AfterGetApiKeysIdDefaultImplementation(IGetApiKeysIdApiResponse apiResponseLocalVar, int id)
         {
             bool suppressDefaultLog = false;
-            AfterGetApiKeysId_1(ref suppressDefaultLog, apiResponseLocalVar, id);
+            AfterGetApiKeysId(ref suppressDefaultLog, apiResponseLocalVar, id);
             if (!suppressDefaultLog)
                 Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
@@ -165,7 +165,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="id"></param>
-        partial void AfterGetApiKeysId_1(ref bool suppressDefaultLog, IGetApiKeysId_1ApiResponse apiResponseLocalVar, int id);
+        partial void AfterGetApiKeysId(ref bool suppressDefaultLog, IGetApiKeysIdApiResponse apiResponseLocalVar, int id);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -174,10 +174,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="id"></param>
-        private void OnErrorGetApiKeysId_1DefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, int id)
+        private void OnErrorGetApiKeysIdDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, int id)
         {
             bool suppressDefaultLogLocalVar = false;
-            OnErrorGetApiKeysId_1(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, id);
+            OnErrorGetApiKeysId(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, id);
             if (!suppressDefaultLogLocalVar)
                 Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
@@ -190,19 +190,19 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="id"></param>
-        partial void OnErrorGetApiKeysId_1(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, int id);
+        partial void OnErrorGetApiKeysId(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, int id);
 
         /// <summary>
         /// Show API Key Show API Key
         /// </summary>
         /// <param name="id">Api Key ID.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IGetApiKeysId_1ApiResponse"/>&gt;</returns>
-        public async Task<IGetApiKeysId_1ApiResponse?> GetApiKeysId_1OrDefaultAsync(int id, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="IGetApiKeysIdApiResponse"/>&gt;</returns>
+        public async Task<IGetApiKeysIdApiResponse?> GetApiKeysIdOrDefaultAsync(int id, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
-                return await GetApiKeysId_1Async(id, cancellationToken).ConfigureAwait(false);
+                return await GetApiKeysIdAsync(id, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -216,14 +216,14 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">Api Key ID.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IGetApiKeysId_1ApiResponse"/>&gt;</returns>
-        public async Task<IGetApiKeysId_1ApiResponse> GetApiKeysId_1Async(int id, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="IGetApiKeysIdApiResponse"/>&gt;</returns>
+        public async Task<IGetApiKeysIdApiResponse> GetApiKeysIdAsync(int id, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                FormatGetApiKeysId_1(ref id);
+                FormatGetApiKeysId(ref id);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -243,13 +243,13 @@ namespace Org.OpenAPITools.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ILogger<GetApiKeysId_1ApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<GetApiKeysId_1ApiResponse>();
+                        ILogger<GetApiKeysIdApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<GetApiKeysIdApiResponse>();
 
-                        GetApiKeysId_1ApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api_keys/{id}", requestedAtLocalVar, _jsonSerializerOptions);
+                        GetApiKeysIdApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api_keys/{id}", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterGetApiKeysId_1DefaultImplementation(apiResponseLocalVar, id);
+                        AfterGetApiKeysIdDefaultImplementation(apiResponseLocalVar, id);
 
-                        Events.ExecuteOnGetApiKeysId_1(apiResponseLocalVar);
+                        Events.ExecuteOnGetApiKeysId(apiResponseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -257,24 +257,24 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorGetApiKeysId_1DefaultImplementation(e, "/api_keys/{id}", uriBuilderLocalVar.Path, id);
-                Events.ExecuteOnErrorGetApiKeysId_1(e);
+                OnErrorGetApiKeysIdDefaultImplementation(e, "/api_keys/{id}", uriBuilderLocalVar.Path, id);
+                Events.ExecuteOnErrorGetApiKeysId(e);
                 throw;
             }
         }
 
         /// <summary>
-        /// The <see cref="GetApiKeysId_1ApiResponse"/>
+        /// The <see cref="GetApiKeysIdApiResponse"/>
         /// </summary>
-        public partial class GetApiKeysId_1ApiResponse : Org.OpenAPITools.Client.ApiResponse, IGetApiKeysId_1ApiResponse
+        public partial class GetApiKeysIdApiResponse : Org.OpenAPITools.Client.ApiResponse, IGetApiKeysIdApiResponse
         {
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<GetApiKeysId_1ApiResponse> Logger { get; }
+            public ILogger<GetApiKeysIdApiResponse> Logger { get; }
 
             /// <summary>
-            /// The <see cref="GetApiKeysId_1ApiResponse"/>
+            /// The <see cref="GetApiKeysIdApiResponse"/>
             /// </summary>
             /// <param name="logger"></param>
             /// <param name="httpRequestMessage"></param>
@@ -283,7 +283,7 @@ namespace Org.OpenAPITools.Api
             /// <param name="path"></param>
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
-            public GetApiKeysId_1ApiResponse(ILogger<GetApiKeysId_1ApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            public GetApiKeysIdApiResponse(ILogger<GetApiKeysIdApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);

@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
@@ -36,7 +38,7 @@ import org.openapitools.client.ApiClient;
   SpecialModelName.JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME,
   SpecialModelName.JSON_PROPERTY_SPECIAL_MODEL_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class SpecialModelName {
   public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   @javax.annotation.Nullable
@@ -102,20 +104,12 @@ public class SpecialModelName {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    SpecialModelName specialModelName = (SpecialModelName) o;
-    return Objects.equals(this.$specialPropertyName, specialModelName.$specialPropertyName) &&
-        Objects.equals(this.specialModelName, specialModelName.specialModelName);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash($specialPropertyName, specialModelName);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override

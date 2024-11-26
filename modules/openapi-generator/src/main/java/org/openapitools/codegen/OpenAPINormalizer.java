@@ -34,6 +34,9 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.utils.StringUtils.getUniqueString;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 public class OpenAPINormalizer {
     private OpenAPI openAPI;
     private Map<String, String> inputRules = new HashMap<>();
@@ -87,6 +90,12 @@ public class OpenAPINormalizer {
     // is empty
     final String SET_TAGS_TO_OPERATIONID = "SET_TAGS_TO_OPERATIONID";
     String setTagsToOperationId;
+
+    // when set to true, tags in all operations will be set to operationId or "default" if operationId
+    // is empty
+    final String FIX_DUPLICATED_OPERATIONID = "FIX_DUPLICATED_OPERATIONID";
+    String fixDuplicatedOperationId;
+    HashSet<String> operationIdSet = new HashSet<>();
 
     // when set to true, auto fix integer with maximum value 4294967295 (2^32-1) or long with 18446744073709551615 (2^64-1)
     // by adding x-unsigned to the schema
@@ -149,6 +158,7 @@ public class OpenAPINormalizer {
         ruleNames.add(KEEP_ONLY_FIRST_TAG_IN_OPERATION);
         ruleNames.add(SET_TAGS_FOR_ALL_OPERATIONS);
         ruleNames.add(SET_TAGS_TO_OPERATIONID);
+        ruleNames.add(FIX_DUPLICATED_OPERATIONID);
         ruleNames.add(ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE);
         ruleNames.add(REFACTOR_ALLOF_WITH_PROPERTIES_ONLY);
         ruleNames.add(NORMALIZE_31SPEC);
@@ -361,6 +371,8 @@ public class OpenAPINormalizer {
         processSetTagsForAllOperations(operation);
 
         processSetTagsToOperationId(operation);
+
+        processFixDuplicatedOperationId(operation);
     }
 
     /**
@@ -743,6 +755,9 @@ public class OpenAPINormalizer {
             return schema;
         }
 
+        // process rule to refactor properties into allOf sub-schema
+        schema = processRefactorAllOfWithPropertiesOnly(schema);
+
         for (Object item : schema.getAllOf()) {
             if (!(item instanceof Schema)) {
                 throw new RuntimeException("Error! allOf schema is not of the type Schema: " + item);
@@ -750,8 +765,6 @@ public class OpenAPINormalizer {
             // normalize allOf sub schemas one by one
             normalizeSchema((Schema) item, visitedSchemas);
         }
-        // process rules here
-        schema = processRefactorAllOfWithPropertiesOnly(schema);
 
         return schema;
     }
@@ -938,6 +951,26 @@ public class OpenAPINormalizer {
             operation.addTagsItem("default");
         }
     }
+
+    private void processFixDuplicatedOperationId(Operation operation) {
+        if (!getRule(FIX_DUPLICATED_OPERATIONID)) {
+            return;
+        }
+
+        // skip null as default codegen will automatically generate one using path, http verb, etc
+        if (operation.getOperationId() == null) {
+            return;
+        }
+
+        String uniqueName = getUniqueString(operationIdSet, operation.getOperationId());
+
+        if (!uniqueName.equals(operation.getOperationId())) {
+            LOGGER.info("operationId {} renamed to {} to ensure uniqueness (enabled by openapi normalizer rule `FIX_DUPLICATED_OPERATIONID`)", operation.getOperationId(), uniqueName);
+            operation.setOperationId(uniqueName);
+        }
+    }
+
+
 
     /**
      * If the schema contains anyOf/oneOf and properties, remove oneOf/anyOf as these serve as rules to
@@ -1293,9 +1326,8 @@ public class OpenAPINormalizer {
         schema.setTitle(null);
 
         // at this point the schema becomes a simple allOf (no properties) with an additional schema containing
-        // the properties
-
-        return schema;
+        // the properties. Normalize it before returning.
+        return normalizeSchema(schema, new HashSet<>());
     }
 
     /**

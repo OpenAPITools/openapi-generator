@@ -12,6 +12,8 @@
 
 package org.openapitools.client.model;
 
+import java.util.Objects;
+import java.util.Arrays;
 import org.openapitools.client.model.Status;
 import java.lang.reflect.Type;
 import javax.json.bind.annotation.JsonbTypeDeserializer;
@@ -96,6 +98,24 @@ public class Cat  {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Cat cat = (Cat) o;
+    return Objects.equals(this.id, cat.id) &&
+        Objects.equals(this.name, cat.name) &&
+        Objects.equals(this.status, cat.status);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name, status);
+  }
 
   /**
    * Create a string representation of this pojo.

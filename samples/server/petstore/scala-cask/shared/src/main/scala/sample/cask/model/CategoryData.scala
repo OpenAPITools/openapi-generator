@@ -20,7 +20,8 @@ import scala.util.*
 import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
-/** CategoryData a data transfer object, primarily for simple json serialisation.
+
+        /** CategoryData a data transfer object, primarily for simple json serialisation.
   * It has no validation - there may be nulls, values out of range, etc
   */
 case class CategoryData(
@@ -38,7 +39,7 @@ case class CategoryData(
   }
 
   def validationErrors(path : Seq[Field], failFast : Boolean) : Seq[ValidationError] = {
-    val errors = scala.collection.mutable.ListBuffer[ValidationError]()
+    val _allValidationErrors = scala.collection.mutable.ListBuffer[ValidationError]()
         // ================== id validation ==================
         
         
@@ -47,19 +48,22 @@ case class CategoryData(
 
         // ================== name validation ==================
         // validate against pattern '^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$'
-        if (errors.isEmpty || !failFast) {
+        if (_allValidationErrors.isEmpty || !failFast) {
            val regex = """^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$"""
            if name == null || !regex.r.matches(name) then
-              errors += ValidationError(path :+ Category.Fields.name, s"value '$name' doesn't match pattern $regex")
+              _allValidationErrors += ValidationError(path :+ Category.Fields.name, s"value '$name' doesn't match pattern $regex")
         }
         
         
         
         
 
-    errors.toSeq
+    _allValidationErrors.toSeq
   }
 
+  /**
+   * @return the validated model within a Try (if successful)
+   */
   def validated(failFast : Boolean = false) : scala.util.Try[Category] = {
     validationErrors(Vector(), failFast) match {
       case Seq() => Success(asModel)
@@ -70,20 +74,16 @@ case class CategoryData(
   /** use 'validated' to check validation */
   def asModel : Category = {
     Category(
-        id = Option(
-        id
-        )
-        ,
-        name = Option(
-        name
-        )
-        
+        id = Option(id) /* 1 */,
+        name = Option(name) /* 1 */
     
     )
   }
 }
 
 object CategoryData {
+
+  def validated(d8a : CategoryData, failFast : Boolean) : scala.util.Try[Category] = d8a.validated(failFast)
 
   def fromJson(jason : ujson.Value) : CategoryData = try {
         val data = read[CategoryData](jason)

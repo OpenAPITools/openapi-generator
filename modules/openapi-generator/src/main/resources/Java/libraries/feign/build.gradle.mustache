@@ -114,6 +114,9 @@ ext {
     feign_form_version = "3.8.0"
     junit_version = "5.7.0"
     scribejava_version = "8.0.0"
+    {{#useReflectionEqualsHashCode}}
+    commons_lang3_version = "3.17.0"
+    {{/useReflectionEqualsHashCode}}
 }
 
 dependencies {
@@ -127,9 +130,9 @@ dependencies {
     implementation "io.github.openfeign:feign-okhttp:$feign_version"
     implementation "io.github.openfeign.form:feign-form:$feign_form_version"
     {{#jackson}}
-        {{#joda}}
+    {{#joda}}
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
-        {{/joda}}
+    {{/joda}}
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
@@ -142,6 +145,9 @@ dependencies {
     implementation "com.github.scribejava:scribejava-core:$scribejava_version"
     implementation "com.brsanthu:migbase64:2.2"
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
+    {{#useReflectionEqualsHashCode}}
+    implementation "org.apache.commons:commons-lang3:$commons_lang3_version"
+    {{/useReflectionEqualsHashCode}}
     testImplementation "org.junit.jupiter:junit-jupiter:$junit_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
     testImplementation "org.junit.jupiter:junit-jupiter-params:$junit_version"

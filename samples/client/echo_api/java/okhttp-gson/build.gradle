@@ -114,7 +114,7 @@ dependencies {
     implementation 'io.gsonfire:gson-fire:1.9.0'
     implementation 'jakarta.ws.rs:jakarta.ws.rs-api:2.1.6'
     implementation 'org.openapitools:jackson-databind-nullable:0.2.6'
-    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.17.0'
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.3'
     testImplementation 'org.mockito:mockito-core:3.12.4'
