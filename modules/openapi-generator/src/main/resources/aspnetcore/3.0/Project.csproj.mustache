@@ -18,12 +18,12 @@
         <UserSecretsId>{{userSecretsGuid}}</UserSecretsId>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <DockerfileContext>..\..</DockerfileContext>
-        {{#useCentralizedPackageVersionManagement}}
-            <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-        {{/useCentralizedPackageVersionManagement}}
-        {{#centralizedPackageVersionManagementOptOut}}
-            <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
-        {{/centralizedPackageVersionManagementOptOut}}
+    {{#useCentralizedPackageVersionManagement}}
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    {{/useCentralizedPackageVersionManagement}}
+    {{#centralizedPackageVersionManagementOptOut}}
+        <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+    {{/centralizedPackageVersionManagementOptOut}}
     </PropertyGroup>
     <ItemGroup>
         {{#useSeparateModelProject}}
@@ -38,18 +38,18 @@
             <PackageReference Include="Microsoft.AspNetCore.App" />
         {{/useFrameworkReference}}
         {{^useSeparateModelProject}}
-            <PackageReference Include="Microsoft.Extensions.Configuration.Json" {{^useCentralizedPackageVersionManagement}}Version="{{aspnetCoreVersion}}.0"{{/useCentralizedPackageVersionManagement}}/>
+            <PackageReference Include="Microsoft.Extensions.Configuration.Json" {{^useCentralizedPackageVersionManagement}}Version="{{aspnetCoreVersion}}.0" {{/useCentralizedPackageVersionManagement}}/>
         {{/useSeparateModelProject}}
             {{#useSwashbuckle}}
-            <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" {{^useCentralizedPackageVersionManagement}}Version="1.10.8"{{/useCentralizedPackageVersionManagement}} />
+            <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" {{^useCentralizedPackageVersionManagement}}Version="1.10.8" {{/useCentralizedPackageVersionManagement}}/>
             {{#useNewtonsoft}}
-                <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" {{^useCentralizedPackageVersionManagement}}Version="{{swashbuckleVersion}}"{{/useCentralizedPackageVersionManagement}}/>
-                <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" {{^useCentralizedPackageVersionManagement}}Version="{{swashbuckleVersion}}"{{/useCentralizedPackageVersionManagement}}/>
+                <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" {{^useCentralizedPackageVersionManagement}}Version="{{swashbuckleVersion}}" {{/useCentralizedPackageVersionManagement}}/>
+                <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" {{^useCentralizedPackageVersionManagement}}Version="{{swashbuckleVersion}}" {{/useCentralizedPackageVersionManagement}}/>
             {{/useNewtonsoft}}
                 {{^useNewtonsoft}}
-                <PackageReference Include="Swashbuckle.AspNetCore" {{^useCentralizedPackageVersionManagement}}Version="{{swashbuckleVersion}}"{{/useCentralizedPackageVersionManagement}}/>
+                <PackageReference Include="Swashbuckle.AspNetCore" {{^useCentralizedPackageVersionManagement}}Version="{{swashbuckleVersion}}" {{/useCentralizedPackageVersionManagement}}/>
             {{/useNewtonsoft}}
-            <PackageReference Include="Swashbuckle.AspNetCore.Annotations" {{^useCentralizedPackageVersionManagement}}Version="{{swashbuckleVersion}}"{{/useCentralizedPackageVersionManagement}} />
+            <PackageReference Include="Swashbuckle.AspNetCore.Annotations" {{^useCentralizedPackageVersionManagement}}Version="{{swashbuckleVersion}}" {{/useCentralizedPackageVersionManagement}}/>
         {{/useSwashbuckle}}
             {{^useSwashbuckle}}
                 {{#useNewtonsoft}}
