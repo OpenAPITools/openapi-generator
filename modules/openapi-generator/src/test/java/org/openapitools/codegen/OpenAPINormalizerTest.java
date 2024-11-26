@@ -487,6 +487,24 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void testFilterWithTrim() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions(), null);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("FILTER", "operationId:\n\t\t\t\tdelete|\n\t\tlist");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get("x-internal"), false);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), false);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get("x-internal"), true);
+    }
+
+    @Test
     public void testComposedSchemaDoesNotThrow() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/composed-schema.yaml");
 
