@@ -18,9 +18,12 @@
         <UserSecretsId>{{userSecretsGuid}}</UserSecretsId>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <DockerfileContext>..\..</DockerfileContext>
-        {{#useCentralPackageVersionManagement}}
+        {{#useCentralizedPackageVersionManagement}}
             <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-        {{/useCentralPackageVersionManagement}}
+        {{/useCentralizedPackageVersionManagement}}
+        {{#centralizedPackageVersionManagementOptOut}}
+            <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+        {{/centralizedPackageVersionManagementOptOut}}
     </PropertyGroup>
     <ItemGroup>
         {{#useSeparateModelProject}}
@@ -35,25 +38,25 @@
             <PackageReference Include="Microsoft.AspNetCore.App" />
         {{/useFrameworkReference}}
         {{^useSeparateModelProject}}
-            <PackageReference Include="Microsoft.Extensions.Configuration.Json" {{#useCentralPackageVersionManagement}}{{/useCentralPackageVersionManagement}}{{^useCentralPackageVersionManagement}}Version="{{aspnetCoreVersion}}.0"{{/useCentralPackageVersionManagement}}/>
+            <PackageReference Include="Microsoft.Extensions.Configuration.Json" {{^useCentralizedPackageVersionManagement}}Version="{{aspnetCoreVersion}}.0"{{/useCentralizedPackageVersionManagement}}/>
         {{/useSeparateModelProject}}
-        {{#useSwashbuckle}}
-            <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" {{#useCentralPackageVersionManagement}}{{/useCentralPackageVersionManagement}}{{^useCentralPackageVersionManagement}}Version="1.10.8"{{/useCentralPackageVersionManagement}} />
+            {{#useSwashbuckle}}
+            <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" {{^useCentralizedPackageVersionManagement}}Version="1.10.8"{{/useCentralizedPackageVersionManagement}} />
             {{#useNewtonsoft}}
-                <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" {{#useCentralPackageVersionManagement}}{{/useCentralPackageVersionManagement}}{{^useCentralPackageVersionManagement}}Version="{{swashbuckleVersion}}"{{/useCentralPackageVersionManagement}}/>
-                <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" {{#useCentralPackageVersionManagement}}{{/useCentralPackageVersionManagement}}{{^useCentralPackageVersionManagement}}Version="{{swashbuckleVersion}}"{{/useCentralPackageVersionManagement}}/>
+                <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" {{^useCentralizedPackageVersionManagement}}Version="{{swashbuckleVersion}}"{{/useCentralizedPackageVersionManagement}}/>
+                <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" {{^useCentralizedPackageVersionManagement}}Version="{{swashbuckleVersion}}"{{/useCentralizedPackageVersionManagement}}/>
             {{/useNewtonsoft}}
-            {{^useNewtonsoft}}
-                <PackageReference Include="Swashbuckle.AspNetCore" {{#useCentralPackageVersionManagement}}{{/useCentralPackageVersionManagement}}{{^useCentralPackageVersionManagement}}Version="{{swashbuckleVersion}}"{{/useCentralPackageVersionManagement}}/>
+                {{^useNewtonsoft}}
+                <PackageReference Include="Swashbuckle.AspNetCore" {{^useCentralizedPackageVersionManagement}}Version="{{swashbuckleVersion}}"{{/useCentralizedPackageVersionManagement}}/>
             {{/useNewtonsoft}}
-            <PackageReference Include="Swashbuckle.AspNetCore.Annotations" {{#useCentralPackageVersionManagement}}{{/useCentralPackageVersionManagement}}{{^useCentralPackageVersionManagement}}Version="{{swashbuckleVersion}}"{{/useCentralPackageVersionManagement}} />
+            <PackageReference Include="Swashbuckle.AspNetCore.Annotations" {{^useCentralizedPackageVersionManagement}}Version="{{swashbuckleVersion}}"{{/useCentralizedPackageVersionManagement}} />
         {{/useSwashbuckle}}
-        {{^useSwashbuckle}}
-            {{#useNewtonsoft}}
-                <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" {{#useCentralPackageVersionManagement}}{{/useCentralPackageVersionManagement}}{{^useCentralPackageVersionManagement}}Version="{{newtonsoftVersion}}" {{/useCentralPackageVersionManagement}}/>
+            {{^useSwashbuckle}}
+                {{#useNewtonsoft}}
+                <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" {{^useCentralizedPackageVersionManagement}}Version="{{newtonsoftVersion}}" {{/useCentralizedPackageVersionManagement}}/>
             {{/useNewtonsoft}}
-        {{/useSwashbuckle}}
-        <PackageReference Include="JsonSubTypes" {{#useCentralPackageVersionManagement}}{{/useCentralPackageVersionManagement}}{{^useCentralPackageVersionManagement}}Version="1.8.0" {{/useCentralPackageVersionManagement}}/>
+            {{/useSwashbuckle}}
+        <PackageReference Include="JsonSubTypes" {{^useCentralizedPackageVersionManagement}}Version="1.8.0" {{/useCentralizedPackageVersionManagement}}/>
     </ItemGroup>
     <ItemGroup>
         <!--<DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="{{aspnetCoreVersion}}.0" />-->
