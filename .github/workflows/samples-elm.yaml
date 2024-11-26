@@ -3,10 +3,12 @@ name: Samples Elm
 on:
   push:
     paths:
+      - .github/workflows/samples-elm.yaml
       - samples/client/petstore/elm/**
       - samples/openapi3/client/elm/**
   pull_request:
     paths:
+      - .github/workflows/samples-elm.yaml
       - samples/client/petstore/elm/**
       - samples/openapi3/client/elm/**
 jobs:
