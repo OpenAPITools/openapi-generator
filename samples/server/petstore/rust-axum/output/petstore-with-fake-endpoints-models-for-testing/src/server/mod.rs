@@ -2693,7 +2693,7 @@ where
                     {
                         let mut response_headers = response.headers_mut().unwrap();
                         response_headers
-                            .insert(HeaderName::from_static("X-Rate-Limit"), x_rate_limit);
+                            .insert(HeaderName::from_static("x-rate-limit"), x_rate_limit);
                     }
                 }
                 if let Some(x_expires_after) = x_expires_after {
@@ -2710,7 +2710,7 @@ where
                     {
                         let mut response_headers = response.headers_mut().unwrap();
                         response_headers
-                            .insert(HeaderName::from_static("X-Expires-After"), x_expires_after);
+                            .insert(HeaderName::from_static("x-expires-after"), x_expires_after);
                     }
                 }
                 let mut response = response.status(200);

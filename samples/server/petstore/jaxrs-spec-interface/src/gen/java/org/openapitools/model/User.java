@@ -27,6 +27,9 @@ public class User  implements Serializable {
   private String phone;
   private Integer userStatus;
 
+  public User() {
+  }
+
   /**
    **/
   public User id(Long id) {

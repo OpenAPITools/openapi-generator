@@ -160,6 +160,8 @@ Class | Method | HTTP request | Description
  - [CircularReference3](docs/CircularReference3.md)
  - [CodesEnum](docs/CodesEnum.md)
  - [Dog](docs/Dog.md)
+ - [FakeWebhooksSourcesDeletedPostRequest](docs/FakeWebhooksSourcesDeletedPostRequest.md)
+ - [FakeWebhooksSourcesDeletedPostRequestEvent](docs/FakeWebhooksSourcesDeletedPostRequestEvent.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
  - [OneOfStringOrInt](docs/OneOfStringOrInt.md)
  - [Order](docs/Order.md)

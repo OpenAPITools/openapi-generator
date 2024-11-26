@@ -21,6 +21,18 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class Dog extends Animal implements Serializable {
   private String breed;
 
+  public Dog() {
+  }
+
+  @JsonCreator
+  public Dog(
+    @JsonProperty(required = true, value = "className") String className
+  ) {
+    super(
+      className
+    );
+  }
+
   /**
    **/
   public Dog breed(String breed) {

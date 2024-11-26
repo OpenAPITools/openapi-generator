@@ -20,6 +20,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class Client  implements Serializable {
   private String client;
 
+  public Client() {
+  }
+
   /**
    **/
   public Client client(String client) {

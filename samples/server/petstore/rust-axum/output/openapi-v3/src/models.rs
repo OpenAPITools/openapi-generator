@@ -1827,7 +1827,7 @@ impl NullableTest {
         NullableTest {
             nullable,
             nullable_with_null_default: None,
-            nullable_with_present_default: Some(Nullable::Present("default".to_string())),
+            nullable_with_present_default: Some(Nullable::Present(r#"default"#.to_string())),
             nullable_with_no_default: None,
             nullable_array: None,
             min_item_test: None,

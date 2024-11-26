@@ -35,6 +35,13 @@ public class Name  implements Serializable {
   public Name() {
   }
 
+  @JsonCreator
+  public Name(
+    @JsonProperty(required = true, value = "name") Integer name
+  ) {
+    this.name = name;
+  }
+
   /**
    **/
   public Name name(Integer name) {
@@ -44,12 +51,12 @@ public class Name  implements Serializable {
 
   
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty("name")
+  @JsonProperty(required = true, value = "name")
   @NotNull public Integer getName() {
     return name;
   }
 
-  @JsonProperty("name")
+  @JsonProperty(required = true, value = "name")
   public void setName(Integer name) {
     this.name = name;
   }
