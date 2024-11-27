@@ -15,6 +15,7 @@ docs/category.md
 docs/model_with_set_propertes.md
 docs/order.md
 docs/pet.md
+docs/preference.md
 docs/tag.md
 docs/user.md
 external/cJSON.c
@@ -40,6 +41,8 @@ model/order.c
 model/order.h
 model/pet.c
 model/pet.h
+model/preference.c
+model/preference.h
 model/tag.c
 model/tag.h
 model/user.c
@@ -49,3 +52,4 @@ src/apiKey.c
 src/binary.c
 src/list.c
 uncrustify-rules.cfg
+unit-test/test_preference.c

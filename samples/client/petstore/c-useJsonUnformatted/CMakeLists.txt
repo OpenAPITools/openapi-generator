@@ -60,6 +60,7 @@ set(SRCS
     model/model_with_set_propertes.c
     model/order.c
     model/pet.c
+    model/preference.c
     model/tag.c
     model/user.c
     api/PetAPI.c
@@ -82,6 +83,7 @@ set(HDRS
     model/model_with_set_propertes.h
     model/order.h
     model/pet.h
+    model/preference.h
     model/tag.h
     model/user.h
     api/PetAPI.h

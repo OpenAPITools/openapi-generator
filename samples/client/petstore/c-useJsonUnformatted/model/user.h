@@ -15,6 +15,8 @@
 
 typedef struct user_t user_t;
 
+#include "any_type.h"
+#include "preference.h"
 
 
 
@@ -27,6 +29,8 @@ typedef struct user_t {
     char *password; // string
     char *phone; // string
     int user_status; //numeric
+    list_t* extra; //map
+    openapi_petstore_preference__e preference; //referenced enum
 
 } user_t;
 
@@ -38,7 +42,9 @@ user_t *user_create(
     char *email,
     char *password,
     char *phone,
-    int user_status
+    int user_status,
+    list_t* extra,
+    openapi_petstore_preference__e preference
 );
 
 void user_free(user_t *user);

@@ -460,6 +460,70 @@ end:
 
 }
 
+// Specialty of the shop
+//
+// Returns the kind of pet the store specializes in
+//
+openapi_petstore_preference__e
+PetAPI_specialtyPet(apiClient_t *apiClient)
+{
+    list_t    *localVarQueryParameters = NULL;
+    list_t    *localVarHeaderParameters = NULL;
+    list_t    *localVarFormParameters = NULL;
+    list_t *localVarHeaderType = list_createList();
+    list_t *localVarContentType = NULL;
+    char      *localVarBodyParameters = NULL;
+
+    // create the path
+    long sizeOfPath = strlen("/pet/specialty")+1;
+    char *localVarPath = malloc(sizeOfPath);
+    snprintf(localVarPath, sizeOfPath, "/pet/specialty");
+
+
+
+    list_addElement(localVarHeaderType,"application/xml"); //produces
+    list_addElement(localVarHeaderType,"application/json"); //produces
+    apiClient_invoke(apiClient,
+                    localVarPath,
+                    localVarQueryParameters,
+                    localVarHeaderParameters,
+                    localVarFormParameters,
+                    localVarHeaderType,
+                    localVarContentType,
+                    localVarBodyParameters,
+                    "GET");
+
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 200) {
+    //    printf("%s\n","successful operation");
+    //}
+    //nonprimitive not container
+    cJSON *PetAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
+    openapi_petstore_preference__e elementToReturn = preference_parseFromJSON(PetAPIlocalVarJSON);
+    cJSON_Delete(PetAPIlocalVarJSON);
+    if(elementToReturn == 0) {
+        // return 0;
+    }
+
+    //return type
+    if (apiClient->dataReceived) {
+        free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
+    }
+    
+    
+    
+    list_freeList(localVarHeaderType);
+    
+    free(localVarPath);
+    return elementToReturn;
+end:
+    free(localVarPath);
+    return 0;
+
+}
+
 // Update an existing pet
 //
 void
