@@ -42,7 +42,7 @@ BasquePig <- R6::R6Class(
     #' @description
     #' Convert to an R object. This method is deprecated. Use `toSimpleType()` instead.
     toJSON = function() {
-      .Deprecated(new = "toSimpleType", msg = "Use the '$toSimpleType()' method instead since that is more learly named. Use '$toJSONString()' to get a JSON string")
+      .Deprecated(new = "toSimpleType", msg = "Use the '$toSimpleType()' method instead since that is more clearly named. Use '$toJSONString()' to get a JSON string")
       return(self$toSimpleType())
     },
 
