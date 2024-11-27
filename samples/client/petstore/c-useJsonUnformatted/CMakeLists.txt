@@ -75,6 +75,7 @@ set(HDRS
     include/keyValuePair.h
     external/cJSON.h
     model/object.h
+    model/any_type.h
     model/mapped_model.h
     model/api_response.h
     model/category.h
