@@ -784,25 +784,23 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         cm.hasStringOneOf = cm.oneOf.contains("string");
         cm.hasStringArrayOneOf = cm.oneOf.contains("Array<string>");
 
-        cm.oneOfModels = Optional.ofNullable(cm.getComposedSchemas())
+        List<CodegenProperty> oneOfsList = Optional.ofNullable(cm.getComposedSchemas())
                 .map(CodegenComposedSchemas::getOneOf)
-                .orElse(Collections.emptyList()).stream()
+                .orElse(Collections.emptyList());
+
+        cm.oneOfModels = oneOfsList.stream()
                 .filter(CodegenProperty::getIsModel)
                 .map(CodegenProperty::getBaseType)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toCollection(TreeSet::new));
 
-        cm.oneOfStringEnums = Optional.ofNullable(cm.getComposedSchemas())
-                .map(CodegenComposedSchemas::getOneOf)
-                .orElse(Collections.emptyList()).stream()
+        cm.oneOfStringEnums = oneOfsList.stream()
                 .filter(CodegenProperty::getIsEnum)
                 .map(CodegenProperty::getAllowableValuesList)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toCollection(TreeSet::new));
 
-        cm.oneOfArrays = Optional.ofNullable(cm.getComposedSchemas())
-                .map(CodegenComposedSchemas::getOneOf)
-                .orElse(Collections.emptyList()).stream()
+        cm.oneOfArrays = oneOfsList.stream()
                 .filter(CodegenProperty::getIsArray)
                 .map(CodegenProperty::getComplexType)
                 .filter(Objects::nonNull)
