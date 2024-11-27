@@ -136,14 +136,14 @@ maybeGet =
 
 
 paramSanitizeTestIdPost : String -> Maybe String -> Maybe String -> Api.Request ()
-paramSanitizeTestIdPost test id_path query with spaces_query name with spaces =
+paramSanitizeTestIdPost testId_path queryWithSpaces_query nameWithSpaces =
     Api.request
         "POST"
         "/param-sanitize/{test id}"
-        [ ( "test id", identity test id_path ) ]
-        [ ( "query with spaces", Maybe.map identity query with spaces_query ) ]
+        [ ( "test id", identity testId_path ) ]
+        [ ( "query with spaces", Maybe.map identity queryWithSpaces_query ) ]
         []
-        (Just <| Http.multipartBody <| List.filterMap identity [ Maybe.map (Http.stringPart "name with spaces") name with spaces ])
+        (Just <| Http.multipartBody <| List.filterMap identity [ Maybe.map (Http.stringPart "name with spaces") nameWithSpaces ])
         (Json.Decode.succeed ())
 
 
