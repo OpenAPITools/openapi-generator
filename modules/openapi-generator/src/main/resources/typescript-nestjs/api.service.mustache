@@ -35,7 +35,7 @@ export interface {{classname}}{{operationIdCamelCase}}Request {
      * @type {{=<% %>=}}{<%&dataType%>}<%={{ }}=%>
      * @memberof {{classname}}{{operationIdCamelCase}}
      */
-    readonly '{{paramName}}'{{^required}}?{{/required}}: {{{dataType}}}
+    readonly {{#hasSanitizedName}}'{{{baseName}}}'{{/hasSanitizedName}}{{^hasSanitizedName}}{{{paramName}}}{{/hasSanitizedName}}{{^required}}?{{/required}}: {{{dataType}}}
     {{^-last}}
 
     {{/-last}}
@@ -102,13 +102,23 @@ export class {{classname}} {
     public {{nickname}}({{#allParams}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/allParams}}): Observable<AxiosResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
     public {{nickname}}({{#allParams}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/allParams}}): Observable<any> {
     {{/useSingleRequestParameter}}
+{{#allParams.0}}
+{{#useSingleRequestParameter}}
+        const {
+        {{#allParams}}
+            {{#hasSanitizedName}}'{{{baseName}}}': {{/hasSanitizedName}}{{paramName}},
+        {{/allParams}}
+        } = requestParameters;
+
+{{/useSingleRequestParameter}}
+{{/allParams.0}}
 {{#allParams}}
 {{#required}}
         {{#isConstEnumParam}}
         let {{paramName}} = {{{dataType}}};
         {{/isConstEnumParam}}
         {{^isConstEnumParam}}
-        if ({{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}} === null || {{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}} === undefined) {
+        if ({{paramName}} === null || {{paramName}} === undefined) {
             throw new Error('Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
         }
 
@@ -119,24 +129,24 @@ export class {{classname}} {
         let queryParameters = new URLSearchParams();
 {{#queryParams}}
         {{#isArray}}
-        if ({{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}}) {
+        if ({{paramName}}) {
         {{#isCollectionFormatMulti}}
-            {{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}}.forEach((element) => {
+            {{paramName}}.forEach((element) => {
                 queryParameters.append('{{baseName}}', <any>element);
             })
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
-            queryParameters['{{baseName}}'] = {{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}}.join(COLLECTION_FORMATS['{{collectionFormat}}']);
+            queryParameters['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']);
         {{/isCollectionFormatMulti}}
         }
         {{/isArray}}
         {{^isArray}}
-        if ({{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}} !== undefined && {{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}} !== null) {
+        if ({{paramName}} !== undefined && {{paramName}} !== null) {
         {{#isDateTime}}
-            queryParameters.append('{{baseName}}', (<any>{{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}}).toISOString());
+            queryParameters.append('{{baseName}}', (<any>{{paramName}}).toISOString());
         {{/isDateTime}}
         {{^isDateTime}}
-            queryParameters.append('{{baseName}}', <any>{{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}});
+            queryParameters.append('{{baseName}}', <any>{{paramName}});
         {{/isDateTime}}
         }
         {{/isArray}}
@@ -146,13 +156,13 @@ export class {{classname}} {
         let headers = {...this.defaultHeaders};
 {{#headerParams}}
         {{#isArray}}
-        if ({{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}}) {
-            headers['{{baseName}}'] = {{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}}.join(COLLECTION_FORMATS['{{collectionFormat}}']);
+        if ({{paramName}}) {
+            headers['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']);
         }
         {{/isArray}}
         {{^isArray}}
-        if ({{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}} !== undefined && {{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}} !== null) {
-            headers['{{baseName}}'] = String({{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}});
+        if ({{paramName}} !== undefined && {{paramName}} !== null) {
+            headers['{{baseName}}'] = String({{paramName}});
         }
         {{/isArray}}
 {{/headerParams}}
@@ -246,20 +256,20 @@ export class {{classname}} {
 {{#formParams}}
 
         {{#isArray}}
-        if ({{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}}) {
+        if ({{paramName}}) {
         {{#isCollectionFormatMulti}}
-            {{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}}.forEach((element) => {
+            {{paramName}}.forEach((element) => {
                 formParams!.append('{{baseName}}', <any>element);
             })
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
-            formParams!.append('{{baseName}}', {{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
+            formParams!.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
         {{/isCollectionFormatMulti}}
         }
         {{/isArray}}
         {{^isArray}}
-        if ({{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}} !== undefined) {
-            formParams!.append('{{baseName}}', <any>{{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}});
+        if ({{paramName}} !== undefined) {
+            formParams!.append('{{baseName}}', <any>{{paramName}});
         }
         {{/isArray}}
 {{/formParams}}
@@ -272,7 +282,7 @@ export class {{classname}} {
                 }
 
                 return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.basePath}{{{path}}}`,{{#isBodyAllowed}}
-                    {{#bodyParam}}{{#useSingleRequestParameter}}requestParameters['{{/useSingleRequestParameter}}{{paramName}}{{#useSingleRequestParameter}}']{{/useSingleRequestParameter}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams!.toString() : formParams!{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
+                    {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams!.toString() : formParams!{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
                     {
         {{#hasQueryParams}}
                         params: queryParameters,

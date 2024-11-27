@@ -12,6 +12,12 @@ paths:
       description: ''
       operationId: testReservedParamNames
       parameters:
+        - name: notReserved
+          in: query
+          description: Should not be treated as a reserved param name
+          required: true
+          schema:
+            type: string
         - name: from
           in: query
           description: Might conflict with rxjs import

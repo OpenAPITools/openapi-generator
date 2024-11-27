@@ -17,6 +17,8 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.RequestBody;
 import lombok.Getter;
 import lombok.Setter;
 import org.openapitools.codegen.*;
@@ -87,6 +89,8 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         typeMapping.put("file", "Blob");
         apiPackage = "api";
         modelPackage = "model";
+
+        reservedWords.addAll(Arrays.asList("from", "headers"));
 
         this.cliOptions.add(new CliOption(NPM_REPOSITORY,
                 "Use this property to set an url your private npmRepo in the package.json"));
@@ -266,6 +270,34 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
     }
 
     @Override
+    public List<CodegenParameter> fromRequestBodyToFormParameters(RequestBody body, Set<String> imports) {
+        List<CodegenParameter> superParams = super.fromRequestBodyToFormParameters(body, imports);
+        List<CodegenParameter> extendedParams = new ArrayList<CodegenParameter>();
+        for (CodegenParameter cp : superParams) {
+            extendedParams.add(new ExtendedCodegenParameter(cp));
+        }
+        return extendedParams;
+    }
+
+    @Override
+    public ExtendedCodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
+        CodegenParameter cp = super.fromParameter(parameter, imports);
+        return new ExtendedCodegenParameter(cp);
+    }
+
+    @Override
+    public CodegenParameter fromFormProperty(String name, Schema propertySchema, Set<String> imports) {
+        CodegenParameter cp = super.fromFormProperty(name, propertySchema, imports);
+        return new ExtendedCodegenParameter(cp);
+    }
+
+    @Override
+    public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
+        CodegenParameter cp = super.fromRequestBody(body, imports, bodyParameterName);
+        return new ExtendedCodegenParameter(cp);
+    }
+
+    @Override
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
         parameter.dataType = applyLocalTypeMapping(parameter.dataType);
@@ -327,6 +359,12 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
 
             // Overwrite path to TypeScript template string, after applying everything we just did.
             op.path = pathBuffer.toString();
+
+            for (CodegenParameter cpParam : op.allParams) {
+                ExtendedCodegenParameter param = (ExtendedCodegenParameter) cpParam;
+
+                param.hasSanitizedName = !param.baseName.equals(param.paramName);
+            }
         }
 
         operations.put("hasSomeFormParams", hasSomeFormParams);
@@ -480,6 +518,126 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         }
 
         return result;
+    }
+
+    public class ExtendedCodegenParameter extends CodegenParameter {
+        public boolean hasSanitizedName = false;
+
+        public ExtendedCodegenParameter(CodegenParameter cp) {
+            super();
+
+            this.isFormParam = cp.isFormParam;
+            this.isQueryParam = cp.isQueryParam;
+            this.isPathParam = cp.isPathParam;
+            this.isHeaderParam = cp.isHeaderParam;
+            this.isCookieParam = cp.isCookieParam;
+            this.isBodyParam = cp.isBodyParam;
+            this.isContainer = cp.isContainer;
+            this.isCollectionFormatMulti = cp.isCollectionFormatMulti;
+            this.isPrimitiveType = cp.isPrimitiveType;
+            this.isModel = cp.isModel;
+            this.isExplode = cp.isExplode;
+            this.baseName = cp.baseName;
+            this.paramName = cp.paramName;
+            this.dataType = cp.dataType;
+            this.datatypeWithEnum = cp.datatypeWithEnum;
+            this.dataFormat = cp.dataFormat;
+            this.contentType = cp.contentType;
+            this.collectionFormat = cp.collectionFormat;
+            this.description = cp.description;
+            this.unescapedDescription = cp.unescapedDescription;
+            this.baseType = cp.baseType;
+            this.defaultValue = cp.defaultValue;
+            this.enumName = cp.enumName;
+            this.style = cp.style;
+            this.nameInLowerCase = cp.nameInLowerCase;
+            this.example = cp.example;
+            this.jsonSchema = cp.jsonSchema;
+            this.isString = cp.isString;
+            this.isNumeric = cp.isNumeric;
+            this.isInteger = cp.isInteger;
+            this.isLong = cp.isLong;
+            this.isNumber = cp.isNumber;
+            this.isFloat = cp.isFloat;
+            this.isDouble = cp.isDouble;
+            this.isDecimal = cp.isDecimal;
+            this.isByteArray = cp.isByteArray;
+            this.isBinary = cp.isBinary;
+            this.isBoolean = cp.isBoolean;
+            this.isDate = cp.isDate;
+            this.isDateTime = cp.isDateTime;
+            this.isUuid = cp.isUuid;
+            this.isUri = cp.isUri;
+            this.isEmail = cp.isEmail;
+            this.isFreeFormObject = cp.isFreeFormObject;
+            this.isAnyType = cp.isAnyType;
+            this.isArray = cp.isArray;
+            this.isMap = cp.isMap;
+            this.isFile = cp.isFile;
+            this.isEnum = cp.isEnum;
+            this.isEnumRef = cp.isEnumRef;
+            this._enum = cp._enum;
+            this.allowableValues = cp.allowableValues;
+            this.items = cp.items;
+            this.additionalProperties = cp.additionalProperties;
+            this.vars = cp.vars;
+            this.requiredVars = cp.requiredVars;
+            this.mostInnerItems = cp.mostInnerItems;
+            this.vendorExtensions = cp.vendorExtensions;
+            this.hasValidation = cp.hasValidation;
+            this.isNullable = cp.isNullable;
+            this.required = cp.required;
+            this.maximum = cp.maximum;
+            this.exclusiveMaximum = cp.exclusiveMaximum;
+            this.minimum = cp.minimum;
+            this.exclusiveMinimum = cp.exclusiveMinimum;
+            this.maxLength = cp.maxLength;
+            this.minLength = cp.minLength;
+            this.pattern = cp.pattern;
+            this.maxItems = cp.maxItems;
+            this.minItems = cp.minItems;
+            this.uniqueItems = cp.uniqueItems;
+            this.multipleOf = cp.multipleOf;
+            this.setHasVars(cp.getHasVars());
+            this.setHasRequired(cp.getHasRequired());
+            this.setMaxProperties(cp.getMaxProperties());
+            this.setMinProperties(cp.getMinProperties());
+        }
+
+        @Override
+        public ExtendedCodegenParameter copy() {
+            CodegenParameter superCopy = super.copy();
+            ExtendedCodegenParameter output = new ExtendedCodegenParameter(superCopy);
+            output.hasSanitizedName = this.hasSanitizedName;
+            return output;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (o == null)
+                return false;
+
+            if (this.getClass() != o.getClass())
+                return false;
+
+            boolean result = super.equals(o);
+            ExtendedCodegenParameter that = (ExtendedCodegenParameter) o;
+            return result && hasSanitizedName == that.hasSanitizedName;
+        }
+
+        @Override
+        public int hashCode() {
+            int superHash = super.hashCode();
+            return Objects.hash(superHash, hasSanitizedName);
+        }
+
+        @Override
+        public String toString() {
+            String superString = super.toString();
+            final StringBuilder sb = new StringBuilder(superString);
+            sb.append(", hasSanitizedName=").append(hasSanitizedName);
+            return sb.toString();
+        }
     }
 
     /**

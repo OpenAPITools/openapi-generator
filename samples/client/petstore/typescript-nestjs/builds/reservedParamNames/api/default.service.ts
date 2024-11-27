@@ -25,6 +25,13 @@ import { COLLECTION_FORMATS } from '../variables';
  */
 export interface DefaultServiceTestReservedParamNamesRequest {
     /**
+     * Should not be treated as a reserved param name
+     * @type {string}
+     * @memberof DefaultServiceTestReservedParamNames
+     */
+    readonly notReserved: string
+
+    /**
      * Might conflict with rxjs import
      * @type {string}
      * @memberof DefaultServiceTestReservedParamNames
@@ -70,22 +77,35 @@ export class DefaultService {
      */
     public testReservedParamNames(requestParameters: DefaultServiceTestReservedParamNamesRequest, ): Observable<AxiosResponse<any>>;
     public testReservedParamNames(requestParameters: DefaultServiceTestReservedParamNamesRequest, ): Observable<any> {
-        if (requestParameters['from'] === null || requestParameters['from'] === undefined) {
-            throw new Error('Required parameter from was null or undefined when calling testReservedParamNames.');
+        const {
+            notReserved,
+            'from': _from,
+            'headers': _headers,
+        } = requestParameters;
+
+        if (notReserved === null || notReserved === undefined) {
+            throw new Error('Required parameter notReserved was null or undefined when calling testReservedParamNames.');
         }
 
-        if (requestParameters['headers'] === null || requestParameters['headers'] === undefined) {
-            throw new Error('Required parameter headers was null or undefined when calling testReservedParamNames.');
+        if (_from === null || _from === undefined) {
+            throw new Error('Required parameter _from was null or undefined when calling testReservedParamNames.');
+        }
+
+        if (_headers === null || _headers === undefined) {
+            throw new Error('Required parameter _headers was null or undefined when calling testReservedParamNames.');
         }
 
         let queryParameters = new URLSearchParams();
-        if (requestParameters['from'] !== undefined && requestParameters['from'] !== null) {
-            queryParameters.append('from', <any>requestParameters['from']);
+        if (notReserved !== undefined && notReserved !== null) {
+            queryParameters.append('notReserved', <any>notReserved);
+        }
+        if (_from !== undefined && _from !== null) {
+            queryParameters.append('from', <any>_from);
         }
 
         let headers = {...this.defaultHeaders};
-        if (requestParameters['headers'] !== undefined && requestParameters['headers'] !== null) {
-            headers['headers'] = String(requestParameters['headers']);
+        if (_headers !== undefined && _headers !== null) {
+            headers['headers'] = String(_headers);
         }
 
         let accessTokenObservable: Observable<any> = of(null);
