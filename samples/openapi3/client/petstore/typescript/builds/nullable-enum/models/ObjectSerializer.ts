@@ -260,7 +260,7 @@ export class ObjectSerializer {
             return "application/json";
         }
 
-        const normalMediaTypes = mediaTypes.map(this.normalizeMediaType);
+        const normalMediaTypes = mediaTypes.map(ObjectSerializer.normalizeMediaType);
 
         for (const predicate of supportedMimeTypePredicatesWithPriority) {
             for (const mediaType of normalMediaTypes) {
