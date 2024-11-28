@@ -304,7 +304,7 @@ BodyApi <- R6::R6Class(
       if (!is.null(`body`)) {
         local_var_body <- `body`$toJSONString()
       } else {
-        body <- NULL
+        local_var_body <- NULL
       }
 
       local_var_url_path <- "/body/application/octetstream/binary"
@@ -586,7 +586,7 @@ BodyApi <- R6::R6Class(
       if (!is.null(`pet`)) {
         local_var_body <- `pet`$toJSONString()
       } else {
-        body <- NULL
+        local_var_body <- NULL
       }
 
       local_var_url_path <- "/echo/body/allOf/Pet"
@@ -682,7 +682,7 @@ BodyApi <- R6::R6Class(
       if (!is.null(`body`)) {
         local_var_body <- `body`$toJSONString()
       } else {
-        body <- NULL
+        local_var_body <- NULL
       }
 
       local_var_url_path <- "/echo/body/FreeFormObject/response_string"
@@ -778,7 +778,7 @@ BodyApi <- R6::R6Class(
       if (!is.null(`pet`)) {
         local_var_body <- `pet`$toJSONString()
       } else {
-        body <- NULL
+        local_var_body <- NULL
       }
 
       local_var_url_path <- "/echo/body/Pet"
@@ -874,7 +874,7 @@ BodyApi <- R6::R6Class(
       if (!is.null(`pet`)) {
         local_var_body <- `pet`$toJSONString()
       } else {
-        body <- NULL
+        local_var_body <- NULL
       }
 
       local_var_url_path <- "/echo/body/Pet/response_string"
@@ -970,7 +970,7 @@ BodyApi <- R6::R6Class(
       if (!is.null(`body`)) {
         local_var_body <- `body`$toJSONString()
       } else {
-        body <- NULL
+        local_var_body <- NULL
       }
 
       local_var_url_path <- "/echo/body/string_enum"
@@ -1066,7 +1066,7 @@ BodyApi <- R6::R6Class(
       if (!is.null(`tag`)) {
         local_var_body <- `tag`$toJSONString()
       } else {
-        body <- NULL
+        local_var_body <- NULL
       }
 
       local_var_url_path <- "/echo/body/Tag/response_string"
