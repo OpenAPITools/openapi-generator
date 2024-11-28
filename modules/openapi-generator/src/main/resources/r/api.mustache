@@ -153,13 +153,13 @@
 
       {{/vendorExtensions.x-streaming}}
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
 
@@ -456,7 +456,7 @@
         local_var_body <- `{{paramName}}`$toJSONString()
         {{/isArray}}
       } else {
-        body <- NULL
+        local_var_body <- NULL
       }
 
       {{/bodyParams}}
@@ -543,12 +543,9 @@
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         {{#returnType}}
         {{#isPrimitiveType}}
-        local_var_content <- local_var_resp$response
-          local_var_resp, "text", encoding = "UTF-8", simplifyVector = FALSE
-        )
         # save response in a file
         if (!is.null(data_file)) {
-          write(local_var_content, data_file)
+          self$api_client$WriteFile(local_var_resp, data_file)
         }
 
         ApiResponse$new(content,resp)
@@ -556,11 +553,11 @@
         {{^isPrimitiveType}}
         # save response in a file
         if (!is.null(data_file)) {
-          write(local_var_resp$response, data_file)
+          self$api_client$WriteFile(local_var_resp, data_file)
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response_as_text(), "{{returnType}}", loadNamespace("{{packageName}}")),
+          self$api_client$DeserializeResponse(local_var_resp, "{{returnType}}"),
           error = function(e) {
             {{#useDefaultExceptionHandling}}
             stop("Failed to deserialize response")
@@ -579,10 +576,13 @@
         {{! Returning the ApiResponse object with NULL object when the endpoint doesn't return anything}}
         local_var_resp$content <- NULL
         {{/returnType}}
-        local_var_resp
-      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        return(local_var_resp)
+      } 
+      
+      local_var_error_msg <- local_var_resp$response_as_text()      
+      if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
       {{#returnExceptionOnFailure}}
-        local_var_error_msg <- local_var_resp$response
+        
         if (local_var_error_msg == "") {
           local_var_error_msg <- paste("Server returned ", local_var_resp$status_code, " response status code.")
         }
@@ -600,7 +600,6 @@
         {{/returnExceptionOnFailure}}
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
         {{#returnExceptionOnFailure}}
-        local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api client exception encountered."
         }
@@ -618,7 +617,6 @@
         {{/returnExceptionOnFailure}}
       } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
         {{#returnExceptionOnFailure}}
-        local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api server exception encountered."
         }
@@ -635,7 +633,7 @@
         if (is.null(local_var_resp$response) || local_var_resp$response == "") {
           local_var_resp$response <- "API server error"
         }
-        local_var_resp
+        return(local_var_resp)
         {{/returnExceptionOnFailure}}
       }
     }{{^-last}},{{/-last}}

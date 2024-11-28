@@ -23,6 +23,9 @@ public class ModelApiResponse  implements Serializable {
   private String type;
   private String message;
 
+  public ModelApiResponse() {
+  }
+
   /**
    **/
   public ModelApiResponse code(Integer code) {

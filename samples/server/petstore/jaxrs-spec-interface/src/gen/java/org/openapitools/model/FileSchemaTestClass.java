@@ -25,6 +25,9 @@ public class FileSchemaTestClass  implements Serializable {
   private ModelFile _file;
   private @Valid List<@Valid ModelFile> files = new ArrayList<>();
 
+  public FileSchemaTestClass() {
+  }
+
   /**
    **/
   public FileSchemaTestClass _file(ModelFile _file) {

@@ -70,6 +70,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String USE_BACKTICK_ESCAPES = "useBacktickEscapes";
     public static final String GENERATE_MODEL_ADDITIONAL_PROPERTIES = "generateModelAdditionalProperties";
     public static final String HASHABLE_MODELS = "hashableModels";
+    public static final String IDENTIFIABLE_MODELS = "identifiableModels";
     public static final String USE_JSON_ENCODABLE = "useJsonEncodable";
     public static final String MAP_FILE_BINARY_TO_DATA = "mapFileBinaryToData";
     public static final String USE_CUSTOM_DATE_WITHOUT_TIME = "useCustomDateWithoutTime";
@@ -95,6 +96,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     @Setter protected boolean useBacktickEscapes = false;
     @Setter protected boolean generateModelAdditionalProperties = true;
     @Setter protected boolean hashableModels = true;
+    @Setter protected boolean identifiableModels = true;
     @Setter protected boolean useJsonEncodable = true;
     @Getter @Setter
     protected boolean mapFileBinaryToData = false;
@@ -303,6 +305,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 "Make hashable models (default: true)")
                 .defaultValue(Boolean.TRUE.toString()));
 
+        cliOptions.add(new CliOption(IDENTIFIABLE_MODELS,
+                "Make models conform to Identifiable when an id is present (default: true)")
+                .defaultValue(Boolean.TRUE.toString()));
+
         cliOptions.add(new CliOption(USE_JSON_ENCODABLE,
                 "Make models conform to JSONEncodable protocol (default: true)")
                 .defaultValue(Boolean.TRUE.toString()));
@@ -506,6 +512,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             setHashableModels(convertPropertyToBooleanAndWriteBack(HASHABLE_MODELS));
         }
         additionalProperties.put(HASHABLE_MODELS, hashableModels);
+
+        if (additionalProperties.containsKey(IDENTIFIABLE_MODELS)) {
+            setIdentifiableModels(convertPropertyToBooleanAndWriteBack(IDENTIFIABLE_MODELS));
+        }
+        additionalProperties.put(IDENTIFIABLE_MODELS, identifiableModels);
 
         if (additionalProperties.containsKey(USE_JSON_ENCODABLE)) {
             setUseJsonEncodable(convertPropertyToBooleanAndWriteBack(USE_JSON_ENCODABLE));
@@ -939,6 +950,15 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
         if (hashableModels) {
             codegenModel.vendorExtensions.put("x-swift-hashable", true);
+        }
+        if (identifiableModels && !codegenModel.vendorExtensions.containsKey("x-swift-identifiable")) {
+            for (CodegenProperty cp : codegenModel.getVars()) {
+                if (!cp.getBaseName().equals("id")) continue;
+                if (cp.isString || cp.isUuid || cp.isInteger || cp.isLong) {
+                    codegenModel.vendorExtensions.put("x-swift-identifiable", true);
+                    break;
+                }
+            }
         }
         return codegenModel;
     }

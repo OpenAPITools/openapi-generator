@@ -38,12 +38,14 @@ extension CaseIterableDefaultsLast {
 
 /// A flexible type that can be encoded (`.encodeNull` or `.encodeValue`)
 /// or not encoded (`.encodeNothing`). Intended for request payloads.
-public enum NullEncodable<Wrapped: Hashable>: Hashable {
+public enum NullEncodable<Wrapped> {
     case encodeNothing
     case encodeNull
     case encodeValue(Wrapped)
 }
 
+extension NullEncodable: Equatable where Wrapped: Equatable {}
+extension NullEncodable: Hashable where Wrapped: Hashable {}
 extension NullEncodable: Sendable where Wrapped: Sendable {}
 
 extension NullEncodable: Codable where Wrapped: Codable {
@@ -88,7 +90,7 @@ public enum DecodableRequestBuilderError: Error {
     case generalError(Error)
 }
 
-open class Response<T> {
+public struct Response<T> {
     public let statusCode: Int
     public let header: [String: String]
     public let body: T
@@ -101,7 +103,7 @@ open class Response<T> {
         self.bodyData = bodyData
     }
 
-    public convenience init(response: HTTPURLResponse, body: T, bodyData: Data?) {
+    public init(response: HTTPURLResponse, body: T, bodyData: Data?) {
         let rawHeader = response.allHeaderFields
         var responseHeader = [String: String]()
         for (key, value) in rawHeader {
@@ -112,6 +114,7 @@ open class Response<T> {
         self.init(statusCode: response.statusCode, header: responseHeader, body: body, bodyData: bodyData)
     }
 }
+extension Response : Sendable where T : Sendable {}
 
 /// Type-erased ResponseSerializer
 ///

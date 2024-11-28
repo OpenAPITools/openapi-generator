@@ -2318,6 +2318,25 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testMapOfInnerEnum_issue19393() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_19393_map_of_inner_enum.yaml");
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(newTempFolder().toString());
+
+        Map<String, File> files = new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen))
+                .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("EmployeeWithMapOfEnum.java"))
+                .assertProperty("projectRole")
+                .withType("Map<String, InnerEnum>");
+
+        JavaFileAssert.assertThat(files.get("EmployeeWithMultiMapOfEnum.java"))
+                .assertProperty("projectRoles")
+                .withType("Map<String, Set<InnerEnum>>");
+    }
+
+    @Test
     public void testWebClientResponseTypeWithUseAbstractionForFiles_issue16589() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()

@@ -25,6 +25,9 @@ public class Capitalization  implements Serializable {
   private String scAETHFlowPoints;
   private String ATT_NAME;
 
+  public Capitalization() {
+  }
+
   /**
    **/
   public Capitalization smallCamel(String smallCamel) {

@@ -68,7 +68,7 @@ func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
-func (src *{{classname}}) MarshalJSON() ([]byte, error) {
+func (src {{classname}}) MarshalJSON() ([]byte, error) {
 {{#anyOf}}
 	if src.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}} != nil {
 		return json.Marshal(&src.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}})

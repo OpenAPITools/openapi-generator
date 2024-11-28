@@ -809,7 +809,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                defaultValue = "\"" + p.getDefault() + "\".to_string()";
+                defaultValue = "r#\"" + p.getDefault() + "\"#.to_string()";
             }
         }
 
