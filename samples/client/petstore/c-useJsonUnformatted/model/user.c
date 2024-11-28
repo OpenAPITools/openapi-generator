@@ -13,7 +13,9 @@ user_t *user_create(
     char *email,
     char *password,
     char *phone,
-    int user_status
+    int user_status,
+    list_t* extra,
+    openapi_petstore_preference__e preference
     ) {
     user_t *user_local_var = malloc(sizeof(user_t));
     if (!user_local_var) {
@@ -27,6 +29,8 @@ user_t *user_create(
     user_local_var->password = password;
     user_local_var->phone = phone;
     user_local_var->user_status = user_status;
+    user_local_var->extra = extra;
+    user_local_var->preference = preference;
 
     return user_local_var;
 }
@@ -60,6 +64,16 @@ void user_free(user_t *user) {
     if (user->phone) {
         free(user->phone);
         user->phone = NULL;
+    }
+    if (user->extra) {
+        list_ForEach(listEntry, user->extra) {
+            keyValuePair_t *localKeyValue = (keyValuePair_t*) listEntry->data;
+            free (localKeyValue->key);
+            free (localKeyValue->value);
+            keyValuePair_free(localKeyValue);
+        }
+        list_freeList(user->extra);
+        user->extra = NULL;
     }
     free(user);
 }
@@ -130,6 +144,35 @@ cJSON *user_convertToJSON(user_t *user) {
     }
     }
 
+
+    // user->extra
+    if(user->extra) {
+    cJSON *extra = cJSON_AddObjectToObject(item, "extra");
+    if(extra == NULL) {
+        goto fail; //primitive map container
+    }
+    cJSON *localMapObject = extra;
+    listEntry_t *extraListEntry;
+    if (user->extra) {
+    list_ForEach(extraListEntry, user->extra) {
+        keyValuePair_t *localKeyValue = (keyValuePair_t*)extraListEntry->data;
+    }
+    }
+    }
+
+
+    // user->preference
+    if(user->preference != openapi_petstore_preference__NULL) {
+    cJSON *preference_local_JSON = preference_convertToJSON(user->preference);
+    if(preference_local_JSON == NULL) {
+        goto fail; // custom
+    }
+    cJSON_AddItemToObject(item, "preference", preference_local_JSON);
+    if(item->child == NULL) {
+        goto fail;
+    }
+    }
+
     return item;
 fail:
     if (item) {
@@ -141,6 +184,12 @@ fail:
 user_t *user_parseFromJSON(cJSON *userJSON){
 
     user_t *user_local_var = NULL;
+
+    // define the local map for user->extra
+    list_t *extraList = NULL;
+
+    // define the local variable for user->preference
+    openapi_petstore_preference__e preference_local_nonprim = 0;
 
     // user->id
     cJSON *id = cJSON_GetObjectItemCaseSensitive(userJSON, "id");
@@ -214,6 +263,32 @@ user_t *user_parseFromJSON(cJSON *userJSON){
     }
     }
 
+    // user->extra
+    cJSON *extra = cJSON_GetObjectItemCaseSensitive(userJSON, "extra");
+    if (extra) { 
+    cJSON *extra_local_map = NULL;
+    if(!cJSON_IsObject(extra) && !cJSON_IsNull(extra))
+    {
+        goto end;//primitive map container
+    }
+    if(cJSON_IsObject(extra))
+    {
+        extraList = list_createList();
+        keyValuePair_t *localMapKeyPair;
+        cJSON_ArrayForEach(extra_local_map, extra)
+        {
+            cJSON *localMapObject = extra_local_map;
+            list_addElement(extraList , localMapKeyPair);
+        }
+    }
+    }
+
+    // user->preference
+    cJSON *preference = cJSON_GetObjectItemCaseSensitive(userJSON, "preference");
+    if (preference) { 
+    preference_local_nonprim = preference_parseFromJSON(preference); //custom
+    }
+
 
     user_local_var = user_create (
         id ? id->valuedouble : 0,
@@ -223,11 +298,28 @@ user_t *user_parseFromJSON(cJSON *userJSON){
         email && !cJSON_IsNull(email) ? strdup(email->valuestring) : NULL,
         password && !cJSON_IsNull(password) ? strdup(password->valuestring) : NULL,
         phone && !cJSON_IsNull(phone) ? strdup(phone->valuestring) : NULL,
-        user_status ? user_status->valuedouble : 0
+        user_status ? user_status->valuedouble : 0,
+        extra ? extraList : NULL,
+        preference ? preference_local_nonprim : 0
         );
 
     return user_local_var;
 end:
+    if (extraList) {
+        listEntry_t *listEntry = NULL;
+        list_ForEach(listEntry, extraList) {
+            keyValuePair_t *localKeyValue = (keyValuePair_t*) listEntry->data;
+            free(localKeyValue->key);
+            localKeyValue->key = NULL;
+            keyValuePair_free(localKeyValue);
+            localKeyValue = NULL;
+        }
+        list_freeList(extraList);
+        extraList = NULL;
+    }
+    if (preference_local_nonprim) {
+        preference_local_nonprim = 0;
+    }
     return NULL;
 
 }

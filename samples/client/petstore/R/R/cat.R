@@ -60,10 +60,35 @@ Cat <- R6::R6Class(
     },
 
     #' @description
-    #' To JSON String
-    #'
-    #' @return Cat in JSON format
+    #' Convert to an R object. This method is deprecated. Use `toSimpleType()` instead.
     toJSON = function() {
+      .Deprecated(new = "toSimpleType", msg = "Use the '$toSimpleType()' method instead since that is more clearly named. Use '$toJSONString()' to get a JSON string")
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert to a List
+    #'
+    #' Convert the R6 object to a list to work more easily with other tooling.
+    #'
+    #' @return Cat as a base R list.
+    #' @examples
+    #' # convert array of Cat (x) to a data frame
+    #' \dontrun{
+    #' library(purrr)
+    #' library(tibble)
+    #' df <- x |> map(\(y)y$toList()) |> map(as_tibble) |> list_rbind()
+    #' df
+    #' }
+    toList = function() {
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert Cat to a base R type
+    #'
+    #' @return A base R type, e.g. a list or numeric/character array.
+    toSimpleType = function() {
       CatObject <- list()
       if (!is.null(self$`className`)) {
         CatObject[["className"]] <-
@@ -81,7 +106,7 @@ Cat <- R6::R6Class(
         CatObject[[key]] <- self$additional_properties[[key]]
       }
 
-      CatObject
+      return(CatObject)
     },
 
     #' @description
@@ -112,42 +137,16 @@ Cat <- R6::R6Class(
 
     #' @description
     #' To JSON String
-    #'
+    #' 
+    #' @param ... Parameters passed to `jsonlite::toJSON`
     #' @return Cat in JSON format
-    toJSONString = function() {
-      jsoncontent <- c(
-        if (!is.null(self$`className`)) {
-          sprintf(
-          '"className":
-            "%s"
-                    ',
-          self$`className`
-          )
-        },
-        if (!is.null(self$`color`)) {
-          sprintf(
-          '"color":
-            "%s"
-                    ',
-          self$`color`
-          )
-        },
-        if (!is.null(self$`declawed`)) {
-          sprintf(
-          '"declawed":
-            %s
-                    ',
-          tolower(self$`declawed`)
-          )
-        }
-      )
-      jsoncontent <- paste(jsoncontent, collapse = ",")
-      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
-      json_obj <- jsonlite::fromJSON(json_string)
+    toJSONString = function(...) {
+      simple <- self$toSimpleType()
       for (key in names(self$additional_properties)) {
-        json_obj[[key]] <- self$additional_properties[[key]]
+        simple[[key]] <- self$additional_properties[[key]]
       }
-      json_string <- as.character(jsonlite::minify(jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA)))
+      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
+      return(as.character(jsonlite::minify(json)))
     },
 
     #' @description

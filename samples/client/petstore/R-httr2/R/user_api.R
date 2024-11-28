@@ -318,7 +318,7 @@ UserApi <- R6::R6Class(
       if (!is.null(`user`)) {
         local_var_body <- `user`$toJSONString()
       } else {
-        body <- NULL
+        local_var_body <- NULL
       }
 
       local_var_url_path <- "/user"
@@ -428,7 +428,7 @@ UserApi <- R6::R6Class(
                                                          })), collapse = ",")
         local_var_body <- paste0("[", body.items, "]")
       } else {
-        body <- NULL
+        local_var_body <- NULL
       }
 
       local_var_url_path <- "/user/createWithArray"
@@ -538,7 +538,7 @@ UserApi <- R6::R6Class(
                                                          })), collapse = ",")
         local_var_body <- paste0("[", body.items, "]")
       } else {
-        body <- NULL
+        local_var_body <- NULL
       }
 
       local_var_url_path <- "/user/createWithList"
@@ -1099,7 +1099,7 @@ UserApi <- R6::R6Class(
       if (!is.null(`user`)) {
         local_var_body <- `user`$toJSONString()
       } else {
-        body <- NULL
+        local_var_body <- NULL
       }
 
       local_var_url_path <- "/user/{username}"

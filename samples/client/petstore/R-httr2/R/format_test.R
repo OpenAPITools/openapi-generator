@@ -148,10 +148,35 @@ FormatTest <- R6::R6Class(
     },
 
     #' @description
-    #' To JSON String
-    #'
-    #' @return FormatTest in JSON format
+    #' Convert to an R object. This method is deprecated. Use `toSimpleType()` instead.
     toJSON = function() {
+      .Deprecated(new = "toSimpleType", msg = "Use the '$toSimpleType()' method instead since that is more clearly named. Use '$toJSONString()' to get a JSON string")
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert to a List
+    #'
+    #' Convert the R6 object to a list to work more easily with other tooling.
+    #'
+    #' @return FormatTest as a base R list.
+    #' @examples
+    #' # convert array of FormatTest (x) to a data frame
+    #' \dontrun{
+    #' library(purrr)
+    #' library(tibble)
+    #' df <- x |> map(\(y)y$toList()) |> map(as_tibble) |> list_rbind()
+    #' df
+    #' }
+    toList = function() {
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert FormatTest to a base R type
+    #'
+    #' @return A base R type, e.g. a list or numeric/character array.
+    toSimpleType = function() {
       FormatTestObject <- list()
       if (!is.null(self$`integer`)) {
         FormatTestObject[["integer"]] <-
@@ -213,7 +238,7 @@ FormatTest <- R6::R6Class(
         FormatTestObject[["pattern_with_digits_and_delimiter"]] <-
           self$`pattern_with_digits_and_delimiter`
       }
-      FormatTestObject
+      return(FormatTestObject)
     },
 
     #' @description
@@ -273,133 +298,13 @@ FormatTest <- R6::R6Class(
 
     #' @description
     #' To JSON String
-    #'
+    #' 
+    #' @param ... Parameters passed to `jsonlite::toJSON`
     #' @return FormatTest in JSON format
-    toJSONString = function() {
-      jsoncontent <- c(
-        if (!is.null(self$`integer`)) {
-          sprintf(
-          '"integer":
-            %d
-                    ',
-          self$`integer`
-          )
-        },
-        if (!is.null(self$`int32`)) {
-          sprintf(
-          '"int32":
-            %d
-                    ',
-          self$`int32`
-          )
-        },
-        if (!is.null(self$`int64`)) {
-          sprintf(
-          '"int64":
-            %d
-                    ',
-          self$`int64`
-          )
-        },
-        if (!is.null(self$`number`)) {
-          sprintf(
-          '"number":
-            %d
-                    ',
-          self$`number`
-          )
-        },
-        if (!is.null(self$`float`)) {
-          sprintf(
-          '"float":
-            %d
-                    ',
-          self$`float`
-          )
-        },
-        if (!is.null(self$`double`)) {
-          sprintf(
-          '"double":
-            %d
-                    ',
-          self$`double`
-          )
-        },
-        if (!is.null(self$`string`)) {
-          sprintf(
-          '"string":
-            "%s"
-                    ',
-          self$`string`
-          )
-        },
-        if (!is.null(self$`byte`)) {
-          sprintf(
-          '"byte":
-            "%s"
-                    ',
-          self$`byte`
-          )
-        },
-        if (!is.null(self$`binary`)) {
-          sprintf(
-          '"binary":
-            "%s"
-                    ',
-          self$`binary`
-          )
-        },
-        if (!is.null(self$`date`)) {
-          sprintf(
-          '"date":
-            "%s"
-                    ',
-          self$`date`
-          )
-        },
-        if (!is.null(self$`dateTime`)) {
-          sprintf(
-          '"dateTime":
-            "%s"
-                    ',
-          self$`dateTime`
-          )
-        },
-        if (!is.null(self$`uuid`)) {
-          sprintf(
-          '"uuid":
-            "%s"
-                    ',
-          self$`uuid`
-          )
-        },
-        if (!is.null(self$`password`)) {
-          sprintf(
-          '"password":
-            "%s"
-                    ',
-          self$`password`
-          )
-        },
-        if (!is.null(self$`pattern_with_digits`)) {
-          sprintf(
-          '"pattern_with_digits":
-            "%s"
-                    ',
-          self$`pattern_with_digits`
-          )
-        },
-        if (!is.null(self$`pattern_with_digits_and_delimiter`)) {
-          sprintf(
-          '"pattern_with_digits_and_delimiter":
-            "%s"
-                    ',
-          self$`pattern_with_digits_and_delimiter`
-          )
-        }
-      )
-      jsoncontent <- paste(jsoncontent, collapse = ",")
-      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+    toJSONString = function(...) {
+      simple <- self$toSimpleType()
+      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
+      return(as.character(jsonlite::minify(json)))
     },
 
     #' @description

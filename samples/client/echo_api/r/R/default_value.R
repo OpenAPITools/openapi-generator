@@ -87,14 +87,39 @@ DefaultValue <- R6::R6Class(
     },
 
     #' @description
-    #' To JSON String
-    #'
-    #' @return DefaultValue in JSON format
+    #' Convert to an R object. This method is deprecated. Use `toSimpleType()` instead.
     toJSON = function() {
+      .Deprecated(new = "toSimpleType", msg = "Use the '$toSimpleType()' method instead since that is more clearly named. Use '$toJSONString()' to get a JSON string")
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert to a List
+    #'
+    #' Convert the R6 object to a list to work more easily with other tooling.
+    #'
+    #' @return DefaultValue as a base R list.
+    #' @examples
+    #' # convert array of DefaultValue (x) to a data frame
+    #' \dontrun{
+    #' library(purrr)
+    #' library(tibble)
+    #' df <- x |> map(\(y)y$toList()) |> map(as_tibble) |> list_rbind()
+    #' df
+    #' }
+    toList = function() {
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert DefaultValue to a base R type
+    #'
+    #' @return A base R type, e.g. a list or numeric/character array.
+    toSimpleType = function() {
       DefaultValueObject <- list()
       if (!is.null(self$`array_string_enum_ref_default`)) {
         DefaultValueObject[["array_string_enum_ref_default"]] <-
-          lapply(self$`array_string_enum_ref_default`, function(x) x$toJSON())
+          lapply(self$`array_string_enum_ref_default`, function(x) x$toSimpleType())
       }
       if (!is.null(self$`array_string_enum_default`)) {
         DefaultValueObject[["array_string_enum_default"]] <-
@@ -124,7 +149,7 @@ DefaultValue <- R6::R6Class(
         DefaultValueObject[["string_nullable"]] <-
           self$`string_nullable`
       }
-      DefaultValueObject
+      return(DefaultValueObject)
     },
 
     #' @description
@@ -163,77 +188,13 @@ DefaultValue <- R6::R6Class(
 
     #' @description
     #' To JSON String
-    #'
+    #' 
+    #' @param ... Parameters passed to `jsonlite::toJSON`
     #' @return DefaultValue in JSON format
-    toJSONString = function() {
-      jsoncontent <- c(
-        if (!is.null(self$`array_string_enum_ref_default`)) {
-          sprintf(
-          '"array_string_enum_ref_default":
-          [%s]
-',
-          paste(sapply(self$`array_string_enum_ref_default`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox = TRUE, digits = NA)), collapse = ",")
-          )
-        },
-        if (!is.null(self$`array_string_enum_default`)) {
-          sprintf(
-          '"array_string_enum_default":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`array_string_enum_default`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
-        if (!is.null(self$`array_string_default`)) {
-          sprintf(
-          '"array_string_default":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`array_string_default`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
-        if (!is.null(self$`array_integer_default`)) {
-          sprintf(
-          '"array_integer_default":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`array_integer_default`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
-        if (!is.null(self$`array_string`)) {
-          sprintf(
-          '"array_string":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`array_string`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
-        if (!is.null(self$`array_string_nullable`)) {
-          sprintf(
-          '"array_string_nullable":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`array_string_nullable`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
-        if (!is.null(self$`array_string_extension_nullable`)) {
-          sprintf(
-          '"array_string_extension_nullable":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`array_string_extension_nullable`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
-        if (!is.null(self$`string_nullable`)) {
-          sprintf(
-          '"string_nullable":
-            "%s"
-                    ',
-          self$`string_nullable`
-          )
-        }
-      )
-      jsoncontent <- paste(jsoncontent, collapse = ",")
-      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+    toJSONString = function(...) {
+      simple <- self$toSimpleType()
+      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
+      return(as.character(jsonlite::minify(json)))
     },
 
     #' @description
