@@ -50,8 +50,9 @@ Use `erlang-server` with `rebar3`
 
 ```erlang
     openapi_server:start(http_server,
-        #{transport_opts => {ip,{127,0,0,1}},
-                            {port,8080} ]})
+        #{transport_opts => [{ip,{127,0,0,1}},
+                             {port,8080} 
+                            ]})
 ```
 
 The updated `start/2` in `src/http_server_app.erl` should look like this:
@@ -59,8 +60,9 @@ The updated `start/2` in `src/http_server_app.erl` should look like this:
 ```erlang
 start(_StartType, _StartArgs) ->
     openapi_server:start(http_server,
-        #{transport_opts => {ip,{127,0,0,1}},
-                            {port,8080} ]}),
+        #{transport_opts => [{ip,{127,0,0,1}},
+                             {port,8080} 
+                            ]}),
     http_server_sup:start_link().
 ```
 
@@ -99,27 +101,25 @@ The updated `src/http_server.app.src` must be the only configuration file in the
     `$ rebar3 compile`
 
 7. Start Erlang virtual machine
-
     `$ rebar3 shell`
 
 8. Start the application by running a following command in the `rebar3` shell
 
     `1> application:ensure_all_started(http_server).`
 
-    Alternatively, you could start your application with the rebar3 shell by adding the following lines to the rebar.config:
+    Alternatively, you could start your application with the `rebar3` shell by adding the following lines to the `rebar.config`:
     ```
     {shell, [
         {apps, [http_server]}
     ]}.
     ```
 
-Note: If you need to repeat code generation using `openapi-generator-cli`, but don't want to rewrite changes in files made manually, you could use file `.openapi-generator-ignore` in the project root folder. For example, such `.openapi-generator-ignore` will preserve manual changes done in the file `rebar.config` (Point 8):
+Note: If you need to repeat code generation using `openapi-generator-cli`, but don't want to rewrite changes in files made manually, you could use file `.openapi-generator-ignore` in the project root folder. For example, such `.openapi-generator-ignore` will preserve manual changes done in the file `rebar.conf` (Point 8)
 
 ```
 # OpenAPI Generator Ignore
 rebar.config
 ```
-
 
 To implement your own business logic, create a module called `http_server_logic` that implements the
 behaviour `openapi_logic_handler`. Refer to `openapi_logic_handler` documentation for details.
