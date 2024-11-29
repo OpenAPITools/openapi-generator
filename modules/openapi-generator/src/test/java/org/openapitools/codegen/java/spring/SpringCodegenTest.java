@@ -2398,7 +2398,6 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, "false");
         codegen.additionalProperties().put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, "false");
         codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
-        codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, "PascalCase");
         codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
 
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
@@ -2428,7 +2427,6 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, "false");
         codegen.additionalProperties().put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, "false");
         codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
-        codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, "PascalCase");
         codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
 
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
@@ -2457,7 +2455,6 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, "false");
         codegen.additionalProperties().put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, "false");
         codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
-        codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, "PascalCase");
         codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
 
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
@@ -2499,7 +2496,6 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, "false");
         codegen.additionalProperties().put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, "false");
         codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
-        codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, "PascalCase");
         codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
 
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
