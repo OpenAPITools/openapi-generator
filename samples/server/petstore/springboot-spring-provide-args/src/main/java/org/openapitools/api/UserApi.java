@@ -46,6 +46,7 @@ public interface UserApi {
         return Optional.empty();
     }
 
+    public static final String PATH_LOGIN_USER = "/user/login";
     /**
      * GET /user/login : Logs user into the system
      *
@@ -67,7 +68,7 @@ public interface UserApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/user/login",
+        value = UserApi.PATH_LOGIN_USER,
         produces = { "application/json" }
     )
     
@@ -85,6 +86,7 @@ public interface UserApi {
     }
 
 
+    public static final String PATH_LOGOUT_USER = "/user/logout";
     /**
      * GET /user/logout : Logs out current logged in user session
      *
@@ -100,7 +102,7 @@ public interface UserApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/user/logout"
+        value = UserApi.PATH_LOGOUT_USER
     )
     
     default ResponseEntity<Void> logoutUser(

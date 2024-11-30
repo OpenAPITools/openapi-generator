@@ -37,6 +37,7 @@ public interface FakeClassnameTestApi {
         return new FakeClassnameTestApiDelegate() {};
     }
 
+    public static final String PATH_TEST_CLASSNAME = "/fake_classname_test";
     /**
      * PATCH /fake_classname_test : To test class name in snake case
      * To test class name in snake case
@@ -60,7 +61,7 @@ public interface FakeClassnameTestApi {
     )
     @RequestMapping(
         method = RequestMethod.PATCH,
-        value = "/fake_classname_test",
+        value = FakeClassnameTestApi.PATH_TEST_CLASSNAME,
         produces = { "application/json" },
         consumes = { "application/json" }
     )
