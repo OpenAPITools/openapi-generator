@@ -9,3 +9,4 @@ additionalProperties:
   configKey: petstore
   microprofileRestClientVersion: "3.0"
   hideGenerationTimestamp: true
+  useReflectionEqualsHashCode: true

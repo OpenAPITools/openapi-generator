@@ -10,7 +10,7 @@ import Vapor
 
 public final class Pet: Content, Hashable {
 
-    public enum Status: String, Content, Hashable, CaseIterable {
+    public enum Status: String, Sendable, Content, Hashable, CaseIterable {
         case available = "available"
         case pending = "pending"
         case sold = "sold"
@@ -75,3 +75,6 @@ public final class Pet: Content, Hashable {
     }
 }
 
+
+@available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
+extension Pet: Identifiable {}

@@ -14,21 +14,21 @@ import java.io.IOException
 import kotlinx.datetime.LocalTime
 
 {{#moshi}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}class LocalTimeAdapter {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class LocalTimeAdapter {
     @ToJson
-    fun toJson(value: LocalTime): String {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun toJson(value: LocalTime): String {
         return value.toString()
     }
 
     @FromJson
-    fun fromJson(value: String): LocalTime {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun fromJson(value: String): LocalTime {
         return LocalTime.parse(value)
     }
 
 }
 {{/moshi}}
 {{#gson}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}class LocalTimeAdapter : TypeAdapter<LocalTime>() {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class LocalTimeAdapter : TypeAdapter<LocalTime>() {
     @Throws(IOException::class)
     override fun write(out: JsonWriter?, value: LocalTime?) {
         if (value == null) {

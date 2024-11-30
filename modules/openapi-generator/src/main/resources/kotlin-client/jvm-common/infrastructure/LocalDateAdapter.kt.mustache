@@ -13,7 +13,6 @@ import java.io.IOException
 {{/gson}}
 {{#kotlinx_serialization}}
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.Serializer
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
@@ -35,9 +34,9 @@ import kotlinx.datetime.LocalDate
 {{/kotlinx-datetime}}
 
 {{#moshi}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}class LocalDateAdapter {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class LocalDateAdapter {
     @ToJson
-    fun toJson(value: LocalDate): String {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun toJson(value: LocalDate): String {
         {{#kotlinx-datetime}}
         return value.toString()
         {{/kotlinx-datetime}}
@@ -47,14 +46,14 @@ import kotlinx.datetime.LocalDate
     }
 
     @FromJson
-    fun fromJson(value: String): LocalDate {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun fromJson(value: String): LocalDate {
         return LocalDate.parse(value{{^kotlinx-datetime}}, DateTimeFormatter.ISO_LOCAL_DATE{{/kotlinx-datetime}})
     }
 
 }
 {{/moshi}}
 {{#gson}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}class LocalDateAdapter({{^kotlinx-datetime}}private val formatter: DateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE{{/kotlinx-datetime}}) : TypeAdapter<LocalDate>() {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class LocalDateAdapter({{^kotlinx-datetime}}private val formatter: DateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE{{/kotlinx-datetime}}) : TypeAdapter<LocalDate>() {
     @Throws(IOException::class)
     override fun write(out: JsonWriter?, value: LocalDate?) {
         if (value == null) {
@@ -87,8 +86,7 @@ import kotlinx.datetime.LocalDate
 {{/gson}}
 {{#kotlinx_serialization}}
 {{^kotlinx-datetime}}
-@Serializer(forClass = LocalDate::class)
-{{#nonPublicApi}}internal {{/nonPublicApi}}object LocalDateAdapter : KSerializer<LocalDate> {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}object LocalDateAdapter : KSerializer<LocalDate> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("LocalDate", PrimitiveKind.STRING)
 
     override fun serialize(encoder: Encoder, value: LocalDate) {

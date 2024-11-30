@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("XmlItem")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class XmlItem  implements Serializable {
   private String attributeString;
   private BigDecimal attributeNumber;
@@ -51,6 +51,9 @@ public class XmlItem  implements Serializable {
   private Boolean prefixNsBoolean;
   private @Valid List<Integer> prefixNsArray = new ArrayList<>();
   private @Valid List<Integer> prefixNsWrappedArray = new ArrayList<>();
+
+  public XmlItem() {
+  }
 
   /**
    **/

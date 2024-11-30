@@ -21,14 +21,14 @@ import org.openapitools.client.models.*
 
 trait UserApiEndpoints[F[*]] {
 
-  def createUser(user: User)(implicit auth: _Authorization.ApiKey): F[Unit]
-  def createUsersWithArrayInput(user: Seq[User])(implicit auth: _Authorization.ApiKey): F[Unit]
-  def createUsersWithListInput(user: Seq[User])(implicit auth: _Authorization.ApiKey): F[Unit]
-  def deleteUser(username: String)(implicit auth: _Authorization.ApiKey): F[Unit]
+  def createUser(user: User)(using auth: _Authorization.ApiKey): F[Unit]
+  def createUsersWithArrayInput(user: Seq[User])(using auth: _Authorization.ApiKey): F[Unit]
+  def createUsersWithListInput(user: Seq[User])(using auth: _Authorization.ApiKey): F[Unit]
+  def deleteUser(username: String)(using auth: _Authorization.ApiKey): F[Unit]
   def getUserByName(username: String): F[User]
   def loginUser(username: String, password: String): F[String]
-  def logoutUser()(implicit auth: _Authorization.ApiKey): F[Unit]
-  def updateUser(username: String, user: User)(implicit auth: _Authorization.ApiKey): F[Unit]
+  def logoutUser()(using auth: _Authorization.ApiKey): F[Unit]
+  def updateUser(username: String, user: User)(using auth: _Authorization.ApiKey): F[Unit]
 
 }
 
@@ -42,7 +42,7 @@ class UserApiEndpointsImpl[F[*]: Concurrent](
   import io.circe.syntax.EncoderOps
   import cats.implicits.toFlatMapOps
 
-  override def createUser(user: User)(implicit auth: _Authorization.ApiKey): F[Unit] = {
+  override def createUser(user: User)(using auth: _Authorization.ApiKey): F[Unit] = {
     val requestHeaders = Seq(
       Some("Content-Type" -> "application/json")
     ).flatten
@@ -59,7 +59,7 @@ class UserApiEndpointsImpl[F[*]: Concurrent](
     }
   }
 
-  override def createUsersWithArrayInput(user: Seq[User])(implicit auth: _Authorization.ApiKey): F[Unit] = {
+  override def createUsersWithArrayInput(user: Seq[User])(using auth: _Authorization.ApiKey): F[Unit] = {
     val requestHeaders = Seq(
       Some("Content-Type" -> "application/json")
     ).flatten
@@ -76,7 +76,7 @@ class UserApiEndpointsImpl[F[*]: Concurrent](
     }
   }
 
-  override def createUsersWithListInput(user: Seq[User])(implicit auth: _Authorization.ApiKey): F[Unit] = {
+  override def createUsersWithListInput(user: Seq[User])(using auth: _Authorization.ApiKey): F[Unit] = {
     val requestHeaders = Seq(
       Some("Content-Type" -> "application/json")
     ).flatten
@@ -93,7 +93,7 @@ class UserApiEndpointsImpl[F[*]: Concurrent](
     }
   }
 
-  override def deleteUser(username: String)(implicit auth: _Authorization.ApiKey): F[Unit] = {
+  override def deleteUser(username: String)(using auth: _Authorization.ApiKey): F[Unit] = {
     val requestHeaders = Seq(
       Some("Content-Type" -> "application/json")
     ).flatten
@@ -155,7 +155,7 @@ class UserApiEndpointsImpl[F[*]: Concurrent](
     }
   }
 
-  override def logoutUser()(implicit auth: _Authorization.ApiKey): F[Unit] = {
+  override def logoutUser()(using auth: _Authorization.ApiKey): F[Unit] = {
     val requestHeaders = Seq(
       Some("Content-Type" -> "application/json")
     ).flatten
@@ -172,7 +172,7 @@ class UserApiEndpointsImpl[F[*]: Concurrent](
     }
   }
 
-  override def updateUser(username: String, user: User)(implicit auth: _Authorization.ApiKey): F[Unit] = {
+  override def updateUser(username: String, user: User)(using auth: _Authorization.ApiKey): F[Unit] = {
     val requestHeaders = Seq(
       Some("Content-Type" -> "application/json")
     ).flatten

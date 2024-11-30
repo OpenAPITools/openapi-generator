@@ -7,9 +7,9 @@
 
 import Foundation
 
-internal struct Pet: Codable, JSONEncodable, Hashable {
+internal struct Pet: Sendable, Codable, JSONEncodable, Hashable {
 
-    internal enum Status: String, Codable, CaseIterable, CaseIterableDefaultsLast {
+    internal enum Status: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
         case available = "available"
         case pending = "pending"
         case sold = "sold"
@@ -57,3 +57,6 @@ internal struct Pet: Codable, JSONEncodable, Hashable {
     }
 }
 
+
+@available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
+extension Pet: Identifiable {}

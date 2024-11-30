@@ -28,7 +28,7 @@ repository = "{{.}}"
 documentation = "{{.}}"
 {{/documentationUrl}}
 {{#homePageUrl}}
-homepage = "{{.}}
+homepage = "{{.}}"
 {{/homePageUrl}}
 
 [dependencies]
@@ -78,3 +78,27 @@ google-cloud-token = "^0.1"
 {{/supportTokenSource}}
 {{/supportAsync}}
 {{/reqwest}}
+{{#reqwestTrait}}
+async-trait = "^0.1"
+reqwest = { version = "^0.12", features = ["json", "multipart"] }
+{{#supportMiddleware}}
+reqwest-middleware = { version = "^0.3", features = ["json", "multipart"] }
+{{/supportMiddleware}}
+{{#supportTokenSource}}
+# TODO: propose to Yoshidan to externalize this as non google related crate, so that it can easily be extended for other cloud providers.
+google-cloud-token = "^0.1"
+{{/supportTokenSource}}
+{{#mockall}}
+mockall = { version = "^0.13", optional = true}
+{{/mockall}}
+{{#useBonBuilder}}
+bon = { version = "2.3", optional = true }
+{{/useBonBuilder}}
+[features]
+{{#mockall}}
+mockall = ["dep:mockall"]
+{{/mockall}}
+{{#useBonBuilder}}
+bon = ["dep:bon"]
+{{/useBonBuilder}}
+{{/reqwestTrait}}

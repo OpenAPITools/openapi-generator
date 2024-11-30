@@ -37,7 +37,7 @@ class MapTest(BaseModel):
         if value is None:
             return value
 
-        if value not in ('UPPER', 'lower'):
+        if value not in ('UPPER', 'lower',):
             raise ValueError("must be one of enum values ('UPPER', 'lower')")
         return value
 

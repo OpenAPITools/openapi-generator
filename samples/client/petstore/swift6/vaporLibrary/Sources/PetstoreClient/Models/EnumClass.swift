@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public enum EnumClass: String, Content, Hashable, CaseIterable {
+public enum EnumClass: String, Sendable, Content, Hashable, CaseIterable {
     case abc = "_abc"
     case efg = "-efg"
     case xyz = "(xyz)"

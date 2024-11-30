@@ -4,7 +4,7 @@ test
 
 - API version: 1.0.0
 
-- Generator version: 7.10.0-SNAPSHOT
+- Generator version: 7.11.0-SNAPSHOT
 
 test
 

@@ -44,15 +44,15 @@ use crate::{models, types::*};
                 {{/pattern}}
                 {{#maximum}}
                     {{#minimum}}
-                    range(min = {{minimum}}, max = {{maximum}}),
+                    range(min = {{minimum}}{{{dataType}}}, max = {{maximum}}{{{dataType}}}),
                     {{/minimum}}
                     {{^minimum}}
-                    range(max = {{maximum}}),
+                    range(max = {{maximum}}{{{dataType}}}),
                     {{/minimum}}
                 {{/maximum}}
                 {{#minimum}}
                     {{^maximum}}
-                    range(min = {{minimum}}),
+                    range(min = {{minimum}}{{{dataType}}}),
                     {{/maximum}}
                 {{/minimum}}
                 {{#maxItems}}
@@ -136,15 +136,15 @@ use crate::{models, types::*};
                     {{/pattern}}
                     {{#maximum}}
                         {{#minimum}}
-                        range(min = {{minimum}}, max = {{maximum}}),
+                        range(min = {{minimum}}{{{dataType}}}, max = {{maximum}}{{{dataType}}}),
                         {{/minimum}}
                         {{^minimum}}
-                        range(max = {{maximum}}),
+                        range(max = {{maximum}}{{{dataType}}}),
                         {{/minimum}}
                     {{/maximum}}
                     {{#minimum}}
                         {{^maximum}}
-                        range(min = {{minimum}}),
+                        range(min = {{minimum}}{{{dataType}}}),
                         {{/maximum}}
                     {{/minimum}}
                     {{#maxItems}}
@@ -240,15 +240,15 @@ use crate::{models, types::*};
                     {{/pattern}}
                     {{#maximum}}
                         {{#minimum}}
-                        range(min = {{minimum}}, max = {{maximum}}),
+                        range(min = {{minimum}}{{{dataType}}}, max = {{maximum}}{{{dataType}}}),
                         {{/minimum}}
                         {{^minimum}}
-                        range(max = {{maximum}}),
+                        range(max = {{maximum}}{{{dataType}}}),
                         {{/minimum}}
                     {{/maximum}}
                     {{#minimum}}
                         {{^maximum}}
-                        range(min = {{minimum}}),
+                        range(min = {{minimum}}{{{dataType}}}),
                         {{/maximum}}
                     {{/minimum}}
                     {{#maxItems}}
@@ -542,7 +542,6 @@ impl std::str::FromStr for {{{classname}}} {
 {{/arrayModelType}}
 {{^arrayModelType}}
 {{! general struct}}
-
 {{#anyOf.size}}
 /// Any of:
 {{#anyOf}}
@@ -575,7 +574,6 @@ impl PartialEq for {{{classname}}} {
     }
 }
 {{/anyOf.size}}
-
 {{#oneOf.size}}
 /// One of:
 {{#oneOf}}
@@ -608,7 +606,6 @@ impl PartialEq for {{{classname}}} {
     }
 }
 {{/oneOf.size}}
-
 {{^anyOf.size}}
 {{^oneOf.size}}
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
@@ -647,15 +644,15 @@ pub struct {{{classname}}} {
         {{/pattern}}
         {{#maximum}}
             {{#minimum}}
-            range(min = {{minimum}}, max = {{maximum}}),
+            range(min = {{minimum}}{{{dataType}}}, max = {{maximum}}{{{dataType}}}),
             {{/minimum}}
             {{^minimum}}
-            range(max = {{maximum}}),
+            range(max = {{maximum}}{{{dataType}}}),
             {{/minimum}}
         {{/maximum}}
         {{#minimum}}
             {{^maximum}}
-            range(min = {{minimum}}),
+            range(min = {{minimum}}{{{dataType}}}),
             {{/maximum}}
         {{/minimum}}
         {{#maxItems}}

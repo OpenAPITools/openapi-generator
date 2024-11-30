@@ -47,6 +47,7 @@ docs/Foo.md
 docs/FooGetDefaultResponse.md
 docs/FormatTest.md
 docs/Fruit.md
+docs/FruitJuice.md
 docs/FruitReq.md
 docs/GmFruit.md
 docs/HasOnlyReadOnly.md
@@ -126,6 +127,7 @@ model_filter_type_regex.go
 model_foo.go
 model_format_test_.go
 model_fruit.go
+model_fruit_juice.go
 model_fruit_req.go
 model_gm_fruit.go
 model_has_only_read_only.go

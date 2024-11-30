@@ -1,0 +1,19 @@
+generatorName: spring
+library: spring-http-interface
+outputDir: samples/client/petstore/spring-http-interface-noResponseEntity
+inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+additionalProperties:
+  artifactId: spring-http-interface-noResponseEntity
+  snapshotVersion: "true"
+  hideGenerationTimestamp: "true"
+  modelNameSuffix: 'Dto'
+  generatedConstructorWithRequiredArgs: "false"
+  # documentation provider should be ignored
+  documentationProvider: "springdoc"
+  # annotation provider should be ignored
+  annotationLibrary: "swagger2"
+  # validation should be ignored
+  useBeanValidation: "true"
+  performBeanValidation: "true"
+  useResponseEntity: "false"

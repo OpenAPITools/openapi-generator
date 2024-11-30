@@ -158,13 +158,13 @@ where
 #[allow(dead_code)]
 struct DummyPutBodyValidator<'a> {
     #[validate(nested)]
-    body: &'a models::DummyPutRequest,
+    body: &'a models::FooDummyPutRequest,
 }
 
 #[tracing::instrument(skip_all)]
 fn dummy_put_validation(
-    body: models::DummyPutRequest,
-) -> std::result::Result<(models::DummyPutRequest,), ValidationErrors> {
+    body: models::FooDummyPutRequest,
+) -> std::result::Result<(models::FooDummyPutRequest,), ValidationErrors> {
     let b = DummyPutBodyValidator { body: &body };
     b.validate()?;
 
@@ -177,7 +177,7 @@ async fn dummy_put<I, A>(
     host: Host,
     cookies: CookieJar,
     State(api_impl): State<I>,
-    Json(body): Json<models::DummyPutRequest>,
+    Json(body): Json<models::FooDummyPutRequest>,
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,

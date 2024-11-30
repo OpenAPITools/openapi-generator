@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * SomeObj
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class SomeObj implements Serializable {
   private static final long serialVersionUID = 1L;
 
@@ -58,7 +58,7 @@ public class SomeObj implements Serializable {
    */
   @JsonAdapter(TypeEnum.Adapter.class)
   public enum TypeEnum {
-    SOME_OBJ_IDENTIFIER("SomeObjIdentifier");
+    SOMEOBJIDENTIFIER("SomeObjIdentifier");
 
     private String value;
 
@@ -106,7 +106,7 @@ public class SomeObj implements Serializable {
   public static final String SERIALIZED_NAME_$_TYPE = "$_type";
   @SerializedName(SERIALIZED_NAME_$_TYPE)
   @javax.annotation.Nullable
-  private TypeEnum $type = TypeEnum.SOME_OBJ_IDENTIFIER;
+  private TypeEnum $type = TypeEnum.SOMEOBJIDENTIFIER;
 
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)

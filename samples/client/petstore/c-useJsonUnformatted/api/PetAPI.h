@@ -7,6 +7,7 @@
 #include "../include/binary.h"
 #include "../model/api_response.h"
 #include "../model/pet.h"
+#include "../model/preference.h"
 
 // Enum STATUS for PetAPI_findPetsByStatus
 typedef enum  { openapi_petstore_findPetsByStatus_STATUS_NULL = 0, openapi_petstore_findPetsByStatus_STATUS_available, openapi_petstore_findPetsByStatus_STATUS_pending, openapi_petstore_findPetsByStatus_STATUS_sold } openapi_petstore_findPetsByStatus_status_e;
@@ -46,6 +47,14 @@ PetAPI_findPetsByTags(apiClient_t *apiClient, list_t *tags);
 //
 pet_t*
 PetAPI_getPetById(apiClient_t *apiClient, long petId);
+
+
+// Specialty of the shop
+//
+// Returns the kind of pet the store specializes in
+//
+openapi_petstore_preference__e
+PetAPI_specialtyPet(apiClient_t *apiClient);
 
 
 // Update an existing pet

@@ -115,7 +115,7 @@ pub struct DeleteOrderPathParams {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct GetOrderByIdPathParams {
     /// ID of pet that needs to be fetched
-    #[validate(range(min = 1, max = 5))]
+    #[validate(range(min = 1i64, max = 5i64))]
     pub order_id: i64,
 }
 
@@ -309,7 +309,7 @@ impl Animal {
     pub fn new(class_name: String) -> Animal {
         Animal {
             class_name,
-            color: Some("red".to_string()),
+            color: Some(r#"red"#.to_string()),
         }
     }
 }
@@ -1460,7 +1460,7 @@ impl Cat {
     pub fn new(class_name: String) -> Cat {
         Cat {
             class_name,
-            color: Some("red".to_string()),
+            color: Some(r#"red"#.to_string()),
             declawed: None,
         }
     }
@@ -1753,7 +1753,6 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Category> {
 }
 
 /// Model for testing model with \"_class\" property
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ClassModel {
@@ -2042,7 +2041,7 @@ impl Dog {
     pub fn new(class_name: String) -> Dog {
         Dog {
             class_name,
-            color: Some("red".to_string()),
+            color: Some(r#"red"#.to_string()),
             breed: None,
         }
     }
@@ -2740,12 +2739,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<EnumTest> {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct FormatTest {
     #[serde(rename = "integer")]
-    #[validate(range(min = 10, max = 100))]
+    #[validate(range(min = 10u8, max = 100u8))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub integer: Option<u8>,
 
     #[serde(rename = "int32")]
-    #[validate(range(min = 20, max = 200))]
+    #[validate(range(min = 20u8, max = 200u8))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub int32: Option<u8>,
 
@@ -2754,16 +2753,16 @@ pub struct FormatTest {
     pub int64: Option<i64>,
 
     #[serde(rename = "number")]
-    #[validate(range(min = 32.1, max = 543.2))]
+    #[validate(range(min = 32.1f64, max = 543.2f64))]
     pub number: f64,
 
     #[serde(rename = "float")]
-    #[validate(range(min = 54.3, max = 987.6))]
+    #[validate(range(min = 54.3f32, max = 987.6f32))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub float: Option<f32>,
 
     #[serde(rename = "double")]
-    #[validate(range(min = 67.8, max = 123.4))]
+    #[validate(range(min = 67.8f64, max = 123.4f64))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub double: Option<f64>,
 
@@ -3695,7 +3694,6 @@ impl std::convert::TryFrom<HeaderValue>
 }
 
 /// Model for testing model name starting with number
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Model200Response {
@@ -3848,7 +3846,6 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Model200Resp
 }
 
 /// Model for testing model name same as property name
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Name {
@@ -5241,7 +5238,6 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<ReadOnlyFirs
 }
 
 /// Model for testing reserved words
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Return {
@@ -5526,13 +5522,13 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Tag> {
 pub struct TestEndpointParametersRequest {
     /// None
     #[serde(rename = "integer")]
-    #[validate(range(min = 10, max = 100))]
+    #[validate(range(min = 10u8, max = 100u8))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub integer: Option<u8>,
 
     /// None
     #[serde(rename = "int32")]
-    #[validate(range(min = 20, max = 200))]
+    #[validate(range(min = 20u8, max = 200u8))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub int32: Option<u8>,
 
@@ -5543,18 +5539,18 @@ pub struct TestEndpointParametersRequest {
 
     /// None
     #[serde(rename = "number")]
-    #[validate(range(min = 32.1, max = 543.2))]
+    #[validate(range(min = 32.1f64, max = 543.2f64))]
     pub number: f64,
 
     /// None
     #[serde(rename = "float")]
-    #[validate(range(max = 987.6))]
+    #[validate(range(max = 987.6f32))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub float: Option<f32>,
 
     /// None
     #[serde(rename = "double")]
-    #[validate(range(min = 67.8, max = 123.4))]
+    #[validate(range(min = 67.8f64, max = 123.4f64))]
     pub double: f64,
 
     /// None
@@ -5862,7 +5858,7 @@ impl TestEnumParametersRequest {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> TestEnumParametersRequest {
         TestEnumParametersRequest {
-            enum_form_string: Some("-efg".to_string()),
+            enum_form_string: Some(r#"-efg"#.to_string()),
         }
     }
 }

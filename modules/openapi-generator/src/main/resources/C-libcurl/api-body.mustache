@@ -98,7 +98,7 @@ end:
 // {{{.}}}
 //
 {{/notes}}
-{{#returnType}}{{#returnTypeIsPrimitive}}{{#returnSimpleType}}{{{.}}}*{{/returnSimpleType}}{{^returnSimpleType}}{{#isArray}}{{{.}}}_t*{{/isArray}}{{#isMap}}{{{.}}}{{/isMap}}{{/returnSimpleType}}{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}{{{.}}}_t*{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void{{/returnType}}
+{{#returnType}}{{#returnTypeIsPrimitive}}{{#returnSimpleType}}{{{.}}}*{{/returnSimpleType}}{{^returnSimpleType}}{{#isArray}}{{{.}}}_t*{{/isArray}}{{#isMap}}{{{.}}}{{/isMap}}{{/returnSimpleType}}{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}{{#returnProperty}}{{^isEnum}}{{{returnType}}}_t*{{/isEnum}}{{#isEnum}}{{projectName}}_{{{returnType}}}_{{returnEnumName}}_e{{/isEnum}}{{/returnProperty}}{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void{{/returnType}}
 {{{classname}}}_{{{operationId}}}(apiClient_t *apiClient{{#allParams}}, {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}} {{/isNumber}}{{#isLong}}{{{dataType}}} {{/isLong}}{{#isInteger}}{{{dataType}}} *{{/isInteger}}{{#isDouble}}{{{dataType}}} {{/isDouble}}{{#isFloat}}{{{dataType}}} {{/isFloat}}{{#isBoolean}}{{dataType}} *{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e {{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}} *{{/isByteArray}}{{#isDate}}{{{dataType}}} {{/isDate}}{{#isDateTime}}{{{dataType}}} {{/isDateTime}}{{#isFile}}{{{dataType}}} {{/isFile}}{{#isFreeFormObject}}{{dataType}}_t *{{/isFreeFormObject}}{{/isPrimitiveType}}{{^isArray}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e {{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e {{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}} {{/isEmail}}{{/isPrimitiveType}}{{/isArray}}{{#isContainer}}{{#isArray}}{{dataType}}_t *{{/isArray}}{{#isMap}}{{dataType}} {{/isMap}}{{/isContainer}}{{{paramName}}}{{/allParams}})
 {
     list_t    *localVarQueryParameters = {{#hasQueryParams}}list_createList();{{/hasQueryParams}}{{^hasQueryParams}}NULL;{{/hasQueryParams}}
@@ -263,7 +263,7 @@ end:
     {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}}{{/isNumber}}{{#isLong}}{{{dataType}}}{{/isLong}}{{#isInteger}}{{{dataType}}}{{/isInteger}}{{#isDouble}}{{{dataType}}}{{/isDouble}}{{#isFloat}}{{{dataType}}}{{/isFloat}}{{#isBoolean}}{{dataType}}{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e{{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}} *{{/isByteArray}}{{#isDate}}{{{dataType}}}{{/isDate}}{{#isDateTime}}{{{dataType}}}{{/isDateTime}}{{#isFile}}{{{dataType}}}{{/isFile}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}}{{/isEmail}}{{/isPrimitiveType}} valueForm_{{paramName}} = 0;
     keyValuePair_t *keyPairForm_{{paramName}} = 0;
     {{/isFile}}
-    if ({{paramName}} != NULL)
+    if ({{paramName}} != {{^isEnum}}NULL{{/isEnum}}{{#isEnum}}0{{/isEnum}})
     {
         {{#isFile}}
         keyForm_{{paramName}} = strdup("{{{baseName}}}");
@@ -399,9 +399,9 @@ end:
     {{^returnContainer}}
     //nonprimitive not container
     cJSON *{{classname}}localVarJSON = cJSON_Parse(apiClient->dataReceived);
-    {{{returnBaseType}}}_t *elementToReturn = {{{returnBaseType}}}_parseFromJSON({{classname}}localVarJSON);
+    {{#returnProperty}}{{^isEnum}}{{{returnBaseType}}}_t *{{/isEnum}}{{#isEnum}}{{projectName}}_{{{returnType}}}_{{returnEnumName}}_e {{/isEnum}}{{/returnProperty}}elementToReturn = {{{returnBaseType}}}_parseFromJSON({{classname}}localVarJSON);
     cJSON_Delete({{classname}}localVarJSON);
-    if(elementToReturn == NULL) {
+    if(elementToReturn == {{#returnProperty}}{{^isEnum}}NULL{{/isEnum}}{{#isEnum}}0{{/isEnum}}{{/returnProperty}}) {
         // return 0;
     }
 
@@ -524,8 +524,10 @@ end:
         keyForm_{{{paramName}}} = NULL;
     }
     if (valueForm_{{{paramName}}}) {
+        {{^isEnum}}
         free(valueForm_{{{paramName}}});
-        valueForm_{{{paramName}}} = NULL;
+        {{/isEnum}}
+        valueForm_{{{paramName}}} = {{^isEnum}}NULL{{/isEnum}}{{#isEnum}}0{{/isEnum}};
     }
     free(keyPairForm_{{paramName}});
     {{/isString}}
@@ -541,7 +543,7 @@ end:
     return elementToReturn;
 end:
     free(localVarPath);
-    return NULL;
+    return {{#returnProperty}}{{^isEnum}}NULL{{/isEnum}}{{#isEnum}}0{{/isEnum}}{{/returnProperty}};
     {{/returnType}}
     {{^returnType}}
     //No return type

@@ -16,6 +16,7 @@ docs/category.md
 docs/model_with_set_propertes.md
 docs/order.md
 docs/pet.md
+docs/preference.md
 docs/tag.md
 docs/user.md
 external/cJSON.c
@@ -26,6 +27,7 @@ include/binary.h
 include/keyValuePair.h
 include/list.h
 libcurl.licence
+model/any_type.h
 model/api_response.c
 model/api_response.h
 model/category.c
@@ -40,6 +42,8 @@ model/order.c
 model/order.h
 model/pet.c
 model/pet.h
+model/preference.c
+model/preference.h
 model/tag.c
 model/tag.h
 model/user.c

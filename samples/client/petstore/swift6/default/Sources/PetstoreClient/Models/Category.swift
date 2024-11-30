@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Category: Codable, JSONEncodable, Hashable {
+public struct Category: Sendable, Codable, JSONEncodable, Hashable {
 
     public var id: Int64?
     public var name: String = "default-name"
@@ -31,3 +31,6 @@ public struct Category: Codable, JSONEncodable, Hashable {
     }
 }
 
+
+@available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
+extension Category: Identifiable {}

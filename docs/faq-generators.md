@@ -350,7 +350,14 @@ First you implement the `OpenAPIInterceptor` protocol.
 public class BearerOpenAPIInterceptor: OpenAPIInterceptor {
     public init() {}
     
-    public func intercept(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, completion: @escaping (Result<URLRequest, any Error>) -> Void) {
+    public func intercept<T>(urlRequest: URLRequest, urlSession: URLSessionProtocol, requestBuilder: RequestBuilder<T>, completion: @escaping (Result<URLRequest, any Error>) -> Void) {
+
+        guard requestBuilder.requiresAuthentication else {
+            // no authentication required
+            completion(.success(urlRequest))
+            return
+        }
+
         refreshTokenIfDoesntExist { token in
             
             // Change the current url request
@@ -358,13 +365,13 @@ public class BearerOpenAPIInterceptor: OpenAPIInterceptor {
             newUrlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
             
             // Change the global headers
-            openAPIClient.customHeaders["Authorization"] = "Bearer \(token)"
+            requestBuilder.openAPIClient.customHeaders["Authorization"] = "Bearer \(token)"
             
             completion(.success(newUrlRequest))
         }
     }
     
-    public func retry(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, data: Data?, response: URLResponse, error: Error, completion: @escaping (OpenAPIInterceptorRetry) -> Void) {
+    public func retry<T>(urlRequest: URLRequest, urlSession: URLSessionProtocol, requestBuilder: RequestBuilder<T>, data: Data?, response: URLResponse?, error: Error, completion: @escaping (OpenAPIInterceptorRetry) -> Void) {
         // We will analyse the response to see if it's a 401, and if it's a 401, we will refresh the token and retry the request
         refreshTokenIfUnauthorizedRequestResponse(
             data: data,
@@ -375,7 +382,7 @@ public class BearerOpenAPIInterceptor: OpenAPIInterceptor {
             if wasTokenRefreshed, let newToken = newToken {
                 
                 // Change the global headers
-                openAPIClient.customHeaders["Authorization"] = "Bearer \(newToken)"
+                requestBuilder.openAPIClient.customHeaders["Authorization"] = "Bearer \(newToken)"
                 
                 completion(.retry)
             } else {
@@ -397,7 +404,7 @@ public class BearerOpenAPIInterceptor: OpenAPIInterceptor {
         }
     }
     
-    func refreshTokenIfUnauthorizedRequestResponse(data: Data?, response: URLResponse, error: Error, completionHandler: @escaping (Bool, String?) -> Void) {
+    func refreshTokenIfUnauthorizedRequestResponse(data: Data?, response: URLResponse?, error: Error, completionHandler: @escaping (Bool, String?) -> Void) {
         if let response = response as? HTTPURLResponse, response.statusCode == 401 {
             startRefreshingToken { token in
                 completionHandler(true, token)
@@ -485,7 +492,7 @@ Here is a working sample that put's together all of this.
 - A new configuration, `apiStaticMethod`, allows you to use instance methods instead of class methods for API calls. For more information, check the sample project [apiNonStaticMethod](https://github.com/OpenAPITools/openapi-generator/tree/master/samples/client/petstore/swift6/apiNonStaticMethod).
 - The new default response is based on async/await. To revert to the previous behavior, set the `responseAs` flag to `ObjcBlock`.
 - The default project structure now follows the SPM (Swift Package Manager) structure. To revert to the old structure, set the `useSPMFileStructure` flag to `false`.
-- The former `{{projectName}}API` is now called `OpenAPIClient`.
+- The former `{{projectName}}API` is now called `{{projectName}}APIConfiguration`.
 - You can now set a request interceptor and retrier by configuring `OpenAPIClient.shared.interceptor`, making authenticated requests easier to manage.
 
 ## TypeScript

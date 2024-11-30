@@ -258,6 +258,13 @@ paths:
           schema:
             type: integer
             format: int64
+        - name: Content-Type
+          in: header
+          style: simple
+          description: Content type header parameter
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: successful operation
@@ -2610,6 +2617,10 @@ components:
       minItems: 1
       items:
         $ref: '#/components/schemas/Scalar'
+    AllOfRefToString:
+      allOf:
+        - $ref: '#/components/schemas/OuterString'
+      description: testing allOf with a ref to string
     NewPet:
       type: object
       required:
@@ -2620,6 +2631,12 @@ components:
           type: integer
           format: int64
           x-is-unique: true
+        category_ref_to_inline_allof_string:
+          $ref: '#/components/schemas/AllOfRefToString'
+        category_inline_allof_string:
+          allOf:
+            - $ref: '#/components/schemas/OuterString'
+          description: testing allOf with a ref to string
         category_inline_allof:
           allOf:
             - type: object

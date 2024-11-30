@@ -21,7 +21,8 @@ import scala.util.*
 import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
-/** OrderData a data transfer object, primarily for simple json serialisation.
+
+        /** OrderData a data transfer object, primarily for simple json serialisation.
   * It has no validation - there may be nulls, values out of range, etc
   */
 case class OrderData(
@@ -44,7 +45,7 @@ case class OrderData(
   }
 
   def validationErrors(path : Seq[Field], failFast : Boolean) : Seq[ValidationError] = {
-    val errors = scala.collection.mutable.ListBuffer[ValidationError]()
+    val _allValidationErrors = scala.collection.mutable.ListBuffer[ValidationError]()
         // ================== id validation ==================
         
         
@@ -81,9 +82,12 @@ case class OrderData(
         
         
 
-    errors.toSeq
+    _allValidationErrors.toSeq
   }
 
+  /**
+   * @return the validated model within a Try (if successful)
+   */
   def validated(failFast : Boolean = false) : scala.util.Try[Order] = {
     validationErrors(Vector(), failFast) match {
       case Seq() => Success(asModel)
@@ -94,36 +98,20 @@ case class OrderData(
   /** use 'validated' to check validation */
   def asModel : Order = {
     Order(
-        id = Option(
-        id
-        )
-        ,
-        petId = Option(
-        petId
-        )
-        ,
-        quantity = Option(
-        quantity
-        )
-        ,
-        shipDate = Option(
-        shipDate
-        )
-        ,
-        status = Option(
-        status
-        )
-        ,
-        complete = Option(
-        complete
-        )
-        
+        id = Option(id) /* 1 */,
+        petId = Option(petId) /* 1 */,
+        quantity = Option(quantity) /* 1 */,
+        shipDate = Option(shipDate) /* 1 */,
+        status = Option(status) /* 1 */,
+        complete = Option(complete) /* 1 */
     
     )
   }
 }
 
 object OrderData {
+
+  def validated(d8a : OrderData, failFast : Boolean) : scala.util.Try[Order] = d8a.validated(failFast)
 
   def fromJson(jason : ujson.Value) : OrderData = try {
         val data = read[OrderData](jason)

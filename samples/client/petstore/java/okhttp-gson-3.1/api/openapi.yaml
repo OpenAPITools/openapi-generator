@@ -1203,6 +1203,26 @@ components:
       - items:
           type: string
         type: array
+    _fake_webhooks_sources_deleted_post_request_event:
+      properties:
+        event_id:
+          type: string
+      required:
+      - event_id
+    _fake_webhooks_sources_deleted_post_request:
+      description: inline schema in webhooks
+      properties:
+        event_timestamp:
+          format: date-time
+          type: string
+        event_type:
+          type: string
+        event:
+          $ref: '#/components/schemas/_fake_webhooks_sources_deleted_post_request_event'
+      required:
+      - event
+      - event_timestamp
+      - event_type
   securitySchemes:
     petstore_auth:
       flows:

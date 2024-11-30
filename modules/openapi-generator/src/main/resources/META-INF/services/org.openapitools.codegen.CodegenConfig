@@ -4,6 +4,7 @@ org.openapitools.codegen.languages.AndroidClientCodegen
 org.openapitools.codegen.languages.Apache2ConfigCodegen
 org.openapitools.codegen.languages.ApexClientCodegen
 org.openapitools.codegen.languages.AsciidocDocumentationCodegen
+org.openapitools.codegen.languages.AspnetFastendpointsServerCodegen
 org.openapitools.codegen.languages.AspNetServerCodegen
 org.openapitools.codegen.languages.AvroSchemaCodegen
 org.openapitools.codegen.languages.BashClientCodegen
@@ -33,6 +34,7 @@ org.openapitools.codegen.languages.ErlangServerCodegen
 org.openapitools.codegen.languages.ErlangServerDeprecatedCodegen
 org.openapitools.codegen.languages.FsharpFunctionsServerCodegen
 org.openapitools.codegen.languages.FsharpGiraffeServerCodegen
+org.openapitools.codegen.languages.GdscriptClientCodegen
 org.openapitools.codegen.languages.GoClientCodegen
 org.openapitools.codegen.languages.GoEchoServerCodegen
 org.openapitools.codegen.languages.GoServerCodegen

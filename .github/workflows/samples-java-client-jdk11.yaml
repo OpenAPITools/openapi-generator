@@ -17,6 +17,7 @@ on:
       - samples/client/others/java/jersey2-oneOf-duplicates/**
       - samples/client/others/java/jersey2-oneOf-Mixed/**
       - samples/client/others/java/resttemplate-list-schema-validation/**
+      - samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/**
   pull_request:
     paths:
       - 'samples/client/petstore/java/**'
@@ -33,6 +34,7 @@ on:
       - samples/client/others/java/jersey2-oneOf-duplicates/**
       - samples/client/others/java/jersey2-oneOf-Mixed/**
       - samples/client/others/java/resttemplate-list-schema-validation/**
+      - samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/**
 jobs:
   build:
     name: Build Java Client JDK11
@@ -61,12 +63,15 @@ jobs:
           - samples/client/petstore/java/rest-assured
           - samples/client/petstore/java/rest-assured-jackson
           - samples/client/petstore/java/microprofile-rest-client
+          - samples/client/petstore/java/microprofile-rest-client-mutiny
           - samples/client/petstore/java/microprofile-rest-client-3.0
           - samples/client/petstore/java/microprofile-rest-client-3.0-jackson
           - samples/client/petstore/java/microprofile-rest-client-3.0-jackson-with-xml
+          - samples/client/petstore/java/microprofile-rest-client-3.0-mutiny
           - samples/client/petstore/java/microprofile-rest-client-with-useSingleRequestParameter
           - samples/client/petstore/java/apache-httpclient
           - samples/client/petstore/java/feign
+          - samples/client/petstore/java/feign-no-nullable
           - samples/client/petstore/java/okhttp-gson-awsv4signature
           - samples/openapi3/client/petstore/java/jersey2-java8-special-characters
           - samples/openapi3/client/petstore/java/native
@@ -84,6 +89,7 @@ jobs:
           - samples/client/others/java/jersey2-oneOf-duplicates/
           - samples/client/others/java/jersey2-oneOf-Mixed/
           - samples/client/others/java/resttemplate-list-schema-validation/
+          - samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
