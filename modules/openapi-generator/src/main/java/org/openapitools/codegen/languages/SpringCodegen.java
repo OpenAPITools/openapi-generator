@@ -102,7 +102,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String SPRING_BOOT = "spring-boot";
     public static final String SPRING_CLOUD_LIBRARY = "spring-cloud";
     public static final String SPRING_HTTP_INTERFACE = "spring-http-interface";
-    public static final String USE_HTTP_SERVICE_PROXY_FACTORY_INTERFACES_CONFIGURATION = "useHttpServiceProxyFactoryInterfacesConfiguration";
+    public static final String USE_HTTP_SERVICE_PROXY_FACTORY_INTERFACES_CONFIGURATOR = "useHttpServiceProxyFactoryInterfacesConfigurator";
     public static final String HTTP_INTERFACES_CONFIGURATOR_DEPENDENCY = "httpInterfacesConfiguratorDependency";
     public static final String API_FIRST = "apiFirst";
     public static final String SPRING_CONTROLLER = "useSpringController";
@@ -167,7 +167,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean generatedConstructorWithRequiredArgs = true;
     @Getter @Setter
     protected RequestMappingMode requestMappingMode = RequestMappingMode.controller;
-    @Setter boolean useHttpServiceProxyFactoryInterfacesConfiguration = false;
+    @Setter boolean useHttpServiceProxyFactoryInterfacesConfigurator = false;
 
     public SpringCodegen() {
         super();
@@ -271,7 +271,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             generatedConstructorWithRequiredArgs));
         cliOptions.add(new CliOption(RESOURCE_FOLDER, RESOURCE_FOLDER_DESC).defaultValue(this.getResourceFolder()));
 
-        cliOptions.add(CliOption.newString(USE_HTTP_SERVICE_PROXY_FACTORY_INTERFACES_CONFIGURATION,
+        cliOptions.add(CliOption.newString(USE_HTTP_SERVICE_PROXY_FACTORY_INTERFACES_CONFIGURATOR,
             "Generate HttpInterfacesAbstractConfigurator based on an HttpServiceProxyFactory instance (as opposed to a WebClient instance, when disabled) for generating Spring HTTP interfaces. Requires spring-web 6.1+.")
             .defaultValue("false")
         );
@@ -452,7 +452,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         convertPropertyToStringAndWriteBack(RESOURCE_FOLDER, this::setResourceFolder);
-        convertPropertyToBooleanAndWriteBack(USE_HTTP_SERVICE_PROXY_FACTORY_INTERFACES_CONFIGURATION, this::setUseHttpServiceProxyFactoryInterfacesConfiguration);
+        convertPropertyToBooleanAndWriteBack(USE_HTTP_SERVICE_PROXY_FACTORY_INTERFACES_CONFIGURATOR, this::setUseHttpServiceProxyFactoryInterfacesConfigurator);
 
         typeMapping.put("file", "org.springframework.core.io.Resource");
         importMapping.put("org.springframework.core.io.Resource", "org.springframework.core.io.Resource");
@@ -537,8 +537,8 @@ public class SpringCodegen extends AbstractJavaCodegen
                     }
                 }
             } else if (SPRING_HTTP_INTERFACE.equals(library)) {
-                String httpInterfacesAbstractConfiguratorFile = useHttpServiceProxyFactoryInterfacesConfiguration ?
-                    "httpServiceProxyFactoryInterfacesConfiguration.mustache" :
+                String httpInterfacesAbstractConfiguratorFile = useHttpServiceProxyFactoryInterfacesConfigurator ?
+                    "httpServiceProxyFactoryInterfacesConfigurator.mustache" :
                     "httpInterfacesConfiguration.mustache";
 
                 supportingFiles.add(new SupportingFile(httpInterfacesAbstractConfiguratorFile,
@@ -547,7 +547,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 writePropertyBack(USE_BEANVALIDATION, false);
 
                 writePropertyBack(HTTP_INTERFACES_CONFIGURATOR_DEPENDENCY,
-                    useHttpServiceProxyFactoryInterfacesConfiguration ?
+                    useHttpServiceProxyFactoryInterfacesConfigurator ?
                     "HttpServiceProxyFactory" :
                     "WebClient"
                 );

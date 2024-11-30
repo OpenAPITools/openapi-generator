@@ -1,10 +1,10 @@
 generatorName: spring
 library: spring-http-interface
-outputDir: samples/client/petstore/spring-http-interface-useHttpServiceProxyFactoryInterfacesConfiguration
+outputDir: samples/client/petstore/spring-http-interface-useHttpServiceProxyFactoryInterfacesConfigurator
 inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
-  artifactId: spring-http-interface-useHttpServiceProxyFactoryInterfacesConfiguration
+  artifactId: spring-http-interface-useHttpServiceProxyFactoryInterfacesConfigurator
   snapshotVersion: "true"
   hideGenerationTimestamp: "true"
   # documentation provider should be ignored
@@ -14,7 +14,7 @@ additionalProperties:
   # validation should be ignored
   useBeanValidation: "true"
   performBeanValidation: "true"
-  useHttpServiceProxyFactoryInterfacesConfiguration: "true"
+  useHttpServiceProxyFactoryInterfacesConfigurator: "true"
   # needed until updating the default parentVersion (3.1.3) to 3.2+
   parentGroupId: "org.springframework.boot"
   parentArtifactId: "spring-boot-starter-parent"
