@@ -1,0 +1,27 @@
+--
+-- {{appName}}.{{#defaultDatabaseName}}
+-- Database: `{{{.}}}`{{/defaultDatabaseName}}
+-- Prepared SQL queries for {{#models}}{{#model}}'{{{name}}}'{{/model}}{{/models}} definition.
+--
+
+{{#models}}{{#model}}
+--
+-- SELECT template for table {{#vendorExtensions}}{{#x-postgresql-schema}}{{#tableDefinition}}`{{tblName}}`{{/tableDefinition}}{{/x-postgresql-schema}}{{/vendorExtensions}}
+--
+SELECT {{#vars}}{{#vendorExtensions}}{{#x-postgresql-schema}}{{#columnDefinition}}`{{colName}}`{{^-last}}, {{/-last}}{{/columnDefinition}}{{/x-postgresql-schema}}{{/vendorExtensions}}{{/vars}} FROM {{#vendorExtensions}}{{#x-postgresql-schema}}{{#tableDefinition}}{{#defaultDatabaseName}}`{{{.}}}`.{{/defaultDatabaseName}}`{{tblName}}`{{/tableDefinition}}{{/x-postgresql-schema}}{{/vendorExtensions}} WHERE 1;
+
+--
+-- INSERT template for table {{#vendorExtensions}}{{#x-postgresql-schema}}{{#tableDefinition}}`{{tblName}}`{{/tableDefinition}}{{/x-postgresql-schema}}{{/vendorExtensions}}
+--
+INSERT INTO {{#vendorExtensions}}{{#x-postgresql-schema}}{{#tableDefinition}}{{#defaultDatabaseName}}`{{{.}}}`.{{/defaultDatabaseName}}`{{tblName}}`{{/tableDefinition}}{{/x-postgresql-schema}}{{/vendorExtensions}}({{#vars}}{{#vendorExtensions}}{{#x-postgresql-schema}}{{#columnDefinition}}`{{colName}}`{{^-last}}, {{/-last}}{{/columnDefinition}}{{/x-postgresql-schema}}{{/vendorExtensions}}{{/vars}}) VALUES ({{#vars}}{{#vendorExtensions}}{{#x-postgresql-schema}}{{#columnDefinition}}{{#namedParametersEnabled}}:{{colName}}{{/namedParametersEnabled}}{{^namedParametersEnabled}}?{{/namedParametersEnabled}}{{^-last}}, {{/-last}}{{/columnDefinition}}{{/x-postgresql-schema}}{{/vendorExtensions}}{{/vars}});
+
+--
+-- UPDATE template for table {{#vendorExtensions}}{{#x-postgresql-schema}}{{#tableDefinition}}`{{tblName}}`{{/tableDefinition}}{{/x-postgresql-schema}}{{/vendorExtensions}}
+--
+UPDATE {{#vendorExtensions}}{{#x-postgresql-schema}}{{#tableDefinition}}{{#defaultDatabaseName}}`{{{.}}}`.{{/defaultDatabaseName}}`{{tblName}}`{{/tableDefinition}}{{/x-postgresql-schema}}{{/vendorExtensions}} SET {{#vars}}{{#vendorExtensions}}{{#x-postgresql-schema}}{{#columnDefinition}}`{{colName}}` = {{#namedParametersEnabled}}:{{colName}}{{/namedParametersEnabled}}{{^namedParametersEnabled}}?{{/namedParametersEnabled}}{{^-last}}, {{/-last}}{{/columnDefinition}}{{/x-postgresql-schema}}{{/vendorExtensions}}{{/vars}} WHERE 1;
+
+--
+-- DELETE template for table {{#vendorExtensions}}{{#x-postgresql-schema}}{{#tableDefinition}}`{{tblName}}`{{/tableDefinition}}{{/x-postgresql-schema}}{{/vendorExtensions}}
+--
+DELETE FROM {{#vendorExtensions}}{{#x-postgresql-schema}}{{#tableDefinition}}{{#defaultDatabaseName}}`{{{.}}}`.{{/defaultDatabaseName}}`{{tblName}}`{{/tableDefinition}}{{/x-postgresql-schema}}{{/vendorExtensions}} WHERE 0;
+{{/model}}{{/models}}
