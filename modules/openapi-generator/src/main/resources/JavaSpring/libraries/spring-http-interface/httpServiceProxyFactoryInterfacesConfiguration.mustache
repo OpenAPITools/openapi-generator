@@ -12,23 +12,22 @@ import {{apiPackage}}.{{classname}};
 {{/apiInfo}}
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.client.support.RestTemplateAdapter;
+import org.springframework.web.client.RestClient;
+import org.springframework.web.client.support.RestClientAdapter;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 public abstract class HttpInterfacesAbstractConfigurator {
 
-    private final RestTemplate restTemplate;
+    private final HttpServiceProxyFactory factory;
 
-    public HttpInterfacesAbstractConfigurator(final RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+    public HttpInterfacesAbstractConfigurator(final HttpServiceProxyFactory factory) {
+        this.factory = factory;
     }
 
 {{#apiInfo}}
 {{#apis}}
     @Bean(name = "{{configPackage}}.HttpInterfacesAbstractConfigurator.{{classVarName}}")
     {{classname}} {{classVarName}}HttpProxy() {
-        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builder(RestTemplateAdapter.create(restTemplate)).build();
         return factory.createClient({{classname}}.class);
     }
 

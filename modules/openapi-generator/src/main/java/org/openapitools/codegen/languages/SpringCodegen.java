@@ -36,10 +36,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -104,7 +102,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String SPRING_BOOT = "spring-boot";
     public static final String SPRING_CLOUD_LIBRARY = "spring-cloud";
     public static final String SPRING_HTTP_INTERFACE = "spring-http-interface";
-    public static final String SPRING_HTTP_CLIENT_ADAPTER = "springHttpClientAdapter";
+    public static final String USE_HTTP_SERVICE_PROXY_FACTORY_INTERFACES_CONFIGURATION = "useHttpServiceProxyFactoryInterfacesConfiguration";
+    public static final String HTTP_INTERFACES_CONFIGURATOR_DEPENDENCY = "httpInterfacesConfiguratorDependency";
     public static final String API_FIRST = "apiFirst";
     public static final String SPRING_CONTROLLER = "useSpringController";
     public static final String HATEOAS = "hateoas";
@@ -127,25 +126,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         RequestMappingMode(String description) {
             this.description = description;
         }
-    }
-
-    @Getter
-    @RequiredArgsConstructor
-    public enum SpringHttpClientAdapter {
-        web_client("web-client", "Use WebClientAdapter", "httpInterfacesWebClientConfiguration.mustache"),
-        rest_client("rest-client", "Use RestClientAdapter", "httpInterfacesRestClientConfiguration.mustache"),
-        rest_template("rest-template", "Use RestTemplateAdapter", "httpInterfacesRestTemplateConfiguration.mustache");
-
-        private final String key;
-        private final String description;
-        private final String templateFileName;
-
-        static SpringHttpClientAdapter fromKey(String key) {
-            return Stream.of(values()).filter(value -> value.getKey().equals(key)).findFirst().orElseThrow(
-                () -> new IllegalArgumentException("Invalid SpringHttpClientAdapter key: " + key)
-            );
-        }
-
     }
 
     public static final String OPEN_BRACE = "{";
@@ -187,7 +167,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean generatedConstructorWithRequiredArgs = true;
     @Getter @Setter
     protected RequestMappingMode requestMappingMode = RequestMappingMode.controller;
-    @Setter SpringHttpClientAdapter springHttpClientAdapter = SpringHttpClientAdapter.web_client;
+    @Setter boolean useHttpServiceProxyFactoryInterfacesConfiguration = false;
 
     public SpringCodegen() {
         super();
@@ -291,9 +271,9 @@ public class SpringCodegen extends AbstractJavaCodegen
             generatedConstructorWithRequiredArgs));
         cliOptions.add(new CliOption(RESOURCE_FOLDER, RESOURCE_FOLDER_DESC).defaultValue(this.getResourceFolder()));
 
-        cliOptions.add(CliOption.newString(SPRING_HTTP_CLIENT_ADAPTER,
-            "Allows users to choose between different HTTP client implementations for Spring HTTP interfaces (`web-client`, `rest-client`, `rest-template`).")
-            .defaultValue(SpringHttpClientAdapter.web_client.getKey())
+        cliOptions.add(CliOption.newString(USE_HTTP_SERVICE_PROXY_FACTORY_INTERFACES_CONFIGURATION,
+            "Generate HttpInterfacesAbstractConfigurator based on an HttpServiceProxyFactory instance (as opposed to a WebClient instance, when disabled) for generating Spring HTTP interfaces. Requires spring-web 6.1+.")
+            .defaultValue("false")
         );
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
@@ -472,7 +452,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         convertPropertyToStringAndWriteBack(RESOURCE_FOLDER, this::setResourceFolder);
-        convertPropertyToTypeAndWriteBack(SPRING_HTTP_CLIENT_ADAPTER, SpringHttpClientAdapter::fromKey, this::setSpringHttpClientAdapter);
+        convertPropertyToBooleanAndWriteBack(USE_HTTP_SERVICE_PROXY_FACTORY_INTERFACES_CONFIGURATION, this::setUseHttpServiceProxyFactoryInterfacesConfiguration);
 
         typeMapping.put("file", "org.springframework.core.io.Resource");
         importMapping.put("org.springframework.core.io.Resource", "org.springframework.core.io.Resource");
@@ -557,14 +537,20 @@ public class SpringCodegen extends AbstractJavaCodegen
                     }
                 }
             } else if (SPRING_HTTP_INTERFACE.equals(library)) {
-                if (!reactive && springHttpClientAdapter == SpringHttpClientAdapter.web_client) {
-                    LOGGER.warn("Configuration mismatch: The 'web-client' is selected as the HTTP client adapter, "
-                        + "but 'reactive' is set to 'false'. "
-                        + "Consider using 'rest-template' or 'rest-client' for non-reactive configurations.");
-                }
-                supportingFiles.add(new SupportingFile(springHttpClientAdapter.getTemplateFileName(),
+                String httpInterfacesAbstractConfiguratorFile = useHttpServiceProxyFactoryInterfacesConfiguration ?
+                    "httpServiceProxyFactoryInterfacesConfiguration.mustache" :
+                    "httpInterfacesConfiguration.mustache";
+
+                supportingFiles.add(new SupportingFile(httpInterfacesAbstractConfiguratorFile,
                     (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "HttpInterfacesAbstractConfigurator.java"));
+
                 writePropertyBack(USE_BEANVALIDATION, false);
+
+                writePropertyBack(HTTP_INTERFACES_CONFIGURATOR_DEPENDENCY,
+                    useHttpServiceProxyFactoryInterfacesConfiguration ?
+                    "HttpServiceProxyFactory" :
+                    "WebClient"
+                );
             }
         }
 
