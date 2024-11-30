@@ -14,7 +14,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
 
     private UUID uuid;
     private OffsetDateTime dateTime;
-    private Map<String, Animal> map = new HashMap<>();
+    private Map<String, Animal> map;
 
     /**
      * Default constructor.

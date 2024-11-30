@@ -22,14 +22,14 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("AdditionalPropertiesClass")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class AdditionalPropertiesClass  implements Serializable {
-  private @Valid Map<String, String> mapString = new HashMap<>();
-  private @Valid Map<String, BigDecimal> mapNumber = new HashMap<>();
-  private @Valid Map<String, Integer> mapInteger = new HashMap<>();
-  private @Valid Map<String, Boolean> mapBoolean = new HashMap<>();
-  private @Valid Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
-  private @Valid Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
-  private @Valid Map<String, Map<String, String>> mapMapString = new HashMap<>();
-  private @Valid Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
+  private @Valid Map<String, String> mapString;
+  private @Valid Map<String, BigDecimal> mapNumber;
+  private @Valid Map<String, Integer> mapInteger;
+  private @Valid Map<String, Boolean> mapBoolean;
+  private @Valid Map<String, List<Integer>> mapArrayInteger;
+  private @Valid Map<String, List<Object>> mapArrayAnytype;
+  private @Valid Map<String, Map<String, String>> mapMapString;
+  private @Valid Map<String, Map<String, Object>> mapMapAnytype;
   private Object anytype1;
   private Object anytype2;
   private Object anytype3;
@@ -466,14 +466,14 @@ public class AdditionalPropertiesClass  implements Serializable {
   }
 
   public static abstract class AdditionalPropertiesClassBuilder<C extends AdditionalPropertiesClass, B extends AdditionalPropertiesClassBuilder<C, B>>  {
-    private Map<String, String> mapString = new HashMap<>();
-    private Map<String, BigDecimal> mapNumber = new HashMap<>();
-    private Map<String, Integer> mapInteger = new HashMap<>();
-    private Map<String, Boolean> mapBoolean = new HashMap<>();
-    private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
-    private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
-    private Map<String, Map<String, String>> mapMapString = new HashMap<>();
-    private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
+    private Map<String, String> mapString;
+    private Map<String, BigDecimal> mapNumber;
+    private Map<String, Integer> mapInteger;
+    private Map<String, Boolean> mapBoolean;
+    private Map<String, List<Integer>> mapArrayInteger;
+    private Map<String, List<Object>> mapArrayAnytype;
+    private Map<String, Map<String, String>> mapMapString;
+    private Map<String, Map<String, Object>> mapMapAnytype;
     private Object anytype1;
     private Object anytype2;
     private Object anytype3;

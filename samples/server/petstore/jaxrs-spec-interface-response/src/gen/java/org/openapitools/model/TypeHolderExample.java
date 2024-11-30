@@ -27,7 +27,7 @@ public class TypeHolderExample  implements Serializable {
   private Float floatItem;
   private Integer integerItem;
   private Boolean boolItem;
-  private @Valid List<Integer> arrayItem = new ArrayList<>();
+  private @Valid List<Integer> arrayItem;
 
   public TypeHolderExample() {
   }

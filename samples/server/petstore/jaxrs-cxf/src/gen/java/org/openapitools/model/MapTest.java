@@ -16,7 +16,7 @@ public class MapTest  {
   
   @ApiModelProperty(value = "")
   @Valid
-  private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
+  private Map<String, Map<String, String>> mapMapOfString;
 
 public enum InnerEnum {
 
@@ -51,13 +51,13 @@ UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower"));
 }
 
   @ApiModelProperty(value = "")
-  private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
+  private Map<String, InnerEnum> mapOfEnumString;
 
   @ApiModelProperty(value = "")
-  private Map<String, Boolean> directMap = new HashMap<>();
+  private Map<String, Boolean> directMap;
 
   @ApiModelProperty(value = "")
-  private Map<String, Boolean> indirectMap = new HashMap<>();
+  private Map<String, Boolean> indirectMap;
  /**
    * Get mapMapOfString
    * @return mapMapOfString

@@ -55,7 +55,7 @@ public class AllOfSimpleModel {
   public static final String SERIALIZED_NAME_ARRAY_OF_STRINGS = "arrayOfStrings";
   @SerializedName(SERIALIZED_NAME_ARRAY_OF_STRINGS)
   @javax.annotation.Nonnull
-  private List<String> arrayOfStrings = new ArrayList<>();
+  private List<String> arrayOfStrings;
 
   public AllOfSimpleModel() {
   }

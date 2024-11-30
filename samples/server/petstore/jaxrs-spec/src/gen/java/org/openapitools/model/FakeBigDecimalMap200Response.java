@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class FakeBigDecimalMap200Response  implements Serializable {
   private BigDecimal someId;
-  private @Valid Map<String, BigDecimal> someMap = new HashMap<>();
+  private @Valid Map<String, BigDecimal> someMap;
 
   protected FakeBigDecimalMap200Response(FakeBigDecimalMap200ResponseBuilder<?, ?> b) {
     this.someId = b.someId;
@@ -148,7 +148,7 @@ public class FakeBigDecimalMap200Response  implements Serializable {
 
   public static abstract class FakeBigDecimalMap200ResponseBuilder<C extends FakeBigDecimalMap200Response, B extends FakeBigDecimalMap200ResponseBuilder<C, B>>  {
     private BigDecimal someId;
-    private Map<String, BigDecimal> someMap = new HashMap<>();
+    private Map<String, BigDecimal> someMap;
     protected abstract B self();
 
     public abstract C build();

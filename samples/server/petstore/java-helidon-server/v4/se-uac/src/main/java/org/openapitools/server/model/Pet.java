@@ -20,8 +20,8 @@ public class Pet   {
     private Long id;
     private Category category;
     private String name;
-    private Set<String> photoUrls = new LinkedHashSet<>();
-    private List<@Valid Tag> tags = new ArrayList<>();
+    private Set<String> photoUrls;
+    private List<@Valid Tag> tags;
 
     /**
     * pet status in the store

@@ -12,7 +12,7 @@ import jakarta.validation.Valid;
 public class FakeBigDecimalMap200Response   {
 
     private BigDecimal someId;
-    private Map<String, BigDecimal> someMap = new HashMap<>();
+    private Map<String, BigDecimal> someMap;
 
     /**
      * Default constructor.

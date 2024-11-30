@@ -56,7 +56,7 @@ public class TypeHolderDefault   {
 
   public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
-  private List<Integer> arrayItem = new ArrayList<>();
+  private List<Integer> arrayItem;
 
   public TypeHolderDefault stringItem(String stringItem) {
     this.stringItem = stringItem;

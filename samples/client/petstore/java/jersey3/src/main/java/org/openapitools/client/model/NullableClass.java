@@ -90,7 +90,7 @@ public class NullableClass {
 
   public static final String JSON_PROPERTY_ARRAY_ITEMS_NULLABLE = "array_items_nullable";
   @jakarta.annotation.Nullable
-  private List<Object> arrayItemsNullable = new ArrayList<>();
+  private List<Object> arrayItemsNullable;
 
   public static final String JSON_PROPERTY_OBJECT_NULLABLE_PROP = "object_nullable_prop";
   private JsonNullable<Map<String, Object>> objectNullableProp = JsonNullable.<Map<String, Object>>undefined();
@@ -100,7 +100,7 @@ public class NullableClass {
 
   public static final String JSON_PROPERTY_OBJECT_ITEMS_NULLABLE = "object_items_nullable";
   @jakarta.annotation.Nullable
-  private Map<String, Object> objectItemsNullable = new HashMap<>();
+  private Map<String, Object> objectItemsNullable;
 
   public NullableClass() { 
   }

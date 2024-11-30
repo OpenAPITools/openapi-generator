@@ -34,12 +34,12 @@ public class Pet   {
   @JsonProperty("photoUrls")
   @NotNull
 
-  private List<String> photoUrls = new ArrayList<>();
+  private List<String> photoUrls;
 
   @JsonProperty("tags")
   @Valid
 
-  private List<@Valid Tag> tags = null;
+  private List<@Valid Tag> tags;
 
   /**
    * pet status in the store

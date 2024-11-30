@@ -4859,8 +4859,8 @@ public class SpringCodegenTest {
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("PetDto.java"))
-                .fileContains("private List<@Valid TagDto> tags = new ArrayList<>();")
-                .fileContains("private List<String> photoUrls = new ArrayList<>();");
+                .fileContains("private List<@Valid TagDto> tags;")
+                .fileContains("private List<String> photoUrls;");
 
     }
 
@@ -4893,20 +4893,16 @@ public class SpringCodegenTest {
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("PetDto.java"))
-                .fileContains("private List<@Valid TagDto> tags")
-                .fileContains("private List<@Valid TagDto> tagsDefaultList = new ArrayList<>()")
-                .fileContains("private Set<@Valid TagDto> tagsUnique")
-                .fileContains("private Set<@Valid TagDto> tagsDefaultSet = new LinkedHashSet<>();")
-                .fileContains("private List<String> stringList")
+                .fileContains("private List<@Valid TagDto> tags;")
+                .fileContains("private List<@Valid TagDto> tagsDefaultList;")
+                .fileContains("private Set<@Valid TagDto> tagsUnique;")
+                .fileContains("private Set<@Valid TagDto> tagsDefaultSet;")
+                .fileContains("private List<String> stringList;")
                 .fileContains("private List<String> stringDefaultList = new ArrayList<>(Arrays.asList(\"A\", \"B\"));")
-                .fileContains("private List<String> stringEmptyDefaultList = new ArrayList<>();")
-                .fileContains("Set<String> stringSet")
+                .fileContains("private List<String> stringEmptyDefaultList;")
+                .fileContains("Set<String> stringSet;")
                 .fileContains("private Set<String> stringDefaultSet = new LinkedHashSet<>(Arrays.asList(\"A\", \"B\"));")
-                .fileContains("private Set<String> stringEmptyDefaultSet = new LinkedHashSet<>();")
-                .fileDoesNotContain("private List<@Valid TagDto> tags = new ArrayList<>()")
-                .fileDoesNotContain("private Set<@Valid TagDto> tagsUnique = new LinkedHashSet<>()")
-                .fileDoesNotContain("private List<String> stringList = new ArrayList<>()")
-                .fileDoesNotContain("private Set<String> stringSet = new LinkedHashSet<>()");
+                .fileContains("private Set<String> stringEmptyDefaultSet;");
     }
 
     @Test

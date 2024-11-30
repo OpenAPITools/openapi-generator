@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class MapTest  {
   
-  private Map<String, Map<String, String>> mapMapOfString = null;
+  private Map<String, Map<String, String>> mapMapOfString;
 
 public enum InnerEnum {
 
@@ -48,11 +48,11 @@ public enum InnerEnum {
 
 }
 
-  private Map<String, InnerEnum> mapOfEnumString = null;
+  private Map<String, InnerEnum> mapOfEnumString;
 
-  private Map<String, Boolean> directMap = null;
+  private Map<String, Boolean> directMap;
 
-  private Map<String, Boolean> indirectMap = null;
+  private Map<String, Boolean> indirectMap;
 
  /**
    * Get mapMapOfString

@@ -1624,13 +1624,13 @@ public class JavaClientCodegenTest {
 
         JavaFileAssert.assertThat(files.get("DefaultValuesType.java"))
                 .assertProperty("stringDefault")
-                .asString().endsWith("= new ArrayList<>();");
+                .asString().endsWith(";");
         JavaFileAssert.assertThat(files.get("DefaultValuesType.java"))
                 .assertProperty("stringDefault2")
                 .asString().endsWith("= new ArrayList<>(Arrays.asList(\"Hallo\", \"Huhu\"));");
         JavaFileAssert.assertThat(files.get("DefaultValuesType.java"))
                 .assertProperty("objectDefault")
-                .asString().endsWith("= new ArrayList<>();");
+                .asString().endsWith(";");
     }
 
     @Test

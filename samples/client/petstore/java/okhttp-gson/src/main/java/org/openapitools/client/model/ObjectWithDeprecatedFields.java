@@ -75,7 +75,7 @@ public class ObjectWithDeprecatedFields {
   @Deprecated
   @SerializedName(SERIALIZED_NAME_BARS)
   @javax.annotation.Nullable
-  private List<String> bars = new ArrayList<>();
+  private List<String> bars;
 
   public ObjectWithDeprecatedFields() {
   }

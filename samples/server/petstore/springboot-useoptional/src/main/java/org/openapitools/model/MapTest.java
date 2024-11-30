@@ -26,7 +26,7 @@ import javax.annotation.Generated;
 public class MapTest {
 
   @Valid
-  private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
+  private Map<String, Map<String, String>> mapMapOfString;
 
   /**
    * Gets or Sets inner
@@ -64,13 +64,13 @@ public class MapTest {
   }
 
   @Valid
-  private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
+  private Map<String, InnerEnum> mapOfEnumString;
 
   @Valid
-  private Map<String, Boolean> directMap = new HashMap<>();
+  private Map<String, Boolean> directMap;
 
   @Valid
-  private Map<String, Boolean> indirectMap = new HashMap<>();
+  private Map<String, Boolean> indirectMap;
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;

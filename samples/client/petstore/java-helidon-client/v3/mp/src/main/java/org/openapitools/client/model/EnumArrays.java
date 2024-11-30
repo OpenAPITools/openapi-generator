@@ -70,7 +70,7 @@ public enum ArrayEnumEnum {
 
 }
 
-  private List<ArrayEnumEnum> arrayEnum = null;
+  private List<ArrayEnumEnum> arrayEnum;
 
  /**
    * Get justSymbol

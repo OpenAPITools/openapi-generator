@@ -60,11 +60,11 @@ public class Pet {
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
   @jakarta.annotation.Nonnull
-  private List<String> photoUrls = new ArrayList<>();
+  private List<String> photoUrls;
 
   public static final String JSON_PROPERTY_TAGS = "tags";
   @jakarta.annotation.Nullable
-  private List<Tag> tags = new ArrayList<>();
+  private List<Tag> tags;
 
   /**
    * pet status in the store

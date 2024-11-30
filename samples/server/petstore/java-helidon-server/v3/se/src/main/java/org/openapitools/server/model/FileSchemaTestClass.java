@@ -12,7 +12,7 @@ import jakarta.validation.Valid;
 public class FileSchemaTestClass   {
 
     private ModelFile _file;
-    private List<@Valid ModelFile> files = new ArrayList<>();
+    private List<@Valid ModelFile> files;
 
     /**
      * Default constructor.

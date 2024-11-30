@@ -52,35 +52,35 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_STRING = "map_string";
   @javax.annotation.Nullable
-  private Map<String, String> mapString = new HashMap<>();
+  private Map<String, String> mapString;
 
   public static final String JSON_PROPERTY_MAP_NUMBER = "map_number";
   @javax.annotation.Nullable
-  private Map<String, BigDecimal> mapNumber = new HashMap<>();
+  private Map<String, BigDecimal> mapNumber;
 
   public static final String JSON_PROPERTY_MAP_INTEGER = "map_integer";
   @javax.annotation.Nullable
-  private Map<String, Integer> mapInteger = new HashMap<>();
+  private Map<String, Integer> mapInteger;
 
   public static final String JSON_PROPERTY_MAP_BOOLEAN = "map_boolean";
   @javax.annotation.Nullable
-  private Map<String, Boolean> mapBoolean = new HashMap<>();
+  private Map<String, Boolean> mapBoolean;
 
   public static final String JSON_PROPERTY_MAP_ARRAY_INTEGER = "map_array_integer";
   @javax.annotation.Nullable
-  private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
+  private Map<String, List<Integer>> mapArrayInteger;
 
   public static final String JSON_PROPERTY_MAP_ARRAY_ANYTYPE = "map_array_anytype";
   @javax.annotation.Nullable
-  private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
+  private Map<String, List<Object>> mapArrayAnytype;
 
   public static final String JSON_PROPERTY_MAP_MAP_STRING = "map_map_string";
   @javax.annotation.Nullable
-  private Map<String, Map<String, String>> mapMapString = new HashMap<>();
+  private Map<String, Map<String, String>> mapMapString;
 
   public static final String JSON_PROPERTY_MAP_MAP_ANYTYPE = "map_map_anytype";
   @javax.annotation.Nullable
-  private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
+  private Map<String, Map<String, Object>> mapMapAnytype;
 
   public static final String JSON_PROPERTY_ANYTYPE1 = "anytype_1";
   @javax.annotation.Nullable

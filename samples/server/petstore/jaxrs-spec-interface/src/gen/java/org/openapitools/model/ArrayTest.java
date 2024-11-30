@@ -22,9 +22,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("ArrayTest")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class ArrayTest  implements Serializable {
-  private @Valid List<String> arrayOfString = new ArrayList<>();
-  private @Valid List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
-  private @Valid List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
+  private @Valid List<String> arrayOfString;
+  private @Valid List<List<Long>> arrayArrayOfInteger;
+  private @Valid List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel;
 
   public ArrayTest() {
   }

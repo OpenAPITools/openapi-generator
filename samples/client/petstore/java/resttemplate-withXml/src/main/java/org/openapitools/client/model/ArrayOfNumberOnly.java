@@ -45,7 +45,7 @@ public class ArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
   @XmlElement(name = "ArrayNumber")
   @javax.annotation.Nullable
-  private List<BigDecimal> arrayNumber = new ArrayList<>();
+  private List<BigDecimal> arrayNumber;
 
   public ArrayOfNumberOnly() {
   }

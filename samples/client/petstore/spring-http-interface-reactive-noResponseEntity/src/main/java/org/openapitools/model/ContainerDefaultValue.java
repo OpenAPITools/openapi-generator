@@ -31,7 +31,7 @@ public class ContainerDefaultValue {
   private JsonNullable<List<String>> nullableRequiredArray = JsonNullable.<List<String>>undefined();
 
   
-  private List<String> requiredArray = new ArrayList<>();
+  private List<String> requiredArray;
 
   
   private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.<List<String>>undefined();

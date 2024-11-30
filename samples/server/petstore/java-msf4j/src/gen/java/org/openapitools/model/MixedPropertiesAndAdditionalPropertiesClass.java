@@ -23,7 +23,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
   private Date dateTime;
 
   @JsonProperty("map")
-  private Map<String, Animal> map = null;
+  private Map<String, Animal> map;
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
     this.uuid = uuid;
@@ -68,7 +68,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
 
   public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
     if (this.map == null) {
-      this.map = new HashMap<>();
+      this.map = ;
     }
     this.map.put(key, mapItem);
     return this;

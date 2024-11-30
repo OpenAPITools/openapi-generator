@@ -28,10 +28,10 @@ public class Pet  {
   private String name;
 
   @ApiModelProperty(required = true, value = "")
-  private List<String> photoUrls = new ArrayList<>();
+  private List<String> photoUrls;
 
   @ApiModelProperty(value = "")
-  private List<Tag> tags = new ArrayList<>();
+  private List<Tag> tags;
 
 public enum StatusEnum {
 

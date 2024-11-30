@@ -54,7 +54,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
   public static final String JSON_PROPERTY_MAP = "map";
   @javax.annotation.Nullable
-  private Map<String, Animal> map = new HashMap<>();
+  private Map<String, Animal> map;
 
   public MixedPropertiesAndAdditionalPropertiesClass() { 
   }

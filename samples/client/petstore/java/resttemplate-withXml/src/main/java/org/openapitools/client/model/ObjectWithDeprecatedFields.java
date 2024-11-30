@@ -64,7 +64,7 @@ public class ObjectWithDeprecatedFields {
   public static final String JSON_PROPERTY_BARS = "bars";
   @XmlElement(name = "bars")
   @javax.annotation.Nullable
-  private List<String> bars = new ArrayList<>();
+  private List<String> bars;
 
   public ObjectWithDeprecatedFields() {
   }

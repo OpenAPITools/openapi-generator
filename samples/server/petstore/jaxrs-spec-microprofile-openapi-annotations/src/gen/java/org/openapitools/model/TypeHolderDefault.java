@@ -24,7 +24,7 @@ public class TypeHolderDefault  implements Serializable {
   private BigDecimal numberItem;
   private Integer integerItem;
   private Boolean boolItem = true;
-  private @Valid List<Integer> arrayItem = new ArrayList<>();
+  private @Valid List<Integer> arrayItem;
 
   protected TypeHolderDefault(TypeHolderDefaultBuilder<?, ?> b) {
     this.stringItem = b.stringItem;
@@ -233,7 +233,7 @@ public class TypeHolderDefault  implements Serializable {
     private BigDecimal numberItem;
     private Integer integerItem;
     private Boolean boolItem = true;
-    private List<Integer> arrayItem = new ArrayList<>();
+    private List<Integer> arrayItem;
     protected abstract B self();
 
     public abstract C build();

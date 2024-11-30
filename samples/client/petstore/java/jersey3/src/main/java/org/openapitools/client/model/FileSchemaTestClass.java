@@ -48,7 +48,7 @@ public class FileSchemaTestClass {
 
   public static final String JSON_PROPERTY_FILES = "files";
   @jakarta.annotation.Nullable
-  private List<@Valid ModelFile> files = new ArrayList<>();
+  private List<@Valid ModelFile> files;
 
   public FileSchemaTestClass() { 
   }

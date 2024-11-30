@@ -44,12 +44,12 @@ public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
   @XmlElement(name = "map_property")
   @javax.annotation.Nullable
-  private Map<String, String> mapProperty = new HashMap<>();
+  private Map<String, String> mapProperty;
 
   public static final String JSON_PROPERTY_MAP_OF_MAP_PROPERTY = "map_of_map_property";
   @XmlElement(name = "map_of_map_property")
   @javax.annotation.Nullable
-  private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
+  private Map<String, Map<String, String>> mapOfMapProperty;
 
   public AdditionalPropertiesClass() {
   }

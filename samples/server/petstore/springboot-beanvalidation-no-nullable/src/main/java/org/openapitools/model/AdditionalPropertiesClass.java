@@ -26,28 +26,28 @@ import javax.annotation.Generated;
 public class AdditionalPropertiesClass {
 
   @Valid
-  private Map<String, String> mapString = new HashMap<>();
+  private Map<String, String> mapString;
 
   @Valid
-  private Map<String, BigDecimal> mapNumber = new HashMap<>();
+  private Map<String, BigDecimal> mapNumber;
 
   @Valid
-  private Map<String, Integer> mapInteger = new HashMap<>();
+  private Map<String, Integer> mapInteger;
 
   @Valid
-  private Map<String, Boolean> mapBoolean = new HashMap<>();
+  private Map<String, Boolean> mapBoolean;
 
   @Valid
-  private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
+  private Map<String, List<Integer>> mapArrayInteger;
 
   @Valid
-  private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
+  private Map<String, List<Object>> mapArrayAnytype;
 
   @Valid
-  private Map<String, Map<String, String>> mapMapString = new HashMap<>();
+  private Map<String, Map<String, String>> mapMapString;
 
   @Valid
-  private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
+  private Map<String, Map<String, Object>> mapMapAnytype;
 
   private Object anytype1;
 

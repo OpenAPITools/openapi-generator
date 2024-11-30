@@ -56,12 +56,12 @@ public class AdditionalPropertiesClass {
   public static final String SERIALIZED_NAME_MAP_PROPERTY = "map_property";
   @SerializedName(SERIALIZED_NAME_MAP_PROPERTY)
   @javax.annotation.Nullable
-  private Map<String, String> mapProperty = new HashMap<>();
+  private Map<String, String> mapProperty;
 
   public static final String SERIALIZED_NAME_MAP_OF_MAP_PROPERTY = "map_of_map_property";
   @SerializedName(SERIALIZED_NAME_MAP_OF_MAP_PROPERTY)
   @javax.annotation.Nullable
-  private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
+  private Map<String, Map<String, String>> mapOfMapProperty;
 
   public static final String SERIALIZED_NAME_ANYTYPE1 = "anytype_1";
   @SerializedName(SERIALIZED_NAME_ANYTYPE1)
@@ -81,7 +81,7 @@ public class AdditionalPropertiesClass {
   public static final String SERIALIZED_NAME_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE3 = "map_with_undeclared_properties_anytype_3";
   @SerializedName(SERIALIZED_NAME_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE3)
   @javax.annotation.Nullable
-  private Map<String, Object> mapWithUndeclaredPropertiesAnytype3 = new HashMap<>();
+  private Map<String, Object> mapWithUndeclaredPropertiesAnytype3;
 
   public static final String SERIALIZED_NAME_EMPTY_MAP = "empty_map";
   @SerializedName(SERIALIZED_NAME_EMPTY_MAP)
@@ -91,7 +91,7 @@ public class AdditionalPropertiesClass {
   public static final String SERIALIZED_NAME_MAP_WITH_UNDECLARED_PROPERTIES_STRING = "map_with_undeclared_properties_string";
   @SerializedName(SERIALIZED_NAME_MAP_WITH_UNDECLARED_PROPERTIES_STRING)
   @javax.annotation.Nullable
-  private Map<String, String> mapWithUndeclaredPropertiesString = new HashMap<>();
+  private Map<String, String> mapWithUndeclaredPropertiesString;
 
   public AdditionalPropertiesClass() {
   }

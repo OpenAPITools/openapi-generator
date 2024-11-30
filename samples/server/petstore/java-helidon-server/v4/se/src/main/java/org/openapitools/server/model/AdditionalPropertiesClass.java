@@ -9,8 +9,8 @@ import jakarta.validation.Valid;
 
 public class AdditionalPropertiesClass   {
 
-    private Map<String, String> mapProperty = new HashMap<>();
-    private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
+    private Map<String, String> mapProperty;
+    private Map<String, Map<String, String>> mapOfMapProperty;
 
     /**
      * Default constructor.

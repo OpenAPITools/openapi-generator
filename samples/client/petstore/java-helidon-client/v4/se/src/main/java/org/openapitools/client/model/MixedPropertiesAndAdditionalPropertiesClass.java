@@ -32,7 +32,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
 
   private OffsetDateTime dateTime;
 
-  private Map<String, Animal> map = null;
+  private Map<String, Animal> map;
 
  /**
    * Get uuid

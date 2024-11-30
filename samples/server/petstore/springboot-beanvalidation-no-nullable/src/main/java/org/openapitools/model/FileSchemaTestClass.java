@@ -28,7 +28,7 @@ public class FileSchemaTestClass {
   private File file;
 
   @Valid
-  private List<@Valid File> files = new ArrayList<>();
+  private List<@Valid File> files;
 
   public FileSchemaTestClass file(File file) {
     this.file = file;

@@ -101,7 +101,7 @@ public class NullableClass {
   public static final String SERIALIZED_NAME_ARRAY_ITEMS_NULLABLE = "array_items_nullable";
   @SerializedName(SERIALIZED_NAME_ARRAY_ITEMS_NULLABLE)
   @javax.annotation.Nullable
-  private List<Object> arrayItemsNullable = new ArrayList<>();
+  private List<Object> arrayItemsNullable;
 
   public static final String SERIALIZED_NAME_OBJECT_NULLABLE_PROP = "object_nullable_prop";
   @SerializedName(SERIALIZED_NAME_OBJECT_NULLABLE_PROP)
@@ -116,7 +116,7 @@ public class NullableClass {
   public static final String SERIALIZED_NAME_OBJECT_ITEMS_NULLABLE = "object_items_nullable";
   @SerializedName(SERIALIZED_NAME_OBJECT_ITEMS_NULLABLE)
   @javax.annotation.Nullable
-  private Map<String, Object> objectItemsNullable = new HashMap<>();
+  private Map<String, Object> objectItemsNullable;
 
   public NullableClass() {
   }

@@ -33,11 +33,11 @@ public class Pet  {
   private String name;
 
   @ApiModelProperty(required = true, value = "")
-  private List<String> photoUrls = new ArrayList<>();
+  private List<String> photoUrls;
 
   @ApiModelProperty(value = "")
   @Valid
-  private List<@Valid Tag> tags = new ArrayList<>();
+  private List<@Valid Tag> tags;
 
 public enum StatusEnum {
 

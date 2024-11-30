@@ -16,28 +16,28 @@ import java.util.Map;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class AdditionalPropertiesClass   {
   @JsonProperty("map_string")
-  private Map<String, String> mapString = null;
+  private Map<String, String> mapString;
 
   @JsonProperty("map_number")
-  private Map<String, BigDecimal> mapNumber = null;
+  private Map<String, BigDecimal> mapNumber;
 
   @JsonProperty("map_integer")
-  private Map<String, Integer> mapInteger = null;
+  private Map<String, Integer> mapInteger;
 
   @JsonProperty("map_boolean")
-  private Map<String, Boolean> mapBoolean = null;
+  private Map<String, Boolean> mapBoolean;
 
   @JsonProperty("map_array_integer")
-  private Map<String, List<Integer>> mapArrayInteger = null;
+  private Map<String, List<Integer>> mapArrayInteger;
 
   @JsonProperty("map_array_anytype")
-  private Map<String, List<Object>> mapArrayAnytype = null;
+  private Map<String, List<Object>> mapArrayAnytype;
 
   @JsonProperty("map_map_string")
-  private Map<String, Map<String, String>> mapMapString = null;
+  private Map<String, Map<String, String>> mapMapString;
 
   @JsonProperty("map_map_anytype")
-  private Map<String, Map<String, Object>> mapMapAnytype = null;
+  private Map<String, Map<String, Object>> mapMapAnytype;
 
   @JsonProperty("anytype_1")
   private Object anytype1;
@@ -55,7 +55,7 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass putMapStringItem(String key, String mapStringItem) {
     if (this.mapString == null) {
-      this.mapString = new HashMap<>();
+      this.mapString = ;
     }
     this.mapString.put(key, mapStringItem);
     return this;
@@ -81,7 +81,7 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass putMapNumberItem(String key, BigDecimal mapNumberItem) {
     if (this.mapNumber == null) {
-      this.mapNumber = new HashMap<>();
+      this.mapNumber = ;
     }
     this.mapNumber.put(key, mapNumberItem);
     return this;
@@ -107,7 +107,7 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass putMapIntegerItem(String key, Integer mapIntegerItem) {
     if (this.mapInteger == null) {
-      this.mapInteger = new HashMap<>();
+      this.mapInteger = ;
     }
     this.mapInteger.put(key, mapIntegerItem);
     return this;
@@ -133,7 +133,7 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass putMapBooleanItem(String key, Boolean mapBooleanItem) {
     if (this.mapBoolean == null) {
-      this.mapBoolean = new HashMap<>();
+      this.mapBoolean = ;
     }
     this.mapBoolean.put(key, mapBooleanItem);
     return this;
@@ -159,7 +159,7 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass putMapArrayIntegerItem(String key, List<Integer> mapArrayIntegerItem) {
     if (this.mapArrayInteger == null) {
-      this.mapArrayInteger = new HashMap<>();
+      this.mapArrayInteger = ;
     }
     this.mapArrayInteger.put(key, mapArrayIntegerItem);
     return this;
@@ -185,7 +185,7 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass putMapArrayAnytypeItem(String key, List<Object> mapArrayAnytypeItem) {
     if (this.mapArrayAnytype == null) {
-      this.mapArrayAnytype = new HashMap<>();
+      this.mapArrayAnytype = ;
     }
     this.mapArrayAnytype.put(key, mapArrayAnytypeItem);
     return this;
@@ -211,7 +211,7 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass putMapMapStringItem(String key, Map<String, String> mapMapStringItem) {
     if (this.mapMapString == null) {
-      this.mapMapString = new HashMap<>();
+      this.mapMapString = ;
     }
     this.mapMapString.put(key, mapMapStringItem);
     return this;
@@ -237,7 +237,7 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass putMapMapAnytypeItem(String key, Map<String, Object> mapMapAnytypeItem) {
     if (this.mapMapAnytype == null) {
-      this.mapMapAnytype = new HashMap<>();
+      this.mapMapAnytype = ;
     }
     this.mapMapAnytype.put(key, mapMapAnytypeItem);
     return this;

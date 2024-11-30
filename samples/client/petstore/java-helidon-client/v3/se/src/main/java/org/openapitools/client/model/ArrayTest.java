@@ -27,11 +27,11 @@ import org.openapitools.client.model.ReadOnlyFirst;
 
 public class ArrayTest  {
   
-  private List<String> arrayOfString = null;
+  private List<String> arrayOfString;
 
-  private List<List<Long>> arrayArrayOfInteger = null;
+  private List<List<Long>> arrayArrayOfInteger;
 
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
+  private List<List<ReadOnlyFirst>> arrayArrayOfModel;
 
  /**
    * Get arrayOfString

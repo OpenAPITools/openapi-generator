@@ -537,22 +537,22 @@ public class AbstractJavaCodegenTest {
 
         ModelUtils.setGenerateAliasAsModel(false);
         defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), schema);
-        Assert.assertEquals(defaultValue, "new ArrayList<>()");
+        Assert.assertNull(defaultValue);
 
         ModelUtils.setGenerateAliasAsModel(true);
         defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), schema);
-        Assert.assertEquals(defaultValue, "new ArrayList<>()");
+        Assert.assertNull(defaultValue);
 
         // Create a map schema with additionalProperties type set to array alias
         schema = new MapSchema().additionalProperties(new Schema<>().$ref("#/components/schemas/NestedArray"));
 
         ModelUtils.setGenerateAliasAsModel(false);
         defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), schema);
-        Assert.assertEquals(defaultValue, "new HashMap<>()");
+        Assert.assertNull(defaultValue);
 
         ModelUtils.setGenerateAliasAsModel(true);
         defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), schema);
-        Assert.assertEquals(defaultValue, "new HashMap<>()");
+        Assert.assertNull(defaultValue);
 
         // Test default value for date format
         DateSchema dateSchema = new DateSchema();

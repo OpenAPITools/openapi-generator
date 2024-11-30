@@ -26,31 +26,31 @@ public class XmlItem  implements Serializable {
   private BigDecimal attributeNumber;
   private Integer attributeInteger;
   private Boolean attributeBoolean;
-  private @Valid List<Integer> wrappedArray = new ArrayList<>();
+  private @Valid List<Integer> wrappedArray;
   private String nameString;
   private BigDecimal nameNumber;
   private Integer nameInteger;
   private Boolean nameBoolean;
-  private @Valid List<Integer> nameArray = new ArrayList<>();
-  private @Valid List<Integer> nameWrappedArray = new ArrayList<>();
+  private @Valid List<Integer> nameArray;
+  private @Valid List<Integer> nameWrappedArray;
   private String prefixString;
   private BigDecimal prefixNumber;
   private Integer prefixInteger;
   private Boolean prefixBoolean;
-  private @Valid List<Integer> prefixArray = new ArrayList<>();
-  private @Valid List<Integer> prefixWrappedArray = new ArrayList<>();
+  private @Valid List<Integer> prefixArray;
+  private @Valid List<Integer> prefixWrappedArray;
   private String namespaceString;
   private BigDecimal namespaceNumber;
   private Integer namespaceInteger;
   private Boolean namespaceBoolean;
-  private @Valid List<Integer> namespaceArray = new ArrayList<>();
-  private @Valid List<Integer> namespaceWrappedArray = new ArrayList<>();
+  private @Valid List<Integer> namespaceArray;
+  private @Valid List<Integer> namespaceWrappedArray;
   private String prefixNsString;
   private BigDecimal prefixNsNumber;
   private Integer prefixNsInteger;
   private Boolean prefixNsBoolean;
-  private @Valid List<Integer> prefixNsArray = new ArrayList<>();
-  private @Valid List<Integer> prefixNsWrappedArray = new ArrayList<>();
+  private @Valid List<Integer> prefixNsArray;
+  private @Valid List<Integer> prefixNsWrappedArray;
 
   public XmlItem() {
   }

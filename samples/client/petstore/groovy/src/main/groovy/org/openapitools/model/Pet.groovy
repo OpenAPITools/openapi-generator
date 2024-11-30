@@ -17,9 +17,9 @@ class Pet {
     
     String name
     
-    List<String> photoUrls = new ArrayList<>()
+    List<String> photoUrls
     
-    List<Tag> tags = new ArrayList<>()
+    List<Tag> tags
 
     enum StatusEnum {
     

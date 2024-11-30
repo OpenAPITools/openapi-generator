@@ -67,7 +67,7 @@ public class Drawing {
 
   public static final String JSON_PROPERTY_SHAPES = "shapes";
   @jakarta.annotation.Nullable
-  private List<Shape> shapes = new ArrayList<>();
+  private List<Shape> shapes;
 
   public Drawing() { 
   }

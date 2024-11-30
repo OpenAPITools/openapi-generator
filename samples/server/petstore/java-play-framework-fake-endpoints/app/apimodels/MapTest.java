@@ -17,7 +17,7 @@ public class MapTest   {
   @JsonProperty("map_map_of_string")
   @Valid
 
-  private Map<String, Map<String, String>> mapMapOfString = null;
+  private Map<String, Map<String, String>> mapMapOfString;
 
   /**
    * Gets or Sets inner
@@ -52,15 +52,15 @@ public class MapTest   {
 
   @JsonProperty("map_of_enum_string")
   
-  private Map<String, InnerEnum> mapOfEnumString = null;
+  private Map<String, InnerEnum> mapOfEnumString;
 
   @JsonProperty("direct_map")
   
-  private Map<String, Boolean> directMap = null;
+  private Map<String, Boolean> directMap;
 
   @JsonProperty("indirect_map")
   
-  private Map<String, Boolean> indirectMap = null;
+  private Map<String, Boolean> indirectMap;
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;

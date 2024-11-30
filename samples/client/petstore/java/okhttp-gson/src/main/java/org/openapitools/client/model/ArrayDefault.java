@@ -55,12 +55,12 @@ public class ArrayDefault {
   public static final String SERIALIZED_NAME_WITH_DEFAULT_EMPTY_BRACKET = "WithDefaultEmptyBracket";
   @SerializedName(SERIALIZED_NAME_WITH_DEFAULT_EMPTY_BRACKET)
   @javax.annotation.Nullable
-  private List<String> withDefaultEmptyBracket = new ArrayList<>();
+  private List<String> withDefaultEmptyBracket;
 
   public static final String SERIALIZED_NAME_WITHOUT_DEFAULT = "WithoutDefault";
   @SerializedName(SERIALIZED_NAME_WITHOUT_DEFAULT)
   @javax.annotation.Nullable
-  private List<String> withoutDefault = new ArrayList<>();
+  private List<String> withoutDefault;
 
   public ArrayDefault() {
   }

@@ -29,9 +29,9 @@ public class Pet   {
 
   private String name;
 
-  private List<String> photoUrls = new ArrayList<>();
+  private List<String> photoUrls;
 
-  private List<@Valid Tag> tags = new ArrayList<>();
+  private List<@Valid Tag> tags;
 
 
 public enum StatusEnum {

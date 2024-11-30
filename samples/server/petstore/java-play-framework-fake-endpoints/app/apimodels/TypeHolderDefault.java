@@ -40,7 +40,7 @@ public class TypeHolderDefault   {
   @JsonProperty("array_item")
   @NotNull
 
-  private List<Integer> arrayItem = new ArrayList<>();
+  private List<Integer> arrayItem;
 
   public TypeHolderDefault stringItem(String stringItem) {
     this.stringItem = stringItem;

@@ -40,7 +40,7 @@ import jakarta.validation.Valid;
 public class MapTest {
   public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
   @jakarta.annotation.Nullable
-  private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
+  private Map<String, Map<String, String>> mapMapOfString;
 
   /**
    * Gets or Sets inner
@@ -79,15 +79,15 @@ public class MapTest {
 
   public static final String JSON_PROPERTY_MAP_OF_ENUM_STRING = "map_of_enum_string";
   @jakarta.annotation.Nullable
-  private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
+  private Map<String, InnerEnum> mapOfEnumString;
 
   public static final String JSON_PROPERTY_DIRECT_MAP = "direct_map";
   @jakarta.annotation.Nullable
-  private Map<String, Boolean> directMap = new HashMap<>();
+  private Map<String, Boolean> directMap;
 
   public static final String JSON_PROPERTY_INDIRECT_MAP = "indirect_map";
   @jakarta.annotation.Nullable
-  private Map<String, Boolean> indirectMap = new HashMap<>();
+  private Map<String, Boolean> indirectMap;
 
   public MapTest() {
   }

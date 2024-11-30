@@ -54,7 +54,7 @@ public class Pet {
     private String name;
 
     public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
-    private Set<String> photoUrls = new LinkedHashSet<>();
+    private Set<String> photoUrls;
 
     public static final String JSON_PROPERTY_TAGS = "tags";
     private List<@Valid Tag> tags = null;

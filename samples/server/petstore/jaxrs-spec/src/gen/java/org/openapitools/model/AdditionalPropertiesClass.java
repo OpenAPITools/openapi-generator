@@ -20,8 +20,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("AdditionalPropertiesClass")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class AdditionalPropertiesClass  implements Serializable {
-  private @Valid Map<String, String> mapProperty = new HashMap<>();
-  private @Valid Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
+  private @Valid Map<String, String> mapProperty;
+  private @Valid Map<String, Map<String, String>> mapOfMapProperty;
 
   protected AdditionalPropertiesClass(AdditionalPropertiesClassBuilder<?, ?> b) {
     this.mapProperty = b.mapProperty;
@@ -161,8 +161,8 @@ public class AdditionalPropertiesClass  implements Serializable {
   }
 
   public static abstract class AdditionalPropertiesClassBuilder<C extends AdditionalPropertiesClass, B extends AdditionalPropertiesClassBuilder<C, B>>  {
-    private Map<String, String> mapProperty = new HashMap<>();
-    private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
+    private Map<String, String> mapProperty;
+    private Map<String, Map<String, String>> mapOfMapProperty;
     protected abstract B self();
 
     public abstract C build();

@@ -27,11 +27,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class ArrayTest  {
   
-  private List<String> arrayOfString = null;
+  private List<String> arrayOfString;
 
-  private List<List<Long>> arrayArrayOfInteger = null;
+  private List<List<Long>> arrayArrayOfInteger;
 
-  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = null;
+  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel;
 
  /**
    * Get arrayOfString

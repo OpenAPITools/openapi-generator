@@ -11,7 +11,7 @@ import jakarta.validation.Valid;
 
 public class MapTest   {
 
-    private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
+    private Map<String, Map<String, String>> mapMapOfString;
 
     /**
     * Gets or Sets inner
@@ -49,9 +49,9 @@ public class MapTest   {
     }
 
 
-    private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
-    private Map<String, Boolean> directMap = new HashMap<>();
-    private Map<String, Boolean> indirectMap = new HashMap<>();
+    private Map<String, InnerEnum> mapOfEnumString;
+    private Map<String, Boolean> directMap;
+    private Map<String, Boolean> indirectMap;
 
     /**
      * Default constructor.

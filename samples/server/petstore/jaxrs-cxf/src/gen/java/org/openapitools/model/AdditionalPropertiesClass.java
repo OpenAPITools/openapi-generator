@@ -15,33 +15,33 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class AdditionalPropertiesClass  {
   
   @ApiModelProperty(value = "")
-  private Map<String, String> mapString = new HashMap<>();
+  private Map<String, String> mapString;
 
   @ApiModelProperty(value = "")
   @Valid
-  private Map<String, BigDecimal> mapNumber = new HashMap<>();
+  private Map<String, BigDecimal> mapNumber;
 
   @ApiModelProperty(value = "")
-  private Map<String, Integer> mapInteger = new HashMap<>();
+  private Map<String, Integer> mapInteger;
 
   @ApiModelProperty(value = "")
-  private Map<String, Boolean> mapBoolean = new HashMap<>();
-
-  @ApiModelProperty(value = "")
-  @Valid
-  private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
+  private Map<String, Boolean> mapBoolean;
 
   @ApiModelProperty(value = "")
   @Valid
-  private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
+  private Map<String, List<Integer>> mapArrayInteger;
 
   @ApiModelProperty(value = "")
   @Valid
-  private Map<String, Map<String, String>> mapMapString = new HashMap<>();
+  private Map<String, List<Object>> mapArrayAnytype;
 
   @ApiModelProperty(value = "")
   @Valid
-  private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
+  private Map<String, Map<String, String>> mapMapString;
+
+  @ApiModelProperty(value = "")
+  @Valid
+  private Map<String, Map<String, Object>> mapMapAnytype;
 
   @ApiModelProperty(value = "")
   private Object anytype1;

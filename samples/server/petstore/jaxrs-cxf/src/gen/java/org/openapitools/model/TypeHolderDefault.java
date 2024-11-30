@@ -28,7 +28,7 @@ public class TypeHolderDefault  {
   private Boolean boolItem = true;
 
   @ApiModelProperty(required = true, value = "")
-  private List<Integer> arrayItem = new ArrayList<>();
+  private List<Integer> arrayItem;
  /**
    * Get stringItem
    * @return stringItem

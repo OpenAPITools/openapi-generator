@@ -40,10 +40,10 @@ public class PetDto {
   private String name;
 
   @Valid
-  private Set<String> photoUrls = new LinkedHashSet<>();
+  private Set<String> photoUrls;
 
   @Valid
-  private List<@Valid TagDto> tags = new ArrayList<>();
+  private List<@Valid TagDto> tags;
 
   /**
    * pet status in the store

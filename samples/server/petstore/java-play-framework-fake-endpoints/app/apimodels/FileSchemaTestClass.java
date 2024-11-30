@@ -24,7 +24,7 @@ public class FileSchemaTestClass   {
   @JsonProperty("files")
   @Valid
 
-  private List<@Valid ModelFile> files = null;
+  private List<@Valid ModelFile> files;
 
   public FileSchemaTestClass _file(ModelFile _file) {
     this._file = _file;

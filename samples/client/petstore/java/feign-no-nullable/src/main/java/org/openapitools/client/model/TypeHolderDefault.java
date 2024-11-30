@@ -62,7 +62,7 @@ public class TypeHolderDefault {
 
   public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
   @javax.annotation.Nonnull
-  private List<Integer> arrayItem = new ArrayList<>();
+  private List<Integer> arrayItem;
 
   public TypeHolderDefault() {
   }

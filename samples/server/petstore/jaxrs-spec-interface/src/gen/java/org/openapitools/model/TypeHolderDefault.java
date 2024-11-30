@@ -26,7 +26,7 @@ public class TypeHolderDefault  implements Serializable {
   private BigDecimal numberItem;
   private Integer integerItem;
   private Boolean boolItem = true;
-  private @Valid List<Integer> arrayItem = new ArrayList<>();
+  private @Valid List<Integer> arrayItem;
 
   public TypeHolderDefault() {
   }

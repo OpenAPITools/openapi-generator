@@ -33,10 +33,10 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
   private LocalDateTime datetimeProp;
   private @Valid List<Object> arrayNullableProp;
   private @Valid List<Object> arrayAndItemsNullableProp;
-  private @Valid List<Object> arrayItemsNullable = new ArrayList<>();
+  private @Valid List<Object> arrayItemsNullable;
   private @Valid Map<String, Object> objectNullableProp;
   private @Valid Map<String, Object> objectAndItemsNullableProp;
-  private @Valid Map<String, Object> objectItemsNullable = new HashMap<>();
+  private @Valid Map<String, Object> objectItemsNullable;
 
   public NullableClass() {
   }

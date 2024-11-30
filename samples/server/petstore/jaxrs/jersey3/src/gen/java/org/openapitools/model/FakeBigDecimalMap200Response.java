@@ -40,7 +40,7 @@ public class FakeBigDecimalMap200Response   {
 
   public static final String JSON_PROPERTY_SOME_MAP = "someMap";
   @JsonProperty(JSON_PROPERTY_SOME_MAP)
-  private Map<String, BigDecimal> someMap = new HashMap<>();
+  private Map<String, BigDecimal> someMap;
 
   public FakeBigDecimalMap200Response someId(BigDecimal someId) {
     this.someId = someId;

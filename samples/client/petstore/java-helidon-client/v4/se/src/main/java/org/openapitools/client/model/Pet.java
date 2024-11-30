@@ -37,9 +37,9 @@ public class Pet  {
 
   private String name;
 
-  private Set<String> photoUrls = new LinkedHashSet<>();
+  private Set<String> photoUrls;
 
-  private List<Tag> tags = null;
+  private List<Tag> tags;
 
 public enum StatusEnum {
 

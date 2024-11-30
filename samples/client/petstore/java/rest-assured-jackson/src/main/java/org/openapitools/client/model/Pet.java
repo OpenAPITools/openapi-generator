@@ -61,11 +61,11 @@ public class Pet {
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
   @javax.annotation.Nonnull
-  private Set<String> photoUrls = new LinkedHashSet<>();
+  private Set<String> photoUrls;
 
   public static final String JSON_PROPERTY_TAGS = "tags";
   @javax.annotation.Nullable
-  private List<@Valid Tag> tags = new ArrayList<>();
+  private List<@Valid Tag> tags;
 
   /**
    * pet status in the store

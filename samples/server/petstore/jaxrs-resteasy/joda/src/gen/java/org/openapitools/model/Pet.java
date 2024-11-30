@@ -22,8 +22,8 @@ public class Pet   {
   private Long id;
   private Category category;
   private String name;
-  private List<String> photoUrls = new ArrayList<>();
-  private List<@Valid Tag> tags = new ArrayList<>();
+  private List<String> photoUrls;
+  private List<@Valid Tag> tags;
 
   /**
    * pet status in the store

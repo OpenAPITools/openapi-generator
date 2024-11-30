@@ -37,12 +37,12 @@ public class Pet   {
   @JsonProperty("photoUrls")
   @NotNull
 
-  private Set<String> photoUrls = new LinkedHashSet<>();
+  private Set<String> photoUrls;
 
   @JsonProperty("tags")
   @Valid
 
-  private List<@Valid Tag> tags = null;
+  private List<@Valid Tag> tags;
 
   /**
    * pet status in the store

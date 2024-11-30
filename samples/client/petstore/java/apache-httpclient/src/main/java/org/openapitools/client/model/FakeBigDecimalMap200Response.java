@@ -45,7 +45,7 @@ public class FakeBigDecimalMap200Response {
 
   public static final String JSON_PROPERTY_SOME_MAP = "someMap";
   @javax.annotation.Nullable
-  private Map<String, BigDecimal> someMap = new HashMap<>();
+  private Map<String, BigDecimal> someMap;
 
   public FakeBigDecimalMap200Response() {
   }

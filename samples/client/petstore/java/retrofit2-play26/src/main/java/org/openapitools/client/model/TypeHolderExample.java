@@ -64,7 +64,7 @@ public class TypeHolderExample {
 
   public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
   @jakarta.annotation.Nonnull
-  private List<Integer> arrayItem = new ArrayList<>();
+  private List<Integer> arrayItem;
 
   public TypeHolderExample() {
   }

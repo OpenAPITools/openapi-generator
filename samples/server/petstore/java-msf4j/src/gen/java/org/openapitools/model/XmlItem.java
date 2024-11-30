@@ -28,7 +28,7 @@ public class XmlItem   {
   private Boolean attributeBoolean;
 
   @JsonProperty("wrapped_array")
-  private List<Integer> wrappedArray = null;
+  private List<Integer> wrappedArray;
 
   @JsonProperty("name_string")
   private String nameString;
@@ -43,10 +43,10 @@ public class XmlItem   {
   private Boolean nameBoolean;
 
   @JsonProperty("name_array")
-  private List<Integer> nameArray = null;
+  private List<Integer> nameArray;
 
   @JsonProperty("name_wrapped_array")
-  private List<Integer> nameWrappedArray = null;
+  private List<Integer> nameWrappedArray;
 
   @JsonProperty("prefix_string")
   private String prefixString;
@@ -61,10 +61,10 @@ public class XmlItem   {
   private Boolean prefixBoolean;
 
   @JsonProperty("prefix_array")
-  private List<Integer> prefixArray = null;
+  private List<Integer> prefixArray;
 
   @JsonProperty("prefix_wrapped_array")
-  private List<Integer> prefixWrappedArray = null;
+  private List<Integer> prefixWrappedArray;
 
   @JsonProperty("namespace_string")
   private String namespaceString;
@@ -79,10 +79,10 @@ public class XmlItem   {
   private Boolean namespaceBoolean;
 
   @JsonProperty("namespace_array")
-  private List<Integer> namespaceArray = null;
+  private List<Integer> namespaceArray;
 
   @JsonProperty("namespace_wrapped_array")
-  private List<Integer> namespaceWrappedArray = null;
+  private List<Integer> namespaceWrappedArray;
 
   @JsonProperty("prefix_ns_string")
   private String prefixNsString;
@@ -97,10 +97,10 @@ public class XmlItem   {
   private Boolean prefixNsBoolean;
 
   @JsonProperty("prefix_ns_array")
-  private List<Integer> prefixNsArray = null;
+  private List<Integer> prefixNsArray;
 
   @JsonProperty("prefix_ns_wrapped_array")
-  private List<Integer> prefixNsWrappedArray = null;
+  private List<Integer> prefixNsWrappedArray;
 
   public XmlItem attributeString(String attributeString) {
     this.attributeString = attributeString;
@@ -181,7 +181,7 @@ public class XmlItem   {
 
   public XmlItem addWrappedArrayItem(Integer wrappedArrayItem) {
     if (this.wrappedArray == null) {
-      this.wrappedArray = new ArrayList<>();
+      this.wrappedArray = ;
     }
     this.wrappedArray.add(wrappedArrayItem);
     return this;
@@ -279,7 +279,7 @@ public class XmlItem   {
 
   public XmlItem addNameArrayItem(Integer nameArrayItem) {
     if (this.nameArray == null) {
-      this.nameArray = new ArrayList<>();
+      this.nameArray = ;
     }
     this.nameArray.add(nameArrayItem);
     return this;
@@ -305,7 +305,7 @@ public class XmlItem   {
 
   public XmlItem addNameWrappedArrayItem(Integer nameWrappedArrayItem) {
     if (this.nameWrappedArray == null) {
-      this.nameWrappedArray = new ArrayList<>();
+      this.nameWrappedArray = ;
     }
     this.nameWrappedArray.add(nameWrappedArrayItem);
     return this;
@@ -403,7 +403,7 @@ public class XmlItem   {
 
   public XmlItem addPrefixArrayItem(Integer prefixArrayItem) {
     if (this.prefixArray == null) {
-      this.prefixArray = new ArrayList<>();
+      this.prefixArray = ;
     }
     this.prefixArray.add(prefixArrayItem);
     return this;
@@ -429,7 +429,7 @@ public class XmlItem   {
 
   public XmlItem addPrefixWrappedArrayItem(Integer prefixWrappedArrayItem) {
     if (this.prefixWrappedArray == null) {
-      this.prefixWrappedArray = new ArrayList<>();
+      this.prefixWrappedArray = ;
     }
     this.prefixWrappedArray.add(prefixWrappedArrayItem);
     return this;
@@ -527,7 +527,7 @@ public class XmlItem   {
 
   public XmlItem addNamespaceArrayItem(Integer namespaceArrayItem) {
     if (this.namespaceArray == null) {
-      this.namespaceArray = new ArrayList<>();
+      this.namespaceArray = ;
     }
     this.namespaceArray.add(namespaceArrayItem);
     return this;
@@ -553,7 +553,7 @@ public class XmlItem   {
 
   public XmlItem addNamespaceWrappedArrayItem(Integer namespaceWrappedArrayItem) {
     if (this.namespaceWrappedArray == null) {
-      this.namespaceWrappedArray = new ArrayList<>();
+      this.namespaceWrappedArray = ;
     }
     this.namespaceWrappedArray.add(namespaceWrappedArrayItem);
     return this;
@@ -651,7 +651,7 @@ public class XmlItem   {
 
   public XmlItem addPrefixNsArrayItem(Integer prefixNsArrayItem) {
     if (this.prefixNsArray == null) {
-      this.prefixNsArray = new ArrayList<>();
+      this.prefixNsArray = ;
     }
     this.prefixNsArray.add(prefixNsArrayItem);
     return this;
@@ -677,7 +677,7 @@ public class XmlItem   {
 
   public XmlItem addPrefixNsWrappedArrayItem(Integer prefixNsWrappedArrayItem) {
     if (this.prefixNsWrappedArray == null) {
-      this.prefixNsWrappedArray = new ArrayList<>();
+      this.prefixNsWrappedArray = ;
     }
     this.prefixNsWrappedArray.add(prefixNsWrappedArrayItem);
     return this;

@@ -34,7 +34,7 @@ public class ObjectWithDeprecatedFields  {
 
   private DeprecatedObject deprecatedRef;
 
-  private List<String> bars = null;
+  private List<String> bars;
 
  /**
    * Get uuid

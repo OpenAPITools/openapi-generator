@@ -66,7 +66,7 @@ public class ArrayOfInlineAllOf {
   public static final String SERIALIZED_NAME_ARRAY_ALLOF_DOG_PROPERTY = "array_allof_dog_property";
   @SerializedName(SERIALIZED_NAME_ARRAY_ALLOF_DOG_PROPERTY)
   @javax.annotation.Nullable
-  private List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> arrayAllofDogProperty = new ArrayList<>();
+  private List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> arrayAllofDogProperty;
 
   public ArrayOfInlineAllOf() {
   }

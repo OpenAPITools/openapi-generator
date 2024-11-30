@@ -31,11 +31,11 @@ public class Pet  {
   private String name;
 
   @ApiModelProperty(required = true, value = "")
-  private Set<String> photoUrls = new LinkedHashSet<>();
+  private Set<String> photoUrls;
 
   @ApiModelProperty(value = "")
   @Valid
-  private List<@Valid Tag> tags = new ArrayList<>();
+  private List<@Valid Tag> tags;
 
 public enum StatusEnum {
 

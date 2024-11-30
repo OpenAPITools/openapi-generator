@@ -29,7 +29,7 @@ public class FakeBigDecimalMap200Response  {
   
   private BigDecimal someId;
 
-  private Map<String, BigDecimal> someMap = null;
+  private Map<String, BigDecimal> someMap;
 
  /**
    * Get someId

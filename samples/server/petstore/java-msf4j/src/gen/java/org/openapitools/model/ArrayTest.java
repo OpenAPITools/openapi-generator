@@ -16,13 +16,13 @@ import org.openapitools.model.ReadOnlyFirst;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class ArrayTest   {
   @JsonProperty("array_of_string")
-  private List<String> arrayOfString = null;
+  private List<String> arrayOfString;
 
   @JsonProperty("array_array_of_integer")
-  private List<List<Long>> arrayArrayOfInteger = null;
+  private List<List<Long>> arrayArrayOfInteger;
 
   @JsonProperty("array_array_of_model")
-  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = null;
+  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel;
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
@@ -31,7 +31,7 @@ public class ArrayTest   {
 
   public ArrayTest addArrayOfStringItem(String arrayOfStringItem) {
     if (this.arrayOfString == null) {
-      this.arrayOfString = new ArrayList<>();
+      this.arrayOfString = ;
     }
     this.arrayOfString.add(arrayOfStringItem);
     return this;
@@ -57,7 +57,7 @@ public class ArrayTest   {
 
   public ArrayTest addArrayArrayOfIntegerItem(List<Long> arrayArrayOfIntegerItem) {
     if (this.arrayArrayOfInteger == null) {
-      this.arrayArrayOfInteger = new ArrayList<>();
+      this.arrayArrayOfInteger = ;
     }
     this.arrayArrayOfInteger.add(arrayArrayOfIntegerItem);
     return this;
@@ -83,7 +83,7 @@ public class ArrayTest   {
 
   public ArrayTest addArrayArrayOfModelItem(List<@Valid ReadOnlyFirst> arrayArrayOfModelItem) {
     if (this.arrayArrayOfModel == null) {
-      this.arrayArrayOfModel = new ArrayList<>();
+      this.arrayArrayOfModel = ;
     }
     this.arrayArrayOfModel.add(arrayArrayOfModelItem);
     return this;

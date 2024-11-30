@@ -45,7 +45,7 @@ public class TypeHolderExample   {
   @JsonProperty("array_item")
   @NotNull
 
-  private List<Integer> arrayItem = new ArrayList<>();
+  private List<Integer> arrayItem;
 
   public TypeHolderExample stringItem(String stringItem) {
     this.stringItem = stringItem;

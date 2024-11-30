@@ -37,10 +37,10 @@ public class PetDto {
   private String name;
 
   
-  private Set<String> photoUrls = new LinkedHashSet<>();
+  private Set<String> photoUrls;
 
   
-  private List<TagDto> tags = new ArrayList<>();
+  private List<TagDto> tags;
 
   /**
    * pet status in the store

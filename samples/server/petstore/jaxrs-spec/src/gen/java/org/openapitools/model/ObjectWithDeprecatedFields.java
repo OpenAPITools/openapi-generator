@@ -26,7 +26,7 @@ public class ObjectWithDeprecatedFields  implements Serializable {
   private String uuid;
   private BigDecimal id;
   private DeprecatedObject deprecatedRef;
-  private @Valid List<String> bars = new ArrayList<>();
+  private @Valid List<String> bars;
 
   protected ObjectWithDeprecatedFields(ObjectWithDeprecatedFieldsBuilder<?, ?> b) {
     this.uuid = b.uuid;
@@ -197,7 +197,7 @@ public class ObjectWithDeprecatedFields  implements Serializable {
     private String uuid;
     private BigDecimal id;
     private DeprecatedObject deprecatedRef;
-    private List<String> bars = new ArrayList<>();
+    private List<String> bars;
     protected abstract B self();
 
     public abstract C build();

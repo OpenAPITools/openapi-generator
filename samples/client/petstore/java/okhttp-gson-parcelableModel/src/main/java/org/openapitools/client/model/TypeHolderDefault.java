@@ -78,7 +78,7 @@ public class TypeHolderDefault implements Parcelable {
   public static final String SERIALIZED_NAME_ARRAY_ITEM = "array_item";
   @SerializedName(SERIALIZED_NAME_ARRAY_ITEM)
   @javax.annotation.Nonnull
-  private List<Integer> arrayItem = new ArrayList<>();
+  private List<Integer> arrayItem;
 
   public TypeHolderDefault() {
   }

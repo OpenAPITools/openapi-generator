@@ -30,10 +30,10 @@ public class Pet   {
   private String name;
 
   @JsonProperty("photoUrls")
-  private Set<String> photoUrls = new LinkedHashSet<>();
+  private Set<String> photoUrls;
 
   @JsonProperty("tags")
-  private List<@Valid Tag> tags = null;
+  private List<@Valid Tag> tags;
 
   /**
    * pet status in the store
@@ -156,7 +156,7 @@ public class Pet   {
 
   public Pet addTagsItem(Tag tagsItem) {
     if (this.tags == null) {
-      this.tags = new ArrayList<>();
+      this.tags = ;
     }
     this.tags.add(tagsItem);
     return this;

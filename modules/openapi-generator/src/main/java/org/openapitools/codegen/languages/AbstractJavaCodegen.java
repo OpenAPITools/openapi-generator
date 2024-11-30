@@ -1309,17 +1309,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 return null;
             }
 
-            // nullable or containerDefaultToNull set to true
-            if (cp.isNullable || containerDefaultToNull) {
-                return null;
-            }
-
-            if (ModelUtils.getAdditionalProperties(schema) == null) {
-                return null;
-            }
-
-            return String.format(Locale.ROOT, "new %s<>()",
-                    instantiationTypes().getOrDefault("map", "HashMap"));
+            return null;
         } else if (ModelUtils.isIntegerSchema(schema)) {
             if (schema.getDefault() != null) {
                 if (SchemaTypeUtil.INTEGER64_FORMAT.equals(schema.getFormat())) {
@@ -1405,8 +1395,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     private String getDefaultCollectionType(Schema schema, String defaultValues) {
         String arrayFormat = "new %s<>(Arrays.asList(%s))";
         if(defaultValues == null || defaultValues.isEmpty()){
-            defaultValues = "";
-            arrayFormat = "new %s<>()";
+            return null;
         }
 
         if (ModelUtils.isSet(schema)) {

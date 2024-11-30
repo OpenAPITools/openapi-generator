@@ -70,13 +70,13 @@ public class Pet {
   @XmlElement(name = "photoUrl")
   @XmlElementWrapper(name = "photoUrls")
   @javax.annotation.Nonnull
-  private Set<String> photoUrls = new LinkedHashSet<>();
+  private Set<String> photoUrls;
 
   public static final String JSON_PROPERTY_TAGS = "tags";
   @XmlElement(name = "Tag")
   @XmlElementWrapper(name = "tag")
   @javax.annotation.Nullable
-  private List<Tag> tags = new ArrayList<>();
+  private List<Tag> tags;
 
   /**
    * pet status in the store

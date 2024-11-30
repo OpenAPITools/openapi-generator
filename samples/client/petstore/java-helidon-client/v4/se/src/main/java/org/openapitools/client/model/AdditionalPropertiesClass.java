@@ -25,9 +25,9 @@ import java.util.Map;
 
 public class AdditionalPropertiesClass  {
   
-  private Map<String, String> mapProperty = null;
+  private Map<String, String> mapProperty;
 
-  private Map<String, Map<String, String>> mapOfMapProperty = null;
+  private Map<String, Map<String, String>> mapOfMapProperty;
 
  /**
    * Get mapProperty

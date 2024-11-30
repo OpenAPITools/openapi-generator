@@ -57,11 +57,11 @@ public class Pet  {
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
   
-  private List<String> photoUrls = new ArrayList<>();
+  private List<String> photoUrls;
 
   public static final String JSON_PROPERTY_TAGS = "tags";
   
-  private List<Tag> tags = null;
+  private List<Tag> tags;
 
   public enum StatusEnum {
 

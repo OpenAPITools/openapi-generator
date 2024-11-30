@@ -36,7 +36,7 @@ public class TypeHolderExample {
   private Boolean boolItem;
 
   @Valid
-  private List<Integer> arrayItem = new ArrayList<>();
+  private List<Integer> arrayItem;
 
   public TypeHolderExample() {
     super();

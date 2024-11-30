@@ -27,7 +27,7 @@ import java.util.List;
 
 public class ArrayOfNumberOnly  {
   
-  private List<BigDecimal> arrayNumber = null;
+  private List<BigDecimal> arrayNumber;
 
  /**
    * Get arrayNumber

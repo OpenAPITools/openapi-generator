@@ -81,7 +81,7 @@ public class NullableClass extends HashMap<String, Object>  {
 
   public static final String JSON_PROPERTY_ARRAY_ITEMS_NULLABLE = "array_items_nullable";
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEMS_NULLABLE)
-  private List<Object> arrayItemsNullable = new ArrayList<>();
+  private List<Object> arrayItemsNullable;
 
   public static final String JSON_PROPERTY_OBJECT_NULLABLE_PROP = "object_nullable_prop";
   @JsonProperty(JSON_PROPERTY_OBJECT_NULLABLE_PROP)
@@ -93,7 +93,7 @@ public class NullableClass extends HashMap<String, Object>  {
 
   public static final String JSON_PROPERTY_OBJECT_ITEMS_NULLABLE = "object_items_nullable";
   @JsonProperty(JSON_PROPERTY_OBJECT_ITEMS_NULLABLE)
-  private Map<String, Object> objectItemsNullable = new HashMap<>();
+  private Map<String, Object> objectItemsNullable;
 
   public NullableClass integerProp(Integer integerProp) {
     this.integerProp = integerProp;

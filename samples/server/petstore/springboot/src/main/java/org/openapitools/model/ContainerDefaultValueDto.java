@@ -36,7 +36,7 @@ public class ContainerDefaultValueDto {
   private JsonNullable<List<String>> nullableRequiredArray = JsonNullable.<List<String>>undefined();
 
   @Valid
-  private List<String> requiredArray = new ArrayList<>();
+  private List<String> requiredArray;
 
   @Valid
   private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.<List<String>>undefined();

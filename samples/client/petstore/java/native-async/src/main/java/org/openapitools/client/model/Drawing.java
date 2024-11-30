@@ -69,7 +69,7 @@ public class Drawing extends HashMap<String, Fruit> {
 
   public static final String JSON_PROPERTY_SHAPES = "shapes";
   @javax.annotation.Nullable
-  private List<Shape> shapes = new ArrayList<>();
+  private List<Shape> shapes;
 
   public Drawing() { 
   }

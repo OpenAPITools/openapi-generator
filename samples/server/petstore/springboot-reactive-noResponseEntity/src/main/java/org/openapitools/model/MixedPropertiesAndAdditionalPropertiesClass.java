@@ -34,7 +34,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   private OffsetDateTime dateTime;
 
   @Valid
-  private Map<String, Animal> map = new HashMap<>();
+  private Map<String, Animal> map;
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
     this.uuid = uuid;

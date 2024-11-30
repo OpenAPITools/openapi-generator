@@ -67,12 +67,12 @@ public class Pet  {
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
   @XmlElement(name = "photoUrl")
   @XmlElementWrapper(name = "photoUrl")
-  private List<String> photoUrls = new ArrayList<>();
+  private List<String> photoUrls;
 
   public static final String JSON_PROPERTY_TAGS = "tags";
   @XmlElement(name = "Tag")
   @XmlElementWrapper(name = "tag")
-  private List<Tag> tags = null;
+  private List<Tag> tags;
 
 @XmlType(name="StatusEnum")
 @XmlEnum(String.class)

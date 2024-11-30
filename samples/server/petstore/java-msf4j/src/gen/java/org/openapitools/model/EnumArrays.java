@@ -81,7 +81,7 @@ public class EnumArrays   {
   }
 
   @JsonProperty("array_enum")
-  private List<ArrayEnumEnum> arrayEnum = null;
+  private List<ArrayEnumEnum> arrayEnum;
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
@@ -108,7 +108,7 @@ public class EnumArrays   {
 
   public EnumArrays addArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
     if (this.arrayEnum == null) {
-      this.arrayEnum = new ArrayList<>();
+      this.arrayEnum = ;
     }
     this.arrayEnum.add(arrayEnumItem);
     return this;

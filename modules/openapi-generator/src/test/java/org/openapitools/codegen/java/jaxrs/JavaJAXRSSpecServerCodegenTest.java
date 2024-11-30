@@ -760,7 +760,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         //And the generated model contains correct default value for array properties (required)
         TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/model/BodyWithRequired.java");
         assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/model/BodyWithRequired.java"),
-                "\nprivate @Valid List<String> arrayThatIsNotNull = new ArrayList<>();\n");
+                "\nprivate @Valid List<String> arrayThatIsNotNull;\n");
 
     }
 

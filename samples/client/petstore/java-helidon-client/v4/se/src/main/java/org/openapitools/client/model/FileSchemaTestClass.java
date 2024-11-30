@@ -29,7 +29,7 @@ public class FileSchemaTestClass  {
   
   private ModelFile _file;
 
-  private List<ModelFile> files = null;
+  private List<ModelFile> files;
 
  /**
    * Get _file

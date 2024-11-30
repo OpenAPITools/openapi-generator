@@ -31,7 +31,7 @@ public class ContainerDefaultValue {
   private List<String> nullableRequiredArray;
 
   @Valid
-  private List<String> requiredArray = new ArrayList<>();
+  private List<String> requiredArray;
 
   @Valid
   private List<String> nullableArrayWithDefault = new ArrayList<>(Arrays.asList("foo", "bar"));

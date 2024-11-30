@@ -46,10 +46,10 @@ public class Pet  {
   private String name;
 
   @JsonbProperty("photoUrls")
-  private List<String> photoUrls = new ArrayList<>();
+  private List<String> photoUrls;
 
   @JsonbProperty("tags")
-  private List<Tag> tags = null;
+  private List<Tag> tags;
 
   @JsonbTypeSerializer(StatusEnum.Serializer.class)
   @JsonbTypeDeserializer(StatusEnum.Deserializer.class)

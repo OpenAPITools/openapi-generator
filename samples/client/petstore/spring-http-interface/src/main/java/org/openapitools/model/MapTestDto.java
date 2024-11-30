@@ -25,7 +25,7 @@ import jakarta.annotation.Generated;
 public class MapTestDto {
 
   
-  private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
+  private Map<String, Map<String, String>> mapMapOfString;
 
   /**
    * Gets or Sets inner
@@ -63,13 +63,13 @@ public class MapTestDto {
   }
 
   
-  private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
+  private Map<String, InnerEnum> mapOfEnumString;
 
   
-  private Map<String, Boolean> directMap = new HashMap<>();
+  private Map<String, Boolean> directMap;
 
   
-  private Map<String, Boolean> indirectMap = new HashMap<>();
+  private Map<String, Boolean> indirectMap;
 
   public MapTestDto mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;

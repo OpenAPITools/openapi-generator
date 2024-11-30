@@ -27,7 +27,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class ArrayOfNumberOnly  {
   
-  private List<BigDecimal> arrayNumber = null;
+  private List<BigDecimal> arrayNumber;
 
  /**
    * Get arrayNumber
