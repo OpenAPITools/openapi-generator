@@ -6,6 +6,7 @@ templateDir: modules/openapi-generator/src/main/resources/rust
 additionalProperties:
   supportAsync: false
   packageName: petstore-name-mapping
+  varPrefix: ""
 nameMappings:
   _type: underscore_type
   type_: type_with_underscore

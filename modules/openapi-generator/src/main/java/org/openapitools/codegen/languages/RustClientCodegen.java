@@ -100,10 +100,12 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
 
     @Setter protected String packageName = "openapi";
     @Setter protected String packageVersion = "1.0.0";
+    @Setter protected String varPrefix = "local_var_";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected String apiFolder = "src/apis";
     protected String modelFolder = "src/models";
+
 
     @Override
     public CodegenType getTag() {
@@ -242,6 +244,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(BON_BUILDER, "Use the bon crate for building parameter types. This option is for the 'reqwest-trait' library only", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(CodegenConstants.VAR_PREFIX, CodegenConstants.VAR_PREFIX_DESC)
+                .defaultValue("local_var_"));
 
         supportedLibraries.put(HYPER_LIBRARY, "HTTP client: Hyper (v1.x).");
         supportedLibraries.put(HYPER0X_LIBRARY, "HTTP client: Hyper (v0.x).");
@@ -369,6 +373,11 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
         } else if (openAPI != null && openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {
             setPackageVersion(openAPI.getInfo().getVersion());
+        }
+
+        // set varPrefix to default if none is provided
+        if (!additionalProperties.containsKey(CodegenConstants.VAR_PREFIX)) {
+            additionalProperties.put(CodegenConstants.VAR_PREFIX, varPrefix);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER)) {
