@@ -90,8 +90,8 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
             {{^isExplode}}
             requestContext.setQueryParam("{{baseName}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}"));
             {{/isExplode}}
-            {{/isPrimitiveType}}
             {{/isEnumRef}}
+            {{/isPrimitiveType}}
         }
         {{/queryParams}}
         {{#headerParams}}
