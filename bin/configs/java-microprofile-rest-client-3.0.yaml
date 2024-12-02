@@ -7,4 +7,3 @@ additionalProperties:
   artifactId: microprofile-rest-client-3
   configKey: petstore
   microprofileRestClientVersion: "3.0"
-  openApiNullable: false
