@@ -34,7 +34,7 @@
     {accept_callback_return(), cowboy_req:req(), context()}.
 
 -callback provide_callback({{packageName}}_api:class(), {{packageName}}_api:operation_id(), cowboy_req:req(), context()) ->
-    {cowboy_req:resp_body(), cowboy_req:req(), context()}.
+    {provide_callback_return(), cowboy_req:req(), context()}.
 
 -export([api_key_callback/2, accept_callback/4, provide_callback/4]).
 -ignore_xref([api_key_callback/2, accept_callback/4, provide_callback/4]).
