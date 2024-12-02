@@ -69,11 +69,11 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
             {{#isPrimitiveType}}
             requestContext.setQueryParam("{{baseName}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}"));
             {{/isPrimitiveType}}
+            {{^isPrimitiveType}}
             {{#isEnumRef}}
             requestContext.setQueryParam("{{baseName}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}"));
             {{/isEnumRef}}
             {{^isEnumRef}}
-            {{^isPrimitiveType}}
             {{#isExplode}}
             const serializedParams = ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}");
             {{#isArray}}
