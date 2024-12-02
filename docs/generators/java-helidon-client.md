@@ -53,7 +53,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |licenseName|The name of the license| |Unlicense|
 |licenseUrl|The URL of the license| |http://unlicense.org|
 |modelPackage|package for generated models| |org.openapitools.client.model|
-|openApiNullable|Enable OpenAPI Jackson Nullable library| |true|
+|openApiNullable|Enable OpenAPI Jackson Nullable library. Not supported by `microprofile` library.| |true|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |rootJavaEEPackage|Root package name for Java EE| |Helidon 2.x and earlier: javax; Helidon 3.x and later: jakarta|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |false|
