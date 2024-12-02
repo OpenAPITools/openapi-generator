@@ -21,6 +21,7 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import lombok.Getter;
 import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -64,8 +65,8 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     public static final String USE_NEWTONSOFT = "useNewtonsoft";
     public static final String USE_DEFAULT_ROUTING = "useDefaultRouting";
     public static final String NEWTONSOFT_VERSION = "newtonsoftVersion";
-    public static final String USE_CENTRALIZED_PACKAGE_VERSION_MANAGEMENT = "useCentralizedPackageVersionManagement";
-    public static final String CENTRALIZED_PACKAGE_VERSION_MANAGEMENT_OPT_OUT = "centralizedPackageVersionManagementOptOut";
+    public static final String CENTRALIZED_PACKAGE_VERSION_MANAGEMENT = "centralizedPackageVersionManagement";
+    public static final String USE_PACKAGE_VERSIONS = "usePackageVersions";
 
     @Setter
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
@@ -94,8 +95,27 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     private boolean useNewtonsoft = true;
     private boolean useDefaultRouting = true;
     private String newtonsoftVersion = "3.0.0";
-    private boolean useCentralizedPackageVersionManagement = false;
-    private boolean centralizedPackageVersionManagementOptOut = false;
+    protected CliOption centralizedPackageVersionManagement = new CliOption(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT,"Option to control the usage of centralized package version management. https://devblogs.microsoft.com/nuget/introducing-central-package-management/#disabling-central-package-management");
+
+
+    @Getter
+    private enum CentralizedPackageVersionOptions  {
+        Default("default","Property in project wont be used"),
+        Use("use","Centralized package version management will be used"),
+        OptOut("optout","Opt out of centralized package version management. Set this if you have a Directory.Packages.pros file but want this project to ignore it. https://devblogs.microsoft.com/nuget/introducing-central-package-management/#disabling-central-package-management");
+
+        private final String Value;
+        private final String Description;
+
+        CentralizedPackageVersionOptions(String Value,String Description) {
+            this.Value = Value;
+            this.Description = Description;
+        }
+
+        public String GetDescription(){
+            return this.Description;
+        }
+    }
 
     public AspNetServerCodegen() {
         super();
@@ -254,13 +274,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
                 "Uses the Newtonsoft JSON library.",
                 useNewtonsoft);
 
-        addSwitch(USE_CENTRALIZED_PACKAGE_VERSION_MANAGEMENT,
-                "Uses centralized package version management. https://devblogs.microsoft.com/nuget/introducing-central-package-management/#disabling-central-package-management",
-                useCentralizedPackageVersionManagement);
-
-        addSwitch(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT_OPT_OUT,
-                "Opt out of centralized package version management. Set this if you have a Directory.Packages.pros file but want this project to ignore it. https://devblogs.microsoft.com/nuget/introducing-central-package-management/#disabling-central-package-management",
-                centralizedPackageVersionManagementOptOut);
+        addCentralizedPackageVersionManagementOption();
 
         addOption(NEWTONSOFT_VERSION,
                 "Version for Microsoft.AspNetCore.Mvc.NewtonsoftJson for ASP.NET Core 3.0+",
@@ -315,6 +329,16 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         modelClassModifier.setOptValue(modelClassModifier.getDefault());
         addOption(modelClassModifier.getOpt(), modelClassModifier.getDescription(), modelClassModifier.getOptValue());
     }
+
+   private void addCentralizedPackageVersionManagementOption(){
+       centralizedPackageVersionManagement.setType("String");
+       for (CentralizedPackageVersionOptions option : CentralizedPackageVersionOptions.values() ) {
+           centralizedPackageVersionManagement.addEnum(option.Value, option.GetDescription());
+       }
+       centralizedPackageVersionManagement.setDefault(CentralizedPackageVersionOptions.Default.Value);
+       centralizedPackageVersionManagement.setOptValue(centralizedPackageVersionManagement.getDefault());
+       cliOptions.add(centralizedPackageVersionManagement);
+   }
 
     @Deprecated
     @Override
@@ -700,11 +724,21 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
      */
     private void setCentralizedPackageVersionManagementSettings() {
 
-        additionalProperties.putIfAbsent(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT_OPT_OUT, centralizedPackageVersionManagementOptOut);
+        additionalProperties.put(USE_PACKAGE_VERSIONS, true);
 
-        // If opt out is true then the package versions should always be added regardless of USE_CENTRALIZED_PACKAGE_VERSION_MANAGEMENT value
-        if ((boolean) additionalProperties.get(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT_OPT_OUT) && additionalProperties.containsKey(USE_CENTRALIZED_PACKAGE_VERSION_MANAGEMENT)) {
-            additionalProperties.replace(USE_CENTRALIZED_PACKAGE_VERSION_MANAGEMENT, false);
+        if(additionalProperties.containsKey(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT)) {
+            var chosenOption = additionalProperties.get(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT);
+
+            if (chosenOption == CentralizedPackageVersionOptions.Default) {
+                additionalProperties.remove(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT);
+            }
+            if (chosenOption == CentralizedPackageVersionOptions.Use) {
+                additionalProperties.replace(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT,"true");
+                additionalProperties.put(USE_PACKAGE_VERSIONS, false);
+            }
+            if (chosenOption == CentralizedPackageVersionOptions.OptOut) {
+                additionalProperties.replace(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT,"false");
+            }
         }
     }
 
