@@ -13,7 +13,7 @@
 
 import { Injectable, Optional } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { AxiosResponse, RawAxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { Observable, from, of, switchMap } from 'rxjs';
 import { ApiResponse } from '../model/apiResponse';
 import { Pet } from '../model/pet';
@@ -52,8 +52,8 @@ export class PetService {
      * @param reportProgress flag to report request and response progress.
      * @param {*} [options] Override http request option.
      */
-    public addPet(pet: Pet, options?: RawAxiosRequestConfig): Observable<AxiosResponse<Pet>>;
-    public addPet(pet: Pet, options?: RawAxiosRequestConfig): Observable<any> {
+    public addPet(pet: Pet, options?: AxiosRequestConfig): Observable<AxiosResponse<Pet>>;
+    public addPet(pet: Pet, options?: AxiosRequestConfig): Observable<any> {
         if (pet === null || pet === undefined) {
             throw new Error('Required parameter pet was null or undefined when calling addPet.');
         }
@@ -114,8 +114,8 @@ export class PetService {
      * @param reportProgress flag to report request and response progress.
      * @param {*} [options] Override http request option.
      */
-    public deletePet(petId: number, apiKey?: string, options?: RawAxiosRequestConfig): Observable<AxiosResponse<any>>;
-    public deletePet(petId: number, apiKey?: string, options?: RawAxiosRequestConfig): Observable<any> {
+    public deletePet(petId: number, apiKey?: string, options?: AxiosRequestConfig): Observable<AxiosResponse<any>>;
+    public deletePet(petId: number, apiKey?: string, options?: AxiosRequestConfig): Observable<any> {
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling deletePet.');
         }
@@ -169,8 +169,8 @@ export class PetService {
      * @param reportProgress flag to report request and response progress.
      * @param {*} [options] Override http request option.
      */
-    public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: RawAxiosRequestConfig): Observable<AxiosResponse<Array<Pet>>>;
-    public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: RawAxiosRequestConfig): Observable<any> {
+    public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: AxiosRequestConfig): Observable<AxiosResponse<Array<Pet>>>;
+    public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: AxiosRequestConfig): Observable<any> {
         if (status === null || status === undefined) {
             throw new Error('Required parameter status was null or undefined when calling findPetsByStatus.');
         }
@@ -229,8 +229,8 @@ export class PetService {
      * @param reportProgress flag to report request and response progress.
      * @param {*} [options] Override http request option.
      */
-    public findPetsByTags(tags: Array<string>, options?: RawAxiosRequestConfig): Observable<AxiosResponse<Array<Pet>>>;
-    public findPetsByTags(tags: Array<string>, options?: RawAxiosRequestConfig): Observable<any> {
+    public findPetsByTags(tags: Array<string>, options?: AxiosRequestConfig): Observable<AxiosResponse<Array<Pet>>>;
+    public findPetsByTags(tags: Array<string>, options?: AxiosRequestConfig): Observable<any> {
         if (tags === null || tags === undefined) {
             throw new Error('Required parameter tags was null or undefined when calling findPetsByTags.');
         }
@@ -289,8 +289,8 @@ export class PetService {
      * @param reportProgress flag to report request and response progress.
      * @param {*} [options] Override http request option.
      */
-    public getPetById(petId: number, options?: RawAxiosRequestConfig): Observable<AxiosResponse<Pet>>;
-    public getPetById(petId: number, options?: RawAxiosRequestConfig): Observable<any> {
+    public getPetById(petId: number, options?: AxiosRequestConfig): Observable<AxiosResponse<Pet>>;
+    public getPetById(petId: number, options?: AxiosRequestConfig): Observable<any> {
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling getPetById.');
         }
@@ -341,8 +341,8 @@ export class PetService {
      * @param reportProgress flag to report request and response progress.
      * @param {*} [options] Override http request option.
      */
-    public updatePet(pet: Pet, options?: RawAxiosRequestConfig): Observable<AxiosResponse<Pet>>;
-    public updatePet(pet: Pet, options?: RawAxiosRequestConfig): Observable<any> {
+    public updatePet(pet: Pet, options?: AxiosRequestConfig): Observable<AxiosResponse<Pet>>;
+    public updatePet(pet: Pet, options?: AxiosRequestConfig): Observable<any> {
         if (pet === null || pet === undefined) {
             throw new Error('Required parameter pet was null or undefined when calling updatePet.');
         }
@@ -404,8 +404,8 @@ export class PetService {
      * @param reportProgress flag to report request and response progress.
      * @param {*} [options] Override http request option.
      */
-    public updatePetWithForm(petId: number, name?: string, status?: string, options?: RawAxiosRequestConfig): Observable<AxiosResponse<any>>;
-    public updatePetWithForm(petId: number, name?: string, status?: string, options?: RawAxiosRequestConfig): Observable<any> {
+    public updatePetWithForm(petId: number, name?: string, status?: string, options?: AxiosRequestConfig): Observable<AxiosResponse<any>>;
+    public updatePetWithForm(petId: number, name?: string, status?: string, options?: AxiosRequestConfig): Observable<any> {
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling updatePetWithForm.');
         }
@@ -480,8 +480,8 @@ export class PetService {
      * @param reportProgress flag to report request and response progress.
      * @param {*} [options] Override http request option.
      */
-    public uploadFile(petId: number, additionalMetadata?: string, file?: Blob, options?: RawAxiosRequestConfig): Observable<AxiosResponse<ApiResponse>>;
-    public uploadFile(petId: number, additionalMetadata?: string, file?: Blob, options?: RawAxiosRequestConfig): Observable<any> {
+    public uploadFile(petId: number, additionalMetadata?: string, file?: Blob, options?: AxiosRequestConfig): Observable<AxiosResponse<ApiResponse>>;
+    public uploadFile(petId: number, additionalMetadata?: string, file?: Blob, options?: AxiosRequestConfig): Observable<any> {
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling uploadFile.');
         }

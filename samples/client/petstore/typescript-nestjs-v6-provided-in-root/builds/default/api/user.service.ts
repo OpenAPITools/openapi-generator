@@ -12,7 +12,7 @@
 /* tslint:disable:no-unused-variable member-ordering */
 
 import { HttpService, Injectable, Optional } from '@nestjs/common';
-import { AxiosResponse, RawAxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { Observable, from, of, switchMap } from 'rxjs';
 import { User } from '../model/user';
 import { Configuration } from '../configuration';
@@ -50,8 +50,8 @@ export class UserService {
      * @param reportProgress flag to report request and response progress.
      * @param {*} [options] Override http request option.
      */
-    public createUser(user: User, options?: RawAxiosRequestConfig): Observable<AxiosResponse<any>>;
-    public createUser(user: User, options?: RawAxiosRequestConfig): Observable<any> {
+    public createUser(user: User, options?: AxiosRequestConfig): Observable<AxiosResponse<any>>;
+    public createUser(user: User, options?: AxiosRequestConfig): Observable<any> {
         if (user === null || user === undefined) {
             throw new Error('Required parameter user was null or undefined when calling createUser.');
         }
@@ -106,8 +106,8 @@ export class UserService {
      * @param reportProgress flag to report request and response progress.
      * @param {*} [options] Override http request option.
      */
-    public createUsersWithArrayInput(user: Array<User>, options?: RawAxiosRequestConfig): Observable<AxiosResponse<any>>;
-    public createUsersWithArrayInput(user: Array<User>, options?: RawAxiosRequestConfig): Observable<any> {
+    public createUsersWithArrayInput(user: Array<User>, options?: AxiosRequestConfig): Observable<AxiosResponse<any>>;
+    public createUsersWithArrayInput(user: Array<User>, options?: AxiosRequestConfig): Observable<any> {
         if (user === null || user === undefined) {
             throw new Error('Required parameter user was null or undefined when calling createUsersWithArrayInput.');
         }
@@ -162,8 +162,8 @@ export class UserService {
      * @param reportProgress flag to report request and response progress.
      * @param {*} [options] Override http request option.
      */
-    public createUsersWithListInput(user: Array<User>, options?: RawAxiosRequestConfig): Observable<AxiosResponse<any>>;
-    public createUsersWithListInput(user: Array<User>, options?: RawAxiosRequestConfig): Observable<any> {
+    public createUsersWithListInput(user: Array<User>, options?: AxiosRequestConfig): Observable<AxiosResponse<any>>;
+    public createUsersWithListInput(user: Array<User>, options?: AxiosRequestConfig): Observable<any> {
         if (user === null || user === undefined) {
             throw new Error('Required parameter user was null or undefined when calling createUsersWithListInput.');
         }
@@ -218,8 +218,8 @@ export class UserService {
      * @param reportProgress flag to report request and response progress.
      * @param {*} [options] Override http request option.
      */
-    public deleteUser(username: string, options?: RawAxiosRequestConfig): Observable<AxiosResponse<any>>;
-    public deleteUser(username: string, options?: RawAxiosRequestConfig): Observable<any> {
+    public deleteUser(username: string, options?: AxiosRequestConfig): Observable<AxiosResponse<any>>;
+    public deleteUser(username: string, options?: AxiosRequestConfig): Observable<any> {
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling deleteUser.');
         }
@@ -268,8 +268,8 @@ export class UserService {
      * @param reportProgress flag to report request and response progress.
      * @param {*} [options] Override http request option.
      */
-    public getUserByName(username: string, options?: RawAxiosRequestConfig): Observable<AxiosResponse<User>>;
-    public getUserByName(username: string, options?: RawAxiosRequestConfig): Observable<any> {
+    public getUserByName(username: string, options?: AxiosRequestConfig): Observable<AxiosResponse<User>>;
+    public getUserByName(username: string, options?: AxiosRequestConfig): Observable<any> {
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling getUserByName.');
         }
@@ -316,8 +316,8 @@ export class UserService {
      * @param reportProgress flag to report request and response progress.
      * @param {*} [options] Override http request option.
      */
-    public loginUser(username: string, password: string, options?: RawAxiosRequestConfig): Observable<AxiosResponse<string>>;
-    public loginUser(username: string, password: string, options?: RawAxiosRequestConfig): Observable<any> {
+    public loginUser(username: string, password: string, options?: AxiosRequestConfig): Observable<AxiosResponse<string>>;
+    public loginUser(username: string, password: string, options?: AxiosRequestConfig): Observable<any> {
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling loginUser.');
         }
@@ -375,8 +375,8 @@ export class UserService {
      * @param reportProgress flag to report request and response progress.
      * @param {*} [options] Override http request option.
      */
-    public logoutUser(options?: RawAxiosRequestConfig): Observable<AxiosResponse<any>>;
-    public logoutUser(options?: RawAxiosRequestConfig): Observable<any> {
+    public logoutUser(options?: AxiosRequestConfig): Observable<AxiosResponse<any>>;
+    public logoutUser(options?: AxiosRequestConfig): Observable<any> {
         let headers = {...this.defaultHeaders};
 
         let accessTokenObservable: Observable<any> = of(null);
@@ -422,8 +422,8 @@ export class UserService {
      * @param reportProgress flag to report request and response progress.
      * @param {*} [options] Override http request option.
      */
-    public updateUser(username: string, user: User, options?: RawAxiosRequestConfig): Observable<AxiosResponse<any>>;
-    public updateUser(username: string, user: User, options?: RawAxiosRequestConfig): Observable<any> {
+    public updateUser(username: string, user: User, options?: AxiosRequestConfig): Observable<AxiosResponse<any>>;
+    public updateUser(username: string, user: User, options?: AxiosRequestConfig): Observable<any> {
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling updateUser.');
         }

@@ -12,7 +12,7 @@
 /* tslint:disable:no-unused-variable member-ordering */
 
 import { HttpService, Injectable, Optional } from '@nestjs/common';
-import { AxiosResponse, RawAxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { Observable, from, of, switchMap } from 'rxjs';
 import { Order } from '../model/order';
 import { Configuration } from '../configuration';
@@ -50,8 +50,8 @@ export class StoreService {
      * @param reportProgress flag to report request and response progress.
      * @param {*} [options] Override http request option.
      */
-    public deleteOrder(orderId: string, options?: RawAxiosRequestConfig): Observable<AxiosResponse<any>>;
-    public deleteOrder(orderId: string, options?: RawAxiosRequestConfig): Observable<any> {
+    public deleteOrder(orderId: string, options?: AxiosRequestConfig): Observable<AxiosResponse<any>>;
+    public deleteOrder(orderId: string, options?: AxiosRequestConfig): Observable<any> {
         if (orderId === null || orderId === undefined) {
             throw new Error('Required parameter orderId was null or undefined when calling deleteOrder.');
         }
@@ -94,8 +94,8 @@ export class StoreService {
      * @param reportProgress flag to report request and response progress.
      * @param {*} [options] Override http request option.
      */
-    public getInventory(options?: RawAxiosRequestConfig): Observable<AxiosResponse<{ [key: string]: number; }>>;
-    public getInventory(options?: RawAxiosRequestConfig): Observable<any> {
+    public getInventory(options?: AxiosRequestConfig): Observable<AxiosResponse<{ [key: string]: number; }>>;
+    public getInventory(options?: AxiosRequestConfig): Observable<any> {
         let headers = {...this.defaultHeaders};
 
         let accessTokenObservable: Observable<any> = of(null);
@@ -141,8 +141,8 @@ export class StoreService {
      * @param reportProgress flag to report request and response progress.
      * @param {*} [options] Override http request option.
      */
-    public getOrderById(orderId: number, options?: RawAxiosRequestConfig): Observable<AxiosResponse<Order>>;
-    public getOrderById(orderId: number, options?: RawAxiosRequestConfig): Observable<any> {
+    public getOrderById(orderId: number, options?: AxiosRequestConfig): Observable<AxiosResponse<Order>>;
+    public getOrderById(orderId: number, options?: AxiosRequestConfig): Observable<any> {
         if (orderId === null || orderId === undefined) {
             throw new Error('Required parameter orderId was null or undefined when calling getOrderById.');
         }
@@ -188,8 +188,8 @@ export class StoreService {
      * @param reportProgress flag to report request and response progress.
      * @param {*} [options] Override http request option.
      */
-    public placeOrder(order: Order, options?: RawAxiosRequestConfig): Observable<AxiosResponse<Order>>;
-    public placeOrder(order: Order, options?: RawAxiosRequestConfig): Observable<any> {
+    public placeOrder(order: Order, options?: AxiosRequestConfig): Observable<AxiosResponse<Order>>;
+    public placeOrder(order: Order, options?: AxiosRequestConfig): Observable<any> {
         if (order === null || order === undefined) {
             throw new Error('Required parameter order was null or undefined when calling placeOrder.');
         }

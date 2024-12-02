@@ -8,7 +8,7 @@ import { HttpService } from '@nestjs/axios';
 {{^useAxiosHttpModule}}
 import { HttpService, Injectable, Optional } from '@nestjs/common';
 {{/useAxiosHttpModule}}
-import { AxiosResponse, RawAxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { Observable, from, of, switchMap } from 'rxjs';
 {{#imports}}
 import { {{classname}} } from '../{{filename}}';
@@ -96,12 +96,12 @@ export class {{classname}} {
      * @param {*} [options] Override http request option.
      */
     {{#useSingleRequestParameter}}
-    public {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request, {{/allParams.0}}options?: RawAxiosRequestConfig): Observable<AxiosResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
-    public {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request, {{/allParams.0}}options?: RawAxiosRequestConfig): Observable<any> {
+    public {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request, {{/allParams.0}}options?: AxiosRequestConfig): Observable<AxiosResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
+    public {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request, {{/allParams.0}}options?: AxiosRequestConfig): Observable<any> {
     {{/useSingleRequestParameter}}
     {{^useSingleRequestParameter}}
-    public {{nickname}}({{#allParams}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/allParams}}options?: RawAxiosRequestConfig): Observable<AxiosResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
-    public {{nickname}}({{#allParams}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/allParams}}options?: RawAxiosRequestConfig): Observable<any> {
+    public {{nickname}}({{#allParams}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/allParams}}options?: AxiosRequestConfig): Observable<AxiosResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
+    public {{nickname}}({{#allParams}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/allParams}}options?: AxiosRequestConfig): Observable<any> {
     {{/useSingleRequestParameter}}
 {{#allParams.0}}
 {{#useSingleRequestParameter}}
