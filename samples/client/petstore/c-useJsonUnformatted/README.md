@@ -70,6 +70,8 @@ Category | Method | HTTP request | Description
 *PetAPI* | [**PetAPI_findPetsByStatus**](docs/PetAPI.md#PetAPI_findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
 *PetAPI* | [**PetAPI_findPetsByTags**](docs/PetAPI.md#PetAPI_findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
 *PetAPI* | [**PetAPI_getPetById**](docs/PetAPI.md#PetAPI_getPetById) | **GET** /pet/{petId} | Find pet by ID
+*PetAPI* | [**PetAPI_isPetAvailable**](docs/PetAPI.md#PetAPI_isPetAvailable) | **POST** /pet/{petId}/isAvailable | Is this pet still available?
+*PetAPI* | [**PetAPI_sharePicture**](docs/PetAPI.md#PetAPI_sharePicture) | **POST** /pet/picture | Send a picture of your happy pet
 *PetAPI* | [**PetAPI_specialtyPet**](docs/PetAPI.md#PetAPI_specialtyPet) | **GET** /pet/specialty | Specialty of the shop
 *PetAPI* | [**PetAPI_updatePet**](docs/PetAPI.md#PetAPI_updatePet) | **PUT** /pet | Update an existing pet
 *PetAPI* | [**PetAPI_updatePetWithForm**](docs/PetAPI.md#PetAPI_updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
@@ -93,6 +95,7 @@ Category | Method | HTTP request | Description
 
  - [MappedModel_t](docs/MappedModel.md)
  - [api_response_t](docs/api_response.md)
+ - [bit_t](docs/bit.md)
  - [category_t](docs/category.md)
  - [model_with_set_propertes_t](docs/model_with_set_propertes.md)
  - [order_t](docs/order.md)

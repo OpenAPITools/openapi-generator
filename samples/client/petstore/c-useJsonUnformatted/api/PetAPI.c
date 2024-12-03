@@ -460,6 +460,141 @@ end:
 
 }
 
+// Is this pet still available?
+//
+openapi_petstore_bit__e
+PetAPI_isPetAvailable(apiClient_t *apiClient, long petId)
+{
+    list_t    *localVarQueryParameters = NULL;
+    list_t    *localVarHeaderParameters = NULL;
+    list_t    *localVarFormParameters = NULL;
+    list_t *localVarHeaderType = list_createList();
+    list_t *localVarContentType = NULL;
+    char      *localVarBodyParameters = NULL;
+
+    // create the path
+    long sizeOfPath = strlen("/pet/{petId}/isAvailable")+1;
+    char *localVarPath = malloc(sizeOfPath);
+    snprintf(localVarPath, sizeOfPath, "/pet/{petId}/isAvailable");
+
+
+    // Path Params
+    long sizeOfPathParams_petId = sizeof(petId)+3 + strlen("{ petId }");
+    if(petId == 0){
+        goto end;
+    }
+    char* localVarToReplace_petId = malloc(sizeOfPathParams_petId);
+    snprintf(localVarToReplace_petId, sizeOfPathParams_petId, "{%s}", "petId");
+
+    char localVarBuff_petId[256];
+    intToStr(localVarBuff_petId, petId);
+
+    localVarPath = strReplace(localVarPath, localVarToReplace_petId, localVarBuff_petId);
+
+
+
+    list_addElement(localVarHeaderType,"application/json"); //produces
+    apiClient_invoke(apiClient,
+                    localVarPath,
+                    localVarQueryParameters,
+                    localVarHeaderParameters,
+                    localVarFormParameters,
+                    localVarHeaderType,
+                    localVarContentType,
+                    localVarBodyParameters,
+                    "POST");
+
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 200) {
+    //    printf("%s\n","successful operation");
+    //}
+    //nonprimitive not container
+    cJSON *PetAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
+    openapi_petstore_bit__e elementToReturn = bit_parseFromJSON(PetAPIlocalVarJSON);
+    cJSON_Delete(PetAPIlocalVarJSON);
+    if(elementToReturn == 0) {
+        // return 0;
+    }
+
+    //return type
+    if (apiClient->dataReceived) {
+        free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
+    }
+    
+    
+    
+    list_freeList(localVarHeaderType);
+    
+    free(localVarPath);
+    free(localVarToReplace_petId);
+    return elementToReturn;
+end:
+    free(localVarPath);
+    return 0;
+
+}
+
+// Send a picture of your happy pet
+//
+char*
+PetAPI_sharePicture(apiClient_t *apiClient, char *picture)
+{
+    list_t    *localVarQueryParameters = NULL;
+    list_t    *localVarHeaderParameters = NULL;
+    list_t    *localVarFormParameters = NULL;
+    list_t *localVarHeaderType = list_createList();
+    list_t *localVarContentType = NULL;
+    char      *localVarBodyParameters = NULL;
+
+    // create the path
+    long sizeOfPath = strlen("/pet/picture")+1;
+    char *localVarPath = malloc(sizeOfPath);
+    snprintf(localVarPath, sizeOfPath, "/pet/picture");
+
+
+
+
+    // Body Param
+    localVarBodyParameters = strdup(picture);
+    list_addElement(localVarHeaderType,"*/*"); //produces
+    apiClient_invoke(apiClient,
+                    localVarPath,
+                    localVarQueryParameters,
+                    localVarHeaderParameters,
+                    localVarFormParameters,
+                    localVarHeaderType,
+                    localVarContentType,
+                    localVarBodyParameters,
+                    "POST");
+
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 200) {
+    //    printf("%s\n","successful operation");
+    //}
+    //primitive return type simple
+    char* elementToReturn =  strdup((char*)apiClient->dataReceived);
+
+    if (apiClient->dataReceived) {
+        free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
+    }
+    
+    
+    
+    list_freeList(localVarHeaderType);
+    
+    free(localVarPath);
+    free(localVarBodyParameters);
+    return elementToReturn;
+end:
+    free(localVarPath);
+    return NULL;
+
+}
+
 // Specialty of the shop
 //
 // Returns the kind of pet the store specializes in
