@@ -33,7 +33,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |modelFileSuffix|The suffix of the file of the generated model (model&lt;suffix&gt;.ts).| |null|
 |modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name. Only change it if you provide your own run-time code for (de-)serialization of models| |original|
 |modelSuffix|The suffix of the generated model.| |null|
-|ngPackagrVersion |The version of ng-packagr compatible with Angular (see ngVersion option).| |null|
+|ngPackagrVersion|The version of ng-packagr compatible with Angular (see ngVersion option).| |null|
 |ngVersion|The version of Angular. (At least 9.0.0)| |19.0.0|
 |npmName|The name under which you want to publish generated npm package. Required to generate a full package| |null|
 |npmRepository|Use this property to set an url your private npmRepo in the package.json| |null|
@@ -52,7 +52,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |stringEnums|Generate string enums instead of objects for enum values.| |false|
 |supportsES6|Generate code that conforms to ES6.| |false|
 |taggedUnions|Use discriminators to create tagged unions instead of extending interfaces.| |false|
-|typescriptVersion|The version of typescript compatible with Angular (see ngVersion option).| |null|
+|tsVersion|The version of typescript compatible with Angular (see ngVersion option).| |null|
 |useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |false|
 |useSquareBracketsInArrayNames|Setting this property to true will add brackets to array attribute names, e.g. my_values[].| |false|
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|

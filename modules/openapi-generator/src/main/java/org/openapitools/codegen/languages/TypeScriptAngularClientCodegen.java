@@ -78,9 +78,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
     public static final String QUERY_PARAM_OBJECT_FORMAT = "queryParamObjectFormat";
     public static final String USE_SQUARE_BRACKETS_IN_ARRAY_NAMES = "useSquareBracketsInArrayNames";
-    public static final String TYPESCRIPT_VERSION = "typescriptVersion";
+    public static final String TS_VERSION = "tsVersion";
     public static final String RXJS_VERSION = "rxjsVersion";
-    public static final String NGPACKAGR_VERSION = "ngPackagrVersion ";
+    public static final String NGPACKAGR_VERSION = "ngPackagrVersion";
     public static final String ZONEJS_VERSION = "zoneJsVersion";
 
     protected String ngVersion = "19.0.0";
@@ -150,7 +150,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC).defaultValue(String.valueOf(this.stringEnums)));
         this.cliOptions.add(new CliOption(QUERY_PARAM_OBJECT_FORMAT, "The format for query param objects: 'dot', 'json', 'key'.").defaultValue(this.queryParamObjectFormat.name()));
         this.cliOptions.add(CliOption.newBoolean(USE_SQUARE_BRACKETS_IN_ARRAY_NAMES, "Setting this property to true will add brackets to array attribute names, e.g. my_values[].", false));
-        this.cliOptions.add(new CliOption(TYPESCRIPT_VERSION, "The version of typescript compatible with Angular (see ngVersion option)."));
+        this.cliOptions.add(new CliOption(TS_VERSION, "The version of typescript compatible with Angular (see ngVersion option)."));
         this.cliOptions.add(new CliOption(RXJS_VERSION, "The version of RxJS compatible with Angular (see ngVersion option)."));
         this.cliOptions.add(new CliOption(NGPACKAGR_VERSION, "The version of ng-packagr compatible with Angular (see ngVersion option)."));
         this.cliOptions.add(new CliOption(ZONEJS_VERSION, "The version of zone.js compatible with Angular (see ngVersion option)."));
@@ -321,15 +321,15 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 .map(Map.Entry::getValue)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid ngVersion. Only Angular v9+ is supported."));
 
-        additionalProperties.put("tsVersion", additionalProperties.containsKey(TYPESCRIPT_VERSION)
-                ? additionalProperties.containsKey(TYPESCRIPT_VERSION)
+        additionalProperties.put(TS_VERSION, additionalProperties.containsKey(TS_VERSION)
+                ? additionalProperties.containsKey(TS_VERSION)
                 : angularDependencies.getTsVersion());
 
-        additionalProperties.put("rxjsVersion", additionalProperties.containsKey(RXJS_VERSION)
+        additionalProperties.put(RXJS_VERSION, additionalProperties.containsKey(RXJS_VERSION)
                 ? additionalProperties.containsKey(RXJS_VERSION)
                 : angularDependencies.getRxjsVersion());
 
-        additionalProperties.put("ngPackagrVersion", additionalProperties.containsKey(NGPACKAGR_VERSION)
+        additionalProperties.put(NGPACKAGR_VERSION, additionalProperties.containsKey(NGPACKAGR_VERSION)
                 ? additionalProperties.containsKey(NGPACKAGR_VERSION)
                 : angularDependencies.getNgPackagrVersion());
 
