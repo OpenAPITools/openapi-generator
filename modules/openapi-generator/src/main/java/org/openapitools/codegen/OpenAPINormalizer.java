@@ -232,7 +232,10 @@ public class OpenAPINormalizer {
                 LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3`: {}", inputRules.get(FILTER));
             } else {
                 if ("operationId".equals(filterStrs[0])) {
-                    operationIdFilters = new HashSet<>(Arrays.asList(filterStrs[1].split("[|]")));
+                    operationIdFilters = Arrays.stream(filterStrs[1].split("[|]"))
+                            .filter(Objects::nonNull)
+                            .map(String::trim)
+                            .collect(Collectors.toCollection(HashSet::new));
                 } else {
                     LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3`: {}", inputRules.get(FILTER));
                 }

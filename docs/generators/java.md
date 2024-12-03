@@ -69,7 +69,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |microprofileMutiny|Whether to use async types for microprofile (currently only Smallrye Mutiny is supported).| |null|
 |microprofileRestClientVersion|Version of MicroProfile Rest Client API.| |null|
 |modelPackage|package for generated models| |org.openapitools.client.model|
-|openApiNullable|Enable OpenAPI Jackson Nullable library| |true|
+|openApiNullable|Enable OpenAPI Jackson Nullable library. Not supported by `microprofile` library.| |true|
 |parcelableModel|Whether to generate models for Android that implement Parcelable with the okhttp-gson library.| |false|
 |parentArtifactId|parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentGroupId|parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|

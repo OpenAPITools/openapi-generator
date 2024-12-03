@@ -4,7 +4,7 @@
   <artifactId>microprofile-rest-client-3-jackson</artifactId>
   <packaging>jar</packaging>
   <name>microprofile-rest-client-3-jackson</name>
-  <description>This is a sample server Petstore server. For this sample, you can use the api key &#x60;special-key&#x60; to test the authorization filters.</description>
+  <description>This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \&quot; \\</description>
   <version>1.0.0</version>
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
@@ -158,7 +158,7 @@
     <jackson.version>2.17.1</jackson.version>
     <jakarta.activation.version>2.1.0</jakarta.activation.version>
     <jakarta.annotation.version>2.0.0</jakarta.annotation.version>
-    <jakarta.json.bind.version>2.0.0</jakarta.json.bind.version>
+    <jakarta.json.bind.version>3.0.0</jakarta.json.bind.version>
     <jakarta.json.version>2.0.1</jakarta.json.version>
     <jakarta.ws.rs.version>3.0.0</jakarta.ws.rs.version>
     <jakarta.xml.bind.version>3.0.1</jakarta.xml.bind.version>
