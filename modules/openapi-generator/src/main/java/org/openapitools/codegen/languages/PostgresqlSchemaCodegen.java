@@ -19,9 +19,12 @@ package org.openapitools.codegen.languages;
 import lombok.Getter;
 import lombok.Setter;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.commons.lang3.StringUtils;
@@ -31,10 +34,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.io.File;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 @SuppressWarnings("unchecked")
-public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
+public class PostgresqlSchemaCodegen extends DefaultCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(PostgresqlSchemaCodegen.class);
 
     public static final String VENDOR_EXTENSION_POSTGRESQL_SCHEMA = "x-postgresql-schema";
@@ -43,49 +49,54 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
     public static final String IDENTIFIER_NAMING_CONVENTION = "identifierNamingConvention";
     public static final String NAMED_PARAMETERS_ENABLED = "namedParametersEnabled";
     public static final Integer ENUM_MAX_ELEMENTS = 65535;
-    public static final Integer IDENTIFIER_MAX_LENGTH = 64;
+    public static final Integer IDENTIFIER_MAX_LENGTH = 63;
 
     protected Vector<String> postgresqlNumericTypes = new Vector<>(Arrays.asList(
-            "BIGINT", "BIT", "BOOL", "BOOLEAN", "DEC", "DECIMAL", "DOUBLE", "DOUBLE PRECISION", "FIXED", "FLOAT", "INT", "INTEGER", "MEDIUMINT", "NUMERIC", "REAL", "SMALLINT", "TINYINT"
-    ));
+            "SMALLINT", "INTEGER", "BIGINT", "DECIMAL", "NUMERIC", "REAL", "DOUBLE PRECISION", "SMALLSERIAL", "SERIAL",
+            "BIGSERIAL"));
 
     protected Vector<String> postgresqlDateAndTimeTypes = new Vector<>(Arrays.asList(
-            "DATE", "DATETIME", "TIME", "TIMESTAMP", "YEAR"
-    ));
+            "DATE", "TIME", "TIME WITH TIME ZONE", "TIMESTAMP", "TIMESTAMP WITH TIME ZONE", "INTERVAL"));
 
     protected Vector<String> postgresqlStringTypes = new Vector<>(Arrays.asList(
-            "BINARY", "BLOB", "CHAR", "CHAR BYTE", "CHARACTER", "ENUM", "LONGBLOB", "LONGTEXT", "MEDIUMBLOB", "MEDIUMTEXT", "SET", "TEXT", "TINYBLOB", "TINYTEXT", "VARBINARY", "VARCHAR"
-    ));
+            "CHAR", "VARCHAR", "TEXT"));
 
     protected Vector<String> postgresqlSpatialTypes = new Vector<>(Arrays.asList(
-            "GEOMETRY", "GEOMETRYCOLLECTION", "LINESTRING", "MULTILINESTRING", "MULTIPOINT", "MULTIPOLYGON", "POINT", "POLYGON"
-    ));
+            "POINT", "LINE", "LSEG", "BOX", "PATH", "POLYGON", "CIRCLE"));
 
     /**
-     *  Returns default database name for all PostgreSQL queries
-     *  This value must be used with backticks only, e.g. `database_name`
+     * Returns default database name for all PostgreSQL queries
+     * This value must be used with backticks only, e.g. `database_name`
      */
-    @Getter protected String defaultDatabaseName = "", databaseNamePrefix = "", databaseNameSuffix = "_db";
+    @Getter
+    protected String defaultDatabaseName = "", databaseNamePrefix = "", databaseNameSuffix = "_db";
     protected String tableNamePrefix = "tbl_", tableNameSuffix = "";
     protected String columnNamePrefix = "col_", columnNameSuffix = "";
     /**
-     *  Whether JSON data type enabled or disabled in all PostgreSQL queries.
-     *  JSON data type requires PostgreSQL version 5.7.8
+     * Whether JSON data type enabled or disabled in all PostgreSQL queries.
+     * JSON data type requires PostgreSQL version 5.7.8
      */
-    @Getter @Setter
+    @Getter
+    @Setter
     protected Boolean jsonDataTypeEnabled = true;
     /**
-     *  Whether named parameters enabled or disabled in prepared SQLs
+     * Whether named parameters enabled or disabled in prepared SQLs
      */
-    @Getter @Setter
+    @Getter
+    @Setter
     protected Boolean namedParametersEnabled = false;
     /**
-     *  Returns identifier naming convention for table names and column names.
+     * Returns identifier naming convention for table names and column names.
      */
-    @Getter protected String identifierNamingConvention = "original";
+    @Getter
+    protected String identifierNamingConvention = "original";
 
     public PostgresqlSchemaCodegen() {
         super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
@@ -95,56 +106,77 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
                         GlobalFeature.XMLStructureDefinitions,
                         GlobalFeature.Callbacks,
                         GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
+                        GlobalFeature.ParameterStyling)
                 .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .clientModificationFeatures(EnumSet.noneOf(ClientModificationFeature.class))
-        );
-        // clear import mapping (from default generator) as postgresql does not use import directives
+                        SchemaSupportFeature.Polymorphism)
+                .clientModificationFeatures(EnumSet.noneOf(ClientModificationFeature.class)));
+        // clear import mapping (from default generator) as postgresql does not use
+        // import directives
         importMapping.clear();
 
         setModelPackage("Model");
         modelTemplateFiles.put("sql_query.mustache", ".sql");
-        //modelTestTemplateFiles.put("model_test.mustache", ".php");
-        // no doc files
-        // modelDocTemplateFiles.clear();
-        // apiDocTemplateFiles.clear();
 
-        // https://dev.postgresql.com/doc/refman/8.0/en/keywords.html
-        setReservedWordsLowerCase(
-                Arrays.asList(
-                        // SQL reserved words
-                        "ACCESSIBLE", "ADD", "ALL", "ALTER", "ANALYZE", "AND", "AS", "ASC", "ASENSITIVE",
-                        "BEFORE", "BETWEEN", "BIGINT", "BINARY", "BLOB", "BOTH", "BY",
-                        "CALL", "CASCADE", "CASE", "CHANGE", "CHAR", "CHARACTER", "CHECK", "COLLATE", "COLUMN", "CONDITION", "CONSTRAINT", "CONTINUE", "CONVERT", "CREATE", "CROSS", "CUBE", "CUME_DIST", "CURRENT_DATE", "CURRENT_TIME", "CURRENT_TIMESTAMP", "CURRENT_USER", "CURSOR",
-                        "DATABASE", "DATABASES", "DAY_HOUR", "DAY_MICROSECOND", "DAY_MINUTE", "DAY_SECOND", "DEC", "DECIMAL", "DECLARE", "DEFAULT", "DELAYED", "DELETE", "DENSE_RANK", "DESC", "DESCRIBE", "DETERMINISTIC", "DISTINCT", "DISTINCTROW", "DIV", "DOUBLE", "DROP", "DUAL",
-                        "EACH", "ELSE", "ELSEIF", "EMPTY", "ENCLOSED", "ESCAPED", "EXCEPT", "EXISTS", "EXIT", "EXPLAIN",
-                        "FALSE", "FETCH", "FIRST_VALUE", "FLOAT", "FLOAT4", "FLOAT8", "FOR", "FORCE", "FOREIGN", "FROM", "FULLTEXT", "FUNCTION",
-                        "GENERATED", "GET", "GRANT", "GROUP", "GROUPING", "GROUPS",
-                        "HAVING", "HIGH_PRIORITY", "HOUR_MICROSECOND", "HOUR_MINUTE", "HOUR_SECOND",
-                        "IF", "IGNORE", "IN", "INDEX", "INFILE", "INNER", "INOUT", "INSENSITIVE", "INSERT", "INT", "INT1", "INT2", "INT3", "INT4", "INT8", "INTEGER", "INTERVAL", "INTO", "IO_AFTER_GTIDS", "IO_BEFORE_GTIDS", "IS", "ITERATE",
-                        "JOIN", "JSON_TABLE",
-                        "KEY", "KEYS", "KILL",
-                        "LAG", "LAST_VALUE", "LEAD", "LEADING", "LEAVE", "LEFT", "LIKE", "LIMIT", "LINEAR", "LINES", "LOAD", "LOCALTIME", "LOCALTIMESTAMP", "LOCK", "LONG", "LONGBLOB", "LONGTEXT", "LOOP", "LOW_PRIORITY",
-                        "MASTER_BIND", "MASTER_SSL_VERIFY_SERVER_CERT", "MATCH", "MAXVALUE", "MEDIUMBLOB", "MEDIUMINT", "MEDIUMTEXT", "MIDDLEINT", "MINUTE_MICROSECOND", "MINUTE_SECOND", "MOD", "MODIFIES",
-                        "NATURAL", "NOT", "NO_WRITE_TO_BINLOG", "NTH_VALUE", "NTILE", "NULL", "NUMERIC",
-                        "OF", "ON", "OPTIMIZE", "OPTIMIZER_COSTS", "OPTION", "OPTIONALLY", "OR", "ORDER", "OUT", "OUTER", "OUTFILE", "OVER",
-                        "PARTITION", "PERCENT_RANK", "PERSIST", "PERSIST_ONLY", "PRECISION", "PRIMARY", "PROCEDURE", "PURGE",
-                        "RANGE", "RANK", "READ", "READS", "READ_WRITE", "REAL", "RECURSIVE", "REFERENCES", "REGEXP", "RELEASE", "RENAME", "REPEAT", "REPLACE", "REQUIRE", "RESIGNAL", "RESTRICT", "RETURN", "REVOKE", "RIGHT", "RLIKE", "ROLE", "ROW", "ROWS", "ROW_NUMBER",
-                        "SCHEMA", "SCHEMAS", "SECOND_MICROSECOND", "SELECT", "SENSITIVE", "SEPARATOR", "SET", "SHOW", "SIGNAL", "SMALLINT", "SPATIAL", "SPECIFIC", "SQL", "SQLEXCEPTION", "SQLSTATE", "SQLWARNING", "SQL_BIG_RESULT", "SQL_CALC_FOUND_ROWS", "SQL_SMALL_RESULT", "SSL", "STARTING", "STORED", "STRAIGHT_JOIN", "SYSTEM",
-                        "TABLE", "TERMINATED", "THEN", "TINYBLOB", "TINYINT", "TINYTEXT", "TO", "TRAILING", "TRIGGER", "TRUE",
-                        "UNDO", "UNION", "UNIQUE", "UNLOCK", "UNSIGNED", "UPDATE", "USAGE", "USE", "USING", "UTC_DATE", "UTC_TIME", "UTC_TIMESTAMP",
-                        "VALUES", "VARBINARY", "VARCHAR", "VARCHARACTER", "VARYING", "VIRTUAL",
-                        "WHEN", "WHERE", "WHILE", "WINDOW", "WITH", "WRITE",
-                        "XOR",
-                        "YEAR_MONTH",
-                        "ZEROFILL"
-                )
-        );
+        // https://www.postgresql.org/docs/17/sql-keywords-appendix.html
+        setReservedWordsLowerCase( 
+            Arrays.asList(
+            // SQL reserved words
+            "ABORT", "ABSOLUTE", "ACCESS", "ACTION", "ADD", "ADMIN", "AFTER", "AGGREGATE", "ALL",
+            "ALSO", "ALTER", "ALWAYS", "ANALYSE", "ANALYZE", "AND", "ANY", "ARRAY", "AS", "ASC",
+            "ASSERTION", "ASSIGNMENT", "ASYMMETRIC", "AT", "ATTACH", "ATTRIBUTE", "AUTHORIZATION",
+            "BACKWARD", "BEFORE", "BEGIN", "BETWEEN", "BIGINT", "BINARY", "BIT", "BOOLEAN", "BOTH",
+            "BY", "CACHE", "CALL", "CALLED", "CASCADE", "CASCADED", "CASE", "CAST", "CATALOG", "CHAIN",
+            "CHAR", "CHARACTER", "CHARACTERISTICS", "CHECK", "CHECKPOINT", "CLASS", "CLOSE", "CLUSTER",
+            "COALESCE", "COLLATE", "COLLATION", "COLUMN", "COLUMNS", "COMMENT", "COMMENTS", "COMMIT",
+            "COMMITTED", "CONCURRENTLY", "CONFIGURATION", "CONFLICT", "CONNECTION", "CONSTRAINT",
+            "CONSTRAINTS", "CONTENT", "CONTINUE", "CONVERSION", "COPY", "COST", "CREATE", "CROSS",
+            "CSV", "CUBE", "CURRENT", "CURRENT_CATALOG", "CURRENT_DATE", "CURRENT_ROLE",
+            "CURRENT_SCHEMA", "CURRENT_TIME", "CURRENT_TIMESTAMP", "CURRENT_USER", "CURSOR", "CYCLE",
+            "DATA", "DATABASE", "DAY", "DEALLOCATE", "DEC", "DECIMAL", "DECLARE", "DEFAULT", "DEFAULTS",
+            "DEFERRABLE", "DEFERRED", "DEFINE", "DEFINER", "DELETE", "DELIMITER", "DELIMITERS",
+            "DEPENDS", "DEPTH", "DESC", "DESCRIBE", "DETACH", "DICTIONARY", "DISABLE", "DISCARD",
+            "DISTINCT", "DO", "DOCUMENT", "DOMAIN", "DOUBLE", "DROP", "EACH", "ELSE", "ENABLE",
+            "ENCODING", "ENCRYPTED", "END", "ENUM", "ESCAPE", "EVENT", "EXCEPT", "EXCLUDE", "EXCLUDING",
+            "EXCLUSIVE", "EXECUTE", "EXISTS", "EXPLAIN", "EXTENSION", "EXTERNAL", "EXTRACT", "FALSE",
+            "FAMILY", "FETCH", "FILTER", "FINALIZE", "FIRST", "FLOAT", "FOLLOWING", "FOR", "FORCE",
+            "FOREIGN", "FORWARD", "FREEZE", "FROM", "FULL", "FUNCTION", "FUNCTIONS", "GENERATED",
+            "GLOBAL", "GRANT", "GRANTED", "GREATEST", "GROUP", "GROUPING", "HANDLER", "HAVING", "HEADER",
+            "HOLD", "HOUR", "IDENTITY", "IF", "ILIKE", "IMMEDIATE", "IMMUTABLE", "IMPLICIT", "IMPORT",
+            "IN", "INCLUDING", "INCREMENT", "INDEX", "INDEXES", "INHERIT", "INHERITS", "INITIALLY",
+            "INLINE", "INNER", "INOUT", "INPUT", "INSENSITIVE", "INSERT", "INSTEAD", "INT", "INTEGER",
+            "INTERSECT", "INTERVAL", "INTO", "INVOKER", "IS", "ISNULL", "ISOLATION", "JOIN", "KEY",
+            "LABEL", "LANGUAGE", "LARGE", "LAST", "LATERAL", "LEADING", "LEAKPROOF", "LEAST", "LEFT",
+            "LEVEL", "LIKE", "LIMIT", "LISTEN", "LOAD", "LOCAL", "LOCALTIME", "LOCALTIMESTAMP", "LOCATION",
+            "LOCK", "LOCKED", "LOGGED", "MAPPING", "MATCH", "MATERIALIZED", "MAXVALUE", "METHOD", "MINUTE",
+            "MINVALUE", "MODE", "MODIFY", "MONTH", "MOVE", "NAME", "NAMES", "NATIONAL", "NATURAL", "NCHAR",
+            "NEW", "NEXT", "NO", "NONE", "NORMALIZE", "NORMALIZED", "NOT", "NOTHING", "NOTIFY", "NOTNULL",
+            "NOWAIT", "NULL", "NULLABLE", "NULLIF", "NUMERIC", "OBJECT", "OF", "OFF", "OFFSET", "OIDS",
+            "OLD", "ON", "ONLY", "OPERATOR",
+            "OPTION", "OPTIONS", "OR", "ORDER", "ORDINALITY", "OTHERS", "OUT", "OUTER", "OVER", "OVERLAPS",
+            "OVERLAY", "OVERRIDING", "OWNED", "OWNER", "PARALLEL", "PARAMETER", "PARSER", "PARTIAL",
+            "PARTITION", "PASSING", "PASSWORD", "PLACING", "PLANS", "POLICY", "POSITION", "PRECEDING",
+            "PRECISION", "PREPARE", "PREPARED", "PRESERVE", "PRIMARY", "PRIOR", "PRIVILEGES", "PROCEDURAL",
+            "PROCEDURE", "PROGRAM", "PUBLICATION", "QUOTE", "RANGE", "READ", "REAL", "REASSIGN", "RECHECK",
+            "RECURSIVE", "REF", "REFERENCES", "REFERENCING", "REFRESH", "REINDEX", "RELATIVE", "RELEASE",
+            "RENAME", "REPEATABLE", "REPLACE", "REPLICA", "RESET", "RESTART", "RESTRICT", "RETURNING",
+            "RETURNS", "REVOKE", "RIGHT", "ROLE", "ROLLBACK", "ROLLUP", "ROUTINE", "ROUTINES", "ROW",
+            "ROWS", "RULE", "SAVEPOINT", "SCHEMA", "SCHEMAS", "SCROLL", "SEARCH", "SECOND", "SECURITY",
+            "SELECT", "SEQUENCE", "SEQUENCES", "SERIALIZABLE", "SERVER", "SESSION", "SESSION_USER",
+            "SET", "SETOF", "SETS", "SHARE", "SHOW", "SIMILAR", "SIMPLE", "SKIP", "SMALLINT", "SNAPSHOT",
+            "SOME", "SQL", "STABLE", "STANDALONE", "START", "STATEMENT", "STATISTICS", "STDIN", "STDOUT",
+            "STORAGE", "STRICT", "STRIP", "SUBSCRIPTION", "SUBSTRING", "SYMMETRIC", "SYSID", "SYSTEM",
+            "TABLE", "TABLES", "TABLESAMPLE", "TABLESPACE", "TEMP", "TEMPLATE", "TEMPORARY", "TEXT",
+            "THEN", "TIES", "TIME", "TIMESTAMP", "TO", "TRAILING", "TRANSACTION", "TRANSFORM", "TREAT",
+            "TRIGGER", "TRIM", "TRUE", "TRUNCATE", "TRUSTED", "TYPE", "TYPES", "UNBOUNDED", "UNCOMMITTED",
+            "UNENCRYPTED", "UNION", "UNIQUE", "UNKNOWN", "UNLISTEN", "UNLOGGED", "UNTIL", "UPDATE",
+            "USER", "USING", "VACUUM", "VALID", "VALIDATE", "VALIDATOR", "VALUE", "VALUES", "VARCHAR",
+            "VARIADIC", "VARYING", "VERBOSE", "VERSION", "VIEW", "VIEWS", "VOLATILE", "WHEN", "WHERE",
+            "WHITESPACE", "WINDOW", "WITH", "WITHIN", "WITHOUT", "WORK", "WRAPPER", "WRITE", "XML",
+            "XMLATTRIBUTES", "XMLCONCAT", "XMLELEMENT", "XMLEXISTS", "XMLFOREST", "XMLNAMESPACES",
+            "XMLPARSE", "XMLPI", "XMLROOT", "XMLSERIALIZE", "XMLTABLE", "YEAR", "YES", "ZONE"
+        ));
 
-        // all types can be threaded as primitives except array, object and refs
+        // primitive data types
         languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "bool",
@@ -173,29 +205,28 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
                 )
         );
 
-        // https://dev.postgresql.com/doc/refman/8.0/en/data-types.html
+        // https://www.postgresql.org/docs/17/datatype.html
         typeMapping.put("array", "JSON");
         typeMapping.put("set", "JSON");
         typeMapping.put("map", "JSON");
         typeMapping.put("List", "JSON");
-        typeMapping.put("boolean", "BOOL");
+        typeMapping.put("boolean", "BOOLEAN");
         typeMapping.put("string", "TEXT");
         typeMapping.put("int", "INT");
         typeMapping.put("byte", "TEXT");
         typeMapping.put("float", "DECIMAL");
         typeMapping.put("number", "DECIMAL");
         typeMapping.put("date", "DATE");
-        typeMapping.put("Date", "DATETIME");
-        typeMapping.put("DateTime", "DATETIME");
+        typeMapping.put("DateTime", "TIMESTAMP");
         typeMapping.put("long", "BIGINT");
         typeMapping.put("short", "SMALLINT");
         typeMapping.put("char", "TEXT");
         typeMapping.put("double", "DECIMAL");
         typeMapping.put("object", "JSON");
         typeMapping.put("integer", "INT");
-        typeMapping.put("ByteArray", "MEDIUMBLOB");
-        typeMapping.put("binary", "MEDIUMBLOB");
-        typeMapping.put("file", "MEDIUMBLOB");
+        typeMapping.put("ByteArray", "BYTEA");
+        typeMapping.put("binary", "BYTEA");
+        typeMapping.put("file", "BYTEA");
         typeMapping.put("UUID", "TEXT");
         typeMapping.put("URI", "TEXT");
         typeMapping.put("BigDecimal", "DECIMAL");
@@ -205,12 +236,17 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
         // it seems that cli options from DefaultCodegen are useless here
         cliOptions.clear();
         addOption(DEFAULT_DATABASE_NAME, "Default database name for all PostgreSQL queries", defaultDatabaseName);
-        addSwitch(JSON_DATA_TYPE_ENABLED, "Use special JSON PostgreSQL data type for complex model properties. Requires PostgreSQL version 5.7.8. Generates TEXT data type when disabled", jsonDataTypeEnabled);
-        addSwitch(NAMED_PARAMETERS_ENABLED, "Generates model prepared SQLs with named parameters, eg. :petName. Question mark placeholder used when option disabled.", namedParametersEnabled);
+        addSwitch(NAMED_PARAMETERS_ENABLED,
+                "Generates model prepared SQLs with named parameters, eg. :petName. Question mark placeholder used when option disabled.",
+                namedParametersEnabled);
+        // addSwitch(JSON_DATA_TYPE_ENABLED,
+        //         "Use special JSON PostgreSQL data type for complex model properties.",
+        //         jsonDataTypeEnabled);
 
         // we used to snake_case table/column names, let's add this option
         CliOption identifierNamingOpt = new CliOption(IDENTIFIER_NAMING_CONVENTION,
-                "Naming convention of PostgreSQL identifiers(table names and column names). This is not related to database name which is defined by " + DEFAULT_DATABASE_NAME + " option");
+                "Naming convention of PostgreSQL identifiers(table names and column names). This is not related to database name which is defined by "
+                        + DEFAULT_DATABASE_NAME + " option");
 
         identifierNamingOpt.addEnum("original", "Do not transform original names")
                 .addEnum("snake_case", "Use snake_case names")
@@ -231,12 +267,19 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String getHelp() {
-        return "Generates a PostgreSQL schema based on the model or schema defined in the OpenAPI specification (v2, v3).";
+        return "Generates a PostgreSQL schema based on the schema defined in the OpenAPI specification (v2, v3)";
     }
 
     @Override
     public void processOpts() {
+        System.out.println("== processOpts 1 ============================= ");
         super.processOpts();
+        System.out.println("== processOpts 2 ============================= ");
+
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+        String formattedDateTime = now.format(formatter);        
+        additionalProperties.put("currDateTime", formattedDateTime);
 
         if (additionalProperties.containsKey(DEFAULT_DATABASE_NAME)) {
             if (additionalProperties.get(DEFAULT_DATABASE_NAME).equals("")) {
@@ -247,6 +290,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
                 additionalProperties.put(DEFAULT_DATABASE_NAME, getDefaultDatabaseName());
             }
         }
+        System.out.println("== processOpts 3 ============================= ");
 
         if (additionalProperties.containsKey(JSON_DATA_TYPE_ENABLED)) {
             this.setJsonDataTypeEnabled(Boolean.valueOf(additionalProperties.get(JSON_DATA_TYPE_ENABLED).toString()));
@@ -254,28 +298,40 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
             additionalProperties.put(JSON_DATA_TYPE_ENABLED, getJsonDataTypeEnabled());
         }
 
+        System.out.println("== processOpts 4 ============================= ");
         if (additionalProperties.containsKey(NAMED_PARAMETERS_ENABLED)) {
-            this.setNamedParametersEnabled(Boolean.valueOf(additionalProperties.get(NAMED_PARAMETERS_ENABLED).toString()));
+            this.setNamedParametersEnabled(
+                    Boolean.valueOf(additionalProperties.get(NAMED_PARAMETERS_ENABLED).toString()));
         }
 
+        System.out.println("== processOpts 5 ============================= ");
         additionalProperties.put(NAMED_PARAMETERS_ENABLED, getNamedParametersEnabled());
 
+        System.out.println("== processOpts 6 ============================= ");
         if (additionalProperties.containsKey(IDENTIFIER_NAMING_CONVENTION)) {
             this.setIdentifierNamingConvention((String) additionalProperties.get(IDENTIFIER_NAMING_CONVENTION));
         }
 
+        System.out.println("== processOpts 7 ============================= ");
         // make model src path available in mustache template
         additionalProperties.put("modelSrcPath", "./" + toSrcPath(modelPackage));
 
+        System.out.println("== processOpts 8 ============================= ");
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("postgresql_schema.mustache", "", "postgresql_schema.sql"));
+        supportingFiles
+                .add(new SupportingFile("postgresql_schema_oauth2.mustache", "", "postgresql_schema_oauth2.sql"));
+        System.out.println("== processOpts 9 ============================= ");
     }
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
+        System.out.println("== postProcessModels 1 ============================= ");
         objs = super.postProcessModels(objs);
+        System.out.println("== postProcessModels 2 ============================= ");
 
         for (ModelMap mo : objs.getModels()) {
+            System.out.println("== postProcessModels 3 ============================= ");
             CodegenModel model = mo.getModel();
             String modelName = model.getName();
             String tableName = this.toTableName(modelName);
@@ -287,7 +343,10 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
             if (this.getIdentifierNamingConvention().equals("snake_case") && !modelName.equals(tableName)) {
                 // add original name in table comment
                 String commentExtra = "Original model name - " + modelName + ".";
-                modelDescription = (modelDescription == null || modelDescription.isEmpty()) ? commentExtra : modelDescription + ". " + commentExtra;
+                System.out.println(modelDescription);
+                modelDescription = (modelDescription == null || modelDescription.isEmpty()) ? commentExtra
+                        : modelDescription + ". " + commentExtra;
+                System.out.println(modelDescription);
             }
 
             if (modelVendorExtensions.containsKey(VENDOR_EXTENSION_POSTGRESQL_SCHEMA)) {
@@ -297,54 +356,76 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
                 modelVendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
                 postgresqlSchema.put("tableDefinition", tableDefinition);
                 tableDefinition.put("tblName", tableName);
-                tableDefinition.put("tblComment", modelDescription);
+                // tableDefinition.put("tblComment", modelDescription);
             }
         }
-
+        System.out.println("== postProcessModels 4 ============================= ");
         return objs;
     }
 
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        System.out.println("== postProcessModelProperty 1 =============================\n\n");
+        System.out.println(model.getName());
+        System.out.println(property.getName());
+        System.out.println(property.getDataType());
         switch (property.getDataType().toUpperCase(Locale.ROOT)) {
             case "BOOL":
+                System.out.println("== postProcessModelProperty 2 ============================= ");
                 processBooleanTypeProperty(model, property);
                 break;
             case "TINYINT":
             case "SMALLINT":
             case "INT":
             case "BIGINT":
+                System.out.println("== postProcessModelProperty 3 ============================= ");
                 processIntegerTypeProperty(model, property);
                 break;
             case "DECIMAL":
+                System.out.println("== postProcessModelProperty 4 ============================= ");
                 processDecimalTypeProperty(model, property);
                 break;
             case "MEDIUMBLOB":
             case "TEXT":
+                System.out.println("== postProcessModelProperty 5 ============================= ");
                 processStringTypeProperty(model, property);
                 break;
             case "DATE":
             case "DATETIME":
+                System.out.println("== postProcessModelProperty 6 ============================= ");
                 processDateTypeProperty(model, property);
                 break;
             case "JSON":
+                System.out.println("== postProcessModelProperty 7 ============================= ");
                 processJsonTypeProperty(model, property);
                 break;
             default:
+                System.out.println("== postProcessModelProperty 8 ============================= ");
                 processUnknownTypeProperty(model, property);
         }
+        System.out.println("== postProcessModelProperty 9 =============================\n");
+
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+        String formattedDateTime = now.format(formatter);        
+        System.out.println(formattedDateTime);
+
+        System.out.println(additionalProperties.toString());
     }
 
     /**
-     * Processes each model's property mapped to integer type and adds related vendor extensions
+     * Processes each model's property mapped to integer type and adds related
+     * vendor extensions
      *
      * @param model    model
      * @param property model's property
      */
     public void processIntegerTypeProperty(CodegenModel model, CodegenProperty property) {
+        System.out.println("== processIntegerTypeProperty 1 ============================= ");
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
         Map<String, Object> postgresqlSchema = new HashMap<>();
         Map<String, Object> columnDefinition = new HashMap<>();
+        Map<String, Object> typeDefinition = new HashMap<>();
         ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
@@ -357,7 +438,6 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
         boolean exclusiveMaximum = property.getIExclusiveMaximum();
         String defaultValue = property.getDefaultValue();
         Boolean required = property.getRequired();
-        boolean unsigned = false;
         Boolean isUuid = property.isUuid;
         Boolean isEnum = property.isEnum;
 
@@ -370,7 +450,8 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
         if (this.getIdentifierNamingConvention().equals("snake_case") && !baseName.equals(colName)) {
             // add original name in column comment
             String commentExtra = "Original param name - " + baseName + ".";
-            description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
+            description = (description == null || description.isEmpty()) ? commentExtra
+                    : description + ". " + commentExtra;
         }
 
         vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
@@ -380,6 +461,11 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
         if (Boolean.TRUE.equals(isEnum)) {
             Map<String, Object> allowableValues = property.getAllowableValues();
             List<Object> enumValues = (List<Object>) allowableValues.get("values");
+            String typeName = model.getName() + "_" + property.getName();
+            postgresqlSchema.put("typeDefinition", typeDefinition);
+            columnDefinition.put("colDataType", typeName);
+            typeDefinition.put("typeName", typeName);
+            typeDefinition.put("typeArguments", columnDataTypeArguments);
             for (int i = 0; i < enumValues.size(); i++) {
                 if (i > ENUM_MAX_ELEMENTS - 1) {
                     LOGGER.warn(
@@ -390,21 +476,15 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
                 String value = String.valueOf(enumValues.get(i));
                 columnDataTypeArguments.add(toCodegenPostgresqlDataTypeArgument(value));
             }
-            columnDefinition.put("colDataType", "ENUM");
-            columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
         } else {
             if ("int64".equals(dataFormat)) {
                 columnDefinition.put("colDataType", "BIGINT");
             } else {
                 Long min = (minimum != null) ? Long.parseLong(minimum) : null;
                 Long max = (maximum != null) ? Long.parseLong(maximum) : null;
-                if (exclusiveMinimum && min != null) min += 1;
-                if (exclusiveMaximum && max != null) max -= 1;
-                if (min != null && min >= 0) {
-                    unsigned = true;
-                }
-                columnDefinition.put("colUnsigned", unsigned);
-                columnDefinition.put("colDataType", getPostgresqlMatchedIntegerDataType(min, max, unsigned));
+                if (exclusiveMinimum && min != null)
+                    min += 1;
+                columnDefinition.put("colDataType", getPostgresqlMatchedIntegerDataType(min, max, false));
             }
         }
 
@@ -413,7 +493,8 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
         } else {
             columnDefinition.put("colNotNull", false);
             try {
-                columnDefinition.put("colDefault", toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
+                columnDefinition.put("colDefault",
+                        toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
             } catch (RuntimeException exception) {
                 LOGGER.warn(
                         "Property '{}' of model '{}' mapped to PostgreSQL data type which doesn't support default value",
@@ -425,18 +506,23 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
         if (description != null) {
             columnDefinition.put("colComment", description);
         }
+
+        System.out.println(postgresqlSchema.toString());
     }
 
     /**
-     * Processes each model's property mapped to decimal type and adds related vendor extensions
+     * Processes each model's property mapped to decimal type and adds related
+     * vendor extensions
      *
      * @param model    model
      * @param property model's property
      */
     public void processDecimalTypeProperty(CodegenModel model, CodegenProperty property) {
+        System.out.println("== processDecimalTypeProperty 1 ============================= ");
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
         Map<String, Object> postgresqlSchema = new HashMap<>();
         Map<String, Object> columnDefinition = new HashMap<>();
+        Map<String, Object> typeDefinition = new HashMap<>();
         ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
@@ -449,7 +535,6 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
         boolean exclusiveMaximum = property.getIExclusiveMaximum();
         String defaultValue = property.getDefaultValue();
         Boolean required = property.getRequired();
-        boolean unsigned = false;
         Boolean isEnum = property.isEnum;
 
         if (vendorExtensions.containsKey(VENDOR_EXTENSION_POSTGRESQL_SCHEMA)) {
@@ -461,7 +546,8 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
         if (this.getIdentifierNamingConvention().equals("snake_case") && !baseName.equals(colName)) {
             // add original name in column comment
             String commentExtra = "Original param name - " + baseName + ".";
-            description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
+            description = (description == null || description.isEmpty()) ? commentExtra
+                    : description + ". " + commentExtra;
         }
 
         vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
@@ -471,6 +557,11 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
         if (Boolean.TRUE.equals(isEnum)) {
             Map<String, Object> allowableValues = property.getAllowableValues();
             List<Object> enumValues = (List<Object>) allowableValues.get("values");
+            String typeName = model.getName() + "_" + property.getName();
+            postgresqlSchema.put("typeDefinition", typeDefinition);
+            columnDefinition.put("colDataType", typeName);
+            typeDefinition.put("typeName", typeName);
+            typeDefinition.put("typeArguments", columnDataTypeArguments);
             for (int i = 0; i < enumValues.size(); i++) {
                 if (i > ENUM_MAX_ELEMENTS - 1) {
                     LOGGER.warn(
@@ -480,19 +571,16 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
                 }
                 String value = String.valueOf(enumValues.get(i));
                 columnDataTypeArguments.add(toCodegenPostgresqlDataTypeArgument(value));
+                System.out.println(toCodegenPostgresqlDataTypeArgument(value));
             }
-            columnDefinition.put("colDataType", "ENUM");
-            columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
         } else {
             Float min = (minimum != null) ? Float.valueOf(minimum) : null;
             Float max = (maximum != null) ? Float.valueOf(maximum) : null;
-            if (exclusiveMinimum && min != null) min += 1;
-            if (exclusiveMaximum && max != null) max -= 1;
-            if (min != null && min >= 0) {
-                unsigned = true;
-            }
+            if (exclusiveMinimum && min != null)
+                min += 1;
+            if (exclusiveMaximum && max != null)
+                max -= 1;
             columnDefinition.put("colDataType", "DECIMAL");
-            columnDefinition.put("colUnsigned", unsigned);
             columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
             columnDataTypeArguments.add(toCodegenPostgresqlDataTypeArgument(20));
             columnDataTypeArguments.add(toCodegenPostgresqlDataTypeArgument(9));
@@ -503,7 +591,8 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
         } else {
             columnDefinition.put("colNotNull", false);
             try {
-                columnDefinition.put("colDefault", toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
+                columnDefinition.put("colDefault",
+                        toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
             } catch (RuntimeException exception) {
                 LOGGER.warn(
                         "Property '{}' of model '{}' mapped to PostgreSQL data type which doesn't support default value",
@@ -515,73 +604,23 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
         if (description != null) {
             columnDefinition.put("colComment", description);
         }
+
+        System.out.println(postgresqlSchema.toString());
     }
 
     /**
-     * Processes each model's property mapped to boolean type and adds related vendor extensions
-     *
-     * @param model    model
-     * @param property model's property
-     */
-    public void processBooleanTypeProperty(CodegenModel model, CodegenProperty property) {
-        Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> postgresqlSchema = new HashMap<>();
-        Map<String, Object> columnDefinition = new HashMap<>();
-        ArrayList columnDataTypeArguments = new ArrayList();
-        String baseName = property.getBaseName();
-        String colName = this.toColumnName(baseName);
-        String description = property.getDescription();
-        String defaultValue = property.getDefaultValue();
-        Boolean required = property.getRequired();
-
-        if (vendorExtensions.containsKey(VENDOR_EXTENSION_POSTGRESQL_SCHEMA)) {
-            // user already specified schema values
-            LOGGER.info("Found vendor extension in '{}' property, autogeneration skipped", baseName);
-            return;
-        }
-
-        if (this.getIdentifierNamingConvention().equals("snake_case") && !baseName.equals(colName)) {
-            // add original name in column comment
-            String commentExtra = "Original param name - " + baseName + ".";
-            description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
-        }
-
-        vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
-        postgresqlSchema.put("columnDefinition", columnDefinition);
-        columnDefinition.put("colName", colName);
-        columnDefinition.put("colDataType", "TINYINT");
-        columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
-        columnDataTypeArguments.add(toCodegenPostgresqlDataTypeArgument(1));
-
-        if (Boolean.TRUE.equals(required)) {
-            columnDefinition.put("colNotNull", true);
-        } else {
-            columnDefinition.put("colNotNull", false);
-            try {
-                columnDefinition.put("colDefault", toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
-            } catch (RuntimeException exception) {
-                LOGGER.warn(
-                        "Property '{}' of model '{}' mapped to PostgreSQL data type which doesn't support default value",
-                        baseName, model.getName());
-                columnDefinition.put("colDefault", null);
-            }
-        }
-
-        if (description != null) {
-            columnDefinition.put("colComment", description);
-        }
-    }
-
-    /**
-     * Processes each model's property mapped to string type and adds related vendor extensions
+     * Processes each model's property mapped to string type and adds related vendor
+     * extensions
      *
      * @param model    model
      * @param property model's property
      */
     public void processStringTypeProperty(CodegenModel model, CodegenProperty property) {
+        System.out.println("== processStringTypeProperty 1 ============================= ");
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
         Map<String, Object> postgresqlSchema = new HashMap<>();
         Map<String, Object> columnDefinition = new HashMap<>();
+        Map<String, Object> typeDefinition = new HashMap<>();
         ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
@@ -603,7 +642,8 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
         if (this.getIdentifierNamingConvention().equals("snake_case") && !baseName.equals(colName)) {
             // add original name in column comment
             String commentExtra = "Original param name - " + baseName + ".";
-            description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
+            description = (description == null || description.isEmpty()) ? commentExtra
+                    : description + ". " + commentExtra;
         }
 
         vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
@@ -613,8 +653,11 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
         if (Boolean.TRUE.equals(isEnum)) {
             Map<String, Object> allowableValues = property.getAllowableValues();
             List<Object> enumValues = (List<Object>) allowableValues.get("values");
-            columnDefinition.put("colDataType", "ENUM");
-            columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
+            String typeName = model.getName() + "_" + property.getName();
+            postgresqlSchema.put("typeDefinition", typeDefinition);
+            columnDefinition.put("colDataType", typeName);
+            typeDefinition.put("typeName", typeName);
+            typeDefinition.put("typeArguments", columnDataTypeArguments);
             for (int i = 0; i < enumValues.size(); i++) {
                 if (i > ENUM_MAX_ELEMENTS - 1) {
                     LOGGER.warn(
@@ -641,7 +684,70 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
         } else {
             columnDefinition.put("colNotNull", false);
             try {
-                columnDefinition.put("colDefault", toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
+                columnDefinition.put("colDefault",
+                        toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
+            } catch (RuntimeException exception) {
+                LOGGER.warn(
+                        "Property '{}' of model '{}' mapped to PostgreSQL data type which doesn't support default value",
+                        baseName, model.getName());
+                columnDefinition.put("colDefault", null);
+            }
+        }
+
+        if (description != null) {
+            columnDefinition.put("colComment", description);
+        }
+
+        System.out.println(postgresqlSchema.toString());
+
+    }
+
+    /**
+     * Processes each model's property mapped to boolean type and adds related
+     * vendor extensions
+     *
+     * @param model    model
+     * @param property model's property
+     */
+    public void processBooleanTypeProperty(CodegenModel model, CodegenProperty property) {
+        System.out.println("== processBooleanTypeProperty 1 ============================= ");
+        Map<String, Object> vendorExtensions = property.getVendorExtensions();
+        Map<String, Object> postgresqlSchema = new HashMap<>();
+        Map<String, Object> columnDefinition = new HashMap<>();
+        ArrayList columnDataTypeArguments = new ArrayList();
+        String baseName = property.getBaseName();
+        String colName = this.toColumnName(baseName);
+        String description = property.getDescription();
+        String defaultValue = property.getDefaultValue();
+        Boolean required = property.getRequired();
+
+        if (vendorExtensions.containsKey(VENDOR_EXTENSION_POSTGRESQL_SCHEMA)) {
+            // user already specified schema values
+            LOGGER.info("Found vendor extension in '{}' property, autogeneration skipped", baseName);
+            return;
+        }
+
+        if (this.getIdentifierNamingConvention().equals("snake_case") && !baseName.equals(colName)) {
+            // add original name in column comment
+            String commentExtra = "Original param name - " + baseName + ".";
+            description = (description == null || description.isEmpty()) ? commentExtra
+                    : description + ". " + commentExtra;
+        }
+
+        vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
+        postgresqlSchema.put("columnDefinition", columnDefinition);
+        columnDefinition.put("colName", colName);
+        columnDefinition.put("colDataType", "TINYINT");
+        columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
+        columnDataTypeArguments.add(toCodegenPostgresqlDataTypeArgument(1));
+
+        if (Boolean.TRUE.equals(required)) {
+            columnDefinition.put("colNotNull", true);
+        } else {
+            columnDefinition.put("colNotNull", false);
+            try {
+                columnDefinition.put("colDefault",
+                        toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
             } catch (RuntimeException exception) {
                 LOGGER.warn(
                         "Property '{}' of model '{}' mapped to PostgreSQL data type which doesn't support default value",
@@ -656,12 +762,14 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
     }
 
     /**
-     * Processes each model's property mapped to date type and adds related vendor extensions
+     * Processes each model's property mapped to date type and adds related vendor
+     * extensions
      *
      * @param model    model
      * @param property model's property
      */
     public void processDateTypeProperty(CodegenModel model, CodegenProperty property) {
+        System.out.println("== processDateTypeProperty 1 ============================= ");
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
         Map<String, Object> postgresqlSchema = new HashMap<>();
         Map<String, Object> columnDefinition = new HashMap<>();
@@ -681,7 +789,8 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
         if (this.getIdentifierNamingConvention().equals("snake_case") && !baseName.equals(colName)) {
             // add original name in column comment
             String commentExtra = "Original param name - " + baseName + ".";
-            description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
+            description = (description == null || description.isEmpty()) ? commentExtra
+                    : description + ". " + commentExtra;
         }
 
         vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
@@ -694,7 +803,8 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
         } else {
             columnDefinition.put("colNotNull", false);
             try {
-                columnDefinition.put("colDefault", toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
+                columnDefinition.put("colDefault",
+                        toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
             } catch (RuntimeException exception) {
                 LOGGER.warn(
                         "Property '{}' of model '{}' mapped to PostgreSQL data type which doesn't support default value",
@@ -709,12 +819,14 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
     }
 
     /**
-     * Processes each model's property mapped to JSON type and adds related vendor extensions
+     * Processes each model's property mapped to JSON type and adds related vendor
+     * extensions
      *
      * @param model    model
      * @param property model's property
      */
     public void processJsonTypeProperty(CodegenModel model, CodegenProperty property) {
+        System.out.println("== processJsonTypeProperty 1 ============================= ");
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
         Map<String, Object> postgresqlSchema = new HashMap<>();
         Map<String, Object> columnDefinition = new HashMap<>();
@@ -734,7 +846,8 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
         if (this.getIdentifierNamingConvention().equals("snake_case") && !baseName.equals(colName)) {
             // add original name in column comment
             String commentExtra = "Original param name - " + baseName + ".";
-            description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
+            description = (description == null || description.isEmpty()) ? commentExtra
+                    : description + ". " + commentExtra;
         }
 
         vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
@@ -750,7 +863,8 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
         } else {
             columnDefinition.put("colNotNull", false);
             try {
-                columnDefinition.put("colDefault", toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
+                columnDefinition.put("colDefault",
+                        toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
             } catch (RuntimeException exception) {
                 LOGGER.warn(
                         "Property '{}' of model '{}' mapped to PostgreSQL data type which doesn't support default value",
@@ -765,13 +879,15 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
     }
 
     /**
-     * Processes each model's property not mapped to any type and adds related vendor extensions
+     * Processes each model's property not mapped to any type and adds related
+     * vendor extensions
      * Most of time it's related to referenced properties eg. \Model\User
      *
      * @param model    model
      * @param property model's property
      */
     public void processUnknownTypeProperty(CodegenModel model, CodegenProperty property) {
+        System.out.println("== processUnknownTypeProperty 1 ============================= ");
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
         Map<String, Object> postgresqlSchema = new HashMap<>();
         Map<String, Object> columnDefinition = new HashMap<>();
@@ -790,7 +906,8 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
         if (this.getIdentifierNamingConvention().equals("snake_case") && !baseName.equals(colName)) {
             // add original name in column comment
             String commentExtra = "Original param name - " + baseName + ".";
-            description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
+            description = (description == null || description.isEmpty()) ? commentExtra
+                    : description + ". " + commentExtra;
         }
 
         vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
@@ -803,7 +920,8 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
         } else {
             columnDefinition.put("colNotNull", false);
             try {
-                columnDefinition.put("colDefault", toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
+                columnDefinition.put("colDefault",
+                        toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
             } catch (RuntimeException exception) {
                 LOGGER.warn(
                         "Property '{}' of model '{}' mapped to PostgreSQL data type which doesn't support default value",
@@ -820,10 +938,11 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
     /**
      * Generates codegen property for PostgreSQL data type argument
      *
-     * @param value   argument value
+     * @param value argument value
      * @return generated codegen property
      */
     public HashMap<String, Object> toCodegenPostgresqlDataTypeArgument(Object value) {
+        System.out.println("== toCodegenPostgresqlDataTypeArgument 1 ============================= ");
         HashMap<String, Object> arg = new HashMap<>();
         if (value instanceof String) {
             arg.put("isString", true);
@@ -841,21 +960,23 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
             arg.put("isInteger", false);
             arg.put("isNumeric", true);
         } else {
-            LOGGER.warn("PostgreSQL data type argument can be primitive type only. Class '{}' is provided", value.getClass());
+            LOGGER.warn("PostgreSQL data type argument can be primitive type only. Class '{}' is provided",
+                    value.getClass());
         }
         arg.put("argumentValue", value);
         return arg;
     }
 
     /**
-     * Generates default codegen property for PostgreSQL column definition
-     * Ref: https://dev.postgresql.com/doc/refman/5.7/en/data-type-defaults.html
+     * Generates default value codegen property for PostgreSQL column definition
+     * Ref: https://www.postgresql.org/docs/17/datatype.html
      *
-     * @param defaultValue  value
+     * @param defaultValue       value
      * @param postgresqlDataType PostgreSQL data type
      * @return generated codegen property
      */
     public HashMap<String, Object> toCodegenPostgresqlDataTypeDefault(String defaultValue, String postgresqlDataType) {
+        System.out.println("== toCodegenPostgresqlDataTypeDefault 1 ============================= ");
         HashMap<String, Object> defaultMap = new HashMap<>();
         if (defaultValue == null || defaultValue.toUpperCase(Locale.ROOT).equals("NULL")) {
             defaultMap.put("defaultValue", "NULL");
@@ -871,32 +992,38 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
             case "MEDIUMINT":
             case "INT":
             case "BIGINT":
-                // SERIAL DEFAULT VALUE is a special case. In the definition of an integer column, it is an alias for NOT NULL AUTO_INCREMENT UNIQUE
+                // SERIAL DEFAULT VALUE is a special case. In the definition of an integer
+                // column, it is an alias for NOT NULL AUTO_INCREMENT UNIQUE
                 if (defaultValue.equals("SERIAL DEFAULT VALUE")) {
                     defaultMap.put("defaultValue", defaultValue);
                     defaultMap.put("isString", false);
                     defaultMap.put("isNumeric", false);
                     defaultMap.put("isKeyword", true);
+
                 } else {
                     defaultMap.put("defaultValue", defaultValue);
                     defaultMap.put("isString", false);
                     defaultMap.put("isNumeric", true);
                     defaultMap.put("isKeyword", false);
+
                 }
                 return defaultMap;
             case "TIMESTAMP":
             case "DATETIME":
-                // The exception is that, for TIMESTAMP and DATETIME columns, you can specify CURRENT_TIMESTAMP as the default
+                // The exception is that, for TIMESTAMP and DATETIME columns, you can specify
+                // CURRENT_TIMESTAMP as the default
                 if (defaultValue.equals("CURRENT_TIMESTAMP")) {
                     defaultMap.put("defaultValue", defaultValue);
                     defaultMap.put("isString", false);
                     defaultMap.put("isNumeric", false);
                     defaultMap.put("isKeyword", true);
+
                 } else {
                     defaultMap.put("defaultValue", defaultValue);
                     defaultMap.put("isString", true);
                     defaultMap.put("isNumeric", false);
                     defaultMap.put("isKeyword", false);
+
                 }
                 return defaultMap;
             case "TINYBLOB":
@@ -909,19 +1036,23 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
             case "LONGTEXT":
             case "GEOMETRY":
             case "JSON":
-                // The BLOB, TEXT, GEOMETRY, and JSON data types cannot be assigned a default value.
-                throw new RuntimeException("The BLOB, TEXT, GEOMETRY, and JSON data types cannot be assigned a default value");
+                // The BLOB, TEXT, GEOMETRY, and JSON data types cannot be assigned a default
+                // value.
+                throw new RuntimeException(
+                        "The BLOB, TEXT, GEOMETRY, and JSON data types cannot be assigned a default value");
             default:
                 defaultMap.put("defaultValue", defaultValue);
                 defaultMap.put("isString", true);
                 defaultMap.put("isNumeric", false);
                 defaultMap.put("isKeyword", false);
+
                 return defaultMap;
         }
     }
 
     /**
-     * Finds best fitted PostgreSQL data type for integer variable based on minimum and maximum properties
+     * Finds best fitted PostgreSQL data type for integer variable based on minimum
+     * and maximum properties
      *
      * @param minimum  (optional) codegen property
      * @param maximum  (optional) codegen property
@@ -929,8 +1060,9 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
      * @return PostgreSQL integer data type
      */
     public String getPostgresqlMatchedIntegerDataType(Long minimum, Long maximum, Boolean unsigned) {
+        System.out.println("== getPostgresqlMatchedIntegerDataType 1 ============================= ");
         // we can choose fit postgresql data type
-        // ref: https://dev.postgresql.com/doc/refman/8.0/en/integer-types.html
+        // ref: https://www.postgresql.org/docs/17/datatype-numeric.html
         long min = (minimum != null) ? minimum : -2147483648L;
         long max = (maximum != null) ? maximum : 2147483647L;
         long actualMin = Math.min(min, max); // sometimes min and max values can be mixed up
@@ -938,45 +1070,28 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
         if (minimum != null && maximum != null && minimum > maximum) {
             LOGGER.warn("Codegen property 'minimum' cannot be greater than 'maximum'");
         }
-        if (Boolean.TRUE.equals(unsigned) && actualMin >= 0) {
-            if (actualMax <= 255) {
-                return "TINYINT";
-            } else if (actualMax <= 65535) {
-                return "SMALLINT";
-            } else if (actualMax <= 16777215) {
-                return "MEDIUMINT";
-            } else if (actualMax <= 4294967295L) {
-                return "INT";
-            } else if (actualMax > 4294967295L) {
-                return "BIGINT";
-            }
-        } else {
-            if (actualMin >= -128 && actualMax <= 127) {
-                return "TINYINT";
-            } else if (actualMin >= -32768 && actualMax <= 32767) {
-                return "SMALLINT";
-            } else if (actualMin >= -8388608 && actualMax <= 8388607) {
-                return "MEDIUMINT";
-            } else if (actualMin >= -2147483648 && actualMax <= 2147483647) {
-                return "INT";
-            } else if (actualMin < -2147483648 || actualMax > 2147483647) {
-                return "BIGINT";
-            }
+        if (actualMin >= -32768 && actualMax <= 32767) {
+            return "SMALLINT";
+        } else if (actualMin >= -2147483648 && actualMax <= 2147483647) {
+            return "INT";
+        } else if (actualMin < -2147483648 || actualMax > 2147483647) {
+            return "BIGINT";
         }
-
         return "INT";
     }
 
     /**
-     * Finds best fitted PostgreSQL data type for string variable based on minLength and maxLength properties
+     * Finds best fitted PostgreSQL data type for string variable based on minLength
+     * and maxLength properties
      *
      * @param minLength (optional) codegen property
      * @param maxLength (optional) codegen property
      * @return PostgreSQL string data type
      */
     public String getPostgresqlMatchedStringDataType(Integer minLength, Integer maxLength) {
+        System.out.println("== getPostgresqlMatchedStringDataType 1 ============================= ");
         // we can choose fit postgresql data type
-        // ref: https://dev.postgresql.com/doc/refman/8.0/en/string-type-overview.html
+        // ref: https://www.postgresql.org/docs/17/datatype-character.html
         int min = (minLength != null && minLength >= 0) ? minLength : 0;
         int max = (maxLength != null && maxLength >= 0) ? maxLength : 65535;
         Integer actualMin = Math.min(min, max); // sometimes minLength and maxLength values can be mixed up
@@ -984,16 +1099,8 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
         if (minLength != null && maxLength != null && minLength > maxLength) {
             LOGGER.warn("Codegen property 'minLength' cannot be greater than 'maxLength'");
         }
-        if (actualMax.equals(actualMin) && actualMax <= 255) {
-            return "CHAR";
-        } else if (actualMax <= 255) {
+        if (actualMax <= 65535) {
             return "VARCHAR";
-        } else if (actualMax > 255 && actualMax <= 65535) {
-            return "TEXT";
-        } else if (actualMax > 65535 && actualMax <= 16777215) {
-            return "MEDIUMTEXT";
-        } else if (actualMax > 16777215) {
-            return "LONGTEXT";
         }
         return "TEXT";
     }
@@ -1006,18 +1113,16 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
      * @return true if value is correct PostgreSQL data type, otherwise false
      */
     public Boolean isPostgresqlDataType(String dataType) {
-        return (
-                postgresqlNumericTypes.contains(dataType.toUpperCase(Locale.ROOT)) ||
-                        postgresqlDateAndTimeTypes.contains(dataType.toUpperCase(Locale.ROOT)) ||
-                        postgresqlStringTypes.contains(dataType.toUpperCase(Locale.ROOT)) ||
-                        postgresqlSpatialTypes.contains(dataType.toUpperCase(Locale.ROOT)) ||
-                        dataType.toUpperCase(Locale.ROOT).equals("JSON")
-        );
+        System.out.println("== isPostgresqlDataType 1 ============================= ");
+        return (postgresqlNumericTypes.contains(dataType.toUpperCase(Locale.ROOT)) ||
+                postgresqlDateAndTimeTypes.contains(dataType.toUpperCase(Locale.ROOT)) ||
+                postgresqlStringTypes.contains(dataType.toUpperCase(Locale.ROOT)) ||
+                postgresqlSpatialTypes.contains(dataType.toUpperCase(Locale.ROOT)));
+                // || dataType.toUpperCase(Locale.ROOT).equals("JSON"));
     }
 
     /**
      * Converts name to valid PostgreSQL database name
-     * Produced name must be used with backticks only, eg. `database_name`
      *
      * @param name source name
      * @return database name
@@ -1025,7 +1130,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
     public String toDatabaseName(String name) {
         String identifier = toPostgresqlIdentifier(name, databaseNamePrefix, databaseNameSuffix);
         if (identifier.length() > IDENTIFIER_MAX_LENGTH) {
-            LOGGER.warn("Database name cannot exceed 64 chars. Name '{}' will be truncated", name);
+            LOGGER.warn("Database name cannot exceed {} chars. Name '{}' will be truncated", IDENTIFIER_MAX_LENGTH, name);
             identifier = identifier.substring(0, IDENTIFIER_MAX_LENGTH);
         }
         return identifier;
@@ -1033,7 +1138,6 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
 
     /**
      * Converts name to valid PostgreSQL column name
-     * Produced name must be used with backticks only, eg. `table_name`
      *
      * @param name source name
      * @return table name
@@ -1044,7 +1148,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
             identifier = underscore(identifier);
         }
         if (identifier.length() > IDENTIFIER_MAX_LENGTH) {
-            LOGGER.warn("Table name cannot exceed 64 chars. Name '{}' will be truncated", name);
+            LOGGER.warn("Table name cannot exceed {} chars. Name '{}' will be truncated", IDENTIFIER_MAX_LENGTH, name);
             identifier = identifier.substring(0, IDENTIFIER_MAX_LENGTH);
         }
         return identifier;
@@ -1052,7 +1156,6 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
 
     /**
      * Converts name to valid PostgreSQL column name
-     * Produced name must be used with backticks only, eg. `column_name`
      *
      * @param name source name
      * @return column name
@@ -1063,15 +1166,15 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
             identifier = underscore(identifier);
         }
         if (identifier.length() > IDENTIFIER_MAX_LENGTH) {
-            LOGGER.warn("Column name cannot exceed 64 chars. Name '{}' will be truncated", name);
+            LOGGER.warn("Column name cannot exceed {} chars. Name '{}' will be truncated", IDENTIFIER_MAX_LENGTH, name);
             identifier = identifier.substring(0, IDENTIFIER_MAX_LENGTH);
         }
         return identifier;
     }
 
     /**
-     * Converts name to valid PostgreSQL identifier which can be used as database, table, column name
-     * Produced name must be used with backticks only, eg. `column_name`
+     * Converts name to valid PostgreSQL identifier which can be used as database,
+     * table, column name
      *
      * @param name   source name
      * @param prefix when escaped name is digits only, prefix will be prepended
@@ -1086,7 +1189,8 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
             escapedName = escapedName.replaceAll("\\s+$", "");
         }
 
-        // Identifiers may begin with a digit but unless quoted may not consist solely of digits.
+        // Identifiers may begin with a digit but unless quoted may not consist solely
+        // of digits.
         if (escapedName.matches("^\\d+$")) {
             LOGGER.warn("Database, table, and column names cannot consist solely of digits. Check '{}' name", name);
             escapedName = prefix + escapedName + suffix;
@@ -1100,14 +1204,15 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
     }
 
     /**
-     * Escapes PostgreSQL identifier to use it in SQL statements without backticks, eg. SELECT identifier FROM
-     * Ref: https://dev.postgresql.com/doc/refman/8.0/en/identifiers.html
+     * Escapes PostgreSQL identifier to use it in SQL statements without backticks,
+     * eg. SELECT identifier FROM
      *
      * @param identifier source identifier
      * @return escaped identifier
      */
     public String escapePostgresqlUnquotedIdentifier(String identifier) {
-        // ASCII: [0-9,a-z,A-Z$_] (basic Latin letters, digits 0-9, dollar, underscore) Extended: U+0080 .. U+FFFF
+        // ASCII: [0-9,a-z,A-Z$_] (basic Latin letters, digits 0-9, dollar, underscore)
+        // Extended: U+0080 .. U+FFFF
         Pattern regexp = Pattern.compile("[^0-9a-zA-z$_\\u0080-\\uFFFF]");
         Matcher matcher = regexp.matcher(identifier);
         if (matcher.find()) {
@@ -1116,15 +1221,17 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
             identifier = identifier.replaceAll("[^0-9a-zA-z$_\\u0080-\\uFFFF]", "");
         }
 
-        // ASCII NUL (U+0000) and supplementary characters (U+10000 and higher) are not permitted in quoted or unquoted identifiers.
-        // Don't know how to match these characters, hope that first regexp already strip them
+        // ASCII NUL (U+0000) and supplementary characters (U+10000 and higher) are not
+        // permitted in quoted or unquoted identifiers.
+        // Don't know how to match these characters, hope that first regexp already
+        // strip them
         // Pattern regexp2 = Pattern.compile("[\0\uD800\uDC00-\uDBFF\uDFFF]");
         return identifier;
     }
 
     /**
-     * Escapes PostgreSQL identifier to use it in SQL statements with backticks, eg. SELECT `identifier` FROM
-     * Ref: https://dev.postgresql.com/doc/refman/8.0/en/identifiers.html
+     * Escapes PostgreSQL identifier to use it in SQL statements with backticks, eg.
+     * SELECT `identifier` FROM
      *
      * @param identifier source identifier
      * @return escaped identifier
@@ -1139,8 +1246,10 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
             identifier = identifier.replaceAll("[^\\u0001-\\u007F\\u0080-\\uFFFF]", "");
         }
 
-        // ASCII NUL (U+0000) and supplementary characters (U+10000 and higher) are not permitted in quoted or unquoted identifiers.
-        // Don't know how to match these characters, hope that first regexp already strip them
+        // ASCII NUL (U+0000) and supplementary characters (U+10000 and higher) are not
+        // permitted in quoted or unquoted identifiers.
+        // Don't know how to match these characters, hope that first regexp already
+        // strip them
         // Pattern regexp2 = Pattern.compile("[\0\uD800\uDC00-\uDBFF\uDFFF]");
         return identifier;
     }
@@ -1182,7 +1291,8 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
 
     /**
      * Sets identifier naming convention for table names and column names.
-     * This is not related to database name which is defined by defaultDatabaseName option.
+     * This is not related to database name which is defined by defaultDatabaseName
+     * option.
      *
      * @param naming identifier naming convention (original|snake_case)
      */
@@ -1208,15 +1318,16 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen implements CodegenCo
     public String toSrcPath(String packageName) {
         // Trim prefix file separators from package path
         String packagePath = StringUtils.removeStart(
-            // Replace period, backslash, forward slash with file separator in package name
-            packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/")),
-            File.separator
-        );
+                // Replace period, backslash, forward slash with file separator in package name
+                packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/")),
+                File.separator);
 
         // Trim trailing file separators from the overall path
         return StringUtils.removeEnd(packagePath, File.separator);
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.POSTGRESQL; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.POSTGRESQL;
+    }
 }
