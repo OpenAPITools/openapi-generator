@@ -2337,7 +2337,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
         if (jackson) {
-            for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo")) {
+            for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo", "JsonIgnoreProperties")) {
                 Map<String, String> oneImport = new HashMap<>();
                 oneImport.put("import", importMapping.get(i));
                 if (!imports.contains(oneImport)) {

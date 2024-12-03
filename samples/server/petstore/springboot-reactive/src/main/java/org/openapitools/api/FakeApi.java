@@ -9,6 +9,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import java.math.BigDecimal;
 import org.openapitools.model.ChildWithNullable;
 import org.openapitools.model.Client;
+import org.openapitools.model.CreateParkPersonRequest;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.model.FileSchemaTestClass;
 import java.time.LocalDate;
@@ -37,12 +38,43 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 @Validated
-@Api(value = "fake", description = "the fake API")
+@Api(value = "PerkPerson", description = "the PerkPerson API")
 public interface FakeApi {
 
     default FakeApiDelegate getDelegate() {
         return new FakeApiDelegate() {};
     }
+
+    /**
+     * POST /fake/one-of-within-one-of-park-persons : Create a Park Person
+     *
+     * @param createParkPersonRequest  (required)
+     * @return Park Person created (status code 201)
+     */
+    @ApiOperation(
+        tags = { "PerkPerson" },
+        value = "Create a Park Person",
+        nickname = "createParkPerson",
+        notes = "",
+        response = String.class
+    )
+    @ApiResponses({
+        @ApiResponse(code = 201, message = "Park Person created", response = String.class)
+    })
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = "/fake/one-of-within-one-of-park-persons",
+        produces = { "application/json" },
+        consumes = { "application/json" }
+    )
+    
+    default Mono<ResponseEntity<String>> createParkPerson(
+        @ApiParam(value = "", required = true) @Valid @RequestBody Mono<CreateParkPersonRequest> createParkPersonRequest,
+        @ApiIgnore final ServerWebExchange exchange
+    ) {
+        return getDelegate().createParkPerson(createParkPersonRequest, exchange);
+    }
+
 
     /**
      * POST /fake/create_xml_item : creates an XmlItem

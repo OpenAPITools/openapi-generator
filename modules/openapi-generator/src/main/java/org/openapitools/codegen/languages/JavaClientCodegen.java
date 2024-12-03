@@ -1162,17 +1162,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
-        for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo", "JsonIgnoreProperties")) {
-            Map<String, String> oneImport = new HashMap<>();
-            oneImport.put("import", importMapping.get(i));
-            if (!imports.contains(oneImport)) {
-                imports.add(oneImport);
-            }
-        }
-    }
-
-    @Override
     public List<VendorExtension> getSupportedVendorExtensions() {
         List<VendorExtension> extensions = super.getSupportedVendorExtensions();
         extensions.add(VendorExtension.X_WEBCLIENT_BLOCKING);
