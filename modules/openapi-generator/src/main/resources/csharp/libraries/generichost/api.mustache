@@ -562,7 +562,11 @@ namespace {{packageName}}.{{apiPackage}}
                     tokenBaseLocalVars.Add(httpSignatureTokenLocalVar{{-index}});
 
                     if (httpRequestMessageLocalVar.Content != null) {
-                        string requestBodyLocalVar = await httpRequestMessageLocalVar.Content.ReadAsStringAsync({{#net60OrLater}}cancellationToken{{/net60OrLater}}).ConfigureAwait(false);
+                        string requestBodyLocalVar = await httpRequestMessageLocalVar.Content.ReadAsStringAsync(
+#if NET6_0_OR_GREATER
+                                cancellationToken
+#endif
+                            ).ConfigureAwait(false);
 
                         httpSignatureTokenLocalVar{{-index}}.UseInHeader(httpRequestMessageLocalVar, requestBodyLocalVar, cancellationToken);
                     }
@@ -607,23 +611,25 @@ namespace {{packageName}}.{{apiPackage}}
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
                     {{/-first}}
                     {{/produces}}
-                    {{#net60OrLater}}
-
+#if NET6_0_OR_GREATER
                     httpRequestMessageLocalVar.Method = HttpMethod.{{#lambda.titlecase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.titlecase}};
-                    {{/net60OrLater}}
-                    {{^net60OrLater}}
+#else
                     httpRequestMessageLocalVar.Method = new HttpMethod("{{#lambda.uppercase}}{{httpMethod}}{{/lambda.uppercase}}");
-                    {{/net60OrLater}}
+#endif
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync({{#net60OrLater}}cancellationToken{{/net60OrLater}}).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(
+#if NET6_0_OR_GREATER
+                                cancellationToken
+#endif
+                            ).ConfigureAwait(false);
 
                         ILogger<{{#vendorExtensions.x-duplicates}}{{.}}.{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<{{#vendorExtensions.x-duplicates}}{{.}}.{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse>();
 
-                        {{#vendorExtensions.x-duplicates}}{{.}}.{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse apiResponseLocalVar = new{{^net60OrLater}} {{operationId}}ApiResponse{{/net60OrLater}}(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "{{{path}}}", requestedAtLocalVar, _jsonSerializerOptions);
+                        {{#vendorExtensions.x-duplicates}}{{.}}.{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse apiResponseLocalVar = new {{operationId}}ApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "{{{path}}}", requestedAtLocalVar, _jsonSerializerOptions);
 
                         After{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}apiResponseLocalVar  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
 
@@ -761,7 +767,11 @@ namespace {{packageName}}.{{apiPackage}}
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool Try{{vendorExtensions.x-http-status}}({{#net60OrLater}}[NotNullWhen(true)]{{/net60OrLater}}out {{#isModel}}{{^containerType}}{{packageName}}.{{modelPackage}}.{{/containerType}}{{/isModel}}{{{dataType}}}{{#nrt}}?{{/nrt}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}} result)
+            public bool Try{{vendorExtensions.x-http-status}}(
+#if NET6_0_OR_GREATER
+                [NotNullWhen(true)]
+#endif
+                out {{#isModel}}{{^containerType}}{{packageName}}.{{modelPackage}}.{{/containerType}}{{/isModel}}{{{dataType}}}{{#nrt}}?{{/nrt}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}} result)
             {
                 result = null;
 
