@@ -87,6 +87,26 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
         return contentType ?: "application/octet-stream"
     }
 
+    protected fun MultipartBody.Builder.addPartToMultiPart(name: String, headers: Map<String, String>, file: File) {
+        val partHeaders = headers.toMutableMap() +
+            ("Content-Disposition" to "form-data; name=\"$name\"; filename=\"${file.name}\"")
+        val fileMediaType = guessContentTypeFromFile(file).toMediaTypeOrNull()
+        addPart(
+            partHeaders.toHeaders(),
+            file.asRequestBody(fileMediaType)
+        )
+    }
+
+    protected fun <T> MultipartBody.Builder.addPartToMultiPart(name: String, headers: Map<String, String>, obj: T?) {
+        if (obj == null) return
+        val partHeaders = headers.toMutableMap() +
+            ("Content-Disposition" to "form-data; name=\"$name\"")
+        addPart(
+            partHeaders.toHeaders(),
+            parameterToString(obj).toRequestBody(null)
+        )
+    }
+
     protected inline fun <reified T> requestBody(content: T, mediaType: String?): RequestBody =
         when {
             content is ByteArray -> content.toRequestBody((mediaType ?: guessContentTypeFromByteArray(content)).toMediaTypeOrNull())
@@ -98,21 +118,18 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
                         // content's type *must* be Map<String, PartConfig<*>>
                         @Suppress("UNCHECKED_CAST")
                         (content as Map<String, PartConfig<*>>).forEach { (name, part) ->
-                            if (part.body is File) {
-                                val partHeaders = part.headers.toMutableMap() +
-                                    ("Content-Disposition" to "form-data; name=\"$name\"; filename=\"${part.body.name}\"")
-                                val fileMediaType = guessContentTypeFromFile(part.body).toMediaTypeOrNull()
-                                addPart(
-                                    partHeaders.toHeaders(),
-                                    part.body.asRequestBody(fileMediaType)
-                                )
-                            } else {
-                                val partHeaders = part.headers.toMutableMap() +
-                                    ("Content-Disposition" to "form-data; name=\"$name\"")
-                                addPart(
-                                    partHeaders.toHeaders(),
-                                    parameterToString(part.body).toRequestBody(null)
-                                )
+                            when (part.body) {
+                                is File -> addPartToMultiPart(name, part.headers, part.body)
+                                is List<*> -> {
+                                    part.body.forEach {
+                                        if (it is File) {
+                                            addPartToMultiPart(name, part.headers, it)
+                                        } else {
+                                            addPartToMultiPart(name, part.headers, it)
+                                        }
+                                    }
+                               }
+                               else -> addPartToMultiPart(name, part.headers, part.body)
                             }
                         }
                     }.build()
