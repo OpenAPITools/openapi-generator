@@ -34,9 +34,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.io.File;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 @SuppressWarnings("unchecked")
@@ -282,11 +279,6 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
-
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-        String formattedDateTime = now.format(formatter);        
-        additionalProperties.put("currDateTime", formattedDateTime);
 
         if (additionalProperties.containsKey(DEFAULT_DATABASE_NAME)) {
             if (additionalProperties.get(DEFAULT_DATABASE_NAME).equals("")) {
