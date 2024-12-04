@@ -12,6 +12,7 @@
 package org.openapitools.server.models
 
 
+import kotlinx.serialization.Serializable
 /**
  * 
  * @param notNullableRequired 
@@ -19,10 +20,11 @@ package org.openapitools.server.models
  * @param nullableNotRequired 
  * @param notNullableNotRequired 
  */
+@Serializable
 data class Pet(
     val notNullableRequired: kotlin.String,
     val nullableRequired: kotlin.String?,
     val nullableNotRequired: kotlin.String? = null,
     val notNullableNotRequired: kotlin.String? = null
-) 
+)
 

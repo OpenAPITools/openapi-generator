@@ -7,7 +7,8 @@ version = "{{artifactVersion}}"
 
 plugins {
     kotlin("jvm") version "2.0.20"
-    id("io.ktor.plugin") version "2.3.12"
+    id("io.ktor.plugin") version "3.0.2"
+    kotlin("plugin.serialization") version "2.0.20"
 }
 
 application {
@@ -35,7 +36,7 @@ dependencies {
 {{/featureAutoHead}}
     implementation("io.ktor:ktor-server-default-headers")
     implementation("io.ktor:ktor-server-content-negotiation")
-    implementation("io.ktor:ktor-serialization-gson")
+    implementation("io.ktor:ktor-serialization-kotlinx-json")
 {{#featureResources}}
     implementation("io.ktor:ktor-server-resources")
 {{/featureResources}}
