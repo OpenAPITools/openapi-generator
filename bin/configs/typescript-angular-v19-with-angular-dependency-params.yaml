@@ -1,0 +1,12 @@
+generatorName: typescript-angular
+outputDir: samples/client/petstore/typescript-angular-v19-with-angular-dependency-params/builds/default
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-angular
+additionalProperties:
+  ngVersion: 19.0.1
+  npmName: sample-angular-19-0-0-with-angular-dependency-params
+  supportsES6: true
+  tsVersion: 5.6.3
+  zonejsVersion: 0.15.0
+  ngPackagrVersion: 19.0.1
+  rxjsVersion: 6.5.3
