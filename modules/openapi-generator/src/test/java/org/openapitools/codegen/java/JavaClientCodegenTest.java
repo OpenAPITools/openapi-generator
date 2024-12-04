@@ -31,6 +31,7 @@ import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
@@ -3210,4 +3211,32 @@ public class JavaClientCodegenTest {
         );
     }
 
+    @Test
+    public void testIfJavaCodeWithDiscriminatorWillCompile_issue16394() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.OKHTTP_GSON, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setInputSpec("src/test/resources/bugs/issue_16394.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        GlobalSettings.setProperty("debugModels", "true");
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        for(File f: files) {
+            // a rather fragile way of determining if the code won't compile. a better approach would be a reusable
+            // utility to determine this, similar to how validateJavaSourceFiles checks the syntax.
+            if("Cat.java".equals(f.getName())) {
+                String fileContents = new String(Files.readAllBytes(f.toPath()), StandardCharsets.UTF_8);
+                Assert.assertFalse(fileContents.contains("this.petType = this.getClass().getSimpleName()"));
+            }
+        }
+    }
 }

@@ -538,6 +538,9 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
+
+
+
         return objs;
     }
 
@@ -3541,12 +3544,13 @@ public class DefaultCodegen implements CodegenConfig {
                         .orElseGet(() -> typeMapping.get("string"));
         discriminator.setPropertyType(propertyType);
 
-        // check to see if the discriminator property is an enum string
-        if (schema.getProperties() != null &&
-                schema.getProperties().get(discriminatorPropertyName) instanceof StringSchema) {
-            StringSchema s = (StringSchema) schema.getProperties().get(discriminatorPropertyName);
-            if (s.getEnum() != null && !s.getEnum().isEmpty()) { // it's an enum string
-                discriminator.setIsEnum(true);
+
+        // sometimes the discriminator is directly described in the properties
+        discriminator.setIsEnum(discriminatorIsEnumString(schema, discriminatorPropertyName));
+        if (ModelUtils.isComposedSchema(schema)) {
+            // other times the properties are null and only the parent contains data about if the discriminator is an enum
+            for(Schema s: getModelNameToSchemaCache().values()) {
+                discriminator.setIsEnum(discriminatorIsEnumString(s, discriminatorPropertyName));
             }
         }
 
@@ -3602,6 +3606,16 @@ public class DefaultCodegen implements CodegenConfig {
         discriminator.getMappedModels().addAll(uniqueDescendants);
 
         return discriminator;
+    }
+
+    private static boolean discriminatorIsEnumString(Schema schema, String discriminatorPropertyName) {
+        if (schema.getProperties() != null && schema.getProperties().get(discriminatorPropertyName) instanceof StringSchema) {
+            StringSchema s = (StringSchema) schema.getProperties().get(discriminatorPropertyName);
+            if (s.getEnum() != null && !s.getEnum().isEmpty()) { // it's an enum string
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

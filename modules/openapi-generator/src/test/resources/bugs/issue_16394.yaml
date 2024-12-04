@@ -1,0 +1,63 @@
+---
+openapi: 3.0.3
+info:
+  title: example of a parent schema with discriminator property that is an enum
+  version: 2.0
+paths:
+  "/pet/{petId}":
+    get:
+      summary: Find pet by id
+      operationId: getBetById
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK - The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Pet"
+components:
+  schemas:
+    Pet:
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+          enum: [ Cat, Dog, Lizard ]
+      discriminator:
+        propertyName: petType
+        mapping:
+          dog: Dog
+    Cat:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          # all other properties specific to a `Cat`
+          properties:
+            name:
+              type: string
+    Dog:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          # all other properties specific to a `Dog`
+          properties:
+            bark:
+              type: string
+    Lizard:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          # all other properties specific to a `Lizard`
+          properties:
+            lovesRocks:
+              type: boolean
