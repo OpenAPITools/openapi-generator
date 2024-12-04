@@ -19,7 +19,6 @@ namespace client {
 namespace model {
 
 
-
 Category::Category()
 {
     m_Id = 0L;
@@ -39,17 +38,20 @@ void Category::validate()
 
 web::json::value Category::toJson() const
 {
-
     web::json::value val = web::json::value::object();
     
     if(m_IdIsSet)
-    {
+    {   
+        
         val[utility::conversions::to_string_t(U("id"))] = ModelBase::toJson(m_Id);
     }
+    
     if(m_NameIsSet)
-    {
+    {   
+        
         val[utility::conversions::to_string_t(U("name"))] = ModelBase::toJson(m_Name);
     }
+    
 
     return val;
 }
@@ -66,6 +68,7 @@ bool Category::fromJson(const web::json::value& val)
             int64_t refVal_setId;
             ok &= ModelBase::fromJson(fieldValue, refVal_setId);
             setId(refVal_setId);
+            
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("name"))))
@@ -76,6 +79,7 @@ bool Category::fromJson(const web::json::value& val)
             utility::string_t refVal_setName;
             ok &= ModelBase::fromJson(fieldValue, refVal_setName);
             setName(refVal_setName);
+            
         }
     }
     return ok;
@@ -91,10 +95,12 @@ void Category::toMultipart(std::shared_ptr<MultipartFormData> multipart, const u
     if(m_IdIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("id")), m_Id));
+        
     }
     if(m_NameIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("name")), m_Name));
+        
     }
 }
 
@@ -112,15 +118,20 @@ bool Category::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const
         int64_t refVal_setId;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("id"))), refVal_setId );
         setId(refVal_setId);
+        
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("name"))))
     {
         utility::string_t refVal_setName;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("name"))), refVal_setName );
         setName(refVal_setName);
+        
     }
     return ok;
 }
+
+
+
 
 int64_t Category::getId() const
 {
@@ -142,10 +153,12 @@ void Category::unsetId()
 {
     m_IdIsSet = false;
 }
+
 utility::string_t Category::getName() const
 {
     return m_Name;
 }
+
 
 void Category::setName(const utility::string_t& value)
 {
@@ -162,6 +175,7 @@ void Category::unsetName()
 {
     m_NameIsSet = false;
 }
+
 }
 }
 }
