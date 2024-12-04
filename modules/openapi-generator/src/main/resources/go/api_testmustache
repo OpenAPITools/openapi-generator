@@ -22,7 +22,6 @@ import (
 	openapiclient "github.com/{{gitUserId}}/{{gitRepoId}}/services/{{packageName}}"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/glcp/common-sdk-go/services/sample_service"
 )
 
 func Test_{{packageName}}_{{classname}}Service(t *testing.T) {
@@ -30,8 +29,9 @@ func Test_{{packageName}}_{{classname}}Service(t *testing.T) {
 	cfg := config.NewConfiguration()
 	cfg.Debug = true
 	apiClient := client.NewAPIClient(cfg)
+	// Register the {{classname}}Service
     apiService := {{packageName}}.New{{classname}}Service(apiClient)
-
+	serviceAPI := apiService
 	ctx, err := glp_context.ConfigureContext()
 	if err != nil {
 		panic(err)
@@ -47,36 +47,29 @@ func Test_{{packageName}}_{{classname}}Service(t *testing.T) {
 		{{#pathParams}}
 		{{#-first}}
 		t.Skip("skip test")  // remove to run test
-
 		{{/-first}}
 		var {{paramName}} {{{dataType}}}
 		{{/pathParams}}
 
-		{{#returnType}}resp, {{/returnType}}httpRes, err := apiService.{{operationId}}(ctx{{#pathParams}}, {{paramName}}{{/pathParams}}).Execute()
+		request := serviceAPI.{{operationId}}(ctx)
+		{{#bodyParam}}
+		request = request.{{paramName}}(openapiclient.{{{dataType}}}{
+			{{#vars}}
+        	{{name}}: {{#value}}{{value}}{{/value}}{{^value}}"dummy_value"{{/value}},
+        	{{/vars}}
+		})
+		{{/bodyParam}}
+
+		{{#returnType}}resp, {{/returnType}}httpRes, err := request.ApiService.{{operationId}}(context.Background(){{#pathParams}}, {{paramName}}{{/pathParams}}).Execute()
 
 		require.Nil(t, err)
 		{{#returnType}}
 		require.NotNil(t, resp)
 		{{/returnType}}
-		assert.Equal(t, 200, httpRes.StatusCode)
-		{{#x-is-add-operation}}
-        // Custom code for Add APIs
-        fmt.Println("This is an Add API")
-        id = getAttributeValue(resp, "{{paramName}}")
-        fmt.Printf("ID: %s\n", id)
-        {{/x-is-add-operation}}
+		assert.Equal(t, 201, httpRes.StatusCode)
+		id = resp.isIdParam
 	})
 
 {{/operation}}
 {{/operations}}
-}
-
-// getAttributeValue uses reflection to get the value of a specified attribute from a response object
-func getAttributeValue(resp interface{}, attributeName string) string {
-    val := reflect.ValueOf(resp)
-    field := val.FieldByName(attributeName)
-    if field.IsValid() && field.CanInterface() {
-        return fmt.Sprintf("%v", field.Interface())
-    }
-    return ""
 }

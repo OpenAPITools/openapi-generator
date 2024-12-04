@@ -1,6 +1,8 @@
-module {{gitHost}}/{{gitUserId}}/{{gitRepoId}}{{#isGoSubmodule}}/{{packageName}}{{/isGoSubmodule}}
+module {{gitHost}}/{{gitUserId}}/{{gitRepoId}}/services/{{packageName}}
 
 go 1.18
+
+require {{gitHost}}/{{gitUserId}}/{{gitRepoId}} v{{packageVersion}}
 
 require (
 	{{#hasOAuthMethods}}
@@ -10,3 +12,5 @@ require (
 	github.com/aws/aws-sdk-go v1.34.14
 	{{/withAWSV4Signature}}
 )
+
+replace {{gitHost}}/{{gitUserId}}/{{gitRepoId}} => ../../

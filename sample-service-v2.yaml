@@ -1,0 +1,1677 @@
+openapi: 3.1.0
+info:
+  contact:
+    email: glcs.team-apicli@hpe.com
+    name: API-CLI Team
+    url: https://github.com/glcp/api-sample-service
+  description: A RESTful Sample Service which is designed as per the HPE GreenLake
+    API standards.
+  license:
+    name: HPE License
+    url: https://www.hpe.com/us/en/software/licensing.html
+  title: Petstore API
+  version: 1.0.0
+servers:
+- description: Mira endpoint(QA)
+  url: https://global.api.qa.hpedevops.net
+- description: Pavo endpoint(Staging)
+  url: https://global.api.intg.hpedevops.net
+- description: Aquila endpoint(Production)
+  url: https://global.api.greenlake.hpe.com
+security:
+- BearerAuth: []
+tags:
+- description: "Manage your pets for your pet shop. This group contains every endpoint\
+    \ needed to manage Pet's records. Add, remove, retrieve or update them."
+  name: pets
+  x-displayName: Pet Store
+paths:
+  /sample-service/v2/pets:
+    delete:
+      description: This will delete multiple pets at once based on the Ids provided(atomic
+        operation - either completely eliminates or returns an error).
+      operationId: deletePets
+      parameters:
+      - description: Pet Ids to delete.
+        explode: true
+        in: query
+        name: id
+        required: true
+        schema:
+          items:
+            format: uuid
+            type: string
+          type: array
+        style: form
+      responses:
+        "204":
+          description: Successfully deleted pets.
+        "400":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 400
+                message: Bad Request.
+                errorDetails:
+                  type: hpe.greenlake.bad_request
+                  issues:
+                    source: query.parameter
+                    subject: force
+                    description: force parameter must be provided and set it to true
+                      to remove the entire resource collection.
+              schema:
+                $ref: '#/components/schemas/addPet_400_response'
+          description: Bad Request.
+        "401":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 401
+                message: Authentication failure.
+                errorDetails:
+                  type: hpe.greenlake.metadata
+                  source: hpe.greenlake.sample-service
+                  metadata:
+                    access_token: expired
+              schema:
+                $ref: '#/components/schemas/getAllPet_401_response'
+          description: Unauthorized.
+        "404":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 404
+                message: "pet_ids ['c6a545f9-ad96-4fc1-8e53-dbe92a98469d', 'ef0554f6-8c30-437e-b967-b817e70ce585']\
+                  \ doesn't exist."
+                errorDetails:
+                  type: hpe.greenlake.metadata
+                  source: hpe.greenlake.sample-service
+                  metadata:
+                    id: invalid
+              schema:
+                $ref: '#/components/schemas/getAllPet_401_response'
+          description: Not Found.
+        "500":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 500
+                message: Internal Server Error
+                errorDetails:
+                  type: hpe.greenlake.retry_info
+                  retryAfterSeconds: 30
+              schema:
+                $ref: '#/components/schemas/getAllPet_500_response'
+          description: Internal Server Error.
+      summary: Delete pets
+      tags:
+      - pets
+    get:
+      description: It reads all the pets.
+      operationId: getAllPet
+      parameters:
+      - description: The number of pets in each page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          maximum: 20
+          minimum: 0
+          type: integer
+        style: form
+      - description: Sort the pets based on sort expression.
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          example: "name,createdAt desc"
+          type: string
+        style: form
+      - description: Limit the properties returned for every pet.
+        explode: true
+        in: query
+        name: select
+        required: false
+        schema:
+          example: "pet_id,name"
+          type: string
+        style: form
+      - description: The zero-based resource offset to start the response from.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - $ref: '#/components/parameters/filterParam'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getAllPet_200_response'
+          description: Details of the requested pet.
+        "401":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 401
+                message: Authentication failure.
+                errorDetails:
+                  type: hpe.greenlake.metadata
+                  source: hpe.greenlake.sample-service
+                  metadata:
+                    access_token: expired
+              schema:
+                $ref: '#/components/schemas/getAllPet_401_response'
+          description: Unauthorized.
+        "500":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 500
+                message: Internal Server Error
+                errorDetails:
+                  type: hpe.greenlake.retry_info
+                  retryAfterSeconds: 30
+              schema:
+                $ref: '#/components/schemas/getAllPet_500_response'
+          description: Internal Server Error.
+      summary: Get all pets from store.
+      tags:
+      - pets
+    post:
+      description: "This adds a new pet to the store, which should include the pet's\
+        \ name, category, and status."
+      operationId: addPet
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetRequest'
+        description: Details of the new pet.
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetId'
+          description: Newly created pet ID.
+          headers:
+            Location:
+              description: URL to access the newly created pet.
+              explode: false
+              schema:
+                example: https://pavo-default-ext-api.common.cloud.hpe.com/sample-service/v2/pets/123e4567-e89b-12d3-a456-426614174000
+                type: string
+              style: simple
+        "400":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-1287
+                message: Bad Request.
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 400
+                errorDetails:
+                  type: hpe.greenlake.bad_request
+                  issues:
+                    source: query.parameter
+                    subject: limit
+                    description: Must be a numeric value which is 0 or greater.
+              schema:
+                $ref: '#/components/schemas/addPet_400_response'
+          description: Bad Request.
+        "401":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-1287
+                message: Authentication failure.
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 401
+                errorDetails:
+                  type: hpe.greenlake.metadata
+                  source: hpe.greenlake.sample-service
+                  metadata:
+                    access_token: expired
+              schema:
+                $ref: '#/components/schemas/getAllPet_401_response'
+          description: Unauthorized.
+        "500":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 500
+                message: Internal Server Error.
+                errorDetails:
+                  type: hpe.greenlake.retry_info
+                  retryAfterSeconds: 30
+              schema:
+                $ref: '#/components/schemas/getAllPet_500_response'
+          description: Internal Server Error.
+      summary: Add a new pet
+      tags:
+      - pets
+  /sample-service/v2/pets/{petId}:
+    delete:
+      description: This removes one of the existing pets from the store.
+      operationId: deletePet
+      parameters:
+      - description: Id of the pet to remove.
+        explode: false
+        in: path
+        name: petId
+        required: true
+        schema:
+          example: 123e4567-e89b-12d3-a456-426614174000
+          format: uuid
+          type: string
+        style: simple
+      - description: Force deletion of a pet.
+        explode: true
+        in: query
+        name: force
+        required: false
+        schema:
+          default: false
+          type: boolean
+        style: form
+      responses:
+        "204":
+          description: Successfully deleted the pet.
+        "400":
+          content:
+            application/json:
+              example:
+                errorCode: GLSS-0001
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                message: Bad Request.
+                httpStatusCode: 400
+                errorDetails:
+                  type: hpe.greenlake.bad_request
+                  issues:
+                    source: query.parameter
+                    subject: limit
+                    description: Must be a numeric value which is 0 or greater.
+              schema:
+                $ref: '#/components/schemas/addPet_400_response'
+          description: Bad Request.
+        "401":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 401
+                message: Authentication failure.
+                errorDetails:
+                  type: hpe.greenlake.metadata
+                  source: hpe.greenlake.sample-service
+                  metadata:
+                    access_token: expired
+              schema:
+                $ref: '#/components/schemas/getAllPet_401_response'
+          description: Unauthorized.
+        "404":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 404
+                message: Invalid pet-id.
+                errorDetails:
+                  type: hpe.greenlake.metadata
+                  source: hpe.greenlake.sample-service
+                  metadata:
+                    pet_id: Not found
+              schema:
+                $ref: '#/components/schemas/getAllPet_401_response'
+          description: Not Found.
+        "500":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 500
+                message: Internal Server Error.
+                errorDetails:
+                  type: hpe.greenlake.retry_info
+                  retryAfterSeconds: 30
+              schema:
+                $ref: '#/components/schemas/getAllPet_500_response'
+          description: Internal Server Error.
+      summary: Deletes a pet
+      tags:
+      - pets
+    get:
+      description: It reads the details of a pet through PetId.
+      operationId: getPet
+      parameters:
+      - description: Id of the pet.
+        explode: false
+        in: path
+        name: petId
+        required: true
+        schema:
+          example: 123e4567-e89b-12d3-a456-426614174000
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+          description: Details of the requested pet.
+        "400":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 400
+                message: Bad Request.
+                errorDetails:
+                  type: hpe.greenlake.bad_request
+                  issues:
+                    source: query.parameter
+                    subject: limit
+                    description: Must be a numeric value which is 0 or greater.
+              schema:
+                $ref: '#/components/schemas/addPet_400_response'
+          description: Bad Request.
+        "401":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 401
+                message: Authentication failure.
+                errorDetails:
+                  type: hpe.greenlake.metadata
+                  source: hpe.greenlake.sample-service
+                  metadata:
+                    access_token: expired
+              schema:
+                $ref: '#/components/schemas/getAllPet_401_response'
+          description: Unauthorized.
+        "404":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 404
+                message: Invalid pet-id.
+                errorDetails:
+                  type: hpe.greenlake.metadata
+                  source: hpe.greenlake.sample-service
+                  metadata:
+                    pet_id: Not found
+              schema:
+                $ref: '#/components/schemas/getAllPet_401_response'
+          description: Not Found.
+        "500":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 500
+                message: Internal Server Error.
+                errorDetails:
+                  type: hpe.greenlake.retry_info
+                  retryAfterSeconds: 30
+              schema:
+                $ref: '#/components/schemas/getAllPet_500_response'
+          description: Internal Server Error.
+      summary: Gets a specific pet
+      tags:
+      - pets
+    patch:
+      description: This partially updates the pet information which is already in
+        the store.
+      operationId: patchPet
+      parameters:
+      - description: Id of pet to update.
+        explode: false
+        in: path
+        name: petId
+        required: true
+        schema:
+          example: 123e4567-e89b-12d3-a456-426614174000
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/PetPatch'
+        description: Pet details that need to be updated.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: Pet information successfully updated.
+        "400":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 400
+                message: Bad Request.
+                errorDetails:
+                  type: hpe.greenlake.bad_request
+                  issues:
+                    source: query.parameter
+                    subject: limit
+                    description: Must be a numeric value which is 0 or greater.
+              schema:
+                $ref: '#/components/schemas/addPet_400_response'
+          description: Bad Request.
+        "401":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 401
+                message: Authentication failure.
+                errorDetails:
+                  type: hpe.greenlake.metadata
+                  source: hpe.greenlake.sample-service
+                  metadata:
+                    access_token: expired
+              schema:
+                $ref: '#/components/schemas/getAllPet_401_response'
+          description: Unauthorized.
+        "404":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 404
+                message: Invalid pet-id.
+                errorDetails:
+                  type: hpe.greenlake.metadata
+                  source: hpe.greenlake.sample-service
+                  metadata:
+                    pet_id: Not found
+              schema:
+                $ref: '#/components/schemas/getAllPet_401_response'
+          description: Not Found.
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unsupported Media Type.
+        "500":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 500
+                message: Internal Server Error.
+                errorDetails:
+                  type: hpe.greenlake.retry_info
+                  retryAfterSeconds: 30
+              schema:
+                $ref: '#/components/schemas/getAllPet_500_response'
+          description: Internal Server Error.
+      summary: Updates a pet partially
+      tags:
+      - pets
+    put:
+      description: This updates the pet information which is already in the store.
+      operationId: updatePet
+      parameters:
+      - description: Id of pet to update.
+        explode: false
+        in: path
+        name: petId
+        required: true
+        schema:
+          example: 123e4567-e89b-12d3-a456-426614174000
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetRequest'
+        description: Pet details that need to be updated.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: Pet information successfully updated.
+        "400":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 400
+                message: Bad Request.
+                errorDetails:
+                  type: hpe.greenlake.bad_request
+                  issues:
+                    source: query.parameter
+                    subject: limit
+                    description: Must be a numeric value which is 0 or greater.
+              schema:
+                $ref: '#/components/schemas/addPet_400_response'
+          description: Bad Request.
+        "401":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 401
+                message: Authentication failure.
+                errorDetails:
+                  type: hpe.greenlake.metadata
+                  source: hpe.greenlake.sample-service
+                  metadata:
+                    access_token: expired
+              schema:
+                $ref: '#/components/schemas/getAllPet_401_response'
+          description: Unauthorized.
+        "404":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 404
+                message: Invalid pet-id.
+                errorDetails:
+                  type: hpe.greenlake.metadata
+                  source: hpe.greenlake.sample-service
+                  metadata:
+                    pet_id: Not found
+              schema:
+                $ref: '#/components/schemas/getAllPet_401_response'
+          description: Not Found.
+        "500":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 500
+                message: Internal Server Error.
+                errorDetails:
+                  type: hpe.greenlake.retry_info
+                  retryAfterSeconds: 30
+              schema:
+                $ref: '#/components/schemas/getAllPet_500_response'
+          description: Internal Server Error.
+      summary: Updates a pet
+      tags:
+      - pets
+  /sample-service/v2/orders:
+    delete:
+      description: This removes one of the existing pets order from the store.
+      operationId: deletePetOrder
+      parameters:
+      - description: pciid of the user
+        explode: false
+        in: header
+        name: hpe-workspace-id
+        required: false
+        schema:
+          type: string
+        style: simple
+      - $ref: '#/components/parameters/orderFilterParam'
+      responses:
+        "204":
+          description: Successfully deleted the pet.
+        "400":
+          content:
+            application/json:
+              example:
+                errorCode: GLSS-0001
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                message: Bad Request.
+                httpStatusCode: 400
+                errorDetails:
+                  type: hpe.greenlake.bad_request
+                  issues:
+                    source: query.parameter
+                    subject: limit
+                    description: Must be a numeric value which is 0 or greater.
+              schema:
+                $ref: '#/components/schemas/addPet_400_response'
+          description: Bad Request.
+        "401":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 401
+                message: Authentication failure.
+                errorDetails:
+                  type: hpe.greenlake.metadata
+                  source: hpe.greenlake.sample-service
+                  metadata:
+                    access_token: expired
+              schema:
+                $ref: '#/components/schemas/getAllPet_401_response'
+          description: Unauthorized.
+        "404":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 404
+                message: Invalid pet-id.
+                errorDetails:
+                  type: hpe.greenlake.metadata
+                  source: hpe.greenlake.sample-service
+                  metadata:
+                    pet_id: Not found
+              schema:
+                $ref: '#/components/schemas/getAllPet_401_response'
+          description: Not Found.
+        "500":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 500
+                message: Internal Server Error.
+                errorDetails:
+                  type: hpe.greenlake.retry_info
+                  retryAfterSeconds: 30
+              schema:
+                $ref: '#/components/schemas/getAllPet_500_response'
+          description: Internal Server Error.
+      summary: Deletes a pet order
+      tags:
+      - pets
+    get:
+      description: It reads all the pet orders.
+      operationId: getAllOrders
+      parameters:
+      - description: pciid of the user
+        explode: false
+        in: header
+        name: hpe-workspace-id
+        required: false
+        schema:
+          type: string
+        style: simple
+      - description: The number of orders in each page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          maximum: 20
+          minimum: 0
+          type: integer
+        style: form
+      - description: The zero-based resource offset to start the response from.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - $ref: '#/components/parameters/orderFilterParam'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getAllOrders_200_response'
+          description: Details of the requested pet orders.
+        "400":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 400
+                message: Bad Request.
+                errorDetails:
+                  type: hpe.greenlake.bad_request
+                  issues:
+                    source: query.parameter
+                    subject: limit
+                    description: Must be a numeric value which is 0 or greater.
+              schema:
+                $ref: '#/components/schemas/addPet_400_response'
+          description: Bad Request.
+        "401":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 401
+                message: Authentication failure.
+                errorDetails:
+                  type: hpe.greenlake.metadata
+                  source: hpe.greenlake.sample-service
+                  metadata:
+                    access_token: expired
+              schema:
+                $ref: '#/components/schemas/getAllPet_401_response'
+          description: Unauthorized.
+        "404":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 404
+                message: Invalid pet-id.
+                errorDetails:
+                  type: hpe.greenlake.metadata
+                  source: hpe.greenlake.sample-service
+                  metadata:
+                    pet_id: Not found
+              schema:
+                $ref: '#/components/schemas/getAllPet_401_response'
+          description: Not Found.
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unsupported Media Type.
+        "500":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 500
+                message: Internal Server Error.
+                errorDetails:
+                  type: hpe.greenlake.retry_info
+                  retryAfterSeconds: 30
+              schema:
+                $ref: '#/components/schemas/getAllPet_500_response'
+          description: Internal Server Error.
+      summary: Get all orders from store.
+      tags:
+      - pets
+    post:
+      description: This creates a new pet order to the store
+      operationId: addPetOrder
+      parameters:
+      - description: pciid of the user
+        explode: false
+        in: header
+        name: hpe-workspace-id
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRequest'
+        description: Details of the new pet order.
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderId'
+          description: Newly created pet order ID.
+          headers:
+            Location:
+              description: URL to access the newly created order.
+              explode: false
+              schema:
+                example: https://pavo-default-ext-api.common.cloud.hpe.com/sample-service/v2/orders/123e4567-e89b-12d3-a456-426614174000
+                type: string
+              style: simple
+        "400":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-1287
+                message: Bad Request.
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 400
+                errorDetails:
+                  type: hpe.greenlake.bad_request
+                  issues:
+                    source: query.parameter
+                    subject: limit
+                    description: Must be a numeric value which is 0 or greater.
+              schema:
+                $ref: '#/components/schemas/addPet_400_response'
+          description: Bad Request.
+        "401":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-1287
+                message: Authentication failure.
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 401
+                errorDetails:
+                  type: hpe.greenlake.metadata
+                  source: hpe.greenlake.sample-service
+                  metadata:
+                    access_token: expired
+              schema:
+                $ref: '#/components/schemas/getAllPet_401_response'
+          description: Unauthorized.
+        "500":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 500
+                message: Internal Server Error.
+                errorDetails:
+                  type: hpe.greenlake.retry_info
+                  retryAfterSeconds: 30
+              schema:
+                $ref: '#/components/schemas/getAllPet_500_response'
+          description: Internal Server Error.
+      summary: Add a new pet order
+      tags:
+      - pets
+  /sample-service/v2/orders/{orderId}:
+    get:
+      description: It reads the details of a pet order through orderId.
+      operationId: getPetOrderId
+      parameters:
+      - description: Id of the pet order.
+        explode: false
+        in: path
+        name: orderId
+        required: true
+        schema:
+          example: 123e4567-e89b-12d3-a456-426614174000
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+          description: Details of the requested pet.
+        "400":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 400
+                message: Bad Request.
+                errorDetails:
+                  type: hpe.greenlake.bad_request
+                  issues:
+                    source: query.parameter
+                    subject: limit
+                    description: Must be a numeric value which is 0 or greater.
+              schema:
+                $ref: '#/components/schemas/addPet_400_response'
+          description: Bad Request.
+        "401":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 401
+                message: Authentication failure.
+                errorDetails:
+                  type: hpe.greenlake.metadata
+                  source: hpe.greenlake.sample-service
+                  metadata:
+                    access_token: expired
+              schema:
+                $ref: '#/components/schemas/getAllPet_401_response'
+          description: Unauthorized.
+        "404":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 404
+                message: Invalid order-id.
+                errorDetails:
+                  type: hpe.greenlake.metadata
+                  source: hpe.greenlake.sample-service
+                  metadata:
+                    pet_id: Not found
+              schema:
+                $ref: '#/components/schemas/getAllPet_401_response'
+          description: Not Found.
+        "500":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 500
+                message: Internal Server Error.
+                errorDetails:
+                  type: hpe.greenlake.retry_info
+                  retryAfterSeconds: 30
+              schema:
+                $ref: '#/components/schemas/getAllPet_500_response'
+          description: Internal Server Error.
+      summary: Gets a specific pet order
+      tags:
+      - pets
+  /sample-service/v2/default-orders:
+    get:
+      description: It reads all the default orders.
+      operationId: getAllDefaultOrders
+      parameters:
+      - description: pciid of the user
+        explode: false
+        in: header
+        name: hpe-workspace-id
+        required: false
+        schema:
+          type: string
+        style: simple
+      - description: The number of orders in each page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          maximum: 20
+          minimum: 0
+          type: integer
+        style: form
+      - description: The zero-based resource offset to start the response from.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - $ref: '#/components/parameters/orderFilterParam'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getAllOrders_200_response'
+          description: Details of the requested default orders.
+        "400":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 400
+                message: Bad Request.
+                errorDetails:
+                  type: hpe.greenlake.bad_request
+                  issues:
+                    source: query.parameter
+                    subject: limit
+                    description: Must be a numeric value which is 0 or greater.
+              schema:
+                $ref: '#/components/schemas/addPet_400_response'
+          description: Bad Request.
+        "401":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 401
+                message: Authentication failure.
+                errorDetails:
+                  type: hpe.greenlake.metadata
+                  source: hpe.greenlake.sample-service
+                  metadata:
+                    access_token: expired
+              schema:
+                $ref: '#/components/schemas/getAllPet_401_response'
+          description: Unauthorized.
+        "404":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 404
+                message: Invalid pet-id.
+                errorDetails:
+                  type: hpe.greenlake.metadata
+                  source: hpe.greenlake.sample-service
+                  metadata:
+                    pet_id: Not found
+              schema:
+                $ref: '#/components/schemas/getAllPet_401_response'
+          description: Not Found.
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unsupported Media Type.
+        "500":
+          content:
+            application/json:
+              example:
+                errorCode: HPE-GL-SAMPLESERVICE-8897
+                debugId: 1c4c6b26-bb90-4ae2-b301-d5636a2876c9
+                httpStatusCode: 500
+                message: Internal Server Error.
+                errorDetails:
+                  type: hpe.greenlake.retry_info
+                  retryAfterSeconds: 30
+              schema:
+                $ref: '#/components/schemas/getAllPet_500_response'
+          description: Internal Server Error.
+      summary: Get all default orders from store.
+      tags:
+      - pets
+components:
+  parameters:
+    filterParam:
+      description: |
+        The filter query parameter is used to filter the set of resources returned in a collection-level GET. The returned set of resources must match the criteria in the filter query parameter.
+
+        | CLASS      |  EXAMPLES                                  |
+        |------------|--------------------------------------------|
+        | Type       | string                                     |
+        | Operations | eq, ne, in, gt, ge, lt, le                 |
+        | Logic      | and, or                                    |
+      examples:
+        equals:
+          description: Return pets where pet name == 'harry'
+          summary: Filter with equality check
+          value: name eq 'harry'
+        not equals:
+          description: Return pets where pet name != 'harry'
+          summary: Filter with inequality check
+          value: name ne 'harry'
+        list of pets:
+          description: "Return pets where pet name is one of 'harry', 'charlie', 'mira'"
+          summary: Filter with a list of names using in operator
+          value: "name in ('harry', 'charlie', 'mira')"
+        before date:
+          description: "Return pets created before 10th January, 2022"
+          summary: Filter with less than check
+          value: createdAt lt 2022-01-10T00:00:00
+        after date:
+          description: "Return pets created on and after 9am, 18th December, 2021"
+          summary: Filter with greater than or equal to check
+          value: createdAt lt 2021-12-18T09:00:00
+        and:
+          description: "Return pets where pets are created after 20th May, 2022 and\
+            \ pet name != 'charlie'"
+          summary: Filter on multiple conditions using AND
+          value: createdAt gt 2022-05-20 and name ne 'charlie'
+        or:
+          description: "Return pets where pets are created after 1st January, 2022\
+            \ and before 30th May, 2022"
+          summary: Filter on multiple conditions using OR
+          value: createdAt gt 2022-01-01 and createdAt lt 2022-05-30
+      explode: true
+      in: query
+      name: filter
+      required: false
+      schema:
+        type: string
+      style: form
+    orderFilterParam:
+      description: "The filter query parameter is used to filter the set of resources\
+        \ returned in a collection-level GET. The returned set of resources must match\
+        \ the criteria in the filter query parameter.\n\n| CLASS      |  EXAMPLES\
+        \                                  |\n|------------|--------------------------------------------|\n\
+        | Type       | string                                     |\n| Operations\
+        \ | eq                                         |\n| Logic      | and, or \
+        \                                   |\n| Criteria   | petId, status      \
+        \                      |      \n"
+      explode: true
+      in: query
+      name: filter
+      required: false
+      schema:
+        type: string
+      style: form
+  schemas:
+    Pet:
+      allOf:
+      - $ref: '#/components/schemas/Id'
+      - $ref: '#/components/schemas/PetRequest'
+      - $ref: '#/components/schemas/PetProperties'
+      example:
+        photoUrl: https://example.hpe.com/images/harry.png
+        createdAt: 2022-03-16T06:50:07Z
+        cellName: CellName
+        name: harry
+        description: Harry is a golden retriever
+        id: 123e4567-e89b-12d3-a456-426614174000
+        type: dog
+        cellId: CF5C632F-7F26-4777-A395-2221339A57CF
+        status: AVAILABLE
+        updatedAt: 2022-03-17T06:50:07Z
+    PetRequest:
+      example:
+        photoUrl: https://example.hpe.com/images/harry.png
+        name: harry
+        description: Harry is a golden retriever
+        type: dog
+        status: AVAILABLE
+      properties:
+        name:
+          description: Name of the pet.
+          example: harry
+          type: string
+        type:
+          description: "What kind of pet? (Eg:- dog, cat, fish etc...)"
+          example: dog
+          type: string
+        status:
+          description: Status of the pet.
+          enum:
+          - AVAILABLE
+          - PENDING
+          - SOLD
+          example: AVAILABLE
+          type: string
+          x-enumDescriptions:
+            AVAILABLE: The pet is **available**
+            PENDING: The status of the pet is **pending**
+            SOLD: The pet has been **sold**
+        description:
+          description: Detailed description of the pet.
+          example: Harry is a golden retriever
+          type: string
+        photoUrl:
+          description: A valid photo URL is stored elsewhere.
+          example: https://example.hpe.com/images/harry.png
+          type: string
+      required:
+      - name
+      - status
+      - type
+    PetProperties:
+      properties:
+        cellName:
+          description: name of the cell order belongs to.
+          example: CellName
+          type: string
+        cellId:
+          description: uuid of the cell.
+          example: CF5C632F-7F26-4777-A395-2221339A57CF
+          type: string
+        createdAt:
+          description: Date when the pet was created.
+          example: 2022-03-16T06:50:07Z
+          type: string
+        updatedAt:
+          description: Date when the pet information was update.
+          example: 2022-03-17T06:50:07Z
+          type: string
+    PetId:
+      example:
+        pet_id: 123e4567-e89b-12d3-a456-426614174000
+      properties:
+        pet_id:
+          example: 123e4567-e89b-12d3-a456-426614174000
+          format: uuid
+          type: string
+      required:
+      - pet_id
+    Id:
+      properties:
+        id:
+          example: 123e4567-e89b-12d3-a456-426614174000
+          format: uuid
+          type: string
+      required:
+      - id
+    PetPatch:
+      properties:
+        name:
+          description: Name of the pet.
+          example: harry
+          type: string
+        type:
+          description: "What kind of pet? (Eg:- dog, cat, fish etc...)"
+          example: dog
+          type: string
+        status:
+          description: Status of the pet.
+          enum:
+          - AVAILABLE
+          - PENDING
+          - SOLD
+          example: AVAILABLE
+          type: string
+          x-enumDescriptions:
+            AVAILABLE: The pet is **available**
+            PENDING: The status of the pet is **pending**
+            SOLD: The pet has been **sold**
+        description:
+          description: Detailed description of the pet.
+          example: Harry is a golden retriever
+          type: string
+        photoUrl:
+          description: A valid photo URL is stored elsewhere.
+          example: https://example.hpe.com/images/harry.png
+          type: string
+    Status:
+      example:
+        status: Pet has been successfully updated.
+      properties:
+        status:
+          example: Pet has been successfully updated.
+          type: string
+      required:
+      - status
+    Order:
+      allOf:
+      - $ref: '#/components/schemas/OrderId'
+      - $ref: '#/components/schemas/OrderRequest'
+      - $ref: '#/components/schemas/OrderProperties'
+      example:
+        generation: 1
+        createdAt: 2022-03-16T06:50:07Z
+        petId: 5798D2BD-6532-4E73-9A0C-C38F326A1100
+        quantity: 2
+        cellName: CellName
+        description: Order placed for golden retrievers
+        id: 3871BBFA-8DFA-4139-B191-FF47D54817F5
+        type: Order
+        cellId: CF5C632F-7F26-4777-A395-2221339A57CF
+        status: PLACED
+        updatedAt: 2022-03-17T06:50:07Z
+    OrderId:
+      example:
+        id: 3871BBFA-8DFA-4139-B191-FF47D54817F5
+      properties:
+        id:
+          example: 3871BBFA-8DFA-4139-B191-FF47D54817F5
+          format: uuid
+          type: string
+      required:
+      - id
+    OrderRequest:
+      example:
+        petId: 5798D2BD-6532-4E73-9A0C-C38F326A1100
+        quantity: 2
+        description: Order placed for golden retrievers
+        status: PLACED
+      properties:
+        petId:
+          description: Id of the pet
+          example: 5798D2BD-6532-4E73-9A0C-C38F326A1100
+          type: string
+        status:
+          description: Status of the pet.
+          enum:
+          - PLACED
+          - APPROVED
+          - DELIVERED
+          example: PLACED
+          type: string
+          x-enumDescriptions:
+            PLACED: The pet order is **placed**
+            APPROVED: The status of the pet order is **approved**
+            DELIVERED: The pet order has been **delivered**
+        description:
+          description: Detailed description of the pet.
+          example: Order placed for golden retrievers
+          type: string
+        quantity:
+          description: Detailed description of the pet.
+          example: 2
+          type: integer
+      required:
+      - petId
+      - quantity
+      - status
+    OrderProperties:
+      properties:
+        type:
+          description: order type.
+          example: Order
+          type: string
+        generation:
+          description: generation value.
+          example: 1
+          type: integer
+        cellName:
+          description: name of the cell order belongs to.
+          example: CellName
+          type: string
+        cellId:
+          description: uuid of the cell.
+          example: CF5C632F-7F26-4777-A395-2221339A57CF
+          type: string
+        createdAt:
+          description: Date when the pet was created.
+          example: 2022-03-16T06:50:07Z
+          type: string
+        updatedAt:
+          description: Date when the pet information was update.
+          example: 2022-03-17T06:50:07Z
+          type: string
+      required:
+      - createdAt
+      - generation
+      - type
+      - updatedAt
+    Error:
+      example:
+        errorCode: errorCode
+        debugId: debugId
+        message: message
+        httpStatusCode: 0
+      properties:
+        errorCode:
+          description: An opaque string uniquely identifying the error for programmatic
+            use.
+          type: string
+        message:
+          description: "A Clear and concise description of the error condition, suitable\
+            \ for display to an end user."
+          type: string
+        debugId:
+          description: "Verbose description of the error condition, suitable for display\
+            \ to an end user."
+          type: string
+        httpStatusCode:
+          description: The HTTP equivalent status code.
+          type: integer
+      required:
+      - debugId
+      - errorCode
+      - httpStatusCode
+      - message
+    ErrorGeneralDetails:
+      properties:
+        errorDetails:
+          description: Additional detailed information about the error.
+          items:
+            $ref: '#/components/schemas/ErrorGeneralDetails_errorDetails_inner'
+          type: array
+    ErrorBadRequestDetails:
+      properties:
+        errorDetails:
+          description: Additional detailed information about the error.
+          items:
+            $ref: '#/components/schemas/ErrorBadRequestDetails_errorDetails_inner'
+          type: array
+    ErrorRetryDetails:
+      properties:
+        errorDetails:
+          description: Additional detailed information about the error.
+          items:
+            $ref: '#/components/schemas/ErrorRetryDetails_errorDetails_inner'
+          type: array
+    getAllPet_200_response:
+      example:
+        total: 6
+        offset: 1
+        count: 0
+        items:
+        - photoUrl: https://example.hpe.com/images/harry.png
+          createdAt: 2022-03-16T06:50:07Z
+          cellName: CellName
+          name: harry
+          description: Harry is a golden retriever
+          id: 123e4567-e89b-12d3-a456-426614174000
+          type: dog
+          cellId: CF5C632F-7F26-4777-A395-2221339A57CF
+          status: AVAILABLE
+          updatedAt: 2022-03-17T06:50:07Z
+        - photoUrl: https://example.hpe.com/images/harry.png
+          createdAt: 2022-03-16T06:50:07Z
+          cellName: CellName
+          name: harry
+          description: Harry is a golden retriever
+          id: 123e4567-e89b-12d3-a456-426614174000
+          type: dog
+          cellId: CF5C632F-7F26-4777-A395-2221339A57CF
+          status: AVAILABLE
+          updatedAt: 2022-03-17T06:50:07Z
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Pet'
+          type: array
+        count:
+          type: integer
+        total:
+          type: integer
+        offset:
+          type: integer
+      required:
+      - count
+      - items
+    getAllPet_401_response:
+      allOf:
+      - $ref: '#/components/schemas/Error'
+      - $ref: '#/components/schemas/ErrorGeneralDetails'
+      example:
+        errorCode: errorCode
+        debugId: debugId
+        message: message
+        httpStatusCode: 5
+        errorDetails:
+        - metadata: "{}"
+          source: source
+          type: type
+        - metadata: "{}"
+          source: source
+          type: type
+    getAllPet_500_response:
+      allOf:
+      - $ref: '#/components/schemas/Error'
+      - $ref: '#/components/schemas/ErrorRetryDetails'
+      example:
+        errorCode: errorCode
+        debugId: debugId
+        message: message
+        httpStatusCode: 5
+        errorDetails:
+        - retryAfterSeconds: 2
+          type: type
+        - retryAfterSeconds: 2
+          type: type
+    addPet_400_response:
+      allOf:
+      - $ref: '#/components/schemas/Error'
+      - $ref: '#/components/schemas/ErrorBadRequestDetails'
+      example:
+        errorCode: errorCode
+        debugId: debugId
+        message: message
+        httpStatusCode: 0
+        errorDetails:
+        - type: type
+          issues:
+          - subject: subject
+            description: description
+            source: source
+          - subject: subject
+            description: description
+            source: source
+        - type: type
+          issues:
+          - subject: subject
+            description: description
+            source: source
+          - subject: subject
+            description: description
+            source: source
+    getAllOrders_200_response:
+      example:
+        total: 6
+        offset: 1
+        count: 0
+        items:
+        - generation: 1
+          createdAt: 2022-03-16T06:50:07Z
+          petId: 5798D2BD-6532-4E73-9A0C-C38F326A1100
+          quantity: 2
+          cellName: CellName
+          description: Order placed for golden retrievers
+          id: 3871BBFA-8DFA-4139-B191-FF47D54817F5
+          type: Order
+          cellId: CF5C632F-7F26-4777-A395-2221339A57CF
+          status: PLACED
+          updatedAt: 2022-03-17T06:50:07Z
+        - generation: 1
+          createdAt: 2022-03-16T06:50:07Z
+          petId: 5798D2BD-6532-4E73-9A0C-C38F326A1100
+          quantity: 2
+          cellName: CellName
+          description: Order placed for golden retrievers
+          id: 3871BBFA-8DFA-4139-B191-FF47D54817F5
+          type: Order
+          cellId: CF5C632F-7F26-4777-A395-2221339A57CF
+          status: PLACED
+          updatedAt: 2022-03-17T06:50:07Z
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Order'
+          type: array
+        count:
+          type: integer
+        total:
+          type: integer
+        offset:
+          type: integer
+      required:
+      - count
+      - items
+    ErrorGeneralDetails_errorDetails_inner:
+      example:
+        metadata: "{}"
+        source: source
+        type: type
+      properties:
+        type:
+          type: string
+        source:
+          type: string
+        metadata:
+          type: object
+      required:
+      - metadata
+      - source
+      - type
+    ErrorBadRequestDetails_errorDetails_inner_issues_inner:
+      example:
+        subject: subject
+        description: description
+        source: source
+      properties:
+        source:
+          type: string
+        subject:
+          type: string
+        description:
+          type: string
+      required:
+      - source
+      - subject
+    ErrorBadRequestDetails_errorDetails_inner:
+      example:
+        type: type
+        issues:
+        - subject: subject
+          description: description
+          source: source
+        - subject: subject
+          description: description
+          source: source
+      properties:
+        type:
+          type: string
+        issues:
+          items:
+            $ref: '#/components/schemas/ErrorBadRequestDetails_errorDetails_inner_issues_inner'
+          type: array
+      required:
+      - issues
+      - type
+    ErrorRetryDetails_errorDetails_inner:
+      example:
+        retryAfterSeconds: 2
+        type: type
+      properties:
+        type:
+          type: string
+        retryAfterSeconds:
+          type: integer
+      required:
+      - retryAfterSeconds
+      - type
+  securitySchemes:
+    BearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http

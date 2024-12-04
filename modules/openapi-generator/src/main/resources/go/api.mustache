@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"github.com/glcp/common-sdk-go/pkg/client"
 {{#imports}}	"{{import}}"
 {{/imports}}
 )
@@ -44,8 +45,24 @@ type {{classname}} interface {
 }
 {{/generateInterfaces}}
 
-// {{classname}}Service {{classname}} service
-type {{classname}}Service service
+// {{classname}}Service represents the {{classname}} service
+type {{classname}}Service struct {
+	client *client.APIClient
+}
+
+
+// New{{classname}}Service creates a {{classname}}Service.
+func New{{classname}}Service(client *client.APIClient) *{{classname}}Service {
+	return &{{classname}}Service{
+		client: client,
+	}
+}
+
+// ServiceName returns the name of the service.
+func (s *{{classname}}Service) ServiceName() string {
+	return "{{classname}}"
+}
+
 {{#operation}}
 
 type {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request struct {
@@ -112,19 +129,19 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 	var (
 		localVarHTTPMethod   = http.Method{{httpMethod}}
 		localVarPostBody     interface{}
-		formFiles            []formFile
+		formFiles            []client.FormFile
 		{{#returnType}}
 		localVarReturnValue  {{^isArray}}{{^returnTypeIsPrimitive}}{{^isResponseFile}}*{{/isResponseFile}}{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}
 		{{/returnType}}
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "{{{classname}}}Service.{{{nickname}}}")
+	localBasePath, err := a.client.Cfg.ServerURLWithContext(r.ctx, "{{{classname}}}Service.{{{nickname}}}")
 	if err != nil {
-		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, &GenericOpenAPIError{error: err.Error()}
+		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, &client.GenericOpenAPIError{ErrorStr: err.Error()}
 	}
 
 	localVarPath := localBasePath + "{{{path}}}"{{#pathParams}}
-	localVarPath = strings.Replace(localVarPath, "{"+"{{{baseName}}}"+"}", url.PathEscape(parameterValueToString(r.{{paramName}}, "{{paramName}}")), -1){{/pathParams}}
+	localVarPath = strings.Replace(localVarPath, "{"+"{{{baseName}}}"+"}", url.PathEscape(client.ParameterValueToString(r.{{paramName}}, "{{paramName}}")), -1){{/pathParams}}
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -189,15 +206,15 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {
-				parameterAddToHeaderOrQuery(localVarQueryParams, "{{{baseName}}}", s.Index(i).Interface(), "{{style}}", "{{collectionFormat}}")
+				client.ParameterAddToHeaderOrQuery(localVarQueryParams, "{{{baseName}}}", s.Index(i).Interface(), "{{style}}", "{{collectionFormat}}")
 			}
 		} else {
-			parameterAddToHeaderOrQuery(localVarQueryParams, "{{{baseName}}}", t, "{{style}}", "{{collectionFormat}}")
+			client.ParameterAddToHeaderOrQuery(localVarQueryParams, "{{{baseName}}}", t, "{{style}}", "{{collectionFormat}}")
 		}
 	}
 	{{/isCollectionFormatMulti}}
 	{{^isCollectionFormatMulti}}
-	parameterAddToHeaderOrQuery(localVarQueryParams, "{{{baseName}}}", r.{{paramName}}, "{{style}}", "{{collectionFormat}}")
+	client.ParameterAddToHeaderOrQuery(localVarQueryParams, "{{{baseName}}}", r.{{paramName}}, "{{style}}", "{{collectionFormat}}")
 	{{/isCollectionFormatMulti}}
 	{{/required}}
 	{{^required}}
@@ -207,14 +224,14 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {
-				parameterAddToHeaderOrQuery(localVarQueryParams, "{{{baseName}}}", s.Index(i).Interface(), "{{style}}", "{{collectionFormat}}")
+				client.ParameterAddToHeaderOrQuery(localVarQueryParams, "{{{baseName}}}", s.Index(i).Interface(), "{{style}}", "{{collectionFormat}}")
 			}
 		} else {
-			parameterAddToHeaderOrQuery(localVarQueryParams, "{{{baseName}}}", t, "{{style}}", "{{collectionFormat}}")
+			client.ParameterAddToHeaderOrQuery(localVarQueryParams, "{{{baseName}}}", t, "{{style}}", "{{collectionFormat}}")
 		}
 	{{/isCollectionFormatMulti}}
 	{{^isCollectionFormatMulti}}
-		parameterAddToHeaderOrQuery(localVarQueryParams, "{{{baseName}}}", r.{{paramName}}, "{{style}}", "{{collectionFormat}}")
+		client.ParameterAddToHeaderOrQuery(localVarQueryParams, "{{{baseName}}}", r.{{paramName}}, "{{style}}", "{{collectionFormat}}")
 	{{/isCollectionFormatMulti}}
 	{{#defaultValue}}} else {
 		var defaultValue {{{dataType}}} = {{{.}}}
@@ -228,7 +245,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 <%={{ }}=%>
 
 	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	localVarHTTPContentType := client.SelectHeaderContentType(localVarHTTPContentTypes)
 	if localVarHTTPContentType != "" {
 		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
 	}
@@ -239,17 +256,17 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 <%={{ }}=%>
 
 	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	localVarHTTPHeaderAccept := client.SelectHeaderAccept(localVarHTTPHeaderAccepts)
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 {{#headerParams}}
 	{{#required}}
-	parameterAddToHeaderOrQuery(localVarHeaderParams, "{{{baseName}}}", r.{{paramName}}, "{{style}}", "{{collectionFormat}}")
+	client.ParameterAddToHeaderOrQuery(localVarHeaderParams, "{{{baseName}}}", r.{{paramName}}, "{{style}}", "{{collectionFormat}}")
 	{{/required}}
 	{{^required}}
 	if r.{{paramName}} != nil {
-		parameterAddToHeaderOrQuery(localVarHeaderParams, "{{{baseName}}}", r.{{paramName}}, "{{style}}", "{{collectionFormat}}")
+		client.ParameterAddToHeaderOrQuery(localVarHeaderParams, "{{{baseName}}}", r.{{paramName}}, "{{style}}", "{{collectionFormat}}")
 	}
 	{{/required}}
 {{/headerParams}}
@@ -295,7 +312,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 {{/isFile}}
 {{^isFile}}
 {{#required}}
-	parameterAddToHeaderOrQuery(localVarFormParams, "{{{baseName}}}", r.{{paramName}}, "{{style}}", "{{collectionFormat}}")
+	client.ParameterAddToHeaderOrQuery(localVarFormParams, "{{{baseName}}}", r.{{paramName}}, "{{style}}", "{{collectionFormat}}")
 {{/required}}
 {{^required}}
 {{#isModel}}
@@ -309,7 +326,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 {{/isModel}}
 {{^isModel}}
 	if r.{{paramName}} != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "{{{baseName}}}", r.{{paramName}}, "{{style}}", "{{collectionFormat}}")
+		client.ParameterAddToHeaderOrQuery(localVarFormParams, "{{{baseName}}}", r.{{paramName}}, "{{style}}", "{{collectionFormat}}")
 	}
 {{/isModel}}
 {{/required}}
@@ -355,12 +372,12 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 {{/isKeyInCookie}}
 {{/isApiKey}}
 {{/authMethods}}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := a.client.PrepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, err
 	}
 
-	localVarHTTPResponse, err := a.client.callAPI(req)
+	localVarHTTPResponse, err := a.client.CallAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
 		return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, err
 	}
@@ -373,8 +390,8 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 	}
 
 {{#withCustomMiddlewareFunction}}
-	if a.client.cfg.ResponseMiddleware != nil {
-		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+	if a.client.Cfg.ResponseMiddleware != nil {
+		err = a.client.Cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
 		if err != nil {
 			return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, err
 		}
@@ -382,9 +399,9 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 
 {{/withCustomMiddlewareFunction}}
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
+		newErr := &client.GenericOpenAPIError{
+			BodyByte:  localVarBody,
+			ErrorStr: localVarHTTPResponse.Status,
 		}
 		{{#responses}}
 		{{#dataType}}
@@ -407,13 +424,13 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 		{{/wildcard}}
 		{{/range}}
 			var v {{{dataType}}}
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = a.client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
-				newErr.error = err.Error()
+				newErr.ErrorStr = err.Error()
 				return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+					newErr.ErrorStr = client.FormatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.ModelErr = v
 			{{^-last}}
 			return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, newErr
 			{{/-last}}
@@ -428,11 +445,11 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 	}
 
 	{{#returnType}}
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = a.client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
+		newErr := &client.GenericOpenAPIError{
+			BodyByte:  localVarBody,
+			ErrorStr: err.Error(),
 		}
 		return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, newErr
 	}
