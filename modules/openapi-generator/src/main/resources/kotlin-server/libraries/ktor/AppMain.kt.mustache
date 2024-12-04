@@ -29,9 +29,7 @@ import java.util.concurrent.TimeUnit
 {{/featureMetrics}}
 import io.ktor.server.routing.*
 {{#hasAuthMethods}}
-{{#kotlinSerialization}}
 import io.ktor.serialization.kotlinx.json.json
-{{/kotlinSerialization}}
 import com.typesafe.config.ConfigFactory
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.apache.Apache
@@ -56,9 +54,7 @@ fun Application.main() {
     {{/featureMetrics}}
 {{#generateApis}}
     install(ContentNegotiation) {
-    {{#kotlinSerialization}}
         json()
-    {{/kotlinSerialization}}
     }
     {{#featureAutoHead}}
     install(AutoHeadResponse) // see https://ktor.io/docs/autoheadresponse.html

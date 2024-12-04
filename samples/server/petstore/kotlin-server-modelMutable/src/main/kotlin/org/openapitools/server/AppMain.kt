@@ -12,6 +12,7 @@ import com.codahale.metrics.Slf4jReporter
 import io.ktor.server.metrics.dropwizard.*
 import java.util.concurrent.TimeUnit
 import io.ktor.server.routing.*
+import io.ktor.serialization.kotlinx.json.json
 import com.typesafe.config.ConfigFactory
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.apache.Apache
@@ -34,6 +35,7 @@ fun Application.main() {
         reporter.start(10, TimeUnit.SECONDS)
     }
     install(ContentNegotiation) {
+        json()
     }
     install(AutoHeadResponse) // see https://ktor.io/docs/autoheadresponse.html
     install(Compression, ApplicationCompressionConfiguration()) // see https://ktor.io/docs/compression.html
