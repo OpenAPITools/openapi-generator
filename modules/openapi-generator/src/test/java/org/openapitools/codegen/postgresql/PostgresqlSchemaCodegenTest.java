@@ -255,20 +255,22 @@ public class PostgresqlSchemaCodegenTest {
     }
 
     @Test
-    public void testSetJsonDataTypeEnabled() {
+    public void testSetJsonDataType() {
         final PostgresqlSchemaCodegen codegen = new PostgresqlSchemaCodegen();
-        codegen.setJsonDataTypeEnabled(true);
-        Assert.assertTrue(codegen.getJsonDataTypeEnabled());
-        codegen.setJsonDataTypeEnabled(false);
-        Assert.assertFalse(codegen.getJsonDataTypeEnabled());
+        codegen.setJsonDataType("off");
+        Assert.assertTrue(codegen.getJsonDataType().equals("off"));
+        codegen.setJsonDataType("json");
+        Assert.assertTrue(codegen.getJsonDataType().equals("json"));
+        codegen.setJsonDataType("jsonb");
+        Assert.assertTrue(codegen.getJsonDataType().equals("jsonb"));
     }
 
     @Test
-    public void testGetJsonDataTypeEnabled() {
+    public void testGetJsonDataType() {
         final PostgresqlSchemaCodegen codegen = new PostgresqlSchemaCodegen();
-        Assert.assertTrue(codegen.getJsonDataTypeEnabled());
-        codegen.setJsonDataTypeEnabled(false);
-        Assert.assertFalse(codegen.getJsonDataTypeEnabled());
+        Assert.assertTrue(codegen.getJsonDataType().equals("json"));
+        codegen.setJsonDataType("off");
+        Assert.assertTrue(codegen.getJsonDataType().equals("off"));
     }
 
     @Test

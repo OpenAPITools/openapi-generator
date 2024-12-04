@@ -20,7 +20,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ------ | ----------- | ------ | ------- |
 |defaultDatabaseName|Default database name for all PostgreSQL queries| ||
 |identifierNamingConvention|Naming convention of PostgreSQL identifiers(table names and column names). This is not related to database name which is defined by defaultDatabaseName option|<dl><dt>**original**</dt><dd>Do not transform original names</dd><dt>**snake_case**</dt><dd>Use snake_case names</dd></dl>|original|
+|jsonDataType|Use special JSON data types for complex model properties <br><br>*Note: JSON data type requires PostgreSQL version 9.4 or newer*|<dl><dt>**json**</dt><dd>Stores data as a text string.<br>- Suitable if you need to preserve the data in its original form in human-readable format.<br>- Slower in performing operations because the data has to be parsed each time.</dd><dt>**jsonb**</dt><dd>- Stores data in a binary format.<br>- Supports indexing, which makes search and data retrieval operations faster.<br>- Does not preserve the order of keys and may change formatting (e.g., removing extra spaces)</dd><dt>**off**</dt><dd>JSON data types disabled. TEXT type will be used to store JSON data</dd></dl>|json|
 |namedParametersEnabled|Generates model prepared SQLs with named parameters, eg. :petName. Question mark placeholder used when option disabled.| |false|
+|idAutoIncEnabled|Add an auto-increment feature for 'id' fields of integer type.|<dl><dt>**true**</dt><dd>This generates SERIAL/BIGSERIAL type instead of INT/BIGINT, which automatically handle 'id' field value increments when inserting data into table.<br>The choice between SERIAL and BIGSERIAL is based on the format of the OpenAPI schema object 'id' property (int32 to SERIAL and int64 to BIGSERIAL respectively)</dd><dt>**false**</dt><dd>- Leave integer 'id' field type as is (INT/BIGINT)</dd></dl>|false|
 
 ## IMPORT MAPPING
 
@@ -63,7 +65,98 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 ## RESERVED WORDS
 
-[Keywords in the PostgreSQL 17](https://www.postgresql.org/docs/17/sql-keywords-appendix.html)
+| ABORT      | ABSOLUTE  | ACCESS     | ACTION    | ADD       |
+|------------|-----------|------------|-----------|-----------|
+| ADMIN      | AFTER     | AGGREGATE  | ALL       | ALSO      |
+| ALTER      | ALWAYS    | ANALYSE    | ANALYZE   | AND       |
+| ANY        | ARRAY     | AS         | ASC       | ASSERTION |
+| ASSIGNMENT | ASYMMETRIC| AT         | ATTACH    | ATTRIBUTE |
+| AUTHORIZATION | BACKWARD | BEFORE   | BEGIN     | BETWEEN   |
+| BIGINT     | BINARY    | BIT        | BOOLEAN   | BOTH      |
+| BY         | CACHE     | CALL       | CALLED    | CASCADE   |
+| CASCADED   | CASE      | CAST       | CATALOG   | CHAIN     |
+| CHAR       | CHARACTER | CHARACTERISTICS | CHECK | CHECKPOINT|
+| CLASS      | CLOSE     | CLUSTER    | COALESCE  | COLLATE   |
+| COLLATION  | COLUMN    | COLUMNS    | COMMENT   | COMMENTS  |
+| COMMIT     | COMMITTED | CONCURRENTLY | CONFIGURATION | CONFLICT |
+| CONNECTION | CONSTRAINT| CONSTRAINTS| CONTENT   | CONTINUE  |
+| CONVERSION | COPY      | COST       | CREATE    | CROSS     |
+| CSV        | CUBE      | CURRENT    | CURRENT_CATALOG | CURRENT_DATE |
+| CURRENT_ROLE | CURRENT_SCHEMA | CURRENT_TIME | CURRENT_TIMESTAMP | CURRENT_USER |
+| CURSOR     | CYCLE     | DATA       | DATABASE  | DAY       |
+| DEALLOCATE | DEC       | DECIMAL    | DECLARE   | DEFAULT   |
+| DEFAULTS   | DEFERRABLE| DEFERRED   | DEFINE    | DEFINER   |
+| DELETE     | DELIMITER | DELIMITERS | DEPENDS   | DEPTH     |
+| DESC       | DESCRIBE  | DETACH     | DICTIONARY| DISABLE   |
+| DISCARD    | DISTINCT  | DO         | DOCUMENT  | DOMAIN    |
+| DOUBLE     | DROP      | EACH       | ELSE      | ENABLE    |
+| ENCODING   | ENCRYPTED | END        | ENUM      | ESCAPE    |
+| EVENT      | EXCEPT    | EXCLUDE    | EXCLUDING | EXCLUSIVE |
+| EXECUTE    | EXISTS    | EXPLAIN    | EXTENSION | EXTERNAL  |
+| EXTRACT    | FALSE     | FAMILY     | FETCH     | FILTER    |
+| FINALIZE   | FIRST     | FLOAT      | FOLLOWING | FOR       |
+| FORCE      | FOREIGN   | FORWARD    | FREEZE    | FROM      |
+| FULL       | FUNCTION  | FUNCTIONS  | GENERATED | GLOBAL    |
+| GRANT      | GRANTED   | GREATEST   | GROUP     | GROUPING  |
+| HANDLER    | HAVING    | HEADER     | HOLD      | HOUR      |
+| IDENTITY   | IF        | ILIKE      | IMMEDIATE | IMMUTABLE |
+| IMPLICIT   | IMPORT    | IN         | INCLUDING | INCREMENT |
+| INDEX      | INDEXES   | INHERIT    | INHERITS  | INITIALLY |
+| INLINE     | INNER     | INOUT      | INPUT     | INSENSITIVE |
+| INSERT     | INSTEAD   | INT        | INTEGER   | INTERSECT |
+| INTERVAL   | INTO      | INVOKER    | IS        | ISNULL    |
+| ISOLATION  | JOIN      | KEY        | LABEL     | LANGUAGE  |
+| LARGE      | LAST      | LATERAL    | LEADING   | LEAKPROOF |
+| LEAST      | LEFT      | LEVEL      | LIKE      | LIMIT     |
+| LISTEN     | LOAD      | LOCAL      | LOCALTIME | LOCALTIMESTAMP |
+| LOCATION   | LOCK      | LOCKED     | LOGGED    | MAPPING   |
+| MATCH      | MATERIALIZED | MAXVALUE | METHOD    | MINUTE    |
+| MINVALUE   | MODE      | MODIFY     | MONTH     | MOVE      |
+| NAME       | NAMES     | NATIONAL   | NATURAL   | NCHAR     |
+| NEW        | NEXT      | NO         | NONE      | NORMALIZE |
+| NORMALIZED | NOT       | NOTHING    | NOTIFY    | NOTNULL   |
+| NOWAIT     | NULL      | NULLABLE   | NULLIF    | NUMERIC   |
+| OBJECT     | OF        | OFF        | OFFSET    | OIDS      |
+| OLD        | ON        | ONLY       | OPERATOR  | OPTION    |
+| OPTIONS    | OR        | ORDER      | ORDINALITY | OTHERS   |
+| OUT        | OUTER      | OVER       | OVERLAPS   | OVERLAY    |
+| OVERRIDING | OWNED      | OWNER      | PARALLEL   | PARAMETER  |
+| PARSER     | PARTIAL    | PARTITION  | PASSING    | PASSWORD   |
+| PLACING    | PLANS      | POLICY     | POSITION   | PRECEDING  |
+| PRECISION  | PREPARE    | PREPARED   | PRESERVE   | PRIMARY    |
+| PRIOR      | PRIVILEGES | PROCEDURAL | PROCEDURE  | PROGRAM    |
+| PUBLICATION| QUOTE      | RANGE      | READ       | REAL       |
+| REASSIGN   | RECHECK    | RECURSIVE  | REF        | REFERENCES |
+| REFERENCING| REFRESH    | REINDEX    | RELATIVE   | RELEASE    |
+| RENAME     | REPEATABLE | REPLACE    | REPLICA    | RESET      |
+| RESTART    | RESTRICT   | RETURNING  | RETURNS    | REVOKE     |
+| RIGHT      | ROLE       | ROLLBACK   | ROLLUP     | ROUTINE    |
+| ROUTINES   | ROW        | ROWS       | RULE       | SAVEPOINT  |
+| SCHEMA     | SCHEMAS    | SCROLL     | SEARCH     | SECOND     |
+| SECURITY   | SELECT     | SEQUENCE   | SEQUENCES  | SERIALIZABLE|
+| SERVER     | SESSION    | SESSION_USER| SET       | SETOF      |
+| SETS       | SHARE      | SHOW       | SIMILAR    | SIMPLE     |
+| SKIP       | SMALLINT   | SNAPSHOT   | SOME       | SQL        |
+| STABLE     | STANDALONE | START      | STATEMENT  | STATISTICS |
+| STDIN      | STDOUT     | STORAGE    | STRICT     | STRIP      |
+| SUBSCRIPTION| SUBSTRING | SYMMETRIC  | SYSID      | SYSTEM     |
+| TABLE      | TABLES     | TABLESAMPLE| TABLESPACE | TEMP       |
+| TEMPLATE   | TEMPORARY  | TEXT       | THEN       | TIES       |
+| TIME       | TIMESTAMP  | TO         | TRAILING   | TRANSACTION|
+| TRANSFORM  | TREAT      | TRIGGER    | TRIM       | TRUE       |
+| TRUNCATE   | TRUSTED    | TYPE       | TYPES      | UNBOUNDED  |
+| UNCOMMITTED| UNENCRYPTED| UNION      | UNIQUE     | UNKNOWN    |
+| UNLISTEN   | UNLOGGED   | UNTIL      | UPDATE     | USER       |
+| USING      | VACUUM     | VALID      | VALIDATE   | VALIDATOR  |
+| VALUE      | VALUES     | VARCHAR    | VARIADIC   | VARYING    |
+| VERBOSE    | VERSION    | VIEW       | VIEWS      | VOLATILE   |
+| WHEN       | WHERE      | WHITESPACE | WINDOW     | WITH       |
+| WITHIN     | WITHOUT    | WORK       | WRAPPER    | WRITE      |
+| XML        | XMLATTRIBUTES| XMLCONCAT | XMLELEMENT | XMLEXISTS  |
+| XMLFOREST  | XMLNAMESPACES| XMLPARSE | XMLPI      | XMLROOT    |
+| XMLSERIALIZE| XMLTABLE  | YEAR       | YES        | ZONE       |
+
+Source: [Full list of keywords in the PostgreSQL 17](https://www.postgresql.org/docs/17/sql-keywords-appendix.html)
 
 
 ## FEATURE SET
@@ -78,7 +171,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 ### Data Type Feature
 | Name | Supported | Defined By |
-| ---- | --------- | ---------- |
+| ---- | --------- | ---------- |s
 |Custom|✗|OAS2,OAS3
 |Int32|✓|OAS2,OAS3
 |Int64|✓|OAS2,OAS3

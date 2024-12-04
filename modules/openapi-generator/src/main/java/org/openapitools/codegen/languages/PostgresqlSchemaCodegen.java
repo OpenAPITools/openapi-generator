@@ -45,9 +45,10 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
 
     public static final String VENDOR_EXTENSION_POSTGRESQL_SCHEMA = "x-postgresql-schema";
     public static final String DEFAULT_DATABASE_NAME = "defaultDatabaseName";
-    public static final String JSON_DATA_TYPE_ENABLED = "jsonDataTypeEnabled";
+    public static final String JSON_DATA_TYPE = "jsonDataType";
     public static final String IDENTIFIER_NAMING_CONVENTION = "identifierNamingConvention";
     public static final String NAMED_PARAMETERS_ENABLED = "namedParametersEnabled";
+    public static final String ID_AUTOINC_ENABLED = "idAutoIncEnabled";
     public static final Integer ENUM_MAX_ELEMENTS = 65535;
     public static final Integer IDENTIFIER_MAX_LENGTH = 63;
 
@@ -73,12 +74,12 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
     protected String tableNamePrefix = "tbl_", tableNameSuffix = "";
     protected String columnNamePrefix = "col_", columnNameSuffix = "";
     /**
-     * Whether JSON data type enabled or disabled in all PostgreSQL queries.
-     * JSON data type requires PostgreSQL version 5.7.8
+     * Which type of JSON data types will be used.
+     * JSON data type requires PostgreSQL version 9.4 or newer
      */
     @Getter
     @Setter
-    protected Boolean jsonDataTypeEnabled = true;
+    protected String jsonDataType = "json";
     /**
      * Whether named parameters enabled or disabled in prepared SQLs
      */
@@ -90,6 +91,12 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
      */
     @Getter
     protected String identifierNamingConvention = "original";
+    /**
+     * Whether autoincrement feature enabled for integer 'id' fields
+     */
+    @Getter
+    @Setter
+    protected Boolean idAutoIncEnabled = false;
 
     public PostgresqlSchemaCodegen() {
         super();
@@ -115,7 +122,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         importMapping.clear();
 
         setModelPackage("Model");
-        modelTemplateFiles.put("sql_query.mustache", ".sql");
+        modelTemplateFiles.put("query_examples.mustache", ".sql");
 
         // https://www.postgresql.org/docs/17/sql-keywords-appendix.html
         setReservedWordsLowerCase( 
@@ -193,7 +200,6 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
                         "short",
                         "char",
                         "ByteArray",
-                        "binary",
                         "file",
                         "UUID",
                         "URI",
@@ -225,7 +231,6 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         typeMapping.put("object", "JSON");
         typeMapping.put("integer", "INT");
         typeMapping.put("ByteArray", "BYTEA");
-        typeMapping.put("binary", "BYTEA");
         typeMapping.put("file", "BYTEA");
         typeMapping.put("UUID", "TEXT");
         typeMapping.put("URI", "TEXT");
@@ -235,14 +240,18 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
 
         // it seems that cli options from DefaultCodegen are useless here
         cliOptions.clear();
-        addOption(DEFAULT_DATABASE_NAME, "Default database name for all PostgreSQL queries", defaultDatabaseName);
+        addOption(DEFAULT_DATABASE_NAME, 
+            "Default database name for all PostgreSQL queries", defaultDatabaseName);
         addSwitch(NAMED_PARAMETERS_ENABLED,
-                "Generates model prepared SQLs with named parameters, eg. :petName. Question mark placeholder used when option disabled.",
+            "Generates model prepared SQLs with named parameters, eg. :petName. Question mark placeholder used when option disabled.",
                 namedParametersEnabled);
-        // addSwitch(JSON_DATA_TYPE_ENABLED,
-        //         "Use special JSON PostgreSQL data type for complex model properties.",
-        //         jsonDataTypeEnabled);
-
+        addOption(JSON_DATA_TYPE,
+            "Use special JSON PostgreSQL data type for complex model properties.",
+                jsonDataType);
+        addSwitch(ID_AUTOINC_ENABLED,
+            "Generates PostgreSQL sequences for autoincrement feature for integer 'id' fields.",
+                idAutoIncEnabled);
+    
         // we used to snake_case table/column names, let's add this option
         CliOption identifierNamingOpt = new CliOption(IDENTIFIER_NAMING_CONVENTION,
                 "Naming convention of PostgreSQL identifiers(table names and column names). This is not related to database name which is defined by "
@@ -272,9 +281,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
 
     @Override
     public void processOpts() {
-        System.out.println("== processOpts 1 ============================= ");
         super.processOpts();
-        System.out.println("== processOpts 2 ============================= ");
 
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
@@ -290,48 +297,45 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
                 additionalProperties.put(DEFAULT_DATABASE_NAME, getDefaultDatabaseName());
             }
         }
-        System.out.println("== processOpts 3 ============================= ");
 
-        if (additionalProperties.containsKey(JSON_DATA_TYPE_ENABLED)) {
-            this.setJsonDataTypeEnabled(Boolean.valueOf(additionalProperties.get(JSON_DATA_TYPE_ENABLED).toString()));
-        } else {
-            additionalProperties.put(JSON_DATA_TYPE_ENABLED, getJsonDataTypeEnabled());
+        if (additionalProperties.containsKey(JSON_DATA_TYPE)) {
+            if (additionalProperties.get(JSON_DATA_TYPE).equals("off")) {
+                this.setJsonDataType("off");
+            } else if (additionalProperties.get(JSON_DATA_TYPE).equals("jsonb")) {
+                this.setJsonDataType("jsonb");
+            }
         }
 
-        System.out.println("== processOpts 4 ============================= ");
         if (additionalProperties.containsKey(NAMED_PARAMETERS_ENABLED)) {
             this.setNamedParametersEnabled(
                     Boolean.valueOf(additionalProperties.get(NAMED_PARAMETERS_ENABLED).toString()));
         }
-
-        System.out.println("== processOpts 5 ============================= ");
         additionalProperties.put(NAMED_PARAMETERS_ENABLED, getNamedParametersEnabled());
 
-        System.out.println("== processOpts 6 ============================= ");
+        if (additionalProperties.containsKey(ID_AUTOINC_ENABLED)) {
+            this.setIdAutoIncEnabled(
+                    Boolean.valueOf(additionalProperties.get(ID_AUTOINC_ENABLED).toString()));
+        }
+        additionalProperties.put(ID_AUTOINC_ENABLED, getIdAutoIncEnabled());
+
         if (additionalProperties.containsKey(IDENTIFIER_NAMING_CONVENTION)) {
             this.setIdentifierNamingConvention((String) additionalProperties.get(IDENTIFIER_NAMING_CONVENTION));
         }
 
-        System.out.println("== processOpts 7 ============================= ");
         // make model src path available in mustache template
         additionalProperties.put("modelSrcPath", "./" + toSrcPath(modelPackage));
 
-        System.out.println("== processOpts 8 ============================= ");
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("postgresql_schema.mustache", "", "postgresql_schema.sql"));
         supportingFiles
                 .add(new SupportingFile("postgresql_schema_oauth2.mustache", "", "postgresql_schema_oauth2.sql"));
-        System.out.println("== processOpts 9 ============================= ");
     }
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
-        System.out.println("== postProcessModels 1 ============================= ");
         objs = super.postProcessModels(objs);
-        System.out.println("== postProcessModels 2 ============================= ");
 
         for (ModelMap mo : objs.getModels()) {
-            System.out.println("== postProcessModels 3 ============================= ");
             CodegenModel model = mo.getModel();
             String modelName = model.getName();
             String tableName = this.toTableName(modelName);
@@ -343,10 +347,8 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
             if (this.getIdentifierNamingConvention().equals("snake_case") && !modelName.equals(tableName)) {
                 // add original name in table comment
                 String commentExtra = "Original model name - " + modelName + ".";
-                System.out.println(modelDescription);
                 modelDescription = (modelDescription == null || modelDescription.isEmpty()) ? commentExtra
                         : modelDescription + ". " + commentExtra;
-                System.out.println(modelDescription);
             }
 
             if (modelVendorExtensions.containsKey(VENDOR_EXTENSION_POSTGRESQL_SCHEMA)) {
@@ -356,61 +358,44 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
                 modelVendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
                 postgresqlSchema.put("tableDefinition", tableDefinition);
                 tableDefinition.put("tblName", tableName);
-                // tableDefinition.put("tblComment", modelDescription);
+                tableDefinition.put("tblComment", modelDescription);
+                if (isReservedWord(tableName)) {  // Output table name in double quotes if it is a reserved word 
+                    tableDefinition.put("tblNameQuoted", true);
+                }
             }
         }
-        System.out.println("== postProcessModels 4 ============================= ");
         return objs;
     }
 
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
-        System.out.println("== postProcessModelProperty 1 =============================\n\n");
-        System.out.println(model.getName());
-        System.out.println(property.getName());
-        System.out.println(property.getDataType());
         switch (property.getDataType().toUpperCase(Locale.ROOT)) {
-            case "BOOL":
-                System.out.println("== postProcessModelProperty 2 ============================= ");
+            case "BOOLEAN":
                 processBooleanTypeProperty(model, property);
                 break;
-            case "TINYINT":
             case "SMALLINT":
             case "INT":
             case "BIGINT":
-                System.out.println("== postProcessModelProperty 3 ============================= ");
                 processIntegerTypeProperty(model, property);
                 break;
             case "DECIMAL":
-                System.out.println("== postProcessModelProperty 4 ============================= ");
                 processDecimalTypeProperty(model, property);
                 break;
-            case "MEDIUMBLOB":
             case "TEXT":
-                System.out.println("== postProcessModelProperty 5 ============================= ");
+            case "BYTEA":
                 processStringTypeProperty(model, property);
                 break;
             case "DATE":
-            case "DATETIME":
-                System.out.println("== postProcessModelProperty 6 ============================= ");
+            case "TIMESTAMP":
                 processDateTypeProperty(model, property);
                 break;
             case "JSON":
-                System.out.println("== postProcessModelProperty 7 ============================= ");
+            case "JSONB":
                 processJsonTypeProperty(model, property);
                 break;
             default:
-                System.out.println("== postProcessModelProperty 8 ============================= ");
                 processUnknownTypeProperty(model, property);
         }
-        System.out.println("== postProcessModelProperty 9 =============================\n");
-
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-        String formattedDateTime = now.format(formatter);        
-        System.out.println(formattedDateTime);
-
-        System.out.println(additionalProperties.toString());
     }
 
     /**
@@ -421,7 +406,6 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
      * @param property model's property
      */
     public void processIntegerTypeProperty(CodegenModel model, CodegenProperty property) {
-        System.out.println("== processIntegerTypeProperty 1 ============================= ");
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
         Map<String, Object> postgresqlSchema = new HashMap<>();
         Map<String, Object> columnDefinition = new HashMap<>();
@@ -457,6 +441,17 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
         postgresqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
+        if (isReservedWord(colName)) {  // Output column name in double quotes if it is a reserved word 
+            columnDefinition.put("colNameQuoted", true);
+        } else {
+            columnDefinition.put("colNameQuoted", false);
+        }
+        columnDefinition.put("tblName", model.getName());
+        if (isReservedWord(model.getName())) {  // Output table name (for column comment) in double quotes if it is a reserved word 
+            columnDefinition.put("tblNameQuoted", true);
+        } else {
+            columnDefinition.put("tblNameQuoted", false);
+        }
 
         if (Boolean.TRUE.equals(isEnum)) {
             Map<String, Object> allowableValues = property.getAllowableValues();
@@ -478,36 +473,49 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
             }
         } else {
             if ("int64".equals(dataFormat)) {
-                columnDefinition.put("colDataType", "BIGINT");
+                if (colName.equals("id") && Boolean.valueOf(additionalProperties.get(ID_AUTOINC_ENABLED).toString())) {
+                    columnDefinition.put("colDataType", "BIGSERIAL");
+                } else {
+                    columnDefinition.put("colDataType", "BIGINT");
+                }
             } else {
                 Long min = (minimum != null) ? Long.parseLong(minimum) : null;
                 Long max = (maximum != null) ? Long.parseLong(maximum) : null;
                 if (exclusiveMinimum && min != null)
                     min += 1;
-                columnDefinition.put("colDataType", getPostgresqlMatchedIntegerDataType(min, max, false));
+                String colDataType = getPostgresqlMatchedIntegerDataType(min, max, false);
+                if (colName.equals("id") && Boolean.valueOf(additionalProperties.get(ID_AUTOINC_ENABLED).toString())) {
+                    if (colDataType.equals("BIGINT")) {
+                        colDataType = "BIGSERIAL";
+                    } else {
+                        colDataType = "SERIAL";
+                    }
+                }
+                columnDefinition.put("colDataType", colDataType);
             }
         }
 
-        if (Boolean.TRUE.equals(required)) {
-            columnDefinition.put("colNotNull", true);
-        } else {
-            columnDefinition.put("colNotNull", false);
-            try {
-                columnDefinition.put("colDefault",
-                        toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
-            } catch (RuntimeException exception) {
-                LOGGER.warn(
-                        "Property '{}' of model '{}' mapped to PostgreSQL data type which doesn't support default value",
-                        baseName, model.getName());
-                columnDefinition.put("colDefault", null);
+        if (   !columnDefinition.get("colDataType").equals("SERIAL") 
+            && !columnDefinition.get("colDataType").equals("BIGSERIAL")) {   // No default value for autoincremented IDs
+            if (Boolean.TRUE.equals(required)) {
+                columnDefinition.put("colNotNull", true);
+            } else {
+                columnDefinition.put("colNotNull", false);
+                try {
+                    columnDefinition.put("colDefault",
+                            toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
+                } catch (RuntimeException exception) {
+                    LOGGER.warn(
+                            "Property '{}' of model '{}' mapped to PostgreSQL data type which doesn't support default value",
+                            baseName, model.getName());
+                    columnDefinition.put("colDefault", null);
+                }
             }
         }
 
         if (description != null) {
             columnDefinition.put("colComment", description);
         }
-
-        System.out.println(postgresqlSchema.toString());
     }
 
     /**
@@ -518,7 +526,6 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
      * @param property model's property
      */
     public void processDecimalTypeProperty(CodegenModel model, CodegenProperty property) {
-        System.out.println("== processDecimalTypeProperty 1 ============================= ");
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
         Map<String, Object> postgresqlSchema = new HashMap<>();
         Map<String, Object> columnDefinition = new HashMap<>();
@@ -553,6 +560,17 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
         postgresqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
+        if (isReservedWord(colName)) {  // Output column name in double quotes if it is a reserved word 
+            columnDefinition.put("colNameQuoted", true);
+        } else {
+            columnDefinition.put("colNameQuoted", false);
+        }
+        columnDefinition.put("tblName", model.getName());
+        if (isReservedWord(model.getName())) {  // Output table name (for column comment) in double quotes if it is a reserved word 
+            columnDefinition.put("tblNameQuoted", true);
+        } else {
+            columnDefinition.put("tblNameQuoted", false);
+        }
 
         if (Boolean.TRUE.equals(isEnum)) {
             Map<String, Object> allowableValues = property.getAllowableValues();
@@ -571,7 +589,6 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
                 }
                 String value = String.valueOf(enumValues.get(i));
                 columnDataTypeArguments.add(toCodegenPostgresqlDataTypeArgument(value));
-                System.out.println(toCodegenPostgresqlDataTypeArgument(value));
             }
         } else {
             Float min = (minimum != null) ? Float.valueOf(minimum) : null;
@@ -604,8 +621,6 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         if (description != null) {
             columnDefinition.put("colComment", description);
         }
-
-        System.out.println(postgresqlSchema.toString());
     }
 
     /**
@@ -616,7 +631,6 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
      * @param property model's property
      */
     public void processStringTypeProperty(CodegenModel model, CodegenProperty property) {
-        System.out.println("== processStringTypeProperty 1 ============================= ");
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
         Map<String, Object> postgresqlSchema = new HashMap<>();
         Map<String, Object> columnDefinition = new HashMap<>();
@@ -649,6 +663,17 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
         postgresqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
+        if (isReservedWord(colName)) {  // Output column name in double quotes if it is a reserved word 
+            columnDefinition.put("colNameQuoted", true);
+        } else {
+            columnDefinition.put("colNameQuoted", false);
+        }
+        columnDefinition.put("tblName", model.getName());
+        if (isReservedWord(model.getName())) {  // Output table name (for column comment) in double quotes if it is a reserved word 
+            columnDefinition.put("tblNameQuoted", true);
+        } else {
+            columnDefinition.put("tblNameQuoted", false);
+        }
 
         if (Boolean.TRUE.equals(isEnum)) {
             Map<String, Object> allowableValues = property.getAllowableValues();
@@ -668,12 +693,12 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
                 String value = String.valueOf(enumValues.get(i));
                 columnDataTypeArguments.add(toCodegenPostgresqlDataTypeArgument(value));
             }
-        } else if (dataType.equals("MEDIUMBLOB")) {
-            columnDefinition.put("colDataType", "MEDIUMBLOB");
+        } else if (dataType.equals("BYTEA")) {
+            columnDefinition.put("colDataType", "BYTEA");
         } else {
             String matchedStringType = getPostgresqlMatchedStringDataType(minLength, maxLength);
             columnDefinition.put("colDataType", matchedStringType);
-            if (matchedStringType.equals("CHAR") || matchedStringType.equals("VARCHAR")) {
+            if (matchedStringType.equals("VARCHAR")) {
                 columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
                 columnDataTypeArguments.add(toCodegenPostgresqlDataTypeArgument((maxLength != null) ? maxLength : 255));
             }
@@ -698,8 +723,6 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
             columnDefinition.put("colComment", description);
         }
 
-        System.out.println(postgresqlSchema.toString());
-
     }
 
     /**
@@ -710,7 +733,6 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
      * @param property model's property
      */
     public void processBooleanTypeProperty(CodegenModel model, CodegenProperty property) {
-        System.out.println("== processBooleanTypeProperty 1 ============================= ");
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
         Map<String, Object> postgresqlSchema = new HashMap<>();
         Map<String, Object> columnDefinition = new HashMap<>();
@@ -737,9 +759,19 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
         postgresqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
-        columnDefinition.put("colDataType", "TINYINT");
-        columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
-        columnDataTypeArguments.add(toCodegenPostgresqlDataTypeArgument(1));
+        if (isReservedWord(colName)) {  // Output column name in double quotes if it is a reserved word 
+            columnDefinition.put("colNameQuoted", true);
+        } else {
+            columnDefinition.put("colNameQuoted", false);
+        }
+        columnDefinition.put("tblName", model.getName());
+        if (isReservedWord(model.getName())) {  // Output table name (for column comment) in double quotes if it is a reserved word 
+            columnDefinition.put("tblNameQuoted", true);
+        } else {
+            columnDefinition.put("tblNameQuoted", false);
+        }
+
+        columnDefinition.put("colDataType", "BOOLEAN");
 
         if (Boolean.TRUE.equals(required)) {
             columnDefinition.put("colNotNull", true);
@@ -769,7 +801,6 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
      * @param property model's property
      */
     public void processDateTypeProperty(CodegenModel model, CodegenProperty property) {
-        System.out.println("== processDateTypeProperty 1 ============================= ");
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
         Map<String, Object> postgresqlSchema = new HashMap<>();
         Map<String, Object> columnDefinition = new HashMap<>();
@@ -796,6 +827,18 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
         postgresqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
+        if (isReservedWord(colName)) {  // Output column name in double quotes if it is a reserved word 
+            columnDefinition.put("colNameQuoted", true);
+        } else {
+            columnDefinition.put("colNameQuoted", false);
+        }
+        columnDefinition.put("tblName", model.getName());
+        if (isReservedWord(model.getName())) {  // Output table name (for column comment) in double quotes if it is a reserved word 
+            columnDefinition.put("tblNameQuoted", true);
+        } else {
+            columnDefinition.put("tblNameQuoted", false);
+        }
+
         columnDefinition.put("colDataType", dataType);
 
         if (Boolean.TRUE.equals(required)) {
@@ -826,7 +869,6 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
      * @param property model's property
      */
     public void processJsonTypeProperty(CodegenModel model, CodegenProperty property) {
-        System.out.println("== processJsonTypeProperty 1 ============================= ");
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
         Map<String, Object> postgresqlSchema = new HashMap<>();
         Map<String, Object> columnDefinition = new HashMap<>();
@@ -853,9 +895,26 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
         postgresqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
+        if (isReservedWord(colName)) {  // Output column name in double quotes if it is a reserved word 
+            columnDefinition.put("colNameQuoted", true);
+        } else {
+            columnDefinition.put("colNameQuoted", false);
+        }
+        columnDefinition.put("tblName", model.getName());
+        if (isReservedWord(model.getName())) {  // Output table name (for column comment) in double quotes if it is a reserved word 
+            columnDefinition.put("tblNameQuoted", true);
+        } else {
+            columnDefinition.put("tblNameQuoted", false);
+        }
+
         columnDefinition.put("colDataType", dataType);
-        if (Boolean.FALSE.equals(getJsonDataTypeEnabled())) {
+
+        if (getJsonDataType().equals("off")) {
             columnDefinition.put("colDataType", "TEXT");
+        } else if (getJsonDataType().equals("json")) {
+            columnDefinition.put("colDataType", "JSON");
+        } else if (getJsonDataType().equals("jsonb")) {
+            columnDefinition.put("colDataType", "JSONB");
         }
 
         if (Boolean.TRUE.equals(required)) {
@@ -887,7 +946,6 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
      * @param property model's property
      */
     public void processUnknownTypeProperty(CodegenModel model, CodegenProperty property) {
-        System.out.println("== processUnknownTypeProperty 1 ============================= ");
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
         Map<String, Object> postgresqlSchema = new HashMap<>();
         Map<String, Object> columnDefinition = new HashMap<>();
@@ -913,6 +971,18 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
         postgresqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
+        if (isReservedWord(colName)) {  // Output column name in double quotes if it is a reserved word 
+            columnDefinition.put("colNameQuoted", true);
+        } else {
+            columnDefinition.put("colNameQuoted", false);
+        }
+        columnDefinition.put("tblName", model.getName());
+        if (isReservedWord(model.getName())) {  // Output table name (for column comment) in double quotes if it is a reserved word 
+            columnDefinition.put("tblNameQuoted", true);
+        } else {
+            columnDefinition.put("tblNameQuoted", false);
+        }
+
         columnDefinition.put("colDataType", "TEXT");
 
         if (Boolean.TRUE.equals(required)) {
@@ -942,7 +1012,6 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
      * @return generated codegen property
      */
     public HashMap<String, Object> toCodegenPostgresqlDataTypeArgument(Object value) {
-        System.out.println("== toCodegenPostgresqlDataTypeArgument 1 ============================= ");
         HashMap<String, Object> arg = new HashMap<>();
         if (value instanceof String) {
             arg.put("isString", true);
@@ -976,7 +1045,6 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
      * @return generated codegen property
      */
     public HashMap<String, Object> toCodegenPostgresqlDataTypeDefault(String defaultValue, String postgresqlDataType) {
-        System.out.println("== toCodegenPostgresqlDataTypeDefault 1 ============================= ");
         HashMap<String, Object> defaultMap = new HashMap<>();
         if (defaultValue == null || defaultValue.toUpperCase(Locale.ROOT).equals("NULL")) {
             defaultMap.put("defaultValue", "NULL");
@@ -987,9 +1055,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         }
 
         switch (postgresqlDataType.toUpperCase(Locale.ROOT)) {
-            case "TINYINT":
             case "SMALLINT":
-            case "MEDIUMINT":
             case "INT":
             case "BIGINT":
                 // SERIAL DEFAULT VALUE is a special case. In the definition of an integer
@@ -1009,15 +1075,21 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
                 }
                 return defaultMap;
             case "TIMESTAMP":
-            case "DATETIME":
-                // The exception is that, for TIMESTAMP and DATETIME columns, you can specify
-                // CURRENT_TIMESTAMP as the default
+            case "DATE":
+                // The exception is that, for TIMESTAMP,DATE columns, you can specify
+                // CURRENT_TIMESTAMP,CURRENT_DATE as the default
                 if (defaultValue.equals("CURRENT_TIMESTAMP")) {
                     defaultMap.put("defaultValue", defaultValue);
                     defaultMap.put("isString", false);
                     defaultMap.put("isNumeric", false);
                     defaultMap.put("isKeyword", true);
 
+                } else if (defaultValue.equals("CURRENT_DATE")) {
+                    defaultMap.put("defaultValue", defaultValue);
+                    defaultMap.put("isString", false);
+                    defaultMap.put("isNumeric", false);
+                    defaultMap.put("isKeyword", true);
+                
                 } else {
                     defaultMap.put("defaultValue", defaultValue);
                     defaultMap.put("isString", true);
@@ -1026,16 +1098,11 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
 
                 }
                 return defaultMap;
-            case "TINYBLOB":
-            case "BLOB":
-            case "MEDIUMBLOB":
-            case "LONGBLOB":
-            case "TINYTEXT":
+            case "BYTEA":
             case "TEXT":
-            case "MEDIUMTEXT":
-            case "LONGTEXT":
             case "GEOMETRY":
             case "JSON":
+            case "JSONB":
                 // The BLOB, TEXT, GEOMETRY, and JSON data types cannot be assigned a default
                 // value.
                 throw new RuntimeException(
@@ -1060,7 +1127,6 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
      * @return PostgreSQL integer data type
      */
     public String getPostgresqlMatchedIntegerDataType(Long minimum, Long maximum, Boolean unsigned) {
-        System.out.println("== getPostgresqlMatchedIntegerDataType 1 ============================= ");
         // we can choose fit postgresql data type
         // ref: https://www.postgresql.org/docs/17/datatype-numeric.html
         long min = (minimum != null) ? minimum : -2147483648L;
@@ -1089,7 +1155,6 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
      * @return PostgreSQL string data type
      */
     public String getPostgresqlMatchedStringDataType(Integer minLength, Integer maxLength) {
-        System.out.println("== getPostgresqlMatchedStringDataType 1 ============================= ");
         // we can choose fit postgresql data type
         // ref: https://www.postgresql.org/docs/17/datatype-character.html
         int min = (minLength != null && minLength >= 0) ? minLength : 0;
@@ -1113,12 +1178,12 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
      * @return true if value is correct PostgreSQL data type, otherwise false
      */
     public Boolean isPostgresqlDataType(String dataType) {
-        System.out.println("== isPostgresqlDataType 1 ============================= ");
         return (postgresqlNumericTypes.contains(dataType.toUpperCase(Locale.ROOT)) ||
                 postgresqlDateAndTimeTypes.contains(dataType.toUpperCase(Locale.ROOT)) ||
                 postgresqlStringTypes.contains(dataType.toUpperCase(Locale.ROOT)) ||
-                postgresqlSpatialTypes.contains(dataType.toUpperCase(Locale.ROOT)));
-                // || dataType.toUpperCase(Locale.ROOT).equals("JSON"));
+                postgresqlSpatialTypes.contains(dataType.toUpperCase(Locale.ROOT))) || 
+                dataType.toUpperCase(Locale.ROOT).equals("JSON") ||
+                dataType.toUpperCase(Locale.ROOT).equals("JSONB");
     }
 
     /**
@@ -1256,9 +1321,9 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
 
     @Override
     public String escapeReservedWord(String name) {
-        LOGGER.warn(
-                "'{}' is PostgreSQL reserved word. Do not use that word or properly escape it with backticks in mustache template",
-                name);
+        // LOGGER.warn(
+        //         "'{}' is PostgreSQL reserved word. Do not use that word or properly escape it with backticks in mustache template",
+        //         name);
         return name;
     }
 

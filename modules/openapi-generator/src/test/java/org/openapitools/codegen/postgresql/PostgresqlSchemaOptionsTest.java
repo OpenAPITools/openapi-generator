@@ -40,7 +40,7 @@ public class PostgresqlSchemaOptionsTest extends AbstractOptionsTest {
     @Override
     protected void verifyOptions() {
         verify(clientCodegen).setDefaultDatabaseName(PostgresqlSchemaOptionsProvider.DEFAULT_DATABASE_NAME_VALUE);
-        verify(clientCodegen).setJsonDataTypeEnabled(Boolean.valueOf(PostgresqlSchemaOptionsProvider.JSON_DATA_TYPE_ENABLED_VALUE));
+        verify(clientCodegen).setJsonDataType(PostgresqlSchemaOptionsProvider.JSON_DATA_TYPE_VALUE);
         verify(clientCodegen).setIdentifierNamingConvention(PostgresqlSchemaOptionsProvider.IDENTIFIER_NAMING_CONVENTION_VALUE);
         verify(clientCodegen).setNamedParametersEnabled(Boolean.valueOf(PostgresqlSchemaOptionsProvider.NAMED_PARAMETERS_ENABLED_VALUE));
     }
