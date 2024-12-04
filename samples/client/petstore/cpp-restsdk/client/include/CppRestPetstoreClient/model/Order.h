@@ -67,38 +67,35 @@ public:
     /// Order Status
     /// </summary>
 
+
+
+
+
     StatusEnum toStatusEnum(const utility::string_t& value) const;
     const utility::string_t fromStatusEnum(const StatusEnum value) const;
-    
 
-    /// <summary>
-    /// 
-    /// </summary>
+
+
     int64_t getId() const;
     bool idIsSet() const;
     void unsetId();
     void setId(int64_t value);
-    /// <summary>
-    /// 
-    /// </summary>
+
     int64_t getPetId() const;
     bool petIdIsSet() const;
     void unsetPetId();
     void setPetId(int64_t value);
-    /// <summary>
-    /// 
-    /// </summary>
+
     int32_t getQuantity() const;
     bool quantityIsSet() const;
     void unsetQuantity();
     void setQuantity(int32_t value);
-    /// <summary>
-    /// 
-    /// </summary>
+
     utility::datetime getShipDate() const;
     bool shipDateIsSet() const;
     void unsetShipDate();
     void setShipDate(const utility::datetime& value);
+
     /// <summary>
     /// Order Status
     /// </summary>
@@ -106,27 +103,32 @@ public:
     bool statusIsSet() const;
     void unsetStatus();
     void setStatus(const StatusEnum value);
-    /// <summary>
-    /// 
-    /// </summary>
+
     bool isComplete() const;
     bool completeIsSet() const;
     void unsetComplete();
     void setComplete(bool value);
 
+
 protected:
     int64_t m_Id;
     bool m_IdIsSet;
+
     int64_t m_PetId;
     bool m_PetIdIsSet;
+
     int32_t m_Quantity;
     bool m_QuantityIsSet;
+
     utility::datetime m_ShipDate;
     bool m_ShipDateIsSet;
+
     StatusEnum m_Status;
     bool m_StatusIsSet;
+
     bool m_Complete;
     bool m_CompleteIsSet;
+
 };
 
 

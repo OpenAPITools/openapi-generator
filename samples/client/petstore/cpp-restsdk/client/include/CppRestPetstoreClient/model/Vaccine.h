@@ -30,9 +30,6 @@ namespace model {
 
 
 
-/// <summary>
-/// 
-/// </summary>
 class  Vaccine
     : public ModelBase
 {
@@ -57,6 +54,7 @@ public:
 
 
 
+
     /// <summary>
     /// vaccination date
     /// </summary>
@@ -64,6 +62,7 @@ public:
     bool dateIsSet() const;
     void unsetdate();
     void setDate(const std::shared_ptr<AnyType>& value);
+
     /// <summary>
     /// true if a booster is still needed to complete the vaccination
     /// </summary>
@@ -72,11 +71,14 @@ public:
     void unsetBoosterRequired();
     void setBoosterRequired(bool value);
 
+
 protected:
     std::shared_ptr<AnyType> m_date;
     bool m_dateIsSet;
+
     bool m_BoosterRequired;
     bool m_BoosterRequiredIsSet;
+
 };
 
 

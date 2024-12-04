@@ -60,6 +60,7 @@ public:
 
 
 
+
     /// <summary>
     /// pedigree and other certificates
     /// </summary>
@@ -67,19 +68,20 @@ public:
     bool certificatesIsSet() const;
     void unsetCertificates();
     void setCertificates(const std::set<utility::string_t>& value);
-    /// <summary>
-    /// 
-    /// </summary>
+
     std::shared_ptr<SchemaWithSet_vaccinationBook> getVaccinationBook() const;
     bool vaccinationBookIsSet() const;
     void unsetVaccinationBook();
     void setVaccinationBook(const std::shared_ptr<SchemaWithSet_vaccinationBook>& value);
 
+
 protected:
     std::set<utility::string_t> m_Certificates;
     bool m_CertificatesIsSet;
+
     std::shared_ptr<SchemaWithSet_vaccinationBook> m_VaccinationBook;
     bool m_VaccinationBookIsSet;
+
 };
 
 

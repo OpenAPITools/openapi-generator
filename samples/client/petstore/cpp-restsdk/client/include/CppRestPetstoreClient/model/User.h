@@ -57,55 +57,48 @@ public:
 
 
 
-    /// <summary>
-    /// 
-    /// </summary>
+
+
+
+
+
+
+
     int64_t getId() const;
     bool idIsSet() const;
     void unsetId();
     void setId(int64_t value);
-    /// <summary>
-    /// 
-    /// </summary>
+
     utility::string_t getUsername() const;
     bool usernameIsSet() const;
     void unsetUsername();
     void setUsername(const utility::string_t& value);
-    /// <summary>
-    /// 
-    /// </summary>
+
     utility::string_t getFirstName() const;
     bool firstNameIsSet() const;
     void unsetFirstName();
     void setFirstName(const utility::string_t& value);
-    /// <summary>
-    /// 
-    /// </summary>
+
     utility::string_t getLastName() const;
     bool lastNameIsSet() const;
     void unsetLastName();
     void setLastName(const utility::string_t& value);
-    /// <summary>
-    /// 
-    /// </summary>
+
     utility::string_t getEmail() const;
     bool emailIsSet() const;
     void unsetEmail();
     void setEmail(const utility::string_t& value);
-    /// <summary>
-    /// 
-    /// </summary>
+
     utility::string_t getPassword() const;
     bool passwordIsSet() const;
     void unsetPassword();
     void setPassword(const utility::string_t& value);
-    /// <summary>
-    /// 
-    /// </summary>
+
     utility::string_t getPhone() const;
     bool phoneIsSet() const;
     void unsetPhone();
     void setPhone(const utility::string_t& value);
+
     /// <summary>
     /// User Status
     /// </summary>
@@ -114,23 +107,32 @@ public:
     void unsetUserStatus();
     void setUserStatus(int32_t value);
 
+
 protected:
     int64_t m_Id;
     bool m_IdIsSet;
+
     utility::string_t m_Username;
     bool m_UsernameIsSet;
+
     utility::string_t m_FirstName;
     bool m_FirstNameIsSet;
+
     utility::string_t m_LastName;
     bool m_LastNameIsSet;
+
     utility::string_t m_Email;
     bool m_EmailIsSet;
+
     utility::string_t m_Password;
     bool m_PasswordIsSet;
+
     utility::string_t m_Phone;
     bool m_PhoneIsSet;
+
     int32_t m_UserStatus;
     bool m_UserStatusIsSet;
+
 };
 
 

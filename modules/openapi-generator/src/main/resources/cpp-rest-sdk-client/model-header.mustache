@@ -128,9 +128,11 @@ public:
 {{/isEnum}}
 {{^isEnum}}
 
+{{#description}}
 /// <summary>
 /// {{description}}
 /// </summary>
+{{/description}}
 class {{declspec}} {{classname}}
     : public {{{parent}}}{{^parent}}ModelBase{{/parent}}
 {
@@ -162,9 +164,11 @@ public:
         {{#allowableValues}}{{#enumVars}}{{value}},
         {{/enumVars}}{{/allowableValues}}
     };
+    {{#description}}
     /// <summary>
     /// {{description}}
     /// </summary>
+    {{/description}}
     {{/isEnum}}
     {{/isInherited}}
     {{/vars}}
@@ -181,14 +185,20 @@ public:
     {{/isArray}}{{/isContainer}}{{^isContainer}}
     {{{datatypeWithEnum}}} to{{{datatypeWithEnum}}}(const utility::string_t& value) const;
     const utility::string_t from{{{datatypeWithEnum}}}(const {{{datatypeWithEnum}}} value) const;
-    {{/isContainer}}{{/isEnum}}{{/isInherited}}{{/vars}}
+    {{/isContainer}}
+    {{/isEnum}}
+    {{/isInherited}}
+
+    {{/vars}}
 
     {{! SETTER AND GETTERS }}
     {{#vars}}
     {{^isInherited}}
+    {{#description}}
     /// <summary>
     /// {{description}}
     /// </summary>
+    {{/description}}
     {{#isContainer}}
     {{^isEnum}}
     {{{dataType}}} {{getter}}() const;
@@ -221,6 +231,7 @@ public:
     void {{setter}}(const {{^isMap}}{{{datatypeWithEnum}}}{{/isMap}}{{#isMap}}{{{dataType}}}{{/isMap}} value);
     {{/isEnum}}
     {{/isInherited}}
+
     {{/vars}}
 
 protected:
@@ -234,6 +245,7 @@ protected:
     {{/isEnum}}
     bool m_{{name}}IsSet;
     {{/isInherited}}
+
     {{/vars}}
 };
 
