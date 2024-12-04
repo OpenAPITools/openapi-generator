@@ -56,9 +56,6 @@ public:
     /// ApiResponse members
 
 
-
-
-
     int32_t getCode() const;
     bool codeIsSet() const;
     void unsetCode();

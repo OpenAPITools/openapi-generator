@@ -56,8 +56,6 @@ public:
     /// Category members
 
 
-
-
     int64_t getId() const;
     bool idIsSet() const;
     void unsetId();

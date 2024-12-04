@@ -72,11 +72,6 @@ public:
     /// pet status in the store
     /// </summary>
 
-
-
-
-
-
     StatusEnum toStatusEnum(const utility::string_t& value) const;
     const utility::string_t fromStatusEnum(const StatusEnum value) const;
 

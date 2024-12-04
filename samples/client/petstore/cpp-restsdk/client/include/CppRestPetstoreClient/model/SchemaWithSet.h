@@ -59,8 +59,6 @@ public:
     /// SchemaWithSet members
 
 
-
-
     /// <summary>
     /// pedigree and other certificates
     /// </summary>

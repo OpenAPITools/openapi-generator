@@ -67,13 +67,8 @@ public:
     /// Order Status
     /// </summary>
 
-
-
-
-
     StatusEnum toStatusEnum(const utility::string_t& value) const;
     const utility::string_t fromStatusEnum(const StatusEnum value) const;
-
 
 
     int64_t getId() const;

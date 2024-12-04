@@ -53,8 +53,6 @@ public:
     /// Vaccine members
 
 
-
-
     /// <summary>
     /// vaccination date
     /// </summary>
