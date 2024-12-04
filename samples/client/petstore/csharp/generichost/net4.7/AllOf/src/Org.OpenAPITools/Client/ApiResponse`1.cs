@@ -165,6 +165,10 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <param name="result"></param>
         /// <returns></returns>
-        bool TryOk(out TType result);
+        bool TryOk(
+#if NET6_0_OR_GREATER
+                [NotNullWhen(true)]
+#endif
+                out TType result);
     }
 }
