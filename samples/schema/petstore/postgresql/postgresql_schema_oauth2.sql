@@ -3,8 +3,6 @@
 -- Created using 'openapi-generator' ('postgresql-schema' generator)
 -- (https://openapi-generator.tech/docs/generators/postgresql-schema)
 --
--- Created: 04.12.2024 22:27:11
---
 
 --
 -- DROP TABLES 
