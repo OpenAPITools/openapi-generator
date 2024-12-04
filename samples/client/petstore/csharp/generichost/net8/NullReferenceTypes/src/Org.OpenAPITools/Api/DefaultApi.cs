@@ -472,18 +472,25 @@ namespace Org.OpenAPITools.Api
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
+#if NET6_0_OR_GREATER
                     httpRequestMessageLocalVar.Method = HttpMethod.Get;
+#else
+                    httpRequestMessageLocalVar.Method = new HttpMethod("GET");
+#endif
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(
+#if NET6_0_OR_GREATER
+                                cancellationToken
+#endif
+                            ).ConfigureAwait(false);
 
                         ILogger<FooGetApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<FooGetApiResponse>();
 
-                        FooGetApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/foo", requestedAtLocalVar, _jsonSerializerOptions);
+                        FooGetApiResponse apiResponseLocalVar = new FooGetApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/foo", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterFooGetDefaultImplementation(apiResponseLocalVar);
 
@@ -544,7 +551,12 @@ namespace Org.OpenAPITools.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsDefault
                     ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.FooGetDefaultResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    :
+                #if NET6_0_OR_GREATER
+                        null
+                #else
+                        default
+                #endif;
             }
 
             /// <summary>
@@ -552,7 +564,11 @@ namespace Org.OpenAPITools.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryDefault([NotNullWhen(true)]out Org.OpenAPITools.Model.FooGetDefaultResponse? result)
+            public bool TryDefault(
+#if NET6_0_OR_GREATER
+                [NotNullWhen(true)]
+#endif
+                out Org.OpenAPITools.Model.FooGetDefaultResponse? result)
             {
                 result = null;
 
@@ -700,17 +716,25 @@ namespace Org.OpenAPITools.Api
                     if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
+#if NET6_0_OR_GREATER
                     httpRequestMessageLocalVar.Method = HttpMethod.Post;
+#else
+                    httpRequestMessageLocalVar.Method = new HttpMethod("POST");
+#endif
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(
+#if NET6_0_OR_GREATER
+                                cancellationToken
+#endif
+                            ).ConfigureAwait(false);
 
                         ILogger<GetCountryApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<GetCountryApiResponse>();
 
-                        GetCountryApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/country", requestedAtLocalVar, _jsonSerializerOptions);
+                        GetCountryApiResponse apiResponseLocalVar = new GetCountryApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/country", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterGetCountryDefaultImplementation(apiResponseLocalVar, country);
 
@@ -861,18 +885,25 @@ namespace Org.OpenAPITools.Api
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
+#if NET6_0_OR_GREATER
                     httpRequestMessageLocalVar.Method = HttpMethod.Get;
+#else
+                    httpRequestMessageLocalVar.Method = new HttpMethod("GET");
+#endif
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(
+#if NET6_0_OR_GREATER
+                                cancellationToken
+#endif
+                            ).ConfigureAwait(false);
 
                         ILogger<HelloApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<HelloApiResponse>();
 
-                        HelloApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/hello", requestedAtLocalVar, _jsonSerializerOptions);
+                        HelloApiResponse apiResponseLocalVar = new HelloApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/hello", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterHelloDefaultImplementation(apiResponseLocalVar);
 
@@ -933,7 +964,12 @@ namespace Org.OpenAPITools.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsOk
                     ? System.Text.Json.JsonSerializer.Deserialize<List<Guid>>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    :
+                #if NET6_0_OR_GREATER
+                        null
+                #else
+                        default
+                #endif;
             }
 
             /// <summary>
@@ -941,7 +977,11 @@ namespace Org.OpenAPITools.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk([NotNullWhen(true)]out List<Guid>? result)
+            public bool TryOk(
+#if NET6_0_OR_GREATER
+                [NotNullWhen(true)]
+#endif
+                out List<Guid>? result)
             {
                 result = null;
 
@@ -1055,18 +1095,25 @@ namespace Org.OpenAPITools.Api
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
+#if NET6_0_OR_GREATER
                     httpRequestMessageLocalVar.Method = HttpMethod.Get;
+#else
+                    httpRequestMessageLocalVar.Method = new HttpMethod("GET");
+#endif
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(
+#if NET6_0_OR_GREATER
+                                cancellationToken
+#endif
+                            ).ConfigureAwait(false);
 
                         ILogger<RolesReportGetApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<RolesReportGetApiResponse>();
 
-                        RolesReportGetApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/roles/report", requestedAtLocalVar, _jsonSerializerOptions);
+                        RolesReportGetApiResponse apiResponseLocalVar = new RolesReportGetApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/roles/report", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterRolesReportGetDefaultImplementation(apiResponseLocalVar);
 
@@ -1127,7 +1174,12 @@ namespace Org.OpenAPITools.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsOk
                     ? System.Text.Json.JsonSerializer.Deserialize<List<List>>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    :
+                #if NET6_0_OR_GREATER
+                        null
+                #else
+                        default
+                #endif;
             }
 
             /// <summary>
@@ -1135,7 +1187,11 @@ namespace Org.OpenAPITools.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk([NotNullWhen(true)]out List<List>? result)
+            public bool TryOk(
+#if NET6_0_OR_GREATER
+                [NotNullWhen(true)]
+#endif
+                out List<List>? result)
             {
                 result = null;
 
@@ -1249,18 +1305,25 @@ namespace Org.OpenAPITools.Api
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
+#if NET6_0_OR_GREATER
                     httpRequestMessageLocalVar.Method = HttpMethod.Get;
+#else
+                    httpRequestMessageLocalVar.Method = new HttpMethod("GET");
+#endif
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(
+#if NET6_0_OR_GREATER
+                                cancellationToken
+#endif
+                            ).ConfigureAwait(false);
 
                         ILogger<TestApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<TestApiResponse>();
 
-                        TestApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/test", requestedAtLocalVar, _jsonSerializerOptions);
+                        TestApiResponse apiResponseLocalVar = new TestApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/test", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterTestDefaultImplementation(apiResponseLocalVar);
 
@@ -1321,7 +1384,12 @@ namespace Org.OpenAPITools.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsOk
                     ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.NotificationtestGetElementsV1ResponseMPayload>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    :
+                #if NET6_0_OR_GREATER
+                        null
+                #else
+                        default
+                #endif;
             }
 
             /// <summary>
@@ -1329,7 +1397,11 @@ namespace Org.OpenAPITools.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk([NotNullWhen(true)]out Org.OpenAPITools.Model.NotificationtestGetElementsV1ResponseMPayload? result)
+            public bool TryOk(
+#if NET6_0_OR_GREATER
+                [NotNullWhen(true)]
+#endif
+                out Org.OpenAPITools.Model.NotificationtestGetElementsV1ResponseMPayload? result)
             {
                 result = null;
 

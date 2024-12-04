@@ -23,6 +23,9 @@ using System.Text;
 using System.Threading;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+#if !NET6_0_OR_GREATER
+using System.Web;
+#endif
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using RestSharp;

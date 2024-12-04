@@ -165,7 +165,11 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <param name="result"></param>
         /// <returns></returns>
-        bool TryCustomHttpStatusCode599(out TType result);
+        bool TryCustomHttpStatusCode599(
+#if NET6_0_OR_GREATER
+                [NotNullWhen(true)]
+#endif
+                out TType result);
     }
 
     /// <summary>
@@ -185,7 +189,11 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <param name="result"></param>
         /// <returns></returns>
-        bool TryOk(out TType result);
+        bool TryOk(
+#if NET6_0_OR_GREATER
+                [NotNullWhen(true)]
+#endif
+                out TType result);
     }
 
     /// <summary>
@@ -205,6 +213,10 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <param name="result"></param>
         /// <returns></returns>
-        bool TryDefault(out TType result);
+        bool TryDefault(
+#if NET6_0_OR_GREATER
+                [NotNullWhen(true)]
+#endif
+                out TType result);
     }
 }
