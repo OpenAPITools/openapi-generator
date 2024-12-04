@@ -84,6 +84,17 @@ public open class ApiClient(public val baseUrl: String, public val client: Call.
         return contentType ?: "application/octet-stream"
     }
 
+    /**
+     * Adds a File to a MultipartBody.Builder
+     * Defined a helper in the requestBody method to not duplicate code
+     * It will be used when the content is a FormDataMediaType and the body of the PartConfig is a File
+     *
+     * @param name The field name to add in the request
+     * @param headers The headers that are in the PartConfig
+     * @param file The file that will be added as the field value
+     * @return The method returns Unit but the new Part is added to the Builder that the extension function is applying on
+     * @see requestBody
+     */
     protected fun MultipartBody.Builder.addPartToMultiPart(name: String, headers: Map<String, String>, file: File) {
         val partHeaders = headers.toMutableMap() +
             ("Content-Disposition" to "form-data; name=\"$name\"; filename=\"${file.name}\"")
@@ -94,6 +105,17 @@ public open class ApiClient(public val baseUrl: String, public val client: Call.
         )
     }
 
+    /**
+     * Adds any type to a MultipartBody.Builder
+     * Defined a helper in the requestBody method to not duplicate code
+     * It will be used when the content is a FormDataMediaType and the body of the PartConfig is not a File.
+     *
+     * @param name The field name to add in the request
+     * @param headers The headers that are in the PartConfig
+     * @param obj The field name to add in the request
+     * @return The method returns Unit but the new Part is added to the Builder that the extension function is applying on
+     * @see requestBody
+     */
     protected fun <T> MultipartBody.Builder.addPartToMultiPart(name: String, headers: Map<String, String>, obj: T?) {
         if (obj == null) return
         val partHeaders = headers.toMutableMap() +
