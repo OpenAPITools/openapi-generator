@@ -19,6 +19,6 @@ namespace {{packageName}}.Client.Auth
         [JsonProperty("refresh_token")]
         public string{{nrt?}} RefreshToken { get; set; }
 
-        public DateTime? ExpiresAt => ExpiresIn == null ? null : Created.AddSeconds(ExpiresIn.Value);
+        public DateTime? ExpiresAt => ExpiresIn == null ? null : Created?.AddSeconds(ExpiresIn.Value);
     }
 }

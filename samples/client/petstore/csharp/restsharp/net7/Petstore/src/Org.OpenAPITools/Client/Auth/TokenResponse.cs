@@ -27,6 +27,6 @@ namespace Org.OpenAPITools.Client.Auth
         [JsonProperty("refresh_token")]
         public string? RefreshToken { get; set; }
 
-        public DateTime? ExpiresAt => ExpiresIn == null ? null : Created.AddSeconds(ExpiresIn.Value);
+        public DateTime? ExpiresAt => ExpiresIn == null ? null : Created?.AddSeconds(ExpiresIn.Value);
     }
 }
