@@ -41,6 +41,7 @@ public open class ApiClient(public val baseUrl: String, public val client: Call.
         protected const val FormUrlEncMediaType: String = "application/x-www-form-urlencoded"
         protected const val XmlMediaType: String = "application/xml"
         protected const val OctetMediaType: String = "application/octet-stream"
+        protected const val TextMediaType: String = "text/plain"
 
         public val apiKey: MutableMap<String, String> = mutableMapOf()
         public val apiKeyPrefix: MutableMap<String, String> = mutableMapOf()
@@ -171,8 +172,10 @@ public open class ApiClient(public val baseUrl: String, public val client: Call.
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
             mediaType == OctetMediaType && content is ByteArray ->
                 content.toRequestBody(OctetMediaType.toMediaTypeOrNull())
+            mediaType == TextMediaType && content is String ->
+                content.toRequestBody(TextMediaType.toMediaTypeOrNull())
             // TODO: this should be extended with other serializers
-            else -> throw UnsupportedOperationException("requestBody currently only supports JSON body, byte body and File body.")
+            else -> throw UnsupportedOperationException("requestBody currently only supports JSON body, text body, byte body and File body.")
         }
 
     @OptIn(ExperimentalStdlibApi::class)
@@ -243,7 +246,8 @@ public open class ApiClient(public val baseUrl: String, public val client: Call.
                 Serializer.moshi.adapter<T>().fromJson(bodyContent)
             }
             mediaType == OctetMediaType -> body.bytes() as? T
-            else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
+            mediaType == TextMediaType -> body.string() as? T
+            else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body, text body and byte body.")
         }
     }
 
