@@ -84,6 +84,48 @@ public open class ApiClient(public val baseUrl: String, public val client: Call.
         return contentType ?: "application/octet-stream"
     }
 
+    /**
+     * Adds a File to a MultipartBody.Builder
+     * Defined a helper in the requestBody method to not duplicate code
+     * It will be used when the content is a FormDataMediaType and the body of the PartConfig is a File
+     *
+     * @param name The field name to add in the request
+     * @param headers The headers that are in the PartConfig
+     * @param file The file that will be added as the field value
+     * @return The method returns Unit but the new Part is added to the Builder that the extension function is applying on
+     * @see requestBody
+     */
+    protected fun MultipartBody.Builder.addPartToMultiPart(name: String, headers: Map<String, String>, file: File) {
+        val partHeaders = headers.toMutableMap() +
+            ("Content-Disposition" to "form-data; name=\"$name\"; filename=\"${file.name}\"")
+        val fileMediaType = guessContentTypeFromFile(file).toMediaTypeOrNull()
+        addPart(
+            partHeaders.toHeaders(),
+            file.asRequestBody(fileMediaType)
+        )
+    }
+
+    /**
+     * Adds any type to a MultipartBody.Builder
+     * Defined a helper in the requestBody method to not duplicate code
+     * It will be used when the content is a FormDataMediaType and the body of the PartConfig is not a File.
+     *
+     * @param name The field name to add in the request
+     * @param headers The headers that are in the PartConfig
+     * @param obj The field name to add in the request
+     * @return The method returns Unit but the new Part is added to the Builder that the extension function is applying on
+     * @see requestBody
+     */
+    protected fun <T> MultipartBody.Builder.addPartToMultiPart(name: String, headers: Map<String, String>, obj: T?) {
+        if (obj == null) return
+        val partHeaders = headers.toMutableMap() +
+            ("Content-Disposition" to "form-data; name=\"$name\"")
+        addPart(
+            partHeaders.toHeaders(),
+            parameterToString(obj).toRequestBody(null)
+        )
+    }
+
     protected inline fun <reified T> requestBody(content: T, mediaType: String?): RequestBody =
         when {
             content is ByteArray -> content.toRequestBody((mediaType ?: guessContentTypeFromByteArray(content)).toMediaTypeOrNull())
@@ -95,21 +137,18 @@ public open class ApiClient(public val baseUrl: String, public val client: Call.
                         // content's type *must* be Map<String, PartConfig<*>>
                         @Suppress("UNCHECKED_CAST")
                         (content as Map<String, PartConfig<*>>).forEach { (name, part) ->
-                            if (part.body is File) {
-                                val partHeaders = part.headers.toMutableMap() +
-                                    ("Content-Disposition" to "form-data; name=\"$name\"; filename=\"${part.body.name}\"")
-                                val fileMediaType = guessContentTypeFromFile(part.body).toMediaTypeOrNull()
-                                addPart(
-                                    partHeaders.toHeaders(),
-                                    part.body.asRequestBody(fileMediaType)
-                                )
-                            } else {
-                                val partHeaders = part.headers.toMutableMap() +
-                                    ("Content-Disposition" to "form-data; name=\"$name\"")
-                                addPart(
-                                    partHeaders.toHeaders(),
-                                    parameterToString(part.body).toRequestBody(null)
-                                )
+                            when (part.body) {
+                                is File -> addPartToMultiPart(name, part.headers, part.body)
+                                is List<*> -> {
+                                    part.body.forEach {
+                                        if (it is File) {
+                                            addPartToMultiPart(name, part.headers, it)
+                                        } else {
+                                            addPartToMultiPart(name, part.headers, it)
+                                        }
+                                    }
+                               }
+                               else -> addPartToMultiPart(name, part.headers, part.body)
                             }
                         }
                     }.build()
