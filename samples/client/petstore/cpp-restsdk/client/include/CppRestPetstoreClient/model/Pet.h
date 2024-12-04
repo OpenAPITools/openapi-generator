@@ -61,7 +61,6 @@ public:
     /////////////////////////////////////////////
     /// Pet members
 
-    
     enum class StatusEnum
     {
         available,
@@ -72,101 +71,65 @@ public:
     /// <summary>
     /// pet status in the store
     /// </summary>
-    
+
     StatusEnum toStatusEnum(const utility::string_t& value) const;
     const utility::string_t fromStatusEnum(const StatusEnum value) const;
     
 
-    
     /// <summary>
     /// 
     /// </summary>
-    
     int64_t getId() const;
-    
-    
     bool idIsSet() const;
     void unsetId();
     void setId(int64_t value);
-    
     /// <summary>
     /// 
     /// </summary>
-    
     std::shared_ptr<Category> getCategory() const;
-    
-    
     bool categoryIsSet() const;
     void unsetCategory();
-
     void setCategory(const std::shared_ptr<Category>& value);
-    
     /// <summary>
     /// 
     /// </summary>
-    
     utility::string_t getName() const;
-    
-    
     bool nameIsSet() const;
     void unsetName();
-
     void setName(const utility::string_t& value);
-    
     /// <summary>
     /// 
     /// </summary>
-    
     std::vector<utility::string_t> getPhotoUrls() const;
-    
-    
     bool photoUrlsIsSet() const;
     void unsetPhotoUrls();
-
     void setPhotoUrls(const std::vector<utility::string_t>& value);
-    
     /// <summary>
     /// 
     /// </summary>
-    
     std::vector<std::shared_ptr<Tag>> getTags() const;
-    
-    
     bool tagsIsSet() const;
     void unsetTags();
-
     void setTags(const std::vector<std::shared_ptr<Tag>>& value);
-    
     /// <summary>
     /// pet status in the store
     /// </summary>
-    
-    
     StatusEnum getStatus() const;
-    
     bool statusIsSet() const;
     void unsetStatus();
-
     void setStatus(const StatusEnum value);
-    
 
 protected:
-    
     int64_t m_Id;
     bool m_IdIsSet;
-    
     std::shared_ptr<Category> m_Category;
     bool m_CategoryIsSet;
-    
     utility::string_t m_Name;
     bool m_NameIsSet;
-    
     std::vector<utility::string_t> m_PhotoUrls;
     bool m_PhotoUrlsIsSet;
-    
     std::vector<std::shared_ptr<Tag>> m_Tags;
     bool m_TagsIsSet;
-    
     StatusEnum m_Status;
     bool m_StatusIsSet;
 };

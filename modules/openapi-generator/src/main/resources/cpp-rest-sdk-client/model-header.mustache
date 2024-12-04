@@ -154,7 +154,9 @@ public:
     /// {{classname}} members
 
     {{! ENUM DEFINITIONS }}
-    {{#vars}}{{^isInherited}}{{#isEnum}}
+    {{#vars}}
+    {{^isInherited}}
+    {{#isEnum}}
     enum class {{#isContainer}}{{{enumName}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}
     {
         {{#allowableValues}}{{#enumVars}}{{value}},
@@ -163,7 +165,13 @@ public:
     /// <summary>
     /// {{description}}
     /// </summary>
-    {{/isEnum}}{{/isInherited}}{{/vars}}{{#vars}}{{^isInherited}}{{#isEnum}}{{#isContainer}}
+    {{/isEnum}}
+    {{/isInherited}}
+    {{/vars}}
+    {{#vars}}
+    {{^isInherited}}
+    {{#isEnum}}
+    {{#isContainer}}
     {{! ENUM CONVERSIONS }}
     {{{enumName}}} to{{{enumName}}}(const utility::string_t& value) const;
     const utility::string_t from{{{enumName}}}(const {{{enumName}}} value) const;
@@ -176,37 +184,55 @@ public:
     {{/isContainer}}{{/isEnum}}{{/isInherited}}{{/vars}}
 
     {{! SETTER AND GETTERS }}
-    {{#vars}}{{^isInherited}}
+    {{#vars}}
+    {{^isInherited}}
     /// <summary>
     /// {{description}}
     /// </summary>
-    {{#isContainer}}{{^isEnum}}
+    {{#isContainer}}
+    {{^isEnum}}
     {{{dataType}}} {{getter}}() const;
-    {{/isEnum}}{{/isContainer}}{{^isContainer}}{{^isEnum}}
+    {{/isEnum}}
+    {{/isContainer}}
+    {{^isContainer}}
+    {{^isEnum}}
     {{{dataType}}} {{getter}}() const;
-    {{/isEnum}}{{/isContainer}}
-    {{#isEnum}}{{^isMap}}
+    {{/isEnum}}
+    {{/isContainer}}
+    {{#isEnum}}
+    {{^isMap}}
     {{{datatypeWithEnum}}} {{getter}}() const;
-    {{/isMap}}{{#isMap}}
+    {{/isMap}}
+    {{#isMap}}
     {{{dataType}}} {{getter}}() const;
-    {{/isMap}}{{/isEnum}}
+    {{/isMap}}
+    {{/isEnum}}
     bool {{nameInCamelCase}}IsSet() const;
     void unset{{name}}();
     {{#isPrimitiveType}}
     void {{setter}}({{{dataType}}} value);
-    {{/isPrimitiveType}}{{^isPrimitiveType}}{{^isEnum}}
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+    {{^isEnum}}
     void {{setter}}(const {{{dataType}}}& value);
-    {{/isEnum}}{{/isPrimitiveType}}{{#isEnum}}
+    {{/isEnum}}
+    {{/isPrimitiveType}}
+    {{#isEnum}}
     void {{setter}}(const {{^isMap}}{{{datatypeWithEnum}}}{{/isMap}}{{#isMap}}{{{dataType}}}{{/isMap}} value);
-    {{/isEnum}}{{/isInherited}}{{/vars}}
+    {{/isEnum}}
+    {{/isInherited}}
+    {{/vars}}
 
 protected:
     {{#vars}}
-    {{^isInherited}}{{^isEnum}}
+    {{^isInherited}}
+    {{^isEnum}}
     {{{dataType}}} m_{{name}};
-    {{/isEnum}}{{#isEnum}}
+    {{/isEnum}}
+    {{#isEnum}}
     {{^isMap}}{{{datatypeWithEnum}}}{{/isMap}}{{#isMap}}{{{dataType}}}{{/isMap}} m_{{name}};
-    {{/isEnum}}bool m_{{name}}IsSet;
+    {{/isEnum}}
+    bool m_{{name}}IsSet;
     {{/isInherited}}
     {{/vars}}
 };

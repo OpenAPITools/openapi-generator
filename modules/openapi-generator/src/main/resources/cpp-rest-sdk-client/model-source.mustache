@@ -6,7 +6,8 @@
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {
 {{/modelNamespaceDeclarations}}
-{{#oneOf}}{{#-first}}
+{{#oneOf}}
+{{#-first}}
 
 void {{classname}}::validate()
 {
@@ -54,7 +55,8 @@ template bool {{classname}}::fromJson<{{.}}>(const web::json::value& json);
 template bool {{classname}}::fromMultiPart<{{.}}>(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix);
 {{/oneOf}}
 
-{{/-first}}{{/oneOf}}
+{{/-first}}
+{{/oneOf}}
 {{^oneOf}}
 {{#isEnum}}
 
@@ -218,7 +220,8 @@ web::json::value {{classname}}::toJson() const
     {{^parent}}
     web::json::value val = web::json::value::object();
     {{/parent}}
-    {{#vars}}{{^isInherited}}
+    {{#vars}}
+    {{^isInherited}}
     if(m_{{name}}IsSet)
     {   
         {{#isEnum}}{{#isContainer}}{{#isArray}}
@@ -233,7 +236,8 @@ web::json::value {{classname}}::toJson() const
         val[utility::conversions::to_string_t(U("{{baseName}}"))] = ModelBase::toJson(m_{{name}});
         {{/isEnum}}
     }
-    {{/isInherited}}{{/vars}}
+    {{/isInherited}}
+    {{/vars}}
 
     return val;
 }
@@ -244,7 +248,8 @@ bool {{classname}}::fromJson(const web::json::value& val)
     {{#parent}}
     ok &= this->{{{.}}}::fromJson(val);
     {{/parent}}
-    {{#vars}}{{^isInherited}}
+    {{#vars}}
+    {{^isInherited}}
     if(val.has_field(utility::conversions::to_string_t(U("{{baseName}}"))))
     {
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("{{baseName}}")));
@@ -263,7 +268,9 @@ bool {{classname}}::fromJson(const web::json::value& val)
             {{setter}}(to{{{datatypeWithEnum}}}(refVal_{{setter}}));
             {{/isContainer}}{{/isEnum}}
         }
-    }{{/isInherited}}{{/vars}}
+    }
+    {{/isInherited}}
+    {{/vars}}
     return ok;
 }
 
@@ -280,13 +287,18 @@ void {{classname}}::toMultipart(std::shared_ptr<MultipartFormData> multipart, co
         {{^isEnum}}
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("{{baseName}}")), m_{{name}}));
         {{/isEnum}}
-        {{#isEnum}}{{#isContainer}}{{#isArray}}
+        {{#isEnum}}
+	{{#isContainer}}
+	{{#isArray}}
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("{{baseName}}")), from{{{enumName}}}(m_{{name}})));
         {{/isArray}}{{#isMap}}
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("{{baseName}}")), m_{{name}}));
-        {{/isMap}}{{/isContainer}}{{^isContainer}}
+        {{/isMap}}
+	{{/isContainer}}
+	{{^isContainer}}
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("{{baseName}}")), from{{{datatypeWithEnum}}}(m_{{name}})));
-        {{/isContainer}}{{/isEnum}}
+        {{/isContainer}}
+	{{/isEnum}}
     }
     {{/vars}}
 }
@@ -308,21 +320,31 @@ bool {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
         {{^isEnum}}
         {{setter}}(refVal_{{setter}});
         {{/isEnum}}
-        {{#isEnum}}{{#isContainer}}{{#isArray}}
+        {{#isEnum}}
+	{{#isContainer}}
+	{{#isArray}}
         {{setter}}(to{{{enumName}}}(refVal_{{setter}}));
-        {{/isArray}}{{#isMap}}
+        {{/isArray}}
+	{{#isMap}}
         {{setter}}(refVal_{{setter}});
-        {{/isMap}}{{/isContainer}}{{^isContainer}}
+        {{/isMap}}
+	{{/isContainer}}
+	{{^isContainer}}
         {{setter}}(to{{{datatypeWithEnum}}}(refVal_{{setter}}));
-        {{/isContainer}}{{/isEnum}}
+        {{/isContainer}}
+	{{/isEnum}}
     }
     {{/vars}}
     return ok;
 }
 
-{{#vars}}{{^isInherited}}{{#isEnum}}{{#isContainer}}
+{{#vars}}
+{{^isInherited}}
+{{#isEnum}}
+{{#isContainer}}
 {{classname}}::{{{enumName}}} {{classname}}::to{{{enumName}}}(const utility::string_t& value) const
-{{/isContainer}}{{^isContainer}}
+{{/isContainer}}
+{{^isContainer}}
 {{classname}}::{{{datatypeWithEnum}}} {{classname}}::to{{{datatypeWithEnum}}}(const {{dataType}}& value) const
 {{/isContainer}}
 {
@@ -348,7 +370,8 @@ const {{dataType}} {{classname}}::from{{{datatypeWithEnum}}}(const {{{datatypeWi
     }
 }
 
-{{#isContainer}}{{#isArray}}
+{{#isContainer}}
+{{#isArray}}
 {{{dataType}}} {{{classname}}}::from{{{enumName}}}(const {{{datatypeWithEnum}}}& value) const
 {
     {{{dataType}}} ret;
@@ -366,19 +389,31 @@ const {{dataType}} {{classname}}::from{{{datatypeWithEnum}}}(const {{{datatypeWi
     }
     return ret;
 }
-{{/isArray}}{{/isContainer}}{{/isEnum}}{{/isInherited}}{{/vars}}
+{{/isArray}}
+{{/isContainer}}
+{{/isEnum}}
+{{/isInherited}}
+{{/vars}}
 
-{{#vars}}{{^isInherited}}{{#isContainer}}{{^isEnum}}
+{{#vars}}
+{{^isInherited}}
+{{#isContainer}}
+{{^isEnum}}
 {{{dataType}}} {{classname}}::{{getter}}() const
 {
     return m_{{name}};
 }
-{{/isEnum}}{{/isContainer}}{{^isContainer}}{{^isEnum}}
+{{/isEnum}}
+{{/isContainer}}
+{{^isContainer}}
+{{^isEnum}}
 {{{dataType}}} {{classname}}::{{getter}}() const
 {
     return m_{{name}};
 }
-{{/isEnum}}{{/isContainer}}{{#isEnum}}
+{{/isEnum}}
+{{/isContainer}}
+{{#isEnum}}
 {{^isMap}}{{#isArray}}{{{baseType}}}<{{/isArray}}{{{classname}}}::{{{enumName}}}{{#isArray}}>{{/isArray}}{{/isMap}}{{#isMap}}{{{dataType}}}{{/isMap}} {{classname}}::{{getter}}() const
 {
     return m_{{name}};
