@@ -1,4 +1,4 @@
-# @
+# sample-angular-19-0-0@1.0.0
 
 This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
 
@@ -24,7 +24,7 @@ Navigate to the folder of your consuming project and run one of next commands.
 _published:_
 
 ```console
-npm install @ --save
+npm install sample-angular-19-0-0@1.0.0 --save
 ```
 
 _without publishing (not recommended):_
@@ -46,7 +46,7 @@ npm link
 In your project:
 
 ```console
-npm link 
+npm link sample-angular-19-0-0
 ```
 
 __Note for Windows users:__ The Angular CLI has troubles to use linked npm packages.
@@ -59,7 +59,7 @@ In your Angular project:
 
 ```typescript
 // without configuring providers
-import { ApiModule } from '';
+import { ApiModule } from 'sample-angular-19-0-0';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -78,7 +78,7 @@ export class AppModule {}
 
 ```typescript
 // configuring providers
-import { ApiModule, Configuration, ConfigurationParameters } from '';
+import { ApiModule, Configuration, ConfigurationParameters } from 'sample-angular-19-0-0';
 
 export function apiConfigFactory (): Configuration {
   const params: ConfigurationParameters = {
@@ -98,7 +98,7 @@ export class AppModule {}
 
 ```typescript
 // configuring providers with an authentication service that manages your access tokens
-import { ApiModule, Configuration } from '';
+import { ApiModule, Configuration } from 'sample-angular-19-0-0';
 
 @NgModule({
     imports: [ ApiModule ],
@@ -122,7 +122,7 @@ export class AppModule {}
 ```
 
 ```typescript
-import { DefaultApi } from '';
+import { DefaultApi } from 'sample-angular-19-0-0';
 
 export class AppComponent {
     constructor(private apiGateway: DefaultApi) { }
@@ -162,7 +162,7 @@ export class AppModule {
 If different than the generated base path, during app bootstrap, you can provide the base path to your service.
 
 ```typescript
-import { BASE_PATH } from '';
+import { BASE_PATH } from 'sample-angular-19-0-0';
 
 bootstrap(AppComponent, [
     { provide: BASE_PATH, useValue: 'https://your-web-service.com' },
@@ -172,7 +172,7 @@ bootstrap(AppComponent, [
 or
 
 ```typescript
-import { BASE_PATH } from '';
+import { BASE_PATH } from 'sample-angular-19-0-0';
 
 @NgModule({
     imports: [],
@@ -197,7 +197,7 @@ export const environment = {
 In the src/app/app.module.ts:
 
 ```typescript
-import { BASE_PATH } from '';
+import { BASE_PATH } from 'sample-angular-19-0-0';
 import { environment } from '../environments/environment';
 
 @NgModule({
