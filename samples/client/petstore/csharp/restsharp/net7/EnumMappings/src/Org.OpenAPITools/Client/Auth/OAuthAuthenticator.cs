@@ -19,8 +19,22 @@ namespace Org.OpenAPITools.Client.Auth
     /// <summary>
     /// An authenticator for OAuth2 authentication flows
     /// </summary>
-    public class OAuthAuthenticator : AuthenticatorBase
+    public class OAuthAuthenticator : IAuthenticator
     {
+        private TokenResponse? _token;
+
+        public string? Token
+        {
+            get
+            {
+                if (_token == null) return null;
+                if (_token.ExpiresIn == null) return _token.AccessToken;
+                if (_token.ExpiresAt < DateTime.Now) return null;
+
+                return _token.AccessToken;
+            }
+        }
+
         readonly string _tokenUrl;
         readonly string _clientId;
         readonly string _clientSecret;
@@ -39,7 +53,7 @@ namespace Org.OpenAPITools.Client.Auth
             string? scope,
             OAuthFlow? flow,
             JsonSerializerSettings serializerSettings,
-            IReadableConfiguration configuration) : base("")
+            IReadableConfiguration configuration)
         {
             _tokenUrl = tokenUrl;
             _clientId = clientId;
@@ -72,10 +86,10 @@ namespace Org.OpenAPITools.Client.Auth
         /// </summary>
         /// <param name="accessToken">Access token to create a parameter from.</param>
         /// <returns>An authentication parameter.</returns>
-        protected override async ValueTask<Parameter> GetAuthenticationParameter(string accessToken)
+        protected async ValueTask<Parameter> GetAuthenticationParameter()
         {
             var token = string.IsNullOrEmpty(Token) ? await GetToken().ConfigureAwait(false) : Token;
-            return new HeaderParameter(KnownHeaders.Authorization, token);
+            return new HeaderParameter(KnownHeaders.Authorization, token!);
         }
 
         /// <summary>
@@ -84,31 +98,39 @@ namespace Org.OpenAPITools.Client.Auth
         /// <returns>An authentication token.</returns>
         async Task<string> GetToken()
         {
-            var client = new RestClient(_tokenUrl,
-                configureSerialization: serializerConfig => serializerConfig.UseSerializer(() => new CustomJsonCodec(_serializerSettings, _configuration)));
+            var client = new RestClient(_tokenUrl, configureSerialization: serializerConfig => serializerConfig.UseSerializer(() => new CustomJsonCodec(_serializerSettings, _configuration)));
 
-            var request = new RestRequest()
-                .AddParameter("grant_type", _grantType)
-                .AddParameter("client_id", _clientId)
-                .AddParameter("client_secret", _clientSecret);
-
+            var request = new RestRequest();
+            if (!string.IsNullOrWhiteSpace(_token?.RefreshToken))
+            {
+                request.AddParameter("grant_type", "refresh_token")
+                    .AddParameter("refresh_token", _token!.RefreshToken);
+            }
+            else
+            {
+                request
+                    .AddParameter("grant_type", _grantType)
+                    .AddParameter("client_id", _clientId)
+                    .AddParameter("client_secret", _clientSecret);
+            }
             if (!string.IsNullOrEmpty(_scope))
             {
                 request.AddParameter("scope", _scope);
             }
-
-            var response = await client.PostAsync<TokenResponse>(request).ConfigureAwait(false);
-            
+            _token = await client.PostAsync<TokenResponse>(request).ConfigureAwait(false);
             // RFC6749 - token_type is case insensitive.
             // RFC6750 - In Authorization header Bearer should be capitalized.
             // Fix the capitalization irrespective of token_type casing.
-            switch (response.TokenType?.ToLower())
+            switch (_token?.TokenType?.ToLower())
             {
                 case "bearer":
-                    return $"Bearer {response.AccessToken}";
+                    return $"Bearer {_token.AccessToken}";
                 default:
-                    return $"{response.TokenType} {response.AccessToken}";
+                    return $"{_token?.TokenType} {_token?.AccessToken}";
             }
         }
+
+        public async ValueTask Authenticate(IRestClient client, RestRequest request)
+            => request.AddOrUpdateParameter(await GetAuthenticationParameter().ConfigureAwait(false));
     }
 }
