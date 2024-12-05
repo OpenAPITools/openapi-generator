@@ -81,7 +81,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String TS_VERSION = "tsVersion";
     public static final String RXJS_VERSION = "rxjsVersion";
     public static final String NGPACKAGR_VERSION = "ngPackagrVersion";
-    public static final String ZONEJS_VERSION = "zoneJsVersion";
+    public static final String ZONEJS_VERSION = "zonejsVersion";
 
     protected String ngVersion = "19.0.0";
     @Getter @Setter
@@ -321,21 +321,21 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 .map(Map.Entry::getValue)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid ngVersion. Only Angular v9+ is supported."));
 
-        additionalProperties.put(TS_VERSION, additionalProperties.containsKey(TS_VERSION)
-                ? additionalProperties.containsKey(TS_VERSION)
-                : angularDependencies.getTsVersion());
+        if (!additionalProperties.containsKey(TS_VERSION)) {
+            additionalProperties.put(TS_VERSION, angularDependencies.getTsVersion());
+        }
 
-        additionalProperties.put(RXJS_VERSION, additionalProperties.containsKey(RXJS_VERSION)
-                ? additionalProperties.containsKey(RXJS_VERSION)
-                : angularDependencies.getRxjsVersion());
+        if (!additionalProperties.containsKey(RXJS_VERSION)) {
+            additionalProperties.put(RXJS_VERSION, angularDependencies.getRxjsVersion());
+        }
 
-        additionalProperties.put(NGPACKAGR_VERSION, additionalProperties.containsKey(NGPACKAGR_VERSION)
-                ? additionalProperties.containsKey(NGPACKAGR_VERSION)
-                : angularDependencies.getNgPackagrVersion());
+        if (!additionalProperties.containsKey(NGPACKAGR_VERSION)) {
+            additionalProperties.put(NGPACKAGR_VERSION, angularDependencies.getNgPackagrVersion());
+        }
 
-        additionalProperties.put("zonejsVersion", additionalProperties.containsKey(ZONEJS_VERSION)
-                ? additionalProperties.containsKey(ZONEJS_VERSION)
-                : angularDependencies.getZonejsVersion());
+        if (!additionalProperties.containsKey(ZONEJS_VERSION)) {
+            additionalProperties.put(ZONEJS_VERSION, angularDependencies.getZonejsVersion());
+        }
 
         if (angularDependencies.getTsickleVersion() != null) {
             additionalProperties.put("tsickleVersion", angularDependencies.getTsickleVersion());
