@@ -3210,4 +3210,28 @@ public class JavaClientCodegenTest {
         );
     }
 
+    @Test
+    public void testGenerateParameterId() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setValidateSpec(false)
+                .setGeneratorName("java")
+                .setAdditionalProperties(Map.of(
+                        CodegenConstants.API_PACKAGE, "xyz.abcdef.api"
+                ))
+                .setInputSpec("src/test/resources/3_1/issue_20239.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        TestUtils.assertFileContains(
+                output.resolve("src/main/java/xyz/abcdef/api/ATagApi.java"),
+                " getCall(String pathParameter, Integer queryParameter, final ApiCallback _callback)"
+        );
+
+        TestUtils.assertFileNotContains(
+                output.resolve("src/main/java/xyz/abcdef/api/ATagApi.java"),
+                " getCall(Integer queryParameter, final ApiCallback _callback)"
+        );
+    }
 }

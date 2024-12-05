@@ -57,26 +57,17 @@ public:
     /////////////////////////////////////////////
     /// SchemaWithSet_vaccinationBook members
 
-    
 
-    
-    /// <summary>
-    /// 
-    /// </summary>
-    
     std::set<std::shared_ptr<Vaccine>> getVaccines() const;
-    
-    
     bool vaccinesIsSet() const;
     void unsetVaccines();
-
     void setVaccines(const std::set<std::shared_ptr<Vaccine>>& value);
-    
+
 
 protected:
-    
     std::set<std::shared_ptr<Vaccine>> m_Vaccines;
     bool m_VaccinesIsSet;
+
 };
 
 

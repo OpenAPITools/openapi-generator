@@ -55,40 +55,25 @@ public:
     /////////////////////////////////////////////
     /// Category members
 
-    
 
-    
-    /// <summary>
-    /// 
-    /// </summary>
-    
     int64_t getId() const;
-    
-    
     bool idIsSet() const;
     void unsetId();
     void setId(int64_t value);
-    
-    /// <summary>
-    /// 
-    /// </summary>
-    
+
     utility::string_t getName() const;
-    
-    
     bool nameIsSet() const;
     void unsetName();
-
     void setName(const utility::string_t& value);
-    
+
 
 protected:
-    
     int64_t m_Id;
     bool m_IdIsSet;
-    
+
     utility::string_t m_Name;
     bool m_NameIsSet;
+
 };
 
 
