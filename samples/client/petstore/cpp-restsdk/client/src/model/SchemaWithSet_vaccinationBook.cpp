@@ -18,7 +18,6 @@ namespace openapitools {
 namespace client {
 namespace model {
 
-
 SchemaWithSet_vaccinationBook::SchemaWithSet_vaccinationBook()
 {
     m_VaccinesIsSet = false;
@@ -36,13 +35,11 @@ void SchemaWithSet_vaccinationBook::validate()
 web::json::value SchemaWithSet_vaccinationBook::toJson() const
 {
     web::json::value val = web::json::value::object();
-    
     if(m_VaccinesIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("vaccines"))] = ModelBase::toJson(m_Vaccines);
     }
-    
 
     return val;
 }
@@ -50,7 +47,6 @@ web::json::value SchemaWithSet_vaccinationBook::toJson() const
 bool SchemaWithSet_vaccinationBook::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    
     if(val.has_field(utility::conversions::to_string_t(U("vaccines"))))
     {
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("vaccines")));
@@ -75,7 +71,6 @@ void SchemaWithSet_vaccinationBook::toMultipart(std::shared_ptr<MultipartFormDat
     if(m_VaccinesIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("vaccines")), m_Vaccines));
-        
     }
 }
 
@@ -93,12 +88,9 @@ bool SchemaWithSet_vaccinationBook::fromMultiPart(std::shared_ptr<MultipartFormD
         std::set<std::shared_ptr<Vaccine>> refVal_setVaccines;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("vaccines"))), refVal_setVaccines );
         setVaccines(refVal_setVaccines);
-        
     }
     return ok;
 }
-
-
 
 
 std::set<std::shared_ptr<Vaccine>> SchemaWithSet_vaccinationBook::getVaccines() const

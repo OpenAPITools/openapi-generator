@@ -18,7 +18,6 @@ namespace openapitools {
 namespace client {
 namespace model {
 
-
 Pet::Pet()
 {
     m_Id = 0L;
@@ -43,37 +42,31 @@ void Pet::validate()
 web::json::value Pet::toJson() const
 {
     web::json::value val = web::json::value::object();
-    
     if(m_IdIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("id"))] = ModelBase::toJson(m_Id);
     }
-    
     if(m_CategoryIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("category"))] = ModelBase::toJson(m_Category);
     }
-    
     if(m_NameIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("name"))] = ModelBase::toJson(m_Name);
     }
-    
     if(m_PhotoUrlsIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("photoUrls"))] = ModelBase::toJson(m_PhotoUrls);
     }
-    
     if(m_TagsIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("tags"))] = ModelBase::toJson(m_Tags);
     }
-    
     if(m_StatusIsSet)
     {   
         
@@ -81,7 +74,6 @@ web::json::value Pet::toJson() const
         val[utility::conversions::to_string_t(U("status"))] = ModelBase::toJson(refVal);
         
     }
-    
 
     return val;
 }
@@ -89,7 +81,6 @@ web::json::value Pet::toJson() const
 bool Pet::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    
     if(val.has_field(utility::conversions::to_string_t(U("id"))))
     {
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("id")));
@@ -170,33 +161,26 @@ void Pet::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utilit
     if(m_IdIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("id")), m_Id));
-        
     }
     if(m_CategoryIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("category")), m_Category));
-        
     }
     if(m_NameIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("name")), m_Name));
-        
     }
     if(m_PhotoUrlsIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("photoUrls")), m_PhotoUrls));
-        
     }
     if(m_TagsIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tags")), m_Tags));
-        
     }
     if(m_StatusIsSet)
     {
-        
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("status")), fromStatusEnum(m_Status)));
-        
     }
 }
 
@@ -214,47 +198,39 @@ bool Pet::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const util
         int64_t refVal_setId;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("id"))), refVal_setId );
         setId(refVal_setId);
-        
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("category"))))
     {
         std::shared_ptr<Category> refVal_setCategory;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("category"))), refVal_setCategory );
         setCategory(refVal_setCategory);
-        
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("name"))))
     {
         utility::string_t refVal_setName;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("name"))), refVal_setName );
         setName(refVal_setName);
-        
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("photoUrls"))))
     {
         std::vector<utility::string_t> refVal_setPhotoUrls;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("photoUrls"))), refVal_setPhotoUrls );
         setPhotoUrls(refVal_setPhotoUrls);
-        
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("tags"))))
     {
         std::vector<std::shared_ptr<Tag>> refVal_setTags;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tags"))), refVal_setTags );
         setTags(refVal_setTags);
-        
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("status"))))
     {
         utility::string_t refVal_setStatus;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("status"))), refVal_setStatus );
-        
         setStatus(toStatusEnum(refVal_setStatus));
-        
     }
     return ok;
 }
-
 
 Pet::StatusEnum Pet::toStatusEnum(const utility::string_t& value) const
 {
@@ -290,8 +266,6 @@ const utility::string_t Pet::fromStatusEnum(const StatusEnum value) const
 }
 
 
-
-
 int64_t Pet::getId() const
 {
     return m_Id;
@@ -312,7 +286,6 @@ void Pet::unsetId()
 {
     m_IdIsSet = false;
 }
-
 std::shared_ptr<Category> Pet::getCategory() const
 {
     return m_Category;
@@ -334,7 +307,6 @@ void Pet::unsetCategory()
 {
     m_CategoryIsSet = false;
 }
-
 utility::string_t Pet::getName() const
 {
     return m_Name;
@@ -356,7 +328,6 @@ void Pet::unsetName()
 {
     m_NameIsSet = false;
 }
-
 std::vector<utility::string_t> Pet::getPhotoUrls() const
 {
     return m_PhotoUrls;
@@ -378,7 +349,6 @@ void Pet::unsetPhotoUrls()
 {
     m_PhotoUrlsIsSet = false;
 }
-
 std::vector<std::shared_ptr<Tag>> Pet::getTags() const
 {
     return m_Tags;
@@ -400,7 +370,6 @@ void Pet::unsetTags()
 {
     m_TagsIsSet = false;
 }
-
 Pet::StatusEnum Pet::getStatus() const
 {
     return m_Status;

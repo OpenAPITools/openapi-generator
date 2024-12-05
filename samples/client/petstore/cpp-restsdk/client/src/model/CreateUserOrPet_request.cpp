@@ -18,7 +18,6 @@ namespace openapitools {
 namespace client {
 namespace model {
 
-
 void CreateUserOrPet_request::validate()
 {
     // TODO: implement validation
@@ -64,7 +63,6 @@ template bool CreateUserOrPet_request::fromJson<Pet>(const web::json::value& jso
 template bool CreateUserOrPet_request::fromMultiPart<Pet>(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix);
 template bool CreateUserOrPet_request::fromJson<User>(const web::json::value& json);
 template bool CreateUserOrPet_request::fromMultiPart<User>(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix);
-
 
 }
 }
