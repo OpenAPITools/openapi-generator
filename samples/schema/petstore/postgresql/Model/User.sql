@@ -7,22 +7,22 @@
 
 
 --
--- SELECT template for table 'User'
+-- SELECT template for table 'user'
 --
-SELECT id, username, firstName, lastName, email, "password", phone, userStatus FROM "User" WHERE 1=1;
+SELECT "id", username, first_name, last_name, email, "password", phone, user_status FROM "user" WHERE 1=1;
 
 --
--- INSERT template for table 'User'
+-- INSERT template for table 'user'
 --
-INSERT INTO "User" (id, username, firstName, lastName, email, "password", phone, userStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+INSERT INTO "user" ("id", username, first_name, last_name, email, "password", phone, user_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?);
 
 --
--- UPDATE template for table 'User'
+-- UPDATE template for table 'user'
 --
-UPDATE "User" SET id = ?, username = ?, firstName = ?, lastName = ?, email = ?, "password" = ?, phone = ?, userStatus = ? WHERE 1=2;
+UPDATE "user" SET "id" = ?, username = ?, first_name = ?, last_name = ?, email = ?, "password" = ?, phone = ?, user_status = ? WHERE 1=2;
 
 --
--- DELETE template for table 'User'
+-- DELETE template for table 'user'
 --
-DELETE FROM "User" WHERE 1=2;
+DELETE FROM "user" WHERE 1=2;
 

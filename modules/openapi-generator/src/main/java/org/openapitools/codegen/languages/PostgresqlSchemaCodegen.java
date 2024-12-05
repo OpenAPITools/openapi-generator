@@ -24,7 +24,6 @@ import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
-import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.commons.lang3.StringUtils;
@@ -50,7 +49,8 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
     public static final Integer IDENTIFIER_MAX_LENGTH = 63;
 
     protected Vector<String> postgresqlNumericTypes = new Vector<>(Arrays.asList(
-            "SMALLINT", "INTEGER", "BIGINT", "DECIMAL", "NUMERIC", "REAL", "DOUBLE PRECISION", "SMALLSERIAL", "SERIAL",
+            "SMALLINT", "INTEGER", "INT", "BIGINT", "DECIMAL", "NUMERIC", "REAL", "DOUBLE PRECISION", "SMALLSERIAL",
+            "SERIAL",
             "BIGSERIAL"));
 
     protected Vector<String> postgresqlDateAndTimeTypes = new Vector<>(Arrays.asList(
@@ -87,7 +87,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
      * Returns identifier naming convention for table names and column names.
      */
     @Getter
-    protected String identifierNamingConvention = "original";
+    protected String identifierNamingConvention = "snake_case";
     /**
      * Whether autoincrement feature enabled for integer 'id' fields
      */
@@ -122,63 +122,117 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         modelTemplateFiles.put("query_examples.mustache", ".sql");
 
         // https://www.postgresql.org/docs/17/sql-keywords-appendix.html
-        setReservedWordsLowerCase( 
-            Arrays.asList(
-            // SQL reserved words
-            "ABORT", "ABSOLUTE", "ACCESS", "ACTION", "ADD", "ADMIN", "AFTER", "AGGREGATE", "ALL",
-            "ALSO", "ALTER", "ALWAYS", "ANALYSE", "ANALYZE", "AND", "ANY", "ARRAY", "AS", "ASC",
-            "ASSERTION", "ASSIGNMENT", "ASYMMETRIC", "AT", "ATTACH", "ATTRIBUTE", "AUTHORIZATION",
-            "BACKWARD", "BEFORE", "BEGIN", "BETWEEN", "BIGINT", "BINARY", "BIT", "BOOLEAN", "BOTH",
-            "BY", "CACHE", "CALL", "CALLED", "CASCADE", "CASCADED", "CASE", "CAST", "CATALOG", "CHAIN",
-            "CHAR", "CHARACTER", "CHARACTERISTICS", "CHECK", "CHECKPOINT", "CLASS", "CLOSE", "CLUSTER",
-            "COALESCE", "COLLATE", "COLLATION", "COLUMN", "COLUMNS", "COMMENT", "COMMENTS", "COMMIT",
-            "COMMITTED", "CONCURRENTLY", "CONFIGURATION", "CONFLICT", "CONNECTION", "CONSTRAINT",
-            "CONSTRAINTS", "CONTENT", "CONTINUE", "CONVERSION", "COPY", "COST", "CREATE", "CROSS",
-            "CSV", "CUBE", "CURRENT", "CURRENT_CATALOG", "CURRENT_DATE", "CURRENT_ROLE",
-            "CURRENT_SCHEMA", "CURRENT_TIME", "CURRENT_TIMESTAMP", "CURRENT_USER", "CURSOR", "CYCLE",
-            "DATA", "DATABASE", "DAY", "DEALLOCATE", "DEC", "DECIMAL", "DECLARE", "DEFAULT", "DEFAULTS",
-            "DEFERRABLE", "DEFERRED", "DEFINE", "DEFINER", "DELETE", "DELIMITER", "DELIMITERS",
-            "DEPENDS", "DEPTH", "DESC", "DESCRIBE", "DETACH", "DICTIONARY", "DISABLE", "DISCARD",
-            "DISTINCT", "DO", "DOCUMENT", "DOMAIN", "DOUBLE", "DROP", "EACH", "ELSE", "ENABLE",
-            "ENCODING", "ENCRYPTED", "END", "ENUM", "ESCAPE", "EVENT", "EXCEPT", "EXCLUDE", "EXCLUDING",
-            "EXCLUSIVE", "EXECUTE", "EXISTS", "EXPLAIN", "EXTENSION", "EXTERNAL", "EXTRACT", "FALSE",
-            "FAMILY", "FETCH", "FILTER", "FINALIZE", "FIRST", "FLOAT", "FOLLOWING", "FOR", "FORCE",
-            "FOREIGN", "FORWARD", "FREEZE", "FROM", "FULL", "FUNCTION", "FUNCTIONS", "GENERATED",
-            "GLOBAL", "GRANT", "GRANTED", "GREATEST", "GROUP", "GROUPING", "HANDLER", "HAVING", "HEADER",
-            "HOLD", "HOUR", "IDENTITY", "IF", "ILIKE", "IMMEDIATE", "IMMUTABLE", "IMPLICIT", "IMPORT",
-            "IN", "INCLUDING", "INCREMENT", "INDEX", "INDEXES", "INHERIT", "INHERITS", "INITIALLY",
-            "INLINE", "INNER", "INOUT", "INPUT", "INSENSITIVE", "INSERT", "INSTEAD", "INT", "INTEGER",
-            "INTERSECT", "INTERVAL", "INTO", "INVOKER", "IS", "ISNULL", "ISOLATION", "JOIN", "KEY",
-            "LABEL", "LANGUAGE", "LARGE", "LAST", "LATERAL", "LEADING", "LEAKPROOF", "LEAST", "LEFT",
-            "LEVEL", "LIKE", "LIMIT", "LISTEN", "LOAD", "LOCAL", "LOCALTIME", "LOCALTIMESTAMP", "LOCATION",
-            "LOCK", "LOCKED", "LOGGED", "MAPPING", "MATCH", "MATERIALIZED", "MAXVALUE", "METHOD", "MINUTE",
-            "MINVALUE", "MODE", "MODIFY", "MONTH", "MOVE", "NAME", "NAMES", "NATIONAL", "NATURAL", "NCHAR",
-            "NEW", "NEXT", "NO", "NONE", "NORMALIZE", "NORMALIZED", "NOT", "NOTHING", "NOTIFY", "NOTNULL",
-            "NOWAIT", "NULL", "NULLABLE", "NULLIF", "NUMERIC", "OBJECT", "OF", "OFF", "OFFSET", "OIDS",
-            "OLD", "ON", "ONLY", "OPERATOR",
-            "OPTION", "OPTIONS", "OR", "ORDER", "ORDINALITY", "OTHERS", "OUT", "OUTER", "OVER", "OVERLAPS",
-            "OVERLAY", "OVERRIDING", "OWNED", "OWNER", "PARALLEL", "PARAMETER", "PARSER", "PARTIAL",
-            "PARTITION", "PASSING", "PASSWORD", "PLACING", "PLANS", "POLICY", "POSITION", "PRECEDING",
-            "PRECISION", "PREPARE", "PREPARED", "PRESERVE", "PRIMARY", "PRIOR", "PRIVILEGES", "PROCEDURAL",
-            "PROCEDURE", "PROGRAM", "PUBLICATION", "QUOTE", "RANGE", "READ", "REAL", "REASSIGN", "RECHECK",
-            "RECURSIVE", "REF", "REFERENCES", "REFERENCING", "REFRESH", "REINDEX", "RELATIVE", "RELEASE",
-            "RENAME", "REPEATABLE", "REPLACE", "REPLICA", "RESET", "RESTART", "RESTRICT", "RETURNING",
-            "RETURNS", "REVOKE", "RIGHT", "ROLE", "ROLLBACK", "ROLLUP", "ROUTINE", "ROUTINES", "ROW",
-            "ROWS", "RULE", "SAVEPOINT", "SCHEMA", "SCHEMAS", "SCROLL", "SEARCH", "SECOND", "SECURITY",
-            "SELECT", "SEQUENCE", "SEQUENCES", "SERIALIZABLE", "SERVER", "SESSION", "SESSION_USER",
-            "SET", "SETOF", "SETS", "SHARE", "SHOW", "SIMILAR", "SIMPLE", "SKIP", "SMALLINT", "SNAPSHOT",
-            "SOME", "SQL", "STABLE", "STANDALONE", "START", "STATEMENT", "STATISTICS", "STDIN", "STDOUT",
-            "STORAGE", "STRICT", "STRIP", "SUBSCRIPTION", "SUBSTRING", "SYMMETRIC", "SYSID", "SYSTEM",
-            "TABLE", "TABLES", "TABLESAMPLE", "TABLESPACE", "TEMP", "TEMPLATE", "TEMPORARY", "TEXT",
-            "THEN", "TIES", "TIME", "TIMESTAMP", "TO", "TRAILING", "TRANSACTION", "TRANSFORM", "TREAT",
-            "TRIGGER", "TRIM", "TRUE", "TRUNCATE", "TRUSTED", "TYPE", "TYPES", "UNBOUNDED", "UNCOMMITTED",
-            "UNENCRYPTED", "UNION", "UNIQUE", "UNKNOWN", "UNLISTEN", "UNLOGGED", "UNTIL", "UPDATE",
-            "USER", "USING", "VACUUM", "VALID", "VALIDATE", "VALIDATOR", "VALUE", "VALUES", "VARCHAR",
-            "VARIADIC", "VARYING", "VERBOSE", "VERSION", "VIEW", "VIEWS", "VOLATILE", "WHEN", "WHERE",
-            "WHITESPACE", "WINDOW", "WITH", "WITHIN", "WITHOUT", "WORK", "WRAPPER", "WRITE", "XML",
-            "XMLATTRIBUTES", "XMLCONCAT", "XMLELEMENT", "XMLEXISTS", "XMLFOREST", "XMLNAMESPACES",
-            "XMLPARSE", "XMLPI", "XMLROOT", "XMLSERIALIZE", "XMLTABLE", "YEAR", "YES", "ZONE"
-        ));
+        setReservedWordsLowerCase(
+                Arrays.asList(
+                        // SQL reserved words
+                        "A", "ABORT", "ABS", "ABSENT", "ABSOLUTE", "ACCESS", "ACCORDING", "ACOS", "ACTION", "ADA",
+                        "ADD", "ADMIN", "AFTER", "AGGREGATE", "ALL", "ALLOCATE", "ALSO", "ALTER", "ALWAYS", "ANALYSE",
+                        "ANALYZE", "AND", "ANY", "ANY_VALUE", "ARE", "ARRAY", "ARRAY_AGG", "ARRAY_MAX_CARDINALITY",
+                        "AS", "ASC", "ASENSITIVE", "ASIN", "ASSERTION", "ASSIGNMENT", "ASYMMETRIC", "AT", "ATAN",
+                        "ATOMIC", "ATTACH", "ATTRIBUTE", "ATTRIBUTES", "AUTHORIZATION", "AVG", "BACKWARD", "BASE64",
+                        "BEFORE", "BEGIN", "BEGIN_FRAME", "BEGIN_PARTITION", "BERNOULLI", "BETWEEN", "BIGINT", "BINARY",
+                        "BIT", "BIT_LENGTH", "BLOB", "BLOCKED", "BOM", "BOOLEAN", "BOTH", "BREADTH", "BTRIM", "BY", "C",
+                        "CACHE", "CALL", "CALLED", "CARDINALITY", "CASCADE", "CASCADED", "CASE", "CAST", "CATALOG",
+                        "CATALOG_NAME", "CEIL", "CEILING", "CHAIN", "CHAINING", "CHAR", "CHARACTER", "CHARACTERISTICS",
+                        "CHARACTERS", "CHARACTER_LENGTH", "CHARACTER_SET_CATALOG", "CHARACTER_SET_NAME",
+                        "CHARACTER_SET_SCHEMA", "CHAR_LENGTH", "CHECK", "CHECKPOINT", "CLASS", "CLASSIFIER",
+                        "CLASS_ORIGIN", "CLOB", "CLOSE", "CLUSTER", "COALESCE", "COBOL", "COLLATE", "COLLATION",
+                        "COLLATION_CATALOG", "COLLATION_NAME", "COLLATION_SCHEMA", "COLLECT", "COLUMN", "COLUMNS",
+                        "COLUMN_NAME", "COMMAND_FUNCTION", "COMMAND_FUNCTION_CODE", "COMMENT", "COMMENTS", "COMMIT",
+                        "COMMITTED", "COMPRESSION", "CONCURRENTLY", "CONDITION", "CONDITIONAL", "CONDITION_NUMBER",
+                        "CONFIGURATION", "CONFLICT", "CONNECT", "CONNECTION", "CONNECTION_NAME", "CONSTRAINT",
+                        "CONSTRAINTS", "CONSTRAINT_CATALOG", "CONSTRAINT_NAME", "CONSTRAINT_SCHEMA", "CONSTRUCTOR",
+                        "CONTAINS", "CONTENT", "CONTINUE", "CONTROL", "CONVERSION", "CONVERT", "COPARTITION", "COPY",
+                        "CORR", "CORRESPONDING", "COS", "COSH", "COST", "COUNT", "COVAR_POP", "COVAR_SAMP", "CREATE",
+                        "CROSS", "CSV", "CUBE", "CUME_DIST", "CURRENT", "CURRENT_CATALOG", "CURRENT_DATE",
+                        "CURRENT_DEFAULT_TRANSFORM_GROUP", "CURRENT_PATH", "CURRENT_ROLE", "CURRENT_ROW",
+                        "CURRENT_SCHEMA", "CURRENT_TIME", "CURRENT_TIMESTAMP", "CURRENT_TRANSFORM_GROUP_FOR_TYPE",
+                        "CURRENT_USER", "CURSOR", "CURSOR_NAME", "CYCLE", "DATA", "DATABASE", "DATALINK", "DATE",
+                        "DATETIME_INTERVAL_CODE", "DATETIME_INTERVAL_PRECISION", "DAY", "DB", "DEALLOCATE", "DEC",
+                        "DECFLOAT", "DECIMAL", "DECLARE", "DEFAULT", "DEFAULTS", "DEFERRABLE", "DEFERRED", "DEFINE",
+                        "DEFINED", "DEFINER", "DEGREE", "DELETE", "DELIMITER", "DELIMITERS", "DENSE_RANK", "DEPENDS",
+                        "DEPTH", "DEREF", "DERIVED", "DESC", "DESCRIBE", "DESCRIPTOR", "DETACH", "DETERMINISTIC",
+                        "DIAGNOSTICS", "DICTIONARY", "DISABLE", "DISCARD", "DISCONNECT", "DISPATCH", "DISTINCT",
+                        "DLNEWCOPY", "DLPREVIOUSCOPY", "DLURLCOMPLETE", "DLURLCOMPLETEONLY", "DLURLCOMPLETEWRITE",
+                        "DLURLPATH", "DLURLPATHONLY", "DLURLPATHWRITE", "DLURLSCHEME", "DLURLSERVER", "DLVALUE", "DO",
+                        "DOCUMENT", "DOMAIN", "DOUBLE", "DROP", "DYNAMIC", "DYNAMIC_FUNCTION", "DYNAMIC_FUNCTION_CODE",
+                        "EACH", "ELEMENT", "ELSE", "EMPTY", "ENABLE", "ENCODING", "ENCRYPTED", "END", "END-EXEC",
+                        "END_FRAME", "END_PARTITION", "ENFORCED", "ENUM", "EQUALS", "ERROR", "ESCAPE", "EVENT", "EVERY",
+                        "EXCEPT", "EXCEPTION", "EXCLUDE", "EXCLUDING", "EXCLUSIVE", "EXEC", "EXECUTE", "EXISTS", "EXP",
+                        "EXPLAIN", "EXPRESSION", "EXTENSION", "EXTERNAL", "EXTRACT", "FALSE", "FAMILY", "FETCH", "FILE",
+                        "FILTER", "FINAL", "FINALIZE", "FINISH", "FIRST", "FIRST_VALUE", "FLAG", "FLOAT", "FLOOR",
+                        "FOLLOWING", "FOR", "FORCE", "FOREIGN", "FORMAT", "FORTRAN", "FORWARD", "FOUND", "FRAME_ROW",
+                        "FREE", "FREEZE", "FROM", "FS", "FULFILL", "FULL", "FUNCTION", "FUNCTIONS", "FUSION", "G",
+                        "GENERAL", "GENERATED", "GET", "GLOBAL", "GO", "GOTO", "GRANT", "GRANTED", "GREATEST", "GROUP",
+                        "GROUPING", "GROUPS", "HANDLER", "HAVING", "HEADER", "HEX", "HIERARCHY", "HOLD", "HOUR", "ID",
+                        "IDENTITY", "IF", "IGNORE", "ILIKE", "IMMEDIATE", "IMMEDIATELY", "IMMUTABLE", "IMPLEMENTATION",
+                        "IMPLICIT", "IMPORT", "IN", "INCLUDE", "INCLUDING", "INCREMENT", "INDENT", "INDEX", "INDEXES",
+                        "INDICATOR", "INHERIT", "INHERITS", "INITIAL", "INITIALLY", "INLINE", "INNER", "INOUT", "INPUT",
+                        "INSENSITIVE", "INSERT", "INSTANCE", "INSTANTIABLE", "INSTEAD", "INT", "INTEGER", "INTEGRITY",
+                        "INTERSECT", "INTERSECTION", "INTERVAL", "INTO", "INVOKER", "IS", "ISNULL", "ISOLATION", "JOIN",
+                        "JSON", "JSON_ARRAY", "JSON_ARRAYAGG", "JSON_EXISTS", "JSON_OBJECT", "JSON_OBJECTAGG",
+                        "JSON_QUERY", "JSON_SCALAR", "JSON_SERIALIZE", "JSON_TABLE", "JSON_TABLE_PRIMITIVE",
+                        "JSON_VALUE", "K", "KEEP", "KEY", "KEYS", "KEY_MEMBER", "KEY_TYPE", "LABEL", "LAG", "LANGUAGE",
+                        "LARGE", "LAST", "LAST_VALUE", "LATERAL", "LEAD", "LEADING", "LEAKPROOF", "LEAST", "LEFT",
+                        "LENGTH", "LEVEL", "LIBRARY", "LIKE", "LIKE_REGEX", "LIMIT", "LINK", "LISTAGG", "LISTEN", "LN",
+                        "LOAD", "LOCAL", "LOCALTIME", "LOCALTIMESTAMP", "LOCATION", "LOCATOR", "LOCK", "LOCKED", "LOG",
+                        "LOG10", "LOGGED", "LOWER", "LPAD", "LTRIM", "M", "MAP", "MAPPING", "MATCH", "MATCHED",
+                        "MATCHES", "MATCH_NUMBER", "MATCH_RECOGNIZE", "MATERIALIZED", "MAX", "MAXVALUE", "MEASURES",
+                        "MEMBER", "MERGE", "MERGE_ACTION", "MESSAGE_LENGTH", "MESSAGE_OCTET_LENGTH", "MESSAGE_TEXT",
+                        "METHOD", "MIN", "MINUTE", "MINVALUE", "MOD", "MODE", "MODIFIES", "MODULE", "MONTH", "MORE",
+                        "MOVE", "MULTISET", "MUMPS", "NAME", "NAMES", "NAMESPACE", "NATIONAL", "NATURAL", "NCHAR",
+                        "NCLOB", "NESTED", "NESTING", "NEW", "NEXT", "NFC", "NFD", "NFKC", "NFKD", "NIL", "NO", "NONE",
+                        "NORMALIZE", "NORMALIZED", "NOT", "NOTHING", "NOTIFY", "NOTNULL", "NOWAIT", "NTH_VALUE",
+                        "NTILE", "NULL", "NULLABLE", "NULLIF", "NULLS", "NULL_ORDERING", "NUMBER", "NUMERIC", "OBJECT",
+                        "OCCURRENCE", "OCCURRENCES_REGEX", "OCTETS", "OCTET_LENGTH", "OF", "OFF", "OFFSET", "OIDS",
+                        "OLD", "OMIT", "ON", "ONE", "ONLY", "OPEN", "OPERATOR", "OPTION", "OPTIONS", "OR", "ORDER",
+                        "ORDERING", "ORDINALITY", "OTHERS", "OUT", "OUTER", "OUTPUT", "OVER", "OVERFLOW", "OVERLAPS",
+                        "OVERLAY", "OVERRIDING", "OWNED", "OWNER", "P", "PAD", "PARALLEL", "PARAMETER",
+                        "PARAMETER_MODE", "PARAMETER_NAME", "PARAMETER_ORDINAL_POSITION", "PARAMETER_SPECIFIC_CATALOG",
+                        "PARAMETER_SPECIFIC_NAME", "PARAMETER_SPECIFIC_SCHEMA", "PARSER", "PARTIAL", "PARTITION",
+                        "PASCAL", "PASS", "PASSING", "PASSTHROUGH", "PASSWORD", "PAST", "PATH", "PATTERN", "PER",
+                        "PERCENT", "PERCENTILE_CONT", "PERCENTILE_DISC", "PERCENT_RANK", "PERIOD", "PERMISSION",
+                        "PERMUTE", "PIPE", "PLACING", "PLAN", "PLANS", "PLI", "POLICY", "PORTION", "POSITION",
+                        "POSITION_REGEX", "POWER", "PRECEDES", "PRECEDING", "PRECISION", "PREPARE", "PREPARED",
+                        "PRESERVE", "PREV", "PRIMARY", "PRIOR", "PRIVATE", "PRIVILEGES", "PROCEDURAL", "PROCEDURE",
+                        "PROCEDURES", "PROGRAM", "PRUNE", "PTF", "PUBLIC", "PUBLICATION", "QUOTE", "QUOTES", "RANGE",
+                        "RANK", "READ", "READS", "REAL", "REASSIGN", "RECHECK", "RECOVERY", "RECURSIVE", "REF",
+                        "REFERENCES", "REFERENCING", "REFRESH", "REGR_AVGX", "REGR_AVGY", "REGR_COUNT",
+                        "REGR_INTERCEPT", "REGR_R2", "REGR_SLOPE", "REGR_SXX", "REGR_SXY", "REGR_SYY", "REINDEX",
+                        "RELATIVE", "RELEASE", "RENAME", "REPEATABLE", "REPLACE", "REPLICA", "REQUIRING", "RESET",
+                        "RESPECT", "RESTART", "RESTORE", "RESTRICT", "RESULT", "RETURN", "RETURNED_CARDINALITY",
+                        "RETURNED_LENGTH", "RETURNED_OCTET_LENGTH", "RETURNED_SQLSTATE", "RETURNING", "RETURNS",
+                        "REVOKE", "RIGHT", "ROLE", "ROLLBACK", "ROLLUP", "ROUTINE", "ROUTINES", "ROUTINE_CATALOG",
+                        "ROUTINE_NAME", "ROUTINE_SCHEMA", "ROW", "ROWS", "ROW_COUNT", "ROW_NUMBER", "RPAD", "RTRIM",
+                        "RULE", "RUNNING", "SAVEPOINT", "SCALAR", "SCALE", "SCHEMA", "SCHEMAS", "SCHEMA_NAME", "SCOPE",
+                        "SCOPE_CATALOG", "SCOPE_NAME", "SCOPE_SCHEMA", "SCROLL", "SEARCH", "SECOND", "SECTION",
+                        "SECURITY", "SEEK", "SELECT", "SELECTIVE", "SELF", "SEMANTICS", "SENSITIVE", "SEQUENCE",
+                        "SEQUENCES", "SERIALIZABLE", "SERVER", "SERVER_NAME", "SESSION", "SESSION_USER", "SET", "SETOF",
+                        "SETS", "SHARE", "SHOW", "SIMILAR", "SIMPLE", "SIN", "SINH", "SIZE", "SKIP", "SMALLINT",
+                        "SNAPSHOT", "SOME", "SORT_DIRECTION", "SOURCE", "SPACE", "SPECIFIC", "SPECIFICTYPE",
+                        "SPECIFIC_NAME", "SQL", "SQLCODE", "SQLERROR", "SQLEXCEPTION", "SQLSTATE", "SQLWARNING", "SQRT",
+                        "STABLE", "STANDALONE", "START", "STATE", "STATEMENT", "STATIC", "STATISTICS", "STDDEV_POP",
+                        "STDDEV_SAMP", "STDIN", "STDOUT", "STORAGE", "STORED", "STRICT", "STRING", "STRIP", "STRUCTURE",
+                        "STYLE", "SUBCLASS_ORIGIN", "SUBMULTISET", "SUBSCRIPTION", "SUBSET", "SUBSTRING",
+                        "SUBSTRING_REGEX", "SUCCEEDS", "SUM", "SUPPORT", "SYMMETRIC", "SYSID", "SYSTEM", "SYSTEM_TIME",
+                        "SYSTEM_USER", "T", "TABLE", "TABLES", "TABLESAMPLE", "TABLESPACE", "TABLE_NAME", "TAN", "TANH",
+                        "TARGET", "TEMP", "TEMPLATE", "TEMPORARY", "TEXT", "THEN", "THROUGH", "TIES", "TIME",
+                        "TIMESTAMP", "TIMEZONE_HOUR", "TIMEZONE_MINUTE", "TO", "TOKEN", "TOP_LEVEL_COUNT", "TRAILING",
+                        "TRANSACTION", "TRANSACTIONS_COMMITTED", "TRANSACTIONS_ROLLED_BACK", "TRANSACTION_ACTIVE",
+                        "TRANSFORM", "TRANSFORMS", "TRANSLATE", "TRANSLATE_REGEX", "TRANSLATION", "TREAT", "TRIGGER",
+                        "TRIGGER_CATALOG", "TRIGGER_NAME", "TRIGGER_SCHEMA", "TRIM", "TRIM_ARRAY", "TRUE", "TRUNCATE",
+                        "TRUSTED", "TYPE", "TYPES", "UESCAPE", "UNBOUNDED", "UNCOMMITTED", "UNCONDITIONAL", "UNDER",
+                        "UNENCRYPTED", "UNION", "UNIQUE", "UNKNOWN", "UNLINK", "UNLISTEN", "UNLOGGED", "UNMATCHED",
+                        "UNNAMED", "UNNEST", "UNTIL", "UNTYPED", "UPDATE", "UPPER", "URI", "USAGE", "USER",
+                        "USER_DEFINED_TYPE_CATALOG", "USER_DEFINED_TYPE_CODE", "USER_DEFINED_TYPE_NAME",
+                        "USER_DEFINED_TYPE_SCHEMA", "USING", "UTF16", "UTF32", "UTF8", "VACUUM", "VALID", "VALIDATE",
+                        "VALIDATOR", "VALUE", "VALUES", "VALUE_OF", "VARBINARY", "VARCHAR", "VARIADIC", "VARYING",
+                        "VAR_POP", "VAR_SAMP", "VERBOSE", "VERSION", "VERSIONING", "VIEW", "VIEWS", "VOLATILE", "WHEN",
+                        "WHENEVER", "WHERE", "WHITESPACE", "WIDTH_BUCKET", "WINDOW", "WITH", "WITHIN", "WITHOUT",
+                        "WORK", "WRAPPER", "WRITE", "XML", "XMLAGG", "XMLATTRIBUTES", "XMLBINARY", "XMLCAST",
+                        "XMLCOMMENT", "XMLCONCAT", "XMLDECLARATION", "XMLDOCUMENT", "XMLELEMENT", "XMLEXISTS",
+                        "XMLFOREST", "XMLITERATE", "XMLNAMESPACES", "XMLPARSE", "XMLPI", "XMLQUERY", "XMLROOT",
+                        "XMLSCHEMA", "XMLSERIALIZE", "XMLTABLE", "XMLTEXT", "XMLVALIDATE", "YEAR", "YES", "ZONE"));
 
         // primitive data types
         languageSpecificPrimitives = new HashSet<>(
@@ -204,9 +258,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
                         "mixed",
                         "number",
                         "void",
-                        "byte"
-                )
-        );
+                        "byte"));
 
         // https://www.postgresql.org/docs/17/datatype.html
         typeMapping.put("array", "JSON");
@@ -215,7 +267,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         typeMapping.put("List", "JSON");
         typeMapping.put("boolean", "BOOLEAN");
         typeMapping.put("string", "TEXT");
-        typeMapping.put("int", "INT");
+        typeMapping.put("int", "INTEGER");
         typeMapping.put("byte", "TEXT");
         typeMapping.put("float", "DECIMAL");
         typeMapping.put("number", "DECIMAL");
@@ -226,7 +278,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         typeMapping.put("char", "TEXT");
         typeMapping.put("double", "DECIMAL");
         typeMapping.put("object", "JSON");
-        typeMapping.put("integer", "INT");
+        typeMapping.put("integer", "INTEGER");
         typeMapping.put("ByteArray", "BYTEA");
         typeMapping.put("file", "BYTEA");
         typeMapping.put("UUID", "TEXT");
@@ -237,28 +289,34 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
 
         // it seems that cli options from DefaultCodegen are useless here
         cliOptions.clear();
-        addOption(DEFAULT_DATABASE_NAME, 
-            "Default database name for all PostgreSQL queries", defaultDatabaseName);
+
+        addOption(DEFAULT_DATABASE_NAME,
+                "Database name that will be used for all generated PostgreSQL DDL and DML statements.", defaultDatabaseName);
+
         addSwitch(NAMED_PARAMETERS_ENABLED,
-            "Generates model prepared SQLs with named parameters, eg. :petName. Question mark placeholder used when option disabled.",
+                "Generates query examples with named variables in value placeholders (eg.`:name`,`:quantity`) if `true`. Otherwise, generates question marks `?` in value placeholders.",
                 namedParametersEnabled);
-        addOption(JSON_DATA_TYPE,
-            "Use special JSON PostgreSQL data type for complex model properties.",
-                jsonDataType);
+
         addSwitch(ID_AUTOINC_ENABLED,
-            "Generates PostgreSQL sequences for autoincrement feature for integer 'id' fields.",
+                "If `true`, generates autoincrement PostgreSQL types `SERIAL` and `BIGSERIAL` for `int32` and `int64` respectively for integer fields with name 'id'.",
                 idAutoIncEnabled);
-    
+
         // we used to snake_case table/column names, let's add this option
         CliOption identifierNamingOpt = new CliOption(IDENTIFIER_NAMING_CONVENTION,
-                "Naming convention of PostgreSQL identifiers(table names and column names). This is not related to database name which is defined by "
-                        + DEFAULT_DATABASE_NAME + " option");
-
-        identifierNamingOpt.addEnum("original", "Do not transform original names")
-                .addEnum("snake_case", "Use snake_case names")
-                .setDefault("original");
-
+                "Naming convention of PostgreSQL idebntifiers (table names and column names).");
+        identifierNamingOpt.addEnum("snake_case", "Transform named to 'snake_case'.")
+                .addEnum("original", "Leave original names as in `YAML` file.")
+                .setDefault("snake_case");
         cliOptions.add(identifierNamingOpt);
+
+        CliOption jsonDataTypeOpt = new CliOption(JSON_DATA_TYPE,
+                "Use of PostgreSQL data types for complex model properties.");
+        jsonDataTypeOpt.addEnum("json", "Generate `JSON` fields. Value is stored in `JSON` data type field as human-readable text. Value compliance with JSON standard is checked.")
+                .addEnum("jsonb",
+                        "Generate `JSONB` fields. Value is stored in `JSONB` data type field in binary format. `JSONB` data type is generally nore efficient than `JSON` but it is not human-readable. Value compliance with JSON standard is checked.")
+                .addEnum("off", "Generate `TEXT` fields. Just store the value as plain text. Value compliance with JSON standard is not checked.")
+                .setDefault("json");
+        cliOptions.add(jsonDataTypeOpt);
     }
 
     @Override
@@ -290,14 +348,6 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
             }
         }
 
-        if (additionalProperties.containsKey(JSON_DATA_TYPE)) {
-            if (additionalProperties.get(JSON_DATA_TYPE).equals("off")) {
-                this.setJsonDataType("off");
-            } else if (additionalProperties.get(JSON_DATA_TYPE).equals("jsonb")) {
-                this.setJsonDataType("jsonb");
-            }
-        }
-
         if (additionalProperties.containsKey(NAMED_PARAMETERS_ENABLED)) {
             this.setNamedParametersEnabled(
                     Boolean.valueOf(additionalProperties.get(NAMED_PARAMETERS_ENABLED).toString()));
@@ -314,13 +364,19 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
             this.setIdentifierNamingConvention((String) additionalProperties.get(IDENTIFIER_NAMING_CONVENTION));
         }
 
+        if (additionalProperties.containsKey(JSON_DATA_TYPE)) {
+            this.setJsonDataType((String) additionalProperties.get(JSON_DATA_TYPE));
+        }
+
         // make model src path available in mustache template
         additionalProperties.put("modelSrcPath", "./" + toSrcPath(modelPackage));
 
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("postgresql_schema.mustache", "", "postgresql_schema.sql"));
-        supportingFiles
-                .add(new SupportingFile("postgresql_schema_oauth2.mustache", "", "postgresql_schema_oauth2.sql"));
+        supportingFiles.add(new SupportingFile(
+            "README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile(
+            "postgresql_schema.mustache", "", "postgresql_schema.sql"));
+        supportingFiles.add(new SupportingFile(
+            "postgresql_schema_oauth2.mustache", "", "postgresql_schema_oauth2.sql"));
     }
 
     @Override
@@ -351,7 +407,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
                 postgresqlSchema.put("tableDefinition", tableDefinition);
                 tableDefinition.put("tblName", tableName);
                 tableDefinition.put("tblComment", modelDescription);
-                if (isReservedWord(tableName)) {  // Output table name in double quotes if it is a reserved word 
+                if (isReservedWord(tableName)) { // Output table name in double quotes if it is a reserved word
                     tableDefinition.put("tblNameQuoted", true);
                 }
             }
@@ -366,7 +422,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
                 processBooleanTypeProperty(model, property);
                 break;
             case "SMALLINT":
-            case "INT":
+            case "INTEGER":
             case "BIGINT":
                 processIntegerTypeProperty(model, property);
                 break;
@@ -416,6 +472,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         Boolean required = property.getRequired();
         Boolean isUuid = property.isUuid;
         Boolean isEnum = property.isEnum;
+        String tableName = this.toTableName(model.getName());
 
         if (vendorExtensions.containsKey(VENDOR_EXTENSION_POSTGRESQL_SCHEMA)) {
             // user already specified schema values
@@ -433,13 +490,14 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
         postgresqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
-        if (isReservedWord(colName)) {  // Output column name in double quotes if it is a reserved word 
+        if (isReservedWord(colName)) { // Output column name in double quotes if it is a reserved word
             columnDefinition.put("colNameQuoted", true);
         } else {
             columnDefinition.put("colNameQuoted", false);
         }
-        columnDefinition.put("tblName", model.getName());
-        if (isReservedWord(model.getName())) {  // Output table name (for column comment) in double quotes if it is a reserved word 
+        columnDefinition.put("tblName", tableName);
+        if (isReservedWord(model.getName())) { // Output table name (for column comment) in double quotes if it is a
+                                               // reserved word
             columnDefinition.put("tblNameQuoted", true);
         } else {
             columnDefinition.put("tblNameQuoted", false);
@@ -448,7 +506,8 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         if (Boolean.TRUE.equals(isEnum)) {
             Map<String, Object> allowableValues = property.getAllowableValues();
             List<Object> enumValues = (List<Object>) allowableValues.get("values");
-            String typeName = model.getName() + "_" + property.getName();
+            String typeName = this.toTableName(model.getName()) 
+                      + "_" + this.toColumnName(property.getName());
             postgresqlSchema.put("typeDefinition", typeDefinition);
             columnDefinition.put("colDataType", typeName);
             typeDefinition.put("typeName", typeName);
@@ -487,15 +546,17 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
             }
         }
 
-        if (   !columnDefinition.get("colDataType").equals("SERIAL") 
-            && !columnDefinition.get("colDataType").equals("BIGSERIAL")) {   // No default value for autoincremented IDs
+        if (!columnDefinition.get("colDataType").equals("SERIAL")
+                && !columnDefinition.get("colDataType").equals("BIGSERIAL")) { // No default value for autoincremented
+                                                                               // IDs
             if (Boolean.TRUE.equals(required)) {
                 columnDefinition.put("colNotNull", true);
             } else {
                 columnDefinition.put("colNotNull", false);
                 try {
                     columnDefinition.put("colDefault",
-                            toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
+                            toCodegenPostgresqlDataTypeDefault(defaultValue,
+                                    (String) columnDefinition.get("colDataType")));
                 } catch (RuntimeException exception) {
                     LOGGER.warn(
                             "Property '{}' of model '{}' mapped to PostgreSQL data type which doesn't support default value",
@@ -535,6 +596,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         String defaultValue = property.getDefaultValue();
         Boolean required = property.getRequired();
         Boolean isEnum = property.isEnum;
+        String tableName = this.toTableName(model.getName());
 
         if (vendorExtensions.containsKey(VENDOR_EXTENSION_POSTGRESQL_SCHEMA)) {
             // user already specified schema values
@@ -552,13 +614,14 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
         postgresqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
-        if (isReservedWord(colName)) {  // Output column name in double quotes if it is a reserved word 
+        if (isReservedWord(colName)) { // Output column name in double quotes if it is a reserved word
             columnDefinition.put("colNameQuoted", true);
         } else {
             columnDefinition.put("colNameQuoted", false);
         }
-        columnDefinition.put("tblName", model.getName());
-        if (isReservedWord(model.getName())) {  // Output table name (for column comment) in double quotes if it is a reserved word 
+        columnDefinition.put("tblName", tableName);
+        if (isReservedWord(model.getName())) { // Output table name (for column comment) in double quotes if it is a
+                                               // reserved word
             columnDefinition.put("tblNameQuoted", true);
         } else {
             columnDefinition.put("tblNameQuoted", false);
@@ -567,7 +630,8 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         if (Boolean.TRUE.equals(isEnum)) {
             Map<String, Object> allowableValues = property.getAllowableValues();
             List<Object> enumValues = (List<Object>) allowableValues.get("values");
-            String typeName = model.getName() + "_" + property.getName();
+            String typeName = this.toTableName(model.getName()) 
+                      + "_" + this.toColumnName(property.getName());
             postgresqlSchema.put("typeDefinition", typeDefinition);
             columnDefinition.put("colDataType", typeName);
             typeDefinition.put("typeName", typeName);
@@ -638,6 +702,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         String defaultValue = property.getDefaultValue();
         Boolean required = property.getRequired();
         Boolean isEnum = property.isEnum;
+        String tableName = this.toTableName(model.getName());
 
         if (vendorExtensions.containsKey(VENDOR_EXTENSION_POSTGRESQL_SCHEMA)) {
             // user already specified schema values
@@ -655,13 +720,14 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
         postgresqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
-        if (isReservedWord(colName)) {  // Output column name in double quotes if it is a reserved word 
+        if (isReservedWord(colName)) { // Output column name in double quotes if it is a reserved word
             columnDefinition.put("colNameQuoted", true);
         } else {
             columnDefinition.put("colNameQuoted", false);
         }
-        columnDefinition.put("tblName", model.getName());
-        if (isReservedWord(model.getName())) {  // Output table name (for column comment) in double quotes if it is a reserved word 
+        columnDefinition.put("tblName", tableName);
+        if (isReservedWord(model.getName())) { // Output table name (for column comment) in double quotes if it is a
+                                               // reserved word
             columnDefinition.put("tblNameQuoted", true);
         } else {
             columnDefinition.put("tblNameQuoted", false);
@@ -670,7 +736,8 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         if (Boolean.TRUE.equals(isEnum)) {
             Map<String, Object> allowableValues = property.getAllowableValues();
             List<Object> enumValues = (List<Object>) allowableValues.get("values");
-            String typeName = model.getName() + "_" + property.getName();
+            String typeName = this.toTableName(model.getName()) 
+                      + "_" + this.toColumnName(property.getName());
             postgresqlSchema.put("typeDefinition", typeDefinition);
             columnDefinition.put("colDataType", typeName);
             typeDefinition.put("typeName", typeName);
@@ -734,6 +801,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         String description = property.getDescription();
         String defaultValue = property.getDefaultValue();
         Boolean required = property.getRequired();
+        String tableName = this.toTableName(model.getName());
 
         if (vendorExtensions.containsKey(VENDOR_EXTENSION_POSTGRESQL_SCHEMA)) {
             // user already specified schema values
@@ -751,13 +819,14 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
         postgresqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
-        if (isReservedWord(colName)) {  // Output column name in double quotes if it is a reserved word 
+        if (isReservedWord(colName)) { // Output column name in double quotes if it is a reserved word
             columnDefinition.put("colNameQuoted", true);
         } else {
             columnDefinition.put("colNameQuoted", false);
         }
-        columnDefinition.put("tblName", model.getName());
-        if (isReservedWord(model.getName())) {  // Output table name (for column comment) in double quotes if it is a reserved word 
+        columnDefinition.put("tblName", tableName);
+        if (isReservedWord(model.getName())) { // Output table name (for column comment) in double quotes if it is a
+                                               // reserved word
             columnDefinition.put("tblNameQuoted", true);
         } else {
             columnDefinition.put("tblNameQuoted", false);
@@ -802,6 +871,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         Boolean required = property.getRequired();
         String description = property.getDescription();
         String defaultValue = property.getDefaultValue();
+        String tableName = this.toTableName(model.getName());
 
         if (vendorExtensions.containsKey(VENDOR_EXTENSION_POSTGRESQL_SCHEMA)) {
             // user already specified schema values
@@ -819,13 +889,14 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
         postgresqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
-        if (isReservedWord(colName)) {  // Output column name in double quotes if it is a reserved word 
+        if (isReservedWord(colName)) { // Output column name in double quotes if it is a reserved word
             columnDefinition.put("colNameQuoted", true);
         } else {
             columnDefinition.put("colNameQuoted", false);
         }
-        columnDefinition.put("tblName", model.getName());
-        if (isReservedWord(model.getName())) {  // Output table name (for column comment) in double quotes if it is a reserved word 
+        columnDefinition.put("tblName", tableName);
+        if (isReservedWord(model.getName())) { // Output table name (for column comment) in double quotes if it is a
+                                               // reserved word
             columnDefinition.put("tblNameQuoted", true);
         } else {
             columnDefinition.put("tblNameQuoted", false);
@@ -870,6 +941,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         Boolean required = property.getRequired();
         String description = property.getDescription();
         String defaultValue = property.getDefaultValue();
+        String tableName = this.toTableName(model.getName());
 
         if (vendorExtensions.containsKey(VENDOR_EXTENSION_POSTGRESQL_SCHEMA)) {
             // user already specified schema values
@@ -887,13 +959,14 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
         postgresqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
-        if (isReservedWord(colName)) {  // Output column name in double quotes if it is a reserved word 
+        if (isReservedWord(colName)) { // Output column name in double quotes if it is a reserved word
             columnDefinition.put("colNameQuoted", true);
         } else {
             columnDefinition.put("colNameQuoted", false);
         }
-        columnDefinition.put("tblName", model.getName());
-        if (isReservedWord(model.getName())) {  // Output table name (for column comment) in double quotes if it is a reserved word 
+        columnDefinition.put("tblName", tableName);
+        if (isReservedWord(model.getName())) { // Output table name (for column comment) in double quotes if it is a
+                                               // reserved word
             columnDefinition.put("tblNameQuoted", true);
         } else {
             columnDefinition.put("tblNameQuoted", false);
@@ -946,6 +1019,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         Boolean required = property.getRequired();
         String description = property.getDescription();
         String defaultValue = property.getDefaultValue();
+        String tableName = this.toTableName(model.getName());
 
         if (vendorExtensions.containsKey(VENDOR_EXTENSION_POSTGRESQL_SCHEMA)) {
             // user already specified schema values
@@ -963,13 +1037,14 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
         postgresqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
-        if (isReservedWord(colName)) {  // Output column name in double quotes if it is a reserved word 
+        if (isReservedWord(colName)) { // Output column name in double quotes if it is a reserved word
             columnDefinition.put("colNameQuoted", true);
         } else {
             columnDefinition.put("colNameQuoted", false);
         }
-        columnDefinition.put("tblName", model.getName());
-        if (isReservedWord(model.getName())) {  // Output table name (for column comment) in double quotes if it is a reserved word 
+        columnDefinition.put("tblName", tableName);
+        if (isReservedWord(model.getName())) { // Output table name (for column comment) in double quotes if it is a
+                                               // reserved word
             columnDefinition.put("tblNameQuoted", true);
         } else {
             columnDefinition.put("tblNameQuoted", false);
@@ -1048,7 +1123,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
 
         switch (postgresqlDataType.toUpperCase(Locale.ROOT)) {
             case "SMALLINT":
-            case "INT":
+            case "INTEGER":
             case "BIGINT":
                 // SERIAL DEFAULT VALUE is a special case. In the definition of an integer
                 // column, it is an alias for NOT NULL AUTO_INCREMENT UNIQUE
@@ -1081,7 +1156,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
                     defaultMap.put("isString", false);
                     defaultMap.put("isNumeric", false);
                     defaultMap.put("isKeyword", true);
-                
+
                 } else {
                     defaultMap.put("defaultValue", defaultValue);
                     defaultMap.put("isString", true);
@@ -1131,11 +1206,11 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         if (actualMin >= -32768 && actualMax <= 32767) {
             return "SMALLINT";
         } else if (actualMin >= -2147483648 && actualMax <= 2147483647) {
-            return "INT";
+            return "INTEGER";
         } else if (actualMin < -2147483648 || actualMax > 2147483647) {
             return "BIGINT";
         }
-        return "INT";
+        return "INTEGER";
     }
 
     /**
@@ -1150,7 +1225,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         // we can choose fit postgresql data type
         // ref: https://www.postgresql.org/docs/17/datatype-character.html
         int min = (minLength != null && minLength >= 0) ? minLength : 0;
-        int max = (maxLength != null && maxLength >= 0) ? maxLength : 65535;
+        int max = (maxLength != null && maxLength >= 0) ? maxLength : 65536;
         Integer actualMin = Math.min(min, max); // sometimes minLength and maxLength values can be mixed up
         Integer actualMax = Math.max(min, max); // sometimes only minLength specified and it can be pretty high
         if (minLength != null && maxLength != null && minLength > maxLength) {
@@ -1173,7 +1248,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         return (postgresqlNumericTypes.contains(dataType.toUpperCase(Locale.ROOT)) ||
                 postgresqlDateAndTimeTypes.contains(dataType.toUpperCase(Locale.ROOT)) ||
                 postgresqlStringTypes.contains(dataType.toUpperCase(Locale.ROOT)) ||
-                postgresqlSpatialTypes.contains(dataType.toUpperCase(Locale.ROOT))) || 
+                postgresqlSpatialTypes.contains(dataType.toUpperCase(Locale.ROOT))) ||
                 dataType.toUpperCase(Locale.ROOT).equals("JSON") ||
                 dataType.toUpperCase(Locale.ROOT).equals("JSONB");
     }
@@ -1187,7 +1262,8 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
     public String toDatabaseName(String name) {
         String identifier = toPostgresqlIdentifier(name, databaseNamePrefix, databaseNameSuffix);
         if (identifier.length() > IDENTIFIER_MAX_LENGTH) {
-            LOGGER.warn("Database name cannot exceed {} chars. Name '{}' will be truncated", IDENTIFIER_MAX_LENGTH, name);
+            LOGGER.warn("Database name cannot exceed {} chars. Name '{}' will be truncated", IDENTIFIER_MAX_LENGTH,
+                    name);
             identifier = identifier.substring(0, IDENTIFIER_MAX_LENGTH);
         }
         return identifier;
@@ -1313,9 +1389,16 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
 
     @Override
     public String escapeReservedWord(String name) {
+        // *** For PostgreSQL:
+        // *** If table name or column name is a reserved word,
+        // *** it could be still used in double quotes
+        // *** (this is done in template by adding attributes 'tblNameQuoted' and
+        // 'colNameQuoted' when necessary)
+
         // LOGGER.warn(
-        //         "'{}' is PostgreSQL reserved word. Do not use that word or properly escape it with backticks in mustache template",
-        //         name);
+        // "'{}' is PostgreSQL reserved word. Do not use that word or properly escape it
+        // with backticks in mustache template",
+        // name);
         return name;
     }
 
@@ -1351,12 +1434,12 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
      * This is not related to database name which is defined by defaultDatabaseName
      * option.
      *
-     * @param naming identifier naming convention (original|snake_case)
+     * @param naming identifier naming convention (snake_case|original)
      */
     public void setIdentifierNamingConvention(String naming) {
         switch (naming) {
-            case "original":
             case "snake_case":
+            case "original":
                 this.identifierNamingConvention = naming;
                 break;
             default:

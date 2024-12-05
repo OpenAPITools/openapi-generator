@@ -7,22 +7,22 @@
 
 
 --
--- SELECT template for table 'ApiResponse'
+-- SELECT template for table 'api_response'
 --
-SELECT code, "type", message FROM ApiResponse WHERE 1=1;
+SELECT code, "type", message FROM api_response WHERE 1=1;
 
 --
--- INSERT template for table 'ApiResponse'
+-- INSERT template for table 'api_response'
 --
-INSERT INTO ApiResponse (code, "type", message) VALUES (?, ?, ?);
+INSERT INTO api_response (code, "type", message) VALUES (?, ?, ?);
 
 --
--- UPDATE template for table 'ApiResponse'
+-- UPDATE template for table 'api_response'
 --
-UPDATE ApiResponse SET code = ?, "type" = ?, message = ? WHERE 1=2;
+UPDATE api_response SET code = ?, "type" = ?, message = ? WHERE 1=2;
 
 --
--- DELETE template for table 'ApiResponse'
+-- DELETE template for table 'api_response'
 --
-DELETE FROM ApiResponse WHERE 1=2;
+DELETE FROM api_response WHERE 1=2;
 

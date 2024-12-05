@@ -7,22 +7,22 @@
 
 
 --
--- SELECT template for table 'Pet'
+-- SELECT template for table 'pet'
 --
-SELECT id, category, "name", photoUrls, tags, status FROM Pet WHERE 1=1;
+SELECT "id", category, "name", photo_urls, tags, status FROM pet WHERE 1=1;
 
 --
--- INSERT template for table 'Pet'
+-- INSERT template for table 'pet'
 --
-INSERT INTO Pet (id, category, "name", photoUrls, tags, status) VALUES (?, ?, ?, ?, ?, ?);
+INSERT INTO pet ("id", category, "name", photo_urls, tags, status) VALUES (?, ?, ?, ?, ?, ?);
 
 --
--- UPDATE template for table 'Pet'
+-- UPDATE template for table 'pet'
 --
-UPDATE Pet SET id = ?, category = ?, "name" = ?, photoUrls = ?, tags = ?, status = ? WHERE 1=2;
+UPDATE pet SET "id" = ?, category = ?, "name" = ?, photo_urls = ?, tags = ?, status = ? WHERE 1=2;
 
 --
--- DELETE template for table 'Pet'
+-- DELETE template for table 'pet'
 --
-DELETE FROM Pet WHERE 1=2;
+DELETE FROM pet WHERE 1=2;
 

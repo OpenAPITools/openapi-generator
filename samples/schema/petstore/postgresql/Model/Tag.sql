@@ -7,22 +7,22 @@
 
 
 --
--- SELECT template for table 'Tag'
+-- SELECT template for table 'tag'
 --
-SELECT id, "name" FROM Tag WHERE 1=1;
+SELECT "id", "name" FROM tag WHERE 1=1;
 
 --
--- INSERT template for table 'Tag'
+-- INSERT template for table 'tag'
 --
-INSERT INTO Tag (id, "name") VALUES (?, ?);
+INSERT INTO tag ("id", "name") VALUES (?, ?);
 
 --
--- UPDATE template for table 'Tag'
+-- UPDATE template for table 'tag'
 --
-UPDATE Tag SET id = ?, "name" = ? WHERE 1=2;
+UPDATE tag SET "id" = ?, "name" = ? WHERE 1=2;
 
 --
--- DELETE template for table 'Tag'
+-- DELETE template for table 'tag'
 --
-DELETE FROM Tag WHERE 1=2;
+DELETE FROM tag WHERE 1=2;
 

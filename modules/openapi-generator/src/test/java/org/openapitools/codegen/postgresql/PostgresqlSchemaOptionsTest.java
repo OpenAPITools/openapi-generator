@@ -43,5 +43,6 @@ public class PostgresqlSchemaOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setJsonDataType(PostgresqlSchemaOptionsProvider.JSON_DATA_TYPE_VALUE);
         verify(clientCodegen).setIdentifierNamingConvention(PostgresqlSchemaOptionsProvider.IDENTIFIER_NAMING_CONVENTION_VALUE);
         verify(clientCodegen).setNamedParametersEnabled(Boolean.valueOf(PostgresqlSchemaOptionsProvider.NAMED_PARAMETERS_ENABLED_VALUE));
+        verify(clientCodegen).setIdAutoIncEnabled(Boolean.valueOf(PostgresqlSchemaOptionsProvider.ID_AUTOINC_ENABLED_VALUE));
     }
 }

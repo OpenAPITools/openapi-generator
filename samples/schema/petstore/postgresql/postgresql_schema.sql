@@ -11,18 +11,18 @@
 --
 -- TABLES
 --
--- DROP TABLE IF EXISTS ApiResponse;
--- DROP TABLE IF EXISTS Category;
--- DROP TABLE IF EXISTS "Order";
--- DROP TABLE IF EXISTS Pet;
--- DROP TABLE IF EXISTS Tag;
--- DROP TABLE IF EXISTS "User";
+-- DROP TABLE IF EXISTS api_response;
+-- DROP TABLE IF EXISTS category;
+-- DROP TABLE IF EXISTS "order";
+-- DROP TABLE IF EXISTS pet;
+-- DROP TABLE IF EXISTS tag;
+-- DROP TABLE IF EXISTS "user";
 
 --
 -- TYPES
 --
--- DROP TYPE IF EXISTS Order_status;
--- DROP TYPE IF EXISTS Pet_status;
+-- DROP TYPE IF EXISTS order_status;
+-- DROP TYPE IF EXISTS pet_status;
 
 
 --
@@ -30,87 +30,92 @@
 --
 -- TYPES
 --
-CREATE TYPE Order_status AS ENUM('placed', 'approved', 'delivered');
-CREATE TYPE Pet_status AS ENUM('available', 'pending', 'sold');
+CREATE TYPE order_status AS ENUM('placed', 'approved', 'delivered');
+CREATE TYPE pet_status AS ENUM('available', 'pending', 'sold');
 
 --
 -- TABLES
 --
 --
--- Table 'ApiResponse' generated from model 'ApiResponse'
+-- Table 'api_response' generated from model 'ApiResponse'
 -- Describes the result of uploading an image resource
 --
-CREATE TABLE IF NOT EXISTS ApiResponse (
-    code INT DEFAULT NULL,
-    "type" VARCHAR(255) DEFAULT NULL,
-    message VARCHAR(255) DEFAULT NULL
+CREATE TABLE IF NOT EXISTS api_response (
+    code INTEGER DEFAULT NULL,
+    "type" TEXT DEFAULT NULL,
+    message TEXT DEFAULT NULL
 );
-COMMENT ON TABLE ApiResponse IS 'Describes the result of uploading an image resource';
+COMMENT ON TABLE api_response IS 'Describes the result of uploading an image resource. Original model name - ApiResponse.';
 
 --
--- Table 'Category' generated from model 'Category'
+-- Table 'category' generated from model 'Category'
 -- A category for a pet
 --
-CREATE TABLE IF NOT EXISTS Category (
-    id BIGINT DEFAULT NULL,
-    "name" VARCHAR(255) DEFAULT NULL
+CREATE TABLE IF NOT EXISTS category (
+    "id" BIGINT DEFAULT NULL,
+    "name" TEXT DEFAULT NULL
 );
-COMMENT ON TABLE Category IS 'A category for a pet';
+COMMENT ON TABLE category IS 'A category for a pet. Original model name - Category.';
 
 --
--- Table 'Order' generated from model 'Order'
+-- Table 'order' generated from model 'Order'
 -- An order for a pets from the pet store
 --
-CREATE TABLE IF NOT EXISTS "Order" (
-    id BIGINT DEFAULT NULL,
-    petId BIGINT DEFAULT NULL,
-    quantity INT DEFAULT NULL,
-    shipDate TIMESTAMP DEFAULT NULL,
-    status Order_status DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS "order" (
+    "id" BIGINT DEFAULT NULL,
+    pet_id BIGINT DEFAULT NULL,
+    quantity INTEGER DEFAULT NULL,
+    ship_date TIMESTAMP DEFAULT NULL,
+    status order_status DEFAULT NULL,
     complete BOOLEAN DEFAULT 'false'
 );
-COMMENT ON TABLE "Order" IS 'An order for a pets from the pet store';
-COMMENT ON COLUMN "Order".status IS 'Order Status';
+COMMENT ON TABLE "order" IS 'An order for a pets from the pet store. Original model name - Order.';
+COMMENT ON COLUMN "order".pet_id IS 'Original param name - petId.';
+COMMENT ON COLUMN "order".ship_date IS 'Original param name - shipDate.';
+COMMENT ON COLUMN "order".status IS 'Order Status';
 
 --
--- Table 'Pet' generated from model 'Pet'
+-- Table 'pet' generated from model 'Pet'
 -- A pet for sale in the pet store
 --
-CREATE TABLE IF NOT EXISTS Pet (
-    id BIGINT DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS pet (
+    "id" BIGINT DEFAULT NULL,
     category TEXT DEFAULT NULL,
-    "name" VARCHAR(255) NOT NULL,
-    photoUrls JSON NOT NULL,
+    "name" TEXT NOT NULL,
+    photo_urls JSON NOT NULL,
     tags JSON DEFAULT NULL,
-    status Pet_status DEFAULT NULL
+    status pet_status DEFAULT NULL
 );
-COMMENT ON TABLE Pet IS 'A pet for sale in the pet store';
-COMMENT ON COLUMN Pet.status IS 'pet status in the store';
+COMMENT ON TABLE pet IS 'A pet for sale in the pet store. Original model name - Pet.';
+COMMENT ON COLUMN pet.photo_urls IS 'Original param name - photoUrls.';
+COMMENT ON COLUMN pet.status IS 'pet status in the store';
 
 --
--- Table 'Tag' generated from model 'Tag'
+-- Table 'tag' generated from model 'Tag'
 -- A tag for a pet
 --
-CREATE TABLE IF NOT EXISTS Tag (
-    id BIGINT DEFAULT NULL,
-    "name" VARCHAR(255) DEFAULT NULL
+CREATE TABLE IF NOT EXISTS tag (
+    "id" BIGINT DEFAULT NULL,
+    "name" TEXT DEFAULT NULL
 );
-COMMENT ON TABLE Tag IS 'A tag for a pet';
+COMMENT ON TABLE tag IS 'A tag for a pet. Original model name - Tag.';
 
 --
--- Table 'User' generated from model 'User'
+-- Table 'user' generated from model 'User'
 -- A User who is purchasing from the pet store
 --
-CREATE TABLE IF NOT EXISTS "User" (
-    id BIGINT DEFAULT NULL,
-    username VARCHAR(255) DEFAULT NULL,
-    firstName VARCHAR(255) DEFAULT NULL,
-    lastName VARCHAR(255) DEFAULT NULL,
-    email VARCHAR(255) DEFAULT NULL,
-    "password" VARCHAR(255) DEFAULT NULL,
-    phone VARCHAR(255) DEFAULT NULL,
-    userStatus INT DEFAULT NULL
+CREATE TABLE IF NOT EXISTS "user" (
+    "id" BIGINT DEFAULT NULL,
+    username TEXT DEFAULT NULL,
+    first_name TEXT DEFAULT NULL,
+    last_name TEXT DEFAULT NULL,
+    email TEXT DEFAULT NULL,
+    "password" TEXT DEFAULT NULL,
+    phone TEXT DEFAULT NULL,
+    user_status INTEGER DEFAULT NULL
 );
-COMMENT ON TABLE "User" IS 'A User who is purchasing from the pet store';
-COMMENT ON COLUMN "User".userStatus IS 'User Status';
+COMMENT ON TABLE "user" IS 'A User who is purchasing from the pet store. Original model name - User.';
+COMMENT ON COLUMN "user".first_name IS 'Original param name - firstName.';
+COMMENT ON COLUMN "user".last_name IS 'Original param name - lastName.';
+COMMENT ON COLUMN "user".user_status IS 'User Status. Original param name - userStatus.';
 

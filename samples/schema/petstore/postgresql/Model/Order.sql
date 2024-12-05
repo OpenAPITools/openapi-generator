@@ -7,22 +7,22 @@
 
 
 --
--- SELECT template for table 'Order'
+-- SELECT template for table 'order'
 --
-SELECT id, petId, quantity, shipDate, status, complete FROM "Order" WHERE 1=1;
+SELECT "id", pet_id, quantity, ship_date, status, complete FROM "order" WHERE 1=1;
 
 --
--- INSERT template for table 'Order'
+-- INSERT template for table 'order'
 --
-INSERT INTO "Order" (id, petId, quantity, shipDate, status, complete) VALUES (?, ?, ?, ?, ?, ?);
+INSERT INTO "order" ("id", pet_id, quantity, ship_date, status, complete) VALUES (?, ?, ?, ?, ?, ?);
 
 --
--- UPDATE template for table 'Order'
+-- UPDATE template for table 'order'
 --
-UPDATE "Order" SET id = ?, petId = ?, quantity = ?, shipDate = ?, status = ?, complete = ? WHERE 1=2;
+UPDATE "order" SET "id" = ?, pet_id = ?, quantity = ?, ship_date = ?, status = ?, complete = ? WHERE 1=2;
 
 --
--- DELETE template for table 'Order'
+-- DELETE template for table 'order'
 --
-DELETE FROM "Order" WHERE 1=2;
+DELETE FROM "order" WHERE 1=2;
 

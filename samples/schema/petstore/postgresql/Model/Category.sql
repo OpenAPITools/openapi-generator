@@ -7,22 +7,22 @@
 
 
 --
--- SELECT template for table 'Category'
+-- SELECT template for table 'category'
 --
-SELECT id, "name" FROM Category WHERE 1=1;
+SELECT "id", "name" FROM category WHERE 1=1;
 
 --
--- INSERT template for table 'Category'
+-- INSERT template for table 'category'
 --
-INSERT INTO Category (id, "name") VALUES (?, ?);
+INSERT INTO category ("id", "name") VALUES (?, ?);
 
 --
--- UPDATE template for table 'Category'
+-- UPDATE template for table 'category'
 --
-UPDATE Category SET id = ?, "name" = ? WHERE 1=2;
+UPDATE category SET "id" = ?, "name" = ? WHERE 1=2;
 
 --
--- DELETE template for table 'Category'
+-- DELETE template for table 'category'
 --
-DELETE FROM Category WHERE 1=2;
+DELETE FROM category WHERE 1=2;
 
