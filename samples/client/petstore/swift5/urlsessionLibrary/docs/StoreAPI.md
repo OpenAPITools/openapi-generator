@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 # **deleteOrder**
 ```swift
-    open class func deleteOrder(orderId: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open func deleteOrder(orderId: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Delete purchase order by ID
@@ -27,7 +27,7 @@ import PetstoreClient
 let orderId = "orderId_example" // String | ID of the order that needs to be deleted
 
 // Delete purchase order by ID
-StoreAPI.deleteOrder(orderId: orderId) { (response, error) in
+StoreAPI().deleteOrder(orderId: orderId) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -62,7 +62,7 @@ No authorization required
 
 # **getInventory**
 ```swift
-    open class func getInventory(completion: @escaping (_ data: [String: Int]?, _ error: Error?) -> Void)
+    open func getInventory(completion: @escaping (_ data: [String: Int]?, _ error: Error?) -> Void)
 ```
 
 Returns pet inventories by status
@@ -76,7 +76,7 @@ import PetstoreClient
 
 
 // Returns pet inventories by status
-StoreAPI.getInventory() { (response, error) in
+StoreAPI().getInventory() { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -108,7 +108,7 @@ This endpoint does not need any parameter.
 
 # **getOrderById**
 ```swift
-    open class func getOrderById(orderId: Int64, completion: @escaping (_ data: Order?, _ error: Error?) -> Void)
+    open func getOrderById(orderId: Int64, completion: @escaping (_ data: Order?, _ error: Error?) -> Void)
 ```
 
 Find purchase order by ID
@@ -123,7 +123,7 @@ import PetstoreClient
 let orderId = 987 // Int64 | ID of pet that needs to be fetched
 
 // Find purchase order by ID
-StoreAPI.getOrderById(orderId: orderId) { (response, error) in
+StoreAPI().getOrderById(orderId: orderId) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -158,7 +158,7 @@ No authorization required
 
 # **placeOrder**
 ```swift
-    open class func placeOrder(body: Order, completion: @escaping (_ data: Order?, _ error: Error?) -> Void)
+    open func placeOrder(body: Order, completion: @escaping (_ data: Order?, _ error: Error?) -> Void)
 ```
 
 Place an order for a pet
@@ -171,7 +171,7 @@ import PetstoreClient
 let body = Order(id: 123, petId: 123, quantity: 123, shipDate: Date(), status: "status_example", complete: false) // Order | order placed for purchasing the pet
 
 // Place an order for a pet
-StoreAPI.placeOrder(body: body) { (response, error) in
+StoreAPI().placeOrder(body: body) { (response, error) in
     guard error == nil else {
         print(error)
         return
