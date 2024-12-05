@@ -64,6 +64,9 @@ category_t *category_parseFromJSON(cJSON *categoryJSON){
 
     // category->id
     cJSON *id = cJSON_GetObjectItemCaseSensitive(categoryJSON, "id");
+    if (cJSON_IsNull(id)) {
+        id = NULL;
+    }
     if (id) { 
     if(!cJSON_IsNumber(id))
     {
@@ -73,6 +76,9 @@ category_t *category_parseFromJSON(cJSON *categoryJSON){
 
     // category->name
     cJSON *name = cJSON_GetObjectItemCaseSensitive(categoryJSON, "name");
+    if (cJSON_IsNull(name)) {
+        name = NULL;
+    }
     if (name) { 
     if(!cJSON_IsString(name) && !cJSON_IsNull(name))
     {

@@ -177,6 +177,9 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
 
     // pet->id
     cJSON *id = cJSON_GetObjectItemCaseSensitive(petJSON, "id");
+    if (cJSON_IsNull(id)) {
+        id = NULL;
+    }
     if (id) { 
     if(!cJSON_IsNumber(id))
     {
@@ -186,12 +189,18 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
 
     // pet->category
     cJSON *category = cJSON_GetObjectItemCaseSensitive(petJSON, "category");
+    if (cJSON_IsNull(category)) {
+        category = NULL;
+    }
     if (category) { 
     category_local_nonprim = category_parseFromJSON(category); //nonprimitive
     }
 
     // pet->name
     cJSON *name = cJSON_GetObjectItemCaseSensitive(petJSON, "name");
+    if (cJSON_IsNull(name)) {
+        name = NULL;
+    }
     if (!name) {
         goto end;
     }
@@ -204,6 +213,9 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
 
     // pet->photo_urls
     cJSON *photo_urls = cJSON_GetObjectItemCaseSensitive(petJSON, "photoUrls");
+    if (cJSON_IsNull(photo_urls)) {
+        photo_urls = NULL;
+    }
     if (!photo_urls) {
         goto end;
     }
@@ -226,6 +238,9 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
 
     // pet->tags
     cJSON *tags = cJSON_GetObjectItemCaseSensitive(petJSON, "tags");
+    if (cJSON_IsNull(tags)) {
+        tags = NULL;
+    }
     if (tags) { 
     cJSON *tags_local_nonprimitive = NULL;
     if(!cJSON_IsArray(tags)){
@@ -247,6 +262,9 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
 
     // pet->status
     cJSON *status = cJSON_GetObjectItemCaseSensitive(petJSON, "status");
+    if (cJSON_IsNull(status)) {
+        status = NULL;
+    }
     openapi_petstore_pet_STATUS_e statusVariable;
     if (status) { 
     if(!cJSON_IsString(status))

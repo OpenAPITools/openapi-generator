@@ -193,6 +193,9 @@ user_t *user_parseFromJSON(cJSON *userJSON){
 
     // user->id
     cJSON *id = cJSON_GetObjectItemCaseSensitive(userJSON, "id");
+    if (cJSON_IsNull(id)) {
+        id = NULL;
+    }
     if (id) { 
     if(!cJSON_IsNumber(id))
     {
@@ -202,6 +205,9 @@ user_t *user_parseFromJSON(cJSON *userJSON){
 
     // user->username
     cJSON *username = cJSON_GetObjectItemCaseSensitive(userJSON, "username");
+    if (cJSON_IsNull(username)) {
+        username = NULL;
+    }
     if (username) { 
     if(!cJSON_IsString(username) && !cJSON_IsNull(username))
     {
@@ -211,6 +217,9 @@ user_t *user_parseFromJSON(cJSON *userJSON){
 
     // user->first_name
     cJSON *first_name = cJSON_GetObjectItemCaseSensitive(userJSON, "firstName");
+    if (cJSON_IsNull(first_name)) {
+        first_name = NULL;
+    }
     if (first_name) { 
     if(!cJSON_IsString(first_name) && !cJSON_IsNull(first_name))
     {
@@ -220,6 +229,9 @@ user_t *user_parseFromJSON(cJSON *userJSON){
 
     // user->last_name
     cJSON *last_name = cJSON_GetObjectItemCaseSensitive(userJSON, "lastName");
+    if (cJSON_IsNull(last_name)) {
+        last_name = NULL;
+    }
     if (last_name) { 
     if(!cJSON_IsString(last_name) && !cJSON_IsNull(last_name))
     {
@@ -229,6 +241,9 @@ user_t *user_parseFromJSON(cJSON *userJSON){
 
     // user->email
     cJSON *email = cJSON_GetObjectItemCaseSensitive(userJSON, "email");
+    if (cJSON_IsNull(email)) {
+        email = NULL;
+    }
     if (email) { 
     if(!cJSON_IsString(email) && !cJSON_IsNull(email))
     {
@@ -238,6 +253,9 @@ user_t *user_parseFromJSON(cJSON *userJSON){
 
     // user->password
     cJSON *password = cJSON_GetObjectItemCaseSensitive(userJSON, "password");
+    if (cJSON_IsNull(password)) {
+        password = NULL;
+    }
     if (password) { 
     if(!cJSON_IsString(password) && !cJSON_IsNull(password))
     {
@@ -247,6 +265,9 @@ user_t *user_parseFromJSON(cJSON *userJSON){
 
     // user->phone
     cJSON *phone = cJSON_GetObjectItemCaseSensitive(userJSON, "phone");
+    if (cJSON_IsNull(phone)) {
+        phone = NULL;
+    }
     if (phone) { 
     if(!cJSON_IsString(phone) && !cJSON_IsNull(phone))
     {
@@ -256,6 +277,9 @@ user_t *user_parseFromJSON(cJSON *userJSON){
 
     // user->user_status
     cJSON *user_status = cJSON_GetObjectItemCaseSensitive(userJSON, "userStatus");
+    if (cJSON_IsNull(user_status)) {
+        user_status = NULL;
+    }
     if (user_status) { 
     if(!cJSON_IsNumber(user_status))
     {
@@ -265,6 +289,9 @@ user_t *user_parseFromJSON(cJSON *userJSON){
 
     // user->extra
     cJSON *extra = cJSON_GetObjectItemCaseSensitive(userJSON, "extra");
+    if (cJSON_IsNull(extra)) {
+        extra = NULL;
+    }
     if (extra) { 
     cJSON *extra_local_map = NULL;
     if(!cJSON_IsObject(extra) && !cJSON_IsNull(extra))
@@ -285,6 +312,9 @@ user_t *user_parseFromJSON(cJSON *userJSON){
 
     // user->preference
     cJSON *preference = cJSON_GetObjectItemCaseSensitive(userJSON, "preference");
+    if (cJSON_IsNull(preference)) {
+        preference = NULL;
+    }
     if (preference) { 
     preference_local_nonprim = preference_parseFromJSON(preference); //custom
     }

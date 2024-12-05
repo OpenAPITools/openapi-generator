@@ -122,6 +122,9 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
 
     // order->id
     cJSON *id = cJSON_GetObjectItemCaseSensitive(orderJSON, "id");
+    if (cJSON_IsNull(id)) {
+        id = NULL;
+    }
     if (id) { 
     if(!cJSON_IsNumber(id))
     {
@@ -131,6 +134,9 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
 
     // order->pet_id
     cJSON *pet_id = cJSON_GetObjectItemCaseSensitive(orderJSON, "petId");
+    if (cJSON_IsNull(pet_id)) {
+        pet_id = NULL;
+    }
     if (pet_id) { 
     if(!cJSON_IsNumber(pet_id))
     {
@@ -140,6 +146,9 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
 
     // order->quantity
     cJSON *quantity = cJSON_GetObjectItemCaseSensitive(orderJSON, "quantity");
+    if (cJSON_IsNull(quantity)) {
+        quantity = NULL;
+    }
     if (quantity) { 
     if(!cJSON_IsNumber(quantity))
     {
@@ -149,6 +158,9 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
 
     // order->ship_date
     cJSON *ship_date = cJSON_GetObjectItemCaseSensitive(orderJSON, "shipDate");
+    if (cJSON_IsNull(ship_date)) {
+        ship_date = NULL;
+    }
     if (ship_date) { 
     if(!cJSON_IsString(ship_date) && !cJSON_IsNull(ship_date))
     {
@@ -158,6 +170,9 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
 
     // order->status
     cJSON *status = cJSON_GetObjectItemCaseSensitive(orderJSON, "status");
+    if (cJSON_IsNull(status)) {
+        status = NULL;
+    }
     openapi_petstore_order_STATUS_e statusVariable;
     if (status) { 
     if(!cJSON_IsString(status))
@@ -169,6 +184,9 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
 
     // order->complete
     cJSON *complete = cJSON_GetObjectItemCaseSensitive(orderJSON, "complete");
+    if (cJSON_IsNull(complete)) {
+        complete = NULL;
+    }
     if (complete) { 
     if(!cJSON_IsBool(complete))
     {
