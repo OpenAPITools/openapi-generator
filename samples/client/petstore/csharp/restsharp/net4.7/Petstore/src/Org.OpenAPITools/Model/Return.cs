@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets VarReturn
         /// </summary>
         [DataMember(Name = "return", EmitDefaultValue = false)]
-        public int VarReturn { get; set; }
+        public int? VarReturn { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -106,7 +106,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.VarReturn.GetHashCode();
+                if (this.VarReturn != null)
+                {
+                    hashCode = (hashCode * 59) + this.VarReturn.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

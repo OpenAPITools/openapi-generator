@@ -180,6 +180,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Defines EnumIntegerOnly
         /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum EnumIntegerOnlyEnum
         {
             /// <summary>

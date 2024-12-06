@@ -93,7 +93,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         [Obsolete]
-        public decimal Id
+        public decimal? Id
         {
             get{ return _Id;}
             set
@@ -102,7 +102,7 @@ namespace Org.OpenAPITools.Model
                 _flagId = true;
             }
         }
-        private decimal _Id;
+        private decimal? _Id;
         private bool _flagId;
 
         /// <summary>
@@ -228,7 +228,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                if (this.Id != null)
+                {
+                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                }
                 if (this.DeprecatedRef != null)
                 {
                     hashCode = (hashCode * 59) + this.DeprecatedRef.GetHashCode();

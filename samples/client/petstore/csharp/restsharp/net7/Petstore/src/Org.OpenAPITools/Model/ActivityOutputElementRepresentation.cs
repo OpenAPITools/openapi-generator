@@ -47,13 +47,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Prop1
         /// </summary>
         [DataMember(Name = "prop1", EmitDefaultValue = false)]
-        public string Prop1 { get; set; }
+        public string? Prop1 { get; set; }
 
         /// <summary>
         /// Gets or Sets Prop2
         /// </summary>
         [DataMember(Name = "prop2", EmitDefaultValue = false)]
-        public Object Prop2 { get; set; }
+        public Object? Prop2 { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
