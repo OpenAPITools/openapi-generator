@@ -52,7 +52,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>test suffix</value>
         [DataMember(Name = "suffix", EmitDefaultValue = false)]
-        public string Suffix { get; set; }
+        public string? Suffix { get; set; }
 
         /// <summary>
         /// Some text containing white spaces
@@ -62,14 +62,14 @@ namespace Org.OpenAPITools.Model
         <example>Some text</example>
         */
         [DataMember(Name = "text", EmitDefaultValue = false)]
-        public string Text { get; set; }
+        public string? Text { get; set; }
 
         /// <summary>
         /// A date
         /// </summary>
         /// <value>A date</value>
         [DataMember(Name = "date", EmitDefaultValue = false)]
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

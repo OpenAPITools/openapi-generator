@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets LengthCm
         /// </summary>
         [DataMember(Name = "lengthCm", EmitDefaultValue = false)]
-        public decimal LengthCm
+        public decimal? LengthCm
         {
             get{ return _LengthCm;}
             set
@@ -59,7 +59,7 @@ namespace Org.OpenAPITools.Model
                 _flagLengthCm = true;
             }
         }
-        private decimal _LengthCm;
+        private decimal? _LengthCm;
         private bool _flagLengthCm;
 
         /// <summary>
@@ -128,7 +128,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.LengthCm.GetHashCode();
+                if (this.LengthCm != null)
+                {
+                    hashCode = (hashCode * 59) + this.LengthCm.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

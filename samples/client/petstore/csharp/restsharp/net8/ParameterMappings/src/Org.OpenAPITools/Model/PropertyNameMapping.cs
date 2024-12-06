@@ -50,25 +50,25 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets HttpDebugOperation
         /// </summary>
         [DataMember(Name = "http_debug_operation", EmitDefaultValue = false)]
-        public string HttpDebugOperation { get; set; }
+        public string? HttpDebugOperation { get; set; }
 
         /// <summary>
         /// Gets or Sets UnderscoreType
         /// </summary>
         [DataMember(Name = "_type", EmitDefaultValue = false)]
-        public string UnderscoreType { get; set; }
+        public string? UnderscoreType { get; set; }
 
         /// <summary>
         /// Gets or Sets Type
         /// </summary>
         [DataMember(Name = "type", EmitDefaultValue = false)]
-        public string Type { get; set; }
+        public string? Type { get; set; }
 
         /// <summary>
         /// Gets or Sets TypeWithUnderscore
         /// </summary>
         [DataMember(Name = "type_", EmitDefaultValue = false)]
-        public string TypeWithUnderscore { get; set; }
+        public string? TypeWithUnderscore { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
