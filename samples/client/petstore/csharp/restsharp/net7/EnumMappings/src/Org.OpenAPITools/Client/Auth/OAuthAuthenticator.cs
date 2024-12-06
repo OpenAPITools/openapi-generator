@@ -23,6 +23,9 @@ namespace Org.OpenAPITools.Client.Auth
     {
         private TokenResponse? _token;
 
+        /// <summary>
+        /// Returns the current authentication token. Can return null if there is no authentication token, or it has expired.
+        /// </summary>
         public string? Token
         {
             get
@@ -84,12 +87,11 @@ namespace Org.OpenAPITools.Client.Auth
         /// <summary>
         /// Creates an authentication parameter from an access token.
         /// </summary>
-        /// <param name="accessToken">Access token to create a parameter from.</param>
         /// <returns>An authentication parameter.</returns>
         protected async ValueTask<Parameter> GetAuthenticationParameter()
         {
             var token = string.IsNullOrEmpty(Token) ? await GetToken().ConfigureAwait(false) : Token;
-            return new HeaderParameter(KnownHeaders.Authorization, token!);
+            return new HeaderParameter(KnownHeaders.Authorization, token);
         }
 
         /// <summary>
@@ -104,7 +106,7 @@ namespace Org.OpenAPITools.Client.Auth
             if (!string.IsNullOrWhiteSpace(_token?.RefreshToken))
             {
                 request.AddParameter("grant_type", "refresh_token")
-                    .AddParameter("refresh_token", _token!.RefreshToken);
+                    .AddParameter("refresh_token", _token.RefreshToken);
             }
             else
             {
@@ -130,6 +132,12 @@ namespace Org.OpenAPITools.Client.Auth
             }
         }
 
+        /// <summary>
+        /// Retrieves the authentication token (creating a new one if necessary) and adds it to the current request
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public async ValueTask Authenticate(IRestClient client, RestRequest request)
             => request.AddOrUpdateParameter(await GetAuthenticationParameter().ConfigureAwait(false));
     }
