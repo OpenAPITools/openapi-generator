@@ -225,7 +225,7 @@ FakeApi <- R6::R6Class(
       if (!is.null(`pet`)) {
         local_var_body <- `pet`$toJSONString()
       } else {
-        body <- NULL
+        local_var_body <- NULL
       }
 
       local_var_url_path <- "/fake/test_optional_body_parameter"

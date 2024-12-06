@@ -546,7 +546,7 @@ StoreApi <- R6::R6Class(
       if (!is.null(`order`)) {
         local_var_body <- `order`$toJSONString()
       } else {
-        body <- NULL
+        local_var_body <- NULL
       }
 
       local_var_url_path <- "/store/order"

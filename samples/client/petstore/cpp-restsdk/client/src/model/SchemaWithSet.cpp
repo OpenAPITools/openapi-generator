@@ -18,8 +18,6 @@ namespace openapitools {
 namespace client {
 namespace model {
 
-
-
 SchemaWithSet::SchemaWithSet()
 {
     m_CertificatesIsSet = false;
@@ -37,15 +35,15 @@ void SchemaWithSet::validate()
 
 web::json::value SchemaWithSet::toJson() const
 {
-
     web::json::value val = web::json::value::object();
-    
     if(m_CertificatesIsSet)
-    {
+    {   
+        
         val[utility::conversions::to_string_t(U("certificates"))] = ModelBase::toJson(m_Certificates);
     }
     if(m_VaccinationBookIsSet)
-    {
+    {   
+        
         val[utility::conversions::to_string_t(U("vaccinationBook"))] = ModelBase::toJson(m_VaccinationBook);
     }
 
@@ -55,7 +53,6 @@ web::json::value SchemaWithSet::toJson() const
 bool SchemaWithSet::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    
     if(val.has_field(utility::conversions::to_string_t(U("certificates"))))
     {
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("certificates")));
@@ -64,6 +61,7 @@ bool SchemaWithSet::fromJson(const web::json::value& val)
             std::set<utility::string_t> refVal_setCertificates;
             ok &= ModelBase::fromJson(fieldValue, refVal_setCertificates);
             setCertificates(refVal_setCertificates);
+            
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("vaccinationBook"))))
@@ -74,6 +72,7 @@ bool SchemaWithSet::fromJson(const web::json::value& val)
             std::shared_ptr<SchemaWithSet_vaccinationBook> refVal_setVaccinationBook;
             ok &= ModelBase::fromJson(fieldValue, refVal_setVaccinationBook);
             setVaccinationBook(refVal_setVaccinationBook);
+            
         }
     }
     return ok;
@@ -120,10 +119,12 @@ bool SchemaWithSet::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
     return ok;
 }
 
-std::set<utility::string_t>& SchemaWithSet::getCertificates()
+
+std::set<utility::string_t> SchemaWithSet::getCertificates() const
 {
     return m_Certificates;
 }
+
 
 void SchemaWithSet::setCertificates(const std::set<utility::string_t>& value)
 {
@@ -145,6 +146,7 @@ std::shared_ptr<SchemaWithSet_vaccinationBook> SchemaWithSet::getVaccinationBook
     return m_VaccinationBook;
 }
 
+
 void SchemaWithSet::setVaccinationBook(const std::shared_ptr<SchemaWithSet_vaccinationBook>& value)
 {
     m_VaccinationBook = value;
@@ -160,6 +162,7 @@ void SchemaWithSet::unsetVaccinationBook()
 {
     m_VaccinationBookIsSet = false;
 }
+
 }
 }
 }

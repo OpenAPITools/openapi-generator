@@ -55,7 +55,7 @@ func (dst *GmFruit) UnmarshalJSON(data []byte) error {
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
-func (src *GmFruit) MarshalJSON() ([]byte, error) {
+func (src GmFruit) MarshalJSON() ([]byte, error) {
 	if src.Apple != nil {
 		return json.Marshal(&src.Apple)
 	}

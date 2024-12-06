@@ -34,6 +34,9 @@ typedef struct apiClient_t {
     char *username;
     char *password;
     {{/isBasicBasic}}
+    {{#isBasicBearer}}
+    char *accessToken;
+    {{/isBasicBearer}}
     {{#isOAuth}}
     char *accessToken;
     {{/isOAuth}}

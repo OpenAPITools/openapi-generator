@@ -1619,7 +1619,7 @@ public class DefaultGenerator implements Generator {
     }
 
     private static String generateParameterId(Parameter parameter) {
-        return parameter.getName() + ":" + parameter.getIn();
+        return null == parameter.get$ref() ? parameter.getName() + ":" + parameter.getIn() : parameter.get$ref() ;    
     }
 
     private OperationsMap processOperations(CodegenConfig config, String tag, List<CodegenOperation> ops, List<ModelMap> allModels) {

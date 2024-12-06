@@ -628,6 +628,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 forceSerializationLibrary(SERIALIZATION_LIBRARY_JSONB);
             }
 
+            // currently not supported for Microprofile (neither for Jackson nor JSON-B)
+            openApiNullable = false;
+            additionalProperties.put(OPENAPI_NULLABLE, false);
+
             if (microprofileFramework.equals(MICROPROFILE_KUMULUZEE)) {
                 supportingFiles.add(new SupportingFile("kumuluzee.pom.mustache", "", "pom.xml"));
                 supportingFiles.add(new SupportingFile("kumuluzee.config.yaml.mustache", "src/main/resources", "config.yaml"));
@@ -636,6 +640,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
             if ("3.0".equals(microprofileRestClientVersion)) {
                 additionalProperties.put("microprofile3", true);
+                if (getSerializationLibrary().equals(SERIALIZATION_LIBRARY_JSONB)) {
+                    additionalProperties.put("jsonbPolymorphism", true);
+                }
             }
         } else if (APACHE.equals(getLibrary())) {
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);

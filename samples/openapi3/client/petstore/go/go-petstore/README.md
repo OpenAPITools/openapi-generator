@@ -161,6 +161,7 @@ Class | Method | HTTP request | Description
  - [FooGetDefaultResponse](docs/FooGetDefaultResponse.md)
  - [FormatTest](docs/FormatTest.md)
  - [Fruit](docs/Fruit.md)
+ - [FruitJuice](docs/FruitJuice.md)
  - [FruitReq](docs/FruitReq.md)
  - [GmFruit](docs/GmFruit.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)

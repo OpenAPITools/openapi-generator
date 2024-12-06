@@ -104,13 +104,13 @@ class UserApi
     protected $streamFactory;
 
     public function __construct(
-        ClientInterface $httpClient = null,
-        Configuration $config = null,
-        HttpAsyncClient $httpAsyncClient = null,
-        UriFactoryInterface $uriFactory = null,
-        RequestFactoryInterface $requestFactory = null,
-        StreamFactoryInterface $streamFactory = null,
-        HeaderSelector $selector = null,
+        ?ClientInterface $httpClient = null,
+        ?Configuration $config = null,
+        ?HttpAsyncClient $httpAsyncClient = null,
+        ?UriFactoryInterface $uriFactory = null,
+        ?RequestFactoryInterface $requestFactory = null,
+        ?StreamFactoryInterface $streamFactory = null,
+        ?HeaderSelector $selector = null,
         ?array $plugins = null,
         $hostIndex = 0
     ) {

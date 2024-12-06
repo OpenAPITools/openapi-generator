@@ -356,7 +356,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             {{/items.isContainer}}
             {{/items.isEnumOrRef}}
             {{#items.isEnumOrRef}}
-            "{{{baseName}}}": dict((_k, _v) for _k, _v in obj.get("{{{baseName}}}").items()){{^-last}},{{/-last}}
+            "{{{baseName}}}": dict((_k, _v) for _k, _v in obj.get("{{{baseName}}}").items()) if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
             {{/items.isEnumOrRef}}
             {{/items.isPrimitiveType}}
             {{#items.isPrimitiveType}}
